@@ -5,21 +5,29 @@ import styles from './IndexPage.css';
 
 import {Row, Col} from 'antd';
 
-import TopBar from '../components/TopBar';
-import Panels from '../components/Panels';
+import LeftSidebar from '../components/LeftSidebar';
+import RightSidebar from '../components/RightSidebar';
+import DevPanel from '../components/DevPanel';
 
 function IndexPage() {
   return (
     <div className="body">
       <div className={styles.sidebar}>
-        <TopBar></TopBar>
+        <LeftSidebar></LeftSidebar>
       </div>
       <div className={styles.rightPanel}>
           <Row type="flex" justify="space-between">
-            <Col span={4} offset={16}>
-              <Panels></Panels>
+            <Col span={19}>
+              <div className={styles.devbar}>
+                <DevPanel></DevPanel>
+              </div>
             </Col>
-          </Row>        
+            <Col span={4} offset={19}>
+              <div className={styles.rightbar}>
+                <RightSidebar></RightSidebar>
+              </div>
+            </Col>
+          </Row>
       </div>
     </div>
   );

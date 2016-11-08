@@ -4,7 +4,7 @@ import {Menu, Icon} from 'antd';
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 
-const TopBar = () => {
+const LeftSidebar = () => {
 
 	var handleClick = function(evt) {
 		console.log(evt);
@@ -17,9 +17,11 @@ const TopBar = () => {
 	}
 
 	return (
-      	<Menu style={styles.sidebar} onClick={handleClick.bind(this)}
-        	mode="inline"
-      	>
+      	<Menu 
+      		style={styles.sidebar} 
+      		onClick={handleClick.bind(this)} 
+      		mode="inline">
+
 	        <Menu.Item key="mail">
 	          	<Icon type="plus" />
 	        </Menu.Item>
@@ -47,9 +49,10 @@ const TopBar = () => {
 	        <Menu.Item key="pause">
 				<Icon type="pause-circle-o" />
 	        </Menu.Item>
+
       </Menu>
 	);
 
 }
 
-export default TopBar;
+export default LeftSidebar;

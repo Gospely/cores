@@ -1,0 +1,36 @@
+import React , {PropTypes} from 'react';
+import { Tabs, Icon, Popover } from 'antd';
+const TabPane = Tabs.TabPane;
+
+const RightSidebar = () => {
+
+	var callback = function(key) {
+		console.log(key);
+	}
+
+	var styles = {
+		tab: {
+			minHeight: '100vh'
+		},
+
+		icon: {
+			marginRight: '0px',
+			marginBottom: '8px'
+		},
+
+		span: {
+		 	writingMode: 'tb-rl'
+		}
+	}
+
+	return (
+	  	<Tabs tabPosition="right" defaultActiveKey="1" onChange={callback}>
+	    	<TabPane style={styles.tab} tab={<span style={styles.span}><Icon style={styles.icon} type="bars" />控件</span>} key="1">Content of Tab Pane 1</TabPane>
+	    	<TabPane style={styles.tab} tab={<span style={styles.span}><Icon style={styles.icon} type="file-text" />结构</span>} key="2">Content of Tab Pane 2</TabPane>
+	    	<TabPane style={styles.tab} tab={<span style={styles.span}><Icon style={styles.icon} type="file-text" />文件</span>} key="3">Content of Tab Pane 3</TabPane>
+	  	</Tabs>
+	)
+
+}
+
+export default RightSidebar;
