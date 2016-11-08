@@ -42,9 +42,9 @@ module.exports = function(webpackConfig, env) {
     style: 'css',
   }]);
 
-  webpackConfig.externals = {
-    'react': 'window.React'
-  }
+  // webpackConfig.externals = {
+  //   'react': 'window.React'
+  // }
 
   return webpackConfig;
 };

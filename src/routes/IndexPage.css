@@ -27,3 +27,21 @@
 .list code {
   background: #f7f7f7;
 }
+
+.sidebar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 60px;
+  left: 0;
+  z-index: 200;
+}
+
+.rightPanel {
+  position: absolute;
+  left: 60px;
+  top: 0;
+  bottom: 0;
+  z-index: 200;
+  width: 100%;
+}
