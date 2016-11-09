@@ -17,12 +17,12 @@ function IndexPage() {
       </div>
       <div className={styles.rightPanel}>
           <Row type="flex" justify="space-between">
-            <Col span={19}>
+            <Col span={20}>
               <div className={styles.devbar}>
                 <DevPanel></DevPanel>
               </div>
             </Col>
-            <Col span={4} offset={19}>
+            <Col span={4}>
               <div className={styles.rightbar}>
                 <RightSidebar></RightSidebar>
               </div>

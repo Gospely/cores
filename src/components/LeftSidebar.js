@@ -1,13 +1,24 @@
 import React , {PropTypes} from 'react';
-import {Menu, Icon} from 'antd';
+import {Menu, Icon, Modal} from 'antd';
 
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 
 const LeftSidebar = () => {
 
+	var visible = false;
+
 	var handleClick = function(evt) {
 		console.log(evt);
+
+		switch(evt.key) {
+			case 'create_app':
+				visible = true;
+				console.log(visible);
+				break;
+			default:
+				break;
+		}
 	}
 
 	var styles = {
@@ -16,41 +27,60 @@ const LeftSidebar = () => {
 		}
 	}
 
+	var handleOk = function() {
+		visible = false;
+	}
+
+	var handleCancel = function() {
+		visible = false;
+	}
+
 	return (
-      	<Menu 
-      		style={styles.sidebar} 
-      		onClick={handleClick.bind(this)} 
-      		mode="inline">
+		<div>
+	      	<Menu 
+	      		style={styles.sidebar} 
+	      		onClick={handleClick.bind(this)} 
+	      		mode="inline">
 
-	        <Menu.Item key="mail">
-	          	<Icon type="plus" />
-	        </Menu.Item>
-	        <Menu.Item key="app">
-	          	<Icon type="appstore-o" />
-	        </Menu.Item>
-	        <Menu.Item key="commit">
-				<Icon type="check" />
-	        </Menu.Item>
-	        <Menu.Item key="push">
-				<Icon type="upload" />
-	        </Menu.Item>
-	        <Menu.Item key="pull">
-				<Icon type="download" />
-	        </Menu.Item>
-	        <Menu.Item key="file">
-				<Icon type="file" />
-	        </Menu.Item>        
-	        <Menu.Item key="terminal">
-				<Icon type="code-o" />
-	        </Menu.Item>        
-	        <Menu.Item key="start">
-				<Icon type="play-circle-o" />
-	        </Menu.Item>        
-	        <Menu.Item key="pause">
-				<Icon type="pause-circle-o" />
-	        </Menu.Item>
+		        <Menu.Item key="create_app">
+		          	<Icon type="plus" />
+		        </Menu.Item>
+		        <Menu.Item key="switch_app">
+		          	<Icon type="appstore-o" />
+		        </Menu.Item>
+		        <Menu.Item key="commit">
+					<Icon type="check" switch_app/>
+		        </Menu.Item>
+		        <Menu.Item key="push">
+					<Icon type="upload" />
+		        </Menu.Item>
+		        <Menu.Item key="pull">
+					<Icon type="download" />
+		        </Menu.Item>
+		        <Menu.Item key="open_file">
+					<Icon type="file" />
+		        </Menu.Item>        
+		        <Menu.Item key="open_terminal">
+					<Icon type="code-o" />
+		        </Menu.Item>        
+		        <Menu.Item key="start">
+					<Icon type="play-circle-o" />
+		        </Menu.Item>        
+		        <Menu.Item key="pause">
+					<Icon type="pause-circle-o" />
+		        </Menu.Item>
 
-      </Menu>
+	      	</Menu>
+
+	    	<Modal title="Basic Modal" visible={visible}
+	          	onOk={handleOk} onCancel={handleCancel}
+	        >
+	          <p>some contents...</p>
+	          <p>some contents...</p>
+	          <p>some contents...</p>
+	        </Modal>
+        </div>
+
 	);
 
 }

@@ -6,9 +6,11 @@
   "dependencies": {
     "antd": "^2.2.1",
     "babel-plugin-import": "^1.0.1",
+    "brace": "^0.9.0",
     "dva": "^1.1.0",
     "dva-loading": "^0.2.0",
     "react": "^15.3.2",
+    "react-ace": "^4.0.0",
     "react-dom": "^15.3.2"
   },
   "devDependencies": {
