@@ -62,7 +62,7 @@ const LeftSidebar = ({
 
 	      	</Menu>
 
-	    	<Modal title="新建项目" visible={modalNewAppVisible}
+	    	<Modal title="新建应用" visible={modalNewAppVisible}
 	          	onOk={createApp} onCancel={cancelNewApp}
 	        >
 	          	<p>some contents...</p>

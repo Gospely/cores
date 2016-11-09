@@ -9,30 +9,71 @@ import LeftSidebar from '../components/LeftSidebar';
 import RightSidebar from '../components/RightSidebar';
 import DevPanel from '../components/DevPanel';
 
-function IndexPage({ location, dispatch, sidebar }) {
+function IndexPage(props) {
 
   const leftSidebarProps = {
 
-    handleClick(key) {
-      console.log(key);
-      dispatch({
-        type: 'sidebar/showModalNewApp'
-      });
+    handleClick(activeMenu) {
+      console.log(activeMenu);
+
+      var handleActiveMenuEvent = {
+
+        create() {
+          props.dispatch({
+            type: 'sidebar/showModalNewApp'
+          });
+        },
+
+        'switch'() {
+
+        },
+
+        commit() {
+
+        },
+
+        'push'() {
+
+        },
+
+        pull() {
+
+        },
+
+        file() {
+
+        },
+
+        terminal() {
+
+        },
+
+        start() {
+
+        },
+
+        pause() {
+
+        }
+
+      }
+
+      handleActiveMenuEvent[activeMenu.key]();
     },
 
     cancelNewApp() {
-      dispatch({
+      props.dispatch({
         type: 'sidebar/hideModalNewApp'
       })
     },
 
     createApp() {
-      dispatch({
+      props.dispatch({
         type: 'sidebar/createApp'
       })
     },
 
-    modalNewAppVisible: sidebar.modalNewAppVisible
+    modalNewAppVisible: props.sidebar.modalNewAppVisible
   };
 
   return (
