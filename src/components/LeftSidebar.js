@@ -6,19 +6,10 @@ const MenuItemGroup = Menu.ItemGroup;
 
 const LeftSidebar = ({
 	modalNewAppVisible,
-	handleClick
+	handleClick,
+	createApp,
+	cancelNewApp
 }) => {
-
-	// var handleClick = function(evt) {
-	// 	console.log(evt);
-
-	// 	switch(evt.key) {
-	// 		case 'create':
-	// 			break;
-	// 		default:
-	// 			break;
-	// 	}
-	// }
 
 	var styles = {
 		sidebar: {
@@ -72,7 +63,7 @@ const LeftSidebar = ({
 	      	</Menu>
 
 	    	<Modal title="新建项目" visible={modalNewAppVisible}
-	          	onOk={handleOk} onCancel={handleCancel}
+	          	onOk={createApp} onCancel={cancelNewApp}
 	        >
 	          	<p>some contents...</p>
 	          	<p>some contents...</p>

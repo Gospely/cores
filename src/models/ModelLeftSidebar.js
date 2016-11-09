@@ -15,7 +15,11 @@ export default {
 
 		hideModalNewApp(state) {
 			return {...state, modalNewAppVisible: false};
-		} 
+		},
+
+		createApp(state) {
+			
+		}
 
 	}
 

@@ -20,6 +20,18 @@ function IndexPage({ location, dispatch, sidebar }) {
       });
     },
 
+    cancelNewApp() {
+      dispatch({
+        type: 'sidebar/hideModalNewApp'
+      })
+    },
+
+    createApp() {
+      dispatch({
+        type: 'sidebar/createApp'
+      })
+    },
+
     modalNewAppVisible: sidebar.modalNewAppVisible
   };
 
