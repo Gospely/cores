@@ -20,6 +20,9 @@ const Products = (props) => {
 
 };
 
-export default connect(({products}) => ({
-	products
-}))(Products);
+// 指定订阅数据，这里关联了 products
+function mapStateToProps({ products }) {
+  return {products};
+}
+
+export default connect(mapStateToProps)(Products);

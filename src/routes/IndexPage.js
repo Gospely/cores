@@ -9,11 +9,24 @@ import LeftSidebar from '../components/LeftSidebar';
 import RightSidebar from '../components/RightSidebar';
 import DevPanel from '../components/DevPanel';
 
-function IndexPage() {
+function IndexPage({ location, dispatch, sidebar }) {
+
+  const leftSidebarProps = {
+
+    handleClick(key) {
+      console.log(key);
+      dispatch({
+        type: 'sidebar/showModalNewApp'
+      });
+    },
+
+    modalNewAppVisible: sidebar.modalNewAppVisible
+  };
+
   return (
     <div className="body">
       <div className={styles.sidebar}>
-        <LeftSidebar></LeftSidebar>
+        <LeftSidebar {...leftSidebarProps}></LeftSidebar>
       </div>
       <div className={styles.rightPanel}>
           <Row type="flex" justify="space-between">
@@ -34,6 +47,14 @@ function IndexPage() {
 }
 
 IndexPage.propTypes = {
+  location: PropTypes.object,
+  dispatch: PropTypes.func,
+  sidebar: PropTypes.object
 };
 
-export default connect()(IndexPage);
+// 指定订阅数据，这里关联了 indexPage
+function mapStateToProps({ sidebar }) {
+  return {sidebar};
+}
+
+export default connect(mapStateToProps)(IndexPage);

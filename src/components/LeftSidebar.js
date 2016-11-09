@@ -4,22 +4,21 @@ import {Menu, Icon, Modal} from 'antd';
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 
-const LeftSidebar = () => {
+const LeftSidebar = ({
+	modalNewAppVisible,
+	handleClick
+}) => {
 
-	var visible = false;
+	// var handleClick = function(evt) {
+	// 	console.log(evt);
 
-	var handleClick = function(evt) {
-		console.log(evt);
-
-		switch(evt.key) {
-			case 'create_app':
-				visible = true;
-				console.log(visible);
-				break;
-			default:
-				break;
-		}
-	}
+	// 	switch(evt.key) {
+	// 		case 'create':
+	// 			break;
+	// 		default:
+	// 			break;
+	// 	}
+	// }
 
 	var styles = {
 		sidebar: {
@@ -28,28 +27,28 @@ const LeftSidebar = () => {
 	}
 
 	var handleOk = function() {
-		visible = false;
+		// visible = false;
 	}
 
 	var handleCancel = function() {
-		visible = false;
+		// visible = false;
 	}
 
 	return (
 		<div>
 	      	<Menu 
 	      		style={styles.sidebar} 
-	      		onClick={handleClick.bind(this)} 
+	      		onClick={handleClick} 
 	      		mode="inline">
 
-		        <Menu.Item key="create_app">
+		        <Menu.Item key="create">
 		          	<Icon type="plus" />
 		        </Menu.Item>
-		        <Menu.Item key="switch_app">
+		        <Menu.Item key="switch">
 		          	<Icon type="appstore-o" />
 		        </Menu.Item>
 		        <Menu.Item key="commit">
-					<Icon type="check" switch_app/>
+					<Icon type="check"/>
 		        </Menu.Item>
 		        <Menu.Item key="push">
 					<Icon type="upload" />
@@ -57,10 +56,10 @@ const LeftSidebar = () => {
 		        <Menu.Item key="pull">
 					<Icon type="download" />
 		        </Menu.Item>
-		        <Menu.Item key="open_file">
+		        <Menu.Item key="file">
 					<Icon type="file" />
 		        </Menu.Item>        
-		        <Menu.Item key="open_terminal">
+		        <Menu.Item key="terminal">
 					<Icon type="code-o" />
 		        </Menu.Item>        
 		        <Menu.Item key="start">
@@ -72,12 +71,12 @@ const LeftSidebar = () => {
 
 	      	</Menu>
 
-	    	<Modal title="Basic Modal" visible={visible}
+	    	<Modal title="新建项目" visible={modalNewAppVisible}
 	          	onOk={handleOk} onCancel={handleCancel}
 	        >
-	          <p>some contents...</p>
-	          <p>some contents...</p>
-	          <p>some contents...</p>
+	          	<p>some contents...</p>
+	          	<p>some contents...</p>
+	          	<p>some contents...</p>
 	        </Modal>
         </div>
 

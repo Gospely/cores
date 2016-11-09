@@ -8,9 +8,14 @@ export default {
 
 	reducers: {
 
-		'showModalNewApp'(state, {payload: id}) {
-			return state.modalNewAppVisible = true;
-		}
+		showModalNewApp(state) {
+			console.log(state);
+			return {...state, modalNewAppVisible: true};
+		},
+
+		hideModalNewApp(state) {
+			return {...state, modalNewAppVisible: false};
+		} 
 
 	}
 
