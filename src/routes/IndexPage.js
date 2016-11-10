@@ -9,6 +9,16 @@ import LeftSidebar from '../components/LeftSidebar';
 import RightSidebar from '../components/RightSidebar';
 import DevPanel from '../components/DevPanel';
 
+import AceEditor from 'react-ace';
+
+import PanelStyle from '../components/Panels.css';
+
+import 'brace/mode/java';
+import 'brace/theme/github';
+import 'brace/mode/javascript';
+import 'brace/mode/html';
+import 'brace/mode/css';
+
 function IndexPage(props) {
 
   const leftSidebarProps = {
@@ -99,9 +109,26 @@ function IndexPage(props) {
     },
 
     onEdit(targetKey, action) {
+
+      var content = '', title = undefined, type = "editor";
+
+      if(action == 'add') {
+        content = 
+          <AceEditor
+            mode="javascript"
+            theme="github"
+            width="100%"
+            height="96vh"
+            className={PanelStyle.aceEditor}
+            name="UNIQUE_ID_OF_DIV"
+            editorProps={{$blockScrolling: true}} />;
+
+        console.log(content);
+      }
+
       props.dispatch({
         type: 'devpanel/' + action,
-        payload: {targetKey, action}
+        payload: {targetKey, title, content, type}
       })
     }
   }

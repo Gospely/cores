@@ -2,24 +2,12 @@
 
 import dva from 'dva';
 
-// import AceEditor from 'react-ace';
-
-// import PanelStyle from '../components/Panels.css';
-
-// import 'brace/mode/java';
-// import 'brace/theme/github';
-// import 'brace/mode/javascript';
-// import 'brace/mode/html';
-// import 'brace/mode/css';
-
-
 export default {
 	namespace: 'devpanel',
 	state: {
 
 		panes: [
-			{ title: 'Tab 1', content: 'content of tab 2', key: '1' },
-	      	{ title: 'Tab 2', content: 'Content of Tab 2', key: '2' }
+			{ title: '欢迎页面 - Gospel', content: 'welcome', key: '1', type: 'welcome' },
 	    ],
 
 	    activeKey: '1'
@@ -36,6 +24,9 @@ export default {
 			let activeKey = state.activeKey;
 			let lastIndex;
 
+			let type = targetKey.type;
+
+			console.log(targetKey, targetKey.type);
 
 			state.panes.forEach((pane, i) => {
 				if(pane.key === target) {
@@ -50,13 +41,32 @@ export default {
 			if(lastIndex >= 0 && activeKey === target) {
 				if(panes.length != 0) {
 					activeKey = panes[lastIndex].key;					
+				}else {
+					if(type != 'welcome') {
+						panes.push({
+							title: '欢迎页面 - Gospel',
+							content: 'content',
+							key: '1',
+							type: 'welcome'
+						});
+					}
 				}
 			}
 
 			return {...state, panes, activeKey};
 		},
 
-		add(state, {payload: targetKey}) {
+		add(state, {payload: target}) {
+
+		    const panes = state.panes;
+		    const activeKey = (state.panes.length + 1).toString();
+
+			target.title = target.title || '新标签页 ';
+			target.type = target.type || 'editor';
+			target.content = target.content || '';
+
+		    panes.push({ title: target.title + activeKey, content: target.content, key: activeKey, type: target.type });
+		    return {...state, panes, activeKey};
 		}
 	}
 

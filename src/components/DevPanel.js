@@ -42,12 +42,15 @@ const DevPanel = ({
 
 	// }
 
+	const animated = false;
+
 	return (
       	<Tabs
         	onChange={onChange}
         	activeKey={activeKey}
         	type="editable-card"
-        	onEdit={onEdit}>
+        	onEdit={onEdit}
+        	animated={animated}>
 
         	{panes.map(pane => <TabPane tab={pane.title} key={pane.key}>{pane.content}</TabPane>)}
 
