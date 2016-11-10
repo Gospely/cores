@@ -32,6 +32,8 @@ const Editor = (props) => {
 
 		currentLanguage: props$editorTop.currentLanguage,
 
+		isSlideUp: props$editorTop.isSlideUp,
+
 		onOpenSearch() {
 			dispatch({
 				type: 'editorTop/toggleSearchBar'
@@ -100,6 +102,13 @@ const Editor = (props) => {
 			dispatch({
 				type: 'editorTop/onSelectSyntax',
 				payload: e
+			})
+		},
+
+		onSlideUp(proxy) {
+			dispatch({
+				type: 'editorTop/toggleSlide',
+				payload: proxy
 			})
 		}
 	}

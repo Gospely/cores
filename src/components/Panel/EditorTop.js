@@ -17,6 +17,7 @@ const EditorTop = ({
 	jumpLineVisible,
 
 	onSlideUp,
+	isSlideUp,
 
 	onSearch,
 	onSearchPrev,
@@ -69,7 +70,7 @@ const EditorTop = ({
 					<Dropdown overlay={menu} trigger={['click']}>
 						<Button className={EditorStyle.topbarBtn}>{currentLanguage}</Button>
 					</Dropdown>
-					<Button onClick={onSlideUp} className={EditorStyle.topbarBtn}><Icon type="up" /></Button>
+					<Button onClick={onSlideUp} className={EditorStyle.topbarBtn}>{isSlideUp ? <Icon type="down" /> : <Icon type="up" />}</Button>
 				</ButtonGroup>
 			</div>
 			{searchVisible &&

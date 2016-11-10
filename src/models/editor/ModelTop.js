@@ -31,7 +31,9 @@ export default {
 		}],
 
 		isSaving: false,
-		currentLanguage: 'HTML'
+		currentLanguage: 'HTML',
+
+		isSlideUp: false
 	},
 
 	reducers: {
@@ -87,8 +89,28 @@ export default {
 
 		},
 
-		slideUp(state) {
+		toggleSlide(state, {payload: proxy}) {
 
+			var target = proxy.target;
+			var aceEditor = target.parentNode.parentNode.parentNode.parentNode.parentNode;
+			var tabHeader = aceEditor.parentNode.parentNode.parentNode.firstChild;
+			console.log(aceEditor, tabHeader, tabHeader.className);//ant-tabs-bar
+			if(tabHeader.className != 'ant-tabs-bar') {
+				tabHeader = tabHeader.firstChild;
+			}
+			if(aceEditor.className.substr(0, 9) != 'aceEditor') {
+				aceEditor = aceEditor.firstChild;
+			}
+
+			if(!state.isSlideUp) {
+				tabHeader.style.display = 'none';
+				aceEditor.style['margin-top'] = '0px';
+			}else {
+				tabHeader.style.display = 'block';
+				aceEditor.style['margin-top'] = '-16px';				
+			}
+
+			return {...state, isSlideUp: !state.isSlideUp};
 		},
 
 		save(state) {
