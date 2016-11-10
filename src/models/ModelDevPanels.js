@@ -36,6 +36,7 @@ export default {
 			let activeKey = state.activeKey;
 			let lastIndex;
 
+
 			state.panes.forEach((pane, i) => {
 				if(pane.key === target) {
 					lastIndex = i - 1;
@@ -47,7 +48,9 @@ export default {
 
 			const panes = state.panes.filter(pane => pane.key !== target);
 			if(lastIndex >= 0 && activeKey === target) {
-				activeKey = panes[lastIndex].key;
+				if(panes.length != 0) {
+					activeKey = panes[lastIndex].key;					
+				}
 			}
 
 			return {...state, panes, activeKey};
