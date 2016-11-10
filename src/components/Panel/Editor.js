@@ -13,8 +13,6 @@ import EditorTop from './EditorTop';
 
 const Editor = (props) => {
 
-	console.log(props.editorTop, props.editorTop.searchVisible);
-
 	var props$editorTop = props.editorTop,
 		dispatch = props.dispatch;
 
@@ -30,10 +28,24 @@ const Editor = (props) => {
 		
 		syntaxList: props$editorTop.syntaxList,
 
+		isSaving: props$editorTop.isSaving,
+
 		onOpenSearch() {
 			dispatch({
-				type: 'editorTop/showSearchBar'
+				type: 'editorTop/toggleSearchBar'
 			});
+		},
+
+		onOpenJumpLine() {
+			dispatch({
+				type: 'editorTop/toggleJumpLine'
+			})
+		},
+
+		onSave() {
+			dispatch({
+				type: 'editorTop/save'
+			})
 		}
 	}
 

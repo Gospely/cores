@@ -12,7 +12,9 @@ export default {
 
 		jumpLine: '0:0',
 		
-		syntaxList: []
+		syntaxList: [],
+
+		isSaving: false
 	},
 
 	reducers: {
@@ -23,6 +25,10 @@ export default {
 
 		hideSearchBar(state) {
 			return {...state, searchVisible: false};
+		},
+
+		toggleSearchBar(state) {
+			return {...state, searchVisible: !state.searchVisible, jumpLineVisible: false};
 		},
 
 		search(state) {
@@ -53,12 +59,20 @@ export default {
 			return {...state, jumpLineVisible: false};
 		},
 
+		toggleJumpLine(state) {
+			return {...state, jumpLineVisible: !state.jumpLineVisible, searchVisible: false};
+		},
+
 		jumpLine(state) {
 
 		},
 
 		slideUp(state) {
 
+		},
+
+		save(state) {
+			return {...state, isSaving: true};
 		}
 
 	}

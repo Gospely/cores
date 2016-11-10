@@ -38,7 +38,6 @@
 	background: rgba(229,229,229, 0.7);
 	position: absolute;
 	padding: 10px;
-	display: none;
 }
 
 .textarea {
@@ -53,7 +52,6 @@
 	z-index: 301;
 	border-bottom: 1px solid rgb(255, 255, 255);
 	padding-left: 15px;
-	display: none;
 }
 
 .jumpLine input {

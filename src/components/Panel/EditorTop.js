@@ -8,6 +8,7 @@ const ButtonGroup  = Button.Group;
 
 const EditorTop = ({
 	onSave,
+	isSaving,
 
 	onOpenSearch,
 	searchVisible,
@@ -54,7 +55,7 @@ const EditorTop = ({
   	return (
 		<div className={EditorStyle.topbar}>
 			<ButtonGroup>
-				<Button onClick={onSave} className={EditorStyle.topbarBtn}><Icon type="save" />保存</Button>
+				<Button onClick={onSave} className={EditorStyle.topbarBtn}>{!isSaving ? <Icon type="save" /> : <Icon type="loading" />}保存</Button>
 				<Button onClick={onOpenSearch} className={EditorStyle.topbarBtn}><Icon type="search" />搜索</Button>
 			</ButtonGroup>
 			<div className={EditorStyle.topbarRight}>
@@ -66,35 +67,39 @@ const EditorTop = ({
 					<Button onClick={onSlideUp} className={EditorStyle.topbarBtn}><Icon type="up" /></Button>
 				</ButtonGroup>
 			</div>
-			<div className={EditorStyle.searchBar}>
-			    <Row gutter={16}>
-			      	<Col className="gutter-row" span={6}>
-			        	<div className="gutter-box">
-						    <Input value={searchContent} className={EditorStyle.textarea} type="textarea" placeholder="搜索文本..." autosize />
-			        	</div>
-			      	</Col>
-			      	<Col className="gutter-row" span={3}>
-			        	<div className="gutter-box">
-		        		    <Button onClick={onSearchPrev} type="ghost" style={styles.margin} shape="circle-outline" icon="left" />
-		        		    <Button onClick={onSearchNext} type="ghost" shape="circle-outline" icon="right" />
-			        	</div>
-			      	</Col>
-			      	<Col className="gutter-row" span={6}>
-			        	<div className="gutter-box">
-						    <Input value={replaceContent} className={EditorStyle.textarea} type="textarea" placeholder="请输入要替换成的文本..." autosize />
-			        	</div>
-			      	</Col>
-			      	<Col className="gutter-row" span={6}>
-			        	<div className="gutter-box">
-				        	<Switch checked={isSearchAll} onChange={onSearchAll} checkedChildren={'全部'} unCheckedChildren={'单个'} />
-		        		    <Button onClick={onReplace} type="ghost" style={styles.margin} shape="circle-outline" icon="check" />
-			        	</div>
-			      	</Col>
-			    </Row>
-			</div>
-			<div className={EditorStyle.jumpLine}>
-				跳行至: <Input value={jumpLine} defaultValue="0:0" />
-			</div>
+			{searchVisible &&
+				<div className={EditorStyle.searchBar}>
+				    <Row gutter={16}>
+				      	<Col className="gutter-row" span={6}>
+				        	<div className="gutter-box">
+							    <Input value={searchContent} className={EditorStyle.textarea} type="textarea" placeholder="搜索文本..." autosize />
+				        	</div>
+				      	</Col>
+				      	<Col className="gutter-row" span={3}>
+				        	<div className="gutter-box">
+			        		    <Button onClick={onSearchPrev} type="ghost" style={styles.margin} shape="circle-outline" icon="left" />
+			        		    <Button onClick={onSearchNext} type="ghost" shape="circle-outline" icon="right" />
+				        	</div>
+				      	</Col>
+				      	<Col className="gutter-row" span={6}>
+				        	<div className="gutter-box">
+							    <Input value={replaceContent} className={EditorStyle.textarea} type="textarea" placeholder="请输入要替换成的文本..." autosize />
+				        	</div>
+				      	</Col>
+				      	<Col className="gutter-row" span={6}>
+				        	<div className="gutter-box">
+					        	<Switch checked={isSearchAll} onChange={onSearchAll} checkedChildren={'全部'} unCheckedChildren={'单个'} />
+			        		    <Button onClick={onReplace} type="ghost" style={styles.margin} shape="circle-outline" icon="check" />
+				        	</div>
+				      	</Col>
+				    </Row>
+				</div>
+			}
+			{jumpLineVisible &&
+				<div className={EditorStyle.jumpLine}>
+					跳行至: <Input value={jumpLine} defaultValue="0:0" />
+				</div>
+			}
 		</div>
   	);
 
