@@ -12,9 +12,26 @@ export default {
 
 		jumpLine: '0:0',
 		
-		syntaxList: [],
+		syntaxList: [{
+			language: 'HTML',
+			key: '1',
+			alias: 'html'
+		}, {
+			language: 'JavaScript',
+			key: '2',
+			alias: 'javascript'
+		}, {
+			language: 'CSS',
+			key: '3',
+			alias: 'css'
+		}, {
+			language: 'PHP',
+			key: '4',
+			alias: 'php'
+		}],
 
-		isSaving: false
+		isSaving: false,
+		currentLanguage: 'HTML'
 	},
 
 	reducers: {
@@ -92,6 +109,12 @@ export default {
 
 		handleJumpLineChange(state, {payload: proxy}) {
 			return {...state, jumpLine: proxy.target.value};
+		},
+
+		onSelectSyntax(state, {payload: e}) {
+			var key = e.key;
+			var language = state.syntaxList[parseInt(key) - 1].language;
+			return {...state, currentLanguage: language};
 		}
 
 	}

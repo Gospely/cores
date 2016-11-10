@@ -30,6 +30,8 @@ const Editor = (props) => {
 
 		isSaving: props$editorTop.isSaving,
 
+		currentLanguage: props$editorTop.currentLanguage,
+
 		onOpenSearch() {
 			dispatch({
 				type: 'editorTop/toggleSearchBar'
@@ -91,6 +93,13 @@ const Editor = (props) => {
 			dispatch({
 				type: 'editorTop/handleJumpLineChange',
 				payload: proxy
+			})
+		},
+
+		onSelectSyntax(e) {
+			dispatch({
+				type: 'editorTop/onSelectSyntax',
+				payload: e
 			})
 		}
 	}

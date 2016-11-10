@@ -28,7 +28,9 @@ const EditorTop = ({
 
 	onJumpLine,
 	jumpLine,
+
 	onSelectSyntax,
+	currentLanguage,
 
 	syntaxList,
 
@@ -45,14 +47,13 @@ const EditorTop = ({
 		}
 	};
 
+	const menuItem = syntaxList.map(syntax => (
+		<Menu.Item key={syntax.key}>{syntax.language}</Menu.Item>
+	));
+
 	const menu = (
-	  	<Menu onClick={onSelectSyntax}>
-	    	<Menu.Item key="1">HTML</Menu.Item>
-	    	<Menu.Item key="2">CSS</Menu.Item>
-	    	<Menu.Item key="3">JavaScript</Menu.Item>
-	    	<Menu.Item key="4">Shell</Menu.Item>
-	    	<Menu.Item key="5">Java</Menu.Item>
-	    	<Menu.Item key="6">C/C++</Menu.Item>
+	  	<Menu onSelect={onSelectSyntax}>
+	    	{menuItem}
 	  	</Menu>
 	);
 
@@ -66,7 +67,7 @@ const EditorTop = ({
 				<ButtonGroup>
 					<Button onClick={onOpenJumpLine} className={EditorStyle.topbarBtn}>行: 4 列: 32</Button>
 					<Dropdown overlay={menu} trigger={['click']}>
-						<Button className={EditorStyle.topbarBtn}>JavaScript</Button>
+						<Button className={EditorStyle.topbarBtn}>{currentLanguage}</Button>
 					</Dropdown>
 					<Button onClick={onSlideUp} className={EditorStyle.topbarBtn}><Icon type="up" /></Button>
 				</ButtonGroup>
