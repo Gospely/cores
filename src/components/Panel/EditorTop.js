@@ -22,8 +22,7 @@ const EditorTop = ({
 	onSearchPrev,
 	onSearchNext,
 	onReplace,
-	isSearchAll,
-	onSearchAll,
+	isReplaceAll,
 	searchContent,
 	replaceContent,
 
@@ -31,7 +30,12 @@ const EditorTop = ({
 	jumpLine,
 	onSelectSyntax,
 
-	syntaxList
+	syntaxList,
+
+	handleReplaceInputChange,
+	handleSearchInputChange,
+	handleSearchAllSwitchChange,
+	handleJumpLineChange
 }) => {
 
 	var styles = {
@@ -72,7 +76,7 @@ const EditorTop = ({
 				    <Row gutter={16}>
 				      	<Col className="gutter-row" span={6}>
 				        	<div className="gutter-box">
-							    <Input value={searchContent} className={EditorStyle.textarea} type="textarea" placeholder="搜索文本..." autosize />
+							    <Input value={searchContent} onChange={handleSearchInputChange} className={EditorStyle.textarea} type="textarea" placeholder="搜索文本..." autosize />
 				        	</div>
 				      	</Col>
 				      	<Col className="gutter-row" span={3}>
@@ -83,12 +87,12 @@ const EditorTop = ({
 				      	</Col>
 				      	<Col className="gutter-row" span={6}>
 				        	<div className="gutter-box">
-							    <Input value={replaceContent} className={EditorStyle.textarea} type="textarea" placeholder="请输入要替换成的文本..." autosize />
+							    <Input value={replaceContent} onChange={handleReplaceInputChange} className={EditorStyle.textarea} type="textarea" placeholder="请输入要替换成的文本..." autosize />
 				        	</div>
 				      	</Col>
 				      	<Col className="gutter-row" span={6}>
 				        	<div className="gutter-box">
-					        	<Switch checked={isSearchAll} onChange={onSearchAll} checkedChildren={'全部'} unCheckedChildren={'单个'} />
+					        	<Switch onChange={handleSearchAllSwitchChange} checkedChildren={'全部'} unCheckedChildren={'单个'} />
 			        		    <Button onClick={onReplace} type="ghost" style={styles.margin} shape="circle-outline" icon="check" />
 				        	</div>
 				      	</Col>
@@ -97,7 +101,7 @@ const EditorTop = ({
 			}
 			{jumpLineVisible &&
 				<div className={EditorStyle.jumpLine}>
-					跳行至: <Input value={jumpLine} defaultValue="0:0" />
+					跳行至: <Input value={jumpLine} onChange={handleJumpLineChange} defaultValue="0:0" />
 				</div>
 			}
 		</div>

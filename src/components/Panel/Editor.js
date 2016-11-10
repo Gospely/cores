@@ -46,6 +46,52 @@ const Editor = (props) => {
 			dispatch({
 				type: 'editorTop/save'
 			})
+		},
+
+		onSearchPrev() {
+			dispatch({
+				type: 'editorTop/searchPrev'
+			});
+		},
+
+		onSearchNext() {
+			dispatch({
+				type: 'editorTop/searchNext'
+			});
+		},
+
+		onReplace() {
+			dispatch({
+				type: 'editorTop/replace'
+			})
+		},
+
+		handleSearchAllSwitchChange(proxy) {
+			dispatch({
+				type: 'editorTop/handleSearchAllSwitchChange',
+				payload: proxy
+			});
+		},
+
+		handleReplaceInputChange(proxy) {
+			dispatch({
+				type: 'editorTop/handleReplaceInputChange',
+				payload: proxy
+			})
+		},
+
+		handleSearchInputChange(proxy) {
+			dispatch({
+				type: 'editorTop/handleSearchInputChange',
+				payload: proxy
+			})
+		},
+
+		handleJumpLineChange(proxy) {
+			dispatch({
+				type: 'editorTop/handleJumpLineChange',
+				payload: proxy
+			})
 		}
 	}
 

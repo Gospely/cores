@@ -6,7 +6,7 @@ export default {
 		searchVisible: false,
 		jumpLineVisible: false,
 
-		isSearchAll: false,
+		isReplaceAll: true,
 		searchContent: '',
 		replaceContent: '',
 
@@ -36,15 +36,18 @@ export default {
 		},
 
 		searchPrev(state) {
-
+			console.log('searchPrev');
+			return {...state};
 		},
 
 		searchNext(state) {
-
+			console.log('searchNext');
+			return {...state};
 		},
 
 		replace(state) {
-
+			console.log('replace');
+			return {...state};
 		},
 
 		selectSyntax() {
@@ -73,6 +76,22 @@ export default {
 
 		save(state) {
 			return {...state, isSaving: true};
+		},
+
+		handleReplaceInputChange(state, {payload: proxy}) {
+			return {...state, replaceContent: proxy.target.value};
+		},
+
+		handleSearchInputChange(state, {payload: proxy}) {
+			return {...state, searchContent: proxy.target.value};
+		},
+
+		handleSearchAllSwitchChange(state, {payload: proxy}) {
+			return {...state, isReplaceAll: proxy};			
+		},
+
+		handleJumpLineChange(state, {payload: proxy}) {
+			return {...state, jumpLine: proxy.target.value};
 		}
 
 	}
