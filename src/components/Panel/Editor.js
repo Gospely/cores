@@ -1,6 +1,7 @@
 import React , {PropTypes} from 'react';
 import AceEditor from 'react-ace';
 import EditorStyle from './Editor.css';
+import { connect } from 'dva';
 
 import 'brace/mode/java';
 import 'brace/theme/github';
@@ -10,21 +11,49 @@ import 'brace/mode/css';
 
 import EditorTop from './EditorTop';
 
-const Editor = () => {
+const Editor = (props) => {
 
-  return (
-	<div className={EditorStyle.aceEditor}>
-		<EditorTop></EditorTop>
-		<AceEditor
-	        mode="javascript"
-	        theme="github"
-	        width="100%"
-	        height="92vh"
-	        name="UNIQUE_ID_OF_DIV"
-	        editorProps={{$blockScrolling: true}} />
-  	</div>
+	console.log(props.editorTop, props.editorTop.searchVisible);
+
+	var props$editorTop = props.editorTop,
+		dispatch = props.dispatch;
+
+	const EditorTopProps = {
+		searchVisible: props$editorTop.searchVisible,
+		jumpLineVisible: props$editorTop.jumpLineVisible,
+
+		isSearchAll: props$editorTop.isSearchAll,
+		searchContent: props$editorTop.searchContent,
+		replaceContent: props$editorTop.replaceContent,
+
+		jumpLine: props$editorTop.jumpLine,
+		
+		syntaxList: props$editorTop.syntaxList,
+
+		onOpenSearch() {
+			dispatch({
+				type: 'editorTop/showSearchBar'
+			});
+		}
+	}
+
+  	return (
+		<div className={EditorStyle.aceEditor}>
+			<EditorTop {...EditorTopProps}></EditorTop>
+			<AceEditor
+	        	mode="javascript"
+	        	theme="github"
+	        	width="100%"
+	        	height="92vh"
+	        	name="UNIQUE_ID_OF_DIV"
+	        	editorProps={{$blockScrolling: true}} />
+  		</div>
   );
 
 };
 
-export default Editor;
+function mapSateToProps({ editorTop }) {
+	return {editorTop};
+}
+
+export default connect(mapSateToProps)(Editor);
