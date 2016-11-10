@@ -1,7 +1,7 @@
 import React , {PropTypes} from 'react';
 import AceEditor from 'react-ace';
 import EditorStyle from './Editor.css';
-import { Button, Icon, Input, Switch, Menu, Dropdown } from 'antd';
+import { Button, Icon, Input, Switch, Menu, Dropdown, message } from 'antd';
 import { Row, Col } from 'antd';
 
 const ButtonGroup  = Button.Group;

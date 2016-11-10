@@ -13,7 +13,7 @@ import EditorTop from './EditorTop';
 const Editor = () => {
 
   return (
-	<p className={EditorStyle.aceEditor}>
+	<div className={EditorStyle.aceEditor}>
 		<EditorTop></EditorTop>
 		<AceEditor
 	        mode="javascript"
@@ -22,7 +22,7 @@ const Editor = () => {
 	        height="92vh"
 	        name="UNIQUE_ID_OF_DIV"
 	        editorProps={{$blockScrolling: true}} />
-  	</p>
+  	</div>
   );
 
 };
