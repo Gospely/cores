@@ -1,39 +1,60 @@
+// import React from 'react';
+
 import dva from 'dva';
 
+// import AceEditor from 'react-ace';
+
+// import PanelStyle from '../components/Panels.css';
+
+// import 'brace/mode/java';
+// import 'brace/theme/github';
+// import 'brace/mode/javascript';
+// import 'brace/mode/html';
+// import 'brace/mode/css';
+
+
 export default {
-	namespace: 'devpanels',
+	namespace: 'devpanel',
 	state: {
 
-		panes = [
-
-			{ title: 'Tab 1', content:   
-								<AceEditor
-								    mode="javascript"
-								    theme="github"
-								    width="100%"
-								    height="96vh"
-								    onChange={onChange}
-								    className={PanelStyle.aceEditor}
-								    name="UNIQUE_ID_OF_DIV"
-								    editorProps={{$blockScrolling: true}} />, 
-	  	
-	  		key: '1' },
-
+		panes: [
+			{ title: 'Tab 1', content: 'content of tab 2', key: '1' },
 	      	{ title: 'Tab 2', content: 'Content of Tab 2', key: '2' }
 	    ],
 
-	    activeKey: panes[0].key
+	    activeKey: '1'
 	},
 
 	reducers: {
 
-		'delete'(state, {payload: id}) {
+		tabChanged(state, {payload: key}) {
+			return {...state, activeKey: key};
+		},
 
-			console.log(state, id);
+		'remove'(state, {payload: targetKey}) {
+			let target = targetKey.targetKey;
+			let activeKey = state.activeKey;
+			let lastIndex;
 
-			return state.filter(item => item.id !== id);
+			state.panes.forEach((pane, i) => {
+				if(pane.key === target) {
+					lastIndex = i - 1;
+					if(lastIndex < 0) {
+						lastIndex = 0;
+					}
+				}
+			});
+
+			const panes = state.panes.filter(pane => pane.key !== target);
+			if(lastIndex >= 0 && activeKey === target) {
+				activeKey = panes[lastIndex].key;
+			}
+
+			return {...state, panes, activeKey};
+		},
+
+		add(state, {payload: targetKey}) {
 		}
-
 	}
 
 }

@@ -25,7 +25,9 @@ function IndexPage(props) {
         },
 
         'switch'() {
-
+          props.dispatch({
+            type: 'sidebar/showModalSwitchApp'
+          });
         },
 
         commit() {
@@ -37,10 +39,6 @@ function IndexPage(props) {
         },
 
         pull() {
-
-        },
-
-        file() {
 
         },
 
@@ -73,8 +71,40 @@ function IndexPage(props) {
       })
     },
 
-    modalNewAppVisible: props.sidebar.modalNewAppVisible
+    cancelSwitchApp() {
+      props.dispatch({
+        type: 'sidebar/hideModalSwitchApp'
+      });
+    },
+
+    switchApp() {
+      props.dispatch({
+        type: 'sidebar/switchApp'
+      })
+    },
+
+    modalNewAppVisible: props.sidebar.modalNewAppVisible,
+    modalSwitchAppVisible: props.sidebar.modalSwitchAppVisible 
   };
+
+  const devPanelProps = {
+    panes: props.devpanel.panes,
+    activeKey: props.devpanel.activeKey,
+
+    onChange(active) {
+      props.dispatch({
+        type: 'devpanel/tabChanged',
+        payload: active
+      });
+    },
+
+    onEdit(targetKey, action) {
+      props.dispatch({
+        type: 'devpanel/' + action,
+        payload: {targetKey, action}
+      })
+    }
+  }
 
   return (
     <div className="body">
@@ -85,7 +115,7 @@ function IndexPage(props) {
           <Row type="flex" justify="space-between">
             <Col span={20}>
               <div className={styles.devbar}>
-                <DevPanel></DevPanel>
+                <DevPanel {...devPanelProps}></DevPanel>
               </div>
             </Col>
             <Col span={4}>
@@ -102,12 +132,13 @@ function IndexPage(props) {
 IndexPage.propTypes = {
   location: PropTypes.object,
   dispatch: PropTypes.func,
-  sidebar: PropTypes.object
+  sidebar: PropTypes.object,
+  devPanel: PropTypes.object
 };
 
 // 指定订阅数据，这里关联了 indexPage
-function mapStateToProps({ sidebar }) {
-  return {sidebar};
+function mapStateToProps({ sidebar, devpanel}) {
+  return {sidebar, devpanel};
 }
 
 export default connect(mapStateToProps)(IndexPage);

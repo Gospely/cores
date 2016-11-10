@@ -3,7 +3,8 @@ import dva from 'dva';
 export default {
 	namespace: 'sidebar',
 	state: {
-		modalNewAppVisible: false
+		modalNewAppVisible: false,
+		modalSwitchAppVisible: false
 	},
 
 	reducers: {
@@ -19,6 +20,22 @@ export default {
 
 		createApp(state) {
 			
+		},
+
+		showModalSwitchApp(state) {
+			return {...state, modalSwitchAppVisible: true};
+		},
+
+		hideModalSwitchApp(state) {
+			return {...state, modalSwitchAppVisible: false};
+		},
+
+		switchApp(state) {
+
+		},
+
+		selectApp(state) {
+
 		}
 
 	}

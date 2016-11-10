@@ -8,11 +8,25 @@ const LeftSidebar = ({
 	modalNewAppVisible,
 	handleClick,
 	createApp,
-	cancelNewApp
+	cancelNewApp,
+
+	modalSwitchAppVisible,
+	switchApp,
+	cancelSwitchApp
 }) => {
 
 	var styles = {
 		sidebar: {
+			height: '100%'
+		},
+
+		ifr: {
+			width: '100%',
+			height: parseInt(document.body.clientHeight) - 300,
+			border: 'none'
+		},
+
+		wrapper: {
 			height: '100%'
 		}
 	}
@@ -26,7 +40,7 @@ const LeftSidebar = ({
 	}
 
 	return (
-		<div>
+		<div style={styles.wrapper}>
 	      	<Menu 
 	      		style={styles.sidebar} 
 	      		onClick={handleClick} 
@@ -47,9 +61,6 @@ const LeftSidebar = ({
 		        <Menu.Item key="pull">
 					<Icon type="download" />
 		        </Menu.Item>
-		        <Menu.Item key="file">
-					<Icon type="file" />
-		        </Menu.Item>        
 		        <Menu.Item key="terminal">
 					<Icon type="code-o" />
 		        </Menu.Item>        
@@ -62,13 +73,17 @@ const LeftSidebar = ({
 
 	      	</Menu>
 
-	    	<Modal title="新建应用" visible={modalNewAppVisible}
+	    	<Modal width="80%"  title="新建应用" visible={modalNewAppVisible}
 	          	onOk={createApp} onCancel={cancelNewApp}
 	        >
-	          	<p>some contents...</p>
-	          	<p>some contents...</p>
-	          	<p>some contents...</p>
+	        	<iframe style={styles.ifr} src="http://localhost:8088/#!/apps/new"></iframe>
 	        </Modal>
+
+	    	<Modal width="60%"  title="切换应用" visible={modalSwitchAppVisible}
+	          	onOk={switchApp} onCancel={cancelSwitchApp}
+	        >
+	        </Modal>
+
         </div>
 
 	);

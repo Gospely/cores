@@ -24,6 +24,7 @@ app.use(createLoading());
 // 3. Model
 app.model(require('./models/products'));
 app.model(require('./models/ModelLeftSidebar'));
+app.model(require('./models/ModelDevPanels'));
 
 // 4. Router
 app.router(require('./router'));
