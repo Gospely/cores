@@ -7,7 +7,7 @@ export default {
 	state: {
 
 		panes: [
-			{ title: '欢迎页面 - Gospel', content: 'welcome', key: '1', type: 'welcome' },
+			{ title: '欢迎页面 - Gospel', content: '欢迎使用 Gospel在线集成开发环境', key: '1', type: 'welcome' },
 	    ],
 
 	    activeKey: '1'
@@ -49,6 +49,7 @@ export default {
 							key: '1',
 							type: 'welcome'
 						});
+						activeKey = '1';
 					}
 				}
 			}

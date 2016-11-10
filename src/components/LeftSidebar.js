@@ -61,6 +61,9 @@ const LeftSidebar = ({
 		        <Menu.Item key="pull">
 					<Icon type="download" />
 		        </Menu.Item>
+		        <Menu.Item key="file">
+					<Icon type="file-text" />
+		        </Menu.Item>        		        
 		        <Menu.Item key="terminal">
 					<Icon type="code-o" />
 		        </Menu.Item>        

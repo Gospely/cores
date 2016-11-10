@@ -9,15 +9,7 @@ import LeftSidebar from '../components/LeftSidebar';
 import RightSidebar from '../components/RightSidebar';
 import DevPanel from '../components/DevPanel';
 
-import AceEditor from 'react-ace';
-
-import PanelStyle from '../components/Panels.css';
-
-import 'brace/mode/java';
-import 'brace/theme/github';
-import 'brace/mode/javascript';
-import 'brace/mode/html';
-import 'brace/mode/css';
+import CodingEditor from '../components/Panel/Editor.js';
 
 function IndexPage(props) {
 
@@ -53,6 +45,19 @@ function IndexPage(props) {
         },
 
         terminal() {
+
+        },
+
+        file() {
+
+          var title = '新文件',
+              content = <CodingEditor></CodingEditor>,
+              type = 'editor';
+
+          props.dispatch({
+            type: 'devpanel/add',
+            payload: {title, content, type}
+          });
 
         },
 
@@ -113,15 +118,7 @@ function IndexPage(props) {
       var content = '', title = undefined, type = "editor";
 
       if(action == 'add') {
-        content = 
-          <AceEditor
-            mode="javascript"
-            theme="github"
-            width="100%"
-            height="96vh"
-            className={PanelStyle.aceEditor}
-            name="UNIQUE_ID_OF_DIV"
-            editorProps={{$blockScrolling: true}} />;
+        content = <CodingEditor></CodingEditor>;
 
         console.log(content);
       }

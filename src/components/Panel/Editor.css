@@ -1,0 +1,69 @@
+.aceEditor {
+	margin-top: -16px;
+}
+
+.topbar {
+	height: 30px;
+	width: 100%;
+	background: #f9f9f9;
+	z-index: 300;
+}
+
+.topbarBtn {
+	border-radius: 0px;
+	height: 30px;
+	border: 0px;
+    color: rgba(121,121,121,1) !important;
+}
+
+.topbarBtn:hover {
+	background: rgba(229,229,229, 0.7);
+}
+
+.topbarBtn span {
+    color: rgba(121, 121, 121, 0.7) !important;
+}
+
+.topbarBtn:last-child {
+	padding-left: 0px;
+}
+
+.topbarRight {
+	float: right;
+}
+
+.searchBar {
+	z-index: 300;
+	width: 100%;
+	background: rgba(229,229,229, 0.7);
+	position: absolute;
+	padding: 10px;
+	display: none;
+}
+
+.textarea {
+	border-radius: 0px;
+}
+
+.jumpLine {
+	color: rgb(255, 255, 255);
+	background: rgba(17,36,53, 0.7);
+	width: 100%;
+	position: absolute;
+	z-index: 301;
+	border-bottom: 1px solid rgb(255, 255, 255);
+	padding-left: 15px;
+	display: none;
+}
+
+.jumpLine input {
+	border: 0px;
+	background: inherit;
+	color: rgb(255, 255, 255);
+	display: inline;
+	width: 60%;
+}
+
+.jumpLine input:focus {
+	box-shadow: none;
+}
