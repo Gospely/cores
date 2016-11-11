@@ -11,6 +11,7 @@
     "dva-loading": "^0.2.0",
     "react": "^15.3.2",
     "react-ace": "^4.0.0",
+    "react-addons-css-transition-group": "^15.3.2",
     "react-dom": "^15.3.2"
   },
   "devDependencies": {

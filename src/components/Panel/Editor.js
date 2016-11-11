@@ -3,6 +3,8 @@ import AceEditor from 'react-ace';
 import EditorStyle from './Editor.css';
 import { connect } from 'dva';
 
+import { Button } from 'antd';
+
 import 'brace/mode/java';
 import 'brace/theme/github';
 import 'brace/mode/javascript';
@@ -10,6 +12,10 @@ import 'brace/mode/html';
 import 'brace/mode/css';
 
 import EditorTop from './EditorTop';
+
+console.log(React);
+
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 const Editor = (props) => {
 
@@ -113,8 +119,25 @@ const Editor = (props) => {
 		}
 	}
 
+
+  	const editorProps = {
+    	showArrow: props.editor.showArrow,
+
+	    handleMouseEnter() {
+	    	props.dispatch({
+	    		type: 'editor/showArrow'
+	    	})
+    	},
+
+    	handleMouseLeave() {
+	    	props.dispatch({
+	    		type: 'editor/hideArrow'
+	    	})
+    	}
+  	}
+
   	return (
-		<div className={EditorStyle.aceEditor}>
+		<div onMouseEnter={editorProps.handleMouseEnter} onMouseLeave={editorProps.handleMouseLeave} className={EditorStyle.aceEditor}>
 			<EditorTop {...EditorTopProps}></EditorTop>
 			<AceEditor
 	        	mode="javascript"
@@ -123,13 +146,26 @@ const Editor = (props) => {
 	        	height="92vh"
 	        	name="UNIQUE_ID_OF_DIV"
 	        	editorProps={{$blockScrolling: true}} />
+
+			<ReactCSSTransitionGroup
+			  transitionName="fullscreen"
+			  transitionEnterTimeout={500}
+			  transitionLeaveTimeout={300}
+			>
+				{
+					editorProps.showArrow &&
+			        <div className={EditorStyle.fullscreenBtn}>
+					    <Button type="ghost" shape="circle-outline" icon="arrows-alt"></Button>
+			        </div>				
+				}
+			</ReactCSSTransitionGroup>
   		</div>
   );
 
 };
 
-function mapSateToProps({ editorTop }) {
-	return {editorTop};
+function mapSateToProps({ editorTop, editor}) {
+	return {editorTop, editor};
 }
 
 export default connect(mapSateToProps)(Editor);

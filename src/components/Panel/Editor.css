@@ -65,3 +65,10 @@
 .jumpLine input:focus {
 	box-shadow: none;
 }
+
+.fullscreenBtn {
+	position: absolute;
+	right: 20px;
+	top: 80px;
+	z-index: 333;
+}

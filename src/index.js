@@ -26,6 +26,7 @@ app.model(require('./models/products'));
 app.model(require('./models/ModelLeftSidebar'));
 app.model(require('./models/ModelDevPanels'));
 app.model(require('./models/editor/ModelTop'));
+app.model(require('./models/editor/ModelEditor'));
 
 // 4. Router
 app.router(require('./router'));

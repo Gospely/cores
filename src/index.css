@@ -3,5 +3,22 @@
   	html, body, #root {
     	height: 100%;
   	}
+}
 
+:global(.fullscreen-enter) {
+	opacity: 0.01;
+}
+
+:global(.fullscreen-enter.fullscreen-enter-active) {
+  	opacity: 1;
+  	transition: opacity 300ms ease-in;
+}
+
+:global(.fullscreen-leave) {
+  	opacity: 1;
+}
+
+:global(.fullscreen-leave.fullscreen-leave-active) {
+  	opacity: 0.01;
+  	transition: opacity 300ms ease-in;
 }
