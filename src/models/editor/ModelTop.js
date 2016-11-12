@@ -104,10 +104,8 @@ export default {
 
 			if(!state.isSlideUp) {
 				tabHeader.style.display = 'none';
-				aceEditor.style['margin-top'] = '0px';
 			}else {
 				tabHeader.style.display = 'block';
-				aceEditor.style['margin-top'] = '-16px';				
 			}
 
 			return {...state, isSlideUp: !state.isSlideUp};

@@ -5,8 +5,20 @@ const TabPane = Tabs.TabPane;
 
 import Xterm from './TerminalFit';
 
+import randomWord from '../../utils/randomString';
+
 class Terminal extends Component {
+
+	constructor(props) {
+		super(props);
+		this.state = {
+			terminalId: randomWord()
+		}
+	}
+
 	componentDidMount() {
+
+		var self = this;
 
 		var init = function() {
 
@@ -21,9 +33,11 @@ class Terminal extends Component {
 			    domain = 'gospely.com',
 			    baseUrl = 'http://' + domain + ':' + port;
 
-			var terminalContainer = document.getElementById('terminal-container');
+			var terminalContainer = document.getElementById(self.state.terminalId);
 
 			function setTerminalSize () {
+
+				var termParent = document.getElementById('');
 
 				var termWidth = 800,
 					termHeight = 900;
@@ -50,7 +64,6 @@ class Terminal extends Component {
 			  	term = new Xterm({
 			    	cursorBlink: false
 			  	});
-			  	console.log(term);
 			  	term.on('resize', function (size) {
 			    	if (!pid) {
 			      	return;
@@ -76,8 +89,8 @@ class Terminal extends Component {
 			  			offsetHeight = term.element.offsetHeight;
 
 			  		if(offsetWidth === 0) {
-			  			offsetWidth = $('#form').width();
-			  			offsetHeight = $('#form').height() / 2 - 82;
+			  			offsetWidth = 800;
+			  			offsetHeight = 900;
 			  		}
 
 			  		console.log(offsetHeight);
@@ -92,7 +105,7 @@ class Terminal extends Component {
 				      	socket.onopen = runRealTerminal;
 				      	socket.onclose = runFakeTerminal;
 				      	socket.onerror = runFakeTerminal;
-	      				setTerminalSize();				      		
+	      				setTerminalSize();
 				    });
 			  });
 			}
@@ -147,9 +160,10 @@ class Terminal extends Component {
 
 
 	}
-  render() {
-		return <div id="terminal-container"></div>;
-  }
+
+  	render() {
+		return <div id={this.state.terminalId}></div>;
+  	}
 }
 
 
