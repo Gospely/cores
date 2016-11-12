@@ -12,8 +12,7 @@ import 'brace/mode/html';
 import 'brace/mode/css';
 
 import EditorTop from './EditorTop';
-
-console.log(React);
+import EditorBottom from './EditorBottom';
 
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
@@ -136,16 +135,26 @@ const Editor = (props) => {
     	}
   	}
 
+  	const editorBottomProps = {
+  		panes: props.devpanel.panes,
+  		activeKey: props.devpanel.activeKey
+  	}
+
+  	var aceHeight = ( parseInt(document.body.clientHeight) - 62 ) + 'px';
+
   	return (
-		<div onMouseEnter={editorProps.handleMouseEnter} onMouseLeave={editorProps.handleMouseLeave} className={EditorStyle.aceEditor}>
+		<div  className={EditorStyle.aceEditor}>
 			<EditorTop {...EditorTopProps}></EditorTop>
+
 			<AceEditor
 	        	mode="javascript"
 	        	theme="github"
 	        	width="100%"
-	        	height="92vh"
+	        	height={aceHeight}
 	        	name="UNIQUE_ID_OF_DIV"
 	        	editorProps={{$blockScrolling: true}} />
+
+	        <EditorBottom></EditorBottom>
 
 			<ReactCSSTransitionGroup
 			  transitionName="fullscreen"
@@ -164,8 +173,8 @@ const Editor = (props) => {
 
 };
 
-function mapSateToProps({ editorTop, editor}) {
-	return {editorTop, editor};
+function mapSateToProps({ editorTop, editor, devpanel}) {
+	return {editorTop, editor, devpanel};
 }
 
 export default connect(mapSateToProps)(Editor);

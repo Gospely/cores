@@ -10,6 +10,7 @@ import RightSidebar from '../components/RightSidebar';
 import DevPanel from '../components/DevPanel';
 
 import CodingEditor from '../components/Panel/Editor.js';
+import Terminal from '../components/Panel/Terminal.js';
 
 function IndexPage(props) {
 
@@ -45,6 +46,15 @@ function IndexPage(props) {
         },
 
         terminal() {
+
+          var title = '终端',
+              content = <Terminal></Terminal>,
+              type = 'terminal';
+
+          props.dispatch({
+            type: 'devpanel/add',
+            payload: {title, content, type}
+          })
 
         },
 
