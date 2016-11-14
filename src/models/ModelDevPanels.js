@@ -67,6 +67,7 @@ export default {
 			target.content = target.content || '';
 
 		    panes.push({ title: target.title + activeKey, content: target.content, key: activeKey, type: target.type });
+
 		    return {...state, panes, activeKey};
 		}
 	}

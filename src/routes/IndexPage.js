@@ -12,6 +12,8 @@ import DevPanel from '../components/DevPanel';
 import CodingEditor from '../components/Panel/Editor.js';
 import Terminal from '../components/Panel/Terminal.js';
 
+import SplitPane from 'react-split-pane';
+
 function IndexPage(props) {
 
   const leftSidebarProps = {
@@ -140,25 +142,22 @@ function IndexPage(props) {
     }
   }
 
+  var devPanelMinSize = document.body.clientWidth;
+  devPanelMinSize = devPanelMinSize * 0.833333333;
+
   return (
     <div className="body">
-      <div className={styles.sidebar}>
-        <LeftSidebar {...leftSidebarProps}></LeftSidebar>
-      </div>
-      <div className={styles.rightPanel}>
-          <Row type="flex" justify="space-between">
-            <Col span={20}>
+      <SplitPane split="vertical" minSize={46} maxSize={46}>
+          <div className="LeftSidebar">
+            <LeftSidebar {...leftSidebarProps}></LeftSidebar>
+          </div>
+          <SplitPane split="vertical" defaultSize={devPanelMinSize}>
               <div className={styles.devbar}>
                 <DevPanel {...devPanelProps}></DevPanel>
               </div>
-            </Col>
-            <Col span={4}>
-              <div className={styles.rightbar}>
-                <RightSidebar></RightSidebar>
-              </div>
-            </Col>
-          </Row>
-      </div>
+              <RightSidebar></RightSidebar>
+          </SplitPane>
+      </SplitPane>
     </div>
   );
 }

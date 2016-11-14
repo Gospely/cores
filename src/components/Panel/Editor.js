@@ -16,6 +16,8 @@ import EditorBottom from './EditorBottom';
 
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
+import randomWord from '../../utils/randomString';
+
 const Editor = (props) => {
 
 	var props$editorTop = props.editorTop,
@@ -140,10 +142,15 @@ const Editor = (props) => {
   		activeKey: props.devpanel.activeKey
   	}
 
-  	var aceHeight = ( parseInt(document.body.clientHeight) - 62 ) + 'px';
+  	console.log(editorBottomProps);
+
+  	var aceHeight = ( parseInt(document.body.clientHeight) - 62 ) + 'px', 
+  		editorId = randomWord(8, 10);
+
+  	console.log(aceHeight, editorId);
 
   	return (
-		<div  className={EditorStyle.aceEditor}>
+		<div className={EditorStyle.aceEditor}>
 			<EditorTop {...EditorTopProps}></EditorTop>
 
 			<AceEditor
@@ -151,7 +158,7 @@ const Editor = (props) => {
 	        	theme="github"
 	        	width="100%"
 	        	height={aceHeight}
-	        	name="UNIQUE_ID_OF_DIV"
+	        	name={editorId}
 	        	editorProps={{$blockScrolling: true}} />
 
 	        <EditorBottom></EditorBottom>

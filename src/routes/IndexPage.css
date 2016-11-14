@@ -28,15 +28,6 @@
   background: #f7f7f7;
 }
 
-.sidebar {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  /*width: 60px;*/
-  left: 0;
-  z-index: 220;
-}
-
 .rightbar {
   position: absolute;
   top: 0;
@@ -59,10 +50,10 @@
 }
 
 .devbar {
-  position: absolute;
-  min-height: 100vh;
   width: 100%;
-  margin-left: -1px;
+  margin-left: -2px;
+  padding-left: 1px;
   z-index: 200;
   margin-top: -1px;
+  height: 100%;
 }

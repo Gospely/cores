@@ -1,8 +1,7 @@
 import React , {PropTypes} from 'react';
 import { Tabs, Icon, Popover } from 'antd';
 
-// import CodingPanel from './Panel/CodingPanel';
-// import TerminalPanel from './Panel/TerminalPanel';
+import SplitPane from 'react-split-pane';
 
 const TabPane = Tabs.TabPane;
 
@@ -12,17 +11,43 @@ const DevPanel = ({
 
 	const animated = false;
 
+	var defaultSize = '50%';
+
 	return (
-      	<Tabs
-        	onChange={onChange}
-        	activeKey={activeKey}
-        	type="editable-card"
-        	onEdit={onEdit}
-        	animated={animated}>
+		<div>
+			<SplitPane split="horizontal" defaultSize={defaultSize}>
+		      	<Tabs
+		        	onChange={onChange}
+		        	activeKey={activeKey}
+		        	type="editable-card"
+		        	onEdit={onEdit}
+		        	animated={animated}>
+		        	{panes.map(pane => <TabPane tab={pane.title} key={pane.key}>{pane.content}</TabPane>)}
+		      	</Tabs>
 
-        	{panes.map(pane => <TabPane tab={pane.title} key={pane.key}>{pane.content}</TabPane>)}
+		      	<SplitPane split="vertical" defaultSize={defaultSize}>
 
-      	</Tabs>
+			      	<Tabs
+			        	onChange={onChange}
+			        	activeKey={activeKey}
+			        	type="editable-card"
+			        	onEdit={onEdit}
+			        	animated={animated}>
+			        	{panes.map(pane => <TabPane tab={pane.title} key={pane.key}>{pane.content}</TabPane>)}
+			      	</Tabs>
+
+			      	<Tabs
+			        	onChange={onChange}
+			        	activeKey={activeKey}
+			        	type="editable-card"
+			        	onEdit={onEdit}
+			        	animated={animated}>
+			        	{panes.map(pane => <TabPane tab={pane.title} key={pane.key}>{pane.content}</TabPane>)}
+			      	</Tabs>
+
+		      	</SplitPane>
+			</SplitPane>
+		</div>
 	)
 
 }
