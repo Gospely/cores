@@ -1,47 +1,59 @@
-import React , {PropTypes} from 'react';
+import React , { PropTypes } from 'react';
 import { Menu, Icon } from 'antd';
+import { connect } from 'dva';
 
-const ColumnLayout = React.createClass({
-  getInitialState() {
-    return {
-      current: '1',
-    };
-  },
+const ColumnLayout = (props) => {
 
-  handleClick(e) {
-    console.log('click ', e, this.props.dispatch);
-    this.setState({
-      current: e.key,
-    });
-  },
-  
-  render() {
-    return (
-      <div className="rightColumn">
+  console.log(props);
 
-        <Menu onClick={this.handleClick}
-          style={{ width: '100%' }}
-          selectedKeys={[this.state.current]}
-          mode="inline"
-        >
-          <Menu.Item key="single">
-            <span>单栏布局</span>
-          </Menu.Item>
-          <Menu.Item key="vertical-dbl">
-            <span>垂直双栏布局</span>
-          </Menu.Item>
-          <Menu.Item key="horizontal-dbl">
-            <span>水平双栏布局</span>
-          </Menu.Item>
-          <Menu.Item key="grid">
-            <span>网格布局</span>
-          </Menu.Item>
-          
-        </Menu>
+  const rightColumnProps = {
+    current: props.layout.current,
 
-      </div>
-    );
-  },
-});
+    handleClick: function(e) {
+      props.dispatch({
+        type: 'layout/handleClick',
+        payload: e.key
+      });
 
-export default ColumnLayout;
+      props.dispatch({
+        type: 'devpanel/changeColumn',
+        payload: e.key
+      })
+    }
+  }
+
+  console.log(rightColumnProps);
+
+  return (
+    <div className="rightColumn">
+
+      <Menu onClick={rightColumnProps.handleClick}
+        style={{ width: '100%' }}
+        selectedKeys={[rightColumnProps.current]}
+        mode="inline"
+      >
+        <Menu.Item key="single">
+          <span>单栏布局</span>
+        </Menu.Item>
+        <Menu.Item key="vertical-dbl">
+          <span>垂直双栏布局</span>
+        </Menu.Item>
+        <Menu.Item key="horizontal-dbl">
+          <span>水平双栏布局</span>
+        </Menu.Item>
+        <Menu.Item key="grid">
+          <span>网格布局</span>
+        </Menu.Item>
+        
+      </Menu>
+
+    </div>
+  );
+};
+
+// 指定订阅数据，这里关联了 indexPage
+function mapStateToProps({ layout }) {
+  return {layout};
+}
+
+export default connect(mapStateToProps)(ColumnLayout);
