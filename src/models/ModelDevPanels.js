@@ -10,13 +10,19 @@ export default {
 			{ title: '欢迎页面 - Gospel', content: '欢迎使用 Gospel在线集成开发环境', key: '1', type: 'welcome' },
 	    ],
 
-	    activeKey: '1'
+	    activeKey: '1',
+
+	    splitType: 'single'
 	},
 
 	reducers: {
 
 		tabChanged(state, {payload: key}) {
 			return {...state, activeKey: key};
+		},
+
+		changeColumn(state, {payload: type}) {
+			return {...state, splitType: type};
 		},
 
 		'remove'(state, {payload: targetKey}) {

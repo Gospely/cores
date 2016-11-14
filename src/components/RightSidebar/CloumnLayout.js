@@ -7,12 +7,14 @@ const ColumnLayout = React.createClass({
       current: '1',
     };
   },
+
   handleClick(e) {
-    console.log('click ', e);
+    console.log('click ', e, this.props.dispatch);
     this.setState({
       current: e.key,
     });
   },
+  
   render() {
     return (
       <div className="rightColumn">
@@ -22,18 +24,19 @@ const ColumnLayout = React.createClass({
           selectedKeys={[this.state.current]}
           mode="inline"
         >
-          <Menu.Item key="single-column">
+          <Menu.Item key="single">
             <span>单栏布局</span>
           </Menu.Item>
-          <Menu.Item key="vertical-dbl-column">
+          <Menu.Item key="vertical-dbl">
             <span>垂直双栏布局</span>
           </Menu.Item>
-          <Menu.Item key="horizontal-dbl-column">
+          <Menu.Item key="horizontal-dbl">
             <span>水平双栏布局</span>
           </Menu.Item>
           <Menu.Item key="grid">
             <span>网格布局</span>
           </Menu.Item>
+          
         </Menu>
 
       </div>

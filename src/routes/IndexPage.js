@@ -117,6 +117,7 @@ function IndexPage(props) {
   const devPanelProps = {
     panes: props.devpanel.panes,
     activeKey: props.devpanel.activeKey,
+    splitType: props.devpanel.splitType,
 
     onChange(active) {
       props.dispatch({
