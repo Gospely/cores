@@ -15,7 +15,7 @@ const DevPanel = ({
 
 	return (
 		<div>
-			<SplitPane split="horizontal" defaultSize={defaultSize}>
+			<SplitPane split="vertical" defaultSize={defaultSize}>
 		      	<Tabs
 		        	onChange={onChange}
 		        	activeKey={activeKey}
@@ -25,7 +25,7 @@ const DevPanel = ({
 		        	{panes.map(pane => <TabPane tab={pane.title} key={pane.key}>{pane.content}</TabPane>)}
 		      	</Tabs>
 
-		      	<SplitPane split="vertical" defaultSize={defaultSize}>
+		      	<SplitPane split="horizontal" defaultSize={defaultSize}>
 
 			      	<Tabs
 			        	onChange={onChange}
