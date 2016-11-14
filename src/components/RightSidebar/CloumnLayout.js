@@ -4,10 +4,9 @@ import { connect } from 'dva';
 
 const ColumnLayout = (props) => {
 
-  console.log(props);
-
   const rightColumnProps = {
     current: props.layout.current,
+    columnsType: props.layout.columnsType,
 
     handleClick: function(e) {
       props.dispatch({
@@ -22,8 +21,6 @@ const ColumnLayout = (props) => {
     }
   }
 
-  console.log(rightColumnProps);
-
   return (
     <div className="rightColumn">
 
@@ -32,18 +29,7 @@ const ColumnLayout = (props) => {
         selectedKeys={[rightColumnProps.current]}
         mode="inline"
       >
-        <Menu.Item key="single">
-          <span>单栏布局</span>
-        </Menu.Item>
-        <Menu.Item key="vertical-dbl">
-          <span>垂直双栏布局</span>
-        </Menu.Item>
-        <Menu.Item key="horizontal-dbl">
-          <span>水平双栏布局</span>
-        </Menu.Item>
-        <Menu.Item key="grid">
-          <span>网格布局</span>
-        </Menu.Item>
+        {rightColumnProps.columnsType.map(type => <Menu.Item key={type.name}><span>{type.alias}</span></Menu.Item>)}
         
       </Menu>
 
