@@ -86,24 +86,66 @@ export default {
 
       	},
 
-      	removeFile({payload: fileName}, {call, put}) {
+      	*removeFile({payload: fileName}, {call, put}) {
 
       	},
 
-      	mvFile({payload: fileName, newFileName}, {call, put}) {
+      	*mvFile({payload: fileName, newFileName}, {call, put}) {
 
       	},
 
-      	readFile({payload: fileName}, {call, put}) {
+      	*readFile({payload: fileName}, {call, put}) {
 
       	},
 
-      	writeFile({payload: fileName, content}, {call, put}) {
+      	*writeFile({payload: fileName, content}, {call, put}) {
 
+      	},
+
+      	*handleNewFile({payload: fileName}, {call, put, select}) {
+      		console.log(yield select(state => state.file.newFileInput.value));
+      	},
+
+      	*handleNewFolder({payload: fileName}, {call, put, select}) {
+      		console.log(yield select(state => state.file.newFileInput.value));
+      	},
+
+      	*handleUpload({payload: fileName}, {call, put, select}) {
+      		console.log(yield select(state => state.file.newFileInput.value));
+      	},
+
+      	*handleSearch({payload: fileName}, {call, put, select}) {
+      		console.log(yield select(state => state.file.newFileInput.value));
       	}
+
+
 	},
 
 	reducers: {
+		handleNewFileInputChange(state, {payload: val}) {
+			return {...state, newFileInput: {
+				value: val
+			}};
+		},
+
+		handleNewFolderInputChange(state, {payload: val}) {
+			return {...state, newFolderInput: {
+				value: val
+			}};
+		},
+
+		handleSearchInputChange(state, {payload: val}) {
+			return {...state, searchInput: {
+				value: val
+			}};
+		},
+
+		handleUploadInputChange(state, {payload: val}) {
+			return {...state, uploadInput: {
+				value: val
+			}};
+		},
+
 		move (state, {payload: key}) {
 			return {...state, current: key};
 		},

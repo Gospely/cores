@@ -51,12 +51,17 @@ const FileTree = (props) => {
 
       value: props.file.newFileInput.value,
 
-      onChange: function() {
-
+      onChange: function(e) {
+        props.dispatch({
+          type: 'file/handleNewFileInputChange',
+          payload: e.target.value
+        })
       },
 
-      onPressEnter: function() {
-
+      onPressEnter: function(e) {
+        props.dispatch({
+          type: 'file/handleNewFile'
+        })
       }
     },
 
@@ -64,12 +69,17 @@ const FileTree = (props) => {
 
       value: props.file.newFolderInput.value,
 
-      onChange: function() {
-
+      onChange: function(e) {
+        props.dispatch({
+          type: 'file/handleNewFolderInputChange',
+          payload: e.target.value
+        })
       },
 
       onPressEnter: function() {
-
+        props.dispatch({
+          type: 'file/handleNewFolder'
+        })
       }
     },
 
@@ -77,12 +87,17 @@ const FileTree = (props) => {
 
       value: props.file.uploadInput.value,
 
-      onChange: function() {
-
+      onChange: function(e) {
+        props.dispatch({
+          type: 'file/handleUploadInputChange',
+          payload: e.target.value
+        })
       },
 
       onPressEnter: function() {
-
+        props.dispatch({
+          type: 'file/handleUpload'
+        })
       }
     },
 
@@ -90,25 +105,30 @@ const FileTree = (props) => {
 
       value: props.file.searchInput.value,
 
-      onChange: function() {
-
+      onChange: function(e) {
+        props.dispatch({
+          type: 'file/handleSearchInputChange',
+          payload: e.target.value
+        })
       },
 
       onPressEnter: function() {
-
+        props.dispatch({
+          type: 'file/handleSearch'
+        })
       }
     }
 
   }
 
   const btnCls = {
-    'ant-search-btn': true,
-    'ant-search-btn-noempty': !!props.file.newFileInput.value.trim(),
+    antSearchBtn: true,
+    antSearchBtnNoempty: !!props.file.newFileInput.value.trim(),
   };
 
   const searchCls = {
-    'ant-search-input': true,
-    'ant-search-input-focus': props.file.focus,
+    antSearchInput: true,
+    antSearchInputFocus: props.file.focus,
   };
 
   const newFilePop = {
@@ -120,7 +140,7 @@ const FileTree = (props) => {
           {...FileTreeProps.newFileInput}
         />
         <div className="ant-input-group-wrap">
-          <Button icon="plus" style={btnCls} onClick="FileTreeProps.newFileInput.onPressEnter"/>
+          <Button icon="plus" style={btnCls} onClick={FileTreeProps.newFileInput.onPressEnter}/>
         </div>
       </InputGroup>
     )
@@ -135,7 +155,7 @@ const FileTree = (props) => {
           {...FileTreeProps.newFolderInput}
         />
         <div className="ant-input-group-wrap">
-          <Button icon="plus" style={btnCls} onClick="FileTreeProps.newFolderInput.onPressEnter"/>
+          <Button icon="plus" style={btnCls} onClick={FileTreeProps.newFolderInput.onPressEnter}/>
         </div>
       </InputGroup>
     )
@@ -150,7 +170,7 @@ const FileTree = (props) => {
           {...FileTreeProps.searchInput}
         />
         <div className="ant-input-group-wrap">
-          <Button icon="plus" style={btnCls} onClick="FileTreeProps.searchInput.onPressEnter"/>
+          <Button icon="plus" style={btnCls} onClick={FileTreeProps.searchInput.onPressEnter}/>
         </div>
       </InputGroup>
     )
@@ -165,7 +185,7 @@ const FileTree = (props) => {
           {...FileTreeProps.uploadInput}
         />
         <div className="ant-input-group-wrap">
-          <Button icon="plus" style={btnCls} onClick="FileTreeProps.uploadInput.onPressEnter"/>
+          <Button icon="plus" style={btnCls} onClick={FileTreeProps.uploadInput.onPressEnter}/>
         </div>
       </InputGroup>
     )
