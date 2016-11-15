@@ -24,10 +24,12 @@ export default {
       	},
 
       	*fetchFileNode({payload: params}, {call, put}) {
-      		console.log(params);
       		const dirName = params.treeNode.props.eventKey;
       		var fileList = yield request('fs/list/file/?id=' + dirName);
-      		yield put({ type: 'treeOnLoadData', payload: fileList });
+      		yield put({ type: 'treeOnLoadData', payload: {
+      			fileList,
+      			dirName
+      		} });
       		params.resolve();
       	},
 
@@ -120,43 +122,91 @@ export default {
 
 		},
 
-		treeOnLoadData (state, {payload: fileList }) {
-			var files = fileList.data,
-				parentDirName = '';
-
-			if(files.length > 0) {
-				parentDirName = files[0].folder;
-			}
+		treeOnLoadData (state, {payload: params }) {
+			var files = params.fileList.data,
+				parentDirName = params.dirName;
 
 			var treeData = state.treeData,
 				childNode = [],
 				parentNodeIndex;
 
-			treeData.map((node, key) => {
-				if(node.key + '/' == parentDirName) {
+			const findParentNode = (treeData, parentDirName, lvl) => {
+				var parentNode;
+				for (var i = 0; i < treeData.length; i++) {
+					var node = treeData[i];
 
-					files.map(file => {
+					if(node.key + '/' == parentDirName || node.key == parentDirName) {
+						parentNode = {
+							node: node,
+							index: i,
+							lvl: lvl
+						};
+						return parentNode;
+					}
 
-						parentNodeIndex = key;
-						var tmpChild = {};
-						tmpChild.name = file.text;
-						tmpChild.key = file.id;
-						tmpChild.isLeaf = !file.children;
-						tmpChild.original = file;
+					if(node.children) {
+						parentNode = findParentNode(node.children, parentDirName, lvl + 1);
+						if(parentNode) {
+							return parentNode;
+						}
+					}
+				};
+			}
 
-						childNode.push(tmpChild);
+			var parentNode = findParentNode(state.treeData, parentDirName, 1);
 
-					})
-				}
-			});
+			console.log('currentNode', parentNode);
 
-			if(parentNodeIndex == undefined) {
+			const generatorNode = (files) => {
+				var childNode = [];
+				files.map(file => {
+					var tmpChild = {};
+					tmpChild.name = file.text;
+					tmpChild.key = file.id;
+					tmpChild.isLeaf = !file.children;
+					tmpChild.original = file;
+					childNode.push(tmpChild);
+				});
+				return childNode;
+			}
+
+			const setLeaf = (treeData, parentNode) => {
+
+			  	const loopLeaf = (data, parent) => {
+			  		var parentNodeA = parent.node.original.folder;
+			  		parentNodeA = findParentNode(data, parentNodeA, parent.lvl - 1);
+
+			  		console.log('parentNodeA', parentNodeA);
+			  		if(!parentNodeA) {
+						// state.treeData[parentNode.index].children = childNode;
+						data[parentNode.index].children = childNode;
+			  		}else {
+			  			console.log(data, parent);
+			  			var currNode = data[parentNodeA.index];
+			  			console.log(currNode);
+			  			if(!currNode) {
+			  				loopLeaf(parentNodeA.node.children, parent);
+			  			}else {
+			  				currNode = currNode.children;
+							currNode[parent.index].children = childNode;			  				
+			  			}
+			  		}
+			  	};
+
+			  	loopLeaf(treeData, parentNode);
+			}
+
+			if(parentNode.node.key + '/' == parentDirName || parentNode.node.key == parentDirName) {
+				childNode = generatorNode(files);
+			}
+
+			if(parentNode.index == undefined) {
 				throw '不匹配的文件树'
 			}
 
-			state.treeData[parentNodeIndex].children = childNode;
+			setLeaf(treeData, parentNode);
 
-			return {...state};
+			return {...state, treeData};
 		}
 	}
 
