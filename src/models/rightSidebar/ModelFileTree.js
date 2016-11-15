@@ -144,8 +144,8 @@ export default {
 			var mkResult = yield request('fs/move/', {
 				method: 'POST',
 				body: JSON.stringify({
-					fileName: localStorage.currentFolder + params.dirName,
-					newFileName: localStorage.currentFolder + params.newFileName,
+					fileName: localStorage.currentFolder + params.fileName,
+					newFileName: params.newFileName,
 					move: true
 				})
 			});
@@ -153,10 +153,10 @@ export default {
       	},
 
       	*copyFile({payload: params}, {call, put}) {
-			var mkResult = yield request('fs/move/', {
+			var mkResult = yield request('fs/copy/', {
 				method: 'POST',
 				body: JSON.stringify({
-					file: localStorage.currentFolder + params.dirName,
+					file: localStorage.currentFolder + params.fileName,
 					newFile: params.newFileName
 				})
 			});

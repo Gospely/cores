@@ -278,11 +278,16 @@ const FileTree = (props) => {
           var item = localStorage.itemToCopy;
 
           if(item != 'undefined') {
+
+            var newFileName = localStorage.currentFileIsDir == 'true' ? 
+                localStorage.currentSelectedFile  + '/' + item.split('/').pop() : 
+                localStorage.currentFolder + item.split('/').pop();
+
             props.dispatch({
               type: 'file/copyFile',
               payload: {
-                fileName: localStorage.currentSelectedFile.split('/').pop(),
-                newFileName: localStorage.currentFolder + item.split('/').pop()
+                fileName: item.split('/').pop(),
+                newFileName: newFileName
               }
             });
           }
@@ -290,11 +295,16 @@ const FileTree = (props) => {
           item = localStorage.itemToCut;
 
           if(item != 'undefined') {
+
+            var newFileName = localStorage.currentFileIsDir == 'true' ? 
+                localStorage.currentSelectedFile + '/' + item.split('/').pop() : 
+                localStorage.currentFolder + item.split('/').pop();
+
             props.dispatch({
               type: 'file/mvFile',
               payload: {
                 fileName: item.split('/').pop(),
-                newFileName: localStorage.currentFolder + item.split('/').pop()
+                newFileName: newFileName
               }
             });
           }
