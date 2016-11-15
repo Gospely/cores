@@ -298,7 +298,17 @@ export default {
 				tree.push(tmpTree);
 			};
 
-			return {...state, treeData: tree};
+			console.log(tree);
+
+			return {...state, treeData: [{
+				isLeaf: false,
+				key: 'node-hello_ivydom',
+				name: 'root',
+				children: tree,
+				original: {
+					folder: 'null'
+				}
+			}]};
 		},
 
 		treeOnSelect (state, {payload: key}) {
