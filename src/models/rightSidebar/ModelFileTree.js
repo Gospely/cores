@@ -32,19 +32,23 @@ export default {
 		focus: false,
 
 		newFileInput: {
-			value: '未命名'
+			value: '未命名',
+			visible: false
 		},
 
 		newFolderInput: {
-			value: '未命名'
+			value: '未命名',
+			visible: false
 		},
 
 		uploadInput: {
-			value: ''
+			value: '',
+			visible: false
 		},
 
 		searchInput: {
-			value: ''
+			value: '',
+			visible: false
 		}
 	},
 
@@ -74,12 +78,28 @@ export default {
       		params.resolve();
       	},
 
-      	*mkdir({payload: dirName}, {call, put}) {
-
+      	*mkdir({payload: dirName}, {call, put, select}) {
+      		var val = yield select(state => state.file.newFolderInput.value);
+      		var mkResult = yield request('fs/mkdir', {
+      			method: 'POST',
+      			body: JSON.stringify({
+      				dirName: localStorage.currentFolder + val
+      			})
+      		});
+      		yield put({type: 'fetchFileList'});
+      		yield put({type: 'handleNewFolderInputVisible'})
       	},
 
-      	*touch({payload: dirName}, {call, put}) {
-
+      	*touch({payload: dirName}, {call, put, select}) {
+      		var val = yield select(state => state.file.newFileInput.value);
+			var mkResult = yield request('fs/write', {
+      			method: 'POST',
+      			body: JSON.stringify({
+      				fileName: localStorage.currentFolder + val,
+      				data: ''
+      			})
+      		});
+      		yield put({type: 'fetchFileList'});
       	},
 
       	*renameFile({payload: dirName, newDirName}, {call, put}) {
@@ -103,21 +123,18 @@ export default {
       	},
 
       	*handleNewFile({payload: fileName}, {call, put, select}) {
-      		console.log(yield select(state => state.file.newFileInput.value));
       	},
 
       	*handleNewFolder({payload: fileName}, {call, put, select}) {
-      		console.log(yield select(state => state.file.newFileInput.value));
       	},
 
       	*handleUpload({payload: fileName}, {call, put, select}) {
-      		console.log(yield select(state => state.file.newFileInput.value));
+      		var val = yield select(state => state.file.uploadInput.value);
       	},
 
       	*handleSearch({payload: fileName}, {call, put, select}) {
-      		console.log(yield select(state => state.file.newFileInput.value));
+      		var val = yield select(state => state.file.searchInput.value);
       	}
-
 
 	},
 
@@ -128,9 +145,18 @@ export default {
 			}};
 		},
 
+		handleNewFolderInputVisible(state) {
+			console.log('handleNewFolderInputVisible');
+			return {...state, newFolderInput: {
+				visible: false,
+				value: ''
+			}};
+		},
+
 		handleNewFolderInputChange(state, {payload: val}) {
 			return {...state, newFolderInput: {
-				value: val
+				value: val,
+				visible: true
 			}};
 		},
 

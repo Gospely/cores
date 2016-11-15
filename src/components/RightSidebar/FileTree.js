@@ -21,6 +21,7 @@ const FileTree = (props) => {
 
   const buttonWidth = 70;
 
+  localStorage.currentFolder = localStorage.currentFolder || 'node-hello_ivydom';
 
   const FileTreeProps = {
     treeData: props.file.treeData,
@@ -28,6 +29,10 @@ const FileTree = (props) => {
     onSelect: function(e) {
       if(e.length > 0) {
         localStorage.currentSelectedFile = e[0];
+        var file = e[0];
+        file = file.split('/');
+        file.pop();
+        localStorage.currentFolder = file.join('/') + '/';        
       }
     },
 
@@ -60,7 +65,7 @@ const FileTree = (props) => {
 
       onPressEnter: function(e) {
         props.dispatch({
-          type: 'file/handleNewFile'
+          type: 'file/touch'
         })
       }
     },
@@ -78,7 +83,7 @@ const FileTree = (props) => {
 
       onPressEnter: function() {
         props.dispatch({
-          type: 'file/handleNewFolder'
+          type: 'file/mkdir'
         })
       }
     },
@@ -122,8 +127,8 @@ const FileTree = (props) => {
   }
 
   const btnCls = {
-    antSearchBtn: true,
-    antSearchBtnNoempty: !!props.file.newFileInput.value.trim(),
+    borderRadius: '0px',
+    marginLeft: '-1px'
   };
 
   const searchCls = {
@@ -133,6 +138,8 @@ const FileTree = (props) => {
 
   const newFilePop = {
     title: <span>新建文件</span>,
+
+    visbile: props.file.newFileInput.visbile,
 
     content: (
       <InputGroup style={searchCls}>
@@ -149,6 +156,8 @@ const FileTree = (props) => {
   const newFolderPop = {
     title: <span>新建文件夹</span>,
 
+    visbile: props.file.newFolderInput.visbile,
+
     content: (
       <InputGroup style={searchCls}>
         <Input 
@@ -164,6 +173,8 @@ const FileTree = (props) => {
   const uploadFilePop = {
     title: <span>上传文件</span>,
 
+    visbile: props.file.uploadInput.visbile,
+
     content: (
       <InputGroup style={searchCls}>
         <Input 
@@ -178,6 +189,8 @@ const FileTree = (props) => {
 
   const searchFilePop = {
     title: <span>搜索文件</span>,
+
+    visbile: props.file.searchInput.visbile,
 
     content: (
       <InputGroup style={searchCls}>
