@@ -206,7 +206,6 @@ export default {
 	reducers: {
 		showContextMenu(state, {payload: proxy}) {
 			var evt = proxy.event;
-			console.log(evt.clientX, evt.clientY);
 			return {...state, contextMenuStyles: {
 				display: 'block',
 				position: 'fixed',

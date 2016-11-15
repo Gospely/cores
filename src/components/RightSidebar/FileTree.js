@@ -29,6 +29,12 @@ const FileTree = (props) => {
     display:  props.file.contextMenuStyles.display
   } 
 
+  document.addEventListener('click', function() {
+    props.dispatch({
+      type: 'file/hideContextMenu'
+    })
+  })
+
   localStorage.currentFolder = localStorage.currentFolder || 'node-hello_ivydom';
 
   const FileTreeProps = {
@@ -108,8 +114,6 @@ const FileTree = (props) => {
       localStorage.currentFolder = fileName;
 
       localStorage.currentFileIsDir = !proxy.node.props.isLeaf;
-
-      console.log(proxy);
       props.dispatch({
         type: 'file/showContextMenu',
         payload: proxy
@@ -301,7 +305,7 @@ const FileTree = (props) => {
   }
 
   const fileTreeMenuProps = {
-    onSelect: function(item) {
+    onClick: function(item) {
 
       var action = {
         read: function() {
