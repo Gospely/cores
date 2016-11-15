@@ -20,13 +20,14 @@ const FileTree = (props) => {
   );
 
   const buttonWidth = 70;
+  var preClickTimestamp = 0;
 
   localStorage.currentFolder = localStorage.currentFolder || 'node-hello_ivydom';
 
   const FileTreeProps = {
     treeData: props.file.treeData,
 
-    onSelect: function(e) {
+    onSelect: function(e, node) {
       if(e.length > 0) {
         localStorage.currentSelectedFile = e[0];
         var file = e[0];
@@ -34,6 +35,22 @@ const FileTree = (props) => {
         file.pop();
         localStorage.currentFolder = file.join('/') + '/';        
       }
+
+      var currentClickTimestamp = new Date().getTime();
+
+      if(currentClickTimestamp - preClickTimestamp <= 200) {
+
+        if(node.node.props.isLeaf) {
+          props.dispatch({
+            type: 'file/readFile',
+            payload: localStorage.currentSelectedFile.split('/').pop()
+          })
+        }
+
+      }
+
+      preClickTimestamp = currentClickTimestamp;
+
     },
 
     onCheck: function() {
@@ -50,6 +67,10 @@ const FileTree = (props) => {
           }
         })
       });
+    },
+
+    onRightClick: function(proxy) {
+      console.log(proxy);
     },
 
     newFileInput: {
@@ -256,6 +277,7 @@ const FileTree = (props) => {
         onSelect={FileTreeProps.onSelect}
         onCheck={FileTreeProps.onCheck}
         loadData={FileTreeProps.onLoadData}
+        onRightClick={FileTreeProps.onRightClick}
       >
         {treeNodes}
       </Tree>

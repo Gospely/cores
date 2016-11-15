@@ -115,7 +115,23 @@ export default {
       	},
 
       	*readFile({payload: fileName}, {call, put}) {
-
+			var readResult = yield request('fs/read', {
+      			method: 'POST',
+      			body: JSON.stringify({
+      				fileName: localStorage.currentFolder + fileName,
+      			})
+      		});
+      		var content = readResult.data
+      		content = content.fields;
+      		console.log(content);
+			yield put({
+				type: 'devpanel/add',
+				payload: {
+					title: content.fileName,
+					type: 'editor',
+					content: content.content
+				}
+			})
       	},
 
       	*writeFile({payload: fileName, content}, {call, put}) {
