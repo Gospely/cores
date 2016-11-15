@@ -46,7 +46,7 @@ const FileTree = (props) => {
 
     onLoadData: function(treeNode) {
       props.dispatch({
-        type: 'file/treeOnLoadData',
+        type: 'file/fetchFileNode',
         payload: treeNode
       })
     }
@@ -54,9 +54,9 @@ const FileTree = (props) => {
 
   const loopData = data => data.map((item) => {
     if (item.children) {
-      return <TreeNode title={item.name} key={item.key}>{loop(item.children)}</TreeNode>;
+      return <TreeNode title={item.name} key={item.key}>{loopData(item.children)}</TreeNode>;
     }
-    return <TreeNode title={item.name} key={item.key} isLeaf={item.isLeaf} disabled={item.key === '0-0-0'} />;
+    return <TreeNode title={item.name} key={item.key} isLeaf={item.isLeaf} disabled={item.key === 'root'} />;
   });
 
   const treeNodes = loopData(FileTreeProps.treeData);
@@ -91,10 +91,10 @@ const FileTree = (props) => {
         </Row>
       </div>
 
-      <Tree className="myCls" showLine defaultExpandAll
+      <Tree className="myCls" showLine
         onSelect={FileTreeProps.onSelect}
         onCheck={FileTreeProps.onCheck}
-        onLoadData={FileTreeProps.onLoadData}
+        loadData={FileTreeProps.onLoadData}
       >
         {treeNodes}
       </Tree>

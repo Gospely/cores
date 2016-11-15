@@ -21,6 +21,40 @@ export default {
 		*fetchFileList(payload, {call, put}) {
       		var fileList = yield request('fs/list/file/?id=node-hello_ivydom');
 	      	yield put({ type: 'list', payload: fileList });
+      	},
+
+      	*fetchFileNode({payload: node}, {call, put}) {
+      		const dirName = node.props.eventKey;
+      		var fileList = yield request('fs/list/file/?id=' + dirName);
+      		yield put({ type: 'treeOnLoadData', payload: fileList });
+      	},
+
+      	*mkdir({payload: dirName}, {call, put}) {
+
+      	},
+
+      	*touch({payload: dirName}, {call, put}) {
+
+      	},
+
+      	*renameFile({payload: dirName, newDirName}, {call, put}) {
+
+      	},
+
+      	removeFile({payload: fileName}, {call, put}) {
+
+      	},
+
+      	mvFile({payload: fileName, newFileName}, {call, put}) {
+
+      	},
+
+      	readFile({payload: fileName}, {call, put}) {
+
+      	},
+
+      	writeFile({payload: fileName, content}, {call, put}) {
+
       	}
 	},
 
@@ -58,18 +92,16 @@ export default {
 		},
 
 		list (state, {payload: list}) {
-			console.log(list);
-
 			var data = list.data, 
 				tree = [];
 
-			for (var i = data.length - 1; i >= 0; i--) {
+			for (var i = 0; i <= data.length - 1; i++) {
 				var curr = data[i],
 					tmpTree = {};
 
 				tmpTree.name = curr.text;
 				tmpTree.key = curr.id;
-				tmpTree.isLeaf = curr.children;
+				tmpTree.isLeaf = !curr.children;
 				tmpTree.original = curr;
 
 				tree.push(tmpTree);
@@ -86,15 +118,16 @@ export default {
 
 		},
 
-		treeOnLoadData (state, {payload: treeNode}) {
-		    return new Promise((resolve) => {
-		      	setTimeout(() => {
-		        	const treeData = [...state.treeData];
-		        	getNewTreeData(treeData, treeNode.props.eventKey, generateTreeNodes(treeNode), 2);
-		        	this.setState({ treeData });
-		        	resolve();
-		      	}, 1000);
-		    });
+		treeOnLoadData (state, {payload: fileList }) {
+			var files = fileList.data,
+				parentDirName = '';
+
+			if(files.length > 0) {
+				parentDirName = files[0].folder;
+			}
+
+		    console.log(files, parentDirName);
+			return {...state};
 		}
 	}
 
