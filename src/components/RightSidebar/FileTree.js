@@ -34,6 +34,26 @@ const FileTree = (props) => {
   const FileTreeProps = {
     treeData: props.file.treeData,
 
+    onDragEnter: function(info) {
+    },
+
+    onDrop: function(info) {
+      const dropFolder = info.node.props.eventKey;
+      var dragFile = info.dragNode.props.eventKey;
+
+      if(!info.node.props.isLeaf) {
+        props.dispatch({
+          type: 'file/mvFile',
+          payload: {
+            fileName: dragFile.split('/').pop(),
+            newFileName: dropFolder
+          }
+        })
+      }else {
+        message.error('请将文件移动到文件夹');
+      }
+    },
+
     onSelect: function(e, node) {
       if(e.length > 0) {
         localStorage.currentSelectedFile = e[0];
@@ -413,6 +433,9 @@ const FileTree = (props) => {
         onCheck={FileTreeProps.onCheck}
         loadData={FileTreeProps.onLoadData}
         onRightClick={FileTreeProps.onRightClick}
+        draggable={true}
+        onDragEnter={FileTreeProps.onDragEnter}
+        onDrop={FileTreeProps.onDrop}
       >
         {treeNodes}
       </Tree>
