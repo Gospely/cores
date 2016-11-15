@@ -1,41 +1,34 @@
-import React , {PropTypes} from 'react';
-import { Tree, Button, Icon, Tooltip, Row, Col } from 'antd';
+import React , { PropTypes } from 'react';
+import { Tree, Button, Icon, Tooltip, Row, Col, Popover, Input} from 'antd';
 import TreeStyle from './styles.css';
 import EditorStyle from '../Panel/Editor.css';
 
 import { connect } from 'dva';
 
 const TreeNode = Tree.TreeNode;
-
 const ButtonGroup = Button.Group;
+const InputGroup = Input.Group;
 
 const FileTree = (props) => {
 
-  var onLoadData = function(treeNode) {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const treeData = [...treeData];
-        getNewTreeData(treeData, treeNode.props.eventKey, generateTreeNodes(treeNode), 2);
-        this.setState({ treeData });
-        resolve();
-      }, 1000);
-    });
-  }
+  const text = <span>Title</span>;
+  const content = (
+    <div>
+      <p>Content</p>
+      <p>Content</p>
+    </div>
+  );
 
-  function generateTreeNodes(treeNode) {
-    const arr = [];
-    const key = treeNode.props.eventKey;
-    for (let i = 0; i < 3; i++) {
-      arr.push({ name: `leaf ${key}-${i}`, key: `${key}-${i}` });
-    }
-    return arr;
-  }
+  const buttonWidth = 70;
+
 
   const FileTreeProps = {
     treeData: props.file.treeData,
 
     onSelect: function(e) {
-      console.log(e);
+      if(e.length > 0) {
+        localStorage.currentSelectedFile = e[0];
+      }
     },
 
     onCheck: function() {
@@ -52,8 +45,132 @@ const FileTree = (props) => {
           }
         })
       });
+    },
+
+    newFileInput: {
+
+      value: props.file.newFileInput.value,
+
+      onChange: function() {
+
+      },
+
+      onPressEnter: function() {
+
+      }
+    },
+
+    newFolderInput: {
+
+      value: props.file.newFolderInput.value,
+
+      onChange: function() {
+
+      },
+
+      onPressEnter: function() {
+
+      }
+    },
+
+    uploadInput: {
+
+      value: props.file.uploadInput.value,
+
+      onChange: function() {
+
+      },
+
+      onPressEnter: function() {
+
+      }
+    },
+
+    searchInput: {
+
+      value: props.file.searchInput.value,
+
+      onChange: function() {
+
+      },
+
+      onPressEnter: function() {
+
+      }
     }
+
   }
+
+  const btnCls = {
+    'ant-search-btn': true,
+    'ant-search-btn-noempty': !!props.file.newFileInput.value.trim(),
+  };
+
+  const searchCls = {
+    'ant-search-input': true,
+    'ant-search-input-focus': props.file.focus,
+  };
+
+  const newFilePop = {
+    title: <span>新建文件</span>,
+
+    content: (
+      <InputGroup style={searchCls}>
+        <Input 
+          {...FileTreeProps.newFileInput}
+        />
+        <div className="ant-input-group-wrap">
+          <Button icon="plus" style={btnCls} onClick="FileTreeProps.newFileInput.onPressEnter"/>
+        </div>
+      </InputGroup>
+    )
+  }
+
+  const newFolderPop = {
+    title: <span>新建文件夹</span>,
+
+    content: (
+      <InputGroup style={searchCls}>
+        <Input 
+          {...FileTreeProps.newFolderInput}
+        />
+        <div className="ant-input-group-wrap">
+          <Button icon="plus" style={btnCls} onClick="FileTreeProps.newFolderInput.onPressEnter"/>
+        </div>
+      </InputGroup>
+    )
+  }
+
+  const uploadFilePop = {
+    title: <span>上传文件</span>,
+
+    content: (
+      <InputGroup style={searchCls}>
+        <Input 
+          {...FileTreeProps.searchInput}
+        />
+        <div className="ant-input-group-wrap">
+          <Button icon="plus" style={btnCls} onClick="FileTreeProps.searchInput.onPressEnter"/>
+        </div>
+      </InputGroup>
+    )
+  }
+
+  const searchFilePop = {
+    title: <span>搜索文件</span>,
+
+    content: (
+      <InputGroup style={searchCls}>
+        <Input 
+          {...FileTreeProps.uploadInput}
+        />
+        <div className="ant-input-group-wrap">
+          <Button icon="plus" style={btnCls} onClick="FileTreeProps.uploadInput.onPressEnter"/>
+        </div>
+      </InputGroup>
+    )
+  }
+
 
   const loopData = data => data.map((item) => {
     if (item.children) {
@@ -73,22 +190,30 @@ const FileTree = (props) => {
         <Row>
           <Col span={6}>
             <Tooltip placement="bottom" title="新建文件">
-              <Button className={EditorStyle.topbarBtnColumn}><Icon type="file-text" /></Button>
+              <Popover placement="left" {...newFilePop} trigger="click">
+                <Button onClick={FileTreeProps.createFile} className={EditorStyle.topbarBtnColumn}><Icon type="file-text" /></Button>
+              </Popover>
             </Tooltip>
           </Col>
           <Col span={6}>
             <Tooltip placement="bottom" title="新建文件夹">
-              <Button className={EditorStyle.topbarBtnColumn}><Icon type="folder" /></Button>
+              <Popover placement="left" {...newFolderPop} trigger="click">
+                <Button onClick={FileTreeProps.createFoler} className={EditorStyle.topbarBtnColumn}><Icon type="folder" /></Button>
+              </Popover>
             </Tooltip>
           </Col>
           <Col span={6}>
             <Tooltip placement="bottom" title="上传文件">
-              <Button className={EditorStyle.topbarBtnColumn}><Icon type="cloud-upload-o" /></Button>
+              <Popover placement="left" {...uploadFilePop} trigger="click">
+                <Button onClick={FileTreeProps.uploadFile} className={EditorStyle.topbarBtnColumn}><Icon type="cloud-upload-o" /></Button>
+              </Popover>
             </Tooltip>
           </Col>
           <Col span={6}>
             <Tooltip placement="bottom" title="搜索文件">
-              <Button className={EditorStyle.topbarBtnColumn}><Icon type="search" /></Button>
+              <Popover placement="left" {...searchFilePop} trigger="click">
+                <Button onClick={FileTreeProps.searchFile} className={EditorStyle.topbarBtnColumn}><Icon type="search" /></Button>
+              </Popover>
             </Tooltip>
           </Col>
         </Row>

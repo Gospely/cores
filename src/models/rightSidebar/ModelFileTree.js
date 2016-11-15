@@ -1,10 +1,51 @@
 import dva from 'dva';
 import request from '../../utils/request.js';
 
+const findParentNode = (treeData, parentDirName, lvl) => {
+	var parentNode;
+	for (var i = 0; i < treeData.length; i++) {
+		var node = treeData[i];
+
+		if(node.key + '/' == parentDirName || node.key == parentDirName) {
+			parentNode = {
+				node: node,
+				index: i,
+				lvl: lvl
+			};
+			return parentNode;
+		}
+
+		if(node.children) {
+			parentNode = findParentNode(node.children, parentDirName, lvl + 1);
+			if(parentNode) {
+				return parentNode;
+			}
+		}
+	};
+}
+
 export default {
 	namespace: 'file',
 	state: {
-		treeData: []
+		treeData: [],
+
+		focus: false,
+
+		newFileInput: {
+			value: '未命名'
+		},
+
+		newFolderInput: {
+			value: '未命名'
+		},
+
+		uploadInput: {
+			value: ''
+		},
+
+		searchInput: {
+			value: ''
+		}
 	},
 
 	subscriptions: {
@@ -130,32 +171,7 @@ export default {
 				childNode = [],
 				parentNodeIndex;
 
-			const findParentNode = (treeData, parentDirName, lvl) => {
-				var parentNode;
-				for (var i = 0; i < treeData.length; i++) {
-					var node = treeData[i];
-
-					if(node.key + '/' == parentDirName || node.key == parentDirName) {
-						parentNode = {
-							node: node,
-							index: i,
-							lvl: lvl
-						};
-						return parentNode;
-					}
-
-					if(node.children) {
-						parentNode = findParentNode(node.children, parentDirName, lvl + 1);
-						if(parentNode) {
-							return parentNode;
-						}
-					}
-				};
-			}
-
 			var parentNode = findParentNode(state.treeData, parentDirName, 1);
-
-			console.log('currentNode', parentNode);
 
 			const generatorNode = (files) => {
 				var childNode = [];
@@ -176,19 +192,19 @@ export default {
 			  		var parentNodeA = parent.node.original.folder;
 			  		parentNodeA = findParentNode(data, parentNodeA, parent.lvl - 1);
 
-			  		console.log('parentNodeA', parentNodeA);
 			  		if(!parentNodeA) {
-						// state.treeData[parentNode.index].children = childNode;
 						data[parentNode.index].children = childNode;
 			  		}else {
-			  			console.log(data, parent);
 			  			var currNode = data[parentNodeA.index];
-			  			console.log(currNode);
 			  			if(!currNode) {
 			  				loopLeaf(parentNodeA.node.children, parent);
 			  			}else {
 			  				currNode = currNode.children;
-							currNode[parent.index].children = childNode;			  				
+			  				if(!currNode) {
+			  					loopLeaf(parentNodeA.node.children, parent);
+			  				}else {
+								currNode[parent.index].children = childNode;			  					
+			  				}
 			  			}
 			  		}
 			  	};
