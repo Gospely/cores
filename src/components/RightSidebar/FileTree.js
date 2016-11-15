@@ -11,8 +11,6 @@ const ButtonGroup = Button.Group;
 
 const FileTree = (props) => {
 
-  console.log(props);
-
   var onLoadData = function(treeNode) {
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -45,10 +43,15 @@ const FileTree = (props) => {
     },
 
     onLoadData: function(treeNode) {
-      props.dispatch({
-        type: 'file/fetchFileNode',
-        payload: treeNode
-      })
+      return new Promise((resolve) => {
+        props.dispatch({
+          type: 'file/fetchFileNode',
+          payload: {
+            treeNode,
+            resolve
+          }
+        })
+      });
     }
   }
 

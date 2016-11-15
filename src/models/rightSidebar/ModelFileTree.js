@@ -23,10 +23,12 @@ export default {
 	      	yield put({ type: 'list', payload: fileList });
       	},
 
-      	*fetchFileNode({payload: node}, {call, put}) {
-      		const dirName = node.props.eventKey;
+      	*fetchFileNode({payload: params}, {call, put}) {
+      		console.log(params);
+      		const dirName = params.treeNode.props.eventKey;
       		var fileList = yield request('fs/list/file/?id=' + dirName);
       		yield put({ type: 'treeOnLoadData', payload: fileList });
+      		params.resolve();
       	},
 
       	*mkdir({payload: dirName}, {call, put}) {
@@ -126,9 +128,48 @@ export default {
 				parentDirName = files[0].folder;
 			}
 
-		    console.log(files, parentDirName);
+			var treeData = state.treeData,
+				childNode = [],
+				parentNodeIndex;
+
+			treeData.map((node, key) => {
+				if(node.key + '/' == parentDirName) {
+
+					files.map(file => {
+
+						parentNodeIndex = key;
+						var tmpChild = {};
+						tmpChild.name = file.text;
+						tmpChild.key = file.id;
+						tmpChild.isLeaf = !file.children;
+						tmpChild.original = file;
+
+						childNode.push(tmpChild);
+
+					})
+				}
+			});
+
+			if(parentNodeIndex == undefined) {
+				throw '不匹配的文件树'
+			}
+
+			state.treeData[parentNodeIndex].children = childNode;
+
 			return {...state};
 		}
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
