@@ -1,6 +1,7 @@
 import './index.html';
 import './index.less';
 import dva from 'dva';
+import { message } from 'antd';
 
 import createLoading from 'dva-loading';
 
@@ -14,6 +15,10 @@ const app = dva({
 			name: 'antd',
 			id: 2
 		}]
+	},
+
+	onError(e) {
+	  	message.error(e.message);
 	}
 });
 
@@ -28,6 +33,7 @@ app.model(require('./models/ModelDevPanels'));
 app.model(require('./models/editor/ModelTop'));
 app.model(require('./models/editor/ModelEditor'));
 app.model(require('./models/rightSidebar/ModelLayout'));
+app.model(require('./models/rightSidebar/ModelFileTree'));
 
 // 4. Router
 app.router(require('./router'));

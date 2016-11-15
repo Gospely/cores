@@ -142,12 +142,8 @@ const Editor = (props) => {
   		activeKey: props.devpanel.activeKey
   	}
 
-  	console.log(editorBottomProps);
-
   	var aceHeight = ( parseInt(document.body.clientHeight) - 62 ) + 'px', 
   		editorId = randomWord(8, 10);
-
-  	console.log(aceHeight, editorId);
 
   	return (
 		<div className={EditorStyle.aceEditor}>

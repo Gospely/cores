@@ -5,6 +5,7 @@ import ConstructionTree from './RightSidebar/ConstructionTree';
 import FileTree from './RightSidebar/FileTree';
 import Controllers from './RightSidebar/Controllers';
 import CloumnLayout from './RightSidebar/CloumnLayout';
+import Attr from './RightSidebar/Attr';
 
 const TabPane = Tabs.TabPane;
 
@@ -34,6 +35,9 @@ const RightSidebar = () => {
 	    	<TabPane style={styles.tab} tab={<span style={styles.span}><Icon style={styles.icon} type="bars" />控件</span>} key="1">
 	    		<Controllers></Controllers>
 	    	</TabPane>
+	    	<TabPane style={styles.tab} tab={<span style={styles.span}><Icon style={styles.icon} type="exception" />属性</span>} key="attr">
+
+	    	</TabPane>	    	
 	    	<TabPane style={styles.tab} tab={<span style={styles.span}><Icon style={styles.icon} type="file-text" />结构</span>} key="2">
 	    		<ConstructionTree></ConstructionTree>
 	    	</TabPane>

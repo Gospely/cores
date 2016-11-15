@@ -1,21 +1,65 @@
 import React , {PropTypes} from 'react';
-import { Tree, Button, Icon, Tooltip, Row, Col} from 'antd';
+import { Tree, Button, Icon, Tooltip, Row, Col } from 'antd';
 import TreeStyle from './styles.css';
 import EditorStyle from '../Panel/Editor.css';
+
+import { connect } from 'dva';
 
 const TreeNode = Tree.TreeNode;
 
 const ButtonGroup = Button.Group;
 
-const ConstructionTree = () => {
+const FileTree = (props) => {
 
-	var onSelect = function () {
+  console.log(props);
 
-	}
+  var onLoadData = function(treeNode) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const treeData = [...treeData];
+        getNewTreeData(treeData, treeNode.props.eventKey, generateTreeNodes(treeNode), 2);
+        this.setState({ treeData });
+        resolve();
+      }, 1000);
+    });
+  }
 
-	var onCheck = function() {
+  function generateTreeNodes(treeNode) {
+    const arr = [];
+    const key = treeNode.props.eventKey;
+    for (let i = 0; i < 3; i++) {
+      arr.push({ name: `leaf ${key}-${i}`, key: `${key}-${i}` });
+    }
+    return arr;
+  }
 
-	}
+  const FileTreeProps = {
+    treeData: props.file.treeData,
+
+    onSelect: function(e) {
+      console.log(e);
+    },
+
+    onCheck: function() {
+
+    },
+
+    onLoadData: function(treeNode) {
+      props.dispatch({
+        type: 'file/treeOnLoadData',
+        payload: treeNode
+      })
+    }
+  }
+
+  const loopData = data => data.map((item) => {
+    if (item.children) {
+      return <TreeNode title={item.name} key={item.key}>{loop(item.children)}</TreeNode>;
+    }
+    return <TreeNode title={item.name} key={item.key} isLeaf={item.isLeaf} disabled={item.key === '0-0-0'} />;
+  });
+
+  const treeNodes = loopData(FileTreeProps.treeData);
 
   return (
 
@@ -48,19 +92,11 @@ const ConstructionTree = () => {
       </div>
 
       <Tree className="myCls" showLine defaultExpandAll
-        onSelect={onSelect} onCheck={onCheck}
+        onSelect={FileTreeProps.onSelect}
+        onCheck={FileTreeProps.onCheck}
+        onLoadData={FileTreeProps.onLoadData}
       >
-      
-        <TreeNode title=".git" key="0-0">
-          <TreeNode title="branches" key="0-0-0">
-        <TreeNode title="hook" key="0-0-0-0" />
-            <TreeNode title="objects" key="0-0-0-1" />
-          </TreeNode>
-            <TreeNode title="index.php" key="0-0-1">
-              <TreeNode title={<span style={{ color: '#08c' }}>sss</span>} key="0-0-1-0" />
-            </TreeNode>
-        </TreeNode>
-
+        {treeNodes}
       </Tree>
 
     </div>
@@ -69,4 +105,9 @@ const ConstructionTree = () => {
 
 };
 
-export default ConstructionTree;
+function mapStateToProps({ file }) {
+  return { file };
+}
+
+
+export default connect(mapStateToProps)(FileTree);
