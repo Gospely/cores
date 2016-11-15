@@ -1,5 +1,5 @@
 import React , { PropTypes } from 'react';
-import { Tree, Button, Icon, Tooltip, Row, Col, Popover, Input} from 'antd';
+import { Tree, Button, Icon, Tooltip, Row, Col, Popover, Input, Dropdown, Menu} from 'antd';
 import TreeStyle from './styles.css';
 import EditorStyle from '../Panel/Editor.css';
 
@@ -22,6 +22,13 @@ const FileTree = (props) => {
   const buttonWidth = 70;
   var preClickTimestamp = 0;
 
+  const fileTreeMenuStyles = {
+    position: props.file.contextMenuStyles.position,
+    top: props.file.contextMenuStyles.top,
+    left: props.file.contextMenuStyles.left,
+    display:  props.file.contextMenuStyles.display
+  } 
+
   localStorage.currentFolder = localStorage.currentFolder || 'node-hello_ivydom';
 
   const FileTreeProps = {
@@ -38,6 +45,7 @@ const FileTree = (props) => {
 
       var currentClickTimestamp = new Date().getTime();
 
+      //双击事件
       if(currentClickTimestamp - preClickTimestamp <= 200) {
 
         if(node.node.props.isLeaf) {
@@ -70,7 +78,16 @@ const FileTree = (props) => {
     },
 
     onRightClick: function(proxy) {
-      console.log(proxy);
+      var fileName = proxy.node.props.eventKey;
+      localStorage.currentSelectedFile = fileName;
+      fileName = fileName.split('/');
+      fileName.pop();
+      fileName = fileName.join('/') + '/';
+      localStorage.currentFolder = fileName;
+      props.dispatch({
+        type: 'file/showContextMenu',
+        payload: proxy
+      });
     },
 
     newFileInput: {
@@ -225,12 +242,67 @@ const FileTree = (props) => {
     )
   }
 
+  const fileTreeMenuProps = {
+    onSelect: function(item) {
+
+      var action = {
+        read: function() {
+          props.dispatch({
+            type: 'file/readFile',
+            payload: localStorage.currentSelectedFile.split('/').pop()
+          })
+          props.dispatch({
+            type: 'file/hideContextMenu'
+          })
+        },
+
+        rename: function() {
+
+        },
+
+        copy: function() {
+
+        },
+
+        paste: function() {
+
+        },
+
+        cut: function() {
+
+        },
+
+        remove: function() {
+
+        }
+      }
+
+      action[item.key]();
+
+    }
+  }
+
+  const fileTreeMenu = (
+    <Menu style={fileTreeMenuStyles} {...fileTreeMenuProps} className="context-menu">
+      <Menu.Item key="read">打开</Menu.Item>
+      <Menu.Item key="rename">重命名</Menu.Item>
+      <Menu.Divider />
+      <Menu.Item key="copy">复制</Menu.Item>
+      <Menu.Item key="paste">粘贴</Menu.Item>
+      <Menu.Divider />
+      <Menu.Item key="cut">剪切</Menu.Item>
+      <Menu.Divider />
+      <Menu.Item key="remove">删除</Menu.Item>
+    </Menu>
+  );
 
   const loopData = data => data.map((item) => {
     if (item.children) {
       return <TreeNode title={item.name} key={item.key}>{loopData(item.children)}</TreeNode>;
     }
-    return <TreeNode title={item.name} key={item.key} isLeaf={item.isLeaf} disabled={item.key === 'root'} />;
+    return (
+        <TreeNode title={item.name} key={item.key} isLeaf={item.isLeaf} disabled={item.key === 'root'} />
+    );
   });
 
   const treeNodes = loopData(FileTreeProps.treeData);
@@ -272,6 +344,8 @@ const FileTree = (props) => {
           </Col>
         </Row>
       </div>
+
+      {fileTreeMenu}
 
       <Tree className="myCls" showLine
         onSelect={FileTreeProps.onSelect}

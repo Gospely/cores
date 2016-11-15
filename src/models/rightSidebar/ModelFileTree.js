@@ -49,6 +49,13 @@ export default {
 		searchInput: {
 			value: '',
 			visible: false
+		},
+
+		contextMenuStyles: {
+		    position: 'fixed',
+		    top: '',
+		    left: '',
+		    display: 'none'
 		}
 	},
 
@@ -155,6 +162,22 @@ export default {
 	},
 
 	reducers: {
+		showContextMenu(state, {payload: proxy}) {
+			console.log(proxy.event.target);
+			return {...state, contextMenuStyles: {
+				display: 'block',
+				position: 'fixed',
+				top: proxy.event.target.clientX,
+				left: proxy.event.target.clientY
+			}}
+		},
+
+		hideContextMenu(state) {
+			return {...state, contextMenuStyles: {
+				display: 'none'
+			}}
+		},
+
 		handleNewFileInputChange(state, {payload: val}) {
 			return {...state, newFileInput: {
 				value: val
