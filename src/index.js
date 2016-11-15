@@ -5,6 +5,9 @@ import { message } from 'antd';
 
 import createLoading from 'dva-loading';
 
+localStorage.itemToCut = localStorage.itemToCut || undefined;
+localStorage.itemToCopy = localStorage.itemToCopy || undefined;
+
 // 1. Initialize
 const app = dva({
 	initialState: {

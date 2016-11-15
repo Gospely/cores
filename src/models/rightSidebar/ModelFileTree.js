@@ -174,7 +174,10 @@ export default {
 
 		hideContextMenu(state) {
 			return {...state, contextMenuStyles: {
-				display: 'none'
+				display: 'none',
+				position: 'fixed',
+				top: '',
+				left: ''
 			}}
 		},
 

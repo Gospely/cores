@@ -1,5 +1,5 @@
 import React , { PropTypes } from 'react';
-import { Tree, Button, Icon, Tooltip, Row, Col, Popover, Input, Dropdown, Menu} from 'antd';
+import { Tree, Button, Icon, Tooltip, Row, Col, Popover, Input, Dropdown, Menu, Popconfirm, message} from 'antd';
 import TreeStyle from './styles.css';
 import EditorStyle from '../Panel/Editor.css';
 
@@ -251,9 +251,6 @@ const FileTree = (props) => {
             type: 'file/readFile',
             payload: localStorage.currentSelectedFile.split('/').pop()
           })
-          props.dispatch({
-            type: 'file/hideContextMenu'
-          })
         },
 
         rename: function() {
@@ -261,15 +258,27 @@ const FileTree = (props) => {
         },
 
         copy: function() {
-
+          localStorage.itemToCopy = localStorage.currentSelectedFile;
+          localStorage.itemToCut = undefined;
         },
 
         paste: function() {
+          var item = localStorage.itemToCopy;
 
+          if(item == 'undefined') {
+            item = localStorage.itemToCut;
+          }
+
+          if(item == 'undefined') {
+            message.error('请选择要操作的项目!');
+          }
+
+          localStorage.itemToCopy = undefined;
         },
 
         cut: function() {
-
+          localStorage.itemToCut = localStorage.currentSelectedFile;
+          localStorage.itemToCopy = undefined;
         },
 
         remove: function() {
@@ -278,6 +287,9 @@ const FileTree = (props) => {
       }
 
       action[item.key]();
+      props.dispatch({
+        type: 'file/hideContextMenu'
+      })
 
     }
   }
