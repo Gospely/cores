@@ -140,9 +140,28 @@ export default {
       		yield put({type: 'fetchFileList'});
       	},
 
-      	*mvFile({payload: fileName, newFileName}, {call, put}) {
-
+      	*mvFile({payload: params}, {call, put}) {
+			var mkResult = yield request('fs/move/', {
+				method: 'POST',
+				body: JSON.stringify({
+					fileName: localStorage.currentFolder + params.dirName,
+					newFileName: localStorage.currentFolder + params.newFileName,
+					move: true
+				})
+			});
+      		yield put({type: 'fetchFileList'});
       	},
+
+      	*copyFile({payload: params}, {call, put}) {
+			var mkResult = yield request('fs/move/', {
+				method: 'POST',
+				body: JSON.stringify({
+					file: localStorage.currentFolder + params.dirName,
+					newFile: params.newFileName
+				})
+			});
+      		yield put({type: 'fetchFileList'});
+      	},      	
 
       	*readFile({payload: fileName}, {call, put}) {
 			var readResult = yield request('fs/read', {
@@ -166,12 +185,6 @@ export default {
 
       	*writeFile({payload: fileName, content}, {call, put}) {
 
-      	},
-
-      	*handleNewFile({payload: fileName}, {call, put, select}) {
-      	},
-
-      	*handleNewFolder({payload: fileName}, {call, put, select}) {
       	},
 
       	*handleUpload({payload: fileName}, {call, put, select}) {

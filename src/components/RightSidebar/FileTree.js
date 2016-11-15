@@ -277,15 +277,30 @@ const FileTree = (props) => {
         paste: function() {
           var item = localStorage.itemToCopy;
 
-          if(item == 'undefined') {
-            item = localStorage.itemToCut;
+          if(item != 'undefined') {
+            props.dispatch({
+              type: 'file/copyFile',
+              payload: {
+                fileName: localStorage.currentSelectedFile.split('/').pop(),
+                newFileName: localStorage.currentFolder + item.split('/').pop()
+              }
+            });
           }
 
-          if(item == 'undefined') {
-            message.error('请选择要操作的项目!');
+          item = localStorage.itemToCut;
+
+          if(item != 'undefined') {
+            props.dispatch({
+              type: 'file/mvFile',
+              payload: {
+                fileName: item.split('/').pop(),
+                newFileName: localStorage.currentFolder + item.split('/').pop()
+              }
+            });
           }
 
           localStorage.itemToCopy = undefined;
+          localStorage.itemToCut = undefined;
         },
 
         cut: function() {
