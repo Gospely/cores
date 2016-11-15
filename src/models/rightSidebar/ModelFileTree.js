@@ -56,6 +56,11 @@ export default {
 		    top: '',
 		    left: '',
 		    display: 'none'
+		},
+
+		renameModal: {
+			visible: false,
+			value: ''
 		}
 	},
 
@@ -109,12 +114,13 @@ export default {
       		yield put({type: 'fetchFileList'});
       	},
 
-      	*renameFile({payload: params}, {call, put}) {
+      	*renameFile({payload: params}, {call, put, select}) {
+      		var val = yield select(state => state.file.renameModal.value);
 			var mkResult = yield request('fs/rename', {
       			method: 'POST',
       			body: JSON.stringify({
       				fileName: localStorage.currentFolder + params.fileName,
-      				newFileName: params.newFileName
+      				newFileName: localStorage.currentFolder + val
       			})
       		});
       		yield put({type: 'fetchFileList'});
@@ -238,6 +244,13 @@ export default {
 			}};
 		},
 
+		handleRenameInputChange(state, {payload: val}) {
+			return {...state, renameModal: {
+				value: val,
+				visible: true
+			}}
+		},
+
 		handleSearchInputChange(state, {payload: val}) {
 			return {...state, searchInput: {
 				value: val
@@ -250,32 +263,16 @@ export default {
 			}};
 		},
 
-		move (state, {payload: key}) {
-			return {...state, current: key};
+		hideRenameModal(state) {
+			return {...state, renameModal: {
+				visible: false
+			}};
 		},
 
-		rename (state, {payload: key}) {
-			return {...state, current: key};
-		},
-
-		copy (state, {payload: key}) {
-			return {...state, current: key};
-		},
-
-		paste (state, {payload: key}) {
-			return {...state, current: key};
-		},
-
-		'delete' (state, {payload: key}) {
-			return {...state, current: key};
-		},
-
-		cut (state, {payload: key}) {
-			return {...state, current: key};
-		},
-
-		read (state, {payload: key}) {
-			return {...state, current: key};
+		showRenameModal(state) {
+			return {...state, renameModal: {
+				visible: true
+			}};
 		},
 
 		write (state, {payload: key}) {

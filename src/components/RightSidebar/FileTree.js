@@ -1,5 +1,5 @@
 import React , { PropTypes } from 'react';
-import { Tree, Button, Icon, Tooltip, Row, Col, Popover, Input, Dropdown, Menu, Popconfirm, message} from 'antd';
+import { Tree, Button, Icon, Tooltip, Row, Col, Popover, Input, Dropdown, Menu, Popconfirm, message, Modal} from 'antd';
 import TreeStyle from './styles.css';
 import EditorStyle from '../Panel/Editor.css';
 
@@ -114,6 +114,38 @@ const FileTree = (props) => {
         type: 'file/showContextMenu',
         payload: proxy
       });
+    },
+
+    renameModal: {
+
+      visible: props.file.renameModal.visible,
+      value: props.file.renameModal.value,
+
+      ok: function() {
+        props.dispatch({
+          type: 'file/renameFile',
+          payload: {
+            fileName: localStorage.currentSelectedFile.split('/').pop()
+          }
+        })
+        props.dispatch({
+          type: 'file/hideRenameModal'
+        })
+      },
+
+      cancel: function() {
+        props.dispatch({
+          type: 'file/hideRenameModal'
+        })
+      },
+
+      onChange: function(e) {
+        props.dispatch({
+          type: 'file/handleRenameInputChange',
+          payload: e.target.value
+        })
+      }
+
     },
 
     newFileInput: {
@@ -281,11 +313,7 @@ const FileTree = (props) => {
 
         rename: function() {
           props.dispatch({
-            type: 'file/renameFile',
-            payload: {
-              fileName: localStorage.currentSelectedFile.split('/').pop(),
-              newFileName: ''
-            }
+            type: 'file/showRenameModal'
           })
         },
 
@@ -391,6 +419,21 @@ const FileTree = (props) => {
   return (
 
     <div className={TreeStyle.wrapper}>
+
+      <Modal title="更改文件名" visible={FileTreeProps.renameModal.visible}
+        onOk={FileTreeProps.renameModal.ok} onCancel={FileTreeProps.renameModal.cancel}
+      >
+        <InputGroup style={searchCls}>
+          <Input 
+            value={FileTreeProps.renameModal.value}
+            onChange={FileTreeProps.renameModal.onChange}
+            onPressEnter={FileTreeProps.renameModal.ok}
+          />
+          <div className="ant-input-group-wrap">
+            <Button icon="check" style={btnCls} onClick={FileTreeProps.renameModal.ok}/>
+          </div>
+        </InputGroup>
+      </Modal>
 
       <div className={TreeStyle.header}>
 
