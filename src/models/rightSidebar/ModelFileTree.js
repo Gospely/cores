@@ -205,12 +205,13 @@ export default {
 
 	reducers: {
 		showContextMenu(state, {payload: proxy}) {
-			console.log(proxy.event.target);
+			var evt = proxy.event;
+			console.log(evt.clientX, evt.clientY);
 			return {...state, contextMenuStyles: {
 				display: 'block',
 				position: 'fixed',
-				top: proxy.event.target.clientX,
-				left: proxy.event.target.clientY
+				top: proxy.event.clientY,
+				left: proxy.event.clientX
 			}}
 		},
 
@@ -218,8 +219,8 @@ export default {
 			return {...state, contextMenuStyles: {
 				display: 'none',
 				position: 'fixed',
-				top: '',
-				left: ''
+				top: 0,
+				left: 0
 			}}
 		},
 
