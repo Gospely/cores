@@ -41,6 +41,7 @@ const FileTree = (props) => {
         file = file.split('/');
         file.pop();
         localStorage.currentFolder = file.join('/') + '/';        
+        localStorage.currentFileIsDir = !node.node.props.isLeaf;
       }
 
       var currentClickTimestamp = new Date().getTime();
@@ -80,10 +81,15 @@ const FileTree = (props) => {
     onRightClick: function(proxy) {
       var fileName = proxy.node.props.eventKey;
       localStorage.currentSelectedFile = fileName;
+
       fileName = fileName.split('/');
       fileName.pop();
       fileName = fileName.join('/') + '/';
       localStorage.currentFolder = fileName;
+
+      localStorage.currentFileIsDir = !proxy.node.props.isLeaf;
+
+      console.log(proxy);
       props.dispatch({
         type: 'file/showContextMenu',
         payload: proxy
@@ -254,7 +260,13 @@ const FileTree = (props) => {
         },
 
         rename: function() {
-
+          props.dispatch({
+            type: 'file/renameFile',
+            payload: {
+              fileName: localStorage.currentSelectedFile.split('/').pop(),
+              newFileName: ''
+            }
+          })
         },
 
         copy: function() {
@@ -282,6 +294,18 @@ const FileTree = (props) => {
         },
 
         remove: function() {
+
+          if(localStorage.currentFileIsDir == 'true') {
+            props.dispatch({
+              type: 'file/rmdir',
+              payload: localStorage.currentSelectedFile.split('/').pop()
+            })
+          }else {
+            props.dispatch({
+              type: 'file/removeFile',
+              payload: localStorage.currentSelectedFile.split('/').pop()
+            })            
+          }
 
         }
       }

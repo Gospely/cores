@@ -109,12 +109,35 @@ export default {
       		yield put({type: 'fetchFileList'});
       	},
 
-      	*renameFile({payload: dirName, newDirName}, {call, put}) {
-
+      	*renameFile({payload: params}, {call, put}) {
+			var mkResult = yield request('fs/rename', {
+      			method: 'POST',
+      			body: JSON.stringify({
+      				fileName: localStorage.currentFolder + params.fileName,
+      				newFileName: params.newFileName
+      			})
+      		});
+      		yield put({type: 'fetchFileList'});
       	},
 
       	*removeFile({payload: fileName}, {call, put}) {
+			var mkResult = yield request('fs/remove/', {
+				method: 'POST',
+				body: JSON.stringify({
+					fileName: localStorage.currentFolder + fileName
+				})
+			});
+      		yield put({type: 'fetchFileList'});
+      	},
 
+      	*rmdir({payload: dirName}, {call, put}) {
+			var mkResult = yield request('fs/rmdir/', {
+				method: 'POST',
+				body: JSON.stringify({
+					dirName: localStorage.currentFolder + dirName
+				})
+			});
+      		yield put({type: 'fetchFileList'});
       	},
 
       	*mvFile({payload: fileName, newFileName}, {call, put}) {
