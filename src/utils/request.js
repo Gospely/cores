@@ -1,6 +1,8 @@
 import fetch from 'dva/fetch';
 import configs from '../configs.js';
 
+import { message, Spin } from 'antd';
+
 function parseJSON(response) {
   return response.json();
 }
@@ -15,6 +17,20 @@ function checkStatus(response) {
   throw error;
 }
 
+function checkResData(data) {
+  console.log(data,  typeof data);
+  if(data.code != 200) {
+    if(typeof data.length == 'number') {
+      return data;
+    }
+
+    message.error(data.message + '\r\n' + data.fields);
+  }else {
+    message.success(data.message);
+  }
+  return data;
+}
+
 /**
  * Requests a URL, returning a promise.
  *
@@ -24,9 +40,11 @@ function checkStatus(response) {
  */
 export default function request(url, options) {
   url = configs.baseURL + url;
+  message.success('正在执行操作...');
   return fetch(url, options)
     .then(checkStatus)
     .then(parseJSON)
+    .then(checkResData)
     .then((data) => ({ data }))
     .catch((err) => ({ err }));
 }

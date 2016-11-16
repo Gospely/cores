@@ -64,7 +64,7 @@ export default {
       		});
 		},
 
-		*pushGit() {
+		*pushGit({payload: params}, {call, put}) {
       		var pushResult = yield request('fs/push', {
       			method: 'POST',
       			body: JSON.stringify({
@@ -73,7 +73,7 @@ export default {
       		});
 		},
 
-		*pullGit() {
+		*pullGit({payload: params}, {call, put}) {
       		var pullResult = yield request('fs/pull', {
       			method: 'POST',
       			body: JSON.stringify({
@@ -82,7 +82,7 @@ export default {
       		});
 		},
 
-		*pushCommit() {
+		*pushCommit({payload: params}, {call, put}) {
       		var commitResult = yield request('fs/commit', {
       			method: 'POST',
       			body: JSON.stringify({
