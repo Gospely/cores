@@ -155,7 +155,8 @@ const LeftSidebar = (props) => {
 
 		modifyGitOriginInput: {
 			onPressEnter: function() {
-				if(!props.sidebar.modifyGitOriginInput.isGit) {
+				console.log(props.sidebar.modifyGitOriginInput);
+				if(props.sidebar.modifyGitOriginInput.value == '' || props.sidebar.modifyGitOriginInput.pushValue == '') {
 					message.error('git源不能为空');
 				}
 
@@ -167,6 +168,13 @@ const LeftSidebar = (props) => {
 			onChange: function(e) {
 				props.dispatch({
 					type: 'sidebar/handleModifyGitOriginInputChange',
+					payload: e.target.value
+				})
+			},
+
+			onPushValueChange: function(e) {
+				props.dispatch({
+					type: 'sidebar/handleModifyGitPushOriginInputChange',
 					payload: e.target.value
 				})
 			}
@@ -252,9 +260,9 @@ const LeftSidebar = (props) => {
 			      	<InputGroup style={searchCls}>
 			        	<Input
 				        	addonBefore="push"
-			        		value={props.sidebar.modifyGitOriginInput.value}
+			        		value={props.sidebar.modifyGitOriginInput.pushValue}
 			        		onPressEnter={leftSidebarProps.modifyGitOriginInput.onPressEnter}
-			        		onChange={leftSidebarProps.modifyGitOriginInput.onChange}
+			        		onChange={leftSidebarProps.modifyGitOriginInput.onPushValueChange}
 			        	/>
 			     	</InputGroup>
 

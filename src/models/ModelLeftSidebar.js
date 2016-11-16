@@ -10,7 +10,8 @@ export default {
 
 		modifyGitOriginInput: {
 			value: '',
-			isGit: false
+			isGit: false,
+			pushValue: ''
 		}
 	},
 
@@ -113,7 +114,16 @@ export default {
 		handleModifyGitOriginInputChange(state, {payload: val}) {
 			return {...state, modifyGitOriginInput: {
 				value: val,
-				isGit: state.modifyGitOriginInput.isGit
+				isGit: state.modifyGitOriginInput.isGit,
+				pushValue: state.modifyGitOriginInput.pushValue
+			}}
+		},
+
+		handleModifyGitPushOriginInputChange(state, {payload: val}) {
+			return {...state, modifyGitOriginInput: {
+				pushValue: val,
+				isGit: state.modifyGitOriginInput.isGit,
+				value: state.modifyGitOriginInput.value
 			}}
 		},
 
