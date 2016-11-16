@@ -50,11 +50,16 @@ const LeftSidebar = (props) => {
 	        },
 
 	        commit() {
-
-	        	props.dispatch({
-	        		type: 'sidebar/showModalModifyGitOrgin'
-	        	});
-
+	        	if(!props.sidebar.modifyGitOriginInput.isGit) {
+					message.error('您尚未添加git源，请先添加');
+		        	props.dispatch({
+		        		type: 'sidebar/showModalModifyGitOrgin'
+		        	});
+				}else {
+					props.dispatch({
+						type: 'sidebar/pushCommit'
+					})
+				}
 	        },
 
 	        'push'() {

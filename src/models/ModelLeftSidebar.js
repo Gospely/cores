@@ -55,20 +55,42 @@ export default {
 		},
 
 		*modifyGitOrigin({payload: params}, {call, put}) {
-			// const dirName = params.treeNode.props.eventKey;
-   //    		var fileList = yield request('fs/list/file/?id=' + dirName);
-   //    		yield put({ type: 'treeOnLoadData', payload: {
-   //    			fileList,
-   //    			dirName
-   //    		} });
+			var modifyResult = yield request('fs/origin/modify', {
+      			method: 'POST',
+      			body: JSON.stringify({
+      				dir: 'node-hello_ivydom',
+      				origin: state.modifyGitOriginInput.value
+      			})
+      		});
 		},
 
 		*pushGit() {
-
+      		var pushResult = yield request('fs/push', {
+      			method: 'POST',
+      			body: JSON.stringify({
+      				dir: 'node-hello_ivydom'
+      			})
+      		});
 		},
 
 		*pullGit() {
+      		var pullResult = yield request('fs/pull', {
+      			method: 'POST',
+      			body: JSON.stringify({
+      				dir: 'node-hello_ivydom'
+      			})
+      		});
+		},
 
+		*pushCommit() {
+      		var commitResult = yield request('fs/commit', {
+      			method: 'POST',
+      			body: JSON.stringify({
+      				dir: 'node-hello_ivydom'
+      			})
+      		});
+
+      		console.log(commitResult);
 		}
 
 	},
@@ -130,7 +152,8 @@ export default {
 		setIsGit(state, {payload: flag}) {
 			return {...state, modifyGitOriginInput: {
 				isGit: flag.data.fields,
-				value: state.modifyGitOriginInput.value
+				value: state.modifyGitOriginInput.value,
+				pushValue: state.modifyGitOriginInput.pushValue
 			}}
 		},
 
@@ -138,15 +161,16 @@ export default {
 
 			var split = params.origin.data.fields.split('	');
 
-			console.log(split);
+			var fetch = split[1],
+				push = split[2];
 
-			var fetch = split[0];
-
-			console.log(fetch);
+			fetch = fetch.split(' (fetch)')[0];
+			push = push.split(' (push)')[0];
 
 			return {...state, modifyGitOriginInput: {
-				value: params.origin.data.fields,
-				isGit: params.isGit.data.fields
+				value: fetch,
+				isGit: params.isGit.data.fields,
+				pushValue: push
 			}}			
 		}
 
