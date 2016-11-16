@@ -29,7 +29,7 @@ class Terminal extends Component {
 			    pid,
 			    charWidth,
 			    charHeight,
-			    port = 37283,
+			    port = 49085,
 			    domain = 'gospely.com',
 			    baseUrl = 'http://' + domain + ':' + port;
 

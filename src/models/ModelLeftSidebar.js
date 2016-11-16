@@ -65,6 +65,7 @@ export default {
 		},
 
 		*pushGit({payload: params}, {call, put}) {
+			console.log('git push start');
       		var pushResult = yield request('fs/push', {
       			method: 'POST',
       			body: JSON.stringify({

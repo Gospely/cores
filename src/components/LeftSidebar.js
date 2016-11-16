@@ -1,5 +1,7 @@
 import React , { PropTypes } from 'react';
-import { Menu, Icon, Modal, Input, Button, message } from 'antd';
+import { Menu, Icon, Modal, Input, Button, message, Tabs} from 'antd';
+
+const TabPane = Tabs.TabPane;
 
 import { connect } from 'dva';
 
@@ -183,6 +185,10 @@ const LeftSidebar = (props) => {
 					payload: e.target.value
 				})
 			}
+		},
+
+		onGitOperationTabChanged: function() {
+
 		}
 	};
 
@@ -247,31 +253,54 @@ const LeftSidebar = (props) => {
 	    	<Modal width="60%"  title="添加/更改 Git 源" visible={props.sidebar.modalModifyGitOriginVisible}
 	          	onOk={leftSidebarProps.modifyGitOriginInput.onPressEnter} onCancel={leftSidebarProps.cancelModifyGitOrigin}
 	        >
-	        	<div style={{ marginBottom: 16 }}>
 
-			      	<InputGroup style={searchCls}>
-			        	<Input
-				        	addonBefore="fetch"
-			        		value={props.sidebar.modifyGitOriginInput.value}
-			        		onPressEnter={leftSidebarProps.modifyGitOriginInput.onPressEnter}
-			        		onChange={leftSidebarProps.modifyGitOriginInput.onChange}
-			        	/>
-			     	</InputGroup>
+  			<Tabs className="modalTab" defaultActiveKey="1" onChange={leftSidebarProps.onGitOperationTabChanged}>
+    			<TabPane tab="HTTPS" key="1">
 
-	        	</div>
+		        	<div style={{ marginBottom: 16, marginTop: 16 }}>
 
-	        	<div style={{ marginBottom: 16 }}>
+				      	<InputGroup style={searchCls}>
+				        	<Input
+					        	addonBefore="fetch"
+				        		value={props.sidebar.modifyGitOriginInput.value}
+				        		onPressEnter={leftSidebarProps.modifyGitOriginInput.onPressEnter}
+				        		onChange={leftSidebarProps.modifyGitOriginInput.onChange}
+				        	/>
+				     	</InputGroup>
 
-			      	<InputGroup style={searchCls}>
-			        	<Input
-				        	addonBefore="push"
-			        		value={props.sidebar.modifyGitOriginInput.pushValue}
-			        		onPressEnter={leftSidebarProps.modifyGitOriginInput.onPressEnter}
-			        		onChange={leftSidebarProps.modifyGitOriginInput.onPushValueChange}
-			        	/>
-			     	</InputGroup>
+		        	</div>
 
-	        	</div>
+		        	<div style={{ marginBottom: 16 }}>
+
+				      	<InputGroup style={searchCls}>
+				        	<Input
+					        	addonBefore="push"
+				        		value={props.sidebar.modifyGitOriginInput.pushValue}
+				        		onPressEnter={leftSidebarProps.modifyGitOriginInput.onPressEnter}
+				        		onChange={leftSidebarProps.modifyGitOriginInput.onPushValueChange}
+				        	/>
+				     	</InputGroup>
+
+		        	</div>
+
+    			</TabPane>
+    			<TabPane tab="SSH" key="2">
+    				<div style={{marginTop: 16}}>
+	    				<h4>ssh可以让您免密码使用push操作，请按照以下方法配置SSH：</h4>
+	    				<div style={{margin: 10}}>
+		    				<ol>
+		    					<li>1、打开终端</li>
+		    					<li>2、输入 ssh-keygen，一路回车</li>
+		    					<li>3、输入 vim /root/.ssh/id_rsa.pub</li>
+		    					<li>4、复制你所看到的内容</li>				
+		    					<li>5、将其配置到您的Git平台中即可</li>				
+		    					<li>6、开源中国（gitosc）官方说明：<a href="http://git.oschina.net/oschina/git-osc/wikis/%E5%B8%AE%E5%8A%A9" targer="_blank">GitOSC ssh操作说明</a></li>				
+		    					<li>7、Github 官方说明：<a href="https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/" targer="_blank">Github ssh操作说明</a></li>				
+		    				</ol>
+	    				</div>
+    				</div>
+    			</TabPane>
+  			</Tabs>
 
 	        </Modal>
 
