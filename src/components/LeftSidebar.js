@@ -1,19 +1,16 @@
-import React , {PropTypes} from 'react';
-import {Menu, Icon, Modal} from 'antd';
+import React , { PropTypes } from 'react';
+import { Menu, Icon, Modal, Input, Button, message } from 'antd';
+
+import { connect } from 'dva';
+
+import CodingEditor from './Panel/Editor.js';
+import Terminal from './Panel/Terminal.js';
 
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
+const InputGroup = Input.Group;
 
-const LeftSidebar = ({
-	modalNewAppVisible,
-	handleClick,
-	createApp,
-	cancelNewApp,
-
-	modalSwitchAppVisible,
-	switchApp,
-	cancelSwitchApp
-}) => {
+const LeftSidebar = (props) => {
 
 	var styles = {
 		sidebar: {
@@ -31,19 +28,166 @@ const LeftSidebar = ({
 		}
 	}
 
-	var handleOk = function() {
-		// visible = false;
-	}
+	console.log(props);
 
-	var handleCancel = function() {
-		// visible = false;
-	}
+	const leftSidebarProps = {
+
+	    handleClick(activeMenu) {
+	      console.log(activeMenu);
+
+	      var handleActiveMenuEvent = {
+
+	        create() {
+	          props.dispatch({
+	            type: 'sidebar/showModalNewApp'
+	          });
+	        },
+
+	        'switch'() {
+	          props.dispatch({
+	            type: 'sidebar/showModalSwitchApp'
+	          });
+	        },
+
+	        commit() {
+
+	        	props.dispatch({
+	        		type: 'sidebar/showModalModifyGitOrgin'
+	        	});
+
+	        },
+
+	        'push'() {
+	        	if(!props.sidebar.modifyGitOriginInput.isGit) {
+					message.error('您尚未添加git源，请先添加');
+					props.dispatch({
+						type: 'sidebar/showModalModifyGitOrgin'
+					})
+				}else {
+					props.dispatch({
+						type: 'sidebar/pushGit'
+					})
+				}
+	        },
+
+	        pull() {
+	        	console.log(props.sidebar.modifyGitOriginInput.isGit);
+	        	if(!props.sidebar.modifyGitOriginInput.isGit) {
+					message.error('您尚未添加git源，请先添加');
+					props.dispatch({
+						type: 'sidebar/showModalModifyGitOrgin'
+					})
+				}else {
+					props.dispatch({
+						type: 'sidebar/pullGit'
+					})
+				}
+	        },
+
+	        terminal() {
+
+	          var title = '终端',
+	              content = <Terminal></Terminal>,
+	              type = 'terminal';
+
+	          props.dispatch({
+	            type: 'devpanel/add',
+	            payload: {title, content, type}
+	          })
+
+	        },
+
+	        file() {
+
+	          var title = '新文件',
+	              content = <CodingEditor></CodingEditor>,
+	              type = 'editor';
+
+	          props.dispatch({
+	            type: 'devpanel/add',
+	            payload: {title, content, type}
+	          });
+
+	        },
+
+	        start() {
+
+	        },
+
+	        pause() {
+
+	        }
+
+	      }
+
+	      handleActiveMenuEvent[activeMenu.key]();
+	    },
+
+	    cancelNewApp() {
+	      props.dispatch({
+	        type: 'sidebar/hideModalNewApp'
+	      })
+	    },
+
+	    createApp() {
+	      props.dispatch({
+	        type: 'sidebar/createApp'
+	      })
+	    },
+
+	    cancelSwitchApp() {
+	      props.dispatch({
+	        type: 'sidebar/hideModalSwitchApp'
+	      });
+	    },
+
+	    switchApp() {
+	      props.dispatch({
+	        type: 'sidebar/switchApp'
+	      })
+	    },
+
+		cancelModifyGitOrigin: function() {
+			props.dispatch({
+				type: 'sidebar/hideModalModifyGitOrigin'
+			})
+		},
+
+		modifyGitOriginInput: {
+			onPressEnter: function() {
+				if(!props.sidebar.modifyGitOriginInput.isGit) {
+					message.error('git源不能为空');
+				}
+
+				props.dispatch({
+					type: 'sidebar/modifyGitOrigin'
+				})
+			},
+
+			onChange: function(e) {
+				props.dispatch({
+					type: 'sidebar/handleModifyGitOriginInputChange',
+					payload: e.target.value
+				})
+			}
+		}
+	};
+
+	const searchCls = {
+	    antSearchInput: true,
+	    antSearchInputFocus: false,
+	};
+
+  	const btnCls = {
+	    borderRadius: '0px',
+	    marginLeft: '-1px'
+	};
 
 	return (
 		<div style={styles.wrapper}>
 	      	<Menu 
 	      		style={styles.sidebar} 
-	      		onClick={handleClick} 
+	      		onClick={leftSidebarProps.handleClick} 
 	      		mode="inline">
 
 		        <Menu.Item key="create">
@@ -76,15 +220,30 @@ const LeftSidebar = ({
 
 	      	</Menu>
 
-	    	<Modal width="80%"  title="新建应用" visible={modalNewAppVisible}
-	          	onOk={createApp} onCancel={cancelNewApp}
+	    	<Modal width="80%"  title="新建应用" visible={props.sidebar.modalNewAppVisible}
+	          	onOk={leftSidebarProps.createApp} onCancel={leftSidebarProps.cancelNewApp}
 	        >
 	        	<iframe style={styles.ifr} src="http://localhost:8088/#!/apps/new"></iframe>
 	        </Modal>
 
-	    	<Modal width="60%"  title="切换应用" visible={modalSwitchAppVisible}
-	          	onOk={switchApp} onCancel={cancelSwitchApp}
+	    	<Modal width="60%"  title="切换应用" visible={props.sidebar.modalSwitchAppVisible}
+	          	onOk={leftSidebarProps.switchApp} onCancel={leftSidebarProps.cancelSwitchApp}
 	        >
+	        </Modal>
+
+	    	<Modal width="60%"  title="添加/更改 Git 源" visible={props.sidebar.modalModifyGitOriginVisible}
+	          	onOk={leftSidebarProps.modifyGitOriginInput.onPressEnter} onCancel={leftSidebarProps.cancelModifyGitOrigin}
+	        >
+		      	<InputGroup style={searchCls}>
+		        	<Input 
+		        		value={props.sidebar.modifyGitOriginInput.value}
+		        		onPressEnter={leftSidebarProps.modifyGitOriginInput.onPressEnter}
+		        		onChange={leftSidebarProps.modifyGitOriginInput.onChange}
+		        	/>
+		        	<div className="ant-input-group-wrap">
+		          		<Button icon="plus" style={btnCls} onClick={leftSidebarProps.modifyGitOriginInput.onPressEnter}/>
+		        	</div>
+		     	</InputGroup>
 	        </Modal>
 
         </div>
@@ -93,4 +252,8 @@ const LeftSidebar = ({
 
 }
 
-export default LeftSidebar;
+function mapStateToProps({ sidebar }) {
+  return { sidebar };
+}
+
+export default connect(mapStateToProps)(LeftSidebar);

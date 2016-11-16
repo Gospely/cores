@@ -215,12 +215,15 @@ export default {
 		},
 
 		hideContextMenu(state) {
-			return {...state, contextMenuStyles: {
-				display: 'none',
-				position: 'fixed',
-				top: 0,
-				left: 0
-			}}
+			if(state.contextMenuStyles.display != 'none') {
+				return {...state, contextMenuStyles: {
+					display: 'none',
+					position: 'fixed',
+					top: 0,
+					left: 0
+				}};
+			}
+			return {...state};
 		},
 
 		handleNewFileInputChange(state, {payload: val}) {

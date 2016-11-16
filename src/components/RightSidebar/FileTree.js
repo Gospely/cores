@@ -27,13 +27,7 @@ const FileTree = (props) => {
     top: props.file.contextMenuStyles.top,
     left: props.file.contextMenuStyles.left,
     display:  props.file.contextMenuStyles.display
-  } 
-
-  document.addEventListener('click', function() {
-    props.dispatch({
-      type: 'file/hideContextMenu'
-    })
-  })
+  }
 
   localStorage.currentFolder = localStorage.currentFolder || 'node-hello_ivydom';
 
@@ -496,6 +490,5 @@ const FileTree = (props) => {
 function mapStateToProps({ file }) {
   return { file };
 }
-
 
 export default connect(mapStateToProps)(FileTree);
