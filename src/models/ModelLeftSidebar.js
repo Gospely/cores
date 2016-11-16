@@ -43,7 +43,10 @@ export default {
 	      			})
 	      		});
 
-	      		yield put({ type: 'setOriginValue', payload: origin })
+	      		yield put({ type: 'setOriginValue', payload: {
+	      			origin,
+	      			isGit
+	      		} })
       		}else {
 	      		yield put({ type: 'setIsGit', payload: isGit });      			
       		}
@@ -109,19 +112,31 @@ export default {
 
 		handleModifyGitOriginInputChange(state, {payload: val}) {
 			return {...state, modifyGitOriginInput: {
-				value: val
+				value: val,
+				isGit: state.modifyGitOriginInput.isGit
 			}}
 		},
 
 		setIsGit(state, {payload: flag}) {
 			return {...state, modifyGitOriginInput: {
-				isGit: flag.data.fields	
+				isGit: flag.data.fields,
+				value: state.modifyGitOriginInput.value
 			}}
 		},
 
-		setOriginValue(state, {payload: origin}) {
+		setOriginValue(state, {payload: params}) {
+
+			var split = params.origin.data.fields.split('	');
+
+			console.log(split);
+
+			var fetch = split[0];
+
+			console.log(fetch);
+
 			return {...state, modifyGitOriginInput: {
-				value: origin.data.fields
+				value: params.origin.data.fields,
+				isGit: params.isGit.data.fields
 			}}			
 		}
 

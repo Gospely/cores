@@ -234,16 +234,32 @@ const LeftSidebar = (props) => {
 	    	<Modal width="60%"  title="添加/更改 Git 源" visible={props.sidebar.modalModifyGitOriginVisible}
 	          	onOk={leftSidebarProps.modifyGitOriginInput.onPressEnter} onCancel={leftSidebarProps.cancelModifyGitOrigin}
 	        >
-		      	<InputGroup style={searchCls}>
-		        	<Input 
-		        		value={props.sidebar.modifyGitOriginInput.value}
-		        		onPressEnter={leftSidebarProps.modifyGitOriginInput.onPressEnter}
-		        		onChange={leftSidebarProps.modifyGitOriginInput.onChange}
-		        	/>
-		        	<div className="ant-input-group-wrap">
-		          		<Button icon="plus" style={btnCls} onClick={leftSidebarProps.modifyGitOriginInput.onPressEnter}/>
-		        	</div>
-		     	</InputGroup>
+	        	<div style={{ marginBottom: 16 }}>
+
+			      	<InputGroup style={searchCls}>
+			        	<Input
+				        	addonBefore="fetch"
+			        		value={props.sidebar.modifyGitOriginInput.value}
+			        		onPressEnter={leftSidebarProps.modifyGitOriginInput.onPressEnter}
+			        		onChange={leftSidebarProps.modifyGitOriginInput.onChange}
+			        	/>
+			     	</InputGroup>
+
+	        	</div>
+
+	        	<div style={{ marginBottom: 16 }}>
+
+			      	<InputGroup style={searchCls}>
+			        	<Input
+				        	addonBefore="push"
+			        		value={props.sidebar.modifyGitOriginInput.value}
+			        		onPressEnter={leftSidebarProps.modifyGitOriginInput.onPressEnter}
+			        		onChange={leftSidebarProps.modifyGitOriginInput.onChange}
+			        	/>
+			     	</InputGroup>
+
+	        	</div>
+
 	        </Modal>
 
         </div>
