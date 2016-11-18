@@ -54,14 +54,19 @@ export default {
 
 		},
 
-		*modifyGitOrigin({payload: params}, {call, put}) {
+		*modifyGitOrigin({payload: params}, {call, put, select}) {
+      		var val = yield select(state => state.sidebar.modifyGitOriginInput.value);
 			var modifyResult = yield request('fs/origin/modify', {
       			method: 'POST',
       			body: JSON.stringify({
       				dir: 'node-hello_ivydom',
-      				origin: state.modifyGitOriginInput.value
+      				origin: val
       			})
       		});
+
+      		if(modifyResult.data.code == 200) {
+	      		yield put({ type: 'hideModalModifyGitOrigin' });
+      		}
 		},
 
 		*pushGit({payload: params}, {call, put}) {

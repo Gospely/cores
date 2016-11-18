@@ -9,6 +9,8 @@ import LeftSidebar from '../components/LeftSidebar';
 import RightSidebar from '../components/RightSidebar';
 import DevPanel from '../components/DevPanel';
 
+import CodingEditor from '../components/Panel/Editor.js';
+
 import SplitPane from 'react-split-pane';
 
 function IndexPage(props) {
@@ -21,7 +23,9 @@ function IndexPage(props) {
     onChange(active) {
       props.dispatch({
         type: 'devpanel/tabChanged',
-        payload: active
+        payload: {
+          active: active
+        }
       });
     },
 
@@ -29,11 +33,11 @@ function IndexPage(props) {
 
       var content = '', title = undefined, type = "editor";
 
-      if(action == 'add') {
-        content = <CodingEditor></CodingEditor>;
+      // if(action == 'add') {
+      //   content = <CodingEditor></CodingEditor>;
 
-        console.log(content);
-      }
+      //   console.log(content);
+      // }
 
       props.dispatch({
         type: 'devpanel/' + action,

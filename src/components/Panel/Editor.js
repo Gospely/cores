@@ -134,6 +134,14 @@ const Editor = (props) => {
 	    	props.dispatch({
 	    		type: 'editor/hideArrow'
 	    	})
+    	},
+
+    	handleEditorChanged(value) {
+    		var editorId = props.devpanel.currentActiveEditorId;
+    		props.dispatch({
+    			type: 'devpanel/handleEditorChanged',
+    			payload: {value, editorId}
+    		})
     	}
   	}
 
@@ -142,8 +150,10 @@ const Editor = (props) => {
   		activeKey: props.devpanel.activeKey
   	}
 
-  	var aceHeight = ( parseInt(document.body.clientHeight) - 62 ) + 'px', 
-  		editorId = randomWord(8, 10);
+  	var aceHeight = ( parseInt(document.body.clientHeight) - 62 ) + 'px',
+  		editorId = props.devpanel.currentActiveEditorId;
+
+  	console.log('editor value', props);
 
   	return (
 		<div className={EditorStyle.aceEditor}>
@@ -155,7 +165,11 @@ const Editor = (props) => {
 	        	width="100%"
 	        	height={aceHeight}
 	        	name={editorId}
-	        	editorProps={{$blockScrolling: true}} />
+	        	editorProps={{$blockScrolling: true}}
+	        	value={props.devpanel.editors[editorId].value} 
+	        	enableBasicAutocompletion={true}
+	        	onChange={editorProps.handleEditorChanged}
+	        	enableBasicAutocompletion={true}/>
 
 	        <EditorBottom></EditorBottom>
 

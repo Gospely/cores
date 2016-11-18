@@ -8,6 +8,8 @@ import { connect } from 'dva';
 import CodingEditor from './Panel/Editor.js';
 import Terminal from './Panel/Terminal.js';
 
+import randomWord from '../utils/randomString';
+
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 const InputGroup = Input.Group;
@@ -94,12 +96,11 @@ const LeftSidebar = (props) => {
 	        terminal() {
 
 	          var title = '终端',
-	              content = <Terminal></Terminal>,
 	              type = 'terminal';
 
 	          props.dispatch({
 	            type: 'devpanel/add',
-	            payload: {title, content, type}
+	            payload: {title, type}
 	          })
 
 	        },
@@ -107,12 +108,15 @@ const LeftSidebar = (props) => {
 	        file() {
 
 	          var title = '新文件',
-	              content = <CodingEditor></CodingEditor>,
-	              type = 'editor';
+	              content = '// TO DO',
+	              type = 'editor',
+	              editorId = randomWord(8, 10);
 
-	          props.dispatch({
+	              console.log('editorId', editorId);
+
+	          var editor = props.dispatch({
 	            type: 'devpanel/add',
-	            payload: {title, content, type}
+	            payload: {title, content, type, editorId}
 	          });
 
 	        },
@@ -162,9 +166,9 @@ const LeftSidebar = (props) => {
 
 		modifyGitOriginInput: {
 			onPressEnter: function() {
-				console.log(props.sidebar.modifyGitOriginInput);
 				if(props.sidebar.modifyGitOriginInput.value == '' || props.sidebar.modifyGitOriginInput.pushValue == '') {
 					message.error('git源不能为空');
+					return false;
 				}
 
 				props.dispatch({
@@ -310,8 +314,8 @@ const LeftSidebar = (props) => {
 
 }
 
-function mapStateToProps({ sidebar }) {
-  return { sidebar };
+function mapStateToProps({ sidebar, editor }) {
+  return { sidebar, editor };
 }
 
 export default connect(mapStateToProps)(LeftSidebar);

@@ -14,10 +14,21 @@ const Panel = Collapse.Panel;
 const SettingPanel = (props) => {
 
 	const GitSettingProps = {
-		onClick: function() {
-			props.dispatch({
-				type: 'sidebar/showModalModifyGitOrgin'
-			})
+		onClick: function(item) {
+
+			console.log(item);
+
+			var action = {
+
+				origin: function() {
+					props.dispatch({
+						type: 'sidebar/showModalModifyGitOrgin'
+					})					
+				}
+			}
+
+			action[item.key]();
+
 		}
 	}
 

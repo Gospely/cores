@@ -1,6 +1,11 @@
 // import React from 'react';
-
+import React , { PropTypes } from 'react';
 import dva from 'dva';
+
+import Terminal from '../components/Panel/Editor.js';
+import CodingEditor from '../components/Panel/Terminal.js';
+
+import { message } from 'antd';
 
 export default {
 	namespace: 'devpanel',
@@ -12,13 +17,25 @@ export default {
 
 	    activeKey: '1',
 
-	    splitType: 'single'
+	    splitType: 'single',
+
+		editors: {},
+
+		currentActiveEditorId: ''
+	},
+
+	effects: {
+
+
+
 	},
 
 	reducers: {
 
-		tabChanged(state, {payload: key}) {
-			return {...state, activeKey: key};
+		tabChanged(state, {payload: params}) {
+			state.activeKey = params.active;
+			// state.currentActiveEditorId = params.editorId;
+			return {...state};
 		},
 
 		changeColumn(state, {payload: type}) {
@@ -63,18 +80,70 @@ export default {
 			return {...state, panes, activeKey};
 		},
 
+		pushEditor(state, { payload: editorId }) {
+			var editorObj = {
+				value: '// TO DO \r\n'
+			},
+				tmp = {};
+			tmp[editorId] = editorObj;
+			state.editors.push(tmp);
+			console.log(state.editors);
+			return {...state};
+		},
+
+		handleEditorChanged(state, { payload: params }) {
+			console.log('handleEditorChanged', params.editorId);
+			state.editors[params.editorId].value = params.value;
+			return {...state};
+		},
+
 		add(state, {payload: target}) {
 
 		    const panes = state.panes;
-		    const activeKey = (state.panes.length + 1).toString();
+		    state.activeKey = (state.panes.length + 1).toString();
 
-			target.title = target.title || '新标签页 ';
+			target.title = target.title || '新标签页';
 			target.type = target.type || 'editor';
 			target.content = target.content || '';
 
-		    panes.push({ title: target.title + activeKey, content: target.content, key: activeKey, type: target.type });
+			const devTypes = {
+				editor: function(params) {
 
-		    return {...state, panes, activeKey};
+					var editorObj = {
+						value: '// TO DO \r\n'
+					};
+
+					state.editors[params.editorId] = editorObj;
+					console.log('state.editors', state.editors);
+					state.currentActiveEditorId = params.editorId;
+					return (
+						<CodingEditor 
+							editorId={target.editorId} 
+							value={target.content}>
+						</CodingEditor>
+					);
+				},
+				terminal: function() {
+
+					return (
+						<Terminal></Terminal>
+					);
+				}
+			}
+
+			var params = {
+				editorId: target.editorId
+			};
+			var currentDevType = devTypes[target.type](params);
+
+			if(currentDevType == undefined) {
+				message.error('您使用了不存在的开发面板类型!');
+				return {...state};
+			}
+
+		    state.panes.push({ title: target.title, content: currentDevType, key: state.activeKey, type: target.type });
+
+		    return {...state};
 		}
 	}
 
