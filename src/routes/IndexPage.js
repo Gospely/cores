@@ -22,7 +22,7 @@ function IndexPage(props) {
 
     panels: props.devpanel.panels,
 
-    onChange(active, item) {
+    onChange(active) {
       props.dispatch({
         type: 'devpanel/tabChanged',
         payload: {

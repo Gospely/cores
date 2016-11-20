@@ -151,10 +151,7 @@ const Editor = (props) => {
   	}
 
   	var aceHeight = ( parseInt(document.body.clientHeight) - 62 ) + 'px',
-  		editorId = props.devpanel.panels.activeEditor.id;
-
-  	console.log('editor id', editorId);
-  	console.log('panels props', props.devpanel);
+  		editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
 
   	return (
 		<div className={EditorStyle.aceEditor}>
@@ -167,7 +164,7 @@ const Editor = (props) => {
 	        	height={aceHeight}
 	        	name={editorId}
 	        	editorProps={{$blockScrolling: true}}
-	        	value={props.devpanel.panels.panes[props.devpanel.panels.activePane.key].tabs[props.devpanel.panels.activeTab.index].editors[editorId].value}
+	        	value={props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value}
 	        	enableBasicAutocompletion={true}
 	        	onChange={editorProps.handleEditorChanged}
 	        	enableBasicAutocompletion={true}/>

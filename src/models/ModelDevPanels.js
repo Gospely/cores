@@ -24,11 +24,15 @@ export default {
 			    			title: '欢迎页面 - Gospel',
 			    			content: '欢迎使用 Gospel在线集成开发环境',
 			    			key: '1',
-			    			type: 'welcome',
-			    			editors: {},
-			    			activeEditor: {}
+			    			type: 'welcome'
 			    		}
-		    		]
+		    		],
+
+		    		editors: {},
+
+		    		activeEditor: {
+		    			id: ''
+		    		}
 	    		}
 	    	],
 
@@ -64,7 +68,10 @@ export default {
 	reducers: {
 
 		tabChanged(state, {payload: params}) {
-			// state.panels.activeTab.key = params.active;
+			state.panels.activeTab.key = params.active;
+			console.log(state);
+			// const activeTab = state.panels.panes[state.panels.activePane.key].tabs[state.panels.activeTab.index];
+			// state.activeEditor =
 			return {...state};
 		},
 
@@ -113,8 +120,7 @@ export default {
 		},
 
 		handleEditorChanged(state, { payload: params }) {
-			console.log('handleEditorChanged', params.editorId);
-			state.panels.panes[state.panels.activePane.key].tabs[state.panels.activeTab.index].editors[params.editorId].value = params.value;
+			state.panels.panes[state.panels.activePane.key].editors[params.editorId].value = params.value;
 			return {...state};
 		},
 
@@ -135,11 +141,8 @@ export default {
 						id: params.editorId
 					};
 
-					console.log('params', params);
-
-					state.panels.panes[state.panels.activePane.key].tabs[state.panels.activeTab.index].editors[params.editorId] = editorObj;
-					console.log('state.editors', state.editors);
-					state.panels.panes[state.panels.activePane.key].tabs[state.panels.activeTab.index].activeEditor.id = params.editorId;
+					state.panels.panes[state.panels.activePane.key].editors[params.editorId] = editorObj;
+					state.panels.panes[state.panels.activePane.key].activeEditor.id = params.editorId;
 					return (
 						<CodingEditor 
 							editorId={params.editorId}>
