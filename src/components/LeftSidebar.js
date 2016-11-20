@@ -112,8 +112,6 @@ const LeftSidebar = (props) => {
 	              type = 'editor',
 	              editorId = randomWord(8, 10);
 
-	              console.log('editorId', editorId);
-
 	          var editor = props.dispatch({
 	            type: 'devpanel/add',
 	            payload: {title, content, type, editorId}

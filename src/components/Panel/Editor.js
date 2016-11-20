@@ -137,7 +137,7 @@ const Editor = (props) => {
     	},
 
     	handleEditorChanged(value) {
-    		var editorId = props.devpanel.currentActiveEditorId;
+    		var editorId = props.devpanel.panels.activeEditor.id;
     		props.dispatch({
     			type: 'devpanel/handleEditorChanged',
     			payload: {value, editorId}
@@ -151,9 +151,10 @@ const Editor = (props) => {
   	}
 
   	var aceHeight = ( parseInt(document.body.clientHeight) - 62 ) + 'px',
-  		editorId = props.devpanel.currentActiveEditorId;
+  		editorId = props.devpanel.panels.activeEditor.id;
 
-  	console.log('editor value', props);
+  	console.log('editor id', editorId);
+  	console.log('panels props', props.devpanel);
 
   	return (
 		<div className={EditorStyle.aceEditor}>
@@ -166,7 +167,7 @@ const Editor = (props) => {
 	        	height={aceHeight}
 	        	name={editorId}
 	        	editorProps={{$blockScrolling: true}}
-	        	value={props.devpanel.editors[editorId].value} 
+	        	value={props.devpanel.panels.panes[props.devpanel.panels.activePane.key].tabs[props.devpanel.panels.activeTab.index].editors[editorId].value}
 	        	enableBasicAutocompletion={true}
 	        	onChange={editorProps.handleEditorChanged}
 	        	enableBasicAutocompletion={true}/>

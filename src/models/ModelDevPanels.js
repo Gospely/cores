@@ -38,7 +38,11 @@ export default {
 	    		key: 0
 	    	},
 	    	activeTab: {
-	    		key: '1'
+	    		key: '1',
+	    		index: 0
+	    	},
+	    	activeEditor: {
+	    		id: ''
 	    	}
 	    },
 
@@ -88,7 +92,7 @@ export default {
 			const panes = state.panels.panes.filter(pane => pane.tabs.key !== target);
 			if(lastIndex >= 0 && activeKey === target) {
 				if(panes.length != 0) {
-					activeKey = panes[lastIndex].key;					
+					activeKey = panes[lastIndex].key;
 				}else {
 					if(type != 'welcome') {
 						panes.push({
@@ -110,7 +114,7 @@ export default {
 
 		handleEditorChanged(state, { payload: params }) {
 			console.log('handleEditorChanged', params.editorId);
-			state.panels.editors[params.editorId].value = params.value;
+			state.panels.panes[state.panels.activePane.key].tabs[state.panels.activeTab.index].editors[params.editorId].value = params.value;
 			return {...state};
 		},
 
@@ -127,17 +131,18 @@ export default {
 				editor: function(params) {
 
 					var editorObj = {
-						value: '// TO DO \r\n'
+						value: '// TO DO \r\n',
+						id: params.editorId
 					};
 
-					console.log(state.panels.panes);
+					console.log('params', params);
 
-					state.panels.panes[state.panels.activePane.key].tabs.editors[params.editorId] = editorObj;
+					state.panels.panes[state.panels.activePane.key].tabs[state.panels.activeTab.index].editors[params.editorId] = editorObj;
 					console.log('state.editors', state.editors);
-					state.panels.panes[state.panels.activePane.key].tabs.activeEditor.id = params.editorId;
+					state.panels.panes[state.panels.activePane.key].tabs[state.panels.activeTab.index].activeEditor.id = params.editorId;
 					return (
 						<CodingEditor 
-							editorId={target.editorId}>
+							editorId={params.editorId}>
 						</CodingEditor>
 					);
 				},
@@ -160,6 +165,7 @@ export default {
 				return {...state};
 			}
 
+			state.panels.activeEditor.id = target.editorId;
 		    state.panels.panes[state.panels.activePane.key].tabs.push({ title: target.title, content: currentDevType, key: state.panels.activeTab.key, type: target.type });
 
 		    return {...state};
