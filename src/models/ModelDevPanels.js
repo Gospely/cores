@@ -61,9 +61,8 @@ export default {
 			state.panels.activeTab.index = ( parseInt(params.active) - 1 ).toString();
 			console.log(state);
 			const activeTab = state.panels.panes[state.panels.activePane.key].tabs[state.panels.activeTab.index];
-
 			if(activeTab.type == 'editor') {
-				state.panels.panes[state.panels.activePane.key].activeEditor.id = activeTab.content.props.editorId;
+				state.panels.activeEditor.id = activeTab.content.props.editorId;
 			}
 			return {...state};
 		},

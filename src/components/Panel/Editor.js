@@ -151,7 +151,7 @@ const Editor = (props) => {
   	}
 
   	var aceHeight = ( parseInt(document.body.clientHeight) - 62 ) + 'px',
-  		editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
+  		editorId = props.devpanel.panels.activeEditor.id;
 
   		console.log(editorId, props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value);
 
