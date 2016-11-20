@@ -16,9 +16,11 @@ import SplitPane from 'react-split-pane';
 function IndexPage(props) {
 
   const devPanelProps = {
-    panes: props.devpanel.panes,
-    activeKey: props.devpanel.activeKey,
-    splitType: props.devpanel.splitType,
+    panes: props.devpanel.panels.panes,
+    activeKey: props.devpanel.panels.activeTab.key,
+    splitType: props.devpanel.panels.splitType,
+
+    panels: props.devpanel.panels,
 
     onChange(active) {
       props.dispatch({
@@ -32,12 +34,6 @@ function IndexPage(props) {
     onEdit(targetKey, action) {
 
       var content = '', title = undefined, type = "editor";
-
-      // if(action == 'add') {
-      //   content = <CodingEditor></CodingEditor>;
-
-      //   console.log(content);
-      // }
 
       props.dispatch({
         type: 'devpanel/' + action,

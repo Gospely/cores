@@ -6,8 +6,36 @@ import SplitPane from 'react-split-pane';
 const TabPane = Tabs.TabPane;
 
 const DevPanel = ({ 
-	splitType, onChange, onEdit, activeKey, panes
+	splitType, onChange, onEdit, activeKey, panes, panels
 }) => {
+
+	const generatorTabPanes = (panes) => {
+		return panes.map(pane => <TabPane tab={pane.title} key={pane.key}>{pane.content}</TabPane>);
+	};
+
+	const generatorTabs = (onChange, activeKey, onEdit, animated, tabPane) => {
+		return (
+			<Tabs
+	        	onChange={onChange}
+	        	activeKey={activeKey}
+	        	type="editable-card"
+	        	onEdit={onEdit}
+	        	animated={animated}>
+	        	{tabPane}
+	      	</Tabs>
+		);
+	};
+
+	const generatorPanes = (panels) => {
+		var pane = [];
+		panels.map(panes => {
+			var tabPanes = generatorTabPanes(panes.tabs);
+			pane.push(generatorTabs(onChange, activeKey, onEdit, animated, tabPanes));
+		});
+
+		console.log('pane', pane);
+		return pane;
+	};
 
 	const animated = false, 
 		  defaultSize = '50%',
@@ -18,20 +46,18 @@ const DevPanel = ({
 		        	type="editable-card"
 		        	onEdit={onEdit}
 		        	animated={animated}>
-		        	{panes.map(pane => <TabPane tab={pane.title} key={pane.key}>{pane.content}</TabPane>)}
+		        	{panels.panes.map(pane => <TabPane tab={pane.title} key={pane.key}>{pane.content}</TabPane>)}
 		      	</Tabs>,
 
 		  columnList = {
-		  	'single': tabs,
+		  	'single': generatorPanes(panels.panes),
 
 		  	'vertical-dbl': <SplitPane split="vertical" defaultSize={defaultSize}>
-  								{tabs}
-  								{tabs}
+  								{generatorPanes(panels.panes)}
 		  					</SplitPane>,
 
 		  	"horizontal-dbl": <SplitPane split="horizontal" defaultSize={defaultSize}>
-  								{tabs}
-  								{tabs}
+  								{generatorPanes(panels.panes)}
 		  					</SplitPane>,
 
 		  	'grid': <SplitPane split="vertical" defaultSize={defaultSize}>

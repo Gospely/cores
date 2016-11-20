@@ -32,13 +32,9 @@ const LeftSidebar = (props) => {
 		}
 	}
 
-	console.log(props);
-
 	const leftSidebarProps = {
 
 	    handleClick(activeMenu) {
-	      console.log(activeMenu);
-
 	      var handleActiveMenuEvent = {
 
 	        create() {
@@ -80,7 +76,6 @@ const LeftSidebar = (props) => {
 	        },
 
 	        pull() {
-	        	console.log(props.sidebar.modifyGitOriginInput.isGit);
 	        	if(!props.sidebar.modifyGitOriginInput.isGit) {
 					message.error('您尚未添加git源，请先添加');
 					props.dispatch({
@@ -111,8 +106,6 @@ const LeftSidebar = (props) => {
 	              content = '// TO DO',
 	              type = 'editor',
 	              editorId = randomWord(8, 10);
-
-	              console.log('editorId', editorId);
 
 	          var editor = props.dispatch({
 	            type: 'devpanel/add',

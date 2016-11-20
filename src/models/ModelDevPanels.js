@@ -2,8 +2,8 @@
 import React , { PropTypes } from 'react';
 import dva from 'dva';
 
-import Terminal from '../components/Panel/Editor.js';
-import CodingEditor from '../components/Panel/Terminal.js';
+import CodingEditor from '../components/Panel/Editor.js';
+import Terminal from '../components/Panel/Terminal.js';
 
 import { message } from 'antd';
 
@@ -11,17 +11,41 @@ export default {
 	namespace: 'devpanel',
 	state: {
 
-		panes: [
-			{ title: '欢迎页面 - Gospel', content: '欢迎使用 Gospel在线集成开发环境', key: '1', type: 'welcome' },
-	    ],
+	    panels: {
 
-	    activeKey: '1',
+	    	panes: [
+	    		{
+	    			tabs: [
+			    		{
+			    			title: '欢迎页面 - Gospel',
+			    			content: '欢迎使用 Gospel在线集成开发环境',
+			    			key: '1',
+			    			type: 'welcome'
+			    		}
+		    		],
 
-	    splitType: 'single',
+		    		editors: {},
 
-		editors: {},
+		    		activeEditor: {
+		    			id: ''
+		    		}
+	    		}
+	    	],
 
-		currentActiveEditorId: ''
+	    	splitType: 'single',
+
+	    	activePane: {
+	    		key: 0
+	    	},
+	    	activeTab: {
+	    		key: '1',
+	    		index: 0
+	    	},
+	    	activeEditor: {
+	    		id: ''
+	    	}
+	    },
+
 	},
 
 	effects: {
@@ -33,26 +57,30 @@ export default {
 	reducers: {
 
 		tabChanged(state, {payload: params}) {
-			state.activeKey = params.active;
-			// state.currentActiveEditorId = params.editorId;
+			state.panels.activeTab.key = params.active;
+			state.panels.activeTab.index = ( parseInt(params.active) - 1 ).toString();
+			console.log(state);
+			const activeTab = state.panels.panes[state.panels.activePane.key].tabs[state.panels.activeTab.index];
+			if(activeTab.type == 'editor') {
+				state.panels.activeEditor.id = activeTab.content.props.editorId;
+			}
 			return {...state};
 		},
 
 		changeColumn(state, {payload: type}) {
-			return {...state, splitType: type};
+			state.panels.splitType = type;
+			return {...state};
 		},
 
 		'remove'(state, {payload: targetKey}) {
 			let target = targetKey.targetKey;
-			let activeKey = state.activeKey;
+			let activeKey = state.panels.activeTab.key;
 			let lastIndex;
 
 			let type = targetKey.type;
 
-			console.log(targetKey, targetKey.type);
-
-			state.panes.forEach((pane, i) => {
-				if(pane.key === target) {
+			state.panels.panes.forEach((pane, i) => {
+				if(pane.tabs.key === target) {
 					lastIndex = i - 1;
 					if(lastIndex < 0) {
 						lastIndex = 0;
@@ -60,10 +88,10 @@ export default {
 				}
 			});
 
-			const panes = state.panes.filter(pane => pane.key !== target);
+			const panes = state.panels.panes.filter(pane => pane.tabs[state.panels.activeTab.index].key !== target);
 			if(lastIndex >= 0 && activeKey === target) {
 				if(panes.length != 0) {
-					activeKey = panes[lastIndex].key;					
+					activeKey = panes[lastIndex].key;
 				}else {
 					if(type != 'welcome') {
 						panes.push({
@@ -77,30 +105,22 @@ export default {
 				}
 			}
 
-			return {...state, panes, activeKey};
-		},
+			state.panels.panes = panes;
+			state.panels.activeTab.key = activeKey;
+			state.panels.activeTab.index = ( parseInt(activeKey) - 1 ).toString();
 
-		pushEditor(state, { payload: editorId }) {
-			var editorObj = {
-				value: '// TO DO \r\n'
-			},
-				tmp = {};
-			tmp[editorId] = editorObj;
-			state.editors.push(tmp);
-			console.log(state.editors);
 			return {...state};
 		},
 
 		handleEditorChanged(state, { payload: params }) {
-			console.log('handleEditorChanged', params.editorId);
-			state.editors[params.editorId].value = params.value;
+			state.panels.panes[state.panels.activePane.key].editors[params.editorId].value = params.value;
 			return {...state};
 		},
 
 		add(state, {payload: target}) {
 
-		    const panes = state.panes;
-		    state.activeKey = (state.panes.length + 1).toString();
+		    const panes = state.panels.panes;
+		    state.panels.activeTab.key = (state.panels.panes[state.panels.activePane.key].tabs.length + 1).toString();
 
 			target.title = target.title || '新标签页';
 			target.type = target.type || 'editor';
@@ -110,16 +130,15 @@ export default {
 				editor: function(params) {
 
 					var editorObj = {
-						value: '// TO DO \r\n'
+						value: '// TO DO \r\n',
+						id: params.editorId
 					};
 
-					state.editors[params.editorId] = editorObj;
-					console.log('state.editors', state.editors);
-					state.currentActiveEditorId = params.editorId;
+					state.panels.panes[state.panels.activePane.key].editors[params.editorId] = editorObj;
+					state.panels.panes[state.panels.activePane.key].activeEditor.id = params.editorId;
 					return (
 						<CodingEditor 
-							editorId={target.editorId} 
-							value={target.content}>
+							editorId={params.editorId}>
 						</CodingEditor>
 					);
 				},
@@ -134,6 +153,7 @@ export default {
 			var params = {
 				editorId: target.editorId
 			};
+
 			var currentDevType = devTypes[target.type](params);
 
 			if(currentDevType == undefined) {
@@ -141,7 +161,8 @@ export default {
 				return {...state};
 			}
 
-		    state.panes.push({ title: target.title, content: currentDevType, key: state.activeKey, type: target.type });
+			state.panels.activeEditor.id = target.editorId;
+		    state.panels.panes[state.panels.activePane.key].tabs.push({ title: target.title, content: currentDevType, key: state.panels.activeTab.key, type: target.type });
 
 		    return {...state};
 		}
