@@ -16,14 +16,13 @@ import SplitPane from 'react-split-pane';
 function IndexPage(props) {
 
   const devPanelProps = {
-    panes: props.devpanel.panes,
-    activeKey: props.devpanel.activeKey,
-    splitType: props.devpanel.splitType,
+    panes: props.devpanel.panels.panes,
+    activeKey: props.devpanel.panels.activeTab.key,
+    splitType: props.devpanel.panels.splitType,
 
     panels: props.devpanel.panels,
 
     onChange(active, item) {
-      console.log(active, item);
       props.dispatch({
         type: 'devpanel/tabChanged',
         payload: {

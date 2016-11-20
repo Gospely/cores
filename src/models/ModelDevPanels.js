@@ -19,17 +19,27 @@ export default {
 
 	    	panes: [
 	    		{
-	    			title: '欢迎页面 - Gospel',
-	    			content: '欢迎使用 Gospel在线集成开发环境',
-	    			key: '1',
-	    			type: 'welcome',
-	    			editors: {},
-	    			activeEditor: {}
+	    			tabs: [
+			    		{
+			    			title: '欢迎页面 - Gospel',
+			    			content: '欢迎使用 Gospel在线集成开发环境',
+			    			key: '1',
+			    			type: 'welcome',
+			    			editors: {},
+			    			activeEditor: {}
+			    		}
+		    		]
 	    		}
 	    	],
+
 	    	splitType: 'single',
-	    	activePane: {},
-	    	activeTab: {}
+
+	    	activePane: {
+	    		key: 0
+	    	},
+	    	activeTab: {
+	    		key: '1'
+	    	}
 	    },
 
 	    activeKey: '1',
@@ -50,8 +60,7 @@ export default {
 	reducers: {
 
 		tabChanged(state, {payload: params}) {
-			state.activeKey = params.active;
-			// state.currentActiveEditorId = params.editorId;
+			// state.panels.activeTab.key = params.active;
 			return {...state};
 		},
 
@@ -68,7 +77,7 @@ export default {
 			let type = targetKey.type;
 
 			state.panels.panes.forEach((pane, i) => {
-				if(pane.key === target) {
+				if(pane.tabs.key === target) {
 					lastIndex = i - 1;
 					if(lastIndex < 0) {
 						lastIndex = 0;
@@ -76,7 +85,7 @@ export default {
 				}
 			});
 
-			const panes = state.panels.panes.filter(pane => pane.key !== target);
+			const panes = state.panels.panes.filter(pane => pane.tabs.key !== target);
 			if(lastIndex >= 0 && activeKey === target) {
 				if(panes.length != 0) {
 					activeKey = panes[lastIndex].key;					
@@ -108,7 +117,7 @@ export default {
 		add(state, {payload: target}) {
 
 		    const panes = state.panels.panes;
-		    state.panels.activeTab.key = (state.panels.panes.length + 1).toString();
+		    state.panels.activeTab.key = (state.panels.panes[state.panels.activePane.key].tabs.length + 1).toString();
 
 			target.title = target.title || '新标签页';
 			target.type = target.type || 'editor';
@@ -121,9 +130,11 @@ export default {
 						value: '// TO DO \r\n'
 					};
 
-					state.panels.panes.editors[params.editorId] = editorObj;
+					console.log(state.panels.panes);
+
+					state.panels.panes[state.panels.activePane.key].tabs.editors[params.editorId] = editorObj;
 					console.log('state.editors', state.editors);
-					state.panels.panes.activeEditor.id = params.editorId;
+					state.panels.panes[state.panels.activePane.key].tabs.activeEditor.id = params.editorId;
 					return (
 						<CodingEditor 
 							editorId={target.editorId}>
@@ -149,7 +160,7 @@ export default {
 				return {...state};
 			}
 
-		    state.panels.panes.push({ title: target.title, content: currentDevType, key: state.panels.activeTab.key, type: target.type });
+		    state.panels.panes[state.panels.activePane.key].tabs.push({ title: target.title, content: currentDevType, key: state.panels.activeTab.key, type: target.type });
 
 		    return {...state};
 		}
