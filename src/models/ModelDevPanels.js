@@ -11,10 +11,6 @@ export default {
 	namespace: 'devpanel',
 	state: {
 
-		panes: [
-			{ title: '欢迎页面 - Gospel', content: '欢迎使用 Gospel在线集成开发环境', key: '1', type: 'welcome' },
-	    ],
-
 	    panels: {
 
 	    	panes: [
@@ -48,15 +44,7 @@ export default {
 	    	activeEditor: {
 	    		id: ''
 	    	}
-	    },
-
-	    activeKey: '1',
-
-	    splitType: 'single',
-
-		editors: {},
-
-		currentActiveEditorId: ''
+	    }
 	},
 
 	effects: {
@@ -69,9 +57,10 @@ export default {
 
 		tabChanged(state, {payload: params}) {
 			state.panels.activeTab.key = params.active;
+			state.panels.activeTab.index = ( parseInt(params.active) - 1 ).toString();
 			console.log(state);
-			// const activeTab = state.panels.panes[state.panels.activePane.key].tabs[state.panels.activeTab.index];
-			// state.activeEditor =
+			const activeTab = state.panels.panes[state.panels.activePane.key].tabs[state.panels.activeTab.index];
+			state.panels.panes[state.panels.activePane.key].activeEditor.id = activeTab.content.props.editorId;
 			return {...state};
 		},
 
@@ -96,7 +85,7 @@ export default {
 				}
 			});
 
-			const panes = state.panels.panes.filter(pane => pane.tabs.key !== target);
+			const panes = state.panels.panes.filter(pane => pane.tabs[state.panels.activeTab.index].key !== target);
 			if(lastIndex >= 0 && activeKey === target) {
 				if(panes.length != 0) {
 					activeKey = panes[lastIndex].key;
@@ -115,6 +104,7 @@ export default {
 
 			state.panels.panes = panes;
 			state.panels.activeTab.key = activeKey;
+			state.panels.activeTab.index = ( parseInt(activeKey) - 1 ).toString();
 
 			return {...state};
 		},
