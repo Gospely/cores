@@ -20,7 +20,10 @@ function IndexPage(props) {
     activeKey: props.devpanel.activeKey,
     splitType: props.devpanel.splitType,
 
-    onChange(active) {
+    panels: props.devpanel.panels,
+
+    onChange(active, item) {
+      console.log(active, item);
       props.dispatch({
         type: 'devpanel/tabChanged',
         payload: {
@@ -32,12 +35,6 @@ function IndexPage(props) {
     onEdit(targetKey, action) {
 
       var content = '', title = undefined, type = "editor";
-
-      // if(action == 'add') {
-      //   content = <CodingEditor></CodingEditor>;
-
-      //   console.log(content);
-      // }
 
       props.dispatch({
         type: 'devpanel/' + action,

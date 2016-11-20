@@ -6,7 +6,7 @@ import SplitPane from 'react-split-pane';
 const TabPane = Tabs.TabPane;
 
 const DevPanel = ({ 
-	splitType, onChange, onEdit, activeKey, panes
+	splitType, onChange, onEdit, activeKey, panes, panels
 }) => {
 
 	const animated = false, 
@@ -18,7 +18,7 @@ const DevPanel = ({
 		        	type="editable-card"
 		        	onEdit={onEdit}
 		        	animated={animated}>
-		        	{panes.map(pane => <TabPane tab={pane.title} key={pane.key}>{pane.content}</TabPane>)}
+		        	{panels.panes.map(pane => <TabPane tab={pane.title} key={pane.key}>{pane.content}</TabPane>)}
 		      	</Tabs>,
 
 		  columnList = {

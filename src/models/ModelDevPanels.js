@@ -2,8 +2,8 @@
 import React , { PropTypes } from 'react';
 import dva from 'dva';
 
-import Terminal from '../components/Panel/Editor.js';
-import CodingEditor from '../components/Panel/Terminal.js';
+import CodingEditor from '../components/Panel/Editor.js';
+import Terminal from '../components/Panel/Terminal.js';
 
 import { message } from 'antd';
 
@@ -15,25 +15,21 @@ export default {
 			{ title: '欢迎页面 - Gospel', content: '欢迎使用 Gospel在线集成开发环境', key: '1', type: 'welcome' },
 	    ],
 
-	    tabs: {
+	    panels: {
 
 	    	panes: [
-	    		{ 	
-	    			title: '欢迎页面 - Gospel', 
-	    			content: '欢迎使用 Gospel在线集成开发环境', 
-	    			key: '1', 
+	    		{
+	    			title: '欢迎页面 - Gospel',
+	    			content: '欢迎使用 Gospel在线集成开发环境',
+	    			key: '1',
 	    			type: 'welcome',
-	    			editors: {
-
-	    			},
-	    			activeEditor: {
-	    				
-	    			}
+	    			editors: {},
+	    			activeEditor: {}
 	    		}
 	    	],
 	    	splitType: 'single',
-	    	activePane: {}
-
+	    	activePane: {},
+	    	activeTab: {}
 	    },
 
 	    activeKey: '1',
@@ -60,19 +56,18 @@ export default {
 		},
 
 		changeColumn(state, {payload: type}) {
-			return {...state, splitType: type};
+			state.panels.splitType = type;
+			return {...state};
 		},
 
 		'remove'(state, {payload: targetKey}) {
 			let target = targetKey.targetKey;
-			let activeKey = state.activeKey;
+			let activeKey = state.panels.activeTab.key;
 			let lastIndex;
 
 			let type = targetKey.type;
 
-			console.log(targetKey, targetKey.type);
-
-			state.panes.forEach((pane, i) => {
+			state.panels.panes.forEach((pane, i) => {
 				if(pane.key === target) {
 					lastIndex = i - 1;
 					if(lastIndex < 0) {
@@ -81,7 +76,7 @@ export default {
 				}
 			});
 
-			const panes = state.panes.filter(pane => pane.key !== target);
+			const panes = state.panels.panes.filter(pane => pane.key !== target);
 			if(lastIndex >= 0 && activeKey === target) {
 				if(panes.length != 0) {
 					activeKey = panes[lastIndex].key;					
@@ -98,30 +93,22 @@ export default {
 				}
 			}
 
-			return {...state, panes, activeKey};
-		},
+			state.panels.panes = panes;
+			state.panels.activeTab.key = activeKey;
 
-		pushEditor(state, { payload: editorId }) {
-			var editorObj = {
-				value: '// TO DO \r\n'
-			},
-				tmp = {};
-			tmp[editorId] = editorObj;
-			state.editors.push(tmp);
-			console.log(state.editors);
 			return {...state};
 		},
 
 		handleEditorChanged(state, { payload: params }) {
 			console.log('handleEditorChanged', params.editorId);
-			state.editors[params.editorId].value = params.value;
+			state.panels.editors[params.editorId].value = params.value;
 			return {...state};
 		},
 
 		add(state, {payload: target}) {
 
-		    const panes = state.panes;
-		    state.activeKey = (state.panes.length + 1).toString();
+		    const panes = state.panels.panes;
+		    state.panels.activeTab.key = (state.panels.panes.length + 1).toString();
 
 			target.title = target.title || '新标签页';
 			target.type = target.type || 'editor';
@@ -134,13 +121,12 @@ export default {
 						value: '// TO DO \r\n'
 					};
 
-					state.editors[params.editorId] = editorObj;
+					state.panels.panes.editors[params.editorId] = editorObj;
 					console.log('state.editors', state.editors);
-					state.currentActiveEditorId = params.editorId;
+					state.panels.panes.activeEditor.id = params.editorId;
 					return (
 						<CodingEditor 
-							editorId={target.editorId} 
-							value={target.content}>
+							editorId={target.editorId}>
 						</CodingEditor>
 					);
 				},
@@ -155,6 +141,7 @@ export default {
 			var params = {
 				editorId: target.editorId
 			};
+
 			var currentDevType = devTypes[target.type](params);
 
 			if(currentDevType == undefined) {
@@ -162,7 +149,7 @@ export default {
 				return {...state};
 			}
 
-		    state.panes.push({ title: target.title, content: currentDevType, key: state.activeKey, type: target.type });
+		    state.panels.panes.push({ title: target.title, content: currentDevType, key: state.panels.activeTab.key, type: target.type });
 
 		    return {...state};
 		}
