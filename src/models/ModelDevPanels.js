@@ -15,6 +15,27 @@ export default {
 			{ title: '欢迎页面 - Gospel', content: '欢迎使用 Gospel在线集成开发环境', key: '1', type: 'welcome' },
 	    ],
 
+	    tabs: {
+
+	    	panes: [
+	    		{ 	
+	    			title: '欢迎页面 - Gospel', 
+	    			content: '欢迎使用 Gospel在线集成开发环境', 
+	    			key: '1', 
+	    			type: 'welcome',
+	    			editors: {
+
+	    			},
+	    			activeEditor: {
+	    				
+	    			}
+	    		}
+	    	],
+	    	splitType: 'single',
+	    	activePane: {}
+
+	    },
+
 	    activeKey: '1',
 
 	    splitType: 'single',
