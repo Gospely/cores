@@ -112,6 +112,8 @@ export default {
 			return {...state};
 		},
 
+		//
+
 		handleEditorChanged(state, { payload: params }) {
 			state.panels.panes[state.panels.activePane.key].editors[params.editorId].value = params.value;
 			return {...state};
