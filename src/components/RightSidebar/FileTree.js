@@ -11,6 +11,16 @@ const InputGroup = Input.Group;
 
 const FileTree = (props) => {
 
+  const styles = {
+    searchSuggestions: {
+      border: ' 1px solid rgba(0, 0, 0, .2)',
+      borderRadius: '5px'
+    },
+    searchSuggestionsItem: {
+      padding: '3px 5px'
+    }
+  }
+
   const text = <span>Title</span>;
   const content = (
     <div>
@@ -199,12 +209,27 @@ const FileTree = (props) => {
         })
       }
     },
+    onLoadData: function(treeNode) {
+      return new Promise((resolve) => {
+        props.dispatch({
+          type: 'file/fetchFileNode',
+          payload: {
+            treeNode,
+            resolve
+          }
+        })
+      });
+    },
+    searchFile: function () {
+      // body...
+    },
 
     searchInput: {
 
       value: props.file.searchInput.value,
 
       onChange: function(e) {
+        console.log(e.target.value)
         props.dispatch({
           type: 'file/handleSearchInputChange',
           payload: e.target.value
@@ -281,20 +306,41 @@ const FileTree = (props) => {
     )
   }
 
+   const loopSearchData = data => data.map((item) => {
+    let dirName = item.name;
+    props.dispatch({
+      type: 'file/fetchLastChildFile' ,
+      payload: dirName
+    });
+    
+      return (
+         <div style={styles.searchSuggestionsItem} key={item.key}>{item.name}</div>
+      );
+    
+  });
+
+  const searchSuggestionNodes = loopSearchData(FileTreeProps.treeData);
+
   const searchFilePop = {
     title: <span>搜索文件</span>,
 
     visbile: props.file.searchInput.visbile,
 
     content: (
-      <InputGroup style={searchCls}>
-        <Input 
-          {...FileTreeProps.uploadInput}
-        />
-        <div className="ant-input-group-wrap">
-          <Button icon="plus" style={btnCls} onClick={FileTreeProps.uploadInput.onPressEnter}/>
+      <div>
+        <InputGroup style={searchCls}>
+          <Input 
+            {...FileTreeProps.searchInput}
+            onChange={FileTreeProps.searchInput.onChange}
+          />
+          <div className="ant-input-group-wrap">
+            <Button icon="plus" style={btnCls} onClick={FileTreeProps.uploadInput.onPressEnter}/>
+          </div>
+        </InputGroup>
+        <div style={styles.searchSuggestions}>
+          {searchSuggestionNodes}
         </div>
-      </InputGroup>
+      </div>
     )
   }
 
