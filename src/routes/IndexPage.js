@@ -39,6 +39,9 @@ function IndexPage(props) {
         type: 'devpanel/' + action,
         payload: {targetKey, title, content, type}
       })
+    },
+    onClick() {
+      alert(1)
     }
   }
 
