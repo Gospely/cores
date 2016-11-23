@@ -306,20 +306,20 @@ const FileTree = (props) => {
     )
   }
 
-   const loopSearchData = data => data.map((item) => {
-    let dirName = item.name;
-    props.dispatch({
-      type: 'file/fetchLastChildFile' ,
-      payload: dirName
-    });
+  //  const loopSearchData = data => data.map((item) => {
+  //   let dirName = item.name;
+  //   props.dispatch({
+  //     type: 'file/fetchLastChildFile' ,
+  //     payload: dirName
+  //   });
     
-      return (
-         <div style={styles.searchSuggestionsItem} key={item.key}>{item.name}</div>
-      );
+  //     return (
+  //        <div style={styles.searchSuggestionsItem} key={item.key}>{item.name}</div>
+  //     );
     
-  });
+  // });
 
-  const searchSuggestionNodes = loopSearchData(FileTreeProps.treeData);
+  // const searchSuggestionNodes = loopSearchData(FileTreeProps.treeData);
 
   const searchFilePop = {
     title: <span>搜索文件</span>,
@@ -337,9 +337,6 @@ const FileTree = (props) => {
             <Button icon="plus" style={btnCls} onClick={FileTreeProps.uploadInput.onPressEnter}/>
           </div>
         </InputGroup>
-        <div style={styles.searchSuggestions}>
-          {searchSuggestionNodes}
-        </div>
       </div>
     )
   }

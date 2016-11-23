@@ -82,13 +82,13 @@ export default {
 	      	yield put({ type: 'list', payload: fileList });
       	},
 
-      	*fetchLastChildFile(payload: dirName,{call, put}) {
-      		var fileList = yield request('fs/list/file/?id=' + dirName);
-      		yield put({ type: 'handleLastChildFile', payload: {
-      			fileList
-      		}
-      	});
-      	},
+      	// *fetchLastChildFile(payload: dirName,{call, put}) {
+      	// 	var fileList = yield request('fs/list/file/?id=' + dirName);
+      	// 	yield put({ type: 'handleLastChildFile', payload: {
+      	// 		fileList
+      	// 	}
+      	// });
+      	// },
 
       	*fetchFileNode({payload: params}, {call, put}) {
       		const dirName = params.treeNode.props.eventKey;
@@ -293,9 +293,9 @@ export default {
 			return {...state, current: key};
 		},
 
-		handleLastChildFile(state,payload: params) {
-			console.log(params.fileList);
-		},
+		// handleLastChildFile(state,payload: params) {
+		// 	console.log(params.fileList);
+		// },
 
 		list (state, {payload: list}) {
 			var data = list.data, 
