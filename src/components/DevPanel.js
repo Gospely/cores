@@ -33,7 +33,7 @@ const DevPanel = ({
 			pane.push(generatorTabs(onChange, activeKey, onEdit, animated, tabPanes));
 		});
 
-		console.log('pane', pane);
+		console.log('pane', pane);///
 		return pane;
 	};
 
