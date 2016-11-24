@@ -30,7 +30,7 @@ const DevPanel = ({
 		var pane = [];
 		panels.map(panes => {
 			var tabPanes = generatorTabPanes(panes.tabs);
-			pane.push(<div key={panes.key} onClick={onClick}>{generatorTabs(onChange, activeKey, onEdit, animated, tabPanes)}</div>);
+			pane.push(<div key={panes.key}>{generatorTabs(onChange, activeKey, onEdit, animated, tabPanes)}</div>);
 		});
 
 		console.log('pane', pane);///
