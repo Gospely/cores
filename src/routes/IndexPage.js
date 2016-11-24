@@ -41,7 +41,7 @@ function IndexPage(props) {
       })
     },
     onClick() {
-      alert(1)
+      console.log('Choose another pane');
     }
   }
 
