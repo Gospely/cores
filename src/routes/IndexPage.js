@@ -50,6 +50,8 @@ function IndexPage(props) {
 
   return (
     <div className="body">
+                <LeftSidebar></LeftSidebar>
+
       <SplitPane split="vertical" minSize={46} maxSize={46}>
           <div className="LeftSidebar">
             <LeftSidebar></LeftSidebar>

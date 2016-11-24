@@ -204,7 +204,7 @@ const LeftSidebar = (props) => {
 	      	<Menu 
 	      		style={styles.sidebar} 
 	      		onClick={leftSidebarProps.handleClick} 
-	      		mode="inline">
+	      		mode="horizontal">
 
 		        <Menu.Item key="create">
 		          	<Icon type="plus" />
