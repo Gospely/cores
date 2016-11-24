@@ -6,8 +6,8 @@ export default {
 		deviceList: [
 			{
 				name: 'iPhone',
-				width: 200,
-				heifht: 300
+				width: 375,
+				height: 667
 			},
 			{
 				name: 'iPad',
@@ -16,13 +16,13 @@ export default {
 			},
 			{
 				name: 'Android Phone',
-				width: 200,
-				heifht: 300
+				width: 245,
+				heifht: 456
 			},
 			{
 				name: 'Android Tablet',
-				width: 200,
-				heifht: 300
+				width: 456,
+				heifht: 367
 			}
 		],
 
