@@ -32,7 +32,7 @@ const Editor = (props) => {
 		replaceContent: props$editorTop.replaceContent,
 
 		jumpLine: props$editorTop.jumpLine,
-		
+
 		syntaxList: props$editorTop.syntaxList,
 
 		isSaving: props$editorTop.isSaving,
@@ -182,7 +182,7 @@ const Editor = (props) => {
 					editorProps.showArrow &&
 			        <div className={EditorStyle.fullscreenBtn}>
 					    <Button type="ghost" shape="circle-outline" icon="arrows-alt"></Button>
-			        </div>				
+			        </div>
 				}
 			</ReactCSSTransitionGroup>
   		</div>
