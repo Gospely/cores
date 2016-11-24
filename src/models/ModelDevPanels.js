@@ -50,7 +50,7 @@ export default {
 	    		key: 0
 	    	},
 	    	activeTab: {
-	    		key: '2',
+	    		key: '1',
 	    		index: 1
 	    	},
 	    	activeEditor: {
@@ -73,7 +73,7 @@ export default {
 			state.panels.activeTab.index = ( parseInt(params.active) - 1 ).toString();
 
 			const activeTab = methods.getActiveTab(state);
-			console.log(activeTab);
+			console.log('activeTab',activeTab);
 			
 
 			if(activeTab.type == 'editor') {
@@ -85,64 +85,54 @@ export default {
 		changeColumn(state, {payload: type}) {
 			const panes = state.panels.panes;
 			const pushPane = function(key) {
-				panes.push(
-					    		{
-					    			tabs: [
-							    		{
-							    			title: '欢迎页面 - Gospel',
-							    			content: '欢迎使用 Gospel在线集成开发环境',
-							    			key: '1',
-							    			type: 'welcome'
-							    		}
-						    		],
-
-						    		editors: {},
-
-						    		activeEditor: {
-						    			id: ''
-						    		},
-						    		key: key
-					    		}
-				)
+				panes.push({
+					  tabs: [{
+						title: '欢迎页面 - Gospel',
+						content: '欢迎使用 Gospel在线集成开发环境',
+						key: '1',
+						type: 'welcome'
+					}],
+				  	editors: {},
+					activeEditor: {
+						id: ''
+			    	},
+			    	key: key
+				})
 			}
-			switch(state.panels.splitType)
-			{
-				case 'single': switch(type)
-									{
-										case 'grid': for(let i = 1; i < 4; i ++){
-														pushPane(i);
-												   	}
-												     state.panels.activePane.key = 3;
-												     break;
-										case 'single': state.panels.activePane.key = 0;
-													   break;
-										default: pushPane(1);
-												 state.panels.activePane.key = 1;
-									}
-								break;
-				case 'grid': switch(type)
-								{
-									case 'single': for(let i = 0; i < 3; i ++){
-														panes.pop();
-													}
-													state.panels.activePane.key = 0;
-													break;
-									case 'grid': break;
-									default: panes.pop();
-											 panes.pop();
-											 state.panels.activePane.key = 1;
-								}
-							break;
-				default: switch(type) 
-							{
-								case 'single': panes.pop();
-											   state.panels.activePane.key = 0;
-											   break;
-								case 'grid': pushPane(2);
-											 pushPane(3);
-											 state.panels.activePane.key = 3;
-											 break;
-							}
+			switch(state.panels.splitType) {
+				case 'single': switch(type) {
+					case 'grid': for(let i = 1; i < 4; i ++){
+						pushPane(i);
+					}
+					state.panels.activePane.key = 3;
+					break;
+					case 'single': state.panels.activePane.key = 0;
+				    break;
+					default: pushPane(1);
+						state.panels.activePane.key = 1;
+				}
+				break;
+				case 'grid': switch(type){
+					case 'single': for(let i = 0; i < 3; i ++){
+						panes.pop();
+					}
+					state.panels.activePane.key = 0;
+					break;
+					case 'grid': break;
+					default: panes.pop();
+						panes.pop();
+						state.panels.activePane.key = 1;
+				}
+				break;
+				default: switch(type) {
+					case 'single': panes.pop();
+						state.panels.activePane.key = 0;
+						break;
+					case 'grid': pushPane(2);
+						pushPane(3);
+						state.panels.activePane.key = 3;
+						break;
+				}
 			}
 			
 			console.log(state.panels.panes)
@@ -202,7 +192,7 @@ export default {
 		add(state, {payload: target}) {
 
 		    const panes = state.panels.panes;
-		    state.panels.activeTab.key = (state.panels.panes[state.panels.activePane.key].tabs.length + 1).toString();
+		    state.panels.activeTab.key = (methods.getActivePane(state).tabs.length + 1).toString();
 		    console.log(target);
 
 			target.title = target.title || '新标签页';
@@ -211,14 +201,14 @@ export default {
 
 			const devTypes = {
 				editor: function(params) {
-
+					console.log(params);
 					var editorObj = {
 						value: '// TO DO \r\n',
 						id: params.editorId
 					};
 
-					state.panels.panes[state.panels.activePane.key].editors[params.editorId] = editorObj;
-					state.panels.panes[state.panels.activePane.key].activeEditor.id = params.editorId;
+					methods.getActivePane(state).editors[params.editorId] = editorObj;
+					methods.getActivePane(state).activeEditor.id = params.editorId;
 					return (
 						<CodingEditor
 							editorId={params.editorId}>

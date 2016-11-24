@@ -13,6 +13,7 @@ import Topbar from '../components/TopBar';
 import CodingEditor from '../components/Panel/Editor.js';
 
 import SplitPane from 'react-split-pane';
+import randomString from '../utils/randomString'
 
 function IndexPage(props) {
 
@@ -35,10 +36,10 @@ function IndexPage(props) {
     onEdit(targetKey, action) {
 
       var content = '', title = undefined, type = "editor";
-
+      let editorId = randomString(8,10);
       props.dispatch({
         type: 'devpanel/' + action,
-        payload: {targetKey, title, content, type}
+        payload: {targetKey, title, content, type,editorId}
       })
     }
 
