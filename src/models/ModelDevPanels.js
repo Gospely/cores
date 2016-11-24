@@ -12,8 +12,8 @@ const methods = {
 	getActivePane(state) {
 		return state.panels.panes[state.panels.activePane.key];
 	},
-	getActiveTab(state) {
-		return state.panels.panes[state.panels.activePane.key].tabs[state.panels.activeTab.index];
+	getActiveTab(state,pane) {
+		return pane.tabs[pane.activeTab.index];
 	}
 }
 
@@ -40,7 +40,12 @@ export default {
 		    			id: ''
 		    		},
 		    		
-		    		key: 0
+		    		key: 0,
+
+		    		activeTab: {
+		    			key: '1',
+		    			index: 0
+		    		}
 	    		}
 	    	],
 
@@ -48,10 +53,6 @@ export default {
 
 	    	activePane: {
 	    		key: 0
-	    	},
-	    	activeTab: {
-	    		key: '1',
-	    		index: 1
 	    	},
 	    	activeEditor: {
 	    		id: ''
@@ -69,10 +70,10 @@ export default {
 	reducers: {
 
 		tabChanged(state, {payload: params}) {
-			state.panels.activeTab.key = params.active;
-			state.panels.activeTab.index = ( parseInt(params.active) - 1 ).toString();
+			methods.getActivePane(state).activeTab.key = params.active;
+			methods.getActivePane(state).activeTab.index = ( parseInt(params.active) - 1 ).toString();
 
-			const activeTab = methods.getActiveTab(state);
+			const activeTab = methods.getActiveTab(state,methods.getActivePane(state));
 			console.log('activeTab',activeTab);
 			
 
@@ -96,7 +97,11 @@ export default {
 					activeEditor: {
 						id: ''
 			    	},
-			    	key: key
+			    	key: key,
+			    	activeTab: {
+		    			key: '1',
+		    			index: key - 1
+		    		}
 				})
 			}
 			switch(state.panels.splitType) {
@@ -142,7 +147,7 @@ export default {
 
 		'remove'(state, {payload: targetKey}) {
 			let target = targetKey.targetKey;
-			let activeKey = state.panels.activeTab.key;
+			let activeKey = methods.getActivePane(state).activeTab.key;
 			let lastIndex;
 
 			let type = targetKey.type;
@@ -156,7 +161,6 @@ export default {
 				}
 			});
 
-					// alert(state.panels.panes.length)
 
 
 			const tabs = methods.getActivePane(state).tabs.filter(tab => tab.key !== target);
@@ -175,24 +179,24 @@ export default {
 					}
 				}
 			}
-					// alert(panes.length)
 
 			methods.getActivePane(state).tabs = tabs;
-			state.panels.activeTab.key = activeKey;
-			state.panels.activeTab.index = ( parseInt(activeKey) - 1 ).toString();
+			methods.getActivePane(state).activeTab.key = activeKey;
+			methods.getActivePane(state).activeTab.index = ( parseInt(activeKey) - 1 ).toString();
 
 			return {...state};
 		},
 
 		handleEditorChanged(state, { payload: params }) {
-			state.panels.panes[state.panels.activePane.key].editors[params.editorId].value = params.value;
+			methods.getActivePane(state).editors[params.editorId].value = params.value;
 			return {...state};
 		},
 
 		add(state, {payload: target}) {
 
 		    const panes = state.panels.panes;
-		    state.panels.activeTab.key = (methods.getActivePane(state).tabs.length + 1).toString();
+		    const activePane = methods.getActivePane(state);
+		    activePane.activeTab.key = (activePane.tabs.length + 1).toString();
 		    console.log(target);
 
 			target.title = target.title || '新标签页';
@@ -207,8 +211,8 @@ export default {
 						id: params.editorId
 					};
 
-					methods.getActivePane(state).editors[params.editorId] = editorObj;
-					methods.getActivePane(state).activeEditor.id = params.editorId;
+					activePane.editors[params.editorId] = editorObj;
+					activePane.activeEditor.id = params.editorId;
 					return (
 						<CodingEditor
 							editorId={params.editorId}>
@@ -242,8 +246,8 @@ export default {
 
 			state.panels.activeEditor.id = target.editorId;
 			console.log("key",state.panels.activePane.key)
-		    state.panels.panes[state.panels.activePane.key].tabs.push({ title: target.title, content: currentDevType, key: state.panels.activeTab.key, type: target.type });
-
+		    activePane.tabs.push({ title: target.title, content: currentDevType, type: target.type, key: activePane.activeTab.key});
+			activePane.activeTab = {key: activePane.activeTab.key, index: activePane.tabs.length - 1};
 		    return {...state};
 		}
 	}
