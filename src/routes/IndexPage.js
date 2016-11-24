@@ -8,6 +8,7 @@ import {Row, Col} from 'antd';
 import LeftSidebar from '../components/LeftSidebar';
 import RightSidebar from '../components/RightSidebar';
 import DevPanel from '../components/DevPanel';
+import Topbar from '../components/TopBar';
 
 import CodingEditor from '../components/Panel/Editor.js';
 
@@ -46,21 +47,32 @@ function IndexPage(props) {
   }
 
   var devPanelMinSize = document.body.clientWidth;
-  devPanelMinSize = devPanelMinSize * 0.833333333;
+  devPanelMinSize = devPanelMinSize - ( 180 * 2 );
 
   return (
     <div className="body">
-      <SplitPane split="vertical" minSize={46} maxSize={46}>
-          <div className="LeftSidebar">
-            <LeftSidebar></LeftSidebar>
+      <div className="table-ftw" style={{paddingBottom: '0px'}}>
+        <div className="tr-ftw">
+          <div className="td-ftw" style={{height: '38px'}}>
+            <Topbar></Topbar>
           </div>
-          <SplitPane split="vertical" defaultSize={devPanelMinSize}>
-              <div className={styles.devbar}>
-                <DevPanel {...devPanelProps}></DevPanel>
-              </div>
-              <RightSidebar></RightSidebar>
-          </SplitPane>
-      </SplitPane>
+        </div>
+        <div className="tr-ftw">
+          <div className="td-ftw">
+            <SplitPane split="vertical" minSize={41} defaultSize={180}>
+                <div className="LeftSidebar">
+                  <LeftSidebar></LeftSidebar>
+                </div>
+                <SplitPane split="vertical" defaultSize={devPanelMinSize}>
+                    <div className={styles.devbar}>
+                      <DevPanel {...devPanelProps}></DevPanel>
+                    </div>
+                    <RightSidebar></RightSidebar>
+                </SplitPane>
+            </SplitPane>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
