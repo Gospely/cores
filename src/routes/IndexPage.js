@@ -40,10 +40,12 @@ function IndexPage(props) {
         type: 'devpanel/' + action,
         payload: {targetKey, title, content, type}
       })
-    },
-    onChangePane() {
-      console.log('Choose another pane');
     }
+
+    // onChangePane(e) {
+    //   console.log('Choose another pane',e.target.key);
+    // }
+
   }
 
   var devPanelMinSize = document.body.clientWidth;

@@ -32,7 +32,7 @@ const Editor = (props) => {
 		replaceContent: props$editorTop.replaceContent,
 
 		jumpLine: props$editorTop.jumpLine,
-		
+
 		syntaxList: props$editorTop.syntaxList,
 
 		isSaving: props$editorTop.isSaving,
@@ -40,6 +40,7 @@ const Editor = (props) => {
 		currentLanguage: props$editorTop.currentLanguage,
 
 		isSlideUp: props$editorTop.isSlideUp,
+
 
 		onOpenSearch() {
 			dispatch({
@@ -71,9 +72,14 @@ const Editor = (props) => {
 			});
 		},
 
-		onReplace() {
+		onReplace(value) {
+
+			editorId = props.devpanel.panels.activeEditor.id;
+			console.log(value);
+			var content = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value
 			dispatch({
-				type: 'editorTop/replace'
+				type: 'editorTop/replace',
+				payload: {value,content}
 			})
 		},
 
@@ -182,7 +188,7 @@ const Editor = (props) => {
 					editorProps.showArrow &&
 			        <div className={EditorStyle.fullscreenBtn}>
 					    <Button type="ghost" shape="circle-outline" icon="arrows-alt"></Button>
-			        </div>				
+			        </div>
 				}
 			</ReactCSSTransitionGroup>
   		</div>

@@ -8,6 +8,12 @@ import Designer from '../components/Panel/Designer.js';
 
 import { message } from 'antd';
 
+const methods = {
+	getActiveTab(state) {
+		return state.panels.panes[state.panels.activePane.key].tabs[state.panels.activeTab.index];
+	}
+}
+
 export default {
 	namespace: 'devpanel',
 	state: {
@@ -58,11 +64,14 @@ export default {
 	},
 
 	reducers: {
+
 		tabChanged(state, {payload: params}) {
 			state.panels.activeTab.key = params.active;
 			state.panels.activeTab.index = ( parseInt(params.active) - 1 ).toString();
 			console.log(state);
-			const activeTab = state.panels.panes[state.panels.activePane.key].tabs[state.panels.activeTab.index];
+
+			const activeTab = methods.getActiveTab(state);
+
 			if(activeTab.type == 'editor') {
 				state.panels.activeEditor.id = activeTab.content.props.editorId;
 			}
@@ -70,6 +79,69 @@ export default {
 		},
 
 		changeColumn(state, {payload: type}) {
+			const panes = state.panels.panes;
+			const pushPane = function(key) {
+				panes.push(
+					    		{
+					    			tabs: [
+							    		{
+							    			title: '欢迎页面 - Gospel',
+							    			content: '欢迎使用 Gospel在线集成开发环境',
+							    			key: '1',
+							    			type: 'welcome'
+							    		}
+						    		],
+
+						    		editors: {},
+
+						    		activeEditor: {
+						    			id: ''
+						    		},
+						    		key: key
+					    		}
+				)
+			}
+			switch(state.panels.splitType)
+			{
+				case 'single': switch(type)
+									{
+										case 'grid': for(let i = 1; i < 4; i ++){
+														pushPane(i);
+												   	}
+												     state.panels.activePane.key = 3;
+												     break;
+										case 'single': state.panels.activePane.key = 0;
+													   break;
+										default: pushPane(1);
+												 state.panels.activePane.key = 1;
+									}
+								break;
+				case 'grid': switch(type)
+								{
+									case 'single': for(let i = 0; i < 3; i ++){
+														panes.pop();
+													}
+													state.panels.activePane.key = 0;
+													break;
+									case 'grid': break;
+									default: panes.pop();
+											 panes.pop();
+											 state.panels.activePane.key = 1;
+								}
+							break;
+				default: switch(type) 
+							{
+								case 'single': panes.pop();
+											   state.panels.activePane.key = 0;
+											   break;
+								case 'grid': pushPane(2);
+											 pushPane(3);
+											 state.panels.activePane.key = 3;
+											 break;
+							}
+			}
+			
+			console.log(state.panels.panes)
 			state.panels.splitType = type;
 			return {...state};
 		},
@@ -140,7 +212,7 @@ export default {
 					state.panels.panes[state.panels.activePane.key].editors[params.editorId] = editorObj;
 					state.panels.panes[state.panels.activePane.key].activeEditor.id = params.editorId;
 					return (
-						<CodingEditor 
+						<CodingEditor
 							editorId={params.editorId}>
 						</CodingEditor>
 					);
@@ -171,6 +243,7 @@ export default {
 			}
 
 			state.panels.activeEditor.id = target.editorId;
+			console.log("key",state.panels.activePane.key)
 		    state.panels.panes[state.panels.activePane.key].tabs.push({ title: target.title, content: currentDevType, key: state.panels.activeTab.key, type: target.type });
 
 		    return {...state};
