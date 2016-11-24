@@ -33,7 +33,7 @@ export default {
 		isSaving: false,
 		currentLanguage: 'HTML',
 
-		isSlideUp: false
+		isSlideUp: false,
 	},
 
 	reducers: {
@@ -70,8 +70,9 @@ export default {
 				};
 			},
 
-			replace(state) {
+			replace(state,{ payload: params }) {
 				console.log('replace');
+				console.log(params);
 				console.log("state", state);
 				return {...state
 				};

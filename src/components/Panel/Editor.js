@@ -41,6 +41,7 @@ const Editor = (props) => {
 
 		isSlideUp: props$editorTop.isSlideUp,
 
+
 		onOpenSearch() {
 			dispatch({
 				type: 'editorTop/toggleSearchBar'
@@ -71,9 +72,14 @@ const Editor = (props) => {
 			});
 		},
 
-		onReplace() {
+		onReplace(value) {
+
+			editorId = props.devpanel.panels.activeEditor.id;
+			console.log(value);
+			var content = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value
 			dispatch({
-				type: 'editorTop/replace'
+				type: 'editorTop/replace',
+				payload: {value,content}
 			})
 		},
 

@@ -141,7 +141,7 @@ export default {
 					state.panels.panes[state.panels.activePane.key].editors[params.editorId] = editorObj;
 					state.panels.panes[state.panels.activePane.key].activeEditor.id = params.editorId;
 					return (
-						<CodingEditor 
+						<CodingEditor
 							editorId={params.editorId}>
 						</CodingEditor>
 					);
