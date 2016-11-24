@@ -31,7 +31,14 @@ export default {
 			    			content: '欢迎使用 Gospel在线集成开发环境',
 			    			key: '1',
 			    			type: 'welcome'
+			    		},
+
+						{
+			    			title: '欢迎页面 - Gospel',
+			    			key: '2',
+			    			type: 'designer'
 			    		}
+
 		    		],
 
 		    		editors: {},

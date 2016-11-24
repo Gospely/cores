@@ -38,7 +38,7 @@ const Designer = (props) => {
 			</div>
 
 			<div className="designer-body">
-				<iframe name="gospel-designer" width={props.designer.deviceList[props.designer.defaultDevice].width} height={props.designer.deviceList[props.designer.defaultDevice].height} className="designer" frameBorder="0" src="static/designer/designer.html"></iframe>
+				<iframe name="gospel-designer" width={props.designer.deviceList[props.designer.defaultDevice].width} height={props.designer.deviceList[props.designer.defaultDevice].height} className="designer" frameBorder="0" src="static/designer/weui/designer.html"></iframe>
 			</div>
 
 		</div>

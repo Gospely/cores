@@ -47,8 +47,9 @@ function IndexPage(props) {
   }
 
   var devPanelMinSize = document.body.clientWidth,
-        leftRightBarWidth = 200;
-  devPanelMinSize = devPanelMinSize - ( leftRightBarWidth * 2 );
+        leftBarWidth = 230,
+        rightBarWidth = 200;
+  devPanelMinSize = devPanelMinSize - ( rightBarWidth + leftBarWidth );
 
   return (
     <div className="body">
@@ -60,7 +61,7 @@ function IndexPage(props) {
         </div>
         <div className="tr-ftw">
           <div className="td-ftw">
-            <SplitPane split="vertical" minSize={41} defaultSize={leftRightBarWidth}>
+            <SplitPane split="vertical" minSize={41} defaultSize={leftBarWidth}>
                 <div className="LeftSidebar">
                   <LeftSidebar></LeftSidebar>
                 </div>
