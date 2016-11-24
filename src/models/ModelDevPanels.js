@@ -9,6 +9,9 @@ import Designer from '../components/Panel/Designer.js';
 import { message } from 'antd';
 
 const methods = {
+	getActivePane(state) {
+		return state.panels.panes[state.panels.activePane.key];
+	},
 	getActiveTab(state) {
 		return state.panels.panes[state.panels.activePane.key].tabs[state.panels.activeTab.index];
 	}
@@ -75,9 +78,10 @@ export default {
 		tabChanged(state, {payload: params}) {
 			state.panels.activeTab.key = params.active;
 			state.panels.activeTab.index = ( parseInt(params.active) - 1 ).toString();
-			console.log(state);
 
 			const activeTab = methods.getActiveTab(state);
+			console.log(activeTab);
+			
 
 			if(activeTab.type == 'editor') {
 				state.panels.activeEditor.id = activeTab.content.props.editorId;
@@ -159,9 +163,9 @@ export default {
 			let lastIndex;
 
 			let type = targetKey.type;
-
-			state.panels.panes.forEach((pane, i) => {
-				if(pane.tabs.key === target) {
+			// console.log('tabs',state.panels.panes.tabs)
+			methods.getActivePane(state).tabs.forEach((tab, i) => {
+				if(tab.key === target) {
 					lastIndex = i - 1;
 					if(lastIndex < 0) {
 						lastIndex = 0;
@@ -169,13 +173,16 @@ export default {
 				}
 			});
 
-			const panes = state.panels.panes.filter(pane => pane.tabs[state.panels.activeTab.index].key !== target);
+					// alert(state.panels.panes.length)
+
+
+			const tabs = methods.getActivePane(state).tabs.filter(tab => tab.key !== target);
 			if(lastIndex >= 0 && activeKey === target) {
-				if(panes.length != 0) {
-					activeKey = panes[lastIndex].key;
+				if(tabs.length != 0) {
+					activeKey = tabs[lastIndex].key;
 				}else {
 					if(type != 'welcome') {
-						panes.push({
+						tabs.push({
 							title: '欢迎页面 - Gospel',
 							content: 'content',
 							key: '1',
@@ -185,8 +192,9 @@ export default {
 					}
 				}
 			}
+					// alert(panes.length)
 
-			state.panels.panes = panes;
+			methods.getActivePane(state).tabs = tabs;
 			state.panels.activeTab.key = activeKey;
 			state.panels.activeTab.index = ( parseInt(activeKey) - 1 ).toString();
 
