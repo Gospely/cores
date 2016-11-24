@@ -37,6 +37,10 @@ const Designer = (props) => {
 				</Dropdown>
 			</div>
 
+			<div className="designer-body">
+				<iframe name="gospel-designer" width="375" height="667" className="designer" frameBorder="0" src="http://baidu.com"></iframe>
+			</div>
+
 		</div>
   	);
 
