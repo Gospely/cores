@@ -520,6 +520,7 @@ const FileTree = (props) => {
         draggable={true}
         onDragEnter={FileTreeProps.onDragEnter}
         onDrop={FileTreeProps.onDrop}
+        defaultExpandedKeys={['node-hello_ivydom']}
       >
         {treeNodes}
       </Tree>

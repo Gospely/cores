@@ -8,6 +8,7 @@ import {Row, Col} from 'antd';
 import LeftSidebar from '../components/LeftSidebar';
 import RightSidebar from '../components/RightSidebar';
 import DevPanel from '../components/DevPanel';
+import Topbar from '../components/TopBar';
 
 import CodingEditor from '../components/Panel/Editor.js';
 
@@ -46,13 +47,12 @@ function IndexPage(props) {
   }
 
   var devPanelMinSize = document.body.clientWidth;
-  devPanelMinSize = devPanelMinSize * 0.833333333;
+  devPanelMinSize = devPanelMinSize - ( 180 * 2 );
 
   return (
     <div className="body">
-                <LeftSidebar></LeftSidebar>
-
-      <SplitPane split="vertical" minSize={46} maxSize={46}>
+      <Topbar></Topbar>
+      <SplitPane split="vertical" minSize={41} defaultSize={180}>
           <div className="LeftSidebar">
             <LeftSidebar></LeftSidebar>
           </div>
