@@ -22,15 +22,7 @@ export default {
 			    			content: '欢迎使用 Gospel在线集成开发环境',
 			    			key: '1',
 			    			type: 'welcome'
-			    		},
-
-						{
-			    			title: 'Gospel UI 设计器',
-			    			content: '欢迎使用 Gospel在线集成开发环境',
-			    			key: '2',
-			    			type: 'designer'
 			    		}
-
 		    		],
 
 		    		editors: {},
@@ -38,6 +30,7 @@ export default {
 		    		activeEditor: {
 		    			id: ''
 		    		},
+		    		
 		    		key: 0
 	    		}
 	    	],
@@ -48,8 +41,8 @@ export default {
 	    		key: 0
 	    	},
 	    	activeTab: {
-	    		key: '1',
-	    		index: 0
+	    		key: '2',
+	    		index: 1
 	    	},
 	    	activeEditor: {
 	    		id: ''
@@ -154,7 +147,6 @@ export default {
 				},
 
 				terminal: function() {
-
 					return (
 						<Terminal></Terminal>
 					);

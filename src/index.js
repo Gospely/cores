@@ -37,6 +37,7 @@ app.model(require('./models/editor/ModelTop'));
 app.model(require('./models/editor/ModelEditor'));
 app.model(require('./models/rightSidebar/ModelLayout'));
 app.model(require('./models/rightSidebar/ModelFileTree'));
+app.model(require('./models/ModelDesigner'));
 
 // 4. Router
 app.router(require('./router'));

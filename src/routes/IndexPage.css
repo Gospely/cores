@@ -51,7 +51,7 @@
 
 .devbar {
   width: 100%;
-  margin-left: -2px;
+  /*margin-left: -2px;*/
   padding-left: 1px;
   z-index: 200;
   margin-top: -1px;
