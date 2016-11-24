@@ -42,10 +42,6 @@ function IndexPage(props) {
       })
     }
 
-    // onChangePane(e) {
-    //   console.log('Choose another pane',e.target.key);
-    // }
-
   }
 
   var devPanelMinSize = document.body.clientWidth,
