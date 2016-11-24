@@ -1,14 +1,37 @@
 
 :global {
-  	html, body, #root {
+  	html, body, #root{
     	height: 100%;
   	}
+
+  	.body {
+  		height: 100%;
+  	}
+
+	.table-ftw {
+	    display: table;
+	    height: 100%;
+	    width: 100%;
+	    position: relative;
+	    table-layout: fixed;
+	}
+
+	.table-ftw .tr-ftw {
+	    display: table-row;
+	}
 
   	.ant-tabs-bar {
   		margin-bottom: 0px!important;
   		margin-left: -1px;
   		margin-top: -1px;
   	}
+
+	.table-ftw .tr-ftw .td-ftw {
+	    display: table-cell;
+	    position: relative;
+	    vertical-align: top;
+	    height: 100%;
+	}
 
   	.ant-tabs-vertical.ant-tabs-right > .ant-tabs-content  {
   		padding-right: 0px!important;

@@ -51,18 +51,28 @@ function IndexPage(props) {
 
   return (
     <div className="body">
-      <Topbar></Topbar>
-      <SplitPane split="vertical" minSize={41} defaultSize={180}>
-          <div className="LeftSidebar">
-            <LeftSidebar></LeftSidebar>
+      <div className="table-ftw" style={{paddingBottom: '0px'}}>
+        <div className="tr-ftw">
+          <div className="td-ftw" style={{height: '38px'}}>
+            <Topbar></Topbar>
           </div>
-          <SplitPane split="vertical" defaultSize={devPanelMinSize}>
-              <div className={styles.devbar}>
-                <DevPanel {...devPanelProps}></DevPanel>
-              </div>
-              <RightSidebar></RightSidebar>
-          </SplitPane>
-      </SplitPane>
+        </div>
+        <div className="tr-ftw">
+          <div className="td-ftw">
+            <SplitPane split="vertical" minSize={41} defaultSize={180}>
+                <div className="LeftSidebar">
+                  <LeftSidebar></LeftSidebar>
+                </div>
+                <SplitPane split="vertical" defaultSize={devPanelMinSize}>
+                    <div className={styles.devbar}>
+                      <DevPanel {...devPanelProps}></DevPanel>
+                    </div>
+                    <RightSidebar></RightSidebar>
+                </SplitPane>
+            </SplitPane>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
