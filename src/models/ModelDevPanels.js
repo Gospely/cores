@@ -29,22 +29,22 @@ export default {
 		    		activeEditor: {
 		    			id: ''
 		    		},
-		    		key: 1
+		    		key: 0
 	    		}
 	    	],
 
 	    	splitType: 'single',
 
 	    	activePane: {
-	    		key: 1
+	    		key: 0
 	    	},
 	    	activeTab: {
 	    		key: '1',
 	    		index: 0
+	    	},
+	    	activeEditor: {
+	    		id: ''
 	    	}
-	    	// activeEditor: {
-	    	// 	id: ''
-	    	// }
 	    }
 
 	},
@@ -124,6 +124,7 @@ export default {
 
 		    const panes = state.panels.panes;
 		    state.panels.activeTab.key = (state.panels.panes[state.panels.activePane.key].tabs.length + 1).toString();
+		    console.log(target);
 
 			target.title = target.title || '新标签页';
 			target.type = target.type || 'editor';
