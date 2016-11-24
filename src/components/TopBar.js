@@ -90,27 +90,39 @@ const LeftSidebar = (props) => {
 
 	        terminal() {
 
-	          var title = '终端',
-	              type = 'terminal';
+	          	var title = '终端',
+	              	type = 'terminal';
 
-	          props.dispatch({
-	            type: 'devpanel/add',
-	            payload: {title, type}
-	          })
+	          	props.dispatch({
+	            	type: 'devpanel/add',
+	            	payload: {title, type}
+	          	})
 
 	        },
 
 	        file() {
 
-	          var title = '新文件',
-	              content = '// TO DO',
-	              type = 'editor',
-	              editorId = randomWord(8, 10);
+	          	var title = '新文件',
+	              	content = '// TO DO',
+	              	type = 'editor',
+	              	editorId = randomWord(8, 10);
 
-	          var editor = props.dispatch({
-	            type: 'devpanel/add',
-	            payload: {title, content, type, editorId}
-	          });
+	          	var editor = props.dispatch({
+	            	type: 'devpanel/add',
+	            	payload: {title, content, type, editorId}
+	          	});
+
+	        },
+
+	        designer() {
+
+	          	var title = 'Gospel UI 设计器',
+	              	type = 'designer';
+
+	          	var editor = props.dispatch({
+	            	type: 'devpanel/add',
+	            	payload: {title, type}
+	          	});
 
 	        },
 
@@ -224,6 +236,9 @@ const LeftSidebar = (props) => {
 		        <Menu.Item key="file">
 					<Icon type="file-text" />
 		        </Menu.Item>        		        
+		        <Menu.Item key="designer">
+		        	<Icon type="windows-o" />
+		        </Menu.Item>
 		        <Menu.Item key="terminal">
 					<Icon type="code-o" />
 		        </Menu.Item>        
