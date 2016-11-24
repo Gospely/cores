@@ -41,7 +41,7 @@ function IndexPage(props) {
         payload: {targetKey, title, content, type}
       })
     },
-    onClick() {
+    onChangePane() {
       console.log('Choose another pane');
     }
   }

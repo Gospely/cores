@@ -29,7 +29,7 @@ export default {
 		    		activeEditor: {
 		    			id: ''
 		    		},
-		    		key: 1
+		    		key: 0
 	    		}
 	    	],
 
@@ -45,7 +45,7 @@ export default {
 	    	activeEditor: {
 	    		id: ''
 	    	}
-	    },
+	    }
 
 	},
 
@@ -56,12 +56,14 @@ export default {
 	},
 
 	reducers: {
-
+		getActiveTab() {
+			return state.panels.panes[state.panels.activePane.key].tabs[state.panels.activeTab.index];
+		},
 		tabChanged(state, {payload: params}) {
 			state.panels.activeTab.key = params.active;
 			state.panels.activeTab.index = ( parseInt(params.active) - 1 ).toString();
 			console.log(state);
-			const activeTab = state.panels.panes[state.panels.activePane.key].tabs[state.panels.activeTab.index];
+			const activeTab = getActiveTab();
 			if(activeTab.type == 'editor') {
 				state.panels.activeEditor.id = activeTab.content.props.editorId;
 			}
@@ -122,6 +124,7 @@ export default {
 
 		    const panes = state.panels.panes;
 		    state.panels.activeTab.key = (state.panels.panes[state.panels.activePane.key].tabs.length + 1).toString();
+		    console.log(target);
 
 			target.title = target.title || '新标签页';
 			target.type = target.type || 'editor';
