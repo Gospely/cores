@@ -4,6 +4,7 @@ import dva from 'dva';
 
 import CodingEditor from '../components/Panel/Editor.js';
 import Terminal from '../components/Panel/Terminal.js';
+import Designer from '../components/Panel/Designer.js';
 
 import { message } from 'antd';
 
@@ -27,7 +28,15 @@ export default {
 			    			content: '欢迎使用 Gospel在线集成开发环境',
 			    			key: '1',
 			    			type: 'welcome'
+			    		},
+
+						{
+			    			title: 'Gospel UI 设计器',
+			    			content: '欢迎使用 Gospel在线集成开发环境',
+			    			key: '2',
+			    			type: 'designer'
 			    		}
+
 		    		],
 
 		    		editors: {},
@@ -62,14 +71,14 @@ export default {
 	},
 
 	reducers: {
-		// getActiveTab() {
-		// 	return state.panels.panes[state.panels.activePane.key].tabs[state.panels.activeTab.index];
-		// },
+
 		tabChanged(state, {payload: params}) {
 			state.panels.activeTab.key = params.active;
 			state.panels.activeTab.index = ( parseInt(params.active) - 1 ).toString();
 			console.log(state);
+
 			const activeTab = methods.getActiveTab(state);
+
 			if(activeTab.type == 'editor') {
 				state.panels.activeEditor.id = activeTab.content.props.editorId;
 			}
@@ -215,10 +224,17 @@ export default {
 						</CodingEditor>
 					);
 				},
+
 				terminal: function() {
 
 					return (
 						<Terminal></Terminal>
+					);
+				},
+
+				designer: function() {
+					return (
+						<Designer></Designer>
 					);
 				}
 			}
