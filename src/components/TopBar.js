@@ -1,5 +1,5 @@
 import React , { PropTypes } from 'react';
-import { Menu, Icon, Modal, Input, Button, message, Tabs} from 'antd';
+import { Menu, Icon, Modal, Input, Button, message, Tabs } from 'antd';
 
 const TabPane = Tabs.TabPane;
 
