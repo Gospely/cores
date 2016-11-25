@@ -32,6 +32,7 @@ app.use(createLoading());
 // 3. Model
 app.model(require('./models/products'));
 app.model(require('./models/ModelLeftSidebar'));
+app.model(require('./models/ModelRightSidebar'));
 app.model(require('./models/ModelDevPanels'));
 app.model(require('./models/editor/ModelTop'));
 app.model(require('./models/editor/ModelEditor'));
