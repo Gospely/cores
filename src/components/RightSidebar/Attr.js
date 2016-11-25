@@ -6,7 +6,7 @@ const Option = Select.Option;
 
 const TreeNode = Tree.TreeNode;
 
-const Attr = () => {
+const Attr = (props) => {
 
 	var onSelect = function () {
 
@@ -40,14 +40,33 @@ const Attr = () => {
 	  }],
 	}];
 
+    const { getFieldDecorator } = this.props.form;
+    const formItemLayout = {
+      labelCol: { span: 6 },
+      wrapperCol: { span: 14 },
+    };
+    const tailFormItemLayout = {
+      wrapperCol: {
+        span: 14,
+        offset: 6,
+      },
+    };
+    const prefixSelector = getFieldDecorator('prefix', {
+      initialValue: '86',
+    })(
+      <Select className="icp-selector">
+        <Option value="86">+86</Option>
+      </Select>
+    );
+
 	return (
-
-	  	<div>
-
-	  	</div>
 
 	);
 
 };
 
-export default Attr;
+function mapStateToProps({ designer }) {
+  return { designer };
+}
+
+export default connect(mapStateToProps)(Attr);
