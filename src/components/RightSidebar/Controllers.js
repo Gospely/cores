@@ -5,10 +5,12 @@ import { connect } from 'dva';
 
 const TreeNode = Tree.TreeNode;
 
+const DragSource = require('react-dnd').DragSource;
+
 const Controllers = (props) => {
 
-	var onSelect = function () {
-
+	var onSelect = function (controller) {
+		console.log(controller);
 	}
 
 	var onCheck = function() {
@@ -22,12 +24,10 @@ const Controllers = (props) => {
 	    <Row>
 	    	{props.designer.controllersList.map(controller => (
 				<Col span={12}>
-	      			<div className={'app-components ' + controller.type}><span className="title">{controller.name}</span></div>
+	      			<div onClick={onSelect.bind(this, controller)} className={'app-components ' + controller.type}><span className="title">{controller.name}</span></div>
 	      		</Col>
 	    	))}
-
 	    </Row>
-
 
   	);
 
