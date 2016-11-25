@@ -28,6 +28,14 @@ export default {
 
 		defaultDevice: 0,
 
+		publicAttrs: [
+
+		],
+
+		publicEvents: [
+
+		],
+
 		controllersList: [
 			{
 				name: '按钮组',
@@ -202,7 +210,17 @@ export default {
 			{
 				name: '单选框',
 				type: 'radio',
-				attr: {}
+				attr: {
+					name: {
+						type: 'input',
+						title: '名称',
+						isClassName: false,
+						isHTML: false
+					}
+				},
+				tag: 'input',
+				type: 'radio',
+				baseClassName: 'weui-check'
 			},
 			{
 				name: '开关',
@@ -225,9 +243,24 @@ export default {
 				attr: {}
 			},
 			{
-				name: '选择框',
+				name: '复选框',
 				type: 'checkbox',
-				attr: {}
+				attr: {
+					name: {
+						type: 'input',
+						title: '名称',
+						isClassName: false,
+						isHTML: false
+					},
+					checked: {
+						type: 'toggle',
+						title: '选中',
+						isClassName: false,
+						isHTML: false
+					}
+				},
+				tag: 'input',
+				type: 'checkbox'
 			},
 			{
 				name: '头部',
@@ -285,7 +318,34 @@ export default {
 			{
 				name: '列表',
 				type: 'list',
-				attr: {}
+				attr: {
+					linked: {
+						type: 'toggle',
+						title: '跳转',
+						isClassName: true,
+						value: ['weui-cell_access'],
+						isHTML: false
+					}
+				},
+				tag: 'div',
+				baseClassName: 'weui-cells',
+				children: [{
+					tag: 'div',
+					baseClassName: 'weui-cell',
+					children: [{
+						tag: 'div',
+						baseClassName: 'weui-cell__hd',
+						children: []
+					}, {
+						tag: 'div',
+						baseClassName: 'weui-cell__bd',
+						children: []
+					}, {
+						tag: 'div',
+						baseClassName: 'weui-cell__ft',
+						children: []
+					}]
+				}]
 			},
 			{
 				name: '地图',
@@ -310,7 +370,34 @@ export default {
 			{
 				name: '选择框',
 				type: 'select',
-				attr: {}
+				attr: {
+					name: {
+						type: 'input',
+						title: '名称',
+						isClassName: false,
+						isHTML: false
+					}
+				},
+				tag: 'select',
+				children: [{
+					tag: 'option',
+					attr: {
+						value: {
+							type: 'input',
+							title: '值',
+							isClassName: false,
+							isHTML: false
+						},
+
+						html: {
+							type: 'input',
+							title: '显示值',
+							isClassName: false,
+							isHTML: true
+						}
+					}
+				}],
+				baseClassName: 'weui-select'
 			},
 			{
 				name: '幻灯片',
