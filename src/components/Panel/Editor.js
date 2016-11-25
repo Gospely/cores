@@ -198,12 +198,6 @@ const Editor = (props) => {
 	    		type: 'editor/showArrow'
 	    	})
     	},
-
-<<<<<<< HEAD
-				console.log('editor onLoad');
-				window.currentEditor = value;
-
-			},
 		onLoad(value) {
 
 			console.log('editor onLoad');
