@@ -57,7 +57,7 @@ const Attr = (props) => {
 	
 	return (
 		<div>
-			<Collapse className={noborder} bordered={false} defaultActiveKey={['1']}>
+			<Collapse className="noborder" bordered={false} defaultActiveKey={['1']}>
 			    <Panel header="link" key="1">
 			   	 <p>
 			   	 	<label style={styles.label}>Type</label>

@@ -13,6 +13,10 @@ const Controllers = (props) => {
 
 		onSelect (controller) {
 			console.log(controller);
+			props.dispatch({
+				type: 'rightbar/setActiveMenu',
+				payload: 'attr'
+			});
 		}
 
 	}
@@ -31,8 +35,8 @@ const Controllers = (props) => {
 
 };
 
-function mapStateToProps({ designer }) {
-  return { designer };
+function mapStateToProps({ designer, rightbar }) {
+  return { designer, rightbar };
 }
 
 export default connect(mapStateToProps)(Controllers);
