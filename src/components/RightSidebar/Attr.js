@@ -36,25 +36,25 @@ const Attr = (props) => {
 	}
 
     const formItemLayout = {
-      	labelCol: { span: 4 },
-      	wrapperCol: { span: 20 }
+      	labelCol: { span: 8 },
+      	wrapperCol: { span: 16 }
     };
 
 	return (
 		<div>
-			<Collapse className="noborder" bordered={false} defaultActiveKey={['1']}>
-			    <Panel header="link" key="1">
+			<Collapse className="noborder attrCollapse" bordered={false} defaultActiveKey={['1']}>
+			    <Panel header="属性" key="1">
 
 			      	<Form onSubmit={handleSubmit}>
-			      		{props.attr.formItems.map( item => {
+			      		{props.attr.formItems.map( (item, index) => {
 
 					    	const attrTypeActions = {
 
 					    		input (attr) {
 
 					    			return (
-										<FormItem {...formItemLayout} label={attr.title}>
-						             		<Input placeholder={attr.title} />
+										<FormItem key={index} {...formItemLayout} label={attr.title}>
+						             		<Input className="attrInput" placeholder={attr.title} />
 						         		</FormItem>
 					    			);
 
@@ -62,8 +62,8 @@ const Attr = (props) => {
 
 					    		toggle (attr) {
 
-					    			
-					    			
+
+
 					    		},
 
 					    		select (attr) {
@@ -77,12 +77,6 @@ const Attr = (props) => {
 			      		})}
 			      	</Form>
 
-			    </Panel>
-			    <Panel header="text" key="2">
-			      
-			    </Panel>
-			    <Panel header="style" key="3">
-			      <p>style</p>
 			    </Panel>
 			  </Collapse>
 		</div>
