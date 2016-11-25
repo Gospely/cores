@@ -172,10 +172,16 @@ const Editor = (props) => {
 						}
 				},{
 						name: "save",
-						bindKey: {win: "Ctrl-s", mac: "Command-r"},
+						bindKey: {win: "Ctrl-s", mac: "Command-s"},
 						exec: function(editor) {
 
 							console.log('command');
+							var content = editor.getValue();
+							var fileName = 'test.js'
+							dispatch({
+								type: 'file/writeFile',
+								payload: {fileName, content}
+							});
 							ace.config.loadModule("ace/ext/keybinding_menu", function(module) {
 									module.init(editor);
 									editor.showKeyboardShortcuts()
