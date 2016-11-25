@@ -1,6 +1,8 @@
 import React , {PropTypes} from 'react';
 import { Tree, Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button } from 'antd';
 
+import { connect } from 'dva';
+
 const FormItem = Form.Item;
 const Option = Select.Option;
 
