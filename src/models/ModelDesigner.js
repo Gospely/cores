@@ -37,16 +37,74 @@ export default {
 			{
 				name: '按钮',
 				type: 'button',
+				attr: {
+					value: {
+						type: 'input',
+						title: '名称',
+						isClassName: false
+					},
+					disabled: {
+						type: 'toggle',
+						title: '禁止',
+						value: ['weui-btn_disabled weui-btn_plain-disabled'],
+						isClassName: true
+					},
+					class: {
+						type: 'select',
+						title: '按钮类型',
+						value: ['weui-btn_primary', 'weui-btn_default', 'weui-btn_warn', 'weui-btn_plain-default', 'weui-btn_plain-primary'],
+						isClassName: true
+					},
+					mini: {
+						type: 'toggle',
+						title: '迷你按钮',
+						value: ['weui-btn_mini'],
+						isClassName: true
+					}
+				},
+				tag: ['button', 'button'],
+				baseClassName: 'weui-btn',
+				wrapper: ''
+			},
+			{
+				name: '表单',
+				type: 'form',
+				attr: {},
+				child: ['input']
+			},
+			{
+				name: '输入框',
+				type: 'input',
+				attr: {
+					value: {
+						type: 'input',
+						title: '内容',
+						isClassName: false
+					},
+					disabled: {
+						type: 'toggle',
+						title: '禁止',
+						value: [],
+						isClassName: true
+					}
+				},
+				tag: ['div'],
+				baseClassName: '',
+				wrapper: ''
+			},
+			{
+				name: '单选框',
+				type: 'radio',
 				attr: {}
 			},
+			{
+				name: '开关',
+				type: 'toggle',
+				attr: {}
+			},					
 			{
 				name: '卡片',
 				type: 'card',
-				attr: {}
-			},
-			{
-				name: '按钮',
-				type: 'button',
 				attr: {}
 			},
 			{
@@ -57,11 +115,6 @@ export default {
 			{
 				name: '头部',
 				type: 'header',
-				attr: {}
-			},
-			{
-				name: '表单',
-				type: 'form',
 				attr: {}
 			},
 			{
@@ -85,11 +138,6 @@ export default {
 				attr: {}
 			},
 			{
-				name: '输入框',
-				type: 'input',
-				attr: {}
-			},
-			{
 				name: '分割',
 				type: 'list-item-divider',
 				attr: {}
@@ -107,11 +155,6 @@ export default {
 			{
 				name: 'markdown',
 				type: 'markdown',
-				attr: {}
-			},
-			{
-				name: '单选框',
-				type: 'radio',
 				attr: {}
 			},
 			{
@@ -147,11 +190,6 @@ export default {
 			{
 				name: '文本域',
 				type: 'textarea',
-				attr: {}
-			},
-			{
-				name: '开关',
-				type: 'toggle',
 				attr: {}
 			},
 			{
