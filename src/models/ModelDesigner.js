@@ -166,7 +166,38 @@ export default {
 			{
 				name: '文本域',
 				type: 'textarea',
-				attr: {}
+				attr: {
+					counter: {
+						type: 'toggle',
+						title: '显示计字器',
+						isClassName: false,
+						isHTML: false,
+						value: {
+							name: '计字器',
+							tag: 'div',
+							baseClassName: 'weui-textarea-counter',
+							children: [{
+								tag: 'span',
+								attr: {
+									type: 'input',
+									title: '从',
+									isClassName: false,
+									isHTML: true
+								}
+							}, {
+								tag: 'span',
+								attr: {
+									type: 'input',
+									title: '到',
+									isClassName: false,
+									isHTML: true
+								}
+							}]
+						}
+					}
+				},
+				baseClassName: 'weiui-textarea',
+				tag: 'textarea'
 			},
 			{
 				name: '单选框',
