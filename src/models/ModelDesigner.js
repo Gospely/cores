@@ -236,7 +236,7 @@ export default {
 				tag: 'input',
 				type: 'checkbox',
 				baseClassName: 'weui-switch'
-			},					
+			},
 			{
 				name: '卡片',
 				type: 'card',
