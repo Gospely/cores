@@ -12,17 +12,6 @@ const ButtonGroup = Button.Group;
 
 const Attr = (props) => {
 
-	var onSelect = function () {
-
-	}
-
-	var onCheck = function() {
-
-	}
-	var onClick = function(){
-
-	}
-
 	const styles = {
 		label: {
 			marginRight: '18px',

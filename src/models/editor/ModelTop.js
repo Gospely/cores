@@ -36,6 +36,7 @@ export default {
 		isSlideUp: false,
 	},
 
+
 	reducers: {
 
 		showSearchBar(state) {
@@ -60,7 +61,6 @@ export default {
 			search(state) {
 
 			},
-
 			searchPrev(state) {
 
 				currentEditor.findPrevious();
@@ -74,7 +74,6 @@ export default {
 				return {...state};
 			},
 			replace(state) {
-
 
 				console.log(state);
 				console.log(state.replaceContent);
@@ -178,6 +177,8 @@ export default {
 			handleJumpLineChange(state, {
 				payload: proxy
 			}) {
+				currentEditor.gotoLine(proxy.target.value);
+				console.log(state.jumpLine);
 				return {...state, jumpLine: proxy.target.value};
 			},
 
