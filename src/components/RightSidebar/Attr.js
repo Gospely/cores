@@ -2,18 +2,13 @@ import React , {PropTypes} from 'react';
 import { Tree, Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button ,Menu, Dropdown, message} from 'antd';
 import { Collapse } from 'antd';
 
-
 import { connect } from 'dva';
-
 
 const FormItem = Form.Item;
 const Option = Select.Option;
 const Panel = Collapse.Panel;
 const TreeNode = Tree.TreeNode;
 const ButtonGroup = Button.Group;
-
-
-
 
 const Attr = (props) => {
 
@@ -62,7 +57,7 @@ const Attr = (props) => {
 	
 	return (
 		<div>
-			<Collapse bordered={false} defaultActiveKey={['1']}>
+			<Collapse className={noborder} bordered={false} defaultActiveKey={['1']}>
 			    <Panel header="link" key="1">
 			   	 <p>
 			   	 	<label style={styles.label}>Type</label>

@@ -5,29 +5,27 @@ import { connect } from 'dva';
 
 const TreeNode = Tree.TreeNode;
 
+const DragSource = require('react-dnd').DragSource;
+
 const Controllers = (props) => {
 
-	var onSelect = function () {
+	const controllersProps = {
+
+		onSelect (controller) {
+			console.log(controller);
+		}
 
 	}
-
-	var onCheck = function() {
-
-	}
-
-	console.log(props.designer.controllersList);
 
   	return (
 
 	    <Row>
-	    	{props.designer.controllersList.map(controller => (
-				<Col span={12}>
-	      			<div className={'app-components ' + controller.type}><span className="title">{controller.name}</span></div>
+	    	{props.designer.controllersList.map((controller, index) => (
+				<Col span={12} key={index}>
+	      			<div onClick={controllersProps.onSelect.bind(this, controller)} className={'app-components ' + controller.type}><span className="title">{controller.name}</span></div>
 	      		</Col>
 	    	))}
-
 	    </Row>
-
 
   	);
 
