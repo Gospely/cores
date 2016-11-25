@@ -135,6 +135,7 @@ export default {
 									state.panels.panes[i].tabs[j].key = originLength + j + 1 + "";
 									state.panels.panes[0].tabs.push(state.panels.penes[i].tabs[j]);
 								}
+								state.panels.panes[0].editors = {...state.panels.panes[0].editors, ...state.panels.panes[i].editors}
 							}
 							state.panels.activePane.key = 0;
 							panes.pop();
@@ -151,6 +152,7 @@ export default {
 									state.panels.panes[i].tabs[j].key = originLength + j + 1 + "";
 									state.panels.panes[1].tabs.push(state.panels.penes[i].tabs[j]);
 								}
+								state.panels.panes[0].editors = {...state.panels.panes[0].editors, ...state.panels.panes[i].editors}
 							}
 							state.panels.activePane.key = 1;
 							panes.pop();
@@ -164,6 +166,7 @@ export default {
 								state.panels.panes[1].tabs[i].key = originLength + i + 1 + "";
 								state.panels.panes[0].tabs.push(state.panels.panes[1].tabs[i]);
 							}
+							state.panels.panes[0].editors = {...state.panels.panes[0].editors, ...state.panels.panes[1].editors};
 							state.panels.activePane.key = 0;
 							panes.pop();
 							break;
@@ -282,6 +285,7 @@ export default {
 			state.panels.activeEditor.id = target.editorId;
 			console.log("key",state.panels.activePane.key)
 		    activePane.tabs.push({ title: target.title, content: currentDevType, type: target.type, key: activePane.activeTab.key});
+		    console.log('editorTab:',currentDevType)
 			activePane.activeTab = {key: activePane.activeTab.key, index: activePane.tabs.length - 1};
 		    return {...state};
 		},
