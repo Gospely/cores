@@ -1,6 +1,6 @@
 import React , {PropTypes} from 'react';
 import { Tree, Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button ,Menu, Dropdown, message} from 'antd';
-import { Collapse } from 'antd';
+import { Collapse, Switch } from 'antd';
 
 import { connect } from 'dva';
 
@@ -49,27 +49,33 @@ const Attr = (props) => {
 			      		{props.attr.formItems.map( (item, index) => {
 
 					    	const attrTypeActions = {
-
 					    		input (attr) {
-
 					    			return (
 										<FormItem key={index} {...formItemLayout} label={attr.title}>
 						             		<Input className="attrInput" placeholder={attr.title} />
 						         		</FormItem>
 					    			);
-
 					    		},
 
 					    		toggle (attr) {
-
-
-
+					    			return (
+										<FormItem key={index} {...formItemLayout} label={attr.title}>
+						    				<Switch defaultChecked={false} />
+										</FormItem>
+					    			);
 					    		},
 
 					    		select (attr) {
-
+					    			return (
+										<FormItem key={index} {...formItemLayout} label={attr.title}>
+										    <Select defaultValue={attr.value[0]}>
+										    	{attr.value.map( type => (
+											      	<Option key={type} value={type}>{type}</Option>
+										    	))}
+										    </Select>
+										</FormItem>
+					    			);
 					    		}
-
 					    	}
 
 					    	return attrTypeActions[item.type](item);
