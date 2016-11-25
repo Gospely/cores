@@ -191,7 +191,7 @@ const Editor = (props) => {
 			}
 		}
 	];
-	
+
   	const editorProps = {
     	showArrow: props.editor.showArrow,
 
@@ -246,7 +246,7 @@ const Editor = (props) => {
 	        	theme="github"
 	        	width="100%"
 	        	height={aceHeight}
-				fontSize='18px'
+				fontSize={18}
 	        	name={editorId}
 				onLoad={editorProps.onLoad}
 	        	editorProps={{$blockScrolling: true}}
