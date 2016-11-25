@@ -21,7 +21,6 @@ export default {
 	reducers: {
 
 		setActiveMenu (state, {payload: name}) {
-			console.log(name);
 			state.activeMenu = name;
 			return {...state};
 		},

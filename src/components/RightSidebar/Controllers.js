@@ -12,10 +12,14 @@ const Controllers = (props) => {
 	const controllersProps = {
 
 		onSelect (controller) {
-			console.log(controller);
 			props.dispatch({
 				type: 'rightbar/setActiveMenu',
 				payload: 'attr'
+			});
+
+			props.dispatch({
+				type: 'attr/setFormItems',
+				payload: controller.attr
 			});
 		}
 
