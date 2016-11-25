@@ -39,19 +39,15 @@ export default {
 	reducers: {
 
 		showSearchBar(state) {
-				return {...state, searchVisible: true
-				};
+				return {...state, searchVisible: true};
 			},
 
 			hideSearchBar(state) {
-				return {...state, searchVisible: false
-				};
+				return {...state, searchVisible: false};
 			},
 
 			toggleSearchBar(state) {
-				return {...state, searchVisible: !state.searchVisible, jumpLineVisible:
-						false
-				};
+				return {...state, searchVisible: !state.searchVisible, jumpLineVisible: false};
 			},
 
 			search(state) {
@@ -59,23 +55,30 @@ export default {
 			},
 
 			searchPrev(state) {
+
+				currentEditor.findPrevious();
 				console.log('searchPrev');
-				return {...state
-				};
+				return {...state};
 			},
 
 			searchNext(state) {
+				currentEditor.findNext();
 				console.log('searchNext');
-				return {...state
-				};
+				return {...state};
 			},
+			replace(state) {
 
-			replace(state,{ payload: params }) {
-				console.log('replace');
-				console.log(params);
+				currentEditor.find(state.searchContent,{
+					backwards: true,
+					wrap: true,
+					caseSensitive: true,
+					wholeWord: true,
+					regExp: false
+				});
+				currentEditor.findNext();
 				console.log("state", state);
-				return {...state
-				};
+
+				return {...state};
 			},
 
 			selectSyntax() {
@@ -88,14 +91,11 @@ export default {
 			},
 
 			hideJumpLine(state) {
-				return {...state, jumpLineVisible: false
-				};
+				return {...state, jumpLineVisible: false};
 			},
 
 			toggleJumpLine(state) {
-				return {...state, jumpLineVisible: !state.jumpLineVisible, searchVisible:
-						false
-				};
+				return {...state, jumpLineVisible: !state.jumpLineVisible, searchVisible:false};
 			},
 
 			jumpLine(state) {
@@ -123,41 +123,35 @@ export default {
 					tabHeader.style.display = 'block';
 				}
 
-				return {...state, isSlideUp: !state.isSlideUp
-				};
+				return {...state, isSlideUp: !state.isSlideUp};
 			},
 
 			save(state) {
-				return {...state, isSaving: true
-				};
+				return {...state, isSaving: true};
 			},
 
 			handleReplaceInputChange(state, {
 				payload: proxy
 			}) {
-				return {...state, replaceContent: proxy.target.value
-				};
+				return {...state, replaceContent: proxy.target.value};
 			},
 
 			handleSearchInputChange(state, {
 				payload: proxy
 			}) {
-				return {...state, searchContent: proxy.target.value
-				};
+				return {...state, searchContent: proxy.target.value};
 			},
 
 			handleSearchAllSwitchChange(state, {
 				payload: proxy
 			}) {
-				return {...state, isReplaceAll: proxy
-				};
+				return {...state, isReplaceAll: proxy};
 			},
 
 			handleJumpLineChange(state, {
 				payload: proxy
 			}) {
-				return {...state, jumpLine: proxy.target.value
-				};
+				return {...state, jumpLine: proxy.target.value};
 			},
 
 			onSelectSyntax(state, {
@@ -165,10 +159,22 @@ export default {
 			}) {
 				var key = e.key;
 				var language = state.syntaxList[parseInt(key) - 1].language;
-				return {...state, currentLanguage: language
-				};
+				return {...state, currentLanguage: language};
 			}
 
-	}
+	},
+	effects: {
+
+		*replace({payload: params}, {call, put, select}) {
+
+			var editors = yield select(state => state.devpanel.panels.panes);
+			var key = yield select(state => state.devpanel.panels.activePane.key);
+			editors[key].value = 'sss';
+			console.log("key" + key);
+		},
+
+	},
+
+
 
 }

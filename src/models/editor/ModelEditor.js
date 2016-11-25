@@ -5,7 +5,7 @@ export default {
 	state: {
 		showArrow: true,
 
-		editors: []
+		editors: [],
 	},
 
 	reducers: {
