@@ -75,7 +75,6 @@ export default {
 			},
 			replace(state) {
 
-
 				console.log(state);
 				console.log(state.replaceContent);
 				if(!state.isReplaceAll) {

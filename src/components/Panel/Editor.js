@@ -200,11 +200,13 @@ const Editor = (props) => {
 	    		type: 'editor/showArrow'
 	    	})
     	},
-			onLoad(value) {
 
-				console.log('editor onLoad');
-				window.currentEditor = value;
-			},
+		onLoad(value) {
+
+			console.log('editor onLoad');
+			window.currentEditor = value;
+		},
+		
     	handleMouseLeave() {
 	    	props.dispatch({
 	    		type: 'editor/hideArrow'
@@ -244,13 +246,13 @@ const Editor = (props) => {
 	        	theme="github"
 	        	width="100%"
 	        	height={aceHeight}
-						fontSize='18px'
+				fontSize='18px'
 	        	name={editorId}
-						onLoad={editorProps.onLoad}
+				onLoad={editorProps.onLoad}
 	        	editorProps={{$blockScrolling: true}}
 	        	value={props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value}
 	        	enableBasicAutocompletion={true}
-						commands={commandsArray}
+				commands={commandsArray}
 	        	onChange={editorProps.handleEditorChanged}
 	        	enableBasicAutocompletion={true}/>
 

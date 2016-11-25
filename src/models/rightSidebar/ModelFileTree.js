@@ -201,15 +201,14 @@ export default {
       	},
 
       	*writeFile({payload: params}, {call, put}) {
-
-					var mkResult = yield request('fs/write/', {
-						method: 'POST',
-						body: JSON.stringify({
-							fileName: localStorage.currentFolder +  params.fileName,
-							data: params.content
-						})
-					});
-					yield put({type: 'fetchFileList'});
+			var mkResult = yield request('fs/write/', {
+				method: 'POST',
+				body: JSON.stringify({
+					fileName: localStorage.currentFolder +  params.fileName,
+					data: params.content
+				})
+			});
+			yield put({type: 'fetchFileList'});
       	},
 
       	*handleUpload({payload: fileName}, {call, put, select}) {
