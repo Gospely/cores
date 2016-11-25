@@ -301,7 +301,7 @@ export default {
 				}
 			},
 			{
-				name: '段落',
+				name: '代码',
 				type: 'html',
 				attr: {}
 			},
@@ -353,14 +353,37 @@ export default {
 				attr: {}
 			},
 			{
-				name: 'markdown',
+				name: '段落',
 				type: 'markdown',
 				attr: {}
 			},
 			{
-				name: '范围选择框',
+				name: '滑块',
 				type: 'range',
-				attr: {}
+				attr: {
+					value: {
+						type: 'input',
+						title: '值',
+						isClassName: false,
+						isHTML: false,
+						isSetWidth: true
+					}
+				},
+				tag: 'div',
+				baseClassName: 'weui-slider',
+				children: [{
+					tag: 'div',
+					baseClassName: 'weui-slider__inner',
+					children: [{
+						tag: 'div',
+						baseClassName: 'weui-slider__track',
+						children: []
+					}, {
+						tag: 'div',
+						baseClassName: 'weui-slider__handler',
+						children: []
+					}]
+				}]
 			},
 			{
 				name: '搜索框',
