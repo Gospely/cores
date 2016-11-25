@@ -22,9 +22,50 @@
   		background: rgb(255, 255, 255);
   	}
 
-  	.bold {
-  		font-weight: 800;
+  	.noborder {
+  		border: 0px!important;
   	}
+
+  	.attrCollapse {
+  	    background: rgb(255, 255, 255)!important;
+	    border-bottom: 1px solid #d9d9d9!important;
+	    height: 30px!important;
+  	}
+
+  	.attrCollapse .ant-collapse-header {
+	    line-height: 30px!important;  	
+  	}
+
+	
+	.ant-collapse.attrCollapse > .ant-collapse-item > .ant-collapse-header {
+	    height: 30px;
+	    line-height: 30px;
+	    padding-left: 32px;
+	    color: #666;
+	    cursor: pointer;
+	    position: relative;
+	}
+
+	.ant-collapse.attrCollapse > .ant-collapse-item > .ant-collapse-header .arrow {
+		line-height: 30px;
+	}
+
+	.ant-form-item-label {
+		text-align: left!important;
+	}
+
+	.ant-form-item-label label {
+	    color: #a8aeb7!important;
+	}
+
+	.attrInput {
+        height: 28px!important;
+	    border-radius: 2px!important;
+	}
+
+	.attrCollapse.ant-collapse-content {
+		padding: 0 8px;
+	}
 
 	.table-ftw {
 	    display: table;
@@ -136,6 +177,7 @@
 	  z-index: 200;
 	  height: 100%;
 	  width: 100%;
+	  overflow: scroll;
 	}
 
 	.LeftSidebar .ant-menu-inline {

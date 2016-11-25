@@ -31,14 +31,7 @@ export default {
 			    			content: '欢迎使用 Gospel在线集成开发环境',
 			    			key: '1',
 			    			type: 'welcome'
-			    		},
-
-						{
-			    			title: '欢迎页面 - Gospel',
-			    			key: '2',
-			    			type: 'designer'
 			    		}
-
 		    		],
 
 		    		editors: {},
@@ -46,7 +39,7 @@ export default {
 		    		activeEditor: {
 		    			id: ''
 		    		},
-		    		
+
 		    		key: 0,
 
 		    		activeTab: {
@@ -82,7 +75,7 @@ export default {
 
 			const activeTab = methods.getActiveTab(state,methods.getActivePane(state));
 			console.log('activeTab',activeTab);
-			
+
 
 			if(activeTab.type == 'editor') {
 				state.panels.activeEditor.id = activeTab.content.props.editorId;
@@ -146,7 +139,7 @@ export default {
 						break;
 				}
 			}
-			
+
 			console.log(state.panels.panes)
 			state.panels.splitType = type;
 			return {...state};
@@ -256,7 +249,13 @@ export default {
 		    activePane.tabs.push({ title: target.title, content: currentDevType, type: target.type, key: activePane.activeTab.key});
 			activePane.activeTab = {key: activePane.activeTab.key, index: activePane.tabs.length - 1};
 		    return {...state};
-		}
+		},
+		replace(state) {
+
+			methods.getActivePane(state).editors[params.editorId].value = currentEditor.getValue();
+			return {...state};
+		},
+
 	}
 
 }

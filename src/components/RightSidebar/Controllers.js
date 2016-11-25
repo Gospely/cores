@@ -1,60 +1,46 @@
 import React , {PropTypes} from 'react';
 import { Tree } from 'antd';
 import { Row, Col } from 'antd';
+import { connect } from 'dva';
 
 const TreeNode = Tree.TreeNode;
 
-const ConstructionTree = () => {
+const DragSource = require('react-dnd').DragSource;
 
-	var onSelect = function () {
+const Controllers = (props) => {
 
-	}
+	const controllersProps = {
 
-	var onCheck = function() {
+		onSelect (controller) {
+			props.dispatch({
+				type: 'rightbar/setActiveMenu',
+				payload: 'attr'
+			});
+
+			props.dispatch({
+				type: 'attr/setFormItems',
+				payload: controller.attr
+			});
+		}
 
 	}
 
   	return (
 
 	    <Row>
-	      	<Col span={12}>
-	      		<div className="app-components button-bar"><span className="title">按钮组</span></div>
-	      	</Col>
-
-	      	<Col span={12}>
-	      		<div className="app-components button"><span className="title">按钮</span></div>
-	      	</Col>
-
-	      	<Col span={12}>
-	      		<div className="app-components card"><span className="title">按钮组</span></div>
-	      	</Col>
-
-	      	<Col span={12}>
-	      		<div className="app-components header"><span className="title">按钮组</span></div>
-	      	</Col>
-
-	      	<Col span={12}>
-	      		<div className="app-components checkbox"><span className="title">选择框</span></div>
-	      	</Col>
-
-	      	<Col span={12}>
-	      		<div className="app-components form"><span className="title">按钮组</span></div>
-	      	</Col>
-
-	      	<Col span={12}>
-	      		<div className="app-components footer"><span className="title">按钮组</span></div>
-	      	</Col>
-
-	      	<Col span={12}>
-	      		<div className="app-components heading"><span className="title">按钮组</span></div>
-	      	</Col>
-
+	    	{props.designer.controllersList.map((controller, index) => (
+				<Col span={12} key={index}>
+	      			<div onClick={controllersProps.onSelect.bind(this, controller)} className={'app-components ' + controller.type}><span className="title">{controller.name}</span></div>
+	      		</Col>
+	    	))}
 	    </Row>
-
-
 
   	);
 
 };
 
-export default ConstructionTree;
+function mapStateToProps({ designer, rightbar }) {
+  return { designer, rightbar };
+}
+
+export default connect(mapStateToProps)(Controllers);

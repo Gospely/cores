@@ -1,9 +1,16 @@
 import React , {PropTypes} from 'react';
-import { Tree } from 'antd';
+import { Tree, Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button ,Menu, Dropdown, message} from 'antd';
+import { Collapse, Switch } from 'antd';
 
+import { connect } from 'dva';
+
+const FormItem = Form.Item;
+const Option = Select.Option;
+const Panel = Collapse.Panel;
 const TreeNode = Tree.TreeNode;
+const ButtonGroup = Button.Group;
 
-const Attr = () => {
+const Attr = (props) => {
 
 	var onSelect = function () {
 
@@ -12,15 +19,79 @@ const Attr = () => {
 	var onCheck = function() {
 
 	}
+	var onClick = function(){
 
-  return (
+	}
 
-  	<div>
+	const styles = {
+		label: {
+			marginRight: '18px',
+			fontWeight: 'bold'
+		}
+	}
 
-  	</div>
+	const handleSubmit = (e) => {
+	    e.preventDefault();
+		console.log(e);
+	}
 
-  );
+    const formItemLayout = {
+      	labelCol: { span: 8 },
+      	wrapperCol: { span: 16 }
+    };
+
+	return (
+		<div>
+			<Collapse className="noborder attrCollapse" bordered={false} defaultActiveKey={['1']}>
+			    <Panel header="属性" key="1">
+
+			      	<Form onSubmit={handleSubmit}>
+			      		{props.attr.formItems.map( (item, index) => {
+
+					    	const attrTypeActions = {
+					    		input (attr) {
+					    			return (
+										<FormItem key={index} {...formItemLayout} label={attr.title}>
+						             		<Input className="attrInput" placeholder={attr.title} />
+						         		</FormItem>
+					    			);
+					    		},
+
+					    		toggle (attr) {
+					    			return (
+										<FormItem key={index} {...formItemLayout} label={attr.title}>
+						    				<Switch defaultChecked={false} />
+										</FormItem>
+					    			);
+					    		},
+
+					    		select (attr) {
+					    			return (
+										<FormItem key={index} {...formItemLayout} label={attr.title}>
+										    <Select defaultValue={attr.value[0]}>
+										    	{attr.value.map( type => (
+											      	<Option key={type} value={type}>{type}</Option>
+										    	))}
+										    </Select>
+										</FormItem>
+					    			);
+					    		}
+					    	}
+
+					    	return attrTypeActions[item.type](item);
+
+			      		})}
+			      	</Form>
+
+			    </Panel>
+			  </Collapse>
+		</div>
+	);
 
 };
 
-export default Attr;
+function mapStateToProps({ designer, attr }) {
+  return { designer, attr };
+}
+
+export default connect(mapStateToProps)(Attr);

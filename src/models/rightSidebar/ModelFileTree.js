@@ -96,7 +96,7 @@ export default {
       		yield put({ type: 'treeOnLoadData', payload: {
       			fileList,
       			dirName
-      		} 
+      		}
       	});
       		params.resolve();
       	},
@@ -178,7 +178,7 @@ export default {
 				})
 			});
       		yield put({type: 'fetchFileList'});
-      	},      	
+      	},
 
       	*readFile({payload: fileName}, {call, put}) {
 			var readResult = yield request('fs/read', {
@@ -200,8 +200,16 @@ export default {
 			})
       	},
 
-      	*writeFile({payload: fileName, content}, {call, put}) {
+      	*writeFile({payload: params}, {call, put}) {
 
+					var mkResult = yield request('fs/write/', {
+						method: 'POST',
+						body: JSON.stringify({
+							fileName: localStorage.currentFolder +  params.fileName,
+							data: params.content
+						})
+					});
+					yield put({type: 'fetchFileList'});
       	},
 
       	*handleUpload({payload: fileName}, {call, put, select}) {
@@ -298,7 +306,7 @@ export default {
 		// },
 
 		list (state, {payload: list}) {
-			var data = list.data, 
+			var data = list.data,
 				tree = [];
 
 			for (var i = 0; i <= data.length - 1; i++) {
@@ -374,7 +382,7 @@ export default {
 			  				if(!currNode) {
 			  					loopLeaf(parentNodeA.node.children, parent);
 			  				}else {
-								currNode[parent.index].children = childNode;			  					
+								currNode[parent.index].children = childNode;
 			  				}
 			  			}
 			  		}
@@ -398,15 +406,3 @@ export default {
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
