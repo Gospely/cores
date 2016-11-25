@@ -213,9 +213,9 @@ const LeftSidebar = (props) => {
 
 	return (
 		<div style={styles.wrapper}>
-	      	<Menu 
-	      		style={styles.sidebar} 
-	      		onClick={leftSidebarProps.handleClick} 
+	      	<Menu
+	      		style={styles.sidebar}
+	      		onClick={leftSidebarProps.handleClick}
 	      		mode="horizontal">
 
 		        <Menu.Item key="create">
@@ -235,16 +235,16 @@ const LeftSidebar = (props) => {
 		        </Menu.Item>
 		        <Menu.Item key="file">
 					<Icon type="file-text" />
-		        </Menu.Item>        		        
+		        </Menu.Item>
 		        <Menu.Item key="designer">
 		        	<Icon type="windows-o" />
 		        </Menu.Item>
 		        <Menu.Item key="terminal">
 					<Icon type="code-o" />
-		        </Menu.Item>        
+		        </Menu.Item>
 		        <Menu.Item key="start">
 					<Icon type="play-circle-o" />
-		        </Menu.Item>        
+		        </Menu.Item>
 		        <Menu.Item key="pause">
 					<Icon type="pause-circle-o" />
 		        </Menu.Item>
@@ -304,10 +304,10 @@ const LeftSidebar = (props) => {
 		    					<li>1、打开终端</li>
 		    					<li>2、输入 ssh-keygen，一路回车</li>
 		    					<li>3、输入 vim /root/.ssh/id_rsa.pub</li>
-		    					<li>4、复制你所看到的内容</li>				
-		    					<li>5、将其配置到您的Git平台中即可</li>				
-		    					<li>6、开源中国（gitosc）官方说明：<a href="http://git.oschina.net/oschina/git-osc/wikis/%E5%B8%AE%E5%8A%A9" target="_blank">GitOSC ssh操作说明</a></li>				
-		    					<li>7、Github 官方说明：<a href="https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/" target="_blank">Github ssh操作说明</a></li>				
+		    					<li>4、复制你所看到的内容</li>
+		    					<li>5、将其配置到您的Git平台中即可</li>
+		    					<li>6、开源中国（gitosc）官方说明：<a href="http://git.oschina.net/oschina/git-osc/wikis/%E5%B8%AE%E5%8A%A9" target="_blank">GitOSC ssh操作说明</a></li>
+		    					<li>7、Github 官方说明：<a href="https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/" target="_blank">Github ssh操作说明</a></li>
 		    				</ol>
 	    				</div>
     				</div>

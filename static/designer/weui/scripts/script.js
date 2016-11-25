@@ -2,6 +2,9 @@
  * Created by jf on 2015/9/11.
  * Modified by bear on 2016/9/7.
  */
+
+var jq = jQuery.noConflict();
+
 $(function () {
     var pageManager = {
         $container: $('#container'),

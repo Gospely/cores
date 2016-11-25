@@ -39,7 +39,7 @@ export default {
 		    		activeEditor: {
 		    			id: ''
 		    		},
-		    		
+
 		    		key: 0,
 
 		    		activeTab: {
@@ -75,7 +75,7 @@ export default {
 
 			const activeTab = methods.getActiveTab(state,methods.getActivePane(state));
 			console.log('activeTab',activeTab);
-			
+
 
 			if(activeTab.type == 'editor') {
 				state.panels.activeEditor.id = activeTab.content.props.editorId;
@@ -139,7 +139,7 @@ export default {
 						break;
 				}
 			}
-			
+
 			console.log(state.panels.panes)
 			state.panels.splitType = type;
 			return {...state};
