@@ -81,9 +81,6 @@ const Editor = (props) => {
 			dispatch({
 				type: 'editorTop/replace'
 			})
-			dispatch({
-				type: 'devpanel/replace'
-			})
 		},
 
 		handleSearchAllSwitchChange(proxy) {
@@ -145,8 +142,11 @@ const Editor = (props) => {
 			bindKey: {win: "Ctrl-r", mac: "Command-r"},
 			exec: function(editor) {
 
+				var searchContent = editor.getSelection().doc.getTextRange(editor.getSelection().getRange());
+				props.editorTop.searchContent = searchContent;
 				dispatch({
-					type: 'editorTop/toggleSearchBar'
+					type: 'editorTop/toggleSearchBar',
+					payload: {searchContent}
 				});
 
 				console.log('command');
@@ -162,6 +162,12 @@ const Editor = (props) => {
 
 				var searchContent = editor.getSelection().doc.getTextRange(editor.getSelection().getRange());
 				props.editorTop.searchContent = searchContent;
+
+				dispatch({
+					type: 'editorTop/search',
+					payload: {searchContent}
+				});
+				console.log(searchContent);
 				editor.findNext();
 				console.log();
 				console.log('command');
@@ -213,7 +219,6 @@ const Editor = (props) => {
 
 				console.log('change');
 				console.log(this);
-				console.log(value);
     		var editorId = props.devpanel.panels.activeEditor.id;
     		props.dispatch({
     			type: 'devpanel/handleEditorChanged',
