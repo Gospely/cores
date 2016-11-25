@@ -1,9 +1,14 @@
 import React , {PropTypes} from 'react';
-import { Tree } from 'antd';
+import { Tree, Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button } from 'antd';
+
+import { connect } from 'dva';
+
+const FormItem = Form.Item;
+const Option = Select.Option;
 
 const TreeNode = Tree.TreeNode;
 
-const Attr = () => {
+const Attr = (props) => {
 
 	var onSelect = function () {
 
@@ -12,15 +17,14 @@ const Attr = () => {
 	var onCheck = function() {
 
 	}
-
-  return (
-
-  	<div>
-
-  	</div>
-
-  );
+	return (
+		<div></div>
+	);
 
 };
 
-export default Attr;
+function mapStateToProps({ designer }) {
+  return { designer };
+}
+
+export default connect(mapStateToProps)(Attr);

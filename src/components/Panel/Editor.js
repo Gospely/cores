@@ -219,10 +219,11 @@ const Editor = (props) => {
 
   	var aceHeight = ( parseInt(document.body.clientHeight) - 62 ) + 'px',
   		editorId = props.devpanel.panels.activeEditor.id;
-			console.log(props.editor.commands);
   		console.log(editorId, props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value);
 
-  	return (
+
+  	if (editorId && props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId] && props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value) {
+  		return (
 		<div className={EditorStyle.aceEditor}>
 			<EditorTop {...EditorTopProps}></EditorTop>
 
@@ -255,7 +256,11 @@ const Editor = (props) => {
 				}
 			</ReactCSSTransitionGroup>
   		</div>
-  );
+ 		);
+ 	}else {
+ 		return (<div></div>);
+ 	}
+
 
 };
 

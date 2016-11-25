@@ -13,12 +13,14 @@ import Topbar from '../components/TopBar';
 import CodingEditor from '../components/Panel/Editor.js';
 
 import SplitPane from 'react-split-pane';
+import randomString from '../utils/randomString'
 
 function IndexPage(props) {
 
   const devPanelProps = {
     panes: props.devpanel.panels.panes,
-    activeKey: props.devpanel.panels.activeTab.key,
+    // activePane: props.devpanel.panels.activePane,
+    // activeKey: props.devpanel.panels[props.devpanel.panels.activePane].activeTab,
     splitType: props.devpanel.panels.splitType,
 
     panels: props.devpanel.panels,
@@ -35,21 +37,19 @@ function IndexPage(props) {
     onEdit(targetKey, action) {
 
       var content = '', title = undefined, type = "editor";
-
+      let editorId = randomString(8,10);
       props.dispatch({
         type: 'devpanel/' + action,
-        payload: {targetKey, title, content, type}
+        payload: {targetKey, title, content, type,editorId}
       })
     }
 
-    // onChangePane(e) {
-    //   console.log('Choose another pane',e.target.key);
-    // }
-
   }
 
-  var devPanelMinSize = document.body.clientWidth;
-  devPanelMinSize = devPanelMinSize - ( 180 * 2 );
+  var devPanelMinSize = document.body.clientWidth,
+        leftBarWidth = 230,
+        rightBarWidth = 200;
+  devPanelMinSize = devPanelMinSize - ( rightBarWidth + leftBarWidth );
 
   return (
     <div className="body">
@@ -61,7 +61,7 @@ function IndexPage(props) {
         </div>
         <div className="tr-ftw">
           <div className="td-ftw">
-            <SplitPane split="vertical" minSize={41} defaultSize={180}>
+            <SplitPane split="vertical" minSize={41} defaultSize={leftBarWidth}>
                 <div className="LeftSidebar">
                   <LeftSidebar></LeftSidebar>
                 </div>

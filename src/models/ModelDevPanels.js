@@ -4,8 +4,18 @@ import dva from 'dva';
 
 import CodingEditor from '../components/Panel/Editor.js';
 import Terminal from '../components/Panel/Terminal.js';
+import Designer from '../components/Panel/Designer.js';
 
 import { message } from 'antd';
+
+const methods = {
+	getActivePane(state) {
+		return state.panels.panes[state.panels.activePane.key];
+	},
+	getActiveTab(state,pane) {
+		return pane.tabs[pane.activeTab.index];
+	}
+}
 
 export default {
 	namespace: 'devpanel',
@@ -29,7 +39,13 @@ export default {
 		    		activeEditor: {
 		    			id: ''
 		    		},
-		    		key: 0
+
+		    		key: 0,
+
+		    		activeTab: {
+		    			key: '1',
+		    			index: 0
+		    		}
 	    		}
 	    	],
 
@@ -37,10 +53,6 @@ export default {
 
 	    	activePane: {
 	    		key: 0
-	    	},
-	    	activeTab: {
-	    		key: '1',
-	    		index: 0
 	    	},
 	    	activeEditor: {
 	    		id: ''
@@ -56,14 +68,15 @@ export default {
 	},
 
 	reducers: {
-		getActiveTab() {
-			return state.panels.panes[state.panels.activePane.key].tabs[state.panels.activeTab.index];
-		},
+
 		tabChanged(state, {payload: params}) {
-			state.panels.activeTab.key = params.active;
-			state.panels.activeTab.index = ( parseInt(params.active) - 1 ).toString();
-			console.log(state);
-			const activeTab = getActiveTab();
+			methods.getActivePane(state).activeTab.key = params.active;
+			methods.getActivePane(state).activeTab.index = ( parseInt(params.active) - 1 ).toString();
+
+			const activeTab = methods.getActiveTab(state,methods.getActivePane(state));
+			console.log('activeTab',activeTab);
+
+
 			if(activeTab.type == 'editor') {
 				state.panels.activeEditor.id = activeTab.content.props.editorId;
 			}
@@ -71,19 +84,76 @@ export default {
 		},
 
 		changeColumn(state, {payload: type}) {
+			const panes = state.panels.panes;
+			const pushPane = function(key) {
+				panes.push({
+					  tabs: [{
+						title: '欢迎页面 - Gospel',
+						content: '欢迎使用 Gospel在线集成开发环境',
+						key: '1',
+						type: 'welcome'
+					}],
+				  	editors: {},
+					activeEditor: {
+						id: ''
+			    	},
+			    	key: key,
+			    	activeTab: {
+		    			key: '1',
+		    			index: key - 1
+		    		}
+				})
+			}
+			switch(state.panels.splitType) {
+				case 'single': switch(type) {
+					case 'grid': for(let i = 1; i < 4; i ++){
+						pushPane(i);
+					}
+					state.panels.activePane.key = 3;
+					break;
+					case 'single': state.panels.activePane.key = 0;
+				    break;
+					default: pushPane(1);
+						state.panels.activePane.key = 1;
+				}
+				break;
+				case 'grid': switch(type){
+					case 'single': for(let i = 0; i < 3; i ++){
+						panes.pop();
+					}
+					state.panels.activePane.key = 0;
+					break;
+					case 'grid': break;
+					default: panes.pop();
+						panes.pop();
+						state.panels.activePane.key = 1;
+				}
+				break;
+				default: switch(type) {
+					case 'single': panes.pop();
+						state.panels.activePane.key = 0;
+						break;
+					case 'grid': pushPane(2);
+						pushPane(3);
+						state.panels.activePane.key = 3;
+						break;
+				}
+			}
+
+			console.log(state.panels.panes)
 			state.panels.splitType = type;
 			return {...state};
 		},
 
 		'remove'(state, {payload: targetKey}) {
 			let target = targetKey.targetKey;
-			let activeKey = state.panels.activeTab.key;
+			let activeKey = methods.getActivePane(state).activeTab.key;
 			let lastIndex;
 
 			let type = targetKey.type;
-
-			state.panels.panes.forEach((pane, i) => {
-				if(pane.tabs.key === target) {
+			// console.log('tabs',state.panels.panes.tabs)
+			methods.getActivePane(state).tabs.forEach((tab, i) => {
+				if(tab.key === target) {
 					lastIndex = i - 1;
 					if(lastIndex < 0) {
 						lastIndex = 0;
@@ -91,13 +161,15 @@ export default {
 				}
 			});
 
-			const panes = state.panels.panes.filter(pane => pane.tabs[state.panels.activeTab.index].key !== target);
+
+
+			const tabs = methods.getActivePane(state).tabs.filter(tab => tab.key !== target);
 			if(lastIndex >= 0 && activeKey === target) {
-				if(panes.length != 0) {
-					activeKey = panes[lastIndex].key;
+				if(tabs.length != 0) {
+					activeKey = tabs[lastIndex].key;
 				}else {
 					if(type != 'welcome') {
-						panes.push({
+						tabs.push({
 							title: '欢迎页面 - Gospel',
 							content: 'content',
 							key: '1',
@@ -108,22 +180,23 @@ export default {
 				}
 			}
 
-			state.panels.panes = panes;
-			state.panels.activeTab.key = activeKey;
-			state.panels.activeTab.index = ( parseInt(activeKey) - 1 ).toString();
+			methods.getActivePane(state).tabs = tabs;
+			methods.getActivePane(state).activeTab.key = activeKey;
+			methods.getActivePane(state).activeTab.index = ( parseInt(activeKey) - 1 ).toString();
 
 			return {...state};
 		},
 
 		handleEditorChanged(state, { payload: params }) {
-			state.panels.panes[state.panels.activePane.key].editors[params.editorId].value = params.value;
+			methods.getActivePane(state).editors[params.editorId].value = params.value;
 			return {...state};
 		},
 
 		add(state, {payload: target}) {
 
 		    const panes = state.panels.panes;
-		    state.panels.activeTab.key = (state.panels.panes[state.panels.activePane.key].tabs.length + 1).toString();
+		    const activePane = methods.getActivePane(state);
+		    activePane.activeTab.key = (activePane.tabs.length + 1).toString();
 		    console.log(target);
 
 			target.title = target.title || '新标签页';
@@ -132,24 +205,30 @@ export default {
 
 			const devTypes = {
 				editor: function(params) {
-
+					console.log(params);
 					var editorObj = {
 						value: '// TO DO \r\n',
 						id: params.editorId
 					};
 
-					state.panels.panes[state.panels.activePane.key].editors[params.editorId] = editorObj;
-					state.panels.panes[state.panels.activePane.key].activeEditor.id = params.editorId;
+					activePane.editors[params.editorId] = editorObj;
+					activePane.activeEditor.id = params.editorId;
 					return (
 						<CodingEditor
 							editorId={params.editorId}>
 						</CodingEditor>
 					);
 				},
-				terminal: function() {
 
+				terminal: function() {
 					return (
 						<Terminal></Terminal>
+					);
+				},
+
+				designer: function() {
+					return (
+						<Designer></Designer>
 					);
 				}
 			}
@@ -166,8 +245,9 @@ export default {
 			}
 
 			state.panels.activeEditor.id = target.editorId;
-		  state.panels.panes[state.panels.activePane.key].tabs.push({ title: target.title, content: currentDevType, key: state.panels.activeTab.key, type: target.type });
-
+			console.log("key",state.panels.activePane.key)
+		    activePane.tabs.push({ title: target.title, content: currentDevType, type: target.type, key: activePane.activeTab.key});
+			activePane.activeTab = {key: activePane.activeTab.key, index: activePane.tabs.length - 1};
 		    return {...state};
 		}
 	}

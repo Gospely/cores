@@ -1,9 +1,11 @@
 import React , {PropTypes} from 'react';
 import { Tree } from 'antd';
+import { Row, Col } from 'antd';
+import { connect } from 'dva';
 
 const TreeNode = Tree.TreeNode;
 
-const ConstructionTree = () => {
+const Controllers = (props) => {
 
 	var onSelect = function () {
 
@@ -13,14 +15,26 @@ const ConstructionTree = () => {
 
 	}
 
-  return (
+	console.log(props.designer.controllersList);
 
-  	<div>
+  	return (
 
-  	</div>
+	    <Row>
+	    	{props.designer.controllersList.map(controller => (
+				<Col span={12}>
+	      			<div className={'app-components ' + controller.type}><span className="title">{controller.name}</span></div>
+	      		</Col>
+	    	))}
 
-  );
+	    </Row>
+
+
+  	);
 
 };
 
-export default ConstructionTree;
+function mapStateToProps({ designer }) {
+  return { designer };
+}
+
+export default connect(mapStateToProps)(Controllers);

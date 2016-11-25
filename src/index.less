@@ -8,6 +8,24 @@
   		height: 100%;
   	}
 
+  	.designer-wrapper {
+  		width: 100%;
+  		background-color: #eff1f5;
+  		min-height: 100vh;
+  	}
+
+  	.designer-header {
+  		padding-right: 10px;
+  		padding-left: 10px;
+  		padding-top: 5px;
+  		padding-bottom: 5px;
+  		background: rgb(255, 255, 255);
+  	}
+
+  	.bold {
+  		font-weight: 800;
+  	}
+
 	.table-ftw {
 	    display: table;
 	    height: 100%;
@@ -118,6 +136,7 @@
 	  z-index: 200;
 	  height: 100%;
 	  width: 100%;
+	  overflow: scroll;
 	}
 
 	.LeftSidebar .ant-menu-inline {
@@ -172,6 +191,201 @@
 	.settingCollapse .ant-menu-inline, .ant-menu-vertical {
 		border-right: 0px!important;
 	}
+
+	.deviceSelectorBtn { 
+		border: 0px!important;
+		color: #979797!important;
+		background: rgb(255, 255, 255)!important;
+	}
+
+	.designer {
+	    border: 1px solid #dde1e4;
+	    box-shadow: 0 1px 6px rgba(0,0,0,.33);
+	    background: rgb(255, 255, 255);
+	    line-height: 50%;
+	}
+
+	.designer-body {
+		padding-top: 20px;
+	    display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.app-components {
+		background-image: url(assets/components-sprite.png);
+		background-size: 90px;
+	    width: 90px;
+	    height: 50px;
+	    left: 0;
+	    content: '';
+	    transition-property: opacity, transform;
+	    transform: scale3d(1, 1, 1);
+	    transition-duration: .25s;
+	    transition-timing-function: linear, cubic-bezier(0.33, 2, 0.66, 1);
+	    text-align: center;
+	    margin-top: 15px;
+	    margin-bottom: 15px;
+	}
+
+	app-components.button-bar {
+	    background-position: center 0; }
+	.app-components.button-bar:after {
+	    background-position: center -50px; }
+
+	.app-components.button {
+	    background-position: center -100px; }
+	.app-components.button:after {
+	    background-position: center -150px; }
+
+	.app-components.card, .app-components.card2 {
+	    background-position: center -200px; }
+
+	.app-components.card, .app-components.card2 {
+	    background-position: center -250px; }
+
+	.app-components.checkbox {
+	    background-position: center -300px; }
+	.app-components.checkbox {
+	    background-position: center -350px; }
+
+	.app-components.header {
+	    background-position: center -400px; }
+	.app-components.header:after {
+	    background-position: center -450px; }
+
+	.app-components.form {
+	    background-position: center -500px; }
+	.app-components.form:after {
+	    background-position: center -550px; }
+
+	.app-components.footer {
+	    background-position: center -600px; }
+	.app-components.footer:after {
+	    background-position: center -650px; }
+
+	.app-components.heading {
+	    background-position: center -700px; }
+	.app-components.heading:after {
+	    background-position: center -750px; }
+
+	.app-components.html {
+	    background-position: center -800px; }
+	.app-components.html:after {
+	    background-position: center -850px; }
+
+	.app-components.image {
+	    background-position: center -900px; }
+	.app-components.image:after {
+	    background-position: center -950px; }
+
+	.app-components.input {
+	    background-position: center -1000px; }
+	.app-components.input:after {
+	    background-position: center -1050px; }
+
+	.app-components.list-item-divider {
+	    background-position: center -1100px; }
+	.app-components.list-item-divider:after {
+	    background-position: center -1150px; }
+
+	.app-components.list-item {
+	    background-position: center -1200px; }
+	.app-components.list-item:after {
+	    background-position: center -1250px; }
+
+	.app-components.list {
+	    background-position: center -1300px; }
+	.app-components.list:after {
+	    background-position: center -1350px; }
+
+	.app-components.map {
+	    background-position: center -1400px; }
+	.app-components.map:after {
+	    background-position: center -1450px; }
+
+	.app-components.markdown {
+	    background-position: center -1500px; }
+	.app-components.markdown:after {
+	    background-position: center -1550px; }
+
+	.app-components.radio {
+	    background-position: center -1600px; }
+	.app-components.radio:after {
+	    background-position: center -1650px; }
+
+	.app-components.range {
+	    background-position: center -1700px; }
+	.app-components.range:after {
+	    background-position: center -1750px; }
+
+	.app-components.search {
+	    background-position: center -1800px; }
+	.app-components.search:after {
+	    background-position: center -1850px; }
+
+	.app-components.select {
+	    background-position: center -1900px; }
+	.app-components.select:after {
+	    background-position: center -1950px; }
+
+	.app-components.slider {
+	    background-position: center -2000px; }
+	.app-components.slider:after {
+	    background-position: center -2050px; }
+
+	.app-components.spacer {
+	    background-position: center -2100px; }
+	.app-components.spacer:after {
+	    background-position: center -2150px; }
+
+	.app-components.textarea {
+	    background-position: center -2200px; }
+	.app-components.textarea:after {
+	    background-position: center -2250px; }
+
+	.app-components.toggle {
+	    background-position: center -2300px; }
+	.app-components.toggle:after {
+	    background-position: center -2350px; }
+
+	.app-components.video {
+	    background-position: center -2400px; }
+	.app-components.video:after {
+	    background-position: center -2450px; }
+
+	.app-components.list-item-avatar {
+	    background-position: center -2500px; }
+	.app-components.list-item-avatar:after {
+	    background-position: center -2550px; }
+
+	.app-components.list-item-thumbnail, .app-components.list-item-thumbnail2 {
+	    background-position: center -2600px; }
+	.app-components.list-item-thumbnail:after, .app-components.list-item-thumbnail2:after {
+	    background-position: center -2650px; }
+
+	.app-components.list-item-icon {
+	    background-position: center -2700px; }
+	.app-components.list-item-icon:after {
+	    background-position: center -2750px; }
+
+	.app-components.list-item-container {
+	    background-position: center -2800px; }
+	.app-components.list-item-container:after {
+	    background-position: center -2850px; }
+
+	.app-components.container {
+	    background-position: center -2900px; }
+	.app-components.container:after {
+	    background-position: center -2950px; }
+
+
+	.app-components .title {
+		width: 100%;
+		line-height: 10;
+		padding: 10px;
+	}
+
 }
 
 :global(.fullscreen-enter) {
