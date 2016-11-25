@@ -41,14 +41,23 @@ export default {
 			{
 				type: 'page',
 				title: 'custom page',
+				key: '11111',
+				isLeaf: false,
 				routingURL: '',
 				icon: '',
 				children: [{
 					type: 'button',
+					title: 'form',
 					value: 'fuck',
+					key: '22222',
 					disabled: false,
 					class: 'weui-btn_primary',
-					mini: false
+					mini: false,
+					isLeaf: true,
+					children: [{
+						type: 'button',
+						title: 'button'
+					}]
 				}],
 
 				background: {

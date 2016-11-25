@@ -1,6 +1,8 @@
 import React , {PropTypes} from 'react';
 import { Tree, Tooltip, Popover, Icon, Row, Col, Button, Card, Menu } from 'antd';
 
+import { connect } from 'dva';
+
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 
@@ -9,7 +11,7 @@ import EditorStyle from '../Panel/Editor.css';
 
 const TreeNode = Tree.TreeNode;
 
-const ConstructionTree = () => {
+const ConstructionTree = (props) => {
 
 	var onSelect = function () {
 
@@ -73,6 +75,18 @@ const ConstructionTree = () => {
     }
   }
 
+  const loopData = data => data.map((item) => {
+    if (item.children) {
+      console.log(item);
+      return <TreeNode title={item.title} key={item.key}>{loopData(item.children)}</TreeNode>;
+    }
+    return (
+        <TreeNode title={item.title} key={item.key} isLeaf={item.isLeaf} disabled={item.type === 'page'} />
+    );
+  });
+
+  const treeNodes = loopData(props.designer.layout);
+
 	return (
 
     <div>
@@ -91,17 +105,7 @@ const ConstructionTree = () => {
       <Tree className="myCls" showLine defaultExpandAll
         onSelect={onSelect} onCheck={onCheck}
       >
-      
-        <TreeNode title="parent 1" key="0-0">
-            <TreeNode title="parent 1-0" key="0-0-0">
-        <TreeNode title="leaf" key="0-0-0-0" />
-              <TreeNode title="leaf" key="0-0-0-1" />
-          </TreeNode>
-            <TreeNode title="parent 1-1" key="0-0-1">
-              <TreeNode title={<span style={{ color: '#08c' }}>sss</span>} key="0-0-1-0" />
-            </TreeNode>
-        </TreeNode>
-
+        {treeNodes}
       </Tree>
 
 
@@ -111,4 +115,8 @@ const ConstructionTree = () => {
 
 };
 
-export default ConstructionTree;
+function mapStateToProps({ designer, attr }) {
+  return { designer, attr };
+}
+
+export default connect(mapStateToProps)(ConstructionTree);

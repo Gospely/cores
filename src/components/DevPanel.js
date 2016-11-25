@@ -10,7 +10,7 @@ import Designer from './Panel/Designer.js';
 const TabPane = Tabs.TabPane;
 
 const DevPanel = ({
-	splitType, onChange, onEdit, panes, panels
+	splitType, onChange, onEdit, panes, panels, onChangePane
 }) => {
 
 	let genterTypeOfTabPane = {
@@ -58,18 +58,13 @@ const DevPanel = ({
 		);
 	};
 
-	const onChangePane = function (e) {
-		console.log(e.target)
-		console.log(e.target.getAttribute("class"));
-	}
-
 	const generatorPanes = (panels) => {
 		var pane = [];
 
 		panels.map(panes => {
 			var tabPanes = generatorTabPanes(panes.tabs);
 			const activeKey = panes.activeTab.key;
-			pane.push(<div onClick={onChangePane} key={panes.key}>{generatorTabs(onChange, activeKey, onEdit, animated, tabPanes)}</div>);
+			pane.push(<div onClick={onChangePane.bind(this,panes.key)} key={panes.key}>{generatorTabs(onChange, activeKey, onEdit, animated, tabPanes)}</div>);
 		});
 
 		console.log('pane', pane);
