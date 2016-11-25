@@ -249,7 +249,13 @@ export default {
 		    activePane.tabs.push({ title: target.title, content: currentDevType, type: target.type, key: activePane.activeTab.key});
 			activePane.activeTab = {key: activePane.activeTab.key, index: activePane.tabs.length - 1};
 		    return {...state};
-		}
+		},
+		replace(state) {
+
+			methods.getActivePane(state).editors[params.editorId].value = currentEditor.getValue();
+			return {...state};
+		},
+
 	}
 
 }

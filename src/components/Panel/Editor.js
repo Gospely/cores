@@ -81,6 +81,9 @@ const Editor = (props) => {
 			dispatch({
 				type: 'editorTop/replace'
 			})
+			dispatch({
+				type: 'devpanel/replace'
+			})
 		},
 
 		handleSearchAllSwitchChange(proxy) {
@@ -229,7 +232,6 @@ const Editor = (props) => {
 
   	var aceHeight = ( parseInt(document.body.clientHeight) - 62 ) + 'px',
   		editorId = props.devpanel.panels.activeEditor.id;
-  		console.log(editorId, props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value);
 
 
   	if (editorId && props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId] && props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value) {
