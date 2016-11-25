@@ -13,43 +13,36 @@ const TreeNode = Tree.TreeNode;
 
 const ConstructionTree = (props) => {
 
-	var onSelect = function () {
+  const layoutTreeProps = {
 
-	}
+    onSelect: function(e, node) {
 
-	var onCheck = function() {
+      if(e.length === 0) {
+        return false;
+      }
 
-	}
+      var elemSelected = e[0];
+      var elemType = elemSelected.split('-')[0];
 
-  // const pageMenuProps = {
-  //   onClick: function(item) {
+      props.dispatch({
+        type: 'rightbar/setActiveMenu',
+        payload: 'attr'
+      });
 
-  //     var action = {
-  //       blank () {
+      props.dispatch({
+        type: 'attr/setFormItemsByType',
+        payload: elemType
+      });
 
-  //       },
+    }
 
-  //       'login-page' () {
+  }
 
-  //       },
+  const addPageProps = {
+    addThisPage () {
 
-  //       'register-page' () {
-
-  //       }
-  //     }
-
-  //     action[item.key]();
-
-  //   }
-  // }  
-
-  // const pageMenu = (
-  //   <Menu {...pageMenuProps} className="context-menu">
-  //     <Menu.Item key="blank">空白页面</Menu.Item>
-  //     <Menu.Item key="login-page">登录页面</Menu.Item>
-  //     <Menu.Item key="register-page">注册页面</Menu.Item>
-  //   </Menu>
-  // );
+    }
+  }
 
   const addPagePop = {
     title: '添加页面',
@@ -57,12 +50,12 @@ const ConstructionTree = (props) => {
       <div>
         <Row gutter={16} type="flex" justify="space-around" align="middle">
           <Col span={12}>
-            <Card loading title="空白页面">
+            <Card onClick={addPageProps.addThisPage} loading title="空白页面">
               空白页面
             </Card>
           </Col>
           <Col span={12}>
-            <Card loading title="登录页面">
+            <Card onClick={addPageProps.addThisPage}  loading title="登录页面">
               空白页面
             </Card>
           </Col>       
@@ -77,11 +70,10 @@ const ConstructionTree = (props) => {
 
   const loopData = data => data.map((item) => {
     if (item.children) {
-      console.log(item);
-      return <TreeNode title={item.title} key={item.key}>{loopData(item.children)}</TreeNode>;
+      return <TreeNode title={item.attr.title} key={item.key}>{loopData(item.children)}</TreeNode>;
     }
     return (
-        <TreeNode title={item.title} key={item.key} isLeaf={item.isLeaf} disabled={item.type === 'page'} />
+        <TreeNode title={item.attr.title} key={item.key} isLeaf={item.isLeaf} disabled={item.type === 'page'} />
     );
   });
 
@@ -102,8 +94,8 @@ const ConstructionTree = (props) => {
         </Row>
       </div>
 
-      <Tree className="myCls" showLine defaultExpandAll
-        onSelect={onSelect} onCheck={onCheck}
+      <Tree className="layoutTree" showLine defaultExpandAll
+        onSelect={layoutTreeProps.onSelect}
       >
         {treeNodes}
       </Tree>
@@ -115,8 +107,8 @@ const ConstructionTree = (props) => {
 
 };
 
-function mapStateToProps({ designer, attr }) {
-  return { designer, attr };
+function mapStateToProps({ designer, attr, construction }) {
+  return { designer, attr, construction };
 }
 
 export default connect(mapStateToProps)(ConstructionTree);

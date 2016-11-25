@@ -40,36 +40,43 @@ export default {
 
 			{
 				type: 'page',
-				title: 'custom page',
-				key: '11111',
+				key: 'page-123',
 				isLeaf: false,
-				routingURL: '',
-				icon: '',
+				attr: {
+					title: '主页面',
+					color: '',
+					images: '',
+
+					padding: true,
+					scrolling: true,
+					classes: '',
+
+					routingURL: '',
+					icon: '',
+				},
+
 				children: [{
+					attr: {
+						title: 'form',
+						value: 'fuck',
+						disabled: false,
+						class: 'weui-btn_primary',
+						mini: false
+					},
+
+					key: 'form-345',
 					type: 'button',
-					title: 'form',
-					value: 'fuck',
-					key: '22222',
-					disabled: false,
-					class: 'weui-btn_primary',
-					mini: false,
 					isLeaf: true,
+
 					children: [{
 						type: 'button',
-						title: 'button'
+						key: 'button-567',
+						attr: {
+							title: 'button'
+						}
 					}]
 				}],
 
-				background: {
-					color: '',
-					images: ''
-				},
-
-				misc: {
-					padding: true,
-					scrolling: true,
-					classes: ''
-				}
 			}
 
 		],
@@ -79,6 +86,68 @@ export default {
 				name: '按钮组',
 				type: 'button-bar',
 				attr: {}
+			},
+			{
+				name: '页面',
+				type: 'page',
+				attr: {
+
+					title: {
+						type: 'input',
+						title: '页面名称',
+						isClassName: false,
+						isHTML: false
+					},
+
+						color: {
+							type: 'input',
+							title: '颜色',
+							isClassName: false,
+							isHTML: false
+						},
+						images: {
+							type: 'input',
+							title: '背景',
+							isClassName: false,
+							isHTML: false
+						},
+
+						padding: {
+							type: 'input',
+							title: '内边距',
+							isClassName: false,
+							isHTML: false
+						},
+						scrolling: {
+							type: 'toggle',
+							title: '是否滚动',
+							isClassName: false,
+							isHTML: false
+						},
+						classes: {
+							type: 'input',
+							title: '类名',
+							isClassName: false,
+							isHTML: false
+						},
+
+					routingURL: {
+						type: 'input',
+						title: '路由',
+						isClassName: false,
+						isHTML: false
+					},
+
+					icon: {
+						type: 'select',
+						title: '图标',
+						value: [''],
+						isClassName: false,
+						isHTML: false
+					}
+
+				},
+				backend: true
 			},
 			{
 				name: '按钮',
@@ -518,10 +587,6 @@ export default {
 
 	reducers: {
 
-		handleDeviceSelected(state, { payload: key}) {
-			state.defaultDevice = key;
-			return {...state};
-		}
 
 	}
 
