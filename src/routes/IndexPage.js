@@ -19,7 +19,8 @@ function IndexPage(props) {
 
   const devPanelProps = {
     panes: props.devpanel.panels.panes,
-    activeKey: props.devpanel.panels.activeTab.key,
+    // activePane: props.devpanel.panels.activePane,
+    // activeKey: props.devpanel.panels[props.devpanel.panels.activePane].activeTab,
     splitType: props.devpanel.panels.splitType,
 
     panels: props.devpanel.panels,

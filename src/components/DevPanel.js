@@ -6,7 +6,7 @@ import SplitPane from 'react-split-pane';
 const TabPane = Tabs.TabPane;
 
 const DevPanel = ({ 
-	splitType, onChange, onEdit, activeKey, panes, panels
+	splitType, onChange, onEdit, panes, panels
 }) => {
 
 	const generatorTabPanes = (panes) => {
@@ -36,6 +36,7 @@ const DevPanel = ({
 		
 		panels.map(panes => {
 			var tabPanes = generatorTabPanes(panes.tabs);
+			const activeKey = panes.activeTab.key;
 			pane.push(<div onClick={onChangePane} key={panes.key}>{generatorTabs(onChange, activeKey, onEdit, animated, tabPanes)}</div>);
 		});
 
@@ -48,7 +49,7 @@ const DevPanel = ({
 
 		  tabs = <Tabs
 		        	onChange={onChange}
-		        	activeKey={activeKey}
+		        	// activeKey={activeKey}
 		        	type="editable-card"
 		        	onEdit={onEdit}
 		        	animated={animated}>
