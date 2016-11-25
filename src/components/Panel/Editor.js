@@ -108,6 +108,7 @@ const Editor = (props) => {
 		},
 
 		handleJumpLineChange(proxy) {
+			console.log(proxy);
 			dispatch({
 				type: 'editorTop/handleJumpLineChange',
 				payload: proxy
@@ -127,9 +128,6 @@ const Editor = (props) => {
 				payload: proxy
 			})
 		},
-		command(proxy){
-			console.log(proxy);
-		}
 	}
 
 	const commandsArray = [{
@@ -204,6 +202,7 @@ const Editor = (props) => {
 
 				console.log('editor onLoad');
 				window.currentEditor = value;
+
 			},
     	handleMouseLeave() {
 	    	props.dispatch({
