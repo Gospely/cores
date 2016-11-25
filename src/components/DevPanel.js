@@ -3,14 +3,46 @@ import { Tabs, Icon, Popover } from 'antd';
 
 import SplitPane from 'react-split-pane';
 
+import CodingEditor from './Panel/Editor.js';
+import Terminal from './Panel/Terminal.js';
+import Designer from './Panel/Designer.js';
+
 const TabPane = Tabs.TabPane;
 
 const DevPanel = ({
 	splitType, onChange, onEdit, panes, panels
 }) => {
 
+	let genterTypeOfTabPane = {
+		editor: function() {
+			return (
+				<CodingEditor></CodingEditor>
+			);
+		},
+		terminal: function() {
+			return (
+				<Terminal></Terminal>
+			);
+		},
+		designer: function() {
+			return (
+				<Designer></Designer>
+			);
+		},
+		welcome: function (params) {
+			return params.content;
+		}
+	}
+
 	const generatorTabPanes = (panes) => {
-		return panes.map(pane => <TabPane tab={pane.title} key={pane.key}>{pane.content}</TabPane>);
+		
+		return panes.map(pane => {
+			
+			let params = {
+				content: pane.content || ''
+			}
+			return <TabPane tab={pane.title} key={pane.key}>{genterTypeOfTabPane[pane.type](params)}</TabPane>;
+		});
 	};
 
 	const generatorTabs = (onChange, activeKey, onEdit, animated, tabPane) => {

@@ -131,65 +131,65 @@ const Editor = (props) => {
 	}
 
 	const commandsArray = [{
-						name: "help",
-						bindKey: {win: "Ctrl-Alt-h", mac: "Command-Alt-h"},
-						exec: function(editor) {
+		name: "help",
+		bindKey: {win: "Ctrl-Alt-h", mac: "Command-Alt-h"},
+		exec: function(editor) {
+			console.log('command');
+			ace.config.loadModule("ace/ext/keybinding_menu", function(module) {
+				module.init(editor);
+				editor.showKeyboardShortcuts()
+			})
+		}
+		}, {
+			name: "search",
+			bindKey: {win: "Ctrl-r", mac: "Command-r"},
+			exec: function(editor) {
 
-								console.log('command');
-								ace.config.loadModule("ace/ext/keybinding_menu", function(module) {
-										module.init(editor);
-										editor.showKeyboardShortcuts()
-								})
-						}
-				},{
-						name: "search",
-						bindKey: {win: "Ctrl-r", mac: "Command-r"},
-						exec: function(editor) {
+				dispatch({
+					type: 'editorTop/toggleSearchBar'
+				});
 
-							dispatch({
-								type: 'editorTop/toggleSearchBar'
-							});
+				console.log('command');
+				ace.config.loadModule("ace/ext/keybinding_menu", function(module) {
+					module.init(editor);
+					editor.showKeyboardShortcuts()
+				})
+			}
+		}, {
+			name: "replace",
+			bindKey: {win: "Ctrl-f", mac: "Command-f"},
+			exec: function(editor) {
 
-							console.log('command');
-							ace.config.loadModule("ace/ext/keybinding_menu", function(module) {
-									module.init(editor);
-									editor.showKeyboardShortcuts()
-							})
-						}
-				},{
-						name: "replace",
-						bindKey: {win: "Ctrl-f", mac: "Command-f"},
-						exec: function(editor) {
+				var searchContent = editor.getSelection().doc.getTextRange(editor.getSelection().getRange());
+				props.editorTop.searchContent = searchContent;
+				editor.findNext();
+				console.log();
+				console.log('command');
+				ace.config.loadModule("ace/ext/keybinding_menu", function(module) {
+					module.init(editor);
+					editor.showKeyboardShortcuts()
+				})
+			}
+		}, {
+			name: "save",
+			bindKey: {win: "Ctrl-s", mac: "Command-s"},
+			exec: function(editor) {
 
-							var searchContent = editor.getSelection().doc.getTextRange(editor.getSelection().getRange());
-							props.editorTop.searchContent = searchContent;
-							editor.findNext();
-							console.log();
-							console.log('command');
-							ace.config.loadModule("ace/ext/keybinding_menu", function(module) {
-									module.init(editor);
-									editor.showKeyboardShortcuts()
-							})
-						}
-				},{
-						name: "save",
-						bindKey: {win: "Ctrl-s", mac: "Command-s"},
-						exec: function(editor) {
+				console.log('command');
+				var content = editor.getValue();
+				var fileName = 'test.js'
+				dispatch({
+					type: 'file/writeFile',
+					payload: {fileName, content}
+				});
+				ace.config.loadModule("ace/ext/keybinding_menu", function(module) {
+					module.init(editor);
+					editor.showKeyboardShortcuts()
+				})
+			}
+		}
+	];
 
-							console.log('command');
-							var content = editor.getValue();
-							var fileName = 'test.js'
-							dispatch({
-								type: 'file/writeFile',
-								payload: {fileName, content}
-							});
-							ace.config.loadModule("ace/ext/keybinding_menu", function(module) {
-									module.init(editor);
-									editor.showKeyboardShortcuts()
-							})
-						}
-				}
-		];
   	const editorProps = {
     	showArrow: props.editor.showArrow,
 
@@ -198,12 +198,17 @@ const Editor = (props) => {
 	    		type: 'editor/showArrow'
 	    	})
     	},
-			onLoad(value) {
 
+<<<<<<< HEAD
 				console.log('editor onLoad');
 				window.currentEditor = value;
 
 			},
+		onLoad(value) {
+
+			console.log('editor onLoad');
+			window.currentEditor = value;
+		},
     	handleMouseLeave() {
 	    	props.dispatch({
 	    		type: 'editor/hideArrow'
@@ -243,13 +248,13 @@ const Editor = (props) => {
 	        	theme="github"
 	        	width="100%"
 	        	height={aceHeight}
-						fontSize='18px'
+				fontSize={18}
 	        	name={editorId}
-						onLoad={editorProps.onLoad}
+				onLoad={editorProps.onLoad}
 	        	editorProps={{$blockScrolling: true}}
 	        	value={props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value}
 	        	enableBasicAutocompletion={true}
-						commands={commandsArray}
+				commands={commandsArray}
 	        	onChange={editorProps.handleEditorChanged}
 	        	enableBasicAutocompletion={true}/>
 

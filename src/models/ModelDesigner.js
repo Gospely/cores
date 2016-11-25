@@ -12,17 +12,17 @@ export default {
 			{
 				name: 'iPad',
 				width: 200,
-				heifht: 300
+				height: 300
 			},
 			{
 				name: 'Android Phone',
 				width: 245,
-				heifht: 456
+				height: 456
 			},
 			{
 				name: 'Android Tablet',
 				width: 456,
-				heifht: 367
+				height: 367
 			}
 		],
 
@@ -33,6 +33,35 @@ export default {
 		],
 
 		publicEvents: [
+
+		],
+
+		layout: [
+
+			{
+				type: 'page',
+				title: 'custom page',
+				routingURL: '',
+				icon: '',
+				children: [{
+					type: 'button',
+					value: 'fuck',
+					disabled: false,
+					class: 'weui-btn_primary',
+					mini: false
+				}],
+
+				background: {
+					color: '',
+					images: ''
+				},
+
+				misc: {
+					padding: true,
+					scrolling: true,
+					classes: ''
+				}
+			}
 
 		],
 
@@ -152,7 +181,7 @@ export default {
 						title: '类型',
 						isClassName: false,
 						isHTML: false,
-						value: ['number', 'color', 'range', 'text', 'datetime-local', 'date']
+						value: ['number', 'color', 'range', 'text', 'datetime-local', 'date', 'password', 'email', 'tel']
 					},
 					placeholder: {
 						type: 'input',
@@ -236,7 +265,7 @@ export default {
 				tag: 'input',
 				type: 'checkbox',
 				baseClassName: 'weui-switch'
-			},					
+			},
 			{
 				name: '卡片',
 				type: 'card',
