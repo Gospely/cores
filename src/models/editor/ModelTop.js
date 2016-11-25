@@ -75,6 +75,13 @@ export default {
 					wholeWord: true,
 					regExp: false
 				});
+				console.log(state);
+				console.log(state.replaceContent);
+				if(!state.isReplaceAll) {
+					currentEditor.replaceAll(state.replaceContent);
+				}else{
+					currentEditor.replace(state.replaceContent);
+				}
 				currentEditor.findNext();
 				console.log("state", state);
 
@@ -163,18 +170,4 @@ export default {
 			}
 
 	},
-	effects: {
-
-		*replace({payload: params}, {call, put, select}) {
-
-			var editors = yield select(state => state.devpanel.panels.panes);
-			var key = yield select(state => state.devpanel.panels.activePane.key);
-			editors[key].value = 'sss';
-			console.log("key" + key);
-		},
-
-	},
-
-
-
 }
