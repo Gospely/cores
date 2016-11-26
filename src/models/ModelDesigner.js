@@ -32,6 +32,28 @@ const layoutAction = {
 		});
 
 		return ct;
+	},
+
+	getPageIndexByKey(layout, key) {
+		var index;
+		layout.map( (page, i) => {
+			if(page.key == key) {
+				index = i;
+				return index;
+			}
+		})
+		return index;
+	},
+
+	getControllerIndexByKey(controllersList, key) {
+		var index;
+		controllersList.map( (controller, i) => {
+			if(controller.key == key) {
+				index = i;
+				return index;
+			}
+		})
+		return index;		
 	}
 }
 
@@ -635,31 +657,6 @@ export default {
 
 		addPage(state, { payload: page }) {
 
-			/*
-
-			{
-				type: 'page',
-				key: 'page-123',
-				isLeaf: false,
-				attr: {
-					title: '主页面',
-					color: '',
-					images: '',
-
-					padding: true,
-					scrolling: true,
-					class: '',
-
-					routingURL: '',
-					icon: '',
-				},
-
-				children: [],
-
-			},
-
-			*/
-
 			page = page || layoutAction.getController(state.controllersList, 'page');
 
 			var tmpAttr = {};
@@ -708,6 +705,18 @@ export default {
 
 			activePage.children.push(ctrl);
 			layoutAction.setActiveController(state.layoutState, activePage.children.length - 1, ctrl.key);
+			return {...state};
+		},
+
+		handleTreeChanged(state, { payload: params }) {
+			if(params.type == 'page') {
+				var pageIndex =layoutAction.getPageIndexByKey(state.layout, params.key);
+				layoutAction.setActivePage(state.layoutState, pageIndex, params.key);
+			}else {
+				var activePage = layoutAction.getActivePage(state.layout, state.layoutState.activePage.index);
+				var controllerIndex = layoutAction.getControllerIndexByKey(state.layout[activePage], params.key);
+				layoutAction.setActiveController(state.layoutState, controllerIndex, params.key);
+			}
 			return {...state};
 		}
 

@@ -36,6 +36,14 @@ const ConstructionTree = (props) => {
         payload: elemType
       });
 
+      props.dispatch({
+        type: 'designer/handleTreeChanged',
+        payload: {
+          key: e[0],
+          type: elemType
+        }
+      })
+
     }
 
   }
