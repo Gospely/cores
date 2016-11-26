@@ -266,10 +266,17 @@ export default {
 		},
 
 		handleEditorChanged(state, { payload: params }) {
+			console.log(currentEditor.getValue());
 			methods.getActivePane(state).editors[params.editorId].value = params.value;
 			return {...state};
 		},
+		replaceSync(state) {
 
+			console.log('devpanel replace');
+			methods.getActivePane(state).editors[state.panels.activeEditor.id].value = currentEditor.getValue();
+			console.log(currentEditor.getValue());
+			return {...state};
+		},
 		add(state, {payload: target}) {
 
 		    let panes = state.panels.panes;
@@ -331,13 +338,7 @@ export default {
 		    console.log('editorTab:',currentDevType)
 			activePane.activeTab = {key: activePane.activeTab.key, index: activePane.tabs.length - 1};
 		    return {...state};
-		},
-		replace(state) {
-
-			methods.getActivePane(state).editors[params.editorId].value = currentEditor.getValue();
-			return {...state};
-		},
-
+		}
 	}
 
 }

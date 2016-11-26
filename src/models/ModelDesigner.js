@@ -1,4 +1,63 @@
 import dva from 'dva';
+import randomString from '../utils/randomString';
+
+const layoutAction = {
+	getActivePage (layout, index) {
+		return layout[index];
+	},
+
+	getActiveController (layout, activePageIndex, activeControllerIndex) {
+		return layout[activePageIndex].children[activeControllerIndex];
+	},
+
+	setActivePage (layoutState, pageIndex, pageKey) {
+		layoutState.activePage.index = pageIndex;
+		layoutState.activePage.key = pageKey;
+		layoutState.activeKey = pageKey;
+		layoutState.expandedKeys.push(pageKey);
+	},
+
+	setActiveController (layoutState, controllerIndex, controllerKey) {
+		layoutState.activeController.index = controllerIndex;
+		layoutState.activeController.key = controllerKey;
+		layoutState.activeKey = controllerKey;
+		layoutState.expandedKeys.push(controllerKey);
+	},
+
+	getController(controllersList, controller) {
+		var ct;
+		controllersList.map( (ctrl) => {
+			if(ctrl.type == controller) {
+				ct = ctrl;
+				return ctrl;
+			}
+		});
+
+		return ct;
+	},
+
+	getPageIndexByKey(layout, key) {
+		var index;
+		layout.map( (page, i) => {
+			if(page.key == key) {
+				index = i;
+				return index;
+			}
+		})
+		return index;
+	},
+
+	getControllerIndexByKey(controllersList, key) {
+		var index;
+		controllersList.map( (controller, i) => {
+			if(controller.key == key) {
+				index = i;
+				return index;
+			}
+		})
+		return index;		
+	}
+}
 
 export default {
 	namespace: 'designer',
@@ -43,43 +102,91 @@ export default {
 				key: 'page-123',
 				isLeaf: false,
 				attr: {
-					title: '主页面',
-					color: '',
-					images: '',
 
-					padding: true,
-					scrolling: true,
-					classes: '',
-
-					routingURL: '',
-					icon: '',
-				},
-
-				children: [{
-					attr: {
-						title: 'form',
-						value: 'fuck',
-						disabled: false,
-						class: 'weui-btn_primary',
-						mini: false
+					title: {
+						type: 'input',
+						title: '页面名称',
+						isClassName: false,
+						isHTML: false,
+						'_value': '主页面'
 					},
 
-					key: 'form-345',
-					type: 'button',
-					isLeaf: true,
+					color: {
+						type: 'input',
+						title: '颜色',
+						isClassName: false,
+						isHTML: false,
+						'_value': '#ff4ff'
+					},
+					images: {
+						type: 'input',
+						title: '背景',
+						isClassName: false,
+						isHTML: false,
+						'_value': '#ff4ff'
+					},
 
-					children: [{
-						type: 'button',
-						key: 'button-567',
-						attr: {
-							title: 'button'
-						}
-					}]
-				}],
+					padding: {
+						type: 'input',
+						title: '内边距',
+						isClassName: false,
+						isHTML: false,
+						'_value': '20'
+					},
+					scrolling: {
+						type: 'toggle',
+						title: '是否滚动',
+						isClassName: false,
+						isHTML: false,
+						'_value': false
+					},
+					class: {
+						type: 'input',
+						title: '类名',
+						isClassName: false,
+						isHTML: false,
+						'_value': 'weui-cell__bd'
+					},
 
-			}
+					routingURL: {
+						type: 'input',
+						title: '路由',
+						isClassName: false,
+						isHTML: false,
+						'_value': '/fuck'
+					},
+
+					icon: {
+						type: 'select',
+						title: '图标',
+						value: [''],
+						isClassName: false,
+						isHTML: false,
+						'_value': '#ff4ff'
+					}
+
+				},
+
+				children: [],
+
+			},
 
 		],
+
+		layoutState: {
+			activePage: {
+				index: 0,
+				key: 'page-123'
+			},
+
+			activeController: {
+				index: 0,
+				key: ''
+			},
+
+			activeKey: 'page-123',
+			expandedKeys: []
+		},
 
 		controllersList: [
 			{
@@ -124,7 +231,7 @@ export default {
 						isClassName: false,
 						isHTML: false
 					},
-					classes: {
+					class: {
 						type: 'input',
 						title: '类名',
 						isClassName: false,
@@ -587,8 +694,83 @@ export default {
 
 	reducers: {
 
-		handleDeviceSelected(state, {payload: key}) {
+		handleDeviceSelected(state, { payload: key }) {
 			state.defaultDevice = key;
+			return {...state};
+		},
+
+		setActivePage(state, { payload: params }) {
+			layoutAction.setActivePage(state.layoutState, params.index, params.key);
+			return {...state};
+		},
+
+		setActiveController(state, { payload: params }) {
+			layoutAction.setActiveController(state.layoutState, params.index, params.key);
+			return {...state};
+		},
+
+		addPage(state, { payload: page }) {
+
+			page = page || layoutAction.getController(state.controllersList, 'page');
+
+			var tmpAttr = {};
+
+			for(var att in page.attr) {
+				var currAttr = page.attr[att];
+				tmpAttr[att] = currAttr;
+				tmpAttr[att]['_value'] = '';
+				tmpAttr['title']['_value'] = page.name;
+			}
+
+			var tmpPage = {
+				type: 'page',
+				key: 'page-' + randomString(8, 10),
+				isLeaf: false,
+				attr: tmpAttr,
+				children: []
+			}
+
+			console.log(tmpPage);
+
+			state.layout.push(tmpPage);
+			layoutAction.setActivePage(state.layoutState, state.layout.length - 1, tmpPage.key);
+			return {...state};
+		},
+
+		addController(state, { payload: controller }) {
+			var activePage = layoutAction.getActivePage(state.layout, state.layoutState.activePage.index);
+			var tmpAttr = {};
+
+			for(var att in controller.attr) {
+				var currAttr = controller.attr[att];
+				tmpAttr[att] = currAttr;
+				tmpAttr[att]['_value'] = '';
+				tmpAttr['title'] = {};
+				tmpAttr['title']['_value'] = controller.name;
+			}
+
+			var ctrl = {
+				type: controller.type,
+				key: controller.type + '-' + randomString(8, 10),
+				attr: tmpAttr
+			};
+
+			console.log(ctrl);
+
+			activePage.children.push(ctrl);
+			layoutAction.setActiveController(state.layoutState, activePage.children.length - 1, ctrl.key);
+			return {...state};
+		},
+
+		handleTreeChanged(state, { payload: params }) {
+			if(params.type == 'page') {
+				var pageIndex =layoutAction.getPageIndexByKey(state.layout, params.key);
+				layoutAction.setActivePage(state.layoutState, pageIndex, params.key);
+			}else {
+				var activePage = layoutAction.getActivePage(state.layout, state.layoutState.activePage.index);
+				var controllerIndex = layoutAction.getControllerIndexByKey(activePage.children, params.key);
+				layoutAction.setActiveController(state.layoutState, controllerIndex, params.key);
+			}
 			return {...state};
 		}
 

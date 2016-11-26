@@ -47,7 +47,9 @@ export default {
 				return {...state, searchVisible: false};
 			},
 
-			toggleSearchBar(state) {
+			toggleSearchBar(state,{payload: params}) {
+
+				state.searchContent = params.searchContent;
 				currentEditor.find(state.searchContent,{
 					backwards: true,
 					wrap: true,
@@ -58,8 +60,11 @@ export default {
 				return {...state, searchVisible: !state.searchVisible, jumpLineVisible: false};
 			},
 
-			search(state) {
+			search(state,{payload: params}) {
 
+				console.log(params);
+				state.searchContent = params.searchContent;
+				return {...state};
 			},
 			searchPrev(state) {
 
@@ -88,7 +93,6 @@ export default {
 							regExp: false
 					});
 					console.log(currentEditor.getValue());
-					currentEditor.setValue(currentEditor.getValue());
 				}else{
 					console.log('single');
 					currentEditor.replace(state.replaceContent,{
@@ -99,7 +103,6 @@ export default {
 							wholeWord: true,
 							regExp: false
 					});
-					currentEditor.setValue(currentEditor.getValue());
 				}
 				currentEditor.findNext();
 				console.log("state", state);

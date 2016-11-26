@@ -13,13 +13,27 @@ export default {
 		formItems: []
 	},
 
+	subscriptions: {
+		setup({ dispatch, history }) {
+	      	history.listen(({ pathname }) => {
+          		dispatch({
+            		type: 'setFormItemsByDefault'
+          		});
+	      	});
+		}		
+	},
+
 	effects: {
 
-      	*setFormItemsByType({payload: type}, {call, put, select}) {
+      	*setFormItemsByType({payload: params}, {call, put, select}) {
       		var controllersList = yield select(state => state.designer.controllersList);
+      		var currentControllerKey = params.key;
+
+      		// var currentController = 
+
       		for (var i = 0; i < controllersList.length; i++) {
       			var controller = controllersList[i];
-      			if(controller.type == type) {
+      			if(controller.type == params.type) {
 		      		yield put({
 		      			type: 'setFormItems',
 		      			payload: controller.attr
@@ -28,6 +42,29 @@ export default {
       			}
       		};
       	},
+
+      	*setFormItemsByDefault({payload: key}, {call, put, select}) {
+      		var activeKey = yield select(state => state.designer.layoutState.activeKey);
+      		var activePage = yield select(state => state.designer.layoutState.activePage);
+      		var activeController = yield select(state => state.designer.layoutState.activeController);
+
+      		var elemType = 'page';
+
+      		if(activeKey == activePage.key) {
+      			elemType = 'page';
+      		}else {
+      			elemType = 'controller';
+      		}
+
+      		yield put({
+      			type: 'setFormItemsByType',
+      			payload: {
+      				key: activeKey,
+      				type: elemType
+      			}
+      		})
+      	}
+
 	},
 
 	reducers: {
@@ -40,12 +77,9 @@ export default {
 			var tmpAttr = [];
 
 			for(var att in attr) {
-				console.log(att);
 				attr[att]['attrName'] = att;
 				tmpAttr.push(attr[att]);
 			}
-
-			console.log(tmpAttr);
 
 			state.formItems = tmpAttr;
 			return {...state};
