@@ -99,37 +99,37 @@ export default {
 						isHTML: false
 					},
 
-						color: {
-							type: 'input',
-							title: '颜色',
-							isClassName: false,
-							isHTML: false
-						},
-						images: {
-							type: 'input',
-							title: '背景',
-							isClassName: false,
-							isHTML: false
-						},
+					color: {
+						type: 'input',
+						title: '颜色',
+						isClassName: false,
+						isHTML: false
+					},
+					images: {
+						type: 'input',
+						title: '背景',
+						isClassName: false,
+						isHTML: false
+					},
 
-						padding: {
-							type: 'input',
-							title: '内边距',
-							isClassName: false,
-							isHTML: false
-						},
-						scrolling: {
-							type: 'toggle',
-							title: '是否滚动',
-							isClassName: false,
-							isHTML: false
-						},
-						classes: {
-							type: 'input',
-							title: '类名',
-							isClassName: false,
-							isHTML: false
-						},
+					padding: {
+						type: 'input',
+						title: '内边距',
+						isClassName: false,
+						isHTML: false
+					},
+					scrolling: {
+						type: 'toggle',
+						title: '是否滚动',
+						isClassName: false,
+						isHTML: false
+					},
+					classes: {
+						type: 'input',
+						title: '类名',
+						isClassName: false,
+						isHTML: false
+					},
 
 					routingURL: {
 						type: 'input',
