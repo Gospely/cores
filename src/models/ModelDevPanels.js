@@ -74,12 +74,18 @@ export default {
 			methods.getActivePane(state).activeTab.index = ( parseInt(params.active) - 1 ).toString();
 
 			const activeTab = methods.getActiveTab(state,methods.getActivePane(state));
+			console.log('activePane',methods.getActivePane(state))
 			console.log('activeTab',activeTab);
 
 
 			if(activeTab.type == 'editor') {
 				state.panels.activeEditor.id = activeTab.content.props.editorId;
 			}
+			return {...state};
+		},
+
+		changePane(state,{payload: key}){
+			state.panels.activePane.key = key;
 			return {...state};
 		},
 
@@ -105,39 +111,71 @@ export default {
 				})
 			}
 			switch(state.panels.splitType) {
-				case 'single': switch(type) {
-					case 'grid': for(let i = 1; i < 4; i ++){
-						pushPane(i);
-					}
-					state.panels.activePane.key = 3;
-					break;
-					case 'single': state.panels.activePane.key = 0;
-				    break;
-					default: pushPane(1);
-						state.panels.activePane.key = 1;
-				}
-				break;
-				case 'grid': switch(type){
-					case 'single': for(let i = 0; i < 3; i ++){
-						panes.pop();
-					}
-					state.panels.activePane.key = 0;
-					break;
-					case 'grid': break;
-					default: panes.pop();
-						panes.pop();
-						state.panels.activePane.key = 1;
-				}
-				break;
-				default: switch(type) {
-					case 'single': panes.pop();
-						state.panels.activePane.key = 0;
-						break;
-					case 'grid': pushPane(2);
-						pushPane(3);
+				case 'single': 
+					switch(type) {
+						case 'grid': for(let i = 1; i < 4; i ++){
+							pushPane(i);
+						}
 						state.panels.activePane.key = 3;
 						break;
-				}
+						case 'single': 
+							state.panels.activePane.key = 0;
+					    break;
+						default: 
+							pushPane(1);
+							state.panels.activePane.key = 1;
+					}
+					break;
+				case 'grid': 
+					switch(type){
+						case 'single': 
+							for(let i = 1; i < 4; i ++){
+								let originLength = state.panels.panes[0].tabs.length;
+								for(let j = 0; j < state.panels.penes[i].tabs.length; j ++){
+									state.panels.panes[i].tabs[j].key = originLength + j + 1 + "";
+									state.panels.panes[0].tabs.push(state.panels.penes[i].tabs[j]);
+								}
+								state.panels.panes[0].editors = {...state.panels.panes[0].editors, ...state.panels.panes[i].editors}
+							}
+							state.panels.activePane.key = 0;
+							panes.pop();
+							panes.pop();
+							panes.pop();
+							break;
+						case 'grid': 
+							break;
+						default: 
+							panes.pop();
+							for(let i = 2; i < 4; i ++){
+								let originLength = state.panels.panes[1].tabs.length;
+								for(let j = 0; j < state.panels.penes[i].tabs.length; j ++){
+									state.panels.panes[i].tabs[j].key = originLength + j + 1 + "";
+									state.panels.panes[1].tabs.push(state.panels.penes[i].tabs[j]);
+								}
+								state.panels.panes[0].editors = {...state.panels.panes[0].editors, ...state.panels.panes[i].editors}
+							}
+							state.panels.activePane.key = 1;
+							panes.pop();
+					}
+					break;
+				default: 
+					switch(type) {
+						case 'single': 
+							let originLength = state.panels.panes[0].tabs.length
+							for(let i = 0; i < state.panels.panes[1].tabs.length; i ++){
+								state.panels.panes[1].tabs[i].key = originLength + i + 1 + "";
+								state.panels.panes[0].tabs.push(state.panels.panes[1].tabs[i]);
+							}
+							state.panels.panes[0].editors = {...state.panels.panes[0].editors, ...state.panels.panes[1].editors};
+							state.panels.activePane.key = 0;
+							panes.pop();
+							break;
+						case 'grid':
+							pushPane(2);
+							pushPane(3);
+							state.panels.activePane.key = 3;
+							break;
+					}
 			}
 
 			console.log(state.panels.panes)
@@ -247,6 +285,7 @@ export default {
 			state.panels.activeEditor.id = target.editorId;
 			console.log("key",state.panels.activePane.key)
 		    activePane.tabs.push({ title: target.title, content: currentDevType, type: target.type, key: activePane.activeTab.key});
+		    console.log('editorTab:',currentDevType)
 			activePane.activeTab = {key: activePane.activeTab.key, index: activePane.tabs.length - 1};
 		    return {...state};
 		},
