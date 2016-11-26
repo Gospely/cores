@@ -64,7 +64,10 @@ const Attr = (props) => {
 					    		input (attr) {
 					    			return (
 										<FormItem key={index} {...formItemLayout} label={attr.title}>
-						             		<Input value={attr._value} onChange={attrFormProps.handleAttrFormInputChange.bind(this, attr.attrName)} className="attrInput" placeholder={attr.title} />
+						             		<Input value={attr._value}
+						             				onChange={attrFormProps.handleAttrFormInputChange.bind(this, attr.attrName)} 
+						             				className="attrInput" 
+						             				placeholder={attr.title} />
 						         		</FormItem>
 					    			);
 					    		},
@@ -72,7 +75,8 @@ const Attr = (props) => {
 					    		toggle (attr) {
 					    			return (
 										<FormItem key={index} {...formItemLayout} label={attr.title}>
-						    				<Switch onChange={attrFormProps.handleAttrFormSwitchChange.bind(this, attr.attrName)} checked={attr._value} />
+						    				<Switch onChange={attrFormProps.handleAttrFormSwitchChange.bind(this, attr.attrName)} 
+						    						checked={attr._value} />
 										</FormItem>
 					    			);
 					    		},
@@ -80,7 +84,9 @@ const Attr = (props) => {
 					    		select (attr) {
 					    			return (
 										<FormItem key={index} {...formItemLayout} label={attr.title}>
-										    <Select onChange={attrFormProps.handleAttrFormSelectChange.bind(this, attr.attrName)} value={attr.value} defaultValue={attr._value}>
+										    <Select onChange={attrFormProps.handleAttrFormSelectChange.bind(this, attr.attrName)} 
+										    		value={attr.value} 
+										    		defaultValue={attr._value}>
 										    	{attr.value.map( type => (
 											      	<Option key={type} value={type}>{type}</Option>
 										    	))}
