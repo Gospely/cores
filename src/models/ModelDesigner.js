@@ -102,18 +102,69 @@ export default {
 				key: 'page-123',
 				isLeaf: false,
 				attr: {
+
 					title: {
+						type: 'input',
+						title: '页面名称',
+						isClassName: false,
+						isHTML: false,
 						'_value': '主页面'
 					},
-					color: '',
-					images: '',
 
-					padding: true,
-					scrolling: true,
-					class: '',
+					color: {
+						type: 'input',
+						title: '颜色',
+						isClassName: false,
+						isHTML: false,
+						'_value': '#ff4ff'
+					},
+					images: {
+						type: 'input',
+						title: '背景',
+						isClassName: false,
+						isHTML: false,
+						'_value': '#ff4ff'
+					},
 
-					routingURL: '',
-					icon: '',
+					padding: {
+						type: 'input',
+						title: '内边距',
+						isClassName: false,
+						isHTML: false,
+						'_value': '20'
+					},
+					scrolling: {
+						type: 'toggle',
+						title: '是否滚动',
+						isClassName: false,
+						isHTML: false,
+						'_value': false
+					},
+					class: {
+						type: 'input',
+						title: '类名',
+						isClassName: false,
+						isHTML: false,
+						'_value': 'weui-cell__bd'
+					},
+
+					routingURL: {
+						type: 'input',
+						title: '路由',
+						isClassName: false,
+						isHTML: false,
+						'_value': '/fuck'
+					},
+
+					icon: {
+						type: 'select',
+						title: '图标',
+						value: [''],
+						isClassName: false,
+						isHTML: false,
+						'_value': '#ff4ff'
+					}
+
 				},
 
 				children: [],

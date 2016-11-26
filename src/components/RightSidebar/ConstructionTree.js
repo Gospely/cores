@@ -33,7 +33,10 @@ const ConstructionTree = (props) => {
 
       props.dispatch({
         type: 'attr/setFormItemsByType',
-        payload: elemType
+        payload: {
+          key: elemSelected,
+          type: elemType
+        }
       });
 
       props.dispatch({
