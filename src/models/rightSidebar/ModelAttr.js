@@ -40,12 +40,9 @@ export default {
 			var tmpAttr = [];
 
 			for(var att in attr) {
-				console.log(att);
 				attr[att]['attrName'] = att;
 				tmpAttr.push(attr[att]);
 			}
-
-			console.log(tmpAttr);
 
 			state.formItems = tmpAttr;
 			return {...state};

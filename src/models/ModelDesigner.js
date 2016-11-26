@@ -1,4 +1,39 @@
 import dva from 'dva';
+import randomString from '../utils/randomString';
+
+const layoutAction = {
+	getActivePage (layout, index) {
+		return layout[index];
+	},
+
+	getActiveController (layout, activePageIndex, activeControllerIndex) {
+		return layout[activePageIndex].children[activeControllerIndex];
+	},
+
+	setActivePage (layoutState, pageIndex, pageKey) {
+		layoutState.activePage.index = pageIndex;
+		layoutState.activePage.key = pageKey;
+		layoutState.activeKey = pageKey;
+	},
+
+	setActiveController (layoutState, controllerIndex, controllerKey) {
+		layoutState.activeController.index = controllerIndex;
+		layoutState.activeController.key = controllerKey;
+		layoutState.activeKey = controllerKey;
+	},
+
+	getController(controllersList, controller) {
+		var ct;
+		controllersList.map( (ctrl) => {
+			if(ctrl.type == controller) {
+				ct = ctrl;
+				return ctrl;
+			}
+		});
+
+		return ct;
+	}
+}
 
 export default {
 	namespace: 'designer',
@@ -43,43 +78,39 @@ export default {
 				key: 'page-123',
 				isLeaf: false,
 				attr: {
-					title: '主页面',
+					title: {
+						'_value': '主页面'
+					},
 					color: '',
 					images: '',
 
 					padding: true,
 					scrolling: true,
-					classes: '',
+					class: '',
 
 					routingURL: '',
 					icon: '',
 				},
 
-				children: [{
-					attr: {
-						title: 'form',
-						value: 'fuck',
-						disabled: false,
-						class: 'weui-btn_primary',
-						mini: false
-					},
+				children: [],
 
-					key: 'form-345',
-					type: 'button',
-					isLeaf: true,
-
-					children: [{
-						type: 'button',
-						key: 'button-567',
-						attr: {
-							title: 'button'
-						}
-					}]
-				}],
-
-			}
+			},
 
 		],
+
+		layoutState: {
+			activePage: {
+				index: 0,
+				key: 'page-123'
+			},
+
+			activeController: {
+				index: 0,
+				key: ''
+			},
+
+			activeKey: 'page-123'
+		},
 
 		controllersList: [
 			{
@@ -124,7 +155,7 @@ export default {
 						isClassName: false,
 						isHTML: false
 					},
-					classes: {
+					class: {
 						type: 'input',
 						title: '类名',
 						isClassName: false,
@@ -587,8 +618,96 @@ export default {
 
 	reducers: {
 
-		handleDeviceSelected(state, {payload: key}) {
+		handleDeviceSelected(state, { payload: key }) {
 			state.defaultDevice = key;
+			return {...state};
+		},
+
+		setActivePage(state, { payload: params }) {
+			layoutAction.setActivePage(state.layoutState, params.index, params.key);
+			return {...state};
+		},
+
+		setActiveController(state, { payload: params }) {
+			layoutAction.setActiveController(state.layoutState, params.index, params.key);
+			return {...state};
+		},
+
+		addPage(state, { payload: page }) {
+
+			/*
+
+			{
+				type: 'page',
+				key: 'page-123',
+				isLeaf: false,
+				attr: {
+					title: '主页面',
+					color: '',
+					images: '',
+
+					padding: true,
+					scrolling: true,
+					class: '',
+
+					routingURL: '',
+					icon: '',
+				},
+
+				children: [],
+
+			},
+
+			*/
+
+			page = page || layoutAction.getController(state.controllersList, 'page');
+
+			var tmpAttr = {};
+
+			for(var att in page.attr) {
+				var currAttr = page.attr[att];
+				tmpAttr[att] = currAttr;
+				tmpAttr[att]['_value'] = '';
+				tmpAttr['title']['_value'] = page.name;
+			}
+
+			var tmpPage = {
+				type: 'page',
+				key: 'page-' + randomString(8, 10),
+				isLeaf: false,
+				attr: tmpAttr,
+				children: []
+			}
+
+			console.log(tmpPage);
+
+			state.layout.push(tmpPage);
+			layoutAction.setActivePage(state.layoutState, state.layout.length - 1, tmpPage.key);
+			return {...state};
+		},
+
+		addController(state, { payload: controller }) {
+			var activePage = layoutAction.getActivePage(state.layout, state.layoutState.activePage.index);
+			var tmpAttr = {};
+
+			for(var att in controller.attr) {
+				var currAttr = controller.attr[att];
+				tmpAttr[att] = currAttr;
+				tmpAttr[att]['_value'] = '';
+				tmpAttr['title'] = {};
+				tmpAttr['title']['_value'] = controller.name;
+			}
+
+			var ctrl = {
+				type: controller.type,
+				key: controller.type + '-' + randomString(8, 10),
+				attr: tmpAttr
+			};
+
+			console.log(ctrl);
+
+			activePage.children.push(ctrl);
+			layoutAction.setActiveController(state.layoutState, activePage.children.length - 1, ctrl.key);
 			return {...state};
 		}
 

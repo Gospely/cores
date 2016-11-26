@@ -24,6 +24,8 @@ const ConstructionTree = (props) => {
       var elemSelected = e[0];
       var elemType = elemSelected.split('-')[0];
 
+      console.log(elemSelected);
+
       props.dispatch({
         type: 'rightbar/setActiveMenu',
         payload: 'attr'
@@ -40,7 +42,9 @@ const ConstructionTree = (props) => {
 
   const addPageProps = {
     addThisPage () {
-
+      props.dispatch({
+        type: 'designer/addPage'
+      })
     }
   }
 
@@ -70,10 +74,10 @@ const ConstructionTree = (props) => {
 
   const loopData = data => data.map((item) => {
     if (item.children) {
-      return <TreeNode title={item.attr.title} key={item.key}>{loopData(item.children)}</TreeNode>;
+      return <TreeNode title={item.attr.title._value} key={item.key}>{loopData(item.children)}</TreeNode>;
     }
     return (
-        <TreeNode title={item.attr.title} key={item.key} isLeaf={item.isLeaf} disabled={item.type === 'page'} />
+        <TreeNode title={item.attr.title._value} key={item.key} isLeaf={item.isLeaf} />
     );
   });
 
@@ -87,15 +91,16 @@ const ConstructionTree = (props) => {
 
         <Row>
           <Col span={24}>
-              <Popover placement="bottom" {...addPagePop} trigger="click">
-                <Button className={TreeStyle.topbarBtnCons}><Icon type="plus" />添加页面</Button>
-              </Popover>
+            <Button onClick={addPageProps.addThisPage} className={TreeStyle.topbarBtnCons}><Icon type="plus" />添加页面</Button>
           </Col>
         </Row>
       </div>
 
-      <Tree className="layoutTree" showLine defaultExpandAll
+      <Tree className="layoutTree" 
+        showLine 
+        defaultExpandAll
         onSelect={layoutTreeProps.onSelect}
+        selectedKeys={[props.designer.layoutState.activeKey]}
       >
         {treeNodes}
       </Tree>
