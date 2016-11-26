@@ -9,6 +9,12 @@ import Designer from './Panel/Designer.js';
 
 const TabPane = Tabs.TabPane;
 
+const styles = {
+	paneWrapper: {
+		width: '100%'
+	}
+}
+
 const DevPanel = ({
 	splitType, onChange, onEdit, panes, panels, onChangePane
 }) => {
@@ -65,7 +71,7 @@ const DevPanel = ({
 		panels.map(panes => {
 			var tabPanes = generatorTabPanes(panes.tabs);
 			const activeKey = panes.activeTab.key;
-			pane.push(<div onClick={onChangePane.bind(this,panes.key)} key={panes.key}>{generatorTabs(onChange, activeKey, onEdit, animated, tabPanes)}</div>);
+			pane.push(<div style={styles.paneWrapper} onClick={onChangePane.bind(this,panes.key)} key={panes.key}>{generatorTabs(onChange, activeKey, onEdit, animated, tabPanes)}</div>);
 		});
 
 		console.log('pane', pane);

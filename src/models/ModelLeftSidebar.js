@@ -155,6 +155,10 @@ export default {
 			}}
 		},
 
+		showNewAppAndHideSwitch(state, {payload: val}) {
+			return {...state, modalNewAppVisible: true, modalSwitchAppVisible: false};
+		},
+
 		setIsGit(state, {payload: flag}) {
 			return {...state, modifyGitOriginInput: {
 				isGit: flag.data.fields,
