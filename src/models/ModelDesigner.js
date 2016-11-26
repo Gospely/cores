@@ -790,7 +790,6 @@ export default {
 			var activePage = layoutAction.getActivePage(state.layout, state.layoutState.activePage.index);
 
 			if(state.layoutState.activeType == 'page') {
-				console.log(activePage);
 				activePage.attr[params.attrName]['_value'] = params.newVal;
 			}
 
@@ -811,8 +810,6 @@ export default {
 	      		var activeCtrl = loopChildren(activePage.children)[0];
 
 	      		activeCtrl.attr[params.attrName]['_value'] = params.newVal;
-
-	      		console.log(activeCtrl);
 
 			}
 

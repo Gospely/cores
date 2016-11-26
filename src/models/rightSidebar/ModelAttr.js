@@ -48,22 +48,27 @@ export default {
 	      		var activePage = yield select(state => state.designer.layoutState.activePage);
 	      		activePage = layouts[activePage.index];
 
-	      		const loopChildren = page => page.map((ctrl) => {
+	      		const loopChildren = (page) => {
 
-	      			if(ctrl.children) {
+	      			var ct;
 
-	      			}
+	      			for (var i = 0; i < page.length; i++) {
+	      				var ctrl = page[i];
 
-	      			// return 
-	      			console.log('ctrl', ctrl);
+	      				if(ctrl.children) {
+	      					loopChildren(ctrl.children);
+	      				}
 
-	      			return ctrl;
+	      				if(ctrl.key == params.key) {
+	      					ct = ctrl;
+	      				}
+	      			};
 
-	      		});
+	      			return ct;
 
-	      		activeCtrl = loopChildren(activePage.children)[0];
+	      		};
 
-	      		console.log('activePage', activePage);
+	      		activeCtrl = loopChildren(activePage.children);
 
       		}
 
