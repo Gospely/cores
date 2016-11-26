@@ -14,6 +14,9 @@ const methods = {
 	},
 	getActiveTab(state,pane) {
 		return pane.tabs[pane.activeTab.index];
+	},
+	getEditors(state,index){
+		return state.panels.panes[index].editors;
 	}
 }
 
@@ -69,23 +72,29 @@ export default {
 
 	reducers: {
 
+		changePane(state,{payload: key}){
+			state.panels.activePane.key = key;
+			return {...state};
+		},
+
 		tabChanged(state, {payload: params}) {
+			// console.log('ifFalse',state.panels.activePane.key !== state.panels.prevPane.key)
+			// if (state.panels.activePane.key !== state.panels.prevPane.key) {
+			// 	return{...state};
+			// }
+			const activeTab = methods.getActiveTab(state,methods.getActivePane(state));
+			// console.log(activeTab)
 			methods.getActivePane(state).activeTab.key = params.active;
 			methods.getActivePane(state).activeTab.index = ( parseInt(params.active) - 1 ).toString();
 
-			const activeTab = methods.getActiveTab(state,methods.getActivePane(state));
-			console.log('activePane',methods.getActivePane(state))
-			console.log('activeTab',activeTab);
+			
+			// console.log('activePane',methods.getActivePane(state))
+			// console.log('activeTab',activeTab);
 
 
 			if(activeTab.type == 'editor') {
 				state.panels.activeEditor.id = activeTab.content.props.editorId;
 			}
-			return {...state};
-		},
-
-		changePane(state,{payload: key}){
-			state.panels.activePane.key = key;
 			return {...state};
 		},
 
@@ -110,6 +119,19 @@ export default {
 		    		}
 				})
 			}
+			let reTabKey = function (index) {
+				panes[index].tabs.forEach((tab,i) => {
+					let isKey = false;
+					if (tab.key == panes[index].activeTab.key) {
+						isKey = true;
+					}
+					tab.key = i + 1 + "";
+					if (isKey) {
+						panes[index].activeTab.key = tab.key;
+						panes[index].activeTab.index = i;
+					}
+				})
+			}
 			switch(state.panels.splitType) {
 				case 'single': 
 					switch(type) {
@@ -130,14 +152,17 @@ export default {
 					switch(type){
 						case 'single': 
 							for(let i = 1; i < 4; i ++){
-								let originLength = state.panels.panes[0].tabs.length;
 								for(let j = 0; j < state.panels.penes[i].tabs.length; j ++){
-									state.panels.panes[i].tabs[j].key = originLength + j + 1 + "";
-									state.panels.panes[0].tabs.push(state.panels.penes[i].tabs[j]);
+									panes[0].tabs.push(state.panels.penes[i].tabs[j]);
 								}
-								state.panels.panes[0].editors = {...state.panels.panes[0].editors, ...state.panels.panes[i].editors}
+								panes[0].editors = {...panes[0].editors, ...panes[i].editors}
 							}
 							state.panels.activePane.key = 0;
+							panes.forEach((pane,j) => {
+								while(j > 0){
+									reTabKey(j);
+								}
+							})
 							panes.pop();
 							panes.pop();
 							panes.pop();
@@ -147,27 +172,23 @@ export default {
 						default: 
 							panes.pop();
 							for(let i = 2; i < 4; i ++){
-								let originLength = state.panels.panes[1].tabs.length;
-								for(let j = 0; j < state.panels.penes[i].tabs.length; j ++){
-									state.panels.panes[i].tabs[j].key = originLength + j + 1 + "";
-									state.panels.panes[1].tabs.push(state.panels.penes[i].tabs[j]);
-								}
-								state.panels.panes[0].editors = {...state.panels.panes[0].editors, ...state.panels.panes[i].editors}
+								panes[0].tabs.push(state.panels.penes[i].tabs[j]);
+								panes[0].editors = {...panes[0].editors, ...panes[i].editors}
 							}
 							state.panels.activePane.key = 1;
+							reTabKey(1);
 							panes.pop();
 					}
 					break;
 				default: 
 					switch(type) {
 						case 'single': 
-							let originLength = state.panels.panes[0].tabs.length
-							for(let i = 0; i < state.panels.panes[1].tabs.length; i ++){
-								state.panels.panes[1].tabs[i].key = originLength + i + 1 + "";
-								state.panels.panes[0].tabs.push(state.panels.panes[1].tabs[i]);
+							for(let i = 0; i < panes[1].tabs.length; i ++){
+								panes[0].tabs.push(panes[1].tabs[i]);
 							}
-							state.panels.panes[0].editors = {...state.panels.panes[0].editors, ...state.panels.panes[1].editors};
+							panes[0].editors = {...panes[0].editors, ...panes[1].editors}
 							state.panels.activePane.key = 0;
+							reTabKey(0);
 							panes.pop();
 							break;
 						case 'grid':
@@ -186,11 +207,26 @@ export default {
 		'remove'(state, {payload: targetKey}) {
 			let target = targetKey.targetKey;
 			let activeKey = methods.getActivePane(state).activeTab.key;
+			let activePane = methods.getActivePane(state);
 			let lastIndex;
-
 			let type = targetKey.type;
+
+			const reTabKey = function () {
+				activePane.tabs.forEach((tab,i) => {
+					let isKey = false;
+					if (tab.key == activePane.activeTab.key) {
+						isKey = true;
+					}
+					tab.key = i + 1 + "";
+					if (isKey) {
+						activePane.activeTab.key = tab.key;
+						activePane.activeTab.index = i;
+					}
+				})
+			}
+
 			// console.log('tabs',state.panels.panes.tabs)
-			methods.getActivePane(state).tabs.forEach((tab, i) => {
+			activePane.tabs.forEach((tab, i) => {
 				if(tab.key === target) {
 					lastIndex = i - 1;
 					if(lastIndex < 0) {
@@ -198,10 +234,12 @@ export default {
 					}
 				}
 			});
+			console.log('lastIndex',lastIndex)
 
 
 
-			const tabs = methods.getActivePane(state).tabs.filter(tab => tab.key !== target);
+			const tabs = activePane.tabs.filter(tab => tab.key !== target);
+			// console.log('activePane',methods.getActivePane(state).key)
 			if(lastIndex >= 0 && activeKey === target) {
 				if(tabs.length != 0) {
 					activeKey = tabs[lastIndex].key;
@@ -218,9 +256,11 @@ export default {
 				}
 			}
 
-			methods.getActivePane(state).tabs = tabs;
-			methods.getActivePane(state).activeTab.key = activeKey;
-			methods.getActivePane(state).activeTab.index = ( parseInt(activeKey) - 1 ).toString();
+			activePane.tabs = tabs;
+			activePane.activeTab.key = activeKey;
+			// console.log('activeTab',activeKey)
+			activePane.activeTab.index = ( parseInt(activeKey) - 1 ).toString();
+			reTabKey();
 
 			return {...state};
 		},
@@ -239,20 +279,22 @@ export default {
 		},
 		add(state, {payload: target}) {
 
-		    const panes = state.panels.panes;
-		    const activePane = methods.getActivePane(state);
+		    let panes = state.panels.panes;
+		    let activePane = methods.getActivePane(state);
+		    // console.log(activePane.tabs.length + 1)
 		    activePane.activeTab.key = (activePane.tabs.length + 1).toString();
-		    console.log(target);
+		    // console.log(target); 
 
 			target.title = target.title || '新标签页';
 			target.type = target.type || 'editor';
-			target.content = target.content || '';
+			target.content = target.content || '// TO DO \r\n';
+			console.log(target.content)
 
 			const devTypes = {
 				editor: function(params) {
-					console.log(params);
+					// console.log(params);
 					var editorObj = {
-						value: '// TO DO \r\n',
+						value: params.content,
 						id: params.editorId
 					};
 
@@ -279,7 +321,8 @@ export default {
 			}
 
 			var params = {
-				editorId: target.editorId
+				editorId: target.editorId,
+				content: target.content
 			};
 
 			var currentDevType = devTypes[target.type](params);

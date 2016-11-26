@@ -14,9 +14,9 @@ const DevPanel = ({
 }) => {
 
 	let genterTypeOfTabPane = {
-		editor: function() {
+		editor: function(params) {
 			return (
-				<CodingEditor></CodingEditor>
+				<CodingEditor editorId={params.editorId}>></CodingEditor>
 			);
 		},
 		terminal: function() {
@@ -39,7 +39,8 @@ const DevPanel = ({
 		return panes.map(pane => {
 			
 			let params = {
-				content: pane.content || ''
+				content: pane.content || '',
+				editorId: pane.editorId || ''
 			}
 			return <TabPane tab={pane.title} key={pane.key}>{genterTypeOfTabPane[pane.type](params)}</TabPane>;
 		});
