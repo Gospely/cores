@@ -789,25 +789,38 @@ export default {
 			console.log(params);
 			var activePage = layoutAction.getActivePage(state.layout, state.layoutState.activePage.index);
 
+			console.log('activePage', activePage, state.layout);
+
 			if(state.layoutState.activeType == 'page') {
 				activePage.attr[params.attrName]['_value'] = params.newVal;
+				console.log(activePage.attr);
 			}
 
 			if(state.layoutState.activeType == 'controller') {
 
-	      		const loopChildren = page => page.map((ctrl) => {
+	      		const loopChildren = (page) => {
 
-	      			if(ctrl.children) {
-	      				loopChildren(ctrl.children);
-	      			}
+	      			var ct;
 
-	      			if(typeof ctrl.attr[params.attrName] != 'undefined') {
-	      				return ctrl;
-	      			}
+	      			for (var i = 0; i < page.length; i++) {
+	      				var ctrl = page[i];
 
-	      		});
+	      				if(ctrl.children) {
+	      					loopChildren(ctrl.children);
+	      				}
 
-	      		var activeCtrl = loopChildren(activePage.children)[0];
+	      				if(typeof ctrl.attr[params.attrName] != 'undefined') {
+	      					ct = ctrl;
+	      					break;
+	      				}
+	      			};
+
+	      			return ct;
+
+	      		};
+
+
+	      		var activeCtrl = loopChildren(activePage.children);
 
 	      		activeCtrl.attr[params.attrName]['_value'] = params.newVal;
 

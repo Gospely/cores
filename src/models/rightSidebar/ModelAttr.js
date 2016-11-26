@@ -61,6 +61,7 @@ export default {
 
 	      				if(ctrl.key == params.key) {
 	      					ct = ctrl;
+	      					break;
 	      				}
 	      			};
 
