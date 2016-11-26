@@ -109,6 +109,7 @@ const ConstructionTree = (props) => {
         defaultExpandAll
         onSelect={layoutTreeProps.onSelect}
         selectedKeys={[props.designer.layoutState.activeKey]}
+        expandedKeys={props.designer.layoutState.expandedKeys}
       >
         {treeNodes}
       </Tree>

@@ -14,12 +14,14 @@ const layoutAction = {
 		layoutState.activePage.index = pageIndex;
 		layoutState.activePage.key = pageKey;
 		layoutState.activeKey = pageKey;
+		layoutState.expandedKeys.push(pageKey);
 	},
 
 	setActiveController (layoutState, controllerIndex, controllerKey) {
 		layoutState.activeController.index = controllerIndex;
 		layoutState.activeController.key = controllerKey;
 		layoutState.activeKey = controllerKey;
+		layoutState.expandedKeys.push(controllerKey);
 	},
 
 	getController(controllersList, controller) {
@@ -131,7 +133,8 @@ export default {
 				key: ''
 			},
 
-			activeKey: 'page-123'
+			activeKey: 'page-123',
+			expandedKeys: []
 		},
 
 		controllersList: [
@@ -714,7 +717,6 @@ export default {
 				layoutAction.setActivePage(state.layoutState, pageIndex, params.key);
 			}else {
 				var activePage = layoutAction.getActivePage(state.layout, state.layoutState.activePage.index);
-				console.log(activePage);
 				var controllerIndex = layoutAction.getControllerIndexByKey(activePage.children, params.key);
 				layoutAction.setActiveController(state.layoutState, controllerIndex, params.key);
 			}
