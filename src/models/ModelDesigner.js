@@ -787,15 +787,33 @@ export default {
 
 		handleAttrFormInputChange(state, { payload: params }) {
 			console.log(params);
+			var activePage = layoutAction.getActivePage(state.layout, state.layoutState.activePage.index);
 
 			if(state.layoutState.activeType == 'page') {
-				var activePage = layoutAction.getActivePage(state.layout, state.layoutState.activePage.index);
-				console.log(activePage);			
+				console.log(activePage);
 				activePage.attr[params.attrName]['_value'] = params.newVal;
 			}
 
 			if(state.layoutState.activeType == 'controller') {
-				
+
+	      		const loopChildren = page => page.map((ctrl) => {
+
+	      			if(ctrl.children) {
+	      				loopChildren(ctrl.children);
+	      			}
+
+	      			if(typeof ctrl.attr[params.attrName] != 'undefined') {
+	      				return ctrl;
+	      			}
+
+	      		});
+
+	      		var activeCtrl = loopChildren(activePage.children)[0];
+
+	      		activeCtrl.attr[params.attrName]['_value'] = params.newVal;
+
+	      		console.log(activeCtrl);
+
 			}
 
 			return {...state};
