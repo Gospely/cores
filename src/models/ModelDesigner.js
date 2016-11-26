@@ -714,7 +714,8 @@ export default {
 				layoutAction.setActivePage(state.layoutState, pageIndex, params.key);
 			}else {
 				var activePage = layoutAction.getActivePage(state.layout, state.layoutState.activePage.index);
-				var controllerIndex = layoutAction.getControllerIndexByKey(state.layout[activePage], params.key);
+				console.log(activePage);
+				var controllerIndex = layoutAction.getControllerIndexByKey(activePage.children, params.key);
 				layoutAction.setActiveController(state.layoutState, controllerIndex, params.key);
 			}
 			return {...state};
