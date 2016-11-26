@@ -13,6 +13,8 @@ const Controllers = (props) => {
 
 		onSelect (controller) {
 
+			console.log(controller);
+
 			props.dispatch({
 				type: 'rightbar/setActiveMenu',
 				payload: 'attr'
@@ -27,7 +29,7 @@ const Controllers = (props) => {
 				type: 'designer/addController',
 				payload: controller
 			});
-			
+
 		}
 
 	}
@@ -39,7 +41,7 @@ const Controllers = (props) => {
 	    		if(!controller.backend) {
 	    			return (
 						<Col span={12} key={index}>
-			      			<div onClick={controllersProps.onSelect.bind(this, controller)} className={'app-components ' + controller.type}><span className="title">{controller.name}</span></div>
+			      			<div onMouseDown={controllersProps.onSelect.bind(this, controller)} onClick={controllersProps.onSelect.bind(this, controller)} className={'app-components ' + controller.type}><span className="title">{controller.name}</span></div>
 			      		</Col>
 	    			);
 	    		}

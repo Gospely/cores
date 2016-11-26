@@ -27,6 +27,10 @@ export default {
 
       	*setFormItemsByType({payload: params}, {call, put, select}) {
       		var controllersList = yield select(state => state.designer.controllersList);
+      		var currentControllerKey = params.key;
+
+      		// var currentController = 
+
       		for (var i = 0; i < controllersList.length; i++) {
       			var controller = controllersList[i];
       			if(controller.type == params.type) {
