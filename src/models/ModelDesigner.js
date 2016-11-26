@@ -265,7 +265,7 @@ export default {
 				attr: {
 					value: {
 						type: 'input',
-						title: '名称',
+						title: '值',
 						isClassName: false,
 						isHTML: true
 					},
@@ -723,6 +723,10 @@ export default {
 				tmpAttr[att] = currAttr;
 				tmpAttr[att]['_value'] = '';
 				tmpAttr['title']['_value'] = page.name;
+				tmpAttr['title']['type'] = 'input';
+				tmpAttr['title']['isClassName'] = false;
+				tmpAttr['title']['isHTML'] = false;
+				tmpAttr['title']['title'] = '名称';
 			}
 
 			var tmpPage = {
@@ -750,6 +754,10 @@ export default {
 				tmpAttr[att]['_value'] = '';
 				tmpAttr['title'] = {};
 				tmpAttr['title']['_value'] = controller.name;
+				tmpAttr['title']['type'] = 'input';
+				tmpAttr['title']['isClassName'] = false;
+				tmpAttr['title']['isHTML'] = false;
+				tmpAttr['title']['title'] = '名称';
 			}
 
 			var ctrl = {

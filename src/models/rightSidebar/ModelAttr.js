@@ -31,8 +31,6 @@ export default {
 
       		var layouts = yield select(state => state.designer.layout);
 
-      		var activePage = yield select(state => state.designer.layoutState.activePage);
-
       		var activeCtrl;
 
       		if(params.type == 'page') {
@@ -46,23 +44,37 @@ export default {
       			};
 
       		}else {
-      			
+
+	      		var activePage = yield select(state => state.designer.layoutState.activePage);
+	      		activePage = layouts[activePage.index];
+
+	      		const loopChildren = page => page.map((ctrl) => {
+
+	      			if(ctrl.children) {
+
+	      			}
+
+	      			// return 
+	      			console.log('ctrl', ctrl);
+
+	      			return ctrl;
+
+	      		});
+
+	      		activeCtrl = loopChildren(activePage.children)[0];
+
+	      		console.log('activePage', activePage);
+
       		}
 
       		// activePage = layouts[activePage.index];
 
-      		console.log('currentControllerKey', activeCtrl, controllersList);
+      		console.log('currentControllerKey', activeCtrl);
 
-      		for (var i = 0; i < controllersList.length; i++) {
-      			var controller = controllersList[i];
-      			if(controller.type == params.type) {
-		      		yield put({
-		      			type: 'setFormItems',
-		      			payload: activeCtrl.attr
-		      		});
-      				break;
-      			}
-      		};
+      		yield put({
+      			type: 'setFormItems',
+      			payload: activeCtrl.attr
+      		});
       	},
 
       	*setFormItemsByDefault({payload: key}, {call, put, select}) {
