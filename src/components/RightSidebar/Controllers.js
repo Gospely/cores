@@ -35,7 +35,6 @@ const Controllers = (props) => {
 	}
 
   	return (
-
 	    <Row>
 	    	{props.designer.controllersList.map((controller, index) => {
 	    		if(!controller.backend) {
