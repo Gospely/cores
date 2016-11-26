@@ -12,27 +12,45 @@ const Controllers = (props) => {
 	const controllersProps = {
 
 		onSelect (controller) {
-			console.log(controller);
+
+			props.dispatch({
+				type: 'rightbar/setActiveMenu',
+				payload: 'attr'
+			});
+
+			props.dispatch({
+				type: 'attr/setFormItems',
+				payload: controller.attr
+			});
+
+			props.dispatch({
+				type: 'designer/addController',
+				payload: controller
+			});
+			
 		}
 
 	}
 
   	return (
-
-	    <Row id="dnd-row">
-	    	{props.designer.controllersList.map((controller, index) => (
-				<Col span={12} key={index}>
-	      			<div onClick={controllersProps.onSelect.bind(this, controller)} className={'app-components ' + controller.type}><span className="title">{controller.name}</span></div>
-	      		</Col>
-	    	))}
+	    <Row>
+	    	{props.designer.controllersList.map((controller, index) => {
+	    		if(!controller.backend) {
+	    			return (
+						<Col span={12} key={index}>
+			      			<div onClick={controllersProps.onSelect.bind(this, controller)} className={'app-components ' + controller.type}><span className="title">{controller.name}</span></div>
+			      		</Col>
+	    			);
+	    		}
+	    	})}
 	    </Row>
 
   	);
 
 };
 
-function mapStateToProps({ designer }) {
-  return { designer };
+function mapStateToProps({ designer, rightbar }) {
+  return { designer, rightbar };
 }
 
 export default connect(mapStateToProps)(Controllers);

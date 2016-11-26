@@ -36,6 +36,7 @@ export default {
 		isSlideUp: false,
 	},
 
+
 	reducers: {
 
 		showSearchBar(state) {
@@ -46,14 +47,25 @@ export default {
 				return {...state, searchVisible: false};
 			},
 
-			toggleSearchBar(state) {
+			toggleSearchBar(state,{payload: params}) {
+
+				state.searchContent = params.searchContent;
+				currentEditor.find(state.searchContent,{
+					backwards: true,
+					wrap: true,
+					caseSensitive: true,
+					wholeWord: true,
+					regExp: false
+				});
 				return {...state, searchVisible: !state.searchVisible, jumpLineVisible: false};
 			},
 
-			search(state) {
+			search(state,{payload: params}) {
 
+				console.log(params);
+				state.searchContent = params.searchContent;
+				return {...state};
 			},
-
 			searchPrev(state) {
 
 				currentEditor.findPrevious();
@@ -68,13 +80,30 @@ export default {
 			},
 			replace(state) {
 
-				currentEditor.find(state.searchContent,{
-					backwards: true,
-					wrap: true,
-					caseSensitive: true,
-					wholeWord: true,
-					regExp: false
-				});
+				console.log(state);
+				console.log(state.replaceContent);
+				if(!state.isReplaceAll) {
+					console.log('all');
+					currentEditor.replaceAll(state.replaceContent,{
+							needle:state.searchContent,
+							backwards: true,
+							wrap: true,
+							caseSensitive: true,
+							wholeWord: true,
+							regExp: false
+					});
+					console.log(currentEditor.getValue());
+				}else{
+					console.log('single');
+					currentEditor.replace(state.replaceContent,{
+							needle:state.searchContent,
+							backwards: true,
+							wrap: true,
+							caseSensitive: true,
+							wholeWord: true,
+							regExp: false
+					});
+				}
 				currentEditor.findNext();
 				console.log("state", state);
 
@@ -145,12 +174,14 @@ export default {
 			handleSearchAllSwitchChange(state, {
 				payload: proxy
 			}) {
-				return {...state, isReplaceAll: proxy};
+				return {...state, isReplaceAll: !state.isReplaceAll};
 			},
 
 			handleJumpLineChange(state, {
 				payload: proxy
 			}) {
+				currentEditor.gotoLine(proxy.target.value);
+				console.log(state.jumpLine);
 				return {...state, jumpLine: proxy.target.value};
 			},
 
@@ -163,18 +194,4 @@ export default {
 			}
 
 	},
-	effects: {
-
-		*replace({payload: params}, {call, put, select}) {
-
-			var editors = yield select(state => state.devpanel.panels.panes);
-			var key = yield select(state => state.devpanel.panels.activePane.key);
-			editors[key].value = 'sss';
-			console.log("key" + key);
-		},
-
-	},
-
-
-
 }

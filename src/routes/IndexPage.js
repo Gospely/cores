@@ -17,13 +17,20 @@ import randomString from '../utils/randomString'
 
 function IndexPage(props) {
 
+
   const devPanelProps = {
     panes: props.devpanel.panels.panes,
-    // activePane: props.devpanel.panels.activePane,
-    // activeKey: props.devpanel.panels[props.devpanel.panels.activePane].activeTab,
+    
     splitType: props.devpanel.panels.splitType,
 
     panels: props.devpanel.panels,
+
+    onChangePane(key) {
+      props.dispatch({
+        type: 'devpanel/changePane',
+        payload: key
+      });
+    },
 
     onChange(active) {
       props.dispatch({
@@ -44,11 +51,13 @@ function IndexPage(props) {
       })
     }
 
+    
+
   }
 
   var devPanelMinSize = document.body.clientWidth,
         leftBarWidth = 230,
-        rightBarWidth = 250;
+        rightBarWidth = 280;
   devPanelMinSize = devPanelMinSize - ( rightBarWidth + leftBarWidth );
 
   return (

@@ -8,10 +8,15 @@ import SettingPanel from './RightSidebar/SettingPanel';
 
 const TabPane = Tabs.TabPane;
 
-const RightSidebar = () => {
+import { connect } from 'dva';
+
+const RightSidebar = (props) => {
 
 	var callback = function(key) {
-		console.log(key);
+		props.dispatch({
+			type: 'rightbar/handleTabChanged',
+			payload: key
+		});
 	}
 
 	var styles = {
@@ -30,7 +35,7 @@ const RightSidebar = () => {
 	}
 
 	return (
-	  	<Tabs tabPosition="right" defaultActiveKey="file" onChange={callback}>
+	  	<Tabs tabPosition="right" activeKey={props.rightbar.activeMenu} onChange={callback}>
 	    	<TabPane style={styles.tab} tab={<span style={styles.span}><Icon style={styles.icon} type="file-text" />文件</span>} key="file">
 	    		<FileTree></FileTree>
 	    	</TabPane>	  	
@@ -48,4 +53,8 @@ const RightSidebar = () => {
 
 }
 
-export default RightSidebar;
+function mapStateToProps({ rightbar }) {
+  return { rightbar };
+}
+
+export default connect(mapStateToProps)(RightSidebar);
