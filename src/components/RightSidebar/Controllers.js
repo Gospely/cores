@@ -9,6 +9,14 @@ const DragSource = require('react-dnd').DragSource;
 
 const Controllers = (props) => {
 
+	window.addEventListener("message", (event) =>  {
+		console.log('previewPage receives message', event);
+		if (event.data.opr === 'all') {
+			controllersProps.onSelect(dndData);
+			console.log(event.data);
+		}
+	});
+
 	const controllersProps = {
 
 		onSelect (controller) {
@@ -27,18 +35,19 @@ const Controllers = (props) => {
 				type: 'designer/addController',
 				payload: controller
 			});
-			
-		}
+			window.dndData = controller;
+		},
+		
 
 	}
 
   	return (
-	    <Row>
+	    <Row id="dnd-row">
 	    	{props.designer.controllersList.map((controller, index) => {
 	    		if(!controller.backend) {
 	    			return (
 						<Col span={12} key={index}>
-			      			<div onClick={controllersProps.onSelect.bind(this, controller)} className={'app-components ' + controller.type}><span className="title">{controller.name}</span></div>
+			      			<div onMouseDown={controllersProps.onSelect.bind(this, controller)} onClick={controllersProps.onSelect.bind(this, controller)} className={'app-components ' + controller.type}><span className="title">{controller.name}</span></div>
 			      		</Col>
 	    			);
 	    		}

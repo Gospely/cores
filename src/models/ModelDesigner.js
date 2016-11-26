@@ -198,7 +198,6 @@ export default {
 				name: '页面',
 				type: 'page',
 				attr: {
-
 					title: {
 						type: 'input',
 						title: '页面名称',
