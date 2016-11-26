@@ -794,6 +794,10 @@ export default {
 				activePage.attr[params.attrName]['_value'] = params.newVal;
 			}
 
+			if(state.layoutState.activeType == 'controller') {
+				
+			}
+
 			return {...state};
 		}
 

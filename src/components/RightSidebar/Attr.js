@@ -40,6 +40,14 @@ const Attr = (props) => {
     				attrName: attrName
     			}
     		});
+    	},
+
+    	handleAttrFormSwitchChange: (attrName, dom) => {
+
+    	},
+
+    	handleAttrFormSelectChange: (attrName, dom) => {
+
     	}
 
     }
@@ -64,7 +72,7 @@ const Attr = (props) => {
 					    		toggle (attr) {
 					    			return (
 										<FormItem key={index} {...formItemLayout} label={attr.title}>
-						    				<Switch checked={attr._value} />
+						    				<Switch onChange={attrFormProps.handleAttrFormSwitchChange.bind(this, attr.attrName)} checked={attr._value} />
 										</FormItem>
 					    			);
 					    		},
@@ -72,7 +80,7 @@ const Attr = (props) => {
 					    		select (attr) {
 					    			return (
 										<FormItem key={index} {...formItemLayout} label={attr.title}>
-										    <Select value={attr.value} defaultValue={attr._value}>
+										    <Select onChange={attrFormProps.handleAttrFormSelectChange.bind(this, attr.attrName)} value={attr.value} defaultValue={attr._value}>
 										    	{attr.value.map( type => (
 											      	<Option key={type} value={type}>{type}</Option>
 										    	))}
