@@ -587,6 +587,10 @@ export default {
 
 	reducers: {
 
+		handleDeviceSelected(state, {payload: key}) {
+			state.defaultDevice = key;
+			return {...state};
+		}
 
 	}
 
