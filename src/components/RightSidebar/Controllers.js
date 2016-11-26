@@ -12,6 +12,7 @@ const Controllers = (props) => {
 	const controllersProps = {
 
 		onSelect (controller) {
+
 			props.dispatch({
 				type: 'rightbar/setActiveMenu',
 				payload: 'attr'
@@ -21,6 +22,12 @@ const Controllers = (props) => {
 				type: 'attr/setFormItems',
 				payload: controller.attr
 			});
+
+			props.dispatch({
+				type: 'designer/addController',
+				payload: controller
+			});
+			
 		}
 
 	}
@@ -28,11 +35,15 @@ const Controllers = (props) => {
   	return (
 
 	    <Row>
-	    	{props.designer.controllersList.map((controller, index) => (
-				<Col span={12} key={index}>
-	      			<div onClick={controllersProps.onSelect.bind(this, controller)} className={'app-components ' + controller.type}><span className="title">{controller.name}</span></div>
-	      		</Col>
-	    	))}
+	    	{props.designer.controllersList.map((controller, index) => {
+	    		if(!controller.backend) {
+	    			return (
+						<Col span={12} key={index}>
+			      			<div onClick={controllersProps.onSelect.bind(this, controller)} className={'app-components ' + controller.type}><span className="title">{controller.name}</span></div>
+			      		</Col>
+	    			);
+	    		}
+	    	})}
 	    </Row>
 
   	);
