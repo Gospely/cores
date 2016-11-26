@@ -1,5 +1,6 @@
 import dva from 'dva';
 import request from '../../utils/request.js';
+import randomWord from '../../utils/randomString.js'
 
 const findParentNode = (treeData, parentDirName, lvl) => {
 	var parentNode;
@@ -188,14 +189,16 @@ export default {
       			})
       		});
       		var content = readResult.data
+      		// console.log(content)
       		content = content.fields;
-      		console.log(content);
+      		// console.log(content);
 			yield put({
 				type: 'devpanel/add',
 				payload: {
 					title: content.fileName,
 					type: 'editor',
-					content: content.content
+					content: content.content,
+					editorId: randomWord(8,10)
 				}
 			})
       	},

@@ -9,14 +9,20 @@ import Designer from './Panel/Designer.js';
 
 const TabPane = Tabs.TabPane;
 
+const styles = {
+	paneWrapper: {
+		width: '100%'
+	}
+}
+
 const DevPanel = ({
 	splitType, onChange, onEdit, panes, panels, onChangePane
 }) => {
 
 	let genterTypeOfTabPane = {
-		editor: function() {
+		editor: function(params) {
 			return (
-				<CodingEditor></CodingEditor>
+				<CodingEditor editorId={params.editorId}>></CodingEditor>
 			);
 		},
 		terminal: function() {
@@ -39,7 +45,8 @@ const DevPanel = ({
 		return panes.map(pane => {
 			
 			let params = {
-				content: pane.content || ''
+				content: pane.content || '',
+				editorId: pane.editorId || ''
 			}
 			return <TabPane tab={pane.title} key={pane.key}>{genterTypeOfTabPane[pane.type](params)}</TabPane>;
 		});
@@ -64,7 +71,7 @@ const DevPanel = ({
 		panels.map(panes => {
 			var tabPanes = generatorTabPanes(panes.tabs);
 			const activeKey = panes.activeTab.key;
-			pane.push(<div onClick={onChangePane.bind(this,panes.key)} key={panes.key}>{generatorTabs(onChange, activeKey, onEdit, animated, tabPanes)}</div>);
+			pane.push(<div style={styles.paneWrapper} onClick={onChangePane.bind(this,panes.key)} key={panes.key}>{generatorTabs(onChange, activeKey, onEdit, animated, tabPanes)}</div>);
 		});
 
 		console.log('pane', pane);

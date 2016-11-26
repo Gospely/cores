@@ -33,12 +33,22 @@ const Designer = (props) => {
 				<label className="bold">设备</label>
 
 				<Dropdown overlay={deviceSelectedMenu} trigger={['click']}>
-					<Button className="deviceSelectorBtn">{props.designer.deviceList[props.designer.defaultDevice].name} <Icon type="down" /></Button>
+					<Button 
+						className="deviceSelectorBtn">
+						{props.designer.deviceList[props.designer.defaultDevice].name} <Icon type="down" />
+					</Button>
 				</Dropdown>
 			</div>
 
 			<div className="designer-body">
-				<iframe name="gospel-designer" width={props.designer.deviceList[props.designer.defaultDevice].width} height={props.designer.deviceList[props.designer.defaultDevice].height} className="designer" frameBorder="0" src="static/designer/weui/designer.html"></iframe>
+				<iframe 
+					name="gospel-designer" 
+					width={props.designer.deviceList[props.designer.defaultDevice].width} 
+					height={props.designer.deviceList[props.designer.defaultDevice].height} 
+					className="designer" 
+					frameBorder="0" 
+					src="static/designer/weui/designer.html">
+				</iframe>
 			</div>
 
 		</div>

@@ -1,5 +1,5 @@
 import React , { PropTypes } from 'react';
-import { Menu, Icon, Modal, Input, Button, message, Tabs } from 'antd';
+import { Menu, Icon, Modal, Input, Button, message, Tabs, Card, Popconfirm, Row, Col } from 'antd';
 
 const TabPane = Tabs.TabPane;
 
@@ -157,6 +157,21 @@ const LeftSidebar = (props) => {
 	      });
 	    },
 
+
+	    confirmDeleteApp() {
+	    	console.log('confirm delete app')
+
+	    },
+
+	    cancelDeleteApp() {
+	    	console.log('cacle delete app')
+	    },
+
+	    openApp() {
+	    	console.log('TopBar中dispatch')
+	    	// alert(1)
+	    },
+
 	    switchApp() {
 	      props.dispatch({
 	        type: 'sidebar/switchApp'
@@ -191,13 +206,18 @@ const LeftSidebar = (props) => {
 			onPushValueChange: function(e) {
 				props.dispatch({
 					type: 'sidebar/handleModifyGitPushOriginInputChange',
-					payload: e.target.value
 				})
 			}
 		},
 
 		onGitOperationTabChanged: function() {
 
+		},
+
+		createAppFromModal() {
+			props.dispatch({
+				type: 'sidebar/showNewAppAndHideSwitch',
+			})
 		}
 	};
 
@@ -257,9 +277,44 @@ const LeftSidebar = (props) => {
 	        	<iframe style={styles.ifr} src="http://localhost:8088/#!/apps/new"></iframe>
 	        </Modal>
 
-	    	<Modal width="60%"  title="切换应用" visible={props.sidebar.modalSwitchAppVisible}
+	    	<Modal style={{maxWidth: '545px'}}  title="切换应用" visible={props.sidebar.modalSwitchAppVisible}
 	          	onOk={leftSidebarProps.switchApp} onCancel={leftSidebarProps.cancelSwitchApp}
-	        >
+	        >	
+        	    <Row gutter={16}>
+        	      <Col className="gutter-row" span={6}>
+	    	     	 <div className="gutter-box">
+		 		        	<Card onClick={leftSidebarProps.openApp} extra={
+		 		        		<Popconfirm onClick={(e) => e.stopPropagation()} title="确认删除此项目?"
+		 		        		onConfirm={leftSidebarProps.confirmDeleteApp}
+		 		        		onCancel={leftSidebarProps.cancelDeleteApp} okText="Yes" cancelText="No">
+		 		        		    <a className="delete-app">
+		 		        				<Icon type="close" />
+		 		        			</a>
+		 		        		</Popconfirm>
+		 	        		} style={{ width: 110, height: 110 }} 
+		 	        		bodyStyle={{height: '100%', background: 'whitesmoke', color: '#555', cursor: 'pointer'}}>
+		 		        	    <div style={{ height: 50,lineHeight: '50px',textAlign: 'center'}}>
+		 		        	    	<p className="app-name-hover">项目一s</p>
+		 		        	    </div>
+		 		        	</Card>
+	    	     	 </div>
+        	      </Col>
+        	      <Col className="gutter-row" span={6}>
+		              <div className="gutter-box">
+						<Card onClick={leftSidebarProps.createAppFromModal} style={{ width: 110, height: 110 }}
+						bodyStyle={{height: '100%', background: 'whitesmoke', color: '#555', cursor: 'pointer'}}
+						>
+						    <Icon className="create-app-from-modal app-name-hover" type="plus" />
+						</Card>
+		              </div>
+        	      </Col>
+        	      <Col className="gutter-row" span={6}>
+		             <div className="gutter-box">col-6</div>
+		           </Col>
+        	      <Col className="gutter-row" span={6}>
+        	         <div className="gutter-box">col-6</div>
+        	      </Col>
+        	    </Row>
 	        </Modal>
 
 	    	<Modal width="60%"  title="添加/更改 Git 源" visible={props.sidebar.modalModifyGitOriginVisible}

@@ -15,6 +15,7 @@ const layoutAction = {
 		layoutState.activePage.key = pageKey;
 		layoutState.activeKey = pageKey;
 		layoutState.expandedKeys.push(pageKey);
+		layoutState.activeType = 'page';
 	},
 
 	setActiveController (layoutState, controllerIndex, controllerKey) {
@@ -22,6 +23,7 @@ const layoutAction = {
 		layoutState.activeController.key = controllerKey;
 		layoutState.activeKey = controllerKey;
 		layoutState.expandedKeys.push(controllerKey);
+		layoutState.activeType = 'controller';
 	},
 
 	getController(controllersList, controller) {
@@ -138,12 +140,12 @@ export default {
 						title: '是否滚动',
 						isClassName: false,
 						isHTML: false,
-						'_value': false
+						'_value': true
 					},
 					class: {
 						type: 'input',
 						title: '类名',
-						isClassName: false,
+						isClassName: true,
 						isHTML: false,
 						'_value': 'weui-cell__bd'
 					},
@@ -185,6 +187,7 @@ export default {
 			},
 
 			activeKey: 'page-123',
+			activeType: 'page',
 			expandedKeys: []
 		},
 
@@ -261,7 +264,7 @@ export default {
 				attr: {
 					value: {
 						type: 'input',
-						title: '名称',
+						title: '值',
 						isClassName: false,
 						isHTML: true
 					},
@@ -719,6 +722,10 @@ export default {
 				tmpAttr[att] = currAttr;
 				tmpAttr[att]['_value'] = '';
 				tmpAttr['title']['_value'] = page.name;
+				tmpAttr['title']['type'] = 'input';
+				tmpAttr['title']['isClassName'] = false;
+				tmpAttr['title']['isHTML'] = false;
+				tmpAttr['title']['title'] = '名称';
 			}
 
 			var tmpPage = {
@@ -746,6 +753,10 @@ export default {
 				tmpAttr[att]['_value'] = '';
 				tmpAttr['title'] = {};
 				tmpAttr['title']['_value'] = controller.name;
+				tmpAttr['title']['type'] = 'input';
+				tmpAttr['title']['isClassName'] = false;
+				tmpAttr['title']['isHTML'] = false;
+				tmpAttr['title']['title'] = '名称';
 			}
 
 			var ctrl = {
@@ -770,6 +781,50 @@ export default {
 				var controllerIndex = layoutAction.getControllerIndexByKey(activePage.children, params.key);
 				layoutAction.setActiveController(state.layoutState, controllerIndex, params.key);
 			}
+			return {...state};
+		},
+
+		handleAttrFormInputChange(state, { payload: params }) {
+			console.log(params);
+			var activePage = layoutAction.getActivePage(state.layout, state.layoutState.activePage.index);
+
+			console.log('activePage', activePage, state.layout);
+
+			if(state.layoutState.activeType == 'page') {
+				activePage.attr[params.attrName]['_value'] = params.newVal;
+				console.log(activePage.attr);
+			}
+
+			if(state.layoutState.activeType == 'controller') {
+
+	      		const loopChildren = (page) => {
+
+	      			var ct;
+
+	      			for (var i = 0; i < page.length; i++) {
+	      				var ctrl = page[i];
+
+	      				if(ctrl.children) {
+	      					loopChildren(ctrl.children);
+	      				}
+
+	      				if(typeof ctrl.attr[params.attrName] != 'undefined') {
+	      					ct = ctrl;
+	      					break;
+	      				}
+	      			};
+
+	      			return ct;
+
+	      		};
+
+
+	      		var activeCtrl = loopChildren(activePage.children);
+
+	      		activeCtrl.attr[params.attrName]['_value'] = params.newVal;
+
+			}
+
 			return {...state};
 		}
 
