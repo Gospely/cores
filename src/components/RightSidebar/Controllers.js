@@ -19,7 +19,7 @@ const Controllers = (props) => {
 
   	return (
 
-	    <Row>
+	    <Row id="dnd-row">
 	    	{props.designer.controllersList.map((controller, index) => (
 				<Col span={12} key={index}>
 	      			<div onClick={controllersProps.onSelect.bind(this, controller)} className={'app-components ' + controller.type}><span className="title">{controller.name}</span></div>

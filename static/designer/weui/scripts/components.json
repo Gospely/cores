@@ -1,0 +1,44 @@
+{"controllersList": [
+			{
+				"name": "按钮组",
+				"type": "button-bar",
+				"attr":{}
+			},
+			{
+				"name": "按钮",
+				"type": "button",
+				"attr": {
+					"value": {
+						"type": "input",
+						"title": "名称",
+						"isClassName": false,
+						"isHTML": true
+					},
+					"disabled": {
+						"type": "toggle",
+						"title": "禁止",
+						"value": ["weui-btn_disabled","weui-btn_plain-disabled"],
+						"isClassName": true,
+						"isHTML": false
+					},
+					"class": {
+						"type": "select",
+						"title": "按钮类型",
+						"value": ["weui-btn_primary", "weui-btn_default", "weui-btn_warn", "weui-btn_plain-default", "weui-btn_plain-primary", "weui-vcode-btn"],
+						"isClassName": true,
+						"isHTML": false
+					},
+					"mini": {
+						"type": "toggle",
+						"title": "迷你按钮",
+						"value": ["weui-btn_mini"],
+						"isClassName": true,
+						"isHTML": false
+					}
+				},
+				"tag": ["button"],
+				"baseClassName": "weui-btn",
+				"wrapper": ""
+			}
+		]
+}
