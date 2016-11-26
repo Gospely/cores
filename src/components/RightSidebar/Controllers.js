@@ -21,14 +21,13 @@ const Controllers = (props) => {
 			});
 
 			props.dispatch({
-				type: 'attr/setFormItems',
-				payload: controller.attr
-			});
-
-			props.dispatch({
 				type: 'designer/addController',
 				payload: controller
 			});
+
+		    props.dispatch({
+		        type: 'attr/setFormItemsByDefault'
+		    });
 
 		}
 
