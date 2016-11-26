@@ -40,7 +40,7 @@ const Controllers = (props) => {
 	    		if(!controller.backend) {
 	    			return (
 						<Col span={12} key={index}>
-			      			<div onMouseDown={controllersProps.onSelect.bind(this, controller)} onClick={controllersProps.onSelect.bind(this, controller)} className={'app-components ' + controller.type}><span className="title">{controller.name}</span></div>
+			      			<div onMouseDown={controllersProps.onSelect.bind(this, controller)} className={'app-components ' + controller.type}><span className="title">{controller.name}</span></div>
 			      		</Col>
 	    			);
 	    		}

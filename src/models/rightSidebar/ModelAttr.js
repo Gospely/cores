@@ -29,14 +29,36 @@ export default {
       		var controllersList = yield select(state => state.designer.controllersList);
       		var currentControllerKey = params.key;
 
-      		// var currentController = 
+      		var layouts = yield select(state => state.designer.layout);
+
+      		var activePage = yield select(state => state.designer.layoutState.activePage);
+
+      		var activeCtrl;
+
+      		if(params.type == 'page') {
+
+      			for (var i = 0; i < layouts.length; i++) {
+      				var page = layouts[i];
+      				if(page.key == params.key) {
+      					activeCtrl = page;
+      					break;
+      				}
+      			};
+
+      		}else {
+      			
+      		}
+
+      		// activePage = layouts[activePage.index];
+
+      		console.log('currentControllerKey', activeCtrl, controllersList);
 
       		for (var i = 0; i < controllersList.length; i++) {
       			var controller = controllersList[i];
       			if(controller.type == params.type) {
 		      		yield put({
 		      			type: 'setFormItems',
-		      			payload: controller.attr
+		      			payload: activeCtrl.attr
 		      		});
       				break;
       			}
@@ -75,6 +97,8 @@ export default {
 		setFormItems (state, {payload: attr}) {
 
 			var tmpAttr = [];
+
+			console.log('setFormItems', attr);
 
 			for(var att in attr) {
 				attr[att]['attrName'] = att;

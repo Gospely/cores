@@ -15,6 +15,7 @@ const layoutAction = {
 		layoutState.activePage.key = pageKey;
 		layoutState.activeKey = pageKey;
 		layoutState.expandedKeys.push(pageKey);
+		layoutState.activeType = 'page';
 	},
 
 	setActiveController (layoutState, controllerIndex, controllerKey) {
@@ -22,6 +23,7 @@ const layoutAction = {
 		layoutState.activeController.key = controllerKey;
 		layoutState.activeKey = controllerKey;
 		layoutState.expandedKeys.push(controllerKey);
+		layoutState.activeType = 'controller';
 	},
 
 	getController(controllersList, controller) {
@@ -138,12 +140,12 @@ export default {
 						title: '是否滚动',
 						isClassName: false,
 						isHTML: false,
-						'_value': false
+						'_value': true
 					},
 					class: {
 						type: 'input',
 						title: '类名',
-						isClassName: false,
+						isClassName: true,
 						isHTML: false,
 						'_value': 'weui-cell__bd'
 					},
@@ -185,6 +187,7 @@ export default {
 			},
 
 			activeKey: 'page-123',
+			activeType: 'page',
 			expandedKeys: []
 		},
 
@@ -771,6 +774,18 @@ export default {
 				var controllerIndex = layoutAction.getControllerIndexByKey(activePage.children, params.key);
 				layoutAction.setActiveController(state.layoutState, controllerIndex, params.key);
 			}
+			return {...state};
+		},
+
+		handleAttrFormInputChange(state, { payload: params }) {
+			console.log(params);
+
+			if(state.layoutState.activeType == 'page') {
+				var activePage = layoutAction.getActivePage(state.layout, state.layoutState.activePage.index);
+				console.log(activePage);			
+				activePage.attr[params.attrName]['_value'] = params.newVal;
+			}
+
 			return {...state};
 		}
 

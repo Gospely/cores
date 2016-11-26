@@ -29,6 +29,21 @@ const Attr = (props) => {
       	wrapperCol: { span: 16 }
     };
 
+    const attrFormProps = {
+
+    	handleAttrFormInputChange: (attrName, dom) => {
+    		var newVal = dom.target.value;
+    		props.dispatch({
+    			type: 'designer/handleAttrFormInputChange',
+    			payload: {
+    				newVal: newVal,
+    				attrName: attrName
+    			}
+    		});
+    	}
+
+    }
+
 	return (
 		<div>
 			<Collapse className="noborder attrCollapse" bordered={false} defaultActiveKey={['1']}>
@@ -41,7 +56,7 @@ const Attr = (props) => {
 					    		input (attr) {
 					    			return (
 										<FormItem key={index} {...formItemLayout} label={attr.title}>
-						             		<Input className="attrInput" placeholder={attr.title} />
+						             		<Input value={attr._value} onChange={attrFormProps.handleAttrFormInputChange.bind(this, attr.attrName)} className="attrInput" placeholder={attr.title} />
 						         		</FormItem>
 					    			);
 					    		},
@@ -49,7 +64,7 @@ const Attr = (props) => {
 					    		toggle (attr) {
 					    			return (
 										<FormItem key={index} {...formItemLayout} label={attr.title}>
-						    				<Switch defaultChecked={false} />
+						    				<Switch checked={attr._value} />
 										</FormItem>
 					    			);
 					    		},
@@ -57,7 +72,7 @@ const Attr = (props) => {
 					    		select (attr) {
 					    			return (
 										<FormItem key={index} {...formItemLayout} label={attr.title}>
-										    <Select defaultValue={attr.value[0]}>
+										    <Select value={attr.value} defaultValue={attr._value}>
 										    	{attr.value.map( type => (
 											      	<Option key={type} value={type}>{type}</Option>
 										    	))}
