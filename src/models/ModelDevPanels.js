@@ -292,14 +292,24 @@ export default {
 		add(state, {payload: target}) {
 
 		    let panes = state.panels.panes;
-		    let activePane = methods.getActivePane(state);
-		    // console.log(activePane.tabs.length + 1)
-		    activePane.activeTab.key = (activePane.tabs.length + 1).toString();
-		    // console.log(target); 
+		    let activePane = methods.getActivePane(state); 
 
 			target.title = target.title || '新标签页';
 			target.type = target.type || 'editor';
 			target.content = target.content || '// TO DO \r\n';
+
+			for(let i = 0; i < panes.length; i ++) {
+				for(let j = 0; j < panes[i].tabs.length; j ++) {
+					if (target.title !== '新文件' && target.title !== '新标签页' && 
+						target.type === 'editor' && panes[i].tabs[j].title === target.title) {
+						message.error('您已打开此文件!')
+						return {...state};
+					}
+				}
+			}
+
+			activePane.activeTab.key = (activePane.tabs.length + 1).toString();
+
 			console.log(target.content)
 
 			const devTypes = {
