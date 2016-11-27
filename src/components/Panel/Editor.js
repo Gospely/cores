@@ -187,11 +187,13 @@ const Editor = (props) => {
 			exec: function(editor) {
 
 				console.log('command');
-				var content = editor.getValue();
+				const editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
+				var content = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value;
+
 				var fileName = 'test.js'
 				dispatch({
 					type: 'file/writeFile',
-					payload: {fileName, content}
+					payload: {content}
 				});
 				ace.config.loadModule("ace/ext/keybinding_menu", function(module) {
 					module.init(editor);
