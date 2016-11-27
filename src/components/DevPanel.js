@@ -35,9 +35,9 @@ const DevPanel = ({
 	}
 
 	const generatorTabPanes = (panes) => {
-		
+
 		return panes.map(pane => {
-			
+
 			let params = {
 				content: pane.content || '',
 				editorId: pane.editorId || ''
@@ -64,6 +64,7 @@ const DevPanel = ({
 
 		panels.map(panes => {
 			var tabPanes = generatorTabPanes(panes.tabs);
+			console.log(tabPanes);
 			const activeKey = panes.activeTab.key;
 			pane.push(<div onClick={onChangePane.bind(this,panes.key)} key={panes.key}>{generatorTabs(onChange, activeKey, onEdit, animated, tabPanes)}</div>);
 		});
