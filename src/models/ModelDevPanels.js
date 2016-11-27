@@ -73,6 +73,7 @@ export default {
 	reducers: {
 
 		changePane(state,{payload: key}){
+			// methods.getActivePane.activeEditor.id = state.panels.activeEditor.id;
 			state.panels.activePane.key = key;
 			return {...state};
 		},
@@ -82,7 +83,8 @@ export default {
 			// if (state.panels.activePane.key !== state.panels.prevPane.key) {
 			// 	return{...state};
 			// }
-			const activeTab = methods.getActiveTab(state,methods.getActivePane(state));
+			const activePane = methods.getActivePane(state);
+			const activeTab = methods.getActiveTab(state,activePane);
 			// console.log(activeTab)
 			methods.getActivePane(state).activeTab.key = params.active;
 			methods.getActivePane(state).activeTab.index = ( parseInt(params.active) - 1 ).toString();
@@ -93,7 +95,8 @@ export default {
 
 
 			if(activeTab.type == 'editor') {
-				state.panels.activeEditor.id = activeTab.content.props.editorId;
+				// state.panels.activeEditor.id = activeTab.content.props.editorId;
+				activePane.activeEditor.id = activeTab.content.props.editorId;
 			}
 			return {...state};
 		},
@@ -267,7 +270,16 @@ export default {
 
 		handleEditorChanged(state, { payload: params }) {
 			console.log(currentEditor.getValue());
-			methods.getActivePane(state).editors[params.editorId].value = params.value;
+			console.log(params)
+			let activePane = methods.getActivePane(state);
+			let editorObj = {
+				id: params.editorId,
+				value: params.value
+			}
+			console.log(editorObj)
+			activePane.editors[params.editorId] = editorObj;
+			// methods.getActivePane(state).editors[params.editorId].value = params.value;
+			methods.getActivePane(state).activeEditor.id = params.editorId;
 			return {...state};
 		},
 		replaceSync(state) {
@@ -292,7 +304,7 @@ export default {
 
 			const devTypes = {
 				editor: function(params) {
-					// console.log(params);
+					console.log(params);
 					var editorObj = {
 						value: params.content,
 						id: params.editorId
@@ -301,9 +313,7 @@ export default {
 					activePane.editors[params.editorId] = editorObj;
 					activePane.activeEditor.id = params.editorId;
 					return (
-						<CodingEditor
-							editorId={params.editorId}>
-						</CodingEditor>
+						<CodingEditor inThisPane={state.panels.activePane.key} editorId={params.editorId} test="dsfdsfd"></CodingEditor>
 					);
 				},
 
@@ -332,7 +342,7 @@ export default {
 				return {...state};
 			}
 
-			state.panels.activeEditor.id = target.editorId;
+			activePane.activeEditor.id = target.editorId;
 			console.log("key",state.panels.activePane.key)
 		    activePane.tabs.push({ title: target.title, content: currentDevType, type: target.type, key: activePane.activeTab.key});
 		    console.log('editorTab:',currentDevType)
