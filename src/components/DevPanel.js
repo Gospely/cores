@@ -23,8 +23,8 @@ const DevPanel = ({
 				content: pane.content || '',
 				editorId: pane.editorId || ''
 			}
-			return <TabPane tab={pane.title} key={pane.key}>{genterTypeOfTabPane[pane.type](params)}</TabPane>;
-			//return <TabPane tab={pane.title} key={pane.key}>{pane.content}</TabPane>;
+			//return <TabPane tab={pane.title} key={pane.key}>{genterTypeOfTabPane[pane.type](params)}</TabPane>;
+			return <TabPane tab={pane.title} key={pane.key}>{pane.content}</TabPane>;
 		});
 	};
 
