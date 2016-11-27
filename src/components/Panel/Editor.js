@@ -210,7 +210,7 @@ const Editor = (props) => {
     	},
 
     	handleEditorChanged(value) {
-    		const actviePane = props.devpanel.panels.panes[props.devpanel.panels.activePane.key];
+    		const activePane = props.devpanel.panels.panes[props.devpanel.panels.activePane.key];
 
 				console.log('change');
 				console.log(this);
