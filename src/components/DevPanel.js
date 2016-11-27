@@ -16,8 +16,14 @@ const DevPanel = ({
 }) => {
 
 	const generatorTabPanes = (panes) => {
-		
+
 		return panes.map(pane => {
+
+			let params = {
+				content: pane.content || '',
+				editorId: pane.editorId || ''
+			}
+			//return <TabPane tab={pane.title} key={pane.key}>{genterTypeOfTabPane[pane.type](params)}</TabPane>;
 			return <TabPane tab={pane.title} key={pane.key}>{pane.content}</TabPane>;
 		});
 	};
@@ -40,6 +46,7 @@ const DevPanel = ({
 
 		panels.map(panes => {
 			var tabPanes = generatorTabPanes(panes.tabs);
+			console.log(tabPanes);
 			const activeKey = panes.activeTab.key;
 			const paneKey = panes.key;
 			console.log('各个pane',panes.key)

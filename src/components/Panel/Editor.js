@@ -78,12 +78,16 @@ const Editor = (props) => {
 
 		onReplace(value) {
 
+			var replaceContent = props.editorTop.replaceContent;
+			var searchContent = props.editorTop.searchContent;
+			var isReplaceAll = props.editorTop.isReplaceAll;
 			dispatch({
-				type: 'editorTop/replace'
+				type: 'devpanel/replace',
+				payload:{replaceContent,searchContent,isReplaceAll}
 			})
-			dispatch({
-				type: 'devpanel/replace'
-			})
+			// dispatch({
+			// 	type: 'editorProps/replace'
+			// })
 		},
 
 		handleSearchAllSwitchChange(proxy) {
@@ -145,8 +149,10 @@ const Editor = (props) => {
 			bindKey: {win: "Ctrl-r", mac: "Command-r"},
 			exec: function(editor) {
 
+				var searchContent = editor.getSelection().doc.getTextRange(editor.getSelection().getRange());
 				dispatch({
-					type: 'editorTop/toggleSearchBar'
+					type: 'editorTop/toggleSearchBar',
+					payload: {searchContent}
 				});
 
 				console.log('command');
@@ -161,10 +167,15 @@ const Editor = (props) => {
 			exec: function(editor) {
 
 				var searchContent = editor.getSelection().doc.getTextRange(editor.getSelection().getRange());
-				props.editorTop.searchContent = searchContent;
+
+
 				editor.findNext();
 				console.log();
 				console.log('command');
+				dispatch({
+					type: 'editorTop/search',
+					payload: {searchContent}
+				});
 				ace.config.loadModule("ace/ext/keybinding_menu", function(module) {
 					module.init(editor);
 					editor.showKeyboardShortcuts()
@@ -176,11 +187,13 @@ const Editor = (props) => {
 			exec: function(editor) {
 
 				console.log('command');
-				var content = editor.getValue();
+				const editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
+				var content = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value;
+
 				var fileName = 'test.js'
 				dispatch({
 					type: 'file/writeFile',
-					payload: {fileName, content}
+					payload: {content}
 				});
 				ace.config.loadModule("ace/ext/keybinding_menu", function(module) {
 					module.init(editor);
@@ -203,6 +216,11 @@ const Editor = (props) => {
 			console.log('editor onLoad');
 			window.currentEditor = value;
 		},
+		onFocus(value) {
+
+			console.log('editor onFocus');
+			console.log(value);
+		},
     	handleMouseLeave() {
 	    	props.dispatch({
 	    		type: 'editor/hideArrow'
@@ -215,6 +233,7 @@ const Editor = (props) => {
 				console.log('change');
 				console.log(this);
 				console.log(value);
+				value =  currentEditor.getValue();
     		var editorId = activePane.activeEditor.id;
     		props.dispatch({
     			type: 'devpanel/handleEditorChanged',
@@ -235,7 +254,7 @@ const Editor = (props) => {
   	}else {
   		aceHeight = ( parseInt(document.body.clientHeight) - 160 ) / 2+ 'px'
   	}
-	
+
 	// let activePane = props.devpanel.panels.panes[props.devpanel.panels.activePane.key];
 	let thisPane;
 	if (props.devpanel.panels.currentPaneOfEditors.isNeedChange) {
@@ -256,13 +275,14 @@ const Editor = (props) => {
 	        	theme="github"
 	        	width="100%"
 	        	height={aceHeight}
-				fontSize={18}
+						fontSize={18}
 	        	name={editorId}
-				onLoad={editorProps.onLoad}
+						onLoad={editorProps.onLoad}
+						onFocus={editorProps.onFocus}
 	        	editorProps={{$blockScrolling: true}}
 	        	value={thisPane.editors[editorId].value}
 	        	enableBasicAutocompletion={true}
-				commands={commandsArray}
+						commands={commandsArray}
 	        	onChange={editorProps.handleEditorChanged}
 	        	enableBasicAutocompletion={true}/>
 

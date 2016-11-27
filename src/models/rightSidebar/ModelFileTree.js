@@ -202,10 +202,17 @@ export default {
       	},
 
       	*writeFile({payload: params}, {call, put}) {
+
+					var fileName = '';
+					if(params.fileName == null){
+						fileName = localStorage.currentSelectedFile;
+					}else{
+						fileName = params.fileName;
+					}
 			var mkResult = yield request('fs/write/', {
 				method: 'POST',
 				body: JSON.stringify({
-					fileName: localStorage.currentFolder +  params.fileName,
+					fileName: fileName,
 					data: params.content
 				})
 			});
