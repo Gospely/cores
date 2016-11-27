@@ -50,13 +50,7 @@ export default {
 			toggleSearchBar(state,{payload: params}) {
 
 				state.searchContent = params.searchContent;
-				currentEditor.find(state.searchContent,{
-					backwards: true,
-					wrap: true,
-					caseSensitive: true,
-					wholeWord: true,
-					regExp: false
-				});
+
 				return {...state, searchVisible: !state.searchVisible, jumpLineVisible: false};
 			},
 
@@ -68,45 +62,42 @@ export default {
 			},
 			searchPrev(state) {
 
+				currentEditor.find(state.searchContent,{
+					backwards: true,
+					wrap: true,
+					caseSensitive: true,
+					wholeWord: true,
+					regExp: false
+				});
+
 				currentEditor.findPrevious();
 				console.log('searchPrev');
 				return {...state};
 			},
 
 			searchNext(state) {
+
+				currentEditor.find(state.searchContent,{
+					backwards: true,
+					wrap: true,
+					caseSensitive: true,
+					wholeWord: true,
+					regExp: false
+				});
+
 				currentEditor.findNext();
 				console.log('searchNext');
 				return {...state};
 			},
 			replace(state) {
 
-				console.log(state);
-				console.log(state.replaceContent);
-				if(!state.isReplaceAll) {
-					console.log('all');
-					currentEditor.replaceAll(state.replaceContent,{
-							needle:state.searchContent,
-							backwards: true,
-							wrap: true,
-							caseSensitive: true,
-							wholeWord: true,
-							regExp: false
-					});
-					console.log(currentEditor.getValue());
-				}else{
-					console.log('single');
-					currentEditor.replace(state.replaceContent,{
-							needle:state.searchContent,
-							backwards: true,
-							wrap: true,
-							caseSensitive: true,
-							wholeWord: true,
-							regExp: false
-					});
-				}
-				currentEditor.findNext();
-				console.log("state", state);
-
+				currentEditor.find(state.searchContent,{
+					backwards: true,
+					wrap: true,
+					caseSensitive: true,
+					wholeWord: true,
+					regExp: false
+				});
 				return {...state};
 			},
 

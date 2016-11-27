@@ -16,6 +16,7 @@ const methods = {
 		return pane.tabs[pane.activeTab.index];
 	},
 	getEditors(state,index){
+
 		return state.panels.panes[index].editors;
 	}
 }
@@ -89,7 +90,7 @@ export default {
 			methods.getActivePane(state).activeTab.key = params.active;
 			methods.getActivePane(state).activeTab.index = ( parseInt(params.active) - 1 ).toString();
 
-			
+
 			// console.log('activePane',methods.getActivePane(state))
 			// console.log('activeTab',activeTab);
 
@@ -136,24 +137,24 @@ export default {
 				})
 			}
 			switch(state.panels.splitType) {
-				case 'single': 
+				case 'single':
 					switch(type) {
 						case 'grid': for(let i = 1; i < 4; i ++){
 							pushPane(i);
 						}
 						state.panels.activePane.key = 3;
 						break;
-						case 'single': 
+						case 'single':
 							state.panels.activePane.key = 0;
 					    break;
-						default: 
+						default:
 							pushPane(1);
 							state.panels.activePane.key = 1;
 					}
 					break;
-				case 'grid': 
+				case 'grid':
 					switch(type){
-						case 'single': 
+						case 'single':
 							for(let i = 1; i < 4; i ++){
 								for(let j = 0; j < panes[i].tabs.length; j ++){
 									panes[0].tabs.push(panes[i].tabs[j]);
@@ -166,9 +167,9 @@ export default {
 							panes.pop();
 							panes.pop();
 							break;
-						case 'grid': 
+						case 'grid':
 							break;
-						default: 
+						default:
 							for(let i = 2; i < 4; i ++){
 								for(let j = 0; j < panes[i].tabs.length; j ++){
 									panes[1].tabs.push(panes[i].tabs[j]);
@@ -181,9 +182,9 @@ export default {
 							panes.pop();
 					}
 					break;
-				default: 
+				default:
 					switch(type) {
-						case 'single': 
+						case 'single':
 							for(let i = 0; i < panes[1].tabs.length; i ++){
 								panes[0].tabs.push(panes[1].tabs[i]);
 							}
@@ -280,17 +281,42 @@ export default {
 			methods.getActivePane(state).activeEditor.id = params.editorId;
 			return {...state};
 		},
-		replaceSync(state) {
+		replace(state,{payload: params}) {
 
 			console.log('devpanel replace');
-			methods.getActivePane(state).editors[state.panels.activeEditor.id].value = currentEditor.getValue();
-			console.log(currentEditor.getValue());
+			// methods.getActivePane(state).editors[state.panels.activeEditor.id].value = currentEditor.getValue();
+			// console.log(currentEditor.getValue());
+
+			console.log(state);
+			console.log(params.replaceContent);
+			console.log(params.searchContent);
+			console.log(params.isReplaceAll);
+			var content = currentEditor.getValue();
+			console.log(content);
+			currentEditor.find(state.searchContent,{
+				backwards: true,
+				wrap: true,
+				caseSensitive: true,
+				wholeWord: true,
+				regExp: false
+			});
+			currentEditor.findAll();
+			if(!state.isReplaceAll) {
+				content = content.replace(params.searchContent,params.replaceContent);
+				console.log(content);
+			}else{
+				content = content.replace(new RegExp(params.searchContent, 'gm'), params.replaceContent);
+			}
+
+			console.log("state", state);
+			var editorId = state.panels.panes[state.panels.activePane.key].activeEditor.id
+			state.panels.panes[state.panels.activePane.key].editors[editorId].value = content;
 			return {...state};
 		},
 		add(state, {payload: target}) {
 
 		    let panes = state.panels.panes;
-		    let activePane = methods.getActivePane(state); 
+		    let activePane = methods.getActivePane(state);
 
 			target.title = target.title || '新标签页';
 			target.type = target.type || 'editor';
@@ -298,7 +324,7 @@ export default {
 
 			for(let i = 0; i < panes.length; i ++) {
 				for(let j = 0; j < panes[i].tabs.length; j ++) {
-					if (target.title !== '新文件' && target.title !== '新标签页' && 
+					if (target.title !== '新文件' && target.title !== '新标签页' &&
 						target.type === 'editor' && panes[i].tabs[j].title === target.title) {
 						message.error('您已打开此文件!')
 						return {...state};
