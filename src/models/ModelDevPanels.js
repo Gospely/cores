@@ -140,7 +140,6 @@ export default {
 			switch(state.panels.splitType) {
 				case 'single':
 					switch(type) {
-<<<<<<< HEAD
 						case 'grid': 
 							for(let i = 1; i < 4; i ++){
 								pushPane(i);
@@ -148,17 +147,9 @@ export default {
 							state.panels.activePane.key = 3;
 							state.panels.currentPaneOfEditors.isNeedChange = false;
 							break;
-						case 'single': 
-=======
-						case 'grid': for(let i = 1; i < 4; i ++){
-							pushPane(i);
-						}
-						state.panels.activePane.key = 3;
-						break;
 						case 'single':
->>>>>>> 6de1dc6db1704e22fb13b740dfdbc2a5c215d65e
 							state.panels.activePane.key = 0;
-					    break;
+					    	break;
 						default:
 							pushPane(1);
 							state.panels.activePane.key = 1;
