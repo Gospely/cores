@@ -30,8 +30,6 @@ export default {
 	state: {
 		treeData: [],
 
-		searchSuggestionData: [],
-
 		focus: false,
 
 		newFileInput: {

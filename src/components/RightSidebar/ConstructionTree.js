@@ -52,11 +52,24 @@ const ConstructionTree = (props) => {
   }
 
   const addPageProps = {
+
     addThisPage () {
+
       props.dispatch({
         type: 'designer/addPage'
-      })
+      });
+
+      props.dispatch({
+        type: 'rightbar/setActiveMenu',
+        payload: 'attr'
+      });
+
+      props.dispatch({
+        type: 'attr/setFormItemsByDefault'
+      });
+
     }
+
   }
 
   const addPagePop = {

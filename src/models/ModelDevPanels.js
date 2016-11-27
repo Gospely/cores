@@ -73,6 +73,7 @@ export default {
 	reducers: {
 
 		changePane(state,{payload: key}){
+			// methods.getActivePane.activeEditor.id = state.panels.activeEditor.id;
 			state.panels.activePane.key = key;
 			return {...state};
 		},
@@ -82,7 +83,8 @@ export default {
 			// if (state.panels.activePane.key !== state.panels.prevPane.key) {
 			// 	return{...state};
 			// }
-			const activeTab = methods.getActiveTab(state,methods.getActivePane(state));
+			const activePane = methods.getActivePane(state);
+			const activeTab = methods.getActiveTab(state,activePane);
 			// console.log(activeTab)
 			methods.getActivePane(state).activeTab.key = params.active;
 			methods.getActivePane(state).activeTab.index = ( parseInt(params.active) - 1 ).toString();
@@ -93,7 +95,8 @@ export default {
 
 
 			if(activeTab.type == 'editor') {
-				state.panels.activeEditor.id = activeTab.content.props.editorId;
+				// state.panels.activeEditor.id = activeTab.content.props.editorId;
+				activePane.activeEditor.id = activeTab.content.props.editorId;
 			}
 			return {...state};
 		},
@@ -152,17 +155,13 @@ export default {
 					switch(type){
 						case 'single': 
 							for(let i = 1; i < 4; i ++){
-								for(let j = 0; j < state.panels.penes[i].tabs.length; j ++){
-									panes[0].tabs.push(state.panels.penes[i].tabs[j]);
+								for(let j = 0; j < panes[i].tabs.length; j ++){
+									panes[0].tabs.push(panes[i].tabs[j]);
 								}
 								panes[0].editors = {...panes[0].editors, ...panes[i].editors}
 							}
 							state.panels.activePane.key = 0;
-							panes.forEach((pane,j) => {
-								while(j > 0){
-									reTabKey(j);
-								}
-							})
+							reTabKey(0);
 							panes.pop();
 							panes.pop();
 							panes.pop();
@@ -170,13 +169,15 @@ export default {
 						case 'grid': 
 							break;
 						default: 
-							panes.pop();
 							for(let i = 2; i < 4; i ++){
-								panes[0].tabs.push(state.panels.penes[i].tabs[j]);
-								panes[0].editors = {...panes[0].editors, ...panes[i].editors}
+								for(let j = 0; j < panes[i].tabs.length; j ++){
+									panes[1].tabs.push(panes[i].tabs[j]);
+								}
+								panes[1].editors = {...panes[1].editors, ...panes[i].editors}
 							}
 							state.panels.activePane.key = 1;
 							reTabKey(1);
+							panes.pop();
 							panes.pop();
 					}
 					break;
@@ -267,7 +268,16 @@ export default {
 
 		handleEditorChanged(state, { payload: params }) {
 			console.log(currentEditor.getValue());
-			methods.getActivePane(state).editors[params.editorId].value = params.value;
+			console.log(params)
+			let activePane = methods.getActivePane(state);
+			let editorObj = {
+				id: params.editorId,
+				value: params.value
+			}
+			console.log(editorObj)
+			activePane.editors[params.editorId] = editorObj;
+			// methods.getActivePane(state).editors[params.editorId].value = params.value;
+			methods.getActivePane(state).activeEditor.id = params.editorId;
 			return {...state};
 		},
 		replaceSync(state) {
@@ -280,19 +290,29 @@ export default {
 		add(state, {payload: target}) {
 
 		    let panes = state.panels.panes;
-		    let activePane = methods.getActivePane(state);
-		    // console.log(activePane.tabs.length + 1)
-		    activePane.activeTab.key = (activePane.tabs.length + 1).toString();
-		    // console.log(target); 
+		    let activePane = methods.getActivePane(state); 
 
 			target.title = target.title || '新标签页';
 			target.type = target.type || 'editor';
 			target.content = target.content || '// TO DO \r\n';
+
+			for(let i = 0; i < panes.length; i ++) {
+				for(let j = 0; j < panes[i].tabs.length; j ++) {
+					if (target.title !== '新文件' && target.title !== '新标签页' && 
+						target.type === 'editor' && panes[i].tabs[j].title === target.title) {
+						message.error('您已打开此文件!')
+						return {...state};
+					}
+				}
+			}
+
+			activePane.activeTab.key = (activePane.tabs.length + 1).toString();
+
 			console.log(target.content)
 
 			const devTypes = {
 				editor: function(params) {
-					// console.log(params);
+					console.log(params);
 					var editorObj = {
 						value: params.content,
 						id: params.editorId
@@ -301,9 +321,7 @@ export default {
 					activePane.editors[params.editorId] = editorObj;
 					activePane.activeEditor.id = params.editorId;
 					return (
-						<CodingEditor
-							editorId={params.editorId}>
-						</CodingEditor>
+						<CodingEditor inThisPane={state.panels.activePane.key} editorId={params.editorId} test="dsfdsfd"></CodingEditor>
 					);
 				},
 
@@ -332,7 +350,7 @@ export default {
 				return {...state};
 			}
 
-			state.panels.activeEditor.id = target.editorId;
+			activePane.activeEditor.id = target.editorId;
 			console.log("key",state.panels.activePane.key)
 		    activePane.tabs.push({ title: target.title, content: currentDevType, type: target.type, key: activePane.activeTab.key});
 		    console.log('editorTab:',currentDevType)

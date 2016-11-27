@@ -77,7 +77,7 @@ const FileTree = (props) => {
       var currentClickTimestamp = new Date().getTime();
 
       //双击事件
-      if(currentClickTimestamp - preClickTimestamp <= 200) {
+      if(currentClickTimestamp - preClickTimestamp <= 250) {
 
         if(node.node.props.isLeaf) {
           props.dispatch({
@@ -305,21 +305,6 @@ const FileTree = (props) => {
       </InputGroup>
     )
   }
-
-  //  const loopSearchData = data => data.map((item) => {
-  //   let dirName = item.name;
-  //   props.dispatch({
-  //     type: 'file/fetchLastChildFile' ,
-  //     payload: dirName
-  //   });
-    
-  //     return (
-  //        <div style={styles.searchSuggestionsItem} key={item.key}>{item.name}</div>
-  //     );
-    
-  // });
-
-  // const searchSuggestionNodes = loopSearchData(FileTreeProps.treeData);
 
   const searchFilePop = {
     title: <span>搜索文件</span>,
