@@ -155,17 +155,13 @@ export default {
 					switch(type){
 						case 'single': 
 							for(let i = 1; i < 4; i ++){
-								for(let j = 0; j < state.panels.penes[i].tabs.length; j ++){
-									panes[0].tabs.push(state.panels.penes[i].tabs[j]);
+								for(let j = 0; j < panes[i].tabs.length; j ++){
+									panes[0].tabs.push(panes[i].tabs[j]);
 								}
 								panes[0].editors = {...panes[0].editors, ...panes[i].editors}
 							}
 							state.panels.activePane.key = 0;
-							panes.forEach((pane,j) => {
-								while(j > 0){
-									reTabKey(j);
-								}
-							})
+							reTabKey(0);
 							panes.pop();
 							panes.pop();
 							panes.pop();
@@ -173,13 +169,15 @@ export default {
 						case 'grid': 
 							break;
 						default: 
-							panes.pop();
 							for(let i = 2; i < 4; i ++){
-								panes[0].tabs.push(state.panels.penes[i].tabs[j]);
-								panes[0].editors = {...panes[0].editors, ...panes[i].editors}
+								for(let j = 0; j < panes[i].tabs.length; j ++){
+									panes[1].tabs.push(panes[i].tabs[j]);
+								}
+								panes[1].editors = {...panes[1].editors, ...panes[i].editors}
 							}
 							state.panels.activePane.key = 1;
 							reTabKey(1);
+							panes.pop();
 							panes.pop();
 					}
 					break;
