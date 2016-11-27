@@ -18,16 +18,13 @@ const DevPanel = ({
 	const generatorTabPanes = (panes) => {
 
 		return panes.map(pane => {
-<<<<<<< HEAD
 
 			let params = {
 				content: pane.content || '',
 				editorId: pane.editorId || ''
 			}
 			return <TabPane tab={pane.title} key={pane.key}>{genterTypeOfTabPane[pane.type](params)}</TabPane>;
-=======
-			return <TabPane tab={pane.title} key={pane.key}>{pane.content}</TabPane>;
->>>>>>> 738667db8a3202f5c24bdf666d6b1f927bd65c6d
+			//return <TabPane tab={pane.title} key={pane.key}>{pane.content}</TabPane>;
 		});
 	};
 
