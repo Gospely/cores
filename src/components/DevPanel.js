@@ -51,41 +51,51 @@ const DevPanel = ({
 	const animated = false,
 		  defaultSize = '50%',
 
-		  tabs = <Tabs
-		        	onChange={onChange}
-		        	// activeKey={activeKey}
-		        	type="editable-card"
-		        	onEdit={onEdit}
-		        	animated={animated}>
-		        	{panels.panes.map(pane => <TabPane tab={pane.title} key={pane.key}>{pane.content}</TabPane>)}
-		      	</Tabs>,
+		  // tabs = <Tabs
+		  //       	onChange={onChange}
+		  //       	// activeKey={activeKey}
+		  //       	type="editable-card"
+		  //       	onEdit={onEdit}
+		  //       	animated={animated}>
+		  //       	{panels.panes.map(pane => <TabPane tab={pane.title} key={pane.key}>{pane.content}</TabPane>)}
+		  //     	</Tabs>,
 
 		  columnList = {
-		  	'single': generatorPanes(panels.panes),
+		  	'single': function() {
+		  		return generatorPanes(panels.panes)
+		  	},
 
-		  	'vertical-dbl': <SplitPane split="vertical" defaultSize={defaultSize}>
-  								{generatorPanes(panels.panes)}
-		  					</SplitPane>,
+		  	'vertical-dbl': function() {
+		  		return 	(<SplitPane split="vertical" defaultSize={defaultSize}>
+  							{generatorPanes(panels.panes)}
+		  				</SplitPane>)
+		  	},
 
-		  	"horizontal-dbl": <SplitPane split="horizontal" defaultSize={defaultSize}>
-  								{generatorPanes(panels.panes)}
-		  					</SplitPane>,
+		  	"horizontal-dbl": function() {
+		  		return (<SplitPane split="horizontal" defaultSize={defaultSize}>
+  							{generatorPanes(panels.panes)}
+		  				</SplitPane>)
+		  	},
 
-		  	'grid': <SplitPane split="vertical" defaultSize={defaultSize}>
-		  				<SplitPane split="horizontal" defaultSize={defaultSize}>
-							{tabs}
-							{tabs}
-	  					</SplitPane>
-	  					<SplitPane split="horizontal" defaultSize={defaultSize}>
-							{tabs}
-							{tabs}
-	  					</SplitPane>
-  					</SplitPane>
+		  	'grid': function () {
+		  		let gridPanes = generatorPanes(panels.panes);
+		  		console.log('grid:',gridPanes)
+				return	(<SplitPane split="vertical" defaultSize={defaultSize}>
+		  					<SplitPane split="horizontal" defaultSize={defaultSize}>
+								{gridPanes[0]}
+								{gridPanes[1]}
+							</SplitPane>
+							<SplitPane split="horizontal" defaultSize={defaultSize}>
+								{gridPanes[2]}
+								{gridPanes[3]}
+							</SplitPane>
+						</SplitPane>)
+		  	}
 		  };
 
 	return (
 		<div>
-			{columnList[splitType]}
+			{columnList[splitType]()}
 		</div>
 	)
 
