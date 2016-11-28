@@ -86,6 +86,7 @@ export default {
 		tabChanged(state, {payload: params}) {
 
 			console.log('tab change');
+			localStorage.isSave = false;
 			console.log(params);
 			// console.log(params.paneKey)
 			state.panels.activePane.key = params.paneKey;
@@ -298,6 +299,7 @@ export default {
 
 		handleEditorChanged(state, { payload: params }) {
 			console.log(currentEditor.getValue());
+			localStorage.isSave = true;
 			console.log(params)
 			let activePane = methods.getActivePane(state);
 			let editorObj = {
@@ -344,6 +346,8 @@ export default {
 		},
 
 		add(state, {payload: target}) {
+
+			localStorage.isSave = false;
 			state.panels.currentPaneOfEditors.isNeedChange = false;
 			console.log("paneKey",target.paneKey)
 			if (typeof target.paneKey !== 'undefined') {
