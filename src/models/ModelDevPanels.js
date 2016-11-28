@@ -366,64 +366,16 @@ export default {
 
 			console.log(target.content)
 
-// <<<<<<< HEAD
 			if (target.type === 'editor') {
 				var editorObj = {
 					value: target.content,
 					id: target.editorId,
 					fileName: target.title
-			};
-// =======
-// 			const devTypes = {
-// 				editor: function(params) {
-// 					console.log(params);
-// 					var editorObj = {
-// 						value: params.content,
-// 						id: params.editorId,
-// 						fileName: target.title
-// 					};
-
-// 					activePane.editors[params.editorId] = editorObj;
-// 					activePane.activeEditor.id = params.editorId;
-// 					return (
-// 						<CodingEditor inThisPane={state.panels.activePane.key} editorId={params.editorId}></CodingEditor>
-// 					);
-// 				},
-
-// 				terminal: function() {
-// 					return (
-// 						<Terminal></Terminal>
-// 					);
-// 				},
-
-// 				designer: function() {
-// 					return (
-// 						<Designer></Designer>
-// 					);
-// 				},
-
-// 				welcome: function() {
-// 					return (
-// 						<Welcome></Welcome>
-// 					);
-// 				},
-
-// 				NoTabs: function() {
-// 					return (
-// 						<NoTabs></NoTabs>
-// 					);
-// 				}
-// 			}
-// >>>>>>> 440f44b806cd4bedebecf30cee7f897acdda15c4
-
+				};
 				activePane.editors[target.editorId] = editorObj;
 				activePane.activeEditor.id = target.editorId;
 			}
-
 			let editorId = target.editorId || '';
-
-			
-
 			activePane.activeEditor.id = target.editorId;
 			console.log("key",state.panels.activePane.key)
 		    activePane.tabs.push({ title: target.title, content: target.content, type: target.type, key: activePane.activeTab.key, editorId: editorId});
