@@ -34,7 +34,30 @@ const LeftSidebar = (props) => {
 		wrapper: {
 			height: '100%'
 		}
-	}
+	};
+	const initApplications = () => {
+
+		return props.sidebar.applications.map(application => {
+			return   <Col className="gutter-row" span={6} key={application.id}>
+			 <div className="gutter-box">
+					<Card onClick={leftSidebarProps.openApp} extra={
+						<Popconfirm onClick={(e) => e.stopPropagation()} title="确认删除此项目?"
+						onConfirm={leftSidebarProps.confirmDeleteApp.bind(this,application.id)}
+						onCancel={leftSidebarProps.cancelDeleteApp} okText="Yes" cancelText="No">
+								<a className="delete-app">
+								<Icon type="close" />
+							</a>
+						</Popconfirm>
+					} style={{ width: 110, height: 110 }}
+					bodyStyle={{height: '100%', background: 'whitesmoke', color: '#555', cursor: 'pointer'}}>
+							<div style={{ height: 50,lineHeight: '50px',textAlign: 'center'}}>
+								<p className="app-name-hover">{application.name}</p>
+							</div>
+					</Card>
+			 </div>
+				</Col>;
+		});
+	};
 
 	const leftSidebarProps = {
 
@@ -50,8 +73,12 @@ const LeftSidebar = (props) => {
 	        },
 
 	        'switch'() {
+						console.log('switch');
 	          props.dispatch({
 	            type: 'sidebar/showModalSwitchApp'
+	          });
+						props.dispatch({
+	            type: 'sidebar/getApplications'
 	          });
 	        },
 
@@ -164,9 +191,13 @@ const LeftSidebar = (props) => {
 	    },
 
 
-	    confirmDeleteApp() {
-	    	console.log('confirm delete app')
+	    confirmDeleteApp(application) {
 
+				console.log('confirm delete app')
+				props.dispatch({
+					type: 'sidebar/deleteApp',
+					payload: {application}
+				})
 	    },
 
 	    cancelDeleteApp() {
@@ -230,6 +261,7 @@ const LeftSidebar = (props) => {
 		}
 	};
 
+
 	const searchCls = {
 	    antSearchInput: true,
 	    antSearchInputFocus: false,
@@ -290,39 +322,7 @@ const LeftSidebar = (props) => {
 	          	onOk={leftSidebarProps.switchApp} onCancel={leftSidebarProps.cancelSwitchApp}
 	        >
         	    <Row gutter={16}>
-        	      <Col className="gutter-row" span={6}>
-	    	     	 <div className="gutter-box">
-		 		        	<Card onClick={leftSidebarProps.openApp} extra={
-		 		        		<Popconfirm onClick={(e) => e.stopPropagation()} title="确认删除此项目?"
-		 		        		onConfirm={leftSidebarProps.confirmDeleteApp.bind(this)}
-		 		        		onCancel={leftSidebarProps.cancelDeleteApp} okText="Yes" cancelText="No">
-		 		        		    <a className="delete-app">
-		 		        				<Icon type="close" />
-		 		        			</a>
-		 		        		</Popconfirm>
-		 	        		} style={{ width: 110, height: 110 }}
-		 	        		bodyStyle={{height: '100%', background: 'whitesmoke', color: '#555', cursor: 'pointer'}}>
-		 		        	    <div style={{ height: 50,lineHeight: '50px',textAlign: 'center'}}>
-		 		        	    	<p className="app-name-hover">项目一s</p>
-		 		        	    </div>
-		 		        	</Card>
-	    	     	 </div>
-        	      </Col>
-        	      <Col className="gutter-row" span={6}>
-		              <div className="gutter-box">
-						<Card onClick={leftSidebarProps.createAppFromModal} style={{ width: 110, height: 110 }}
-						bodyStyle={{height: '100%', background: 'whitesmoke', color: '#555', cursor: 'pointer'}}
-						>
-						    <Icon className="create-app-from-modal app-name-hover" type="plus" />
-						</Card>
-		              </div>
-        	      </Col>
-        	      <Col className="gutter-row" span={6}>
-		             <div className="gutter-box">col-6</div>
-		           </Col>
-        	      <Col className="gutter-row" span={6}>
-        	         <div className="gutter-box">col-6</div>
-        	      </Col>
+								{initApplications()}
         	    </Row>
 	        </Modal>
 

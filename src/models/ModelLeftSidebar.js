@@ -7,6 +7,7 @@ export default {
 		modalNewAppVisible: false,
 		modalSwitchAppVisible: false,
 		modalModifyGitOriginVisible: false,
+		applications: [],
 
 		modifyGitOriginInput: {
 			value: '',
@@ -97,8 +98,30 @@ export default {
       		});
 
       		console.log(commitResult);
-		}
+		},
+		*getApplications({payload: params}, {call, put}){
 
+			var url = 'applications?creator=' + 'f6702803-4bba-41d8-8e0a-68f65a439724';
+			var result = yield request(url, {
+				method: 'GET'
+			});
+			var applications =  result.data.fields;
+			yield put({
+				type: 'initApplications',
+				payload: {applications}
+			});
+		},
+		*deleteApp({payload: params}, {call, put}) {
+
+			console.log('delete');
+			var url = 'applications/'+ params.application;
+			var result = yield request(url, {
+				method: 'DELETE'
+			});
+			yield put({
+				type: 'getApplications'
+			});
+			}
 	},
 
 	reducers: {
@@ -182,7 +205,15 @@ export default {
 				isGit: params.isGit.data.fields,
 				pushValue: push
 			}}
-		}
+		},
+		initApplications(state, {payload: params}) {
+
+			console.log("initApplications");
+			console.log(params);
+			state.applications = params.applications;
+			return {...state}
+		},
+
 
 	}
 
