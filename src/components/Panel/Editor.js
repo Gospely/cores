@@ -282,14 +282,10 @@ const Editor = (props) => {
   		aceHeight = ( parseInt(document.body.clientHeight) - 160 ) / 2+ 'px'
   	}
 
-	// let activePane = props.devpanel.panels.panes[props.devpanel.panels.activePane.key];
-	let thisPane;
-	if (props.devpanel.panels.currentPaneOfEditors.isNeedChange) {
-		thisPane = props.devpanel.panels.panes[props.devpanel.panels.currentPaneOfEditors.key];
-	}else {
-		thisPane = props.devpanel.panels.panes[props.inThisPane];
-	}
+	let belongTo = props.devpanel.panels.panes[props.belongTo];
 	let editorId = props.editorId;
+
+	// console.log('当前editor',props.belongTo)
 
 
   	// if (editorId && thisPane && thisPane.editors && thisPane.editors[editorId]) {
@@ -307,7 +303,7 @@ const Editor = (props) => {
 				onLoad={editorProps.onLoad}
 				onFocus={editorProps.onFocus}
 	        	editorProps={{$blockScrolling: true}}
-	        	value={thisPane.editors[editorId].value}
+	        	value={belongTo.editors[editorId].value}
 	        	enableBasicAutocompletion={true}
 				commands={commandsArray}
 	        	onChange={editorProps.handleEditorChanged}

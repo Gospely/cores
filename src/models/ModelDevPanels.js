@@ -2,10 +2,6 @@
 import React , { PropTypes } from 'react';
 import dva from 'dva';
 
-import CodingEditor from '../components/Panel/Editor.js';
-import Terminal from '../components/Panel/Terminal.js';
-import Designer from '../components/Panel/Designer.js';
-
 import { message } from 'antd';
 
 const methods = {
@@ -34,14 +30,16 @@ export default {
 			    			title: '欢迎页面 - Gospel',
 			    			content: '欢迎使用 Gospel在线集成开发环境',
 			    			key: '1',
-			    			type: 'welcome'
+			    			type: 'welcome',
+			    			editorId: ''
 			    		},
 
 			    		{
 			    			title: 'Gospel 小程序 UI 设计器',
-			    			content: <Designer></Designer>,
+			    			content: '',
 			    			key: '2',
-			    			type: 'designer'
+			    			type: 'designer',
+			    			editorId: ''
 			    		}
 		    		],
 
@@ -67,10 +65,6 @@ export default {
 	    	},
 	    	activeEditor: {
 	    		id: ''
-	    	},
-	    	currentPaneOfEditors: {
-	    		isNeedChange: false,
-	    		key: 0
 	    	}
 	    }
 
@@ -100,7 +94,7 @@ export default {
 			const activePane = methods.getActivePane(state);
 			console.log(state);
 			methods.getActivePane(state).activeTab.key = params.active;
-			const activeTab = activePane.tabs[params.active]
+			const activeTab = activePane.tabs[params.active - 1]
 			console.log(activeTab);
 			// console.log(activeTab)
 
@@ -136,7 +130,8 @@ export default {
 						title: '欢迎页面 - Gospel',
 						content: '欢迎使用 Gospel在线集成开发环境',
 						key: '1',
-						type: 'welcome'
+						type: 'welcome',
+						editorId: ''
 					}],
 				  	editors: {},
 					activeEditor: {
@@ -170,7 +165,6 @@ export default {
 								pushPane(i);
 							}
 							state.panels.activePane.key = 3;
-							state.panels.currentPaneOfEditors.isNeedChange = false;
 							break;
 						case 'single':
 							state.panels.activePane.key = 0;
@@ -178,7 +172,6 @@ export default {
 						default:
 							pushPane(1);
 							state.panels.activePane.key = 1;
-							state.panels.currentPaneOfEditors.isNeedChange = false;
 					}
 					break;
 				case 'grid':
@@ -195,8 +188,6 @@ export default {
 							panes.pop();
 							panes.pop();
 							panes.pop();
-							state.panels.currentPaneOfEditors.isNeedChange = true;
-							state.panels.currentPaneOfEditors.key = 0;
 							break;
 						case 'grid':
 							break;
@@ -208,8 +199,6 @@ export default {
 							reTabKey(1);
 							panes.pop();
 							panes.pop();
-							state.panels.currentPaneOfEditors.isNeedChange = true;
-							state.panels.currentPaneOfEditors.key = 1;
 					}
 					break;
 				default:
@@ -222,14 +211,11 @@ export default {
 							state.panels.activePane.key = 0;
 							reTabKey(0);
 							panes.pop();
-							state.panels.currentPaneOfEditors.isNeedChange = true;
-							state.panels.currentPaneOfEditors.key = 0;
 							break;
 						case 'grid':
 							pushPane(2);
 							pushPane(3);
 							state.panels.activePane.key = 3;
-							state.panels.currentPaneOfEditors.isNeedChange = false;
 							break;
 					}
 			}
@@ -240,8 +226,8 @@ export default {
 		},
 
 		remove(state, {payload: target}) {
-			state.panels.currentPaneOfEditors.isNeedChange = false;
 			if (typeof target.paneKey != 'undefined') {
+				
 				state.panels.activePane.key = target.paneKey;
 			}
 			let targetKey = target.targetKey;
@@ -355,14 +341,15 @@ export default {
 		add(state, {payload: target}) {
 
 			localStorage.isSave = false;
-			state.panels.currentPaneOfEditors.isNeedChange = false;
 			console.log("paneKey",target.paneKey)
 			if (typeof target.paneKey !== 'undefined') {
 				state.panels.activePane.key = target.paneKey;
 			}
-			console.log(target.paneKey)
+			// console.log(target.paneKey)
+
 		    let panes = state.panels.panes;
 		    let activePane = methods.getActivePane(state);
+
 
 			target.title = target.title || '新标签页';
 			target.type = target.type || 'editor';
@@ -382,52 +369,25 @@ export default {
 
 			console.log(target.content)
 
-			const devTypes = {
-				editor: function(params) {
-					console.log(params);
-					var editorObj = {
-						value: params.content,
-						id: params.editorId,
-						fileName: target.title
-					};
+			if (target.type === 'editor') {
+				var editorObj = {
+					value: target.content,
+					id: target.editorId,
+					fileName: target.title
+				};
 
-					activePane.editors[params.editorId] = editorObj;
-					activePane.activeEditor.id = params.editorId;
-					return (
-						<CodingEditor inThisPane={state.panels.activePane.key} editorId={params.editorId}></CodingEditor>
-					);
-				},
-
-				terminal: function() {
-					return (
-						<Terminal></Terminal>
-					);
-				},
-
-				designer: function() {
-					return (
-						<Designer></Designer>
-					);
-				}
+				activePane.editors[target.editorId] = editorObj;
+				activePane.activeEditor.id = target.editorId;
 			}
 
-			var params = {
-				editorId: target.editorId,
-				content: target.content,
-				fileName: null,
-			};
+			let editorId = target.editorId || '';
 
-			var currentDevType = devTypes[target.type](params);
-
-			if(currentDevType == undefined) {
-				message.error('您使用了不存在的开发面板类型!');
-				return {...state};
-			}
+			
 
 			activePane.activeEditor.id = target.editorId;
 			console.log("key",state.panels.activePane.key)
-		    activePane.tabs.push({ title: target.title, content: currentDevType, type: target.type, key: activePane.activeTab.key});
-		    console.log('editorTab:',currentDevType)
+		    activePane.tabs.push({ title: target.title, content: target.content, type: target.type, key: activePane.activeTab.key, editorId: editorId});
+		    // console.log('editorTab:',currentDevType)
 			activePane.activeTab = {key: activePane.activeTab.key, index: activePane.tabs.length - 1};
 		    return {...state};
 		}

@@ -3,6 +3,10 @@ import { Tabs, Icon, Popover } from 'antd';
 
 import SplitPane from 'react-split-pane';
 
+import CodingEditor from './Panel/Editor.js';
+import Terminal from './Panel/Terminal.js';
+import Designer from './Panel/Designer.js';
+
 const TabPane = Tabs.TabPane;
 
 const styles = {
@@ -15,16 +19,41 @@ const DevPanel = ({
 	splitType, onChange, onEdit, panes, panels, onChangePane
 }) => {
 
-	const generatorTabPanes = (panes) => {
+	const currentDevType = {
+		editor: function(params) {
+			console.log(params);
+			return (
+				<CodingEditor editorId={params.editorId} belongTo={params.belongTo}></CodingEditor>
+			);
+		},
+
+		terminal: function() {
+			return (
+				<Terminal></Terminal>
+			);
+		},
+
+		designer: function() {
+			return (
+				<Designer></Designer>
+			);
+		},
+
+		welcome: function(params) {
+			return params.content;
+		}
+	}
+
+	const generatorTabPanes = (panes, belongTo) => {
 
 		return panes.map(pane => {
-
 			let params = {
-				content: pane.content || '',
-				editorId: pane.editorId || ''
+				content: pane.content || '//To Do',
+				editorId: pane.editorId,
+				fileName: pane.title,
+				belongTo: belongTo || 0
 			}
-			//return <TabPane tab={pane.title} key={pane.key}>{genterTypeOfTabPane[pane.type](params)}</TabPane>;
-			return <TabPane tab={pane.title} key={pane.key}>{pane.content}</TabPane>;
+			return <TabPane tab={pane.title} key={pane.key}>{currentDevType[pane.type](params)}</TabPane>;
 		});
 	};
 
@@ -45,7 +74,7 @@ const DevPanel = ({
 		var pane = [];
 
 		panels.map(panes => {
-			var tabPanes = generatorTabPanes(panes.tabs);
+			var tabPanes = generatorTabPanes(panes.tabs,panes.key);
 			console.log(tabPanes);
 			const activeKey = panes.activeTab.key;
 			const paneKey = panes.key;
