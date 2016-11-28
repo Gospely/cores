@@ -72,18 +72,13 @@ export default {
 			},
 			{
 				name: 'iPad',
-				width: 200,
-				height: 300
+				width: 1024,
+				height: 768
 			},
 			{
-				name: 'Android Phone',
-				width: 245,
-				height: 456
-			},
-			{
-				name: 'Android Tablet',
-				width: 456,
-				height: 367
+				name: '安卓手机',
+				width: 360,
+				height: 640
 			}
 		],
 
