@@ -179,10 +179,18 @@ const FileTree = (props) => {
             fileName,
             content
           }
-        })
+        });
+
         props.dispatch({
           type: 'file/hideSaveModal'
-        })
+        });
+
+        if(localStorage.currentFileOperation == 'remove') {
+          props.dispatch({
+            type: 'devpanel/remove',
+            payload: JSON.parse(localStorage.removeAction)
+          });
+        }
       },
 
       cancel: function() {
@@ -216,15 +224,25 @@ const FileTree = (props) => {
             content
           }
         })
+        
         props.dispatch({
           type: 'devpanel/changeTabTitle',
           payload: {
             fileName
           }
         })
+
         props.dispatch({
           type: 'file/hideNewFileNameModal'
         })
+
+        if(localStorage.currentFileOperation == 'remove') {
+          props.dispatch({
+            type: 'devpanel/remove',
+            payload: JSON.parse(localStorage.removeAction)
+          });
+        }
+
       },
 
       cancel: function() {
@@ -548,7 +566,7 @@ const FileTree = (props) => {
       <Modal title={FileTreeProps.saveModal.title} visible={FileTreeProps.saveModal.visible}
         onOk={FileTreeProps.saveModal.ok} onCancel={FileTreeProps.saveModal.cancel}
       >
-        <span>保存文件？</span>
+        <span>您想要保存该文件吗？</span>
       </Modal>
       <Modal title={FileTreeProps.newFileNameModal.title} visible={FileTreeProps.newFileNameModal.visible}
         onOk={FileTreeProps.newFileNameModal.ok} onCancel={FileTreeProps.newFileNameModal.cancel}

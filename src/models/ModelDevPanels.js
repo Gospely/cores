@@ -277,8 +277,6 @@ export default {
 			});
 			console.log('lastIndex',lastIndex)
 
-
-
 			const tabs = activePane.tabs.filter(tab => tab.key !== targetKey);
 			// console.log('activePane',methods.getActivePane(state).key)
 			if(lastIndex >= 0 && activeKey === targetKey) {
