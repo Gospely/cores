@@ -256,11 +256,16 @@ const Editor = (props) => {
   	}
 
 	// let activePane = props.devpanel.panels.panes[props.devpanel.panels.activePane.key];
-	let thisPane = props.devpanel.panels.panes[props.inThisPane];
+	let thisPane;
+	if (props.devpanel.panels.currentPaneOfEditors.isNeedChange) {
+		thisPane = props.devpanel.panels.panes[props.devpanel.panels.currentPaneOfEditors.key];
+	}else {
+		thisPane = props.devpanel.panels.panes[props.inThisPane];
+	}
 	let editorId = props.editorId;
 
 
-  	// if (editorId && props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId] && props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value) {
+  	// if (editorId && thisPane && thisPane.editors && thisPane.editors[editorId]) {
   		return (
 		<div className={EditorStyle.aceEditor}>
 			<EditorTop {...EditorTopProps}></EditorTop>
@@ -270,14 +275,14 @@ const Editor = (props) => {
 	        	theme="github"
 	        	width="100%"
 	        	height={aceHeight}
-						fontSize={18}
+				fontSize={12}
 	        	name={editorId}
-						onLoad={editorProps.onLoad}
-						onFocus={editorProps.onFocus}
+				onLoad={editorProps.onLoad}
+				onFocus={editorProps.onFocus}
 	        	editorProps={{$blockScrolling: true}}
 	        	value={thisPane.editors[editorId].value}
 	        	enableBasicAutocompletion={true}
-						commands={commandsArray}
+				commands={commandsArray}
 	        	onChange={editorProps.handleEditorChanged}
 	        	enableBasicAutocompletion={true}/>
 

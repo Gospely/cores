@@ -66,7 +66,7 @@ const EditorTop = ({
 			</ButtonGroup>
 			<div className={EditorStyle.topbarRight}>
 				<ButtonGroup>
-					<Button onClick={onOpenJumpLine} className={EditorStyle.topbarBtn}>行: 4 列: 32</Button>
+					<Button style={{display:'none'}} onClick={onOpenJumpLine} className={EditorStyle.topbarBtn}>行: 4 列: 32</Button>
 					<Dropdown overlay={menu} trigger={['click']}>
 						<Button className={EditorStyle.topbarBtn}>{currentLanguage}</Button>
 					</Dropdown>

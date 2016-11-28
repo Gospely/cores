@@ -60,6 +60,10 @@ export default {
 	    	},
 	    	activeEditor: {
 	    		id: ''
+	    	},
+	    	currentPaneOfEditors: {
+	    		isNeedChange: false,
+	    		key: 0
 	    	}
 	    }
 
@@ -74,16 +78,13 @@ export default {
 	reducers: {
 
 		changePane(state,{payload: key}){
-			// methods.getActivePane.activeEditor.id = state.panels.activeEditor.id;
 			state.panels.activePane.key = key;
 			return {...state};
 		},
 
 		tabChanged(state, {payload: params}) {
-			// console.log('ifFalse',state.panels.activePane.key !== state.panels.prevPane.key)
-			// if (state.panels.activePane.key !== state.panels.prevPane.key) {
-			// 	return{...state};
-			// }
+			// console.log(params.paneKey)
+			state.panels.activePane.key = params.paneKey;
 			const activePane = methods.getActivePane(state);
 			const activeTab = methods.getActiveTab(state,activePane);
 			// console.log(activeTab)
@@ -139,17 +140,20 @@ export default {
 			switch(state.panels.splitType) {
 				case 'single':
 					switch(type) {
-						case 'grid': for(let i = 1; i < 4; i ++){
-							pushPane(i);
-						}
-						state.panels.activePane.key = 3;
-						break;
+						case 'grid': 
+							for(let i = 1; i < 4; i ++){
+								pushPane(i);
+							}
+							state.panels.activePane.key = 3;
+							state.panels.currentPaneOfEditors.isNeedChange = false;
+							break;
 						case 'single':
 							state.panels.activePane.key = 0;
-					    break;
+					    	break;
 						default:
 							pushPane(1);
 							state.panels.activePane.key = 1;
+							state.panels.currentPaneOfEditors.isNeedChange = false;
 					}
 					break;
 				case 'grid':
@@ -166,20 +170,21 @@ export default {
 							panes.pop();
 							panes.pop();
 							panes.pop();
+							state.panels.currentPaneOfEditors.isNeedChange = true;
+							state.panels.currentPaneOfEditors.key = 0;
 							break;
 						case 'grid':
 							break;
 						default:
 							for(let i = 2; i < 4; i ++){
-								for(let j = 0; j < panes[i].tabs.length; j ++){
-									panes[1].tabs.push(panes[i].tabs[j]);
-								}
 								panes[1].editors = {...panes[1].editors, ...panes[i].editors}
 							}
 							state.panels.activePane.key = 1;
 							reTabKey(1);
 							panes.pop();
 							panes.pop();
+							state.panels.currentPaneOfEditors.isNeedChange = true;
+							state.panels.currentPaneOfEditors.key = 1;
 					}
 					break;
 				default:
@@ -192,11 +197,14 @@ export default {
 							state.panels.activePane.key = 0;
 							reTabKey(0);
 							panes.pop();
+							state.panels.currentPaneOfEditors.isNeedChange = true;
+							state.panels.currentPaneOfEditors.key = 0;
 							break;
 						case 'grid':
 							pushPane(2);
 							pushPane(3);
 							state.panels.activePane.key = 3;
+							state.panels.currentPaneOfEditors.isNeedChange = false;
 							break;
 					}
 			}
@@ -206,12 +214,16 @@ export default {
 			return {...state};
 		},
 
-		'remove'(state, {payload: targetKey}) {
-			let target = targetKey.targetKey;
+		remove(state, {payload: target}) {
+			state.panels.currentPaneOfEditors.isNeedChange = false;
+			if (typeof target.paneKey != 'undefined') {
+				state.panels.activePane.key = target.paneKey;
+			}
+			let targetKey = target.targetKey;
 			let activeKey = methods.getActivePane(state).activeTab.key;
 			let activePane = methods.getActivePane(state);
 			let lastIndex;
-			let type = targetKey.type;
+			let type = target.type;
 
 			const reTabKey = function () {
 				activePane.tabs.forEach((tab,i) => {
@@ -229,7 +241,7 @@ export default {
 
 			// console.log('tabs',state.panels.panes.tabs)
 			activePane.tabs.forEach((tab, i) => {
-				if(tab.key === target) {
+				if(tab.key === targetKey) {
 					lastIndex = i - 1;
 					if(lastIndex < 0) {
 						lastIndex = 0;
@@ -240,9 +252,9 @@ export default {
 
 
 
-			const tabs = activePane.tabs.filter(tab => tab.key !== target);
+			const tabs = activePane.tabs.filter(tab => tab.key !== targetKey);
 			// console.log('activePane',methods.getActivePane(state).key)
-			if(lastIndex >= 0 && activeKey === target) {
+			if(lastIndex >= 0 && activeKey === targetKey) {
 				if(tabs.length != 0) {
 					activeKey = tabs[lastIndex].key;
 				}else {
@@ -315,7 +327,12 @@ export default {
 		},
 		
 		add(state, {payload: target}) {
-
+			state.panels.currentPaneOfEditors.isNeedChange = false;
+			console.log("paneKey",target.paneKey)
+			if (typeof target.paneKey !== 'undefined') {
+				state.panels.activePane.key = target.paneKey;
+			}
+			console.log(target.paneKey)
 		    let panes = state.panels.panes;
 		    let activePane = methods.getActivePane(state);
 
@@ -349,7 +366,7 @@ export default {
 					activePane.editors[params.editorId] = editorObj;
 					activePane.activeEditor.id = params.editorId;
 					return (
-						<CodingEditor inThisPane={state.panels.activePane.key} editorId={params.editorId} test="dsfdsfd"></CodingEditor>
+						<CodingEditor inThisPane={state.panels.activePane.key} editorId={params.editorId}></CodingEditor>
 					);
 				},
 
