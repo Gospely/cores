@@ -10,18 +10,17 @@ export default {
 
 				ctrlClicked () {
 
-
-				},
-
-				ctrlDragging () {
-
 				},
 
 				ctrlDragover () {
 
 				},
 
-				ctrlRefreshed () {
+				attrRefreshed () {
+
+				},
+
+				attrSelected () {
 
 				},
 
