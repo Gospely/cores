@@ -15,7 +15,7 @@ const layoutAction = {
 			var ctrl = page[i];
 
 			if(ctrl.children) {
-				loopChildren(ctrl.children);
+				layoutAction.getActiveControllerByKey(ctrl.children);
 			}
 
 			if(typeof ctrl.key == key) {

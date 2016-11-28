@@ -35,6 +35,13 @@ export default {
 			    			content: '欢迎使用 Gospel在线集成开发环境',
 			    			key: '1',
 			    			type: 'welcome'
+			    		},
+
+			    		{
+			    			title: 'Gospel 小程序 UI 设计器',
+			    			content: <Designer></Designer>,
+			    			key: '2',
+			    			type: 'designer'
 			    		}
 		    		],
 
@@ -47,7 +54,7 @@ export default {
 		    		key: 0,
 
 		    		activeTab: {
-		    			key: '1',
+		    			key: '2',
 		    			index: 0
 		    		}
 	    		}
