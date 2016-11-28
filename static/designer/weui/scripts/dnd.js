@@ -13,15 +13,15 @@
 			},
 
 			ctrlSelected: function() {
-
+				console.log('ctrlSelected', data);				
 			},
 
 			pageAdded: function() {
-
+				console.log('pageAdded', data);
 			},
 
 			pageRemoved: function() {
-
+				console.log('pageRemoved', data);
 			}
 		}
 

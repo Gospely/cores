@@ -821,8 +821,8 @@ export default {
     		var gospelDesigner = window.frames['gospel-designer'];
 
     		if(!gospelDesigner) {
-    			message.error('请先打开编辑器！')
-    			return false;
+    			message.error('请先打开编辑器！');
+    			return {...state};
     		}
 
     		if(state.layoutState.activeType == 'page') {
@@ -838,6 +838,68 @@ export default {
 
 	    		gospelDesigner.postMessage({
 	    			attrRefreshed: activeCtrl
+	    		}, '*');
+    		}
+
+    		return {...state};
+
+		},
+
+		handleCtrlSelected (state) {
+
+			var activePage = layoutAction.getActivePage(state.layout, state.layoutState.activePage.index);
+
+    		var gospelDesigner = window.frames['gospel-designer'];
+
+    		if(!gospelDesigner) {
+    			message.error('请先打开编辑器！')
+    			return false;
+    		}
+
+    		if(state.layoutState.activeType == 'page') {
+
+	    		gospelDesigner.postMessage({
+	    			ctrlSelected: activePage
+	    		}, '*');
+
+    		}
+
+    		if(state.layoutState.activeType == 'controller') {
+    			var activeCtrl = getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
+
+	    		gospelDesigner.postMessage({
+	    			ctrlSelected: activeCtrl
+	    		}, '*');
+    		}
+
+    		return {...state};
+
+		},		
+
+		handlePageAdded (state) {
+
+			var activePage = layoutAction.getActivePage(state.layout, state.layoutState.activePage.index);
+
+    		var gospelDesigner = window.frames['gospel-designer'];
+
+    		if(!gospelDesigner) {
+    			message.error('请先打开编辑器！')
+    			return false;
+    		}
+
+    		if(state.layoutState.activeType == 'page') {
+
+	    		gospelDesigner.postMessage({
+	    			pageAdded: activePage
+	    		}, '*');
+
+    		}
+
+    		if(state.layoutState.activeType == 'controller') {
+    			var activeCtrl = getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
+
+	    		gospelDesigner.postMessage({
+	    			pageAdded: activeCtrl
 	    		}, '*');
     		}
 
