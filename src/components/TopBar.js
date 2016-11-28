@@ -10,7 +10,7 @@ import Terminal from './Panel/Terminal.js';
 
 import randomWord from '../utils/randomString';
 
-import dndHandler from 'dndHandler';
+import dndHandler from './Panel/dndHandler';
 
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
