@@ -110,7 +110,16 @@ export default {
 			console.log(activePane.activeEditor.id);
 			return {...state};
 		},
-
+		changeTabTitle(state,{payload:params}){
+			console.log(params);
+			const activePane = methods.getActivePane(state);
+			const activeTab = activePane.tabs[activePane.activeTab.index];
+			const activeEditor = activePane.editors[activePane.activeEditor.id];
+			activeEditor.fileName = params.fileName;
+			console.log(activeTab);
+			activeTab.title = params.fileName;
+			return {...state};
+		},
 		changeColumn(state, {payload: type}) {
 			const panes = state.panels.panes;
 			const pushPane = function(key) {

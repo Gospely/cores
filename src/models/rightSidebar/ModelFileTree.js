@@ -343,21 +343,16 @@ export default {
 
 		showNewFileNameModal(state, {payload: params}) {
 
+				if(params.type == 'editor') {
+					console.log("saveModal");
+					return {...state, newFileNameModal: {
+						visible: true,
+						showInput: false,
+						value: localStorage.currentFolder,
+						title: '请输入文件名'
+					}};
+				}
 
-			console.log(params.targetKey);
-			if(params.action == 'remove') {
-				console.log("saveModal");
-				return {...state, newFileNameModal: {
-					visible: true,
-					showInput: false,
-					title: '请输入文件名'
-				}};
-			}else{
-				return {...state, newFileNameModal: {
-					visible: false,
-					value: localStorage.currentFolder
-				}};
-			}
 
 		},
 		hideNewFileNameModal(state) {
