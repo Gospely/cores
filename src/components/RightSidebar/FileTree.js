@@ -166,6 +166,12 @@ const FileTree = (props) => {
         const editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
         var fileName = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].fileName;
         var content = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value;
+
+        if(fileName == localStorage.currentFolder) {
+          message.error('请输入文件名');
+          return false;
+        }
+
         console.log('ok');
         props.dispatch({
           type: 'file/writeFile',
