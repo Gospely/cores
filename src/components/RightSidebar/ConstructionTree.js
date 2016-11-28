@@ -47,6 +47,10 @@ const ConstructionTree = (props) => {
         }
       })
 
+      props.dispatch({
+        type: 'designer/handleCtrlSelected'
+      });
+
     }
 
   }
@@ -68,6 +72,9 @@ const ConstructionTree = (props) => {
         type: 'attr/setFormItemsByDefault'
       });
 
+      props.dispatch({
+        type: 'designer/handlePageAdded'
+      });
     }
 
   }

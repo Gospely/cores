@@ -35,6 +35,13 @@ export default {
 			    			content: '欢迎使用 Gospel在线集成开发环境',
 			    			key: '1',
 			    			type: 'welcome'
+			    		},
+
+			    		{
+			    			title: 'Gospel 小程序 UI 设计器',
+			    			content: <Designer></Designer>,
+			    			key: '2',
+			    			type: 'designer'
 			    		}
 		    		],
 
@@ -47,7 +54,7 @@ export default {
 		    		key: 0,
 
 		    		activeTab: {
-		    			key: '1',
+		    			key: '2',
 		    			index: 0
 		    		}
 	    		}
@@ -78,17 +85,25 @@ export default {
 	reducers: {
 
 		changePane(state,{payload: key}){
+			console.log(key);
 			state.panels.activePane.key = key;
 			return {...state};
 		},
 
 		tabChanged(state, {payload: params}) {
+
+			console.log('tab change');
+			localStorage.isSave = false;
+			console.log(params);
 			// console.log(params.paneKey)
 			state.panels.activePane.key = params.paneKey;
 			const activePane = methods.getActivePane(state);
-			const activeTab = methods.getActiveTab(state,activePane);
-			// console.log(activeTab)
+			console.log(state);
 			methods.getActivePane(state).activeTab.key = params.active;
+			const activeTab = activePane.tabs[params.active]
+			console.log(activeTab);
+			// console.log(activeTab)
+
 			methods.getActivePane(state).activeTab.index = ( parseInt(params.active) - 1 ).toString();
 
 
@@ -100,9 +115,19 @@ export default {
 				// state.panels.activeEditor.id = activeTab.content.props.editorId;
 				activePane.activeEditor.id = activeTab.content.props.editorId;
 			}
+			console.log(activePane.activeEditor.id);
 			return {...state};
 		},
-
+		changeTabTitle(state,{payload:params}){
+			console.log(params);
+			const activePane = methods.getActivePane(state);
+			const activeTab = activePane.tabs[activePane.activeTab.index];
+			const activeEditor = activePane.editors[activePane.activeEditor.id];
+			activeEditor.fileName = params.fileName;
+			console.log(activeTab);
+			activeTab.title = params.fileName;
+			return {...state};
+		},
 		changeColumn(state, {payload: type}) {
 			const panes = state.panels.panes;
 			const pushPane = function(key) {
@@ -140,7 +165,7 @@ export default {
 			switch(state.panels.splitType) {
 				case 'single':
 					switch(type) {
-						case 'grid': 
+						case 'grid':
 							for(let i = 1; i < 4; i ++){
 								pushPane(i);
 							}
@@ -281,6 +306,7 @@ export default {
 
 		handleEditorChanged(state, { payload: params }) {
 			console.log(currentEditor.getValue());
+			localStorage.isSave = true;
 			console.log(params)
 			let activePane = methods.getActivePane(state);
 			let editorObj = {
@@ -325,8 +351,10 @@ export default {
 			state.panels.panes[state.panels.activePane.key].editors[editorId].value = content;
 			return {...state};
 		},
-		
+
 		add(state, {payload: target}) {
+
+			localStorage.isSave = false;
 			state.panels.currentPaneOfEditors.isNeedChange = false;
 			console.log("paneKey",target.paneKey)
 			if (typeof target.paneKey !== 'undefined') {

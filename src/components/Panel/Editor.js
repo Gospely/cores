@@ -59,9 +59,26 @@ const Editor = (props) => {
 		},
 
 		onSave() {
-			dispatch({
-				type: 'editorTop/save'
-			})
+
+			if(localStorage.isSave == 'true') {
+				const editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
+				var content = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value;
+				var fileName = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].fileName;
+				console.log(fileName);
+				if(fileName == '新标签页' || fileName == '新文件' || fileName == undefined) {
+
+					var type = 'editor';
+					dispatch({
+						type: 'file/showNewFileNameModal',
+						payload: {type}
+					});
+				}else{
+					dispatch({
+						type: 'file/writeFile',
+						payload: {content}
+					});
+				}
+			}
 		},
 
 		onSearchPrev() {
@@ -186,15 +203,26 @@ const Editor = (props) => {
 			bindKey: {win: "Ctrl-s", mac: "Command-s"},
 			exec: function(editor) {
 
-				console.log('command');
-				const editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
-				var content = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value;
+				if(localStorage.isSave == 'true') {
+					console.log('command');
+					const editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
+					var content = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value;
+					var fileName = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].fileName;
+					console.log(fileName);
+					if(fileName == '新标签页' || fileName == '新文件' || fileName == undefined) {
 
-				var fileName = 'test.js'
-				dispatch({
-					type: 'file/writeFile',
-					payload: {content}
-				});
+						var type = 'editor';
+						dispatch({
+							type: 'file/showNewFileNameModal',
+							payload: {type}
+						});
+					}else{
+						dispatch({
+							type: 'file/writeFile',
+							payload: {content}
+						});
+					}
+				}
 				ace.config.loadModule("ace/ext/keybinding_menu", function(module) {
 					module.init(editor);
 					editor.showKeyboardShortcuts()
@@ -233,7 +261,6 @@ const Editor = (props) => {
 				console.log('change');
 				console.log(this);
 				console.log(value);
-				value =  currentEditor.getValue();
     		var editorId = activePane.activeEditor.id;
     		props.dispatch({
     			type: 'devpanel/handleEditorChanged',

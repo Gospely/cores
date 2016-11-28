@@ -57,28 +57,34 @@ function IndexPage(props) {
 
 
       if(action == 'remove'){
+        console.log(paneKey);
         editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
+        console.log(editorId);
+
         var fileName = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].fileName;
         console.log(fileName);
-        if(fileName == '新标签页'){
-          props.dispatch({
-            type: 'file/showNewFileNameModal',
-            payload: {targetKey, action,type}
-          })
-        }else{
-          props.dispatch({
-            type: 'file/showSaveModal',
-            payload: {targetKey, action,type}
-          })
+        if(localStorage.isSave == 'true') {
+          console.log("show");
+          console.log(localStorage.isSave);
+          if(fileName == '新标签页' || fileName == '新文件' || fileName ==  undefined){
+            props.dispatch({
+              type: 'file/showNewFileNameModal',
+              payload: {targetKey, action,type}
+            })
+          }else{
+            props.dispatch({
+              type: 'file/showSaveModal',
+              payload: {targetKey, action,type}
+            })
+          }
         }
-
       }
     }
 
   }
 
   var devPanelMinSize = document.body.clientWidth,
-        leftBarWidth = 230,
+        leftBarWidth = 280,
         rightBarWidth = 280;
   devPanelMinSize = devPanelMinSize - ( rightBarWidth + leftBarWidth );
 

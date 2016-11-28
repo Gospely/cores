@@ -2,6 +2,53 @@
 	var jq = jQuery.noConflict();
 	var data;
 
+<<<<<<< HEAD
+=======
+	window.addEventListener("message", function (evt) {
+
+		var data = evt.data;
+
+		var evtAction = {
+
+			attrRefreshed: function() {
+				console.log('attrRefreshed', data);
+			},
+
+			ctrlSelected: function() {
+				console.log('ctrlSelected', data);				
+			},
+
+			pageAdded: function() {
+				console.log('pageAdded', data);
+			},
+
+			pageRemoved: function() {
+				console.log('pageRemoved', data);
+			}
+		}
+
+		var eventName = '';
+
+		for(var key in data) {
+			eventName = key
+		}
+
+		if(evtAction[eventName]) {
+			data = data[key];
+			evtAction[eventName]();
+		}
+
+	});
+
+
+	//同步获取components.json数据
+	var  components = {};
+	jq.ajaxSettings.async = false;
+	jq.getJSON("/static/designer/weui/scripts/components.json",function(result){
+		components = result;
+	});
+
+>>>>>>> 4fae1db0994fcaa86024af057bdc30630ed6fb32
 	//获取父元素
 	var parent_window = window.parent;
 

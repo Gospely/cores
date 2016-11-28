@@ -28,12 +28,12 @@ export default {
 	effects: {
 
 		*isGitProject({payload: params}, {call, put, select}) {
-      		var isGit = yield request('fs/git/', {
-      			method: 'POST',
-      			body: JSON.stringify({
-      				dir: 'node-hello_ivydom'
-      			})
-      		});
+      		// var isGit = yield request('fs/git/', {
+      		// 	method: 'POST',
+      		// 	body: JSON.stringify({
+      		// 		dir: 'node-hello_ivydom'
+      		// 	})
+      		// });
 
       		if(isGit.data.fields) {
       			//获取origin源
@@ -49,7 +49,7 @@ export default {
 	      			isGit
 	      		} })
       		}else {
-	      		yield put({ type: 'setIsGit', payload: isGit });      			
+	      		yield put({ type: 'setIsGit', payload: isGit });
       		}
 
 		},
@@ -112,7 +112,7 @@ export default {
 		},
 
 		createApp(state) {
-			
+
 		},
 
 		showModalSwitchApp(state) {
@@ -181,7 +181,7 @@ export default {
 				value: fetch,
 				isGit: params.isGit.data.fields,
 				pushValue: push
-			}}			
+			}}
 		}
 
 	}
