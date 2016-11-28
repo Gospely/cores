@@ -39,7 +39,6 @@
   	.attrCollapse .ant-collapse-header {
 	    line-height: 30px!important;  	
   	}
-
 	
 	.ant-collapse.attrCollapse > .ant-collapse-item > .ant-collapse-header {
 	    height: 30px;
@@ -181,7 +180,12 @@
 	  z-index: 200;
 	  height: 100%;
 	  width: 100%;
-	  overflow: scroll;
+	}
+
+	.consCollapse .ant-collapse-item {
+		max-height: 400px;
+		min-height: 400px;
+		overflow: scroll;
 	}
 
 	.LeftSidebar .ant-menu-inline {

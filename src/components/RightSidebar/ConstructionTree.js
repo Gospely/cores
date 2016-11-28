@@ -118,7 +118,7 @@ const ConstructionTree = (props) => {
 
     <div style={{marginTop: -20}}>
 
-      <div className={TreeStyle.header}>
+      <div className={TreeStyle.headerCons}>
 
         <Row>
           <Col span={24}>
