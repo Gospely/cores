@@ -6,11 +6,10 @@ const FormItem = Form.Item;
 export default {
 	namespace: 'attr',
 	state: {
-		form: {
-			keys: [0]
-		},
 
-		formItems: []
+		formItems: [],
+
+		activeFormItem: 0
 	},
 
 	subscriptions: {
@@ -112,6 +111,16 @@ export default {
 			return {...state, current: key};
 		},
 
+		setActiveFormItem(state, {payload: index}) {
+
+			return {...state};
+		},
+
+		readFormItems (state, { payload: index }) {
+			state.activeFormItem = index;
+			return {...state};
+		},
+
 		setFormItems (state, {payload: attr}) {
 
 			var tmpAttr = [];
@@ -124,6 +133,9 @@ export default {
 			}
 
 			state.formItems = tmpAttr;
+			// state.activeFormItem = state.formItems.length - 1;
+
+			console.log('formItems', state.formItems);
 			return {...state};
 		}
 	}

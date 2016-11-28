@@ -44,6 +44,18 @@ export default {
 
 				ctrlRemoved () {
 
+				},
+
+				pageClicked () {
+
+				},
+
+				pageRemoved () {
+
+				},
+
+				pageAdded () {
+					
 				}
 
 			}

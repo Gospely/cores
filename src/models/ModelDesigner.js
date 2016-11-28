@@ -710,7 +710,11 @@ export default {
 
 			page = page || layoutAction.getController(state.controllersList, 'page');
 
+			console.log('page', page);
+
 			var tmpAttr = {};
+
+			console.log('page.attr', page.attr);
 
 			for(var att in page.attr) {
 				var currAttr = page.attr[att];
@@ -720,7 +724,7 @@ export default {
 				tmpAttr['title']['type'] = 'input';
 				tmpAttr['title']['isClassName'] = false;
 				tmpAttr['title']['isHTML'] = false;
-				tmpAttr['title']['title'] = '名称';
+				tmpAttr['title']['title'] = '页面名称';
 			}
 
 			var tmpPage = {
@@ -732,8 +736,9 @@ export default {
 			}
 
 			console.log(tmpPage);
-
+			console.log('pre push', state.layout);
 			state.layout.push(tmpPage);
+			console.log('after layout', state.layout);
 			layoutAction.setActivePage(state.layoutState, state.layout.length - 1, tmpPage.key);
 			return {...state};
 		},
@@ -786,7 +791,10 @@ export default {
 			console.log('activePage', activePage, state.layout);
 
 			if(state.layoutState.activeType == 'page') {
+				console.log('before input change layout', state.layout);
 				activePage.attr[params.attrName]['_value'] = params.newVal;
+				console.log('after input change', state.layout[state.layoutState.activePage.index]);
+				console.log('after input change layout', state.layout);
 				console.log(activePage.attr);
 			}
 

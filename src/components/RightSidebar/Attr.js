@@ -42,12 +42,27 @@ const Attr = (props) => {
     		});
     	},
 
-    	handleAttrFormSwitchChange: (attrName, dom) => {
-
+    	handleAttrFormSwitchChange: (attrName, checked) => {
+    		console.log(attrName, checked);
+			var newVal = checked;
+    		props.dispatch({
+    			type: 'designer/handleAttrFormInputChange',
+    			payload: {
+    				newVal: newVal,
+    				attrName: attrName
+    			}
+    		});
     	},
 
     	handleAttrFormSelectChange: (attrName, dom) => {
-
+			var newVal = dom.target.value;
+    		props.dispatch({
+    			type: 'designer/handleAttrFormInputChange',
+    			payload: {
+    				newVal: newVal,
+    				attrName: attrName
+    			}
+    		});
     	}
 
     }
@@ -59,6 +74,8 @@ const Attr = (props) => {
 
 			      	<Form onSubmit={handleSubmit}>
 			      		{props.attr.formItems.map( (item, index) => {
+
+			      			console.log('change formItems', props.attr.formItems, props.attr.activeFormItem);
 
 					    	const attrTypeActions = {
 					    		input (attr) {
