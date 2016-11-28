@@ -32,6 +32,7 @@ const Controllers = (props) => {
 				type: 'designer/addController',
 				payload: controller
 			});
+			
 			window.dndData = controller;
 
 		    props.dispatch({

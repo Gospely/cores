@@ -265,10 +265,6 @@ const LeftSidebar = (props) => {
 		        <Menu.Item key="start">
 					<Icon type="play-circle-o" />
 		        </Menu.Item>
-		        <Menu.Item key="pause">
-					<Icon type="pause-circle-o" />
-		        </Menu.Item>
-
 	      	</Menu>
 
 	    	<Modal width="80%"  title="新建应用" visible={props.sidebar.modalNewAppVisible}
