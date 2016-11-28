@@ -23,7 +23,25 @@ const SettingPanel = (props) => {
 				origin: function() {
 					props.dispatch({
 						type: 'sidebar/showModalModifyGitOrgin'
-					})					
+					})
+				}
+			}
+
+			action[item.key]();
+
+		}
+	}
+	const ThemeProps = {
+		onClick: function(item) {
+
+			console.log(item);
+
+			var action = {
+
+				origin: function() {
+					props.dispatch({
+						type: 'sidebar/showModalModifyGitOrgin'
+					})
 				}
 			}
 
@@ -33,7 +51,7 @@ const SettingPanel = (props) => {
 	}
 
 	const GitSetting = (
-      	<Menu onClick={GitSettingProps.onClick}
+      	<Menu onClick={ThemeProps.onClick}
         	style={{ width: '100%' }}
         	defaultOpenKeys={['origin']}
         	mode="inline"
@@ -43,6 +61,17 @@ const SettingPanel = (props) => {
 	        </Menu.Item>
       	</Menu>
 	);
+	const Themes = (
+				<Menu onClick={ThemeProps.onClick}
+					style={{ width: '100%' }}
+					defaultOpenKeys={['origin']}
+					mode="inline"
+				>
+					<Menu.Item key="origin">
+				<span>修改主题</span>
+					</Menu.Item>
+				</Menu>
+	);
 
   	return (
 
@@ -51,7 +80,7 @@ const SettingPanel = (props) => {
 		      	{GitSetting}
 		    </Panel>
 		    <Panel header="主题 设置" key="2">
-		      	<p>sssss</p>
+		      	{Themes}
 		    </Panel>
 		</Collapse>
 

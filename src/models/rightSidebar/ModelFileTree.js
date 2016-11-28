@@ -62,6 +62,15 @@ export default {
 		renameModal: {
 			visible: false,
 			value: ''
+		},
+		saveModal: {
+			visible: false,
+			title: ''
+		},
+		newFileNameModal: {
+			visible: false,
+			value: '',
+			title: ''
 		}
 	},
 
@@ -272,20 +281,11 @@ export default {
 				visible: true
 			}};
 		},
-
-		handleRenameInputChange(state, {payload: val}) {
-			return {...state, renameModal: {
-				value: val,
-				visible: true
-			}}
-		},
-
 		handleSearchInputChange(state, {payload: val}) {
 			return {...state, searchInput: {
 				value: val
 			}};
 		},
-
 		handleUploadInputChange(state, {payload: val}) {
 			return {...state, uploadInput: {
 				value: val
@@ -303,7 +303,77 @@ export default {
 				visible: true
 			}};
 		},
+		handleRenameInputChange(state, {payload: val}) {
+			return {...state, renameModal: {
+				value: val,
+				visible: true
+			}}
+		},
+		hideSaveModal(state) {
+			return {...state, saveModal: {
+				visible: false,
+				showInput: false
+			}};
+		},
 
+		showSaveModal(state, {payload: params}) {
+
+
+			console.log(params.targetKey);
+			if(params.action == 'remove') {
+				console.log("saveModal");
+				return {...state, saveModal: {
+					visible: true,
+					showInput: false,
+					title: '保存文件？'
+				}};
+			}else{
+				return {...state, saveModal: {
+					visible: false
+				}};
+			}
+
+		},
+		hideSaveModal(state) {
+			return {...state, saveModal: {
+				visible: false,
+				showInput: false
+			}};
+		},
+
+		showNewFileNameModal(state, {payload: params}) {
+
+
+			console.log(params.targetKey);
+			if(params.action == 'remove') {
+				console.log("saveModal");
+				return {...state, newFileNameModal: {
+					visible: true,
+					showInput: false,
+					title: '请输入文件名'
+				}};
+			}else{
+				return {...state, newFileNameModal: {
+					visible: false,
+					value: localStorage.currentFolder
+				}};
+			}
+
+		},
+		hideNewFileNameModal(state) {
+				return {...state, newFileNameModal: {
+					visible: false,
+					showInput: false
+				}};
+			},
+		handleNewFileModelInputChange(state, {payload: val}) {
+			console.log(val);
+			return {...state, newFileNameModal: {
+				value: val,
+				visible: true,
+				title: '请输入文件名'
+			}}
+		},
 		write (state, {payload: key}) {
 			return {...state, current: key};
 		},
