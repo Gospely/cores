@@ -20,7 +20,7 @@ function IndexPage(props) {
 
   const devPanelProps = {
     panes: props.devpanel.panels.panes,
-    
+
     splitType: props.devpanel.panels.splitType,
 
     panels: props.devpanel.panels,
@@ -45,6 +45,7 @@ function IndexPage(props) {
 
     onEdit(paneKey,targetKey, action) {
 
+      console.log(action);
       var content = '', title = undefined, type = "editor";
       let editorId = randomString(8,10);
       // let paneKey = paneKey.paneKey;
@@ -53,9 +54,26 @@ function IndexPage(props) {
         type: 'devpanel/' + action,
         payload: {targetKey, title, content, type,editorId,paneKey: paneKey.paneKey}
       })
-    }
 
-    
+
+      if(action == 'remove'){
+        editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
+        var fileName = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].fileName;
+        console.log(fileName);
+        if(fileName == '新标签页'){
+          props.dispatch({
+            type: 'file/showNewFileNameModal',
+            payload: {targetKey, action,type}
+          })
+        }else{
+          props.dispatch({
+            type: 'file/showSaveModal',
+            payload: {targetKey, action,type}
+          })
+        }
+
+      }
+    }
 
   }
 

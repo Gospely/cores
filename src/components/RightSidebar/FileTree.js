@@ -70,7 +70,7 @@ const FileTree = (props) => {
         var file = e[0];
         file = file.split('/');
         file.pop();
-        localStorage.currentFolder = file.join('/') + '/';        
+        localStorage.currentFolder = file.join('/') + '/';
         localStorage.currentFileIsDir = !node.node.props.isLeaf;
       }
 
@@ -79,6 +79,7 @@ const FileTree = (props) => {
       //双击事件
       if(currentClickTimestamp - preClickTimestamp <= 250) {
 
+        var fileName = localStorage.currentSelectedFile;
         if(node.node.props.isLeaf) {
           props.dispatch({
             type: 'file/readFile',
@@ -155,7 +156,73 @@ const FileTree = (props) => {
       }
 
     },
+    saveModal: {
 
+      visible: props.file.saveModal.visible,
+      title: props.file.saveModal.title,
+
+      ok: function() {
+
+        const editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
+        var fileName = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].fileName;
+        var content = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value;
+        console.log('ok');
+        props.dispatch({
+          type: 'file/writeFile',
+          payload: {
+            fileName,
+            content
+          }
+        })
+        props.dispatch({
+          type: 'file/hideSaveModal'
+        })
+      },
+
+      cancel: function() {
+        props.dispatch({
+          type: 'file/hideSaveModal'
+        })
+      },
+    },
+    newFileNameModal: {
+
+      visible: props.file.newFileNameModal.visible,
+      value: props.file.newFileNameModal.value,
+      title: props.file.newFileNameModal.title,
+
+      ok: function() {
+
+        const editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
+        var fileName = props.file.newFileNameModal.value
+        var content = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value;
+        console.log('ok');
+        props.dispatch({
+          type: 'file/writeFile',
+          payload: {
+            fileName,
+            content
+          }
+        })
+        props.dispatch({
+          type: 'file/hideNewFileNameModal'
+        })
+      },
+
+      cancel: function() {
+        props.dispatch({
+          type: 'file/hideNewFileNameModal'
+        })
+      },
+
+      onChange: function(e) {
+        props.dispatch({
+          type: 'file/handleNewFileModelInputChange',
+          payload: e.target.value
+        })
+      }
+
+    },
     newFileInput: {
 
       value: props.file.newFileInput.value,
@@ -262,7 +329,7 @@ const FileTree = (props) => {
 
     content: (
       <InputGroup style={searchCls}>
-        <Input 
+        <Input
           {...FileTreeProps.newFileInput}
         />
         <div className="ant-input-group-wrap">
@@ -279,7 +346,7 @@ const FileTree = (props) => {
 
     content: (
       <InputGroup style={searchCls}>
-        <Input 
+        <Input
           {...FileTreeProps.newFolderInput}
         />
         <div className="ant-input-group-wrap">
@@ -296,7 +363,7 @@ const FileTree = (props) => {
 
     content: (
       <InputGroup style={searchCls}>
-        <Input 
+        <Input
           {...FileTreeProps.searchInput}
         />
         <div className="ant-input-group-wrap">
@@ -314,7 +381,7 @@ const FileTree = (props) => {
     content: (
       <div>
         <InputGroup style={searchCls}>
-          <Input 
+          <Input
             {...FileTreeProps.searchInput}
             onChange={FileTreeProps.searchInput.onChange}
           />
@@ -353,8 +420,8 @@ const FileTree = (props) => {
 
           if(item != 'undefined') {
 
-            var newFileName = localStorage.currentFileIsDir == 'true' ? 
-                localStorage.currentSelectedFile  + '/' + item.split('/').pop() : 
+            var newFileName = localStorage.currentFileIsDir == 'true' ?
+                localStorage.currentSelectedFile  + '/' + item.split('/').pop() :
                 localStorage.currentFolder + item.split('/').pop();
 
             props.dispatch({
@@ -370,8 +437,8 @@ const FileTree = (props) => {
 
           if(item != 'undefined') {
 
-            var newFileName = localStorage.currentFileIsDir == 'true' ? 
-                localStorage.currentSelectedFile + '/' + item.split('/').pop() : 
+            var newFileName = localStorage.currentFileIsDir == 'true' ?
+                localStorage.currentSelectedFile + '/' + item.split('/').pop() :
                 localStorage.currentFolder + item.split('/').pop();
 
             props.dispatch({
@@ -403,7 +470,7 @@ const FileTree = (props) => {
             props.dispatch({
               type: 'file/removeFile',
               payload: localStorage.currentSelectedFile.split('/').pop()
-            })            
+            })
           }
 
         }
@@ -450,13 +517,32 @@ const FileTree = (props) => {
         onOk={FileTreeProps.renameModal.ok} onCancel={FileTreeProps.renameModal.cancel}
       >
         <InputGroup style={searchCls}>
-          <Input 
+          <Input
             value={FileTreeProps.renameModal.value}
             onChange={FileTreeProps.renameModal.onChange}
             onPressEnter={FileTreeProps.renameModal.ok}
           />
           <div className="ant-input-group-wrap">
             <Button icon="check" style={btnCls} onClick={FileTreeProps.renameModal.ok}/>
+          </div>
+        </InputGroup>
+      </Modal>
+      <Modal title={FileTreeProps.saveModal.title} visible={FileTreeProps.saveModal.visible}
+        onOk={FileTreeProps.saveModal.ok} onCancel={FileTreeProps.saveModal.cancel}
+      >
+        <span>保存文件？</span>
+      </Modal>
+      <Modal title={FileTreeProps.newFileNameModal.title} visible={FileTreeProps.newFileNameModal.visible}
+        onOk={FileTreeProps.newFileNameModal.ok} onCancel={FileTreeProps.newFileNameModal.cancel}
+      >
+        <InputGroup style={searchCls}>
+          <Input
+            value={FileTreeProps.newFileNameModal.value}
+            onChange={FileTreeProps.newFileNameModal.onChange}
+            onPressEnter={FileTreeProps.newFileNameModal.ok}
+          />
+          <div className="ant-input-group-wrap">
+            <Button icon="check" style={btnCls} onClick={FileTreeProps.newFileNameModal.ok}/>
           </div>
         </InputGroup>
       </Modal>
@@ -516,8 +602,8 @@ const FileTree = (props) => {
 
 };
 
-function mapStateToProps({ file }) {
-  return { file };
+function mapStateToProps({ file, devpanel}) {
+  return { file,devpanel };
 }
 
 export default connect(mapStateToProps)(FileTree);

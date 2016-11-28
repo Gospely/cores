@@ -325,6 +325,7 @@ export default {
 			state.panels.panes[state.panels.activePane.key].editors[editorId].value = content;
 			return {...state};
 		},
+		
 		add(state, {payload: target}) {
 			state.panels.currentPaneOfEditors.isNeedChange = false;
 			console.log("paneKey",target.paneKey)
@@ -358,7 +359,8 @@ export default {
 					console.log(params);
 					var editorObj = {
 						value: params.content,
-						id: params.editorId
+						id: params.editorId,
+						fileName: target.title
 					};
 
 					activePane.editors[params.editorId] = editorObj;
@@ -383,7 +385,8 @@ export default {
 
 			var params = {
 				editorId: target.editorId,
-				content: target.content
+				content: target.content,
+				fileName: null,
 			};
 
 			var currentDevType = devTypes[target.type](params);

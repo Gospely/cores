@@ -279,7 +279,7 @@ const LeftSidebar = (props) => {
 
 	    	<Modal style={{maxWidth: '545px'}}  title="切换应用" visible={props.sidebar.modalSwitchAppVisible}
 	          	onOk={leftSidebarProps.switchApp} onCancel={leftSidebarProps.cancelSwitchApp}
-	        >	
+	        >
         	    <Row gutter={16}>
         	      <Col className="gutter-row" span={6}>
 	    	     	 <div className="gutter-box">
@@ -291,7 +291,7 @@ const LeftSidebar = (props) => {
 		 		        				<Icon type="close" />
 		 		        			</a>
 		 		        		</Popconfirm>
-		 	        		} style={{ width: 110, height: 110 }} 
+		 	        		} style={{ width: 110, height: 110 }}
 		 	        		bodyStyle={{height: '100%', background: 'whitesmoke', color: '#555', cursor: 'pointer'}}>
 		 		        	    <div style={{ height: 50,lineHeight: '50px',textAlign: 'center'}}>
 		 		        	    	<p className="app-name-hover">项目一s</p>
