@@ -8,6 +8,8 @@ import CloumnLayout from './RightSidebar/CloumnLayout';
 import Attr from './RightSidebar/Attr';
 import SettingPanel from './RightSidebar/SettingPanel';
 
+import SplitPane from 'react-split-pane';
+
 const TabPane = Tabs.TabPane;
 const Panel = Collapse.Panel;
 
