@@ -65,7 +65,7 @@ const Editor = (props) => {
 				var content = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value;
 				var fileName = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].fileName;
 				console.log(fileName);
-				if(fileName == '新标签页' || fileName == '新文件' || fileName == undefined) {
+				if(fileName == '新标签页' || fileName == '新文件' || fileName == undefined || fileName == 'undefined') {
 
 					var type = 'editor';
 					dispatch({

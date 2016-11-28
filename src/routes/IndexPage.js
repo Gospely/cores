@@ -67,6 +67,7 @@ function IndexPage(props) {
           console.log("show");
           console.log(localStorage.isSave);
           if(fileName == '新标签页' || fileName == '新文件' || fileName ==  undefined){
+            console.log("fff");
             props.dispatch({
               type: 'file/showNewFileNameModal',
               payload: {targetKey, action,type}
