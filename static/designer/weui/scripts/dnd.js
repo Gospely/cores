@@ -167,15 +167,4 @@
 			parent_window.postMessage({'ctrlClicked':c},"*");
 		}
 	}
-	//处理父级页面发送过来的信息
-	// var handleMessage = {
-	// 	handleClick : function(){
-	// 		window.onmessage=function(e){ 
-	// 			hideBorder();
-	// 			var id = e.data.id;
-	// 			$("#"+id).parent(".control-box").find('i').show();
-	// 			$("#"+id).parent(".control-box").addClass("hight-light");
-	// 		};  
-	// 	}
-	// }
 })()
