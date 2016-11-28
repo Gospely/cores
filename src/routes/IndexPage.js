@@ -57,12 +57,14 @@ function IndexPage(props) {
         props.dispatch({
           type: 'devpanel/' + action,
           payload: removeAction
-        })
+        });
 
         props.dispatch({
           type: 'rightbar/setActiveMenu',
           payload: 'file'
-        })
+        });
+
+        localStorage.isSave = true;
       }
 
       if(action == 'remove'){
