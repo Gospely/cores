@@ -87,6 +87,11 @@ function IndexPage(props) {
               payload: {targetKey, action,type}
             })
           }
+        }else{
+          props.dispatch({
+            type: 'devpanel/' + action,
+            payload: removeAction
+          })
         }
       }
 
