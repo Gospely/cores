@@ -2,6 +2,43 @@
 	var jq = jQuery.noConflict();
 	var data;
 
+	window.addEventListener("message", function (evt) {
+
+		var data = evt.data;
+
+		var evtAction = {
+
+			attrRefreshed: function() {
+				console.log('attrRefreshed', data);
+			},
+
+			ctrlSelected: function() {
+
+			},
+
+			pageAdded: function() {
+
+			},
+
+			pageRemoved: function() {
+
+			}
+		}
+
+		var eventName = '';
+
+		for(var key in data) {
+			eventName = key
+		}
+
+		if(evtAction[eventName]) {
+			data = data[key];
+			evtAction[eventName]();
+		}
+
+	});
+
+
 	//同步获取components.json数据
 	var  components = {};
 	jq.ajaxSettings.async = false;

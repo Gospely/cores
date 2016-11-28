@@ -16,14 +16,6 @@ export default {
 
 				},
 
-				attrRefreshed () {
-
-				},
-
-				attrSelected () {
-
-				},
-
 				ctrlAdded () {
 
 					props.dispatch({
@@ -43,19 +35,7 @@ export default {
 				},
 
 				ctrlRemoved () {
-
-				},
-
-				pageClicked () {
-
-				},
-
-				pageRemoved () {
-
-				},
-
-				pageAdded () {
-
+					
 				}
 
 			}

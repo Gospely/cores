@@ -31,8 +31,10 @@ const Attr = (props) => {
 
     const attrFormProps = {
 
-    	handleAttrFormInputChange: (attrName, dom) => {
+    	handleAttrFormInputChange: (attr, dom) => {
     		var newVal = dom.target.value;
+    		var attrName = attr.attrName;
+
     		props.dispatch({
     			type: 'designer/handleAttrFormChange',
     			payload: {
@@ -40,11 +42,15 @@ const Attr = (props) => {
     				attrName: attrName
     			}
     		});
+
+    		props.dispatch({
+    			type: 'designer/handleAttrRefreshed'
+    		})
     	},
 
-    	handleAttrFormSwitchChange: (attrName, checked) => {
-    		console.log(attrName, checked);
+    	handleAttrFormSwitchChange: (attr, checked) => {
 			var newVal = checked;
+			var attrName = attr.attrName;
     		props.dispatch({
     			type: 'designer/handleAttrFormChange',
     			payload: {
@@ -54,8 +60,9 @@ const Attr = (props) => {
     		});
     	},
 
-    	handleAttrFormSelectChange: (attrName, selectedVal) => {
+    	handleAttrFormSelectChange: (attr, selectedVal) => {
 			var newVal = selectedVal;
+			var attrName = attr.attrName;
     		props.dispatch({
     			type: 'designer/handleAttrFormChange',
     			payload: {
@@ -83,7 +90,7 @@ const Attr = (props) => {
 										<FormItem key={index} {...formItemLayout} label={attr.title}>
 						             		<Input value={attr._value}
 						             				type={attr.attrType}
-						             				onChange={attrFormProps.handleAttrFormInputChange.bind(this, attr.attrName)} 
+						             				onChange={attrFormProps.handleAttrFormInputChange.bind(this, attr)} 
 						             				className="attrInput" 
 						             				placeholder={attr.title} />
 						         		</FormItem>
@@ -93,7 +100,7 @@ const Attr = (props) => {
 					    		toggle (attr) {
 					    			return (
 										<FormItem key={index} {...formItemLayout} label={attr.title}>
-						    				<Switch onChange={attrFormProps.handleAttrFormSwitchChange.bind(this, attr.attrName)} 
+						    				<Switch onChange={attrFormProps.handleAttrFormSwitchChange.bind(this, attr)} 
 						    						checked={attr._value} />
 										</FormItem>
 					    			);
@@ -102,7 +109,7 @@ const Attr = (props) => {
 					    		select (attr) {
 					    			return (
 										<FormItem key={index} {...formItemLayout} label={attr.title}>
-										    <Select onChange={attrFormProps.handleAttrFormSelectChange.bind(this, attr.attrName)} 
+										    <Select onChange={attrFormProps.handleAttrFormSelectChange.bind(this, attr)} 
 										    		value={attr._value}>
 										    	{attr.value.map( type => (
 											      	<Option key={type} value={type}>{type}</Option>

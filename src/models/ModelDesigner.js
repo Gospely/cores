@@ -1,4 +1,5 @@
 import dva from 'dva';
+import { message } from 'antd';
 import randomString from '../utils/randomString';
 
 const layoutAction = {
@@ -6,8 +7,25 @@ const layoutAction = {
 		return layout[index];
 	},
 
-	getActiveController (layout, activePageIndex, activeControllerIndex) {
-		return layout[activePageIndex].children[activeControllerIndex];
+	getActiveControllerByKey (page, key) {
+
+		var ct;
+
+		for (var i = 0; i < page.length; i++) {
+			var ctrl = page[i];
+
+			if(ctrl.children) {
+				loopChildren(ctrl.children);
+			}
+
+			if(typeof ctrl.key == key) {
+				ct = ctrl;
+				break;
+			}
+		};
+
+		return ct;
+		// return layout[activePageIndex].children[activeControllerIndex];
 	},
 
 	setActivePage (layoutState, pageIndex, pageKey) {
@@ -796,17 +814,42 @@ export default {
 			return {...state};
 		},
 
-		handleAttrFormChange(state, { payload: params }) {
-			console.log(params);
+		handleAttrRefreshed (state) {
+
 			var activePage = layoutAction.getActivePage(state.layout, state.layoutState.activePage.index);
 
-			console.log('activePage', activePage, state.layout);
+    		var gospelDesigner = window.frames['gospel-designer'];
+
+    		if(!gospelDesigner) {
+    			message.error('请先打开编辑器！')
+    			return false;
+    		}
+
+    		if(state.layoutState.activeType == 'page') {
+
+	    		gospelDesigner.postMessage({
+	    			attrRefreshed: activePage
+	    		}, '*');
+
+    		}
+
+    		if(state.layoutState.activeType == 'controller') {
+    			var activeCtrl = getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
+
+	    		gospelDesigner.postMessage({
+	    			attrRefreshed: activeCtrl
+	    		}, '*');
+    		}
+
+    		return {...state};
+
+		},
+
+		handleAttrFormChange(state, { payload: params }) {
+			var activePage = layoutAction.getActivePage(state.layout, state.layoutState.activePage.index);
 
 			if(state.layoutState.activeType == 'page') {
-				console.log('before input change layout', state.layout);
 				activePage.attr[params.attrName]['_value'] = params.newVal;
-				console.log('after input change', state.layout[state.layoutState.activePage.index]);
-				console.log('after input change layout', state.layout);
 				console.log(activePage.attr);
 			}
 
