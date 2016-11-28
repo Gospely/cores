@@ -32,7 +32,7 @@
 		}
 
 		if(evtAction[eventName]) {
-			data = data[key];
+			data = JSON.parse(data[key]);
 			evtAction[eventName]();
 		}
 
