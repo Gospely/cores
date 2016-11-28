@@ -59,8 +59,16 @@ const Editor = (props) => {
 		},
 
 		onSave() {
-			dispatch({
-				type: 'editorTop/save'
+			const editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
+			var fileName = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].fileName;
+			var content = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value;
+			console.log('ok');
+			props.dispatch({
+				type: 'file/writeFile',
+				payload: {
+					fileName,
+					content
+				}
 			})
 		},
 
@@ -233,7 +241,6 @@ const Editor = (props) => {
 				console.log('change');
 				console.log(this);
 				console.log(value);
-				value =  currentEditor.getValue();
     		var editorId = activePane.activeEditor.id;
     		props.dispatch({
     			type: 'devpanel/handleEditorChanged',
