@@ -60,16 +60,22 @@ const Editor = (props) => {
 
 		onSave() {
 			const editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
-			var fileName = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].fileName;
 			var content = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value;
-			console.log('ok');
-			props.dispatch({
-				type: 'file/writeFile',
-				payload: {
-					fileName,
-					content
-				}
-			})
+			var fileName = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].fileName;
+			console.log(fileName);
+			if(fileName == '新标签页' || fileName == '新文件' || fileName == undefined) {
+
+				var type = 'editor';
+				dispatch({
+					type: 'file/showNewFileNameModal',
+					payload: {type}
+				});
+			}else{
+				dispatch({
+					type: 'file/writeFile',
+					payload: {content}
+				});
+			}
 		},
 
 		onSearchPrev() {
@@ -199,7 +205,7 @@ const Editor = (props) => {
 				var content = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value;
 				var fileName = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].fileName;
 				console.log(fileName);
-				if(fileName == '新标签页' || fileName == undefined) {
+				if(fileName == '新标签页' || fileName == '新文件' || fileName == undefined) {
 
 					var type = 'editor';
 					dispatch({

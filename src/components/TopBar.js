@@ -10,15 +10,11 @@ import Terminal from './Panel/Terminal.js';
 
 import randomWord from '../utils/randomString';
 
-import dndHandler from './Panel/dndHandler';
-
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 const InputGroup = Input.Group;
 
 const LeftSidebar = (props) => {
-
-	dndHandler.init(props);
 
 	var styles = {
 		sidebar: {
@@ -42,6 +38,8 @@ const LeftSidebar = (props) => {
 	      var handleActiveMenuEvent = {
 
 	        create() {
+
+						console.log("create app");
 	          props.dispatch({
 	            type: 'sidebar/showModalNewApp'
 	          });
@@ -177,6 +175,8 @@ const LeftSidebar = (props) => {
 	    },
 
 	    switchApp() {
+
+				console.log('switch app');
 	      props.dispatch({
 	        type: 'sidebar/switchApp'
 	      })
@@ -219,6 +219,7 @@ const LeftSidebar = (props) => {
 		},
 
 		createAppFromModal() {
+			console.log("create app");
 			props.dispatch({
 				type: 'sidebar/showNewAppAndHideSwitch',
 			})
@@ -269,6 +270,10 @@ const LeftSidebar = (props) => {
 		        <Menu.Item key="start">
 					<Icon type="play-circle-o" />
 		        </Menu.Item>
+		        <Menu.Item key="pause">
+					<Icon type="pause-circle-o" />
+		        </Menu.Item>
+
 	      	</Menu>
 
 	    	<Modal width="80%"  title="新建应用" visible={props.sidebar.modalNewAppVisible}
@@ -285,7 +290,7 @@ const LeftSidebar = (props) => {
 	    	     	 <div className="gutter-box">
 		 		        	<Card onClick={leftSidebarProps.openApp} extra={
 		 		        		<Popconfirm onClick={(e) => e.stopPropagation()} title="确认删除此项目?"
-		 		        		onConfirm={leftSidebarProps.confirmDeleteApp}
+		 		        		onConfirm={leftSidebarProps.confirmDeleteApp.bind(this)}
 		 		        		onCancel={leftSidebarProps.cancelDeleteApp} okText="Yes" cancelText="No">
 		 		        		    <a className="delete-app">
 		 		        				<Icon type="close" />
@@ -377,8 +382,8 @@ const LeftSidebar = (props) => {
 
 }
 
-function mapStateToProps({ sidebar, editor, rightbar, designer, attr }) {
-  return { sidebar, editor, rightbar, designer, attr };
+function mapStateToProps({ sidebar, editor }) {
+  return { sidebar, editor };
 }
 
 export default connect(mapStateToProps)(LeftSidebar);
