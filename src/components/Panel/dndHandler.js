@@ -11,7 +11,6 @@ export default {
 				ctrlClicked () {
 
 
-
 				},
 
 				ctrlDragging () {
@@ -45,14 +44,13 @@ export default {
 				},
 
 				ctrlRemoved () {
-					
+
 				}
 
 			}
 
 			evtAction[event]();
 		});
-	},
-
+	}
 
 }
