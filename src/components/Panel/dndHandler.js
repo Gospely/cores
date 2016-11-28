@@ -55,12 +55,14 @@ export default {
 				},
 
 				pageAdded () {
-					
+
 				}
 
 			}
 
-			evtAction[event]();
+			if(evtAction[event]) {
+				evtAction[event]();
+			}
 		});
 	}
 

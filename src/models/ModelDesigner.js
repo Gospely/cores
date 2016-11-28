@@ -102,6 +102,7 @@ export default {
 
 					title: {
 						type: 'input',
+						attrType: 'text',
 						title: '页面名称',
 						isClassName: false,
 						isHTML: false,
@@ -110,14 +111,16 @@ export default {
 
 					color: {
 						type: 'input',
-						title: '颜色',
+						attrType: 'color',
+						title: '背景颜色',
 						isClassName: false,
 						isHTML: false,
 						'_value': '#ff4ff'
 					},
 					images: {
 						type: 'input',
-						title: '背景',
+						attrType: 'text',
+						title: '背景图片',
 						isClassName: false,
 						isHTML: false,
 						'_value': '#ff4ff'
@@ -125,6 +128,7 @@ export default {
 
 					padding: {
 						type: 'input',
+						attrType: 'number',
 						title: '内边距',
 						isClassName: false,
 						isHTML: false,
@@ -139,6 +143,7 @@ export default {
 					},
 					class: {
 						type: 'input',
+						attrType: 'text',
 						title: '类名',
 						isClassName: true,
 						isHTML: false,
@@ -147,6 +152,7 @@ export default {
 
 					routingURL: {
 						type: 'input',
+						attrType: 'text',
 						title: '路由',
 						isClassName: false,
 						isHTML: false,
@@ -198,6 +204,7 @@ export default {
 				attr: {
 					title: {
 						type: 'input',
+						attrType: 'text',
 						title: '页面名称',
 						isClassName: false,
 						isHTML: false
@@ -205,19 +212,22 @@ export default {
 
 					color: {
 						type: 'input',
-						title: '颜色',
+						attrType: 'color',
+						title: '背景颜色',
 						isClassName: false,
 						isHTML: false
 					},
 					images: {
 						type: 'input',
-						title: '背景',
+						attrType: 'text',
+						title: '背景图片',
 						isClassName: false,
 						isHTML: false
 					},
 
 					padding: {
 						type: 'input',
+						attrType: 'number',
 						title: '内边距',
 						isClassName: false,
 						isHTML: false
@@ -230,6 +240,7 @@ export default {
 					},
 					class: {
 						type: 'input',
+						attrType: 'text',
 						title: '类名',
 						isClassName: false,
 						isHTML: false
@@ -237,6 +248,7 @@ export default {
 
 					routingURL: {
 						type: 'input',
+						attrType: 'text',
 						title: '路由',
 						isClassName: false,
 						isHTML: false

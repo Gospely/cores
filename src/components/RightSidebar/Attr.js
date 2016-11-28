@@ -82,6 +82,7 @@ const Attr = (props) => {
 					    			return (
 										<FormItem key={index} {...formItemLayout} label={attr.title}>
 						             		<Input value={attr._value}
+						             				type={attr.attrType}
 						             				onChange={attrFormProps.handleAttrFormInputChange.bind(this, attr.attrName)} 
 						             				className="attrInput" 
 						             				placeholder={attr.title} />
