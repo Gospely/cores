@@ -156,10 +156,10 @@ export default {
 					icon: {
 						type: 'select',
 						title: '图标',
-						value: [''],
+						value: ['weui', 'fuck'],
 						isClassName: false,
 						isHTML: false,
-						'_value': '#ff4ff'
+						'_value': 'weui'
 					}
 
 				},
@@ -245,7 +245,7 @@ export default {
 					icon: {
 						type: 'select',
 						title: '图标',
-						value: [''],
+						value: ['weui', 'fuck'],
 						isClassName: false,
 						isHTML: false
 					}
@@ -784,7 +784,7 @@ export default {
 			return {...state};
 		},
 
-		handleAttrFormInputChange(state, { payload: params }) {
+		handleAttrFormChange(state, { payload: params }) {
 			console.log(params);
 			var activePage = layoutAction.getActivePage(state.layout, state.layoutState.activePage.index);
 
