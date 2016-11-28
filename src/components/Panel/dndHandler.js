@@ -44,11 +44,25 @@ export default {
 
 				ctrlRemoved () {
 
+				},
+
+				pageClicked () {
+
+				},
+
+				pageRemoved () {
+
+				},
+
+				pageAdded () {
+
 				}
 
 			}
 
-			evtAction[event]();
+			if(evtAction[event]) {
+				evtAction[event]();
+			}
 		});
 	}
 

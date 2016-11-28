@@ -102,6 +102,7 @@ export default {
 
 					title: {
 						type: 'input',
+						attrType: 'text',
 						title: '页面名称',
 						isClassName: false,
 						isHTML: false,
@@ -110,14 +111,16 @@ export default {
 
 					color: {
 						type: 'input',
-						title: '颜色',
+						attrType: 'color',
+						title: '背景颜色',
 						isClassName: false,
 						isHTML: false,
 						'_value': '#ff4ff'
 					},
 					images: {
 						type: 'input',
-						title: '背景',
+						attrType: 'text',
+						title: '背景图片',
 						isClassName: false,
 						isHTML: false,
 						'_value': '#ff4ff'
@@ -125,6 +128,7 @@ export default {
 
 					padding: {
 						type: 'input',
+						attrType: 'number',
 						title: '内边距',
 						isClassName: false,
 						isHTML: false,
@@ -139,6 +143,7 @@ export default {
 					},
 					class: {
 						type: 'input',
+						attrType: 'text',
 						title: '类名',
 						isClassName: true,
 						isHTML: false,
@@ -147,6 +152,7 @@ export default {
 
 					routingURL: {
 						type: 'input',
+						attrType: 'text',
 						title: '路由',
 						isClassName: false,
 						isHTML: false,
@@ -156,10 +162,10 @@ export default {
 					icon: {
 						type: 'select',
 						title: '图标',
-						value: [''],
+						value: ['weui', 'fuck'],
 						isClassName: false,
 						isHTML: false,
-						'_value': '#ff4ff'
+						'_value': 'weui'
 					}
 
 				},
@@ -198,6 +204,7 @@ export default {
 				attr: {
 					title: {
 						type: 'input',
+						attrType: 'text',
 						title: '页面名称',
 						isClassName: false,
 						isHTML: false
@@ -205,19 +212,22 @@ export default {
 
 					color: {
 						type: 'input',
-						title: '颜色',
+						attrType: 'color',
+						title: '背景颜色',
 						isClassName: false,
 						isHTML: false
 					},
 					images: {
 						type: 'input',
-						title: '背景',
+						attrType: 'text',
+						title: '背景图片',
 						isClassName: false,
 						isHTML: false
 					},
 
 					padding: {
 						type: 'input',
+						attrType: 'number',
 						title: '内边距',
 						isClassName: false,
 						isHTML: false
@@ -230,6 +240,7 @@ export default {
 					},
 					class: {
 						type: 'input',
+						attrType: 'text',
 						title: '类名',
 						isClassName: false,
 						isHTML: false
@@ -237,6 +248,7 @@ export default {
 
 					routingURL: {
 						type: 'input',
+						attrType: 'text',
 						title: '路由',
 						isClassName: false,
 						isHTML: false
@@ -245,7 +257,7 @@ export default {
 					icon: {
 						type: 'select',
 						title: '图标',
-						value: [''],
+						value: ['weui', 'fuck'],
 						isClassName: false,
 						isHTML: false
 					}
@@ -710,7 +722,11 @@ export default {
 
 			page = page || layoutAction.getController(state.controllersList, 'page');
 
+			console.log('page', page);
+
 			var tmpAttr = {};
+
+			console.log('page.attr', page.attr);
 
 			for(var att in page.attr) {
 				var currAttr = page.attr[att];
@@ -720,7 +736,7 @@ export default {
 				tmpAttr['title']['type'] = 'input';
 				tmpAttr['title']['isClassName'] = false;
 				tmpAttr['title']['isHTML'] = false;
-				tmpAttr['title']['title'] = '名称';
+				tmpAttr['title']['title'] = '页面名称';
 			}
 
 			var tmpPage = {
@@ -732,8 +748,9 @@ export default {
 			}
 
 			console.log(tmpPage);
-
+			console.log('pre push', state.layout);
 			state.layout.push(tmpPage);
+			console.log('after layout', state.layout);
 			layoutAction.setActivePage(state.layoutState, state.layout.length - 1, tmpPage.key);
 			return {...state};
 		},
@@ -779,14 +796,17 @@ export default {
 			return {...state};
 		},
 
-		handleAttrFormInputChange(state, { payload: params }) {
+		handleAttrFormChange(state, { payload: params }) {
 			console.log(params);
 			var activePage = layoutAction.getActivePage(state.layout, state.layoutState.activePage.index);
 
 			console.log('activePage', activePage, state.layout);
 
 			if(state.layoutState.activeType == 'page') {
+				console.log('before input change layout', state.layout);
 				activePage.attr[params.attrName]['_value'] = params.newVal;
+				console.log('after input change', state.layout[state.layoutState.activePage.index]);
+				console.log('after input change layout', state.layout);
 				console.log(activePage.attr);
 			}
 
