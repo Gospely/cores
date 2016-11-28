@@ -50,11 +50,22 @@ function IndexPage(props) {
       let editorId = randomString(8,10);
       // let paneKey = paneKey.paneKey;
       console.log('paneKey',paneKey)
-      props.dispatch({
-        type: 'devpanel/' + action,
-        payload: {targetKey, title, content, type,editorId,paneKey: paneKey.paneKey}
-      })
 
+      var removeAction = { targetKey, title, content, type, editorId, paneKey: paneKey.paneKey };
+
+      if(action == 'add') {
+        props.dispatch({
+          type: 'devpanel/' + action,
+          payload: removeAction
+        });
+
+        props.dispatch({
+          type: 'rightbar/setActiveMenu',
+          payload: 'file'
+        });
+
+        localStorage.isSave = true;
+      }
 
       if(action == 'remove'){
         console.log(paneKey);
@@ -67,6 +78,7 @@ function IndexPage(props) {
           console.log("show");
           console.log(localStorage.isSave);
           if(fileName == '新标签页' || fileName == '新文件' || fileName ==  undefined){
+            console.log("fff");
             props.dispatch({
               type: 'file/showNewFileNameModal',
               payload: {targetKey, action,type}
@@ -77,8 +89,14 @@ function IndexPage(props) {
               payload: {targetKey, action,type}
             })
           }
+        }else{
+          props.dispatch({
+            type: 'devpanel/' + action,
+            payload: removeAction
+          })
         }
       }
+
     }
 
   }

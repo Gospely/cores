@@ -8,7 +8,7 @@ const Welcome = (props) => {
   	return (
 		<div>
 
-			欢迎使用 Gospel IDE
+			您没有打开任何面板
 
 		</div>
   	);

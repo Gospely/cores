@@ -6,6 +6,8 @@ import SplitPane from 'react-split-pane';
 import CodingEditor from './Panel/Editor.js';
 import Terminal from './Panel/Terminal.js';
 import Designer from './Panel/Designer.js';
+import Welcome from '../components/Panel/Welcome.js';
+import NoTabs from '../components/Panel/NoTabs.js';
 
 const TabPane = Tabs.TabPane;
 
@@ -39,8 +41,16 @@ const DevPanel = ({
 			);
 		},
 
-		welcome: function(params) {
-			return params.content;
+		welcome: function() {
+			return (
+				<Welcome></Welcome>
+			);
+		},
+
+		NoTabs: function() {
+			return (
+				<NoTabs></NoTabs>
+			);
 		}
 	}
 

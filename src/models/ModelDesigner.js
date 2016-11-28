@@ -133,7 +133,7 @@ export default {
 						title: '背景颜色',
 						isClassName: false,
 						isHTML: false,
-						'_value': '#ff4ff'
+						'_value': '#f8f8f8'
 					},
 					images: {
 						type: 'input',

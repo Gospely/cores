@@ -13,7 +13,7 @@
 			},
 
 			ctrlSelected: function() {
-				console.log('ctrlSelected', data);				
+				console.log('ctrlSelected', data);
 			},
 
 			pageAdded: function() {
@@ -165,6 +165,18 @@
 		ctrlClicked:function(c){
 			console.log("向父级发送信息");
 			parent_window.postMessage({'ctrlClicked':c},"*");
+		},
+		ctrlAdded:function(c){
+			console.log("向父级发送信息");
+			parent_window.postMessage({'ctrlAdded':c},"*");
+		},
+		ctrlEdited:function(c){
+			console.log("向父级发送信息");
+			parent_window.postMessage({'ctrlEdited':c},"*");
+		},
+		ctrlRemoved:function(c){
+			console.log("向父级发送信息");
+			parent_window.postMessage({'ctrlRemoved':c},"*");
 		}
 	}
 })()

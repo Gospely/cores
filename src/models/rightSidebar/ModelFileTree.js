@@ -324,7 +324,6 @@ export default {
 				console.log("saveModal");
 				return {...state, saveModal: {
 					visible: true,
-					showInput: false,
 					title: '保存文件？'
 				}};
 			}else{
@@ -347,7 +346,6 @@ export default {
 					console.log("saveModal");
 					return {...state, newFileNameModal: {
 						visible: true,
-						showInput: false,
 						value: localStorage.currentFolder,
 						title: '请输入文件名'
 					}};

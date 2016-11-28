@@ -1,7 +1,6 @@
 // import React from 'react';
 import React , { PropTypes } from 'react';
 import dva from 'dva';
-
 import { message } from 'antd';
 
 const methods = {
@@ -28,7 +27,7 @@ export default {
 	    			tabs: [
 			    		{
 			    			title: '欢迎页面 - Gospel',
-			    			content: '欢迎使用 Gospel在线集成开发环境',
+			    			content: '',
 			    			key: '1',
 			    			type: 'welcome',
 			    			editorId: ''
@@ -271,10 +270,10 @@ export default {
 				}else {
 					if(type != 'welcome') {
 						tabs.push({
-							title: '欢迎页面 - Gospel',
-							content: 'content',
+							title: '',
+							content: '',
 							key: '1',
-							type: 'welcome'
+							type: 'NoTabs'
 						});
 						activeKey = '1';
 					}
@@ -369,12 +368,55 @@ export default {
 
 			console.log(target.content)
 
+// <<<<<<< HEAD
 			if (target.type === 'editor') {
 				var editorObj = {
 					value: target.content,
 					id: target.editorId,
 					fileName: target.title
-				};
+			};
+// =======
+// 			const devTypes = {
+// 				editor: function(params) {
+// 					console.log(params);
+// 					var editorObj = {
+// 						value: params.content,
+// 						id: params.editorId,
+// 						fileName: target.title
+// 					};
+
+// 					activePane.editors[params.editorId] = editorObj;
+// 					activePane.activeEditor.id = params.editorId;
+// 					return (
+// 						<CodingEditor inThisPane={state.panels.activePane.key} editorId={params.editorId}></CodingEditor>
+// 					);
+// 				},
+
+// 				terminal: function() {
+// 					return (
+// 						<Terminal></Terminal>
+// 					);
+// 				},
+
+// 				designer: function() {
+// 					return (
+// 						<Designer></Designer>
+// 					);
+// 				},
+
+// 				welcome: function() {
+// 					return (
+// 						<Welcome></Welcome>
+// 					);
+// 				},
+
+// 				NoTabs: function() {
+// 					return (
+// 						<NoTabs></NoTabs>
+// 					);
+// 				}
+// 			}
+// >>>>>>> 440f44b806cd4bedebecf30cee7f897acdda15c4
 
 				activePane.editors[target.editorId] = editorObj;
 				activePane.activeEditor.id = target.editorId;

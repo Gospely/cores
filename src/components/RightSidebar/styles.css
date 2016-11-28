@@ -4,10 +4,15 @@
 }
 
 .header {
-	height: 31px;
+	height: 30px;
+    border-bottom: 1px solid #d9d9d9;
+}
+
+.headerCons {
+    height: 31px;
     position: absolute;
     margin-top: -25px;
-    right: 0;
+    right: 0;    
 }
 
 .topbarBtnCons {
