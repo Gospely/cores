@@ -50,10 +50,20 @@ function IndexPage(props) {
       let editorId = randomString(8,10);
       // let paneKey = paneKey.paneKey;
       console.log('paneKey',paneKey)
-      props.dispatch({
-        type: 'devpanel/' + action,
-        payload: {targetKey, title, content, type,editorId,paneKey: paneKey.paneKey}
-      })
+
+      var removeAction = { targetKey, title, content, type, editorId, paneKey: paneKey.paneKey };
+
+      if(action == 'add') {
+        props.dispatch({
+          type: 'devpanel/' + action,
+          payload: removeAction
+        })
+
+        props.dispatch({
+          type: 'rightbar/setActiveMenu',
+          payload: 'file'
+        })
+      }
 
       if(action == 'remove'){
         console.log(paneKey);
