@@ -106,7 +106,9 @@ export default {
 
 			if(activeTab.type == 'editor') {
 				// state.panels.activeEditor.id = activeTab.content.props.editorId;
-				activePane.activeEditor.id = activeTab.content.props.editorId;
+				console.log(activeTab)
+
+				activePane.activeEditor.id = activeTab.editorId;
 			}
 			console.log(activePane.activeEditor.id);
 			return {...state};
@@ -357,6 +359,9 @@ export default {
 					if (target.title !== '新文件' && target.title !== '新标签页' &&
 						target.type === 'editor' && panes[i].tabs[j].title === target.title) {
 						message.error('您已打开此文件!')
+						state.panels.activePane.key = i + '';
+						state.panels.panes[i].activeTab.key = j + 1 + '';
+						state.panels.panes[i].activeTab.index = j;
 						return {...state};
 					}
 				}
