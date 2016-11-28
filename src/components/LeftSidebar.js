@@ -1,5 +1,5 @@
 import React , {PropTypes} from 'react';
-import { Tabs, Icon, Popover } from 'antd';
+import { Tabs, Icon, Popover, Collapse } from 'antd';
 
 import ConstructionTree from './RightSidebar/ConstructionTree';
 import FileTree from './RightSidebar/FileTree';
@@ -9,6 +9,7 @@ import Attr from './RightSidebar/Attr';
 import SettingPanel from './RightSidebar/SettingPanel';
 
 const TabPane = Tabs.TabPane;
+const Panel = Collapse.Panel;
 
 const RightSidebar = () => {
 
@@ -33,12 +34,19 @@ const RightSidebar = () => {
 
 	return (
 	  	<Tabs tabPosition="left" defaultActiveKey="controllers" onChange={callback}>
-	    	<TabPane style={styles.tab} tab={<span style={styles.span}><Icon style={styles.icon} type="bars" />控件</span>} key="controllers">
-	    		<Controllers></Controllers>
+	    	<TabPane style={styles.tab} tab={<span style={styles.span}><Icon style={styles.icon} type="bars" />结构</span>} key="controllers">
+				<Collapse className="noborder attrCollapse" bordered={false} defaultActiveKey={['controllers', 'construction']}>
+				    <Panel header="结构" key="construction">
+	    	    		<ConstructionTree></ConstructionTree>
+				    </Panel>
+				    <Panel header="控件" key="controllers">
+	    	    		<Controllers></Controllers>
+				    </Panel>
+				</Collapse>
 	    	</TabPane>
-	    	<TabPane style={styles.tab} tab={<span style={styles.span}><Icon style={styles.icon} type="file-text" />结构</span>} key="Construction">
-	    		<ConstructionTree></ConstructionTree>
-	    	</TabPane>
+	    	<TabPane style={styles.tab} tab={<span style={styles.span}><Icon style={styles.icon} type="setting" />设置</span>} key="setting">
+	    		<SettingPanel></SettingPanel>
+	    	</TabPane>	    	
 	  	</Tabs>
 	)
 

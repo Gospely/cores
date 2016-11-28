@@ -80,7 +80,7 @@ function IndexPage(props) {
   }
 
   var devPanelMinSize = document.body.clientWidth,
-        leftBarWidth = 230,
+        leftBarWidth = 280,
         rightBarWidth = 280;
   devPanelMinSize = devPanelMinSize - ( rightBarWidth + leftBarWidth );
 
