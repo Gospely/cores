@@ -19,14 +19,15 @@ function checkStatus(response) {
 
 function checkResData(data) {
   console.log(data,  typeof data);
-  if(data.code != 200) {
+  if(data.code == 200 || data.code == 1) {
+    if(data.message != null) {
+      message.success(data.message);
+    }
+  }else {
     if(typeof data.length == 'number') {
       return data;
     }
-
     message.error(data.message + '\r\n' + data.fields);
-  }else {
-    message.success(data.message);
   }
   return data;
 }

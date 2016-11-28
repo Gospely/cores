@@ -3,17 +3,15 @@ export default {
 	init(props) {
 		this.props = props;
 
-		window.addEventListener("message", (event) =>  {
-			console.log('previewPage receives message', event);
+		window.addEventListener("message", (evt) =>  {
+
+			var data = evt.data, 
+				eventName = '';
 
 			const evtAction = {
 
 				ctrlClicked () {
-
-				},
-
-				ctrlDragover () {
-
+					console.log(eventName, data);
 				},
 
 				ctrlAdded () {
@@ -40,9 +38,15 @@ export default {
 
 			}
 
-			if(evtAction[event]) {
-				evtAction[event]();
+			for(var key in data) {
+				eventName = key
 			}
+
+			if(evtAction[eventName]) {
+				data = JSON.parse(data[key]);
+				evtAction[eventName]();
+			}
+
 		});
 	}
 
