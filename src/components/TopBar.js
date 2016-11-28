@@ -140,6 +140,11 @@ const LeftSidebar = (props) => {
 	              	type = 'editor',
 	              	editorId = randomWord(8, 10);
 
+	            props.dispatch({
+	            	type: 'rightbar/setActiveMenu',
+	            	payload: 'file'
+	            });
+
 	          	var editor = props.dispatch({
 	            	type: 'devpanel/add',
 	            	payload: {title, content, type, editorId}
