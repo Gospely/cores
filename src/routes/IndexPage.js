@@ -55,7 +55,6 @@ function IndexPage(props) {
         payload: {targetKey, title, content, type,editorId,paneKey: paneKey.paneKey}
       })
 
-
       if(action == 'remove'){
         console.log(paneKey);
         editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
@@ -79,6 +78,7 @@ function IndexPage(props) {
           }
         }
       }
+
     }
 
   }

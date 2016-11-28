@@ -13,7 +13,7 @@
 			},
 
 			ctrlSelected: function() {
-				console.log('ctrlSelected', data);				
+				console.log('ctrlSelected', data);
 			},
 
 			pageAdded: function() {
@@ -32,7 +32,7 @@
 		}
 
 		if(evtAction[eventName]) {
-			data = JSON.parse(data[key]);
+			data = data[key];
 			evtAction[eventName]();
 		}
 

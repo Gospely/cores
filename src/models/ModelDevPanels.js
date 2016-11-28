@@ -5,6 +5,8 @@ import dva from 'dva';
 import CodingEditor from '../components/Panel/Editor.js';
 import Terminal from '../components/Panel/Terminal.js';
 import Designer from '../components/Panel/Designer.js';
+import Welcome from '../components/Panel/Welcome.js';
+import NoTabs from '../components/Panel/NoTabs.js';
 
 import { message } from 'antd';
 
@@ -32,7 +34,7 @@ export default {
 	    			tabs: [
 			    		{
 			    			title: '欢迎页面 - Gospel',
-			    			content: '欢迎使用 Gospel在线集成开发环境',
+			    			content: <Welcome></Welcome>,
 			    			key: '1',
 			    			type: 'welcome'
 			    		},
@@ -285,10 +287,10 @@ export default {
 				}else {
 					if(type != 'welcome') {
 						tabs.push({
-							title: '欢迎页面 - Gospel',
-							content: 'content',
+							title: '',
+							content: <NoTabs></NoTabs>,
 							key: '1',
-							type: 'welcome'
+							type: 'NoTabs'
 						});
 						activeKey = '1';
 					}
@@ -407,6 +409,18 @@ export default {
 				designer: function() {
 					return (
 						<Designer></Designer>
+					);
+				},
+
+				welcome: function() {
+					return (
+						<Welcome></Welcome>
+					);
+				},
+
+				NoTabs: function() {
+					return (
+						<NoTabs></NoTabs>
 					);
 				}
 			}
