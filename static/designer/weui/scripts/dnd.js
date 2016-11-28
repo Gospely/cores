@@ -2,8 +2,6 @@
 	var jq = jQuery.noConflict();
 	var data;
 
-<<<<<<< HEAD
-=======
 	window.addEventListener("message", function (evt) {
 
 		var data = evt.data;
@@ -40,15 +38,6 @@
 
 	});
 
-
-	//同步获取components.json数据
-	var  components = {};
-	jq.ajaxSettings.async = false;
-	jq.getJSON("/static/designer/weui/scripts/components.json",function(result){
-		components = result;
-	});
-
->>>>>>> 4fae1db0994fcaa86024af057bdc30630ed6fb32
 	//获取父元素
 	var parent_window = window.parent;
 
@@ -179,14 +168,14 @@
 		}
 	}
 	//处理父级页面发送过来的信息
-	var handleMessage = {
-		handleClick : function(){
-			window.onmessage=function(e){ 
-				hideBorder();
-				var id = e.data.id;
-				$("#"+id).parent(".control-box").find('i').show();
-				$("#"+id).parent(".control-box").addClass("hight-light");
-			};  
-		}
-	}
+	// var handleMessage = {
+	// 	handleClick : function(){
+	// 		window.onmessage=function(e){ 
+	// 			hideBorder();
+	// 			var id = e.data.id;
+	// 			$("#"+id).parent(".control-box").find('i').show();
+	// 			$("#"+id).parent(".control-box").addClass("hight-light");
+	// 		};  
+	// 	}
+	// }
 })()
