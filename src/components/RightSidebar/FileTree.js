@@ -1,5 +1,5 @@
 import React , { PropTypes } from 'react';
-import { Tree, Button, Icon, Tooltip, Row, Col, Popover, Input, Dropdown, Menu, Popconfirm, message, Modal} from 'antd';
+import { Tree, Button, Icon, Tooltip, Row, Col, Popover, Input, Dropdown, Menu, Popconfirm, message, Modal, AutoComplete} from 'antd';
 import TreeStyle from './styles.css';
 import EditorStyle from '../Panel/Editor.css';
 
@@ -422,7 +422,7 @@ const FileTree = (props) => {
             onChange={FileTreeProps.searchInput.onChange}
           />
           <div className="ant-input-group-wrap">
-            <Button icon="plus" style={btnCls} onClick={FileTreeProps.uploadInput.onPressEnter}/>
+            <Button icon="plus" style={btnCls} onClick={FileTreeProps.searchInput.onPressEnter}/>
           </div>
         </InputGroup>
       </div>
@@ -545,6 +545,24 @@ const FileTree = (props) => {
 
   const treeNodes = loopData(FileTreeProps.treeData);
 
+  const FileSearchPane = function (params) {
+    if(params.params.visible) {
+        return (<div className={TreeStyle.fileSearchPane} onClick={() => console.log('点击了')}>
+                  <div onClick={(e) => e.stopPropagation()}>
+                    <Input size="large" placeholder="large size"/>
+                    <div>
+                      <div className={TreeStyle.fileSearchPaneOption}>index.js</div>
+                      <div className={TreeStyle.fileSearchPaneOption}>index.js</div>
+                      <div className={TreeStyle.fileSearchPaneOption}>index.js</div>
+                    </div>
+                  </div>
+                </div>)
+      }else {
+        return null;
+    }
+    
+  }
+
   return (
 
     <div className={TreeStyle.wrapper}>
@@ -631,7 +649,7 @@ const FileTree = (props) => {
       >
         {treeNodes}
       </Tree>
-
+      <FileSearchPane params={props.file.searchFilePane}></FileSearchPane>
     </div>
 
   );

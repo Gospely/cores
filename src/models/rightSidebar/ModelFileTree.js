@@ -71,6 +71,9 @@ export default {
 			visible: false,
 			value: '',
 			title: ''
+		},
+		searchFilePane: {
+			visible: false
 		}
 	},
 
@@ -233,12 +236,18 @@ export default {
       	},
 
       	*handleSearch({payload: fileName}, {call, put, select}) {
+      		yield put({type: 'showSearchPane'});
       		var val = yield select(state => state.file.searchInput.value);
       	}
 
 	},
 
 	reducers: {
+		showSearchPane(state) {
+			state.searchFilePane.visible = true;
+			return {...state}
+		},
+
 		showContextMenu(state, {payload: proxy}) {
 			var evt = proxy.event;
 			return {...state, contextMenuStyles: {
