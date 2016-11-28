@@ -247,7 +247,7 @@ const Editor = (props) => {
 	        	theme="github"
 	        	width="100%"
 	        	height={aceHeight}
-				fontSize={18}
+				fontSize={12}
 	        	name={editorId}
 				onLoad={editorProps.onLoad}
 	        	editorProps={{$blockScrolling: true}}
