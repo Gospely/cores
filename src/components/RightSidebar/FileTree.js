@@ -194,7 +194,7 @@ const FileTree = (props) => {
       ok: function() {
 
         const editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
-        var fileName = props.file.newFileNameModal.value
+        var fileName = props.file.newFileNameModal.value;
         var content = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value;
         console.log('ok');
         props.dispatch({
@@ -202,6 +202,12 @@ const FileTree = (props) => {
           payload: {
             fileName,
             content
+          }
+        })
+        props.dispatch({
+          type: 'devpanel/changeTabTitle',
+          payload: {
+            fileName
           }
         })
         props.dispatch({

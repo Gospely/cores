@@ -57,7 +57,9 @@ function IndexPage(props) {
 
 
       if(action == 'remove'){
+        console.log(paneKey);
         editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
+        console.log(editorId);
         var fileName = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].fileName;
         console.log(fileName);
         if(fileName == '新标签页'){
