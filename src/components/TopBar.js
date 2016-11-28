@@ -145,10 +145,12 @@ const LeftSidebar = (props) => {
 	            	payload: 'file'
 	            });
 
-	          	var editor = props.dispatch({
+	          	props.dispatch({
 	            	type: 'devpanel/add',
 	            	payload: {title, content, type, editorId}
 	          	});
+
+	          	localStorage.isSave = true;
 
 	        },
 

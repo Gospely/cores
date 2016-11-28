@@ -3,7 +3,7 @@ import AceEditor from 'react-ace';
 import EditorStyle from './Editor.css';
 import { connect } from 'dva';
 
-import { Button } from 'antd';
+import { Button, message } from 'antd';
 
 import 'brace/mode/java';
 import 'brace/theme/github';
@@ -65,8 +65,13 @@ const Editor = (props) => {
 				var content = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value;
 				var fileName = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].fileName;
 				console.log(fileName);
-				if(fileName == '新标签页' || fileName == '新文件' || fileName == undefined || fileName == 'undefined') {
 
+				if(fileName == localStorage.currentFoler) {
+					message.error('请输入文件名');
+					return false;
+				}
+
+				if(fileName == '新标签页' || fileName == '新文件' || fileName == undefined || fileName == 'undefined') {
 					var type = 'editor';
 					dispatch({
 						type: 'file/showNewFileNameModal',
