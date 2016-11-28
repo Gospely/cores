@@ -78,9 +78,16 @@ const Editor = (props) => {
 
 		onReplace(value) {
 
+			var replaceContent = props.editorTop.replaceContent;
+			var searchContent = props.editorTop.searchContent;
+			var isReplaceAll = props.editorTop.isReplaceAll;
 			dispatch({
-				type: 'editorTop/replace'
+				type: 'devpanel/replace',
+				payload:{replaceContent,searchContent,isReplaceAll}
 			})
+			// dispatch({
+			// 	type: 'editorProps/replace'
+			// })
 		},
 
 		handleSearchAllSwitchChange(proxy) {
@@ -143,7 +150,6 @@ const Editor = (props) => {
 			exec: function(editor) {
 
 				var searchContent = editor.getSelection().doc.getTextRange(editor.getSelection().getRange());
-				props.editorTop.searchContent = searchContent;
 				dispatch({
 					type: 'editorTop/toggleSearchBar',
 					payload: {searchContent}
@@ -161,16 +167,15 @@ const Editor = (props) => {
 			exec: function(editor) {
 
 				var searchContent = editor.getSelection().doc.getTextRange(editor.getSelection().getRange());
-				props.editorTop.searchContent = searchContent;
 
+
+				editor.findNext();
+				console.log();
+				console.log('command');
 				dispatch({
 					type: 'editorTop/search',
 					payload: {searchContent}
 				});
-				console.log(searchContent);
-				editor.findNext();
-				console.log();
-				console.log('command');
 				ace.config.loadModule("ace/ext/keybinding_menu", function(module) {
 					module.init(editor);
 					editor.showKeyboardShortcuts()
@@ -182,11 +187,13 @@ const Editor = (props) => {
 			exec: function(editor) {
 
 				console.log('command');
-				var content = editor.getValue();
+				const editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
+				var content = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value;
+
 				var fileName = 'test.js'
 				dispatch({
 					type: 'file/writeFile',
-					payload: {fileName, content}
+					payload: {content}
 				});
 				ace.config.loadModule("ace/ext/keybinding_menu", function(module) {
 					module.init(editor);
@@ -209,6 +216,11 @@ const Editor = (props) => {
 			console.log('editor onLoad');
 			window.currentEditor = value;
 		},
+		onFocus(value) {
+
+			console.log('editor onFocus');
+			console.log(value);
+		},
     	handleMouseLeave() {
 	    	props.dispatch({
 	    		type: 'editor/hideArrow'
@@ -216,10 +228,13 @@ const Editor = (props) => {
     	},
 
     	handleEditorChanged(value) {
+    		const activePane = props.devpanel.panels.panes[props.devpanel.panels.activePane.key];
 
 				console.log('change');
 				console.log(this);
-    		var editorId = props.devpanel.panels.activeEditor.id;
+				console.log(value);
+				value =  currentEditor.getValue();
+    		var editorId = activePane.activeEditor.id;
     		props.dispatch({
     			type: 'devpanel/handleEditorChanged',
     			payload: {value, editorId}
@@ -232,12 +247,25 @@ const Editor = (props) => {
   		panes: props.devpanel.panes,
   		activeKey: props.devpanel.activeKey
   	}
+  	let splitType = props.devpanel.panels.splitType;
+  	let aceHeight;
+  	if (splitType == 'single' || splitType == 'vertical-dbl') {
+  		aceHeight = ( parseInt(document.body.clientHeight) - 62 ) + 'px';
+  	}else {
+  		aceHeight = ( parseInt(document.body.clientHeight) - 160 ) / 2+ 'px'
+  	}
 
-  	var aceHeight = ( parseInt(document.body.clientHeight) - 62 ) + 'px',
-  		editorId = props.devpanel.panels.activeEditor.id;
+	// let activePane = props.devpanel.panels.panes[props.devpanel.panels.activePane.key];
+	let thisPane;
+	if (props.devpanel.panels.currentPaneOfEditors.isNeedChange) {
+		thisPane = props.devpanel.panels.panes[props.devpanel.panels.currentPaneOfEditors.key];
+	}else {
+		thisPane = props.devpanel.panels.panes[props.inThisPane];
+	}
+	let editorId = props.editorId;
 
 
-  	if (editorId && props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId] && props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value) {
+  	// if (editorId && thisPane && thisPane.editors && thisPane.editors[editorId]) {
   		return (
 		<div className={EditorStyle.aceEditor}>
 			<EditorTop {...EditorTopProps}></EditorTop>
@@ -250,8 +278,9 @@ const Editor = (props) => {
 				fontSize={12}
 	        	name={editorId}
 				onLoad={editorProps.onLoad}
+				onFocus={editorProps.onFocus}
 	        	editorProps={{$blockScrolling: true}}
-	        	value={props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value}
+	        	value={thisPane.editors[editorId].value}
 	        	enableBasicAutocompletion={true}
 				commands={commandsArray}
 	        	onChange={editorProps.handleEditorChanged}
@@ -273,9 +302,9 @@ const Editor = (props) => {
 			</ReactCSSTransitionGroup>
   		</div>
  		);
- 	}else {
- 		return (<div></div>);
- 	}
+ 	// }else {
+ 	// 	return (<div></div>);
+ 	// }
 
 
 };

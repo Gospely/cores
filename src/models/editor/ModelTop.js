@@ -40,8 +40,8 @@ export default {
 	reducers: {
 
 		showSearchBar(state) {
-				return {...state, searchVisible: true};
-			},
+			return {...state, searchVisible: true};
+		},
 
 		hideSearchBar(state) {
 			return {...state, searchVisible: false};
@@ -67,6 +67,13 @@ export default {
 			return {...state};
 		},
 		searchPrev(state) {
+			currentEditor.find(state.searchContent,{
+				backwards: true,
+				wrap: true,
+				caseSensitive: true,
+				wholeWord: true,
+				regExp: false
+			});
 
 			currentEditor.findPrevious();
 			console.log('searchPrev');
@@ -74,6 +81,14 @@ export default {
 		},
 
 		searchNext(state) {
+			currentEditor.find(state.searchContent,{
+				backwards: true,
+				wrap: true,
+				caseSensitive: true,
+				wholeWord: true,
+				regExp: false
+			});
+
 			currentEditor.findNext();
 			console.log('searchNext');
 			return {...state};

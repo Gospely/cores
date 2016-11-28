@@ -32,22 +32,26 @@ function IndexPage(props) {
       });
     },
 
-    onChange(active) {
+    onChange(paneKey,active) {
+      // console.log(paneKey.paneKey)
       props.dispatch({
         type: 'devpanel/tabChanged',
         payload: {
-          active: active
+          active: active,
+          paneKey: paneKey.paneKey
         }
       });
     },
 
-    onEdit(targetKey, action) {
+    onEdit(paneKey,targetKey, action) {
 
       var content = '', title = undefined, type = "editor";
       let editorId = randomString(8,10);
+      // let paneKey = paneKey.paneKey;
+      console.log('paneKey',paneKey)
       props.dispatch({
         type: 'devpanel/' + action,
-        payload: {targetKey, title, content, type,editorId}
+        payload: {targetKey, title, content, type,editorId,paneKey: paneKey.paneKey}
       })
     }
 
