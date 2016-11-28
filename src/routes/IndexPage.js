@@ -43,7 +43,7 @@ function IndexPage(props) {
       });
     },
 
-    onEdit(paneKey,targetKey, action) {
+    onEdit(paneKey, targetKey, action) {
 
       console.log(action);
       var content = '', title = undefined, type = "editor";
@@ -52,6 +52,8 @@ function IndexPage(props) {
       console.log('paneKey',paneKey)
 
       var removeAction = { targetKey, title, content, type, editorId, paneKey: paneKey.paneKey };
+
+      localStorage.removeAction = JSON.stringify(removeAction);
 
       if(action == 'add') {
         props.dispatch({
@@ -67,13 +69,28 @@ function IndexPage(props) {
         localStorage.isSave = true;
       }
 
+      localStorage.currentFileOperation = action;
+
       if(action == 'remove'){
-        console.log(paneKey);
         editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
-        console.log(editorId);
+
+        var activePane = props.devpanel.panels.panes[props.devpanel.panels.activePane.key];
+        var activeTab = activePane.tabs;
+        var tabType = activeTab[activePane.activeTab.index].type;
+
+        console.log(tabType);
+
+        if(tabType != 'editor') {
+
+          props.dispatch({
+            type: 'devpanel/' + action,
+            payload: removeAction
+          });
+
+          return false;
+        }
 
         var fileName = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].fileName;
-        console.log(fileName);
         if(localStorage.isSave == 'true') {
           console.log("show");
           console.log(localStorage.isSave);
