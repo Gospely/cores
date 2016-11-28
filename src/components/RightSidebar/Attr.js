@@ -76,7 +76,7 @@ const Attr = (props) => {
 
 	return (
 		<div>
-			<Collapse className="noborder attrCollapse" bordered={false} defaultActiveKey={['1']}>
+			<Collapse className="noborder attrCollapse nomin" bordered={false} defaultActiveKey={['1']}>
 			    <Panel header="属性" key="1">
 
 			      	<Form onSubmit={handleSubmit}>

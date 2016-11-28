@@ -37,7 +37,7 @@ const RightSidebar = () => {
 	return (
 	  	<Tabs tabPosition="left" defaultActiveKey="controllers" onChange={callback}>
 	    	<TabPane style={styles.tab} tab={<span style={styles.span}><Icon style={styles.icon} type="bars" />结构</span>} key="controllers">
-				<Collapse className="noborder attrCollapse" bordered={false} defaultActiveKey={['controllers', 'construction']}>
+				<Collapse className="noborder attrCollapse consCollapse" bordered={false} defaultActiveKey={['controllers', 'construction']}>
 				    <Panel header="结构" key="construction">
 	    	    		<ConstructionTree></ConstructionTree>
 				    </Panel>
