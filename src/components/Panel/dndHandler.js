@@ -14,6 +14,10 @@ export default {
 					console.log(eventName, data);
 				},
 
+				ctrlEdited () {
+
+				},
+
 				ctrlAdded () {
 
 					props.dispatch({
