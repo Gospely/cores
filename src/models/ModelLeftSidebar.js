@@ -32,7 +32,7 @@ export default {
       		// var isGit = yield request('fs/git/', {
       		// 	method: 'POST',
       		// 	body: JSON.stringify({
-      		// 		dir: 'node-hello_ivydom'
+      		// 		dir: localStorage.dir
       		// 	})
       		// });
 
@@ -41,7 +41,7 @@ export default {
       			var origin = yield request('fs/origin/git', {
 	      			method: 'POST',
 	      			body: JSON.stringify({
-	      				dir: 'node-hello_ivydom'
+	      				dir: localStorage.dir
 	      			})
 	      		});
 
@@ -60,7 +60,7 @@ export default {
 			var modifyResult = yield request('fs/origin/modify', {
       			method: 'POST',
       			body: JSON.stringify({
-      				dir: 'node-hello_ivydom',
+      				dir: localStorage.dir,
       				origin: val
       			})
       		});
@@ -75,7 +75,7 @@ export default {
       		var pushResult = yield request('fs/push', {
       			method: 'POST',
       			body: JSON.stringify({
-      				dir: 'node-hello_ivydom'
+      				dir: localStorage.dir
       			})
       		});
 		},
@@ -84,7 +84,7 @@ export default {
       		var pullResult = yield request('fs/pull', {
       			method: 'POST',
       			body: JSON.stringify({
-      				dir: 'node-hello_ivydom'
+      				dir: localStorage.dir
       			})
       		});
 		},
@@ -93,7 +93,7 @@ export default {
       		var commitResult = yield request('fs/commit', {
       			method: 'POST',
       			body: JSON.stringify({
-      				dir: 'node-hello_ivydom'
+      				dir: localStorage.dir
       			})
       		});
 
