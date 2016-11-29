@@ -333,16 +333,49 @@ export default {
 				regExp: false
 			});
 			currentEditor.findAll();
-			if(!state.isReplaceAll) {
-				content = content.replace(params.searchContent,params.replaceContent);
-				console.log(content);
-			}else{
-				content = content.replace(new RegExp(params.searchContent, 'gm'), params.replaceContent);
-			}
 
+
+			// if(!params.isReplaceAll) {
+			// 	content = content.replace(params.searchContent,params.replaceContent);
+			// 	console.log(content);
+			// }else{
+			// 	content = content.replace(new RegExp(params.searchContent, 'gm'), params.replaceContent);
+			// }
+
+			if(!params.isReplaceAll) {
+				console.log('all');
+				currentEditor.replaceAll(params.replaceContent,{
+						needle:params.searchContent,
+						backwards: false,
+						wrap: true,
+						caseSensitive: true,
+						wholeWord: true,
+						regExp: false
+				});
+			}else{
+				console.log('single');
+				currentEditor.replace(params.replaceContent,{
+						needle:params.searchContent,
+						backwards: false,
+						wrap: true,
+						caseSensitive: true,
+						wholeWord: true,
+						regExp: false
+				});
+
+				currentEditor.find(params.replaceContent,{
+					backwards: true,
+					wrap: true,
+					caseSensitive: true,
+					wholeWord: true,
+					regExp: false
+				});
+				currentEditor.findAll();
+			}
 			console.log("state", state);
 			var editorId = state.panels.panes[state.panels.activePane.key].activeEditor.id
-			state.panels.panes[state.panels.activePane.key].editors[editorId].value = content;
+			state.panels.panes[state.panels.activePane.key].editors[editorId].value = currentEditor.getValue();
+			localStorage.isSave = true;
 			return {...state};
 		},
 
