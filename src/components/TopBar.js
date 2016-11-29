@@ -325,11 +325,11 @@ const LeftSidebar = (props) => {
 	        	<iframe style={styles.ifr} src="http://localhost:8088/#!/apps/new"></iframe>
 	        </Modal>
 
-	    	<Modal style={{maxWidth: '545px'}}  title="切换应用" visible={props.sidebar.modalSwitchAppVisible}
+	    	<Modal width="60%"  title="切换应用" visible={props.sidebar.modalSwitchAppVisible}
 	          	onOk={leftSidebarProps.switchApp} onCancel={leftSidebarProps.cancelSwitchApp}
 	        >
         	    <Row gutter={16}>
-								{initApplications()}
+				{initApplications()}
         	    </Row>
 	        </Modal>
 
