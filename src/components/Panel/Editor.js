@@ -58,8 +58,14 @@ const Editor = (props) => {
 
 
 		onOpenSearch() {
+			var searchContent = props.editorTop.searchContent;
 			dispatch({
-				type: 'editorTop/toggleSearchBar'
+				type: 'editorTop/toggleSearchBar',
+				payload:{searchContent}
+			});
+			dispatch({
+				type: 'devpanel/toggleSearchBar',
+				payload: {belongTo: props.belongTo}
 			});
 		},
 
@@ -316,7 +322,7 @@ const Editor = (props) => {
   		aceHeight = ( parseInt(document.body.clientHeight) - 160 ) / 2+ 'px'
   	}
 
-	
+
 
 	// console.log('当前editor',props.belongTo)
 
@@ -344,7 +350,7 @@ const Editor = (props) => {
 
 	        <EditorBottom></EditorBottom>
 
-			
+
   		</div>
  		);
   			//全屏按钮
