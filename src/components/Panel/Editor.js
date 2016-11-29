@@ -26,10 +26,13 @@ const Editor = (props) => {
 	var props$editorTop = props.editorTop,
 		dispatch = props.dispatch;
 
+	let belongTo = props.devpanel.panels.panes[props.belongTo];
+	let editorId = props.editorId;
+
 
 
 	const EditorTopProps = {
-		searchVisible: props$editorTop.searchVisible,
+		searchVisible: props.searchVisible,
 		jumpLineVisible: props$editorTop.jumpLineVisible,
 
 		isSearchAll: props$editorTop.isSearchAll,
@@ -179,6 +182,11 @@ const Editor = (props) => {
 					payload: {searchContent}
 				});
 
+				dispatch({
+					type: 'devpanel/toggleSearchBar',
+					payload: {belongTo: props.belongTo}
+				});
+
 				console.log('command');
 				ace.config.loadModule("ace/ext/keybinding_menu", function(module) {
 					module.init(editor);
@@ -300,8 +308,7 @@ const Editor = (props) => {
   		aceHeight = ( parseInt(document.body.clientHeight) - 160 ) / 2+ 'px'
   	}
 
-	let belongTo = props.devpanel.panels.panes[props.belongTo];
-	let editorId = props.editorId;
+	
 
 	// console.log('当前editor',props.belongTo)
 
@@ -329,23 +336,22 @@ const Editor = (props) => {
 
 	        <EditorBottom></EditorBottom>
 
-			<ReactCSSTransitionGroup
-			  transitionName="fullscreen"
-			  transitionEnterTimeout={500}
-			  transitionLeaveTimeout={300}
-			>
-				{
-					editorProps.showArrow &&
-			        <div className={EditorStyle.fullscreenBtn}>
-					    <Button type="ghost" shape="circle-outline" icon="arrows-alt"></Button>
-			        </div>
-				}
-			</ReactCSSTransitionGroup>
+			
   		</div>
  		);
- 	// }else {
- 	// 	return (<div></div>);
- 	// }
+  			//全屏按钮
+ 		// <ReactCSSTransitionGroup
+			//   transitionName="fullscreen"
+			//   transitionEnterTimeout={500}
+			//   transitionLeaveTimeout={300}
+			// >
+			// 	{
+			// 		editorProps.showArrow &&
+			//         <div className={EditorStyle.fullscreenBtn}>
+			// 		    <Button type="ghost" shape="circle-outline" icon="arrows-alt"></Button>
+			//         </div>
+			// 	}
+			// </ReactCSSTransitionGroup>
 
 
 };

@@ -30,7 +30,9 @@ export default {
 			    			content: '',
 			    			key: '1',
 			    			type: 'welcome',
-			    			editorId: ''
+			    			editorId: '',
+			    			searchVisible: false,
+			    			isSave: false
 			    		},
 
 			    		{
@@ -38,7 +40,9 @@ export default {
 			    			content: '',
 			    			key: '2',
 			    			type: 'designer',
-			    			editorId: ''
+			    			editorId: '',
+			    			searchVisible: false,
+			    			isSave: false
 			    		}
 		    		],
 
@@ -76,6 +80,12 @@ export default {
 	},
 
 	reducers: {
+		toggleSearchBar(state,{payload:params}) {
+			console.log(params.belongTo)
+			let tab = methods.getActiveTab(state, state.panels.panes[params.belongTo]);
+			tab.searchVisible = !tab.searchVisible;
+			return {...state};
+		},
 
 		changePane(state,{payload: key}){
 			console.log(key);
