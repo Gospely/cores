@@ -279,13 +279,15 @@ const Editor = (props) => {
 				console.log(this);
 				console.log(value);
     		var editorId = activePane.activeEditor.id;
-    		props.dispatch({
-    			type: 'devpanel/handleEditorChanged',
-    			payload: {value, editorId}
-    		})
+
+				if(!props.editorTop.searchVisible) {
+					props.dispatch({
+	    			type: 'devpanel/handleEditorChanged',
+	    			payload: {value, editorId}
+	    		})
+				}
     	}
   	}
-
 
   	const editorBottomProps = {
   		panes: props.devpanel.panes,
