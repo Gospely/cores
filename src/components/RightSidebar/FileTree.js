@@ -243,6 +243,19 @@ const FileTree = (props) => {
           type: 'file/hideNewFileNameModal'
         })
 
+        var suffix = 'js';
+        if(fileName != undefined && fileName != '新文件'　&& fileName != '新标签页'){
+          fileName = fileName.split('/');
+          console.log(fileName[fileName.length-1]);
+          suffix= fileName[fileName.length-1].split('.')[1];
+          if(suffix != undefined){
+            localStorage.suffix = suffix;
+          }
+        }
+        props.dispatch({
+          type: 'editorTop/dynamicChangeSyntax',
+          payload: {suffix}
+        });
         if(localStorage.currentFileOperation == 'remove') {
           props.dispatch({
             type: 'devpanel/remove',

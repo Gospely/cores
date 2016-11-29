@@ -71,8 +71,6 @@ function IndexPage(props) {
 
       var removeAction = { targetKey, title, content, type, editorId, paneKey: paneKey.paneKey };
 
-      localStorage.removeAction = JSON.stringify(removeAction);
-
       if(action == 'add') {
         localStorage.currentSelectedFile = '新标签页'
         props.dispatch({
@@ -85,12 +83,15 @@ function IndexPage(props) {
           payload: 'file'
         });
 
+        // 更换默认语法
+        localStorage.suffix = "js";
         localStorage.isSave = true;
       }
 
       localStorage.currentFileOperation = action;
 
       if(action == 'remove'){
+        localStorage.removeAction = JSON.stringify(removeAction);
         editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
 
         var activePane = props.devpanel.panels.panes[props.devpanel.panels.activePane.key];

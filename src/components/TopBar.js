@@ -145,6 +145,9 @@ const LeftSidebar = (props) => {
 	            	payload: 'file'
 	            });
 
+							// 更换默认语法
+							localStorage.suffix = "js";
+
 	          	props.dispatch({
 	            	type: 'devpanel/add',
 	            	payload: {title, content, type, editorId}
