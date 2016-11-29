@@ -595,9 +595,9 @@ const FileTree = (props) => {
 
   const treeNodes = loopData(FileTreeProps.treeData);
 
-  
 
-  
+
+
 
   return (
 
@@ -681,7 +681,7 @@ const FileTree = (props) => {
         draggable={true}
         onDragEnter={FileTreeProps.onDragEnter}
         onDrop={FileTreeProps.onDrop}
-        defaultExpandedKeys={['node-hello_ivydom']}
+        defaultExpandedKeys={[localStorage.dir]}
       >
         {treeNodes}
       </Tree>

@@ -95,7 +95,7 @@ export default {
 
 	effects: {
 		*fetchFileList(payload, {call, put}) {
-      		var fileList = yield request('fs/list/file/?id=node-hello_ivydom');
+      		var fileList = yield request('fs/list/file/?id=' + localStorage.dir);
 	      	yield put({ type: 'list', payload: fileList });
       	},
 
@@ -250,7 +250,7 @@ export default {
 	},
 
 	reducers: {
-		
+
 		showSearchPane(state) {
 			state.searchFilePane.visible = true;
 			state.searchInput.visible = false;
@@ -423,8 +423,8 @@ export default {
 
 			return {...state, treeData: [{
 				isLeaf: false,
-				key: 'node-hello_ivydom',
-				name: 'root',
+				key: localStorage.dir,
+				name: localStorage.currentProject,
 				children: tree,
 				original: {
 					folder: 'null'

@@ -40,7 +40,7 @@ const LeftSidebar = (props) => {
 		return props.sidebar.applications.map(application => {
 			return   <Col className="gutter-row" span={6} key={application.id}>
 			 <div className="gutter-box">
-					<Card onClick={leftSidebarProps.openApp} extra={
+					<Card onClick={leftSidebarProps.openApp.bind(this,application)} extra={
 						<Popconfirm onClick={(e) => e.stopPropagation()} title="确认删除此项目?"
 						onConfirm={leftSidebarProps.confirmDeleteApp.bind(this,application.id)}
 						onCancel={leftSidebarProps.cancelDeleteApp} okText="Yes" cancelText="No">
@@ -214,7 +214,20 @@ const LeftSidebar = (props) => {
 	    	console.log('cacle delete app')
 	    },
 
-	    openApp() {
+	    openApp(application) {
+
+				console.log(localStorage.userName);
+				localStorage.dir = localStorage.user + '/' + application.name + '_' + localStorage.userName
+				localStorage.currentProject = application.name
+
+				console.log(localStorage.dir);
+				console.log(application);
+				props.dispatch({
+					type: 'file/fetchFileList'
+				});
+				props.dispatch({
+	        type: 'sidebar/hideModalSwitchApp'
+	      })
 	    	console.log('TopBar中dispatch')
 	    	// alert(1)
 	    },

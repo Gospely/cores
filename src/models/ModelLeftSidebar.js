@@ -101,7 +101,7 @@ export default {
 		},
 		*getApplications({payload: params}, {call, put}){
 
-			var url = 'applications?creator=' + 'f6702803-4bba-41d8-8e0a-68f65a439724';
+			var url = 'applications?creator=' + localStorage.user;
 			var result = yield request(url, {
 				method: 'GET'
 			});
