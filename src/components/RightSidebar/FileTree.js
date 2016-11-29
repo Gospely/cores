@@ -216,6 +216,7 @@ const FileTree = (props) => {
 
         const editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
         var fileName = props.file.newFileNameModal.value;
+        fileName = fileName.replace(localStorage.currentProject + '/',localStorage.currentFolder);
         var content = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value;
         console.log('ok');
 
@@ -269,6 +270,12 @@ const FileTree = (props) => {
         props.dispatch({
           type: 'file/hideNewFileNameModal'
         })
+        if(localStorage.currentFileOperation == 'remove') {
+          props.dispatch({
+            type: 'devpanel/remove',
+            payload: JSON.parse(localStorage.removeAction)
+          });
+        }
       },
 
       onChange: function(e) {
@@ -595,9 +602,9 @@ const FileTree = (props) => {
 
   const treeNodes = loopData(FileTreeProps.treeData);
 
-  
 
-  
+
+
 
   return (
 
@@ -681,7 +688,7 @@ const FileTree = (props) => {
         draggable={true}
         onDragEnter={FileTreeProps.onDragEnter}
         onDrop={FileTreeProps.onDrop}
-        defaultExpandedKeys={['node-hello_ivydom']}
+        defaultExpandedKeys={[localStorage.dir]}
       >
         {treeNodes}
       </Tree>

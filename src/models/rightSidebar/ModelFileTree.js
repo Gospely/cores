@@ -95,7 +95,7 @@ export default {
 
 	effects: {
 		*fetchFileList(payload, {call, put}) {
-      		var fileList = yield request('fs/list/file/?id=node-hello_ivydom');
+      		var fileList = yield request('fs/list/file/?id=' + localStorage.dir);
 	      	yield put({ type: 'list', payload: fileList });
       	},
 
@@ -208,6 +208,10 @@ export default {
       		// console.log(content)
       		content = content.fields;
       		// console.log(content);
+					var splits = content.fileName.split('/');
+					content.fileName = content.fileName.replace(splits[0] + '/','');
+					content.fileName = content.fileName.replace(splits[1], localStorage.currentProject);
+
 			yield put({
 				type: 'devpanel/add',
 				payload: {
@@ -250,7 +254,7 @@ export default {
 	},
 
 	reducers: {
-		
+
 		showSearchPane(state) {
 			state.searchFilePane.visible = true;
 			state.searchInput.visible = false;
@@ -374,7 +378,7 @@ export default {
 					console.log("saveModal");
 					return {...state, newFileNameModal: {
 						visible: true,
-						value: localStorage.currentFolder,
+						value: localStorage.currentProject + '/',
 						title: '请输入文件名'
 					}};
 				}
@@ -423,8 +427,8 @@ export default {
 
 			return {...state, treeData: [{
 				isLeaf: false,
-				key: 'node-hello_ivydom',
-				name: 'root',
+				key: localStorage.dir,
+				name: localStorage.currentProject,
 				children: tree,
 				original: {
 					folder: 'null'
