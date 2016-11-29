@@ -25,7 +25,7 @@ const DevPanel = ({
 		editor: function(params) {
 			console.log(params);
 			return (
-				<CodingEditor editorId={params.editorId} belongTo={params.belongTo}></CodingEditor>
+				<CodingEditor searchVisible={params.searchVisible} editorId={params.editorId} belongTo={params.belongTo}></CodingEditor>
 			);
 		},
 
@@ -61,7 +61,8 @@ const DevPanel = ({
 				content: pane.content || '//To Do',
 				editorId: pane.editorId,
 				fileName: pane.title,
-				belongTo: belongTo || 0
+				belongTo: belongTo || 0,
+				searchVisible: pane.searchVisible || false
 			}
 			return <TabPane tab={pane.title} key={pane.key}>{currentDevType[pane.type](params)}</TabPane>;
 		});

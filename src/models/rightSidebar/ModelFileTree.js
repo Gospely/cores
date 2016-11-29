@@ -155,6 +155,7 @@ export default {
       	},
 
       	*removeFile({payload: fileName}, {call, put}) {
+      		localStorage.isSave = true;
 			var mkResult = yield request('fs/remove/', {
 				method: 'POST',
 				body: JSON.stringify({
