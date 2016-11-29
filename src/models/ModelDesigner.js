@@ -102,9 +102,43 @@ export default {
 
 		defaultDevice: 0,
 
-		publicAttrs: [
+		publicAttrs: {
+			class: {
+				attrName: 'class',
+				title: '类名',
+				type: 'input',
+				isClassName: false,
+				isHTML: false,
+				_value: ''
+			},
 
-		],
+			id: {
+				attrName: 'id',
+				title: 'id',
+				type: 'input',
+				isClassName: false,
+				isHTML: false,
+				_value: ''
+			},
+
+			style: {
+				attrName: 'style',
+				title: '内联样式',
+				type: 'input',
+				isClassName: false,
+				isHTML: false,
+				_value: ''
+			},
+
+			hidden: {
+				attrName: 'hidden',
+				title: '内联样式',
+				type: 'toggle',
+				isClassName: false,
+				isHTML: false,
+				_value: false
+			}
+		},
 
 		publicEvents: [
 
