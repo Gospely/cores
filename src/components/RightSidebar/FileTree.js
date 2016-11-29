@@ -270,6 +270,12 @@ const FileTree = (props) => {
         props.dispatch({
           type: 'file/hideNewFileNameModal'
         })
+        if(localStorage.currentFileOperation == 'remove') {
+          props.dispatch({
+            type: 'devpanel/remove',
+            payload: JSON.parse(localStorage.removeAction)
+          });
+        }
       },
 
       onChange: function(e) {

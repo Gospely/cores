@@ -160,10 +160,22 @@ export default {
 				java: function() {
 						console.log('java');
 						return 'java';
+				},
+				txt: function() {
+					console.log('txt');
+					return 'plain_text';
+				},
+				md: function() {
+					console.log('markdown');
+					return 'markdown';
 				}
 			}
 			console.log("denamicChange");
 			console.log(params.suffix);
+
+			if(setMode[params.suffix] == undefined) {
+				params.suffix = 'txt';
+			}
 			state.currentMode = setMode[params.suffix]();
 
 			return {...state};

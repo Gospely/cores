@@ -6,11 +6,18 @@ import { connect } from 'dva';
 import { Button, message } from 'antd';
 
 import 'brace/mode/java';
-import 'brace/theme/github';
 import 'brace/mode/javascript';
 import 'brace/mode/html';
 import 'brace/mode/css';
 import 'brace/mode/php';
+import 'brace/mode/plain_text';
+import 'brace/mode/markdown';
+
+import 'brace/theme/github';
+import 'brace/theme/eclipse';
+import 'brace/theme/twilight';
+import 'brace/theme/xcode';
+
 import 'brace/ext/language_tools';
 
 import EditorTop from './EditorTop';
@@ -314,7 +321,7 @@ const Editor = (props) => {
 
 			<AceEditor
 	        	mode={props.editorTop.currentMode}
-	        	theme="github"
+	        	theme="eclipse"
 	        	width="100%"
 	        	height={aceHeight}
 						fontSize={18}
