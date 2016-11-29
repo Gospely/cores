@@ -176,7 +176,7 @@ export default {
 				params.suffix = 'txt';
 			}
 			state.currentMode = setMode[params.suffix]();
-
+			state.currentLanguage = state.currentMode.toUpperCase();
 			return {...state};
 		},
 		showJumpLine(state) {
