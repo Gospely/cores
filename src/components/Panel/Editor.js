@@ -65,7 +65,7 @@ const Editor = (props) => {
 			if(localStorage.isSave == 'true') {
 				const editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
 				var content = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value;
-				var fileName = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].fileName;
+				var fileName = localStorage.currentSelectedFile;
 				console.log(fileName);
 
 				if(fileName == localStorage.currentFoler) {
@@ -214,7 +214,7 @@ const Editor = (props) => {
 					console.log('command');
 					const editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
 					var content = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value;
-					var fileName = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].fileName;
+					var fileName =  localStorage.currentSelectedFile;
 					console.log(fileName);
 					if(fileName == '新标签页' || fileName == '新文件' || fileName == undefined) {
 
