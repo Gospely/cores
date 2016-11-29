@@ -41,6 +41,24 @@ function IndexPage(props) {
           paneKey: paneKey.paneKey
         }
       });
+			const activePane = props.devpanel.panels.panes[paneKey.paneKey];
+			const activeTab = activePane.tabs[active - 1]
+      console.log(activeTab);
+      localStorage.currentSelectedFile = activeTab.title;
+      var file =  activeTab.title;
+      var suffix = 'js';
+      if(file != undefined && file != '新文件'　&& file != '新标签页'){
+        file = file.split('/');
+        console.log(file[file.length-1]);
+        suffix= file[file.length-1].split('.')[1];
+        if(suffix != undefined){
+          localStorage.suffix = suffix;
+        }
+      }
+      props.dispatch({
+        type: 'editorTop/dynamicChangeSyntax',
+        payload: {suffix}
+      });
     },
 
     onEdit(paneKey, targetKey, action) {
@@ -53,9 +71,8 @@ function IndexPage(props) {
 
       var removeAction = { targetKey, title, content, type, editorId, paneKey: paneKey.paneKey };
 
-      localStorage.removeAction = JSON.stringify(removeAction);
-
       if(action == 'add') {
+        localStorage.currentSelectedFile = '新标签页'
         props.dispatch({
           type: 'devpanel/' + action,
           payload: removeAction
@@ -66,12 +83,15 @@ function IndexPage(props) {
           payload: 'file'
         });
 
+        // 更换默认语法
+        localStorage.suffix = "js";
         localStorage.isSave = true;
       }
 
       localStorage.currentFileOperation = action;
 
       if(action == 'remove'){
+        localStorage.removeAction = JSON.stringify(removeAction);
         editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
 
         var activePane = props.devpanel.panels.panes[props.devpanel.panels.activePane.key];
@@ -90,7 +110,7 @@ function IndexPage(props) {
           return false;
         }
 
-        var fileName = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].fileName;
+        var fileName = localStorage.currentSelectedFile;
         if(localStorage.isSave == 'true') {
           console.log("show");
           console.log(localStorage.isSave);

@@ -69,7 +69,14 @@ const FileTree = (props) => {
         localStorage.currentSelectedFile = e[0];
         var file = e[0];
         file = file.split('/');
+        console.log(file[file.length-1]);
+        var suffix = file[file.length-1].split('.')[1];
+        if(suffix != undefined){
+          localStorage.suffix = suffix;
+        }
         file.pop();
+
+        console.log(suffix);
         localStorage.currentFolder = file.join('/') + '/';
         localStorage.currentFileIsDir = !node.node.props.isLeaf;
       }
@@ -224,7 +231,7 @@ const FileTree = (props) => {
             content
           }
         })
-        
+
         props.dispatch({
           type: 'devpanel/changeTabTitle',
           payload: {
@@ -236,6 +243,19 @@ const FileTree = (props) => {
           type: 'file/hideNewFileNameModal'
         })
 
+        var suffix = 'js';
+        if(fileName != undefined && fileName != '新文件'　&& fileName != '新标签页'){
+          fileName = fileName.split('/');
+          console.log(fileName[fileName.length-1]);
+          suffix= fileName[fileName.length-1].split('.')[1];
+          if(suffix != undefined){
+            localStorage.suffix = suffix;
+          }
+        }
+        props.dispatch({
+          type: 'editorTop/dynamicChangeSyntax',
+          payload: {suffix}
+        });
         if(localStorage.currentFileOperation == 'remove') {
           props.dispatch({
             type: 'devpanel/remove',

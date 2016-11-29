@@ -227,14 +227,15 @@ export default {
 					}else{
 						fileName = params.fileName;
 					}
-			var mkResult = yield request('fs/write/', {
-				method: 'POST',
-				body: JSON.stringify({
-					fileName: fileName,
-					data: params.content
-				})
-			});
-			yield put({type: 'fetchFileList'});
+					var mkResult = yield request('fs/write/', {
+						method: 'POST',
+						body: JSON.stringify({
+							fileName: fileName,
+							data: params.content
+						})
+					});
+					yield put({type: 'fetchFileList'});
+					localStorage.isSave = false;
       	},
 
       	*handleUpload({payload: fileName}, {call, put, select}) {

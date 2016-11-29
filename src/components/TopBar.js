@@ -139,11 +139,14 @@ const LeftSidebar = (props) => {
 	              	content = '// TO DO',
 	              	type = 'editor',
 	              	editorId = randomWord(8, 10);
-
+							localStorage.currentSelectedFile = '新文件';
 	            props.dispatch({
 	            	type: 'rightbar/setActiveMenu',
 	            	payload: 'file'
 	            });
+
+							// 更换默认语法
+							localStorage.suffix = "js";
 
 	          	props.dispatch({
 	            	type: 'devpanel/add',
