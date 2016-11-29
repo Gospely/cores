@@ -25,7 +25,11 @@ const DevPanel = ({
 		editor: function(params) {
 			console.log(params);
 			return (
-				<CodingEditor searchVisible={params.searchVisible} editorId={params.editorId} belongTo={params.belongTo}></CodingEditor>
+				<CodingEditor searchVisible={params.searchVisible}
+				 editorId={params.editorId} belongTo={params.belongTo}
+				 isSave={params.isSave} tabKey={params.tabKey}
+				 >
+				</CodingEditor>
 			);
 		},
 
@@ -62,7 +66,9 @@ const DevPanel = ({
 				editorId: pane.editorId,
 				fileName: pane.title,
 				belongTo: belongTo || 0,
-				searchVisible: pane.searchVisible || false
+				searchVisible: pane.searchVisible || false,
+				isSave: pane.isSave || false,
+				tabKey: pane.key
 			}
 			return <TabPane tab={pane.title} key={pane.key}>{currentDevType[pane.type](params)}</TabPane>;
 		});
@@ -89,8 +95,7 @@ const DevPanel = ({
 			console.log(tabPanes);
 			const activeKey = panes.activeTab.key;
 			const paneKey = panes.key;
-			console.log('各个pane',panes.key)
-			pane.push(<div style={styles.paneWrapper} onClick={onChangePane.bind(this,panes.key)} key={panes.key}>
+			pane.push(<div style={styles.paneWrapper} onClick={onChangePane.bind(this,panes.key)} key={paneKey}>
 						{generatorTabs(onChange, activeKey, onEdit, animated, tabPanes, paneKey)}
 					  </div>);
 		});

@@ -96,7 +96,7 @@ export default {
 		tabChanged(state, {payload: params}) {
 
 			console.log('tab change');
-			localStorage.isSave = false;
+			// localStorage.isSave = false;
 			console.log(params);
 			// console.log(params.paneKey)
 			state.panels.activePane.key = params.paneKey;
@@ -300,7 +300,7 @@ export default {
 		},
 
 		handleEditorChanged(state, { payload: params }) {
-			localStorage.isSave = true;
+			// localStorage.isSave = true;
 			console.log(params)
 			let activePane = methods.getActivePane(state);
 			let editorObj = {
@@ -310,9 +310,16 @@ export default {
 			console.log(editorObj)
 			activePane.editors[params.editorId] = editorObj;
 			// methods.getActivePane(state).editors[params.editorId].value = params.value;
-			methods.getActivePane(state).activeEditor.id = params.editorId;
+			activePane.activeEditor.id = params.editorId;
+			methods.getActiveTab(state,activePane).isSave = false;
+
 			return {...state};
 		},
+
+		handleFileSave(state,{payload: params}) {
+			state.panels.panes[params.paneKey].tabs[params.tabKey - 1].isSave = true;
+		},
+
 		replace(state,{payload: params}) {
 
 			console.log('devpanel replace');
@@ -375,13 +382,13 @@ export default {
 			console.log("state", state);
 			var editorId = state.panels.panes[state.panels.activePane.key].activeEditor.id
 			state.panels.panes[state.panels.activePane.key].editors[editorId].value = currentEditor.getValue();
-			localStorage.isSave = true;
+			methods.getActiveTab(state,methods.getActivePane(state)).isSave = false;
 			return {...state};
 		},
 
 		add(state, {payload: target}) {
 
-			localStorage.isSave = false;
+			// localStorage.isSave = false;
 			console.log("paneKey",target.paneKey)
 			if (typeof target.paneKey !== 'undefined') {
 				state.panels.activePane.key = target.paneKey;
@@ -425,7 +432,9 @@ export default {
 			let editorId = target.editorId || '';
 			activePane.activeEditor.id = target.editorId;
 			console.log("key",state.panels.activePane.key)
-		    activePane.tabs.push({ title: target.title, content: target.content, type: target.type, key: activePane.activeTab.key, editorId: editorId});
+		    activePane.tabs.push({ title: target.title, content: target.content, 
+		    					type: target.type, key: activePane.activeTab.key, 
+		    					editorId: editorId,isSave: false});
 		    // console.log('editorTab:',currentDevType)
 			activePane.activeTab = {key: activePane.activeTab.key, index: activePane.tabs.length - 1};
 		    return {...state};

@@ -63,7 +63,7 @@ function IndexPage(props) {
 
     onEdit(paneKey, targetKey, action) {
 
-      console.log(action);
+      console.log(targetKey);
       var content = '', title = undefined, type = "editor";
       let editorId = randomString(8,10);
       // let paneKey = paneKey.paneKey;
@@ -85,7 +85,7 @@ function IndexPage(props) {
 
         // 更换默认语法
         localStorage.suffix = "js";
-        localStorage.isSave = true;
+        // localStorage.isSave = true;
       }
 
       localStorage.currentFileOperation = action;
@@ -94,9 +94,10 @@ function IndexPage(props) {
         localStorage.removeAction = JSON.stringify(removeAction);
         editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
 
-        var activePane = props.devpanel.panels.panes[props.devpanel.panels.activePane.key];
-        var activeTab = activePane.tabs;
-        var tabType = activeTab[activePane.activeTab.index].type;
+        let activePane = props.devpanel.panels.panes[props.devpanel.panels.activePane.key],
+            activeTab = activePane.tabs,
+            tabType = activeTab[activePane.activeTab.index].type,
+            currentTab = props.devpanel.panels.panes[paneKey.paneKey].tabs[targetKey - 1];
 
         console.log(tabType);
 
@@ -111,7 +112,7 @@ function IndexPage(props) {
         }
 
         var fileName = localStorage.currentSelectedFile;
-        if(localStorage.isSave == 'true') {
+        if(!currentTab.isSave) {
           console.log("show");
           console.log(localStorage.isSave);
           if(fileName == '新标签页' || fileName == '新文件' || fileName ==  undefined){

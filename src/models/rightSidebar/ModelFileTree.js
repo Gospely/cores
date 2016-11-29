@@ -240,7 +240,13 @@ export default {
 						})
 					});
 					yield put({type: 'fetchFileList'});
-					localStorage.isSave = false;
+					yield put({
+						type: 'devpanel/handleFileSave',
+						payload: {
+							tabKey: params.tabKey, pane: params.paneKey
+						}
+					})
+					// par.isSave = false;
       	},
 
       	*handleUpload({payload: fileName}, {call, put, select}) {

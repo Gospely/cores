@@ -29,11 +29,12 @@ import randomWord from '../../utils/randomString';
 
 
 const Editor = (props) => {
-	var props$editorTop = props.editorTop,
-		dispatch = props.dispatch;
-
-	let belongTo = props.devpanel.panels.panes[props.belongTo];
-	let editorId = props.editorId;
+	let props$editorTop = props.editorTop,
+		dispatch = props.dispatch,
+		belongTo = props.devpanel.panels.panes[props.belongTo],
+		editorId = props.editorId,
+		isSave = props.isSave,
+		tabKey = props.tabKey;
 
 
 
@@ -59,7 +60,7 @@ const Editor = (props) => {
 
 		onOpenSearch() {
 			dispatch({
-				type: 'editorTop/toggleSearchBar'
+				type: 'devpanel/toggleSearchBar'
 			});
 		},
 
@@ -71,7 +72,7 @@ const Editor = (props) => {
 
 		onSave() {
 
-			if(localStorage.isSave == 'true') {
+			if(isSave == false) {
 				const editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
 				var content = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value;
 				var fileName = localStorage.currentSelectedFile;
@@ -91,7 +92,7 @@ const Editor = (props) => {
 				}else{
 					dispatch({
 						type: 'file/writeFile',
-						payload: {content}
+						payload: {content,tabKey: tabKey}
 					});
 				}
 			}
@@ -224,7 +225,7 @@ const Editor = (props) => {
 			bindKey: {win: "Ctrl-s", mac: "Command-s"},
 			exec: function(editor) {
 
-				if(localStorage.isSave == 'true') {
+				if(isSave == false) {
 					console.log('command');
 					const editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
 					var content = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value;
@@ -240,7 +241,7 @@ const Editor = (props) => {
 					}else{
 						dispatch({
 							type: 'file/writeFile',
-							payload: {content}
+							payload: {content,tabKey: tabKey,paneKey:paneKey}
 						});
 					}
 				}

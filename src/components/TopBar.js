@@ -153,7 +153,7 @@ const LeftSidebar = (props) => {
 	            	payload: {title, content, type, editorId}
 	          	});
 
-	          	localStorage.isSave = true;
+	          	// localStorage.isSave = true;
 
 	        },
 
