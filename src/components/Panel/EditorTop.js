@@ -44,7 +44,6 @@ const EditorTop = ({
 	var styles = {
 		margin: {
 			marginRight: '10px',
-			marginLeft: '30px'
 		}
 	};
 
