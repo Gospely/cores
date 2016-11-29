@@ -342,7 +342,7 @@ const FileTree = (props) => {
       onPressEnter: function() {
         props.dispatch({
           type: 'file/handleSearch'
-        })
+        });
       }
     }
 
@@ -543,25 +543,41 @@ const FileTree = (props) => {
     );
   });
 
+  const searchThisFile = function(fileName) {
+    props.dispatch({
+      type: 'file/readFile',
+      payload: fileName
+    })
+    props.dispatch({
+      type: 'file/hideSearchPane'
+    })
+  }
+
+  const searchInputChange = function (e) {
+    props.dispatch({
+      type: 'file/searchInputChange',
+      payload: e.target.value
+    })
+  }
+
+  const fileSearchPane = {
+    content: (
+        <div className={TreeStyle.fileSearchPane} onClick={() => {props.dispatch({type: 'file/hideSearchPane'})}}>
+          <div onClick={(e) => e.stopPropagation()}>
+            <Input size="large" placeholder="large size" onChange={searchInputChange} value={props.file.searchFilePane.inputValue}/>
+            {props.file.searchFilePane.files.map(file => {
+                return <div onClick={searchThisFile.bind(this,file.name)} key={file.key} className={TreeStyle.fileSearchPaneOption}>{file.name}</div>
+            })}
+          </div>
+        </div>
+    )
+  }
+
   const treeNodes = loopData(FileTreeProps.treeData);
 
-  const FileSearchPane = function (params) {
-    if(params.params.visible) {
-        return (<div className={TreeStyle.fileSearchPane} onClick={() => console.log('点击了')}>
-                  <div onClick={(e) => e.stopPropagation()}>
-                    <Input size="large" placeholder="large size"/>
-                    <div>
-                      <div className={TreeStyle.fileSearchPaneOption}>index.js</div>
-                      <div className={TreeStyle.fileSearchPaneOption}>index.js</div>
-                      <div className={TreeStyle.fileSearchPaneOption}>index.js</div>
-                    </div>
-                  </div>
-                </div>)
-      }else {
-        return null;
-    }
-    
-  }
+  
+
+  
 
   return (
 
@@ -649,7 +665,7 @@ const FileTree = (props) => {
       >
         {treeNodes}
       </Tree>
-      <FileSearchPane params={props.file.searchFilePane}></FileSearchPane>
+      {props.file.searchFilePane.visible ? fileSearchPane.content : null}
     </div>
 
   );

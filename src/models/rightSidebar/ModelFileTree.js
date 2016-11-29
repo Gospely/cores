@@ -73,7 +73,13 @@ export default {
 			title: ''
 		},
 		searchFilePane: {
-			visible: false
+			visible: false,
+			files: [
+				{name: 'index.js',key: 0},
+				{name: 'readme.md',key: 1},
+				{name: 'require.js',key: 2},
+			],
+			inputValue: ''
 		}
 	},
 
@@ -243,9 +249,21 @@ export default {
 	},
 
 	reducers: {
+		
 		showSearchPane(state) {
 			state.searchFilePane.visible = true;
-			return {...state}
+			state.searchInput.visible = false;
+			return {...state};
+		},
+
+		hideSearchPane(state) {
+			state.searchFilePane.visible = false;
+			return {...state};
+		},
+
+		searchInputChange(state,{payload: value}){
+			state.searchFilePane.inputValue = value;
+			return {...state};
 		},
 
 		showContextMenu(state, {payload: proxy}) {
@@ -291,9 +309,9 @@ export default {
 			}};
 		},
 		handleSearchInputChange(state, {payload: val}) {
-			return {...state, searchInput: {
-				value: val
-			}};
+			state.searchInput.value = val;
+			state.searchFilePane.inputValue = val
+			return {...state};
 		},
 		handleUploadInputChange(state, {payload: val}) {
 			return {...state, uploadInput: {
