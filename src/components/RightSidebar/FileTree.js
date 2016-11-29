@@ -216,6 +216,7 @@ const FileTree = (props) => {
 
         const editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
         var fileName = props.file.newFileNameModal.value;
+        fileName = fileName.replace(localStorage.currentProject + '/',localStorage.currentFolder);
         var content = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value;
         console.log('ok');
 

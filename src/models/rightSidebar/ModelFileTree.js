@@ -208,6 +208,10 @@ export default {
       		// console.log(content)
       		content = content.fields;
       		// console.log(content);
+					var splits = content.fileName.split('/');
+					content.fileName = content.fileName.replace(splits[0] + '/','');
+					content.fileName = content.fileName.replace(splits[1], localStorage.currentProject);
+
 			yield put({
 				type: 'devpanel/add',
 				payload: {
@@ -374,7 +378,7 @@ export default {
 					console.log("saveModal");
 					return {...state, newFileNameModal: {
 						visible: true,
-						value: localStorage.currentFolder,
+						value: localStorage.currentProject + '/',
 						title: '请输入文件名'
 					}};
 				}
