@@ -94,10 +94,8 @@ function IndexPage(props) {
         localStorage.removeAction = JSON.stringify(removeAction);
         editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
 
-        let activePane = props.devpanel.panels.panes[props.devpanel.panels.activePane.key],
-            activeTab = activePane.tabs,
-            tabType = activeTab[activePane.activeTab.index].type,
-            currentTab = props.devpanel.panels.panes[paneKey.paneKey].tabs[targetKey - 1];
+        let currentTab = props.devpanel.panels.panes[paneKey.paneKey].tabs[targetKey - 1],
+            tabType = currentTab.type;
 
         console.log(tabType);
 

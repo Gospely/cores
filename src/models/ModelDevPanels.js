@@ -419,7 +419,7 @@ export default {
 			activePane.activeTab.key = (activePane.tabs.length + 1).toString();
 
 			console.log(target.content)
-
+			let isSave = true;
 			if (target.type === 'editor') {
 				var editorObj = {
 					value: target.content,
@@ -428,15 +428,21 @@ export default {
 				};
 				activePane.editors[target.editorId] = editorObj;
 				activePane.activeEditor.id = target.editorId;
+				if(target.title == '新文件' || target.title == '新标签页'){
+					isSave = false;
+				}
 			}
 			let editorId = target.editorId || '';
 			activePane.activeEditor.id = target.editorId;
 			console.log("key",state.panels.activePane.key)
 		    activePane.tabs.push({ title: target.title, content: target.content, 
 		    					type: target.type, key: activePane.activeTab.key, 
-		    					editorId: editorId,isSave: false});
+		    					editorId: editorId,isSave: isSave});
 		    // console.log('editorTab:',currentDevType)
 			activePane.activeTab = {key: activePane.activeTab.key, index: activePane.tabs.length - 1};
+			console.log({ title: target.title, content: target.content, 
+		    					type: target.type, key: activePane.activeTab.key, 
+		    					editorId: editorId,isSave: isSave})
 		    return {...state};
 		}
 	}
