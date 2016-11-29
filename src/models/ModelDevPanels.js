@@ -267,13 +267,13 @@ export default {
 					activeKey = tabs[lastIndex].key;
 				}else {
 					if(type != 'welcome') {
-						tabs.push({
-							title: '',
-							content: '',
-							key: '1',
-							type: 'NoTabs'
-						});
-						activeKey = '1';
+						// tabs.push({
+						// 	title: '',
+						// 	content: '',
+						// 	key: '1',
+						// 	type: 'NoTabs'
+						// });
+						// activeKey = '1';
 					}
 				}
 			}

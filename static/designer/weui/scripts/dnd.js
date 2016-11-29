@@ -64,6 +64,7 @@
 		console.log(controller);
 		var wrapper = allComponents.genWrapper(controller);
 		jq(e.target).append(wrapper);
+		postMessageToFather.ctrlAdded(controller);
 		hideBorder();
 	});
 
@@ -85,7 +86,7 @@
 		jq(this).addClass("hight-light");
 		//监听拖动事件
 		jq(this).dragging({
-			move : 'x',
+			move : 'y',
 			randomPosition : false
 		});
 	})

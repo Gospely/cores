@@ -225,7 +225,8 @@ export default {
 						attrType: 'text',
 						title: '页面名称',
 						isClassName: false,
-						isHTML: false
+						isHTML: false,
+						_value: ''
 					},
 
 					color: {
@@ -233,14 +234,16 @@ export default {
 						attrType: 'color',
 						title: '背景颜色',
 						isClassName: false,
-						isHTML: false
+						isHTML: false,
+						_value: ''
 					},
 					images: {
 						type: 'input',
 						attrType: 'text',
 						title: '背景图片',
 						isClassName: false,
-						isHTML: false
+						isHTML: false,
+						_value: ''
 					},
 
 					padding: {
@@ -248,20 +251,23 @@ export default {
 						attrType: 'number',
 						title: '内边距',
 						isClassName: false,
-						isHTML: false
+						isHTML: false,
+						_value: ''
 					},
 					scrolling: {
 						type: 'toggle',
 						title: '是否滚动',
 						isClassName: false,
-						isHTML: false
+						isHTML: false,
+						_value: ''
 					},
 					class: {
 						type: 'input',
 						attrType: 'text',
 						title: '类名',
 						isClassName: false,
-						isHTML: false
+						isHTML: false,
+						_value: ''
 					},
 
 					routingURL: {
@@ -269,7 +275,8 @@ export default {
 						attrType: 'text',
 						title: '路由',
 						isClassName: false,
-						isHTML: false
+						isHTML: false,
+						_value: ''
 					},
 
 					icon: {
@@ -277,7 +284,8 @@ export default {
 						title: '图标',
 						value: ['weui', 'fuck'],
 						isClassName: false,
-						isHTML: false
+						isHTML: false,
+						_value: ''
 					}
 
 				},
@@ -291,28 +299,32 @@ export default {
 						type: 'input',
 						title: '值',
 						isClassName: false,
-						isHTML: true
+						isHTML: true,
+						_value: ''
 					},
 					disabled: {
 						type: 'toggle',
 						title: '禁止',
 						value: ['weui-btn_disabled weui-btn_plain-disabled'],
 						isClassName: true,
-						isHTML: false
+						isHTML: false,
+						_value: ''
 					},
 					class: {
 						type: 'select',
 						title: '按钮类型',
 						value: ['weui-btn_primary', 'weui-btn_default', 'weui-btn_warn', 'weui-btn_plain-default', 'weui-btn_plain-primary', 'weui-vcode-btn'],
 						isClassName: true,
-						isHTML: false
+						isHTML: false,
+						_value: ''
 					},
 					mini: {
 						type: 'toggle',
 						title: '迷你按钮',
 						value: ['weui-btn_mini'],
 						isClassName: true,
-						isHTML: false
+						isHTML: false,
+						_value: ''
 					}
 				},
 				tag: ['button', 'button'],
@@ -334,7 +346,8 @@ export default {
 							title: '三栏',
 							value: ['weui-cell_vcode'],
 							isClassName: true,
-							isHTML: false
+							isHTML: false,
+							_value: ''
 						},
 
 						warning: {
@@ -342,7 +355,8 @@ export default {
 							title: '报错',
 							value: ['weui-cell_warn'],
 							isClassName: true,
-							isHTML: false
+							isHTML: false,
+							_value: ''
 						}
 					},
 					children: [{
@@ -356,7 +370,8 @@ export default {
 									type: 'input',
 									title: '提示信息',
 									isClassName: false,
-									isHTML: true
+									isHTML: true,
+									_value: ''
 								}
 							}
 						}]
@@ -379,33 +394,38 @@ export default {
 						type: 'input',
 						title: '内容',
 						isClassName: false,
-						isHTML: false
+						isHTML: false,
+						_value: ''
 					},
 					disabled: {
 						type: 'toggle',
 						title: '禁止',
 						value: [],
 						isClassName: true,
-						isHTML: false
+						isHTML: false,
+						_value: ''
 					},
 					type: {
 						type: 'select',
 						title: '类型',
 						isClassName: false,
 						isHTML: false,
-						value: ['number', 'color', 'range', 'text', 'datetime-local', 'date', 'password', 'email', 'tel']
+						value: ['number', 'color', 'range', 'text', 'datetime-local', 'date', 'password', 'email', 'tel'],
+						_value: ''
 					},
 					placeholder: {
 						type: 'input',
 						title: '占位符',
 						isClassName: false,
-						isHTML: false
+						isHTML: false,
+						_value: ''
 					},
 					pattern: {
 						type: 'input',
 						title: '正则',
 						isClassName: false,
-						isHTML: false
+						isHTML: false,
+						_value: ''
 					}
 				},
 				tag: ['div'],
@@ -421,6 +441,7 @@ export default {
 						title: '显示计字器',
 						isClassName: false,
 						isHTML: false,
+						_value: '',
 						value: {
 							name: '计字器',
 							tag: 'div',
@@ -431,7 +452,8 @@ export default {
 									type: 'input',
 									title: '从',
 									isClassName: false,
-									isHTML: true
+									isHTML: true,
+									_value: ''
 								}
 							}, {
 								tag: 'span',
@@ -439,7 +461,8 @@ export default {
 									type: 'input',
 									title: '到',
 									isClassName: false,
-									isHTML: true
+									isHTML: true,
+									_value: ''
 								}
 							}]
 						}
@@ -456,7 +479,8 @@ export default {
 						type: 'input',
 						title: '名称',
 						isClassName: false,
-						isHTML: false
+						isHTML: false,
+						_value: ''
 					}
 				},
 				tag: 'input',
@@ -471,7 +495,8 @@ export default {
 						type: 'toggle',
 						title: '选中',
 						isClassName: false,
-						isHTML: false
+						isHTML: false,
+						_value: ''
 					}
 				},
 				tag: 'input',
@@ -491,13 +516,15 @@ export default {
 						type: 'input',
 						title: '名称',
 						isClassName: false,
-						isHTML: false
+						isHTML: false,
+						_value: ''
 					},
 					checked: {
 						type: 'toggle',
 						title: '选中',
 						isClassName: false,
-						isHTML: false
+						isHTML: false,
+						_value: ''
 					}
 				},
 				tag: 'input',
@@ -523,7 +550,8 @@ export default {
 						type: 'input',
 						title: '标题',
 						isClassName: false,
-						isHTML: true
+						isHTML: true,
+						_value: ''
 					}
 				}
 			},
@@ -537,7 +565,8 @@ export default {
 						type: 'input',
 						title: '说明',
 						isClassName: false,
-						isHTML: true
+						isHTML: true,
+						_value: ''
 					}
 				}
 			},
@@ -565,7 +594,8 @@ export default {
 						title: '跳转',
 						isClassName: true,
 						value: ['weui-cell_access'],
-						isHTML: false
+						isHTML: false,
+						_value: ''
 					}
 				},
 				tag: 'div',
@@ -607,7 +637,8 @@ export default {
 						title: '值',
 						isClassName: false,
 						isHTML: false,
-						isSetWidth: true
+						isSetWidth: true,
+						_value: ''
 					}
 				},
 				tag: 'div',
@@ -639,7 +670,8 @@ export default {
 						type: 'input',
 						title: '名称',
 						isClassName: false,
-						isHTML: false
+						isHTML: false,
+						_value: ''
 					}
 				},
 				tag: 'select',
@@ -650,14 +682,16 @@ export default {
 							type: 'input',
 							title: '值',
 							isClassName: false,
-							isHTML: false
+							isHTML: false,
+							_value: ''
 						},
 
 						html: {
 							type: 'input',
 							title: '显示值',
 							isClassName: false,
-							isHTML: true
+							isHTML: true,
+							_value: ''
 						}
 					}
 				}],
@@ -834,7 +868,7 @@ export default {
     		}
 
     		if(state.layoutState.activeType == 'controller') {
-    			var activeCtrl = getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
+    			var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
 
 	    		gospelDesigner.postMessage({
 	    			attrRefreshed: activeCtrl
@@ -865,7 +899,7 @@ export default {
     		}
 
     		if(state.layoutState.activeType == 'controller') {
-    			var activeCtrl = getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
+    			var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
 
 	    		gospelDesigner.postMessage({
 	    			ctrlSelected: activeCtrl
@@ -896,7 +930,7 @@ export default {
     		}
 
     		if(state.layoutState.activeType == 'controller') {
-    			var activeCtrl = getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
+    			var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
 
 	    		gospelDesigner.postMessage({
 	    			pageAdded: activeCtrl

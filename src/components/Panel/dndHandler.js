@@ -20,6 +20,8 @@ export default {
 
 				ctrlAdded () {
 
+					console.log('ctrlAdded', data);
+
 					props.dispatch({
 						type: 'rightbar/setActiveMenu',
 						payload: 'attr'
@@ -47,7 +49,14 @@ export default {
 			}
 
 			if(evtAction[eventName]) {
-				data = JSON.parse(data[key]);
+
+				console.log('typeof', typeof data[eventName]);
+
+				if(typeof data[eventName] != 'object') {
+					data = JSON.parse(data[eventName]);					
+				}else {
+					data = data[eventName];
+				}
 				evtAction[eventName]();
 			}
 

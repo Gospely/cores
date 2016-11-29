@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import { Link } from 'dva/router';
 import styles from './IndexPage.css';
 
-import {Row, Col} from 'antd';
+import { Row, Col } from 'antd';
 
 import LeftSidebar from '../components/LeftSidebar';
 import RightSidebar from '../components/RightSidebar';
