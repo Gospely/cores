@@ -228,7 +228,7 @@ export default {
 
 		remove(state, {payload: target}) {
 			if (typeof target.paneKey != 'undefined') {
-				
+
 				state.panels.activePane.key = target.paneKey;
 			}
 			let targetKey = target.targetKey;
@@ -290,7 +290,6 @@ export default {
 		},
 
 		handleEditorChanged(state, { payload: params }) {
-			console.log(currentEditor.getValue());
 			localStorage.isSave = true;
 			console.log(params)
 			let activePane = methods.getActivePane(state);

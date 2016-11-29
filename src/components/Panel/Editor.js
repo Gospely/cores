@@ -10,6 +10,8 @@ import 'brace/theme/github';
 import 'brace/mode/javascript';
 import 'brace/mode/html';
 import 'brace/mode/css';
+import 'brace/mode/php';
+import 'brace/ext/language_tools';
 
 import EditorTop from './EditorTop';
 import EditorBottom from './EditorBottom';
@@ -246,8 +248,19 @@ const Editor = (props) => {
     	},
 		onLoad(value) {
 
-			console.log('editor onLoad');
+			var suffix =  localStorage.suffix;
 			window.currentEditor = value;
+			currentEditor.setOptions({
+				enableBasicAutocompletion: true,
+        enableSnippets: true,
+        enableLiveAutocompletion: false
+			});
+			props.dispatch({
+				type: 'editorTop/dynamicChangeSyntax',
+				payload:{suffix}
+			});
+			console.log('editor onLoad');
+
 		},
 		onFocus(value) {
 
@@ -299,20 +312,20 @@ const Editor = (props) => {
 			<EditorTop {...EditorTopProps}></EditorTop>
 
 			<AceEditor
-	        	mode="javascript"
+	        	mode={props.editorTop.currentMode}
 	        	theme="github"
 	        	width="100%"
 	        	height={aceHeight}
-				fontSize={12}
+						fontSize={18}
 	        	name={editorId}
-				onLoad={editorProps.onLoad}
-				onFocus={editorProps.onFocus}
+						onLoad={editorProps.onLoad}
+						onFocus={editorProps.onFocus}
 	        	editorProps={{$blockScrolling: true}}
 	        	value={belongTo.editors[editorId].value}
 	        	enableBasicAutocompletion={true}
-				commands={commandsArray}
+						commands={commandsArray}
 	        	onChange={editorProps.handleEditorChanged}
-	        	enableBasicAutocompletion={true}/>
+	        	enableLiveAutocompletion={true}/>
 
 	        <EditorBottom></EditorBottom>
 

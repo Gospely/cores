@@ -69,7 +69,14 @@ const FileTree = (props) => {
         localStorage.currentSelectedFile = e[0];
         var file = e[0];
         file = file.split('/');
+        console.log(file[file.length-1]);
+        var suffix = file[file.length-1].split('.')[1];
+        if(suffix != undefined){
+          localStorage.suffix = suffix;
+        }
         file.pop();
+
+        console.log(suffix);
         localStorage.currentFolder = file.join('/') + '/';
         localStorage.currentFileIsDir = !node.node.props.isLeaf;
       }
@@ -224,7 +231,7 @@ const FileTree = (props) => {
             content
           }
         })
-        
+
         props.dispatch({
           type: 'devpanel/changeTabTitle',
           payload: {
@@ -560,7 +567,7 @@ const FileTree = (props) => {
       }else {
         return null;
     }
-    
+
   }
 
   return (

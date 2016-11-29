@@ -11,23 +11,33 @@ export default {
 		replaceContent: '',
 
 		jumpLine: '0:0',
+		currentMode: 'javascript',
 
 		syntaxList: [{
 			language: 'HTML',
 			key: '1',
-			alias: 'html'
+			alias: 'html',
+			suffix: 'html'
 		}, {
 			language: 'JavaScript',
 			key: '2',
-			alias: 'javascript'
+			alias: 'javascript',
+			suffix:'js'
 		}, {
 			language: 'CSS',
 			key: '3',
-			alias: 'css'
+			alias: 'css',
+			suffix: 'css'
 		}, {
 			language: 'PHP',
 			key: '4',
-			alias: 'php'
+			alias: 'php',
+			suffix: 'php'
+		},{
+			language: 'JAVA',
+			key: '5',
+			alias: 'java',
+			suffix: 'java'
 		}],
 
 		isSaving: false,
@@ -128,7 +138,36 @@ export default {
 		selectSyntax() {
 
 		},
+		dynamicChangeSyntax(state,{payload: params}) {
 
+			var setMode = {
+				js: function(){
+						console.log('javascript');
+						return 'javascript';
+				},
+				css: function(){
+						console.log('css');
+						return 'css';
+				},
+				html: function(){
+						console.log('html');
+						return 'html';
+				},
+				php: function(){
+						console.log('php');
+						return 'php';
+				},
+				java: function() {
+						console.log('java');
+						return 'java';
+				}
+			}
+			console.log("denamicChange");
+			console.log(params.suffix);
+			state.currentMode = setMode[params.suffix]();
+
+			return {...state};
+		},
 		showJumpLine(state) {
 			return {...state, jumpLineVisible: true
 			};
