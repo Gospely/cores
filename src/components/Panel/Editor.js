@@ -22,7 +22,6 @@ import randomWord from '../../utils/randomString';
 
 
 const Editor = (props) => {
-
 	var props$editorTop = props.editorTop,
 		dispatch = props.dispatch;
 
