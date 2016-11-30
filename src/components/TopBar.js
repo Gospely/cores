@@ -12,6 +12,8 @@ import randomWord from '../utils/randomString';
 
 import dndHandler from './Panel/dndHandler';
 
+import keyRegister from './keybinding/register';
+
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 const InputGroup = Input.Group;
@@ -19,6 +21,7 @@ const InputGroup = Input.Group;
 const LeftSidebar = (props) => {
 
 	dndHandler.init(props);
+	keyRegister.init();
 
 	var styles = {
 		sidebar: {
