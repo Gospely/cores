@@ -324,7 +324,7 @@ const Editor = (props) => {
 	        	theme="eclipse"
 	        	width="100%"
 	        	height={aceHeight}
-						fontSize={18}
+						fontSize={12}
 	        	name={editorId}
 						onLoad={editorProps.onLoad}
 						onFocus={editorProps.onFocus}
