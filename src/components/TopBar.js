@@ -21,7 +21,7 @@ const InputGroup = Input.Group;
 const LeftSidebar = (props) => {
 
 	dndHandler.init(props);
-	keyRegister.init();
+	keyRegister.init(props);
 
 	var styles = {
 		sidebar: {
@@ -412,8 +412,8 @@ const LeftSidebar = (props) => {
 
 }
 
-function mapStateToProps({ sidebar, editor, rightbar, designer, attr }) {
-  return { sidebar, editor, rightbar, designer, attr };
+function mapStateToProps({ sidebar, editor, rightbar, designer, attr ,devpanel}) {
+  return { sidebar, editor, rightbar, designer, attr ,devpanel};
 }
 
 export default connect(mapStateToProps)(LeftSidebar);

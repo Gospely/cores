@@ -1,17 +1,25 @@
+import configs from './config';
 
 const HotKeyHandler = {
 	currentMainKey:null,
 	currentValueKey:null,
-	init:function(){
+	props:null,
+	init:function(props){
+		HotKeyHandler.props = props;
+		console.log(configs.bindKey);
 		console.log('register');
-		HotKeyHandler.register(0,"S",function(){alert("注册成功");});
+		configs.bindKey.map(config =>{
+				HotKeyHandler.register(config.mainKey,config.key,config.hander);
+		})
 	},
 	register:function(tag,value,func){
 		var MainKey="";
 		switch(tag){
-		case 0:
+		case 'Ctrl':
 		MainKey=17; //Ctrl
 		break;
+		case 'Command':
+		MainKey=17; //Ctrl
 		case 1:
 		MainKey=16; //Shift
 		break;
@@ -24,21 +32,24 @@ const HotKeyHandler = {
 	}
 
 	document.onkeydown=function(event){
-		console.log('keydown');
 		//获取键值
 		var keyCode= event.keyCode ;
-		console.log(keyCode);
 		var keyValue = String.fromCharCode(event.keyCode);
-		console.log(keyValue);
 
 		if(HotKeyHandler.currentMainKey!=null){
 			if(keyValue==value){
 				HotKeyHandler.currentMainKey=null;
-				if(func!=null)func();
+				if(func!=null){
+					func(HotKeyHandler.props);
+					return false;
+				}else{
+
+				}
 			}
 		}
 		if(keyCode==MainKey)
 		HotKeyHandler.currentMainKey=keyCode;
+		return true;
 	}
 	}
 }
