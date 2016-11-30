@@ -2,6 +2,9 @@
 	var jq = jQuery.noConflict();
 	var data;
 
+	//获取父元素
+	var parent_window = window.parent;
+
 	window.addEventListener("message", function (evt) {
 
 		var data = evt.data;
@@ -22,6 +25,13 @@
 
 			pageRemoved: function() {
 				console.log('pageRemoved', data);
+			},
+
+			ctrlAdded: function() {
+				console.log('ctrlAdded', data);
+				var controller = data;
+				var wrapper = allComponents.genWrapper(controller);
+				var appended = jq(parent_window.currentTarget).append(wrapper);
 			}
 		}
 
@@ -37,9 +47,6 @@
 		}
 
 	});
-
-	//获取父元素
-	var parent_window = window.parent;
 
 	var source = jq("#dnd-row",window.parent.document).find('.ant-col-12');
 	source.each(function(n){
@@ -62,9 +69,8 @@
 		var controller = parent_window.dndData;
 		console.log("接收到的组件数据结构是：");
 		console.log(controller);
-		var wrapper = allComponents.genWrapper(controller);
-		jq(e.target).append(wrapper);
-		postMessageToFather.ctrlAdded(controller);
+		parent_window.currentTarget = e.target;
+		postMessageToFather.ctrlToBeAdded(controller);
 		hideBorder();
 	});
 
@@ -178,9 +184,9 @@
 			console.log("向父级发送信息");
 			parent_window.postMessage({'ctrlClicked':c},"*");
 		},
-		ctrlAdded:function(c){
+		ctrlToBeAdded:function(c){
 			console.log("向父级发送信息");
-			parent_window.postMessage({'ctrlAdded':c},"*");
+			parent_window.postMessage({'ctrlToBeAdded':c},"*");
 		},
 		ctrlEdited:function(c){
 			console.log("向父级发送信息");

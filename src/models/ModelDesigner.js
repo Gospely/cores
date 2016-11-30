@@ -866,6 +866,10 @@ export default {
 			};
 
 			console.log(ctrl);
+    		var gospelDesigner = window.frames['gospel-designer'];
+    		gospelDesigner.postMessage({
+    			ctrlAdded: ctrl
+    		}, '*');
 
 			activePage.children.push(ctrl);
 			layoutAction.setActiveController(state.layoutState, activePage.children.length - 1, ctrl.key);

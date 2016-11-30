@@ -7,6 +7,10 @@ export default {
 			return false;
 		}
 
+		console.log('======================window.loadedOnce======================', window.loadedOnce);
+		
+		window.loadedOnce = true;
+
 		window.addEventListener("message", (evt) =>  {
 
 			var data = evt.data, 
@@ -22,9 +26,9 @@ export default {
 
 				},
 
-				ctrlAdded () {
+				ctrlToBeAdded () {
 
-					console.log('ctrlAdded', data);
+					console.log('ctrlToBeAdded', data);
 
 					props.dispatch({
 						type: 'rightbar/setActiveMenu',
@@ -63,8 +67,6 @@ export default {
 				}
 				evtAction[eventName]();
 			}
-
-			window.loadedOnce = true;
 
 		});
 	}
