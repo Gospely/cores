@@ -74,6 +74,10 @@ const FileTree = (props) => {
         if(suffix != undefined){
           localStorage.suffix = suffix;
         }
+        props.dispatch({
+  				type: 'editorTop/dynamicChangeSyntax',
+  				payload:{suffix}
+  			});
         file.pop();
 
         console.log(suffix);
@@ -93,6 +97,7 @@ const FileTree = (props) => {
             payload: localStorage.currentSelectedFile.split('/').pop()
           })
         }
+
 
       }
 

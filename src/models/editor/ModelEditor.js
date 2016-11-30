@@ -6,6 +6,16 @@ export default {
 		showArrow: true,
 
 		editors: [],
+		options: {
+      selectOnLineNumbers: true,
+      roundedSelection: true,
+      readOnly: false,
+      theme: 'vs-dark',
+      cursorStyle: 'line',
+      automaticLayout: true,
+			fontSize: 18,
+			cursorBlinking: true
+    }
 	},
 
 	reducers: {
@@ -30,6 +40,7 @@ export default {
 		},
 
 		handleEditorChanged(state, { payload: params }) {
+			console.log(params);
 			state.editor.value = state.editors[params.editorId].value + params.value;
 			return {...state};
 		}

@@ -3,6 +3,8 @@ import AceEditor from 'react-ace';
 import EditorStyle from './Editor.css';
 import { connect } from 'dva';
 
+import MonacoEditor from 'react-monaco-editor';
+
 import { Button, message } from 'antd';
 
 import 'brace/mode/java';
@@ -267,19 +269,11 @@ const Editor = (props) => {
 	    		type: 'editor/showArrow'
 	    	})
     	},
-		onLoad(value) {
+		onLoad(e,editor) {
 
-			var suffix =  localStorage.suffix;
-			window.currentEditor = value;
-			currentEditor.setOptions({
-				enableBasicAutocompletion: true,
-        enableSnippets: true,
-        enableLiveAutocompletion: false
-			});
-			props.dispatch({
-				type: 'editorTop/dynamicChangeSyntax',
-				payload:{suffix}
-			});
+			console.log(e);
+			console.log(editor);
+			window.currentEditor = editor;
 			console.log('editor onLoad');
 
 		},
@@ -333,21 +327,16 @@ const Editor = (props) => {
 		<div className={EditorStyle.aceEditor}>
 			<EditorTop {...EditorTopProps}></EditorTop>
 
-			<AceEditor
-	        	mode={props.editorTop.currentMode}
-	        	theme="eclipse"
-	        	width="100%"
-	        	height={aceHeight}
-						fontSize={12}
-	        	name={editorId}
-						onLoad={editorProps.onLoad}
-						onFocus={editorProps.onFocus}
-	        	editorProps={{$blockScrolling: true}}
-	        	value={belongTo.editors[editorId].value}
-	        	enableBasicAutocompletion={true}
-						commands={commandsArray}
-	        	onChange={editorProps.handleEditorChanged}
-	        	enableLiveAutocompletion={true}/>
+
+					<MonacoEditor
+							width="100%"
+							height="1000"
+							language={props.editorTop.currentMode}
+							options={props.editor.options}
+							value={belongTo.editors[editorId].value}
+							onChange={editorProps.handleEditorChanged}
+							editorDidMount={editorProps.onLoad}
+					/>
 
 	        <EditorBottom></EditorBottom>
 
