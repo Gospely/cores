@@ -318,7 +318,11 @@ export default {
 		},
 
 		handleFileSave(state,{payload: params}) {
-			state.panels.panes[params.paneKey].tabs[params.tabKey - 1].isSave = true;
+
+			console.log("handleFileSave");
+			console.log(params);
+			state.panels.panes[params.pane].tabs[params.tabKey - 1].isSave = true;
+			return {...state};
 		},
 
 		replace(state,{payload: params}) {
@@ -386,7 +390,6 @@ export default {
 			methods.getActiveTab(state,methods.getActivePane(state)).isSave = false;
 			return {...state};
 		},
-
 		add(state, {payload: target}) {
 
 			// localStorage.isSave = false;

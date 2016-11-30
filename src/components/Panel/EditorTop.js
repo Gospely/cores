@@ -61,7 +61,6 @@ const EditorTop = ({
 		<div className={EditorStyle.topbar}>
 			<ButtonGroup>
 				<Button onClick={onSave} className={EditorStyle.topbarBtn}>{!isSaving ? <Icon type="save" /> : <Icon type="loading" />}保存</Button>
-				<Button onClick={onOpenSearch} className={EditorStyle.topbarBtn}><Icon type="search" />搜索</Button>
 			</ButtonGroup>
 			<div className={EditorStyle.topbarRight}>
 				<ButtonGroup>

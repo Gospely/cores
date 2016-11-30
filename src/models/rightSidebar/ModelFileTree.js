@@ -239,6 +239,7 @@ export default {
 							data: params.content
 						})
 					});
+					console.log(params);
 					yield put({type: 'fetchFileList'});
 					yield put({
 						type: 'devpanel/handleFileSave',

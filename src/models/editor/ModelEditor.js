@@ -10,7 +10,7 @@ export default {
       selectOnLineNumbers: true,
       roundedSelection: true,
       readOnly: false,
-      theme: 'vs-dark',
+      theme: 'vs',
       cursorStyle: 'line',
       automaticLayout: true,
 			fontSize: 12,
@@ -37,14 +37,7 @@ export default {
 
 		hideArrow(state) {
 			return {...state, showArrow: false};
-		},
-
-		handleEditorChanged(state, { payload: params }) {
-			console.log(params);
-			state.editor.value = state.editors[params.editorId].value + params.value;
-			return {...state};
 		}
-
 	}
 
 }
