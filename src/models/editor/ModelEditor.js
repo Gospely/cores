@@ -13,7 +13,7 @@ export default {
       theme: 'vs-dark',
       cursorStyle: 'line',
       automaticLayout: true,
-			fontSize: 18,
+			fontSize: 12,
 			cursorBlinking: true
     }
 	},
@@ -22,7 +22,7 @@ export default {
 
 		pushEditor(state, { payload: editorId }) {
 			var editorObj = {
-				value: '// TO DO \r\n'
+				value: ''
 			},
 				tmp = {};
 			tmp[editorId] = editorObj;
