@@ -232,11 +232,11 @@ const FileTree = (props) => {
             content
           }
         })
-
+        var value = props.file.newFileNameModal.value;
         props.dispatch({
           type: 'devpanel/changeTabTitle',
           payload: {
-            fileName
+            value
           }
         })
 

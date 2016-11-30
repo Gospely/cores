@@ -128,9 +128,10 @@ export default {
 			const activePane = methods.getActivePane(state);
 			const activeTab = activePane.tabs[activePane.activeTab.index];
 			const activeEditor = activePane.editors[activePane.activeEditor.id];
-			activeEditor.fileName = params.fileName;
+			activeEditor.fileName = params.value;
 			console.log(activeTab);
-			activeTab.title = params.fileName;
+			console.log(params.value);
+			activeTab.title = params.value;
 			return {...state};
 		},
 		changeColumn(state, {payload: type}) {
@@ -435,13 +436,13 @@ export default {
 			let editorId = target.editorId || '';
 			activePane.activeEditor.id = target.editorId;
 			console.log("key",state.panels.activePane.key)
-		    activePane.tabs.push({ title: target.title, content: target.content, 
-		    					type: target.type, key: activePane.activeTab.key, 
+		    activePane.tabs.push({ title: target.title, content: target.content,
+		    					type: target.type, key: activePane.activeTab.key,
 		    					editorId: editorId,isSave: isSave});
 		    // console.log('editorTab:',currentDevType)
 			activePane.activeTab = {key: activePane.activeTab.key, index: activePane.tabs.length - 1};
-			console.log({ title: target.title, content: target.content, 
-		    					type: target.type, key: activePane.activeTab.key, 
+			console.log({ title: target.title, content: target.content,
+		    					type: target.type, key: activePane.activeTab.key,
 		    					editorId: editorId,isSave: isSave})
 		    return {...state};
 		}
