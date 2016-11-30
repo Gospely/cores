@@ -136,7 +136,7 @@ const LeftSidebar = (props) => {
 	        file() {
 
 	          	var title = '新文件',
-	              	content = '// TO DO',
+	              	content = '',
 	              	type = 'editor',
 	              	editorId = randomWord(8, 10);
 							localStorage.currentSelectedFile = '新文件';

@@ -3,6 +3,10 @@ export default {
 	init(props) {
 		this.props = props;
 
+		if(window.loadedOnce) {
+			return false;
+		}
+
 		window.addEventListener("message", (evt) =>  {
 
 			var data = evt.data, 
@@ -59,6 +63,8 @@ export default {
 				}
 				evtAction[eventName]();
 			}
+
+			window.loadedOnce = true;
 
 		});
 	}

@@ -59,7 +59,6 @@ const Editor = (props) => {
 		isSlideUp: props$editorTop.isSlideUp,
 
 
-
 		onOpenSearch() {
 			var searchContent = props.editorTop.searchContent;
 			dispatch({

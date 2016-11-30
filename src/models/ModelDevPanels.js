@@ -402,7 +402,7 @@ export default {
 
 			target.title = target.title || '新标签页';
 			target.type = target.type || 'editor';
-			target.content = target.content || '// TO DO \r\n';
+			target.content = target.content || '';
 
 			for(let i = 0; i < panes.length; i ++) {
 				for(let j = 0; j < panes[i].tabs.length; j ++) {
