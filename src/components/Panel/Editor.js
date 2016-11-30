@@ -29,13 +29,17 @@ import randomWord from '../../utils/randomString';
 
 
 const Editor = (props) => {
-	var props$editorTop = props.editorTop,
-		dispatch = props.dispatch;
+	let props$editorTop = props.editorTop,
+		dispatch = props.dispatch,
+		belongTo = props.devpanel.panels.panes[props.belongTo],
+		editorId = props.editorId,
+		isSave = props.isSave,
+		tabKey = props.tabKey;
 
 
 
 	const EditorTopProps = {
-		searchVisible: props$editorTop.searchVisible,
+		searchVisible: props.searchVisible,
 		jumpLineVisible: props$editorTop.jumpLineVisible,
 
 		isSearchAll: props$editorTop.isSearchAll,
@@ -55,8 +59,14 @@ const Editor = (props) => {
 
 
 		onOpenSearch() {
+			var searchContent = props.editorTop.searchContent;
 			dispatch({
-				type: 'editorTop/toggleSearchBar'
+				type: 'editorTop/toggleSearchBar',
+				payload:{searchContent}
+			});
+			dispatch({
+				type: 'devpanel/toggleSearchBar',
+				payload: {belongTo: props.belongTo}
 			});
 		},
 
@@ -68,7 +78,7 @@ const Editor = (props) => {
 
 		onSave() {
 
-			if(localStorage.isSave == 'true') {
+			if(isSave == false) {
 				const editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
 				var content = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value;
 				var fileName = localStorage.currentSelectedFile;
@@ -88,7 +98,7 @@ const Editor = (props) => {
 				}else{
 					dispatch({
 						type: 'file/writeFile',
-						payload: {content}
+						payload: {content,tabKey: tabKey}
 					});
 				}
 			}
@@ -185,6 +195,11 @@ const Editor = (props) => {
 					payload: {searchContent}
 				});
 
+				dispatch({
+					type: 'devpanel/toggleSearchBar',
+					payload: {belongTo: props.belongTo}
+				});
+
 				console.log('command');
 				ace.config.loadModule("ace/ext/keybinding_menu", function(module) {
 					module.init(editor);
@@ -216,7 +231,7 @@ const Editor = (props) => {
 			bindKey: {win: "Ctrl-s", mac: "Command-s"},
 			exec: function(editor) {
 
-				if(localStorage.isSave == 'true') {
+				if(isSave == false) {
 					console.log('command');
 					const editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
 					var content = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value;
@@ -232,7 +247,7 @@ const Editor = (props) => {
 					}else{
 						dispatch({
 							type: 'file/writeFile',
-							payload: {content}
+							payload: {content,tabKey: tabKey,paneKey:paneKey}
 						});
 					}
 				}
@@ -308,8 +323,7 @@ const Editor = (props) => {
   		aceHeight = ( parseInt(document.body.clientHeight) - 160 ) / 2+ 'px'
   	}
 
-	let belongTo = props.devpanel.panels.panes[props.belongTo];
-	let editorId = props.editorId;
+
 
 	// console.log('当前editor',props.belongTo)
 
@@ -337,23 +351,22 @@ const Editor = (props) => {
 
 	        <EditorBottom></EditorBottom>
 
-			<ReactCSSTransitionGroup
-			  transitionName="fullscreen"
-			  transitionEnterTimeout={500}
-			  transitionLeaveTimeout={300}
-			>
-				{
-					editorProps.showArrow &&
-			        <div className={EditorStyle.fullscreenBtn}>
-					    <Button type="ghost" shape="circle-outline" icon="arrows-alt"></Button>
-			        </div>
-				}
-			</ReactCSSTransitionGroup>
+
   		</div>
  		);
- 	// }else {
- 	// 	return (<div></div>);
- 	// }
+  			//全屏按钮
+ 		// <ReactCSSTransitionGroup
+			//   transitionName="fullscreen"
+			//   transitionEnterTimeout={500}
+			//   transitionLeaveTimeout={300}
+			// >
+			// 	{
+			// 		editorProps.showArrow &&
+			//         <div className={EditorStyle.fullscreenBtn}>
+			// 		    <Button type="ghost" shape="circle-outline" icon="arrows-alt"></Button>
+			//         </div>
+			// 	}
+			// </ReactCSSTransitionGroup>
 
 
 };

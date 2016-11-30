@@ -3,7 +3,6 @@ import dva from 'dva';
 export default {
 	namespace: 'editorTop',
 	state: {
-		searchVisible: false,
 		jumpLineVisible: false,
 
 		isReplaceAll: true,
@@ -67,7 +66,7 @@ export default {
 				wholeWord: true,
 				regExp: false
 			});
-			return {...state, searchVisible: !state.searchVisible, jumpLineVisible: false};
+			return {...state, jumpLineVisible: false};
 		},
 
 		search(state,{payload: params}) {
@@ -177,7 +176,7 @@ export default {
 				params.suffix = 'txt';
 			}
 			state.currentMode = setMode[params.suffix]();
-
+			state.currentLanguage = state.currentMode.toUpperCase();
 			return {...state};
 		},
 		showJumpLine(state) {

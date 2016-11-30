@@ -155,6 +155,7 @@ export default {
       	},
 
       	*removeFile({payload: fileName}, {call, put}) {
+      		localStorage.isSave = true;
 			var mkResult = yield request('fs/remove/', {
 				method: 'POST',
 				body: JSON.stringify({
@@ -239,7 +240,13 @@ export default {
 						})
 					});
 					yield put({type: 'fetchFileList'});
-					localStorage.isSave = false;
+					yield put({
+						type: 'devpanel/handleFileSave',
+						payload: {
+							tabKey: params.tabKey, pane: params.paneKey
+						}
+					})
+					// par.isSave = false;
       	},
 
       	*handleUpload({payload: fileName}, {call, put, select}) {
