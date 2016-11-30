@@ -82,14 +82,25 @@
 		var dataControl = jq(this).attr("data-control");
 		//将ctrlClicked和数据结构发送给父级页面
 		postMessageToFather.ctrlClicked(dataControl);
+		hideBorder();
 		jq(this).find("i").show();
 		jq(this).addClass("hight-light");
 		//监听拖动事件
+	});
+		
+	jq(document).on("mousedown",".control-box",function(e){
 		jq(this).dragging({
-			move : 'y',
-			randomPosition : false
+			move : 'y'
 		});
-	})
+	});
+	jq(document).on("mouseenter",".control-box",function(e){
+		jq(this).find("i").show();
+		jq(this).addClass("hight-light");
+	});
+	jq(document).on("mouseleave",".control-box",function(e){
+		hideBorder();
+	});
+
 
 	//点击其他区域隐藏border和i
 	jq("body").on("click", function(){
@@ -127,7 +138,7 @@
 		genWrapper:function (controller){
 			var wrapper =$('<div class="control-box hight-light" id="controlBox"></div>');
 			wrapper.attr("data-control",JSON.stringify(controller));
-			var i = '<i class="weui-icon-cancel" style="position:absolute; top:-8px; right:-12px; z-index:99;"></i>';
+			var i = '<i class="weui-icon-cancel delete-com"></i>';
 			var component = this.genComponent(controller);
 			wrapper.append(i);
 			wrapper.append(component);
