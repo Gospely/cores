@@ -69,7 +69,18 @@ const FileTree = (props) => {
         localStorage.currentSelectedFile = e[0];
         var file = e[0];
         file = file.split('/');
+        console.log(file[file.length-1]);
+        var suffix = file[file.length-1].split('.')[1];
+        if(suffix != undefined){
+          localStorage.suffix = suffix;
+        }
+        props.dispatch({
+  				type: 'editorTop/dynamicChangeSyntax',
+  				payload:{suffix}
+  			});
         file.pop();
+
+        console.log(suffix);
         localStorage.currentFolder = file.join('/') + '/';
         localStorage.currentFileIsDir = !node.node.props.isLeaf;
       }
@@ -86,6 +97,7 @@ const FileTree = (props) => {
             payload: localStorage.currentSelectedFile.split('/').pop()
           })
         }
+
 
       }
 
@@ -209,6 +221,7 @@ const FileTree = (props) => {
 
         const editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
         var fileName = props.file.newFileNameModal.value;
+        fileName = fileName.replace(localStorage.currentProject + '/',localStorage.currentFolder);
         var content = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value;
         console.log('ok');
 
@@ -224,11 +237,11 @@ const FileTree = (props) => {
             content
           }
         })
-        
+        var value = props.file.newFileNameModal.value;
         props.dispatch({
           type: 'devpanel/changeTabTitle',
           payload: {
-            fileName
+            value
           }
         })
 
@@ -236,6 +249,19 @@ const FileTree = (props) => {
           type: 'file/hideNewFileNameModal'
         })
 
+        var suffix = 'js';
+        if(fileName != undefined && fileName != '新文件'　&& fileName != '新标签页'){
+          fileName = fileName.split('/');
+          console.log(fileName[fileName.length-1]);
+          suffix= fileName[fileName.length-1].split('.')[1];
+          if(suffix != undefined){
+            localStorage.suffix = suffix;
+          }
+        }
+        props.dispatch({
+          type: 'editorTop/dynamicChangeSyntax',
+          payload: {suffix}
+        });
         if(localStorage.currentFileOperation == 'remove') {
           props.dispatch({
             type: 'devpanel/remove',
@@ -249,6 +275,12 @@ const FileTree = (props) => {
         props.dispatch({
           type: 'file/hideNewFileNameModal'
         })
+        if(localStorage.currentFileOperation == 'remove') {
+          props.dispatch({
+            type: 'devpanel/remove',
+            payload: JSON.parse(localStorage.removeAction)
+          });
+        }
       },
 
       onChange: function(e) {
@@ -342,7 +374,7 @@ const FileTree = (props) => {
       onPressEnter: function() {
         props.dispatch({
           type: 'file/handleSearch'
-        })
+        });
       }
     }
 
@@ -543,25 +575,41 @@ const FileTree = (props) => {
     );
   });
 
+  const searchThisFile = function(fileName) {
+    props.dispatch({
+      type: 'file/readFile',
+      payload: fileName
+    })
+    props.dispatch({
+      type: 'file/hideSearchPane'
+    })
+  }
+
+  const searchInputChange = function (e) {
+    props.dispatch({
+      type: 'file/searchInputChange',
+      payload: e.target.value
+    })
+  }
+
+  const fileSearchPane = {
+    content: (
+        <div className={TreeStyle.fileSearchPane} onClick={() => {props.dispatch({type: 'file/hideSearchPane'})}}>
+          <div onClick={(e) => e.stopPropagation()}>
+            <Input size="large" placeholder="large size" onChange={searchInputChange} value={props.file.searchFilePane.inputValue}/>
+            {props.file.searchFilePane.files.map(file => {
+                return <div onClick={searchThisFile.bind(this,file.name)} key={file.key} className={TreeStyle.fileSearchPaneOption}>{file.name}</div>
+            })}
+          </div>
+        </div>
+    )
+  }
+
   const treeNodes = loopData(FileTreeProps.treeData);
 
-  const FileSearchPane = function (params) {
-    if(params.params.visible) {
-        return (<div className={TreeStyle.fileSearchPane} onClick={() => console.log('点击了')}>
-                  <div onClick={(e) => e.stopPropagation()}>
-                    <Input size="large" placeholder="large size"/>
-                    <div>
-                      <div className={TreeStyle.fileSearchPaneOption}>index.js</div>
-                      <div className={TreeStyle.fileSearchPaneOption}>index.js</div>
-                      <div className={TreeStyle.fileSearchPaneOption}>index.js</div>
-                    </div>
-                  </div>
-                </div>)
-      }else {
-        return null;
-    }
-    
-  }
+
+
+
 
   return (
 
@@ -645,11 +693,11 @@ const FileTree = (props) => {
         draggable={true}
         onDragEnter={FileTreeProps.onDragEnter}
         onDrop={FileTreeProps.onDrop}
-        defaultExpandedKeys={['node-hello_ivydom']}
+        defaultExpandedKeys={[localStorage.dir]}
       >
         {treeNodes}
       </Tree>
-      <FileSearchPane params={props.file.searchFilePane}></FileSearchPane>
+      {props.file.searchFilePane.visible ? fileSearchPane.content : null}
     </div>
 
   );

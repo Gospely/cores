@@ -1,4 +1,5 @@
 const webpack = require('atool-build/lib/webpack');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = function(webpackConfig, env) {
   webpackConfig.babel.plugins.push('transform-runtime');
@@ -15,6 +16,14 @@ module.exports = function(webpackConfig, env) {
   webpackConfig.plugins = webpackConfig.plugins.filter(function(plugin) {
     return !(plugin instanceof webpack.optimize.CommonsChunkPlugin);
   });
+  webpackConfig.plugins.push(
+    new CopyWebpackPlugin([
+      {
+        from: 'node_modules/monaco-editor/min/vs',
+        to: 'vs',
+      }
+    ])
+  );
 
   // Support CSS Modules
   // Parse all less files as css module.

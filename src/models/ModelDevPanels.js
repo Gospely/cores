@@ -30,7 +30,9 @@ export default {
 			    			content: '',
 			    			key: '1',
 			    			type: 'welcome',
-			    			editorId: ''
+			    			editorId: '',
+			    			searchVisible: false,
+			    			isSave: false
 			    		},
 
 			    		{
@@ -38,7 +40,9 @@ export default {
 			    			content: '',
 			    			key: '2',
 			    			type: 'designer',
-			    			editorId: ''
+			    			editorId: '',
+			    			searchVisible: false,
+			    			isSave: false
 			    		}
 		    		],
 
@@ -76,6 +80,12 @@ export default {
 	},
 
 	reducers: {
+		toggleSearchBar(state,{payload:params}) {
+			console.log(params.belongTo)
+			let tab = methods.getActiveTab(state, state.panels.panes[params.belongTo]);
+			tab.searchVisible = !tab.searchVisible;
+			return {...state};
+		},
 
 		changePane(state,{payload: key}){
 			console.log(key);
@@ -86,7 +96,7 @@ export default {
 		tabChanged(state, {payload: params}) {
 
 			console.log('tab change');
-			localStorage.isSave = false;
+			// localStorage.isSave = false;
 			console.log(params);
 			// console.log(params.paneKey)
 			state.panels.activePane.key = params.paneKey;
@@ -118,9 +128,10 @@ export default {
 			const activePane = methods.getActivePane(state);
 			const activeTab = activePane.tabs[activePane.activeTab.index];
 			const activeEditor = activePane.editors[activePane.activeEditor.id];
-			activeEditor.fileName = params.fileName;
+			activeEditor.fileName = params.value;
 			console.log(activeTab);
-			activeTab.title = params.fileName;
+			console.log(params.value);
+			activeTab.title = params.value;
 			return {...state};
 		},
 		changeColumn(state, {payload: type}) {
@@ -228,7 +239,7 @@ export default {
 
 		remove(state, {payload: target}) {
 			if (typeof target.paneKey != 'undefined') {
-				
+
 				state.panels.activePane.key = target.paneKey;
 			}
 			let targetKey = target.targetKey;
@@ -290,8 +301,7 @@ export default {
 		},
 
 		handleEditorChanged(state, { payload: params }) {
-			console.log(currentEditor.getValue());
-			localStorage.isSave = true;
+			// localStorage.isSave = true;
 			console.log(params)
 			let activePane = methods.getActivePane(state);
 			let editorObj = {
@@ -301,9 +311,16 @@ export default {
 			console.log(editorObj)
 			activePane.editors[params.editorId] = editorObj;
 			// methods.getActivePane(state).editors[params.editorId].value = params.value;
-			methods.getActivePane(state).activeEditor.id = params.editorId;
+			activePane.activeEditor.id = params.editorId;
+			methods.getActiveTab(state,activePane).isSave = false;
+
 			return {...state};
 		},
+
+		handleFileSave(state,{payload: params}) {
+			state.panels.panes[params.paneKey].tabs[params.tabKey - 1].isSave = true;
+		},
+
 		replace(state,{payload: params}) {
 
 			console.log('devpanel replace');
@@ -324,22 +341,55 @@ export default {
 				regExp: false
 			});
 			currentEditor.findAll();
-			if(!state.isReplaceAll) {
-				content = content.replace(params.searchContent,params.replaceContent);
-				console.log(content);
-			}else{
-				content = content.replace(new RegExp(params.searchContent, 'gm'), params.replaceContent);
-			}
 
+
+			// if(!params.isReplaceAll) {
+			// 	content = content.replace(params.searchContent,params.replaceContent);
+			// 	console.log(content);
+			// }else{
+			// 	content = content.replace(new RegExp(params.searchContent, 'gm'), params.replaceContent);
+			// }
+
+			if(!params.isReplaceAll) {
+				console.log('all');
+				currentEditor.replaceAll(params.replaceContent,{
+						needle:params.searchContent,
+						backwards: false,
+						wrap: true,
+						caseSensitive: true,
+						wholeWord: true,
+						regExp: false
+				});
+			}else{
+				console.log('single');
+				currentEditor.replace(params.replaceContent,{
+						needle:params.searchContent,
+						backwards: false,
+						wrap: true,
+						caseSensitive: true,
+						wholeWord: true,
+						regExp: false
+				});
+
+				currentEditor.find(params.replaceContent,{
+					backwards: true,
+					wrap: true,
+					caseSensitive: true,
+					wholeWord: true,
+					regExp: false
+				});
+				currentEditor.findAll();
+			}
 			console.log("state", state);
 			var editorId = state.panels.panes[state.panels.activePane.key].activeEditor.id
-			state.panels.panes[state.panels.activePane.key].editors[editorId].value = content;
+			state.panels.panes[state.panels.activePane.key].editors[editorId].value = currentEditor.getValue();
+			methods.getActiveTab(state,methods.getActivePane(state)).isSave = false;
 			return {...state};
 		},
 
 		add(state, {payload: target}) {
 
-			localStorage.isSave = false;
+			// localStorage.isSave = false;
 			console.log("paneKey",target.paneKey)
 			if (typeof target.paneKey !== 'undefined') {
 				state.panels.activePane.key = target.paneKey;
@@ -370,7 +420,7 @@ export default {
 			activePane.activeTab.key = (activePane.tabs.length + 1).toString();
 
 			console.log(target.content)
-
+			let isSave = true;
 			if (target.type === 'editor') {
 				var editorObj = {
 					value: target.content,
@@ -379,13 +429,21 @@ export default {
 				};
 				activePane.editors[target.editorId] = editorObj;
 				activePane.activeEditor.id = target.editorId;
+				if(target.title == '新文件' || target.title == '新标签页'){
+					isSave = false;
+				}
 			}
 			let editorId = target.editorId || '';
 			activePane.activeEditor.id = target.editorId;
 			console.log("key",state.panels.activePane.key)
-		    activePane.tabs.push({ title: target.title, content: target.content, type: target.type, key: activePane.activeTab.key, editorId: editorId});
+		    activePane.tabs.push({ title: target.title, content: target.content,
+		    					type: target.type, key: activePane.activeTab.key,
+		    					editorId: editorId,isSave: isSave});
 		    // console.log('editorTab:',currentDevType)
 			activePane.activeTab = {key: activePane.activeTab.key, index: activePane.tabs.length - 1};
+			console.log({ title: target.title, content: target.content,
+		    					type: target.type, key: activePane.activeTab.key,
+		    					editorId: editorId,isSave: isSave})
 		    return {...state};
 		}
 	}

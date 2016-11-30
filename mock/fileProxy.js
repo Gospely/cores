@@ -17,5 +17,18 @@ module.exports = {
 			}
 		});
   	},
+    'GET /snippets/*': function (req, res) {
+    	var fileName = './' + req.url;
+		fs.readFile(fileName, {
+			flag: 'r+',
+			encoding: 'utf8'
+		}, function(error, data) {
+			if (error) {
+				res.end(error);
+			}else {
+				res.end(data);
+			}
+		});
+  	},
 
 };

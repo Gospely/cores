@@ -3,13 +3,24 @@ import AceEditor from 'react-ace';
 import EditorStyle from './Editor.css';
 import { connect } from 'dva';
 
+import MonacoEditor from 'react-monaco-editor';
+
 import { Button, message } from 'antd';
 
 import 'brace/mode/java';
-import 'brace/theme/github';
 import 'brace/mode/javascript';
 import 'brace/mode/html';
 import 'brace/mode/css';
+import 'brace/mode/php';
+import 'brace/mode/plain_text';
+import 'brace/mode/markdown';
+
+import 'brace/theme/github';
+import 'brace/theme/eclipse';
+import 'brace/theme/twilight';
+import 'brace/theme/xcode';
+
+import 'brace/ext/language_tools';
 
 import EditorTop from './EditorTop';
 import EditorBottom from './EditorBottom';
@@ -20,14 +31,17 @@ import randomWord from '../../utils/randomString';
 
 
 const Editor = (props) => {
-
-	var props$editorTop = props.editorTop,
-		dispatch = props.dispatch;
+	let props$editorTop = props.editorTop,
+		dispatch = props.dispatch,
+		belongTo = props.devpanel.panels.panes[props.belongTo],
+		editorId = props.editorId,
+		isSave = props.isSave,
+		tabKey = props.tabKey;
 
 
 
 	const EditorTopProps = {
-		searchVisible: props$editorTop.searchVisible,
+		searchVisible: props.searchVisible,
 		jumpLineVisible: props$editorTop.jumpLineVisible,
 
 		isSearchAll: props$editorTop.isSearchAll,
@@ -47,8 +61,14 @@ const Editor = (props) => {
 
 
 		onOpenSearch() {
+			var searchContent = props.editorTop.searchContent;
 			dispatch({
-				type: 'editorTop/toggleSearchBar'
+				type: 'editorTop/toggleSearchBar',
+				payload:{searchContent}
+			});
+			dispatch({
+				type: 'devpanel/toggleSearchBar',
+				payload: {belongTo: props.belongTo}
 			});
 		},
 
@@ -60,10 +80,10 @@ const Editor = (props) => {
 
 		onSave() {
 
-			if(localStorage.isSave == 'true') {
+			if(isSave == false) {
 				const editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
 				var content = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value;
-				var fileName = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].fileName;
+				var fileName = localStorage.currentSelectedFile;
 				console.log(fileName);
 
 				if(fileName == localStorage.currentFoler) {
@@ -80,7 +100,7 @@ const Editor = (props) => {
 				}else{
 					dispatch({
 						type: 'file/writeFile',
-						payload: {content}
+						payload: {content,tabKey: tabKey}
 					});
 				}
 			}
@@ -177,6 +197,11 @@ const Editor = (props) => {
 					payload: {searchContent}
 				});
 
+				dispatch({
+					type: 'devpanel/toggleSearchBar',
+					payload: {belongTo: props.belongTo}
+				});
+
 				console.log('command');
 				ace.config.loadModule("ace/ext/keybinding_menu", function(module) {
 					module.init(editor);
@@ -208,11 +233,11 @@ const Editor = (props) => {
 			bindKey: {win: "Ctrl-s", mac: "Command-s"},
 			exec: function(editor) {
 
-				if(localStorage.isSave == 'true') {
+				if(isSave == false) {
 					console.log('command');
 					const editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
 					var content = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value;
-					var fileName = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].fileName;
+					var fileName =  localStorage.currentSelectedFile;
 					console.log(fileName);
 					if(fileName == '新标签页' || fileName == '新文件' || fileName == undefined) {
 
@@ -224,7 +249,7 @@ const Editor = (props) => {
 					}else{
 						dispatch({
 							type: 'file/writeFile',
-							payload: {content}
+							payload: {content,tabKey: tabKey,paneKey:paneKey}
 						});
 					}
 				}
@@ -244,10 +269,13 @@ const Editor = (props) => {
 	    		type: 'editor/showArrow'
 	    	})
     	},
-		onLoad(value) {
+		onLoad(e,editor) {
 
+			console.log(e);
+			console.log(editor);
+			window.currentEditor = editor;
 			console.log('editor onLoad');
-			window.currentEditor = value;
+
 		},
 		onFocus(value) {
 
@@ -267,13 +295,15 @@ const Editor = (props) => {
 				console.log(this);
 				console.log(value);
     		var editorId = activePane.activeEditor.id;
-    		props.dispatch({
-    			type: 'devpanel/handleEditorChanged',
-    			payload: {value, editorId}
-    		})
+
+				if(!props.editorTop.searchVisible) {
+					props.dispatch({
+	    			type: 'devpanel/handleEditorChanged',
+	    			payload: {value, editorId}
+	    		})
+				}
     	}
   	}
-
 
   	const editorBottomProps = {
   		panes: props.devpanel.panes,
@@ -287,8 +317,7 @@ const Editor = (props) => {
   		aceHeight = ( parseInt(document.body.clientHeight) - 160 ) / 2+ 'px'
   	}
 
-	let belongTo = props.devpanel.panels.panes[props.belongTo];
-	let editorId = props.editorId;
+
 
 	// console.log('当前editor',props.belongTo)
 
@@ -298,41 +327,35 @@ const Editor = (props) => {
 		<div className={EditorStyle.aceEditor}>
 			<EditorTop {...EditorTopProps}></EditorTop>
 
-			<AceEditor
-	        	mode="javascript"
-	        	theme="github"
-	        	width="100%"
-	        	height={aceHeight}
-				fontSize={12}
-	        	name={editorId}
-				onLoad={editorProps.onLoad}
-				onFocus={editorProps.onFocus}
-	        	editorProps={{$blockScrolling: true}}
-	        	value={belongTo.editors[editorId].value}
-	        	enableBasicAutocompletion={true}
-				commands={commandsArray}
-	        	onChange={editorProps.handleEditorChanged}
-	        	enableBasicAutocompletion={true}/>
+
+					<MonacoEditor
+							width="100%"
+							height="1000"
+							language={props.editorTop.currentMode}
+							options={props.editor.options}
+							value={belongTo.editors[editorId].value}
+							onChange={editorProps.handleEditorChanged}
+							editorDidMount={editorProps.onLoad}
+					/>
 
 	        <EditorBottom></EditorBottom>
 
-			<ReactCSSTransitionGroup
-			  transitionName="fullscreen"
-			  transitionEnterTimeout={500}
-			  transitionLeaveTimeout={300}
-			>
-				{
-					editorProps.showArrow &&
-			        <div className={EditorStyle.fullscreenBtn}>
-					    <Button type="ghost" shape="circle-outline" icon="arrows-alt"></Button>
-			        </div>
-				}
-			</ReactCSSTransitionGroup>
+
   		</div>
  		);
- 	// }else {
- 	// 	return (<div></div>);
- 	// }
+  			//全屏按钮
+ 		// <ReactCSSTransitionGroup
+			//   transitionName="fullscreen"
+			//   transitionEnterTimeout={500}
+			//   transitionLeaveTimeout={300}
+			// >
+			// 	{
+			// 		editorProps.showArrow &&
+			//         <div className={EditorStyle.fullscreenBtn}>
+			// 		    <Button type="ghost" shape="circle-outline" icon="arrows-alt"></Button>
+			//         </div>
+			// 	}
+			// </ReactCSSTransitionGroup>
 
 
 };

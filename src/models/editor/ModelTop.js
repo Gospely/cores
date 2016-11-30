@@ -3,7 +3,6 @@ import dva from 'dva';
 export default {
 	namespace: 'editorTop',
 	state: {
-		searchVisible: false,
 		jumpLineVisible: false,
 
 		isReplaceAll: true,
@@ -11,23 +10,33 @@ export default {
 		replaceContent: '',
 
 		jumpLine: '0:0',
+		currentMode: 'javascript',
 
 		syntaxList: [{
 			language: 'HTML',
 			key: '1',
-			alias: 'html'
+			alias: 'html',
+			suffix: 'html'
 		}, {
 			language: 'JavaScript',
 			key: '2',
-			alias: 'javascript'
+			alias: 'javascript',
+			suffix:'js'
 		}, {
 			language: 'CSS',
 			key: '3',
-			alias: 'css'
+			alias: 'css',
+			suffix: 'css'
 		}, {
 			language: 'PHP',
 			key: '4',
-			alias: 'php'
+			alias: 'php',
+			suffix: 'php'
+		},{
+			language: 'JAVA',
+			key: '5',
+			alias: 'java',
+			suffix: 'java'
 		}],
 
 		isSaving: false,
@@ -57,7 +66,7 @@ export default {
 				wholeWord: true,
 				regExp: false
 			});
-			return {...state, searchVisible: !state.searchVisible, jumpLineVisible: false};
+			return {...state, jumpLineVisible: false};
 		},
 
 		search(state,{payload: params}) {
@@ -128,7 +137,48 @@ export default {
 		selectSyntax() {
 
 		},
+		dynamicChangeSyntax(state,{payload: params}) {
 
+			var setMode = {
+				js: function(){
+						console.log('javascript');
+						return 'javascript';
+				},
+				css: function(){
+						console.log('css');
+						return 'css';
+				},
+				html: function(){
+						console.log('html');
+						return 'html';
+				},
+				php: function(){
+						console.log('php');
+						return 'php';
+				},
+				java: function() {
+						console.log('java');
+						return 'java';
+				},
+				txt: function() {
+					console.log('txt');
+					return 'plain_text';
+				},
+				md: function() {
+					console.log('markdown');
+					return 'markdown';
+				}
+			}
+			console.log("denamicChange");
+			console.log(params.suffix);
+
+			if(setMode[params.suffix] == undefined) {
+				params.suffix = 'txt';
+			}
+			state.currentMode = setMode[params.suffix]();
+			state.currentLanguage = state.currentMode.toUpperCase();
+			return {...state};
+		},
 		showJumpLine(state) {
 			return {...state, jumpLineVisible: true
 			};

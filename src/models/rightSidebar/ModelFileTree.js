@@ -73,7 +73,13 @@ export default {
 			title: ''
 		},
 		searchFilePane: {
-			visible: false
+			visible: false,
+			files: [
+				{name: 'index.js',key: 0},
+				{name: 'readme.md',key: 1},
+				{name: 'require.js',key: 2},
+			],
+			inputValue: ''
 		}
 	},
 
@@ -89,7 +95,7 @@ export default {
 
 	effects: {
 		*fetchFileList(payload, {call, put}) {
-      		var fileList = yield request('fs/list/file/?id=node-hello_ivydom');
+      		var fileList = yield request('fs/list/file/?id=' + localStorage.dir);
 	      	yield put({ type: 'list', payload: fileList });
       	},
 
@@ -149,6 +155,7 @@ export default {
       	},
 
       	*removeFile({payload: fileName}, {call, put}) {
+      		localStorage.isSave = true;
 			var mkResult = yield request('fs/remove/', {
 				method: 'POST',
 				body: JSON.stringify({
@@ -202,6 +209,10 @@ export default {
       		// console.log(content)
       		content = content.fields;
       		// console.log(content);
+					var splits = content.fileName.split('/');
+					content.fileName = content.fileName.replace(splits[0] + '/','');
+					content.fileName = content.fileName.replace(splits[1], localStorage.currentProject);
+
 			yield put({
 				type: 'devpanel/add',
 				payload: {
@@ -221,14 +232,21 @@ export default {
 					}else{
 						fileName = params.fileName;
 					}
-			var mkResult = yield request('fs/write/', {
-				method: 'POST',
-				body: JSON.stringify({
-					fileName: fileName,
-					data: params.content
-				})
-			});
-			yield put({type: 'fetchFileList'});
+					var mkResult = yield request('fs/write/', {
+						method: 'POST',
+						body: JSON.stringify({
+							fileName: fileName,
+							data: params.content
+						})
+					});
+					yield put({type: 'fetchFileList'});
+					yield put({
+						type: 'devpanel/handleFileSave',
+						payload: {
+							tabKey: params.tabKey, pane: params.paneKey
+						}
+					})
+					// par.isSave = false;
       	},
 
       	*handleUpload({payload: fileName}, {call, put, select}) {
@@ -243,9 +261,21 @@ export default {
 	},
 
 	reducers: {
+
 		showSearchPane(state) {
 			state.searchFilePane.visible = true;
-			return {...state}
+			state.searchInput.visible = false;
+			return {...state};
+		},
+
+		hideSearchPane(state) {
+			state.searchFilePane.visible = false;
+			return {...state};
+		},
+
+		searchInputChange(state,{payload: value}){
+			state.searchFilePane.inputValue = value;
+			return {...state};
 		},
 
 		showContextMenu(state, {payload: proxy}) {
@@ -291,9 +321,9 @@ export default {
 			}};
 		},
 		handleSearchInputChange(state, {payload: val}) {
-			return {...state, searchInput: {
-				value: val
-			}};
+			state.searchInput.value = val;
+			state.searchFilePane.inputValue = val
+			return {...state};
 		},
 		handleUploadInputChange(state, {payload: val}) {
 			return {...state, uploadInput: {
@@ -355,7 +385,7 @@ export default {
 					console.log("saveModal");
 					return {...state, newFileNameModal: {
 						visible: true,
-						value: localStorage.currentFolder,
+						value: localStorage.currentProject + '/',
 						title: '请输入文件名'
 					}};
 				}
@@ -404,8 +434,8 @@ export default {
 
 			return {...state, treeData: [{
 				isLeaf: false,
-				key: 'node-hello_ivydom',
-				name: 'root',
+				key: localStorage.dir,
+				name: localStorage.currentProject,
 				children: tree,
 				original: {
 					folder: 'null'
