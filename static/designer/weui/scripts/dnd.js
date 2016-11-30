@@ -130,8 +130,8 @@
 		genButton:function(c){
 			var btn = $("<"+c.tag[0]+"/>");
 			btn.addClass(c.baseClassName);
-			btn.addClass("weui-btn_primary");
-			btn.html("123");
+			btn.addClass(c.attr.class._value);
+			btn.html(c.attr.value._value);
 			return btn;
 		},
 		//生成组件
