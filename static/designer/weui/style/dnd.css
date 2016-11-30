@@ -6,3 +6,9 @@
 .hight-light{
 	border-color: #0894ec!important;
 }
+.delete-com{
+	position:absolute!important;
+	top:-8px; 
+	right:-12px; 
+	z-index:99;
+}

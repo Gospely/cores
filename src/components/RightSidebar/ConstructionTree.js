@@ -111,7 +111,6 @@ const ConstructionTree = (props) => {
         <TreeNode title={item.attr.title._value} key={item.key} isLeaf={item.isLeaf} />
     );
   });
-
   const treeNodes = loopData(props.designer.layout);
 
 	return (

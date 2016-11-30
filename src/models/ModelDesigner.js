@@ -771,8 +771,8 @@ export default {
 		},
 
 		addPage(state, { payload: page }) {
-
-			page = page || layoutAction.getController(state.controllersList, 'page');
+			console.log("addPage1111111111111111:::::::::::::::::::::::",state.layout)
+			var page = page || layoutAction.getController(state.controllersList, 'page');
 
 			console.log('page', page);
 
@@ -804,10 +804,12 @@ export default {
 			state.layout.push(tmpPage);
 			console.log('after layout', state.layout);
 			layoutAction.setActivePage(state.layoutState, state.layout.length - 1, tmpPage.key);
+			console.log("addPage2222222222:::::::::::::::::::::::",state.layout)
 			return {...state};
 		},
 
 		addController(state, { payload: controller }) {
+			console.log("addController11111111111:::::::::::::::::::::::",state.layout)
 			var activePage = layoutAction.getActivePage(state.layout, state.layoutState.activePage.index);
 			var tmpAttr = {};
 
@@ -833,10 +835,13 @@ export default {
 
 			activePage.children.push(ctrl);
 			layoutAction.setActiveController(state.layoutState, activePage.children.length - 1, ctrl.key);
+
+			console.log("addController2222222222:::::::::::::::::::::::",state.layout)
 			return {...state};
 		},
 
 		handleTreeChanged(state, { payload: params }) {
+			console.log("handleTreeChanged11111111111:::::::::::::::::::::::",state.layout)
 			if(params.type == 'page') {
 				var pageIndex =layoutAction.getPageIndexByKey(state.layout, params.key);
 				layoutAction.setActivePage(state.layoutState, pageIndex, params.key);
@@ -845,140 +850,141 @@ export default {
 				var controllerIndex = layoutAction.getControllerIndexByKey(activePage.children, params.key);
 				layoutAction.setActiveController(state.layoutState, controllerIndex, params.key);
 			}
+			console.log("handleTreeChanged2222222222222:::::::::::::::::::::::",state.layout)
 			return {...state};
 		},
 
 		handleAttrRefreshed (state) {
-
+			console.log("handleAttrRefreshed1111111111111:::::::::::::::",state.layout);
 			var activePage = layoutAction.getActivePage(state.layout, state.layoutState.activePage.index);
 
-    		var gospelDesigner = window.frames['gospel-designer'];
+	    		var gospelDesigner = window.frames['gospel-designer'];
 
-    		if(!gospelDesigner) {
-    			message.error('请先打开编辑器！');
-    			return {...state};
-    		}
+	    		if(!gospelDesigner) {
+	    			message.error('请先打开编辑器！');
+	    			return {...state};
+	    		}
 
-    		if(state.layoutState.activeType == 'page') {
+	    		if(state.layoutState.activeType == 'page') {
 
-	    		gospelDesigner.postMessage({
-	    			attrRefreshed: activePage
-	    		}, '*');
+		    		gospelDesigner.postMessage({
+		    			attrRefreshed: activePage
+		    		}, '*');
 
-    		}
+	    		}
 
-    		if(state.layoutState.activeType == 'controller') {
-    			var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
+	    		if(state.layoutState.activeType == 'controller') {
+	    			var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
 
-	    		gospelDesigner.postMessage({
-	    			attrRefreshed: activeCtrl
-	    		}, '*');
-    		}
-
-    		return {...state};
+		    		gospelDesigner.postMessage({
+		    			attrRefreshed: activeCtrl
+		    		}, '*');
+	    		}
+	    		console.log('handleAttrRefreshed222222222222:::::::::::::::::', state.layout);
+	    		return {...state};
 
 		},
 
 		handleCtrlSelected (state) {
-
+			console.log("handleCtrlSelected111111111111:::::::::::::::",state.layout);
 			var activePage = layoutAction.getActivePage(state.layout, state.layoutState.activePage.index);
 
-    		var gospelDesigner = window.frames['gospel-designer'];
+	    		var gospelDesigner = window.frames['gospel-designer'];
 
-    		if(!gospelDesigner) {
-    			message.error('请先打开编辑器！')
-    			return false;
-    		}
+	    		if(!gospelDesigner) {
+	    			message.error('请先打开编辑器！')
+	    			return false;
+	    		}
 
-    		if(state.layoutState.activeType == 'page') {
+	    		if(state.layoutState.activeType == 'page') {
 
-	    		gospelDesigner.postMessage({
-	    			ctrlSelected: activePage
-	    		}, '*');
+		    		gospelDesigner.postMessage({
+		    			ctrlSelected: activePage
+		    		}, '*');
 
-    		}
+	    		}
 
-    		if(state.layoutState.activeType == 'controller') {
-    			var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
+	    		if(state.layoutState.activeType == 'controller') {
+	    			var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
 
-	    		gospelDesigner.postMessage({
-	    			ctrlSelected: activeCtrl
-	    		}, '*');
-    		}
-
-    		return {...state};
+		    		gospelDesigner.postMessage({
+		    			ctrlSelected: activeCtrl
+		    		}, '*');
+	    		}
+	    		console.log("handleCtrlSelected222222222222222:::::::::::::::",state.layout);
+	    		return {...state};
 
 		},		
 
 		handlePageAdded (state) {
-
+			console.log("handlePageAdded11111:::::::::::::::",state.layout);
 			var activePage = layoutAction.getActivePage(state.layout, state.layoutState.activePage.index);
 
-    		var gospelDesigner = window.frames['gospel-designer'];
+	    		var gospelDesigner = window.frames['gospel-designer'];
 
-    		if(!gospelDesigner) {
-    			message.error('请先打开编辑器！')
-    			return false;
-    		}
+	    		if(!gospelDesigner) {
+	    			message.error('请先打开编辑器！')
+	    			return false;
+	    		}
 
-    		if(state.layoutState.activeType == 'page') {
+	    		if(state.layoutState.activeType == 'page') {
 
-	    		gospelDesigner.postMessage({
-	    			pageAdded: activePage
-	    		}, '*');
+		    		gospelDesigner.postMessage({
+		    			pageAdded: activePage
+		    		}, '*');
 
-    		}
+	    		}
 
-    		if(state.layoutState.activeType == 'controller') {
-    			var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
+	    		if(state.layoutState.activeType == 'controller') {
+	    			var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
 
-	    		gospelDesigner.postMessage({
-	    			pageAdded: activeCtrl
-	    		}, '*');
-    		}
-
-    		return {...state};
+		    		gospelDesigner.postMessage({
+		    			pageAdded: activeCtrl
+		    		}, '*');
+	    		}
+	    		console.log("handlePageAdded222222:::::::::::::::",state.layout);
+	    		return {...state};
 
 		},
 
 		handleAttrFormChange(state, { payload: params }) {
+			console.log('handleAttrFormChange11111:::::::::::::::::', state.layout);
 			var activePage = layoutAction.getActivePage(state.layout, state.layoutState.activePage.index);
-
+			console.log("activePage:",activePage);
 			if(state.layoutState.activeType == 'page') {
 				activePage.attr[params.attrName]['_value'] = params.newVal;
-				console.log(activePage.attr);
+				console.log("activePage.attr:" , activePage.attr);
 			}
 
 			if(state.layoutState.activeType == 'controller') {
+		      		const loopChildren = (page) => {
 
-	      		const loopChildren = (page) => {
+		      			var ct;
 
-	      			var ct;
+		      			for (var i = 0; i < page.length; i++) {
+		      				var ctrl = page[i];
 
-	      			for (var i = 0; i < page.length; i++) {
-	      				var ctrl = page[i];
+		      				if(ctrl.children) {
+		      					loopChildren(ctrl.children);
+		      				}
 
-	      				if(ctrl.children) {
-	      					loopChildren(ctrl.children);
-	      				}
+		      				if(typeof ctrl.attr[params.attrName] != 'undefined') {
+		      					ct = ctrl;
+		      					break;
+		      				}
+		      			};
 
-	      				if(typeof ctrl.attr[params.attrName] != 'undefined') {
-	      					ct = ctrl;
-	      					break;
-	      				}
-	      			};
+		      			return ct;
 
-	      			return ct;
-
-	      		};
+		      		};
 
 
-	      		var activeCtrl = loopChildren(activePage.children);
+		      		var activeCtrl = loopChildren(activePage.children);
 
-	      		activeCtrl.attr[params.attrName]['_value'] = params.newVal;
+		      		activeCtrl.attr[params.attrName]['_value'] = params.newVal;
 
 			}
-
+			console.log('handleAttrFormChange222:::::::::::::::::', state.layout);
 			return {...state};
 		}
 
