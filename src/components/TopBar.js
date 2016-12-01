@@ -178,6 +178,12 @@ const LeftSidebar = (props) => {
 
 	        pause() {
 
+	        },
+
+	        preview() {
+	        	var title = '小程序预览',
+	        		type = 'previewer';
+	        		props.dispatch({type: 'devpanel/add',payload: {title,type}});
 	        }
 
 	      }
@@ -334,6 +340,9 @@ const LeftSidebar = (props) => {
 		        </Menu.Item>
 		        <Menu.Item key="pause">
 					<Icon type="pause-circle-o" />
+		        </Menu.Item>
+		        <Menu.Item key="preview">
+		        	<Icon type="eye-o" />
 		        </Menu.Item>
 
 	      	</Menu>
