@@ -220,9 +220,9 @@ const LeftSidebar = (props) => {
 	    openApp(application) {
 
 				console.log(localStorage.userName);
-				localStorage.dir = localStorage.user + '/' + application.name + '_' + localStorage.userName
-				localStorage.currentProject = application.name
-
+				localStorage.dir = localStorage.user + '/' + application.name + '_' + localStorage.userName;
+				localStorage.currentProject = application.name;
+				localStorage.currentFolder = localStorage.user + '/' + application.name + '_' + localStorage.userName;
 				console.log(localStorage.dir);
 				console.log(application);
 				props.dispatch({
