@@ -31,6 +31,7 @@ const FileTree = (props) => {
 
   const buttonWidth = 70;
   var preClickTimestamp = 0;
+  var preClickTimestamp_search = 0;
 
   const fileTreeMenuStyles = {
     position: props.file.contextMenuStyles.position,
@@ -367,9 +368,11 @@ const FileTree = (props) => {
     },
     searchFile: function () {
 
+      var value = props.file.searchInput.value;
       props.dispatch({
-        type: 'file/readAll'
-      })
+        type: 'file/handleSearch',
+        payload:{value}
+      });
     },
 
     searchInput: {
@@ -385,8 +388,11 @@ const FileTree = (props) => {
       },
 
       onPressEnter: function() {
+
+        var value = props.file.searchInput.value;
         props.dispatch({
-          type: 'file/handleSearch'
+          type: 'file/handleSearch',
+          payload:{value}
         });
       }
     }
@@ -595,6 +601,8 @@ const FileTree = (props) => {
   const searchThisFile = function(fileName) {
 
     console.log(fileName);
+    console.log(localStorage.currentFolder);
+    fileName = fileName.replace(localStorage.currentProject,'')
     props.dispatch({
       type: 'file/readFile',
       payload: fileName
@@ -604,21 +612,34 @@ const FileTree = (props) => {
     })
   }
 
-  const searchInputChange = function (e) {
-    props.dispatch({
-      type: 'file/searchInputChange',
-      payload: e.target.value
-    })
+  const searchPaneInputChange = function (e) {
+
+    var currentClickTimestamp = new Date().getTime();
+
+    if(currentClickTimestamp - preClickTimestamp_search > 2000){
+      console.log("time");
+      var value = e.target.value;
+      props.dispatch({
+        type: 'file/searchPaneInputChange',
+        payload: e.target.value
+      });
+      props.dispatch({
+        type: 'file/handleSearch',
+        payload:{value}
+      });
+      preClickTimestamp_search = currentClickTimestamp;
+    }
   }
+
 
   const fileSearchPane = {
 
     content: (
         <div className={TreeStyle.fileSearchPane} onClick={() => {props.dispatch({type: 'file/hideSearchPane'})}}>
           <div onClick={(e) => e.stopPropagation()}>
-            <Input size="large" placeholder="large size" onChange={searchInputChange} value={props.file.searchFilePane.inputValue}/>
+            <Input size="large" placeholder="large size" onChange={searchPaneInputChange} value={props.file.searchFilePane.inputValue}/>
             {props.file.searchFilePane.files.map(file=> {
-                return <div onClick={searchThisFile.bind(this,file.text)} key={file.id} className={TreeStyle.fileSearchPaneOption}>{file.text}</div>
+                return <div onClick={searchThisFile.bind(this,file.folder)} key={file.id} className={TreeStyle.fileSearchPaneOption}>{file.folder}</div>
             })}
           </div>
         </div>
