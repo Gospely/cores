@@ -10,10 +10,10 @@ export default {
       selectOnLineNumbers: true,
       roundedSelection: true,
       readOnly: false,
-      theme: 'vs-dark',
+      theme: 'vs',
       cursorStyle: 'line',
       automaticLayout: true,
-			fontSize: 18,
+			fontSize: 14,
 			cursorBlinking: true
     }
 	},
@@ -22,7 +22,7 @@ export default {
 
 		pushEditor(state, { payload: editorId }) {
 			var editorObj = {
-				value: '// TO DO \r\n'
+				value: ''
 			},
 				tmp = {};
 			tmp[editorId] = editorObj;
@@ -37,14 +37,7 @@ export default {
 
 		hideArrow(state) {
 			return {...state, showArrow: false};
-		},
-
-		handleEditorChanged(state, { payload: params }) {
-			console.log(params);
-			state.editor.value = state.editors[params.editorId].value + params.value;
-			return {...state};
 		}
-
 	}
 
 }

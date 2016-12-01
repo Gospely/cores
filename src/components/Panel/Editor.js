@@ -59,7 +59,6 @@ const Editor = (props) => {
 		isSlideUp: props$editorTop.isSlideUp,
 
 
-
 		onOpenSearch() {
 			var searchContent = props.editorTop.searchContent;
 			dispatch({
@@ -102,6 +101,12 @@ const Editor = (props) => {
 						type: 'file/writeFile',
 						payload: {content,tabKey: tabKey}
 					});
+					dispatch({
+						type: 'devpanel/handleFileSave',
+						payload: {
+							tabKey: tabKey, pane: paneKey
+						}
+					})
 				}
 			}
 		},
@@ -176,91 +181,6 @@ const Editor = (props) => {
 		},
 	}
 
-	const commandsArray = [{
-		name: "help",
-		bindKey: {win: "Ctrl-Alt-h", mac: "Command-Alt-h"},
-		exec: function(editor) {
-			console.log('command');
-			ace.config.loadModule("ace/ext/keybinding_menu", function(module) {
-				module.init(editor);
-				editor.showKeyboardShortcuts()
-			})
-		}
-		}, {
-			name: "search",
-			bindKey: {win: "Ctrl-r", mac: "Command-r"},
-			exec: function(editor) {
-
-				var searchContent = editor.getSelection().doc.getTextRange(editor.getSelection().getRange());
-				dispatch({
-					type: 'editorTop/toggleSearchBar',
-					payload: {searchContent}
-				});
-
-				dispatch({
-					type: 'devpanel/toggleSearchBar',
-					payload: {belongTo: props.belongTo}
-				});
-
-				console.log('command');
-				ace.config.loadModule("ace/ext/keybinding_menu", function(module) {
-					module.init(editor);
-					editor.showKeyboardShortcuts()
-				})
-			}
-		}, {
-			name: "replace",
-			bindKey: {win: "Ctrl-f", mac: "Command-f"},
-			exec: function(editor) {
-
-				var searchContent = editor.getSelection().doc.getTextRange(editor.getSelection().getRange());
-
-
-				editor.findNext();
-				console.log();
-				console.log('command');
-				dispatch({
-					type: 'editorTop/search',
-					payload: {searchContent}
-				});
-				ace.config.loadModule("ace/ext/keybinding_menu", function(module) {
-					module.init(editor);
-					editor.showKeyboardShortcuts()
-				})
-			}
-		}, {
-			name: "save",
-			bindKey: {win: "Ctrl-s", mac: "Command-s"},
-			exec: function(editor) {
-
-				if(isSave == false) {
-					console.log('command');
-					const editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
-					var content = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value;
-					var fileName =  localStorage.currentSelectedFile;
-					console.log(fileName);
-					if(fileName == '新标签页' || fileName == '新文件' || fileName == undefined) {
-
-						var type = 'editor';
-						dispatch({
-							type: 'file/showNewFileNameModal',
-							payload: {type}
-						});
-					}else{
-						dispatch({
-							type: 'file/writeFile',
-							payload: {content,tabKey: tabKey,paneKey:paneKey}
-						});
-					}
-				}
-				ace.config.loadModule("ace/ext/keybinding_menu", function(module) {
-					module.init(editor);
-					editor.showKeyboardShortcuts()
-				})
-			}
-		}
-	];
-
   	const editorProps = {
     	showArrow: props.editor.showArrow,
 
@@ -277,12 +197,7 @@ const Editor = (props) => {
 			console.log('editor onLoad');
 
 		},
-		onFocus(value) {
-
-			console.log('editor onFocus');
-			console.log(value);
-		},
-    	handleMouseLeave() {
+    handleMouseLeave() {
 	    	props.dispatch({
 	    		type: 'editor/hideArrow'
 	    	})

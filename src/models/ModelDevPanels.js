@@ -237,6 +237,24 @@ export default {
 			return {...state};
 		},
 
+		removeFile(state,{payload: fileName}) {
+			// alert(fileName)
+			// state.panels.panes.map(pane => {
+			// 	return pane.tabs.filter(tab => {
+			// 		tab.title.split('/').pop() != fileName;
+			// 		console.log(tab.title.split('/').pop(),fileName,tab.title.toString() == fileName.toString())
+			// 	})
+			// })
+			for(let i = 0; i < state.panels.panes.length; i ++){
+				for(let j = 0; j < state.panels.panes[i].tabs.length; j ++){
+					if (state.panels.panes[i].tabs[j].title.split('/') == fileName) {
+						alert(1);
+					}
+				}
+			}
+			return {...state};
+		},
+
 		remove(state, {payload: target}) {
 			if (typeof target.paneKey != 'undefined') {
 
@@ -318,7 +336,11 @@ export default {
 		},
 
 		handleFileSave(state,{payload: params}) {
+
+			console.log("handleFileSave");
+			console.log(params);
 			state.panels.panes[params.paneKey].tabs[params.tabKey - 1].isSave = true;
+			return {...state};
 		},
 
 		replace(state,{payload: params}) {
@@ -386,7 +408,6 @@ export default {
 			methods.getActiveTab(state,methods.getActivePane(state)).isSave = false;
 			return {...state};
 		},
-
 		add(state, {payload: target}) {
 
 			// localStorage.isSave = false;
@@ -402,7 +423,7 @@ export default {
 
 			target.title = target.title || '新标签页';
 			target.type = target.type || 'editor';
-			target.content = target.content || '// TO DO \r\n';
+			target.content = target.content || '';
 
 			for(let i = 0; i < panes.length; i ++) {
 				for(let j = 0; j < panes[i].tabs.length; j ++) {

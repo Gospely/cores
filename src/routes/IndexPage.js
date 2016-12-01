@@ -93,7 +93,7 @@ function IndexPage(props) {
       if(action == 'remove'){
         localStorage.removeAction = JSON.stringify(removeAction);
         editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
-
+        console.log(targetKey);
         let currentTab = props.devpanel.panels.panes[paneKey.paneKey].tabs[targetKey - 1],
             tabType = currentTab.type;
 
@@ -110,6 +110,7 @@ function IndexPage(props) {
         }
 
         var fileName = localStorage.currentSelectedFile;
+        console.log(currentTab.isSave);
         if(!currentTab.isSave) {
           console.log("show");
           console.log(localStorage.isSave);

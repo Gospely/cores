@@ -358,7 +358,7 @@ export default {
 						title: '值',
 						isClassName: false,
 						isHTML: true,
-						_value: ''
+						_value: '按钮'
 					},
 					disabled: {
 						type: 'toggle',
@@ -374,7 +374,7 @@ export default {
 						value: ['weui-btn_primary', 'weui-btn_default', 'weui-btn_warn', 'weui-btn_plain-default', 'weui-btn_plain-primary', 'weui-vcode-btn'],
 						isClassName: true,
 						isHTML: false,
-						_value: ''
+						_value: 'weui-btn_primary'
 					},
 					mini: {
 						type: 'toggle',
@@ -385,7 +385,7 @@ export default {
 						_value: ''
 					}
 				},
-				tag: ['button', 'button'],
+				tag: ['button'],
 				baseClassName: 'weui-btn',
 				wrapper: ''
 			},
@@ -805,6 +805,16 @@ export default {
 
 	subscriptions: {
 
+		setup({ dispatch, history }) {
+	      	history.listen(({ pathname }) => {
+	      		setTimeout(function() {
+	      			window.gospelDesigner = window.frames['gospel-designer'];
+		      		console.log('gospelDesigner', gospelDesigner);
+		      		
+	      		});
+	      	});
+		}
+
 	},
 
 	effects: {
@@ -841,7 +851,6 @@ export default {
 			for(var att in page.attr) {
 				var currAttr = page.attr[att];
 				tmpAttr[att] = currAttr;
-				tmpAttr[att]['_value'] = '';
 				tmpAttr['title']['_value'] = page.name;
 				tmpAttr['title']['type'] = 'input';
 				tmpAttr['title']['isClassName'] = false;
@@ -874,7 +883,6 @@ export default {
 			for(var att in controller.attr) {
 				var currAttr = controller.attr[att];
 				tmpAttr[att] = currAttr;
-				tmpAttr[att]['_value'] = '';
 				tmpAttr['title'] = {};
 				tmpAttr['title']['_value'] = controller.name;
 				tmpAttr['title']['type'] = 'input';
@@ -886,10 +894,16 @@ export default {
 			var ctrl = {
 				type: controller.type,
 				key: controller.type + '-' + randomString(8, 10),
-				attr: tmpAttr
+				attr: tmpAttr,
+				tag: controller.tag,
+				baseClassName: controller.baseClassName
 			};
 
 			console.log(ctrl);
+
+    		gospelDesigner.postMessage({
+    			ctrlAdded: ctrl
+    		}, '*');
 
 			activePage.children.push(ctrl);
 			layoutAction.setActiveController(state.layoutState, activePage.children.length - 1, ctrl.key);
@@ -915,8 +929,6 @@ export default {
 		handleAttrRefreshed (state) {
 			console.log("handleAttrRefreshed1111111111111:::::::::::::::",state.layout);
 			var activePage = layoutAction.getActivePage(state.layout, state.layoutState.activePage.index);
-
-	    		var gospelDesigner = window.frames['gospel-designer'];
 
 	    		if(!gospelDesigner) {
 	    			message.error('请先打开编辑器！');

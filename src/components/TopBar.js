@@ -12,6 +12,8 @@ import randomWord from '../utils/randomString';
 
 import dndHandler from './Panel/dndHandler';
 
+import keyRegister from './keybinding/register';
+
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 const InputGroup = Input.Group;
@@ -19,6 +21,7 @@ const InputGroup = Input.Group;
 const LeftSidebar = (props) => {
 
 	dndHandler.init(props);
+	keyRegister.init(props);
 
 	var styles = {
 		sidebar: {
@@ -136,7 +139,7 @@ const LeftSidebar = (props) => {
 	        file() {
 
 	          	var title = '新文件',
-	              	content = '// TO DO',
+	              	content = '',
 	              	type = 'editor',
 	              	editorId = randomWord(8, 10);
 							localStorage.currentSelectedFile = '新文件';
@@ -217,9 +220,9 @@ const LeftSidebar = (props) => {
 	    openApp(application) {
 
 				console.log(localStorage.userName);
-				localStorage.dir = localStorage.user + '/' + application.name + '_' + localStorage.userName
-				localStorage.currentProject = application.name
-
+				localStorage.dir = localStorage.user + '/' + application.name + '_' + localStorage.userName;
+				localStorage.currentProject = application.name;
+				localStorage.currentFolder = localStorage.user + '/' + application.name + '_' + localStorage.userName;
 				console.log(localStorage.dir);
 				console.log(application);
 				props.dispatch({
@@ -409,8 +412,8 @@ const LeftSidebar = (props) => {
 
 }
 
-function mapStateToProps({ sidebar, editor, rightbar, designer, attr }) {
-  return { sidebar, editor, rightbar, designer, attr };
+function mapStateToProps({ sidebar, editor, rightbar, designer, attr ,devpanel}) {
+  return { sidebar, editor, rightbar, designer, attr ,devpanel};
 }
 
 export default connect(mapStateToProps)(LeftSidebar);
