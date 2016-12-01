@@ -7,6 +7,7 @@ export default {
 		modalNewAppVisible: false,
 		modalSwitchAppVisible: false,
 		modalModifyGitOriginVisible: false,
+		createFromModal: false,
 		applications: [],
 
 		modifyGitOriginInput: {
@@ -131,7 +132,11 @@ export default {
 		},
 
 		hideModalNewApp(state) {
-			return {...state, modalNewAppVisible: false};
+			if (state.createFromModal) {
+				return {...state, modalNewAppVisible: false, modalSwitchAppVisible: true, createFromModal: false};
+			}else{
+				return {...state, modalNewAppVisible: false};
+			}
 		},
 
 		createApp(state) {
@@ -179,7 +184,7 @@ export default {
 		},
 
 		showNewAppAndHideSwitch(state, {payload: val}) {
-			return {...state, modalNewAppVisible: true, modalSwitchAppVisible: false};
+			return {...state, modalNewAppVisible: true, modalSwitchAppVisible: false, createFromModal: true};
 		},
 
 		setIsGit(state, {payload: flag}) {

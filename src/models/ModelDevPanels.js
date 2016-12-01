@@ -238,17 +238,11 @@ export default {
 		},
 
 		removeFile(state,{payload: fileName}) {
-			// alert(fileName)
-			// state.panels.panes.map(pane => {
-			// 	return pane.tabs.filter(tab => {
-			// 		tab.title.split('/').pop() != fileName;
-			// 		console.log(tab.title.split('/').pop(),fileName,tab.title.toString() == fileName.toString())
-			// 	})
-			// })
 			for(let i = 0; i < state.panels.panes.length; i ++){
 				for(let j = 0; j < state.panels.panes[i].tabs.length; j ++){
-					if (state.panels.panes[i].tabs[j].title.split('/') == fileName) {
-						alert(1);
+					console.log(state.panels.panes[i].tabs[j].title.split('/').pop(),fileName)
+					if (state.panels.panes[i].tabs[j].title.split('/').pop() == fileName) {
+						state.panels.panes[i].tabs.splice(j,1);
 					}
 				}
 			}
@@ -339,6 +333,7 @@ export default {
 
 			console.log("handleFileSave");
 			console.log(params);
+			console.log(state.panels.panes[params.paneKey].tabs)
 			state.panels.panes[params.paneKey].tabs[params.tabKey - 1].isSave = true;
 			return {...state};
 		},

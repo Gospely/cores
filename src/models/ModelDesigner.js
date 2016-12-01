@@ -776,7 +776,13 @@ export default {
 				type: 'container',
 				attr: {}
 			}
-		]
+		],
+		constructionMenuStyle: {
+		    position: 'fixed',
+		    top: '',
+		    left: '',
+		    display: 'none'
+		}
 	},
 
 	subscriptions: {
@@ -838,6 +844,44 @@ export default {
 			console.log('after layout', state.layout);
 			layoutAction.setActivePage(state.layoutState, state.layout.length - 1, tmpPage.key);
 			console.log("addPage2222222222:::::::::::::::::::::::",state.layout)
+			return {...state};
+		},
+
+		hideConstructionMenu(state) {
+			return {...state,constructionMenuStyle: {
+				display: 'none'
+			}}
+		},
+
+		showConstructionMenu(state, {payload: proxy}) {
+			return {...state, constructionMenuStyle: {
+				position: 'fixed',
+				display: 'block',
+				// border: '1px solid #e9e9e9',
+				// padding: '5px 10px',
+				left: proxy.event.clientX,
+				top: proxy.event.clientY,
+				// background: 'white'
+			}}
+		},
+
+		deleteConstruction(state) {
+			let type;
+			let loopData = function (data) {
+				for(let i = 0; i < data.length; i ++){
+					if (data[i].children && data[i].children.length != 0) {
+						loopData(data.children);
+					}else {
+						if (data[i].key == localStorage.currentSelectedConstruction) {
+							type = data[i].type;
+							state.layout.splice(i,1);
+							break;
+						}
+					}
+				}
+			}
+			
+			loopData(state.layout);
 			return {...state};
 		},
 
