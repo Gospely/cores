@@ -13,7 +13,7 @@ export default {
       theme: 'vs',
       cursorStyle: 'line',
       automaticLayout: true,
-			fontSize: 12,
+			fontSize: 14,
 			cursorBlinking: true
     }
 	},

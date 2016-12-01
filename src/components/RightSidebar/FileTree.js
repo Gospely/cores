@@ -219,7 +219,10 @@ const FileTree = (props) => {
 
       ok: function() {
 
-        const editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
+        var activePane = props.devpanel.panels.panes[props.devpanel.panels.activePane.key],
+        editorId = activePane.activeEditor.id,
+        tabKey = activePane.activeTab.key,
+        paneKey = props.devpanel.panels.activePane.key,
         var fileName = props.file.newFileNameModal.value;
         fileName = fileName.replace(localStorage.currentProject + '/',localStorage.currentFolder);
         console.log(fileName);
@@ -238,7 +241,7 @@ const FileTree = (props) => {
             content
           }
         });
-        dispatch({
+        props.dispatch({
           type: 'devpanel/handleFileSave',
           payload: {
             tabKey: tabKey, pane: paneKey
