@@ -237,6 +237,24 @@ export default {
 			return {...state};
 		},
 
+		removeFile(state,{payload: fileName}) {
+			// alert(fileName)
+			// state.panels.panes.map(pane => {
+			// 	return pane.tabs.filter(tab => {
+			// 		tab.title.split('/').pop() != fileName;
+			// 		console.log(tab.title.split('/').pop(),fileName,tab.title.toString() == fileName.toString())
+			// 	})
+			// })
+			for(let i = 0; i < state.panels.panes.length; i ++){
+				for(let j = 0; j < state.panels.panes[i].tabs.length; j ++){
+					if (state.panels.panes[i].tabs[j].title.split('/') == fileName) {
+						alert(1);
+					}
+				}
+			}
+			return {...state};
+		},
+
 		remove(state, {payload: target}) {
 			if (typeof target.paneKey != 'undefined') {
 
@@ -321,7 +339,7 @@ export default {
 
 			console.log("handleFileSave");
 			console.log(params);
-			state.panels.panes[params.pane].tabs[params.tabKey - 1].isSave = true;
+			state.panels.panes[params.paneKey].tabs[params.tabKey - 1].isSave = true;
 			return {...state};
 		},
 

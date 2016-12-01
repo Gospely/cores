@@ -552,6 +552,10 @@ const FileTree = (props) => {
               type: 'file/removeFile',
               payload: localStorage.currentSelectedFile.split('/').pop()
             })
+            props.dispatch({
+              type: 'devpanel/removeFile',
+              payload: localStorage.currentSelectedFile.split('/').pop()
+            })
           }
 
         }
