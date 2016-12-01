@@ -787,6 +787,16 @@ export default {
 
 	subscriptions: {
 
+		setup({ dispatch, history }) {
+	      	history.listen(({ pathname }) => {
+	      		setTimeout(function() {
+	      			window.gospelDesigner = window.frames['gospel-designer'];
+		      		console.log('gospelDesigner', gospelDesigner);
+		      		
+	      		});
+	      	});
+		}
+
 	},
 
 	effects: {
@@ -910,7 +920,7 @@ export default {
 			};
 
 			console.log(ctrl);
-    		var gospelDesigner = window.frames['gospel-designer'];
+
     		gospelDesigner.postMessage({
     			ctrlAdded: ctrl
     		}, '*');
@@ -939,8 +949,6 @@ export default {
 		handleAttrRefreshed (state) {
 			console.log("handleAttrRefreshed1111111111111:::::::::::::::",state.layout);
 			var activePage = layoutAction.getActivePage(state.layout, state.layoutState.activePage.index);
-
-	    		var gospelDesigner = window.frames['gospel-designer'];
 
 	    		if(!gospelDesigner) {
 	    			message.error('请先打开编辑器！');

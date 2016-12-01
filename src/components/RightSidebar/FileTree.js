@@ -366,7 +366,10 @@ const FileTree = (props) => {
       });
     },
     searchFile: function () {
-      // body...
+
+      props.dispatch({
+        type: 'file/readAll'
+      })
     },
 
     searchInput: {
@@ -590,6 +593,8 @@ const FileTree = (props) => {
   });
 
   const searchThisFile = function(fileName) {
+
+    console.log(fileName);
     props.dispatch({
       type: 'file/readFile',
       payload: fileName
@@ -607,12 +612,13 @@ const FileTree = (props) => {
   }
 
   const fileSearchPane = {
+
     content: (
         <div className={TreeStyle.fileSearchPane} onClick={() => {props.dispatch({type: 'file/hideSearchPane'})}}>
           <div onClick={(e) => e.stopPropagation()}>
             <Input size="large" placeholder="large size" onChange={searchInputChange} value={props.file.searchFilePane.inputValue}/>
-            {props.file.searchFilePane.files.map(file => {
-                return <div onClick={searchThisFile.bind(this,file.name)} key={file.key} className={TreeStyle.fileSearchPaneOption}>{file.name}</div>
+            {props.file.searchFilePane.files.map(file=> {
+                return <div onClick={searchThisFile.bind(this,file.text)} key={file.id} className={TreeStyle.fileSearchPaneOption}>{file.text}</div>
             })}
           </div>
         </div>
@@ -620,6 +626,7 @@ const FileTree = (props) => {
   }
 
   const treeNodes = loopData(FileTreeProps.treeData);
+  console.log(props.file.searchFilePane.files);
 
 
 

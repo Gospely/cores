@@ -29,6 +29,7 @@ export default {
 	namespace: 'file',
 	state: {
 		treeData: [],
+		files: [],
 
 		focus: false,
 
@@ -75,9 +76,9 @@ export default {
 		searchFilePane: {
 			visible: false,
 			files: [
-				{name: 'index.js',key: 0},
-				{name: 'readme.md',key: 1},
-				{name: 'require.js',key: 2},
+				{text: 'index.js',id: 0},
+				{text: 'readme.md',id: 1},
+				{text: 'require.js',id: 2},
 			],
 			inputValue: ''
 		}
@@ -241,31 +242,45 @@ export default {
 					});
 					console.log(params);
 					yield put({type: 'fetchFileList'});
-					yield put({
-						type: 'devpanel/handleFileSave',
-						payload: {
-							tabKey: params.tabKey, pane: params.paneKey
-						}
-					})
+
 					// par.isSave = false;
       	},
+				*readAll({payload: fileName}, {call, put, select}) {
 
+
+      	},
       	*handleUpload({payload: fileName}, {call, put, select}) {
       		var val = yield select(state => state.file.uploadInput.value);
       	},
 
       	*handleSearch({payload: fileName}, {call, put, select}) {
-      		yield put({type: 'showSearchPane'});
-      		var val = yield select(state => state.file.searchInput.value);
+
+					var val = yield select(state => state.file.searchInput.value);
+					var url = "fs/list/all?id=" + localStorage.currentFolder + "&&seacrh=" + val;
+					console.log(url);
+					var res = yield request(url, {
+		      			method: 'GET',
+		      			});
+
+					console.log(val);
+					console.log('seacrh');
+					var result = res.data;
+
+					console.log(result);
+					yield put({type: 'showSearchPane',payload: {result}});
       	}
 
 	},
 
 	reducers: {
 
-		showSearchPane(state) {
+		showSearchPane(state,{payload:params}) {
+
+			console.log("showSearchPane");
+			console.log(params.result);
 			state.searchFilePane.visible = true;
 			state.searchInput.visible = false;
+			state.searchFilePane.files = params.result;
 			return {...state};
 		},
 
@@ -275,7 +290,8 @@ export default {
 		},
 
 		searchInputChange(state,{payload: value}){
-			state.searchFilePane.inputValue = value;
+
+
 			return {...state};
 		},
 
@@ -323,7 +339,19 @@ export default {
 		},
 		handleSearchInputChange(state, {payload: val}) {
 			state.searchInput.value = val;
-			state.searchFilePane.inputValue = val
+			// state.searchFilePane.inputValue = val
+			// console.log('seacrh');
+			// console.log(state.files);
+			// var result = state.files.find(function(item){
+			//
+			// 		if(item.children == false){
+			// 			if(item.text == val){
+			// 				return item;
+			// 			}
+			// 		}
+			// });
+			// console.log(result);
+			// state.searchFilePane.files = result;
 			return {...state};
 		},
 		handleUploadInputChange(state, {payload: val}) {
@@ -512,6 +540,11 @@ export default {
 			setLeaf(treeData, parentNode);
 
 			return {...state, treeData};
+		},
+		flashFiles(state,{payload: result}){
+			console.log('falsh');
+			state.files = result;
+			return {...state};
 		}
 	}
 
