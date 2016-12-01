@@ -1,14 +1,17 @@
 import React , {PropTypes} from 'react';
-import { Tree, Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button ,Menu, Dropdown, message} from 'antd';
+import { Tree, Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button ,Menu, Dropdown, message, Tag} from 'antd';
 import { Collapse, Switch } from 'antd';
 
 import { connect } from 'dva';
+
+import randomString from '../../utils/randomString';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
 const Panel = Collapse.Panel;
 const TreeNode = Tree.TreeNode;
 const ButtonGroup = Button.Group;
+const CheckableTag = Tag.CheckableTag;
 
 const Attr = (props) => {
 
@@ -87,7 +90,7 @@ const Attr = (props) => {
 					    	const attrTypeActions = {
 					    		input (attr) {
 					    			return (
-										<FormItem key={index} {...formItemLayout} label={attr.title}>
+										<FormItem key={randomString(8, 10)} {...formItemLayout} label={attr.title}>
 						             		<Input value={attr._value}
 						             				type={attr.attrType}
 						             				onChange={attrFormProps.handleAttrFormInputChange.bind(this, attr)} 
@@ -116,6 +119,47 @@ const Attr = (props) => {
 										    	))}
 										    </Select>
 										</FormItem>
+					    			);
+					    		},
+
+					    		'app_select' (attr) {
+					    			return (
+										<FormItem key={index} {...formItemLayout} label={attr.title}>
+										    <Select onChange={attrFormProps.handleAttrFormSelectChange.bind(this, attr)} 
+										    		value={attr._value}>
+										    	{attr._value.map( type => (
+											      	<Option key={type} value={type}>{type}</Option>
+										    	))}
+										    </Select>
+										</FormItem>
+					    			);
+					    		},
+
+					    		children (attr) {
+					    			console.log('children', attr);
+
+					    			var attrChildren = attr._value;
+					    			var arrAttrChildren = [];
+
+					    			for(var att in attrChildren) {
+					    				attrChildren[att]['attrName'] = att;
+					    				arrAttrChildren.push(attrChildren[att]);
+					    			}
+
+					    			const children = arrAttrChildren.map( (att, i) => {
+					    				return attrTypeActions[att.type](att);
+					    			});
+
+					    			console.log(children);
+
+					    			return (
+					    				<div key={index}>
+						    				<Tag>
+									            {attr.title}
+									        </Tag>
+									        <br/>
+    								        {children}
+					    				</div>
 					    			);
 					    		}
 					    	}

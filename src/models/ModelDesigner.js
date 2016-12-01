@@ -147,10 +147,18 @@ export default {
 		layout: [
 
 			{
-				type: 'page',
-				key: 'page-123',
-				isLeaf: false,
+				name: '应用',
+				type: 'app',
+				key: 'app-2233',
 				attr: {
+
+					pages: {
+						type: 'app_select',
+						attrType: '',
+						isClassName: false,
+						title: '页面',
+						_value: ['page-123']
+					},
 
 					title: {
 						type: 'input',
@@ -158,96 +166,204 @@ export default {
 						title: '页面名称',
 						isClassName: false,
 						isHTML: false,
-						'_value': '主页面'
+						'_value': '应用'
 					},
 
-					color: {
-						type: 'input',
-						attrType: 'color',
-						title: '背景颜色',
+					'window': {
+						type: 'children',
+						title: '窗体设置',
 						isClassName: false,
-						isHTML: false,
-						'_value': '#f8f8f8'
-					},
-					images: {
-						type: 'input',
-						attrType: 'text',
-						title: '背景图片',
-						isClassName: false,
-						isHTML: false,
-						'_value': '#ff4ff'
+						_value: {
+							navigationBarBackgroundColor: {
+								type: 'input',
+								attrType: 'color',
+								title: '头背景色',
+								_value: '#ffffff',
+								isClassName: false
+							},
+
+							navigationBarTextStyle: {
+								type: 'input',
+								attrType: 'color',
+								title: '头字体样式',
+								_value: 'black',
+								isClassName: false
+							},
+
+							navigationBarTitleText: {
+								type: 'input',
+								attrType: 'text',
+								title: '头标题',
+								_value: 'black',
+								isClassName: false
+							},
+
+							backgroundColor: {
+								type: 'input',
+								attrType: 'color',
+								title: '背景颜色',
+								_value: '#eeeeee',
+								isClassName: false
+							},
+
+							backgroundTextStyle: {
+								type: 'input',
+								attrType: 'color',
+								title: '字体样式',
+								_value: 'light',
+								isClassName: false
+							}
+
+						}
 					},
 
-					padding: {
-						type: 'input',
-						attrType: 'number',
-						title: '内边距',
+					// tabBar: {
+
+					// },
+
+					networkTimeout: {
+						type: 'children',
+						title: '网络设置',
 						isClassName: false,
-						isHTML: false,
-						'_value': '20'
+						_value: {
+							request: {
+								type: 'input',
+								attrType: 'number',
+								title: '请求延迟',
+								field: 'request',
+								_value: 100000,
+								isClassName: false
+							},
+
+							downloadFile: {
+								type: 'input',
+								attrType: 'number',
+								title: '下载延迟',
+								field: 'downloadFile',
+								_value: 10000,
+								isClassName: false
+							}			
+						}
 					},
-					scrolling: {
+
+					debug: {
 						type: 'toggle',
-						title: '是否滚动',
 						isClassName: false,
-						isHTML: false,
-						'_value': true
-					},
-					class: {
-						type: 'input',
-						attrType: 'text',
-						title: '类名',
-						isClassName: true,
-						isHTML: false,
-						'_value': 'weui-cell__bd'
-					},
+						title: '调试模式',
+						_value: true
+					}
 
-					routingURL: {
-						type: 'input',
-						attrType: 'text',
-						title: '路由',
-						isClassName: false,
-						isHTML: false,
-						'_value': '/fuck'
-					},
+					// "pages": [
+					//     "pages/index/index",
+					//     "pages/logs/index"
+					//   ],
 
-					icon: {
-						type: 'select',
-						title: '图标',
-						value: ['weui', 'fuck'],
-						isClassName: false,
-						isHTML: false,
-						'_value': 'weui'
-					},
-					"pages": [
-					    "pages/index/index",
-					    "pages/logs/index"
-					  ],
-					  "window": {
-					    "navigationBarBackgroundColor": "#ffffff",
-					    "navigationBarTextStyle": "black",
-					    "navigationBarTitleText": "微信接口功能演示",
-					    "backgroundColor": "#eeeeee",
-					    "backgroundTextStyle": "light"
-					  },
-					  "tabBar": {
-					    "list": [{
-					      "pagePath": "pages/index/index",
-					      "text": "首页"
-					    }, {
-					      "pagePath": "pages/logs/logs",
-					      "text": "日志"
-					    }]
-					  },
-					  "networkTimeout": {
-					    "request": 10000,
-					    "downloadFile": 10000
-					  },
-					  "debug": true,
+					//   "window": {
+					//     "navigationBarBackgroundColor": "#ffffff",
+					//     "navigationBarTextStyle": "black",
+					//     "navigationBarTitleText": "微信接口功能演示",
+					//     "backgroundColor": "#eeeeee",
+					//     "backgroundTextStyle": "light"
+					//   },
+					//   "tabBar": {
+					//     "list": [{
+					//       "pagePath": "pages/index/index",
+					//       "text": "首页"
+					//     }, {
+					//       "pagePath": "pages/logs/logs",
+					//       "text": "日志"
+					//     }]
+					//   },
+					//   "networkTimeout": {
+					//     "request": 10000,
+					//     "downloadFile": 10000
+					//   },
+					  
+					//   "debug": true
 				},
 
-				children: [],
+				children: [
 
+					{
+						type: 'page',
+						key: 'page-123',
+						isLeaf: false,
+						attr: {
+
+							title: {
+								type: 'input',
+								attrType: 'text',
+								title: '页面名称',
+								isClassName: false,
+								isHTML: false,
+								'_value': '主页面'
+							},
+
+							color: {
+								type: 'input',
+								attrType: 'color',
+								title: '背景颜色',
+								isClassName: false,
+								isHTML: false,
+								'_value': '#f8f8f8'
+							},
+							images: {
+								type: 'input',
+								attrType: 'text',
+								title: '背景图片',
+								isClassName: false,
+								isHTML: false,
+								'_value': '#ff4ff'
+							},
+
+							padding: {
+								type: 'input',
+								attrType: 'number',
+								title: '内边距',
+								isClassName: false,
+								isHTML: false,
+								'_value': '20'
+							},
+							scrolling: {
+								type: 'toggle',
+								title: '是否滚动',
+								isClassName: false,
+								isHTML: false,
+								'_value': true
+							},
+							class: {
+								type: 'input',
+								attrType: 'text',
+								title: '类名',
+								isClassName: true,
+								isHTML: false,
+								'_value': 'weui-cell__bd'
+							},
+
+							routingURL: {
+								type: 'input',
+								attrType: 'text',
+								title: '路由',
+								isClassName: false,
+								isHTML: false,
+								'_value': '/fuck'
+							},
+
+							icon: {
+								type: 'select',
+								title: '图标',
+								value: ['weui', 'fuck'],
+								isClassName: false,
+								isHTML: false,
+								'_value': 'weui'
+							},
+						},
+
+						children: [],
+
+					},
+
+				]
 			},
 
 		],
@@ -255,7 +371,7 @@ export default {
 		layoutState: {
 			activePage: {
 				index: 0,
-				key: 'page-123'
+				key: 'app-2233'
 			},
 
 			activeController: {
@@ -263,9 +379,9 @@ export default {
 				key: ''
 			},
 
-			activeKey: 'page-123',
-			activeType: 'page',
-			expandedKeys: []
+			activeKey: 'app-2233',
+			activeType: 'app',
+			expandedKeys: ['app-2233']
 		},
 
 		controllersList: [
@@ -274,6 +390,73 @@ export default {
 				type: 'button-bar',
 				attr: {}
 			},
+
+			{
+				name: '应用',
+				type: 'page',
+				attr: {
+
+					pages: {
+						type: 'app_select',
+						attrType: '',
+						isClassName: false,
+						title: '页面',
+						_value: []
+					},
+
+					// 'window': {
+
+					// },
+
+					// tabBar: {
+
+					// },
+
+					// networkTimeout: {
+					// 	children: {
+					// 		list: {
+					// 			type: 
+					// 		}
+					// 	}
+					// },
+
+					debug: {
+						type: 'toggle',
+						isClassName: false,
+						title: '调试模式',
+						_value: true
+					}
+
+					// "pages": [
+					//     "pages/index/index",
+					//     "pages/logs/index"
+					//   ],
+
+					//   "window": {
+					//     "navigationBarBackgroundColor": "#ffffff",
+					//     "navigationBarTextStyle": "black",
+					//     "navigationBarTitleText": "微信接口功能演示",
+					//     "backgroundColor": "#eeeeee",
+					//     "backgroundTextStyle": "light"
+					//   },
+					//   "tabBar": {
+					//     "list": [{
+					//       "pagePath": "pages/index/index",
+					//       "text": "首页"
+					//     }, {
+					//       "pagePath": "pages/logs/logs",
+					//       "text": "日志"
+					//     }]
+					//   },
+					//   "networkTimeout": {
+					//     "request": 10000,
+					//     "downloadFile": 10000
+					//   },
+					  
+					//   "debug": true
+				}
+			},
+
 			{
 				name: '页面',
 				type: 'page',
