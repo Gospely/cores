@@ -119,8 +119,9 @@ const Attr = (props) => {
 					    			);
 					    		}
 					    	}
-
-					    	return attrTypeActions[item.type](item);
+							if(item.type) {
+								return attrTypeActions[item.type](item);
+							}
 
 			      		})}
 			      	</Form>

@@ -22,7 +22,36 @@ const ConstructionTree = (props) => {
   window.flag = true;
 
   const deleteThisConstruction = function() {
-        props.dispatch({type: 'designer/deleteConstruction'});
+      let type, 
+        lastIndex = -1,
+        deleteIndex,
+        key,
+        activePage = props.designer.layoutState.activePage.key,
+        activeController = props.designer.layoutState.activeController.key;
+      let loopData = function (data) {
+        for(let i = 0; i < data.length; i ++){
+          if (data[i].children && data[i].children.length != 0) {
+            loopData(data.children);
+          }else {
+            if (data[i].key == localStorage.currentSelectedConstruction) {
+              type = data[i].type;
+              key = data[i].key;
+              if(activePage == localStorage.currentSelectedConstruction || 
+                activeController == localStorage.currentSelectedConstruction) {
+                lastIndex = i - 1;
+                deleteIndex = i;
+                if (lastIndex < 0) {
+                  lastIndex = 0;
+                }
+              }
+              break;
+            }
+          }
+        }
+      }
+      loopData(props.designer.layout);
+      props.dispatch({type: 'designer/deleteConstruction',payload: {type,deleteIndex}});
+      props.dispatch({type: 'attr/setFormItemsByType', payload: {type, key}})
   };
   
   const layoutTreeProps = {

@@ -899,23 +899,14 @@ export default {
 			}}
 		},
 
-		deleteConstruction(state) {
-			let type;
-			let loopData = function (data) {
-				for(let i = 0; i < data.length; i ++){
-					if (data[i].children && data[i].children.length != 0) {
-						loopData(data.children);
-					}else {
-						if (data[i].key == localStorage.currentSelectedConstruction) {
-							type = data[i].type;
-							state.layout.splice(i,1);
-							break;
-						}
-					}
-				}
+		deleteConstruction(state,{payload: params}) {
+			if (params.type == 'page') {
+				state.layout.splice(params.deleteIndex,1);
+			}else {
+				state.layout[state.layoutState.activePage.index].children.splice(params.deleteIndex,1);
 			}
+						
 			
-			loopData(state.layout);
 			return {...state};
 		},
 
