@@ -11,9 +11,26 @@ import EditorStyle from '../Panel/Editor.css';
 
 const TreeNode = Tree.TreeNode;
 
+
 const ConstructionTree = (props) => {
 
+  if (!window.flag) {
+    window.addEventListener('click', function () {
+      props.dispatch({type: 'designer/hideConstructionMenu'})
+    }, true)
+  }
+  window.flag = true;
+
+  const deleteThisConstruction = function() {
+        props.dispatch({type: 'designer/deleteConstruction'});
+  };
+  
   const layoutTreeProps = {
+    onRightClick(proxy) {
+      console.log(proxy)
+      localStorage.currentSelectedConstruction = proxy.node.props.eventKey;
+      props.dispatch({type: 'designer/showConstructionMenu',payload: proxy})
+    },
 
     onSelect: function(e, node) {
 
@@ -129,14 +146,16 @@ const ConstructionTree = (props) => {
       <Tree className="layoutTree" 
         showLine 
         defaultExpandAll
+        onRightClick={layoutTreeProps.onRightClick}
         onSelect={layoutTreeProps.onSelect}
         selectedKeys={[props.designer.layoutState.activeKey]}
         expandedKeys={props.designer.layoutState.expandedKeys}
       >
         {treeNodes}
       </Tree>
-
-
+      <Menu style={props.designer.constructionMenuStyle} onClick={deleteThisConstruction} className="context-menu">
+        <Menu.Item key="read">删除</Menu.Item>
+      </Menu>
     </div>
 
 	);

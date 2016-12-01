@@ -7,6 +7,7 @@ import createLoading from 'dva-loading';
 
 localStorage.itemToCut = localStorage.itemToCut || undefined;
 localStorage.itemToCopy = localStorage.itemToCopy || undefined;
+window.flag = false;
 
 // 1. Initialize
 const app = dva({

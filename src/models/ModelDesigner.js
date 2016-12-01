@@ -218,8 +218,32 @@ export default {
 						isClassName: false,
 						isHTML: false,
 						'_value': 'weui'
-					}
-
+					},
+					"pages": [
+					    "pages/index/index",
+					    "pages/logs/index"
+					  ],
+					  "window": {
+					    "navigationBarBackgroundColor": "#ffffff",
+					    "navigationBarTextStyle": "black",
+					    "navigationBarTitleText": "微信接口功能演示",
+					    "backgroundColor": "#eeeeee",
+					    "backgroundTextStyle": "light"
+					  },
+					  "tabBar": {
+					    "list": [{
+					      "pagePath": "pages/index/index",
+					      "text": "首页"
+					    }, {
+					      "pagePath": "pages/logs/logs",
+					      "text": "日志"
+					    }]
+					  },
+					  "networkTimeout": {
+					    "request": 10000,
+					    "downloadFile": 10000
+					  },
+					  "debug": true,
 				},
 
 				children: [],
@@ -776,10 +800,26 @@ export default {
 				type: 'container',
 				attr: {}
 			}
-		]
+		],
+		constructionMenuStyle: {
+		    position: 'fixed',
+		    top: '',
+		    left: '',
+		    display: 'none'
+		}
 	},
 
 	subscriptions: {
+
+		setup({ dispatch, history }) {
+	      	history.listen(({ pathname }) => {
+	      		setTimeout(function() {
+	      			window.gospelDesigner = window.frames['gospel-designer'];
+		      		console.log('gospelDesigner', gospelDesigner);
+		      		
+	      		});
+	      	});
+		}
 
 	},
 
@@ -841,6 +881,44 @@ export default {
 			return {...state};
 		},
 
+		hideConstructionMenu(state) {
+			return {...state,constructionMenuStyle: {
+				display: 'none'
+			}}
+		},
+
+		showConstructionMenu(state, {payload: proxy}) {
+			return {...state, constructionMenuStyle: {
+				position: 'fixed',
+				display: 'block',
+				// border: '1px solid #e9e9e9',
+				// padding: '5px 10px',
+				left: proxy.event.clientX,
+				top: proxy.event.clientY,
+				// background: 'white'
+			}}
+		},
+
+		deleteConstruction(state) {
+			let type;
+			let loopData = function (data) {
+				for(let i = 0; i < data.length; i ++){
+					if (data[i].children && data[i].children.length != 0) {
+						loopData(data.children);
+					}else {
+						if (data[i].key == localStorage.currentSelectedConstruction) {
+							type = data[i].type;
+							state.layout.splice(i,1);
+							break;
+						}
+					}
+				}
+			}
+			
+			loopData(state.layout);
+			return {...state};
+		},
+
 		addController(state, { payload: controller }) {
 			console.log("addController11111111111:::::::::::::::::::::::",state.layout)
 			var activePage = layoutAction.getActivePage(state.layout, state.layoutState.activePage.index);
@@ -866,7 +944,7 @@ export default {
 			};
 
 			console.log(ctrl);
-    		var gospelDesigner = window.frames['gospel-designer'];
+
     		gospelDesigner.postMessage({
     			ctrlAdded: ctrl
     		}, '*');
@@ -895,8 +973,6 @@ export default {
 		handleAttrRefreshed (state) {
 			console.log("handleAttrRefreshed1111111111111:::::::::::::::",state.layout);
 			var activePage = layoutAction.getActivePage(state.layout, state.layoutState.activePage.index);
-
-	    		var gospelDesigner = window.frames['gospel-designer'];
 
 	    		if(!gospelDesigner) {
 	    			message.error('请先打开编辑器！');
