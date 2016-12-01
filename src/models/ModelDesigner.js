@@ -218,8 +218,32 @@ export default {
 						isClassName: false,
 						isHTML: false,
 						'_value': 'weui'
-					}
-
+					},
+					"pages": [
+					    "pages/index/index",
+					    "pages/logs/index"
+					  ],
+					  "window": {
+					    "navigationBarBackgroundColor": "#ffffff",
+					    "navigationBarTextStyle": "black",
+					    "navigationBarTitleText": "微信接口功能演示",
+					    "backgroundColor": "#eeeeee",
+					    "backgroundTextStyle": "light"
+					  },
+					  "tabBar": {
+					    "list": [{
+					      "pagePath": "pages/index/index",
+					      "text": "首页"
+					    }, {
+					      "pagePath": "pages/logs/logs",
+					      "text": "日志"
+					    }]
+					  },
+					  "networkTimeout": {
+					    "request": 10000,
+					    "downloadFile": 10000
+					  },
+					  "debug": true,
 				},
 
 				children: [],
