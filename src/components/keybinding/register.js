@@ -18,7 +18,7 @@ const HotKeyHandler = {
 		case 'Ctrl':
 		MainKey=17; //Ctrl
 		break;
-		case 'Command':
+		case '[':
 		MainKey=17; //Ctrl
 		case 1:
 		MainKey=16; //Shift
@@ -35,6 +35,8 @@ const HotKeyHandler = {
 		//获取键值
 		var keyCode= event.keyCode ;
 		var keyValue = String.fromCharCode(event.keyCode);
+
+		console.log(keyCode, keyValue);
 
 		if(HotKeyHandler.currentMainKey!=null){
 			if(keyValue==value){

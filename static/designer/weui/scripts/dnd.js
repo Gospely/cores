@@ -96,7 +96,7 @@
 		
 	jq(document).on("mousedown",".control-box",function(e){
 		jq(this).dragging({
-			move : 'y'
+			move : 'both'
 		});
 	});
 	jq(document).on("mouseenter",".control-box",function(e){
