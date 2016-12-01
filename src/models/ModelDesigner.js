@@ -902,10 +902,15 @@ export default {
 		deleteConstruction(state,{payload: params}) {
 			if (params.type == 'page') {
 				state.layout.splice(params.deleteIndex,1);
+				layoutAction.setActivePage(state.layoutState, params.lastIndex, params.key);
 			}else {
 				state.layout[state.layoutState.activePage.index].children.splice(params.deleteIndex,1);
+				layoutAction.setActiveController(state.layoutState, params.lastIndex, params.key);
 			}
-						
+			
+			gospelDesigner.postMessage({
+				ctrlRemoved: activePage
+			}, '*');			
 			
 			return {...state};
 		},
@@ -1054,6 +1059,7 @@ export default {
 
 		handleAttrFormChange(state, { payload: params }) {
 			console.log('handleAttrFormChange11111:::::::::::::::::', state.layout);
+			console.log(params)
 			var activePage = layoutAction.getActivePage(state.layout, state.layoutState.activePage.index);
 			console.log("activePage:",activePage);
 			if(state.layoutState.activeType == 'page') {

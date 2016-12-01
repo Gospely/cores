@@ -73,63 +73,66 @@ const Attr = (props) => {
     	}
 
     }
+    if (props.designer.layout.length) {
+		return (
+			<div>
+				<Collapse className="noborder attrCollapse nomin" bordered={false} defaultActiveKey={['1']}>
+				    <Panel header="属性" key="1">
 
-	return (
-		<div>
-			<Collapse className="noborder attrCollapse nomin" bordered={false} defaultActiveKey={['1']}>
-			    <Panel header="属性" key="1">
+				      	<Form onSubmit={handleSubmit}>
+				      		{props.attr.formItems.map( (item, index) => {
 
-			      	<Form onSubmit={handleSubmit}>
-			      		{props.attr.formItems.map( (item, index) => {
+				      			//console.log('change formItems', props.attr.formItems, props.attr.activeFormItem);
 
-			      			//console.log('change formItems', props.attr.formItems, props.attr.activeFormItem);
+						    	const attrTypeActions = {
+						    		input (attr) {
+						    			return (
+											<FormItem key={index} {...formItemLayout} label={attr.title}>
+							             		<Input value={attr._value}
+							             				type={attr.attrType}
+							             				onChange={attrFormProps.handleAttrFormInputChange.bind(this, attr)} 
+							             				className="attrInput" 
+							             				placeholder={attr.title} />
+							         		</FormItem>
+						    			);
+						    		},
 
-					    	const attrTypeActions = {
-					    		input (attr) {
-					    			return (
-										<FormItem key={index} {...formItemLayout} label={attr.title}>
-						             		<Input value={attr._value}
-						             				type={attr.attrType}
-						             				onChange={attrFormProps.handleAttrFormInputChange.bind(this, attr)} 
-						             				className="attrInput" 
-						             				placeholder={attr.title} />
-						         		</FormItem>
-					    			);
-					    		},
+						    		toggle (attr) {
+						    			return (
+											<FormItem key={index} {...formItemLayout} label={attr.title}>
+							    				<Switch onChange={attrFormProps.handleAttrFormSwitchChange.bind(this, attr)} 
+							    						checked={attr._value} />
+											</FormItem>
+						    			);
+						    		},
 
-					    		toggle (attr) {
-					    			return (
-										<FormItem key={index} {...formItemLayout} label={attr.title}>
-						    				<Switch onChange={attrFormProps.handleAttrFormSwitchChange.bind(this, attr)} 
-						    						checked={attr._value} />
-										</FormItem>
-					    			);
-					    		},
+						    		select (attr) {
+						    			return (
+											<FormItem key={index} {...formItemLayout} label={attr.title}>
+											    <Select onChange={attrFormProps.handleAttrFormSelectChange.bind(this, attr)} 
+											    		value={attr._value}>
+											    	{attr.value.map( type => (
+												      	<Option key={type} value={type}>{type}</Option>
+											    	))}
+											    </Select>
+											</FormItem>
+						    			);
+						    		}
+						    	}
+								if(item.type) {
+									return attrTypeActions[item.type](item);
+								}
 
-					    		select (attr) {
-					    			return (
-										<FormItem key={index} {...formItemLayout} label={attr.title}>
-										    <Select onChange={attrFormProps.handleAttrFormSelectChange.bind(this, attr)} 
-										    		value={attr._value}>
-										    	{attr.value.map( type => (
-											      	<Option key={type} value={type}>{type}</Option>
-										    	))}
-										    </Select>
-										</FormItem>
-					    			);
-					    		}
-					    	}
-							if(item.type) {
-								return attrTypeActions[item.type](item);
-							}
+				      		})}
+				      	</Form>
 
-			      		})}
-			      	</Form>
-
-			    </Panel>
-			  </Collapse>
-		</div>
-	);
+				    </Panel>
+				  </Collapse>
+			</div>
+		);
+	}else {
+		return null;
+	}
 
 };
 
