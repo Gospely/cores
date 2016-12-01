@@ -35,7 +35,6 @@ const ConstructionTree = (props) => {
           }else {
             if (data[i].key == localStorage.currentSelectedConstruction) {
               type = data[i].type;
-              key = data[i].key;
               if(activePage == localStorage.currentSelectedConstruction || 
                 activeController == localStorage.currentSelectedConstruction) {
                 lastIndex = i - 1;
@@ -43,6 +42,7 @@ const ConstructionTree = (props) => {
                 if (lastIndex < 0) {
                   lastIndex = 0;
                 }
+                key = data[lastIndex].key;
               }
               break;
             }
