@@ -10,6 +10,7 @@ export default {
 		dySave: true,
 		gap: 50000,
 
+		saveInterval: 0
 	},
 
 	subscriptions: {
@@ -41,12 +42,31 @@ export default {
       		}, payload: {
       			dySave: configs.dySave,
       			gap: configs.gap
-      		})
+      		});
 
-      		// yield put({ type: 'setOriginValue', payload: {
-      		// 	origin,
-      		// 	isGit
-      		// } });
+      		var state = yield select(state => state.UIState);
+
+      		if(state.dySave) {
+      			state.saveInterval = setInterval(() => {
+
+      				var configTobeSaved = {
+      					id: '',
+      					application: '',
+      					creator: '',
+      					configs: {}
+      				}
+
+      				if(state.dySave) {
+      					yield put({ type: 'writeConfig' }, configTobeSaved);
+      				}else {
+      					clearInterval(state.saveInterval);
+      				}
+
+      			}, state.gap);
+      		}
+
+
+      		yield put({ type: 'setSaveInterval', payload: configs });
 		},
 
 		*writeConfig({ payload: params }, { call, put, select }) {
