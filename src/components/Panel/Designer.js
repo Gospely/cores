@@ -27,13 +27,13 @@ const Designer = (props) => {
 	);
 
   	return (
-		<div className="designer-wrapper">
+		<div className="designer-wrapper" hidden={!props.devpanel.devType.visual}>
 
 			<div className="designer-header">
 				<label className="bold">设备</label>
 
 				<Dropdown overlay={deviceSelectedMenu} trigger={['click']}>
-					<Button 
+					<Button
 						className="deviceSelectorBtn">
 						{props.designer.deviceList[props.designer.defaultDevice].name} <Icon type="down" />
 					</Button>
@@ -41,12 +41,12 @@ const Designer = (props) => {
 			</div>
 
 			<div className="designer-body">
-				<iframe 
-					name="gospel-designer" 
-					width={props.designer.deviceList[props.designer.defaultDevice].width} 
-					height={props.designer.deviceList[props.designer.defaultDevice].height} 
-					className="designer" 
-					frameBorder="0" 
+				<iframe
+					name="gospel-designer"
+					width={props.designer.deviceList[props.designer.defaultDevice].width}
+					height={props.designer.deviceList[props.designer.defaultDevice].height}
+					className="designer"
+					frameBorder="0"
 					// src="static/designer/weui/designer.html"
 					src="http://localhost:6767/"
 					>
@@ -58,8 +58,8 @@ const Designer = (props) => {
 
 };
 
-function mapSateToProps({ designer }) {
-	return { designer };
+function mapSateToProps({ designer, devpanel }) {
+	return { designer,devpanel };
 }
 
 export default connect(mapSateToProps)(Designer);

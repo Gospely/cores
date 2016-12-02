@@ -6,7 +6,6 @@ const FormItem = Form.Item;
 export default {
 	namespace: 'attr',
 	state: {
-
 		formItems: [],
 
 		activeFormItem: 0
@@ -19,7 +18,7 @@ export default {
             		type: 'setFormItemsByDefault'
           		});
 	      	});
-		}		
+		}
 	},
 
 	effects: {
@@ -141,6 +140,13 @@ export default {
 			// state.activeFormItem = state.formItems.length - 1;
 
 			console.log('formItems', state.formItems);
+			return {...state};
+		},
+
+		hideVisual(state) {
+
+			state.visible = false;
+
 			return {...state};
 		}
 	}

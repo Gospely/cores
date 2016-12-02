@@ -4,6 +4,7 @@ import request from '../utils/request.js';
 export default {
 	namespace: 'sidebar',
 	state: {
+		
 		modalNewAppVisible: false,
 		modalSwitchAppVisible: false,
 		modalModifyGitOriginVisible: false,
@@ -222,7 +223,17 @@ export default {
 			return {...state}
 		},
 
+		//项目非可视化设计项目,隐藏可视化设计面板
+		hideVisual(state){
+
+			state.visible = false;
+			state.defaultActiveKey = 'setting';
+
+			return {...state}
+		},
+
 		handleTabChanged(state, {payload: name}) {
+
 			state.activeMenu = name;
 			return {...state};
 		}

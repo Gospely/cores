@@ -269,7 +269,10 @@ export default {
 						console.log(result);
 						yield put({type: 'showSearchPane',payload: {result}});
 					}
-      	}
+      	},
+				handleImages({ payload: params}, {call, put, select}) {
+					
+				}
 	},
 
 	reducers: {
