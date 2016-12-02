@@ -8,7 +8,7 @@ export default {
 	state: {
 
 		dySave: true,
-		gap: 50000,
+		gap: 500000,
 
 		saveInterval: 0
 	},
@@ -27,7 +27,7 @@ export default {
 
 		*readConfig({ payload: params }, { call, put, select }) {
 
-  			var configs = yield request('UIStates/' + params.id, {
+  			var configs = yield request('uistates/' + params.id, {
       			method: 'get'
       		});
 
@@ -74,20 +74,15 @@ export default {
 		*writeConfig({ payload: params }, { call, put, select }) {
 			var result = yield request('UIStates', {
       			method: 'POST',
-      			body: {
-      				id: params.id,
-      				application: params.application,
-      				creator: '',
-      				configs: params.configs
-      			}
+      			body: params
       		});
 		},
 
 		*setDySaveEffects({ payload: params }, { call, put, select }) {
 
-			params.gap = params.gap || 50000;
+			params.gap = params.gap || 500000;
 
-			var result = yield request('UIStates', {
+			var result = yield request('uitates', {
       			method: 'POST',
       			body: {
       				id: params.id,

@@ -56,7 +56,17 @@ app.use({
 	onStateChange: () => {
 		var state = app._store.getState();
 		var UIState = packUIStage(state);
-		console.log('onStateChange', UIState);
+
+		// app._store.dispatch({
+		// 	type: 'UIState/writeConfig',
+		// 	payload: {
+		// 		id: '',
+		// 		application: '',
+		// 		creator: '',
+		// 		configs: UIState
+		// 	}
+		// })
+		console.log('onStateChange', UIState, app);
 	}
 });
 
