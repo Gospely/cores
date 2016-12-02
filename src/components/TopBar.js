@@ -4,6 +4,7 @@ import { Menu, Icon, Modal, Input, Button, message, Tabs, Card, Popconfirm, Row,
 const TabPane = Tabs.TabPane;
 
 import { connect } from 'dva';
+import { Router, Route, IndexRoute, Link } from 'dva/router';
 
 import CodingEditor from './Panel/Editor.js';
 import Terminal from './Panel/Terminal.js';
@@ -43,7 +44,7 @@ const LeftSidebar = (props) => {
 		return props.sidebar.applications.map(application => {
 			return   <Col className="gutter-row" span={6} style={{marginTop: 20}} key={application.id}>
 						 <div className="gutter-box">
-								<Card onClick={leftSidebarProps.openApp.bind(this,application)} extra={
+								<Card  onClick={leftSidebarProps.openApp(this,application)} extra={
 									<Popconfirm onClick={(e) => e.stopPropagation()} title="确认删除此项目?"
 									onConfirm={leftSidebarProps.confirmDeleteApp.bind(this,application.id)}
 									onCancel={leftSidebarProps.cancelDeleteApp} okText="Yes" cancelText="No">
@@ -60,6 +61,14 @@ const LeftSidebar = (props) => {
 						 </div>
 					</Col>;
 		});
+	};
+	const designer = () => {
+
+		if(props.devpanel.devType.visual) {
+			return   (<Menu.Item key="designer">
+					<Icon type="windows-o" />
+				</Menu.Item>);
+		}
 	};
 
 	const leftSidebarProps = {
@@ -231,12 +240,18 @@ const LeftSidebar = (props) => {
 				localStorage.currentFolder = localStorage.user + '/' + application.name + '_' + localStorage.userName;
 				console.log(localStorage.dir);
 				console.log(application);
+
+
 				props.dispatch({
 					type: 'file/fetchFileList'
 				});
 				props.dispatch({
 	        type: 'sidebar/hideModalSwitchApp'
-	      })
+	      });
+				props.dispatch({
+					type: 'devpanel/handleImages',
+					payload: { id : application.id}
+				});
 	    	console.log('TopBar中dispatch')
 	    	// alert(1)
 	    },
@@ -244,6 +259,7 @@ const LeftSidebar = (props) => {
 	    switchApp() {
 
 				console.log('switch app');
+
 	      props.dispatch({
 	        type: 'sidebar/switchApp'
 	      })
@@ -299,7 +315,7 @@ const LeftSidebar = (props) => {
 	    antSearchInputFocus: false,
 	};
 
-  	const btnCls = {
+  const btnCls = {
 	    borderRadius: '0px',
 	    marginLeft: '-1px'
 	};
@@ -329,9 +345,7 @@ const LeftSidebar = (props) => {
 		        <Menu.Item key="file">
 					<Icon type="file-text" />
 		        </Menu.Item>
-		        <Menu.Item key="designer">
-		        	<Icon type="windows-o" />
-		        </Menu.Item>
+						{designer()}
 		        <Menu.Item key="terminal">
 					<Icon type="code-o" />
 		        </Menu.Item>

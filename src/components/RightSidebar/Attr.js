@@ -95,8 +95,8 @@ const Attr = (props) => {
 											<FormItem key={randomString(8, 10)} {...formItemLayout} label={attr.title}>
 							             		<Input value={attr._value}
 							             				type={attr.attrType}
-							             				onChange={attrFormProps.handleAttrFormInputChange.bind(this, attr)} 
-							             				className="attrInput" 
+							             				onChange={attrFormProps.handleAttrFormInputChange.bind(this, attr)}
+							             				className="attrInput"
 							             				placeholder={attr.title} />
 							         		</FormItem>
 						    			);
@@ -105,7 +105,7 @@ const Attr = (props) => {
 						    		toggle (attr) {
 						    			return (
 											<FormItem key={randomString(8, 10)} {...formItemLayout} label={attr.title}>
-							    				<Switch onChange={attrFormProps.handleAttrFormSwitchChange.bind(this, attr)} 
+							    				<Switch onChange={attrFormProps.handleAttrFormSwitchChange.bind(this, attr)}
 							    						checked={attr._value} />
 											</FormItem>
 						    			);
@@ -114,7 +114,7 @@ const Attr = (props) => {
 						    		select (attr) {
 						    			return (
 											<FormItem key={randomString(8, 10)} {...formItemLayout} label={attr.title}>
-											    <Select onChange={attrFormProps.handleAttrFormSelectChange.bind(this, attr)} 
+											    <Select onChange={attrFormProps.handleAttrFormSelectChange.bind(this, attr)}
 											    		value={attr._value}>
 											    	{attr.value.map( type => (
 												      	<Option key={type} value={type}>{type}</Option>
@@ -127,7 +127,7 @@ const Attr = (props) => {
 						    		'app_select' (attr) {
 						    			return (
 											<FormItem key={randomString(8, 10)} {...formItemLayout} label={attr.title}>
-											    <Select onChange={attrFormProps.handleAttrFormSelectChange.bind(this, attr)} 
+											    <Select onChange={attrFormProps.handleAttrFormSelectChange.bind(this, attr)}
 											    		value={attr._value}>
 											    	{attr._value.map( type => (
 												      	<Option key={type} value={type}>{type}</Option>
@@ -180,8 +180,8 @@ const Attr = (props) => {
 
 };
 
-function mapStateToProps({ designer, attr }) {
-  return { designer, attr };
+function mapStateToProps({ designer, attr}) {
+  return { designer, attr};
 }
 
 export default connect(mapStateToProps)(Attr);

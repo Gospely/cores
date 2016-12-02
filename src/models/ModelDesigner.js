@@ -75,7 +75,7 @@ const layoutAction = {
 				return index;
 			}
 		})
-		return index;		
+		return index;
 	}
 }
 
@@ -249,7 +249,7 @@ export default {
 								field: 'downloadFile',
 								_value: 10000,
 								isClassName: false
-							}			
+							}
 						}
 					},
 
@@ -474,7 +474,7 @@ export default {
 								field: 'downloadFile',
 								_value: 10000,
 								isClassName: false
-							}			
+							}
 						}
 					},
 
@@ -1029,7 +1029,7 @@ export default {
 	      		setTimeout(function() {
 	      			window.gospelDesigner = window.frames['gospel-designer'];
 		      		console.log('gospelDesigner', gospelDesigner);
-		      		
+
 	      		});
 	      	});
 		}
@@ -1120,11 +1120,11 @@ export default {
 				state.layout[state.layoutState.activePage.index].children.splice(params.deleteIndex,1);
 				layoutAction.setActiveController(state.layoutState, params.lastIndex, params.key);
 			}
-			
+
 			gospelDesigner.postMessage({
 				ctrlRemoved: layoutAction.getActivePage(state.layout, params.deleteIndex)
-			}, '*');			
-			
+			}, '*');
+
 			return {...state};
 		},
 
@@ -1234,7 +1234,7 @@ export default {
 	    		console.log("handleCtrlSelected222222222222222:::::::::::::::",state.layout);
 	    		return {...state};
 
-		},		
+		},
 
 		handlePageAdded (state) {
 			console.log("handlePageAdded11111:::::::::::::::",state.layout);

@@ -36,22 +36,22 @@ const RightSidebar = (props) => {
 
 	return (
 	  	<Tabs tabPosition="right" activeKey={props.rightbar.activeMenu} onChange={callback}>
-	    	<TabPane style={styles.tab} tab={<span style={styles.span}><Icon style={styles.icon} type="exception" />属性</span>} key="attr">
+	    	<TabPane style={styles.tab} tab={<span style={styles.span} hidden={!props.devpanel.devType.visual} ><Icon style={styles.icon} type="exception" />属性</span>} key="attr">
 	    		<Attr></Attr>
-	    	</TabPane>	    	
+	    	</TabPane>
 	    	<TabPane style={styles.tab} tab={<span style={styles.span}><Icon style={styles.icon} type="file-text" />文件</span>} key="file">
 	    		<FileTree></FileTree>
 	    	</TabPane>
 	    	<TabPane style={styles.tab} tab={<span style={styles.span}><Icon style={styles.icon} type="eye-o" />布局</span>} key="4">
 	    		<CloumnLayout></CloumnLayout>
-	    	</TabPane>	    	
+	    	</TabPane>
 	  	</Tabs>
 	)
 
 }
 
-function mapStateToProps({ rightbar }) {
-  return { rightbar };
+function mapStateToProps({ rightbar, devpanel }) {
+  return { rightbar, devpanel };
 }
 
 export default connect(mapStateToProps)(RightSidebar);

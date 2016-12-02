@@ -715,9 +715,7 @@ const FileTree = (props) => {
           </Col>
           <Col span={6}>
             <Tooltip placement="bottom" title="搜索文件">
-              <Popover placement="left" {...searchFilePop} trigger="click">
                 <Button onClick={FileTreeProps.searchFile} className={EditorStyle.topbarBtnColumn}><Icon type="search" /></Button>
-              </Popover>
             </Tooltip>
           </Col>
         </Row>

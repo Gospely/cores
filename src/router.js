@@ -9,6 +9,8 @@ export default function({ history }) {
     <Router history={history}>
       	<Route path="/" component={IndexPage}>
       	</Route>
+        <Route path="/project/:id" component={IndexPage}>
+        </Route>
     	<Route path="/products" component={Products} />
     </Router>
   );
