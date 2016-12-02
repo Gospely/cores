@@ -12,7 +12,7 @@ import { connect } from 'dva';
 
 const RightSidebar = (props) => {
 
-	var callback = function(key) {
+	var handleTabChanged = function(key) {
 		props.dispatch({
 			type: 'rightbar/handleTabChanged',
 			payload: key
@@ -35,7 +35,7 @@ const RightSidebar = (props) => {
 	}
 
 	return (
-	  	<Tabs tabPosition="right" activeKey={props.rightbar.activeMenu} onChange={callback}>
+	  	<Tabs tabPosition="right" activeKey={props.rightbar.activeMenu} onChange={handleTabChanged}>
 	    	<TabPane style={styles.tab} tab={<span style={styles.span}><Icon style={styles.icon} type="exception" />属性</span>} key="attr">
 	    		<Attr></Attr>
 	    	</TabPane>	    	

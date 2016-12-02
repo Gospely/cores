@@ -1,6 +1,8 @@
 import React , {PropTypes} from 'react';
 import { Tabs, Icon, Popover, Collapse } from 'antd';
 
+import { connect } from 'dva';
+
 import ConstructionTree from './RightSidebar/ConstructionTree';
 import FileTree from './RightSidebar/FileTree';
 import Controllers from './RightSidebar/Controllers';
@@ -13,10 +15,13 @@ import SplitPane from 'react-split-pane';
 const TabPane = Tabs.TabPane;
 const Panel = Collapse.Panel;
 
-const RightSidebar = () => {
+const leftSidebar = (props) => {
 
-	var callback = function(key) {
-		console.log(key);
+	var handleTabChanged = function(key) {
+		props.dispatch({
+			type: 'sidebar/handleTabChanged',
+			payload: key
+		});
 	}
 
 	var styles = {
@@ -35,7 +40,7 @@ const RightSidebar = () => {
 	}
 
 	return (
-	  	<Tabs tabPosition="left" defaultActiveKey="controllers" onChange={callback}>
+	  	<Tabs tabPosition="left" activeKey={props.sidebar.activeMenu} onChange={handleTabChanged}>
 	    	<TabPane style={styles.tab} tab={<span style={styles.span}><Icon style={styles.icon} type="bars" />结构</span>} key="controllers">
 				<Collapse className="noborder attrCollapse consCollapse" bordered={false} defaultActiveKey={['controllers', 'construction']}>
 				    <Panel header="结构" key="construction">
@@ -54,4 +59,8 @@ const RightSidebar = () => {
 
 }
 
-export default RightSidebar;
+function mapStateToProps({ sidebar }) {
+  return { sidebar };
+}
+
+export default connect(mapStateToProps)(leftSidebar);

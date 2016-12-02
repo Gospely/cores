@@ -14,7 +14,9 @@ export default {
 			value: '',
 			isGit: false,
 			pushValue: ''
-		}
+		},
+
+		activeMenu: 'controllers'
 	},
 
 	subscriptions: {
@@ -27,7 +29,7 @@ export default {
 		}
 	},
 
-	effects: {
+	effects: {		
 
 		*isGitProject({payload: params}, {call, put, select}) {
       		// var isGit = yield request('fs/git/', {
@@ -211,6 +213,7 @@ export default {
 				pushValue: push
 			}}
 		},
+
 		initApplications(state, {payload: params}) {
 
 			console.log("initApplications");
@@ -219,6 +222,10 @@ export default {
 			return {...state}
 		},
 
+		handleTabChanged(state, {payload: name}) {
+			state.activeMenu = name;
+			return {...state};
+		}
 
 	}
 
