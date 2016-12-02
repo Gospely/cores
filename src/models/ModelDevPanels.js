@@ -24,6 +24,7 @@ export default {
 				visual: true,
 				defaultActiveKey: 'controllers'
 			},
+			debug: '',
 	    panels: {
 
 	    	panes: [
@@ -114,6 +115,13 @@ export default {
 	},
 
 	reducers: {
+
+		handleDebugger(state, { payload: params}){
+
+				state.debug = params.debug;
+				console.log('handleDebugger');
+				return {...state};
+		},
 		handleTabChanged(state, {payload: name}) {
 			state.activeMenu = name;
 			return {...state};

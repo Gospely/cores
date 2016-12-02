@@ -28,6 +28,7 @@ const app = dva({
 	}
 });
 
+console.log(app);
 // 登录状态同步
 function getCookie(c_name) {
 	if (document.cookie.length > 0) {
@@ -42,8 +43,8 @@ function getCookie(c_name) {
 	return "";
 }
 
-var user = getCookie('user'), 
-	token =  getCookie('token'), 
+var user = getCookie('user'),
+	token =  getCookie('token'),
 	userName =  getCookie('userName');
 
 localStorage.user = user;

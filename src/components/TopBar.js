@@ -188,10 +188,33 @@ const LeftSidebar = (props) => {
 
 	        start() {
 
+							console.log("debugger");
+							//调试
+							const debugType = {
+
+								common(){
+
+									console.log('common');
+									sessionStorage.currentDebugResource = 'http://gospely.com:' + localStorage.port;
+									var debug = window.open('http://localhost:8989/static/debugger/wordpress.html','_blank')
+
+									props.dispatch({
+										type: 'devpanel/handleDebugger',
+										payload: {debug}
+									});
+
+
+								}
+							}
+							debugType['common']();
+
 	        },
 
 	        pause() {
-
+						console.log("pause");
+						var debug = props.devpanel.debug;
+						console.log(debug);
+						debug.postMessage({codeSaved: true},"*");
 	        },
 
 	        preview() {
@@ -242,6 +265,8 @@ const LeftSidebar = (props) => {
 				console.log(localStorage.userName);
 				localStorage.dir = localStorage.user + '/' + application.name + '_' + localStorage.userName + "/";
 				localStorage.currentProject = application.name;
+				localStorage.port = application.port;
+				localStorage.domain = application.domain;
 				localStorage.currentFolder = localStorage.user + '/' + application.name + '_' + localStorage.userName;
 				console.log(localStorage.dir);
 				console.log(application);
