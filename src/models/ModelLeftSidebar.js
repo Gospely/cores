@@ -15,7 +15,9 @@ export default {
 			value: '',
 			isGit: false,
 			pushValue: ''
-		}
+		},
+
+		activeMenu: 'controllers'
 	},
 
 	subscriptions: {
@@ -212,13 +214,30 @@ export default {
 				pushValue: push
 			}}
 		},
+
 		initApplications(state, {payload: params}) {
 
 			console.log("initApplications");
 			console.log(params);
 			state.applications = params.applications;
+			return {...state};
+		},
+
+		//项目非可视化设计项目,隐藏可视化设计面板
+		hideVisual(state){
+
+			state.visible = false;
+			state.defaultActiveKey = 'setting';
+
 			return {...state}
+		},
+
+		handleTabChanged(state, {payload: name}) {
+
+			state.activeMenu = name;
+			return {...state};
 		}
+
 	}
 
 }

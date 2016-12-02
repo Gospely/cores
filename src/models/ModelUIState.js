@@ -26,6 +26,7 @@ export default {
 	effects: {
 
 		*readConfig({ payload: params }, { call, put, select }) {
+
   			var configs = yield request('UIStates/' + params.id, {
       			method: 'get'
       		});
@@ -48,6 +49,7 @@ export default {
 
       		if(state.dySave) {
       			function *cb() {
+
       				var configTobeSaved = {
       					id: '',
       					application: '',

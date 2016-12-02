@@ -1,6 +1,8 @@
 import React , {PropTypes} from 'react';
 import { Tabs, Icon, Popover, Collapse } from 'antd';
 
+import { connect } from 'dva';
+
 import ConstructionTree from './RightSidebar/ConstructionTree';
 import FileTree from './RightSidebar/FileTree';
 import Controllers from './RightSidebar/Controllers';
@@ -9,15 +11,17 @@ import Attr from './RightSidebar/Attr';
 import SettingPanel from './RightSidebar/SettingPanel';
 
 import SplitPane from 'react-split-pane';
-import { connect } from 'dva';
 
 const TabPane = Tabs.TabPane;
 const Panel = Collapse.Panel;
 
-const RightSidebar = (props) => {
+const leftSidebar = (props) => {
 
-	var callback = function(key) {
-		console.log(key);
+	var handleTabChanged = function(key) {
+		props.dispatch({
+			type: 'sidebar/handleTabChanged',
+			payload: key
+		});
 	}
 
 	var styles = {
@@ -36,7 +40,7 @@ const RightSidebar = (props) => {
 	}
 	console.log(props.sidebar.visible);
 	return (
-	  	<Tabs tabPosition="left" defaultActiveKey={props.devpanel.devType.defaultActiveKey} onChange={callback}>
+	  	<Tabs tabPosition="left" defaultActiveKey={props.devpanel.devType.defaultActiveKey} activeKey={props.sidebar.activeMenu} onChange={handleTabChanged}>
 	    	<TabPane style={styles.tab} tab={<span style={styles.span} hidden={!props.devpanel.devType.visual}><Icon style={styles.icon} type="bars" />结构</span>} key="controllers">
 				<Collapse  className="noborder attrCollapse consCollapse" bordered={false} defaultActiveKey={['controllers', 'construction']}>
 				    <Panel header="结构" key="construction" hidden="true">
@@ -54,8 +58,9 @@ const RightSidebar = (props) => {
 	)
 
 }
+
 function mapStateToProps({ sidebar, devpanel}) {
   return { sidebar, devpanel};
 }
 
-export default connect(mapStateToProps)(RightSidebar);
+export default connect(mapStateToProps)(leftSidebar);
