@@ -1,36 +1,42 @@
 import configs from './config';
+import keymap from './keymap';
 
 const HotKeyHandler = {
 
-	currentMainKey:null,
-	currentValueKey:null,
-	props:null,
+	currentMainKey: null,
+	currentValueKey: null,
+	props: null,
+	handlers: [],
 
-	init: function(props) {
+	init: function (props) {
+
 		HotKeyHandler.props = props;
+		HotKeyHandler.handlers = new Array();
 		console.log(configs.bindKey);
 		console.log('register');
+
 		configs.bindKey.map(config => {
-			HotKeyHandler.register(config.mainKey,config.key,config.hander);
+
+			console.log(config.mainKey);
+			config.mainKey.map(key =>{
+
+				console.log(key);
+				var keys = key.split('+');
+				console.log(keys);
+				console.log(keymap[keys[0]],keymap[keys[1]]);
+				HotKeyHandler.register(key,keymap[keys[0]],keymap[keys[1]],config.handler);
+			});
 		});
 	},
 
-	register: function(tag, value, func) {
-		var MainKey = "";
+	register: function(shortcuts, mainKey,key, func) {
 
-		switch(tag) {
-			case 'Ctrl':
-				MainKey = 17; //Ctrl
-				break;
-			case '[':
-				MainKey = 17; //Ctrl
-			case 1:
-				MainKey = 16; //Shift
-				break;
-			case 2:
-				MainKey = '18'; //Alt
-				break;
-		}
+		HotKeyHandler.handlers.push({
+			shortcuts: shortcuts,
+			mainKey:mainKey,
+			key: key,
+			func: func
+		});
 
 		document.onkeyup = function(e) {
 			HotKeyHandler.currentMainKey=null;
@@ -39,25 +45,28 @@ const HotKeyHandler = {
 		document.onkeydown = function(event) {
 			//获取键值
 			var keyCode = event.keyCode;
-			var keyValue = String.fromCharCode(event.keyCode);
 
-			console.log(keyCode, keyValue);
+			console.log(keyCode, keyCode);
 
-			if(HotKeyHandler.currentMainKey != null) {
-				if(keyValue == value) {
-					HotKeyHandler.currentMainKey = null;
-					if(func != null) {
-						func(HotKeyHandler.props);
-						return false;
-					}else{
+			HotKeyHandler.handlers.map(handler =>{
 
+				console.log(handler);
+				if(handler.mainKey == HotKeyHandler.currentMainKey) {
+					if(keyCode == handler.key) {
+						HotKeyHandler.currentMainKey = null;
+						if(func != null) {
+							console.log("exec");
+							handler.func(HotKeyHandler.props);
+							return false;
+						}
 					}
 				}
-			}
+			})
 
-			if(keyCode == MainKey)
+			if(keyCode == keymap['ctrl'])
 				HotKeyHandler.currentMainKey=keyCode;
-			
+			console.log(HotKeyHandler.currentMainKey);
+
 			return true;
 		}
 	}
