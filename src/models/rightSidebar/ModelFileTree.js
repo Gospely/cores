@@ -248,7 +248,6 @@ export default {
 					var debug = yield select(state => state.devpanel.debug.value);
 					if(debug.alert){
 						debug.postMessage({codeSaved: true},"*");
-
 					}
 					// par.isSave = false;
       	},
