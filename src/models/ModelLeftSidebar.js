@@ -4,7 +4,7 @@ import request from '../utils/request.js';
 export default {
 	namespace: 'sidebar',
 	state: {
-		
+
 		modalNewAppVisible: false,
 		modalSwitchAppVisible: false,
 		modalModifyGitOriginVisible: false,
@@ -30,7 +30,7 @@ export default {
 		}
 	},
 
-	effects: {		
+	effects: {
 
 		*isGitProject({payload: params}, {call, put, select}) {
       		// var isGit = yield request('fs/git/', {
@@ -220,7 +220,7 @@ export default {
 			console.log("initApplications");
 			console.log(params);
 			state.applications = params.applications;
-			return {...state}
+			return {...state};
 		},
 
 		//项目非可视化设计项目,隐藏可视化设计面板
