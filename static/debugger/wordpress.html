@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh">
 <head>
+  	<meta charset="UTF-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>[Gospel Wordpress 调试器]</title>
 	<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="styles.css">
@@ -32,19 +34,21 @@
 			}
 
 			var iframe = document.createElement("iframe");
-			iframe.src = sessionStorage.currentDebugResource;
+			iframe.src = 'http://dodora.cn';
 			iframe.setAttribute('frameborder', '1');
 			iframe.setAttribute('class', 'ifr');
 			iframe.setAttribute('name', 'gospel-debugger-ifr');
+			iframe.setAttribute('height', $(document).height());
 
 			if (!/*@cc_on!@*/0) { //如果不是ie
-			    iframe.onload = function() {
-			    	
+			    iframe.onload = function(e) {
+			    	console.log($('iframe').attr('src'), e);
+			    	sessionStorage.currentDebugResource = $('iframe').attr('src');
 			    };
 			} else {
 			    iframe.onreadystatechange = function() {
 			        if (iframe.readyState == "complete"){ 
-
+				    	sessionStorage.currentDebugResource = $('iframe').attr('src');
 			        }
 			    };
 			}
