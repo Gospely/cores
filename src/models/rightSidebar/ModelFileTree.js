@@ -288,6 +288,9 @@ export default {
 				if(state.files[i].text.indexOf(state.searchInput.value) != -1){
 					newFiles.push(state.files[i]);
 				}
+				if(newFiles.length>100){
+					break;
+				}
 			}
 			state.searchFilePane.files = newFiles;
 			return {...state};
@@ -309,6 +312,9 @@ export default {
 				for(var i = 0; i<state.files.length; i++) {
 					if(state.files[i].text.indexOf(value) != -1){
 						newFiles.push(state.files[i]);
+					}
+					if(newFiles.length>100){
+						break;
 					}
 				}
 			}
