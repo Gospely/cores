@@ -38,10 +38,11 @@
 			iframe.setAttribute('frameborder', '1');
 			iframe.setAttribute('class', 'ifr');
 			iframe.setAttribute('name', 'gospel-debugger-ifr');
+			iframe.setAttribute('height', $(document).height());
 
 			if (!/*@cc_on!@*/0) { //如果不是ie
 			    iframe.onload = function(e) {
-			    	console.log($('iframe').attr('src'));
+			    	console.log($('iframe').attr('src'), e);
 			    	sessionStorage.currentDebugResource = $('iframe').attr('src');
 			    };
 			} else {
