@@ -7,6 +7,7 @@ import createLoading from 'dva-loading';
 
 localStorage.itemToCut = localStorage.itemToCut || undefined;
 localStorage.itemToCopy = localStorage.itemToCopy || undefined;
+window.flag = false;
 
 // 1. Initialize
 const app = dva({
@@ -59,6 +60,7 @@ app.model(require('./models/rightSidebar/ModelLayout'));
 app.model(require('./models/rightSidebar/ModelFileTree'));
 app.model(require('./models/rightSidebar/ModelAttr'));
 app.model(require('./models/ModelDesigner'));
+app.model(require('./models/ModelPreviewer'));
 app.model(require('./models/ModelConstruction'));
 
 // 4. Router

@@ -41,24 +41,24 @@ const LeftSidebar = (props) => {
 	const initApplications = () => {
 
 		return props.sidebar.applications.map(application => {
-			return   <Col className="gutter-row" span={6} key={application.id}>
-			 <div className="gutter-box">
-					<Card onClick={leftSidebarProps.openApp.bind(this,application)} extra={
-						<Popconfirm onClick={(e) => e.stopPropagation()} title="确认删除此项目?"
-						onConfirm={leftSidebarProps.confirmDeleteApp.bind(this,application.id)}
-						onCancel={leftSidebarProps.cancelDeleteApp} okText="Yes" cancelText="No">
-								<a className="delete-app">
-								<Icon type="close" />
-							</a>
-						</Popconfirm>
-					} style={{ width: 110, height: 110 }}
-					bodyStyle={{height: '100%', background: 'whitesmoke', color: '#555', cursor: 'pointer'}}>
-							<div style={{ height: 50,lineHeight: '50px',textAlign: 'center'}}>
-								<p className="app-name-hover">{application.name}</p>
-							</div>
-					</Card>
-			 </div>
-				</Col>;
+			return   <Col className="gutter-row" span={6} style={{marginTop: 20}} key={application.id}>
+						 <div className="gutter-box">
+								<Card onClick={leftSidebarProps.openApp.bind(this,application)} extra={
+									<Popconfirm onClick={(e) => e.stopPropagation()} title="确认删除此项目?"
+									onConfirm={leftSidebarProps.confirmDeleteApp.bind(this,application.id)}
+									onCancel={leftSidebarProps.cancelDeleteApp} okText="Yes" cancelText="No">
+										<a className="delete-app">
+											<Icon type="close" />
+										</a>
+									</Popconfirm>
+								} style={{ width: 110, height: 110 }}
+								bodyStyle={{height: '100%', background: 'whitesmoke', color: '#555', cursor: 'pointer'}}>
+										<div style={{ height: 50,lineHeight: '50px',textAlign: 'center'}}>
+											<p className="app-name-hover">{application.name}</p>
+										</div>
+								</Card>
+						 </div>
+					</Col>;
 		});
 	};
 
@@ -178,6 +178,12 @@ const LeftSidebar = (props) => {
 
 	        pause() {
 
+	        },
+
+	        preview() {
+	        	var title = '小程序预览',
+	        		type = 'previewer';
+	        		props.dispatch({type: 'devpanel/add',payload: {title,type}});
 	        }
 
 	      }
@@ -335,6 +341,9 @@ const LeftSidebar = (props) => {
 		        <Menu.Item key="pause">
 					<Icon type="pause-circle-o" />
 		        </Menu.Item>
+		        <Menu.Item key="preview">
+		        	<Icon type="eye-o" />
+		        </Menu.Item>
 
 	      	</Menu>
 
@@ -344,10 +353,24 @@ const LeftSidebar = (props) => {
 	        	<iframe style={styles.ifr} src="http://localhost:8088/#!/apps/new"></iframe>
 	        </Modal>
 
-	    	<Modal width="60%"  title="切换应用" visible={props.sidebar.modalSwitchAppVisible}
+	    	<Modal style={{maxWidth: 550}}  title="切换应用" visible={props.sidebar.modalSwitchAppVisible}
 	          	onOk={leftSidebarProps.switchApp} onCancel={leftSidebarProps.cancelSwitchApp}
 	        >
         	    <Row gutter={16}>
+        	    <Col className="gutter-row" span={6} style={{marginTop: 20}} key='addApp'>
+					 <div className="gutter-box">
+							<Card onClick={console.log('')} 
+							style={{ width: 110, height: 110 }}
+							bodyStyle={{height: '100%', background: 'whitesmoke', color: '#555', cursor: 'pointer'}}>
+									<div style={{ height: 50,lineHeight: '50px',textAlign: 'center' }}>
+										<a className="create-app-from-modal" onClick={leftSidebarProps.createAppFromModal}>
+											<Icon type="plus" />
+										</a>
+										
+									</div>
+							</Card>
+					 </div>
+				</Col>
 				{initApplications()}
         	    </Row>
 	        </Modal>

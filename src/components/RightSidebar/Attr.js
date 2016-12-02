@@ -77,102 +77,106 @@ const Attr = (props) => {
 
     }
 
-	return (
-		<div>
-			<Collapse className="noborder attrCollapse nomin" bordered={false} defaultActiveKey={['1']}>
-			    <Panel header="属性" key="1">
+    if (props.designer.layout.length) {
 
-			      	<Form onSubmit={handleSubmit}>
-			      		{props.attr.formItems.map( (item, index) => {
+		return (
+			<div>
+				<Collapse className="noborder attrCollapse nomin" bordered={false} defaultActiveKey={['1']}>
+				    <Panel header="属性" key="1">
 
-			      			//console.log('change formItems', props.attr.formItems, props.attr.activeFormItem);
+				      	<Form onSubmit={handleSubmit}>
+				      		{props.attr.formItems.map( (item, index) => {
 
-					    	const attrTypeActions = {
-					    		input (attr) {
-					    			return (
-										<FormItem key={randomString(8, 10)} {...formItemLayout} label={attr.title}>
-						             		<Input value={attr._value}
-						             				type={attr.attrType}
-						             				onChange={attrFormProps.handleAttrFormInputChange.bind(this, attr)} 
-						             				className="attrInput" 
-						             				placeholder={attr.title} />
-						         		</FormItem>
-					    			);
-					    		},
+				      			//console.log('change formItems', props.attr.formItems, props.attr.activeFormItem);
 
-					    		toggle (attr) {
-					    			return (
-										<FormItem key={randomString(8, 10)} {...formItemLayout} label={attr.title}>
-						    				<Switch onChange={attrFormProps.handleAttrFormSwitchChange.bind(this, attr)} 
-						    						checked={attr._value} />
-										</FormItem>
-					    			);
-					    		},
+						    	const attrTypeActions = {
+						    		input (attr) {
+						    			return (
+											<FormItem key={randomString(8, 10)} {...formItemLayout} label={attr.title}>
+							             		<Input value={attr._value}
+							             				type={attr.attrType}
+							             				onChange={attrFormProps.handleAttrFormInputChange.bind(this, attr)} 
+							             				className="attrInput" 
+							             				placeholder={attr.title} />
+							         		</FormItem>
+						    			);
+						    		},
 
-					    		select (attr) {
-					    			return (
-										<FormItem key={randomString(8, 10)} {...formItemLayout} label={attr.title}>
-										    <Select onChange={attrFormProps.handleAttrFormSelectChange.bind(this, attr)} 
-										    		value={attr._value}>
-										    	{attr.value.map( type => (
-											      	<Option key={type} value={type}>{type}</Option>
-										    	))}
-										    </Select>
-										</FormItem>
-					    			);
-					    		},
+						    		toggle (attr) {
+						    			return (
+											<FormItem key={randomString(8, 10)} {...formItemLayout} label={attr.title}>
+							    				<Switch onChange={attrFormProps.handleAttrFormSwitchChange.bind(this, attr)} 
+							    						checked={attr._value} />
+											</FormItem>
+						    			);
+						    		},
 
-					    		'app_select' (attr) {
-					    			return (
-										<FormItem key={randomString(8, 10)} {...formItemLayout} label={attr.title}>
-										    <Select onChange={attrFormProps.handleAttrFormSelectChange.bind(this, attr)} 
-										    		value={attr._value}>
-										    	{attr._value.map( type => (
-											      	<Option key={type} value={type}>{type}</Option>
-										    	))}
-										    </Select>
-										</FormItem>
-					    			);
-					    		},
+						    		select (attr) {
+						    			return (
+											<FormItem key={randomString(8, 10)} {...formItemLayout} label={attr.title}>
+											    <Select onChange={attrFormProps.handleAttrFormSelectChange.bind(this, attr)} 
+											    		value={attr._value}>
+											    	{attr.value.map( type => (
+												      	<Option key={type} value={type}>{type}</Option>
+											    	))}
+											    </Select>
+											</FormItem>
+						    			);
+						    		},
 
-					    		children (attr) {
-					    			console.log('children', attr);
+						    		'app_select' (attr) {
+						    			return (
+											<FormItem key={randomString(8, 10)} {...formItemLayout} label={attr.title}>
+											    <Select onChange={attrFormProps.handleAttrFormSelectChange.bind(this, attr)} 
+											    		value={attr._value}>
+											    	{attr._value.map( type => (
+												      	<Option key={type} value={type}>{type}</Option>
+											    	))}
+											    </Select>
+											</FormItem>
+						    			);
+						    		},
 
-					    			var attrChildren = attr._value;
-					    			var arrAttrChildren = [];
+						    		children (attr) {
+						    			console.log('children', attr);
 
-					    			for(var att in attrChildren) {
-					    				attrChildren[att]['attrName'] = att;
-					    				arrAttrChildren.push(attrChildren[att]);
-					    			}
+						    			var attrChildren = attr._value;
+						    			var arrAttrChildren = [];
 
-					    			const children = arrAttrChildren.map( (att, i) => {
-					    				return attrTypeActions[att.type](att);
-					    			});
+						    			for(var att in attrChildren) {
+						    				attrChildren[att]['attrName'] = att;
+						    				arrAttrChildren.push(attrChildren[att]);
+						    			}
 
-					    			console.log(children);
+						    			const children = arrAttrChildren.map( (att, i) => {
+						    				return attrTypeActions[att.type](att);
+						    			});
 
-					    			return (
-					    				<div key={index}>
-						    				<Tag>
-									            {attr.title}
-									        </Tag>
-									        <br/>
-    								        {children}
-					    				</div>
-					    			);
-					    		}
-					    	}
+						    			console.log(children);
 
-					    	return attrTypeActions[item.type](item);
+						    			return (
+						    				<div key={index}>
+							    				<Tag>
+										            {attr.title}
+										        </Tag>
+										        <br/>
+	    								        {children}
+						    				</div>
+						    			);
+						    		}
+						    	}
 
-			      		})}
-			      	</Form>
+						    	return attrTypeActions[item.type](item);
 
-			    </Panel>
-			  </Collapse>
-		</div>
-	);
+				      		})}
+				      	</Form>
+
+				    </Panel>
+				  </Collapse>
+			</div>
+		);
+
+	}
 
 };
 

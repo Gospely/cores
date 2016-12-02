@@ -245,26 +245,22 @@ export default {
 
 					// par.isSave = false;
       	},
-				*readAll({payload: fileName}, {call, put, select}) {
-
-
-      	},
       	*handleUpload({payload: fileName}, {call, put, select}) {
       		var val = yield select(state => state.file.uploadInput.value);
       	},
 
-      	*handleSearch({payload: fileName}, {call, put, select}) {
+      	*handleSearch({payload: params}, {call, put, select}) {
 
-					var val = yield select(state => state.file.searchInput.value);
-					var url = "fs/list/all?id=" + localStorage.currentFolder + "&&seacrh=" + val;
-					console.log(url);
+					var val = params.value;
+					var url = "fs/list/all?id=" + localStorage.currentFolder + "&&search=" + val;
 					var res = yield request(url, {
 		      			method: 'GET',
 		      			});
 
-					console.log(val);
-					console.log('seacrh');
 					var result = res.data;
+					for(var i = 0; i<res.data.length; i++){
+						res.data[i].folder = res.data[i].id.replace(localStorage.currentFolder,localStorage.currentProject);
+					}
 
 					console.log(result);
 					yield put({type: 'showSearchPane',payload: {result}});
@@ -289,9 +285,11 @@ export default {
 			return {...state};
 		},
 
-		searchInputChange(state,{payload: value}){
+		searchPaneInputChange(state,{payload: value}){
 
-
+			console.log(value);
+			console.log("searchPaneInputChange");
+			state.searchFilePane.inputValue = value;
 			return {...state};
 		},
 
@@ -339,6 +337,7 @@ export default {
 		},
 		handleSearchInputChange(state, {payload: val}) {
 			state.searchInput.value = val;
+			state.searchFilePane.inputValue = val;
 			// state.searchFilePane.inputValue = val
 			// console.log('seacrh');
 			// console.log(state.files);

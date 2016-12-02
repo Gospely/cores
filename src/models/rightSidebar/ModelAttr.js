@@ -25,6 +25,7 @@ export default {
 	effects: {
 
       	*setFormItemsByType({payload: params}, {call, put, select}) {
+      		console.log(params)
       		var controllersList = yield select(state => state.designer.controllersList);
       		var currentControllerKey = params.key;
 
@@ -128,8 +129,12 @@ export default {
 			console.log('setFormItems', attr);
 
 			for(var att in attr) {
-				attr[att]['attrName'] = att;
-				tmpAttr.push(attr[att]);
+				try {
+					attr[att]['attrName'] = att;
+					tmpAttr.push(attr[att]);
+				} catch(e) {
+					console.log(e.message)
+				}
 			}
 
 			state.formItems = tmpAttr;

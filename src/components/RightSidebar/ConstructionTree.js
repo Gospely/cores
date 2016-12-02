@@ -11,9 +11,64 @@ import EditorStyle from '../Panel/Editor.css';
 
 const TreeNode = Tree.TreeNode;
 
+
 const ConstructionTree = (props) => {
 
+  if (!window.flag) {
+    window.addEventListener('click', function () {
+      props.dispatch({type: 'designer/hideConstructionMenu'})
+    }, true)
+  }
+  window.flag = true;
+
+  const deleteThisConstruction = function() {
+      let type, 
+        lastIndex = -1,
+        deleteIndex,
+        key,
+        isDeleteAll = false,
+        activePage = props.designer.layoutState.activePage.key,
+        activeController = props.designer.layoutState.activeController.key;
+      let loopData = function (data) {
+        for(let i = 0; i < data.length; i ++){
+          if (data[i].children && data[i].children.length != 0) {
+            loopData(data.children);
+          }else {
+            if (data[i].key == localStorage.currentSelectedConstruction) {
+              type = data[i].type;
+              if(activePage == localStorage.currentSelectedConstruction || 
+                activeController == localStorage.currentSelectedConstruction) {
+                lastIndex = i - 1;
+                deleteIndex = i;
+                if (lastIndex < 0) {
+                  isDeleteAll = true;
+                  lastIndex = 0;
+                }
+                key = data[lastIndex].key;
+              }
+              break;
+            }
+          }
+        }
+      }
+      loopData(props.designer.layout);
+      if(isDeleteAll) {
+        if (type == 'Controller') {
+
+        }else {
+          
+        }
+      }
+      props.dispatch({type: 'designer/deleteConstruction',payload: {type,deleteIndex,key,lastIndex}});
+      props.dispatch({type: 'attr/setFormItemsByType', payload: {type, key}})
+  };
+  
   const layoutTreeProps = {
+    onRightClick(proxy) {
+      console.log(proxy)
+      localStorage.currentSelectedConstruction = proxy.node.props.eventKey;
+      props.dispatch({type: 'designer/showConstructionMenu',payload: proxy})
+    },
 
     onSelect: function(e, node) {
 
@@ -129,14 +184,16 @@ const ConstructionTree = (props) => {
       <Tree className="layoutTree" 
         showLine 
         defaultExpandAll
+        onRightClick={layoutTreeProps.onRightClick}
         onSelect={layoutTreeProps.onSelect}
         selectedKeys={[props.designer.layoutState.activeKey]}
         expandedKeys={props.designer.layoutState.expandedKeys}
       >
         {treeNodes}
       </Tree>
-
-
+      <Menu style={props.designer.constructionMenuStyle} onClick={deleteThisConstruction} className="context-menu">
+        <Menu.Item key="read">删除</Menu.Item>
+      </Menu>
     </div>
 
 	);
