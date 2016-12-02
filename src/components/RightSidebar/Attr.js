@@ -102,7 +102,7 @@ const Attr = (props) => {
 
 					    		toggle (attr) {
 					    			return (
-										<FormItem key={index} {...formItemLayout} label={attr.title}>
+										<FormItem key={randomString(8, 10)} {...formItemLayout} label={attr.title}>
 						    				<Switch onChange={attrFormProps.handleAttrFormSwitchChange.bind(this, attr)} 
 						    						checked={attr._value} />
 										</FormItem>
@@ -111,7 +111,7 @@ const Attr = (props) => {
 
 					    		select (attr) {
 					    			return (
-										<FormItem key={index} {...formItemLayout} label={attr.title}>
+										<FormItem key={randomString(8, 10)} {...formItemLayout} label={attr.title}>
 										    <Select onChange={attrFormProps.handleAttrFormSelectChange.bind(this, attr)} 
 										    		value={attr._value}>
 										    	{attr.value.map( type => (
@@ -124,7 +124,7 @@ const Attr = (props) => {
 
 					    		'app_select' (attr) {
 					    			return (
-										<FormItem key={index} {...formItemLayout} label={attr.title}>
+										<FormItem key={randomString(8, 10)} {...formItemLayout} label={attr.title}>
 										    <Select onChange={attrFormProps.handleAttrFormSelectChange.bind(this, attr)} 
 										    		value={attr._value}>
 										    	{attr._value.map( type => (

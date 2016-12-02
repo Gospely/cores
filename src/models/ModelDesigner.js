@@ -148,8 +148,8 @@ export default {
 
 			{
 				name: '应用',
-				type: 'app',
-				key: 'app-2233',
+				type: 'page',
+				key: 'page-2233',
 				attr: {
 
 					pages: {
@@ -183,9 +183,9 @@ export default {
 							},
 
 							navigationBarTextStyle: {
-								type: 'input',
-								attrType: 'color',
+								type: 'select',
 								title: '头字体样式',
+								value: ['black', 'white'],
 								_value: 'black',
 								isClassName: false
 							},
@@ -207,10 +207,17 @@ export default {
 							},
 
 							backgroundTextStyle: {
-								type: 'input',
-								attrType: 'color',
+								type: 'select',
 								title: '字体样式',
+								value: ['dark', 'light'],
 								_value: 'light',
+								isClassName: false
+							},
+
+							enablePullDownRefresh: {
+								type: 'toggle',
+								title: '下拉刷新',
+								_value: false,
 								isClassName: false
 							}
 
@@ -253,33 +260,6 @@ export default {
 						_value: true
 					}
 
-					// "pages": [
-					//     "pages/index/index",
-					//     "pages/logs/index"
-					//   ],
-
-					//   "window": {
-					//     "navigationBarBackgroundColor": "#ffffff",
-					//     "navigationBarTextStyle": "black",
-					//     "navigationBarTitleText": "微信接口功能演示",
-					//     "backgroundColor": "#eeeeee",
-					//     "backgroundTextStyle": "light"
-					//   },
-					//   "tabBar": {
-					//     "list": [{
-					//       "pagePath": "pages/index/index",
-					//       "text": "首页"
-					//     }, {
-					//       "pagePath": "pages/logs/logs",
-					//       "text": "日志"
-					//     }]
-					//   },
-					//   "networkTimeout": {
-					//     "request": 10000,
-					//     "downloadFile": 10000
-					//   },
-					  
-					//   "debug": true
 				},
 
 				children: [
@@ -371,7 +351,7 @@ export default {
 		layoutState: {
 			activePage: {
 				index: 0,
-				key: 'app-2233'
+				key: 'page-2233'
 			},
 
 			activeController: {
@@ -379,9 +359,9 @@ export default {
 				key: ''
 			},
 
-			activeKey: 'app-2233',
-			activeType: 'app',
-			expandedKeys: ['app-2233']
+			activeKey: 'page-2233',
+			activeType: 'page',
+			expandedKeys: ['page-2233']
 		},
 
 		controllersList: [
@@ -394,6 +374,7 @@ export default {
 			{
 				name: '应用',
 				type: 'page',
+				children: [],
 				attr: {
 
 					pages: {
@@ -401,24 +382,101 @@ export default {
 						attrType: '',
 						isClassName: false,
 						title: '页面',
-						_value: []
+						_value: ['']
 					},
 
-					// 'window': {
+					title: {
+						type: 'input',
+						attrType: 'text',
+						title: '页面名称',
+						isClassName: false,
+						isHTML: false,
+						'_value': '应用'
+					},
 
-					// },
+					'window': {
+						type: 'children',
+						title: '窗体设置',
+						isClassName: false,
+						_value: {
+							navigationBarBackgroundColor: {
+								type: 'input',
+								attrType: 'color',
+								title: '头背景色',
+								_value: '#ffffff',
+								isClassName: false
+							},
+
+							navigationBarTextStyle: {
+								type: 'select',
+								title: '头字体样式',
+								value: ['black', 'white'],
+								_value: 'black',
+								isClassName: false
+							},
+
+							navigationBarTitleText: {
+								type: 'input',
+								attrType: 'text',
+								title: '头标题',
+								_value: 'black',
+								isClassName: false
+							},
+
+							backgroundColor: {
+								type: 'input',
+								attrType: 'color',
+								title: '背景颜色',
+								_value: '#eeeeee',
+								isClassName: false
+							},
+
+							backgroundTextStyle: {
+								type: 'select',
+								title: '字体样式',
+								value: ['dark', 'light'],
+								_value: 'light',
+								isClassName: false
+							},
+
+							enablePullDownRefresh: {
+								type: 'toggle',
+								title: '下拉刷新',
+								_value: false,
+								isClassName: false
+							}
+
+						}
+					},
 
 					// tabBar: {
 
 					// },
 
-					// networkTimeout: {
-					// 	children: {
-					// 		list: {
-					// 			type: 
-					// 		}
-					// 	}
-					// },
+					networkTimeout: {
+						type: 'children',
+						title: '网络设置',
+						isClassName: false,
+						_value: {
+							request: {
+								type: 'input',
+								attrType: 'number',
+								title: '请求延迟',
+								field: 'request',
+								_value: 100000,
+								isClassName: false
+							},
+
+							downloadFile: {
+								type: 'input',
+								attrType: 'number',
+								title: '下载延迟',
+								field: 'downloadFile',
+								_value: 10000,
+								isClassName: false
+							}			
+						}
+					},
 
 					debug: {
 						type: 'toggle',
@@ -426,34 +484,6 @@ export default {
 						title: '调试模式',
 						_value: true
 					}
-
-					// "pages": [
-					//     "pages/index/index",
-					//     "pages/logs/index"
-					//   ],
-
-					//   "window": {
-					//     "navigationBarBackgroundColor": "#ffffff",
-					//     "navigationBarTextStyle": "black",
-					//     "navigationBarTitleText": "微信接口功能演示",
-					//     "backgroundColor": "#eeeeee",
-					//     "backgroundTextStyle": "light"
-					//   },
-					//   "tabBar": {
-					//     "list": [{
-					//       "pagePath": "pages/index/index",
-					//       "text": "首页"
-					//     }, {
-					//       "pagePath": "pages/logs/logs",
-					//       "text": "日志"
-					//     }]
-					//   },
-					//   "networkTimeout": {
-					//     "request": 10000,
-					//     "downloadFile": 10000
-					//   },
-					  
-					//   "debug": true
 				}
 			},
 
@@ -1051,7 +1081,7 @@ export default {
 
 			console.log(tmpPage);
 			console.log('pre push', state.layout);
-			state.layout.push(tmpPage);
+			state.layout[0].children.push(tmpPage);
 			console.log('after layout', state.layout);
 			layoutAction.setActivePage(state.layoutState, state.layout.length - 1, tmpPage.key);
 			console.log("addPage2222222222:::::::::::::::::::::::",state.layout)
@@ -1090,27 +1120,24 @@ export default {
 
 			activePage.children.push(ctrl);
 			layoutAction.setActiveController(state.layoutState, activePage.children.length - 1, ctrl.key);
-
-			console.log("addController2222222222:::::::::::::::::::::::",state.layout)
 			return {...state};
 		},
 
 		handleTreeChanged(state, { payload: params }) {
-			console.log("handleTreeChanged11111111111:::::::::::::::::::::::",state.layout)
+			console.log('handleTreeChanged');
 			if(params.type == 'page') {
 				var pageIndex =layoutAction.getPageIndexByKey(state.layout, params.key);
 				layoutAction.setActivePage(state.layoutState, pageIndex, params.key);
 			}else {
 				var activePage = layoutAction.getActivePage(state.layout, state.layoutState.activePage.index);
+				console.log('activePage', activePage);
 				var controllerIndex = layoutAction.getControllerIndexByKey(activePage.children, params.key);
 				layoutAction.setActiveController(state.layoutState, controllerIndex, params.key);
 			}
-			console.log("handleTreeChanged2222222222222:::::::::::::::::::::::",state.layout)
 			return {...state};
 		},
 
 		handleAttrRefreshed (state) {
-			console.log("handleAttrRefreshed1111111111111:::::::::::::::",state.layout);
 			var activePage = layoutAction.getActivePage(state.layout, state.layoutState.activePage.index);
 
 	    		if(!gospelDesigner) {
