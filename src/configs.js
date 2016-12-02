@@ -1,4 +1,4 @@
 export default {
-	//baseURL: 'http://api.gospely.com/',
-	baseURL: 'http://localhost:8089/'
+	baseURL: 'http://api.gospely.com/',
+	//baseURL: 'http://localhost:8089/'
 }
