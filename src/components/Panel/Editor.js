@@ -1,5 +1,4 @@
 import React , {PropTypes} from 'react';
-import AceEditor from 'react-ace';
 import EditorStyle from './Editor.css';
 import { connect } from 'dva';
 
@@ -7,20 +6,21 @@ import MonacoEditor from 'react-monaco-editor';
 
 import { Button, message } from 'antd';
 
-import 'brace/mode/java';
-import 'brace/mode/javascript';
-import 'brace/mode/html';
-import 'brace/mode/css';
-import 'brace/mode/php';
-import 'brace/mode/plain_text';
-import 'brace/mode/markdown';
+// import AceEditor from 'react-ace';
+// import 'brace/mode/java';
+// import 'brace/mode/javascript';
+// import 'brace/mode/html';
+// import 'brace/mode/css';
+// import 'brace/mode/php';
+// import 'brace/mode/plain_text';
+// import 'brace/mode/markdown';
+//
+// import 'brace/theme/github';
+// import 'brace/theme/eclipse';
+// import 'brace/theme/twilight';
+// import 'brace/theme/xcode';
 
-import 'brace/theme/github';
-import 'brace/theme/eclipse';
-import 'brace/theme/twilight';
-import 'brace/theme/xcode';
-
-import 'brace/ext/language_tools';
+// import 'brace/ext/language_tools';
 
 import EditorTop from './EditorTop';
 import EditorBottom from './EditorBottom';

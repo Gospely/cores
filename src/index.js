@@ -61,7 +61,7 @@ app.model(require('./models/rightSidebar/ModelLayout'));
 app.model(require('./models/rightSidebar/ModelFileTree'));
 app.model(require('./models/rightSidebar/ModelAttr'));
 app.model(require('./models/ModelDesigner'));
-app.model(require('./models/ModelPreviewer'));
+app.model(require('./models/Modelpreviewer'));
 app.model(require('./models/ModelConstruction'));
 app.model(require('./models/ModelUIState'));
 
