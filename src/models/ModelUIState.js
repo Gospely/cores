@@ -47,8 +47,7 @@ export default {
       		var state = yield select(state => state.UIState);
 
       		if(state.dySave) {
-      			state.saveInterval = setInterval(() => {
-
+      			function *cb() {
       				var configTobeSaved = {
       					id: '',
       					application: '',
@@ -61,8 +60,9 @@ export default {
       				}else {
       					clearInterval(state.saveInterval);
       				}
+      			}
 
-      			}, state.gap);
+      			state.saveInterval = setInterval(cb, state.gap);
       		}
 
 
