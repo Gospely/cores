@@ -89,6 +89,7 @@ export default {
 	      	history.listen(({ pathname }) => {
           		dispatch({
             		type: 'fetchFileList',
+
           		});
 	      	});
 		}
@@ -97,6 +98,7 @@ export default {
 	effects: {
 		*fetchFileList(payload, {call, put}) {
       		var fileList = yield request('fs/list/file/?id=' + localStorage.dir);
+					localStorage.currentFolder = localStorage.dir;
 	      	yield put({ type: 'list', payload: fileList });
       	},
 
@@ -251,21 +253,23 @@ export default {
 
       	*handleSearch({payload: params}, {call, put, select}) {
 
-					var val = params.value;
-					var url = "fs/list/all?id=" + localStorage.currentFolder + "&&search=" + val;
-					var res = yield request(url, {
-		      			method: 'GET',
-		      			});
+					var files = yield select(state => state.files);
 
-					var result = res.data;
-					for(var i = 0; i<res.data.length; i++){
-						res.data[i].folder = res.data[i].id.replace(localStorage.currentFolder,localStorage.currentProject);
+					if(files ==null || files == undefined || files.length < 1){
+						var url = "fs/list/all?id=" + localStorage.currentFolder;
+						var res = yield request(url, {
+			      			method: 'GET',
+			      			});
+
+						var result = res.data;
+						for(var i = 0; i<res.data.length; i++){
+							res.data[i].folder = res.data[i].id.replace(localStorage.currentFolder,localStorage.currentProject);
+						}
+
+						console.log(result);
+						yield put({type: 'showSearchPane',payload: {result}});
 					}
-
-					console.log(result);
-					yield put({type: 'showSearchPane',payload: {result}});
       	}
-
 	},
 
 	reducers: {
@@ -276,7 +280,16 @@ export default {
 			console.log(params.result);
 			state.searchFilePane.visible = true;
 			state.searchInput.visible = false;
-			state.searchFilePane.files = params.result;
+			state.files = params.result;
+			var newFiles = new Array();
+
+			for(var i = 0; i<state.files.length; i++) {
+				console.log("search");
+				if(state.files[i].text.indexOf(state.searchInput.value) != -1){
+					newFiles.push(state.files[i]);
+				}
+			}
+			state.searchFilePane.files = newFiles;
 			return {...state};
 		},
 
@@ -284,12 +297,24 @@ export default {
 			state.searchFilePane.visible = false;
 			return {...state};
 		},
-
 		searchPaneInputChange(state,{payload: value}){
 
 			console.log(value);
+
 			console.log("searchPaneInputChange");
 			state.searchFilePane.inputValue = value;
+			var newFiles = new Array();
+
+			if(value != null && value != ''){
+				for(var i = 0; i<state.files.length; i++) {
+					if(state.files[i].text.indexOf(value) != -1){
+						newFiles.push(state.files[i]);
+					}
+				}
+			}
+
+			state.searchFilePane.files = newFiles;
+			state.searchFilePane.visible = true;
 			return {...state};
 		},
 
