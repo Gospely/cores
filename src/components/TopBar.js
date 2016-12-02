@@ -39,12 +39,12 @@ const LeftSidebar = (props) => {
 			height: '100%'
 		}
 	};
-	
+
 	const initApplications = () => {
 
 		if(!props.sidebar.applications) {
 			return;
-		} 
+		}
 
 		return props.sidebar.applications.map(application => {
 			return   <Col className="gutter-row" span={6} style={{marginTop: 20}} key={application.id}>
@@ -256,7 +256,6 @@ const LeftSidebar = (props) => {
 
 	    openApp(application) {
 
-<<<<<<< HEAD
 				console.log(localStorage.userName);
 				localStorage.dir = localStorage.user + '/' + application.name + '_' + localStorage.userName + "/";
 				localStorage.currentProject = application.name;
@@ -275,20 +274,6 @@ const LeftSidebar = (props) => {
 					type: 'devpanel/handleImages',
 					payload: { id : application.id}
 				});
-=======
-			console.log(localStorage.userName);
-			localStorage.dir = localStorage.user + '/' + application.name + '_' + localStorage.userName + "/";
-			localStorage.currentProject = application.name;
-			localStorage.currentFolder = localStorage.user + '/' + application.name + '_' + localStorage.userName;
-			console.log(localStorage.dir);
-			console.log(application);
-			props.dispatch({
-				type: 'file/fetchFileList'
-			});
-			props.dispatch({
-	        	type: 'sidebar/hideModalSwitchApp'
-	      	})
->>>>>>> 8c076b41fa76e6b1a0333831312f614f5f54c5bd
 	    	console.log('TopBar中dispatch')
 	    	// alert(1)
 	    },
