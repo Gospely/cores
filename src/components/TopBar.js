@@ -39,11 +39,17 @@ const LeftSidebar = (props) => {
 			height: '100%'
 		}
 	};
+	
 	const initApplications = () => {
+
+		if(!props.sidebar.applications) {
+			return;
+		} 
 
 		return props.sidebar.applications.map(application => {
 			return   <Col className="gutter-row" span={6} style={{marginTop: 20}} key={application.id}>
 						 <div className="gutter-box">
+<<<<<<< HEAD
 								<Card  onClick={leftSidebarProps.openApp(this,application)} extra={
 									<Popconfirm onClick={(e) => e.stopPropagation()} title="确认删除此项目?"
 									onConfirm={leftSidebarProps.confirmDeleteApp.bind(this,application.id)}
@@ -58,6 +64,22 @@ const LeftSidebar = (props) => {
 											<p className="app-name-hover">{application.name}</p>
 										</div>
 								</Card>
+=======
+							<Card onClick={leftSidebarProps.openApp.bind(this,application)} extra={
+								<Popconfirm onClick={(e) => e.stopPropagation()} title="确认删除此项目?"
+								onConfirm={leftSidebarProps.confirmDeleteApp.bind(this,application.id)}
+								onCancel={leftSidebarProps.cancelDeleteApp} okText="Yes" cancelText="No">
+									<a className="delete-app">
+										<Icon type="close" />
+									</a>
+								</Popconfirm>
+							} style={{ width: 110, height: 110 }}
+							bodyStyle={{height: '100%', background: 'whitesmoke', color: '#555', cursor: 'pointer'}}>
+									<div style={{ height: 50,lineHeight: '50px',textAlign: 'center'}}>
+										<p className="app-name-hover">{application.name}</p>
+									</div>
+							</Card>
+>>>>>>> 8c076b41fa76e6b1a0333831312f614f5f54c5bd
 						 </div>
 					</Col>;
 		});
@@ -234,6 +256,7 @@ const LeftSidebar = (props) => {
 
 	    openApp(application) {
 
+<<<<<<< HEAD
 				console.log(localStorage.userName);
 				localStorage.dir = localStorage.user + '/' + application.name + '_' + localStorage.userName + "/";
 				localStorage.currentProject = application.name;
@@ -252,6 +275,20 @@ const LeftSidebar = (props) => {
 					type: 'devpanel/handleImages',
 					payload: { id : application.id}
 				});
+=======
+			console.log(localStorage.userName);
+			localStorage.dir = localStorage.user + '/' + application.name + '_' + localStorage.userName + "/";
+			localStorage.currentProject = application.name;
+			localStorage.currentFolder = localStorage.user + '/' + application.name + '_' + localStorage.userName;
+			console.log(localStorage.dir);
+			console.log(application);
+			props.dispatch({
+				type: 'file/fetchFileList'
+			});
+			props.dispatch({
+	        	type: 'sidebar/hideModalSwitchApp'
+	      	})
+>>>>>>> 8c076b41fa76e6b1a0333831312f614f5f54c5bd
 	    	console.log('TopBar中dispatch')
 	    	// alert(1)
 	    },

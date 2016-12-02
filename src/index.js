@@ -25,6 +25,7 @@ const app = dva({
 	  	message.error(e.message);
 	}
 });
+
 // 登录状态同步
 function getCookie(c_name){
 	if (document.cookie.length>0){
@@ -62,6 +63,7 @@ app.model(require('./models/rightSidebar/ModelAttr'));
 app.model(require('./models/ModelDesigner'));
 app.model(require('./models/Modelpreviewer'));
 app.model(require('./models/ModelConstruction'));
+app.model(require('./models/ModelUIState'));
 
 // 4. Router
 app.router(require('./router'));

@@ -49,7 +49,7 @@
 	});
 
 	var source = jq("#dnd-row",window.parent.document).find('.ant-col-12');
-	source.each(function(n){
+	source.each(function(n) {
 		jq(this).find(".app-components").attr("draggable",true);
 		jq(this).find(".app-components").attr("id","source"+n);
 		//开始拖拽
