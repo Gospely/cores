@@ -1122,7 +1122,7 @@ export default {
 			}
 			
 			gospelDesigner.postMessage({
-				ctrlRemoved: activePage
+				ctrlRemoved: layoutAction.getActivePage(state.layout, params.deleteIndex)
 			}, '*');			
 			
 			return {...state};
