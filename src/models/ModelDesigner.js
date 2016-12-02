@@ -147,10 +147,18 @@ export default {
 		layout: [
 
 			{
+				name: '应用',
 				type: 'page',
-				key: 'page-123',
-				isLeaf: false,
+				key: 'page-2233',
 				attr: {
+
+					pages: {
+						type: 'app_select',
+						attrType: '',
+						isClassName: false,
+						title: '页面',
+						_value: ['page-123']
+					},
 
 					title: {
 						type: 'input',
@@ -158,96 +166,184 @@ export default {
 						title: '页面名称',
 						isClassName: false,
 						isHTML: false,
-						'_value': '主页面'
+						'_value': '应用'
 					},
 
-					color: {
-						type: 'input',
-						attrType: 'color',
-						title: '背景颜色',
+					'window': {
+						type: 'children',
+						title: '窗体设置',
 						isClassName: false,
-						isHTML: false,
-						'_value': '#f8f8f8'
-					},
-					images: {
-						type: 'input',
-						attrType: 'text',
-						title: '背景图片',
-						isClassName: false,
-						isHTML: false,
-						'_value': '#ff4ff'
+						_value: {
+							navigationBarBackgroundColor: {
+								type: 'input',
+								attrType: 'color',
+								title: '头背景色',
+								_value: '#ffffff',
+								isClassName: false
+							},
+
+							navigationBarTextStyle: {
+								type: 'select',
+								title: '头字体样式',
+								value: ['black', 'white'],
+								_value: 'black',
+								isClassName: false
+							},
+
+							navigationBarTitleText: {
+								type: 'input',
+								attrType: 'text',
+								title: '头标题',
+								_value: 'black',
+								isClassName: false
+							},
+
+							backgroundColor: {
+								type: 'input',
+								attrType: 'color',
+								title: '背景颜色',
+								_value: '#eeeeee',
+								isClassName: false
+							},
+
+							backgroundTextStyle: {
+								type: 'select',
+								title: '字体样式',
+								value: ['dark', 'light'],
+								_value: 'light',
+								isClassName: false
+							},
+
+							enablePullDownRefresh: {
+								type: 'toggle',
+								title: '下拉刷新',
+								_value: false,
+								isClassName: false
+							}
+
+						}
 					},
 
-					padding: {
-						type: 'input',
-						attrType: 'number',
-						title: '内边距',
+					// tabBar: {
+
+					// },
+
+					networkTimeout: {
+						type: 'children',
+						title: '网络设置',
 						isClassName: false,
-						isHTML: false,
-						'_value': '20'
+						_value: {
+							request: {
+								type: 'input',
+								attrType: 'number',
+								title: '请求延迟',
+								field: 'request',
+								_value: 100000,
+								isClassName: false
+							},
+
+							downloadFile: {
+								type: 'input',
+								attrType: 'number',
+								title: '下载延迟',
+								field: 'downloadFile',
+								_value: 10000,
+								isClassName: false
+							}			
+						}
 					},
-					scrolling: {
+
+					debug: {
 						type: 'toggle',
-						title: '是否滚动',
 						isClassName: false,
-						isHTML: false,
-						'_value': true
-					},
-					class: {
-						type: 'input',
-						attrType: 'text',
-						title: '类名',
-						isClassName: true,
-						isHTML: false,
-						'_value': 'weui-cell__bd'
-					},
+						title: '调试模式',
+						_value: true
+					}
 
-					routingURL: {
-						type: 'input',
-						attrType: 'text',
-						title: '路由',
-						isClassName: false,
-						isHTML: false,
-						'_value': '/fuck'
-					},
-
-					icon: {
-						type: 'select',
-						title: '图标',
-						value: ['weui', 'fuck'],
-						isClassName: false,
-						isHTML: false,
-						'_value': 'weui'
-					},
-					"pages": [
-					    "pages/index/index",
-					    "pages/logs/index"
-					  ],
-					  "window": {
-					    "navigationBarBackgroundColor": "#ffffff",
-					    "navigationBarTextStyle": "black",
-					    "navigationBarTitleText": "微信接口功能演示",
-					    "backgroundColor": "#eeeeee",
-					    "backgroundTextStyle": "light"
-					  },
-					  "tabBar": {
-					    "list": [{
-					      "pagePath": "pages/index/index",
-					      "text": "首页"
-					    }, {
-					      "pagePath": "pages/logs/logs",
-					      "text": "日志"
-					    }]
-					  },
-					  "networkTimeout": {
-					    "request": 10000,
-					    "downloadFile": 10000
-					  },
-					  "debug": true,
 				},
 
-				children: [],
+				children: [
 
+					{
+						type: 'page',
+						key: 'page-123',
+						isLeaf: false,
+						attr: {
+
+							title: {
+								type: 'input',
+								attrType: 'text',
+								title: '页面名称',
+								isClassName: false,
+								isHTML: false,
+								'_value': '主页面'
+							},
+
+							color: {
+								type: 'input',
+								attrType: 'color',
+								title: '背景颜色',
+								isClassName: false,
+								isHTML: false,
+								'_value': '#f8f8f8'
+							},
+							images: {
+								type: 'input',
+								attrType: 'text',
+								title: '背景图片',
+								isClassName: false,
+								isHTML: false,
+								'_value': '#ff4ff'
+							},
+
+							padding: {
+								type: 'input',
+								attrType: 'number',
+								title: '内边距',
+								isClassName: false,
+								isHTML: false,
+								'_value': '20'
+							},
+							scrolling: {
+								type: 'toggle',
+								title: '是否滚动',
+								isClassName: false,
+								isHTML: false,
+								'_value': true
+							},
+							class: {
+								type: 'input',
+								attrType: 'text',
+								title: '类名',
+								isClassName: true,
+								isHTML: false,
+								'_value': 'weui-cell__bd'
+							},
+
+							routingURL: {
+								type: 'input',
+								attrType: 'text',
+								title: '路由',
+								isClassName: false,
+								isHTML: false,
+								'_value': '/fuck'
+							},
+
+							icon: {
+								type: 'select',
+								title: '图标',
+								value: ['weui', 'fuck'],
+								isClassName: false,
+								isHTML: false,
+								'_value': 'weui'
+							},
+						},
+
+						children: [],
+
+					},
+
+				]
 			},
 
 		],
@@ -255,7 +351,7 @@ export default {
 		layoutState: {
 			activePage: {
 				index: 0,
-				key: 'page-123'
+				key: 'page-2233'
 			},
 
 			activeController: {
@@ -263,9 +359,9 @@ export default {
 				key: ''
 			},
 
-			activeKey: 'page-123',
+			activeKey: 'page-2233',
 			activeType: 'page',
-			expandedKeys: []
+			expandedKeys: ['page-2233']
 		},
 
 		controllersList: [
@@ -274,6 +370,123 @@ export default {
 				type: 'button-bar',
 				attr: {}
 			},
+
+			{
+				name: '应用',
+				type: 'page',
+				children: [],
+				attr: {
+
+					pages: {
+						type: 'app_select',
+						attrType: '',
+						isClassName: false,
+						title: '页面',
+						_value: ['']
+					},
+
+					title: {
+						type: 'input',
+						attrType: 'text',
+						title: '页面名称',
+						isClassName: false,
+						isHTML: false,
+						'_value': '应用'
+					},
+
+					'window': {
+						type: 'children',
+						title: '窗体设置',
+						isClassName: false,
+						_value: {
+							navigationBarBackgroundColor: {
+								type: 'input',
+								attrType: 'color',
+								title: '头背景色',
+								_value: '#ffffff',
+								isClassName: false
+							},
+
+							navigationBarTextStyle: {
+								type: 'select',
+								title: '头字体样式',
+								value: ['black', 'white'],
+								_value: 'black',
+								isClassName: false
+							},
+
+							navigationBarTitleText: {
+								type: 'input',
+								attrType: 'text',
+								title: '头标题',
+								_value: 'black',
+								isClassName: false
+							},
+
+							backgroundColor: {
+								type: 'input',
+								attrType: 'color',
+								title: '背景颜色',
+								_value: '#eeeeee',
+								isClassName: false
+							},
+
+							backgroundTextStyle: {
+								type: 'select',
+								title: '字体样式',
+								value: ['dark', 'light'],
+								_value: 'light',
+								isClassName: false
+							},
+
+							enablePullDownRefresh: {
+								type: 'toggle',
+								title: '下拉刷新',
+								_value: false,
+								isClassName: false
+							}
+
+						}
+					},
+
+					// tabBar: {
+
+					// },
+
+					networkTimeout: {
+						type: 'children',
+						title: '网络设置',
+						isClassName: false,
+						_value: {
+							request: {
+								type: 'input',
+								attrType: 'number',
+								title: '请求延迟',
+								field: 'request',
+								_value: 100000,
+								isClassName: false
+							},
+
+							downloadFile: {
+								type: 'input',
+								attrType: 'number',
+								title: '下载延迟',
+								field: 'downloadFile',
+								_value: 10000,
+								isClassName: false
+							}			
+						}
+					},
+
+					debug: {
+						type: 'toggle',
+						isClassName: false,
+						title: '调试模式',
+						_value: true
+					}
+				}
+			},
+
 			{
 				name: '页面',
 				type: 'page',
@@ -874,7 +1087,7 @@ export default {
 
 			console.log(tmpPage);
 			console.log('pre push', state.layout);
-			state.layout.push(tmpPage);
+			state.layout[0].children.push(tmpPage);
 			console.log('after layout', state.layout);
 			layoutAction.setActivePage(state.layoutState, state.layout.length - 1, tmpPage.key);
 			console.log("addPage2222222222:::::::::::::::::::::::",state.layout)
@@ -899,23 +1112,19 @@ export default {
 			}}
 		},
 
-		deleteConstruction(state) {
-			let type;
-			let loopData = function (data) {
-				for(let i = 0; i < data.length; i ++){
-					if (data[i].children && data[i].children.length != 0) {
-						loopData(data.children);
-					}else {
-						if (data[i].key == localStorage.currentSelectedConstruction) {
-							type = data[i].type;
-							state.layout.splice(i,1);
-							break;
-						}
-					}
-				}
+		deleteConstruction(state,{payload: params}) {
+			if (params.type == 'page') {
+				state.layout.splice(params.deleteIndex,1);
+				layoutAction.setActivePage(state.layoutState, params.lastIndex, params.key);
+			}else {
+				state.layout[state.layoutState.activePage.index].children.splice(params.deleteIndex,1);
+				layoutAction.setActiveController(state.layoutState, params.lastIndex, params.key);
 			}
 			
-			loopData(state.layout);
+			gospelDesigner.postMessage({
+				ctrlRemoved: activePage
+			}, '*');			
+			
 			return {...state};
 		},
 
@@ -951,27 +1160,24 @@ export default {
 
 			activePage.children.push(ctrl);
 			layoutAction.setActiveController(state.layoutState, activePage.children.length - 1, ctrl.key);
-
-			console.log("addController2222222222:::::::::::::::::::::::",state.layout)
 			return {...state};
 		},
 
 		handleTreeChanged(state, { payload: params }) {
-			console.log("handleTreeChanged11111111111:::::::::::::::::::::::",state.layout)
+			console.log('handleTreeChanged');
 			if(params.type == 'page') {
 				var pageIndex =layoutAction.getPageIndexByKey(state.layout, params.key);
 				layoutAction.setActivePage(state.layoutState, pageIndex, params.key);
 			}else {
 				var activePage = layoutAction.getActivePage(state.layout, state.layoutState.activePage.index);
+				console.log('activePage', activePage);
 				var controllerIndex = layoutAction.getControllerIndexByKey(activePage.children, params.key);
 				layoutAction.setActiveController(state.layoutState, controllerIndex, params.key);
 			}
-			console.log("handleTreeChanged2222222222222:::::::::::::::::::::::",state.layout)
 			return {...state};
 		},
 
 		handleAttrRefreshed (state) {
-			console.log("handleAttrRefreshed1111111111111:::::::::::::::",state.layout);
 			var activePage = layoutAction.getActivePage(state.layout, state.layoutState.activePage.index);
 
 	    		if(!gospelDesigner) {
@@ -1063,6 +1269,7 @@ export default {
 
 		handleAttrFormChange(state, { payload: params }) {
 			console.log('handleAttrFormChange11111:::::::::::::::::', state.layout);
+			console.log(params)
 			var activePage = layoutAction.getActivePage(state.layout, state.layoutState.activePage.index);
 			console.log("activePage:",activePage);
 			if(state.layoutState.activeType == 'page') {

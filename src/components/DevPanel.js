@@ -6,6 +6,7 @@ import SplitPane from 'react-split-pane';
 import CodingEditor from './Panel/Editor.js';
 import Terminal from './Panel/Terminal.js';
 import Designer from './Panel/Designer.js';
+import Previewer from './Panel/Previewer.js';
 import Welcome from '../components/Panel/Welcome.js';
 import NoTabs from '../components/Panel/NoTabs.js';
 
@@ -55,6 +56,11 @@ const DevPanel = ({
 			return (
 				<NoTabs></NoTabs>
 			);
+		},
+		previewer: function () {
+			return(
+				<Previewer></Previewer>
+			)
 		}
 	}
 
