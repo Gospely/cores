@@ -220,7 +220,7 @@ const LeftSidebar = (props) => {
 	    openApp(application) {
 
 				console.log(localStorage.userName);
-				localStorage.dir = localStorage.user + '/' + application.name + '_' + localStorage.userName;
+				localStorage.dir = localStorage.user + '/' + application.name + '_' + localStorage.userName + "/";
 				localStorage.currentProject = application.name;
 				localStorage.currentFolder = localStorage.user + '/' + application.name + '_' + localStorage.userName;
 				console.log(localStorage.dir);
@@ -350,14 +350,14 @@ const LeftSidebar = (props) => {
         	    <Row gutter={16}>
         	    <Col className="gutter-row" span={6} style={{marginTop: 20}} key='addApp'>
 					 <div className="gutter-box">
-							<Card onClick={console.log('')} 
+							<Card onClick={console.log('')}
 							style={{ width: 110, height: 110 }}
 							bodyStyle={{height: '100%', background: 'whitesmoke', color: '#555', cursor: 'pointer'}}>
 									<div style={{ height: 50,lineHeight: '50px',textAlign: 'center' }}>
 										<a className="create-app-from-modal" onClick={leftSidebarProps.createAppFromModal}>
 											<Icon type="plus" />
 										</a>
-										
+
 									</div>
 							</Card>
 					 </div>
