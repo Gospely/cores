@@ -77,7 +77,7 @@ const Attr = (props) => {
 
     }
 
-    if (props.designer.layout.length) {
+    // if (props.designer.layout.length) {
 
 		return (
 			<div>
@@ -176,7 +176,7 @@ const Attr = (props) => {
 			</div>
 		);
 
-	}
+	// }
 
 };
 
