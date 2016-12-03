@@ -31,7 +31,7 @@ const SettingPanel = (props) => {
 
 		}
 	}
-	const ThemeProps = {
+	const SyncProps = {
 		onClick: function(item) {
 
 			console.log(item);
@@ -51,7 +51,7 @@ const SettingPanel = (props) => {
 	}
 
 	const GitSetting = (
-      	<Menu onClick={ThemeProps.onClick}
+      	<Menu onClick={GitSettingProps.onClick}
         	style={{ width: '100%' }}
         	defaultOpenKeys={['origin']}
         	mode="inline"
@@ -61,8 +61,8 @@ const SettingPanel = (props) => {
 	        </Menu.Item>
       	</Menu>
 	);
-	const Themes = (
-				<Menu onClick={ThemeProps.onClick}
+	const Sync = (
+				<Menu onClick={SyncProps.onClick}
 					style={{ width: '100%' }}
 					defaultOpenKeys={['origin']}
 					mode="inline"
@@ -79,8 +79,8 @@ const SettingPanel = (props) => {
 		    <Panel header="GIT 设置" key="1">
 		      	{GitSetting}
 		    </Panel>
-		    <Panel header="主题 设置" key="2">
-		      	{Themes}
+		    <Panel header="同步 设置" key="2">
+		      	{Sync}
 		    </Panel>
 		</Collapse>
 
