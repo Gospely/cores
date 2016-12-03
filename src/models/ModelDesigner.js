@@ -391,7 +391,7 @@ export default {
 			activePage: {
 				index: 0,
 				key: 'page-2233',
-				level: 0
+				level: 1
 			},
 
 			activeController: {
