@@ -89,6 +89,33 @@ const layoutAction = {
 		return index;
 	},
 
+	getControllerIndexAndLvlByKey(state, key, activePage) {
+		let obj = {
+			index: '',
+			level: 3
+		};
+		// let activePage = layoutAction.getActivePage(state);
+		// alert(state.layoutState.activePage.level)
+		console.log(activePage)
+		let controllers = activePage.children;
+		const loopControllers = function (controllers, level) {
+			level = level || 3;
+			for(let i = 0; i < controllers.length; i ++) {
+				let currentControl = controllers[i];
+				if (currentControl.children) {
+					loopControllers(controllers.children, level ++);
+				}
+				if (currentControl.key == key) {
+					obj.index = i;
+					obj.level = level;
+					break;
+				}
+			}
+			return obj;
+		}
+		return loopControllers(controllers, 3);
+	},
+
 	getCurrentLevelByKey(layouts, key) {
 		// let level = 1;
 		const loopData = function(data, level, key) {
@@ -391,7 +418,7 @@ export default {
 			activePage: {
 				index: 0,
 				key: 'page-2233',
-				level: 0
+				level: 1
 			},
 
 			activeController: {
@@ -416,6 +443,7 @@ export default {
 				name: '应用',
 				type: 'page',
 				children: [],
+				backend: true,
 				attr: {
 
 					pages: {
@@ -1172,9 +1200,15 @@ export default {
 
 		addController(state, { payload: controller }) {
 			console.log("addController11111111111:::::::::::::::::::::::记得改",state.layout)
+			if (state.layoutState.activePage.level == 1) {
+				message.error('请选择一个页面');
+				return {...state};
+			}
 			var activePage = layoutAction.getActivePage(state);
-			var tmpAttr = {};
 
+			// let leve = layoutAction.getCurrentLevelByKey(state.layout, state.layoutState.activePage.key);
+			var tmpAttr = {};
+			console.log(controller)
 			for(var att in controller.attr) {
 				var currAttr = controller.attr[att];
 				tmpAttr[att] = currAttr;
@@ -1201,7 +1235,8 @@ export default {
     		}, '*');
 
 			activePage.children.push(ctrl);
-			let level = getCurrentLevelByKey(state.layout, ctrl.key);
+			let level = layoutAction.getCurrentLevelByKey(state.layout, ctrl.key);
+			// alert(level)
 			layoutAction.setActiveController(state.layoutState, activePage.children.length - 1, ctrl.key, level);
 			return {...state};
 		},
@@ -1212,14 +1247,21 @@ export default {
 			if(params.type == 'page') {
 				let level = layoutAction.getCurrentLevelByKey(state.layout, params.key);
 				// alert(level)
-				var pageIndex =layoutAction.getPageIndexByKey(state.layout, params.key, level);
+				var pageIndex = layoutAction.getPageIndexByKey(state.layout, params.key, level);
 				layoutAction.setActivePage(state.layoutState, pageIndex, params.key, level);
-				console.log(state.layoutState.activeKey,pageIndex,params.key)
+				console.log(state.layoutState)
+				// alert(1)
 			}else {
+				let activePage = layoutAction.getActivePage(state);
+				console.log(activePage)
+				console.log(state.layoutState)
+				console.log(layoutAction.getControllerIndexAndLvlByKey(state, params.key, activePage));
+
 				var activePage = layoutAction.getActivePage(state);
 				console.log('activePage', activePage);
 				var controllerIndex = layoutAction.getControllerIndexByKey(activePage.children, params.key);
 				let level = getCurrentLevelByKey(state.layout, ctrl.key);
+				// alert(level)
 				layoutAction.setActiveController(state.layoutState, controllerIndex, params.key, level);
 			}
 			return {...state};
