@@ -205,6 +205,10 @@ export default {
 			var fetch = split[1],
 				push = split[2];
 
+			if(!fetch) {
+				return {...state};
+			}
+
 			fetch = fetch.split(' (fetch)')[0];
 			push = push.split(' (push)')[0];
 

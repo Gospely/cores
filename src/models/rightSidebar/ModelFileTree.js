@@ -483,6 +483,10 @@ export default {
 
 				console.log('list=======', list);
 
+			if(!list.length) {
+				return {...state};
+			}
+
 			for (var i = 0; i <= data.length - 1; i++) {
 				var curr = data[i],
 					tmpTree = {};
