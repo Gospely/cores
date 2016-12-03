@@ -33,12 +33,12 @@ export default {
 	effects: {
 
 		*isGitProject({payload: params}, {call, put, select}) {
-      		// var isGit = yield request('fs/git/', {
-      		// 	method: 'POST',
-      		// 	body: JSON.stringify({
-      		// 		dir: localStorage.dir
-      		// 	})
-      		// });
+      		var isGit = yield request('fs/git/', {
+      			method: 'POST',
+      			body: JSON.stringify({
+      				dir: localStorage.dir
+      			})
+      		});
 
       		if(isGit.data.fields) {
       			//获取origin源

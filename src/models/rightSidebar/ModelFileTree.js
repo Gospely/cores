@@ -481,6 +481,8 @@ export default {
 			var data = list.data,
 				tree = [];
 
+				console.log('list=======', list);
+
 			for (var i = 0; i <= data.length - 1; i++) {
 				var curr = data[i],
 					tmpTree = {};

@@ -1,7 +1,14 @@
 import fetch from 'dva/fetch';
 import configs from '../configs.js';
 
-import { message, Spin } from 'antd';
+import { message, Spin, notification } from 'antd';
+
+const openNotificationWithIcon = (type, title, description) => (
+  notification[type]({
+    message: title,
+    description: description,
+  })
+);
 
 function parseJSON(response) {
   return response.json();
@@ -14,11 +21,11 @@ function checkStatus(response) {
 
   const error = new Error(response.statusText);
   error.response = response;
+  openNotificationWithIcon('error', '出错了: ' + response.status, response.statusText);
   throw error;
 }
 
 function checkResData(data) {
-  console.log(data,  typeof data);
   if(data.code == 200 || data.code == 1) {
     if(data.message != null) {
       message.success(data.message);
@@ -27,7 +34,7 @@ function checkResData(data) {
     if(typeof data.length == 'number') {
       return data;
     }
-    message.error(data.message + '\r\n' + data.fields);
+    openNotificationWithIcon('error', data.message, data.fields);
   }
   return data;
 }
@@ -41,7 +48,6 @@ function checkResData(data) {
  */
 export default function request(url, options) {
   url = configs.baseURL + url;
-  message.success('正在执行操作...');
   return fetch(url, options)
     .then(checkStatus)
     .then(parseJSON)
