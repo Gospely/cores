@@ -26,6 +26,7 @@ const ConstructionTree = (props) => {
         lastIndex = -1,
         deleteIndex,
         key,
+        level = 1,
         isDeleteAll = false,
         activePage = props.designer.layoutState.activePage.key,
         activeController = props.designer.layoutState.activeController.key;
@@ -33,6 +34,7 @@ const ConstructionTree = (props) => {
         for(let i = 0; i < data.length; i ++){
           if (data[i].children && data[i].children.length != 0) {
             loopData(data.children);
+            level ++;
           }else {
             if (data[i].key == localStorage.currentSelectedConstruction) {
               type = data[i].type;
@@ -59,7 +61,7 @@ const ConstructionTree = (props) => {
           
         }
       }
-      props.dispatch({type: 'designer/deleteConstruction',payload: {type,deleteIndex,key,lastIndex}});
+      props.dispatch({type: 'designer/deleteConstruction',payload: {type,deleteIndex,key,lastIndex, level}});
       props.dispatch({type: 'attr/setFormItemsByType', payload: {type, key}})
   };
   
