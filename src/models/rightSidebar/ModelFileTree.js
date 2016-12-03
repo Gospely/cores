@@ -245,6 +245,10 @@ export default {
 					console.log(params);
 					yield put({type: 'fetchFileList'});
 
+					var debug = yield select(state => state.devpanel.debug.value);
+					if(debug.alert){
+						debug.postMessage({codeSaved: true},"*");
+					}
 					// par.isSave = false;
       	},
       	*handleUpload({payload: fileName}, {call, put, select}) {
@@ -269,10 +273,7 @@ export default {
 						console.log(result);
 						yield put({type: 'showSearchPane',payload: {result}});
 					}
-      	},
-				handleImages({ payload: params}, {call, put, select}) {
-					
-				}
+      	}
 	},
 
 	reducers: {
