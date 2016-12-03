@@ -47,8 +47,8 @@ const Designer = (props) => {
 					height={props.designer.deviceList[props.designer.defaultDevice].height}
 					className="designer"
 					frameBorder="0"
-					// src="static/designer/weui/designer.html"
-					src="http://localhost:6767/"
+					src="static/designer/weui/designer.html"
+					// src="http://localhost:6767/"
 					>
 				</iframe>
 			</div>
