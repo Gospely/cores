@@ -1088,15 +1088,15 @@ export default {
 			return {...state};
 		},
 
-		setActivePage(state, { payload: params }) {
-			layoutAction.setActivePage(state.layoutState, params.index, params.key, params.level);
-			return {...state};
-		},
+		// setActivePage(state, { payload: params }) {
+		// 	layoutAction.setActivePage(state.layoutState, params.index, params.key, params.level);
+		// 	return {...state};
+		// },
 
-		setActiveController(state, { payload: params }) {
-			layoutAction.setActiveController(state.layoutState, params.index, params.key, params.level);
-			return {...state};
-		},
+		// setActiveController(state, { payload: params }) {
+		// 	layoutAction.setActiveController(state.layoutState, params.index, params.key, params.level);
+		// 	return {...state};
+		// },
 
 		addPage(state, { payload: page }) {
 			console.log("addPage1111111111111111:::::::::::::::::::::::",state.layout)
@@ -1117,10 +1117,10 @@ export default {
 				tmpAttr['title']['isHTML'] = false;
 				tmpAttr['title']['title'] = '页面名称';
 			}
-
+			console.log('=========-------------------',state.layout[0].children.length);
 			var tmpPage = {
 				type: 'page',
-				key: 'page-' + randomString(8, 10),
+				key: 'page-' + state.layout[0].children.length,
 				isLeaf: false,
 				attr: tmpAttr,
 				children: []
@@ -1130,7 +1130,7 @@ export default {
 			console.log('pre push', state.layout);
 			state.layout[0].children.push(tmpPage);
 			console.log('after layout', state.layout);
-			layoutAction.setActivePage(state.layoutState, state.layout.length - 1, tmpPage.key, 2);
+			layoutAction.setActivePage(state.layoutState, state.layout[0].children.length - 1, tmpPage.key, 2);
 			console.log("addPage2222222222:::::::::::::::::::::::",state.layout)
 			return {...state};
 		},
@@ -1208,7 +1208,6 @@ export default {
 
 		handleTreeChanged(state, { payload: params }) {
 			console.log('handleTreeChanged');
-			
 			// let currentControl = layoutAction.getCurrentPageOrController(state.layout, params.key, level);
 			if(params.type == 'page') {
 				let level = layoutAction.getCurrentLevelByKey(state.layout, params.key);
@@ -1329,6 +1328,7 @@ export default {
 					activePage.attr[params.attrName]['_value'] = params.newVal;
 				}
 				console.log("activePage.attr:" , activePage.attr);
+				console.log(state.layout[0].children)
 			}
 
 			if(state.layoutState.activeType == 'controller') {
