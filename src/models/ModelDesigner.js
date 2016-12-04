@@ -3,6 +3,20 @@ import { message } from 'antd';
 import randomString from '../utils/randomString';
 
 const layoutAction = {
+
+	deepCopyObj(obj, result) {
+		result = result || {};
+		for(let key in obj) {
+			if (typeof obj[key] === 'object') {
+				result[key] = (obj[key].constructor === Array)? []: {};
+				layoutAction.deepCopyObj(obj[key], result[key]);
+			}else {
+				result[key] = obj[key];
+			}
+		}
+		return result;
+	},
+
 	getActivePage (state) {
 		if(state.layoutState.activePage.level == 1){
 			return state.layout[state.layoutState.activePage.index];
@@ -53,12 +67,18 @@ const layoutAction = {
 
 	getController(controllersList, controller) {
 		var ct;
-		controllersList.map( (ctrl) => {
-			if(ctrl.type == controller) {
-				ct = ctrl;
-				return ctrl;
+		// controllersList.map( (ctrl) => {
+		// 	if(ctrl.type == controller) {
+		// 		ct = ctrl;
+		// 		return ctrl;
+		// 	}
+		// });
+
+		for(let i = 0; i < controllersList.length; i ++){
+			if (controllersList[i].type == controller) {
+				ct = controllersList[i];
 			}
-		});
+		}
 
 		return ct;
 	},
@@ -94,10 +114,10 @@ const layoutAction = {
 			index: '',
 			level: 3
 		};
-		// let activePage = layoutAction.getActivePage(state);
 		// alert(state.layoutState.activePage.level)
 		console.log(activePage)
 		let controllers = activePage.children;
+		// let controllers = state.layout[0].children[0].children;
 		const loopControllers = function (controllers, level) {
 			level = level || 3;
 			for(let i = 0; i < controllers.length; i ++) {
@@ -118,7 +138,12 @@ const layoutAction = {
 
 	getCurrentLevelByKey(layouts, key) {
 		// let level = 1;
+		// console.log(layouts)
 		const loopData = function(data, level, key) {
+			console.log(data,level);
+			if (!data) {
+				return level - 1;
+			}
 			for(let i = 0; i < data.length; i ++) {
 				// let level = 1;
 				if(data[i].key == key) {
@@ -410,7 +435,7 @@ export default {
 					},
 
 				]
-			},
+			}
 
 		],
 
@@ -1132,19 +1157,28 @@ export default {
 
 			console.log('page', page);
 
-			var tmpAttr = {};
+			let tmpAttr = {};
+			tmpAttr = layoutAction.deepCopyObj(page.attr, tmpAttr);
 
+			tmpAttr['title']['_value'] = page.name;
+			tmpAttr['title']['type'] = 'input';
+			tmpAttr['title']['isClassName'] = false;
+			tmpAttr['title']['isHTML'] = false;
+			tmpAttr['title']['title'] = '页面名称';
+			
 			console.log('page.attr', page.attr);
 
-			for(var att in page.attr) {
-				var currAttr = page.attr[att];
-				tmpAttr[att] = currAttr;
-				tmpAttr['title']['_value'] = page.name;
-				tmpAttr['title']['type'] = 'input';
-				tmpAttr['title']['isClassName'] = false;
-				tmpAttr['title']['isHTML'] = false;
-				tmpAttr['title']['title'] = '页面名称';
-			}
+			console.log(tmpAttr)
+
+			// for(var att in page.attr) {
+			// 	var currAttr = page.attr[att];
+			// 	tmpAttr[att] = currAttr;
+			// 	tmpAttr['title']['_value'] = page.name;
+			// 	tmpAttr['title']['type'] = 'input';
+			// 	tmpAttr['title']['isClassName'] = false;
+			// 	tmpAttr['title']['isHTML'] = false;
+			// 	tmpAttr['title']['title'] = '页面名称';
+			// }
 			console.log('=========-------------------',state.layout[0].children.length);
 			var tmpPage = {
 				type: 'page',
@@ -1183,7 +1217,8 @@ export default {
 
 		deleteConstruction(state,{payload: params}) {
 			if (params.type == 'page') {
-				state.layout.splice(params.deleteIndex,1);
+				// alert(params.level)
+				state.layout[0].children.splice(params.deleteIndex,1);
 				layoutAction.setActivePage(state.layoutState, params.lastIndex, params.key, 2);
 			}else {
 				state.layout[state.layoutState.activePage.index].children.splice(params.deleteIndex,1);
@@ -1209,16 +1244,25 @@ export default {
 			// let leve = layoutAction.getCurrentLevelByKey(state.layout, state.layoutState.activePage.key);
 			var tmpAttr = {};
 			console.log(controller)
-			for(var att in controller.attr) {
-				var currAttr = controller.attr[att];
-				tmpAttr[att] = currAttr;
+			tmpAttr = layoutAction.deepCopyObj(controller.attr, tmpAttr);
 				tmpAttr['title'] = {};
 				tmpAttr['title']['_value'] = controller.name;
 				tmpAttr['title']['type'] = 'input';
 				tmpAttr['title']['isClassName'] = false;
 				tmpAttr['title']['isHTML'] = false;
 				tmpAttr['title']['title'] = '名称';
-			}
+			// tmpAttr['title']['_value'] = controller.name;
+			// tmpAttr['title']['title'] = '名称';
+			// for(var att in controller.attr) {
+			// 	var currAttr = controller.attr[att];
+			// 	tmpAttr[att] = currAttr;
+			// 	tmpAttr['title'] = {};
+			// 	tmpAttr['title']['_value'] = controller.name;
+			// 	tmpAttr['title']['type'] = 'input';
+			// 	tmpAttr['title']['isClassName'] = false;
+			// 	tmpAttr['title']['isHTML'] = false;
+			// 	tmpAttr['title']['title'] = '名称';
+			// }
 
 			var ctrl = {
 				type: controller.type,
@@ -1250,6 +1294,7 @@ export default {
 				var pageIndex = layoutAction.getPageIndexByKey(state.layout, params.key, level);
 				layoutAction.setActivePage(state.layoutState, pageIndex, params.key, level);
 				console.log(state.layoutState)
+
 				// alert(1)
 			}else {
 				let activePage = layoutAction.getActivePage(state);
@@ -1260,7 +1305,8 @@ export default {
 				var activePage = layoutAction.getActivePage(state);
 				console.log('activePage', activePage);
 				var controllerIndex = layoutAction.getControllerIndexByKey(activePage.children, params.key);
-				let level = getCurrentLevelByKey(state.layout, ctrl.key);
+				// console.log('dfdsfdsfdsfdsfdsfsfsfdsfds:',state.layout)
+				let level = layoutAction.getCurrentLevelByKey(state.layout, params.key);
 				// alert(level)
 				layoutAction.setActiveController(state.layoutState, controllerIndex, params.key, level);
 			}
@@ -1370,35 +1416,38 @@ export default {
 					activePage.attr[params.attrName]['_value'] = params.newVal;
 				}
 				console.log("activePage.attr:" , activePage.attr);
+				// state.layout[0].children[1].type = 'controller';
+				// state.layout[0].children[2].key = '3';
 				console.log(state.layout[0].children)
 			}
 
 			if(state.layoutState.activeType == 'controller') {
-		      		const loopChildren = (page) => {
+				// activePage = state.layout[0].children[0];
+	      		// const loopChildren = (page) => {
 
-		      			var ct;
+	      		// 	var ct;
 
-		      			for (var i = 0; i < page.length; i++) {
-		      				var ctrl = page[i];
+	      		// 	for (var i = 0; i < page.length; i++) {
+	      		// 		var ctrl = page[i];
 
-		      				if(ctrl.children) {
-		      					loopChildren(ctrl.children);
-		      				}
+	      		// 		if(ctrl.children) {
+	      		// 			loopChildren(ctrl.children);
+	      		// 		}
 
-		      				if(typeof ctrl.attr[params.attrName] != 'undefined') {
-		      					ct = ctrl;
-		      					break;
-		      				}
-		      			};
+	      		// 		if(typeof ctrl.attr[params.attrName] != 'undefined') {
+	      		// 			ct = ctrl;
+	      		// 			break;
+	      		// 		}
+	      		// 	};
 
-		      			return ct;
+	      		// 	return ct;
 
-		      		};
+	      		// };
 
+	      		// var activeCtrl = loopChildren(activePage.children);
+	      		var activeCtrl = activePage.children[state.layoutState.activeController.index];
 
-		      		var activeCtrl = loopChildren(activePage.children);
-
-		      		activeCtrl.attr[params.attrName]['_value'] = params.newVal;
+	      		activeCtrl.attr[params.attrName]['_value'] = params.newVal;
 
 			}
 			console.log('handleAttrFormChange222:::::::::::::::::', state.layout);

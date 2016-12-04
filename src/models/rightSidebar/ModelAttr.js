@@ -8,7 +8,9 @@ export default {
 	state: {
 		formItems: [],
 
-		activeFormItem: 0
+		activeFormItem: 0,
+
+		theKey: ''
 	},
 
 	subscriptions: {
@@ -46,11 +48,15 @@ export default {
       			}
       		}else {
 	      		var activePage = yield select(state => state.designer.layoutState.activePage);
-	      		if(activePage.level = 1) {
+	      		if(activePage.level == 1) {
 	      			activePage = layouts[0];
 	      		}else {
 	      			activePage = layouts[0].children[activePage.index];
 	      		}
+
+	      		// activePage = layouts[0].children[0];
+
+	      		console.log('-----------------------------------------',activePage)
 
 	      		const loopChildren = (page) => {
 
@@ -83,7 +89,10 @@ export default {
 
       		yield put({
       			type: 'setFormItems',
-      			payload: activeCtrl.attr
+      			payload: {
+      				attr: activeCtrl.attr,
+      				key: params.key
+      			}
       		});
       	},
 
@@ -126,9 +135,9 @@ export default {
 			return {...state};
 		},
 
-		setFormItems (state, {payload: attr}) {
-
+		setFormItems (state, {payload: params}) {
 			var tmpAttr = [];
+			let attr = params.attr;
 
 			console.log('setFormItems', attr);
 
@@ -140,6 +149,8 @@ export default {
 					console.log(e.message)
 				}
 			}
+
+			state.theKey = params.key;
 
 			state.formItems = tmpAttr;
 			// state.activeFormItem = state.formItems.length - 1;

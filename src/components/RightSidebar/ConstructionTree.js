@@ -22,48 +22,65 @@ const ConstructionTree = (props) => {
   window.flag = true;
 
   const deleteThisConstruction = function() {
-      let type, 
-        lastIndex = -1,
-        deleteIndex,
-        key,
-        level = 1,
-        isDeleteAll = false,
-        activePage = props.designer.layoutState.activePage.key,
-        activeController = props.designer.layoutState.activeController.key;
-      let loopData = function (data) {
-        for(let i = 0; i < data.length; i ++){
-          if (data[i].children && data[i].children.length != 0) {
-            loopData(data.children);
-            level ++;
-          }else {
-            if (data[i].key == localStorage.currentSelectedConstruction) {
-              type = data[i].type;
-              if(activePage == localStorage.currentSelectedConstruction || 
-                activeController == localStorage.currentSelectedConstruction) {
-                lastIndex = i - 1;
-                deleteIndex = i;
-                if (lastIndex < 0) {
-                  isDeleteAll = true;
-                  lastIndex = 0;
+        let type, 
+            lastIndex = -1,
+            deleteIndex,
+            key,
+            level = 1,
+            isDeleteAll = false,
+            activePage = props.designer.layoutState.activePage.key,
+            activeController = props.designer.layoutState.activeController.key;
+        let loopData = function (data) {
+            for(let i = 0; i < data.length; i ++){
+                if (data[i].children) {
+                   loopData(data[i].children);
+                   level ++;
                 }
-                key = data[lastIndex].key;
-              }
-              break;
+                // alert(data[i].key)
+                if (data[i].key == localStorage.currentSelectedConstruction) {
+                    type = data[i].type;
+                    if(activePage == localStorage.currentSelectedConstruction || 
+                        activeController == localStorage.currentSelectedConstruction) {
+                        lastIndex = i - 1;
+                        deleteIndex = i;
+                        if (lastIndex < 0) {
+                            isDeleteAll = true;
+                            lastIndex = 0;
+                        }
+                        key = data[lastIndex].key;
+                    }
+                    break;
+                }
+                
             }
-          }
         }
-      }
-      loopData(props.designer.layout);
-      if(isDeleteAll) {
-        if (type == 'Controller') {
+        console.log(props.designer.layout)
+        loopData(props.designer.layout);
+        if(isDeleteAll) {
+            if (type == 'Controller') {
 
-        }else {
-          
+            }else {
+              
+            }
         }
-      }
-      props.dispatch({type: 'designer/deleteConstruction',payload: {type,deleteIndex,key,lastIndex, level}});
-      props.dispatch({type: 'attr/setFormItemsByType', payload: {type, key}})
-  };
+        props.dispatch({
+            type: 'designer/deleteConstruction',
+            payload: {
+                type,
+                deleteIndex,
+                key,
+                lastIndex,
+                level
+            }
+        });
+        props.dispatch({
+            type: 'attr/setFormItemsByType', 
+            payload: {
+              type, 
+              key
+            }
+        })
+    };
   
   const layoutTreeProps = {
     onRightClick(proxy) {

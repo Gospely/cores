@@ -4,7 +4,7 @@ import { Collapse, Switch } from 'antd';
 
 import { connect } from 'dva';
 
-import randomString from '../../utils/randomString';
+// import randomString from '../../utils/randomString';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -81,11 +81,13 @@ const Attr = (props) => {
     };
 
     let itemKey = 1;
+    let pageKey = props.attr.theKey;
+    // alert(pageKey)
 
     const attrTypeActions = {
 		input (attr, parentAtt) {
 			return (
-				<FormItem key={(itemKey ++) + ''} {...formItemLayout} label={attr.title}>
+				<FormItem key={pageKey + (itemKey ++)} {...formItemLayout} label={attr.title}>
              		<Input value={attr._value}
              				type={attr.attrType}
              				onChange={attrFormProps.handleAttrFormInputChange.bind(this, attr, parentAtt)}
@@ -97,7 +99,7 @@ const Attr = (props) => {
 
 		toggle (attr, parentAtt) {
 			return (
-				<FormItem key={(itemKey ++) + ''} {...formItemLayout} label={attr.title}>
+				<FormItem key={pageKey + (itemKey ++)} {...formItemLayout} label={attr.title}>
     				<Switch onChange={attrFormProps.handleAttrFormSwitchChange.bind(this, attr, parentAtt)}
     						checked={attr._value} />
 				</FormItem>
@@ -106,7 +108,7 @@ const Attr = (props) => {
 
 		select (attr, parentAtt) {
 			return (
-				<FormItem key={(itemKey ++) + ''} {...formItemLayout} label={attr.title}>
+				<FormItem key={pageKey + (itemKey ++)} {...formItemLayout} label={attr.title}>
 				    <Select onChange={attrFormProps.handleAttrFormSelectChange.bind(this, attr, parentAtt)}
 				    		value={attr._value}>
 				    	{attr.value.map( type => (
@@ -119,7 +121,7 @@ const Attr = (props) => {
 
 		'app_select' (attr, parentAtt) {
 			return (
-				<FormItem key={(itemKey ++) + ''} {...formItemLayout} label={attr.title}>
+				<FormItem key={pageKey + (itemKey ++)} {...formItemLayout} label={attr.title}>
 				    <Select onChange={attrFormProps.handleAttrFormSelectChange.bind(this, attr, parentAtt)}
 				    		value={attr._value}>
 				    	{attr._value.map( type => (
@@ -149,7 +151,7 @@ const Attr = (props) => {
 			console.log(children);
 
 			return (
-				<div key={(itemKey ++) + ''}>
+				<div key={pageKey + (itemKey ++)}>
     				<Tag>
 			            {attr.title}
 			        </Tag>
