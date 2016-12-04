@@ -44,7 +44,6 @@ const layoutAction = {
 		};
 
 		return ct;
-		// return layout[activePageIndex].children[activeControllerIndex];
 	},
 
 	setActivePage (layoutState, pageIndex, pageKey, level) {
