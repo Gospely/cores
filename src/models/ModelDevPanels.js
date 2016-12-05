@@ -39,16 +39,6 @@ export default {
 			    			editorId: '',
 			    			searchVisible: false,
 			    			isSave: false
-			    		},
-
-			    		{
-			    			title: 'Gospel 小程序 UI 设计器',
-			    			content: '',
-			    			key: '2',
-			    			type: 'designer',
-			    			editorId: '',
-			    			searchVisible: false,
-			    			isSave: false
 			    		}
 		    		],
 
