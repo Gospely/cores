@@ -12,7 +12,7 @@
 		    url: '/',
 		    className: 'home',
 		    render: function (){
-		        return '<h1>home</h1>';
+		        return '<div class="page"><div class="page__hd"><h1 class="page__title">hello, world</h1><p class="page__desc">Gospely 小程序可视化开发工具，让小程序无边界</p></div><div class="page__bd page__bd_spacing"></div><div class="page__ft"><span class="weui-footer__text">Copyright © 2016 gospely.com</span></div></div>';
 		    }
 		},
 
