@@ -7,7 +7,7 @@ var jq = jQuery.noConflict();
 
 $(function () {
     var pageManager = {
-        $container: $('#container'),
+        $container: $('#gospel-designer-container'),
         _pageStack: [],
         _configs: [],
         _pageAppend: function(){},
