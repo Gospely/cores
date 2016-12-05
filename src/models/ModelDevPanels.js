@@ -150,6 +150,7 @@ export default {
 			];
 			state.panels.panes[0].activeTab.key = "1";
 			state.devType.visual = false;
+			localStorage.visual = false;
 			state.devType.defaultActiveKey = 'setting';
 			localStorage.defaultActiveKey = 'setting';
 			localStorage.activeMenu = "file";
@@ -159,6 +160,34 @@ export default {
 		},
 		handleVisual(state){
 
+			console.log("handleVisual");
+			state.panels.panes[0].tabs =  [
+				{
+					title: '欢迎页面 - Gospel',
+					content: '',
+					key: '1',
+					type: 'welcome',
+					editorId: '',
+					searchVisible: false,
+					isSave: false
+				},
+				{
+					title: 'Gospel 小程序 UI 设计器',
+					content: '',
+					key: '2',
+					type: 'designer',
+					editorId: '',
+					searchVisible: false,
+					isSave: false
+				}
+			];
+			state.panels.panes[0].activeTab.key = "2";
+			state.devType.visual = true;
+			localStorage.visual = true;
+			state.devType.defaultActiveKey = 'controllers';
+			localStorage.defaultActiveKey = 'controllers';
+			localStorage.activeMenu = "attr";
+			window.location.href = 'http://localhost:8989/#/project/' + localStorage.currentProject;
 			return {...state};
 		},
 		toggleSearchBar(state,{payload:params}) {
