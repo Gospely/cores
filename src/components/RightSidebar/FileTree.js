@@ -1,5 +1,5 @@
 import React , { PropTypes } from 'react';
-import { Tree, Button, Icon, Tooltip, Row, Col, Popover, Input, Dropdown, Menu, Popconfirm, message, Modal, AutoComplete} from 'antd';
+import { Tree, Switch, Button, Icon, Tooltip, Row, Col, Popover, Input, Dropdown, Menu, Popconfirm, message, Modal, AutoComplete, Upload } from 'antd';
 import TreeStyle from './styles.css';
 import EditorStyle from '../Panel/Editor.css';
 
@@ -216,6 +216,39 @@ const FileTree = (props) => {
         })
       },
     },
+
+    uploadModal: {
+
+      visible: props.file.uploadModal.visible,
+      title: props.file.uploadModal.title,
+
+      onOk: function() {
+        let value = props.file.uploadModal.value;
+        props.dispatch({
+          type: 'file/',
+          payload: {
+            value
+          }
+        });
+
+        props.dispatch({
+          type: 'file/hideUploadModal'
+        });
+      },
+
+      onCancel: function() {
+        props.dispatch({
+          type: 'file/hideUploadModal'
+        })
+      },
+
+      switchIsUnZip(checked) {
+        props.dispatch({
+            type: 'file/switchIsUnZip',
+            payload: checked
+        })
+      }
+    },
     newFileNameModal: {
 
       visible: props.file.newFileNameModal.visible,
@@ -285,7 +318,6 @@ const FileTree = (props) => {
         }
 
       },
-
       cancel: function() {
         props.dispatch({
           type: 'file/hideNewFileNameModal'
@@ -344,20 +376,44 @@ const FileTree = (props) => {
 
     uploadInput: {
 
-      value: props.file.uploadInput.value,
+      fileList: props.file.uploadInput.value,
 
-      onChange: function(e) {
+      customRequest: function () {
+          props.dispatch({
+            type: 'file/handleUpload'
+          })
+      },
+
+      multiple: true,
+
+      beforeUpload: function (file) {
+        let suffix = file.name.split('.').pop();
+        let compressionSuffix = ['png','rar','zip','cab','arj','lzh','ace','7-zip','tar','gzip','uue','bz2','jar','iso','z'];
+        compressionSuffix.forEach(suf => {
+            if (suf == suffix) {
+                props.dispatch({
+                    type: 'file/switchNeedUnZip',
+                    payload: {
+                        needUnZip: true
+                    }
+                })
+            }
+        })
+      },
+
+      onChange: function(info) {
         props.dispatch({
           type: 'file/handleUploadInputChange',
-          payload: e.target.value
+          payload: info
         })
+        // console.log(info.fileList)
       },
 
       onPressEnter: function() {
         props.dispatch({
-          type: 'file/handleUpload'
+          type: 'file/showUploadModal'
         })
-      }
+      },
     },
     onLoadData: function(treeNode) {
       return new Promise((resolve) => {
@@ -454,11 +510,14 @@ const FileTree = (props) => {
 
     content: (
       <InputGroup style={searchCls}>
-        <Input
-          {...FileTreeProps.searchInput}
-        />
+        <Upload.Dragger {...FileTreeProps.uploadInput}>
+          <p className="ant-upload-drag-icon">
+            <Icon type="inbox" />
+          </p>
+          <p className="ant-upload-text">点击或拖拽上传</p>
+        </Upload.Dragger>
         <div className="ant-input-group-wrap">
-          <Button icon="plus" style={btnCls} onClick={FileTreeProps.searchInput.onPressEnter}/>
+          <Button icon="plus" style={btnCls} onClick={FileTreeProps.uploadInput.onPressEnter}/>
         </div>
       </InputGroup>
     )
@@ -687,6 +746,16 @@ const FileTree = (props) => {
             <Button icon="check" style={btnCls} onClick={FileTreeProps.newFileNameModal.ok}/>
           </div>
         </InputGroup>
+      </Modal>
+
+      <Modal {...FileTreeProps.uploadModal}>
+        {props.file.uploadModal.needUnZip &&
+        (<div>
+            是否解压：<Switch onChange={FileTreeProps.uploadModal.switchIsUnZip}
+                     checkedChildren={'是'}
+                     checked={props.file.uploadModal.isUnZip}
+                     unCheckedChildren={'否'} />
+        </div>)}
       </Modal>
 
       <div className={TreeStyle.header}>
