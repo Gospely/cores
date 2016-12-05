@@ -25,7 +25,8 @@ ul {
 }
 
 .container,.page {
-	position: absolute;
+	/*position: absolute;*/
+	height: 100%;
 	top: 0;
 	right: 0;
 	bottom: 0;
@@ -1176,4 +1177,9 @@ xpopup
 
 #gospel-designer-container {
 	margin-top: 42px;
+    height: calc(100% - 42px);
+}
+
+.home {
+	height: 100%;
 }
