@@ -3,7 +3,7 @@
 	//---------------------------初始化路由---------------------------
 
 	var router = new Router({
-	    container: '#container'
+	    container: '#gospel-designer-container'
 	});
 
 	var routerMap = [];
