@@ -12,7 +12,6 @@ const methods = {
 		return pane.tabs[pane.activeTab.index];
 	},
 	getEditors(state,index){
-
 		return state.panels.panes[index].editors;
 	}
 }
@@ -22,7 +21,7 @@ export default {
 	state: {
 
 		devType: {
-			visual: localStorage.visual || true,
+			visual: true,
 			defaultActiveKey: localStorage.defaultActiveKey || 'controllers',
 		},
 
