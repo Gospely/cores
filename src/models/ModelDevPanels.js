@@ -433,8 +433,8 @@ export default {
 
 			console.log("handleFileSave");
 			console.log(params);
-			console.log(state.panels.panes[params.paneKey].tabs)
-			state.panels.panes[params.paneKey].tabs[params.tabKey - 1].isSave = true;
+			console.log(state.panels.panes[params.pane].tabs)
+			state.panels.panes[params.pane].tabs[params.tabKey - 1].isSave = true;
 			return {...state};
 		},
 
