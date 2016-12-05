@@ -21,7 +21,7 @@ export default {
 	state: {
 
 		devType: {
-			visual: true,
+			visual: localStorage.visual || true,
 			defaultActiveKey: localStorage.defaultActiveKey || 'controllers',
 		},
 
