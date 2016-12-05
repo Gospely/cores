@@ -1,27 +1,41 @@
 (function(){
 
+	//---------------------------初始化路由---------------------------
+
 	var router = new Router({
 	    container: '#container'
 	});
 
+	var routerMap = [];
+
 	var home = {
-	    url: '/',
-	    className: 'home',
-	    render: function (){
-	        return '<h1>home</h1>';
-	    }
+		    url: '/',
+		    className: 'home',
+		    render: function (){
+		        return '<h1>home</h1>';
+		    }
+		},
+
+		post = {
+		    url: '/post/:id',
+		    className: 'post',
+		    render: function (){
+		        var id = this.params.id;
+		        return '<h1>post</h1>';
+		    }
+		};
+
+	var routerMap = [home, post],
+		routerInstance;
+
+	for (var i = 0; i < routerMap.length; i++) {
+		var currentRouter = routerMap[i];
+		routerInstance = router.push(currentRouter);
 	};
 
-	var post = {
-	    url: '/post/:id',
-	    className: 'post',
-	    render: function (){
-	        var id = this.params.id;
-	        return '<h1>post</h1>';
-	    }
-	};
+	routerInstance.setDefault('/').init();
 
-	router.push(home).push(post).setDefault('/').init();
+	//---------------------------初始化路由---------------------------
 
 	var jq = jQuery.noConflict();
 	var data;
