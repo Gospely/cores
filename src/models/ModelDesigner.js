@@ -314,9 +314,14 @@ export default {
 						}
 					},
 
-					// tabBar: {
+					tabBar: {
+						type: 'children',
+						title: '底部标签栏配置',
+						isClassName: false,
+						_value: {
 
-					// },
+						}
+					},
 
 					networkTimeout: {
 						type: 'children',
@@ -369,45 +374,52 @@ export default {
 								'_value': '主页面'
 							},
 
-							color: {
+							navigationBarBackgroundColor: {
+								type: 'input',
+								attrType: 'color',
+								title: '头背景色',
+								_value: '#ffffff',
+								isClassName: false
+							},
+
+							navigationBarTextStyle: {
+								type: 'select',
+								title: '头字体样式',
+								value: ['black', 'white'],
+								_value: 'black',
+								isClassName: false
+							},
+
+							navigationBarTitleText: {
+								type: 'input',
+								attrType: 'text',
+								title: '头标题',
+								_value: 'black',
+								isClassName: false
+							},
+
+							backgroundColor: {
 								type: 'input',
 								attrType: 'color',
 								title: '背景颜色',
-								isClassName: false,
-								isHTML: false,
-								'_value': '#f8f8f8'
-							},
-							images: {
-								type: 'input',
-								attrType: 'text',
-								title: '背景图片',
-								isClassName: false,
-								isHTML: false,
-								'_value': '#ff4ff'
+								_value: '#eeeeee',
+								isClassName: false
 							},
 
-							padding: {
-								type: 'input',
-								attrType: 'number',
-								title: '内边距',
-								isClassName: false,
-								isHTML: false,
-								'_value': '20'
+							backgroundTextStyle: {
+								type: 'select',
+								title: '字体样式',
+								value: ['dark', 'light'],
+								_value: 'light',
+								isClassName: false
 							},
-							scrolling: {
+
+							enablePullDownRefresh: {
 								type: 'toggle',
-								title: '是否滚动',
+								title: '下拉刷新',
+								_value: false,
 								isClassName: false,
-								isHTML: false,
-								'_value': true
-							},
-							class: {
-								type: 'input',
-								attrType: 'text',
-								title: '类名',
-								isClassName: true,
-								isHTML: false,
-								'_value': 'weui-cell__bd'
+								_value: true
 							},
 
 							routingURL: {
@@ -416,37 +428,12 @@ export default {
 								title: '路由',
 								isClassName: false,
 								isHTML: false,
-								'_value': '/fuck'
-							},
+								_value: '/page/page/index'
+							}
 
-							icon: {
-								type: 'select',
-								title: '图标',
-								value: ['weui', 'fuck'],
-								isClassName: false,
-								isHTML: false,
-								'_value': 'weui'
-							},
 						},
 
-						children: [
-							{
-								type:'page',
-								key:'page22222',
-								isLeaf:false,
-								attr:{
-									title: {
-										type: 'input',
-										attrType: 'text',
-										title: '页面名称',
-										isClassName: false,
-										isHTML: false,
-										'_value': '子页面'
-									},
-								},
-								children:[],
-							}
-						],
+						children: [],
 
 					},
 
@@ -610,60 +597,57 @@ export default {
 						_value: ''
 					},
 
-					color: {
+					navigationBarBackgroundColor: {
+						type: 'input',
+						attrType: 'color',
+						title: '头背景色',
+						_value: '#ffffff',
+						isClassName: false
+					},
+
+					navigationBarTextStyle: {
+						type: 'select',
+						title: '头字体样式',
+						value: ['black', 'white'],
+						_value: 'black',
+						isClassName: false
+					},
+
+					navigationBarTitleText: {
+						type: 'input',
+						attrType: 'text',
+						title: '头标题',
+						_value: 'black',
+						isClassName: false
+					},
+
+					backgroundColor: {
 						type: 'input',
 						attrType: 'color',
 						title: '背景颜色',
-						isClassName: false,
-						isHTML: false,
-						_value: '#f8f8f8'
-					},
-					images: {
-						type: 'input',
-						attrType: 'text',
-						title: '背景图片',
-						isClassName: false,
-						isHTML: false,
-						_value: ''
+						_value: '#eeeeee',
+						isClassName: false
 					},
 
-					padding: {
-						type: 'input',
-						attrType: 'number',
-						title: '内边距',
-						isClassName: false,
-						isHTML: false,
-						_value: ''
+					backgroundTextStyle: {
+						type: 'select',
+						title: '字体样式',
+						value: ['dark', 'light'],
+						_value: 'light',
+						isClassName: false
 					},
-					scrolling: {
+
+					enablePullDownRefresh: {
 						type: 'toggle',
-						title: '是否滚动',
-						isClassName: false,
-						isHTML: false,
-						_value: ''
-					},
-					class: {
-						type: 'input',
-						attrType: 'text',
-						title: '类名',
-						isClassName: false,
-						isHTML: false,
-						_value: ''
+						title: '下拉刷新',
+						_value: false,
+						isClassName: false
 					},
 
 					routingURL: {
 						type: 'input',
 						attrType: 'text',
 						title: '路由',
-						isClassName: false,
-						isHTML: false,
-						_value: ''
-					},
-
-					icon: {
-						type: 'select',
-						title: '图标',
-						value: ['weui', 'fuck'],
 						isClassName: false,
 						isHTML: false,
 						_value: ''
