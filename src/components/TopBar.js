@@ -260,6 +260,8 @@ const LeftSidebar = (props) => {
 			localStorage.dir = localStorage.user + '/' + application.name + '_' + localStorage.userName + "/";
 			localStorage.currentProject = application.name;
 			localStorage.port = application.port;
+			localStorage.sshPort = application.sshPort;
+			localStorage.socketPort = application.socketPort;
 			localStorage.domain = application.domain;
 			localStorage.currentFolder = localStorage.user + '/' + application.name + '_' + localStorage.userName;
 

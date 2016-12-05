@@ -53,7 +53,7 @@ export default {
 
 		    		activeTab: {
 		    			key: '2',
-		    			index: 0
+		    			index: 1
 		    		}
 	    		}
 	    	],
