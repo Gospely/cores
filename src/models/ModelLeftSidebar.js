@@ -17,7 +17,7 @@ export default {
 			pushValue: ''
 		},
 
-		activeMenu: localStorage.defaultActiveKey
+		activeMenu: localStorage.defaultActiveKey || 'attr'
 	},
 
 	subscriptions: {
