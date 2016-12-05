@@ -17,7 +17,7 @@ export default {
 			pushValue: ''
 		},
 
-		activeMenu: 'controllers'
+		activeMenu: localStorage.defaultActiveKey
 	},
 
 	subscriptions: {

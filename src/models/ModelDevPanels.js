@@ -22,8 +22,8 @@ export default {
 	state: {
 
 			devType: {
-				visual: true,
-				defaultActiveKey: 'controllers'
+				visual: localStorage.visual,
+				defaultActiveKey: localStorage.defaultActiveKey,
 			},
 			debug: '',
 	    panels: {
@@ -89,7 +89,8 @@ export default {
 			const devType = {
 
 				common(){
-					put({ type: "handleCommon" });
+					console.log("common");
+
 				},
 
 				visual(){
@@ -114,8 +115,11 @@ export default {
 						method: 'GET',
 						});
 			console.log(res);
-			devType[res.data.fields.devType]();
-			debugType[res.data.fields.debugType]();
+			if(res.data.fields.devType == 'common'){
+					yield put({ type: "handleCommon" });
+			}else{
+				yield put({ type: "handleVisual" });
+			}
 		}
 	},
 
@@ -132,6 +136,7 @@ export default {
 			return {...state};
 		},
 		handleCommon(state) {
+			console.log("handleCommon");
 			state.panels.panes[0].tabs =  [
 				{
 					title: '欢迎页面 - Gospel',
@@ -146,8 +151,15 @@ export default {
 			state.panels.panes[0].activeTab.key = "1";
 			state.devType.visual = false;
 			state.devType.defaultActiveKey = 'setting';
-			return {...state}
+			localStorage.defaultActiveKey = 'setting';
+			localStorage.activeMenu = "file";
+			window.location.href = 'http://localhost:8989/#/project/' + localStorage.currentProject;
+			return {...state};
 
+		},
+		handleVisual(state){
+
+			return {...state};
 		},
 		toggleSearchBar(state,{payload:params}) {
 			console.log(params.belongTo)
