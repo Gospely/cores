@@ -20,6 +20,11 @@ export default {
 	namespace: 'devpanel',
 	state: {
 
+			devType: {
+				visual: true,
+				defaultActiveKey: 'controllers'
+			},
+			debug: '',
 	    panels: {
 
 	    	panes: [
@@ -75,11 +80,70 @@ export default {
 
 	effects: {
 
+		//根据项目的类型渲染ide面板
+		*handleImages({ payload: params}, {call, put, select}) {
 
+			const devType = {
 
+				common(){
+					put({ type: "handleCommon" });
+				},
+
+				visual(){
+
+				}
+			};
+
+			const debugType = {
+
+				common() {
+
+				},
+
+				shell() {
+
+				}
+			};
+
+			var url = "images/" + params.id;
+			var res = yield request(url, {
+						method: 'GET',
+						});
+			devType[res.data.fields.devType]();
+			debugType[res.data.fields.debugType]();
+		}
 	},
 
 	reducers: {
+
+		handleDebugger(state, { payload: params}){
+
+				state.debug = params.debug;
+				console.log('handleDebugger');
+				return {...state};
+		},
+		handleTabChanged(state, {payload: name}) {
+			state.activeMenu = name;
+			return {...state};
+		},
+		handleCommon(state) {
+			state.panels.panes[0].tabs =  [
+				{
+					title: '欢迎页面 - Gospel',
+					content: '',
+					key: '1',
+					type: 'welcome',
+					editorId: '',
+					searchVisible: false,
+					isSave: false
+				}
+			];
+			state.panels.panes[0].activeTab.key = "1";
+			state.devType.visual = false;
+			state.devType.defaultActiveKey = 'setting';
+			return {...state}
+
+		},
 		toggleSearchBar(state,{payload:params}) {
 			console.log(params.belongTo)
 			let tab = methods.getActiveTab(state, state.panels.panes[params.belongTo]);

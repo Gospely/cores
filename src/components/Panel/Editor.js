@@ -1,5 +1,4 @@
 import React , {PropTypes} from 'react';
-import AceEditor from 'react-ace';
 import EditorStyle from './Editor.css';
 import { connect } from 'dva';
 
@@ -7,20 +6,21 @@ import MonacoEditor from 'react-monaco-editor';
 
 import { Button, message } from 'antd';
 
-import 'brace/mode/java';
-import 'brace/mode/javascript';
-import 'brace/mode/html';
-import 'brace/mode/css';
-import 'brace/mode/php';
-import 'brace/mode/plain_text';
-import 'brace/mode/markdown';
+// import AceEditor from 'react-ace';
+// import 'brace/mode/java';
+// import 'brace/mode/javascript';
+// import 'brace/mode/html';
+// import 'brace/mode/css';
+// import 'brace/mode/php';
+// import 'brace/mode/plain_text';
+// import 'brace/mode/markdown';
+//
+// import 'brace/theme/github';
+// import 'brace/theme/eclipse';
+// import 'brace/theme/twilight';
+// import 'brace/theme/xcode';
 
-import 'brace/theme/github';
-import 'brace/theme/eclipse';
-import 'brace/theme/twilight';
-import 'brace/theme/xcode';
-
-import 'brace/ext/language_tools';
+// import 'brace/ext/language_tools';
 
 import EditorTop from './EditorTop';
 import EditorBottom from './EditorBottom';
@@ -29,7 +29,6 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import randomWord from '../../utils/randomString';
 
-
 const Editor = (props) => {
 	let props$editorTop = props.editorTop,
 		dispatch = props.dispatch,
@@ -37,8 +36,6 @@ const Editor = (props) => {
 		editorId = props.editorId,
 		isSave = props.isSave,
 		tabKey = props.tabKey;
-
-
 
 	const EditorTopProps = {
 		searchVisible: props.searchVisible,
@@ -189,6 +186,7 @@ const Editor = (props) => {
 	    		type: 'editor/showArrow'
 	    	})
     	},
+    	
 		onLoad(e,editor) {
 
 			console.log(e);
@@ -197,7 +195,8 @@ const Editor = (props) => {
 			console.log('editor onLoad');
 
 		},
-    handleMouseLeave() {
+
+    	handleMouseLeave() {
 	    	props.dispatch({
 	    		type: 'editor/hideArrow'
 	    	})
@@ -209,7 +208,7 @@ const Editor = (props) => {
 				console.log('change');
 				console.log(this);
 				console.log(value);
-    		var editorId = activePane.activeEditor.id;
+    			var editorId = activePane.activeEditor.id;
 
 				if(!props.editorTop.searchVisible) {
 					props.dispatch({
@@ -224,8 +223,10 @@ const Editor = (props) => {
   		panes: props.devpanel.panes,
   		activeKey: props.devpanel.activeKey
   	}
+
   	let splitType = props.devpanel.panels.splitType;
   	let aceHeight;
+
   	if (splitType == 'single' || splitType == 'vertical-dbl') {
   		aceHeight = ( parseInt(document.body.clientHeight) - 62 ) + 'px';
   	}else {
@@ -242,16 +243,15 @@ const Editor = (props) => {
 		<div className={EditorStyle.aceEditor}>
 			<EditorTop {...EditorTopProps}></EditorTop>
 
-
-					<MonacoEditor
-							width="100%"
-							height="1000"
-							language={props.editorTop.currentMode}
-							options={props.editor.options}
-							value={belongTo.editors[editorId].value}
-							onChange={editorProps.handleEditorChanged}
-							editorDidMount={editorProps.onLoad}
-					/>
+				<MonacoEditor
+					width="100%"
+					height="1000"
+					language={props.editorTop.currentMode}
+					options={props.editor.options}
+					value={belongTo.editors[editorId].value}
+					onChange={editorProps.handleEditorChanged}
+					editorDidMount={editorProps.onLoad}
+				/>
 
 	        <EditorBottom></EditorBottom>
 

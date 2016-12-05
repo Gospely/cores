@@ -1,6 +1,8 @@
 import React , {PropTypes} from 'react';
 import { Tabs, Icon, Popover, Collapse } from 'antd';
 
+import { connect } from 'dva';
+
 import ConstructionTree from './RightSidebar/ConstructionTree';
 import FileTree from './RightSidebar/FileTree';
 import Controllers from './RightSidebar/Controllers';
@@ -13,10 +15,13 @@ import SplitPane from 'react-split-pane';
 const TabPane = Tabs.TabPane;
 const Panel = Collapse.Panel;
 
-const RightSidebar = () => {
+const leftSidebar = (props) => {
 
-	var callback = function(key) {
-		console.log(key);
+	var handleTabChanged = function(key) {
+		props.dispatch({
+			type: 'sidebar/handleTabChanged',
+			payload: key
+		});
 	}
 
 	var styles = {
@@ -33,25 +38,29 @@ const RightSidebar = () => {
 		 	writingMode: 'tb-rl'
 		}
 	}
-
+	console.log(props.sidebar.visible);
 	return (
-	  	<Tabs tabPosition="left" defaultActiveKey="controllers" onChange={callback}>
-	    	<TabPane style={styles.tab} tab={<span style={styles.span}><Icon style={styles.icon} type="bars" />结构</span>} key="controllers">
-				<Collapse className="noborder attrCollapse consCollapse" bordered={false} defaultActiveKey={['controllers', 'construction']}>
-				    <Panel header="结构" key="construction">
+	  	<Tabs tabPosition="left" defaultActiveKey={props.devpanel.devType.defaultActiveKey} activeKey={props.sidebar.activeMenu} onChange={handleTabChanged}>
+	    	<TabPane style={styles.tab} tab={<span style={styles.span} hidden={!props.devpanel.devType.visual}><Icon style={styles.icon} type="bars" />结构</span>} key="controllers">
+				<Collapse  className="noborder attrCollapse consCollapse" bordered={false} defaultActiveKey={['controllers', 'construction']}>
+				    <Panel header="结构" key="construction" hidden="true">
 	    	    		<ConstructionTree></ConstructionTree>
 				    </Panel>
-				    <Panel header="控件" key="controllers">
+				    <Panel header="控件" key="controllers" hidden="true">
 	    	    		<Controllers></Controllers>
 				    </Panel>
 				</Collapse>
 	    	</TabPane>
 	    	<TabPane style={styles.tab} tab={<span style={styles.span}><Icon style={styles.icon} type="setting" />设置</span>} key="setting">
 	    		<SettingPanel></SettingPanel>
-	    	</TabPane>	    	
+	    	</TabPane>
 	  	</Tabs>
 	)
 
 }
 
-export default RightSidebar;
+function mapStateToProps({ sidebar, devpanel}) {
+  return { sidebar, devpanel};
+}
+
+export default connect(mapStateToProps)(leftSidebar);

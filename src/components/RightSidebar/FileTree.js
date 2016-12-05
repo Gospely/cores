@@ -66,6 +66,8 @@ const FileTree = (props) => {
     },
 
     onSelect: function(e, node) {
+      console.log(e);
+      console.log(node);
       if(e.length > 0) {
         localStorage.currentSelectedFile = e[0];
         var file = e[0];
@@ -79,10 +81,12 @@ const FileTree = (props) => {
   				type: 'editorTop/dynamicChangeSyntax',
   				payload:{suffix}
   			});
-        file.pop();
-
-        console.log(suffix);
-        localStorage.currentFolder = file.join('/') + '/';
+        var isLeaf = node.node.props.isLeaf;
+        if(e[0] != localStorage.dir && isLeaf){
+          file.pop();
+        }
+        localStorage.currentFolder = file.join('/') + "/";
+        console.log(localStorage.currentFolder);
         localStorage.currentFileIsDir = !node.node.props.isLeaf;
       }
 
@@ -590,8 +594,9 @@ const FileTree = (props) => {
   );
 
   const loopData = data => data.map((item) => {
+
     if (item.children) {
-      return <TreeNode title={item.name} key={item.key}>{loopData(item.children)}</TreeNode>;
+      return <TreeNode title={item.name} isLeaf = {item.isLeaf} key={item.key}>{loopData(item.children)}</TreeNode>;
     }
     return (
         <TreeNode title={item.name} key={item.key} isLeaf={item.isLeaf} disabled={item.key === 'root'} />
@@ -614,21 +619,14 @@ const FileTree = (props) => {
 
   const searchPaneInputChange = function (e) {
 
-    var currentClickTimestamp = new Date().getTime();
 
-    if(currentClickTimestamp - preClickTimestamp_search > 2000){
       console.log("time");
       var value = e.target.value;
       props.dispatch({
         type: 'file/searchPaneInputChange',
         payload: e.target.value
       });
-      props.dispatch({
-        type: 'file/handleSearch',
-        payload:{value}
-      });
-      preClickTimestamp_search = currentClickTimestamp;
-    }
+
   }
 
 
@@ -717,9 +715,7 @@ const FileTree = (props) => {
           </Col>
           <Col span={6}>
             <Tooltip placement="bottom" title="搜索文件">
-              <Popover placement="left" {...searchFilePop} trigger="click">
                 <Button onClick={FileTreeProps.searchFile} className={EditorStyle.topbarBtnColumn}><Icon type="search" /></Button>
-              </Popover>
             </Tooltip>
           </Col>
         </Row>

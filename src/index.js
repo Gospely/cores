@@ -5,6 +5,8 @@ import { message } from 'antd';
 
 import createLoading from 'dva-loading';
 
+import packUIStage from './utils/packUIState.js';
+
 localStorage.itemToCut = localStorage.itemToCut || undefined;
 localStorage.itemToCopy = localStorage.itemToCopy || undefined;
 window.flag = false;
@@ -25,28 +27,50 @@ const app = dva({
 	  	message.error(e.message);
 	}
 });
+
+console.log(app);
 // 登录状态同步
-function getCookie(c_name){
-	if (document.cookie.length>0){
-	  	var c_start=document.cookie.indexOf(c_name + "=")
-	  if (c_start!=-1){
-	    c_start=c_start + c_name.length+1
-	    var c_end=document.cookie.indexOf(";",c_start)
-	    if (c_end==-1) c_end=document.cookie.length
-	    return unescape(document.cookie.substring(c_start,c_end))
+function getCookie(c_name) {
+	if (document.cookie.length > 0) {
+	  	var c_start = document.cookie.indexOf(c_name + "=");
+	  if (c_start != -1) {
+	    c_start = c_start + c_name.length + 1;
+	    var c_end = document.cookie.indexOf(";",c_start);
+	    if (c_end == -1) c_end=document.cookie.length;
+	    return unescape(document.cookie.substring(c_start,c_end));
 	  }
 	}
-	return ""
+	return "";
 }
-var user = getCookie('user');
-var token =  getCookie('token');
-var userName =  getCookie('userName');
+
+var user = getCookie('user'),
+	token =  getCookie('token'),
+	userName =  getCookie('userName');
 
 localStorage.user = user;
 localStorage.token = token;
 localStorage.userName = userName;
+
 // 2. Plugins
 //app.use({});
+app.use({
+	onStateChange: () => {
+		var state = app._store.getState();
+		var UIState = packUIStage(state);
+
+		// app._store.dispatch({
+		// 	type: 'UIState/writeConfig',
+		// 	payload: {
+		// 		id: '',
+		// 		application: '',
+		// 		creator: '',
+		// 		configs: UIState
+		// 	}
+		// })
+		console.log('onStateChange', UIState, app);
+	}
+});
+
 app.use(createLoading());
 
 // 3. Model
@@ -60,8 +84,9 @@ app.model(require('./models/rightSidebar/ModelLayout'));
 app.model(require('./models/rightSidebar/ModelFileTree'));
 app.model(require('./models/rightSidebar/ModelAttr'));
 app.model(require('./models/ModelDesigner'));
-app.model(require('./models/ModelPreviewer'));
+app.model(require('./models/Modelpreviewer'));
 app.model(require('./models/ModelConstruction'));
+app.model(require('./models/ModelUIState'));
 
 // 4. Router
 app.router(require('./router'));

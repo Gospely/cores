@@ -4,6 +4,7 @@ import { Menu, Icon, Modal, Input, Button, message, Tabs, Card, Popconfirm, Row,
 const TabPane = Tabs.TabPane;
 
 import { connect } from 'dva';
+import { Router, Route, IndexRoute, Link } from 'dva/router';
 
 import CodingEditor from './Panel/Editor.js';
 import Terminal from './Panel/Terminal.js';
@@ -38,12 +39,17 @@ const LeftSidebar = (props) => {
 			height: '100%'
 		}
 	};
+
 	const initApplications = () => {
+
+		if(!props.sidebar.applications) {
+			return;
+		}
 
 		return props.sidebar.applications.map(application => {
 			return   <Col className="gutter-row" span={6} style={{marginTop: 20}} key={application.id}>
 						 <div className="gutter-box">
-								<Card onClick={leftSidebarProps.openApp.bind(this,application)} extra={
+								<Card onClick={leftSidebarProps.openApp(this,application)} extra={
 									<Popconfirm onClick={(e) => e.stopPropagation()} title="确认删除此项目?"
 									onConfirm={leftSidebarProps.confirmDeleteApp.bind(this,application.id)}
 									onCancel={leftSidebarProps.cancelDeleteApp} okText="Yes" cancelText="No">
@@ -60,6 +66,14 @@ const LeftSidebar = (props) => {
 						 </div>
 					</Col>;
 		});
+	};
+	const designer = () => {
+
+		if(props.devpanel.devType.visual) {
+			return   (<Menu.Item key="designer">
+					<Icon type="windows-o" />
+				</Menu.Item>);
+		}
 	};
 
 	const leftSidebarProps = {
@@ -174,10 +188,33 @@ const LeftSidebar = (props) => {
 
 	        start() {
 
+							console.log("debugger");
+							//调试
+							const debugType = {
+
+								common(){
+
+									console.log('common');
+									sessionStorage.currentDebugResource = 'http://gospely.com:' + localStorage.port;
+									var debug = window.open('http://localhost:8989/static/debugger/wordpress.html','_blank')
+
+									props.dispatch({
+										type: 'devpanel/handleDebugger',
+										payload: {debug}
+									});
+
+
+								}
+							}
+							debugType['common']();
+
 	        },
 
 	        pause() {
-
+						console.log("pause");
+						var debug = props.devpanel.debug;
+						console.log(debug);
+						debug.postMessage({codeSaved: true},"*");
 	        },
 
 	        preview() {
@@ -226,17 +263,25 @@ const LeftSidebar = (props) => {
 	    openApp(application) {
 
 				console.log(localStorage.userName);
-				localStorage.dir = localStorage.user + '/' + application.name + '_' + localStorage.userName;
+				localStorage.dir = localStorage.user + '/' + application.name + '_' + localStorage.userName + "/";
 				localStorage.currentProject = application.name;
+				localStorage.port = application.port;
+				localStorage.domain = application.domain;
 				localStorage.currentFolder = localStorage.user + '/' + application.name + '_' + localStorage.userName;
 				console.log(localStorage.dir);
 				console.log(application);
+
+
 				props.dispatch({
 					type: 'file/fetchFileList'
 				});
 				props.dispatch({
 	        type: 'sidebar/hideModalSwitchApp'
-	      })
+	      });
+				props.dispatch({
+					type: 'devpanel/handleImages',
+					payload: { id : application.id}
+				});
 	    	console.log('TopBar中dispatch')
 	    	// alert(1)
 	    },
@@ -244,6 +289,7 @@ const LeftSidebar = (props) => {
 	    switchApp() {
 
 				console.log('switch app');
+
 	      props.dispatch({
 	        type: 'sidebar/switchApp'
 	      })
@@ -299,7 +345,7 @@ const LeftSidebar = (props) => {
 	    antSearchInputFocus: false,
 	};
 
-  	const btnCls = {
+  const btnCls = {
 	    borderRadius: '0px',
 	    marginLeft: '-1px'
 	};
@@ -329,9 +375,7 @@ const LeftSidebar = (props) => {
 		        <Menu.Item key="file">
 					<Icon type="file-text" />
 		        </Menu.Item>
-		        <Menu.Item key="designer">
-		        	<Icon type="windows-o" />
-		        </Menu.Item>
+						{designer()}
 		        <Menu.Item key="terminal">
 					<Icon type="code-o" />
 		        </Menu.Item>
@@ -359,14 +403,14 @@ const LeftSidebar = (props) => {
         	    <Row gutter={16}>
         	    <Col className="gutter-row" span={6} style={{marginTop: 20}} key='addApp'>
 					 <div className="gutter-box">
-							<Card onClick={console.log('')} 
+							<Card onClick={console.log('')}
 							style={{ width: 110, height: 110 }}
 							bodyStyle={{height: '100%', background: 'whitesmoke', color: '#555', cursor: 'pointer'}}>
 									<div style={{ height: 50,lineHeight: '50px',textAlign: 'center' }}>
 										<a className="create-app-from-modal" onClick={leftSidebarProps.createAppFromModal}>
 											<Icon type="plus" />
 										</a>
-										
+
 									</div>
 							</Card>
 					 </div>

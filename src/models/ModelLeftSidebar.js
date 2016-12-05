@@ -4,6 +4,7 @@ import request from '../utils/request.js';
 export default {
 	namespace: 'sidebar',
 	state: {
+
 		modalNewAppVisible: false,
 		modalSwitchAppVisible: false,
 		modalModifyGitOriginVisible: false,
@@ -14,7 +15,9 @@ export default {
 			value: '',
 			isGit: false,
 			pushValue: ''
-		}
+		},
+
+		activeMenu: 'controllers'
 	},
 
 	subscriptions: {
@@ -30,12 +33,12 @@ export default {
 	effects: {
 
 		*isGitProject({payload: params}, {call, put, select}) {
-      		// var isGit = yield request('fs/git/', {
-      		// 	method: 'POST',
-      		// 	body: JSON.stringify({
-      		// 		dir: localStorage.dir
-      		// 	})
-      		// });
+      		var isGit = yield request('fs/git/', {
+      			method: 'POST',
+      			body: JSON.stringify({
+      				dir: localStorage.dir
+      			})
+      		});
 
       		if(isGit.data.fields) {
       			//获取origin源
@@ -202,6 +205,10 @@ export default {
 			var fetch = split[1],
 				push = split[2];
 
+			if(!fetch) {
+				return {...state};
+			}
+
 			fetch = fetch.split(' (fetch)')[0];
 			push = push.split(' (push)')[0];
 
@@ -211,14 +218,29 @@ export default {
 				pushValue: push
 			}}
 		},
+
 		initApplications(state, {payload: params}) {
 
 			console.log("initApplications");
 			console.log(params);
 			state.applications = params.applications;
+			return {...state};
+		},
+
+		//项目非可视化设计项目,隐藏可视化设计面板
+		hideVisual(state){
+
+			state.visible = false;
+			state.defaultActiveKey = 'setting';
+
 			return {...state}
 		},
 
+		handleTabChanged(state, {payload: name}) {
+
+			state.activeMenu = name;
+			return {...state};
+		}
 
 	}
 

@@ -1,4 +1,42 @@
 (function(){
+
+	//---------------------------初始化路由---------------------------
+
+	var router = new Router({
+	    container: '#gospel-designer-container'
+	});
+
+	var routerMap = [];
+
+	var home = {
+		    url: '/',
+		    className: 'home',
+		    render: function (){
+		        return '<h1>home</h1>';
+		    }
+		},
+
+		post = {
+		    url: '/post/:id',
+		    className: 'post',
+		    render: function (){
+		        var id = this.params.id;
+		        return '<h1>post</h1>';
+		    }
+		};
+
+	var routerMap = [home, post],
+		routerInstance;
+
+	for (var i = 0; i < routerMap.length; i++) {
+		var currentRouter = routerMap[i];
+		routerInstance = router.push(currentRouter);
+	};
+
+	routerInstance.setDefault('/').init();
+
+	//---------------------------初始化路由---------------------------
+
 	var jq = jQuery.noConflict();
 	var data;
 
@@ -49,7 +87,7 @@
 	});
 
 	var source = jq("#dnd-row",window.parent.document).find('.ant-col-12');
-	source.each(function(n){
+	source.each(function(n) {
 		jq(this).find(".app-components").attr("draggable",true);
 		jq(this).find(".app-components").attr("id","source"+n);
 		//开始拖拽

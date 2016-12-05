@@ -4,7 +4,7 @@ import { Collapse, Switch } from 'antd';
 
 import { connect } from 'dva';
 
-import randomString from '../../utils/randomString';
+// import randomString from '../../utils/randomString';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -14,18 +14,17 @@ const ButtonGroup = Button.Group;
 const CheckableTag = Tag.CheckableTag;
 
 const Attr = (props) => {
-
 	const styles = {
 		label: {
 			marginRight: '18px',
 			fontWeight: 'bold'
 		}
-	}
+	};
 
 	const handleSubmit = (e) => {
 	    e.preventDefault();
 		console.log(e);
-	}
+	};
 
     const formItemLayout = {
       	labelCol: { span: 8 },
@@ -34,7 +33,8 @@ const Attr = (props) => {
 
     const attrFormProps = {
 
-    	handleAttrFormInputChange: (attr, dom) => {
+    	handleAttrFormInputChange: (attr, parentAtt, dom) => {
+    		console.log(parentAtt)
     		var newVal = dom.target.value;
     		var attrName = attr.attrName;
 
@@ -42,7 +42,8 @@ const Attr = (props) => {
     			type: 'designer/handleAttrFormChange',
     			payload: {
     				newVal: newVal,
-    				attrName: attrName
+    				attrName: attrName,
+    				parentAtt: parentAtt
     			}
     		});
 
@@ -51,137 +52,143 @@ const Attr = (props) => {
     		})
     	},
 
-    	handleAttrFormSwitchChange: (attr, checked) => {
+    	handleAttrFormSwitchChange: (attr, parentAtt, checked) => {
 			var newVal = checked;
 			var attrName = attr.attrName;
     		props.dispatch({
     			type: 'designer/handleAttrFormChange',
     			payload: {
     				newVal: newVal,
-    				attrName: attrName
+    				attrName: attrName,
+    				parentAtt: parentAtt
     			}
     		});
     	},
 
-    	handleAttrFormSelectChange: (attr, selectedVal) => {
+    	handleAttrFormSelectChange: (attr, parentAtt, selectedVal) => {
 			var newVal = selectedVal;
 			var attrName = attr.attrName;
     		props.dispatch({
     			type: 'designer/handleAttrFormChange',
     			payload: {
     				newVal: newVal,
-    				attrName: attrName
+    				attrName: attrName,
+    				parentAtt: parentAtt
     			}
     		});
     	}
 
-    }
+    };
 
-    if (props.designer.layout.length) {
+    let itemKey = 1;
+    let pageKey = props.attr.theKey;
+    // alert(pageKey)
 
-		return (
-			<div>
-				<Collapse className="noborder attrCollapse nomin" bordered={false} defaultActiveKey={['1']}>
-				    <Panel header="属性" key="1">
+    const attrTypeActions = {
+		input (attr, parentAtt) {
+			return (
+				<FormItem key={pageKey + (itemKey ++)} {...formItemLayout} label={attr.title}>
+             		<Input value={attr._value}
+             				type={attr.attrType}
+             				onChange={attrFormProps.handleAttrFormInputChange.bind(this, attr, parentAtt)}
+             				className="attrInput"
+             				placeholder={attr.title} />
+         		</FormItem>
+			);
+		},
 
-				      	<Form onSubmit={handleSubmit}>
-				      		{props.attr.formItems.map( (item, index) => {
+		toggle (attr, parentAtt) {
+			return (
+				<FormItem key={pageKey + (itemKey ++)} {...formItemLayout} label={attr.title}>
+    				<Switch onChange={attrFormProps.handleAttrFormSwitchChange.bind(this, attr, parentAtt)}
+    						checked={attr._value} />
+				</FormItem>
+			);
+		},
 
-				      			//console.log('change formItems', props.attr.formItems, props.attr.activeFormItem);
+		select (attr, parentAtt) {
+			return (
+				<FormItem key={pageKey + (itemKey ++)} {...formItemLayout} label={attr.title}>
+				    <Select onChange={attrFormProps.handleAttrFormSelectChange.bind(this, attr, parentAtt)}
+				    		value={attr._value}>
+				    	{attr.value.map( type => (
+					      	<Option key={type} value={type}>{type}</Option>
+				    	))}
+				    </Select>
+				</FormItem>
+			);
+		},
 
-						    	const attrTypeActions = {
-						    		input (attr) {
-						    			return (
-											<FormItem key={randomString(8, 10)} {...formItemLayout} label={attr.title}>
-							             		<Input value={attr._value}
-							             				type={attr.attrType}
-							             				onChange={attrFormProps.handleAttrFormInputChange.bind(this, attr)} 
-							             				className="attrInput" 
-							             				placeholder={attr.title} />
-							         		</FormItem>
-						    			);
-						    		},
+		'app_select' (attr, parentAtt) {
+			return (
+				<FormItem key={pageKey + (itemKey ++)} {...formItemLayout} label={attr.title}>
+				    <Select onChange={attrFormProps.handleAttrFormSelectChange.bind(this, attr, parentAtt)}
+				    		value={attr._value}>
+				    	{attr._value.map( type => (
+					      	<Option key={type} value={type}>{type}</Option>
+				    	))}
+				    </Select>
+				</FormItem>
+			);
+		},
 
-						    		toggle (attr) {
-						    			return (
-											<FormItem key={randomString(8, 10)} {...formItemLayout} label={attr.title}>
-							    				<Switch onChange={attrFormProps.handleAttrFormSwitchChange.bind(this, attr)} 
-							    						checked={attr._value} />
-											</FormItem>
-						    			);
-						    		},
+		children (attr, parentAtt) {
+			console.log('children', attr);
+			parentAtt = parentAtt || attr;
+			var attrChildren = attr._value;
+			var arrAttrChildren = [];
 
-						    		select (attr) {
-						    			return (
-											<FormItem key={randomString(8, 10)} {...formItemLayout} label={attr.title}>
-											    <Select onChange={attrFormProps.handleAttrFormSelectChange.bind(this, attr)} 
-											    		value={attr._value}>
-											    	{attr.value.map( type => (
-												      	<Option key={type} value={type}>{type}</Option>
-											    	))}
-											    </Select>
-											</FormItem>
-						    			);
-						    		},
+			for(var att in attrChildren) {
+				attrChildren[att]['attrName'] = att;
+				arrAttrChildren.push(attrChildren[att]);
+			}
 
-						    		'app_select' (attr) {
-						    			return (
-											<FormItem key={randomString(8, 10)} {...formItemLayout} label={attr.title}>
-											    <Select onChange={attrFormProps.handleAttrFormSelectChange.bind(this, attr)} 
-											    		value={attr._value}>
-											    	{attr._value.map( type => (
-												      	<Option key={type} value={type}>{type}</Option>
-											    	))}
-											    </Select>
-											</FormItem>
-						    			);
-						    		},
+			const children = arrAttrChildren.map( (att, i) => {
+				console.log(att)
+				return attrTypeActions[att.type](att, parentAtt);
+			});
 
-						    		children (attr) {
-						    			console.log('children', attr);
+			console.log(children);
 
-						    			var attrChildren = attr._value;
-						    			var arrAttrChildren = [];
+			return (
+				<div key={pageKey + (itemKey ++)}>
+    				<Tag>
+			            {attr.title}
+			        </Tag>
+			        <br/>
+			        {children}
+				</div>
+			);
+		}
+	};
 
-						    			for(var att in attrChildren) {
-						    				attrChildren[att]['attrName'] = att;
-						    				arrAttrChildren.push(attrChildren[att]);
-						    			}
+	const form = props.attr.formItems.map( (item, index) => {
+		return attrTypeActions[item.type](item);
+	});
 
-						    			const children = arrAttrChildren.map( (att, i) => {
-						    				return attrTypeActions[att.type](att);
-						    			});
 
-						    			console.log(children);
+    // if (props.designer.layout.length) {
+    	
+	return (
+		<div>
+			<Collapse className="noborder attrCollapse nomin" bordered={false} defaultActiveKey={['1']}>
+			    <Panel header="属性" key="1">
 
-						    			return (
-						    				<div key={index}>
-							    				<Tag>
-										            {attr.title}
-										        </Tag>
-										        <br/>
-	    								        {children}
-						    				</div>
-						    			);
-						    		}
-						    	}
+			      	<Form onSubmit={handleSubmit}>
+			      		{form}
+			      	</Form>
 
-						    	return attrTypeActions[item.type](item);
+			    </Panel>
+			  </Collapse>
+		</div>
+	);
 
-				      		})}
-				      	</Form>
-
-				    </Panel>
-				  </Collapse>
-			</div>
-		);
-
-	}
-
+	// }
+	
 };
 
-function mapStateToProps({ designer, attr }) {
-  return { designer, attr };
+function mapStateToProps({ designer, attr}) {
+  return { designer, attr};
 }
 
 export default connect(mapStateToProps)(Attr);

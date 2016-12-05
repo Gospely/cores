@@ -3,8 +3,27 @@ import { message } from 'antd';
 import randomString from '../utils/randomString';
 
 const layoutAction = {
-	getActivePage (layout, index) {
-		return layout[index];
+
+	deepCopyObj(obj, result) {
+		result = result || {};
+		for(let key in obj) {
+			if (typeof obj[key] === 'object') {
+				result[key] = (obj[key].constructor === Array)? []: {};
+				layoutAction.deepCopyObj(obj[key], result[key]);
+			}else {
+				result[key] = obj[key];
+			}
+		}
+		return result;
+	},
+
+	getActivePage (state) {
+		if(state.layoutState.activePage.level == 1){
+			return state.layout[state.layoutState.activePage.index];
+		}else {
+			return state.layout[0].children[state.layoutState.activePage.index];
+		}
+		
 	},
 
 	getActiveControllerByKey (page, key) {
@@ -25,45 +44,56 @@ const layoutAction = {
 		};
 
 		return ct;
-		// return layout[activePageIndex].children[activeControllerIndex];
 	},
 
-	setActivePage (layoutState, pageIndex, pageKey) {
+	setActivePage (layoutState, pageIndex, pageKey, level) {
 		layoutState.activePage.index = pageIndex;
 		layoutState.activePage.key = pageKey;
 		layoutState.activeKey = pageKey;
+		layoutState.activePage.level = level;
 		layoutState.expandedKeys.push(pageKey);
 		layoutState.activeType = 'page';
 	},
 
-	setActiveController (layoutState, controllerIndex, controllerKey) {
+	setActiveController (layoutState, controllerIndex, controllerKey, level) {
 		layoutState.activeController.index = controllerIndex;
 		layoutState.activeController.key = controllerKey;
 		layoutState.activeKey = controllerKey;
+		layoutState.level = level;
 		layoutState.expandedKeys.push(controllerKey);
 		layoutState.activeType = 'controller';
 	},
 
 	getController(controllersList, controller) {
 		var ct;
-		controllersList.map( (ctrl) => {
-			if(ctrl.type == controller) {
-				ct = ctrl;
-				return ctrl;
+		// controllersList.map( (ctrl) => {
+		// 	if(ctrl.type == controller) {
+		// 		ct = ctrl;
+		// 		return ctrl;
+		// 	}
+		// });
+
+		for(let i = 0; i < controllersList.length; i ++){
+			if (controllersList[i].type == controller) {
+				ct = controllersList[i];
 			}
-		});
+		}
 
 		return ct;
 	},
 
-	getPageIndexByKey(layout, key) {
+	getPageIndexByKey(layout, key, level) {
 		var index;
-		layout.map( (page, i) => {
-			if(page.key == key) {
-				index = i;
-				return index;
-			}
-		})
+		if (level == 1) {
+			index = 0;
+		}else {
+			layout[0].children.map( (page, i) => {
+				if(page.key == key) {
+					index = i;
+					return index;
+				}
+			})
+		}
 		return index;
 	},
 
@@ -75,7 +105,67 @@ const layoutAction = {
 				return index;
 			}
 		})
-		return index;		
+		return index;
+	},
+
+	getControllerIndexAndLvlByKey(state, key, activePage) {
+		let obj = {
+			index: '',
+			level: 3
+		};
+		// alert(state.layoutState.activePage.level)
+		console.log(activePage)
+		let controllers = activePage.children;
+		// let controllers = state.layout[0].children[0].children;
+		const loopControllers = function (controllers, level) {
+			level = level || 3;
+			for(let i = 0; i < controllers.length; i ++) {
+				let currentControl = controllers[i];
+				if (currentControl.children) {
+					loopControllers(controllers.children, level ++);
+				}
+				if (currentControl.key == key) {
+					obj.index = i;
+					obj.level = level;
+					break;
+				}
+			}
+			return obj;
+		}
+		return loopControllers(controllers, 3);
+	},
+
+	getCurrentLevelByKey(layouts, key) {
+		// let level = 1;
+		// console.log(layouts)
+		const loopData = function(data, level, key) {
+			console.log(data,level);
+			if (!data) {
+				return level - 1;
+			}
+			for(let i = 0; i < data.length; i ++) {
+				// let level = 1;
+				if(data[i].key == key) {
+					console.log(data[i].key)
+					return level;
+				}
+				level ++;
+				return loopData(data[i].children, level, key);
+			}
+		}
+		let ertuLevel = loopData(layouts, 1, key);
+		return ertuLevel;
+	},
+
+	// setActiveLevelAndIndexAndKey(layoutState, index, key, level) {
+	// 	layoutState.
+	// }
+
+	getCurrentPageOrController(layout,level,index) {
+		let current = layout.children;
+		while(--level !== 0) {
+			current = current.children;
+		}
 	}
 }
 
@@ -249,7 +339,7 @@ export default {
 								field: 'downloadFile',
 								_value: 10000,
 								isClassName: false
-							}			
+							}
 						}
 					},
 
@@ -361,19 +451,21 @@ export default {
 					},
 
 				]
-			},
+			}
 
 		],
 
 		layoutState: {
 			activePage: {
 				index: 0,
-				key: 'page-2233'
+				key: 'page-2233',
+				level: 1
 			},
 
 			activeController: {
 				index: 0,
-				key: ''
+				key: '',
+				level: 3
 			},
 
 			activeKey: 'page-2233',
@@ -392,6 +484,7 @@ export default {
 				name: '应用',
 				type: 'page',
 				children: [],
+				backend: true,
 				attr: {
 
 					pages: {
@@ -491,7 +584,7 @@ export default {
 								field: 'downloadFile',
 								_value: 10000,
 								isClassName: false
-							}			
+							}
 						}
 					},
 
@@ -523,7 +616,7 @@ export default {
 						title: '背景颜色',
 						isClassName: false,
 						isHTML: false,
-						_value: ''
+						_value: '#f8f8f8'
 					},
 					images: {
 						type: 'input',
@@ -1046,7 +1139,7 @@ export default {
 	      		setTimeout(function() {
 	      			window.gospelDesigner = window.frames['gospel-designer'];
 		      		console.log('gospelDesigner', gospelDesigner);
-		      		
+
 	      		});
 	      	});
 		}
@@ -1064,15 +1157,15 @@ export default {
 			return {...state};
 		},
 
-		setActivePage(state, { payload: params }) {
-			layoutAction.setActivePage(state.layoutState, params.index, params.key);
-			return {...state};
-		},
+		// setActivePage(state, { payload: params }) {
+		// 	layoutAction.setActivePage(state.layoutState, params.index, params.key, params.level);
+		// 	return {...state};
+		// },
 
-		setActiveController(state, { payload: params }) {
-			layoutAction.setActiveController(state.layoutState, params.index, params.key);
-			return {...state};
-		},
+		// setActiveController(state, { payload: params }) {
+		// 	layoutAction.setActiveController(state.layoutState, params.index, params.key, params.level);
+		// 	return {...state};
+		// },
 
 		addPage(state, { payload: page }) {
 			console.log("addPage1111111111111111:::::::::::::::::::::::",state.layout)
@@ -1080,23 +1173,32 @@ export default {
 
 			console.log('page', page);
 
-			var tmpAttr = {};
+			let tmpAttr = {};
+			tmpAttr = layoutAction.deepCopyObj(page.attr, tmpAttr);
 
+			tmpAttr['title']['_value'] = page.name;
+			tmpAttr['title']['type'] = 'input';
+			tmpAttr['title']['isClassName'] = false;
+			tmpAttr['title']['isHTML'] = false;
+			tmpAttr['title']['title'] = '页面名称';
+			
 			console.log('page.attr', page.attr);
 
-			for(var att in page.attr) {
-				var currAttr = page.attr[att];
-				tmpAttr[att] = currAttr;
-				tmpAttr['title']['_value'] = page.name;
-				tmpAttr['title']['type'] = 'input';
-				tmpAttr['title']['isClassName'] = false;
-				tmpAttr['title']['isHTML'] = false;
-				tmpAttr['title']['title'] = '页面名称';
-			}
+			console.log(tmpAttr)
 
+			// for(var att in page.attr) {
+			// 	var currAttr = page.attr[att];
+			// 	tmpAttr[att] = currAttr;
+			// 	tmpAttr['title']['_value'] = page.name;
+			// 	tmpAttr['title']['type'] = 'input';
+			// 	tmpAttr['title']['isClassName'] = false;
+			// 	tmpAttr['title']['isHTML'] = false;
+			// 	tmpAttr['title']['title'] = '页面名称';
+			// }
+			console.log('=========-------------------',state.layout[0].children.length);
 			var tmpPage = {
 				type: 'page',
-				key: 'page-' + randomString(8, 10),
+				key: 'page-' + state.layout[0].children.length,
 				isLeaf: false,
 				attr: tmpAttr,
 				children: []
@@ -1106,7 +1208,7 @@ export default {
 			console.log('pre push', state.layout);
 			state.layout[0].children.push(tmpPage);
 			console.log('after layout', state.layout);
-			layoutAction.setActivePage(state.layoutState, state.layout.length - 1, tmpPage.key);
+			layoutAction.setActivePage(state.layoutState, state.layout[0].children.length - 1, tmpPage.key, 2);
 			console.log("addPage2222222222:::::::::::::::::::::::",state.layout)
 			return {...state};
 		},
@@ -1131,35 +1233,52 @@ export default {
 
 		deleteConstruction(state,{payload: params}) {
 			if (params.type == 'page') {
-				state.layout.splice(params.deleteIndex,1);
-				layoutAction.setActivePage(state.layoutState, params.lastIndex, params.key);
+				// alert(params.level)
+				state.layout[0].children.splice(params.deleteIndex,1);
+				layoutAction.setActivePage(state.layoutState, params.lastIndex, params.key, 2);
 			}else {
 				state.layout[state.layoutState.activePage.index].children.splice(params.deleteIndex,1);
-				layoutAction.setActiveController(state.layoutState, params.lastIndex, params.key);
+				let level = getCurrentLevelByKey(state.layout,params.key);
+				layoutAction.setActiveController(state.layoutState, params.lastIndex, params.key, level);
 			}
-			
+
 			gospelDesigner.postMessage({
-				ctrlRemoved: activePage
-			}, '*');			
-			
+				ctrlRemoved: layoutAction.getActivePage(state)
+			}, '*');
+
 			return {...state};
 		},
 
 		addController(state, { payload: controller }) {
-			console.log("addController11111111111:::::::::::::::::::::::",state.layout)
-			var activePage = layoutAction.getActivePage(state.layout, state.layoutState.activePage.index);
-			var tmpAttr = {};
+			console.log("addController11111111111:::::::::::::::::::::::记得改",state.layout)
+			if (state.layoutState.activePage.level == 1) {
+				message.error('请选择一个页面');
+				return {...state};
+			}
+			var activePage = layoutAction.getActivePage(state);
 
-			for(var att in controller.attr) {
-				var currAttr = controller.attr[att];
-				tmpAttr[att] = currAttr;
+			// let leve = layoutAction.getCurrentLevelByKey(state.layout, state.layoutState.activePage.key);
+			var tmpAttr = {};
+			console.log(controller)
+			tmpAttr = layoutAction.deepCopyObj(controller.attr, tmpAttr);
 				tmpAttr['title'] = {};
 				tmpAttr['title']['_value'] = controller.name;
 				tmpAttr['title']['type'] = 'input';
 				tmpAttr['title']['isClassName'] = false;
 				tmpAttr['title']['isHTML'] = false;
 				tmpAttr['title']['title'] = '名称';
-			}
+			// tmpAttr['title']['_value'] = controller.name;
+			// tmpAttr['title']['title'] = '名称';
+			// for(var att in controller.attr) {
+			// 	var currAttr = controller.attr[att];
+			// 	tmpAttr[att] = currAttr;
+			// 	tmpAttr['title'] = {};
+			// 	tmpAttr['title']['_value'] = controller.name;
+			// 	tmpAttr['title']['type'] = 'input';
+			// 	tmpAttr['title']['isClassName'] = false;
+			// 	tmpAttr['title']['isHTML'] = false;
+			// 	tmpAttr['title']['title'] = '名称';
+			// }
 
 			var ctrl = {
 				type: controller.type,
@@ -1176,26 +1295,42 @@ export default {
     		}, '*');
 
 			activePage.children.push(ctrl);
-			layoutAction.setActiveController(state.layoutState, activePage.children.length - 1, ctrl.key);
+			let level = layoutAction.getCurrentLevelByKey(state.layout, ctrl.key);
+			// alert(level)
+			layoutAction.setActiveController(state.layoutState, activePage.children.length - 1, ctrl.key, level);
 			return {...state};
 		},
 
 		handleTreeChanged(state, { payload: params }) {
 			console.log('handleTreeChanged');
+			// let currentControl = layoutAction.getCurrentPageOrController(state.layout, params.key, level);
 			if(params.type == 'page') {
-				var pageIndex =layoutAction.getPageIndexByKey(state.layout, params.key);
-				layoutAction.setActivePage(state.layoutState, pageIndex, params.key);
+				let level = layoutAction.getCurrentLevelByKey(state.layout, params.key);
+				// alert(level)
+				var pageIndex = layoutAction.getPageIndexByKey(state.layout, params.key, level);
+				layoutAction.setActivePage(state.layoutState, pageIndex, params.key, level);
+				console.log(state.layoutState)
+
+				// alert(1)
 			}else {
-				var activePage = layoutAction.getActivePage(state.layout, state.layoutState.activePage.index);
+				let activePage = layoutAction.getActivePage(state);
+				console.log(activePage)
+				console.log(state.layoutState)
+				console.log(layoutAction.getControllerIndexAndLvlByKey(state, params.key, activePage));
+
+				var activePage = layoutAction.getActivePage(state);
 				console.log('activePage', activePage);
 				var controllerIndex = layoutAction.getControllerIndexByKey(activePage.children, params.key);
-				layoutAction.setActiveController(state.layoutState, controllerIndex, params.key);
+				// console.log('dfdsfdsfdsfdsfdsfsfsfdsfds:',state.layout)
+				let level = layoutAction.getCurrentLevelByKey(state.layout, params.key);
+				// alert(level)
+				layoutAction.setActiveController(state.layoutState, controllerIndex, params.key, level);
 			}
 			return {...state};
 		},
 
 		handleAttrRefreshed (state) {
-			var activePage = layoutAction.getActivePage(state.layout, state.layoutState.activePage.index);
+			var activePage = layoutAction.getActivePage(state);
 
 	    		if(!gospelDesigner) {
 	    			message.error('请先打开编辑器！');
@@ -1224,7 +1359,7 @@ export default {
 
 		handleCtrlSelected (state) {
 			console.log("handleCtrlSelected111111111111:::::::::::::::",state.layout);
-			var activePage = layoutAction.getActivePage(state.layout, state.layoutState.activePage.index);
+			var activePage = layoutAction.getActivePage(state);
 
 	    		var gospelDesigner = window.frames['gospel-designer'];
 
@@ -1251,11 +1386,11 @@ export default {
 	    		console.log("handleCtrlSelected222222222222222:::::::::::::::",state.layout);
 	    		return {...state};
 
-		},		
+		},
 
 		handlePageAdded (state) {
 			console.log("handlePageAdded11111:::::::::::::::",state.layout);
-			var activePage = layoutAction.getActivePage(state.layout, state.layoutState.activePage.index);
+			var activePage = layoutAction.getActivePage(state);
 
 	    		var gospelDesigner = window.frames['gospel-designer'];
 
@@ -1287,39 +1422,48 @@ export default {
 		handleAttrFormChange(state, { payload: params }) {
 			console.log('handleAttrFormChange11111:::::::::::::::::', state.layout);
 			console.log(params)
-			var activePage = layoutAction.getActivePage(state.layout, state.layoutState.activePage.index);
+			var activePage = layoutAction.getActivePage(state);
 			console.log("activePage:",activePage);
+
 			if(state.layoutState.activeType == 'page') {
-				activePage.attr[params.attrName]['_value'] = params.newVal;
+				if (params.parentAtt) {
+					activePage.attr[params.parentAtt.attrName]['_value'][params.attrName]['_value'] = params.newVal;
+				}else {
+					activePage.attr[params.attrName]['_value'] = params.newVal;
+				}
 				console.log("activePage.attr:" , activePage.attr);
+				// state.layout[0].children[1].type = 'controller';
+				// state.layout[0].children[2].key = '3';
+				console.log(state.layout[0].children)
 			}
 
 			if(state.layoutState.activeType == 'controller') {
-		      		const loopChildren = (page) => {
+				// activePage = state.layout[0].children[0];
+	      		// const loopChildren = (page) => {
 
-		      			var ct;
+	      		// 	var ct;
 
-		      			for (var i = 0; i < page.length; i++) {
-		      				var ctrl = page[i];
+	      		// 	for (var i = 0; i < page.length; i++) {
+	      		// 		var ctrl = page[i];
 
-		      				if(ctrl.children) {
-		      					loopChildren(ctrl.children);
-		      				}
+	      		// 		if(ctrl.children) {
+	      		// 			loopChildren(ctrl.children);
+	      		// 		}
 
-		      				if(typeof ctrl.attr[params.attrName] != 'undefined') {
-		      					ct = ctrl;
-		      					break;
-		      				}
-		      			};
+	      		// 		if(typeof ctrl.attr[params.attrName] != 'undefined') {
+	      		// 			ct = ctrl;
+	      		// 			break;
+	      		// 		}
+	      		// 	};
 
-		      			return ct;
+	      		// 	return ct;
 
-		      		};
+	      		// };
 
+	      		// var activeCtrl = loopChildren(activePage.children);
+	      		var activeCtrl = activePage.children[state.layoutState.activeController.index];
 
-		      		var activeCtrl = loopChildren(activePage.children);
-
-		      		activeCtrl.attr[params.attrName]['_value'] = params.newVal;
+	      		activeCtrl.attr[params.attrName]['_value'] = params.newVal;
 
 			}
 			console.log('handleAttrFormChange222:::::::::::::::::', state.layout);

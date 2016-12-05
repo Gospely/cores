@@ -6,10 +6,11 @@ const FormItem = Form.Item;
 export default {
 	namespace: 'attr',
 	state: {
-
 		formItems: [],
 
-		activeFormItem: 0
+		activeFormItem: 0,
+
+		theKey: ''
 	},
 
 	subscriptions: {
@@ -19,7 +20,7 @@ export default {
             		type: 'setFormItemsByDefault'
           		});
 	      	});
-		}		
+		}
 	},
 
 	effects: {
@@ -28,25 +29,34 @@ export default {
       		console.log(params)
       		var controllersList = yield select(state => state.designer.controllersList);
       		var currentControllerKey = params.key;
-
       		var layouts = yield select(state => state.designer.layout);
 
       		var activeCtrl;
 
       		if(params.type == 'page') {
-
-      			for (var i = 0; i < layouts.length; i++) {
-      				var page = layouts[i];
-      				if(page.key == params.key) {
-      					activeCtrl = page;
-      					break;
-      				}
-      			};
-
+      			if(layouts[0].key !== params.key){
+      				// alert(1)
+      				for (var i = 0; i < layouts[0].children.length; i++) {
+      					var page = layouts[0].children[i];
+      					if(page.key == params.key) {
+      						activeCtrl = page;
+      						break;
+      					}
+      				};
+      			}else {
+      				activeCtrl = layouts[0];
+      			}
       		}else {
-
 	      		var activePage = yield select(state => state.designer.layoutState.activePage);
-	      		activePage = layouts[activePage.index];
+	      		if(activePage.level == 1) {
+	      			activePage = layouts[0];
+	      		}else {
+	      			activePage = layouts[0].children[activePage.index];
+	      		}
+
+	      		// activePage = layouts[0].children[0];
+
+	      		console.log('-----------------------------------------',activePage)
 
 	      		const loopChildren = (page) => {
 
@@ -79,7 +89,10 @@ export default {
 
       		yield put({
       			type: 'setFormItems',
-      			payload: activeCtrl.attr
+      			payload: {
+      				attr: activeCtrl.attr,
+      				key: params.key
+      			}
       		});
       	},
 
@@ -122,9 +135,9 @@ export default {
 			return {...state};
 		},
 
-		setFormItems (state, {payload: attr}) {
-
+		setFormItems (state, {payload: params}) {
 			var tmpAttr = [];
+			let attr = params.attr;
 
 			console.log('setFormItems', attr);
 
@@ -137,10 +150,19 @@ export default {
 				}
 			}
 
+			state.theKey = params.key;
+
 			state.formItems = tmpAttr;
 			// state.activeFormItem = state.formItems.length - 1;
 
 			console.log('formItems', state.formItems);
+			return {...state};
+		},
+
+		hideVisual(state) {
+
+			state.visible = false;
+
 			return {...state};
 		}
 	}
