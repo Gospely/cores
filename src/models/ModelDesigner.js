@@ -339,7 +339,24 @@ export default {
 							},
 						},
 
-						children: [],
+						children: [
+							{
+								type:'page',
+								key:'page22222',
+								isLeaf:false,
+								attr:{
+									title: {
+										type: 'input',
+										attrType: 'text',
+										title: '页面名称',
+										isClassName: false,
+										isHTML: false,
+										'_value': '子页面'
+									},
+								},
+								children:[],
+							}
+						],
 
 					},
 

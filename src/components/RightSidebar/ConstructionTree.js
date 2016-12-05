@@ -32,7 +32,7 @@ const ConstructionTree = (props) => {
       let loopData = function (data) {
         for(let i = 0; i < data.length; i ++){
           if (data[i].children && data[i].children.length != 0) {
-            loopData(data.children);
+            loopData(data[i].children);
           }else {
             if (data[i].key == localStorage.currentSelectedConstruction) {
               type = data[i].type;
