@@ -33,7 +33,7 @@
 		routerInstance = router.push(currentRouter);
 	};
 
-	routerInstance.setDefault('/').init();
+	// routerInstance.setDefault('/').init();
 
 	//---------------------------初始化路由---------------------------
 
