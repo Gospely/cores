@@ -41,15 +41,15 @@ const LeftSidebar = (props) => {
 	};
 
 	const initApplications = () => {
-
-		if(!props.sidebar.applications) {
+		console.log('side');
+		if(props.sidebar.applications.length < 1) {
 			return;
 		}
-
+		console.log('side');
 		return props.sidebar.applications.map(application => {
 			return   <Col className="gutter-row" span={6} style={{marginTop: 20}} key={application.id}>
 						 <div className="gutter-box">
-								<Card onClick={leftSidebarProps.openApp(this,application)} extra={
+								<Card onClick={leftSidebarProps.openApp.bind(this,application)} extra={
 									<Popconfirm onClick={(e) => e.stopPropagation()} title="确认删除此项目?"
 									onConfirm={leftSidebarProps.confirmDeleteApp.bind(this,application.id)}
 									onCancel={leftSidebarProps.cancelDeleteApp} okText="Yes" cancelText="No">
@@ -211,10 +211,7 @@ const LeftSidebar = (props) => {
 	        },
 
 	        pause() {
-						console.log("pause");
-						var debug = props.devpanel.debug;
-						console.log(debug);
-						debug.postMessage({codeSaved: true},"*");
+
 	        },
 
 	        preview() {
@@ -262,7 +259,7 @@ const LeftSidebar = (props) => {
 
 	    openApp(application) {
 
-				console.log(localStorage.userName);
+				console.log(application);
 				localStorage.dir = localStorage.user + '/' + application.name + '_' + localStorage.userName + "/";
 				localStorage.currentProject = application.name;
 				localStorage.port = application.port;
@@ -280,7 +277,7 @@ const LeftSidebar = (props) => {
 	      });
 				props.dispatch({
 					type: 'devpanel/handleImages',
-					payload: { id : application.id}
+					payload: { id : application.image}
 				});
 	    	console.log('TopBar中dispatch')
 	    	// alert(1)

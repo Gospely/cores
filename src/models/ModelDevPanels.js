@@ -2,6 +2,7 @@
 import React , { PropTypes } from 'react';
 import dva from 'dva';
 import { message } from 'antd';
+import request from '../utils/request.js';
 
 const methods = {
 	getActivePane(state) {
@@ -83,6 +84,8 @@ export default {
 		//根据项目的类型渲染ide面板
 		*handleImages({ payload: params}, {call, put, select}) {
 
+			console.log("handleImages");
+			console.log(params);
 			const devType = {
 
 				common(){
@@ -106,9 +109,11 @@ export default {
 			};
 
 			var url = "images/" + params.id;
+			console.log(url);
 			var res = yield request(url, {
 						method: 'GET',
 						});
+			console.log(res);
 			devType[res.data.fields.devType]();
 			debugType[res.data.fields.debugType]();
 		}

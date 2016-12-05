@@ -97,6 +97,8 @@ export default {
 
 	effects: {
 		*fetchFileList(payload, {call, put}) {
+
+					console.log("fetchFileList");
       		var fileList = yield request('fs/list/file/?id=' + localStorage.dir);
 					localStorage.currentFolder = localStorage.dir;
 	      	yield put({ type: 'list', payload: fileList });
@@ -478,12 +480,14 @@ export default {
 		// },
 
 		list (state, {payload: list}) {
+
+			console.log(list);
 			var data = list.data,
 				tree = [];
 
 				console.log('list=======', list);
 
-			if(!list.length) {
+			if(list.length > 1) {
 				return {...state};
 			}
 
