@@ -45,6 +45,7 @@ const HotKeyHandler = {
 		document.onkeydown = function(event) {
 			//获取键值
 			var keyCode = event.keyCode;
+			var exec = false;
 
 			console.log(keyCode, keyCode);
 
@@ -57,17 +58,19 @@ const HotKeyHandler = {
 						if(func != null) {
 							console.log("exec");
 							handler.func(HotKeyHandler.props);
-							return false;
+							exec = true;
 						}
 					}
 				}
-			})
+			});
 
-			if(keyCode == keymap['ctrl'])
+			if(keyCode == keymap['ctrl']){
+				console.log("ctrl" + keymap['ctrl']);
 				HotKeyHandler.currentMainKey=keyCode;
-			console.log(HotKeyHandler.currentMainKey);
+				console.log(HotKeyHandler.currentMainKey);
 
-			return true;
+			}
+			return !exec;
 		}
 	}
 }

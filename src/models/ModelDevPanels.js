@@ -41,16 +41,6 @@ export default {
 			    			editorId: '',
 			    			searchVisible: false,
 			    			isSave: false
-			    		},
-
-			    		{
-			    			title: 'Gospel 小程序 UI 设计器',
-			    			content: '',
-			    			key: '2',
-			    			type: 'designer',
-			    			editorId: '',
-			    			searchVisible: false,
-			    			isSave: false
 			    		}
 		    		],
 
@@ -449,8 +439,8 @@ export default {
 
 			console.log("handleFileSave");
 			console.log(params);
-			console.log(state.panels.panes[params.paneKey].tabs)
-			state.panels.panes[params.paneKey].tabs[params.tabKey - 1].isSave = true;
+			console.log(state.panels.panes[params.pane].tabs)
+			state.panels.panes[params.pane].tabs[params.tabKey - 1].isSave = true;
 			return {...state};
 		},
 
