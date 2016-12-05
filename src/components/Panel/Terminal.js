@@ -35,7 +35,7 @@ class Terminal extends Component {
 				pid,
 				charWidth,
 				charHeight,
-				port = 12909,
+				port = localStorage.socketPort || 0,
 				domain = 'gospely.com',
 				baseUrl = 'http://' + domain + ':' + port;
 
