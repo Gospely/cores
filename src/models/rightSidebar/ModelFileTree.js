@@ -451,7 +451,7 @@ export default {
 					return {...state, newFileNameModal: {
 						visible: true,
 						value: localStorage.currentProject + '/',
-						title: '请输入文件名'
+						title: '您正在关闭一个文件，请确定是否保存？不保存请点击取消'
 					}};
 				}
 

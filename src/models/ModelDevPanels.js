@@ -21,11 +21,13 @@ export default {
 	namespace: 'devpanel',
 	state: {
 
-			devType: {
-				visual: localStorage.visual || true,
-				defaultActiveKey: localStorage.defaultActiveKey || 'controllers',
-			},
-			debug: '',
+		devType: {
+			visual: localStorage.visual || true,
+			defaultActiveKey: localStorage.defaultActiveKey || 'controllers',
+		},
+
+		debug: '',
+
 	    panels: {
 
 	    	panes: [
@@ -111,12 +113,15 @@ export default {
 
 			var url = "images/" + params.id;
 			console.log(url);
+
 			var res = yield request(url, {
-						method: 'GET',
-						});
-			console.log(res);
+				method: 'GET',
+			});
+
+			console.log('res================', res);
+
 			if(res.data.fields.devType == 'common'){
-					yield put({ type: "handleCommon" });
+				yield put({ type: "handleCommon" });
 			}else{
 				yield put({ type: "handleVisual" });
 			}
@@ -126,15 +131,16 @@ export default {
 	reducers: {
 
 		handleDebugger(state, { payload: params}){
-
-				state.debug = params.debug;
-				console.log('handleDebugger');
-				return {...state};
+			state.debug = params.debug;
+			console.log('handleDebugger');
+			return {...state};
 		},
+
 		handleTabChanged(state, {payload: name}) {
 			state.activeMenu = name;
 			return {...state};
 		},
+
 		handleCommon(state) {
 			console.log("handleCommon");
 			state.panels.panes[0].tabs =  [
@@ -154,10 +160,11 @@ export default {
 			state.devType.defaultActiveKey = 'setting';
 			localStorage.defaultActiveKey = 'setting';
 			localStorage.activeMenu = "file";
-			window.location.href = 'http://localhost:8989/#/project/' + localStorage.currentProject;
+			appRouter.go('/project/' + localStorage.currentProject);
+			// window.location.href = 'http://localhost:8989/#/project/' + localStorage.currentProject;
 			return {...state};
-
 		},
+
 		handleVisual(state){
 
 			console.log("handleVisual");
@@ -187,7 +194,8 @@ export default {
 			state.devType.defaultActiveKey = 'controllers';
 			localStorage.defaultActiveKey = 'controllers';
 			localStorage.activeMenu = "attr";
-			window.location.href = 'http://localhost:8989/#/project/' + localStorage.currentProject;
+			appRouter.go('/project/' + localStorage.currentProject);
+			// window.location.href = 'http://localhost:8989/#/project/' + localStorage.currentProject;
 			return {...state};
 		},
 		toggleSearchBar(state,{payload:params}) {
@@ -219,10 +227,8 @@ export default {
 
 			methods.getActivePane(state).activeTab.index = ( parseInt(params.active) - 1 ).toString();
 
-
 			// console.log('activePane',methods.getActivePane(state))
 			// console.log('activeTab',activeTab);
-
 
 			if(activeTab.type == 'editor') {
 				// state.panels.activeEditor.id = activeTab.content.props.editorId;

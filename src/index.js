@@ -55,6 +55,11 @@ localStorage.userName = userName;
 //app.use({});
 app.use({
 	onStateChange: () => {
+
+		if(!window.appRouter) {
+			window.appRouter = app._history;
+		}
+
 		var state = app._store.getState();
 		var UIState = packUIStage(state);
 
