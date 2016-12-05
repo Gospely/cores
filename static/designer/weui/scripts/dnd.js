@@ -1,4 +1,28 @@
 (function(){
+
+	var router = new Router({
+	    container: '#container'
+	});
+
+	var home = {
+	    url: '/',
+	    className: 'home',
+	    render: function (){
+	        return '<h1>home</h1>';
+	    }
+	};
+
+	var post = {
+	    url: '/post/:id',
+	    className: 'post',
+	    render: function (){
+	        var id = this.params.id;
+	        return '<h1>post</h1>';
+	    }
+	};
+
+	router.push(home).push(post).setDefault('/').init();
+
 	var jq = jQuery.noConflict();
 	var data;
 
