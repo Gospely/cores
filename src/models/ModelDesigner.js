@@ -1123,7 +1123,6 @@ export default {
 	      		setTimeout(function() {
 	      			window.gospelDesigner = window.frames['gospel-designer'];
 		      		console.log('gospelDesigner', gospelDesigner);
-
 	      		});
 	      	});
 		}

@@ -41,7 +41,7 @@ const leftSidebar = (props) => {
 	console.log(props.sidebar.visible);
 	return (
 	  	<Tabs tabPosition="left" defaultActiveKey={props.devpanel.devType.defaultActiveKey} activeKey={props.sidebar.activeMenu} onChange={handleTabChanged}>
-	    	<TabPane style={styles.tab} tab={<span style={styles.span} hidden={props.devpanel.devType.visual != 'true'}><Icon style={styles.icon} type="bars" />结构</span>} key="controllers">
+	    	<TabPane style={styles.tab} tab={<span style={styles.span} hidden={!props.devpanel.devType.visual}><Icon style={styles.icon} type="bars" />结构</span>} key="controllers">
 				<Collapse  className="noborder attrCollapse consCollapse" bordered={false} defaultActiveKey={['controllers', 'construction']}>
 				    <Panel header="结构" key="construction" hidden="true">
 	    	    		<ConstructionTree></ConstructionTree>

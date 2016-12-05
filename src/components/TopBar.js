@@ -45,7 +45,7 @@ const LeftSidebar = (props) => {
 		if(props.sidebar.applications.length < 1) {
 			return;
 		}
-		console.log('side');
+		console.log('side==================', props);
 		return props.sidebar.applications.map(application => {
 			return   <Col className="gutter-row" span={6} style={{marginTop: 20}} key={application.id}>
 						 <div className="gutter-box">
@@ -69,7 +69,7 @@ const LeftSidebar = (props) => {
 	};
 	const designer = () => {
 
-		if(props.devpanel.devType.visual == 'true') {
+		if(props.devpanel.devType.visual) {
 			return (
 				<Menu.Item key="designer">
 					<Icon type="windows-o" />

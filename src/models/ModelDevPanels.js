@@ -70,7 +70,37 @@ export default {
 
 	},
 
+	subscriptions: {
+
+		setup({ dispatch, history }) {
+	      	history.listen(({ pathname }) => {
+          		dispatch({
+            		type: 'loadPanels',
+          		});
+	      	});
+		}
+
+	},
+
+
 	effects: {
+
+		*loadPanels({ payload: params }, {call, put, select}) {
+      		var devpanel = yield select(state => state.devpanel);
+
+      		var tmpTabs = {
+				title: 'Gospel 小程序 UI 设计器',
+				content: '',
+				key: '2',
+				type: 'designer',
+				editorId: '',
+				searchVisible: false,
+				isSave: false
+			}
+
+      		devpanel.panels.panes[devpanel.panels.activePane.key].tabs.push(tmpTabs);
+
+		},
 
 		//根据项目的类型渲染ide面板
 		*handleImages({ payload: params}, {call, put, select}) {
@@ -149,8 +179,8 @@ export default {
 			state.devType.defaultActiveKey = 'setting';
 			localStorage.defaultActiveKey = 'setting';
 			localStorage.activeMenu = "file";
-			appRouter.go('/project/' + localStorage.currentProject);
-			// window.location.href = 'http://localhost:8989/#/project/' + localStorage.currentProject;
+			// appRouter.go('/project/' + localStorage.currentProject);
+			window.location.href = 'http://localhost:8989/#/project/' + localStorage.currentProject;
 			return {...state};
 		},
 
@@ -183,8 +213,8 @@ export default {
 			state.devType.defaultActiveKey = 'controllers';
 			localStorage.defaultActiveKey = 'controllers';
 			localStorage.activeMenu = "attr";
-			appRouter.go('/project/' + localStorage.currentProject);
-			// window.location.href = 'http://localhost:8989/#/project/' + localStorage.currentProject;
+			// appRouter.go('/project/' + localStorage.currentProject);
+			window.location.href = 'http://localhost:8989/#/project/' + localStorage.currentProject;
 			return {...state};
 		},
 		toggleSearchBar(state,{payload:params}) {
