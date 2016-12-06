@@ -9,6 +9,7 @@
 	var pageAction = {
 
 			changeNavigationBarTitleText: function(title) {
+				console.log('============', title);
 				jq('#gospel-app-title').html(title);
 			},
 
@@ -83,7 +84,7 @@
 						},
 
 						bind: function() {
-							pageRender.render(attr);
+							// pageRender.render(attr);
 						}
 					}
 					routerInstance = router.push(tmpRoute);
@@ -132,8 +133,8 @@
 		navToPage = function(data) {
 			if(data.attr.routingURL) {
 				router.go(data.attr.routingURL._value);
+				refreshApp(data);
 			}
-			refreshApp(data);
 		};
 
 	window.addEventListener("message", function (evt) {
@@ -174,7 +175,7 @@
 					},
 
 					bind: function() {
-						pageRender.render(data.attr);
+						// pageRender.render(data.attr);
 					}
 				}
 				window.router.push(tmpRoute);
