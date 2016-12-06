@@ -78,9 +78,9 @@
 
 			pageAction.changeNavigationBarTitleText(app.attr.window._value.navigationBarTitleText._value);
 			pageAction.changeNavigationBarBackgroundColor(app.attr.window._value.navigationBarBackgroundColor._value);
-			pageAction.changeNavigationBarTextStyle(app.attr.window._value.navigationBarTextStyle._value);			
-			pageAction.changeBackgroundTextStyle(app.attr.window._value.backgroundTextStyle._value);			
-			pageAction.changeBackgroundColor(app.attr.window._value.backgroundColor._value);			
+			pageAction.changeNavigationBarTextStyle(app.attr.window._value.navigationBarTextStyle._value);
+			pageAction.changeBackgroundTextStyle(app.attr.window._value.backgroundTextStyle._value);
+			pageAction.changeBackgroundColor(app.attr.window._value.backgroundColor._value);
 
 			var initRouter = function(pages) {
 
@@ -113,9 +113,9 @@
 				page: function() {
 					pageAction.changeNavigationBarTitleText(data.attr.window._value.navigationBarTitleText._value);
 					pageAction.changeNavigationBarBackgroundColor(data.attr.window._value.navigationBarBackgroundColor._value);
-					pageAction.changeNavigationBarTextStyle(data.attr.window._value.navigationBarTextStyle._value);			
-					pageAction.changeBackgroundTextStyle(data.attr.window._value.backgroundTextStyle._value);			
-					pageAction.changeBackgroundColor(data.attr.window._value.backgroundColor._value);			
+					pageAction.changeNavigationBarTextStyle(data.attr.window._value.navigationBarTextStyle._value);
+					pageAction.changeBackgroundTextStyle(data.attr.window._value.backgroundTextStyle._value);
+					pageAction.changeBackgroundColor(data.attr.window._value.backgroundColor._value);
 				},
 
 				controller: function() {
@@ -163,13 +163,11 @@
 				var appended = jq(parent_window.currentTarget).append(wrapper);
 			},
 
-<<<<<<< HEAD
 			layoutLoaded: function() {
 				initApp(data);
-=======
+
 			pageSelected:function(){
 				console.log('pageSelected',data);
->>>>>>> 4dba7728f8700ca159539bab42022ed728fae395
 			}
 		}
 
@@ -199,7 +197,7 @@
 
 	//拖拽结束
 	jq("#gospel-designer-container").on("drop",function(e){
-		e.preventDefault(); 
+		e.preventDefault();
 		// var data = e.dataTransfer.getData("Text");
 		// var item = jq(data).cloneNode();//复制节点
 		var classPrp = data.attr("class").split(" ")[1]
@@ -235,7 +233,7 @@
 		jq(this).addClass("hight-light");
 		//监听拖动事件
 	});
-	
+
 	//鼠标按下
 	jq(document).on("mousedown",".control-box",function(e){
 		jq(this).dragging({
@@ -267,7 +265,7 @@
 
 	//拖拽结束
 	jq("body").on("dragover",function(e){
-		e.preventDefault(); 
+		e.preventDefault();
 		e.stopPropagation();
 	});
 

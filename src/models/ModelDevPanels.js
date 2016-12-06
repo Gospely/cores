@@ -107,28 +107,6 @@ export default {
 
 			console.log("handleImages");
 			console.log(params);
-			const devType = {
-
-				common(){
-					console.log("common");
-
-				},
-
-				visual(){
-
-				}
-			};
-
-			const debugType = {
-
-				common() {
-
-				},
-
-				shell() {
-
-				}
-			};
 
 			var url = "images/" + params.id;
 			console.log(url);
@@ -144,6 +122,14 @@ export default {
 			}else{
 				yield put({ type: "handleVisual" });
 			}
+		},
+		*oppenTerminal({ payload: params}, {call, put, select}){
+
+			console.log("=============oppenTerminal===============");
+			var url = "applications/startTerminal?docker=" + localStorage.terminal;
+			var res = yield request(url, {
+				method: 'GET',
+			});
 		}
 	},
 

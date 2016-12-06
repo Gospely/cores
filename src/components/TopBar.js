@@ -141,7 +141,9 @@ const LeftSidebar = (props) => {
 
 	          	var title = '终端',
 	              	type = 'terminal';
-
+									props.dispatch({
+			            	type: 'devpanel/oppenTerminal'
+			          	})
 	          	props.dispatch({
 	            	type: 'devpanel/add',
 	            	payload: {title, type}
