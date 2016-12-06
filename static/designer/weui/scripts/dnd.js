@@ -261,7 +261,6 @@
 	});
 
 	//拖拽结束
-<<<<<<< HEAD
 	jq("#gospel-designer-container").on("drop", function(e) {
 		console.log('onrop=======', e);
 		var currentTarget = jq(e.currentTarget),
@@ -277,11 +276,6 @@
 		e.preventDefault(); 
 
 		currentTarget.addClass('hight-light');
-
-=======
-	jq("#gospel-designer-container").on("drop",function(e){
-		e.preventDefault();
->>>>>>> f7fc04ec784c9a64096cd89634f0426e6a931a88
 		// var data = e.dataTransfer.getData("Text");
 
 		//获取父元素的window对象上的数据
