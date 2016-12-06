@@ -1176,21 +1176,11 @@ export default {
 			tmpAttr['title']['isClassName'] = false;
 			tmpAttr['title']['isHTML'] = false;
 			tmpAttr['title']['title'] = '页面名称';
+
+			tmpAttr['routingURL']['_value'] = '/pages/index';
 			
 			console.log('page.attr', page.attr);
 
-			console.log(tmpAttr)
-
-			// for(var att in page.attr) {
-			// 	var currAttr = page.attr[att];
-			// 	tmpAttr[att] = currAttr;
-			// 	tmpAttr['title']['_value'] = page.name;
-			// 	tmpAttr['title']['type'] = 'input';
-			// 	tmpAttr['title']['isClassName'] = false;
-			// 	tmpAttr['title']['isHTML'] = false;
-			// 	tmpAttr['title']['title'] = '页面名称';
-			// }
-			console.log('=========-------------------',state.layout[0].children.length);
 			var tmpPage = {
 				type: 'page',
 				key: 'page-' + state.layout[0].children.length,
@@ -1354,16 +1344,14 @@ export default {
     		var gospelDesigner = window.frames['gospel-designer'];
 
     		if(!gospelDesigner) {
-    			message.error('请先打开编辑器！')
+    			message.error('请先打开编辑器！');
     			return false;
     		}
 
     		if(state.layoutState.activeType == 'page') {
-
 	    		gospelDesigner.postMessage({
 	    			ctrlSelected: activePage
 	    		}, '*');
-
     		}
 
     		if(state.layoutState.activeType == 'controller') {
