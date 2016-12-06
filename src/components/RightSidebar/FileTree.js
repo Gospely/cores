@@ -752,7 +752,6 @@ const FileTree = (props) => {
             </Upload.Dragger>
         </div>
         {props.file.uploadModal.needUnZip &&
-<<<<<<< HEAD
              (<div style={{marginTop: 10}}>
                 解压否：<Switch value={props.file.uploadModal.isUnZip} 
                                checkedChildren={'是'} 
@@ -786,15 +785,6 @@ const FileTree = (props) => {
                 </Button>
             </div>)
          }
-=======
-         (<div>
-            是否解压：<Switch onChange={FileTreeProps.uploadModal.switchIsUnZip}
-                     checkedChildren={'是'}
-                     checked={props.file.uploadModal.isUnZip}
-                     unCheckedChildren={'否'} />
-
-         </div>)}
->>>>>>> 9675f8bbb7e9c7951118bd0f1364036c5c281ef9
       </Modal>
 
       <div className={TreeStyle.header}>
