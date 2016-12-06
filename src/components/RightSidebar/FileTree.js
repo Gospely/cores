@@ -102,8 +102,6 @@ const FileTree = (props) => {
             payload: localStorage.currentSelectedFile.split('/').pop()
           })
         }
-
-
       }
 
       preClickTimestamp = currentClickTimestamp;
@@ -318,7 +316,7 @@ const FileTree = (props) => {
         props.dispatch({
           type: 'devpanel/handleFileSave',
           payload: {
-            tabKey: tabKey, paneKey: paneKey
+            tabKey: tabKey, pane: paneKey
           }
         });
         var value = props.file.newFileNameModal.value;
@@ -742,7 +740,7 @@ const FileTree = (props) => {
                      checkedChildren={'是'}
                      checked={props.file.uploadModal.isUnZip}
                      unCheckedChildren={'否'} />
-            
+
          </div>)}
       </Modal>
 
