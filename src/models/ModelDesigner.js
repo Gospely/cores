@@ -445,8 +445,8 @@ export default {
 		layoutState: {
 			activePage: {
 				index: 0,
-				key: 'page-2233',
-				level: 1
+				key: 'page-123',
+				level: 2
 			},
 
 			activeController: {
@@ -455,9 +455,9 @@ export default {
 				level: 3
 			},
 
-			activeKey: 'page-2233',
+			activeKey: 'page-123',
 			activeType: 'page',
-			expandedKeys: ['page-2233']
+			expandedKeys: ['page-123']
 		},
 
 		controllersList: [
@@ -1153,16 +1153,6 @@ export default {
 			return {...state};
 		},
 
-		// setActivePage(state, { payload: params }) {
-		// 	layoutAction.setActivePage(state.layoutState, params.index, params.key, params.level);
-		// 	return {...state};
-		// },
-
-		// setActiveController(state, { payload: params }) {
-		// 	layoutAction.setActiveController(state.layoutState, params.index, params.key, params.level);
-		// 	return {...state};
-		// },
-
 		addPage(state, { payload: page }) {
 			var page = page || layoutAction.getController(state.controllersList, 'page');
 
@@ -1177,7 +1167,7 @@ export default {
 			tmpAttr['title']['isHTML'] = false;
 			tmpAttr['title']['title'] = '页面名称';
 
-			tmpAttr['routingURL']['_value'] = '/pages/index';
+			tmpAttr['routingURL']['_value'] = '/pages/page-' + state.layout[0].children.length;
 
 			//设置新增加的页面和应用整体的值相同
 			tmpAttr['navigationBarTitleText']['_value'] = state.layout[0].attr.window._value.navigationBarTitleText._value;

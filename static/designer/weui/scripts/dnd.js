@@ -9,7 +9,6 @@
 	var pageAction = {
 
 			changeNavigationBarTitleText: function(title) {
-				console.log('============', title);
 				jq('#gospel-app-title').html(title);
 			},
 
@@ -117,7 +116,7 @@
 					pageAction.changeNavigationBarBackgroundColor(attr.navigationBarBackgroundColor._value);
 					pageAction.changeNavigationBarTextStyle(attr.navigationBarTextStyle._value);			
 					pageAction.changeBackgroundTextStyle(attr.backgroundTextStyle._value);			
-					pageAction.changeBackgroundColor(attr.backgroundColor._value);						
+					pageAction.changeBackgroundColor(attr.backgroundColor._value);
 				},
 
 				controller: function() {
@@ -151,7 +150,6 @@
 			},
 
 			ctrlSelected: function() {
-				console.log('=====================ctrlSelected=====================', data);
 				var ctrlSelectedAction = {
 					page: function() {
 						navToPage(data);
@@ -197,10 +195,6 @@
 
 			layoutLoaded: function() {
 				initApp(data);
-			},
-
-			pageSelected:function(){
-				console.log('pageSelected',data);
 			}
 		}
 
