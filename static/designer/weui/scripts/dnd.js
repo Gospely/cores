@@ -37,8 +37,8 @@
 			render: function(params) {
 				pageAction.changeNavigationBarTitleText(params.navigationBarTitleText._value);
 				pageAction.changeNavigationBarBackgroundColor(params.navigationBarBackgroundColor._value);
-				pageAction.changeNavigationBarTextStyle(params.navigationBarTextStyle._value);			
-				pageAction.changeBackgroundTextStyle(params.backgroundTextStyle._value);			
+				pageAction.changeNavigationBarTextStyle(params.navigationBarTextStyle._value);
+				pageAction.changeBackgroundTextStyle(params.backgroundTextStyle._value);
 				pageAction.changeBackgroundColor(params.backgroundColor._value);
 			}
 
@@ -55,9 +55,9 @@
 
 			pageAction.changeNavigationBarTitleText(app.attr.window._value.navigationBarTitleText._value);
 			pageAction.changeNavigationBarBackgroundColor(app.attr.window._value.navigationBarBackgroundColor._value);
-			pageAction.changeNavigationBarTextStyle(app.attr.window._value.navigationBarTextStyle._value);			
-			pageAction.changeBackgroundTextStyle(app.attr.window._value.backgroundTextStyle._value);			
-			pageAction.changeBackgroundColor(app.attr.window._value.backgroundColor._value);			
+			pageAction.changeNavigationBarTextStyle(app.attr.window._value.navigationBarTextStyle._value);
+			pageAction.changeBackgroundTextStyle(app.attr.window._value.backgroundTextStyle._value);
+			pageAction.changeBackgroundColor(app.attr.window._value.backgroundColor._value);
 
 			var initRouter = function(pages) {
 
@@ -114,8 +114,8 @@
 
 					pageAction.changeNavigationBarTitleText(attr.navigationBarTitleText._value);
 					pageAction.changeNavigationBarBackgroundColor(attr.navigationBarBackgroundColor._value);
-					pageAction.changeNavigationBarTextStyle(attr.navigationBarTextStyle._value);			
-					pageAction.changeBackgroundTextStyle(attr.backgroundTextStyle._value);			
+					pageAction.changeNavigationBarTextStyle(attr.navigationBarTextStyle._value);
+					pageAction.changeBackgroundTextStyle(attr.backgroundTextStyle._value);
 					pageAction.changeBackgroundColor(attr.backgroundColor._value);
 				},
 
@@ -261,6 +261,7 @@
 	});
 
 	//拖拽结束
+<<<<<<< HEAD
 	jq("#gospel-designer-container").on("drop", function(e) {
 		console.log('onrop=======', e);
 		var currentTarget = jq(e.currentTarget),
@@ -277,6 +278,10 @@
 
 		currentTarget.addClass('hight-light');
 
+=======
+	jq("#gospel-designer-container").on("drop",function(e){
+		e.preventDefault();
+>>>>>>> f7fc04ec784c9a64096cd89634f0426e6a931a88
 		// var data = e.dataTransfer.getData("Text");
 
 		//获取父元素的window对象上的数据
@@ -310,7 +315,18 @@
 		jq(this).addClass("hight-light");
 		//监听拖动事件
 	});
+<<<<<<< HEAD
 	
+=======
+
+	//鼠标按下
+	jq(document).on("mousedown",".control-box",function(e){
+		jq(this).dragging({
+			move : 'y'
+		});
+	});
+
+>>>>>>> f7fc04ec784c9a64096cd89634f0426e6a931a88
 	//鼠标进入
 	jq(document).on("mouseenter", ".control-box", function(e) {
 
@@ -335,8 +351,13 @@
 	}
 
 	//拖拽结束
+<<<<<<< HEAD
 	jq("body").on("dragover", function(e) {
 		e.preventDefault(); 
+=======
+	jq("body").on("dragover",function(e){
+		e.preventDefault();
+>>>>>>> f7fc04ec784c9a64096cd89634f0426e6a931a88
 		e.stopPropagation();
 	});
 

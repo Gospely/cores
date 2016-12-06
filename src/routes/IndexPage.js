@@ -100,6 +100,7 @@ function IndexPage(props) {
         let currentTab = props.devpanel.panels.panes[paneKey.paneKey].tabs[targetKey - 1],
             tabType = currentTab.type;
 
+
         console.log(tabType);
 
         if(tabType != 'editor') {
@@ -108,7 +109,6 @@ function IndexPage(props) {
             type: 'devpanel/' + action,
             payload: removeAction
           });
-
           return false;
         }
 

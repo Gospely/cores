@@ -54,6 +54,7 @@ const initApplication = function (props){
   			localStorage.socketPort = application.socketPort;
   			localStorage.domain = application.domain;
   			localStorage.currentFolder = localStorage.user + '/' + application.name + '_' + localStorage.userName;
+        localStorage.terminal = application.docker;
         localStorage.applicationId = application.id;
 
   			props.dispatch({

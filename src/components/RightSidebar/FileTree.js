@@ -211,9 +211,16 @@ const FileTree = (props) => {
       },
 
       cancel: function() {
+
         props.dispatch({
           type: 'file/hideSaveModal'
-        })
+        });
+        if(localStorage.currentFileOperation == 'remove') {
+          props.dispatch({
+            type: 'devpanel/remove',
+            payload: JSON.parse(localStorage.removeAction)
+          });
+        }
       },
     },
 
@@ -238,9 +245,10 @@ const FileTree = (props) => {
         },
 
         onCancel: function() {
+
           props.dispatch({
             type: 'file/hideUploadModal'
-          })
+          });
         }
       },
 
@@ -284,7 +292,7 @@ const FileTree = (props) => {
                 message.error("请选择文件夹");
                 return false;
             }
-        }      
+        }
       }
     },
     newFileNameModal: {
@@ -357,9 +365,12 @@ const FileTree = (props) => {
 
       },
       cancel: function() {
+
+        console.log("==========concel");
         props.dispatch({
           type: 'file/hideNewFileNameModal'
         })
+        console.log("=============" + localStorage.currentFileOperation);
         if(localStorage.currentFileOperation == 'remove') {
           props.dispatch({
             type: 'devpanel/remove',
@@ -675,11 +686,18 @@ const FileTree = (props) => {
 
     content: (
         <div className={TreeStyle.fileSearchPane} onClick={() => {props.dispatch({type: 'file/hideSearchPane'})}}>
-          <div onClick={(e) => e.stopPropagation()}>
-            <Input size="large" placeholder="large size" onChange={searchPaneInputChange} value={props.file.searchFilePane.inputValue}/>
-            {props.file.searchFilePane.files.map(file=> {
-                return <div onClick={searchThisFile.bind(this,file.folder)} key={file.id} className={TreeStyle.fileSearchPaneOption}>{file.folder}</div>
-            })}
+          <div onClick={(e) => e.stopPropagation()} style={{maxWidth: 400, margin: '0 auto'}}>
+            <Input size="large" placeholder="index.js" onChange={searchPaneInputChange} value={props.file.searchFilePane.inputValue}/>
+            <div style={{overflow: 'auto', maxHeight: 500}}>
+                {props.file.searchFilePane.files.map(file=> {
+                    return  <div onClick={searchThisFile.bind(this,file.folder)} 
+                            key={file.id} 
+                            className={TreeStyle.fileSearchPaneOption}
+                            >
+                                {file.folder}
+                            </div>
+                })}
+            </div>
           </div>
         </div>
     )
@@ -753,15 +771,15 @@ const FileTree = (props) => {
         </div>
         {props.file.uploadModal.needUnZip &&
              (<div style={{marginTop: 10}}>
-                解压否：<Switch value={props.file.uploadModal.isUnZip} 
-                               checkedChildren={'是'} 
+                解压否：<Switch value={props.file.uploadModal.isUnZip}
+                               checkedChildren={'是'}
                                unCheckedChildren={'否'}
                                onChange={FileTreeProps.uploadModal.switchIsUnZip}
                        />
-                
+
              </div>)
         }
-        {props.file.uploadModal.isUnZip && 
+        {props.file.uploadModal.isUnZip &&
             (<div>
                 解压到：
                 <TreeSelect
@@ -778,7 +796,7 @@ const FileTree = (props) => {
                     {treeNodes}
                 </TreeSelect>
                 <br/>
-                <Button loading={props.file.uploadModal.unZiping} 
+                <Button loading={props.file.uploadModal.unZiping}
                         onClick={FileTreeProps.uploadModal.confirmUnZip}
                         type='primary' style={{marginTop: 10, marginLeft: 48}}
                 >解压
