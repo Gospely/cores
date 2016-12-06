@@ -63,6 +63,7 @@
 
 			pageRemoved: function() {
 				console.log('pageRemoved', data);
+				var controller = data;
 			},
 
 			ctrlAdded: function() {
@@ -70,6 +71,10 @@
 				var controller = data;
 				var wrapper = allComponents.genWrapper(controller);
 				var appended = jq(parent_window.currentTarget).append(wrapper);
+			},
+
+			pageSelected:function(){
+				console.log('pageSelected',data);
 			}
 		}
 
@@ -98,7 +103,7 @@
 	});
 
 	//拖拽结束
-	jq("body").on("drop",function(e){
+	jq("#gospel-designer-container").on("drop",function(e){
 		e.preventDefault(); 
 		// var data = e.dataTransfer.getData("Text");
 		// var item = jq(data).cloneNode();//复制节点
@@ -115,9 +120,13 @@
 
 	//点击i，删除当前组件
 	jq(document).on("click",".control-box i",function(e){
+		var dataControl = jq(this).parent().attr("data-control");
+		console.log("dataControl",dataControl);
+		//删除组件时向父级发送ctrlRemoved的信息;
+		postMessageToFather.ctrlRemoved(dataControl);
 		e.stopPropagation();
 		jq(e.target).parent(".control-box").remove();
-	})
+	});
 
 	//点击组件
 	jq(document).on("click",".control-box",function(e){
@@ -131,16 +140,21 @@
 		jq(this).addClass("hight-light");
 		//监听拖动事件
 	});
-		
+	
+	//鼠标按下
 	jq(document).on("mousedown",".control-box",function(e){
 		jq(this).dragging({
-			move : 'both'
+			move : 'y'
 		});
 	});
+
+	//鼠标进入
 	jq(document).on("mouseenter",".control-box",function(e){
+		hideBorder();
 		jq(this).find("i").show();
 		jq(this).addClass("hight-light");
 	});
+	//鼠标移出
 	jq(document).on("mouseleave",".control-box",function(e){
 		hideBorder();
 	});

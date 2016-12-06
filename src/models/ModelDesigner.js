@@ -1151,7 +1151,6 @@ export default {
 		// },
 
 		addPage(state, { payload: page }) {
-			console.log("addPage1111111111111111:::::::::::::::::::::::",state.layout)
 			var page = page || layoutAction.getController(state.controllersList, 'page');
 
 			console.log('page', page);
@@ -1192,7 +1191,6 @@ export default {
 			state.layout[0].children.push(tmpPage);
 			console.log('after layout', state.layout);
 			layoutAction.setActivePage(state.layoutState, state.layout[0].children.length - 1, tmpPage.key, 2);
-			console.log("addPage2222222222:::::::::::::::::::::::",state.layout)
 			return {...state};
 		},
 
@@ -1335,13 +1333,11 @@ export default {
 		    			attrRefreshed: activeCtrl
 		    		}, '*');
 	    		}
-	    		console.log('handleAttrRefreshed222222222222:::::::::::::::::', state.layout);
 	    		return {...state};
 
 		},
 
 		handleCtrlSelected (state) {
-			console.log("handleCtrlSelected111111111111:::::::::::::::",state.layout);
 			var activePage = layoutAction.getActivePage(state);
 
 	    		var gospelDesigner = window.frames['gospel-designer'];
@@ -1366,13 +1362,11 @@ export default {
 		    			ctrlSelected: activeCtrl
 		    		}, '*');
 	    		}
-	    		console.log("handleCtrlSelected222222222222222:::::::::::::::",state.layout);
 	    		return {...state};
 
 		},
 
 		handlePageAdded (state) {
-			console.log("handlePageAdded11111:::::::::::::::",state.layout);
 			var activePage = layoutAction.getActivePage(state);
 
 	    		var gospelDesigner = window.frames['gospel-designer'];
@@ -1397,13 +1391,11 @@ export default {
 		    			pageAdded: activeCtrl
 		    		}, '*');
 	    		}
-	    		console.log("handlePageAdded222222:::::::::::::::",state.layout);
 	    		return {...state};
 
 		},
 
 		handleAttrFormChange(state, { payload: params }) {
-			console.log('handleAttrFormChange11111:::::::::::::::::', state.layout);
 			console.log(params)
 			var activePage = layoutAction.getActivePage(state);
 			console.log("activePage:",activePage);
@@ -1449,7 +1441,6 @@ export default {
 	      		activeCtrl.attr[params.attrName]['_value'] = params.newVal;
 
 			}
-			console.log('handleAttrFormChange222:::::::::::::::::', state.layout);
 			return {...state};
 		}
 
