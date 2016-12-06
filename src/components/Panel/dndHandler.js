@@ -1,4 +1,6 @@
 
+import { message } from 'antd';
+
 export default {
 	init(props) {
 		this.props = props;
@@ -15,7 +17,7 @@ export default {
 
 			var data = evt.data, 
 				eventName = '';
-				console.log("data::::::",data);
+
 			const evtAction = {
 
 				ctrlClicked () {
@@ -47,8 +49,11 @@ export default {
 				},
 
 				ctrlRemoved () {
-					console.log(eventName,data);
+					console.log(eventName, data);
+				},
 
+				invalidDropArea () {
+					message.error(data);
 				}
 
 			}

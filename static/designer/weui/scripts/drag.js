@@ -123,16 +123,18 @@ jQuery.fn.extend({
 				}
 			}
 
-			if(movePosition.toLowerCase() == "x"){
-				thisXMove();
-			}else if(movePosition.toLowerCase() == "y"){
-				thisYMove();
-			}else if(movePosition.toLowerCase() == 'both'){
-				thisAllMove();
-			}
+			var moveFlag = true;
 
 			if(opt.onMouseMove) {
-				opt.onMouseMove(e, movePosition.toLowerCase, moveX, moveY);
+				moveFlag = opt.onMouseMove(e, movePosition.toLowerCase, moveX, moveY);
+			}
+
+			if(movePosition.toLowerCase() == "x" && moveFlag){
+				thisXMove();
+			}else if(movePosition.toLowerCase() == "y" && moveFlag){
+				thisYMove();
+			}else if(movePosition.toLowerCase() == 'both' && moveFlag){
+				thisAllMove();
 			}
 
 		});
