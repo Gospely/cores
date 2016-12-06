@@ -42,12 +42,10 @@
 
 .fileSearchPane input {
     border-radius: 0;
-    width: 40%;
     padding: 20px;
 }
 .fileSearchPaneOption {
     padding:15px 20px;
-    width: 40%;
     cursor: pointer;
     background: white;
     margin: 0 auto;

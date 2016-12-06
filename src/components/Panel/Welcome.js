@@ -18,6 +18,8 @@ const Welcome = (props) => {
 			color: '#666',
 			display: 'block',
 			marginBottom: 6,
+			width: 68,
+			margin: '0 auto'
 		}
 	};
 
