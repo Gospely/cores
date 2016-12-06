@@ -1178,7 +1178,15 @@ export default {
 			tmpAttr['title']['title'] = '页面名称';
 
 			tmpAttr['routingURL']['_value'] = '/pages/index';
-			
+
+			//设置新增加的页面和应用整体的值相同
+			tmpAttr['navigationBarTitleText']['_value'] = state.layout[0].attr.window._value.navigationBarTitleText._value;
+			tmpAttr['navigationBarBackgroundColor']['_value'] = state.layout[0].attr.window._value.navigationBarBackgroundColor._value;
+			tmpAttr['backgroundColor']['_value'] = state.layout[0].attr.window._value.backgroundColor._value;
+			tmpAttr['backgroundTextStyle']['_value'] = state.layout[0].attr.window._value.backgroundTextStyle._value;
+			tmpAttr['enablePullDownRefresh']['_value'] = state.layout[0].attr.window._value.enablePullDownRefresh._value;
+			tmpAttr['navigationBarTextStyle']['_value'] = state.layout[0].attr.window._value.navigationBarTextStyle._value;
+
 			console.log('page.attr', page.attr);
 
 			var tmpPage = {
