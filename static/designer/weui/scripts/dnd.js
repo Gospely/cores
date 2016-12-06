@@ -309,9 +309,6 @@
 		jq(this).addClass("hight-light");
 		//监听拖动事件
 	});
-<<<<<<< HEAD
-	
-=======
 
 	//鼠标按下
 	jq(document).on("mousedown",".control-box",function(e){
@@ -320,7 +317,6 @@
 		});
 	});
 
->>>>>>> f7fc04ec784c9a64096cd89634f0426e6a931a88
 	//鼠标进入
 	jq(document).on("mouseenter", ".control-box", function(e) {
 
@@ -345,13 +341,8 @@
 	}
 
 	//拖拽结束
-<<<<<<< HEAD
-	jq("body").on("dragover", function(e) {
-		e.preventDefault(); 
-=======
 	jq("body").on("dragover",function(e){
 		e.preventDefault();
->>>>>>> f7fc04ec784c9a64096cd89634f0426e6a931a88
 		e.stopPropagation();
 	});
 
