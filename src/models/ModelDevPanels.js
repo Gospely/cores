@@ -180,7 +180,7 @@ export default {
 			localStorage.defaultActiveKey = 'setting';
 			localStorage.activeMenu = "file";
 			// appRouter.go('/project/' + localStorage.currentProject);
-			window.location.href = 'http://localhost:8989/#/project/' + localStorage.currentProject;
+			//window.location.href = 'http://localhost:8989/#/project/' + localStorage.applicationId;
 			return {...state};
 		},
 
@@ -214,7 +214,7 @@ export default {
 			localStorage.defaultActiveKey = 'controllers';
 			localStorage.activeMenu = "attr";
 			// appRouter.go('/project/' + localStorage.currentProject);
-			window.location.href = 'http://localhost:8989/#/project/' + localStorage.currentProject;
+			//window.location.href = 'http://localhost:8989/#/project/' + localStorage.applicationId;
 			return {...state};
 		},
 		toggleSearchBar(state,{payload:params}) {

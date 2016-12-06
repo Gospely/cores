@@ -13,9 +13,12 @@ import Topbar from '../components/TopBar';
 import CodingEditor from '../components/Panel/Editor.js';
 
 import SplitPane from 'react-split-pane';
-import randomString from '../utils/randomString'
+import randomString from '../utils/randomString';
+import initApplication from '../utils/initApplication';
 
 function IndexPage(props) {
+
+  initApplication(props);
 
 
   const devPanelProps = {
