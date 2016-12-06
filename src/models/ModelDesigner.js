@@ -445,8 +445,8 @@ export default {
 		layoutState: {
 			activePage: {
 				index: 0,
-				key: 'page-2233',
-				level: 1
+				key: 'page-123',
+				level: 2
 			},
 
 			activeController: {
@@ -455,9 +455,9 @@ export default {
 				level: 3
 			},
 
-			activeKey: 'page-2233',
+			activeKey: 'page-123',
 			activeType: 'page',
-			expandedKeys: ['page-2233']
+			expandedKeys: ['page-123']
 		},
 
 		controllersList: [
@@ -1153,16 +1153,6 @@ export default {
 			return {...state};
 		},
 
-		// setActivePage(state, { payload: params }) {
-		// 	layoutAction.setActivePage(state.layoutState, params.index, params.key, params.level);
-		// 	return {...state};
-		// },
-
-		// setActiveController(state, { payload: params }) {
-		// 	layoutAction.setActiveController(state.layoutState, params.index, params.key, params.level);
-		// 	return {...state};
-		// },
-
 		addPage(state, { payload: page }) {
 			var page = page || layoutAction.getController(state.controllersList, 'page');
 
@@ -1176,21 +1166,19 @@ export default {
 			tmpAttr['title']['isClassName'] = false;
 			tmpAttr['title']['isHTML'] = false;
 			tmpAttr['title']['title'] = '页面名称';
-			
+
+			tmpAttr['routingURL']['_value'] = '/pages/page-' + state.layout[0].children.length;
+
+			//设置新增加的页面和应用整体的值相同
+			tmpAttr['navigationBarTitleText']['_value'] = state.layout[0].attr.window._value.navigationBarTitleText._value;
+			tmpAttr['navigationBarBackgroundColor']['_value'] = state.layout[0].attr.window._value.navigationBarBackgroundColor._value;
+			tmpAttr['backgroundColor']['_value'] = state.layout[0].attr.window._value.backgroundColor._value;
+			tmpAttr['backgroundTextStyle']['_value'] = state.layout[0].attr.window._value.backgroundTextStyle._value;
+			tmpAttr['enablePullDownRefresh']['_value'] = state.layout[0].attr.window._value.enablePullDownRefresh._value;
+			tmpAttr['navigationBarTextStyle']['_value'] = state.layout[0].attr.window._value.navigationBarTextStyle._value;
+
 			console.log('page.attr', page.attr);
 
-			console.log(tmpAttr)
-
-			// for(var att in page.attr) {
-			// 	var currAttr = page.attr[att];
-			// 	tmpAttr[att] = currAttr;
-			// 	tmpAttr['title']['_value'] = page.name;
-			// 	tmpAttr['title']['type'] = 'input';
-			// 	tmpAttr['title']['isClassName'] = false;
-			// 	tmpAttr['title']['isHTML'] = false;
-			// 	tmpAttr['title']['title'] = '页面名称';
-			// }
-			console.log('=========-------------------',state.layout[0].children.length);
 			var tmpPage = {
 				type: 'page',
 				key: 'page-' + state.layout[0].children.length,
@@ -1354,16 +1342,14 @@ export default {
     		var gospelDesigner = window.frames['gospel-designer'];
 
     		if(!gospelDesigner) {
-    			message.error('请先打开编辑器！')
+    			message.error('请先打开编辑器！');
     			return false;
     		}
 
     		if(state.layoutState.activeType == 'page') {
-
 	    		gospelDesigner.postMessage({
 	    			ctrlSelected: activePage
 	    		}, '*');
-
     		}
 
     		if(state.layoutState.activeType == 'controller') {

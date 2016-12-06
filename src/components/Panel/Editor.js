@@ -186,11 +186,9 @@ const Editor = (props) => {
 	    		type: 'editor/showArrow'
 	    	})
     	},
-    	
+
 		onLoad(e,editor) {
 
-			console.log(e);
-			console.log(editor);
 			window.currentEditor = editor;
 			console.log('editor onLoad');
 
@@ -208,14 +206,12 @@ const Editor = (props) => {
 				console.log('change');
 				console.log(this);
 				console.log(value);
-    			var editorId = activePane.activeEditor.id;
+  			var editorId = activePane.activeEditor.id;
 
-				if(!props.editorTop.searchVisible) {
-					props.dispatch({
-	    			type: 'devpanel/handleEditorChanged',
-	    			payload: {value, editorId}
-	    		})
-				}
+				props.dispatch({
+    			type: 'devpanel/handleEditorChanged',
+    			payload: {value, editorId}
+    		})
     	}
   	}
 

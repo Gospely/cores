@@ -37,8 +37,8 @@
 			render: function(params) {
 				pageAction.changeNavigationBarTitleText(params.navigationBarTitleText._value);
 				pageAction.changeNavigationBarBackgroundColor(params.navigationBarBackgroundColor._value);
-				pageAction.changeNavigationBarTextStyle(params.navigationBarTextStyle._value);			
-				pageAction.changeBackgroundTextStyle(params.backgroundTextStyle._value);			
+				pageAction.changeNavigationBarTextStyle(params.navigationBarTextStyle._value);
+				pageAction.changeBackgroundTextStyle(params.backgroundTextStyle._value);
 				pageAction.changeBackgroundColor(params.backgroundColor._value);
 			}
 
@@ -51,6 +51,8 @@
 				app = layout[0],
 				pages = app.children;
 
+			window.wholeAppConfig = app.attr;
+
 			pageAction.changeNavigationBarTitleText(app.attr.window._value.navigationBarTitleText._value);
 			pageAction.changeNavigationBarBackgroundColor(app.attr.window._value.navigationBarBackgroundColor._value);
 			pageAction.changeNavigationBarTextStyle(app.attr.window._value.navigationBarTextStyle._value);
@@ -61,8 +63,8 @@
 
 				window.router = new Router({
 				    container: '#gospel-designer-container',
-			        enterTimeout: 300,
-				    leaveTimeout: 300
+				    enter: 'enter',
+				    leave: 'leave'
 				});
 
 				var routerMap = [],
@@ -74,20 +76,22 @@
 					var attr = currentPage.attr;
 					var tmpRoute = {
 						url: attr.routingURL._value,
-						className: '',
+						className: currentPage.key,
 
 						render: function () {
-
+							return attr.routingURL._value;
 						},
 
 						bind: function() {
-							pageRender.render(attr);
+							// pageRender.render(attr);
 						}
 					}
 					routerInstance = router.push(tmpRoute);
 				};
 
 				routerInstance.setDefault('/').init();
+
+				console.log(routerInstance);
 
 			}(pages);
 
@@ -99,23 +103,20 @@
 			var ctrlAction = {
 
 				page: function() {
-<<<<<<< HEAD
-					pageAction.changeNavigationBarTitleText(data.attr.window._value.navigationBarTitleText._value);
-					pageAction.changeNavigationBarBackgroundColor(data.attr.window._value.navigationBarBackgroundColor._value);
-					pageAction.changeNavigationBarTextStyle(data.attr.window._value.navigationBarTextStyle._value);
-					pageAction.changeBackgroundTextStyle(data.attr.window._value.backgroundTextStyle._value);
-					pageAction.changeBackgroundColor(data.attr.window._value.backgroundColor._value);
-=======
-					var attr = data.attr.window || data.attr;
 
-					// if(attr) 
+					var attr = {};
+
+					if(data.attr.window) {
+						attr = data.attr.window._value;
+					}else {
+						attr = data.attr;
+					}
 
 					pageAction.changeNavigationBarTitleText(attr.navigationBarTitleText._value);
 					pageAction.changeNavigationBarBackgroundColor(attr.navigationBarBackgroundColor._value);
-					pageAction.changeNavigationBarTextStyle(attr.navigationBarTextStyle._value);			
-					pageAction.changeBackgroundTextStyle(attr.backgroundTextStyle._value);			
-					pageAction.changeBackgroundColor(attr.backgroundColor._value);						
->>>>>>> 2d48b6e0f2449f4559e6e2dd80723a76039ffcb4
+					pageAction.changeNavigationBarTextStyle(attr.navigationBarTextStyle._value);
+					pageAction.changeBackgroundTextStyle(attr.backgroundTextStyle._value);
+					pageAction.changeBackgroundColor(attr.backgroundColor._value);
 				},
 
 				controller: function() {
@@ -131,6 +132,7 @@
 		navToPage = function(data) {
 			if(data.attr.routingURL) {
 				router.go(data.attr.routingURL._value);
+				refreshApp(data);
 			}
 		};
 
@@ -148,7 +150,6 @@
 			},
 
 			ctrlSelected: function() {
-				console.log('ctrlSelected', data);
 				var ctrlSelectedAction = {
 					page: function() {
 						navToPage(data);
@@ -163,7 +164,21 @@
 
 			pageAdded: function() {
 				console.log('pageAdded', data);
+				var tmpRoute = {
+					url: data.attr.routingURL._value,
+					className: data.key,
 
+					render: function () {
+						return data.attr.routingURL._value;
+					},
+
+					bind: function() {
+						// pageRender.render(data.attr);
+					}
+				}
+				window.router.push(tmpRoute);
+				refreshApp(data);
+				console.log(window.router);
 			},
 
 			pageRemoved: function() {
@@ -180,13 +195,6 @@
 
 			layoutLoaded: function() {
 				initApp(data);
-<<<<<<< HEAD
-=======
-			},
->>>>>>> 2d48b6e0f2449f4559e6e2dd80723a76039ffcb4
-
-			pageSelected:function(){
-				console.log('pageSelected',data);
 			}
 		}
 

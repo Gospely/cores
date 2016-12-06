@@ -125,7 +125,7 @@ export default {
 		},
 		*oppenTerminal({ payload: params}, {call, put, select}){
 
-			console.log("=============oppenTerminal===============");
+			console.log("=============oppenTerminal=============");
 			var url = "applications/startTerminal?docker=" + localStorage.terminal;
 			var res = yield request(url, {
 				method: 'GET',

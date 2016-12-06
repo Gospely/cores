@@ -425,7 +425,7 @@ export default {
 			console.log(info)
 			if (info.file.status == 'done') {
 				let suffix = info.file.name.split('.').pop();
-				let compressionSuffix = ['png','rar','zip','cab','arj','lzh','ace','7-zip','tar','gzip','uue','bz2','jar','iso','z'];
+				let compressionSuffix = ['rar','zip','cab','arj','lzh','ace','7-zip','tar','gzip','uue','bz2','jar','iso','z'];
 				compressionSuffix.forEach(suf => {
 				    if (suf == suffix) {
 				        state.uploadModal.needUnZip = true;
