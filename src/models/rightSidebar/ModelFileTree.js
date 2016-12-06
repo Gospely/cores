@@ -44,7 +44,7 @@ export default {
 		},
 
 		uploadInput: {
-			value: '',
+			value: [],
 			visible: false
 		},
 
@@ -73,6 +73,13 @@ export default {
 			value: '',
 			title: ''
 		},
+		uploadModal: {
+			visible: false,
+			title: '上传文件',
+			value: '',
+			needUnZip: false,
+			isUnZip: true
+		},
 		searchFilePane: {
 			visible: false,
 			files: [
@@ -97,6 +104,8 @@ export default {
 
 	effects: {
 		*fetchFileList(payload, {call, put}) {
+
+					console.log("fetchFileList");
       		var fileList = yield request('fs/list/file/?id=' + localStorage.dir);
 					localStorage.currentFolder = localStorage.dir;
 	      	yield put({ type: 'list', payload: fileList });
@@ -253,6 +262,7 @@ export default {
       	},
       	*handleUpload({payload: fileName}, {call, put, select}) {
       		var val = yield select(state => state.file.uploadInput.value);
+      		console.log(val)
       	},
 
       	*handleSearch({payload: params}, {call, put, select}) {
@@ -388,10 +398,21 @@ export default {
 			// state.searchFilePane.files = result;
 			return {...state};
 		},
-		handleUploadInputChange(state, {payload: val}) {
-			return {...state, uploadInput: {
-				value: val
-			}};
+		handleUploadInputChange(state, {payload: info}) {
+			console.log(info)
+			state.uploadInput.value.push(info.file)
+			return {...state};
+		},
+
+		switchNeedUnZip(state,{payload: needUnZip}) {
+			state.uploadModal.needUnZip = needUnZip.needUnZip;
+			return {...state};
+		},
+
+		switchIsUnZip(state, {payload: checked}) {
+			// alert(checked)
+			state.uploadModal.isUnZip = checked;
+			return {...state};
 		},
 
 		hideRenameModal(state) {
@@ -416,6 +437,16 @@ export default {
 				visible: false,
 				showInput: false
 			}};
+		},
+
+		hideUploadModal(state) {
+			state.uploadModal.visible = false;
+			return {...state}
+		},
+
+		showUploadModal(state) {
+			state.uploadModal.visible = true;
+			return {...state}
 		},
 
 		showSaveModal(state, {payload: params}) {
@@ -449,7 +480,7 @@ export default {
 					return {...state, newFileNameModal: {
 						visible: true,
 						value: localStorage.currentProject + '/',
-						title: '请输入文件名'
+						title: '您正在关闭一个文件，请确定是否保存？不保存请点击取消'
 					}};
 				}
 
@@ -478,12 +509,14 @@ export default {
 		// },
 
 		list (state, {payload: list}) {
+
+			console.log(list);
 			var data = list.data,
 				tree = [];
 
 				console.log('list=======', list);
 
-			if(!list.length) {
+			if(list.length > 1) {
 				return {...state};
 			}
 

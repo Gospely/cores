@@ -48,7 +48,6 @@ const Designer = (props) => {
 					className="designer"
 					frameBorder="0"
 					src="static/designer/weui/designer.html"
-					// src="http://localhost:6767/"
 					>
 				</iframe>
 			</div>

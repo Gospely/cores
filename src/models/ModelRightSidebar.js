@@ -4,7 +4,7 @@ import request from '../utils/request.js';
 export default {
 	namespace: 'rightbar',
 	state: {
-		activeMenu: 'attr'
+		activeMenu: localStorage.activeMenu
 	},
 
 	subscriptions: {

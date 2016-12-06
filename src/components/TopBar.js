@@ -41,15 +41,15 @@ const LeftSidebar = (props) => {
 	};
 
 	const initApplications = () => {
-
-		if(!props.sidebar.applications) {
+		console.log('side');
+		if(props.sidebar.applications.length < 1) {
 			return;
 		}
-
+		console.log('side==================', props);
 		return props.sidebar.applications.map(application => {
 			return   <Col className="gutter-row" span={6} style={{marginTop: 20}} key={application.id}>
 						 <div className="gutter-box">
-								<Card onClick={leftSidebarProps.openApp(this,application)} extra={
+								<Card onClick={leftSidebarProps.openApp.bind(this,application)} extra={
 									<Popconfirm onClick={(e) => e.stopPropagation()} title="确认删除此项目?"
 									onConfirm={leftSidebarProps.confirmDeleteApp.bind(this,application.id)}
 									onCancel={leftSidebarProps.cancelDeleteApp} okText="Yes" cancelText="No">
@@ -70,9 +70,11 @@ const LeftSidebar = (props) => {
 	const designer = () => {
 
 		if(props.devpanel.devType.visual) {
-			return   (<Menu.Item key="designer">
+			return (
+				<Menu.Item key="designer">
 					<Icon type="windows-o" />
-				</Menu.Item>);
+				</Menu.Item>
+			);
 		}
 	};
 
@@ -82,22 +84,19 @@ const LeftSidebar = (props) => {
 	      var handleActiveMenuEvent = {
 
 	        create() {
-
-						console.log("create app");
-	          props.dispatch({
-	            type: 'sidebar/showModalNewApp'
-	          });
+          		props.dispatch({
+            		type: 'sidebar/showModalNewApp'
+	          	});
 	        },
 
 	        'switch'() {
-						console.log('switch');
-	          props.dispatch({
-	            type: 'sidebar/showModalSwitchApp'
-	          });
-						props.dispatch({
-	            type: 'sidebar/getApplications'
-	          });
-	        },
+	          	props.dispatch({
+	            	type: 'sidebar/showModalSwitchApp'
+	          	});
+				props.dispatch({
+	            	type: 'sidebar/getApplications'
+	          	});
+		    },
 
 	        commit() {
 	        	if(!props.sidebar.modifyGitOriginInput.isGit) {
@@ -188,39 +187,36 @@ const LeftSidebar = (props) => {
 
 	        start() {
 
-							console.log("debugger");
-							//调试
-							const debugType = {
+				console.log("debugger");
+				//调试
+				const debugType = {
 
-								common(){
+					common(){
 
-									console.log('common');
-									sessionStorage.currentDebugResource = 'http://gospely.com:' + localStorage.port;
-									var debug = window.open('http://localhost:8989/static/debugger/wordpress.html','_blank')
+						console.log('common');
+						sessionStorage.currentDebugResource = 'http://gospely.com:' + localStorage.port;
+						var debug = window.open('http://localhost:8989/static/debugger/wordpress.html','_blank')
 
-									props.dispatch({
-										type: 'devpanel/handleDebugger',
-										payload: {debug}
-									});
+						props.dispatch({
+							type: 'devpanel/handleDebugger',
+							payload: {debug}
+						});
 
 
-								}
-							}
-							debugType['common']();
+					}
+				}
+				debugType['common']();
 
 	        },
 
 	        pause() {
-						console.log("pause");
-						var debug = props.devpanel.debug;
-						console.log(debug);
-						debug.postMessage({codeSaved: true},"*");
+
 	        },
 
 	        preview() {
 	        	var title = '小程序预览',
 	        		type = 'previewer';
-	        		props.dispatch({type: 'devpanel/add',payload: {title,type}});
+        		props.dispatch({type: 'devpanel/add',payload: {title,type}});
 	        }
 
 	      }
@@ -248,12 +244,11 @@ const LeftSidebar = (props) => {
 
 
 	    confirmDeleteApp(application) {
-
-				console.log('confirm delete app')
-				props.dispatch({
-					type: 'sidebar/deleteApp',
-					payload: {application}
-				})
+			console.log('confirm delete app')
+			props.dispatch({
+				type: 'sidebar/deleteApp',
+				payload: {application}
+			})
 	    },
 
 	    cancelDeleteApp() {
@@ -262,26 +257,26 @@ const LeftSidebar = (props) => {
 
 	    openApp(application) {
 
-				console.log(localStorage.userName);
-				localStorage.dir = localStorage.user + '/' + application.name + '_' + localStorage.userName + "/";
-				localStorage.currentProject = application.name;
-				localStorage.port = application.port;
-				localStorage.domain = application.domain;
-				localStorage.currentFolder = localStorage.user + '/' + application.name + '_' + localStorage.userName;
-				console.log(localStorage.dir);
-				console.log(application);
+			localStorage.dir = localStorage.user + '/' + application.name + '_' + localStorage.userName + "/";
+			localStorage.currentProject = application.name;
+			localStorage.port = application.port;
+			localStorage.sshPort = application.sshPort;
+			localStorage.socketPort = application.socketPort;
+			localStorage.domain = application.domain;
+			localStorage.currentFolder = localStorage.user + '/' + application.name + '_' + localStorage.userName;
 
+			props.dispatch({
+				type: 'file/fetchFileList'
+			});
 
-				props.dispatch({
-					type: 'file/fetchFileList'
-				});
-				props.dispatch({
-	        type: 'sidebar/hideModalSwitchApp'
-	      });
-				props.dispatch({
-					type: 'devpanel/handleImages',
-					payload: { id : application.id}
-				});
+			props.dispatch({
+	        	type: 'sidebar/hideModalSwitchApp'
+	      	});
+
+			props.dispatch({
+				type: 'devpanel/handleImages',
+				payload: { id : application.image}
+			});
 	    	console.log('TopBar中dispatch')
 	    	// alert(1)
 	    },
@@ -375,7 +370,7 @@ const LeftSidebar = (props) => {
 		        <Menu.Item key="file">
 					<Icon type="file-text" />
 		        </Menu.Item>
-						{designer()}
+					{designer()}
 		        <Menu.Item key="terminal">
 					<Icon type="code-o" />
 		        </Menu.Item>

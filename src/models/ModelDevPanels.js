@@ -2,6 +2,7 @@
 import React , { PropTypes } from 'react';
 import dva from 'dva';
 import { message } from 'antd';
+import request from '../utils/request.js';
 
 const methods = {
 	getActivePane(state) {
@@ -11,7 +12,6 @@ const methods = {
 		return pane.tabs[pane.activeTab.index];
 	},
 	getEditors(state,index){
-
 		return state.panels.panes[index].editors;
 	}
 }
@@ -20,11 +20,13 @@ export default {
 	namespace: 'devpanel',
 	state: {
 
-			devType: {
-				visual: true,
-				defaultActiveKey: 'controllers'
-			},
-			debug: '',
+		devType: {
+			visual: localStorage.visual || true,
+			defaultActiveKey: localStorage.defaultActiveKey || 'controllers',
+		},
+
+		debug: '',
+
 	    panels: {
 
 	    	panes: [
@@ -35,16 +37,6 @@ export default {
 			    			content: '',
 			    			key: '1',
 			    			type: 'welcome',
-			    			editorId: '',
-			    			searchVisible: false,
-			    			isSave: false
-			    		},
-
-			    		{
-			    			title: 'Gospel 小程序 UI 设计器',
-			    			content: '',
-			    			key: '2',
-			    			type: 'designer',
 			    			editorId: '',
 			    			searchVisible: false,
 			    			isSave: false
@@ -61,7 +53,7 @@ export default {
 
 		    		activeTab: {
 		    			key: '2',
-		    			index: 0
+		    			index: 1
 		    		}
 	    		}
 	    	],
@@ -78,15 +70,48 @@ export default {
 
 	},
 
+	subscriptions: {
+
+		setup({ dispatch, history }) {
+	      	history.listen(({ pathname }) => {
+          		dispatch({
+            		type: 'loadPanels',
+          		});
+	      	});
+		}
+
+	},
+
+
 	effects: {
+
+		*loadPanels({ payload: params }, {call, put, select}) {
+      		var devpanel = yield select(state => state.devpanel);
+
+      		var tmpTabs = {
+				title: 'Gospel 小程序 UI 设计器',
+				content: '',
+				key: '2',
+				type: 'designer',
+				editorId: '',
+				searchVisible: false,
+				isSave: false
+			}
+
+      		devpanel.panels.panes[devpanel.panels.activePane.key].tabs.push(tmpTabs);
+
+		},
 
 		//根据项目的类型渲染ide面板
 		*handleImages({ payload: params}, {call, put, select}) {
 
+			console.log("handleImages");
+			console.log(params);
 			const devType = {
 
 				common(){
-					put({ type: "handleCommon" });
+					console.log("common");
+
 				},
 
 				visual(){
@@ -106,27 +131,37 @@ export default {
 			};
 
 			var url = "images/" + params.id;
+			console.log(url);
+
 			var res = yield request(url, {
-						method: 'GET',
-						});
-			devType[res.data.fields.devType]();
-			debugType[res.data.fields.debugType]();
+				method: 'GET',
+			});
+
+			console.log('res================', res);
+
+			if(res.data.fields.devType == 'common'){
+				yield put({ type: "handleCommon" });
+			}else{
+				yield put({ type: "handleVisual" });
+			}
 		}
 	},
 
 	reducers: {
 
 		handleDebugger(state, { payload: params}){
-
-				state.debug = params.debug;
-				console.log('handleDebugger');
-				return {...state};
+			state.debug = params.debug;
+			console.log('handleDebugger');
+			return {...state};
 		},
+
 		handleTabChanged(state, {payload: name}) {
 			state.activeMenu = name;
 			return {...state};
 		},
+
 		handleCommon(state) {
+			console.log("handleCommon");
 			state.panels.panes[0].tabs =  [
 				{
 					title: '欢迎页面 - Gospel',
@@ -140,9 +175,47 @@ export default {
 			];
 			state.panels.panes[0].activeTab.key = "1";
 			state.devType.visual = false;
+			localStorage.visual = false;
 			state.devType.defaultActiveKey = 'setting';
-			return {...state}
+			localStorage.defaultActiveKey = 'setting';
+			localStorage.activeMenu = "file";
+			// appRouter.go('/project/' + localStorage.currentProject);
+			window.location.href = 'http://localhost:8989/#/project/' + localStorage.currentProject;
+			return {...state};
+		},
 
+		handleVisual(state){
+
+			console.log("handleVisual");
+			state.panels.panes[0].tabs =  [
+				{
+					title: '欢迎页面 - Gospel',
+					content: '',
+					key: '1',
+					type: 'welcome',
+					editorId: '',
+					searchVisible: false,
+					isSave: false
+				},
+				{
+					title: 'Gospel 小程序 UI 设计器',
+					content: '',
+					key: '2',
+					type: 'designer',
+					editorId: '',
+					searchVisible: false,
+					isSave: false
+				}
+			];
+			state.panels.panes[0].activeTab.key = "2";
+			state.devType.visual = true;
+			localStorage.visual = true;
+			state.devType.defaultActiveKey = 'controllers';
+			localStorage.defaultActiveKey = 'controllers';
+			localStorage.activeMenu = "attr";
+			// appRouter.go('/project/' + localStorage.currentProject);
+			window.location.href = 'http://localhost:8989/#/project/' + localStorage.currentProject;
+			return {...state};
 		},
 		toggleSearchBar(state,{payload:params}) {
 			console.log(params.belongTo)
@@ -173,10 +246,8 @@ export default {
 
 			methods.getActivePane(state).activeTab.index = ( parseInt(params.active) - 1 ).toString();
 
-
 			// console.log('activePane',methods.getActivePane(state))
 			// console.log('activeTab',activeTab);
-
 
 			if(activeTab.type == 'editor') {
 				// state.panels.activeEditor.id = activeTab.content.props.editorId;
@@ -397,8 +468,8 @@ export default {
 
 			console.log("handleFileSave");
 			console.log(params);
-			console.log(state.panels.panes[params.paneKey].tabs)
-			state.panels.panes[params.paneKey].tabs[params.tabKey - 1].isSave = true;
+			console.log(state.panels.panes[params.pane].tabs)
+			state.panels.panes[params.pane].tabs[params.tabKey - 1].isSave = true;
 			return {...state};
 		},
 

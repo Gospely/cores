@@ -34,7 +34,7 @@
 			}
 
 			var iframe = document.createElement("iframe");
-			iframe.src = 'http://dodora.cn';
+			iframe.src = sessionStorage.currentDebugResource;
 			iframe.setAttribute('frameborder', '1');
 			iframe.setAttribute('class', 'ifr');
 			iframe.setAttribute('name', 'gospel-debugger-ifr');
@@ -47,7 +47,7 @@
 			    };
 			} else {
 			    iframe.onreadystatechange = function() {
-			        if (iframe.readyState == "complete"){ 
+			        if (iframe.readyState == "complete"){
 				    	sessionStorage.currentDebugResource = $('iframe').attr('src');
 			        }
 			    };

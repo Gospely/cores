@@ -13,7 +13,7 @@ const packUIStage = function (params) {
 
 	      designer: {
 	            layout: params.designer.layout,
-	            layouState: params.designer.layouState,
+	            layoutState: params.designer.layouState,
 	            defaultDevice: params.designer.defaultDevice
 	      }
 	}
