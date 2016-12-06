@@ -223,9 +223,12 @@ export default {
       		// console.log(content)
       		content = content.fields;
       		// console.log(content);
+      		console.log(content.fileName);
 					var splits = content.fileName.split('/');
+					console.log(splits);
 					content.fileName = content.fileName.replace(splits[0] + '/','');
-					content.fileName = content.fileName.replace(splits[1], localStorage.currentProject);
+					console.log(content.fileName);
+					content.fileName = content.fileName.replace(splits[1] + '/', localStorage.currentProject);
 
 			yield put({
 				type: 'devpanel/add',
@@ -238,7 +241,7 @@ export default {
 			})
       	},
 
-      	*writeFile({payload: params}, {call, put}) {
+      	*writeFile({payload: params}, {call, put, select}) {
 
 					var fileName = '';
 					if(params.fileName == null){
@@ -257,10 +260,11 @@ export default {
 					yield put({type: 'fetchFileList'});
 
 					var debug = yield select(state => state.devpanel.debug.value);
-					if(debug.alert){
-						debug.postMessage({codeSaved: true},"*");
+					if(debug){
+						if(debug.alert){
+							debug.postMessage({codeSaved: true},"*");
+						}
 					}
-					// par.isSave = false;
       	},
       	// *handleUpload({payload: fileName}, {call, put, select}) {
       	// 	var val = yield select(state => state.file.uploadInput.value);

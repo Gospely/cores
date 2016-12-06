@@ -268,7 +268,7 @@ export default {
 								type: 'input',
 								attrType: 'color',
 								title: '头背景色',
-								_value: '#ffffff',
+								_value: '#f8f8f8',
 								isClassName: false
 							},
 
@@ -284,7 +284,7 @@ export default {
 								type: 'input',
 								attrType: 'text',
 								title: '头标题',
-								_value: 'black',
+								_value: '微信小程序',
 								isClassName: false
 							},
 
@@ -292,7 +292,7 @@ export default {
 								type: 'input',
 								attrType: 'color',
 								title: '背景颜色',
-								_value: '#eeeeee',
+								_value: '#f8f8f8',
 								isClassName: false
 							},
 
@@ -378,7 +378,7 @@ export default {
 								type: 'input',
 								attrType: 'color',
 								title: '头背景色',
-								_value: '#ffffff',
+								_value: '#f8f8f8',
 								isClassName: false
 							},
 
@@ -394,7 +394,7 @@ export default {
 								type: 'input',
 								attrType: 'text',
 								title: '头标题',
-								_value: 'black',
+								_value: '微信小程序',
 								isClassName: false
 							},
 
@@ -402,7 +402,7 @@ export default {
 								type: 'input',
 								attrType: 'color',
 								title: '背景颜色',
-								_value: '#eeeeee',
+								_value: '#f8f8f8',
 								isClassName: false
 							},
 
@@ -428,7 +428,7 @@ export default {
 								title: '路由',
 								isClassName: false,
 								isHTML: false,
-								_value: '/page/page/index'
+								_value: '/'
 							}
 
 						},
@@ -500,7 +500,7 @@ export default {
 								type: 'input',
 								attrType: 'color',
 								title: '头背景色',
-								_value: '#ffffff',
+								_value: '#f8f8f8',
 								isClassName: false
 							},
 
@@ -516,7 +516,7 @@ export default {
 								type: 'input',
 								attrType: 'text',
 								title: '头标题',
-								_value: 'black',
+								_value: '微信小程序',
 								isClassName: false
 							},
 
@@ -524,7 +524,7 @@ export default {
 								type: 'input',
 								attrType: 'color',
 								title: '背景颜色',
-								_value: '#eeeeee',
+								_value: '#f8f8f8',
 								isClassName: false
 							},
 
@@ -601,7 +601,7 @@ export default {
 						type: 'input',
 						attrType: 'color',
 						title: '头背景色',
-						_value: '#ffffff',
+						_value: '#f8f8f8',
 						isClassName: false
 					},
 
@@ -617,7 +617,7 @@ export default {
 						type: 'input',
 						attrType: 'text',
 						title: '头标题',
-						_value: 'black',
+						_value: '微信小程序',
 						isClassName: false
 					},
 
@@ -625,7 +625,7 @@ export default {
 						type: 'input',
 						attrType: 'color',
 						title: '背景颜色',
-						_value: '#eeeeee',
+						_value: '#f8f8f8',
 						isClassName: false
 					},
 
@@ -1123,7 +1123,10 @@ export default {
 	      		setTimeout(function() {
 	      			window.gospelDesigner = window.frames['gospel-designer'];
 		      		console.log('gospelDesigner', gospelDesigner);
-	      		});
+		      		dispatch({
+		      			type: 'handleLayoutLoaded'
+		      		})
+	      		}, 2000);
 	      	});
 		}
 
@@ -1134,6 +1137,16 @@ export default {
 	},
 
 	reducers: {
+
+		handleLayoutLoaded(state, { payload: params }) {
+			gospelDesigner.postMessage({
+				layoutLoaded: {
+					layout: state.layout,
+					layoutState: state.layoutState
+				}
+			}, '*');
+			return {...state};
+		},
 
 		handleDeviceSelected(state, { payload: key }) {
 			state.defaultDevice = key;
@@ -1151,7 +1164,6 @@ export default {
 		// },
 
 		addPage(state, { payload: page }) {
-			console.log("addPage1111111111111111:::::::::::::::::::::::",state.layout)
 			var page = page || layoutAction.getController(state.controllersList, 'page');
 
 			console.log('page', page);
@@ -1192,7 +1204,6 @@ export default {
 			state.layout[0].children.push(tmpPage);
 			console.log('after layout', state.layout);
 			layoutAction.setActivePage(state.layoutState, state.layout[0].children.length - 1, tmpPage.key, 2);
-			console.log("addPage2222222222:::::::::::::::::::::::",state.layout)
 			return {...state};
 		},
 
@@ -1315,64 +1326,58 @@ export default {
 		handleAttrRefreshed (state) {
 			var activePage = layoutAction.getActivePage(state);
 
-	    		if(!gospelDesigner) {
-	    			message.error('请先打开编辑器！');
-	    			return {...state};
-	    		}
+    		if(!gospelDesigner) {
+    			message.error('请先打开编辑器！');
+    			return {...state};
+    		}
 
-	    		if(state.layoutState.activeType == 'page') {
+    		if(state.layoutState.activeType == 'page') {
 
-		    		gospelDesigner.postMessage({
-		    			attrRefreshed: activePage
-		    		}, '*');
+	    		gospelDesigner.postMessage({
+	    			attrRefreshed: activePage
+	    		}, '*');
 
-	    		}
+    		}
 
-	    		if(state.layoutState.activeType == 'controller') {
-	    			var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
-
-		    		gospelDesigner.postMessage({
-		    			attrRefreshed: activeCtrl
-		    		}, '*');
-	    		}
-	    		console.log('handleAttrRefreshed222222222222:::::::::::::::::', state.layout);
-	    		return {...state};
-
+    		if(state.layoutState.activeType == 'controller') {
+    			var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
+	    		gospelDesigner.postMessage({
+	    			attrRefreshed: activeCtrl
+	    		}, '*');
+    		}
+    		return {...state};
 		},
 
 		handleCtrlSelected (state) {
-			console.log("handleCtrlSelected111111111111:::::::::::::::",state.layout);
 			var activePage = layoutAction.getActivePage(state);
 
-	    		var gospelDesigner = window.frames['gospel-designer'];
+    		var gospelDesigner = window.frames['gospel-designer'];
 
-	    		if(!gospelDesigner) {
-	    			message.error('请先打开编辑器！')
-	    			return false;
-	    		}
+    		if(!gospelDesigner) {
+    			message.error('请先打开编辑器！')
+    			return false;
+    		}
 
-	    		if(state.layoutState.activeType == 'page') {
+    		if(state.layoutState.activeType == 'page') {
 
-		    		gospelDesigner.postMessage({
-		    			ctrlSelected: activePage
-		    		}, '*');
+	    		gospelDesigner.postMessage({
+	    			ctrlSelected: activePage
+	    		}, '*');
 
-	    		}
+    		}
 
-	    		if(state.layoutState.activeType == 'controller') {
-	    			var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
+    		if(state.layoutState.activeType == 'controller') {
+    			var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
 
-		    		gospelDesigner.postMessage({
-		    			ctrlSelected: activeCtrl
-		    		}, '*');
-	    		}
-	    		console.log("handleCtrlSelected222222222222222:::::::::::::::",state.layout);
-	    		return {...state};
+	    		gospelDesigner.postMessage({
+	    			ctrlSelected: activeCtrl
+	    		}, '*');
+    		}
+    		return {...state};
 
 		},
 
 		handlePageAdded (state) {
-			console.log("handlePageAdded11111:::::::::::::::",state.layout);
 			var activePage = layoutAction.getActivePage(state);
 
 	    		var gospelDesigner = window.frames['gospel-designer'];
@@ -1397,13 +1402,11 @@ export default {
 		    			pageAdded: activeCtrl
 		    		}, '*');
 	    		}
-	    		console.log("handlePageAdded222222:::::::::::::::",state.layout);
 	    		return {...state};
 
 		},
 
 		handleAttrFormChange(state, { payload: params }) {
-			console.log('handleAttrFormChange11111:::::::::::::::::', state.layout);
 			console.log(params)
 			var activePage = layoutAction.getActivePage(state);
 			console.log("activePage:",activePage);
@@ -1449,7 +1452,6 @@ export default {
 	      		activeCtrl.attr[params.attrName]['_value'] = params.newVal;
 
 			}
-			console.log('handleAttrFormChange222:::::::::::::::::', state.layout);
 			return {...state};
 		}
 

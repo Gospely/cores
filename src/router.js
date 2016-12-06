@@ -5,6 +5,8 @@ import IndexPage from './routes/IndexPage';
 import Products from './routes/Products';
 
 export default function({ history }) {
+
+
   return (
     <Router history={history}>
       	<Route path="/" component={IndexPage}>

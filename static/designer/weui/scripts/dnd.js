@@ -1,68 +1,166 @@
 (function(){
 
-	//---------------------------初始化路由---------------------------
-
-	var router = new Router({
-	    container: '#gospel-designer-container'
-	});
-
-	var routerMap = [];
-
-	var home = {
-		    url: '/',
-		    className: 'home',
-		    render: function (){
-		        return '<div class="page"><div class="page__hd"><h1 class="page__title">hello, world</h1><p class="page__desc">Gospely 小程序可视化开发工具，让小程序无边界</p></div><div class="page__bd page__bd_spacing"></div><div class="page__ft"><span class="weui-footer__text">Copyright © 2016 gospely.com</span></div></div>';
-		    }
-		},
-
-		post = {
-		    url: '/post/:id',
-		    className: 'post',
-		    render: function (){
-		        var id = this.params.id;
-		        return '<h1>post</h1>';
-		    }
-		};
-
-	var routerMap = [home, post],
-		routerInstance;
-
-	for (var i = 0; i < routerMap.length; i++) {
-		var currentRouter = routerMap[i];
-		routerInstance = router.push(currentRouter);
-	};
-
-	routerInstance.setDefault('/').init();
-
-	//---------------------------初始化路由---------------------------
-
 	var jq = jQuery.noConflict();
 	var data;
 
 	//获取父元素
 	var parent_window = window.parent;
 
+	var pageAction = {
+
+			changeNavigationBarTitleText: function(title) {
+				jq('#gospel-app-title').html(title);
+			},
+
+			changeNavigationBarBackgroundColor: function(color) {
+				jq('#navigation-bar').css('background-color', color);
+			},
+
+			changeNavigationBarTextStyle: function(style) {
+				style = style == 'white' ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)';
+				jq('#gospel-app-title').css('color', style);
+			},
+
+			changeBackgroundTextStyle: function(style) {
+				style = style == 'light' ? '200' : '400';
+				jq('#gospel-app-title').css('font-weight', style);
+			},
+
+			changeBackgroundColor: function(color) {
+				$('body').css('background-color', color);
+			}
+
+		},
+
+		pageRender = {
+
+			render: function(params) {
+				pageAction.changeNavigationBarTitleText(params.navigationBarTitleText._value);
+				pageAction.changeNavigationBarBackgroundColor(params.navigationBarBackgroundColor._value);
+				pageAction.changeNavigationBarTextStyle(params.navigationBarTextStyle._value);			
+				pageAction.changeBackgroundTextStyle(params.backgroundTextStyle._value);			
+				pageAction.changeBackgroundColor(params.backgroundColor._value);
+			}
+
+		};
+
+	var initApp = function(designer) {
+			console.log('handleLayout added', designer);
+			var layout = designer.layout,
+				layoutState = designer.layoutState,
+				app = layout[0],
+				pages = app.children;
+
+			pageAction.changeNavigationBarTitleText(app.attr.window._value.navigationBarTitleText._value);
+			pageAction.changeNavigationBarBackgroundColor(app.attr.window._value.navigationBarBackgroundColor._value);
+			pageAction.changeNavigationBarTextStyle(app.attr.window._value.navigationBarTextStyle._value);			
+			pageAction.changeBackgroundTextStyle(app.attr.window._value.backgroundTextStyle._value);			
+			pageAction.changeBackgroundColor(app.attr.window._value.backgroundColor._value);			
+
+			var initRouter = function(pages) {
+
+				window.router = new Router({
+				    container: '#gospel-designer-container',
+			        enterTimeout: 300,
+				    leaveTimeout: 300
+				});
+
+				var routerMap = [],
+					routerInstance;
+
+				for (var i = 0; i < pages.length; i++) {
+					var currentPage = pages[i];
+					console.log('currentPage', currentPage);
+					var attr = currentPage.attr;
+					var tmpRoute = {
+						url: attr.routingURL._value,
+						className: '',
+
+						render: function () {
+
+						},
+
+						bind: function() {
+							pageRender.render(attr);
+						}
+					}
+					routerInstance = router.push(tmpRoute);
+				};
+
+				routerInstance.setDefault('/').init();
+
+			}(pages);
+
+		},
+
+		refreshApp = function(data) {
+			console.log('refreshApp', data);
+
+			var ctrlAction = {
+
+				page: function() {
+					var attr = data.attr.window || data.attr;
+
+					// if(attr) 
+
+					pageAction.changeNavigationBarTitleText(attr.navigationBarTitleText._value);
+					pageAction.changeNavigationBarBackgroundColor(attr.navigationBarBackgroundColor._value);
+					pageAction.changeNavigationBarTextStyle(attr.navigationBarTextStyle._value);			
+					pageAction.changeBackgroundTextStyle(attr.backgroundTextStyle._value);			
+					pageAction.changeBackgroundColor(attr.backgroundColor._value);						
+				},
+
+				controller: function() {
+
+				}
+
+			}
+
+			ctrlAction[data.type]();
+
+		},
+
+		navToPage = function(data) {
+			if(data.attr.routingURL) {
+				router.go(data.attr.routingURL._value);
+			}
+		};
+
 	window.addEventListener("message", function (evt) {
 
 		var data = evt.data;
+
+		console.log('addEventListener', data);
 
 		var evtAction = {
 
 			attrRefreshed: function() {
 				console.log('attrRefreshed', data);
+				refreshApp(data);
 			},
 
 			ctrlSelected: function() {
 				console.log('ctrlSelected', data);
+				var ctrlSelectedAction = {
+					page: function() {
+						navToPage(data);
+					},
+
+					controller: function() {
+
+					}
+				}
+				ctrlSelectedAction[data.type]();
 			},
 
 			pageAdded: function() {
 				console.log('pageAdded', data);
+
 			},
 
 			pageRemoved: function() {
 				console.log('pageRemoved', data);
+				var controller = data;
 			},
 
 			ctrlAdded: function() {
@@ -70,6 +168,14 @@
 				var controller = data;
 				var wrapper = allComponents.genWrapper(controller);
 				var appended = jq(parent_window.currentTarget).append(wrapper);
+			},
+
+			layoutLoaded: function() {
+				initApp(data);
+			},
+
+			pageSelected:function(){
+				console.log('pageSelected',data);
 			}
 		}
 
@@ -80,6 +186,7 @@
 		}
 
 		if(evtAction[eventName]) {
+			console.log('key', data[key]);
 			data = data[key];
 			evtAction[eventName]();
 		}
@@ -98,7 +205,7 @@
 	});
 
 	//拖拽结束
-	jq("body").on("drop",function(e){
+	jq("#gospel-designer-container").on("drop",function(e){
 		e.preventDefault(); 
 		// var data = e.dataTransfer.getData("Text");
 		// var item = jq(data).cloneNode();//复制节点
@@ -115,9 +222,13 @@
 
 	//点击i，删除当前组件
 	jq(document).on("click",".control-box i",function(e){
+		var dataControl = jq(this).parent().attr("data-control");
+		console.log("dataControl",dataControl);
+		//删除组件时向父级发送ctrlRemoved的信息;
+		postMessageToFather.ctrlRemoved(dataControl);
 		e.stopPropagation();
 		jq(e.target).parent(".control-box").remove();
-	})
+	});
 
 	//点击组件
 	jq(document).on("click",".control-box",function(e){
@@ -131,20 +242,24 @@
 		jq(this).addClass("hight-light");
 		//监听拖动事件
 	});
-		
+	
+	//鼠标按下
 	jq(document).on("mousedown",".control-box",function(e){
 		jq(this).dragging({
-			move : 'both'
+			move : 'y'
 		});
 	});
+
+	//鼠标进入
 	jq(document).on("mouseenter",".control-box",function(e){
+		hideBorder();
 		jq(this).find("i").show();
 		jq(this).addClass("hight-light");
 	});
+	//鼠标移出
 	jq(document).on("mouseleave",".control-box",function(e){
 		hideBorder();
 	});
-
 
 	//点击其他区域隐藏border和i
 	jq("body").on("click", function(){
