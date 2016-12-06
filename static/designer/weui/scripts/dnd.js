@@ -83,7 +83,6 @@
 						},
 
 						bind: function() {
-							// pageRender.render(attr);
 						}
 					}
 					routerInstance = router.push(tmpRoute);
@@ -185,6 +184,9 @@
 			},
 
 			ctrlSelected: function() {
+
+				console.log('ctrlSelected', data);
+
 				var ctrlSelectedAction = {
 					page: function() {
 						navToPage(data);
@@ -194,7 +196,10 @@
 
 					}
 				}
-				ctrlSelectedAction[data.type]();
+
+				if(data && data.type) {
+					ctrlSelectedAction[data.type]();					
+				}
 			},
 
 			pageAdded: function() {
@@ -208,7 +213,6 @@
 					},
 
 					bind: function() {
-						// pageRender.render(data.attr);
 					}
 				}
 				window.router.push(tmpRoute);

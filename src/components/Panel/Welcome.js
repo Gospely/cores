@@ -53,7 +53,8 @@ const Welcome = (props) => {
 				<Icon type="bulb" style={{marginRight: 5}} />
 				查看帮助
 			</a>
-			<p style={{marginTop: 250}}>先进的web在线集成开发环境</p>
+			<p style={{marginTop: 250}}>Gospel</p>
+			<p>为解放开发者生产力而生</p>
 			<p>版本 1.0</p>
 		</div>
 		

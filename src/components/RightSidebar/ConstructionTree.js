@@ -95,49 +95,30 @@ const ConstructionTree = (props) => {
         loopData(props.designer.layout);
 
         if(isDeleteAll) {
+          if (type == 'Controller') {
 
-            if (type == 'Controller') {
+          }else {
 
-            }else {
-
-              
-
-            }
-
+          }
         }
 
         props.dispatch({
-
-            type: 'designer/deleteConstruction',
-
-            payload: {
-
-                type,
-
-                deleteIndex,
-
-                key,
-
-                lastIndex,
-
-                level
-
-            }
-
+          type: 'designer/deleteConstruction',
+          payload: {
+            type,
+            deleteIndex,
+            key,
+            lastIndex,
+            level
+          }
         });
 
         props.dispatch({
-
-            type: 'attr/setFormItemsByType', 
-
-            payload: {
-
-              type, 
-
-              key
-
-            }
-
+          type: 'attr/setFormItemsByType', 
+          payload: {
+            type, 
+            key
+          }
         })
 
     };
@@ -147,69 +128,44 @@ const ConstructionTree = (props) => {
   const layoutTreeProps = {
 
     onRightClick(proxy) {
-
-      console.log(proxy)
-
       localStorage.currentSelectedConstruction = proxy.node.props.eventKey;
-
-      props.dispatch({type: 'designer/showConstructionMenu',payload: proxy})
-
+      props.dispatch({type: 'designer/showConstructionMenu', payload: proxy});
     },
 
     onSelect: function(e, node) {
 
       if(e.length === 0) {
-
         return false;
-
       }
 
       var elemSelected = e[0];
-
       var elemType = elemSelected.split('-')[0];
 
       console.log(elemSelected);
 
       props.dispatch({
-
         type: 'rightbar/setActiveMenu',
-
         payload: 'attr'
-
       });
 
       props.dispatch({
-
         type: 'attr/setFormItemsByType',
-
         payload: {
-
           key: elemSelected,
-
           type: elemType
-
         }
-
       });
 
       props.dispatch({
-
         type: 'designer/handleTreeChanged',
-
         payload: {
-
           key: e[0],
-
           type: elemType
-
         }
-
-      })
+      });
 
       props.dispatch({
-
         type: 'designer/handleCtrlSelected'
-
       });
 
     }
@@ -221,29 +177,20 @@ const ConstructionTree = (props) => {
     addThisPage () {
 
       props.dispatch({
-
         type: 'designer/addPage'
-
       });
 
       props.dispatch({
-
         type: 'rightbar/setActiveMenu',
-
         payload: 'attr'
-
       });
 
       props.dispatch({
-
         type: 'attr/setFormItemsByDefault'
-
       });
 
       props.dispatch({
-
         type: 'designer/handlePageAdded'
-
       });
 
     }
@@ -257,39 +204,24 @@ const ConstructionTree = (props) => {
     content: (
 
       <div>
-
         <Row gutter={16} type="flex" justify="space-around" align="middle">
-
           <Col span={12}>
-
             <Card onClick={addPageProps.addThisPage} loading title="空白页面">
-
               空白页面
-
             </Card>
-
           </Col>
-
           <Col span={12}>
-
             <Card onClick={addPageProps.addThisPage}  loading title="登录页面">
-
               空白页面
-
             </Card>
-
-          </Col>       
-
-        </Row>     
-
+          </Col>
+        </Row>
       </div>
 
     ),
 
     overlayStyle: {
-
       width: '50%'
-
     }
 
   }
@@ -297,15 +229,11 @@ const ConstructionTree = (props) => {
   const loopData = data => data.map((item) => {
 
     if (item.children) {
-
       return <TreeNode title={item.attr.title._value} key={item.key}>{loopData(item.children)}</TreeNode>;
-
     }
 
     return (
-
-        <TreeNode title={item.attr.title._value} key={item.key} isLeaf={item.isLeaf} />
-
+      <TreeNode title={item.attr.title._value} key={item.key} isLeaf={item.isLeaf} />
     );
 
   });
@@ -315,47 +243,28 @@ const ConstructionTree = (props) => {
 return (
 
     <div style={{marginTop: -20}}>
-
       <div className={TreeStyle.headerCons}>
-
         <Row>
-
           <Col span={24}>
-
             <Button onClick={addPageProps.addThisPage} className={TreeStyle.topbarBtnCons}><Icon type="plus" />添加页面</Button>
-
           </Col>
-
         </Row>
-
       </div>
 
       <Tree className="layoutTree" 
-
         showLine 
-
         defaultExpandAll
-
         onRightClick={layoutTreeProps.onRightClick}
-
         onSelect={layoutTreeProps.onSelect}
-
         selectedKeys={[props.designer.layoutState.activeKey]}
-
         expandedKeys={props.designer.layoutState.expandedKeys}
-
       >
-
         {treeNodes}
-
       </Tree>
 
       <Menu style={props.designer.constructionMenuStyle} onClick={deleteThisConstruction} className="context-menu">
-
         <Menu.Item key="read">删除</Menu.Item>
-
       </Menu>
-
     </div>
 
 );
@@ -363,9 +272,7 @@ return (
 };
 
 function mapStateToProps({ designer, attr, construction }) {
-
   return { designer, attr, construction };
-
 }
 
 export default connect(mapStateToProps)(ConstructionTree);

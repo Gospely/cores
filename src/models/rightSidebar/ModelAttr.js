@@ -54,10 +54,6 @@ export default {
 	      			activePage = layouts[0].children[activePage.index];
 	      		}
 
-	      		// activePage = layouts[0].children[0];
-
-	      		console.log('-----------------------------------------',activePage)
-
 	      		const loopChildren = (page) => {
 
 	      			var ct;
@@ -79,7 +75,46 @@ export default {
 
 	      		};
 
+	      		const findParentPageByKey = (pages) => {
+
+	      			var obj = {
+	      				page: {},
+	      				ctrl: {}
+	      			};
+
+	      			for (var i = 0; i < pages.length; i++) {
+	      				var currentPage = pages[i],
+	      					controllersList = currentPage.children;
+
+	      				obj.ctrl = loopChildren(controllersList);
+
+	      				if(obj.ctrl) {
+	      					obj.page = currentPage;
+	      					break;
+	      				}
+
+	      			};
+	      			return obj;
+	      		}
+
 	      		activeCtrl = loopChildren(activePage.children);
+
+	      		if(!activeCtrl) {
+
+	      			var parentPageAndCtrl = findParentPageByKey(layouts[0].children)
+	      			activeCtrl = parentPageAndCtrl.ctrl;
+
+	      			//置上级page为当前活跃page
+				    yield put({
+				        type: 'designer/handleTreeChanged',
+				        payload: {
+				          key: parentPageAndCtrl.page.key,
+				          type: 'page'
+				        }
+				    });
+	      		}
+
+	      		console.log('=============activeCtrl', activeCtrl);
 
       		}
 
@@ -116,7 +151,9 @@ export default {
       				type: elemType
       			}
       		})
-      	}
+      	},
+
+
 
 	},
 
