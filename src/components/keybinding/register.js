@@ -64,8 +64,7 @@ const HotKeyHandler = {
 				}
 			});
 
-			if(keyCode == keymap['ctrl']){
-				console.log("ctrl" + keymap['ctrl']);
+			if(keyCode == keymap['ctrl'] || keyCode == keymap['command']){
 				HotKeyHandler.currentMainKey=keyCode;
 				console.log(HotKeyHandler.currentMainKey);
 

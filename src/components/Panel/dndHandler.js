@@ -15,7 +15,7 @@ export default {
 
 			var data = evt.data, 
 				eventName = '';
-
+				console.log("data::::::",data);
 			const evtAction = {
 
 				ctrlClicked () {
@@ -23,7 +23,7 @@ export default {
 				},
 
 				ctrlEdited () {
-
+					console.log(eventName,data);
 				},
 
 				ctrlToBeAdded () {
@@ -47,6 +47,7 @@ export default {
 				},
 
 				ctrlRemoved () {
+					console.log(eventName,data);
 
 				}
 
