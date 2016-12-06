@@ -1,7 +1,7 @@
 import fetch from 'dva/fetch';
 import configs from '../configs.js';
 
-const auth = function (router){
+const auth = function (router) {
 
 	console.log("====================auth=======================");
 	console.log(router);
@@ -39,4 +39,5 @@ const auth = function (router){
 	return true;
 
 }
+
 export default auth;

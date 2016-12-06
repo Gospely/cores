@@ -14,6 +14,7 @@ import auth from './utils/auth';
 window.flag = false;
 //认证和状态同步
 auth();
+
 // 1. Initialize
 const app = dva({
 	initialState: {
@@ -30,9 +31,6 @@ const app = dva({
 	  	message.error(e.message);
 	}
 });
-
-console.log(app);
-// 登录状态同步
 
 // 2. Plugins
 //app.use({});

@@ -1,42 +1,5 @@
 (function(){
 
-	//---------------------------初始化路由---------------------------
-
-	var router = new Router({
-	    container: '#gospel-designer-container'
-	});
-
-	var routerMap = [];
-
-	var home = {
-		    url: '/',
-		    className: 'home',
-		    render: function () {
-		        return '';
-		    }
-		},
-
-		post = {
-		    url: '/post/:id',
-		    className: 'post',
-		    render: function () {
-		        var id = this.params.id;
-		        return '<h1>post</h1>';
-		    }
-		};
-
-	var routerMap = [home, post],
-		routerInstance;
-
-	for (var i = 0; i < routerMap.length; i++) {
-		var currentRouter = routerMap[i];
-		routerInstance = router.push(currentRouter);
-	};
-
-	routerInstance.setDefault('/').init();
-
-	//---------------------------初始化路由---------------------------
-
 	var jq = jQuery.noConflict();
 	var data;
 
@@ -45,29 +8,41 @@
 
 	var pageAction = {
 
-		changeNavigationBarTitleText: function(title) {
-			jq('#gospel-app-title').html(title);
+			changeNavigationBarTitleText: function(title) {
+				jq('#gospel-app-title').html(title);
+			},
+
+			changeNavigationBarBackgroundColor: function(color) {
+				jq('#navigation-bar').css('background-color', color);
+			},
+
+			changeNavigationBarTextStyle: function(style) {
+				style = style == 'white' ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)';
+				jq('#gospel-app-title').css('color', style);
+			},
+
+			changeBackgroundTextStyle: function(style) {
+				style = style == 'light' ? '200' : '400';
+				jq('#gospel-app-title').css('font-weight', style);
+			},
+
+			changeBackgroundColor: function(color) {
+				$('body').css('background-color', color);
+			}
+
 		},
 
-		changeNavigationBarBackgroundColor: function(color) {
-			jq('#navigation-bar').css('background-color', color);
-		},
+		pageRender = {
 
-		changeNavigationBarTextStyle: function(style) {
-			style = style == 'white' ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)';
-			jq('#gospel-app-title').css('color', style);
-		},
+			render: function(params) {
+				pageAction.changeNavigationBarTitleText(params.navigationBarTitleText._value);
+				pageAction.changeNavigationBarBackgroundColor(params.navigationBarBackgroundColor._value);
+				pageAction.changeNavigationBarTextStyle(params.navigationBarTextStyle._value);			
+				pageAction.changeBackgroundTextStyle(params.backgroundTextStyle._value);			
+				pageAction.changeBackgroundColor(params.backgroundColor._value);
+			}
 
-		changeBackgroundTextStyle: function(style) {
-			style = style == 'light' ? '200' : '400';
-			jq('#gospel-app-title').css('font-weight', style);
-		},
-
-		changeBackgroundColor: function(color) {
-			$('body').css('background-color', color);
-		}
-
-	}
+		};
 
 	var initApp = function(designer) {
 			console.log('handleLayout added', designer);
@@ -84,25 +59,38 @@
 
 			var initRouter = function(pages) {
 
-				var tmpRoute = {
-					url: '',
-					className: '',
-					render: function () {
+				window.router = new Router({
+				    container: '#gospel-designer-container',
+			        enterTimeout: 300,
+				    leaveTimeout: 300
+				});
 
-					}
-				}
+				var routerMap = [],
+					routerInstance;
 
 				for (var i = 0; i < pages.length; i++) {
 					var currentPage = pages[i];
-					console.log(currentPage);
+					console.log('currentPage', currentPage);
+					var attr = currentPage.attr;
+					var tmpRoute = {
+						url: attr.routingURL._value,
+						className: '',
+
+						render: function () {
+
+						},
+
+						bind: function() {
+							pageRender.render(attr);
+						}
+					}
+					routerInstance = router.push(tmpRoute);
 				};
 
-				return tmpRoute;
-			}
+				routerInstance.setDefault('/').init();
 
-			var routerList = initRouter(pages);
+			}(pages);
 
-			console.log(routerList);
 		},
 
 		refreshApp = function(data) {
@@ -111,11 +99,15 @@
 			var ctrlAction = {
 
 				page: function() {
-					pageAction.changeNavigationBarTitleText(data.attr.window._value.navigationBarTitleText._value);
-					pageAction.changeNavigationBarBackgroundColor(data.attr.window._value.navigationBarBackgroundColor._value);
-					pageAction.changeNavigationBarTextStyle(data.attr.window._value.navigationBarTextStyle._value);			
-					pageAction.changeBackgroundTextStyle(data.attr.window._value.backgroundTextStyle._value);			
-					pageAction.changeBackgroundColor(data.attr.window._value.backgroundColor._value);			
+					var attr = data.attr.window || data.attr;
+
+					// if(attr) 
+
+					pageAction.changeNavigationBarTitleText(attr.navigationBarTitleText._value);
+					pageAction.changeNavigationBarBackgroundColor(attr.navigationBarBackgroundColor._value);
+					pageAction.changeNavigationBarTextStyle(attr.navigationBarTextStyle._value);			
+					pageAction.changeBackgroundTextStyle(attr.backgroundTextStyle._value);			
+					pageAction.changeBackgroundColor(attr.backgroundColor._value);						
 				},
 
 				controller: function() {
@@ -126,14 +118,19 @@
 
 			ctrlAction[data.type]();
 
-		}
+		},
 
+		navToPage = function(data) {
+			if(data.attr.routingURL) {
+				router.go(data.attr.routingURL._value);
+			}
+		};
 
 	window.addEventListener("message", function (evt) {
 
 		var data = evt.data;
 
-		console.log('addEventListener', evt);
+		console.log('addEventListener', data);
 
 		var evtAction = {
 
@@ -142,8 +139,18 @@
 				refreshApp(data);
 			},
 
-			ctrlSelected: function(data) {
+			ctrlSelected: function() {
 				console.log('ctrlSelected', data);
+				var ctrlSelectedAction = {
+					page: function() {
+						navToPage(data);
+					},
+
+					controller: function() {
+
+					}
+				}
+				ctrlSelectedAction[data.type]();
 			},
 
 			pageAdded: function() {
@@ -163,13 +170,12 @@
 				var appended = jq(parent_window.currentTarget).append(wrapper);
 			},
 
-<<<<<<< HEAD
 			layoutLoaded: function() {
 				initApp(data);
-=======
+			},
+
 			pageSelected:function(){
 				console.log('pageSelected',data);
->>>>>>> 4dba7728f8700ca159539bab42022ed728fae395
 			}
 		}
 
@@ -180,6 +186,7 @@
 		}
 
 		if(evtAction[eventName]) {
+			console.log('key', data[key]);
 			data = data[key];
 			evtAction[eventName]();
 		}
