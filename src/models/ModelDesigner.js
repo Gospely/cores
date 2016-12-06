@@ -1341,22 +1341,11 @@ export default {
 
     		if(state.layoutState.activeType == 'controller') {
     			var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
-
-<<<<<<< HEAD
 	    		gospelDesigner.postMessage({
 	    			attrRefreshed: activeCtrl
 	    		}, '*');
     		}
-    		console.log('handleAttrRefreshed222222222222:::::::::::::::::', state.layout);
     		return {...state};
-=======
-		    		gospelDesigner.postMessage({
-		    			attrRefreshed: activeCtrl
-		    		}, '*');
-	    		}
-	    		return {...state};
->>>>>>> 4dba7728f8700ca159539bab42022ed728fae395
-
 		},
 
 		handleCtrlSelected (state) {
