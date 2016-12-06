@@ -45,7 +45,7 @@ const LeftSidebar = (props) => {
 		if(props.sidebar.applications.length < 1) {
 			return;
 		}
-		console.log('side');
+		console.log('side==================', props);
 		return props.sidebar.applications.map(application => {
 			return   <Col className="gutter-row" span={6} style={{marginTop: 20}} key={application.id}>
 						 <div className="gutter-box">
@@ -69,7 +69,7 @@ const LeftSidebar = (props) => {
 	};
 	const designer = () => {
 
-		if(props.devpanel.devType.visual == 'true') {
+		if(props.devpanel.devType.visual) {
 			return (
 				<Menu.Item key="designer">
 					<Icon type="windows-o" />
@@ -260,6 +260,8 @@ const LeftSidebar = (props) => {
 			localStorage.dir = localStorage.user + '/' + application.name + '_' + localStorage.userName + "/";
 			localStorage.currentProject = application.name;
 			localStorage.port = application.port;
+			localStorage.sshPort = application.sshPort;
+			localStorage.socketPort = application.socketPort;
 			localStorage.domain = application.domain;
 			localStorage.currentFolder = localStorage.user + '/' + application.name + '_' + localStorage.userName;
 

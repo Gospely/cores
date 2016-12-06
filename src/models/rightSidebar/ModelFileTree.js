@@ -44,7 +44,7 @@ export default {
 		},
 
 		uploadInput: {
-			value: '',
+			value: [],
 			visible: false
 		},
 
@@ -72,6 +72,13 @@ export default {
 			visible: false,
 			value: '',
 			title: ''
+		},
+		uploadModal: {
+			visible: false,
+			title: '上传文件',
+			value: '',
+			needUnZip: false,
+			isUnZip: true
 		},
 		searchFilePane: {
 			visible: false,
@@ -255,6 +262,7 @@ export default {
       	},
       	*handleUpload({payload: fileName}, {call, put, select}) {
       		var val = yield select(state => state.file.uploadInput.value);
+      		console.log(val)
       	},
 
       	*handleSearch({payload: params}, {call, put, select}) {
@@ -390,10 +398,21 @@ export default {
 			// state.searchFilePane.files = result;
 			return {...state};
 		},
-		handleUploadInputChange(state, {payload: val}) {
-			return {...state, uploadInput: {
-				value: val
-			}};
+		handleUploadInputChange(state, {payload: info}) {
+			console.log(info)
+			state.uploadInput.value.push(info.file)
+			return {...state};
+		},
+
+		switchNeedUnZip(state,{payload: needUnZip}) {
+			state.uploadModal.needUnZip = needUnZip.needUnZip;
+			return {...state};
+		},
+
+		switchIsUnZip(state, {payload: checked}) {
+			// alert(checked)
+			state.uploadModal.isUnZip = checked;
+			return {...state};
 		},
 
 		hideRenameModal(state) {
@@ -418,6 +437,16 @@ export default {
 				visible: false,
 				showInput: false
 			}};
+		},
+
+		hideUploadModal(state) {
+			state.uploadModal.visible = false;
+			return {...state}
+		},
+
+		showUploadModal(state) {
+			state.uploadModal.visible = true;
+			return {...state}
 		},
 
 		showSaveModal(state, {payload: params}) {

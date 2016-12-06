@@ -26,7 +26,6 @@ export default {
 	effects: {
 
 		*readConfig({ payload: params }, { call, put, select }) {
-
   			var configs = yield request('uistates/' + params.id, {
       			method: 'get'
       		});
@@ -73,7 +72,7 @@ export default {
 
 		*writeConfig({ payload: params }, { call, put, select }) {
 			var result = yield request('UIStates', {
-      			method: 'POST',
+      			method: 'UPDATE',
       			body: params
       		});
 		},
@@ -108,10 +107,14 @@ export default {
 	reducers: {
 
 		setDySave(state, { payload: params }) {
-			state.dySave = params.dySave;
-			state.gap = params.gap;
+			state.dySave = params.checked;
 			return {...state};
-		}
+		},
+
+            setDySaveGap(state, { payload: params }) {
+                  state.gap = params.val;
+                  return {...state};
+            }
 
 	}
 
