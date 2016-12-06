@@ -58,4 +58,15 @@
     background-color: #e7f4fd;
 }
 
+.uploadInput {
+    margin-left: 48px;
+    width: 300px;
+}
+
+@media screen and (max-width: 400px) {
+    .uploadInput {
+        margin-left: 0;
+    }
+}
+
 
