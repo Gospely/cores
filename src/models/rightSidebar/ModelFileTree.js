@@ -1,6 +1,7 @@
 import dva from 'dva';
 import request from '../../utils/request.js';
-import randomWord from '../../utils/randomString.js'
+import randomWord from '../../utils/randomString.js';
+import { message } from 'antd';
 
 const findParentNode = (treeData, parentDirName, lvl) => {
 	var parentNode;
@@ -76,9 +77,10 @@ export default {
 		uploadModal: {
 			visible: false,
 			title: '上传文件',
-			value: '',
+			folderValue: '',
 			needUnZip: false,
-			isUnZip: true
+			isUnZip: false,
+			unZiping: false,
 		},
 		searchFilePane: {
 			visible: false,
@@ -264,10 +266,10 @@ export default {
 						}
 					}
       	},
-      	*handleUpload({payload: fileName}, {call, put, select}) {
-      		var val = yield select(state => state.file.uploadInput.value);
-      		console.log(val)
-      	},
+      	// *handleUpload({payload: fileName}, {call, put, select}) {
+      	// 	var val = yield select(state => state.file.uploadInput.value);
+      	// 	console.log(val)
+      	// },
 
       	*handleSearch({payload: params}, {call, put, select}) {
 
@@ -287,6 +289,23 @@ export default {
 						console.log(result);
 						yield put({type: 'showSearchPane',payload: {result}});
 					}
+      	},
+
+      	*unZipFile({payload: params}, {call, put, select}) {
+      		var folder = yield select(state => state.file.uploadModal.folderValue);
+      		if (folder == '') {
+      			message.error('请选择解压文件夹');
+      			return;
+      		}
+      		yield put({type: 'switchUnZipState', payload: true});
+      		var mkResult = yield request('fs/', {
+      			method: 'POST',
+      			body: folder
+      		});
+      		console.log(mkResult);
+      		yield put({type: 'switchUnZipState', payload: false});
+      		yield put({type: 'switchIsUnZip', payload: false});
+      		yield put({type: 'switchIsNeedUnZip', payload: false});
       	}
 	},
 
@@ -404,18 +423,36 @@ export default {
 		},
 		handleUploadInputChange(state, {payload: info}) {
 			console.log(info)
-			state.uploadInput.value.push(info.file)
+			if (info.file.status == 'done') {
+				let suffix = info.file.name.split('.').pop();
+				let compressionSuffix = ['png','rar','zip','cab','arj','lzh','ace','7-zip','tar','gzip','uue','bz2','jar','iso','z'];
+				compressionSuffix.forEach(suf => {
+				    if (suf == suffix) {
+				        state.uploadModal.needUnZip = true;
+				    }
+				})
+			}
 			return {...state};
 		},
 
-		switchNeedUnZip(state,{payload: needUnZip}) {
-			state.uploadModal.needUnZip = needUnZip.needUnZip;
+		handleUploadFolderChange(state, {payload: val}) {
+			state.uploadModal.folderValue = val;
 			return {...state};
 		},
 
 		switchIsUnZip(state, {payload: checked}) {
 			// alert(checked)
 			state.uploadModal.isUnZip = checked;
+			return {...state};
+		},
+
+		switchUnZipState(state, {payload: val}) {
+			state.uploadModal.unZiping = val;
+			return {...state};
+		},
+
+		switchIsNeedUnZip(state, {payload: val}) {
+			state.uploadModal.needUnZip = val;
 			return {...state};
 		},
 

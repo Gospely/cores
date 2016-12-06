@@ -428,7 +428,7 @@ export default {
 								title: '路由',
 								isClassName: false,
 								isHTML: false,
-								_value: '/pages/page/index'
+								_value: '/'
 							}
 
 						},
@@ -1351,29 +1351,29 @@ export default {
 		handleCtrlSelected (state) {
 			var activePage = layoutAction.getActivePage(state);
 
-	    		var gospelDesigner = window.frames['gospel-designer'];
+    		var gospelDesigner = window.frames['gospel-designer'];
 
-	    		if(!gospelDesigner) {
-	    			message.error('请先打开编辑器！')
-	    			return false;
-	    		}
+    		if(!gospelDesigner) {
+    			message.error('请先打开编辑器！')
+    			return false;
+    		}
 
-	    		if(state.layoutState.activeType == 'page') {
+    		if(state.layoutState.activeType == 'page') {
 
-		    		gospelDesigner.postMessage({
-		    			ctrlSelected: activePage
-		    		}, '*');
+	    		gospelDesigner.postMessage({
+	    			ctrlSelected: activePage
+	    		}, '*');
 
-	    		}
+    		}
 
-	    		if(state.layoutState.activeType == 'controller') {
-	    			var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
+    		if(state.layoutState.activeType == 'controller') {
+    			var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
 
-		    		gospelDesigner.postMessage({
-		    			ctrlSelected: activeCtrl
-		    		}, '*');
-	    		}
-	    		return {...state};
+	    		gospelDesigner.postMessage({
+	    			ctrlSelected: activeCtrl
+	    		}, '*');
+    		}
+    		return {...state};
 
 		},
 

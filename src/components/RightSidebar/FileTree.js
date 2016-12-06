@@ -1,5 +1,7 @@
 import React , { PropTypes } from 'react';
-import { Tree, Switch, Button, Icon, Tooltip, Row, Col, Popover, Input, Dropdown, Menu, Popconfirm, message, Modal, AutoComplete, Upload } from 'antd';
+import { Tree, Switch, Button, Icon, Tooltip, TreeSelect,
+         Row, Col, Popover, Input, Dropdown, Menu, Popconfirm, message,
+         Modal, AutoComplete, Upload } from 'antd';
 import TreeStyle from './styles.css';
 import EditorStyle from '../Panel/Editor.css';
 
@@ -241,46 +243,48 @@ const FileTree = (props) => {
           })
         }
       },
-      switchIsUnZip(checked) {
+
+      folderChange(val) {
         props.dispatch({
-            type: 'file/switchIsUnZip',
-            payload: checked
+            type: 'file/handleUploadFolderChange',
+            payload: val
         })
       },
+
+      switchIsUnZip: function (checked) {
+          props.dispatch({
+            type: 'file/switchIsUnZip',
+            payload: checked
+          })
+      },
+
+      confirmUnZip: function () {
+          props.dispatch({
+            type: 'file/unZipFile'
+          })
+      },
+
       uploadInput: {
 
-        fileList: props.file.uploadInput.value,
+        action: '',
 
-        customRequest: function () {
-            props.dispatch({
-              type: 'file/handleUpload'
-            })
-        },
+        // fileList: props.file.uploadInput.value,
 
         multiple: true,
 
-        beforeUpload: function (file) {
-          let suffix = file.name.split('.').pop();
-          let compressionSuffix = ['png','rar','zip','cab','arj','lzh','ace','7-zip','tar','gzip','uue','bz2','jar','iso','z'];
-          compressionSuffix.forEach(suf => {
-              if (suf == suffix) {
-                  props.dispatch({
-                      type: 'file/switchNeedUnZip',
-                      payload: {
-                          needUnZip: true
-                      }
-                  })
-              }
-          })
-        },
-
         onChange: function(info) {
           props.dispatch({
-            type: 'file/handleUploadInputChange',
-            payload: info
+             type: 'file/handleUploadInputChange',
+             payload: info
           })
           // console.log(info.fileList)
-        }
+        },
+        beforeUpload() {
+            if(props.file.uploadModal.folderValue == '') {
+                message.error("请选择文件夹");
+                return false;
+            }
+        }      
       }
     },
     newFileNameModal: {
@@ -633,10 +637,10 @@ const FileTree = (props) => {
   const loopData = data => data.map((item) => {
 
     if (item.children) {
-      return <TreeNode title={item.name} isLeaf = {item.isLeaf} key={item.key}>{loopData(item.children)}</TreeNode>;
+      return <TreeNode title={item.name} value={item.key} isLeaf = {item.isLeaf} key={item.key}>{loopData(item.children)}</TreeNode>;
     }
     return (
-        <TreeNode title={item.name} key={item.key} isLeaf={item.isLeaf} disabled={item.key === 'root'} />
+        <TreeNode title={item.name} value={item.key} key={item.key} isLeaf={item.isLeaf} disabled={item.key === 'root'} />
     );
   });
 
@@ -725,23 +729,62 @@ const FileTree = (props) => {
           </div>
         </InputGroup>
       </Modal>
-
-      <Modal {...FileTreeProps.uploadModal.params}>
-        选择文件夹：
-        <Upload.Dragger {...FileTreeProps.uploadModal.uploadInput}>
-          <p className="ant-upload-drag-icon">
-            <Icon type="inbox" />
-          </p>
-          <p className="ant-upload-text">点击或拖拽上传</p>
-        </Upload.Dragger>
+      <Modal {...FileTreeProps.uploadModal.params} style={{maxWidth: 400}}>
+        上传到：
+        <TreeSelect
+            showSearch
+            dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+            loadData={FileTreeProps.onLoadData}
+            style={{ width: 300, marginBottom: 10 }}
+            treeNodeFilterProp='title'
+            onSelect={FileTreeProps.uploadModal.folderChange}
+            searchPlaceholder=' 可在此输入搜索'
+            placeholder='文件夹'
+        >
+            {treeNodes}
+        </TreeSelect>
+        <div className={TreeStyle.uploadInput}>
+            <Upload.Dragger {...FileTreeProps.uploadModal.uploadInput}>
+              <p className="ant-upload-drag-icon">
+                <Icon type="inbox" />
+              </p>
+              <p className="ant-upload-text">点击或拖拽上传</p>
+            </Upload.Dragger>
+        </div>
         {props.file.uploadModal.needUnZip &&
-         (<div>
-            是否解压：<Switch onChange={FileTreeProps.uploadModal.switchIsUnZip}
-                     checkedChildren={'是'}
-                     checked={props.file.uploadModal.isUnZip}
-                     unCheckedChildren={'否'} />
-
-         </div>)}
+             (<div style={{marginTop: 10}}>
+                解压否：<Switch value={props.file.uploadModal.isUnZip} 
+                               checkedChildren={'是'} 
+                               unCheckedChildren={'否'}
+                               onChange={FileTreeProps.uploadModal.switchIsUnZip}
+                       />
+                
+             </div>)
+        }
+        {props.file.uploadModal.isUnZip && 
+            (<div>
+                解压到：
+                <TreeSelect
+                    showSearch
+                    dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                    loadData={FileTreeProps.onLoadData}
+                    style={{ width: 300, marginTop: 10 }}
+                    treeNodeFilterProp='title'
+                    onSelect={FileTreeProps.uploadModal.folderChange}
+                    searchPlaceholder=' 可在此输入搜索'
+                    placeholder='文件夹'
+                    defaultValue={props.file.uploadModal.folderValue}
+                >
+                    {treeNodes}
+                </TreeSelect>
+                <br/>
+                <Button loading={props.file.uploadModal.unZiping} 
+                        onClick={FileTreeProps.uploadModal.confirmUnZip}
+                        type='primary' style={{marginTop: 10, marginLeft: 48}}
+                >解压
+                </Button>
+            </div>)
+         }
       </Modal>
 
       <div className={TreeStyle.header}>
