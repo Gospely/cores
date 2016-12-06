@@ -1,15 +1,11 @@
 import React , {PropTypes} from 'react';
-
 import { Tree, Tooltip, Popover, Icon, Row, Col, Button, Card, Menu } from 'antd';
-
 import { connect } from 'dva';
 
 const SubMenu = Menu.SubMenu;
-
 const MenuItemGroup = Menu.ItemGroup;
 
 import TreeStyle from './styles.css';
-
 import EditorStyle from '../Panel/Editor.css';
 
 const TreeNode = Tree.TreeNode;

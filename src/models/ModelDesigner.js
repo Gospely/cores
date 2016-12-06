@@ -268,7 +268,7 @@ export default {
 								type: 'input',
 								attrType: 'color',
 								title: '头背景色',
-								_value: '#ffffff',
+								_value: '#f8f8f8',
 								isClassName: false
 							},
 
@@ -284,7 +284,7 @@ export default {
 								type: 'input',
 								attrType: 'text',
 								title: '头标题',
-								_value: 'black',
+								_value: '微信小程序',
 								isClassName: false
 							},
 
@@ -292,7 +292,7 @@ export default {
 								type: 'input',
 								attrType: 'color',
 								title: '背景颜色',
-								_value: '#eeeeee',
+								_value: '#f8f8f8',
 								isClassName: false
 							},
 
@@ -378,7 +378,7 @@ export default {
 								type: 'input',
 								attrType: 'color',
 								title: '头背景色',
-								_value: '#ffffff',
+								_value: '#f8f8f8',
 								isClassName: false
 							},
 
@@ -394,7 +394,7 @@ export default {
 								type: 'input',
 								attrType: 'text',
 								title: '头标题',
-								_value: 'black',
+								_value: '微信小程序',
 								isClassName: false
 							},
 
@@ -402,7 +402,7 @@ export default {
 								type: 'input',
 								attrType: 'color',
 								title: '背景颜色',
-								_value: '#eeeeee',
+								_value: '#f8f8f8',
 								isClassName: false
 							},
 
@@ -428,7 +428,7 @@ export default {
 								title: '路由',
 								isClassName: false,
 								isHTML: false,
-								_value: '/page/page/index'
+								_value: '/pages/page/index'
 							}
 
 						},
@@ -500,7 +500,7 @@ export default {
 								type: 'input',
 								attrType: 'color',
 								title: '头背景色',
-								_value: '#ffffff',
+								_value: '#f8f8f8',
 								isClassName: false
 							},
 
@@ -516,7 +516,7 @@ export default {
 								type: 'input',
 								attrType: 'text',
 								title: '头标题',
-								_value: 'black',
+								_value: '微信小程序',
 								isClassName: false
 							},
 
@@ -524,7 +524,7 @@ export default {
 								type: 'input',
 								attrType: 'color',
 								title: '背景颜色',
-								_value: '#eeeeee',
+								_value: '#f8f8f8',
 								isClassName: false
 							},
 
@@ -601,7 +601,7 @@ export default {
 						type: 'input',
 						attrType: 'color',
 						title: '头背景色',
-						_value: '#ffffff',
+						_value: '#f8f8f8',
 						isClassName: false
 					},
 
@@ -617,7 +617,7 @@ export default {
 						type: 'input',
 						attrType: 'text',
 						title: '头标题',
-						_value: 'black',
+						_value: '微信小程序',
 						isClassName: false
 					},
 
@@ -625,7 +625,7 @@ export default {
 						type: 'input',
 						attrType: 'color',
 						title: '背景颜色',
-						_value: '#eeeeee',
+						_value: '#f8f8f8',
 						isClassName: false
 					},
 
@@ -1123,7 +1123,10 @@ export default {
 	      		setTimeout(function() {
 	      			window.gospelDesigner = window.frames['gospel-designer'];
 		      		console.log('gospelDesigner', gospelDesigner);
-	      		});
+		      		dispatch({
+		      			type: 'handleLayoutLoaded'
+		      		})
+	      		}, 2000);
 	      	});
 		}
 
@@ -1134,6 +1137,16 @@ export default {
 	},
 
 	reducers: {
+
+		handleLayoutLoaded(state, { payload: params }) {
+			gospelDesigner.postMessage({
+				layoutLoaded: {
+					layout: state.layout,
+					layoutState: state.layoutState
+				}
+			}, '*');
+			return {...state};
+		},
 
 		handleDeviceSelected(state, { payload: key }) {
 			state.defaultDevice = key;
@@ -1313,28 +1326,26 @@ export default {
 		handleAttrRefreshed (state) {
 			var activePage = layoutAction.getActivePage(state);
 
-	    		if(!gospelDesigner) {
-	    			message.error('请先打开编辑器！');
-	    			return {...state};
-	    		}
+    		if(!gospelDesigner) {
+    			message.error('请先打开编辑器！');
+    			return {...state};
+    		}
 
-	    		if(state.layoutState.activeType == 'page') {
+    		if(state.layoutState.activeType == 'page') {
 
-		    		gospelDesigner.postMessage({
-		    			attrRefreshed: activePage
-		    		}, '*');
+	    		gospelDesigner.postMessage({
+	    			attrRefreshed: activePage
+	    		}, '*');
 
-	    		}
+    		}
 
-	    		if(state.layoutState.activeType == 'controller') {
-	    			var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
-
-		    		gospelDesigner.postMessage({
-		    			attrRefreshed: activeCtrl
-		    		}, '*');
-	    		}
-	    		return {...state};
-
+    		if(state.layoutState.activeType == 'controller') {
+    			var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
+	    		gospelDesigner.postMessage({
+	    			attrRefreshed: activeCtrl
+	    		}, '*');
+    		}
+    		return {...state};
 		},
 
 		handleCtrlSelected (state) {

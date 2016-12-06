@@ -11,15 +11,15 @@
 	var home = {
 		    url: '/',
 		    className: 'home',
-		    render: function (){
-		        return '<div class="page"><div class="page__hd"><h1 class="page__title">hello, world</h1><p class="page__desc">Gospely 小程序可视化开发工具，让小程序无边界</p></div><div class="page__bd page__bd_spacing"></div><div class="page__ft"><span class="weui-footer__text">Copyright © 2016 gospely.com</span></div></div>';
+		    render: function () {
+		        return '';
 		    }
 		},
 
 		post = {
 		    url: '/post/:id',
 		    className: 'post',
-		    render: function (){
+		    render: function () {
 		        var id = this.params.id;
 		        return '<h1>post</h1>';
 		    }
@@ -43,22 +43,112 @@
 	//获取父元素
 	var parent_window = window.parent;
 
+	var pageAction = {
+
+		changeNavigationBarTitleText: function(title) {
+			jq('#gospel-app-title').html(title);
+		},
+
+		changeNavigationBarBackgroundColor: function(color) {
+			jq('#navigation-bar').css('background-color', color);
+		},
+
+		changeNavigationBarTextStyle: function(style) {
+			style = style == 'white' ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)';
+			jq('#gospel-app-title').css('color', style);
+		},
+
+		changeBackgroundTextStyle: function(style) {
+			style = style == 'light' ? '200' : '400';
+			jq('#gospel-app-title').css('font-weight', style);
+		},
+
+		changeBackgroundColor: function(color) {
+			$('body').css('background-color', color);
+		}
+
+	}
+
+	var initApp = function(designer) {
+			console.log('handleLayout added', designer);
+			var layout = designer.layout,
+				layoutState = designer.layoutState,
+				app = layout[0],
+				pages = app.children;
+
+			pageAction.changeNavigationBarTitleText(app.attr.window._value.navigationBarTitleText._value);
+			pageAction.changeNavigationBarBackgroundColor(app.attr.window._value.navigationBarBackgroundColor._value);
+			pageAction.changeNavigationBarTextStyle(app.attr.window._value.navigationBarTextStyle._value);			
+			pageAction.changeBackgroundTextStyle(app.attr.window._value.backgroundTextStyle._value);			
+			pageAction.changeBackgroundColor(app.attr.window._value.backgroundColor._value);			
+
+			var initRouter = function(pages) {
+
+				var tmpRoute = {
+					url: '',
+					className: '',
+					render: function () {
+
+					}
+				}
+
+				for (var i = 0; i < pages.length; i++) {
+					var currentPage = pages[i];
+					console.log(currentPage);
+				};
+
+				return tmpRoute;
+			}
+
+			var routerList = initRouter(pages);
+
+			console.log(routerList);
+		},
+
+		refreshApp = function(data) {
+			console.log('refreshApp', data);
+
+			var ctrlAction = {
+
+				page: function() {
+					pageAction.changeNavigationBarTitleText(data.attr.window._value.navigationBarTitleText._value);
+					pageAction.changeNavigationBarBackgroundColor(data.attr.window._value.navigationBarBackgroundColor._value);
+					pageAction.changeNavigationBarTextStyle(data.attr.window._value.navigationBarTextStyle._value);			
+					pageAction.changeBackgroundTextStyle(data.attr.window._value.backgroundTextStyle._value);			
+					pageAction.changeBackgroundColor(data.attr.window._value.backgroundColor._value);			
+				},
+
+				controller: function() {
+
+				}
+
+			}
+
+			ctrlAction[data.type]();
+
+		}
+
+
 	window.addEventListener("message", function (evt) {
 
 		var data = evt.data;
+
+		console.log('addEventListener', evt);
 
 		var evtAction = {
 
 			attrRefreshed: function() {
 				console.log('attrRefreshed', data);
+				refreshApp(data);
 			},
 
-			ctrlSelected: function() {
+			ctrlSelected: function(data) {
 				console.log('ctrlSelected', data);
 			},
 
 			pageAdded: function() {
 				console.log('pageAdded', data);
+
 			},
 
 			pageRemoved: function() {
@@ -73,8 +163,13 @@
 				var appended = jq(parent_window.currentTarget).append(wrapper);
 			},
 
+<<<<<<< HEAD
+			layoutLoaded: function() {
+				initApp(data);
+=======
 			pageSelected:function(){
 				console.log('pageSelected',data);
+>>>>>>> 4dba7728f8700ca159539bab42022ed728fae395
 			}
 		}
 
@@ -158,7 +253,6 @@
 	jq(document).on("mouseleave",".control-box",function(e){
 		hideBorder();
 	});
-
 
 	//点击其他区域隐藏border和i
 	jq("body").on("click", function(){
