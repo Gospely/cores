@@ -63,6 +63,11 @@ const Attr = (props) => {
     				parentAtt: parentAtt
     			}
     		});
+
+    		props.dispatch({
+    			type: 'designer/handleAttrRefreshed'
+    		})
+
     	},
 
     	handleAttrFormSelectChange: (attr, parentAtt, selectedVal) => {
@@ -76,6 +81,11 @@ const Attr = (props) => {
     				parentAtt: parentAtt
     			}
     		});
+
+    		props.dispatch({
+    			type: 'designer/handleAttrRefreshed'
+    		})
+
     	}
 
     };
