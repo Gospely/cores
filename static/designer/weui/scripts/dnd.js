@@ -419,10 +419,14 @@
 								isClsInVal = true;
 								break;
 							}
-						};
-						if(isClsInVal) {
+						};1
+
+						// alert('currentAttr.isNoConflict:' + currentAttr.isNoConflict);
+
+						if(isClsInVal && currentAttr.isNoConflict) {
+							// alert('isClsInVal');
 							// 不是添加控件而是刷新控件, 先重置为基本class再加新class
-							this.elem.attr('class', this.controller.baseClassName);
+							// this.elem.attr('class', this.controller.baseClassName);
 						}
 					}
 
@@ -430,15 +434,37 @@
 						//对于某些控件既需要css，也需要attribute属性，比如禁止状态的按钮，需要disabled属性和css类
 						this.elem.attr(att, currentAttr._value);
 
-						if(att == 'disabled' && currentAttr._value) {
-
+						//禁止按钮特殊处理
+						if(currentAttr._value) {
 							for (var j = 0; j < currentAttr.value.length; j++) {
 								var currentDisabledCSS = currentAttr.value[j];
 								this.elem.addClass(currentDisabledCSS);
 							};
-
 						}
 
+						if(!currentAttr._value) {
+							for (var j = 0; j < currentAttr.value.length; j++) {
+								var currentDisabledCSS = currentAttr.value[j];
+								this.elem.removeClass(currentDisabledCSS);
+							};
+						}
+
+					}
+
+					if(currentAttr.isSingleToggleClass) {
+						//针对某些对一个类进行开关的属性
+
+						if(currentAttr._value) {
+							for (var j = 0; j < currentAttr.value.length; j++) {
+								var currentDisabledCSS = currentAttr.value[j];
+								this.elem.addClass(currentDisabledCSS);
+							};
+						}else {
+							for (var j = 0; j < currentAttr.value.length; j++) {
+								var currentDisabledCSS = currentAttr.value[j];
+								this.elem.removeClass(currentDisabledCSS);
+							};							
+						}
 					}
 
 					this.elem.addClass(currentAttr._value);
@@ -461,7 +487,6 @@
 			}
 
 			this.setAttribute();
-
 			var component = this.coverWrapper();
 
 			console.log(component);

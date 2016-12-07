@@ -670,11 +670,11 @@ export default {
 					disabled: {
 						type: 'toggle',
 						title: '禁止',
-						value: ['weui-btn_disabled weui-btn_plain-disabled'],
+						value: ['weui-btn_disabled', 'weui-btn_plain-disabled'],
 						isClassName: true,
 						isHTML: false,
 						isSetAttribute: true,
-						_value: ''
+						_value: false
 					},
 					class: {
 						type: 'select',
@@ -682,6 +682,7 @@ export default {
 						value: ['weui-btn_primary', 'weui-btn_default', 'weui-btn_warn', 'weui-btn_plain-default', 'weui-btn_plain-primary', 'weui-vcode-btn'],
 						isClassName: true,
 						isHTML: false,
+						isNoConflict: true,
 						_value: 'weui-btn_primary'
 					},
 					mini: {
@@ -690,7 +691,8 @@ export default {
 						value: ['weui-btn_mini'],
 						isClassName: true,
 						isHTML: false,
-						_value: ''
+						isSingleToggleClass: true,
+						_value: false
 					}
 				},
 				tag: ['button'],
