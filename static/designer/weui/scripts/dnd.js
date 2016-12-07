@@ -302,42 +302,44 @@
 	//点击组件
 	jq(document).on("click", ".control-box", function(e) {
 		e.stopPropagation();
-		//获取dom树上的数据结构
-		var dataControl = jq(this).attr("data-control");
-		//将ctrlClicked和数据结构发送给父级页面
+
+		var self = jq(this);
+
+		var dataControl = self.attr("data-control");
+
+		//触发控件被点击事件
 		postMessageToFather.ctrlClicked(dataControl);
-		hideBorder();
-		jq(this).find("i").show();
-		jq(this).addClass("hight-light");
-		//监听拖动事件
+
+		showDesignerDraggerBorder(self);
 	});
 
 	//鼠标按下
 	jq(document).on("mousedown",".control-box",function(e){
-		hideBorder();
 		var self = jq(this);
-		self.find('i.delete-com').show();
-		jq(this).addClass("hight-light");
-
+		showDesignerDraggerBorder(self);
 	});
 
 	//鼠标进入
 	jq(document).on("mouseenter", ".control-box", function(e) {
-		hideBorder();
 		var self = jq(this);
-		self.find('i.delete-com').show();
-		jq(this).addClass("hight-light");
+		showDesignerDraggerBorder(self);
 	});
 
 	//点击其他区域隐藏border和i
 	jq("body").on("click", function() {
-		hideBorder();
+		hideDesignerDraggerBorder();
 	});
 
 	//隐藏border和i
-	function hideBorder() {
+	function hideDesignerDraggerBorder() {
 		jq(".control-box i").hide();
 		jq(".control-box").removeClass("hight-light");
+	}
+
+	function showDesignerDraggerBorder(self) {
+		hideDesignerDraggerBorder();
+		self.find('i.delete-com').show();
+		self.addClass("hight-light");
 	}
 
 	//拖拽结束
