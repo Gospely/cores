@@ -9,19 +9,19 @@ export default {
 		}
 
 		console.log('======================window.loadedOnce======================', window.loadedOnce);
-		
+
 		window.loadedOnce = true;
 
 		window.addEventListener("message", (evt) =>  {
 
-			var data = evt.data, 
+			var data = evt.data,
 				eventName = '';
-
+			
 			const evtAction = {
 
 				ctrlClicked () {
 					console.log(eventName, data);
-					
+
 				    props.dispatch({
 				        type: 'rightbar/setActiveMenu',
 				        payload: 'attr'
@@ -66,7 +66,7 @@ export default {
 						type: 'designer/addController',
 						payload: dndData
 					});
-					
+
 				    props.dispatch({
 				        type: 'attr/setFormItemsByDefault'
 				    });
@@ -79,6 +79,11 @@ export default {
 
 				invalidDropArea () {
 					message.error(data);
+				},
+				finishAppCreate(){
+
+					console.log("===================finishAppCreate===============");
+					console.log(data);
 				}
 
 			}
@@ -92,7 +97,7 @@ export default {
 				console.log('typeof', typeof data[eventName]);
 
 				if(typeof data[eventName] != 'object') {
-					data = JSON.parse(data[eventName]);					
+					data = JSON.parse(data[eventName]);
 				}else {
 					data = data[eventName];
 				}
