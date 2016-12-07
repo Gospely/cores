@@ -269,11 +269,11 @@ const LeftSidebar = (props) => {
 
 	    switchApp() {
 
-				console.log('switch app');
+			console.log('switch app');
 
-	      props.dispatch({
-	        type: 'sidebar/switchApp'
-	      })
+	      	props.dispatch({
+	        	type: 'sidebar/switchApp'
+	      	})
 	    },
 
 		cancelModifyGitOrigin: function() {

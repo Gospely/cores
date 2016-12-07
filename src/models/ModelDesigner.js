@@ -26,18 +26,18 @@ const layoutAction = {
 		
 	},
 
-	getActiveControllerByKey (page, key) {
+	getActiveControllerByKey (controllerList, key) {
 
 		var ct;
 
-		for (var i = 0; i < page.length; i++) {
-			var ctrl = page[i];
+		for (var i = 0; i < controllerList.length; i++) {
+			var ctrl = controllerList[i];
 
 			if(ctrl.children) {
 				layoutAction.getActiveControllerByKey(ctrl.children);
 			}
 
-			if(typeof ctrl.key == key) {
+			if(ctrl.key == key) {
 				ct = ctrl;
 				break;
 			}
@@ -667,21 +667,23 @@ export default {
 						isHTML: true,
 						_value: '按钮'
 					},
-					disabled: {
-						type: 'toggle',
-						title: '禁止',
-						value: ['weui-btn_disabled weui-btn_plain-disabled'],
-						isClassName: true,
-						isHTML: false,
-						_value: ''
-					},
 					class: {
 						type: 'select',
 						title: '按钮类型',
 						value: ['weui-btn_primary', 'weui-btn_default', 'weui-btn_warn', 'weui-btn_plain-default', 'weui-btn_plain-primary', 'weui-vcode-btn'],
 						isClassName: true,
 						isHTML: false,
+						isNoConflict: true,
 						_value: 'weui-btn_primary'
+					},
+					disabled: {
+						type: 'toggle',
+						title: '禁止',
+						value: ['weui-btn_disabled', 'weui-btn_plain-disabled'],
+						isClassName: true,
+						isHTML: false,
+						isSetAttribute: true,
+						_value: false
 					},
 					mini: {
 						type: 'toggle',
@@ -689,7 +691,8 @@ export default {
 						value: ['weui-btn_mini'],
 						isClassName: true,
 						isHTML: false,
-						_value: ''
+						isSingleToggleClass: true,
+						_value: false
 					}
 				},
 				tag: ['button'],
@@ -916,7 +919,7 @@ export default {
 						title: '标题',
 						isClassName: false,
 						isHTML: true,
-						_value: ''
+						_value: '标题内容'
 					}
 				}
 			},
@@ -1330,7 +1333,7 @@ export default {
     		if(state.layoutState.activeType == 'controller') {
     			var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
 	    		gospelDesigner.postMessage({
-	    			attrRefreshed: activeCtrl
+	    			ctrlAttrRefreshed: activeCtrl
 	    		}, '*');
     		}
     		return {...state};
@@ -1348,7 +1351,7 @@ export default {
 
     		if(state.layoutState.activeType == 'page') {
 	    		gospelDesigner.postMessage({
-	    			ctrlSelected: activePage
+	    			pageSelected: activePage
 	    		}, '*');
     		}
 

@@ -99,33 +99,31 @@
 		refreshApp = function(data) {
 			console.log('refreshApp', data);
 
-			var ctrlAction = {
+			var attr = {};
 
-				page: function() {
-
-					var attr = {};
-
-					if(data.attr.window) {
-						attr = data.attr.window._value;
-					}else {
-						attr = data.attr;
-					}
-
-					pageAction.changeNavigationBarTitleText(attr.navigationBarTitleText._value);
-					pageAction.changeNavigationBarBackgroundColor(attr.navigationBarBackgroundColor._value);
-					pageAction.changeNavigationBarTextStyle(attr.navigationBarTextStyle._value);
-					pageAction.changeBackgroundTextStyle(attr.backgroundTextStyle._value);
-					pageAction.changeBackgroundColor(attr.backgroundColor._value);
-				},
-
-				controller: function() {
-
-				}
-
+			if(data.attr.window) {
+				attr = data.attr.window._value;
+			}else {
+				attr = data.attr;
 			}
 
-			ctrlAction[data.type]();
+			pageAction.changeNavigationBarTitleText(attr.navigationBarTitleText._value);
+			pageAction.changeNavigationBarBackgroundColor(attr.navigationBarBackgroundColor._value);
+			pageAction.changeNavigationBarTextStyle(attr.navigationBarTextStyle._value);
+			pageAction.changeBackgroundTextStyle(attr.backgroundTextStyle._value);
+			pageAction.changeBackgroundColor(attr.backgroundColor._value);
 
+		},
+
+		refreshController =  function(controller) {
+
+			var ctrlID = controller.key,
+
+				ctrlRefresher = new ComponentsGenerator({
+					controller: controller
+				});
+
+				ctrlRefresher.setAttribute();
 		},
 
 		navToPage = function(data) {
@@ -141,7 +139,7 @@
 			var elem = jq('#' + id);
 
 			elem.dragging({
-				move : 'y',
+				move: 'both',
 		        onMouseUp: function(e) {
 
 		        },
@@ -182,23 +180,18 @@
 				refreshApp(data);
 			},
 
+			ctrlAttrRefreshed: function() {
+				console.log('ctrlAttrRefreshed', data);
+				refreshController(data);
+			},
+
+			pageSelected: function() {
+				console.log('pageSelected', data);
+				navToPage(data);
+			},
+
 			ctrlSelected: function() {
-
 				console.log('ctrlSelected', data);
-
-				var ctrlSelectedAction = {
-					page: function() {
-						navToPage(data);
-					},
-
-					controller: function() {
-
-					}
-				}
-
-				if(data && data.type) {
-					ctrlSelectedAction[data.type]();					
-				}
 			},
 
 			pageAdded: function() {
@@ -226,9 +219,14 @@
 
 			ctrlAdded: function() {
 				console.log('ctrlAdded', data);
-				
+
 				var controller = data,
-					comGen = componentsGenerator(controller);
+
+					comGen = new ComponentsGenerator({
+						controller: controller,
+						initElem: true
+					}),
+
 					elem = comGen.createElement(),
 
 					appendResult = jq(parent_window.currentTarget).append(elem);
@@ -286,8 +284,6 @@
 
 		//获取父元素的window对象上的数据
 		var controller = parent_window.dndData;
-		console.log("接收到的组件数据结构是：");
-		console.log(controller);
 		parent_window.currentTarget = e.target;
 		postMessageToFather.ctrlToBeAdded(controller);
 		hideBorder();
@@ -306,44 +302,44 @@
 	//点击组件
 	jq(document).on("click", ".control-box", function(e) {
 		e.stopPropagation();
-		//获取dom树上的数据结构
-		var dataControl = jq(this).attr("data-control");
-		//将ctrlClicked和数据结构发送给父级页面
+
+		var self = jq(this);
+
+		var dataControl = self.attr("data-control");
+
+		//触发控件被点击事件
 		postMessageToFather.ctrlClicked(dataControl);
-		hideBorder();
-		jq(this).find("i").show();
-		jq(this).addClass("hight-light");
-		//监听拖动事件
+
+		showDesignerDraggerBorder(self);
 	});
 
 	//鼠标按下
 	jq(document).on("mousedown",".control-box",function(e){
-		jq(this).dragging({
-			move : 'y'
-		});
+		var self = jq(this);
+		showDesignerDraggerBorder(self);
 	});
 
 	//鼠标进入
 	jq(document).on("mouseenter", ".control-box", function(e) {
-
-		hideBorder();
-		jq(this).find("i").show();
-		jq(this).addClass("hight-light");
-	});
-	//鼠标移出
-	jq(document).on("mouseleave", ".control-box", function(e) {
-		hideBorder();
+		var self = jq(this);
+		showDesignerDraggerBorder(self);
 	});
 
 	//点击其他区域隐藏border和i
 	jq("body").on("click", function() {
-		hideBorder();
+		hideDesignerDraggerBorder();
 	});
 
 	//隐藏border和i
-	function hideBorder() {
+	function hideDesignerDraggerBorder() {
 		jq(".control-box i").hide();
 		jq(".control-box").removeClass("hight-light");
+	}
+
+	function showDesignerDraggerBorder(self) {
+		hideDesignerDraggerBorder();
+		self.find('i.delete-com').show();
+		self.addClass("hight-light");
 	}
 
 	//拖拽结束
@@ -352,18 +348,147 @@
 		e.stopPropagation();
 	});
 
-	var componentsGenerator = function(controller) {
-		this.controller = controller;
+	function ComponentsGenerator(params) {
+
+		params.initElem = params.initElem || false;
+
+		this.controller = params.controller;
+
+		this.tag = typeof this.controller.tag == 'object' ? this.controller.tag[0] : this.controller.tag;
+
+		this.elemLoaded = false;
+		this.refresh = false;
+
+		if(!this.tag) {
+			alert('组件数据结构出错');
+			return false;
+		}
+
+		if(params.initElem) {
+			this.initElem();
+		}
+
+		return this;
 	}
 
-	componentsGenerator.prototype = {
+	ComponentsGenerator.prototype = {
 
-		genWrapper: function() {
+		initElem: function() {
 
+			if(!this.elemLoaded) {
+				var docCtrl = jq('#' + this.controller.key);
+
+				this.elem = docCtrl.length > 0 ? docCtrl.children().eq(1) : jq(document.createElement(this.tag));
+				this.elemLoaded = true;
+				this.refresh = docCtrl.length > 0;
+			}
+
+			return this.elem;
+		},
+
+		coverWrapper: function() {
+
+			this.initElem();
+
+			var wrapper = jq('<div class="control-box hight-light" id="' + this.controller.key + '"></div>'),
+				operation = '<i class="weui-icon-cancel delete-com"></i>';
+
+			wrapper.attr('data-control', JSON.stringify(this.controller))
+				   .append(operation);
+
+			wrapper.append(this.elem);
+
+			return wrapper;
+		},
+
+		setAttribute: function() {
+
+			this.initElem();
+
+			for(var att in this.controller.attr) {
+				var currentAttr = this.controller.attr[att];
+				if(currentAttr.isClassName) {
+					//更改的属性有css，则需要进行css操作
+
+					if(this.refresh) {
+						var isClsInVal = false;
+						for (var i = 0; i < currentAttr.value.length; i++) {
+							var currentAttrVal = currentAttr.value[i];
+
+							if(currentAttrVal == currentAttr._value) {
+								isClsInVal = true;
+								break;
+							}
+						};1
+
+						if(isClsInVal && currentAttr.isNoConflict) {
+							// 不是添加控件而是刷新控件, 先重置为基本class再加新class
+							this.elem.attr('class', this.controller.baseClassName);
+						}
+					}
+
+					if(currentAttr.isSetAttribute) {
+						//对于某些控件既需要css，也需要attribute属性，比如禁止状态的按钮，需要disabled属性和css类
+						this.elem.attr(att, currentAttr._value);
+
+						//禁止按钮特殊处理
+						if(currentAttr._value) {
+							for (var j = 0; j < currentAttr.value.length; j++) {
+								var currentDisabledCSS = currentAttr.value[j];
+								this.elem.addClass(currentDisabledCSS);
+							};
+						}
+
+						if(!currentAttr._value) {
+							for (var j = 0; j < currentAttr.value.length; j++) {
+								var currentDisabledCSS = currentAttr.value[j];
+								this.elem.removeClass(currentDisabledCSS);
+							};
+						}
+
+					}
+
+					if(currentAttr.isSingleToggleClass) {
+						//针对某些对一个类进行开关的属性
+
+						if(currentAttr._value) {
+							for (var j = 0; j < currentAttr.value.length; j++) {
+								var currentDisabledCSS = currentAttr.value[j];
+								this.elem.addClass(currentDisabledCSS);
+							};
+						}else {
+							for (var j = 0; j < currentAttr.value.length; j++) {
+								var currentDisabledCSS = currentAttr.value[j];
+								this.elem.removeClass(currentDisabledCSS);
+							};							
+						}
+					}
+
+					this.elem.addClass(currentAttr._value);
+				}
+
+				if(currentAttr.isHTML) {
+					this.elem.html(currentAttr._value);
+				}
+			}
+			return this.elem;
 		},
 
 		createElement: function() {
+			console.log('createElement', this.controller);
 
+			this.initElem();
+
+			if(this.controller.baseClassName) {
+				this.elem.addClass(this.controller.baseClassName);
+			}
+
+			this.setAttribute();
+			var component = this.coverWrapper();
+
+			console.log(component);
+
+			return component;
 		}
 
 	}
