@@ -1348,7 +1348,7 @@ export default {
 
     		if(state.layoutState.activeType == 'page') {
 	    		gospelDesigner.postMessage({
-	    			ctrlSelected: activePage
+	    			pageSelected: activePage
 	    		}, '*');
     		}
 
