@@ -673,6 +673,7 @@ export default {
 						value: ['weui-btn_disabled weui-btn_plain-disabled'],
 						isClassName: true,
 						isHTML: false,
+						isSetAttribute: true,
 						_value: ''
 					},
 					class: {

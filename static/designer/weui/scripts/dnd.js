@@ -139,7 +139,7 @@
 			var elem = jq('#' + id);
 
 			elem.dragging({
-				move : 'y',
+				move : 'both',
 		        onMouseUp: function(e) {
 
 		        },
@@ -406,19 +406,12 @@
 			this.initElem();
 
 			for(var att in this.controller.attr) {
-
 				var currentAttr = this.controller.attr[att];
-
-				console.log('this.elem;;;;;;;;;;;', this.elem);
-
 				if(currentAttr.isClassName) {
-
-					console.log('isClassName', currentAttr);
+					//更改的属性有css，则需要进行css操作
 
 					if(this.refresh) {
-
 						var isClsInVal = false;
-
 						for (var i = 0; i < currentAttr.value.length; i++) {
 							var currentAttrVal = currentAttr.value[i];
 
@@ -427,10 +420,23 @@
 								break;
 							}
 						};
-
 						if(isClsInVal) {
 							// 不是添加控件而是刷新控件, 先重置为基本class再加新class
 							this.elem.attr('class', this.controller.baseClassName);
+						}
+					}
+
+					if(currentAttr.isSetAttribute) {
+						//对于某些控件既需要css，也需要attribute属性，比如禁止状态的按钮，需要disabled属性和css类
+						this.elem.attr(att, currentAttr._value);
+
+						if(att == 'disabled' && currentAttr._value) {
+
+							for (var j = 0; j < currentAttr.value.length; j++) {
+								var currentDisabledCSS = currentAttr.value[j];
+								this.elem.addClass(currentDisabledCSS);
+							};
+
 						}
 
 					}
@@ -441,9 +447,7 @@
 				if(currentAttr.isHTML) {
 					this.elem.html(currentAttr._value);
 				}
-
 			}
-
 			return this.elem;
 		},
 
