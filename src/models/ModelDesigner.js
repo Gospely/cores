@@ -667,15 +667,6 @@ export default {
 						isHTML: true,
 						_value: '按钮'
 					},
-					disabled: {
-						type: 'toggle',
-						title: '禁止',
-						value: ['weui-btn_disabled', 'weui-btn_plain-disabled'],
-						isClassName: true,
-						isHTML: false,
-						isSetAttribute: true,
-						_value: false
-					},
 					class: {
 						type: 'select',
 						title: '按钮类型',
@@ -684,6 +675,15 @@ export default {
 						isHTML: false,
 						isNoConflict: true,
 						_value: 'weui-btn_primary'
+					},
+					disabled: {
+						type: 'toggle',
+						title: '禁止',
+						value: ['weui-btn_disabled', 'weui-btn_plain-disabled'],
+						isClassName: true,
+						isHTML: false,
+						isSetAttribute: true,
+						_value: false
 					},
 					mini: {
 						type: 'toggle',
@@ -919,7 +919,7 @@ export default {
 						title: '标题',
 						isClassName: false,
 						isHTML: true,
-						_value: ''
+						_value: '标题内容'
 					}
 				}
 			},

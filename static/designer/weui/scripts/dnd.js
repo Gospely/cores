@@ -139,7 +139,7 @@
 			var elem = jq('#' + id);
 
 			elem.dragging({
-				move : 'both',
+				move: 'both',
 		        onMouseUp: function(e) {
 
 		        },
@@ -314,21 +314,19 @@
 
 	//鼠标按下
 	jq(document).on("mousedown",".control-box",function(e){
-		jq(this).dragging({
-			move : 'y'
-		});
+		hideBorder();
+		var self = jq(this);
+		self.find('i.delete-com').show();
+		jq(this).addClass("hight-light");
+
 	});
 
 	//鼠标进入
 	jq(document).on("mouseenter", ".control-box", function(e) {
-
 		hideBorder();
-		jq(this).find("i").show();
+		var self = jq(this);
+		self.find('i.delete-com').show();
 		jq(this).addClass("hight-light");
-	});
-	//鼠标移出
-	jq(document).on("mouseleave", ".control-box", function(e) {
-		hideBorder();
 	});
 
 	//点击其他区域隐藏border和i
@@ -421,12 +419,9 @@
 							}
 						};1
 
-						// alert('currentAttr.isNoConflict:' + currentAttr.isNoConflict);
-
 						if(isClsInVal && currentAttr.isNoConflict) {
-							// alert('isClsInVal');
 							// 不是添加控件而是刷新控件, 先重置为基本class再加新class
-							// this.elem.attr('class', this.controller.baseClassName);
+							this.elem.attr('class', this.controller.baseClassName);
 						}
 					}
 
