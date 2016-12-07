@@ -13,10 +13,8 @@ export default {
 		window.loadedOnce = true;
 
 		window.addEventListener("message", (evt) =>  {
-
 			var data = evt.data,
 				eventName = '';
-			
 			const evtAction = {
 
 				ctrlClicked () {
@@ -81,7 +79,12 @@ export default {
 					message.error(data);
 				},
 				finishAppCreate(){
-
+					//创建完应用，开始退出模态框
+					props.dispatch({
+	        				type: 'sidebar/hideModalNewApp'
+					})
+					//修改url
+					window.location.href = 'http://localhost:8989/#/project/' + data.application;
 					console.log("===================finishAppCreate===============");
 					console.log(data);
 				}
