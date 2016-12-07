@@ -99,33 +99,31 @@
 		refreshApp = function(data) {
 			console.log('refreshApp', data);
 
-			var ctrlAction = {
+			var attr = {};
 
-				page: function() {
-
-					var attr = {};
-
-					if(data.attr.window) {
-						attr = data.attr.window._value;
-					}else {
-						attr = data.attr;
-					}
-
-					pageAction.changeNavigationBarTitleText(attr.navigationBarTitleText._value);
-					pageAction.changeNavigationBarBackgroundColor(attr.navigationBarBackgroundColor._value);
-					pageAction.changeNavigationBarTextStyle(attr.navigationBarTextStyle._value);
-					pageAction.changeBackgroundTextStyle(attr.backgroundTextStyle._value);
-					pageAction.changeBackgroundColor(attr.backgroundColor._value);
-				},
-
-				controller: function() {
-
-				}
-
+			if(data.attr.window) {
+				attr = data.attr.window._value;
+			}else {
+				attr = data.attr;
 			}
 
-			ctrlAction[data.type]();
+			pageAction.changeNavigationBarTitleText(attr.navigationBarTitleText._value);
+			pageAction.changeNavigationBarBackgroundColor(attr.navigationBarBackgroundColor._value);
+			pageAction.changeNavigationBarTextStyle(attr.navigationBarTextStyle._value);
+			pageAction.changeBackgroundTextStyle(attr.backgroundTextStyle._value);
+			pageAction.changeBackgroundColor(attr.backgroundColor._value);
 
+		},
+
+		refreshController =  function(controller) {
+
+			var ctrlID = controller.key,
+
+				ctrlRefresher = new ComponentsGenerator({
+					controller: controller
+				});
+
+				ctrlRefresher.setAttribute();
 		},
 
 		navToPage = function(data) {
@@ -141,7 +139,7 @@
 			var elem = jq('#' + id);
 
 			elem.dragging({
-				move : 'y',
+				move : 'both',
 		        onMouseUp: function(e) {
 
 		        },
@@ -184,25 +182,16 @@
 
 			ctrlAttrRefreshed: function() {
 				console.log('ctrlAttrRefreshed', data);
+				refreshController(data);
+			},
+
+			pageSelected: function() {
+				console.log('pageSelected', data);
+				navToPage(data);
 			},
 
 			ctrlSelected: function() {
-
 				console.log('ctrlSelected', data);
-
-				var ctrlSelectedAction = {
-					page: function() {
-						navToPage(data);
-					},
-
-					controller: function() {
-
-					}
-				}
-
-				if(data && data.type) {
-					ctrlSelectedAction[data.type]();					
-				}
 			},
 
 			pageAdded: function() {
@@ -233,7 +222,11 @@
 
 				var controller = data,
 
-					comGen = new ComponentsGenerator(controller),
+					comGen = new ComponentsGenerator({
+						controller: controller,
+						initElem: true
+					}),
+
 					elem = comGen.createElement(),
 
 					appendResult = jq(parent_window.currentTarget).append(elem);
@@ -355,59 +348,121 @@
 		e.stopPropagation();
 	});
 
-	function ComponentsGenerator(controller) {
-		this.controller = controller;
+	function ComponentsGenerator(params) {
+
+		params.initElem = params.initElem || false;
+
+		this.controller = params.controller;
+
+		this.tag = typeof this.controller.tag == 'object' ? this.controller.tag[0] : this.controller.tag;
+
+		this.elemLoaded = false;
+		this.refresh = false;
+
+		if(!this.tag) {
+			alert('组件数据结构出错');
+			return false;
+		}
+
+		if(params.initElem) {
+			this.initElem();
+		}
 
 		return this;
 	}
 
 	ComponentsGenerator.prototype = {
 
-		coverWrapper: function(component) {
+		initElem: function() {
+
+			if(!this.elemLoaded) {
+				var docCtrl = jq('#' + this.controller.key);
+
+				this.elem = docCtrl.length > 0 ? docCtrl.children().eq(1) : jq(document.createElement(this.tag));
+				this.elemLoaded = true;
+				this.refresh = docCtrl.length > 0;
+			}
+
+			return this.elem;
+		},
+
+		coverWrapper: function() {
+
+			this.initElem();
+
 			var wrapper = jq('<div class="control-box hight-light" id="' + this.controller.key + '"></div>'),
 				operation = '<i class="weui-icon-cancel delete-com"></i>';
 
 			wrapper.attr('data-control', JSON.stringify(this.controller))
 				   .append(operation);
 
-			wrapper.append(component);
+			wrapper.append(this.elem);
 
 			return wrapper;
+		},
+
+		setAttribute: function() {
+
+			this.initElem();
+
+			for(var att in this.controller.attr) {
+				var currentAttr = this.controller.attr[att];
+				if(currentAttr.isClassName) {
+					//更改的属性有css，则需要进行css操作
+
+					if(this.refresh) {
+						var isClsInVal = false;
+						for (var i = 0; i < currentAttr.value.length; i++) {
+							var currentAttrVal = currentAttr.value[i];
+
+							if(currentAttrVal == currentAttr._value) {
+								isClsInVal = true;
+								break;
+							}
+						};
+						if(isClsInVal) {
+							// 不是添加控件而是刷新控件, 先重置为基本class再加新class
+							this.elem.attr('class', this.controller.baseClassName);
+						}
+					}
+
+					if(currentAttr.isSetAttribute) {
+						//对于某些控件既需要css，也需要attribute属性，比如禁止状态的按钮，需要disabled属性和css类
+						this.elem.attr(att, currentAttr._value);
+
+						if(att == 'disabled' && currentAttr._value) {
+
+							for (var j = 0; j < currentAttr.value.length; j++) {
+								var currentDisabledCSS = currentAttr.value[j];
+								this.elem.addClass(currentDisabledCSS);
+							};
+
+						}
+
+					}
+
+					this.elem.addClass(currentAttr._value);
+				}
+
+				if(currentAttr.isHTML) {
+					this.elem.html(currentAttr._value);
+				}
+			}
+			return this.elem;
 		},
 
 		createElement: function() {
 			console.log('createElement', this.controller);
 
-			var tag = typeof this.controller.tag == 'object' ? this.controller.tag[0] : this.controller.tag,
-
-				newElem = jq(document.createElement(tag));
-
-			if(!tag) {
-				alert('组件数据结构出错');
-				return false;
-			}
+			this.initElem();
 
 			if(this.controller.baseClassName) {
-				newElem.addClass(this.controller.baseClassName);
+				this.elem.addClass(this.controller.baseClassName);
 			}
 
-			for(var att in this.controller.attr) {
+			this.setAttribute();
 
-				var currentAttr = this.controller.attr[att];
-
-				if(currentAttr.isClassName) {
-					newElem.addClass(currentAttr._value);
-				}
-
-				if(currentAttr.isHTML) {
-					newElem.html(currentAttr._value);
-				}
-
-			}
-
-			console.log(newElem);
-
-			var component = this.coverWrapper(newElem);
+			var component = this.coverWrapper();
 
 			console.log(component);
 
