@@ -14,11 +14,12 @@ const initApplication = function (props){
 
   var applicationId = props.params.id,
   url = configs.baseURL + "applications/" + applicationId;
+  console.log("===============initApplication===========");
 
   if(applicationId != localStorage.applicationId) {
 
   	console.log(applicationId);
-  	console.log("===============initApplication===========");
+  	console.log("===============initApplication different===========");
   	if(applicationId != null && applicationId != undefined) {
 
   		fetch(url).then(function(response){
@@ -57,6 +58,7 @@ const initApplication = function (props){
         localStorage.terminal = application.docker;
         localStorage.applicationId = application.id;
 
+
   			props.dispatch({
   				type: 'file/fetchFileList'
   			});
@@ -66,7 +68,6 @@ const initApplication = function (props){
   			});
   		});
     }
-
   }
 	return true;
 

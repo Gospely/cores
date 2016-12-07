@@ -74,9 +74,23 @@ export default {
 
 		setup({ dispatch, history }) {
 	      	history.listen(({ pathname }) => {
+
+
+
           		dispatch({
-            		type: 'loadPanels',
+            		type: 'loadPanels'
           		});
+							var splits = pathname.split("/");
+							if(splits[1] == 'project' && splits[2] != null && splits[2] != undefined){
+
+								var id = splits[2];
+								console.log("===================setup===========");
+								dispatch({
+									type: 'getConfig',
+									payload: {id}
+								});
+							}
+							return true;
 	      	});
 		}
 
@@ -130,11 +144,33 @@ export default {
 			var res = yield request(url, {
 				method: 'GET',
 			});
+		},
+		//获取界面初始化配置
+		*getConfig({ payload: params}, {call, put, select}){
+
+			console.log("============getConfig=============");
+			var configs = yield request('uistates?application=' + params.id, {
+				method: 'get'
+			});
+			console.log("============getConfig=============");
+			var config = configs.data.fields[0];
+			var UIState = JSON.parse(config.configs);
+			console.log(configs);
+			yield put({
+				type: 'initState',
+				payload: {UIState}
+			});
 		}
 	},
 
 	reducers: {
+		initState(state, { payload: params}){
 
+			console.log("=========initState============");
+			state.panels = params.UIState.panels;
+
+			return {...state};
+		},
 		handleDebugger(state, { payload: params}){
 			state.debug = params.debug;
 			console.log('handleDebugger');
@@ -582,6 +618,14 @@ export default {
 		    					type: target.type, key: activePane.activeTab.key,
 		    					editorId: editorId,isSave: isSave})
 		    return {...state};
+		},
+		//UI状态初始化
+		initState(state, { payload: params }){
+
+			console.log("=======================initState=================");
+			console.log(params);
+			state.panels = params.UIState.panels;
+			return {...state};
 		}
 	}
 
