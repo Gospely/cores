@@ -22,7 +22,7 @@
 			},
 
 			changeBackgroundTextStyle: function(style) {
-				style = style == 'light' ? '200' : '400';
+				style = style == 'light' ? '200' : '800';
 				jq('#gospel-app-title').css('font-weight', style);
 			},
 
@@ -142,7 +142,6 @@
 
 			elem.dragging({
 				move : 'y',
-
 		        onMouseUp: function(e) {
 
 		        },
@@ -216,7 +215,7 @@
 					}
 				}
 				window.router.push(tmpRoute);
-				refreshApp(data);
+				navToPage(data);
 				console.log(window.router);
 			},
 
@@ -227,9 +226,12 @@
 
 			ctrlAdded: function() {
 				console.log('ctrlAdded', data);
-				var controller = data;
-				var wrapper = allComponents.genWrapper(controller);
-				var appended = jq(parent_window.currentTarget).append(wrapper);
+				
+				var controller = data,
+					comGen = componentsGenerator(controller);
+					elem = comGen.createElement(),
+
+					appendResult = jq(parent_window.currentTarget).append(elem);
 
 				dragger.makeElemAddedDraggable(controller.key);
 			},
@@ -273,7 +275,7 @@
 		if(currentTarget.attr('id') != 'gospel-designer-container') {
 			parent_window.postMessage({
 				invalidDropArea: '非法的拖拽区域'
-			}, '*')
+			}, '*');
 			return false;
 		}
 
@@ -349,6 +351,22 @@
 		e.preventDefault();
 		e.stopPropagation();
 	});
+
+	var componentsGenerator = function(controller) {
+		this.controller = controller;
+	}
+
+	componentsGenerator.prototype = {
+
+		genWrapper: function() {
+
+		},
+
+		createElement: function() {
+
+		}
+
+	}
 
 	var allComponents = {
 		genButton: function(c) {
