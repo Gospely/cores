@@ -659,11 +659,26 @@ const FileTree = (props) => {
 
     console.log(fileName);
     console.log(localStorage.currentFolder);
+
+    var file = fileName;
+
+    file = file.split('/');
+    console.log(file[file.length-1]);
+    var suffix = file[file.length-1].split('.')[1];
+    if(suffix != undefined){
+      localStorage.suffix = suffix;
+    }
     fileName = fileName.replace(localStorage.currentProject,'')
     props.dispatch({
       type: 'file/readFile',
       payload: fileName
     })
+    //切换语法
+
+    props.dispatch({
+      type: 'editorTop/dynamicChangeSyntax',
+      payload:{suffix}
+    });
     props.dispatch({
       type: 'file/hideSearchPane'
     })
@@ -690,8 +705,8 @@ const FileTree = (props) => {
             <Input size="large" placeholder="index.js" onChange={searchPaneInputChange} value={props.file.searchFilePane.inputValue}/>
             <div style={{overflow: 'auto', maxHeight: 500}}>
                 {props.file.searchFilePane.files.map(file=> {
-                    return  <div onClick={searchThisFile.bind(this,file.folder)} 
-                            key={file.id} 
+                    return  <div onClick={searchThisFile.bind(this,file.folder)}
+                            key={file.id}
                             className={TreeStyle.fileSearchPaneOption}
                             >
                                 {file.folder}
