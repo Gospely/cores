@@ -182,6 +182,10 @@
 				refreshApp(data);
 			},
 
+			ctrlAttrRefreshed: function() {
+				console.log('ctrlAttrRefreshed', data);
+			},
+
 			ctrlSelected: function() {
 
 				console.log('ctrlSelected', data);
@@ -226,9 +230,10 @@
 
 			ctrlAdded: function() {
 				console.log('ctrlAdded', data);
-				
+
 				var controller = data,
-					comGen = componentsGenerator(controller);
+
+					comGen = new ComponentsGenerator(controller),
 					elem = comGen.createElement(),
 
 					appendResult = jq(parent_window.currentTarget).append(elem);
@@ -286,8 +291,6 @@
 
 		//获取父元素的window对象上的数据
 		var controller = parent_window.dndData;
-		console.log("接收到的组件数据结构是：");
-		console.log(controller);
 		parent_window.currentTarget = e.target;
 		postMessageToFather.ctrlToBeAdded(controller);
 		hideBorder();
@@ -352,18 +355,63 @@
 		e.stopPropagation();
 	});
 
-	var componentsGenerator = function(controller) {
+	function ComponentsGenerator(controller) {
 		this.controller = controller;
+
+		return this;
 	}
 
-	componentsGenerator.prototype = {
+	ComponentsGenerator.prototype = {
 
-		genWrapper: function() {
+		coverWrapper: function(component) {
+			var wrapper = jq('<div class="control-box hight-light" id="' + this.controller.key + '"></div>'),
+				operation = '<i class="weui-icon-cancel delete-com"></i>';
 
+			wrapper.attr('data-control', JSON.stringify(this.controller))
+				   .append(operation);
+
+			wrapper.append(component);
+
+			return wrapper;
 		},
 
 		createElement: function() {
+			console.log('createElement', this.controller);
 
+			var tag = typeof this.controller.tag == 'object' ? this.controller.tag[0] : this.controller.tag,
+
+				newElem = jq(document.createElement(tag));
+
+			if(!tag) {
+				alert('组件数据结构出错');
+				return false;
+			}
+
+			if(this.controller.baseClassName) {
+				newElem.addClass(this.controller.baseClassName);
+			}
+
+			for(var att in this.controller.attr) {
+
+				var currentAttr = this.controller.attr[att];
+
+				if(currentAttr.isClassName) {
+					newElem.addClass(currentAttr._value);
+				}
+
+				if(currentAttr.isHTML) {
+					newElem.html(currentAttr._value);
+				}
+
+			}
+
+			console.log(newElem);
+
+			var component = this.coverWrapper(newElem);
+
+			console.log(component);
+
+			return component;
 		}
 
 	}

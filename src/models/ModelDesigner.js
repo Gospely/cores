@@ -26,18 +26,18 @@ const layoutAction = {
 		
 	},
 
-	getActiveControllerByKey (page, key) {
+	getActiveControllerByKey (controllerList, key) {
 
 		var ct;
 
-		for (var i = 0; i < page.length; i++) {
-			var ctrl = page[i];
+		for (var i = 0; i < controllerList.length; i++) {
+			var ctrl = controllerList[i];
 
 			if(ctrl.children) {
 				layoutAction.getActiveControllerByKey(ctrl.children);
 			}
 
-			if(typeof ctrl.key == key) {
+			if(ctrl.key == key) {
 				ct = ctrl;
 				break;
 			}
@@ -1330,7 +1330,7 @@ export default {
     		if(state.layoutState.activeType == 'controller') {
     			var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
 	    		gospelDesigner.postMessage({
-	    			attrRefreshed: activeCtrl
+	    			ctrlAttrRefreshed: activeCtrl
 	    		}, '*');
     		}
     		return {...state};

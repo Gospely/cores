@@ -55,9 +55,7 @@ export default {
 	      		}
 
 	      		const loopChildren = (page) => {
-
 	      			var ct;
-
 	      			for (var i = 0; i < page.length; i++) {
 	      				var ctrl = page[i];
 
@@ -70,9 +68,7 @@ export default {
 	      					break;
 	      				}
 	      			};
-
 	      			return ct;
-
 	      		};
 
 	      		const findParentPageByKey = (pages) => {
@@ -108,8 +104,8 @@ export default {
 				    yield put({
 				        type: 'designer/handleTreeChanged',
 				        payload: {
-				          key: parentPageAndCtrl.page.key,
-				          type: 'page'
+				          	key: parentPageAndCtrl.page.key,
+				          	type: 'page'
 				        }
 				    });
 	      		}
