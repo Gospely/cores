@@ -1,5 +1,7 @@
 import dva from 'dva';
 import request from '../utils/request.js';
+import fetch from 'dva/fetch';
+import baseUrl from '../configs.js';
 
 import { message } from 'antd';
 
@@ -16,9 +18,19 @@ export default {
 	subscriptions: {
 		setup({ dispatch, history }) {
 	      	history.listen(({ pathname }) => {
-	      		dispatch({
-	      			type: 'readConfig'
-	      		})
+
+						console.log(pathname);
+						var splits = pathname.split("/");
+						if(splits[1] == 'project' && splits[2] != null && splits[2] != undefined){
+
+							var id = splits[2];
+							console.log("===================setup===========");
+		      		dispatch({
+		      			type: 'readConfig',
+								payload:{id}
+		      		});
+						}
+						return true;
 	      	});
 		}
 	},
@@ -26,7 +38,10 @@ export default {
 	effects: {
 
 		*readConfig({ payload: params }, { call, put, select }) {
-  			var configs = yield request('uistates/' + params.id, {
+
+				console.log(params);
+				console.log("=======readConfig========");
+  			var configs = yield request('uistates?application=' + params.id, {
       			method: 'get'
       		});
 
@@ -35,44 +50,55 @@ export default {
   				return false;
   			}
 
-      		console.log(configs);
+				var config = configs.data.fields[0];
+				console.log(config);
+      	yield put({
+    			type: 'setDySave',
+					payload: {
+	    			dySave: config.dySave,
+	    			gap: config.gap
+	    		}
+    		});
+				var state = yield select(state => state.devpanel);
 
-      		yield put({
-      			tupe: 'setDySave'
-      		}, payload: {
-      			dySave: configs.dySave,
-      			gap: configs.gap
-      		});
+  			function cb() {
 
-      		var state = yield select(state => state.UIState);
-
-      		if(state.dySave) {
-      			function *cb() {
-
-      				var configTobeSaved = {
-      					id: '',
-      					application: '',
-      					creator: '',
-      					configs: {}
-      				}
-
-      				if(state.dySave) {
-      					yield put({ type: 'writeConfig' }, configTobeSaved);
-      				}else {
-      					clearInterval(state.saveInterval);
-      				}
-      			}
-
-      			state.saveInterval = setInterval(cb, state.gap);
-      		}
-
-
-      		yield put({ type: 'setSaveInterval', payload: configs });
+					console.log("setInterval");
+					var configStr = JSON.stringify(state,function(key,value){
+						if(key == 'content' || key == 'value'){
+							return undefined
+						}else{
+							return value;
+						}
+					});
+					console.log(configStr);
+  				var configTobeSaved = {
+  					id: config.id,
+  					application: params.id,
+  					configs: configStr
+  				}
+  				if(config.dySave) {
+						var url = baseUrl.baseURL + "uistates";
+						fetch(url, {
+							method: 'PUT',
+							headers: {
+      					"Content-Type": "application/json;charset=UTF-8",
+							},
+							body: JSON.stringify(configTobeSaved)
+						})
+  				}else {
+  					clearInterval(state.saveInterval);
+  				}
+  			}
+  			setInterval(cb, config.gap);
+				//yield put({ type: 'setSaveInterval', payload: saveInterval });
 		},
 
 		*writeConfig({ payload: params }, { call, put, select }) {
+
+			console.log("=========writeConfig=======");
 			var result = yield request('UIStates', {
-      			method: 'UPDATE',
+      			method: 'PUT',
       			body: params
       		});
 		},
@@ -82,11 +108,10 @@ export default {
 			params.gap = params.gap || 500000;
 
 			var result = yield request('uitates', {
-      			method: 'POST',
+      			method: 'PUT',
       			body: {
       				id: params.id,
       				application: params.application,
-      				creator: '',
       				dySave: params.dySave,
       				gap: params.gap
       			}
@@ -107,14 +132,21 @@ export default {
 	reducers: {
 
 		setDySave(state, { payload: params }) {
+
+			console.log("========setDySave========");
 			state.dySave = params.checked;
 			return {...state};
 		},
 
-            setDySaveGap(state, { payload: params }) {
-                  state.gap = params.val;
-                  return {...state};
-            }
+    setDySaveGap(state, { payload: params }) {
+          state.gap = params.val;
+          return {...state};
+    },
+		setSaveInterval(state, { payload: params }) {
+
+			state.saveInterval = params.saveInterval;
+			return {...state};
+		}
 
 	}
 
