@@ -138,14 +138,14 @@
 		makeElemAddedDraggable: function(id) {
 			var elem = jq('#' + id);
 			var orginClientX, orginClientY,movingClientX, movingClientY;
-
 			elem.attr('draggable',true);
 
 			elem.on('dragstart',function (e) {
 				console.log(e)
-				window.dragElement = e.currentTarget;
+				dragElement = e.currentTarget;
 				orginClientX = e.clientX;
 				orginClientY = e.clientY;
+
 				e.originalEvent.dataTransfer.setData('Text','true');
 				jq(e.currentTarget).css('opacity','.3');
 			});
@@ -153,11 +153,10 @@
 			elem.on('drag',function (e) {
 				movingClientX = e.clientX;
 				movingClientY = e.clientY;
-				if(elem.position().top + orginClientY - movingClientY == 42){
+				if(elem.position().top + orginClientY - movingClientY <= 42){
 					console.log('}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}非法位置')
 				}
-				// console.log(elem.position())
-				// console.log(elem.position().top + orginClientY - movingClientY)
+				direction = orginClientY,movingClientY - orginClientY
 			});
 
 			elem.on('dragend', function (e) {
@@ -167,27 +166,15 @@
 			elem.on('dragenter', function (e) {
 				console.log('进入',e)
 			})
-
-			// elem.on('dragover', function (e) {
-			// 	showDesignerDraggerBorder(jq(this));
-			// 	console.log('dropovar',e)
-			// 	e.preventDefault()
-			// });
-
-			
-
+		
 			elem.on('dragleave', function (e) {
-				// console.log('离开',e)
+				console.log('离开')
 				$this = jq(e.currentTarget);
-				// console.log($this.eq(0).attr('id'))
-				// console.log(jq(e.currentTarget))
-				// console.log(jq(dragElement))
 				hideDesignerDraggerBorder($this);
 				if($this.eq(0).attr('id') != jq(dragElement).eq(0).attr('id')){
 					console.log('不同的')
 					$this.before(jq(dragElement));
 				}
-
 			})
 
 			// elem.dragging({

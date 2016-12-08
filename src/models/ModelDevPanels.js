@@ -19,7 +19,6 @@ const methods = {
 export default {
 	namespace: 'devpanel',
 	state: {
-		isLoad: true,
 		devType: {
 			visual: localStorage.visual || true,
 			defaultActiveKey: localStorage.defaultActiveKey || 'controllers',
@@ -239,7 +238,6 @@ export default {
 			state.devType.defaultActiveKey = 'setting';
 			localStorage.defaultActiveKey = 'setting';
 			localStorage.activeMenu = "file";
-			state.isLoad = false;
 			// appRouter.go('/project/' + localStorage.currentProject);
 			//window.location.href = 'http://localhost:8989/#/project/' + localStorage.applicationId;
 			return {...state};
@@ -268,19 +266,14 @@ export default {
 					isSave: false
 				}
 			];
-			state.panels.panes[0].activeTab.key = "2";
+			state.panels.panes[0].activeTab.key = "1";
 			state.devType.visual = true;
 			localStorage.visual = true;
 			state.devType.defaultActiveKey = 'controllers';
 			localStorage.defaultActiveKey = 'controllers';
 			localStorage.activeMenu = "attr";
-			state.isLoad = false;
 			// appRouter.go('/project/' + localStorage.currentProject);
 			//window.location.href = 'http://localhost:8989/#/project/' + localStorage.applicationId;
-			return {...state};
-		},
-		reLoad(state){
-			state.isLoad = true;
 			return {...state};
 		},
 		toggleSearchBar(state,{payload:params}) {
@@ -672,7 +665,6 @@ export default {
 
 			console.log("=======================initState=================");
 			console.log(params);
-
 			state.panels = params.UIState.panels;
 			return {...state};
 		}

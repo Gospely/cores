@@ -16,6 +16,7 @@ const initApplication = function (props){
   url = configs.baseURL + "applications/" + applicationId;
   console.log("===============initApplication===========");
 
+  if(applicationId != localStorage.applicationId) {
 
   	console.log(applicationId);
   	console.log("===============initApplication different===========");
@@ -71,6 +72,7 @@ const initApplication = function (props){
   				payload: { id : application.image}
   			});
   		});
+    }
   }
 	return true;
 
