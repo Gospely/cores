@@ -37,13 +37,7 @@ function IndexPage(props) {
 
     onChange(paneKey,active) {
       // console.log(paneKey.paneKey)
-      props.dispatch({
-        type: 'devpanel/tabChanged',
-        payload: {
-          active: active,
-          paneKey: paneKey.paneKey
-        }
-      });
+
 			const activePane = props.devpanel.panels.panes[paneKey.paneKey];
 			const activeTab = activePane.tabs[active - 1]
       console.log(activeTab);
@@ -57,7 +51,24 @@ function IndexPage(props) {
         if(suffix != undefined){
           localStorage.suffix = suffix;
         }
+        if(activePane.editors[activeTab.editorId].value == null || activePane.editors[activeTab.editorId].value == ''){
+          props.dispatch({
+            type: 'devpanel/loadContent',
+            payload: {
+              editorId: activeTab.editorId,
+              paneKey: paneKey,
+              tab: activeTab
+            }
+          });
+        }
       }
+      props.dispatch({
+        type: 'devpanel/tabChanged',
+        payload: {
+          active: active,
+          paneKey: paneKey.paneKey
+        }
+      });
       props.dispatch({
         type: 'editorTop/dynamicChangeSyntax',
         payload: {suffix}

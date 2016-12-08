@@ -84,7 +84,7 @@ export default {
 							if(splits[1] == 'project' && splits[2] != null && splits[2] != undefined){
 
 								var id = splits[2];
-								console.log("===================setup===========");
+								console.log("===================setup  getConfig===========");
 								dispatch({
 									type: 'getConfig',
 									payload: {id}
@@ -148,17 +148,63 @@ export default {
 		//获取界面初始化配置
 		*getConfig({ payload: params}, {call, put, select}){
 
-			console.log("============getConfig=============");
+			console.log("============getConfig=============" + params.id);
 			var configs = yield request('uistates?application=' + params.id, {
 				method: 'get'
 			});
-			console.log("============getConfig=============");
 			var config = configs.data.fields[0];
 			var UIState = JSON.parse(config.configs);
+
+
+			for(var i = 0; i < UIState.panels.panes.length; i++) {
+
+				var pane =  UIState.panels.panes[i],
+					activeEditor = pane.tabs[pane.activeTab.index].editorId,
+					fileName = UIState.panels.panes[i].editors[activeEditor].fileName;
+
+					if(activeEditor != null && activeEditor != undefined) {
+						var readResult = yield request('fs/read', {
+									method: 'POST',
+									body: JSON.stringify({
+										fileName: localStorage.currentFolder + fileName.replace(localStorage.currentProject + "/",""),
+									})
+								});
+						console.log("=========================getActive====================");
+						console.log(UIState.panels.panes[i].editors[activeEditor]);
+						console.log(readResult);
+						var content = readResult.data
+	      		// console.log(content)
+	      		content = content.fields;
+						UIState.panels.panes[i].editors[activeEditor].value = content.content;
+					}
+			}
 			console.log(configs);
 			yield put({
 				type: 'initState',
 				payload: {UIState}
+			});
+		},
+		*loadContent({ payload: params}, {call, put, select}){
+
+			console.log("=========================loadContent====================");
+			var fileName = params.tab.title;
+			console.log(params);
+			var readResult = yield request('fs/read', {
+						method: 'POST',
+						body: JSON.stringify({
+							fileName: localStorage.currentFolder + fileName.replace(localStorage.currentProject + "/",""),
+						})
+					});
+			console.log("=========================loadContent====================");
+			console.log(readResult);
+			var content = readResult.data.fields;
+			yield put({
+				type: "initTab",
+				payload: {
+					content: content.content,
+					editorId: params.editorId,
+					paneKey: params.paneKey
+				}
 			});
 		}
 	},
@@ -169,6 +215,13 @@ export default {
 			console.log("=========initState============");
 			state.panels = params.UIState.panels;
 
+			return {...state};
+		},
+		initTab(state, { payload: params}){
+
+			console.log("=========initTab============");
+			console.log(params);
+			state.panels.panes[params.paneKey.paneKey].editors[params.editorId].value = params.content;
 			return {...state};
 		},
 		handleDebugger(state, { payload: params}){
@@ -624,6 +677,7 @@ export default {
 
 			console.log("=======================initState=================");
 			console.log(params);
+
 			state.panels = params.UIState.panels;
 			return {...state};
 		}

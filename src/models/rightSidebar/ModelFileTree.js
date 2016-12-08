@@ -100,6 +100,9 @@ export default {
             		type: 'fetchFileList',
 
           		});
+							dispatch({
+								type: 'initFiles',
+							});
 	      	});
 		}
 	},
@@ -274,23 +277,43 @@ export default {
       	*handleSearch({payload: params}, {call, put, select}) {
 
 					var files = yield select(state => state.files);
+					if(localStorage.files == null || localStorage.files == undefined) {
+						if(files ==null || files == undefined || files.length < 1){
+							var url = "fs/list/all?id=" + localStorage.currentFolder;
+							var res = yield request(url, {
+				      			method: 'GET',
+				      			});
 
-					if(files ==null || files == undefined || files.length < 1){
-						var url = "fs/list/all?id=" + localStorage.currentFolder;
-						var res = yield request(url, {
-			      			method: 'GET',
-			      			});
+							var result = res.data;
+							for(var i = 0; i<res.data.length; i++){
+								res.data[i].folder = res.data[i].id.replace(localStorage.currentFolder,localStorage.currentProject);
+							}
 
-						var result = res.data;
-						for(var i = 0; i<res.data.length; i++){
-							res.data[i].folder = res.data[i].id.replace(localStorage.currentFolder,localStorage.currentProject);
+							console.log(result);
+							localStorage.files = JSON.stringify(result);
+							yield put({type: 'showSearchPane',payload: {result}});
 						}
+					}else{
 
-						console.log(result);
-						yield put({type: 'showSearchPane',payload: {result}});
+							var result = JSON.parse(localStorage.files);
+							yield put({type: 'showSearchPane',payload: {result}});
 					}
-      	},
 
+      	},
+				*initFiles({payload: params}, {call, put, select}){
+					var url = "fs/list/all?id=" + localStorage.currentFolder;
+					var res = yield request(url, {
+								method: 'GET',
+								});
+
+					var result = res.data;
+					for(var i = 0; i<res.data.length; i++){
+						res.data[i].folder = res.data[i].id.replace(localStorage.currentFolder,localStorage.currentProject);
+					}
+
+					console.log(result);
+					localStorage.files = JSON.stringify(result);
+				},
       	*unZipFile({payload: params}, {call, put, select}) {
       		var folder = yield select(state => state.file.uploadModal.folderValue);
       		if (folder == '') {
@@ -315,6 +338,7 @@ export default {
 
 			console.log("showSearchPane");
 			console.log(params.result);
+
 			state.searchFilePane.visible = true;
 			state.searchInput.visible = false;
 			state.files = params.result;
