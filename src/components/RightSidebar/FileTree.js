@@ -128,6 +128,13 @@ const FileTree = (props) => {
 
     onRightClick: function(proxy) {
       var fileName = proxy.node.props.eventKey;
+
+      console.log("============fileName========");
+      console.log(fileName);
+      var root = false;
+      if(fileName == localStorage.dir){
+        root = true;
+      }
       localStorage.currentSelectedFile = fileName;
 
       fileName = fileName.split('/');
@@ -136,9 +143,10 @@ const FileTree = (props) => {
       localStorage.currentFolder = fileName;
 
       localStorage.currentFileIsDir = !proxy.node.props.isLeaf;
+      var event = proxy;
       props.dispatch({
         type: 'file/showContextMenu',
-        payload: proxy
+        payload: {event, root}
       });
     },
 
@@ -633,13 +641,14 @@ const FileTree = (props) => {
 
   const fileTreeMenu = (
     <Menu style={fileTreeMenuStyles} {...fileTreeMenuProps} className="context-menu">
-      <Menu.Item key="read">打开</Menu.Item>
-      <Menu.Item key="rename">重命名</Menu.Item>
+      <Menu.Item key="read" disabled={props.file.root || props.file.isLeaf}>打开</Menu.Item>
       <Menu.Divider />
-      <Menu.Item key="copy">复制</Menu.Item>
+      <Menu.Item key="rename" disabled={props.file.root}>重命名</Menu.Item>
+      <Menu.Divider />
+      <Menu.Item key="copy" disabled={props.file.root}>复制</Menu.Item>
       <Menu.Item key="paste">粘贴</Menu.Item>
       <Menu.Divider />
-      <Menu.Item key="cut">剪切</Menu.Item>
+      <Menu.Item key="cut" disabled={props.file.root}>剪切</Menu.Item>
       <Menu.Divider />
       <Menu.Item key="remove">删除</Menu.Item>
     </Menu>

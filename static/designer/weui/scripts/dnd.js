@@ -79,7 +79,7 @@
 						className: currentPage.key,
 
 						render: function () {
-							return attr.routingURL._value;
+							return attr.template._value;
 						},
 
 						bind: function() {
@@ -90,7 +90,7 @@
 
 				routerInstance.setDefault('/').init();
 
-				console.log(routerInstance);
+				console.log(';;;;;;;;;;;router;;;;;;;;;;', router);
 
 			}(pages);
 
@@ -252,7 +252,7 @@
 					className: data.key,
 
 					render: function () {
-						return data.attr.routingURL._value;
+						return data.attr.template._value;
 					},
 
 					bind: function() {
@@ -340,11 +340,15 @@
 		var controller = parent_window.dndData;
 		parent_window.currentTarget = e.target;
 		postMessageToFather.ctrlToBeAdded(controller);
+<<<<<<< HEAD
 		hideDesignerDraggerBorder(currentTarget);
+=======
+		hideDesignerDraggerBorder();
+>>>>>>> b2aa3073389568f19bde49b08320d5dd3a32bb9d
 	});
 
 	//点击i，删除当前组件
-	jq(document).on("click", ".control-box i", function(e) {
+	jq(document).on("click", ".control-box .delete-com", function(e) {
 		var dataControl = jq(this).parent().attr("data-control");
 		console.log("dataControl",dataControl);
 		//删除组件时向父级发送ctrlRemoved的信息;
@@ -545,62 +549,6 @@
 			return component;
 		}
 
-	}
-
-	var allComponents = {
-		genButton: function(c) {
-			var btn = $("<"+c.tag[0]+"/>");
-			btn.addClass(c.baseClassName);
-			btn.addClass(c.attr.class._value);
-			btn.html(c.attr.value._value);
-			return btn;
-		},
-
-		//生成组件
-		genComponent: function(controller){
-			switch (controller.type) {
-				case "button": return this.genButton(controller);
-			}
-		},
-
-		//生成组件外包装
-		genWrapper: function(controller) {
-			var wrapper = $('<div class="control-box hight-light" id="' + controller.key + '"></div>');
-			wrapper.attr("data-control", JSON.stringify(controller));
-			var i = '<i class="weui-icon-cancel delete-com"></i>';
-			var component = this.genComponent(controller);
-			wrapper.append(i);
-			wrapper.append(component);
-			return wrapper;
-		},
-
-		genChilden: function(c){
-			var div1 = $("<"+c.tag[0]+"/>");
-			div1.addClass(c.baseClassName);
-			div1.attr('id'.c.key);
-			for(var att in c.attr){
-				//是html
-				if(!att.isClassName && att.isHTML) {
-					div1.html(att._value);
-				}else if(att.isClassName && !att.isHTML) {	//是class
-					div1.attr(att, att._value);
-				}
-			}
-			return div1;
-		},
-
-		//递归生成组件
-		genCom: function(c){
-			var container = this.genChilden(c);
-			if(c.childen == null){
-				return container;
-			}else{
-				for(var i = 0; i < c.childen.length; i++){
-					container.append(this.genCom(c.childen[i]));
-				}
-				return container;
-			}
-		}
 	}
 
 	//发送信息给父级页面

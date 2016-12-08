@@ -39,6 +39,7 @@ export default {
 
 		*readConfig({ payload: params }, { call, put, select }) {
 
+				console.log(params);
 				console.log("=======readConfig========");
   			var configs = yield request('uistates?application=' + params.id, {
       			method: 'get'
@@ -63,7 +64,13 @@ export default {
   			function cb() {
 
 					console.log("setInterval");
-					var configStr = JSON.stringify(state);
+					var configStr = JSON.stringify(state,function(key,value){
+						if(key == 'content' || key == 'value'){
+							return undefined
+						}else{
+							return value;
+						}
+					});
 					console.log(configStr);
   				var configTobeSaved = {
   					id: config.id,
