@@ -1414,6 +1414,7 @@ export default {
 					if(controller.children) {
 						var loopAttrCtrl = loopAttr(controller.children);
 						ctrl.children.push(loopAttrCtrl);
+						console.log('loopAttrCtrl----=====================', loopAttrCtrl, ctrl);
 					}
 
 					return ctrl;

@@ -340,11 +340,7 @@
 		var controller = parent_window.dndData;
 		parent_window.currentTarget = e.target;
 		postMessageToFather.ctrlToBeAdded(controller);
-<<<<<<< HEAD
 		hideDesignerDraggerBorder(currentTarget);
-=======
-		hideDesignerDraggerBorder();
->>>>>>> b2aa3073389568f19bde49b08320d5dd3a32bb9d
 	});
 
 	//点击i，删除当前组件
