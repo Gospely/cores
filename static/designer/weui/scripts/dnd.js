@@ -275,6 +275,10 @@
 
 			layoutLoaded: function() {
 				initApp(data);
+			},
+
+			designerLoaded: function() {
+				initApp();
 			}
 		}
 

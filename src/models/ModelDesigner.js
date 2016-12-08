@@ -1257,13 +1257,7 @@ export default {
 
 		setup({ dispatch, history }) {
 	      	history.listen(({ pathname }) => {
-	      		setTimeout(function() {
-	      			window.gospelDesigner = window.frames['gospel-designer'];
-		      		console.log('gospelDesigner', gospelDesigner);
-		      		dispatch({
-		      			type: 'handleLayoutLoaded'
-		      		})
-	      		}, 2000);
+
 	      	});
 		}
 

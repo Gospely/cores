@@ -26,6 +26,18 @@ const Designer = (props) => {
 	  	</Menu>
 	);
 
+	const designerLoaded = () => {
+		window.gospelDesigner = window.frames['gospel-designer'];
+
+		gospelDesigner.postMessage({
+			designerLoaded: true
+		}, '*');
+
+		props.dispatch({
+			type: 'designer/handleLayoutLoaded'
+		})
+	}
+
   	return (
 		<div className="designer-wrapper" hidden={!props.devpanel.devType.visual}>
 
@@ -48,6 +60,7 @@ const Designer = (props) => {
 					className="designer"
 					frameBorder="0"
 					src="static/designer/weui/designer.html"
+					onLoad={designerLoaded}
 					>
 				</iframe>
 			</div>
