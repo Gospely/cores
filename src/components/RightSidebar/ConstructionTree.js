@@ -14,11 +14,12 @@ const ConstructionTree = (props) => {
 
   if (!window.flag) {
 
-    window.addEventListener('click', function () {
+    window.addEventListener('click', function (data) {
 
-      props.dispatch({type: 'designer/hideConstructionMenu'})
-
-    }, true)
+      console.log(data);
+      console.log("======================click===================");
+      props.dispatch({type: 'designer/hideConstructionMenu'});
+    }, false)
 
   }
 
@@ -26,7 +27,7 @@ const ConstructionTree = (props) => {
 
   const deleteThisConstruction = function() {
 
-        let type, 
+        let type,
 
             lastIndex = -1,
 
@@ -60,7 +61,7 @@ const ConstructionTree = (props) => {
 
                     type = data[i].type;
 
-                    if(activePage == localStorage.currentSelectedConstruction || 
+                    if(activePage == localStorage.currentSelectedConstruction ||
 
                         activeController == localStorage.currentSelectedConstruction) {
 
@@ -84,7 +85,7 @@ const ConstructionTree = (props) => {
 
                 }
 
-                
+
 
             }
 
@@ -114,16 +115,16 @@ const ConstructionTree = (props) => {
         });
 
         props.dispatch({
-          type: 'attr/setFormItemsByType', 
+          type: 'attr/setFormItemsByType',
           payload: {
-            type, 
+            type,
             key
           }
         })
 
     };
 
-  
+
 
   const layoutTreeProps = {
 
@@ -249,8 +250,8 @@ return (
         </Row>
       </div>
 
-      <Tree className="layoutTree" 
-        showLine 
+      <Tree className="layoutTree"
+        showLine
         defaultExpandAll
         onRightClick={layoutTreeProps.onRightClick}
         onSelect={layoutTreeProps.onSelect}
