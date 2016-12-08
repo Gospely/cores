@@ -246,6 +246,7 @@ export default {
 
       	*writeFile({payload: params}, {call, put, select}) {
 
+					console.log("====================writeFile==================");
 					var fileName = '';
 					if(params.fileName == null){
 						fileName = localStorage.currentSelectedFile;

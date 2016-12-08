@@ -214,6 +214,7 @@ export default {
 
 			console.log("=========initState============");
 			state.panels = params.UIState.panels;
+			state.devType = params.UIState.devType;
 
 			return {...state};
 		},
@@ -376,6 +377,7 @@ export default {
 					if (isKey) {
 						panes[index].activeTab.key = tab.key;
 						panes[index].activeTab.index = i;
+
 					}
 				})
 			}
@@ -480,6 +482,9 @@ export default {
 					if (isKey) {
 						activePane.activeTab.key = tab.key;
 						activePane.activeTab.index = i;
+						console.log("=====================reTabKey==========");
+						console.log(tab);
+						activePane.activeEditor.id = tab.editorId;
 					}
 				})
 			}
