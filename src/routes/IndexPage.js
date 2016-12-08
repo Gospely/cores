@@ -18,7 +18,10 @@ import initApplication from '../utils/initApplication';
 
 function IndexPage(props) {
 
-  initApplication(props);
+  if(props.devpanel.isLoad){
+    initApplication(props);
+  }
+
 
 
   const devPanelProps = {

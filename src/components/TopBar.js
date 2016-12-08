@@ -259,6 +259,9 @@ const LeftSidebar = (props) => {
 
 	    openApp(application) {
 
+				props.dispatch({
+	        	type: 'devpanel/reLoad'
+	      	});
 				window.location.href = 'http://localhost:8989/#/project/' + application.id;
 				props.dispatch({
 	        	type: 'sidebar/hideModalSwitchApp'

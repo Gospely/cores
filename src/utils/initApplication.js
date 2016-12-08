@@ -16,7 +16,6 @@ const initApplication = function (props){
   url = configs.baseURL + "applications/" + applicationId;
   console.log("===============initApplication===========");
 
-  if(applicationId != localStorage.applicationId) {
 
   	console.log(applicationId);
   	console.log("===============initApplication different===========");
@@ -62,12 +61,16 @@ const initApplication = function (props){
   			props.dispatch({
   				type: 'file/fetchFileList'
   			});
+        props.dispatch({
+          type: 'devpanel/getConfig',
+          payload: { id : applicationId}
+        });
+
   			props.dispatch({
   				type: 'devpanel/handleImages',
   				payload: { id : application.image}
   			});
   		});
-    }
   }
 	return true;
 
