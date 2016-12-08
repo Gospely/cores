@@ -21,6 +21,8 @@ const layoutAction = {
 		if(state.layoutState.activePage.level == 1){
 			return state.layout[state.layoutState.activePage.index];
 		}else {
+			console.log(state.layoutState);
+			console.log('------------======activePage==========', state.layout[0].children);
 			return state.layout[0].children[state.layoutState.activePage.index];
 		}
 		
@@ -429,6 +431,19 @@ export default {
 								isClassName: false,
 								isHTML: false,
 								_value: '/'
+							},
+
+							template: {
+								type: 'input',
+								attrType: 'text',
+								title: '模版',
+								isClassName: false,
+								isHTML: true,
+								_value: '\
+									<div class="page__hd"></div> \
+									<div class="page__bd"></div> \
+									<div class="page__ft"></div> \ ',
+								backend: true
 							}
 
 						},
@@ -461,11 +476,11 @@ export default {
 		},
 
 		controllersList: [
-			{
-				name: '按钮组',
-				type: 'button-bar',
-				attr: {}
-			},
+			// {
+			// 	name: '按钮组',
+			// 	type: 'button-bar',
+			// 	attr: {}
+			// },
 
 			{
 				name: '应用',
@@ -651,10 +666,32 @@ export default {
 						isClassName: false,
 						isHTML: false,
 						_value: ''
+					},
+
+					template: {
+						type: 'input',
+						attrType: 'text',
+						title: '模版',
+						isClassName: false,
+						isHTML: true,
+						_value: '\
+								<div class="page__hd"></div> \
+								<div class="page__bd"></div> \
+								<div class="page__ft"></div> \ ',
+						backend: true
 					}
 
 				},
 				backend: true
+			},
+			{
+				name: '列表容器',
+				type: 'container',
+				attr: {
+
+				},
+				tag: ['div'],
+				baseClassName: 'weui-cells'
 			},
 			{
 				name: '按钮',
@@ -755,7 +792,7 @@ export default {
 				}
 			},
 			{
-				name: '输入框',
+				name: '文本框',
 				type: 'input',
 				attr: {
 					value: {
@@ -963,26 +1000,136 @@ export default {
 						isClassName: true,
 						value: ['weui-cell_access'],
 						isHTML: false,
-						_value: ''
+						_value: false
 					}
 				},
 				tag: 'div',
 				baseClassName: 'weui-cells',
 				children: [{
 					tag: 'div',
+					name: '列表容器',
+					type: 'weui-cell',
 					baseClassName: 'weui-cell',
+					attr: {
+						linked: {
+							type: 'toggle',
+							title: '跳转',
+							isClassName: true,
+							value: ['weui-cell_access'],
+							isHTML: false,
+							_value: false
+						},
+
+						title: {
+							_value: '列表正文',
+							type: 'input',
+							isClassName: false,
+							isHTML: false,
+							title: '名称'
+						}
+					},
 					children: [{
 						tag: 'div',
 						baseClassName: 'weui-cell__hd',
-						children: []
+						name: '列表正文头部',
+						type: 'weui-cell__hd',
+						attr: {
+							useImage: {
+								type: 'toggle',
+								title: '使用图片',
+								isClassName: false,
+								value: [''],
+								isHTML: false,
+								_value: false
+							},
+
+							title: {
+								_value: '列表正文头部',
+								type: 'input',
+								isClassName: false,
+								isHTML: false,
+								title: '名称'
+							}
+						},
+						children: [{
+							tag: 'p',
+							baseClassName: '',
+							name: '列表标题文字',
+							type: 'p',
+							attr: {
+								content: {
+									type: 'input',
+									title: '文本内容',
+									isHTML: true,
+									isClassName: false,
+									_value: '列表标题文字'
+								},
+
+								title: {
+									_value: '列表标题文字',
+									type: 'input',
+									isClassName: false,
+									isHTML: false,
+									title: '名称'
+								}
+
+							}
+						}]
 					}, {
 						tag: 'div',
 						baseClassName: 'weui-cell__bd',
+						attr: {
+
+							title: {
+								_value: '列表标题文字',
+								type: 'input',
+								isClassName: false,
+								isHTML: false,
+								title: '名称'
+							}
+
+						},
+						name: '列表正文',
+						type: 'weui-cell__bd',
 						children: []
 					}, {
 						tag: 'div',
 						baseClassName: 'weui-cell__ft',
-						children: []
+						type: 'weui-cell__ft',
+						attr: {
+							title: {
+								_value: '列表标题文字',
+								type: 'input',
+								isClassName: false,
+								isHTML: false,
+								title: '名称'
+							}
+						},
+						name: '列表底部',
+						children: [{
+							tag: 'span',
+							baseClassName: '',
+							name: '说明文字',
+							type: 'span',
+							attr: {
+								content: {
+									type: 'input',
+									isHTML: true,
+									isClassName: false,
+									_value: '说明文字'
+								},
+
+								title: {
+									_value: '列表标题文字',
+									type: 'input',
+									isClassName: false,
+									isHTML: false,
+									title: '名称'
+								}
+
+							},
+							children: []
+						}]
 					}]
 				}]
 			},
@@ -1103,11 +1250,6 @@ export default {
 			{
 				name: '列表容器',
 				type: 'list-item-container',
-				attr: {}
-			},
-			{
-				name: '容器',
-				type: 'container',
 				attr: {}
 			}
 		],
@@ -1235,59 +1377,97 @@ export default {
 		},
 
 		addController(state, { payload: controller }) {
-			console.log("addController11111111111:::::::::::::::::::::::记得改",state.layout)
+			console.log("addController11111111111:::::::::::::::::::::::记得改",state.layout);
+
 			if (state.layoutState.activePage.level == 1) {
 				message.error('请选择一个页面');
 				return {...state};
 			}
+
 			var activePage = layoutAction.getActivePage(state);
 
 			// let leve = layoutAction.getCurrentLevelByKey(state.layout, state.layoutState.activePage.key);
-			var tmpAttr = {};
 			console.log(controller)
-			tmpAttr = layoutAction.deepCopyObj(controller.attr, tmpAttr);
-				tmpAttr['title'] = {};
-				tmpAttr['title']['_value'] = controller.name;
-				tmpAttr['title']['type'] = 'input';
-				tmpAttr['title']['isClassName'] = false;
-				tmpAttr['title']['isHTML'] = false;
-				tmpAttr['title']['title'] = '名称';
-			// tmpAttr['title']['_value'] = controller.name;
-			// tmpAttr['title']['title'] = '名称';
-			// for(var att in controller.attr) {
-			// 	var currAttr = controller.attr[att];
-			// 	tmpAttr[att] = currAttr;
-			// 	tmpAttr['title'] = {};
-			// 	tmpAttr['title']['_value'] = controller.name;
-			// 	tmpAttr['title']['type'] = 'input';
-			// 	tmpAttr['title']['isClassName'] = false;
-			// 	tmpAttr['title']['isHTML'] = false;
-			// 	tmpAttr['title']['title'] = '名称';
-			// }
 
-			var ctrl = {
-				type: controller.type,
-				key: controller.type + '-' + randomString(8, 10),
-				attr: tmpAttr,
-				tag: controller.tag,
-				baseClassName: controller.baseClassName
-			};
+			const loopAttr = (controller) => {
 
-			console.log(ctrl);
+				var controllerResult = {};
+
+				const resetCtrl = (controller) => {
+
+					var tmpAttr = {};
+
+					tmpAttr = layoutAction.deepCopyObj(controller.attr, tmpAttr);
+					tmpAttr['title'] = {};
+					tmpAttr['title']['_value'] = controller.name;
+					tmpAttr['title']['type'] = 'input';
+					tmpAttr['title']['isClassName'] = false;
+					tmpAttr['title']['isHTML'] = false;
+					tmpAttr['title']['title'] = '名称';
+
+					var ctrl = {
+						type: controller.type,
+						key: controller.type + '-' + randomString(8, 10),
+						attr: tmpAttr,
+						tag: controller.tag,
+						baseClassName: controller.baseClassName,
+						children: []
+					};
+
+					if(controller.children) {
+						var loopAttrCtrl = loopAttr(controller.children);
+						if(loopAttrCtrl.key) {
+							ctrl.children.push(loopAttrCtrl);							
+						}
+					}else {
+						ctrl.children = undefined;
+					}
+
+					return ctrl;
+
+				}
+
+				var ctrlResult = {};
+
+				var parentCtrl = {},
+					childCtrl = {};
+
+					// alert(typeof controller.length);
+
+				if(typeof controller.length == 'number') {
+					var childCtrlList = [];
+					for (var i = 0; i < controller.length; i++) {
+						var ctrl = controller[i];
+						childCtrl = resetCtrl(ctrl);
+						childCtrlList.push(childCtrl);
+						// controller[i] = childCtrl;
+						console.log('childCtrl=========', childCtrl, childCtrlList);
+					};
+				}else {
+					parentCtrl = resetCtrl(controller);
+					console.log('parentCtrl=========', parentCtrl);
+					return parentCtrl;
+				}
+
+				return childCtrl;
+
+			}
+
+			var tmpCtrl = loopAttr(controller);
 
     		gospelDesigner.postMessage({
-    			ctrlAdded: ctrl
+    			ctrlAdded: tmpCtrl
     		}, '*');
 
-			activePage.children.push(ctrl);
-			let level = layoutAction.getCurrentLevelByKey(state.layout, ctrl.key);
+			activePage.children.push(tmpCtrl);
+			let level = layoutAction.getCurrentLevelByKey(state.layout, tmpCtrl.key);
 			// alert(level)
-			layoutAction.setActiveController(state.layoutState, activePage.children.length - 1, ctrl.key, level);
+			layoutAction.setActiveController(state.layoutState, activePage.children.length - 1, tmpCtrl.key, level);
 			return {...state};
 		},
 
 		handleTreeChanged(state, { payload: params }) {
-			console.log('handleTreeChanged');
+			console.log('handleTreeChanged', params);
 			// let currentControl = layoutAction.getCurrentPageOrController(state.layout, params.key, level);
 			if(params.type == 'page') {
 				let level = layoutAction.getCurrentLevelByKey(state.layout, params.key);
@@ -1301,7 +1481,7 @@ export default {
 				let activePage = layoutAction.getActivePage(state);
 				console.log(activePage)
 				console.log(state.layoutState)
-				console.log(layoutAction.getControllerIndexAndLvlByKey(state, params.key, activePage));
+				// console.log(layoutAction.getControllerIndexAndLvlByKey(state, params.key, activePage));
 
 				var activePage = layoutAction.getActivePage(state);
 				console.log('activePage', activePage);

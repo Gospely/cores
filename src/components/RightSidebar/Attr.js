@@ -99,10 +99,10 @@ const Attr = (props) => {
 			return (
 				<FormItem key={pageKey + (itemKey ++)} {...formItemLayout} label={attr.title}>
              		<Input value={attr._value}
-             				type={attr.attrType}
-             				onChange={attrFormProps.handleAttrFormInputChange.bind(this, attr, parentAtt)}
-             				className="attrInput"
-             				placeholder={attr.title} />
+         				type={attr.attrType}
+         				onChange={attrFormProps.handleAttrFormInputChange.bind(this, attr, parentAtt)}
+         				className="attrInput"
+         				placeholder={attr.title} />
          		</FormItem>
 			);
 		},
@@ -111,7 +111,7 @@ const Attr = (props) => {
 			return (
 				<FormItem key={pageKey + (itemKey ++)} {...formItemLayout} label={attr.title}>
     				<Switch onChange={attrFormProps.handleAttrFormSwitchChange.bind(this, attr, parentAtt)}
-    						checked={attr._value} />
+						checked={attr._value} />
 				</FormItem>
 			);
 		},
@@ -173,7 +173,9 @@ const Attr = (props) => {
 	};
 
 	const form = props.attr.formItems.map( (item, index) => {
-		return attrTypeActions[item.type](item);
+		if(!item.backend) {
+			return attrTypeActions[item.type](item);			
+		}
 	});
 
 

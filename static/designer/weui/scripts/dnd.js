@@ -79,7 +79,7 @@
 						className: currentPage.key,
 
 						render: function () {
-							return attr.routingURL._value;
+							return attr.template._value;
 						},
 
 						bind: function() {
@@ -90,7 +90,7 @@
 
 				routerInstance.setDefault('/').init();
 
-				console.log(routerInstance);
+				console.log(';;;;;;;;;;;router;;;;;;;;;;', router);
 
 			}(pages);
 
@@ -137,32 +137,83 @@
 
 		makeElemAddedDraggable: function(id) {
 			var elem = jq('#' + id);
+			var orginClientX, orginClientY,movingClientX, movingClientY;
 
-			elem.dragging({
-				move: 'both',
-		        onMouseUp: function(e) {
+			elem.attr('draggable',true);
 
-		        },
-
-		        onMouseDown: function(e) {
-
-		        },
-
-		        onMouseMove: function(e, direction, moveX, moveY) {
-	    	        var 
-			            target = $(e.target),
-			            targetWidth = parseInt(target.parent().width()),
-			            targetHeight = parseInt(target.parent().height());
-
-			        if(moveY <= 42) {
-			        	return false;
-			        }else {
-			        	return true;
-			        }
-
-		        }
-
+			elem.on('dragstart',function (e) {
+				console.log(e)
+				orginClientX = e.clientX;
+				orginClientY = e.clientY;
+				e.originalEvent.dataTransfer.setData('Text','true');
+				jq(e.currentTarget).css('opacity','.3');
 			});
+
+			elem.on('drag',function (e) {
+				movingClientX = e.clientX;
+				movingClientY = e.clientY;
+				if(elem.position().top + orginClientY - movingClientY == 42){
+					console.log('}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}非法位置')
+				}
+				// console.log(elem.position())
+				// console.log(elem.position().top + orginClientY - movingClientY)
+			});
+
+			elem.on('dragend', function (e) {
+				console.log('拖拽结束：＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝',e)
+			});
+			elem.on('dragenter', function (e) {
+				console.log('进入',e)
+				window.dragToEnter = jq(e.target);
+			})
+
+			// elem.on('dragover', function (e) {
+			// 	showDesignerDraggerBorder(jq(this));
+			// 	console.log('dropovar',e)
+			// 	e.preventDefault()
+			// });
+
+			
+
+			elem.on('dragleave', function (e) {
+				console.log('离开',e)
+				$this = window.dragToEnter;
+				console.log($this)
+				// console.log(elem.)
+				// hideDesignerDraggerBorder($this);
+				// console.log(e.originalEvent.dataTransfer.getData('Text'));
+				if(jq($this) !== e.currentTarget);{
+					e.currentTarget.before($this);
+				}
+				
+
+			})
+
+			// elem.dragging({
+			// 	move: 'both',
+		 //        onMouseUp: function(e) {
+
+		 //        },
+
+		 //        onMouseDown: function(e) {
+
+		 //        },
+
+		 //        onMouseMove: function(e, direction, moveX, moveY) {
+	  //   	        var 
+			//             target = $(e.target),
+			//             targetWidth = parseInt(target.parent().width()),
+			//             targetHeight = parseInt(target.parent().height());
+
+			//         if(moveY <= 42) {
+			//         	return false;
+			//         }else {
+			//         	return true;
+			//         }
+
+		 //        }
+
+			// });
 		}
 
 	}
@@ -201,7 +252,7 @@
 					className: data.key,
 
 					render: function () {
-						return data.attr.routingURL._value;
+						return data.attr.template._value;
 					},
 
 					bind: function() {
@@ -267,6 +318,9 @@
 	//拖拽结束
 	jq("#gospel-designer-container").on("drop", function(e) {
 		console.log('onrop=======', e);
+		if(e.originalEvent.dataTransfer.getData("Text") == 'true') {
+			return false;
+		}
 		var currentTarget = jq(e.currentTarget),
 			target = jq(e.target);
 
@@ -286,11 +340,11 @@
 		var controller = parent_window.dndData;
 		parent_window.currentTarget = e.target;
 		postMessageToFather.ctrlToBeAdded(controller);
-		hideBorder();
+		hideDesignerDraggerBorder(currentTarget);
 	});
 
 	//点击i，删除当前组件
-	jq(document).on("click", ".control-box i", function(e) {
+	jq(document).on("click", ".control-box .delete-com", function(e) {
 		var dataControl = jq(this).parent().attr("data-control");
 		console.log("dataControl",dataControl);
 		//删除组件时向父级发送ctrlRemoved的信息;
@@ -491,62 +545,6 @@
 			return component;
 		}
 
-	}
-
-	var allComponents = {
-		genButton: function(c) {
-			var btn = $("<"+c.tag[0]+"/>");
-			btn.addClass(c.baseClassName);
-			btn.addClass(c.attr.class._value);
-			btn.html(c.attr.value._value);
-			return btn;
-		},
-
-		//生成组件
-		genComponent: function(controller){
-			switch (controller.type) {
-				case "button": return this.genButton(controller);
-			}
-		},
-
-		//生成组件外包装
-		genWrapper: function(controller) {
-			var wrapper = $('<div class="control-box hight-light" id="' + controller.key + '"></div>');
-			wrapper.attr("data-control", JSON.stringify(controller));
-			var i = '<i class="weui-icon-cancel delete-com"></i>';
-			var component = this.genComponent(controller);
-			wrapper.append(i);
-			wrapper.append(component);
-			return wrapper;
-		},
-
-		genChilden: function(c){
-			var div1 = $("<"+c.tag[0]+"/>");
-			div1.addClass(c.baseClassName);
-			div1.attr('id'.c.key);
-			for(var att in c.attr){
-				//是html
-				if(!att.isClassName && att.isHTML) {
-					div1.html(att._value);
-				}else if(att.isClassName && !att.isHTML) {	//是class
-					div1.attr(att, att._value);
-				}
-			}
-			return div1;
-		},
-
-		//递归生成组件
-		genCom: function(c){
-			var container = this.genChilden(c);
-			if(c.childen == null){
-				return container;
-			}else{
-				for(var i = 0; i < c.childen.length; i++){
-					container.append(this.genCom(c.childen[i]));
-				}
-				return container;
-			}
-		}
 	}
 
 	//发送信息给父级页面
