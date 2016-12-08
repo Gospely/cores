@@ -141,8 +141,6 @@ const ConstructionTree = (props) => {
       var elemSelected = e[0];
       var elemType = elemSelected.split('-')[0];
 
-      console.log(elemSelected);
-
       props.dispatch({
         type: 'rightbar/setActiveMenu',
         payload: 'attr'

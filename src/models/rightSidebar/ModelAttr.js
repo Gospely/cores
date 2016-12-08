@@ -100,14 +100,18 @@ export default {
 	      			var parentPageAndCtrl = findParentPageByKey(layouts[0].children)
 	      			activeCtrl = parentPageAndCtrl.ctrl;
 
-	      			//置上级page为当前活跃page
-				    yield put({
-				        type: 'designer/handleTreeChanged',
-				        payload: {
-				          	key: parentPageAndCtrl.page.key,
-				          	type: 'page'
-				        }
-				    });
+	      			if(parentPageAndCtrl.page.key) {
+
+		      			//置上级page为当前活跃page
+					    yield put({
+					        type: 'designer/handleTreeChanged',
+					        payload: {
+					          	key: parentPageAndCtrl.page.key,
+					          	type: 'page'
+					        }
+					    });
+
+	      			}
 	      		}
 
 	      		console.log('=============activeCtrl', activeCtrl);

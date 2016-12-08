@@ -21,6 +21,8 @@ const layoutAction = {
 		if(state.layoutState.activePage.level == 1){
 			return state.layout[state.layoutState.activePage.index];
 		}else {
+			console.log(state.layoutState);
+			console.log('------------======activePage==========', state.layout[0].children);
 			return state.layout[0].children[state.layoutState.activePage.index];
 		}
 		
@@ -1005,7 +1007,7 @@ export default {
 				baseClassName: 'weui-cells',
 				children: [{
 					tag: 'div',
-					name: '列表正文',
+					name: '列表容器',
 					type: 'weui-cell',
 					baseClassName: 'weui-cell',
 					attr: {
@@ -1375,15 +1377,16 @@ export default {
 		},
 
 		addController(state, { payload: controller }) {
-			console.log("addController11111111111:::::::::::::::::::::::记得改",state.layout)
+			console.log("addController11111111111:::::::::::::::::::::::记得改",state.layout);
+
 			if (state.layoutState.activePage.level == 1) {
 				message.error('请选择一个页面');
 				return {...state};
 			}
+
 			var activePage = layoutAction.getActivePage(state);
 
 			// let leve = layoutAction.getCurrentLevelByKey(state.layout, state.layoutState.activePage.key);
-			var tmpAttr = {};
 			console.log(controller)
 
 			const loopAttr = (controller) => {
@@ -1464,7 +1467,7 @@ export default {
 		},
 
 		handleTreeChanged(state, { payload: params }) {
-			console.log('handleTreeChanged');
+			console.log('handleTreeChanged', params);
 			// let currentControl = layoutAction.getCurrentPageOrController(state.layout, params.key, level);
 			if(params.type == 'page') {
 				let level = layoutAction.getCurrentLevelByKey(state.layout, params.key);
@@ -1478,7 +1481,7 @@ export default {
 				let activePage = layoutAction.getActivePage(state);
 				console.log(activePage)
 				console.log(state.layoutState)
-				console.log(layoutAction.getControllerIndexAndLvlByKey(state, params.key, activePage));
+				// console.log(layoutAction.getControllerIndexAndLvlByKey(state, params.key, activePage));
 
 				var activePage = layoutAction.getActivePage(state);
 				console.log('activePage', activePage);
