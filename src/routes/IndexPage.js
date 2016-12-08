@@ -193,8 +193,8 @@ IndexPage.propTypes = {
 };
 
 // 指定订阅数据，这里关联了 indexPage
-function mapStateToProps({ sidebar, devpanel}) {
-  return {sidebar, devpanel};
+function mapStateToProps({ sidebar, devpanel, editorTop, file, rightbar}) {
+  return {sidebar, devpanel, editorTop, file, rightbar};
 }
 
 export default connect(mapStateToProps)(IndexPage);

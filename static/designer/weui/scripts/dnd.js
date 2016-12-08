@@ -143,6 +143,7 @@
 
 			elem.on('dragstart',function (e) {
 				console.log(e)
+				window.dragElement = e.currentTarget;
 				orginClientX = e.clientX;
 				orginClientY = e.clientY;
 				e.originalEvent.dataTransfer.setData('Text','true');
@@ -161,10 +162,10 @@
 
 			elem.on('dragend', function (e) {
 				console.log('拖拽结束：＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝',e)
+				jq(e.currentTarget).css('opacity','1');
 			});
 			elem.on('dragenter', function (e) {
 				console.log('进入',e)
-				window.dragToEnter = jq(e.target);
 			})
 
 			// elem.on('dragover', function (e) {
@@ -176,16 +177,16 @@
 			
 
 			elem.on('dragleave', function (e) {
-				console.log('离开',e)
-				$this = window.dragToEnter;
-				console.log($this)
-				// console.log(elem.)
-				// hideDesignerDraggerBorder($this);
-				// console.log(e.originalEvent.dataTransfer.getData('Text'));
-				if(jq($this) !== e.currentTarget);{
-					e.currentTarget.before($this);
+				// console.log('离开',e)
+				$this = jq(e.currentTarget);
+				// console.log($this.eq(0).attr('id'))
+				// console.log(jq(e.currentTarget))
+				// console.log(jq(dragElement))
+				hideDesignerDraggerBorder($this);
+				if($this.eq(0).attr('id') != jq(dragElement).eq(0).attr('id')){
+					console.log('不同的')
+					$this.before(jq(dragElement));
 				}
-				
 
 			})
 
