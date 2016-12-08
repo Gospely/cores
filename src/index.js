@@ -42,8 +42,8 @@ app.use({
 			window.appRouter = app._history;
 		}
 
-		var state = app._store.getState();
-		var UIState = packUIStage(state);
+		// var state = app._store.getState();
+		// var UIState = packUIStage(state);
 
 		// app._store.dispatch({
 		// 	type: 'UIState/writeConfig',
@@ -54,7 +54,7 @@ app.use({
 		// 		configs: UIState
 		// 	}
 		// })
-		console.log('onStateChange', UIState, app);
+		// console.log('onStateChange', UIState, app);
 	}
 });
 

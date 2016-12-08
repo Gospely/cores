@@ -554,7 +554,9 @@
 
 						jqComponent = jq(component);
 
-					jqComponent.append(loopComponent);
+						console.log('loopComponent=============', jqComponent.children().eq(1), loopComponent);
+
+					jqComponent.children().eq(1).append(jq(loopComponent));
 
 				};
 
