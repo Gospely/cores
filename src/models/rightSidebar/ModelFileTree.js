@@ -31,6 +31,8 @@ export default {
 	state: {
 		treeData: [],
 		files: [],
+		root: true,
+		isLeaf: true,
 
 		focus: false,
 
@@ -246,7 +248,6 @@ export default {
 
       	*writeFile({payload: params}, {call, put, select}) {
 
-					console.log("====================writeFile==================");
 					var fileName = '';
 					if(params.fileName == null){
 						fileName = localStorage.currentSelectedFile;
@@ -386,14 +387,16 @@ export default {
 			return {...state};
 		},
 
-		showContextMenu(state, {payload: proxy}) {
-			var evt = proxy.event;
+		showContextMenu(state, {payload: params}) {
+
+			console.log(params.event.node);
+			var evt = params.event.event;
 			return {...state, contextMenuStyles: {
 				display: 'block',
 				position: 'fixed',
-				top: proxy.event.clientY,
-				left: proxy.event.clientX
-			}}
+				top: params.event.event.clientY,
+				left: params.event.event.clientX
+			},root: params.root, isLeaf: !params.event.node.props.isLeaf  }
 		},
 
 		hideContextMenu(state) {
