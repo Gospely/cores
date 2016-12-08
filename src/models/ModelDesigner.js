@@ -1410,7 +1410,9 @@ export default {
 					for (var i = 0; i < controller.children.length; i++) {
 						var currentCtrl = controller.children[i];
 						childCtrl = loopAttr(currentCtrl);
-						ctrl.children.push(childCtrl);						
+						if(currentCtrl.children) {
+							ctrl.children.push(childCtrl);							
+						}
 					};
 				}
 
