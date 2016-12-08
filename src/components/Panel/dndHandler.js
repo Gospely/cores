@@ -78,10 +78,11 @@ export default {
 				invalidDropArea () {
 					message.error(data);
 				},
-				finishAppCreate(){
+
+				finishAppCreate () {
 					//创建完应用，开始退出模态框
 					props.dispatch({
-	        				type: 'sidebar/hideModalNewApp'
+        				type: 'sidebar/hideModalNewApp'
 					})
 					//修改url
 					window.location.href = 'http://localhost:8989/#/project/' + data.application;
