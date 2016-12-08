@@ -521,22 +521,6 @@
 
 			this.initElem();
 
-			if(this.controller.children && this.controller.children.length > 0) {
-
-				for (var i = 0; i < this.controller.children.length; i++) {
-					var currentCtrl = this.controller.children[i],
-						reComGenerator = new ComponentsGenerator({
-							controller: currentCtrl
-						});
-
-					var tmp = reComGenerator.createElement();
-
-					console.log('reComGenenator', tmp);
-
-				};
-
-			}
-
 			if(this.controller.baseClassName) {
 				this.elem.addClass(this.controller.baseClassName);
 			}
@@ -544,7 +528,26 @@
 			this.setAttribute();
 			var component = this.coverWrapper();
 
-			console.log(component);
+			if(this.controller.children && this.controller.children.length > 0) {
+
+				for (var i = 0; i < this.controller.children.length; i++) {
+					var currentCtrl = this.controller.children[i],
+
+						reComGenerator = new ComponentsGenerator({
+							controller: currentCtrl
+						}),
+
+						loopComponent = reComGenerator.createElement(),
+
+						jqComponent = jq(component);
+
+					jqComponent.append(loopComponent);
+
+				};
+
+			}
+
+			console.log('component===========', component);
 
 			return component;
 		}
