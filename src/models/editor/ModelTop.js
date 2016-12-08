@@ -167,6 +167,10 @@ export default {
 				md: function() {
 					console.log('markdown');
 					return 'markdown';
+				},
+				json: function() {
+					console.log('json');
+					return 'json';
 				}
 			}
 			console.log("denamicChange");
