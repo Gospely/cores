@@ -1410,10 +1410,10 @@ export default {
 					for (var i = 0; i < controller.children.length; i++) {
 						var currentCtrl = controller.children[i];
 						childCtrl = loopAttr(currentCtrl);
-						if(currentCtrl.children) {
-							ctrl.children.push(childCtrl);							
-						}
+						ctrl.children.push(childCtrl);							
 					};
+				}else {
+					ctrl.children = undefined;
 				}
 
 				return ctrl;
