@@ -1022,7 +1022,7 @@ export default {
 					children: [{
 						tag: 'div',
 						baseClassName: 'weui-cell__hd',
-						name: '列表正文头部',
+						name: '列表头部',
 						type: 'weui-cell__hd',
 						attr: {
 							useImage: {
@@ -1379,73 +1379,49 @@ export default {
 			var activePage = layoutAction.getActivePage(state);
 
 			// let leve = layoutAction.getCurrentLevelByKey(state.layout, state.layoutState.activePage.key);
-			console.log(controller)
+			console.log(controller);
+
+			var deepCopiedController = layoutAction.deepCopyObj(controller);
 
 			const loopAttr = (controller) => {
 
-				var controllerResult = {};
+				var childCtrl = {},
+					tmpAttr = {},
+					ctrl = {};
 
-				const resetCtrl = (controller) => {
+				tmpAttr = controller.attr;
+				tmpAttr['title'] = {};
+				tmpAttr['title']['_value'] = controller.name;
+				tmpAttr['title']['type'] = 'input';
+				tmpAttr['title']['isClassName'] = false;
+				tmpAttr['title']['isHTML'] = false;
+				tmpAttr['title']['title'] = '名称';
 
-					var tmpAttr = {};
+				ctrl = {
+					type: controller.type,
+					key: controller.type + '-' + randomString(8, 10),
+					attr: tmpAttr,
+					tag: controller.tag,
+					baseClassName: controller.baseClassName,
+					children: []
+				};
 
-					tmpAttr = layoutAction.deepCopyObj(controller.attr, tmpAttr);
-					tmpAttr['title'] = {};
-					tmpAttr['title']['_value'] = controller.name;
-					tmpAttr['title']['type'] = 'input';
-					tmpAttr['title']['isClassName'] = false;
-					tmpAttr['title']['isHTML'] = false;
-					tmpAttr['title']['title'] = '名称';
-
-					var ctrl = {
-						type: controller.type,
-						key: controller.type + '-' + randomString(8, 10),
-						attr: tmpAttr,
-						tag: controller.tag,
-						baseClassName: controller.baseClassName,
-						children: []
-					};
-
-					if(controller.children) {
-						var loopAttrCtrl = loopAttr(controller.children);
-						if(loopAttrCtrl.key) {
-							ctrl.children.push(loopAttrCtrl);							
-						}
-					}else {
-						ctrl.children = undefined;
-					}
-
-					return ctrl;
-
-				}
-
-				var ctrlResult = {};
-
-				var parentCtrl = {},
-					childCtrl = {};
-
-					// alert(typeof controller.length);
-
-				if(typeof controller.length == 'number') {
-					var childCtrlList = [];
-					for (var i = 0; i < controller.length; i++) {
-						var ctrl = controller[i];
-						childCtrl = resetCtrl(ctrl);
-						childCtrlList.push(childCtrl);
-						// controller[i] = childCtrl;
-						console.log('childCtrl=========', childCtrl, childCtrlList);
+				if(controller.children) {
+					for (var i = 0; i < controller.children.length; i++) {
+						var currentCtrl = controller.children[i];
+						childCtrl = loopAttr(currentCtrl);
+						ctrl.children.push(childCtrl);							
 					};
 				}else {
-					parentCtrl = resetCtrl(controller);
-					console.log('parentCtrl=========', parentCtrl);
-					return parentCtrl;
+					ctrl.children = undefined;
 				}
 
-				return childCtrl;
-
+				return ctrl;
 			}
 
-			var tmpCtrl = loopAttr(controller);
+			var tmpCtrl = loopAttr(deepCopiedController);
+
+			console.log('loopAttr===============', tmpCtrl);
 
     		gospelDesigner.postMessage({
     			ctrlAdded: tmpCtrl
