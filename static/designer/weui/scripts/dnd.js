@@ -137,32 +137,83 @@
 
 		makeElemAddedDraggable: function(id) {
 			var elem = jq('#' + id);
+			var orginClientX, orginClientY,movingClientX, movingClientY;
 
-			elem.dragging({
-				move: 'both',
-		        onMouseUp: function(e) {
+			elem.attr('draggable',true);
 
-		        },
-
-		        onMouseDown: function(e) {
-
-		        },
-
-		        onMouseMove: function(e, direction, moveX, moveY) {
-	    	        var 
-			            target = $(e.target),
-			            targetWidth = parseInt(target.parent().width()),
-			            targetHeight = parseInt(target.parent().height());
-
-			        if(moveY <= 42) {
-			        	return false;
-			        }else {
-			        	return true;
-			        }
-
-		        }
-
+			elem.on('dragstart',function (e) {
+				console.log(e)
+				orginClientX = e.clientX;
+				orginClientY = e.clientY;
+				e.originalEvent.dataTransfer.setData('Text','true');
+				jq(e.currentTarget).css('opacity','.3');
 			});
+
+			elem.on('drag',function (e) {
+				movingClientX = e.clientX;
+				movingClientY = e.clientY;
+				if(elem.position().top + orginClientY - movingClientY == 42){
+					console.log('}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}非法位置')
+				}
+				// console.log(elem.position())
+				// console.log(elem.position().top + orginClientY - movingClientY)
+			});
+
+			elem.on('dragend', function (e) {
+				console.log('拖拽结束：＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝',e)
+			});
+			elem.on('dragenter', function (e) {
+				console.log('进入',e)
+				window.dragToEnter = jq(e.target);
+			})
+
+			// elem.on('dragover', function (e) {
+			// 	showDesignerDraggerBorder(jq(this));
+			// 	console.log('dropovar',e)
+			// 	e.preventDefault()
+			// });
+
+			
+
+			elem.on('dragleave', function (e) {
+				console.log('离开',e)
+				$this = window.dragToEnter;
+				console.log($this)
+				// console.log(elem.)
+				// hideDesignerDraggerBorder($this);
+				// console.log(e.originalEvent.dataTransfer.getData('Text'));
+				if(jq($this) !== e.currentTarget);{
+					e.currentTarget.before($this);
+				}
+				
+
+			})
+
+			// elem.dragging({
+			// 	move: 'both',
+		 //        onMouseUp: function(e) {
+
+		 //        },
+
+		 //        onMouseDown: function(e) {
+
+		 //        },
+
+		 //        onMouseMove: function(e, direction, moveX, moveY) {
+	  //   	        var 
+			//             target = $(e.target),
+			//             targetWidth = parseInt(target.parent().width()),
+			//             targetHeight = parseInt(target.parent().height());
+
+			//         if(moveY <= 42) {
+			//         	return false;
+			//         }else {
+			//         	return true;
+			//         }
+
+		 //        }
+
+			// });
 		}
 
 	}
@@ -267,6 +318,9 @@
 	//拖拽结束
 	jq("#gospel-designer-container").on("drop", function(e) {
 		console.log('onrop=======', e);
+		if(e.originalEvent.dataTransfer.getData("Text") == 'true') {
+			return false;
+		}
 		var currentTarget = jq(e.currentTarget),
 			target = jq(e.target);
 
@@ -286,7 +340,7 @@
 		var controller = parent_window.dndData;
 		parent_window.currentTarget = e.target;
 		postMessageToFather.ctrlToBeAdded(controller);
-		hideBorder();
+		hideDesignerDraggerBorder(currentTarget);
 	});
 
 	//点击i，删除当前组件
