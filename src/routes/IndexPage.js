@@ -61,15 +61,17 @@ function IndexPage(props) {
         if(suffix != undefined){
           localStorage.suffix = suffix;
         }
-        if(activePane.editors[activeTab.editorId].value == null || activePane.editors[activeTab.editorId].value == ''){
-          props.dispatch({
-            type: 'devpanel/loadContent',
-            payload: {
-              editorId: activeTab.editorId,
-              paneKey: paneKey,
-              tab: activeTab
-            }
-          });
+        if(activePane.activeEditor.id != null && activePane.activeEditor.id != ''){
+          if(activePane.editors[activeTab.editorId].value == null || activePane.editors[activeTab.editorId].value == ''){
+            props.dispatch({
+              type: 'devpanel/loadContent',
+              payload: {
+                editorId: activeTab.editorId,
+                paneKey: paneKey,
+                tab: activeTab
+              }
+            });
+          }
         }
       }
       props.dispatch({

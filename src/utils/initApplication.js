@@ -65,7 +65,6 @@ const initApplication = function (props){
           type: 'devpanel/getConfig',
           payload: { id : applicationId}
         });
-
   			props.dispatch({
   				type: 'devpanel/handleImages',
   				payload: { id : application.image}

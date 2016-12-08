@@ -266,7 +266,7 @@ export default {
 					isSave: false
 				}
 			];
-			state.panels.panes[0].activeTab.key = "2";
+			state.panels.panes[0].activeTab.key = "1";
 			state.devType.visual = true;
 			localStorage.visual = true;
 			state.devType.defaultActiveKey = 'controllers';
