@@ -1413,8 +1413,11 @@ export default {
 
 					if(controller.children) {
 						var loopAttrCtrl = loopAttr(controller.children);
-						ctrl.children.push(loopAttrCtrl);
-						console.log('loopAttrCtrl----=====================', loopAttrCtrl, ctrl);
+						if(loopAttrCtrl.key) {
+							ctrl.children.push(loopAttrCtrl);							
+						}
+					}else {
+						ctrl.children = undefined;
 					}
 
 					return ctrl;
@@ -1440,7 +1443,6 @@ export default {
 				}else {
 					parentCtrl = resetCtrl(controller);
 					console.log('parentCtrl=========', parentCtrl);
-
 					return parentCtrl;
 				}
 
@@ -1450,35 +1452,14 @@ export default {
 
 			var tmpCtrl = loopAttr(controller);
 
-			console.log('loopAttr rsult------------', tmpCtrl);
-
-			tmpAttr = layoutAction.deepCopyObj(controller.attr, tmpAttr);
-			tmpAttr['title'] = {};
-			tmpAttr['title']['_value'] = controller.name;
-			tmpAttr['title']['type'] = 'input';
-			tmpAttr['title']['isClassName'] = false;
-			tmpAttr['title']['isHTML'] = false;
-			tmpAttr['title']['title'] = '名称';
-
-			var ctrl = {
-				type: controller.type,
-				key: controller.type + '-' + randomString(8, 10),
-				attr: tmpAttr,
-				tag: controller.tag,
-				baseClassName: controller.baseClassName,
-				children: controller.children
-			};
-
-			console.log(ctrl);
-
     		gospelDesigner.postMessage({
-    			ctrlAdded: ctrl
+    			ctrlAdded: tmpCtrl
     		}, '*');
 
-			activePage.children.push(ctrl);
-			let level = layoutAction.getCurrentLevelByKey(state.layout, ctrl.key);
+			activePage.children.push(tmpCtrl);
+			let level = layoutAction.getCurrentLevelByKey(state.layout, tmpCtrl.key);
 			// alert(level)
-			layoutAction.setActiveController(state.layoutState, activePage.children.length - 1, ctrl.key, level);
+			layoutAction.setActiveController(state.layoutState, activePage.children.length - 1, tmpCtrl.key, level);
 			return {...state};
 		},
 
