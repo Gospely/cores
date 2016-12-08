@@ -993,16 +993,7 @@ export default {
 			{
 				name: '列表',
 				type: 'list',
-				attr: {
-					linked: {
-						type: 'toggle',
-						title: '跳转',
-						isClassName: true,
-						value: ['weui-cell_access'],
-						isHTML: false,
-						_value: false
-					}
-				},
+				attr: {},
 				tag: 'div',
 				baseClassName: 'weui-cells',
 				children: [{
@@ -1116,7 +1107,8 @@ export default {
 									type: 'input',
 									isHTML: true,
 									isClassName: false,
-									_value: '说明文字'
+									_value: '说明文字',
+									title: '内容'
 								},
 
 								title: {
@@ -1537,6 +1529,8 @@ export default {
 
     		if(state.layoutState.activeType == 'controller') {
     			var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
+
+    			activeCtrl = activeCtrl || window.currentMultLvlCtrl;
 
 	    		gospelDesigner.postMessage({
 	    			ctrlSelected: activeCtrl

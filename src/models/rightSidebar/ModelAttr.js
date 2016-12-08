@@ -60,15 +60,15 @@ export default {
 	      				var ctrl = page[i];
 
 	      				if(ctrl.children) {
-	      					loopChildren(ctrl.children);
+	      					ct = loopChildren(ctrl.children);
 	      				}
 
 	      				if(ctrl.key == params.key) {
 	      					ct = ctrl;
-	      					break;
+	      					window.currentMultLvlCtrl = ctrl;
+			      			return ct;
 	      				}
 	      			};
-	      			return ct;
 	      		};
 
 	      		const findParentPageByKey = (pages) => {
@@ -95,6 +95,8 @@ export default {
 
 	      		activeCtrl = loopChildren(activePage.children);
 
+	      		activeCtrl = activeCtrl || window.currentMultLvlCtrl;
+
 	      		if(!activeCtrl) {
 
 	      			var parentPageAndCtrl = findParentPageByKey(layouts[0].children)
@@ -113,8 +115,6 @@ export default {
 
 	      			}
 	      		}
-
-	      		console.log('=============activeCtrl', activeCtrl);
 
       		}
 
