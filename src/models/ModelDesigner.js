@@ -1385,17 +1385,9 @@ export default {
 
 			const loopAttr = (controller) => {
 
-				var childCtrl = {};
-
-				if(controller.children) {
-					for (var i = 0; i < controller.children.length; i++) {
-						var ctrl = controller.children[i];
-
-						childCtrl = loopAttr(ctrl);
-					};
-				}
-
-				var tmpAttr = {};
+				var childCtrl = {},
+					tmpAttr = {},
+					ctrl = {};
 
 				tmpAttr = controller.attr;
 				tmpAttr['title'] = {};
@@ -1405,9 +1397,7 @@ export default {
 				tmpAttr['title']['isHTML'] = false;
 				tmpAttr['title']['title'] = '名称';
 
-				console.log(childCtrl);
-
-				var ctrl = {
+				ctrl = {
 					type: controller.type,
 					key: controller.type + '-' + randomString(8, 10),
 					attr: tmpAttr,
@@ -1416,16 +1406,20 @@ export default {
 					children: []
 				};
 
-				if(childCtrl.attr) {
-					ctrl.children.push(childCtrl);
-				}else {
-					ctrl.children = undefined;
+				if(controller.children) {
+					for (var i = 0; i < controller.children.length; i++) {
+						var currentCtrl = controller.children[i];
+						childCtrl = loopAttr(currentCtrl);
+						ctrl.children.push(childCtrl);						
+					};
 				}
 
 				return ctrl;
 			}
 
 			var tmpCtrl = loopAttr(deepCopiedController);
+
+			console.log('loopAttr===============', tmpCtrl);
 
     		gospelDesigner.postMessage({
     			ctrlAdded: tmpCtrl
