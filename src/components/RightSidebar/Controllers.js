@@ -12,7 +12,7 @@ const Controllers = (props) => {
 	const controllersProps = {
 
 		onSelect (controller) {
-			console.log(controller);
+			console.log('start dragging', controller);
 			window.dndData = controller;
 		},
 
@@ -25,7 +25,6 @@ const Controllers = (props) => {
 	    			return (
 						<Col span={12} key={index}>
 			      			<div onMouseDown={controllersProps.onSelect.bind(this, controller)} className={'app-components ' + controller.type}><span className="title">{controller.name}</span></div>
-
 			      		</Col>
 	    			);
 	    		}

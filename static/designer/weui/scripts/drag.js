@@ -27,7 +27,9 @@ jQuery.fn.extend({
 		hander.css({"cursor":"move"});
 		$width=$this.width();
 		$height=$this.height();
-		$this.css({"width":$width+"px","height":$height+"px"});
+		// $this.css({"width":$width+"px","height":$height+"px"});
+
+		$this.css({"width": '100%'});
 
 		var faWidth = father.width();
 		var faHeight = father.height();
