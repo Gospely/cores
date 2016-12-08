@@ -146,7 +146,7 @@ export default {
 		},
 
 		createApp(state) {
-
+			return {...state}
 		},
 
 		showModalSwitchApp(state) {

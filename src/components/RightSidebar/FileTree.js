@@ -13,6 +13,22 @@ const InputGroup = Input.Group;
 
 const FileTree = (props) => {
 
+  if (!window.fileFlag) {
+
+    window.addEventListener('click', function (data) {
+
+      if(localStorage.onSelect == 'false'){
+        console.log(data);
+        console.log("======================click===================");
+        props.dispatch({type: 'file/hideContextMenu'});
+      }else{
+          return false;
+      }
+    }, false)
+
+  }
+
+  window.fileFlag = true;
   const styles = {
     searchSuggestions: {
       border: ' 1px solid rgba(0, 0, 0, .2)',
@@ -68,6 +84,9 @@ const FileTree = (props) => {
     },
 
     onSelect: function(e, node) {
+
+      localStorage.onSelect = true;
+      console.log("=====================onSelect=============");
       console.log(e);
       console.log(node);
       if(e.length > 0) {
@@ -98,6 +117,7 @@ const FileTree = (props) => {
       if(currentClickTimestamp - preClickTimestamp <= 250) {
 
         var fileName = localStorage.currentSelectedFile;
+        localStorage.onSelect = false;
         if(node.node.props.isLeaf) {
           props.dispatch({
             type: 'file/readFile',
