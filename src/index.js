@@ -32,7 +32,7 @@ const app = dva({
 	  	message.error(e.message);
 	}
 });
-
+console.log(app);
 // 2. Plugins
 //app.use({});
 app.use({
