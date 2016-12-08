@@ -95,9 +95,7 @@ export default {
 
 	      		activeCtrl = loopChildren(activePage.children);
 
-	      		activeCtrl = currentMultLvlCtrl || window.currentMultLvlCtrl;
-
-  				console.log('=========================loopChildren=========================', activeCtrl, params);
+	      		activeCtrl = activeCtrl || window.currentMultLvlCtrl;
 
 	      		if(!activeCtrl) {
 
@@ -117,8 +115,6 @@ export default {
 
 	      			}
 	      		}
-
-	      		console.log('=============activeCtrl', activeCtrl);
 
       		}
 
