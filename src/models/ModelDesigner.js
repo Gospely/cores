@@ -36,16 +36,18 @@ const layoutAction = {
 			var ctrl = controllerList[i];
 
 			if(ctrl.children) {
-				layoutAction.getActiveControllerByKey(ctrl.children);
+				layoutAction.getActiveControllerByKey(ctrl.children, key);
 			}
 
 			if(ctrl.key == key) {
 				ct = ctrl;
+				window.currentActiveController = ct;
+				return ct;
 				break;
 			}
 		};
 
-		return ct;
+		return ct || window.currentActiveController;
 	},
 
 	setActivePage (layoutState, pageIndex, pageKey, level) {
@@ -62,18 +64,13 @@ const layoutAction = {
 		layoutState.activeController.key = controllerKey;
 		layoutState.activeKey = controllerKey;
 		layoutState.level = level;
+		layoutState.activeController.level = level;
 		layoutState.expandedKeys.push(controllerKey);
 		layoutState.activeType = 'controller';
 	},
 
 	getController(controllersList, controller) {
 		var ct;
-		// controllersList.map( (ctrl) => {
-		// 	if(ctrl.type == controller) {
-		// 		ct = ctrl;
-		// 		return ctrl;
-		// 	}
-		// });
 
 		for(let i = 0; i < controllersList.length; i ++){
 			if (controllersList[i].type == controller) {
@@ -143,6 +140,12 @@ const layoutAction = {
 		return loopControllers(controllers, 3);
 	},
 
+	getActiveControllerByIndexAndLevel(state, activePage, index, level) {
+
+
+
+	},
+
 	getCurrentLevelByKey(layouts, key) {
 		// let level = 1;
 		// console.log(layouts)
@@ -164,10 +167,6 @@ const layoutAction = {
 		let ertuLevel = loopData(layouts, 1, key);
 		return ertuLevel;
 	},
-
-	// setActiveLevelAndIndexAndKey(layoutState, index, key, level) {
-	// 	layoutState.
-	// }
 
 	getCurrentPageOrController(layout,level,index) {
 		let current = layout.children;
@@ -1495,8 +1494,6 @@ export default {
     		if(state.layoutState.activeType == 'controller') {
     			var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
 
-    			activeCtrl = activeCtrl || window.currentMultLvlCtrl;
-
 	    		gospelDesigner.postMessage({
 	    			ctrlSelected: activeCtrl
 	    		}, '*');
@@ -1535,9 +1532,7 @@ export default {
 		},
 
 		handleAttrFormChange(state, { payload: params }) {
-			console.log(params)
 			var activePage = layoutAction.getActivePage(state);
-			console.log("activePage:",activePage);
 
 			if(state.layoutState.activeType == 'page') {
 				if (params.parentAtt) {
@@ -1545,39 +1540,12 @@ export default {
 				}else {
 					activePage.attr[params.attrName]['_value'] = params.newVal;
 				}
-				console.log("activePage.attr:" , activePage.attr);
-				// state.layout[0].children[1].type = 'controller';
-				// state.layout[0].children[2].key = '3';
-				console.log(state.layout[0].children)
 			}
 
 			if(state.layoutState.activeType == 'controller') {
-				// activePage = state.layout[0].children[0];
-	      		// const loopChildren = (page) => {
+	      		var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
 
-	      		// 	var ct;
-
-	      		// 	for (var i = 0; i < page.length; i++) {
-	      		// 		var ctrl = page[i];
-
-	      		// 		if(ctrl.children) {
-	      		// 			loopChildren(ctrl.children);
-	      		// 		}
-
-	      		// 		if(typeof ctrl.attr[params.attrName] != 'undefined') {
-	      		// 			ct = ctrl;
-	      		// 			break;
-	      		// 		}
-	      		// 	};
-
-	      		// 	return ct;
-
-	      		// };
-
-	      		// var activeCtrl = loopChildren(activePage.children);
-	      		var activeCtrl = activePage.children[state.layoutState.activeController.index];
-
-	      		console.log('activeCtrl=========', activeCtrl);
+	      		console.log(';;;;;;;;;;;;;;;;;;;;activeCtrl=========', activeCtrl);
 
 	      		activeCtrl.attr[params.attrName]['_value'] = params.newVal;
 
