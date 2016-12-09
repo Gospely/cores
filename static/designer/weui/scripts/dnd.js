@@ -138,11 +138,12 @@
 		makeElemAddedDraggable: function(id) {
 			var elem = jq('#' + id);
 			var orginClientX, orginClientY,movingClientX, movingClientY;
+			window.dragElement = '';
 			elem.attr('draggable',true);
 
 			elem.on('dragstart',function (e) {
 				console.log(e)
-				dragElement = e.currentTarget;
+				dragElement = jq(e.currentTarget);
 				orginClientX = e.clientX;
 				orginClientY = e.clientY;
 
@@ -159,6 +160,17 @@
 				direction = orginClientY,movingClientY - orginClientY
 			});
 
+			// elem.on('dragover', function (e) {
+			// 	$this = jq(e.currentTarget);
+			// 	showDesignerDraggerBorder($this);
+			// 	console.log($this,dragElement);
+			// 	if($this.eq(0).attr('id') != dragElement.eq(0).attr('id')){
+			// 		$this.append(dragElement);
+			// 		console.log('append 了')
+			// 		return false;
+			// 	}
+			// })
+
 			elem.on('dragend', function (e) {
 				console.log('拖拽结束：＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝',e)
 				jq(e.currentTarget).css('opacity','1');
@@ -171,37 +183,11 @@
 				console.log('离开')
 				$this = jq(e.currentTarget);
 				hideDesignerDraggerBorder($this);
-				if($this.eq(0).attr('id') != jq(dragElement).eq(0).attr('id')){
+				if($this.eq(0).attr('id') != dragElement.eq(0).attr('id')){
 					console.log('不同的')
-					$this.before(jq(dragElement));
+					// $this.before(dragElement);
 				}
 			})
-
-			// elem.dragging({
-			// 	move: 'both',
-		 //        onMouseUp: function(e) {
-
-		 //        },
-
-		 //        onMouseDown: function(e) {
-
-		 //        },
-
-		 //        onMouseMove: function(e, direction, moveX, moveY) {
-	  //   	        var 
-			//             target = $(e.target),
-			//             targetWidth = parseInt(target.parent().width()),
-			//             targetHeight = parseInt(target.parent().height());
-
-			//         if(moveY <= 42) {
-			//         	return false;
-			//         }else {
-			//         	return true;
-			//         }
-
-		 //        }
-
-			// });
 		}
 
 	}
