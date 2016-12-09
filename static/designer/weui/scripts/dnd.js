@@ -278,7 +278,7 @@
 			},
 
 			designerLoaded: function() {
-				initApp();
+				// initApp(data);
 			}
 		}
 
@@ -325,7 +325,7 @@
 
 		e.preventDefault(); 
 
-		currentTarget.addClass('hight-light');
+		// currentTarget.addClass('hight-light');
 		// var data = e.dataTransfer.getData("Text");
 
 		//获取父元素的window对象上的数据
