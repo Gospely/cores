@@ -144,11 +144,21 @@
 
 				newestHTML = jq('.' + currentRouterConfig.className).html();
 
-			currentRouterConfig.bind = function() {
-				// jq('.' + currentRouterConfig.className).html(newestHTML);
+			var tmp = {
+				url: currentRouterConfig.url,
+
+				className: currentRouterConfig.className,
+
+				render: function () {
+					return newestHTML;
+				}
 			}
 
-			console.log(router._routes[currentRouteIndex].bind());
+			delete router._routes[currentRouteIndex];
+
+			router._routes[currentRouteIndex] = tmp;
+
+			console.log(router);
 		},
 
 		navToPage = function(data) {
