@@ -1,5 +1,5 @@
 
-import { message } from 'antd';
+import { message, notification } from 'antd';
 
 export default {
 	init(props) {
@@ -76,7 +76,7 @@ export default {
 				},
 
 				invalidDropArea () {
-					message.error(data);
+					message.error('非法的拖拽区域');
 				},
 
 				finishAppCreate () {
