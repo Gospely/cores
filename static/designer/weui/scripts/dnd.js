@@ -1,12 +1,19 @@
 (function(){
 
-	var jq = jQuery.noConflict();
-	var data;
+	jQuery.fn.isChildOf = function(b) { 
+		return (this.parents(b).length > 0); 
+	};
 
-	//获取父元素
-	var parent_window = window.parent;
+	//判断:当前元素是否是被筛选元素的子元素或者本身 
+	jQuery.fn.isChildAndSelfOf = function(b) { 
+		return (this.closest(b).length > 0); 
+	}; 
 
-	var pageAction = {
+	var jq = jQuery.noConflict(),
+		data,
+		parent_window = window.parent,
+
+		pageAction = {
 
 			changeNavigationBarTitleText: function(title) {
 				jq('#gospel-app-title').html(title);
@@ -42,9 +49,9 @@
 				pageAction.changeBackgroundColor(params.backgroundColor._value);
 			}
 
-		};
+		},
 
-	var initApp = function(designer) {
+		initApp = function(designer) {
 			console.log('handleLayout added', designer);
 			var layout = designer.layout,
 				layoutState = designer.layoutState,
@@ -52,6 +59,7 @@
 				pages = app.children;
 
 			window.wholeAppConfig = app.attr;
+			window.layoutState = layoutState;
 
 			pageAction.changeNavigationBarTitleText(app.attr.window._value.navigationBarTitleText._value);
 			pageAction.changeNavigationBarBackgroundColor(app.attr.window._value.navigationBarBackgroundColor._value);
@@ -90,6 +98,8 @@
 
 				routerInstance.setDefault('/').init();
 
+				window.currentRoute = layoutState.activePage.key;
+
 				console.log(';;;;;;;;;;;router;;;;;;;;;;', router);
 
 			}(pages);
@@ -126,85 +136,76 @@
 				ctrlRefresher.setAttribute();
 		},
 
+		refreshRouterList = function(elem) {
+			console.log('refreshRouterList=====;;', elem, router);
+
+			var currentRouteIndex = router._index - 1,
+				currentRouterConfig = router._routes[currentRouteIndex],
+
+				newestHTML = jq('.' + currentRouterConfig.className).html();
+
+			currentRouterConfig.bind = function() {
+				// jq('.' + currentRouterConfig.className).html(newestHTML);
+			}
+
+			console.log(router._routes[currentRouteIndex].bind());
+		},
+
 		navToPage = function(data) {
 			if(data.attr.routingURL) {
 				router.go(data.attr.routingURL._value);
+				window.currentRoute = data.key;
 				refreshApp(data);
 			}
-		};
+		},
 
-	var dragger = {
+		dragger = {
 
-		makeElemAddedDraggable: function(id) {
-			var elem = jq('#' + id);
-			var orginClientX, orginClientY,movingClientX, movingClientY;
-			elem.attr('draggable',true);
+			makeElemAddedDraggable: function(id) {
+				var elem = jq('#' + id);
+				var orginClientX, orginClientY,movingClientX, movingClientY;
+				elem.attr('draggable',true);
 
-			elem.on('dragstart',function (e) {
-				console.log(e)
-				dragElement = e.currentTarget;
-				orginClientX = e.clientX;
-				orginClientY = e.clientY;
+				elem.on('dragstart',function (e) {
+					console.log(e)
+					dragElement = e.currentTarget;
+					orginClientX = e.clientX;
+					orginClientY = e.clientY;
 
-				e.originalEvent.dataTransfer.setData('Text','true');
-				jq(e.currentTarget).css('opacity','.3');
-			});
+					e.originalEvent.dataTransfer.setData('Text','true');
+					jq(e.currentTarget).css('opacity','.3');
+				});
 
-			elem.on('drag',function (e) {
-				movingClientX = e.clientX;
-				movingClientY = e.clientY;
-				if(elem.position().top + orginClientY - movingClientY <= 42){
-					console.log('}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}非法位置')
-				}
-				direction = orginClientY,movingClientY - orginClientY
-			});
+				elem.on('drag',function (e) {
+					movingClientX = e.clientX;
+					movingClientY = e.clientY;
+					if(elem.position().top + orginClientY - movingClientY <= 42){
+						console.log('}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}非法位置')
+					}
+					direction = orginClientY,movingClientY - orginClientY
+				});
 
-			elem.on('dragend', function (e) {
-				console.log('拖拽结束：＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝',e)
-				jq(e.currentTarget).css('opacity','1');
-			});
-			elem.on('dragenter', function (e) {
-				console.log('进入',e)
-			})
-		
-			elem.on('dragleave', function (e) {
-				console.log('离开')
-				$this = jq(e.currentTarget);
-				hideDesignerDraggerBorder($this);
-				if($this.eq(0).attr('id') != jq(dragElement).eq(0).attr('id')){
-					console.log('不同的')
-					$this.before(jq(dragElement));
-				}
-			})
+				elem.on('dragend', function (e) {
+					console.log('拖拽结束：＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝',e)
+					jq(e.currentTarget).css('opacity','1');
+				});
 
-			// elem.dragging({
-			// 	move: 'both',
-		 //        onMouseUp: function(e) {
+				elem.on('dragenter', function (e) {
+					console.log('进入',e)
+				});
+			
+				elem.on('dragleave', function (e) {
+					console.log('离开')
+					$this = jq(e.currentTarget);
+					hideDesignerDraggerBorder($this);
+					if($this.eq(0).attr('id') != jq(dragElement).eq(0).attr('id')){
+						console.log('不同的')
+						$this.before(jq(dragElement));
+					}
+				});
+			}
 
-		 //        },
-
-		 //        onMouseDown: function(e) {
-
-		 //        },
-
-		 //        onMouseMove: function(e, direction, moveX, moveY) {
-	  //   	        var 
-			//             target = $(e.target),
-			//             targetWidth = parseInt(target.parent().width()),
-			//             targetHeight = parseInt(target.parent().height());
-
-			//         if(moveY <= 42) {
-			//         	return false;
-			//         }else {
-			//         	return true;
-			//         }
-
-		 //        }
-
-			// });
 		}
-
-	}
 
 	window.addEventListener("message", function (evt) {
 
@@ -271,14 +272,12 @@
 					appendResult = jq(parent_window.currentTarget).append(elem);
 
 				dragger.makeElemAddedDraggable(controller.key);
+
+				refreshRouterList(elem);
 			},
 
 			layoutLoaded: function() {
 				initApp(data);
-			},
-
-			designerLoaded: function() {
-				// initApp(data);
 			}
 		}
 
@@ -309,30 +308,29 @@
 
 	//拖拽结束
 	jq("#gospel-designer-container").on("drop", function(e) {
-		console.log('onrop=======', e);
+		console.log('onrop=======', e, currentRoute);
+
 		if(e.originalEvent.dataTransfer.getData("Text") == 'true') {
 			return false;
 		}
-		var currentTarget = jq(e.currentTarget),
-			target = jq(e.target);
 
-		if(currentTarget.attr('id') != 'gospel-designer-container') {
+		var	dropTarget = jq(e.target),
+			currentRouterDom = jq('.' + currentRoute);
+
+		if(!dropTarget.isChildAndSelfOf('.' + currentRoute)) {
 			parent_window.postMessage({
-				invalidDropArea: '非法的拖拽区域'
+				invalidDropArea: true
 			}, '*');
 			return false;
 		}
 
 		e.preventDefault(); 
 
-		// currentTarget.addClass('hight-light');
-		// var data = e.dataTransfer.getData("Text");
-
 		//获取父元素的window对象上的数据
 		var controller = parent_window.dndData;
 		parent_window.currentTarget = e.target;
 		postMessageToFather.ctrlToBeAdded(controller);
-		hideDesignerDraggerBorder(currentTarget);
+		hideDesignerDraggerBorder(dropTarget);
 	});
 
 	//点击i，删除当前组件

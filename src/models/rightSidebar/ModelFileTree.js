@@ -2,6 +2,7 @@ import dva from 'dva';
 import request from '../../utils/request.js';
 import randomWord from '../../utils/randomString.js';
 import { message } from 'antd';
+import fetch from 'dva/fetch';
 
 const findParentNode = (treeData, parentDirName, lvl) => {
 	var parentNode;
@@ -35,6 +36,8 @@ export default {
 		isLeaf: true,
 
 		focus: false,
+
+		fileInfo :{},
 
 		newFileInput: {
 			value: '未命名',
@@ -132,18 +135,20 @@ export default {
       	},
 
       	//上传文件
-      	*fetchUploadFile({payload:value},{call, put, select}){
+      	*fetchUploadFile({payload:info},{call, put, select}){
       		console.log("fetchUploadFile");
       		var formdata = new FormData();
       		formdata.append('username','zx');
       		formdata.append('projectName','node');
-      		formdata.append('fileUp',value);
-      		console.log('value',value);
-      		console.log(formdata);
-      		var result = yield request('fs/upload',{
+      		formdata.append('fileUp',info.file);
+      		console.log('formdata:',formdata);
+      		var result = fetch('http://localhost:8089/fs/upload',{
       			method:'POST',
+      			//mode: "no-cors",
       			body:formdata,
-      		})
+      		}).then(function(response) {  
+		    console.log(response.headers);  
+		});
       	},
 
       	*mkdir({payload: dirName}, {call, put, select}) {
@@ -471,6 +476,9 @@ export default {
 			}
 			return {...state};
 		},
+		initFileInfo(state,{payload:info}){
+			state.fileInfo=info;
+		},
 
 		handleUploadFolderChange(state, {payload: val}) {
 			state.uploadModal.folderValue = val;
@@ -696,7 +704,7 @@ export default {
 			console.log('falsh');
 			state.files = result;
 			return {...state};
-		}
+		},
 	}
 
 }
