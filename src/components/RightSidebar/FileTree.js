@@ -270,6 +270,10 @@ const FileTree = (props) => {
           props.dispatch({
             type: 'file/hideUploadModal'
           });
+          props.dispatch({
+            type: 'file/fetchUploadFile',
+            payload: value
+          });
         },
 
         onCancel: function() {
@@ -302,7 +306,7 @@ const FileTree = (props) => {
 
       uploadInput: {
 
-        action: '',
+        action: 'localhost:8089/fs/upload',
 
         // fileList: props.file.uploadInput.value,
 
@@ -322,7 +326,9 @@ const FileTree = (props) => {
             }
         }
       }
+
     },
+
     newFileNameModal: {
 
       visible: props.file.newFileNameModal.visible,
