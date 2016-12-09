@@ -21,6 +21,8 @@ const layoutAction = {
 		if(state.layoutState.activePage.level == 1){
 			return state.layout[state.layoutState.activePage.index];
 		}else {
+			console.log(state.layoutState);
+			console.log('------------======activePage==========', state.layout[0].children);
 			return state.layout[0].children[state.layoutState.activePage.index];
 		}
 		
@@ -991,21 +993,12 @@ export default {
 			{
 				name: '列表',
 				type: 'list',
-				attr: {
-					linked: {
-						type: 'toggle',
-						title: '跳转',
-						isClassName: true,
-						value: ['weui-cell_access'],
-						isHTML: false,
-						_value: false
-					}
-				},
+				attr: {},
 				tag: 'div',
 				baseClassName: 'weui-cells',
 				children: [{
 					tag: 'div',
-					name: '列表正文',
+					name: '列表容器',
 					type: 'weui-cell',
 					baseClassName: 'weui-cell',
 					attr: {
@@ -1029,7 +1022,7 @@ export default {
 					children: [{
 						tag: 'div',
 						baseClassName: 'weui-cell__hd',
-						name: '列表正文头部',
+						name: '列表头部',
 						type: 'weui-cell__hd',
 						attr: {
 							useImage: {
@@ -1114,7 +1107,8 @@ export default {
 									type: 'input',
 									isHTML: true,
 									isClassName: false,
-									_value: '说明文字'
+									_value: '说明文字',
+									title: '内容'
 								},
 
 								title: {
@@ -1263,13 +1257,7 @@ export default {
 
 		setup({ dispatch, history }) {
 	      	history.listen(({ pathname }) => {
-	      		setTimeout(function() {
-	      			window.gospelDesigner = window.frames['gospel-designer'];
-		      		console.log('gospelDesigner', gospelDesigner);
-		      		dispatch({
-		      			type: 'handleLayoutLoaded'
-		      		})
-	      		}, 2000);
+
 	      	});
 		}
 
@@ -1375,82 +1363,59 @@ export default {
 		},
 
 		addController(state, { payload: controller }) {
-			console.log("addController11111111111:::::::::::::::::::::::记得改",state.layout)
+			console.log("addController11111111111:::::::::::::::::::::::记得改",state.layout);
+
 			if (state.layoutState.activePage.level == 1) {
 				message.error('请选择一个页面');
 				return {...state};
 			}
+
 			var activePage = layoutAction.getActivePage(state);
 
 			// let leve = layoutAction.getCurrentLevelByKey(state.layout, state.layoutState.activePage.key);
-			var tmpAttr = {};
-			console.log(controller)
+			console.log(controller);
+
+			var deepCopiedController = layoutAction.deepCopyObj(controller);
 
 			const loopAttr = (controller) => {
 
-				var controllerResult = {};
+				var childCtrl = {},
+					tmpAttr = {},
+					ctrl = {};
 
-				const resetCtrl = (controller) => {
+				tmpAttr = controller.attr;
+				tmpAttr['title'] = {};
+				tmpAttr['title']['_value'] = controller.name;
+				tmpAttr['title']['type'] = 'input';
+				tmpAttr['title']['isClassName'] = false;
+				tmpAttr['title']['isHTML'] = false;
+				tmpAttr['title']['title'] = '名称';
 
-					var tmpAttr = {};
+				ctrl = {
+					type: controller.type,
+					key: controller.type + '-' + randomString(8, 10),
+					attr: tmpAttr,
+					tag: controller.tag,
+					baseClassName: controller.baseClassName,
+					children: []
+				};
 
-					tmpAttr = layoutAction.deepCopyObj(controller.attr, tmpAttr);
-					tmpAttr['title'] = {};
-					tmpAttr['title']['_value'] = controller.name;
-					tmpAttr['title']['type'] = 'input';
-					tmpAttr['title']['isClassName'] = false;
-					tmpAttr['title']['isHTML'] = false;
-					tmpAttr['title']['title'] = '名称';
-
-					var ctrl = {
-						type: controller.type,
-						key: controller.type + '-' + randomString(8, 10),
-						attr: tmpAttr,
-						tag: controller.tag,
-						baseClassName: controller.baseClassName,
-						children: []
-					};
-
-					if(controller.children) {
-						var loopAttrCtrl = loopAttr(controller.children);
-						if(loopAttrCtrl.key) {
-							ctrl.children.push(loopAttrCtrl);							
-						}
-					}else {
-						ctrl.children = undefined;
-					}
-
-					return ctrl;
-
-				}
-
-				var ctrlResult = {};
-
-				var parentCtrl = {},
-					childCtrl = {};
-
-					// alert(typeof controller.length);
-
-				if(typeof controller.length == 'number') {
-					var childCtrlList = [];
-					for (var i = 0; i < controller.length; i++) {
-						var ctrl = controller[i];
-						childCtrl = resetCtrl(ctrl);
-						childCtrlList.push(childCtrl);
-						// controller[i] = childCtrl;
-						console.log('childCtrl=========', childCtrl, childCtrlList);
+				if(controller.children) {
+					for (var i = 0; i < controller.children.length; i++) {
+						var currentCtrl = controller.children[i];
+						childCtrl = loopAttr(currentCtrl);
+						ctrl.children.push(childCtrl);							
 					};
 				}else {
-					parentCtrl = resetCtrl(controller);
-					console.log('parentCtrl=========', parentCtrl);
-					return parentCtrl;
+					ctrl.children = undefined;
 				}
 
-				return childCtrl;
-
+				return ctrl;
 			}
 
-			var tmpCtrl = loopAttr(controller);
+			var tmpCtrl = loopAttr(deepCopiedController);
+
+			console.log('loopAttr===============', tmpCtrl);
 
     		gospelDesigner.postMessage({
     			ctrlAdded: tmpCtrl
@@ -1464,7 +1429,7 @@ export default {
 		},
 
 		handleTreeChanged(state, { payload: params }) {
-			console.log('handleTreeChanged');
+			console.log('handleTreeChanged', params);
 			// let currentControl = layoutAction.getCurrentPageOrController(state.layout, params.key, level);
 			if(params.type == 'page') {
 				let level = layoutAction.getCurrentLevelByKey(state.layout, params.key);
@@ -1478,7 +1443,7 @@ export default {
 				let activePage = layoutAction.getActivePage(state);
 				console.log(activePage)
 				console.log(state.layoutState)
-				console.log(layoutAction.getControllerIndexAndLvlByKey(state, params.key, activePage));
+				// console.log(layoutAction.getControllerIndexAndLvlByKey(state, params.key, activePage));
 
 				var activePage = layoutAction.getActivePage(state);
 				console.log('activePage', activePage);
@@ -1534,6 +1499,8 @@ export default {
 
     		if(state.layoutState.activeType == 'controller') {
     			var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
+
+    			activeCtrl = activeCtrl || window.currentMultLvlCtrl;
 
 	    		gospelDesigner.postMessage({
 	    			ctrlSelected: activeCtrl

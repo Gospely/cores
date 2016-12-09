@@ -164,10 +164,14 @@ const Editor = (props) => {
 		},
 
 		onSelectSyntax(e) {
-			dispatch({
-				type: 'editorTop/onSelectSyntax',
-				payload: e
-			})
+
+			// console.log(e);
+			// var suffix = e.key;
+			// console.log("===============change==========");
+			// dispatch({
+			// 	type: 'editorTop/dynamicChangeSyntax',
+			// 	payload: {suffix}
+			// });
 		},
 
 		onSlideUp(proxy) {

@@ -138,13 +138,14 @@
 		makeElemAddedDraggable: function(id) {
 			var elem = jq('#' + id);
 			var orginClientX, orginClientY,movingClientX, movingClientY;
-
 			elem.attr('draggable',true);
 
 			elem.on('dragstart',function (e) {
 				console.log(e)
+				dragElement = e.currentTarget;
 				orginClientX = e.clientX;
 				orginClientY = e.clientY;
+
 				e.originalEvent.dataTransfer.setData('Text','true');
 				jq(e.currentTarget).css('opacity','.3');
 			});
@@ -152,41 +153,28 @@
 			elem.on('drag',function (e) {
 				movingClientX = e.clientX;
 				movingClientY = e.clientY;
-				if(elem.position().top + orginClientY - movingClientY == 42){
+				if(elem.position().top + orginClientY - movingClientY <= 42){
 					console.log('}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}非法位置')
 				}
-				// console.log(elem.position())
-				// console.log(elem.position().top + orginClientY - movingClientY)
+				direction = orginClientY,movingClientY - orginClientY
 			});
 
 			elem.on('dragend', function (e) {
 				console.log('拖拽结束：＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝',e)
+				jq(e.currentTarget).css('opacity','1');
 			});
 			elem.on('dragenter', function (e) {
 				console.log('进入',e)
-				window.dragToEnter = jq(e.target);
 			})
-
-			// elem.on('dragover', function (e) {
-			// 	showDesignerDraggerBorder(jq(this));
-			// 	console.log('dropovar',e)
-			// 	e.preventDefault()
-			// });
-
-			
-
+		
 			elem.on('dragleave', function (e) {
-				console.log('离开',e)
-				$this = window.dragToEnter;
-				console.log($this)
-				// console.log(elem.)
-				// hideDesignerDraggerBorder($this);
-				// console.log(e.originalEvent.dataTransfer.getData('Text'));
-				if(jq($this) !== e.currentTarget);{
-					e.currentTarget.before($this);
+				console.log('离开')
+				$this = jq(e.currentTarget);
+				hideDesignerDraggerBorder($this);
+				if($this.eq(0).attr('id') != jq(dragElement).eq(0).attr('id')){
+					console.log('不同的')
+					$this.before(jq(dragElement));
 				}
-				
-
 			})
 
 			// elem.dragging({
@@ -287,6 +275,10 @@
 
 			layoutLoaded: function() {
 				initApp(data);
+			},
+
+			designerLoaded: function() {
+				initApp();
 			}
 		}
 
@@ -540,7 +532,28 @@
 			this.setAttribute();
 			var component = this.coverWrapper();
 
-			console.log(component);
+			if(this.controller.children && this.controller.children.length > 0) {
+
+				for (var i = 0; i < this.controller.children.length; i++) {
+					var currentCtrl = this.controller.children[i],
+
+						reComGenerator = new ComponentsGenerator({
+							controller: currentCtrl
+						}),
+
+						loopComponent = reComGenerator.createElement(),
+
+						jqComponent = jq(component);
+
+						console.log('loopComponent=============', jqComponent.children().eq(1), loopComponent);
+
+					jqComponent.children().eq(1).append(jq(loopComponent));
+
+				};
+
+			}
+
+			console.log('component===========', component);
 
 			return component;
 		}

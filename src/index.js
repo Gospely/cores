@@ -12,6 +12,7 @@ localStorage.itemToCopy = localStorage.itemToCopy || undefined;
 import auth from './utils/auth';
 
 window.flag = false;
+window.fileFlag = false;
 //认证和状态同步
 auth();
 
@@ -31,7 +32,7 @@ const app = dva({
 	  	message.error(e.message);
 	}
 });
-
+console.log(app);
 // 2. Plugins
 //app.use({});
 app.use({
@@ -41,8 +42,8 @@ app.use({
 			window.appRouter = app._history;
 		}
 
-		var state = app._store.getState();
-		var UIState = packUIStage(state);
+		// var state = app._store.getState();
+		// var UIState = packUIStage(state);
 
 		// app._store.dispatch({
 		// 	type: 'UIState/writeConfig',
@@ -53,7 +54,7 @@ app.use({
 		// 		configs: UIState
 		// 	}
 		// })
-		console.log('onStateChange', UIState, app);
+		// console.log('onStateChange', UIState, app);
 	}
 });
 

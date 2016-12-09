@@ -14,17 +14,17 @@ export default {
 
 		syntaxList: [{
 			language: 'HTML',
-			key: '1',
+			key: 'html',
 			alias: 'html',
 			suffix: 'html'
 		}, {
 			language: 'JavaScript',
-			key: '2',
+			key: 'js',
 			alias: 'javascript',
 			suffix:'js'
 		}, {
 			language: 'CSS',
-			key: '3',
+			key: 'css',
 			alias: 'css',
 			suffix: 'css'
 		}, {
@@ -34,9 +34,19 @@ export default {
 			suffix: 'php'
 		},{
 			language: 'JAVA',
-			key: '5',
+			key: 'java',
 			alias: 'java',
 			suffix: 'java'
+		},{
+			language: 'JSON',
+			key: 'json',
+			alias: 'json',
+			suffix: 'json'
+		},{
+			language: 'XML',
+			key: 'xml',
+			alias: 'xml',
+			suffix: 'xml'
 		}],
 
 		isSaving: false,
@@ -167,6 +177,14 @@ export default {
 				md: function() {
 					console.log('markdown');
 					return 'markdown';
+				},
+				json: function() {
+					console.log('json');
+					return 'json';
+				},
+				xml: function(){
+					console.log("xml");
+					return "xml"
 				}
 			}
 			console.log("denamicChange");

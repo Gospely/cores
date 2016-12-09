@@ -19,7 +19,6 @@ const methods = {
 export default {
 	namespace: 'devpanel',
 	state: {
-
 		devType: {
 			visual: localStorage.visual || true,
 			defaultActiveKey: localStorage.defaultActiveKey || 'controllers',
@@ -74,23 +73,6 @@ export default {
 
 		setup({ dispatch, history }) {
 	      	history.listen(({ pathname }) => {
-
-
-
-          		dispatch({
-            		type: 'loadPanels'
-          		});
-							var splits = pathname.split("/");
-							if(splits[1] == 'project' && splits[2] != null && splits[2] != undefined){
-
-								var id = splits[2];
-								console.log("===================setup  getConfig===========");
-								dispatch({
-									type: 'getConfig',
-									payload: {id}
-								});
-							}
-							return true;
 	      	});
 		}
 
@@ -155,28 +137,29 @@ export default {
 			var config = configs.data.fields[0];
 			var UIState = JSON.parse(config.configs);
 
+			if(UIState.panels.panes[0].activeEditor.id != ''){
+				for(var i = 0; i < UIState.panels.panes.length; i++) {
 
-			for(var i = 0; i < UIState.panels.panes.length; i++) {
+					var pane =  UIState.panels.panes[i],
+						activeEditor = pane.tabs[pane.activeTab.index].editorId,
+						fileName = UIState.panels.panes[i].editors[activeEditor].fileName;
 
-				var pane =  UIState.panels.panes[i],
-					activeEditor = pane.tabs[pane.activeTab.index].editorId,
-					fileName = UIState.panels.panes[i].editors[activeEditor].fileName;
-
-					if(activeEditor != null && activeEditor != undefined) {
-						var readResult = yield request('fs/read', {
-									method: 'POST',
-									body: JSON.stringify({
-										fileName: localStorage.currentFolder + fileName.replace(localStorage.currentProject + "/",""),
-									})
-								});
-						console.log("=========================getActive====================");
-						console.log(UIState.panels.panes[i].editors[activeEditor]);
-						console.log(readResult);
-						var content = readResult.data
-	      		// console.log(content)
-	      		content = content.fields;
-						UIState.panels.panes[i].editors[activeEditor].value = content.content;
-					}
+						if(activeEditor != null && activeEditor != undefined) {
+							var readResult = yield request('fs/read', {
+										method: 'POST',
+										body: JSON.stringify({
+											fileName: localStorage.currentFolder + fileName.replace(localStorage.currentProject + "/",""),
+										})
+									});
+							console.log("=========================getActive====================");
+							console.log(UIState.panels.panes[i].editors[activeEditor]);
+							console.log(readResult);
+							var content = readResult.data
+		      		// console.log(content)
+		      		content = content.fields;
+							UIState.panels.panes[i].editors[activeEditor].value = content.content;
+						}
+				}
 			}
 			console.log(configs);
 			yield put({
@@ -283,7 +266,7 @@ export default {
 					isSave: false
 				}
 			];
-			state.panels.panes[0].activeTab.key = "2";
+			state.panels.panes[0].activeTab.key = "1";
 			state.devType.visual = true;
 			localStorage.visual = true;
 			state.devType.defaultActiveKey = 'controllers';
@@ -682,7 +665,6 @@ export default {
 
 			console.log("=======================initState=================");
 			console.log(params);
-
 			state.panels = params.UIState.panels;
 			return {...state};
 		}

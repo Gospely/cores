@@ -157,14 +157,16 @@ const LeftSidebar = (props) => {
 	              	content = '',
 	              	type = 'editor',
 	              	editorId = randomWord(8, 10);
-							localStorage.currentSelectedFile = '新文件';
+
+				localStorage.currentSelectedFile = '新文件';
+
 	            props.dispatch({
 	            	type: 'rightbar/setActiveMenu',
 	            	payload: 'file'
 	            });
 
-							// 更换默认语法
-							localStorage.suffix = "js";
+				// 更换默认语法
+				localStorage.suffix = "js";
 
 	          	props.dispatch({
 	            	type: 'devpanel/add',
@@ -177,7 +179,7 @@ const LeftSidebar = (props) => {
 
 	        designer() {
 
-	          	var title = 'Gospel UI 设计器',
+	          	var title = 'Gospel 微信小程序 设计器',
 	              	type = 'designer';
 
 	          	var editor = props.dispatch({
@@ -259,6 +261,7 @@ const LeftSidebar = (props) => {
 
 	    openApp(application) {
 
+				localStorage.isLoad = 'true';
 				window.location.href = 'http://localhost:8989/#/project/' + application.id;
 				props.dispatch({
 	        	type: 'sidebar/hideModalSwitchApp'

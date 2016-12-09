@@ -18,7 +18,17 @@ import initApplication from '../utils/initApplication';
 
 function IndexPage(props) {
 
-  initApplication(props);
+  // console.log(props);
+  // var flag = props.location.search;
+  // if(flag == '?from=dash'){
+  //   window.location.href = 'http://localhost:8989/#/project/' + props.params.id;
+  //   localStorage.isLoad = true;
+  // }
+  if(localStorage.isLoad == null || localStorage.isLoad == 'true'){
+    initApplication(props);
+    localStorage.isLoad = false;
+  }
+
 
 
   const devPanelProps = {
@@ -51,15 +61,17 @@ function IndexPage(props) {
         if(suffix != undefined){
           localStorage.suffix = suffix;
         }
-        if(activePane.editors[activeTab.editorId].value == null || activePane.editors[activeTab.editorId].value == ''){
-          props.dispatch({
-            type: 'devpanel/loadContent',
-            payload: {
-              editorId: activeTab.editorId,
-              paneKey: paneKey,
-              tab: activeTab
-            }
-          });
+        if(activePane.activeEditor.id != null && activePane.activeEditor.id != ''){
+          if(activePane.editors[activeTab.editorId].value == null || activePane.editors[activeTab.editorId].value == ''){
+            props.dispatch({
+              type: 'devpanel/loadContent',
+              payload: {
+                editorId: activeTab.editorId,
+                paneKey: paneKey,
+                tab: activeTab
+              }
+            });
+          }
         }
       }
       props.dispatch({
@@ -193,8 +205,8 @@ IndexPage.propTypes = {
 };
 
 // 指定订阅数据，这里关联了 indexPage
-function mapStateToProps({ sidebar, devpanel}) {
-  return {sidebar, devpanel};
+function mapStateToProps({ sidebar, devpanel, editorTop, file, rightbar}) {
+  return {sidebar, devpanel, editorTop, file, rightbar};
 }
 
 export default connect(mapStateToProps)(IndexPage);
