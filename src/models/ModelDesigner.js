@@ -101,12 +101,18 @@ const layoutAction = {
 
 	getControllerIndexByKey(controllersList, key) {
 		var index;
-		controllersList.map( (controller, i) => {
+
+		for (var i = 0; i < controllersList.length; i++) {
+			var controller = controllersList[i];
+			if(controller.children) {
+				layoutAction.getControllerIndexByKey(controller.children, key);
+			}
+
 			if(controller.key == key) {
 				index = i;
-				return index;
+				break;
 			}
-		})
+		};
 		return index;
 	},
 
@@ -124,7 +130,7 @@ const layoutAction = {
 			for(let i = 0; i < controllers.length; i ++) {
 				let currentControl = controllers[i];
 				if (currentControl.children) {
-					loopControllers(controllers.children, level ++);
+					loopControllers(currentControl.children, level ++);
 				}
 				if (currentControl.key == key) {
 					obj.index = i;
@@ -1430,27 +1436,16 @@ export default {
 
 		handleTreeChanged(state, { payload: params }) {
 			console.log('handleTreeChanged', params);
-			// let currentControl = layoutAction.getCurrentPageOrController(state.layout, params.key, level);
 			if(params.type == 'page') {
 				let level = layoutAction.getCurrentLevelByKey(state.layout, params.key);
-				// alert(level)
 				var pageIndex = layoutAction.getPageIndexByKey(state.layout, params.key, level);
 				layoutAction.setActivePage(state.layoutState, pageIndex, params.key, level);
-				console.log(state.layoutState)
-
-				// alert(1)
 			}else {
-				let activePage = layoutAction.getActivePage(state);
-				console.log(activePage)
-				console.log(state.layoutState)
-				// console.log(layoutAction.getControllerIndexAndLvlByKey(state, params.key, activePage));
-
-				var activePage = layoutAction.getActivePage(state);
-				console.log('activePage', activePage);
-				var controllerIndex = layoutAction.getControllerIndexByKey(activePage.children, params.key);
-				// console.log('dfdsfdsfdsfdsfdsfsfsfdsfds:',state.layout)
-				let level = layoutAction.getCurrentLevelByKey(state.layout, params.key);
-				// alert(level)
+				var activePage = layoutAction.getActivePage(state),
+					activeCtrllvlAndIndex = layoutAction.getControllerIndexAndLvlByKey(state, params.key, activePage),
+					controllerIndex = activeCtrllvlAndIndex.index,
+					level = activeCtrllvlAndIndex.level;
+				// let level = layoutAction.getCurrentLevelByKey(state.layout, params.key);
 				layoutAction.setActiveController(state.layoutState, controllerIndex, params.key, level);
 			}
 			return {...state};
@@ -1581,6 +1576,8 @@ export default {
 
 	      		// var activeCtrl = loopChildren(activePage.children);
 	      		var activeCtrl = activePage.children[state.layoutState.activeController.index];
+
+	      		console.log('activeCtrl=========', activeCtrl);
 
 	      		activeCtrl.attr[params.attrName]['_value'] = params.newVal;
 
