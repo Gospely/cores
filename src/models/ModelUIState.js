@@ -40,7 +40,7 @@ export default {
 		*readConfig({ payload: params }, { call, put, select }) {
 
 				console.log(params);
-				console.log("=======readConfig========");
+				console.log("=======readConfig========" + params.id);
   			var configs = yield request('uistates?application=' + params.id, {
       			method: 'get'
       		});

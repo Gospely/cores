@@ -12,6 +12,52 @@ export default {
 
 		window.loadedOnce = true;
 
+		//监听页面刷新，保存最新的UI状态
+		window.addEventListener("beforeunload",(evt) =>{
+
+			var state = {
+				applicationId: localStorage.applicationId,
+				UIState: props.devpanel,
+			};
+			localStorage.UIState = JSON.stringify(state,function(key,value){
+				if(key == 'content' || key == 'value'){
+					return undefined
+				}else{
+					return value;
+				}
+			});
+		});
+		//监听关闭页面，保存ui状态
+		window.addEventListener("unload",(evt) =>{
+
+			//todo
+		});
+
+		//监听页面加载，获取刷新前的页面状态
+		window.addEventListener("load",(evt) =>{
+
+			console.log("=========================onLoad=================");
+			props.dispatch({
+				type: 'file/fetchFileList'
+			});
+			props.dispatch({
+				type: 'file/initFiles',
+			});
+			props.dispatch({
+				type: 'UIState/readConfig',
+				payload: {
+					id: localStorage.applicationId
+				}
+			});
+			props.dispatch({
+				type: 'devpanel/getConfig',
+				payload: { id : localStorage.applicationId}
+			});
+			props.dispatch({
+				type: 'devpanel/handleImages',
+				payload: { id : localStorage.image}
+			});
+		});
 		window.addEventListener("message", (evt) =>  {
 			var data = evt.data,
 				eventName = '';

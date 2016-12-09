@@ -18,12 +18,16 @@ import initApplication from '../utils/initApplication';
 
 function IndexPage(props) {
 
-  // console.log(props);
-  // var flag = props.location.search;
-  // if(flag == '?from=dash'){
-  //   window.location.href = 'http://localhost:8989/#/project/' + props.params.id;
-  //   localStorage.isLoad = true;
-  // }
+
+  console.log(props);
+  var flag = props.location.search;
+  if(flag == '?from=dash'){
+    window.location.href = 'http://localhost:8989/#/project/' + props.params.id;
+    localStorage.isLoad = true;
+  }
+  if(props.params.id != localStorage.applicationId) {
+    localStorage.isLoad = true;
+  }
   if(localStorage.isLoad == null || localStorage.isLoad == 'true'){
     initApplication(props);
     localStorage.isLoad = false;
@@ -61,7 +65,7 @@ function IndexPage(props) {
         if(suffix != undefined){
           localStorage.suffix = suffix;
         }
-        if(activePane.activeEditor.id != null && activePane.activeEditor.id != ''){
+        if(activePane.activeEditor.id != null && activePane.activeEditor.id != '' && activePane.editors[activeTab.editorId] != null){
           if(activePane.editors[activeTab.editorId].value == null || activePane.editors[activeTab.editorId].value == ''){
             props.dispatch({
               type: 'devpanel/loadContent',
@@ -205,8 +209,8 @@ IndexPage.propTypes = {
 };
 
 // 指定订阅数据，这里关联了 indexPage
-function mapStateToProps({ sidebar, devpanel, editorTop, file, rightbar}) {
-  return {sidebar, devpanel, editorTop, file, rightbar};
+function mapStateToProps({ sidebar, devpanel, editorTop, file, rightbar, UIState}) {
+  return {sidebar, devpanel, editorTop, file, rightbar, UIState};
 }
 
 export default connect(mapStateToProps)(IndexPage);
