@@ -185,7 +185,7 @@
 				hideDesignerDraggerBorder($this);
 				if($this.eq(0).attr('id') != dragElement.eq(0).attr('id')){
 					console.log('不同的')
-					// $this.before(dragElement);
+					$this.before(dragElement);
 				}
 			})
 		}
