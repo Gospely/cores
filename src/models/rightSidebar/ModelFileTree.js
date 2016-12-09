@@ -110,12 +110,12 @@ export default {
 	},
 
 	effects: {
-		*fetchFileList(payload, {call, put}) {
+	*fetchFileList(payload, {call, put}) {
 
-					console.log("fetchFileList");
-      		var fileList = yield request('fs/list/file/?id=' + localStorage.dir);
-					localStorage.currentFolder = localStorage.dir;
-	      	yield put({ type: 'list', payload: fileList });
+		console.log("fetchFileList");
+    		var fileList = yield request('fs/list/file/?id=' + localStorage.dir);
+		localStorage.currentFolder = localStorage.dir;
+      		yield put({ type: 'list', payload: fileList });
       	},
 
       	// *fetchLastChildFile(payload: dirName,{call, put}) {
@@ -130,11 +130,26 @@ export default {
       		const dirName = params.treeNode.props.eventKey;
       		var fileList = yield request('fs/list/file/?id=' + dirName);
       		yield put({ type: 'treeOnLoadData', payload: {
-      			fileList,
-      			dirName
-      		}
-      	});
+	      			fileList,
+	      			dirName
+	      		}
+	      	});
       		params.resolve();
+      	},
+
+      	//上传文件
+      	*fetchUploadFile({payload:value},{call, put, select}){
+      		console.log("fetchUploadFile");
+      		var formdata = new FormData();
+      		formdata.append('username','zx');
+      		formdata.append('projectName','node');
+      		formdata.append('fileUp',value);
+      		console.log('value',value);
+      		console.log(formdata);
+      		var result = yield request('fs/upload',{
+      			method:'POST',
+      			body:formdata,
+      		})
       	},
 
       	*mkdir({payload: dirName}, {call, put, select}) {
@@ -151,24 +166,24 @@ export default {
 
       	*touch({payload: dirName}, {call, put, select}) {
       		var val = yield select(state => state.file.newFileInput.value);
-			var mkResult = yield request('fs/write', {
-      			method: 'POST',
-      			body: JSON.stringify({
-      				fileName: localStorage.currentFolder + val,
-      				data: ''
-      			})
+		var mkResult = yield request('fs/write', {
+    			method: 'POST',
+    			body: JSON.stringify({
+    				fileName: localStorage.currentFolder + val,
+    				data: ''
+    			})
       		});
       		yield put({type: 'fetchFileList'});
       	},
 
       	*renameFile({payload: params}, {call, put, select}) {
       		var val = yield select(state => state.file.renameModal.value);
-			var mkResult = yield request('fs/rename', {
-      			method: 'POST',
-      			body: JSON.stringify({
-      				fileName: localStorage.currentFolder + params.fileName,
-      				newFileName: localStorage.currentFolder + val
-      			})
+		var mkResult = yield request('fs/rename', {
+    			method: 'POST',
+    			body: JSON.stringify({
+    				fileName: localStorage.currentFolder + params.fileName,
+    				newFileName: localStorage.currentFolder + val
+    			})
       		});
       		yield put({type: 'fetchFileList'});
       	},

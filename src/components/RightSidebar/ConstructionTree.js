@@ -17,6 +17,7 @@ const ConstructionTree = (props) => {
     window.addEventListener('click', function () {
 
       props.dispatch({type: 'designer/hideConstructionMenu'})
+      console.log("=========window.addEventListener=========");
 
     }, true)
 
