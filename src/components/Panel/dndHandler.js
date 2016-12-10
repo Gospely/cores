@@ -64,6 +64,7 @@ export default {
 		window.addEventListener("message", (evt) =>  {
 			var data = evt.data,
 				eventName = '';
+			console.log("=====data=======",data);
 			const evtAction = {
 
 				ctrlClicked () {
@@ -144,7 +145,7 @@ export default {
 			for(var key in data) {
 				eventName = key
 			}
-
+			evtAction[eventName]();
 			if(evtAction[eventName]) {
 
 				console.log('typeof', typeof data[eventName]);
