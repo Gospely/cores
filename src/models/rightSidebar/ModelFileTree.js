@@ -478,6 +478,7 @@ export default {
 		},
 		initFileInfo(state,{payload:info}){
 			state.fileInfo=info;
+			return {...state};
 		},
 
 		handleUploadFolderChange(state, {payload: val}) {

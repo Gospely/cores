@@ -24,8 +24,17 @@
 			},
 
 			changeNavigationBarTextStyle: function(style) {
-				style = style == 'white' ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)';
-				jq('#gospel-app-title').css('color', style);
+				var color = style == 'white' ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)';
+
+				jq('#gospel-app-title').css('color', color);
+
+				if(style == 'white') {
+					jq('.head-option .head-option-icon').addClass('white');
+					jq('.head-home .head-home-icon').addClass('white');
+				}else {
+					jq('.head-option .head-option-icon').removeClass('white');
+					jq('.head-home .head-home-icon').removeClass('white');					
+				}
 			},
 
 			changeBackgroundTextStyle: function(style) {
@@ -144,9 +153,10 @@
 
 				newestHTML = jq('.' + currentRouterConfig.className).html();
 
-			var tmp = {
-				url: currentRouterConfig.url,
+			console.log('=============newestHTML]]]]]]]]]]]]]]', newestHTML);
 
+			var tmpRoute = {
+				url: currentRouterConfig.url,
 				className: currentRouterConfig.className,
 
 				render: function () {
@@ -154,9 +164,11 @@
 				}
 			}
 
-			delete router._routes[currentRouteIndex];
+			router._routes.splice(currentRouteIndex, 1);
 
-			router._routes[currentRouteIndex] = tmp;
+			window.router.push(tmpRoute);
+
+			router._index = router._routes.length;
 
 			console.log(router);
 		},
