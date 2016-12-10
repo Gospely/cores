@@ -1,21 +1,21 @@
 const packUIStage = function (params) {
 
 	var uiState = {
-	      rightbar: {
+	      	rightbar: {
 	            activeMenu: params.rightbar.activeMenu                                   
-	      },
+	      	},
 
-	      sidebar: {
+	      	sidebar: {
 	            activeMenu: params.sidebar.activeMenu
-	      },
+	      	},
 
-	      devpanel: params.devpanel,
+	      	devpanel: params.devpanel,
 
-	      designer: {
+	      	designer: {
 	            layout: params.designer.layout,
 	            layoutState: params.designer.layouState,
 	            defaultDevice: params.designer.defaultDevice
-	      }
+	      	}
 	}
 
 	return uiState;

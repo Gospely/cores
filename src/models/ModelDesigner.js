@@ -1277,6 +1277,11 @@ export default {
 
 	reducers: {
 
+		handleDesignerClosed(state) {
+			state.loaded = false;
+			return {...state};
+		},
+
 		handleLayoutLoaded(state, { payload: params }) {
 			state.loaded = true;
 
