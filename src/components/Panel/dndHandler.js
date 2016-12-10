@@ -40,40 +40,76 @@ export default {
 			props.dispatch({
 				type: 'file/fetchFileList'
 			});
+			
 			props.dispatch({
 				type: 'file/initFiles',
 			});
+			
 			props.dispatch({
 				type: 'UIState/readConfig',
 				payload: {
 					id: localStorage.applicationId
 				}
 			});
+			
 			props.dispatch({
 				type: 'devpanel/getConfig',
 				payload: { id : localStorage.applicationId}
 			});
+			
 			props.dispatch({
 				type: 'devpanel/handleImages',
 				payload: { id : localStorage.image}
 			});
+			
 			props.dispatch({
-          type: 'sidebar/hideModalSwitchApp'
-      });
+          		type: 'sidebar/hideModalSwitchApp'
+      		});
+			
 			props.dispatch({
-       type: 'devpanel/startDocker',
-       payload: { id: localStorage.applicationId}
-     	});
-     	props.dispatch({
-       type: 'devpanel/openTerminal',
-       payload: { id:  localStorage.terminal}
-     	});
+       			type: 'devpanel/startDocker',
+       			payload: { id: localStorage.applicationId}
+     		});
+
+     		props.dispatch({
+       			type: 'devpanel/openTerminal',
+       			payload: { id:  localStorage.terminal}
+     		});
 		});
+
 		window.addEventListener("message", (evt) =>  {
 			var data = evt.data,
 				eventName = '';
-			console.log("=====data=======",data);
+
 			const evtAction = {
+
+				pageSelected () {
+
+				    props.dispatch({
+				        type: 'rightbar/setActiveMenu',
+				        payload: 'attr'
+				    });
+
+				    props.dispatch({
+				        type: 'attr/setFormItemsByType',
+				        payload: {
+				          key: data.key,
+				          type: 'page'
+				        }
+			      	});
+
+				    props.dispatch({
+				        type: 'designer/handleTreeChanged',
+				        payload: {
+				          key: data.key,
+				          type: 'controller'
+				        }
+				    });
+
+				    props.dispatch({
+				    	type: 'designer/handleCtrlSelected'
+				    });
+				},
 
 				ctrlClicked () {
 					console.log(eventName, data);
@@ -97,15 +133,14 @@ export default {
 				          key: data.key,
 				          type: 'controller'
 				        }
-				    })
+				    });
 
 				    props.dispatch({
 				    	type: 'designer/handleCtrlSelected'
 				    });
-
 				},
 
-				ctrlEdited () {
+				ctrlUpdated () {
 					console.log(eventName,data);
 				},
 
@@ -131,6 +166,11 @@ export default {
 
 				ctrlRemoved () {
 					console.log(eventName, data);
+
+					props.dispatch({
+						type: 'designer/removeController',
+						payload: data
+					});
 				},
 
 				invalidDropArea () {

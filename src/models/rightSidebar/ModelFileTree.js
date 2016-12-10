@@ -553,6 +553,7 @@ export default {
 			}
 
 		},
+		
 		hideSaveModal(state) {
 			return {...state, saveModal: {
 				visible: false,
@@ -562,23 +563,23 @@ export default {
 
 		showNewFileNameModal(state, {payload: params}) {
 
-				if(params.type == 'editor') {
-					console.log("saveModal");
-					return {...state, newFileNameModal: {
-						visible: true,
-						value: localStorage.currentProject + '/',
-						title: '您正在关闭一个文件，请确定是否保存？不保存请点击取消'
-					}};
-				}
-
+			if(params.type == 'editor') {
+				console.log("saveModal");
+				return {...state, newFileNameModal: {
+					visible: true,
+					value: localStorage.currentProject + '/',
+					title: '您正在关闭一个文件，请确定是否保存？不保存请点击取消'
+				}};
+			}
 
 		},
 		hideNewFileNameModal(state) {
-				return {...state, newFileNameModal: {
-					visible: false,
-					showInput: false
-				}};
-			},
+			return {...state, newFileNameModal: {
+				visible: false,
+				showInput: false
+			}};
+		},
+
 		handleNewFileModelInputChange(state, {payload: val}) {
 			console.log(val);
 			return {...state, newFileNameModal: {
@@ -587,13 +588,10 @@ export default {
 				title: '请输入文件名'
 			}}
 		},
+
 		write (state, {payload: key}) {
 			return {...state, current: key};
 		},
-
-		// handleLastChildFile(state,payload: params) {
-		// 	console.log(params.fileList);
-		// },
 
 		list (state, {payload: list}) {
 
@@ -701,11 +699,12 @@ export default {
 
 			return {...state, treeData};
 		},
+
 		flashFiles(state,{payload: result}){
 			console.log('falsh');
 			state.files = result;
 			return {...state};
-		},
+		}
 	}
 
 }

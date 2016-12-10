@@ -183,57 +183,25 @@ var init = function() {
 			}
 		},
 
-		selectCtrlById = function(id) {
+		selectCtrl = function(controller, isSentByParent) {
+
+			if(!controller) {
+				return false;
+			}
+
+			isSentByParent = isSentByParent || false;
+
+			var target = jq('#' + controller.key);
+
+			window.currentActiveCtrlDOM = target;
+
+			if(!isSentByParent) {
+				postMessageToFather.ctrlClicked(controller);				
+			}
+
+			showDesignerDraggerBorder(target);
 
 		};
-
-	var dragger = {
-
-		makeElemAddedDraggable: function(id) {
-			var elem = jq('#' + id);
-			var orginClientX, orginClientY,movingClientX, movingClientY;
-			window.dragElement = '';
-			elem.attr('draggable',true);
-
-			elem.on('dragstart',function (e) {
-				console.log(e)
-				dragElement = jq(e.currentTarget);
-				orginClientX = e.clientX;
-				orginClientY = e.clientY;
-
-				e.originalEvent.dataTransfer.setData('Text','true');
-				jq(e.currentTarget).css('opacity','.3');
-			});
-
-			elem.on('drag',function (e) {
-				movingClientX = e.clientX;
-				movingClientY = e.clientY;
-				if(elem.position().top + orginClientY - movingClientY <= 42){
-					console.log('}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}非法位置')
-				}
-				direction = orginClientY,movingClientY - orginClientY
-			});
-
-			elem.on('dragend', function (e) {
-				console.log('拖拽结束：＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝',e)
-				jq(e.currentTarget).css('opacity','1');
-			});
-			elem.on('dragenter', function (e) {
-				console.log('进入',e)
-			})
-		
-			elem.on('dragleave', function (e) {
-				console.log('离开')
-				$this = jq(e.currentTarget);
-				hideDesignerDraggerBorder($this);
-				if($this.eq(0).attr('id') != dragElement.eq(0).attr('id')){
-					console.log('不同的')
-					$this.before(dragElement);
-				}
-			})
-		},
-
-	}
 
 	window.addEventListener("message", function (evt) {
 
@@ -260,10 +228,7 @@ var init = function() {
 
 			ctrlSelected: function() {
 				console.log('ctrlSelected', data);
-
-				// selectCtrlById(data);
-
-
+				selectCtrl(data, true);
 			},
 
 			pageAdded: function() {
@@ -303,9 +268,13 @@ var init = function() {
 
 					appendResult = jq(parent_window.currentTarget).append(elem);
 
-				dragger.makeElemAddedDraggable(controller.key);
+				selectCtrl(controller);
 
 				// refreshRouterList(elem);
+			},
+
+			ctrlRemoved: function() {
+				console.log('ctrlRemoved', data);
 			},
 
 			layoutLoaded: function() {
@@ -385,11 +354,8 @@ var init = function() {
 
 		if(isController) {
 			//触发控件被点击事件
-			window.currentActiveCtrlDOM = target;
-			postMessageToFather.ctrlClicked(dataControl);
-			showDesignerDraggerBorder(target);			
+			selectCtrl(dataControl);
 		}
-
 	});
 
 	//鼠标进入
@@ -405,6 +371,9 @@ var init = function() {
 	//点击其他区域隐藏border和i
 	jq("body").on("click", function() {
 		hideDesignerDraggerBorder();
+		postMessageToFather.pageSelected({
+			key: window.currentRoute
+		});
 	});
 
 	//隐藏border和i
@@ -653,16 +622,73 @@ var init = function() {
 						jqComponent = jq(component);
 
 						// console.log('loopComponent=============', jqComponent.chilren().eq(1), loopComponent);
-
 					jqComponent.append(jq(loopComponent));
+					// this.makeElemAddedDraggable(loopComponent);
+					// this.makeElemAddedDraggable(jqComponent);
 
 				};
 
 			}
 
+			this.makeElemAddedDraggable();
+
 			console.log('component===========', component);
 
 			return component;
+		},
+
+		makeElemAddedDraggable: function() {
+			var orginClientX, orginClientY,movingClientX, movingClientY,
+
+				elem = this.elem;
+
+			window.dragElement = '';
+
+			elem.attr('draggable',true);
+
+			elem.on('dragstart',function (e) {
+				console.log(e)
+				dragElement = jq(e.currentTarget);
+				orginClientX = e.clientX;
+				orginClientY = e.clientY;
+
+				e.originalEvent.dataTransfer.setData('Text','true');
+				jq(e.currentTarget).css('opacity','.3');
+			});
+
+			elem.on('drag',function (e) {
+				movingClientX = e.clientX;
+				movingClientY = e.clientY;
+				if(elem.position().top + orginClientY - movingClientY <= 42){
+					console.log('}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}非法位置')
+				}
+				direction = orginClientY,movingClientY - orginClientY
+			});
+
+			elem.on('dragend', function (e) {
+				console.log('拖拽结束：＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝',e);
+				jq(e.currentTarget).css('opacity','1');
+
+				postMessageToFather.ctrlUpdated({
+					params: {
+						key: ''
+					}
+				});
+			});
+
+			elem.on('dragenter', function (e) {
+				console.log('进入',e)
+			})
+		
+			elem.on('dragleave', function (e) {
+				console.log('离开')
+				$this = jq(e.currentTarget);
+				hideDesignerDraggerBorder($this);
+				if($this.eq(0).attr('id') != dragElement.eq(0).attr('id')){
+					console.log('不同的')
+					$this.before(dragElement);
+				}
+			})
 		}
 
 	}
@@ -680,14 +706,18 @@ var init = function() {
 			parent_window.postMessage({ 'ctrlToBeAdded': c }, "*");
 		},
 
-		ctrlEdited: function(c) {
+		ctrlUpdated: function(c) {
 			console.log("向父级发送信息");
-			parent_window.postMessage({ 'ctrlEdited': c }, "*");
+			parent_window.postMessage({ 'ctrlUpdated': c }, "*");
 		},
 
 		ctrlRemoved: function(c) {
 			console.log("向父级发送信息");
 			parent_window.postMessage({ 'ctrlRemoved': c }, "*");
+		},
+
+		pageSelected: function(c) {
+			parent_window.postMessage({ 'pageSelected': c }, "*");
 		}
 
 	}

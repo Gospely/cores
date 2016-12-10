@@ -142,8 +142,6 @@ const layoutAction = {
 
 	getActiveControllerByIndexAndLevel(state, activePage, index, level) {
 
-
-
 	},
 
 	getCurrentLevelByKey(layouts, key) {
@@ -168,11 +166,40 @@ const layoutAction = {
 		return ertuLevel;
 	},
 
-	getCurrentPageOrController(layout,level,index) {
+	getCurrentPageOrController(layout, level, index) {
 		let current = layout.children;
 		while(--level !== 0) {
 			current = current.children;
 		}
+	},
+
+	getControllerByKey(state, controller) {
+
+	},
+
+	removeControllerByKey(state, key) {
+		var activePage = layoutAction.getActivePage(state),
+			activePageChildren = activePage.children;
+
+		var loopControllers = function(activePageChildren) {
+
+			for (var i = 0; i < activePageChildren.length; i++) {
+				var controller = activePageChildren[i];
+
+				if(controller.children) {
+					loopControllers(controller.children);
+				}
+
+				if(controller.key == key) {
+					activePageChildren.splice(i, 1);
+					return controller;
+				}
+			};
+
+		}
+
+		loopControllers(activePageChildren);
+
 	}
 }
 
@@ -2207,17 +2234,12 @@ export default {
 		},
 
 		addController(state, { payload: controller }) {
-			console.log("addController11111111111:::::::::::::::::::::::记得改",state.layout);
-
 			if (state.layoutState.activePage.level == 1) {
 				message.error('请选择一个页面');
 				return {...state};
 			}
 
 			var activePage = layoutAction.getActivePage(state);
-
-			// let leve = layoutAction.getCurrentLevelByKey(state.layout, state.layoutState.activePage.key);
-			console.log(controller);
 
 			var deepCopiedController = layoutAction.deepCopyObj(controller);
 
@@ -2261,8 +2283,6 @@ export default {
 
 			var tmpCtrl = loopAttr(deepCopiedController);
 
-			console.log('loopAttr===============', tmpCtrl);
-
     		gospelDesigner.postMessage({
     			ctrlAdded: tmpCtrl
     		}, '*');
@@ -2273,8 +2293,12 @@ export default {
 			return {...state};
 		},
 
+		removeController(state, { payload: controller }) {
+			layoutAction.removeControllerByKey(state, controller.key);
+			return {...state};
+		},
+
 		handleTreeChanged(state, { payload: params }) {
-			console.log('handleTreeChanged', params);
 			if(params.type == 'page') {
 				let level = layoutAction.getCurrentLevelByKey(state.layout, params.key);
 				var pageIndex = layoutAction.getPageIndexByKey(state.layout, params.key, level);
