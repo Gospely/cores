@@ -58,8 +58,6 @@ const ConstructionTree = (props) => {
           }
       }
 
-      console.log(props.designer.layout)
-
       loopData(props.designer.layout);
 
       if(isDeleteAll) {
@@ -93,8 +91,18 @@ const ConstructionTree = (props) => {
 
   const layoutTreeProps = {
 
-    onRightClick(proxy) {
-      localStorage.currentSelectedConstruction = proxy.node.props.eventKey;
+    onRightClick(proxy, node) {
+
+      console.log(proxy, node);
+
+      var selectedKey = proxy.node.props.eventKey,
+          type = selectedKey.split('-')[0];
+
+      sessionStorage.currentSelectedConstructionKey = selectedKey;
+      sessionStorage.currentSelectedConstructionType = type == 'page' ? 'page' : 'controller';
+
+      layoutTreeProps.onSelect([selectedKey]);
+
       props.dispatch({type: 'designer/showConstructionMenu', payload: proxy});
     },
 
@@ -229,7 +237,7 @@ const ConstructionTree = (props) => {
           </Tree>
 
           <Menu style={props.designer.constructionMenuStyle} onClick={deleteThisConstruction} className="context-menu">
-            <Menu.Item key="read">删除</Menu.Item>
+            <Menu.Item key="remove">删除</Menu.Item>
           </Menu>
         </div>
 

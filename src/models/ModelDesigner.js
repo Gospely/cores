@@ -1805,17 +1805,12 @@ export default {
 		},
 
 		addController(state, { payload: controller }) {
-			console.log("addController11111111111:::::::::::::::::::::::记得改",state.layout);
-
 			if (state.layoutState.activePage.level == 1) {
 				message.error('请选择一个页面');
 				return {...state};
 			}
 
 			var activePage = layoutAction.getActivePage(state);
-
-			// let leve = layoutAction.getCurrentLevelByKey(state.layout, state.layoutState.activePage.key);
-			console.log(controller);
 
 			var deepCopiedController = layoutAction.deepCopyObj(controller);
 
@@ -1857,8 +1852,6 @@ export default {
 
 			var tmpCtrl = loopAttr(deepCopiedController);
 
-			console.log('loopAttr===============', tmpCtrl);
-
     		gospelDesigner.postMessage({
     			ctrlAdded: tmpCtrl
     		}, '*');
@@ -1870,13 +1863,11 @@ export default {
 		},
 
 		removeController(state, { payload: controller }) {
-			console.log('removeController', controller);
 			layoutAction.removeControllerByKey(state, controller.key);
 			return {...state};
 		},
 
 		handleTreeChanged(state, { payload: params }) {
-			console.log('handleTreeChanged', params);
 			if(params.type == 'page') {
 				let level = layoutAction.getCurrentLevelByKey(state.layout, params.key);
 				var pageIndex = layoutAction.getPageIndexByKey(state.layout, params.key, level);

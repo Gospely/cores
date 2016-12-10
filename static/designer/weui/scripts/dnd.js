@@ -318,7 +318,14 @@ var init = function() {
 
 				dragger.makeElemAddedDraggable(controller.key);
 
+				selectCtrl(controller);
+
 				// refreshRouterList(elem);
+			},
+
+			ctrlRemoved: function() {
+				console.log('ctrlRemoved', data);
+				
 			},
 
 			layoutLoaded: function() {
