@@ -142,8 +142,6 @@ const layoutAction = {
 
 	getActiveControllerByIndexAndLevel(state, activePage, index, level) {
 
-
-
 	},
 
 	getCurrentLevelByKey(layouts, key) {
@@ -168,11 +166,40 @@ const layoutAction = {
 		return ertuLevel;
 	},
 
-	getCurrentPageOrController(layout,level,index) {
+	getCurrentPageOrController(layout, level, index) {
 		let current = layout.children;
 		while(--level !== 0) {
 			current = current.children;
 		}
+	},
+
+	getControllerByKey(state, controller) {
+
+	},
+
+	removeControllerByKey(state, key) {
+		var activePage = layoutAction.getActivePage(state),
+			activePageChildren = activePage.children;
+
+		var loopControllers = function(activePageChildren) {
+
+			for (var i = 0; i < activePageChildren.length; i++) {
+				var controller = activePageChildren[i];
+
+				if(controller.children) {
+					loopControllers(controller.children);
+				}
+
+				if(controller.key == key) {
+					activePageChildren.splice(i, 1);
+					return controller;
+				}
+			};
+
+		}
+
+		loopControllers(activePageChildren);
+
 	}
 }
 
@@ -1839,6 +1866,12 @@ export default {
 			activePage.children.push(tmpCtrl);
 			let level = layoutAction.getCurrentLevelByKey(state.layout, tmpCtrl.key);
 			layoutAction.setActiveController(state.layoutState, activePage.children.length - 1, tmpCtrl.key, level);
+			return {...state};
+		},
+
+		removeController(state, { payload: controller }) {
+			console.log('removeController', controller);
+			layoutAction.removeControllerByKey(state, controller.key);
 			return {...state};
 		},
 

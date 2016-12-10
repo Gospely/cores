@@ -185,6 +185,10 @@ var init = function() {
 
 		selectCtrl = function(controller, isSentByParent) {
 
+			if(!controller) {
+				return false;
+			}
+
 			isSentByParent = isSentByParent || false;
 
 			var target = jq('#' + controller.key);
