@@ -183,7 +183,19 @@ var init = function() {
 			}
 		},
 
-		selectCtrlById = function(id) {
+		selectCtrl = function(controller, isSentByParent) {
+
+			isSentByParent = isSentByParent || false;
+
+			var target = jq('#' + controller.key);
+
+			window.currentActiveCtrlDOM = target;
+
+			if(!isSentByParent) {
+				postMessageToFather.ctrlClicked(controller);				
+			}
+
+			showDesignerDraggerBorder(target);
 
 		};
 
@@ -260,10 +272,7 @@ var init = function() {
 
 			ctrlSelected: function() {
 				console.log('ctrlSelected', data);
-
-				// selectCtrlById(data);
-
-
+				selectCtrl(data, true);
 			},
 
 			pageAdded: function() {
@@ -385,9 +394,7 @@ var init = function() {
 
 		if(isController) {
 			//触发控件被点击事件
-			window.currentActiveCtrlDOM = target;
-			postMessageToFather.ctrlClicked(dataControl);
-			showDesignerDraggerBorder(target);			
+			selectCtrl(dataControl);
 		}
 
 	});
