@@ -57,6 +57,9 @@ export default {
 				type: 'devpanel/handleImages',
 				payload: { id : localStorage.image}
 			});
+			props.dispatch({
+          type: 'sidebar/hideModalSwitchApp'
+      });
 		});
 		window.addEventListener("message", (evt) =>  {
 			var data = evt.data,

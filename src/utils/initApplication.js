@@ -53,7 +53,6 @@ const initApplication = function (props){
 			localStorage.domain = application.domain;
       localStorage.image = application.image;
 			localStorage.currentFolder = localStorage.user + '/' + application.name + '_' + localStorage.userName;
-      localStorage.terminal = application.docker;
       localStorage.applicationId = application.id;
 
 
@@ -71,13 +70,24 @@ const initApplication = function (props){
     	});
       props.dispatch({
         type: 'devpanel/getConfig',
-        payload: { id : applicationId}
+        payload: { id : applicationId }
       });
 
 			props.dispatch({
 				type: 'devpanel/handleImages',
 				payload: { id : application.image}
 			});
+      props.dispatch({
+        type: 'devpanel/startDocker',
+        payload: { id: application.id}
+      });
+      props.dispatch({
+        type: 'devpanel/openTerminal',
+        payload: { id:  application.docker}
+      });
+      props.dispatch({
+          type: 'sidebar/hideModalSwitchApp'
+      });
 		});
   }
 	return true;

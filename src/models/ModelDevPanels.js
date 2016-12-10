@@ -81,10 +81,18 @@ export default {
 
 	effects: {
 
-		*loadPanels({ payload: params }, {call, put, select}) {
-      		var devpanel = yield select(state => state.devpanel);
+		*startDocker({ payload: params }, {call, put, select}){
 
-      		var tmpTabs = {
+			console.log("=====================startDocker===========" + params.id);
+			var res = yield request("container/restart/" + params.id, {
+				method: 'GET',
+			});
+		},
+		*loadPanels({ payload: params }, {call, put, select}) {
+
+    		var devpanel = yield select(state => state.devpanel);
+
+    		var tmpTabs = {
 				title: 'Gospel 小程序 UI 设计器',
 				content: '',
 				key: '2',
@@ -93,9 +101,7 @@ export default {
 				searchVisible: false,
 				isSave: false
 			}
-
-      		devpanel.panels.panes[devpanel.panels.activePane.key].tabs.push(tmpTabs);
-
+      devpanel.panels.panes[devpanel.panels.activePane.key].tabs.push(tmpTabs);
 		},
 
 		//根据项目的类型渲染ide面板
@@ -119,10 +125,10 @@ export default {
 				yield put({ type: "handleVisual" });
 			}
 		},
-		*oppenTerminal({ payload: params}, {call, put, select}){
+		*openTerminal({ payload: params}, {call, put, select}){
 
 			console.log("=============oppenTerminal=============");
-			var url = "applications/startTerminal?docker=" + localStorage.terminal;
+			var url = "applications/startTerminal?docker=" + params.docker;
 			var res = yield request(url, {
 				method: 'GET',
 			});
