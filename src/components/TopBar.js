@@ -141,9 +141,6 @@ const LeftSidebar = (props) => {
 
 	          	var title = '终端',
 	              	type = 'terminal';
-									props.dispatch({
-			            	type: 'devpanel/oppenTerminal'
-			          	})
 	          	props.dispatch({
 	            	type: 'devpanel/add',
 	            	payload: {title, type}
@@ -263,9 +260,6 @@ const LeftSidebar = (props) => {
 
 				localStorage.isLoad = 'true';
 				window.location.href = 'http://localhost:8989/#/project/' + application.id;
-				props.dispatch({
-	        	type: 'sidebar/hideModalSwitchApp'
-	      	});
 	    	console.log('TopBar中dispatch')
 	    	// alert(1)
 	    },
