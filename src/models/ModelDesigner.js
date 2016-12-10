@@ -1047,6 +1047,23 @@ export default {
 								title: '名称'
 							}
 						},
+						children: []
+					}, {
+						tag: 'div',
+						baseClassName: 'weui-cell__bd',
+						attr: {
+
+							title: {
+								_value: '列表标题文字',
+								type: 'input',
+								isClassName: false,
+								isHTML: false,
+								title: '名称'
+							}
+
+						},
+						name: '列表正文',
+						type: 'weui-cell__bd',
 						children: [{
 							tag: 'p',
 							baseClassName: '',
@@ -1071,23 +1088,6 @@ export default {
 
 							}
 						}]
-					}, {
-						tag: 'div',
-						baseClassName: 'weui-cell__bd',
-						attr: {
-
-							title: {
-								_value: '列表标题文字',
-								type: 'input',
-								isClassName: false,
-								isHTML: false,
-								title: '名称'
-							}
-
-						},
-						name: '列表正文',
-						type: 'weui-cell__bd',
-						children: []
 					}, {
 						tag: 'div',
 						baseClassName: 'weui-cell__ft',

@@ -101,13 +101,7 @@ export default {
 	subscriptions: {
 		setup({ dispatch, history }) {
 	      	history.listen(({ pathname }) => {
-          		dispatch({
-            		type: 'fetchFileList',
 
-          		});
-							dispatch({
-								type: 'initFiles',
-							});
 	      	});
 		}
 	},
@@ -115,11 +109,11 @@ export default {
 	effects: {
 	*fetchFileList(payload, {call, put}) {
 
-		console.log("fetchFileList");
-    		var fileList = yield request('fs/list/file/?id=' + localStorage.dir);
-		localStorage.currentFolder = localStorage.dir;
-      		yield put({ type: 'list', payload: fileList });
-      	},
+			console.log("==================fetchFileList========================");
+  		var fileList = yield request('fs/list/file/?id=' + localStorage.dir);
+			localStorage.currentFolder = localStorage.dir;
+    	yield put({ type: 'list', payload: fileList });
+  },
 
       	// *fetchLastChildFile(payload: dirName,{call, put}) {
       	// 	var fileList = yield request('fs/list/file/?id=' + dirName);
@@ -484,6 +478,7 @@ export default {
 		},
 		initFileInfo(state,{payload:info}){
 			state.fileInfo=info;
+			return {...state};
 		},
 
 		handleUploadFolderChange(state, {payload: val}) {

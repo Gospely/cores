@@ -81,10 +81,18 @@ export default {
 
 	effects: {
 
-		*loadPanels({ payload: params }, {call, put, select}) {
-      		var devpanel = yield select(state => state.devpanel);
+		*startDocker({ payload: params }, {call, put, select}){
 
-      		var tmpTabs = {
+			console.log("=====================startDocker===========" + params.id);
+			var res = yield request("container/restart/" + params.id, {
+				method: 'GET',
+			});
+		},
+		*loadPanels({ payload: params }, {call, put, select}) {
+
+    		var devpanel = yield select(state => state.devpanel);
+
+    		var tmpTabs = {
 				title: 'Gospel 小程序 UI 设计器',
 				content: '',
 				key: '2',
@@ -93,9 +101,7 @@ export default {
 				searchVisible: false,
 				isSave: false
 			}
-
-      		devpanel.panels.panes[devpanel.panels.activePane.key].tabs.push(tmpTabs);
-
+      devpanel.panels.panes[devpanel.panels.activePane.key].tabs.push(tmpTabs);
 		},
 
 		//根据项目的类型渲染ide面板
@@ -119,10 +125,10 @@ export default {
 				yield put({ type: "handleVisual" });
 			}
 		},
-		*oppenTerminal({ payload: params}, {call, put, select}){
+		*openTerminal({ payload: params}, {call, put, select}){
 
 			console.log("=============oppenTerminal=============");
-			var url = "applications/startTerminal?docker=" + localStorage.terminal;
+			var url = "applications/startTerminal?docker=" + params.docker;
 			var res = yield request(url, {
 				method: 'GET',
 			});
@@ -130,21 +136,43 @@ export default {
 		//获取界面初始化配置
 		*getConfig({ payload: params}, {call, put, select}){
 
+			var configs = '',
+				config = '',
+				UIState = '';
 			console.log("============getConfig=============" + params.id);
-			var configs = yield request('uistates?application=' + params.id, {
-				method: 'get'
-			});
-			var config = configs.data.fields[0];
-			var UIState = JSON.parse(config.configs);
 
-			if(UIState.panels.panes[0].activeEditor.id != ''){
+			UIState = JSON.parse(localStorage.UIState);
+			if(UIState.applicationId != localStorage.applicationId){
+				configs = yield request('uistates?application=' + params.id, {
+ 					method: 'get'
+ 				});
+				config = configs.data.fields[0];
+
+				UIState = JSON.parse(config.configs);
+				var state = {
+					applicationId: localStorage.applicationId,
+					UIState: UIState,
+				};
+				localStorage.UIState = JSON.stringify(state,function(key,value){
+					if(key == 'content' || key == 'value'){
+						return undefined
+					}else{
+						return value;
+					}
+				});
+			}else{
+
+				UIState = UIState.UIState;
+			}
+
+			if(UIState.panels.panes[0].activeEditor.id != '' ){
 				for(var i = 0; i < UIState.panels.panes.length; i++) {
 
 					var pane =  UIState.panels.panes[i],
 						activeEditor = pane.tabs[pane.activeTab.index].editorId,
 						fileName = UIState.panels.panes[i].editors[activeEditor].fileName;
 
-						if(activeEditor != null && activeEditor != undefined) {
+						if(activeEditor != null && activeEditor != undefined && fileName != undefined && fileName != '新文件'　&& fileName != '新标签页') {
 							var readResult = yield request('fs/read', {
 										method: 'POST',
 										body: JSON.stringify({
@@ -162,6 +190,8 @@ export default {
 				}
 			}
 			console.log(configs);
+			console.log("======================initState==================");
+			console.log(UIState);
 			yield put({
 				type: 'initState',
 				payload: {UIState}
@@ -220,18 +250,8 @@ export default {
 		},
 
 		handleCommon(state) {
+
 			console.log("handleCommon");
-			state.panels.panes[0].tabs =  [
-				{
-					title: '欢迎页面 - Gospel',
-					content: '',
-					key: '1',
-					type: 'welcome',
-					editorId: '',
-					searchVisible: false,
-					isSave: false
-				}
-			];
 			state.panels.panes[0].activeTab.key = "1";
 			state.devType.visual = false;
 			localStorage.visual = false;
@@ -245,27 +265,6 @@ export default {
 
 		handleVisual(state){
 
-			console.log("handleVisual");
-			state.panels.panes[0].tabs =  [
-				{
-					title: '欢迎页面 - Gospel',
-					content: '',
-					key: '1',
-					type: 'welcome',
-					editorId: '',
-					searchVisible: false,
-					isSave: false
-				},
-				{
-					title: 'Gospel 小程序 UI 设计器',
-					content: '',
-					key: '2',
-					type: 'designer',
-					editorId: '',
-					searchVisible: false,
-					isSave: false
-				}
-			];
 			state.panels.panes[0].activeTab.key = "1";
 			state.devType.visual = true;
 			localStorage.visual = true;
