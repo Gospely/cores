@@ -13,6 +13,8 @@ var init = function() {
 		data,
 		parent_window = window.parent,
 
+		removeBtn = jq('i.control-box.remove'),
+
 		pageAction = {
 
 			changeNavigationBarTitleText: function(title) {
@@ -365,16 +367,6 @@ var init = function() {
 		hideDesignerDraggerBorder(dropTarget);
 	});
 
-	//点击i，删除当前组件
-	jq(document).on("click", ".control-box .delete-com", function(e) {
-		var dataControl = jq(this).parent().attr("data-control");
-		console.log("dataControl",dataControl);
-		//删除组件时向父级发送ctrlRemoved的信息;
-		postMessageToFather.ctrlRemoved(dataControl);
-		e.stopPropagation();
-		jq(e.target).parent(".control-box").remove();
-	});
-
 	//点击组件
 	jq(document).on("click", function(e) {
 		e.stopPropagation();
@@ -385,6 +377,7 @@ var init = function() {
 
 		if(isController) {
 			//触发控件被点击事件
+			window.currentActiveCtrlDOM = target;
 			postMessageToFather.ctrlClicked(dataControl);
 			showDesignerDraggerBorder(target);			
 		}
@@ -412,6 +405,17 @@ var init = function() {
 		jq(".hight-light").removeClass("hight-light");
 	}
 
+	removeBtn.click(function(e) {
+		e.stopPropagation();
+
+		var self = currentActiveCtrlDOM,
+			dataControl = self.data('controller');
+
+		postMessageToFather.ctrlRemoved(dataControl);
+		self.remove();
+		hideDesignerDraggerBorder();
+	});
+
 	function showDesignerDraggerBorder(self) {
 		hideDesignerDraggerBorder();
 		var removeBtn = jq('i.control-box.remove');
@@ -420,15 +424,6 @@ var init = function() {
 		removeBtn.css({
 			top: self.offset().top + 'px',
 			left: self.offset().left  + 'px'
-		});
-
-		removeBtn.click(function(e) {
-			e.stopPropagation();
-
-			var dataControl = self.data('controller');
-			postMessageToFather.ctrlRemoved(dataControl);
-			self.remove();
-			hideDesignerDraggerBorder();
 		});
 
 		console.log(self);
