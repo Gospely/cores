@@ -1,4 +1,4 @@
-(function(){
+var init = function() {
 
 	jQuery.fn.isChildOf = function(b) { 
 		return (this.parents(b).length > 0); 
@@ -142,7 +142,7 @@
 					controller: controller
 				});
 
-				ctrlRefresher.setAttribute();
+			ctrlRefresher.setAttribute();
 		},
 
 		refreshRouterList = function(elem) {
@@ -317,16 +317,26 @@
 
 	});
 
-	var source = jq("#dnd-row", window.parent.document).find('.ant-col-12');
-	source.each(function(n) {
-		jq(this).find(".app-components").attr("draggable", true);
-		jq(this).find(".app-components").attr("id", "source" + n);
-		//开始拖拽
-		jq(this).find(".app-components").on("dragstart", function(ev) {
-			data = jq(ev.target).clone();
-			//ev.dataTransfer.setData("Text",ev.target.id);
-		})
-	});
+	var sourceController = jQuery("#dnd-row", window.parent.document).find('.ant-col-12'),
+		inter = 0;
+
+	if(sourceController.length === 0) {
+		inter = setInterval(function() {
+			sourceController = jQuery("#dnd-row", window.parent.document).find('.ant-col-12')
+			if(sourceController.length > 0) {
+				clearInterval(inter);
+				sourceController.each(function(n) {
+					jq(this).find(".app-components").attr("draggable", true);
+					jq(this).find(".app-components").attr("id", "source" + n);
+					//开始拖拽
+					jq(this).find(".app-components").on("dragstart", function(ev) {
+						data = jq(ev.target).clone();
+						//ev.dataTransfer.setData("Text",ev.target.id);
+					})
+				});
+			}
+		}, 1);
+	}
 
 	//拖拽结束
 	jq("#gospel-designer-container").on("drop", function(e) {
@@ -612,4 +622,5 @@
 		}
 
 	}
-})()
+}();
+

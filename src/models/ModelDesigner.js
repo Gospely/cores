@@ -1439,7 +1439,6 @@ export default {
 
 			activePage.children.push(tmpCtrl);
 			let level = layoutAction.getCurrentLevelByKey(state.layout, tmpCtrl.key);
-			// alert(level)
 			layoutAction.setActiveController(state.layoutState, activePage.children.length - 1, tmpCtrl.key, level);
 			return {...state};
 		},

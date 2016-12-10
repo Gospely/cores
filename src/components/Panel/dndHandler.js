@@ -4,13 +4,13 @@ import { message, notification } from 'antd';
 export default {
 	init(props) {
 
-		if(window.loadedOnce) {
+		if(window.dndHandlerLoadedOnce) {
 			return false;
 		}
 
-		console.log('======================window.loadedOnce======================', window.loadedOnce);
+		console.log('======================window.loadedOnce======================', window.dndHandlerLoadedOnce);
 
-		window.loadedOnce = true;
+		window.dndHandlerLoadedOnce = true;
 
 		//监听页面刷新，保存最新的UI状态
 		window.addEventListener("beforeunload",(evt) =>{
@@ -153,7 +153,7 @@ export default {
 			for(var key in data) {
 				eventName = key
 			}
-			evtAction[eventName]();
+
 			if(evtAction[eventName]) {
 
 				console.log('typeof', typeof data[eventName]);
