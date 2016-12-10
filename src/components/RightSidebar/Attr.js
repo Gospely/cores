@@ -180,7 +180,7 @@ const Attr = (props) => {
 
 
     if (props.designer.loaded) {
-    	
+    	 
 		return (
 			<div>
 				<Collapse className="noborder attrCollapse nomin" bordered={false} defaultActiveKey={['1']}>
