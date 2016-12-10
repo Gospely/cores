@@ -325,7 +325,6 @@ var init = function() {
 
 			ctrlRemoved: function() {
 				console.log('ctrlRemoved', data);
-				
 			},
 
 			layoutLoaded: function() {
@@ -407,7 +406,6 @@ var init = function() {
 			//触发控件被点击事件
 			selectCtrl(dataControl);
 		}
-
 	});
 
 	//鼠标进入
@@ -423,6 +421,9 @@ var init = function() {
 	//点击其他区域隐藏border和i
 	jq("body").on("click", function() {
 		hideDesignerDraggerBorder();
+		postMessageToFather.pageSelected({
+			key: window.currentRoute
+		});
 	});
 
 	//隐藏border和i
@@ -657,6 +658,10 @@ var init = function() {
 		ctrlRemoved: function(c) {
 			console.log("向父级发送信息");
 			parent_window.postMessage({ 'ctrlRemoved': c }, "*");
+		},
+
+		pageSelected: function(c) {
+			parent_window.postMessage({ 'pageSelected': c }, "*");
 		}
 
 	}

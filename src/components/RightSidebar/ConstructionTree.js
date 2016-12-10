@@ -93,8 +93,6 @@ const ConstructionTree = (props) => {
 
     onRightClick(proxy, node) {
 
-      console.log(proxy, node);
-
       var selectedKey = proxy.node.props.eventKey,
           type = selectedKey.split('-')[0];
 
@@ -106,7 +104,7 @@ const ConstructionTree = (props) => {
       props.dispatch({type: 'designer/showConstructionMenu', payload: proxy});
     },
 
-    onSelect: function(e, node) {
+    onSelect: function(e) {
 
       if(e.length === 0) {
         return false;

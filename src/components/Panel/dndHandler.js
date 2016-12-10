@@ -83,6 +83,34 @@ export default {
 
 			const evtAction = {
 
+				pageSelected () {
+
+				    props.dispatch({
+				        type: 'rightbar/setActiveMenu',
+				        payload: 'attr'
+				    });
+
+				    props.dispatch({
+				        type: 'attr/setFormItemsByType',
+				        payload: {
+				          key: data.key,
+				          type: 'page'
+				        }
+			      	});
+
+				    props.dispatch({
+				        type: 'designer/handleTreeChanged',
+				        payload: {
+				          key: data.key,
+				          type: 'controller'
+				        }
+				    });
+
+				    props.dispatch({
+				    	type: 'designer/handleCtrlSelected'
+				    });
+				},
+
 				ctrlClicked () {
 					console.log(eventName, data);
 
@@ -105,12 +133,11 @@ export default {
 				          key: data.key,
 				          type: 'controller'
 				        }
-				    })
+				    });
 
 				    props.dispatch({
 				    	type: 'designer/handleCtrlSelected'
 				    });
-
 				},
 
 				ctrlEdited () {
