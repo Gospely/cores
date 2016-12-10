@@ -13,6 +13,8 @@ var init = function() {
 		data,
 		parent_window = window.parent,
 
+		removeBtn = jq('i.control-box.remove'),
+
 		pageAction = {
 
 			changeNavigationBarTitleText: function(title) {
@@ -295,7 +297,7 @@ var init = function() {
 
 				dragger.makeElemAddedDraggable(controller.key);
 
-				refreshRouterList(elem);
+				// refreshRouterList(elem);
 			},
 
 			layoutLoaded: function() {
@@ -365,40 +367,31 @@ var init = function() {
 		hideDesignerDraggerBorder(dropTarget);
 	});
 
-	//点击i，删除当前组件
-	jq(document).on("click", ".control-box .delete-com", function(e) {
-		var dataControl = jq(this).parent().attr("data-control");
-		console.log("dataControl",dataControl);
-		//删除组件时向父级发送ctrlRemoved的信息;
-		postMessageToFather.ctrlRemoved(dataControl);
-		e.stopPropagation();
-		jq(e.target).parent(".control-box").remove();
-	});
-
 	//点击组件
-	jq(document).on("click", ".control-box", function(e) {
+	jq(document).on("click", function(e) {
 		e.stopPropagation();
 
-		var self = jq(this);
+		var target = jq(e.target),
+			isController = target.data('is-controller'),
+			dataControl = target.data("controller");
 
-		var dataControl = self.attr("data-control");
+		if(isController) {
+			//触发控件被点击事件
+			window.currentActiveCtrlDOM = target;
+			postMessageToFather.ctrlClicked(dataControl);
+			showDesignerDraggerBorder(target);			
+		}
 
-		//触发控件被点击事件
-		postMessageToFather.ctrlClicked(dataControl);
-
-		showDesignerDraggerBorder(self);
-	});
-
-	//鼠标按下
-	jq(document).on("mousedown",".control-box",function(e){
-		var self = jq(this);
-		showDesignerDraggerBorder(self);
 	});
 
 	//鼠标进入
-	jq(document).on("mouseenter", ".control-box", function(e) {
-		var self = jq(this);
-		showDesignerDraggerBorder(self);
+	jq(document).on("mouseenter", function(e) {
+		var target = jq(e.target),
+			isController = target.data('is-controller');
+
+		if(isController) {
+			showDesignerDraggerBorder(target);
+		}
 	});
 
 	//点击其他区域隐藏border和i
@@ -408,13 +401,32 @@ var init = function() {
 
 	//隐藏border和i
 	function hideDesignerDraggerBorder() {
-		jq(".control-box i").hide();
-		jq(".control-box").removeClass("hight-light");
+		jq("i.control-box.remove").hide();
+		jq(".hight-light").removeClass("hight-light");
 	}
+
+	removeBtn.click(function(e) {
+		e.stopPropagation();
+
+		var self = currentActiveCtrlDOM,
+			dataControl = self.data('controller');
+
+		postMessageToFather.ctrlRemoved(dataControl);
+		self.remove();
+		hideDesignerDraggerBorder();
+	});
 
 	function showDesignerDraggerBorder(self) {
 		hideDesignerDraggerBorder();
-		self.find('i.delete-com').show();
+		var removeBtn = jq('i.control-box.remove');
+		removeBtn.show();
+
+		removeBtn.css({
+			top: self.offset().top + 'px',
+			left: self.offset().left  + 'px'
+		});
+
+		console.log(self);
 		self.addClass("hight-light");
 	}
 
@@ -466,17 +478,8 @@ var init = function() {
 
 			this.initElem();
 
-			// var wrapper = jq('<div class="control-box hight-light" id="' + this.controller.key + '"></div>'),
-			// 	operation = '<i class="weui-icon-cancel delete-com"></i>';
-
-			this.elem.data('controller', JSON.stringify(this.controller));
-
-			// wrapper.attr('data-control', JSON.stringify(this.controller))
-			// 	   .append(operation);
-
-			// wrapper.append(this.elem);
-
-			// return wrapper;
+			this.elem.data('controller', this.controller);
+			this.elem.data('is-controller', true);
 		},
 
 		setAttribute: function() {
