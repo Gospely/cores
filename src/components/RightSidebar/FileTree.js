@@ -270,10 +270,13 @@ const FileTree = (props) => {
           props.dispatch({
             type: 'file/hideUploadModal'
           });
+          var info = props.file.fileInfo;
+          console.log("===ok==info===:",info);
           props.dispatch({
             type: 'file/fetchUploadFile',
-            payload: value
+             payload: info
           });
+          
         },
 
         onCancel: function() {
@@ -305,10 +308,8 @@ const FileTree = (props) => {
       },
 
       uploadInput: {
-
-        action: 'localhost:8089/fs/upload',
-
-        // fileList: props.file.uploadInput.value,
+        name:'fileUp',
+        fileList: props.file.uploadInput.value,
 
         multiple: true,
 
@@ -324,6 +325,13 @@ const FileTree = (props) => {
                 message.error("请选择文件夹");
                 return false;
             }
+        },
+        customRequest(info){
+        	console.log("info::::::",info);
+        	props.dispatch({
+	            type: 'file/initFileInfo',
+	             payload: info
+	       });
         }
       }
 

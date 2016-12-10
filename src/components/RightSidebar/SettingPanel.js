@@ -26,12 +26,7 @@ const SettingPanel = (props) => {
 		// 	}
 		// })
 		// console.log('onStateChange', UIState, app);
-	props.dispatch({
-		type: 'UIState/readConfig',
-		payload: {
-			id: localStorage.user
-		}
-	})
+	
 
 	const GitSettingProps = {
 		onClick: function(item) {
@@ -64,10 +59,10 @@ const SettingPanel = (props) => {
 					})
 				},
 				autoSave: function () {
-					
+
 				},
 				autoSaveInterval: function () {
-					
+
 				}
 			}
 
@@ -116,8 +111,8 @@ const SettingPanel = (props) => {
 					</Menu.Item>
 					<Menu.Item key="autoSaveInterval">
 						<span>时间间隔：</span>
-						<Input disabled={!props.UIState.dySave} style={{width: '50%'}} 
-						onChange={SyncProps.setAutoSaveInterval} 
+						<Input disabled={!props.UIState.dySave} style={{width: '50%'}}
+						onChange={SyncProps.setAutoSaveInterval}
 						value={props.UIState.gap}
 						placeholder="200000" />
 						<span> /ms </span>
