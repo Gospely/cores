@@ -52,42 +52,45 @@ const initApplication = function (props){
 			localStorage.socketPort = application.socketPort;
 			localStorage.domain = application.domain;
       localStorage.image = application.image;
+      localStorage.terminal = application.docker;
 			localStorage.currentFolder = localStorage.user + '/' + application.name + '_' + localStorage.userName;
       localStorage.applicationId = application.id;
 
-
-			props.dispatch({
-				type: 'file/fetchFileList'
-			});
-      props.dispatch({
-        type: 'file/initFiles',
-      });
-      props.dispatch({
-    		type: 'UIState/readConfig',
-    		payload: {
-    			id: application.id
-    		}
-    	});
-      props.dispatch({
-        type: 'devpanel/getConfig',
-        payload: { id : applicationId }
-      });
-
-			props.dispatch({
-				type: 'devpanel/handleImages',
-				payload: { id : application.image}
-			});
-      props.dispatch({
-        type: 'devpanel/startDocker',
-        payload: { id: application.id}
-      });
-      props.dispatch({
-        type: 'devpanel/openTerminal',
-        payload: { id:  application.docker}
-      });
-      props.dispatch({
-          type: 'sidebar/hideModalSwitchApp'
-      });
+      //
+      // if(localStorage.initOnce == null || localStorage.initOnce == undefined || localStorage.initOnce == '' || localStorage.initOnce == 'true') {
+      //   props.dispatch({
+      //     type: 'file/fetchFileList'
+      //   });
+      //   props.dispatch({
+      //     type: 'file/initFiles',
+      //   });
+      //   props.dispatch({
+      //     type: 'UIState/readConfig',
+      //     payload: {
+      //       id: application.id
+      //     }
+      //   });
+      //   props.dispatch({
+      //     type: 'devpanel/getConfig',
+      //     payload: { id : applicationId }
+      //   });
+      //
+      //   props.dispatch({
+      //     type: 'devpanel/handleImages',
+      //     payload: { id : application.image}
+      //   });
+      //   props.dispatch({
+      //     type: 'devpanel/startDocker',
+      //     payload: { id: application.id}
+      //   });
+      //   props.dispatch({
+      //     type: 'devpanel/openTerminal',
+      //     payload: { id:  application.docker}
+      //   });
+      //   props.dispatch({
+      //       type: 'sidebar/hideModalSwitchApp'
+      //   });
+      // }
 		});
   }
 	return true;

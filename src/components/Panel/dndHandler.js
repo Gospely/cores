@@ -60,6 +60,14 @@ export default {
 			props.dispatch({
           type: 'sidebar/hideModalSwitchApp'
       });
+			props.dispatch({
+       type: 'devpanel/startDocker',
+       payload: { id: localStorage.applicationId}
+     	});
+     	props.dispatch({
+       type: 'devpanel/openTerminal',
+       payload: { id:  localStorage.terminal}
+     	});
 		});
 		window.addEventListener("message", (evt) =>  {
 			var data = evt.data,
