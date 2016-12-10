@@ -496,6 +496,7 @@ var init = function() {
 
 			for(var att in this.controller.attr) {
 				var currentAttr = this.controller.attr[att];
+
 				if(currentAttr.isClassName) {
 					//更改的属性有css，则需要进行css操作
 
@@ -557,7 +558,11 @@ var init = function() {
 				}
 
 				if(currentAttr.isSetAttribute) {
-					this.elem.attr(att,currentAttr._value);
+					if (currentAttr.isContrary) {
+						this.elem.attr(att,!currentAttr._value);
+					}else {
+						this.elem.attr(att,currentAttr._value);
+					}
 				}
 
 				if(currentAttr.isHTML) {
@@ -567,6 +572,50 @@ var init = function() {
 				//设置容器的默认高度等
 				if (currentAttr.isStyle) {
 					this.elem.css(att, currentAttr._value);
+				}
+
+				if (currentAttr.isBoundToId) {
+					//一些label获取id
+					var id = '';
+					var getRadioInputId = function (controller) {
+						console.log('hahahahahahahahahahahahah', controller)
+						console.log('hahahahahahahahahahahahah', typeof controller.children)
+						for(var i = 0; i < controller.children.length; i ++) {
+							if (controller.children[i].type == currentAttr.bindType) {
+								id = controller.children[i].key;
+								break;
+							}
+							if (typeof controller.children[i].children != 'undefined') {
+								getRadioInputId(controller.children[i]);
+							}
+						}
+						return id;
+					}
+					this.elem.attr(att, getRadioInputId(this.controller));
+				}
+
+				if (currentAttr.isRander == true) {
+					//针对某些子组件要不要渲染的情况，如页脚文字或链接
+					var getRanderObj = function (controller) {
+						console.log(controller)
+						for(var i = 0; i < controller.children.length; i ++) {
+							if (controller.children[i].isRander == att) {
+								return {
+									parent: controller,
+									child: controller.children[i]
+								};
+							}
+						}
+						if (typeof controller.children[i].children !== 'undefined') {
+							getRanderObj(controller.children[i])
+						}
+					}
+
+					var obj = getRanderObj(this.controller);
+					console.log(obj)
+					if (!currentAttr._value) {
+						obj.parent.children.splice(obj.child, 1);
+					}
 				}
 
 			}
