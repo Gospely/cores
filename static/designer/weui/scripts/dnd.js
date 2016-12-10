@@ -167,7 +167,6 @@
 				window.currentRoute = data.key;
 				refreshApp(data);
 			}
-<<<<<<< HEAD
 		};
 
 	var dragger = {
@@ -197,17 +196,6 @@
 				direction = orginClientY,movingClientY - orginClientY
 			});
 
-			// elem.on('dragover', function (e) {
-			// 	$this = jq(e.currentTarget);
-			// 	showDesignerDraggerBorder($this);
-			// 	console.log($this,dragElement);
-			// 	if($this.eq(0).attr('id') != dragElement.eq(0).attr('id')){
-			// 		$this.append(dragElement);
-			// 		console.log('append 了')
-			// 		return false;
-			// 	}
-			// })
-
 			elem.on('dragend', function (e) {
 				console.log('拖拽结束：＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝',e)
 				jq(e.currentTarget).css('opacity','1');
@@ -225,57 +213,8 @@
 					$this.before(dragElement);
 				}
 			})
-=======
-		},
-
-		dragger = {
-
-			makeElemAddedDraggable: function(id) {
-				var elem = jq('#' + id);
-				var orginClientX, orginClientY,movingClientX, movingClientY;
-				elem.attr('draggable',true);
-
-				elem.on('dragstart',function (e) {
-					console.log(e)
-					dragElement = e.currentTarget;
-					orginClientX = e.clientX;
-					orginClientY = e.clientY;
-
-					e.originalEvent.dataTransfer.setData('Text','true');
-					jq(e.currentTarget).css('opacity','.3');
-				});
-
-				elem.on('drag',function (e) {
-					movingClientX = e.clientX;
-					movingClientY = e.clientY;
-					if(elem.position().top + orginClientY - movingClientY <= 42){
-						console.log('}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}非法位置')
-					}
-					direction = orginClientY,movingClientY - orginClientY
-				});
-
-				elem.on('dragend', function (e) {
-					console.log('拖拽结束：＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝',e)
-					jq(e.currentTarget).css('opacity','1');
-				});
-
-				elem.on('dragenter', function (e) {
-					console.log('进入',e)
-				});
-			
-				elem.on('dragleave', function (e) {
-					console.log('离开')
-					$this = jq(e.currentTarget);
-					hideDesignerDraggerBorder($this);
-					if($this.eq(0).attr('id') != jq(dragElement).eq(0).attr('id')){
-						console.log('不同的')
-						$this.before(jq(dragElement));
-					}
-				});
-			}
-
->>>>>>> 2ba6bf897c88bd3984dd3586b77756a3aa1b40c9
 		}
+	}
 
 	window.addEventListener("message", function (evt) {
 
@@ -581,8 +520,17 @@
 					this.elem.addClass(currentAttr._value);
 				}
 
+				if(currentAttr.isSetAttribute) {
+					this.elem.attr(att,currentAttr._value);
+				}
+
 				if(currentAttr.isHTML) {
 					this.elem.html(currentAttr._value);
+				}
+
+				//设置容器的默认高度等
+				if (currentAttr.isStyle) {
+					this.elem.css(att, currentAttr._value);
 				}
 			}
 			return this.elem;

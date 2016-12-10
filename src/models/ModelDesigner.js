@@ -690,13 +690,19 @@ export default {
 				backend: true
 			},
 			{
-				name: '列表容器',
+				name: '容器',
 				type: 'container',
 				attr: {
-
+					height: {
+						type: 'input',
+						title: '高度',
+						isStyle: true,
+						_value: '100px'
+					}
 				},
 				tag: ['div'],
-				baseClassName: 'weui-cells'
+				baseClassName: 'weui-cells',
+				children: []
 			},
 			{
 				name: '按钮',
@@ -747,32 +753,87 @@ export default {
 				attr: {},
 				baseClassName: 'weui-cells weui-cells_form',
 				tag: 'div',
-				children: {
+				children: [{
 					baseClassName: 'weui-cell',
 					tag: 'div',
-					type: {
-						vcode: {
-							type: 'toggle',
-							title: '三栏',
-							value: ['weui-cell_vcode'],
-							isClassName: true,
-							isHTML: false,
-							_value: ''
-						},
-
-						warning: {
-							type: 'toggle',
-							title: '报错',
-							value: ['weui-cell_warn'],
-							isClassName: true,
-							isHTML: false,
-							_value: ''
-						}
-					},
+					type: 'weui-cell',
+					attr: {},
+					name: '表单项一',
 					children: [{
 						tag: 'div',
 						baseClassName: 'weui-cell__hd',
+						type: 'weui-cell_hd',
+						attr: {},
+						name: '输入框提示信息',
 						children: [{
+							name: '提示信息',
+							tag: 'label',
+							baseClassName: 'weui-label',
+							type: 'weui-label',
+							attr: {
+								value: {
+									type: 'input',
+									title: '提示信息',
+									isClassName: false,
+									isHTML: true,
+									_value: 'qq'
+								}
+							}
+						}]
+					}, {
+						tag: 'div',
+						baseClassName: 'weui-cell_bd',
+						type: 'weui-cell_bd',
+						attr: {},
+						name: '输入框一',
+						children: [{
+							tag: 'input',
+							baseClassName: 'weui-input',
+							name: '输入框一',
+							type: 'weui-input',
+							attr: {
+								placeholder: {
+									type: 'input',
+									isSetAttribute: true,
+									title: '默认内容',
+									_value: '请输入qq号'
+								},
+								value: {
+									type: 'input',
+									isSetAttribute: true,
+									title: '内容',
+									_value: ''
+								},
+								type: {
+									title: '输入框类型',
+									isSetAttribute: true,
+									type: 'select',
+									value: ['number', 'color', 'range', 'text', 'datetime-local', 'date', 'password', 'email', 'tel'],
+									_value: 'text'
+								},
+								pattern: {
+									title: '正则',
+									isSetAttribute: true,
+									type: 'input',
+									_value: ''
+								}
+							}
+						}]
+					}]
+				}, {
+					baseClassName: 'weui-cell weui-cell_vcode',
+					tag: 'div',
+					type: 'div',
+					attr: {},
+					name: '表单项二',
+					children: [{
+						tag: 'div',
+						baseClassName: 'weui-cell__hd',
+						type: 'div',
+						attr: {},
+						name: '提示信息',
+						children: [{
+							name: '提示信息',
 							tag: 'label',
 							baseClassName: 'weui-label',
 							attr: {
@@ -781,20 +842,160 @@ export default {
 									title: '提示信息',
 									isClassName: false,
 									isHTML: true,
-									_value: ''
+									_value: '验证码'
 								}
 							}
 						}]
 					}, {
 						tag: 'div',
-						baseClassName: 'weui-cell__bd',
-						children: []
+						baseClassName: 'weui-cell_bd',
+						type: 'div',
+						attr: {},
+						name: '输入框二',
+						children: [{
+							tag: 'input',
+							baseClassName: 'weui-input',
+							name: '输入框二',
+							type: 'input',
+							attr: {
+								placeholder: {
+									type: 'input',
+									isSetAttribute: true,
+									title: '默认内容',
+									_value: '请输入验证码'
+								},
+								value: {
+									type: 'input',
+									isSetAttribute: true,
+									title: '内容',
+									_value: ''
+								},
+								type: {
+									title: '输入框类型',
+									isSetAttribute: true,
+									type: 'select',
+									value: ['number', 'color', 'range', 'text', 'datetime-local', 'date', 'password', 'email', 'tel'],
+									_value: 'text'
+								},
+								pattern: {
+									title: '正则',
+									isSetAttribute: true,
+									type: 'input',
+									_value: '[0-9]*'
+								}
+							}
+						}]
 					}, {
 						tag: 'div',
-						baseClassName: 'weui-cell__ft',
-						children: []
+						baseClassName: 'weui-cell_ft',
+						type: 'div',
+						attr: {},
+						name: '验证码',
+						children: [{
+							tag: 'img',
+							baseClassName: 'weui-vcode-img',
+							name: '验证码图片',
+							type: 'img',
+							attr: {
+								src: {
+									type: 'input',
+									title: '图片地址',
+									isSetAttribute: true,
+									_value: './images/vcode.png'
+								}
+							}
+						}]
 					}]
-				}
+
+				}, {
+					name: '表单项三',
+					baseClassName: 'weui-cell weui-cell_warn',
+					tag: 'div',
+					type: 'div',
+					attr: {},
+					children: [{
+						name: '提示信息',
+						tag: 'div',
+						type: 'div',
+						attr: {},
+						baseClassName: 'weui-cell__hd',
+						children: [{
+							name: '提示信息',
+							tag: 'label',
+							baseClassName: 'weui-label',
+							type: 'label',
+							attr: {
+								value: {
+									type: 'input',
+									title: '提示信息',
+									isHTML: true,
+									_value: '银行卡号'
+								}
+							}
+						}]
+					}, {
+						name: '输入框二',
+						tag: 'div',
+						type: 'div',
+						attr: {},
+						baseClassName: 'weui-cell-bd',
+						children: [{
+							name: '输入框二',
+							tag: 'input',
+							baseClassName: 'weui-input',
+							type: 'input',
+							attr: {
+								placeholder: {
+									isSetAttribute: true,
+									type: 'input',
+									_value: '银行卡号',
+									title: '默认内容'
+								},
+								type: {
+									title: '输入框类型',
+									isSetAttribute: true,
+									type: 'select',
+									value: ['number', 'color', 'range', 'text', 'datetime-local', 'date', 'password', 'email', 'tel'],
+									_value: 'number'
+								},
+								value: {
+									title: '内容',
+									isSetAttribute: true,
+									type: 'input',
+									_value: ''
+								},
+								pattern: {
+									title: '正则',
+									isSetAttribute: true,
+									type: 'input',
+									_value: '[0-9]*'
+								}
+							},
+
+						}]
+					}, {
+						name: '图标',
+						tag: 'div',
+						type: 'div',
+						baseClassName: 'weui-cell__ft',
+						attr: {},
+						children: [{
+							name: '图标',
+							tag: 'i',
+							type: 'i',
+							baseClassName: 'weui-icon-warn',
+							attr:{
+								title: '图标类型',
+								type: 'select',
+								value: ['weui_icon_success', 'weui_icon_success_circle', 'weui_icon_success_no_circle', 'weui_icon_info',
+										'weui_icon_waiting', 'weui_icon_waiting_circle', 'weui_icon_circle', 'weui_icon_warn', 'weui_icon_download',
+										'weui_icon_info_circle', 'weui_icon_cancel'],
+								_value: 'weui_icon_warn',
+								isClassName: true
+							}
+						}]
+					}]
+				}]
 			},
 			{
 				name: '文本框',
@@ -805,28 +1006,32 @@ export default {
 						title: '内容',
 						isClassName: false,
 						isHTML: false,
+						isSetAttribute: true,
 						_value: ''
 					},
 					disabled: {
 						type: 'toggle',
 						title: '禁止',
 						value: [],
-						isClassName: true,
+						isClassName: false,
+						isSetAttribute: true,
 						isHTML: false,
-						_value: ''
+						_value: false
 					},
 					type: {
 						type: 'select',
 						title: '类型',
 						isClassName: false,
 						isHTML: false,
+						isSetAttribute: true,
 						value: ['number', 'color', 'range', 'text', 'datetime-local', 'date', 'password', 'email', 'tel'],
-						_value: ''
+						_value: 'text'
 					},
 					placeholder: {
 						type: 'input',
 						title: '占位符',
 						isClassName: false,
+						isSetAttribute: true,
 						isHTML: false,
 						_value: ''
 					},
@@ -835,10 +1040,11 @@ export default {
 						title: '正则',
 						isClassName: false,
 						isHTML: false,
+						isSetAttribute: true,
 						_value: ''
 					}
 				},
-				tag: ['div'],
+				tag: ['input'],
 				baseClassName: 'weui-input',
 				wrapper: ''
 			},
