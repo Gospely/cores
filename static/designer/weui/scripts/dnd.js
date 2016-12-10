@@ -179,65 +179,6 @@
 				window.currentRoute = data.key;
 				refreshApp(data);
 			}
-<<<<<<< HEAD
-		};
-
-	var dragger = {
-
-		makeElemAddedDraggable: function(id) {
-			var elem = jq('#' + id);
-			var orginClientX, orginClientY,movingClientX, movingClientY;
-			window.dragElement = '';
-			elem.attr('draggable',true);
-
-			elem.on('dragstart',function (e) {
-				console.log(e)
-				dragElement = jq(e.currentTarget);
-				orginClientX = e.clientX;
-				orginClientY = e.clientY;
-
-				e.originalEvent.dataTransfer.setData('Text','true');
-				jq(e.currentTarget).css('opacity','.3');
-			});
-
-			elem.on('drag',function (e) {
-				movingClientX = e.clientX;
-				movingClientY = e.clientY;
-				if(elem.position().top + orginClientY - movingClientY <= 42){
-					console.log('}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}非法位置')
-				}
-				direction = orginClientY,movingClientY - orginClientY
-			});
-
-			// elem.on('dragover', function (e) {
-			// 	$this = jq(e.currentTarget);
-			// 	showDesignerDraggerBorder($this);
-			// 	console.log($this,dragElement);
-			// 	if($this.eq(0).attr('id') != dragElement.eq(0).attr('id')){
-			// 		$this.append(dragElement);
-			// 		console.log('append 了')
-			// 		return false;
-			// 	}
-			// })
-
-			elem.on('dragend', function (e) {
-				console.log('拖拽结束：＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝',e)
-				jq(e.currentTarget).css('opacity','1');
-			});
-			elem.on('dragenter', function (e) {
-				console.log('进入',e)
-			})
-		
-			elem.on('dragleave', function (e) {
-				console.log('离开')
-				$this = jq(e.currentTarget);
-				hideDesignerDraggerBorder($this);
-				if($this.eq(0).attr('id') != dragElement.eq(0).attr('id')){
-					console.log('不同的')
-					$this.before(dragElement);
-				}
-			})
-=======
 		},
 
 		dragger = {
@@ -286,7 +227,6 @@
 				});
 			}
 
->>>>>>> 2ba6bf897c88bd3984dd3586b77756a3aa1b40c9
 		}
 
 	window.addEventListener("message", function (evt) {
@@ -504,7 +444,7 @@
 			if(!this.elemLoaded) {
 				var docCtrl = jq('#' + this.controller.key);
 
-				this.elem = docCtrl.length > 0 ? docCtrl.children().eq(1) : jq(document.createElement(this.tag));
+				this.elem = docCtrl.length > 0 ? docCtrl : jq(document.createElement(this.tag));
 				this.elemLoaded = true;
 				this.refresh = docCtrl.length > 0;
 			}
@@ -512,19 +452,21 @@
 			return this.elem;
 		},
 
-		coverWrapper: function() {
+		bindData: function() {
 
 			this.initElem();
 
-			var wrapper = jq('<div class="control-box hight-light" id="' + this.controller.key + '"></div>'),
-				operation = '<i class="weui-icon-cancel delete-com"></i>';
+			// var wrapper = jq('<div class="control-box hight-light" id="' + this.controller.key + '"></div>'),
+			// 	operation = '<i class="weui-icon-cancel delete-com"></i>';
 
-			wrapper.attr('data-control', JSON.stringify(this.controller))
-				   .append(operation);
+			this.elem.data('controller', JSON.stringify(this.controller));
 
-			wrapper.append(this.elem);
+			// wrapper.attr('data-control', JSON.stringify(this.controller))
+			// 	   .append(operation);
 
-			return wrapper;
+			// wrapper.append(this.elem);
+
+			// return wrapper;
 		},
 
 		setAttribute: function() {
@@ -596,7 +538,11 @@
 				if(currentAttr.isHTML) {
 					this.elem.html(currentAttr._value);
 				}
+
 			}
+
+			this.elem.attr('id', this.controller.key);
+
 			return this.elem;
 		},
 
@@ -610,7 +556,9 @@
 			}
 
 			this.setAttribute();
-			var component = this.coverWrapper();
+			this.bindData();
+
+			var component = this.elem;
 
 			if(this.controller.children && this.controller.children.length > 0) {
 
@@ -625,9 +573,9 @@
 
 						jqComponent = jq(component);
 
-						console.log('loopComponent=============', jqComponent.children().eq(1), loopComponent);
+						// console.log('loopComponent=============', jqComponent.chilren().eq(1), loopComponent);
 
-					jqComponent.children().eq(1).append(jq(loopComponent));
+					jqComponent.append(jq(loopComponent));
 
 				};
 

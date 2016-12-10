@@ -15,9 +15,6 @@ const ConstructionTree = (props) => {
   if (!window.flag) {
 
     window.addEventListener('click', function (data) {
-      
-      console.log(data);
-      console.log("======================click===================");
       props.dispatch({type: 'designer/hideConstructionMenu'});
     }, false)
 
@@ -27,104 +24,72 @@ const ConstructionTree = (props) => {
 
   const deleteThisConstruction = function() {
 
-        let type,
+      let type,
+          lastIndex = -1,
+          deleteIndex,
+          key,
+          level = 1,
+          isDeleteAll = false,
+          activePage = props.designer.layoutState.activePage.key,
+          activeController = props.designer.layoutState.activeController.key;
 
-            lastIndex = -1,
+      let loopData = function (data) {
 
-            deleteIndex,
+          for(let i = 0; i < data.length; i ++){
+              if (data[i].children) {
+                 loopData(data[i].children);
+                 level ++;
+              }
+              // alert(data[i].key)
+              if (data[i].key == localStorage.currentSelectedConstruction) {
+                  type = data[i].type;
+                  if(activePage == localStorage.currentSelectedConstruction ||
+                      activeController == localStorage.currentSelectedConstruction) {
+                      lastIndex = i - 1;
+                      deleteIndex = i;
+                      if (lastIndex < 0) {
+                          isDeleteAll = true;
+                          lastIndex = 0;
+                      }
+                      key = data[lastIndex].key;
+                  }
+                  break;
+              }
+          }
+      }
 
-            key,
+      console.log(props.designer.layout)
 
-            level = 1,
+      loopData(props.designer.layout);
 
-            isDeleteAll = false,
+      if(isDeleteAll) {
+        if (type == 'Controller') {
 
-            activePage = props.designer.layoutState.activePage.key,
-
-            activeController = props.designer.layoutState.activeController.key;
-
-        let loopData = function (data) {
-
-            for(let i = 0; i < data.length; i ++){
-
-                if (data[i].children) {
-
-                   loopData(data[i].children);
-
-                   level ++;
-
-                }
-
-                // alert(data[i].key)
-
-                if (data[i].key == localStorage.currentSelectedConstruction) {
-
-                    type = data[i].type;
-
-                    if(activePage == localStorage.currentSelectedConstruction ||
-
-                        activeController == localStorage.currentSelectedConstruction) {
-
-                        lastIndex = i - 1;
-
-                        deleteIndex = i;
-
-                        if (lastIndex < 0) {
-
-                            isDeleteAll = true;
-
-                            lastIndex = 0;
-
-                        }
-
-                        key = data[lastIndex].key;
-
-                    }
-
-                    break;
-
-                }
-
-
-
-            }
+        }else {
 
         }
+      }
 
-        console.log(props.designer.layout)
-
-        loopData(props.designer.layout);
-
-        if(isDeleteAll) {
-          if (type == 'Controller') {
-
-          }else {
-
-          }
+      props.dispatch({
+        type: 'designer/deleteConstruction',
+        payload: {
+          type,
+          deleteIndex,
+          key,
+          lastIndex,
+          level
         }
+      });
 
-        props.dispatch({
-          type: 'designer/deleteConstruction',
-          payload: {
-            type,
-            deleteIndex,
-            key,
-            lastIndex,
-            level
-          }
-        });
+      props.dispatch({
+        type: 'attr/setFormItemsByType',
+        payload: {
+          type,
+          key
+        }
+      })
 
-        props.dispatch({
-          type: 'attr/setFormItemsByType',
-          payload: {
-            type,
-            key
-          }
-        })
-
-    };
-
-
+  };
 
   const layoutTreeProps = {
 
@@ -239,34 +204,44 @@ const ConstructionTree = (props) => {
 
   const treeNodes = loopData(props.designer.layout);
 
-return (
+  if(props.designer.loaded) {
 
-    <div style={{marginTop: -20}}>
-      <div className={TreeStyle.headerCons}>
-        <Row>
-          <Col span={24}>
-            <Button onClick={addPageProps.addThisPage} className={TreeStyle.topbarBtnCons}><Icon type="plus" />添加页面</Button>
-          </Col>
-        </Row>
-      </div>
+    return (
+      
+        <div style={{marginTop: -20}}>
+          <div className={TreeStyle.headerCons}>
+            <Row>
+              <Col span={24}>
+                <Button onClick={addPageProps.addThisPage} className={TreeStyle.topbarBtnCons}><Icon type="plus" />添加页面</Button>
+              </Col>
+            </Row>
+          </div>
 
-      <Tree className="layoutTree"
-        showLine
-        defaultExpandAll
-        onRightClick={layoutTreeProps.onRightClick}
-        onSelect={layoutTreeProps.onSelect}
-        selectedKeys={[props.designer.layoutState.activeKey]}
-        expandedKeys={props.designer.layoutState.expandedKeys}
-      >
-        {treeNodes}
-      </Tree>
+          <Tree className="layoutTree"
+            showLine
+            defaultExpandAll
+            onRightClick={layoutTreeProps.onRightClick}
+            onSelect={layoutTreeProps.onSelect}
+            selectedKeys={[props.designer.layoutState.activeKey]}
+            expandedKeys={props.designer.layoutState.expandedKeys}
+          >
+            {treeNodes}
+          </Tree>
 
-      <Menu style={props.designer.constructionMenuStyle} onClick={deleteThisConstruction} className="context-menu">
-        <Menu.Item key="read">删除</Menu.Item>
-      </Menu>
-    </div>
+          <Menu style={props.designer.constructionMenuStyle} onClick={deleteThisConstruction} className="context-menu">
+            <Menu.Item key="read">删除</Menu.Item>
+          </Menu>
+        </div>
 
-);
+    );
+
+  }else {
+
+    return (
+      <p>无处理对象</p>
+    );
+
+  }
 
 };
 

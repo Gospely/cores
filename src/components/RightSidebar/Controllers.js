@@ -18,20 +18,28 @@ const Controllers = (props) => {
 
 	}
 
-  	return (
-	    <Row id="dnd-row">
-	    	{props.designer.controllersList.map((controller, index) => {
-	    		if(!controller.backend) {
-	    			return (
-						<Col span={12} key={index}>
-			      			<div onMouseDown={controllersProps.onSelect.bind(this, controller)} className={'app-components ' + controller.type}><span className="title">{controller.name}</span></div>
-			      		</Col>
-	    			);
-	    		}
-	    	})}
-	    </Row>
+	if(props.designer.loaded) {
 
-  	);
+	  	return (
+		    <Row id="dnd-row">
+		    	{props.designer.controllersList.map((controller, index) => {
+		    		if(!controller.backend) {
+		    			return (
+							<Col span={12} key={index}>
+				      			<div onMouseDown={controllersProps.onSelect.bind(this, controller)} className={'app-components ' + controller.type}><span className="title">{controller.name}</span></div>
+				      		</Col>
+		    			);
+		    		}
+		    	})}
+		    </Row>
+
+	  	);
+
+	}else {
+		return (
+			<p>无处理对象</p>
+		);
+	}
 
 };
 
