@@ -34,7 +34,6 @@ function IndexPage(props) {
   }
 
 
-
   const devPanelProps = {
     panes: props.devpanel.panels.panes,
 
