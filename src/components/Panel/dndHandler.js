@@ -140,7 +140,7 @@ export default {
 				    });
 				},
 
-				ctrlEdited () {
+				ctrlUpdated () {
 					console.log(eventName,data);
 				},
 
