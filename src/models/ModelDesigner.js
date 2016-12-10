@@ -179,6 +179,9 @@ const layoutAction = {
 export default {
 	namespace: 'designer',
 	state: {
+
+		loaded: false,
+
 		deviceList: [
 			{
 				name: 'iPhone',
@@ -1275,12 +1278,15 @@ export default {
 	reducers: {
 
 		handleLayoutLoaded(state, { payload: params }) {
+			state.loaded = true;
+
 			gospelDesigner.postMessage({
 				layoutLoaded: {
 					layout: state.layout,
 					layoutState: state.layoutState
 				}
 			}, '*');
+			
 			return {...state};
 		},
 
