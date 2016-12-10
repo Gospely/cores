@@ -13,7 +13,7 @@ export default {
 		window.dndHandlerLoadedOnce = true;
 
 		//监听页面刷新，保存最新的UI状态
-		window.addEventListener("beforeunload",(evt) =>{
+		window.addEventListener("beforeunload", (evt) => {
 
 			var state = {
 				applicationId: localStorage.applicationId,
@@ -28,13 +28,13 @@ export default {
 			});
 		});
 		//监听关闭页面，保存ui状态
-		window.addEventListener("unload",(evt) =>{
+		window.addEventListener("unload", (evt) => {
 
 			//todo
 		});
 
 		//监听页面加载，获取刷新前的页面状态
-		window.addEventListener("load",(evt) =>{
+		window.addEventListener("load", (evt) => {
 
 			console.log("=========================onLoad=================");
 			props.dispatch({

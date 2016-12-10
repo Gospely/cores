@@ -181,6 +181,10 @@ var init = function() {
 				window.currentRoute = data.key;
 				refreshApp(data);
 			}
+		},
+
+		selectCtrlById = function(id) {
+
 		};
 
 	var dragger = {
@@ -256,6 +260,10 @@ var init = function() {
 
 			ctrlSelected: function() {
 				console.log('ctrlSelected', data);
+
+				// selectCtrlById(data);
+
+
 			},
 
 			pageAdded: function() {
