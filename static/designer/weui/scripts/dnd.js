@@ -1,4 +1,4 @@
-(function(){
+var init = function() {
 
 	jQuery.fn.isChildOf = function(b) { 
 		return (this.parents(b).length > 0); 
@@ -24,8 +24,17 @@
 			},
 
 			changeNavigationBarTextStyle: function(style) {
-				style = style == 'white' ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)';
-				jq('#gospel-app-title').css('color', style);
+				var color = style == 'white' ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)';
+
+				jq('#gospel-app-title').css('color', color);
+
+				if(style == 'white') {
+					jq('.head-option .head-option-icon').addClass('white');
+					jq('.head-home .head-home-icon').addClass('white');
+				}else {
+					jq('.head-option .head-option-icon').removeClass('white');
+					jq('.head-home .head-home-icon').removeClass('white');					
+				}
 			},
 
 			changeBackgroundTextStyle: function(style) {
@@ -133,7 +142,7 @@
 					controller: controller
 				});
 
-				ctrlRefresher.setAttribute();
+			ctrlRefresher.setAttribute();
 		},
 
 		refreshRouterList = function(elem) {
@@ -144,9 +153,10 @@
 
 				newestHTML = jq('.' + currentRouterConfig.className).html();
 
-			var tmp = {
-				url: currentRouterConfig.url,
+			console.log('=============newestHTML]]]]]]]]]]]]]]', newestHTML);
 
+			var tmpRoute = {
+				url: currentRouterConfig.url,
 				className: currentRouterConfig.className,
 
 				render: function () {
@@ -154,9 +164,11 @@
 				}
 			}
 
-			delete router._routes[currentRouteIndex];
+			router._routes.splice(currentRouteIndex, 1);
 
-			router._routes[currentRouteIndex] = tmp;
+			window.router.push(tmpRoute);
+
+			router._index = router._routes.length;
 
 			console.log(router);
 		},
@@ -213,7 +225,8 @@
 					$this.before(dragElement);
 				}
 			})
-		}
+		},
+
 	}
 
 	window.addEventListener("message", function (evt) {
@@ -304,16 +317,26 @@
 
 	});
 
-	var source = jq("#dnd-row", window.parent.document).find('.ant-col-12');
-	source.each(function(n) {
-		jq(this).find(".app-components").attr("draggable", true);
-		jq(this).find(".app-components").attr("id", "source" + n);
-		//开始拖拽
-		jq(this).find(".app-components").on("dragstart", function(ev) {
-			data = jq(ev.target).clone();
-			//ev.dataTransfer.setData("Text",ev.target.id);
-		})
-	});
+	var sourceController = jQuery("#dnd-row", window.parent.document).find('.ant-col-12'),
+		inter = 0;
+
+	if(sourceController.length === 0) {
+		inter = setInterval(function() {
+			sourceController = jQuery("#dnd-row", window.parent.document).find('.ant-col-12')
+			if(sourceController.length > 0) {
+				clearInterval(inter);
+				sourceController.each(function(n) {
+					jq(this).find(".app-components").attr("draggable", true);
+					jq(this).find(".app-components").attr("id", "source" + n);
+					//开始拖拽
+					jq(this).find(".app-components").on("dragstart", function(ev) {
+						data = jq(ev.target).clone();
+						//ev.dataTransfer.setData("Text",ev.target.id);
+					})
+				});
+			}
+		}, 1);
+	}
 
 	//拖拽结束
 	jq("#gospel-designer-container").on("drop", function(e) {
@@ -431,7 +454,7 @@
 			if(!this.elemLoaded) {
 				var docCtrl = jq('#' + this.controller.key);
 
-				this.elem = docCtrl.length > 0 ? docCtrl.children().eq(1) : jq(document.createElement(this.tag));
+				this.elem = docCtrl.length > 0 ? docCtrl : jq(document.createElement(this.tag));
 				this.elemLoaded = true;
 				this.refresh = docCtrl.length > 0;
 			}
@@ -439,19 +462,21 @@
 			return this.elem;
 		},
 
-		coverWrapper: function() {
+		bindData: function() {
 
 			this.initElem();
 
-			var wrapper = jq('<div class="control-box hight-light" id="' + this.controller.key + '"></div>'),
-				operation = '<i class="weui-icon-cancel delete-com"></i>';
+			// var wrapper = jq('<div class="control-box hight-light" id="' + this.controller.key + '"></div>'),
+			// 	operation = '<i class="weui-icon-cancel delete-com"></i>';
 
-			wrapper.attr('data-control', JSON.stringify(this.controller))
-				   .append(operation);
+			this.elem.data('controller', JSON.stringify(this.controller));
 
-			wrapper.append(this.elem);
+			// wrapper.attr('data-control', JSON.stringify(this.controller))
+			// 	   .append(operation);
 
-			return wrapper;
+			// wrapper.append(this.elem);
+
+			// return wrapper;
 		},
 
 		setAttribute: function() {
@@ -532,7 +557,11 @@
 				if (currentAttr.isStyle) {
 					this.elem.css(att, currentAttr._value);
 				}
+
 			}
+
+			this.elem.attr('id', this.controller.key);
+
 			return this.elem;
 		},
 
@@ -546,7 +575,9 @@
 			}
 
 			this.setAttribute();
-			var component = this.coverWrapper();
+			this.bindData();
+
+			var component = this.elem;
 
 			if(this.controller.children && this.controller.children.length > 0) {
 
@@ -561,9 +592,9 @@
 
 						jqComponent = jq(component);
 
-						console.log('loopComponent=============', jqComponent.children().eq(1), loopComponent);
+						// console.log('loopComponent=============', jqComponent.chilren().eq(1), loopComponent);
 
-					jqComponent.children().eq(1).append(jq(loopComponent));
+					jqComponent.append(jq(loopComponent));
 
 				};
 
@@ -600,4 +631,5 @@
 		}
 
 	}
-})()
+}();
+

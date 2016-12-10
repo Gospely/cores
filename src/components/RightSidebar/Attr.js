@@ -179,23 +179,27 @@ const Attr = (props) => {
 	});
 
 
-    // if (props.designer.layout.length) {
-    	
-	return (
-		<div>
-			<Collapse className="noborder attrCollapse nomin" bordered={false} defaultActiveKey={['1']}>
-			    <Panel header="属性" key="1">
+    if (props.designer.loaded) {
+    	 
+		return (
+			<div>
+				<Collapse className="noborder attrCollapse nomin" bordered={false} defaultActiveKey={['1']}>
+				    <Panel header="属性" key="1">
 
-			      	<Form onSubmit={handleSubmit}>
-			      		{form}
-			      	</Form>
+				      	<Form onSubmit={handleSubmit}>
+				      		{form}
+				      	</Form>
 
-			    </Panel>
-			  </Collapse>
-		</div>
-	);
+				    </Panel>
+				  </Collapse>
+			</div>
+		);
 
-	// }
+	}else {
+		return (
+			<p>无处理对象</p>
+		);
+	}
 	
 };
 

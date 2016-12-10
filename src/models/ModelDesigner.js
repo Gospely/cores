@@ -179,6 +179,9 @@ const layoutAction = {
 export default {
 	namespace: 'designer',
 	state: {
+
+		loaded: false,
+
 		deviceList: [
 			{
 				name: 'iPhone',
@@ -1253,6 +1256,23 @@ export default {
 								title: '名称'
 							}
 						},
+						children: []
+					}, {
+						tag: 'div',
+						baseClassName: 'weui-cell__bd',
+						attr: {
+
+							title: {
+								_value: '列表标题文字',
+								type: 'input',
+								isClassName: false,
+								isHTML: false,
+								title: '名称'
+							}
+
+						},
+						name: '列表正文',
+						type: 'weui-cell__bd',
 						children: [{
 							tag: 'p',
 							baseClassName: '',
@@ -1277,23 +1297,6 @@ export default {
 
 							}
 						}]
-					}, {
-						tag: 'div',
-						baseClassName: 'weui-cell__bd',
-						attr: {
-
-							title: {
-								_value: '列表标题文字',
-								type: 'input',
-								isClassName: false,
-								isHTML: false,
-								title: '名称'
-							}
-
-						},
-						name: '列表正文',
-						type: 'weui-cell__bd',
-						children: []
 					}, {
 						tag: 'div',
 						baseClassName: 'weui-cell__ft',
@@ -1480,13 +1483,21 @@ export default {
 
 	reducers: {
 
+		handleDesignerClosed(state) {
+			state.loaded = false;
+			return {...state};
+		},
+
 		handleLayoutLoaded(state, { payload: params }) {
+			state.loaded = true;
+
 			gospelDesigner.postMessage({
 				layoutLoaded: {
 					layout: state.layout,
 					layoutState: state.layoutState
 				}
 			}, '*');
+			
 			return {...state};
 		},
 
@@ -1634,7 +1645,6 @@ export default {
 
 			activePage.children.push(tmpCtrl);
 			let level = layoutAction.getCurrentLevelByKey(state.layout, tmpCtrl.key);
-			// alert(level)
 			layoutAction.setActiveController(state.layoutState, activePage.children.length - 1, tmpCtrl.key, level);
 			return {...state};
 		},

@@ -4,13 +4,13 @@ import { message, notification } from 'antd';
 export default {
 	init(props) {
 
-		if(window.loadedOnce) {
+		if(window.dndHandlerLoadedOnce) {
 			return false;
 		}
 
-		console.log('======================window.loadedOnce======================', window.loadedOnce);
+		console.log('======================window.loadedOnce======================', window.dndHandlerLoadedOnce);
 
-		window.loadedOnce = true;
+		window.dndHandlerLoadedOnce = true;
 
 		//监听页面刷新，保存最新的UI状态
 		window.addEventListener("beforeunload",(evt) =>{
@@ -57,10 +57,22 @@ export default {
 				type: 'devpanel/handleImages',
 				payload: { id : localStorage.image}
 			});
+			props.dispatch({
+          type: 'sidebar/hideModalSwitchApp'
+      });
+			props.dispatch({
+       type: 'devpanel/startDocker',
+       payload: { id: localStorage.applicationId}
+     	});
+     	props.dispatch({
+       type: 'devpanel/openTerminal',
+       payload: { id:  localStorage.terminal}
+     	});
 		});
 		window.addEventListener("message", (evt) =>  {
 			var data = evt.data,
 				eventName = '';
+			console.log("=====data=======",data);
 			const evtAction = {
 
 				ctrlClicked () {
