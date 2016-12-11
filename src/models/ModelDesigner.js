@@ -2030,56 +2030,224 @@ export default {
 			{
 				name: '搜索框',
 				type: 'search',
-				attr: {}
+				baseClassName: 'weui-search-bar',
+				attr: {},
+				tag: 'div',
+				children: [{
+					type: 'form',
+					tag: 'form',
+					name: '搜索form',
+					baseClassName: 'weui-search-bar_form',
+					attr: {},
+					children: [{
+						type: 'div',
+						tag: 'div',
+						name: '搜索box',
+						baseClassName: 'weui-search-bar_box',
+						attr: {},
+						children: [{
+							type: 'i',
+							tag: 'i',
+							name: '图标',
+							baseClassName: '',
+							attr: {
+								icon: {
+									title: '图标',
+									isClassName: true,
+									_value: 'weui-icon-search',
+									type: 'select',
+									value: ['weui-icon-success', 'weui-icon-success-circle', 'weui-icon-success-no-circle', 'weui-icon-info',
+											'weui-icon-waiting', 'weui-icon-waiting-circle', 'weui-icon-circle', 'weui-icon-warn', 'weui-icon-download',
+											'weui-icon-info-circle', 'weui-icon-cancel'
+										   ],
+									isNoConflict: true
+								}
+							}
+						}, {
+							type: 'input',
+							baseClassName: 'weui-search-bar_input',
+							name: '搜索input',
+							tag: 'input',
+							attr: {
+								placeholder: {
+									title: '占位符',
+									type: 'input',
+									isSetAttribute: true,
+									_value: '搜索'
+								}
+							}
+						}, {
+							type: 'a',
+							tag: 'a',
+							baseClassName: 'weui-icon-clear',
+							name: '清空button',
+							attr: {
+								herf: {
+									isSetAttribute: true,
+									_value: 'javascript:',
+									title: '清空动作',
+									type: 'input'
+								}
+							},
+						}]
+					}, {
+						type: 'label',
+						tag: 'lable',
+						name: '搜索按钮区域',
+						attr: {},
+						baseClassName: 'weui-search-bar_label',
+						children: [{
+							type: 'i',
+							tag: 'i',
+							baseClassName: '',
+							name: '图标',
+							attr: {
+								icon: {
+									title: '图标',
+									isClassName: true,
+									_value: 'weui-icon-search',
+									type: 'select',
+									value: ['weui-icon-success', 'weui-icon-success-circle', 'weui-icon-success-no-circle', 'weui-icon-info',
+											'weui-icon-waiting', 'weui-icon-waiting-circle', 'weui-icon-circle', 'weui-icon-warn', 'weui-icon-download',
+											'weui-icon-info-circle', 'weui-icon-cancel'
+										   ],
+									isNoConflict: true
+								}
+							}
+						}, {
+							name: '提示文本',
+							tag: 'span',
+							type: 'span',
+							baseClassName: '',
+							attr: {
+								value: {
+									title: '提示文本',
+									type: 'input',
+									isHTML: true,
+									_value: '搜索'
+								}
+							}
+						}]
+					}]
+				}, {
+					type: 'a',
+					tag: 'a',
+					baseClassName: 'weui-search-bar_cancel-btn',
+					attr: {
+						href: {
+							isSetAttribute: true,
+							type: 'input',
+							title: '取消动作',
+							_value: 'javascript:'
+						},
+						value: {
+							isHTML: true,
+							type: 'input',
+							title: '取消文本',
+							_value: '取消'
+						}
+					},
+					name: '取消'
+				}]
 			},
 			{
 				name: '选择框',
 				type: 'select',
-				attr: {
-					name: {
-						type: 'input',
-						title: '名称',
-						isClassName: false,
-						isHTML: false,
-						_value: ''
-					}
-				},
-				tag: 'select',
+				attr: {},
+				tag: 'div',
+				baseClassName: 'weui weui-cell_select weui-cell_select-after',
 				children: [{
-					tag: 'option',
-					attr: {
-						value: {
-							type: 'input',
-							title: '值',
-							isClassName: false,
-							isHTML: false,
-							_value: ''
-						},
-
-						html: {
-							type: 'input',
-							title: '显示值',
-							isClassName: false,
-							isHTML: true,
-							_value: ''
+					type: 'div',
+					tag: 'div',
+					baseClassName: 'weui-cell_hd',
+					attr:{},
+					name: '选择框label',
+					children: [{
+						type: 'label',
+						name: 'label',
+						tag: 'label',
+						baseClassName: 'weui-label',
+						attr: {
+							value: {
+								title: 'label文本',
+								type: 'input',
+								isHTML: true,
+								_value: '选一个'
+							}
 						}
-					}
-				}],
-				baseClassName: 'weui-select'
+					}]
+				}, {
+					type: 'div',
+					tag: 'div',
+					name: '选项',
+					attr: {
+						number: {
+							title: '选项个数',
+							type: 'input',
+							_value: 3
+						}
+					},
+					baseClassName: 'weui-cell_bd',
+					children: [{
+						attr: {},
+						tag: 'select',
+						type: 'select',
+						baseClassName: 'weui-select',
+						name: '选择select',
+						children: [{
+							tag: 'option',
+							type: 'option',
+							name: '选择option',
+							attr: {
+								value: {
+									isSetAttribute: true,
+									type: 'input',
+									title: 'value值',
+									_value: '1'
+								}
+							},
+							baseClassName: ''
+						}]
+					}]
+				}]
 			},
 			{
 				name: '幻灯片',
 				type: 'slider',
-				attr: {}
+				tag: 'div',
+				attr: {
+					number: {
+						type: 'input',
+						title: '图片数量',
+						_value: '3'
+					},
+					display: {
+						type: 'input',
+						title: '',
+						_value: 'block',
+						isStyle: true,
+						hidden: true
+					}
+				},
+				baseClassName: 'weui-gallery',
+				children: [{
+					tag: 'span',
+					type: 'span',
+					name: '图片',
+					baseClassName: 'weui-gallery_img',
+					attr: {
+						'background-image': {
+							isStyle: true,
+							_value: '',
+							type: 'input',
+							title: '图片地址'
+						}
+					}
+				}]
 			},
 			{
 				name: '空白分割',
 				type: 'spacer',
-				attr: {}
-			},
-			{
-				name: '搜索框',
-				type: 'search',
 				attr: {}
 			},
 			{
@@ -2100,11 +2268,6 @@ export default {
 			{
 				name: '列表图标',
 				type: 'list-item-icon',
-				attr: {}
-			},
-			{
-				name: '列表容器',
-				type: 'list-item-container',
 				attr: {}
 			}
 		],
@@ -2207,24 +2370,20 @@ export default {
 			return {...state, constructionMenuStyle: {
 				position: 'fixed',
 				display: 'block',
-				// border: '1px solid #e9e9e9',
-				// padding: '5px 10px',
 				left: proxy.event.clientX,
 				top: proxy.event.clientY,
-				// background: 'white'
 			}}
 		},
 
 		deleteConstruction(state,{payload: params}) {
-			if (params.type == 'page') {
-				// alert(params.level)
-				state.layout[0].children.splice(params.deleteIndex,1);
-				layoutAction.setActivePage(state.layoutState, params.lastIndex, params.key, 2);
+			
+			if (params.activeType == 'page') {
+				layoutAction.setActivePage(state.layoutState, params.activeIndex, params.activeKey, params.activeLevel);
 			}else {
-				state.layout[state.layoutState.activePage.index].children.splice(params.deleteIndex,1);
-				let level = getCurrentLevelByKey(state.layout,params.key);
-				layoutAction.setActiveController(state.layoutState, params.lastIndex, params.key, level);
+				layoutAction.setActiveController(state.layoutState, params.activeIndex, params.activeKey, params.activeLevel);
 			}
+			console.log(params.parentCtrl)
+			params.parentCtrl.children.splice(params.deleteIndex, 1);
 
 			gospelDesigner.postMessage({
 				ctrlRemoved: layoutAction.getActivePage(state)
