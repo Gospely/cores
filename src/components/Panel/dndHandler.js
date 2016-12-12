@@ -28,7 +28,6 @@ export default {
 		//监听页面加载，获取刷新前的页面状态
 		window.addEventListener("load", (evt) => {
 
-<<<<<<< HEAD
 			console.log("====================onLoad============" + window.applicationId);
 			var applicationId = window.applicationId;
 			localStorage.flashState == 'true'
@@ -64,56 +63,12 @@ export default {
 					initApplication(application,props);
 				});
 		  }
-=======
-			console.log("=========================onLoad=================");
-			props.dispatch({
-				type: 'file/fetchFileList'
-			});
-			
-			props.dispatch({
-				type: 'file/initFiles',
-			});
-			
-			props.dispatch({
-				type: 'UIState/readConfig',
-				payload: {
-					id: localStorage.applicationId
-				}
-			});
-			
-			props.dispatch({
-				type: 'devpanel/getConfig',
-				payload: { id : localStorage.applicationId}
-			});
-			
-			props.dispatch({
-				type: 'devpanel/handleImages',
-				payload: { id : localStorage.image}
-			});
-			
-			props.dispatch({
-          		type: 'sidebar/hideModalSwitchApp'
-      		});
-			
-			props.dispatch({
-       			type: 'devpanel/startDocker',
-       			payload: { id: localStorage.applicationId}
-     		});
-
-     		props.dispatch({
-       			type: 'devpanel/openTerminal',
-       			payload: { id:  localStorage.terminal}
-     		});
->>>>>>> e7eaa376d8f6f37bba3b7b4d11b3d269c69fea1d
 		});
 
 		window.addEventListener("message", (evt) =>  {
+			
 			var data = evt.data,
 				eventName = '';
-<<<<<<< HEAD
-=======
-
->>>>>>> e7eaa376d8f6f37bba3b7b4d11b3d269c69fea1d
 			const evtAction = {
 
 				pageSelected () {

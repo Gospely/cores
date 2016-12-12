@@ -43,7 +43,6 @@ app.use({
 			window.appRouter = app._history;
 		}
 
-<<<<<<< HEAD
 		if(localStorage.flashState == 'true') {
 			console.log("=============flash UIState==========");
 			var state = app._store.getState();
@@ -60,11 +59,6 @@ app.use({
 				}
 			});
 		}
-=======
-		// var state = app._store.getState();
-		// var UIState = packUIStage(state);
->>>>>>> e7eaa376d8f6f37bba3b7b4d11b3d269c69fea1d
-
 		// app._store.dispatch({
 		// 	type: 'UIState/writeConfig',
 		// 	payload: {
