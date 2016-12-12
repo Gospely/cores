@@ -16,6 +16,8 @@ const initApplication = function (application,props){
   localStorage.image = application.image;
   localStorage.currentFolder = localStorage.user + '/' + application.name + '_' + localStorage.userName;
   localStorage.applicationId = application.id;
+  var UIState = JSON.parse(localStorage.UIState);
+  console.log(UIState);
   props.dispatch({
     type: 'file/fetchFileList'
   });
@@ -30,14 +32,19 @@ const initApplication = function (application,props){
   });
   props.dispatch({
     type: 'devpanel/getConfig',
-    payload: { id : application.id}
-  });
-  props.dispatch({
-    type: 'devpanel/handleImages',
-    payload: { id : application.image}
+    payload: { id : application.id, UIState: UIState.UIState.devpanel}
   });
   props.dispatch({
       type: 'sidebar/hideModalSwitchApp'
+  });
+  props.dispatch({
+      type: 'sidebar/initState',
+      payload: { UIState: UIState.UIState.sidebar }
+  });
+  console.log(UIState.UIState.rightbar);
+  props.dispatch({
+      type: 'rightbar/initState',
+      payload: { UIState: UIState.UIState.rightbar }
   });
   props.dispatch({
     type: 'devpanel/openTerminal',

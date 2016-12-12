@@ -51,7 +51,7 @@ const Editor = (props) => {
 
 		isSaving: props$editorTop.isSaving,
 
-		currentLanguage: props$editorTop.currentLanguage,
+		currentLanguage: props.devpanel.currentLanguage,
 
 		isSlideUp: props$editorTop.isSlideUp,
 
@@ -246,7 +246,7 @@ const Editor = (props) => {
 				<MonacoEditor
 					width="100%"
 					height="1000"
-					language={props.editorTop.currentMode}
+					language={props.devpanel.currentMode}
 					options={props.editor.options}
 					value={belongTo.editors[editorId].value}
 					onChange={editorProps.handleEditorChanged}

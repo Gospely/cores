@@ -250,7 +250,7 @@ const LeftSidebar = (props) => {
 
 	    openApp(application) {
 
-				localStorage.isLoad = 'true';
+				
 				window.location.href = 'http://localhost:8989/#/project/' + application.id;
 				initApplication(application,props);
 	    	// console.log('TopBar中dispatch')

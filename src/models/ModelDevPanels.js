@@ -23,7 +23,8 @@ export default {
 			visual: localStorage.visual || true,
 			defaultActiveKey: localStorage.defaultActiveKey || 'controllers',
 		},
-
+		currentMode: 'javascript',
+		currentLanguage: 'HTML',
 		debug: '',
 
 	    panels: {
@@ -140,34 +141,43 @@ export default {
 				config = '',
 				UIState = '';
 			console.log("============getConfig=============" + params.id);
-			console.log(localStorage.UIState);
-			UIState = JSON.parse(localStorage.UIState);
-			console.log(window.applicationId);
-			console.log(UIState.applicationId);
-			if(UIState.applicationId != params.id){
+			localStorage.flashState = 'true';
+			console.log(params);
+			if(window.applicationId != params.id){
 				configs = yield request('uistates?application=' + params.id, {
  					method: 'get'
  				});
 				config = configs.data.fields[0];
 				UIState = JSON.parse(config.configs);
 			}else{
-
-				UIState = UIState.UIState;
+				UIState = params.UIState;
 				console.log("============getConfig=============localStorage");
 			}
-
+			console.log(UIState);
 			if(UIState.panels.panes[0].activeEditor.id != '' ){
 				for(var i = 0; i < UIState.panels.panes.length; i++) {
 
+					console.log("============getConfig=============localStorage");
 					var pane =  UIState.panels.panes[i],
 						activeEditor = pane.tabs[pane.activeTab.index].editorId,
 						fileName = UIState.panels.panes[i].editors[activeEditor].fileName;
 
 						if(activeEditor != null && activeEditor != undefined && fileName != undefined && fileName != '新文件'　&& fileName != '新标签页') {
+
+							var file = fileName.split('/');
+			        console.log(file[file.length-1]);
+			        var suffix = file[file.length-1].split('.')[1];
+			        if(suffix != undefined){
+			          localStorage.suffix = suffix;
+			        }
+			        yield put({
+			  				type: 'devpanel/dynamicChangeSyntax',
+			  				payload:{suffix}
+			  			});
 							var readResult = yield request('fs/read', {
 										method: 'POST',
 										body: JSON.stringify({
-											fileName: localStorage.currentFolder + fileName.replace(localStorage.currentProject + "/",""),
+											fileName: localStorage.currentFolder + fileName.replace(localStorage.currentProject,""),
 										})
 									});
 							console.log("=========================getActive====================");
@@ -187,6 +197,7 @@ export default {
 				type: 'initState',
 				payload: {UIState}
 			});
+
 		},
 		*loadContent({ payload: params}, {call, put, select}){
 
@@ -673,7 +684,57 @@ export default {
 			console.log(params);
 			state.panels = params.UIState.panels;
 			return {...state};
-		}
+		},
+		dynamicChangeSyntax(state,{payload: params}) {
+
+			var setMode = {
+				js: function(){
+						console.log('javascript');
+						return 'javascript';
+				},
+				css: function(){
+						console.log('css');
+						return 'css';
+				},
+				html: function(){
+						console.log('html');
+						return 'html';
+				},
+				php: function(){
+						console.log('php');
+						return 'php';
+				},
+				java: function() {
+						console.log('java');
+						return 'java';
+				},
+				txt: function() {
+					console.log('txt');
+					return 'plain_text';
+				},
+				md: function() {
+					console.log('markdown');
+					return 'markdown';
+				},
+				json: function() {
+					console.log('json');
+					return 'json';
+				},
+				xml: function(){
+					console.log("xml");
+					return "xml"
+				}
+			}
+			console.log("denamicChange");
+			console.log(params.suffix);
+
+			if(setMode[params.suffix] == undefined) {
+				params.suffix = 'txt';
+			}
+			state.currentMode = setMode[params.suffix]();
+			state.currentLanguage = state.currentMode.toUpperCase();
+			return {...state};
+		},
 	}
 
 }

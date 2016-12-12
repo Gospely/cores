@@ -15,8 +15,7 @@ window.flag = false;
 window.fileFlag = false;
 //认证和状态同步
 auth();
-localStorage.flashState == 'false'
-
+localStorage.flashState = 'false'
 // 1. Initialize
 const app = dva({
 	initialState: {
