@@ -1,5 +1,5 @@
 import React , {PropTypes} from 'react';
-import { Tree, Tooltip, Popover, Icon, Row, Col, Button, Card, Menu } from 'antd';
+import { Tree, Tooltip, Popover, Icon, Row, Col, Button, Card, Menu, message } from 'antd';
 import { connect } from 'dva';
 
 const SubMenu = Menu.SubMenu;
@@ -22,70 +22,154 @@ const ConstructionTree = (props) => {
 
   window.flag = true;
 
-  const deleteThisConstruction = function() {
+  
 
-      let type,
-          lastIndex = -1,
+  let findCtrl = function(data, level) {
+      console.log(data)
+    // alert(sessionStorage.currentSelectedConstructionKey)
+      let lastIndex = -1,
           deleteIndex,
           key,
-          level = 1,
-          isDeleteAll = false,
+          needChangeActive = false,
           activePage = props.designer.layoutState.activePage.key,
           activeController = props.designer.layoutState.activeController.key;
+      for(let i = 0; i < data.length; i ++){
+          if (data[i].key == sessionStorage.currentSelectedConstructionKey) {
 
-      let loopData = function (data) {
-
-          for(let i = 0; i < data.length; i ++){
-              if (data[i].children) {
-                 loopData(data[i].children);
-                 level ++;
-              }
-              // alert(data[i].key)
-              if (data[i].key == localStorage.currentSelectedConstruction) {
-                  type = data[i].type;
-                  if(activePage == localStorage.currentSelectedConstruction ||
-                      activeController == localStorage.currentSelectedConstruction) {
-                      lastIndex = i - 1;
-                      deleteIndex = i;
-                      if (lastIndex < 0) {
-                          isDeleteAll = true;
-                          lastIndex = 0;
-                      }
-                      key = data[lastIndex].key;
+              if(activePage == sessionStorage.currentSelectedConstructionKey ||
+                  activeController == sessionStorage.currentSelectedConstructionKey) {
+                  needChangeActive = true;
+                  lastIndex = i - 1;
+                  deleteIndex = i;
+                  if (lastIndex < 0) {
+                      lastIndex = 0;
                   }
-                  break;
+                  key = data[lastIndex].key;
               }
+              return {
+                level: level - i,
+                deleteIndex,
+                key,
+                needChangeActive
+              };
+              // break;
+          }else {
+            level ++ ;
           }
+
+          if (data[i].children) {
+            let ctrl = findCtrl(data[i].children, level);
+            if (ctrl) {
+                ctrl.level = ctrl.level - i;
+               return ctrl;
+            }
+          }
+          // return level;
+      }
+  }
+
+  const deleteThisConstruction = function() {
+
+      let ctrl = findCtrl(props.designer.layout, 1);
+      let deleteType = sessionStorage.currentSelectedConstructionType;
+      let deleteKey = sessionStorage.currentSelectedConstructionKey;
+      let parentCtrl, activeKey, activeType, activeIndex, activeLevel;
+      let layout = props.designer.layout[0];
+      if (deleteKey == props.designer.layout.key) {
+        message.error('不能删除应用');
+        return false;
       }
 
-      console.log(props.designer.layout)
-
-      loopData(props.designer.layout);
-
-      if(isDeleteAll) {
-        if (type == 'Controller') {
-
+      if (deleteType == 'page') {
+        parentCtrl = layout;
+        activeType = 'page';
+        if(layout.children.length == 1) {
+            activeKey = layout.key;
+            activeLevel = 1;
+            activeIndex = 0;
         }else {
+            for(let i = 0; i < layout.children.length; i ++) {
+                if(layout.children[i].key == deleteKey) {
+                    activeIndex = i - 1;
+                }
+            }
+            activeLevel = 2;
+        }
+      }else {
+        let findParentCtrl = function(data, deleteKey) {
 
+            for(let i = 0; i < data.children.length; i ++) {
+                console.log(data.children[i].key, deleteKey)
+                if (data.children[i].key == deleteKey) {
+                    return data;
+                }
+                if (data.children[i].children) {
+                    console.log(data)
+                    let parentCtrl = findParentCtrl(data.children[i], deleteKey);
+                    if(parentCtrl) {
+                        return parentCtrl;
+                    }
+                }
+
+            }
+        }
+        parentCtrl = findParentCtrl(layout, deleteKey);
+        console.log(parentCtrl)
+        if (parentCtrl.children.length == 1) {
+
+            if (parentCtrl.type == 'page') {
+                for(let i = 0; i < layout.children.length; i ++) {
+                    if(layout.children[i].key == parentCtrl.key) {
+                        activeIndex = i;
+                    }
+                }
+                activeKey = parentCtrl.key;
+                activeType = 'page';
+                activeLevel = 2;
+                // layoutAction.setActivePage(state.layoutState, index, parentCtrl.key, ctrl.level - 1);
+            }else {
+                let parparentCtrl = findParentCtrl(layout, parentCtrl.key);
+
+                for(let i = 0; i < parparentCtrl.children.length; i ++) {
+                    if (parparentCtrl.children[i].key = parentCtrl.key) {
+                        activeIndex = i;
+                    }
+                }
+                activeKey = parentCtrl.key;
+                activeType = 'controller';
+                activeLevel = ctrl.level - 1;
+            }
+
+            // layoutAction.setActiveController(state.layoutState, index, parentCtrl.key, ctrl.level - 1);
+        }else {
+            if (parentCtrl.type == 'page') {
+                activeType = 'page';
+            }else {
+                activeType = 'controller'
+            }
+            activeKey = ctrl.key;
+            activeIndex = ctrl.lastIndex;
+            activeLevel = ctrl.level;
         }
       }
 
       props.dispatch({
         type: 'designer/deleteConstruction',
         payload: {
-          type,
-          deleteIndex,
-          key,
-          lastIndex,
-          level
+            activeKey,
+            activeType,
+            activeIndex,
+            activeLevel,
+            parentCtrl,
+            deleteIndex: ctrl.deleteIndex
         }
       });
 
       props.dispatch({
         type: 'attr/setFormItemsByType',
         payload: {
-          type,
-          key
+          type: activeType,
+          key: activeKey
         }
       })
 
@@ -93,12 +177,20 @@ const ConstructionTree = (props) => {
 
   const layoutTreeProps = {
 
-    onRightClick(proxy) {
-      localStorage.currentSelectedConstruction = proxy.node.props.eventKey;
+    onRightClick(proxy, node) {
+
+      var selectedKey = proxy.node.props.eventKey,
+          type = selectedKey.split('-')[0];
+
+      sessionStorage.currentSelectedConstructionKey = selectedKey;
+      sessionStorage.currentSelectedConstructionType = type == 'page' ? 'page' : 'controller';
+
+      layoutTreeProps.onSelect([selectedKey]);
+
       props.dispatch({type: 'designer/showConstructionMenu', payload: proxy});
     },
 
-    onSelect: function(e, node) {
+    onSelect: function(e) {
 
       if(e.length === 0) {
         return false;
@@ -229,7 +321,7 @@ const ConstructionTree = (props) => {
           </Tree>
 
           <Menu style={props.designer.constructionMenuStyle} onClick={deleteThisConstruction} className="context-menu">
-            <Menu.Item key="read">删除</Menu.Item>
+            <Menu.Item key="remove">删除</Menu.Item>
           </Menu>
         </div>
 

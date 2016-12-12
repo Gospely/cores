@@ -142,8 +142,6 @@ const layoutAction = {
 
 	getActiveControllerByIndexAndLevel(state, activePage, index, level) {
 
-
-
 	},
 
 	getCurrentLevelByKey(layouts, key) {
@@ -168,11 +166,40 @@ const layoutAction = {
 		return ertuLevel;
 	},
 
-	getCurrentPageOrController(layout,level,index) {
+	getCurrentPageOrController(layout, level, index) {
 		let current = layout.children;
 		while(--level !== 0) {
 			current = current.children;
 		}
+	},
+
+	getControllerByKey(state, controller) {
+
+	},
+
+	removeControllerByKey(state, key) {
+		var activePage = layoutAction.getActivePage(state),
+			activePageChildren = activePage.children;
+
+		var loopControllers = function(activePageChildren) {
+
+			for (var i = 0; i < activePageChildren.length; i++) {
+				var controller = activePageChildren[i];
+
+				if(controller.children) {
+					loopControllers(controller.children);
+				}
+
+				if(controller.key == key) {
+					activePageChildren.splice(i, 1);
+					return controller;
+				}
+			};
+
+		}
+
+		loopControllers(activePageChildren);
+
 	}
 }
 
@@ -693,13 +720,27 @@ export default {
 				backend: true
 			},
 			{
-				name: '列表容器',
+				name: '容器',
 				type: 'container',
 				attr: {
-
+					height: {
+						type: 'input',
+						title: '高度',
+						isStyle: true,
+						_value: '100px'
+					},
+					type: {
+						type: 'select',
+						title: '容器类型',
+						isClassName: true,
+						isNoConflict: true,
+						_value: 'weui-cells',
+						value: ['weui-cells', 'weui-cells_radio', 'weui-cells_checkbox', 'weui-cells_form']
+					}
 				},
 				tag: ['div'],
-				baseClassName: 'weui-cells'
+				baseClassName: 'weui-cells',
+				children: []
 			},
 			{
 				name: '按钮',
@@ -750,32 +791,196 @@ export default {
 				attr: {},
 				baseClassName: 'weui-cells weui-cells_form',
 				tag: 'div',
-				children: {
+				children: [{
+					baseClassName: 'weui-cell weui-cell_switch',
+					tag: 'div',
+					type: 'div',
+					attr: {},
+					name: '表单项一',
+					children: [{
+						baseClassName: 'weui-cell__bd',
+						tag: 'div',
+						attr: {
+							label: {
+								isHTML: true,
+								isClassName: false,
+								isSetAttribute: false,
+								title: '提示信息',
+								type: 'input',
+								_value: '标题文字'
+							},
+							selfAdaption: {
+								title: '自适应',
+								type: 'toggle',
+								isSingleToggleClass: true,
+								isClassName: true,
+								isHTML: false,
+								isSetAttribute: false,
+								value: ['weui_cell_primary'],
+								_value: false
+							}
+						},
+						type: 'div',
+						name: '提示信息'
+					}, {
+						baseClassName: 'weui-cell__ft',
+						tag: 'div',
+						type: 'div',
+						attr: {
+							selfAdaption: {
+								title: '自适应',
+								type: 'toggle',
+								isSingleToggleClass: true,
+								isClassName: true,
+								isHTML: false,
+								isSetAttribute: false,
+								value: ['weui_cell_primary'],
+								_value: false
+							}
+						},
+						name: '开关',
+						children: [{
+							baseClassName: 'weui-switch',
+							tag: 'input',
+							type: 'input',
+							attr: {
+								checked: {
+									type: 'toggle',
+									title: '默认',
+									isSetAttribute: true,
+									isClassName: false,
+									isHTML: false,
+									_value: true
+								},
+								type: {
+									title: '类型',
+									type: 'input',
+									isSetAttribute: true,
+									isHTML: false,
+									isClassName: false,
+									_value: 'checkbox',
+									hidden: true
+								}
+							},
+							name: '开关',
+						}]
+					}]
+				}, {
 					baseClassName: 'weui-cell',
 					tag: 'div',
-					type: {
-						vcode: {
-							type: 'toggle',
-							title: '三栏',
-							value: ['weui-cell_vcode'],
-							isClassName: true,
-							isHTML: false,
-							_value: ''
-						},
-
-						warning: {
-							type: 'toggle',
-							title: '报错',
-							value: ['weui-cell_warn'],
-							isClassName: true,
-							isHTML: false,
-							_value: ''
-						}
-					},
+					type: 'weui-cell',
+					attr: {},
+					name: '表单项二',
 					children: [{
 						tag: 'div',
 						baseClassName: 'weui-cell__hd',
+						type: 'weui-cell_hd',
+						attr: {
+							selfAdaption: {
+								title: '自适应',
+								type: 'toggle',
+								isSingleToggleClass: true,
+								isClassName: true,
+								isHTML: false,
+								isSetAttribute: false,
+								value: ['weui_cell_primary'],
+								_value: false
+							}
+						},
+						name: '输入框提示信息',
 						children: [{
+							name: '提示信息',
+							tag: 'label',
+							baseClassName: 'weui-label',
+							type: 'weui-label',
+							attr: {
+								value: {
+									type: 'input',
+									title: '提示信息',
+									isClassName: false,
+									isHTML: true,
+									_value: 'qq'
+								}
+							}
+						}]
+					}, {
+						tag: 'div',
+						baseClassName: 'weui-cell_bd',
+						type: 'weui-cell_bd',
+						attr: {
+							selfAdaption: {
+								title: '自适应',
+								type: 'toggle',
+								isSingleToggleClass: true,
+								isClassName: true,
+								isHTML: false,
+								isSetAttribute: false,
+								value: ['weui_cell_primary'],
+								_value: false
+							}
+						},
+						name: '输入框二',
+						children: [{
+							tag: 'input',
+							baseClassName: 'weui-input',
+							name: '输入框二',
+							type: 'weui-input',
+							attr: {
+								placeholder: {
+									type: 'input',
+									isSetAttribute: true,
+									title: '占位符',
+									_value: '请输入qq号'
+								},
+								value: {
+									type: 'input',
+									isSetAttribute: true,
+									title: '内容',
+									isClassName: false,
+									isHTML: false,
+									_value: ''
+								},
+								type: {
+									title: '输入框类型',
+									isSetAttribute: true,
+									type: 'select',
+									value: ['number', 'color', 'range', 'text', 'datetime-local', 'date', 'password', 'email', 'tel'],
+									_value: 'text'
+								},
+								pattern: {
+									title: '正则',
+									isSetAttribute: true,
+									type: 'input',
+									_value: ''
+								}
+							}
+						}]
+					}]
+				}, {
+					baseClassName: 'weui-cell',
+					tag: 'div',
+					type: 'div',
+					attr: {},
+					name: '表单项三',
+					children: [{
+						tag: 'div',
+						baseClassName: 'weui-cell__hd',
+						type: 'div',
+						attr: {
+							selfAdaption: {
+								title: '自适应',
+								type: 'toggle',
+								isSingleToggleClass: true,
+								isClassName: true,
+								isHTML: false,
+								isSetAttribute: false,
+								value: ['weui_cell_primary'],
+								_value: false
+							}
+						},
+						name: '提示信息',
+						children: [{
+							name: '提示信息',
 							tag: 'label',
 							baseClassName: 'weui-label',
 							attr: {
@@ -784,20 +989,323 @@ export default {
 									title: '提示信息',
 									isClassName: false,
 									isHTML: true,
-									_value: ''
+									isSetAttribute: false,
+									_value: '验证码'
 								}
 							}
 						}]
 					}, {
 						tag: 'div',
-						baseClassName: 'weui-cell__bd',
-						children: []
+						baseClassName: 'weui-cell_bd',
+						type: 'div',
+						attr: {
+							selfAdaption: {
+								title: '自适应',
+								type: 'toggle',
+								isSingleToggleClass: true,
+								isClassName: true,
+								isHTML: false,
+								isSetAttribute: false,
+								value: ['weui_cell_primary'],
+								_value: false
+							}
+						},
+						name: '输入框三',
+						children: [{
+							tag: 'input',
+							baseClassName: 'weui-input',
+							name: '输入框三',
+							type: 'input',
+							attr: {
+								placeholder: {
+									type: 'input',
+									isSetAttribute: true,
+									isHTML: false,
+									isClassName: false,
+									title: '默认内容',
+									_value: '请输入验证码'
+								},
+								value: {
+									type: 'input',
+									isSetAttribute: true,
+									isClassName: false,
+									isHTML: false,
+									title: '内容',
+									_value: ''
+								},
+								type: {
+									title: '输入框类型',
+									isSetAttribute: true,
+									isHTML: false,
+									isClassName: false,
+									type: 'select',
+									value: ['number', 'color', 'range', 'text', 'datetime-local', 'date', 'password', 'email', 'tel'],
+									_value: 'text'
+								},
+								pattern: {
+									title: '正则',
+									isSetAttribute: true,
+									isHTML: false,
+									isClassName: false,
+									type: 'input',
+									_value: '[0-9]*'
+								}
+							}
+						}]
 					}, {
 						tag: 'div',
-						baseClassName: 'weui-cell__ft',
-						children: []
+						baseClassName: 'weui-cell_ft',
+						type: 'div',
+						attr: {
+							selfAdaption: {
+								title: '自适应',
+								type: 'toggle',
+								isSingleToggleClass: true,
+								isClassName: true,
+								isHTML: false,
+								isSetAttribute: false,
+								value: ['weui_cell_primary'],
+								_value: false
+							}
+						},
+						name: '验证码',
+						children: [{
+							tag: 'img',
+							baseClassName: 'weui-vcode-img',
+							name: '验证码图片',
+							type: 'img',
+							attr: {
+								src: {
+									type: 'input',
+									title: '图片地址',
+									isSetAttribute: true,
+									isHTML: false,
+									isClassName: false,
+									_value: './images/vcode.png'
+								}
+							}
+						}]
 					}]
-				}
+
+				}, {
+					name: '表单项四',
+					baseClassName: 'weui-cell weui-cell_warn',
+					tag: 'div',
+					type: 'div',
+					attr: {
+						error: {
+							type: 'toggle',
+							isClassName: true,
+							isSingleToggleClass: true,
+							title: '是否报错',
+							_value: true,
+							value: ['weui-cell_warn']
+						}
+					},
+					children: [{
+						name: '提示信息',
+						tag: 'div',
+						type: 'div',
+						attr: {
+							selfAdaption: {
+								title: '自适应',
+								type: 'toggle',
+								isSingleToggleClass: true,
+								isClassName: true,
+								isHTML: false,
+								isSetAttribute: false,
+								value: ['weui_cell_primary'],
+								_value: false
+							}
+						},
+						baseClassName: 'weui-cell__hd',
+						children: [{
+							name: '提示信息',
+							tag: 'label',
+							baseClassName: 'weui-label',
+							type: 'label',
+							attr: {
+								value: {
+									type: 'input',
+									title: '提示信息',
+									isHTML: true,
+									isSetAttribute: false,
+									isClassName: false,
+									_value: '卡号'
+								}
+							}
+						}]
+					}, {
+						name: '输入框四',
+						tag: 'div',
+						type: 'div',
+						attr: {
+							selfAdaption: {
+								title: '自适应',
+								type: 'toggle',
+								isSingleToggleClass: true,
+								isClassName: true,
+								isHTML: false,
+								isSetAttribute: false,
+								value: ['weui_cell_primary'],
+								_value: false
+							}
+						},
+						baseClassName: 'weui-cell-bd',
+						children: [{
+							name: '输入框四',
+							tag: 'input',
+							baseClassName: 'weui-input',
+							type: 'input',
+							attr: {
+								placeholder: {
+									isSetAttribute: true,
+									type: 'input',
+									_value: '卡号',
+									title: '占位符'
+								},
+								type: {
+									title: '输入框类型',
+									isSetAttribute: true,
+									type: 'select',
+									value: ['number', 'color', 'range', 'text', 'datetime-local', 'date', 'password', 'email', 'tel'],
+									_value: 'number'
+								},
+								value: {
+									title: '内容',
+									isSetAttribute: true,
+									type: 'input',
+									_value: ''
+								},
+								pattern: {
+									title: '正则',
+									isSetAttribute: true,
+									type: 'input',
+									_value: '[0-9]*'
+								}
+							},
+
+						}]
+					}, {
+						name: '图标',
+						tag: 'div',
+						type: 'div',
+						baseClassName: 'weui-cell__ft',
+						attr: {
+							selfAdaption: {
+								title: '自适应',
+								type: 'toggle',
+								isSingleToggleClass: true,
+								isClassName: true,
+								isHTML: false,
+								isSetAttribute: false,
+								value: ['weui_cell_primary'],
+								_value: false
+							}
+						},
+						children: [{
+							name: '图标',
+							tag: 'i',
+							type: 'i',
+							baseClassName: '',
+							attr:{
+								iconClass: {
+									title: '图标类型',
+									type: 'select',
+									value: ['weui-icon-success', 'weui-icon-success-circle', 'weui-icon-success-no-circle', 'weui-icon-info',
+											'weui-icon-waiting', 'weui-icon-waiting-circle', 'weui-icon-circle', 'weui-icon-warn', 'weui-icon-download',
+											'weui-icon-info-circle', 'weui-icon-cancel'
+										   ],
+									_value: 'weui-icon-warn',
+									isClassName: true,
+									isHTML: false,
+									isSetAttribute: false,
+									isNoConflict: true
+								}
+							}
+						}]
+					}]
+				}, {
+					name: '表单项四',
+					type: 'div',
+					tag: 'div',
+					attr: {},
+					baseClassName: 'weui-cell',
+					children: [{
+						baseClassName: 'weui-cell__bd',
+						type: 'div',
+						tag: 'div',
+						attr: {},
+						name: '文本域',
+						children: [{
+							type: 'textarea',
+							tag: 'textarea',
+							name: '文本域',
+							attr: {
+								placeholder: {
+									isSetAttribute: true,
+									type: 'input',
+									_value: '请输入文本',
+									title: '占位符',
+								},
+								value: {
+									isHTML: true,
+									type: 'input',
+									_value: '',
+									title: '内容',
+								},
+								rows: {
+									isSetAttribute: true,
+									type: 'input',
+									_value: '5',
+									title: '行数'
+								}
+							},
+							baseClassName: 'weui-textarea'
+						}, {
+							type: 'div',
+							tag: 'div',
+							name: '计字器',
+							attr: {
+								hidden: {
+									type: 'toggle',
+									isSetAttribute: true,
+									isContrary: true,
+									_value: true,
+									title: '计字器'
+								}
+							},
+							baseClassName: 'weui-textarea-counter',
+							children: [{
+								type: 'span',
+								tag: 'span',
+								name: '已写字数',
+								attr: {
+									input: {
+										isHTML: true,
+										title: '已写字数',
+										_value: 0,
+										type: 'input'
+									}
+								},
+								baseClassName: ''
+							}, {
+								type: 'span',
+								tag: 'span',
+								name: '最多字数',
+								attr: {
+									input: {
+										isHTML: true,
+										title: '最多字数',
+										_value: '/200',
+										type: 'input'
+									}
+								},
+								baseClassName: ''
+							}]
+						}]
+					}]
+				}]
 			},
 			{
 				name: '文本框',
@@ -808,28 +1316,32 @@ export default {
 						title: '内容',
 						isClassName: false,
 						isHTML: false,
+						isSetAttribute: true,
 						_value: ''
 					},
 					disabled: {
 						type: 'toggle',
 						title: '禁止',
 						value: [],
-						isClassName: true,
+						isClassName: false,
+						isSetAttribute: true,
 						isHTML: false,
-						_value: ''
+						_value: false
 					},
 					type: {
 						type: 'select',
 						title: '类型',
 						isClassName: false,
 						isHTML: false,
+						isSetAttribute: true,
 						value: ['number', 'color', 'range', 'text', 'datetime-local', 'date', 'password', 'email', 'tel'],
-						_value: ''
+						_value: 'text'
 					},
 					placeholder: {
 						type: 'input',
 						title: '占位符',
 						isClassName: false,
+						isSetAttribute: true,
 						isHTML: false,
 						_value: ''
 					},
@@ -838,83 +1350,267 @@ export default {
 						title: '正则',
 						isClassName: false,
 						isHTML: false,
+						isSetAttribute: true,
 						_value: ''
 					}
 				},
-				tag: ['div'],
+				tag: ['input'],
 				baseClassName: 'weui-input',
 				wrapper: ''
 			},
 			{
+				baseClassName: 'weui-cell__bd',
+				type: 'div',
+				tag: 'div',
+				attr: {},
 				name: '文本域',
-				type: 'textarea',
-				attr: {
-					counter: {
-						type: 'toggle',
-						title: '显示计字器',
-						isClassName: false,
-						isHTML: false,
-						_value: '',
+				children: [{
+					type: 'textarea',
+					tag: 'textarea',
+					name: '文本域',
+					attr: {
+						placeholder: {
+							isSetAttribute: true,
+							type: 'input',
+							_value: '请输入文本',
+							title: '占位符',
+						},
 						value: {
-							name: '计字器',
-							tag: 'div',
-							baseClassName: 'weui-textarea-counter',
-							children: [{
-								tag: 'span',
-								attr: {
-									type: 'input',
-									title: '从',
-									isClassName: false,
-									isHTML: true,
-									_value: ''
-								}
-							}, {
-								tag: 'span',
-								attr: {
-									type: 'input',
-									title: '到',
-									isClassName: false,
-									isHTML: true,
-									_value: ''
-								}
-							}]
+							isHTML: true,
+							type: 'input',
+							_value: '',
+							title: '内容',
+						},
+						rows: {
+							isSetAttribute: true,
+							type: 'input',
+							_value: '5',
+							title: '行数'
 						}
-					}
-				},
-				baseClassName: 'weiui-textarea',
-				tag: 'textarea'
+					},
+					baseClassName: 'weui-textarea'
+				}, {
+					type: 'div',
+					tag: 'div',
+					name: '计字器',
+					attr: {
+						hidden: {
+							type: 'toggle',
+							isSetAttribute: true,
+							isContrary: true,
+							_value: true,
+							title: '计字器'
+						}
+					},
+					baseClassName: 'weui-textarea-counter',
+					children: [{
+						type: 'span',
+						tag: 'span',
+						name: '已写字数',
+						attr: {
+							input: {
+								isHTML: true,
+								title: '已写字数',
+								_value: 0,
+								type: 'input'
+							}
+						},
+						baseClassName: ''
+					}, {
+						type: 'span',
+						tag: 'span',
+						name: '最多字数',
+						attr: {
+							input: {
+								isHTML: true,
+								title: '最多字数',
+								_value: '/200',
+								type: 'input'
+							}
+						},
+						baseClassName: ''
+					}]
+				}]
 			},
 			{
 				name: '单选框',
-				type: 'radio',
+				type: 'lable',
+				tag: 'label',
 				attr: {
-					name: {
+					for: {
 						type: 'input',
-						title: '名称',
+						title: '',
+						isBoundToId: true,
+						hidden: true,
 						isClassName: false,
 						isHTML: false,
-						_value: ''
+						isSetAttribute: true,
+						_value: '',
+						bindType: 'radio'
 					}
 				},
-				tag: 'input',
-				type: 'radio',
-				baseClassName: 'weui-check'
+				baseClassName: 'weui-cell weui-check__label',
+				children: [{
+					name: '单选框lable',
+					type: 'div',
+					tag: 'div',
+					baseClassName: 'weui-cell__bd',
+					attr: {
+						label: {
+							type: 'input',
+							title: '单选框lable',
+							isHTML: true,
+							_value: '单选框',
+						},
+						selfAdaption: {
+							title: '自适应',
+							type: 'toggle',
+							isSingleToggleClass: true,
+							isClassName: true,
+							isHTML: false,
+							isSetAttribute: false,
+							value: ['weui_cell_primary'],
+							_value: false
+						}
+					}
+				}, {
+					name: '单选框',
+					type: 'div',
+					baseClassName: 'weui-cell__ft',
+					tag: 'div',
+					attr: {
+						selfAdaption: {
+							title: '自适应',
+							type: 'toggle',
+							isSingleToggleClass: true,
+							isClassName: true,
+							isHTML: false,
+							isSetAttribute: false,
+							value: ['weui_cell_primary'],
+							_value: false
+						}
+					},
+					children: [{
+						name: '隐藏的输入框',
+						type: 'radio',
+						tag: 'input',
+						baseClassName: 'weui-check',
+						attr: {
+							type: {
+								type: 'input',
+								hidden: true,
+								title: '',
+								_value: 'radio',
+								isSetAttribute: true
+							},
+							name: {
+								type: 'input',
+								title: 'name属性',
+								_value: 'radio',
+								isSetAttribute: true
+							},
+							checked: {
+								type: 'toggle',
+								title: '选中',
+								_value: true,
+								isSetAttribute: true
+							}
+						}
+					}, {
+						name: '选中图标',
+						type: 'i',
+						tag: 'i',
+						baseClassName: '',
+						attr: {
+							icon: {
+								title: '选中图标',
+								isClassName: true,
+								_value: 'weui-icon-checked',
+								type: 'select',
+								value: ['weui-icon-success', 'weui-icon-success-circle', 'weui-icon-success-no-circle', 'weui-icon-info',
+										'weui-icon-waiting', 'weui-icon-waiting-circle', 'weui-icon-circle', 'weui-icon-warn', 'weui-icon-download',
+										'weui-icon-info-circle', 'weui-icon-cancel'
+									   ],
+								isNoConflict: true
+							}
+						}
+					}]
+				}]
 			},
 			{
-				name: '开关',
+				baseClassName: 'weui-cell weui-cell_switch',
+				tag: 'div',
 				type: 'toggle',
-				attr: {
-					checked: {
-						type: 'toggle',
-						title: '选中',
-						isClassName: false,
-						isHTML: false,
-						_value: ''
-					}
-				},
-				tag: 'input',
-				type: 'checkbox',
-				baseClassName: 'weui-switch'
+				attr: {},
+				name: '开关',
+				children: [{
+					baseClassName: 'weui-cell__bd',
+					tag: 'div',
+					attr: {
+						label: {
+							isHTML: true,
+							isClassName: false,
+							isSetAttribute: false,
+							title: '提示信息',
+							type: 'input',
+							_value: '开关'
+						},
+						selfAdaption: {
+							title: '自适应',
+							type: 'toggle',
+							isSingleToggleClass: true,
+							isClassName: true,
+							isHTML: false,
+							isSetAttribute: false,
+							value: ['weui_cell_primary'],
+							_value: false
+						}
+					},
+					type: 'div',
+					name: '提示信息'
+				}, {
+					baseClassName: 'weui-cell__ft',
+					tag: 'div',
+					type: 'div',
+					attr: {
+						selfAdaption: {
+							title: '自适应',
+							type: 'toggle',
+							isSingleToggleClass: true,
+							isClassName: true,
+							isHTML: false,
+							isSetAttribute: false,
+							value: ['weui_cell_primary'],
+							_value: false
+						}
+					},
+					name: '开关',
+					children: [{
+						baseClassName: 'weui-switch',
+						tag: 'input',
+						type: 'input',
+						attr: {
+							checked: {
+								type: 'toggle',
+								title: '默认',
+								isSetAttribute: true,
+								isClassName: false,
+								isHTML: false,
+								_value: true
+							},
+							type: {
+								title: '类型',
+								type: 'input',
+								isSetAttribute: true,
+								isHTML: false,
+								isClassName: false,
+								_value: 'checkbox',
+								hidden: true
+							}
+						},
+						name: '开关',
+					}]
+				}]
 			},
 			{
 				name: '卡片',
@@ -924,24 +1620,107 @@ export default {
 			{
 				name: '复选框',
 				type: 'checkbox',
+				tag: 'label',
 				attr: {
-					name: {
+					for: {
 						type: 'input',
-						title: '名称',
+						title: '',
+						isBoundToId: true,
+						hidden: true,
 						isClassName: false,
 						isHTML: false,
-						_value: ''
-					},
-					checked: {
-						type: 'toggle',
-						title: '选中',
-						isClassName: false,
-						isHTML: false,
-						_value: ''
+						isSetAttribute: true,
+						_value: '',
+						bindType: 'checkbox'
 					}
 				},
-				tag: 'input',
-				type: 'checkbox'
+				baseClassName: 'weui-cell weui-check__label',
+				children: [{
+					name: '复选框',
+					type: 'div',
+					baseClassName: 'weui-cell__ft',
+					tag: 'div',
+					attr: {
+						selfAdaption: {
+							title: '自适应',
+							type: 'toggle',
+							isSingleToggleClass: true,
+							isClassName: true,
+							isHTML: false,
+							isSetAttribute: false,
+							value: ['weui_cell_primary'],
+							_value: false
+						}
+					},
+					children: [{
+						name: '隐藏的输入框',
+						type: 'checkbox',
+						tag: 'input',
+						baseClassName: 'weui-check',
+						attr: {
+							type: {
+								type: 'input',
+								hidden: true,
+								title: '',
+								_value: 'checkbox',
+								isSetAttribute: true
+							},
+							name: {
+								type: 'input',
+								title: 'name属性',
+								_value: 'checkbox',
+								isSetAttribute: true
+							},
+							checked: {
+								type: 'toggle',
+								title: '选中',
+								_value: true,
+								isSetAttribute: true
+							}
+						}
+					}, {
+						name: '选中图标',
+						type: 'i',
+						tag: 'i',
+						baseClassName: '',
+						attr: {
+							icon: {
+								title: '选中图标',
+								isClassName: true,
+								_value: 'weui-icon-checked',
+								type: 'select',
+								value: ['weui-icon-success', 'weui-icon-success-circle', 'weui-icon-success-no-circle', 'weui-icon-info',
+										'weui-icon-waiting', 'weui-icon-waiting-circle', 'weui-icon-circle', 'weui-icon-warn', 'weui-icon-download',
+										'weui-icon-info-circle', 'weui-icon-cancel'
+									   ],
+								isNoConflict: true
+							}
+						}
+					}]
+				}, {
+					name: '复选框lable',
+					type: 'div',
+					tag: 'div',
+					baseClassName: 'weui-cell__bd',
+					attr: {
+						label: {
+							type: 'input',
+							title: '复选框lable',
+							isHTML: true,
+							_value: '复选框',
+						},
+						selfAdaption: {
+							title: '自适应',
+							type: 'toggle',
+							isSingleToggleClass: true,
+							isClassName: true,
+							isHTML: false,
+							isSetAttribute: false,
+							value: ['weui_cell_primary'],
+							_value: false
+						}
+					}
+				}]
 			},
 			{
 				name: '头部',
@@ -949,9 +1728,19 @@ export default {
 				attr: {}
 			},
 			{
-				name: '底部',
-				type: 'footer',
-				attr: {}
+				name: '底部说明',
+				type: 'heading',
+				tag: 'div',
+				baseClassName: 'weui-cells__tips',
+				attr: {
+					value: {
+						type: 'input',
+						title: '说明',
+						isClassName: false,
+						isHTML: true,
+						_value: ''
+					}
+				}
 			},
 			{
 				name: '标题',
@@ -969,19 +1758,85 @@ export default {
 				}
 			},
 			{
-				name: '底部说明',
-				type: 'heading',
+				name: '页脚',
+				type: 'footer',
 				tag: 'div',
-				baseClassName: 'weui-cells__tips',
+				baseClassName: 'weui-footer',
 				attr: {
-					value: {
-						type: 'input',
-						title: '说明',
-						isClassName: false,
-						isHTML: true,
-						_value: ''
+					footerText: {
+						isRander: true,
+						type: 'toggle',
+						_value: true,
+						title: '是否有链接'
+					},
+					footerLink: {
+						isRander: true,
+						type: 'toggle',
+						_value: true,
+						title: '是否有文字'
 					}
-				}
+				},
+				children: [{
+					name: '页脚文字',
+					isRander: 'footerText',
+					type: 'p',
+					tag: 'p',
+					baseClassName: 'weui-footer__text',
+					attr: {
+						value: {
+							type: 'input',
+							isHTML: true,
+							title: '文字内容',
+							_value: 'Copyright &copy; 2008-2016 weui.io'
+						}
+					}
+				}, {
+					name: '页脚链接',
+					isRander: 'footerLink',
+					type: 'p',
+					tag: 'p',
+					baseClassName: 'weui-footer__links',
+					attr:{},
+					children: [{
+						tag: 'a',
+						type: 'a',
+						name: '链接一',
+						baseClassName: 'weui-footer__link',
+						attr: {
+							href: {
+								isSetAttribute: true,
+								title: '链接地址',
+								type: 'input',
+								_value: '#'
+							},
+							value: {
+								isHTML: true,
+								title: '内容',
+								type: 'input',
+								_value: '底部链接'
+							}
+						}
+					}, {
+						tag: 'a',
+						type: 'a',
+						name: '链接二',
+						baseClassName: 'weui-footer__link',
+						attr: {
+							href: {
+								isSetAttribute: true,
+								title: '链接地址',
+								type: 'input',
+								_value: '#'
+							},
+							value: {
+								isHTML: true,
+								title: '内容',
+								type: 'input',
+								_value: '底部链接'
+							}
+						}
+					}]
+				}]
 			},
 			{
 				name: '代码',
@@ -1175,56 +2030,224 @@ export default {
 			{
 				name: '搜索框',
 				type: 'search',
-				attr: {}
+				baseClassName: 'weui-search-bar',
+				attr: {},
+				tag: 'div',
+				children: [{
+					type: 'form',
+					tag: 'form',
+					name: '搜索form',
+					baseClassName: 'weui-search-bar_form',
+					attr: {},
+					children: [{
+						type: 'div',
+						tag: 'div',
+						name: '搜索box',
+						baseClassName: 'weui-search-bar_box',
+						attr: {},
+						children: [{
+							type: 'i',
+							tag: 'i',
+							name: '图标',
+							baseClassName: '',
+							attr: {
+								icon: {
+									title: '图标',
+									isClassName: true,
+									_value: 'weui-icon-search',
+									type: 'select',
+									value: ['weui-icon-success', 'weui-icon-success-circle', 'weui-icon-success-no-circle', 'weui-icon-info',
+											'weui-icon-waiting', 'weui-icon-waiting-circle', 'weui-icon-circle', 'weui-icon-warn', 'weui-icon-download',
+											'weui-icon-info-circle', 'weui-icon-cancel'
+										   ],
+									isNoConflict: true
+								}
+							}
+						}, {
+							type: 'input',
+							baseClassName: 'weui-search-bar_input',
+							name: '搜索input',
+							tag: 'input',
+							attr: {
+								placeholder: {
+									title: '占位符',
+									type: 'input',
+									isSetAttribute: true,
+									_value: '搜索'
+								}
+							}
+						}, {
+							type: 'a',
+							tag: 'a',
+							baseClassName: 'weui-icon-clear',
+							name: '清空button',
+							attr: {
+								herf: {
+									isSetAttribute: true,
+									_value: 'javascript:',
+									title: '清空动作',
+									type: 'input'
+								}
+							},
+						}]
+					}, {
+						type: 'label',
+						tag: 'lable',
+						name: '搜索按钮区域',
+						attr: {},
+						baseClassName: 'weui-search-bar_label',
+						children: [{
+							type: 'i',
+							tag: 'i',
+							baseClassName: '',
+							name: '图标',
+							attr: {
+								icon: {
+									title: '图标',
+									isClassName: true,
+									_value: 'weui-icon-search',
+									type: 'select',
+									value: ['weui-icon-success', 'weui-icon-success-circle', 'weui-icon-success-no-circle', 'weui-icon-info',
+											'weui-icon-waiting', 'weui-icon-waiting-circle', 'weui-icon-circle', 'weui-icon-warn', 'weui-icon-download',
+											'weui-icon-info-circle', 'weui-icon-cancel'
+										   ],
+									isNoConflict: true
+								}
+							}
+						}, {
+							name: '提示文本',
+							tag: 'span',
+							type: 'span',
+							baseClassName: '',
+							attr: {
+								value: {
+									title: '提示文本',
+									type: 'input',
+									isHTML: true,
+									_value: '搜索'
+								}
+							}
+						}]
+					}]
+				}, {
+					type: 'a',
+					tag: 'a',
+					baseClassName: 'weui-search-bar_cancel-btn',
+					attr: {
+						href: {
+							isSetAttribute: true,
+							type: 'input',
+							title: '取消动作',
+							_value: 'javascript:'
+						},
+						value: {
+							isHTML: true,
+							type: 'input',
+							title: '取消文本',
+							_value: '取消'
+						}
+					},
+					name: '取消'
+				}]
 			},
 			{
 				name: '选择框',
 				type: 'select',
-				attr: {
-					name: {
-						type: 'input',
-						title: '名称',
-						isClassName: false,
-						isHTML: false,
-						_value: ''
-					}
-				},
-				tag: 'select',
+				attr: {},
+				tag: 'div',
+				baseClassName: 'weui weui-cell_select weui-cell_select-after',
 				children: [{
-					tag: 'option',
-					attr: {
-						value: {
-							type: 'input',
-							title: '值',
-							isClassName: false,
-							isHTML: false,
-							_value: ''
-						},
-
-						html: {
-							type: 'input',
-							title: '显示值',
-							isClassName: false,
-							isHTML: true,
-							_value: ''
+					type: 'div',
+					tag: 'div',
+					baseClassName: 'weui-cell_hd',
+					attr:{},
+					name: '选择框label',
+					children: [{
+						type: 'label',
+						name: 'label',
+						tag: 'label',
+						baseClassName: 'weui-label',
+						attr: {
+							value: {
+								title: 'label文本',
+								type: 'input',
+								isHTML: true,
+								_value: '选一个'
+							}
 						}
-					}
-				}],
-				baseClassName: 'weui-select'
+					}]
+				}, {
+					type: 'div',
+					tag: 'div',
+					name: '选项',
+					attr: {
+						number: {
+							title: '选项个数',
+							type: 'input',
+							_value: 3
+						}
+					},
+					baseClassName: 'weui-cell_bd',
+					children: [{
+						attr: {},
+						tag: 'select',
+						type: 'select',
+						baseClassName: 'weui-select',
+						name: '选择select',
+						children: [{
+							tag: 'option',
+							type: 'option',
+							name: '选择option',
+							attr: {
+								value: {
+									isSetAttribute: true,
+									type: 'input',
+									title: 'value值',
+									_value: '1'
+								}
+							},
+							baseClassName: ''
+						}]
+					}]
+				}]
 			},
 			{
 				name: '幻灯片',
 				type: 'slider',
-				attr: {}
+				tag: 'div',
+				attr: {
+					number: {
+						type: 'input',
+						title: '图片数量',
+						_value: '3'
+					},
+					display: {
+						type: 'input',
+						title: '',
+						_value: 'block',
+						isStyle: true,
+						hidden: true
+					}
+				},
+				baseClassName: 'weui-gallery',
+				children: [{
+					tag: 'span',
+					type: 'span',
+					name: '图片',
+					baseClassName: 'weui-gallery_img',
+					attr: {
+						'background-image': {
+							isStyle: true,
+							_value: '',
+							type: 'input',
+							title: '图片地址'
+						}
+					}
+				}]
 			},
 			{
 				name: '空白分割',
 				type: 'spacer',
-				attr: {}
-			},
-			{
-				name: '搜索框',
-				type: 'search',
 				attr: {}
 			},
 			{
@@ -1245,11 +2268,6 @@ export default {
 			{
 				name: '列表图标',
 				type: 'list-item-icon',
-				attr: {}
-			},
-			{
-				name: '列表容器',
-				type: 'list-item-container',
 				attr: {}
 			}
 		],
@@ -1276,6 +2294,11 @@ export default {
 	},
 
 	reducers: {
+
+		handleDesignerClosed(state) {
+			state.loaded = false;
+			return {...state};
+		},
 
 		handleLayoutLoaded(state, { payload: params }) {
 			state.loaded = true;
@@ -1347,24 +2370,20 @@ export default {
 			return {...state, constructionMenuStyle: {
 				position: 'fixed',
 				display: 'block',
-				// border: '1px solid #e9e9e9',
-				// padding: '5px 10px',
 				left: proxy.event.clientX,
 				top: proxy.event.clientY,
-				// background: 'white'
 			}}
 		},
 
 		deleteConstruction(state,{payload: params}) {
-			if (params.type == 'page') {
-				// alert(params.level)
-				state.layout[0].children.splice(params.deleteIndex,1);
-				layoutAction.setActivePage(state.layoutState, params.lastIndex, params.key, 2);
+			
+			if (params.activeType == 'page') {
+				layoutAction.setActivePage(state.layoutState, params.activeIndex, params.activeKey, params.activeLevel);
 			}else {
-				state.layout[state.layoutState.activePage.index].children.splice(params.deleteIndex,1);
-				let level = getCurrentLevelByKey(state.layout,params.key);
-				layoutAction.setActiveController(state.layoutState, params.lastIndex, params.key, level);
+				layoutAction.setActiveController(state.layoutState, params.activeIndex, params.activeKey, params.activeLevel);
 			}
+			console.log(params.parentCtrl)
+			params.parentCtrl.children.splice(params.deleteIndex, 1);
 
 			gospelDesigner.postMessage({
 				ctrlRemoved: layoutAction.getActivePage(state)
@@ -1374,17 +2393,12 @@ export default {
 		},
 
 		addController(state, { payload: controller }) {
-			console.log("addController11111111111:::::::::::::::::::::::记得改",state.layout);
-
 			if (state.layoutState.activePage.level == 1) {
 				message.error('请选择一个页面');
 				return {...state};
 			}
 
 			var activePage = layoutAction.getActivePage(state);
-
-			// let leve = layoutAction.getCurrentLevelByKey(state.layout, state.layoutState.activePage.key);
-			console.log(controller);
 
 			var deepCopiedController = layoutAction.deepCopyObj(controller);
 
@@ -1395,6 +2409,7 @@ export default {
 					ctrl = {};
 
 				tmpAttr = controller.attr;
+				console.log('dsfdsfdsfffdsfdfdfdsf', tmpAttr)
 				tmpAttr['title'] = {};
 				tmpAttr['title']['_value'] = controller.name;
 				tmpAttr['title']['type'] = 'input';
@@ -1408,7 +2423,8 @@ export default {
 					attr: tmpAttr,
 					tag: controller.tag,
 					baseClassName: controller.baseClassName,
-					children: []
+					children: [],
+					isRander: controller.isRander || ''
 				};
 
 				if(controller.children) {
@@ -1426,21 +2442,22 @@ export default {
 
 			var tmpCtrl = loopAttr(deepCopiedController);
 
-			console.log('loopAttr===============', tmpCtrl);
-
     		gospelDesigner.postMessage({
     			ctrlAdded: tmpCtrl
     		}, '*');
 
 			activePage.children.push(tmpCtrl);
 			let level = layoutAction.getCurrentLevelByKey(state.layout, tmpCtrl.key);
-			// alert(level)
 			layoutAction.setActiveController(state.layoutState, activePage.children.length - 1, tmpCtrl.key, level);
 			return {...state};
 		},
 
+		removeController(state, { payload: controller }) {
+			layoutAction.removeControllerByKey(state, controller.key);
+			return {...state};
+		},
+
 		handleTreeChanged(state, { payload: params }) {
-			console.log('handleTreeChanged', params);
 			if(params.type == 'page') {
 				let level = layoutAction.getCurrentLevelByKey(state.layout, params.key);
 				var pageIndex = layoutAction.getPageIndexByKey(state.layout, params.key, level);

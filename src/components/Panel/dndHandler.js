@@ -6,28 +6,29 @@ import { message, notification } from 'antd';
 export default {
 	init(props) {
 
-		if(window.loadedOnce) {
+		if(window.dndHandlerLoadedOnce) {
 			return false;
 		}
 
-		console.log('======================window.loadedOnce======================', window.loadedOnce);
+		console.log('======================window.loadedOnce======================', window.dndHandlerLoadedOnce);
 
-		window.loadedOnce = true;
+		window.dndHandlerLoadedOnce = true;
 
 		//监听页面刷新，保存最新的UI状态
-		window.addEventListener("beforeunload",(evt) =>{
+		window.addEventListener("beforeunload", (evt) => {
 
 
 		});
 		//监听关闭页面，保存ui状态
-		window.addEventListener("unload",(evt) =>{
+		window.addEventListener("unload", (evt) => {
 
 			//todo
 
 	});
 		//监听页面加载，获取刷新前的页面状态
-		window.addEventListener("load",(evt) =>{
+		window.addEventListener("load", (evt) => {
 
+<<<<<<< HEAD
 			console.log("====================onLoad============" + window.applicationId);
 			var applicationId = window.applicationId;
 			localStorage.flashState == 'true'
@@ -63,11 +64,85 @@ export default {
 					initApplication(application,props);
 				});
 		  }
+=======
+			console.log("=========================onLoad=================");
+			props.dispatch({
+				type: 'file/fetchFileList'
+			});
+			
+			props.dispatch({
+				type: 'file/initFiles',
+			});
+			
+			props.dispatch({
+				type: 'UIState/readConfig',
+				payload: {
+					id: localStorage.applicationId
+				}
+			});
+			
+			props.dispatch({
+				type: 'devpanel/getConfig',
+				payload: { id : localStorage.applicationId}
+			});
+			
+			props.dispatch({
+				type: 'devpanel/handleImages',
+				payload: { id : localStorage.image}
+			});
+			
+			props.dispatch({
+          		type: 'sidebar/hideModalSwitchApp'
+      		});
+			
+			props.dispatch({
+       			type: 'devpanel/startDocker',
+       			payload: { id: localStorage.applicationId}
+     		});
+
+     		props.dispatch({
+       			type: 'devpanel/openTerminal',
+       			payload: { id:  localStorage.terminal}
+     		});
+>>>>>>> e7eaa376d8f6f37bba3b7b4d11b3d269c69fea1d
 		});
+
 		window.addEventListener("message", (evt) =>  {
 			var data = evt.data,
 				eventName = '';
+<<<<<<< HEAD
+=======
+
+>>>>>>> e7eaa376d8f6f37bba3b7b4d11b3d269c69fea1d
 			const evtAction = {
+
+				pageSelected () {
+
+				    props.dispatch({
+				        type: 'rightbar/setActiveMenu',
+				        payload: 'attr'
+				    });
+
+				    props.dispatch({
+				        type: 'attr/setFormItemsByType',
+				        payload: {
+				          key: data.key,
+				          type: 'page'
+				        }
+			      	});
+
+				    props.dispatch({
+				        type: 'designer/handleTreeChanged',
+				        payload: {
+				          key: data.key,
+				          type: 'controller'
+				        }
+				    });
+
+				    props.dispatch({
+				    	type: 'designer/handleCtrlSelected'
+				    });
+				},
 
 				ctrlClicked () {
 					console.log(eventName, data);
@@ -91,15 +166,14 @@ export default {
 				          key: data.key,
 				          type: 'controller'
 				        }
-				    })
+				    });
 
 				    props.dispatch({
 				    	type: 'designer/handleCtrlSelected'
 				    });
-
 				},
 
-				ctrlEdited () {
+				ctrlUpdated () {
 					console.log(eventName,data);
 				},
 
@@ -125,6 +199,11 @@ export default {
 
 				ctrlRemoved () {
 					console.log(eventName, data);
+
+					props.dispatch({
+						type: 'designer/removeController',
+						payload: data
+					});
 				},
 
 				invalidDropArea () {
