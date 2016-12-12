@@ -52,8 +52,8 @@ export default {
 		    		key: 0,
 
 		    		activeTab: {
-		    			key: '2',
-		    			index: 1
+		    			key: '1',
+		    			index: 0
 		    		}
 	    		}
 	    	],
