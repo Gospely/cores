@@ -2434,6 +2434,7 @@ export default {
 		},
 
 		deleteConstruction(state,{payload: params}) {
+
 			if (params.activeType == 'page') {
 				layoutAction.setActivePage(state.layoutState, params.activeIndex, params.activeKey, params.activeLevel);
 			}else {
@@ -2630,6 +2631,15 @@ export default {
 	      		activeCtrl.attr[params.attrName]['_value'] = params.newVal;
 
 			}
+			return {...state};
+		},
+		initState(state, { payload: params }){
+
+			console.log("=====initState designer=====");
+			console.log(params);
+			state.layout = params.UIState.layout;
+			state.layouState = params.UIState.layoutState;
+			state.defaultDevice = params.UIState.defaultDevice;
 			return {...state};
 		}
 

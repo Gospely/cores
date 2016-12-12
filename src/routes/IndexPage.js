@@ -44,12 +44,16 @@ function IndexPage(props) {
       var file =  activeTab.title;
       var suffix = 'js';
       if(file != undefined && file != '新文件'　&& file != '新标签页'){
-        file = file.split('/');
+        file = file.split('.');
         console.log(file[file.length-1]);
-        suffix= file[file.length-1].split('.')[1];
+        suffix= file[file.length-1];
         if(suffix != undefined){
           localStorage.suffix = suffix;
         }
+        props.dispatch({
+          type: 'devpanel/dynamicChangeSyntax',
+          payload: {suffix}
+        });
         if(activePane.activeEditor.id != null && activePane.activeEditor.id != '' && activePane.editors[activeTab.editorId] != null){
           if(activePane.editors[activeTab.editorId].value == null || activePane.editors[activeTab.editorId].value == ''){
             props.dispatch({
@@ -69,10 +73,6 @@ function IndexPage(props) {
           active: active,
           paneKey: paneKey.paneKey
         }
-      });
-      props.dispatch({
-        type: 'editorTop/dynamicChangeSyntax',
-        payload: {suffix}
       });
     },
 

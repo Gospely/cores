@@ -29,6 +29,8 @@ const app = dva({
 	},
 
 	onError(e) {
+
+			console.log("============= error" + e.message + "==========");
 	  	message.error(e.message);
 	}
 });
@@ -50,8 +52,15 @@ app.use({
 				applicationId: localStorage.applicationId,
 				UIState: UIState,
 			};
+			var escape = false
 			localStorage.UIState = JSON.stringify(state,function(key,value){
-				if(key == 'content' || key == 'value'){
+				if(key == 'devpanel') {
+					escape = true;
+				}
+				if(key == 'designer'){
+					escape = false;
+				}
+				if(key == 'content' || ( key == 'value' && escape)){
 					return undefined
 				}else{
 					return value;

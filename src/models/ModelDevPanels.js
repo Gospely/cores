@@ -143,7 +143,7 @@ export default {
 			console.log("============getConfig=============" + params.id);
 			localStorage.flashState = 'true';
 			console.log(params);
-			if(window.applicationId != params.id){
+			if(window.applicationId != params.id || params.UIState == null || params.UIState == undefined){
 				configs = yield request('uistates?application=' + params.id, {
  					method: 'get'
  				});
@@ -156,38 +156,40 @@ export default {
 			console.log(UIState);
 			if(UIState.panels.panes[0].activeEditor.id != '' ){
 				for(var i = 0; i < UIState.panels.panes.length; i++) {
-
+					var pane =  UIState.panels.panes[i];
 					console.log("============getConfig=============localStorage");
-					var pane =  UIState.panels.panes[i],
-						activeEditor = pane.tabs[pane.activeTab.index].editorId,
-						fileName = UIState.panels.panes[i].editors[activeEditor].fileName;
+					if(pane.tabs[pane.activeTab.index].type == 'editor') {
 
-						if(activeEditor != null && activeEditor != undefined && fileName != undefined && fileName != '新文件'　&& fileName != '新标签页') {
+							var activeEditor = pane.tabs[pane.activeTab.index].editorId,
+							fileName = UIState.panels.panes[i].editors[activeEditor].fileName;
 
-							var file = fileName.split('/');
-			        console.log(file[file.length-1]);
-			        var suffix = file[file.length-1].split('.')[1];
-			        if(suffix != undefined){
-			          localStorage.suffix = suffix;
-			        }
-			        yield put({
-			  				type: 'devpanel/dynamicChangeSyntax',
-			  				payload:{suffix}
-			  			});
-							var readResult = yield request('fs/read', {
-										method: 'POST',
-										body: JSON.stringify({
-											fileName: localStorage.currentFolder + fileName.replace(localStorage.currentProject,""),
-										})
-									});
-							console.log("=========================getActive====================");
-							console.log(UIState.panels.panes[i].editors[activeEditor]);
-							console.log(readResult);
-							var content = readResult.data
-		      		// console.log(content)
-		      		content = content.fields;
-							UIState.panels.panes[i].editors[activeEditor].value = content.content;
-						}
+							if(activeEditor != null && activeEditor != undefined && fileName != undefined && fileName != '新文件'　&& fileName != '新标签页') {
+
+								var file = fileName.split('.');
+								console.log(file[file.length-1]);
+								var suffix = file[file.length-1];
+								if(suffix != undefined){
+									localStorage.suffix = suffix;
+								}
+								yield put({
+									type: 'devpanel/dynamicChangeSyntax',
+									payload:{suffix}
+								});
+								var readResult = yield request('fs/read', {
+											method: 'POST',
+											body: JSON.stringify({
+												fileName: localStorage.currentFolder + fileName.replace(localStorage.currentProject,""),
+											})
+										});
+								console.log("=========================getActive====================");
+								console.log(UIState.panels.panes[i].editors[activeEditor]);
+								console.log(readResult);
+								var content = readResult.data
+								// console.log(content)
+								content = content.fields;
+								UIState.panels.panes[i].editors[activeEditor].value = content.content;
+							}
+					}
 				}
 			}
 			console.log(configs);
