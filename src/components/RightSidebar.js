@@ -36,7 +36,7 @@ const RightSidebar = (props) => {
 
 	return (
 	  	<Tabs tabPosition="right" activeKey={props.rightbar.activeMenu} onChange={handleTabChanged}>
-	    	<TabPane style={styles.tab} tab={<span style={styles.span} hidden={!props.devpanel.devType.visual}><Icon style={styles.icon} type="exception" />属性</span>} key="attr">
+	    	<TabPane style={styles.tab} tab={<span style={styles.span}><Icon style={styles.icon} type="exception" />属性</span>} key="attr">
 	    		<Attr></Attr>
 	    	</TabPane>
 	    	<TabPane style={styles.tab} tab={<span style={styles.span}><Icon style={styles.icon} type="file-text" />文件</span>} key="file">

@@ -18,22 +18,8 @@ import initApplication from '../utils/initApplication';
 
 function IndexPage(props) {
 
-
-  console.log(props);
-  var flag = props.location.search;
-  if(flag == '?from=dash'){
-    window.location.href = 'http://localhost:8989/#/project/' + props.params.id;
-    localStorage.isLoad = true;
-  }
-  if(props.params.id != localStorage.applicationId) {
-    localStorage.isLoad = true;
-  }
-  if(localStorage.isLoad == null || localStorage.isLoad == 'true'){
-    initApplication(props);
-    localStorage.isLoad = false;
-  }
-
-
+// console.log("=======================IndexPage=");
+  window.applicationId = props.params.id;
   const devPanelProps = {
     panes: props.devpanel.panels.panes,
 

@@ -117,7 +117,7 @@ export default {
 				method: 'GET',
 			});
 
-			console.log('res================', res);
+			console.log(res );
 
 			if(res.data.fields.devType == 'common'){
 				yield put({ type: "handleCommon" });
@@ -140,29 +140,20 @@ export default {
 				config = '',
 				UIState = '';
 			console.log("============getConfig=============" + params.id);
-
+			console.log(localStorage.UIState);
 			UIState = JSON.parse(localStorage.UIState);
-			if(UIState.applicationId != localStorage.applicationId){
+			console.log(window.applicationId);
+			console.log(UIState.applicationId);
+			if(UIState.applicationId != params.id){
 				configs = yield request('uistates?application=' + params.id, {
  					method: 'get'
  				});
 				config = configs.data.fields[0];
-
 				UIState = JSON.parse(config.configs);
-				var state = {
-					applicationId: localStorage.applicationId,
-					UIState: UIState,
-				};
-				localStorage.UIState = JSON.stringify(state,function(key,value){
-					if(key == 'content' || key == 'value'){
-						return undefined
-					}else{
-						return value;
-					}
-				});
 			}else{
 
 				UIState = UIState.UIState;
+				console.log("============getConfig=============localStorage");
 			}
 
 			if(UIState.panels.panes[0].activeEditor.id != '' ){
@@ -253,11 +244,17 @@ export default {
 
 			console.log("handleCommon");
 			state.panels.panes[0].activeTab.key = "1";
-			state.devType.visual = false;
-			localStorage.visual = false;
 			state.devType.defaultActiveKey = 'setting';
 			localStorage.defaultActiveKey = 'setting';
 			localStorage.activeMenu = "file";
+
+			state.panels.panes[0].tabs = [{
+				"title":"欢迎页面 - Gospel",
+				"key":"1","type":"welcome",
+				"editorId":"",
+				"searchVisible":false,
+				"isSave":false
+			}];
 			// appRouter.go('/project/' + localStorage.currentProject);
 			//window.location.href = 'http://localhost:8989/#/project/' + localStorage.applicationId;
 			return {...state};
@@ -265,13 +262,23 @@ export default {
 
 		handleVisual(state){
 
-			state.panels.panes[0].activeTab.key = "1";
-			state.devType.visual = true;
-			localStorage.visual = true;
+				console.log("visual");
+			state.panels.panes[0].activeTab.key = "2";
 			state.devType.defaultActiveKey = 'controllers';
 			localStorage.defaultActiveKey = 'controllers';
 			localStorage.activeMenu = "attr";
 			// appRouter.go('/project/' + localStorage.currentProject);
+			state.panels.panes[0].tabs = [{
+				"title":"欢迎页面 - Gospel",
+				"key":"1","type":"welcome",
+				"editorId":"",
+				"searchVisible":false,
+				"isSave":false
+				},{
+						"title":"Gospel 微信小程序 设计器",
+						"type":"designer","key":"2",
+						"editorId":"","isSave":true
+					}];
 			//window.location.href = 'http://localhost:8989/#/project/' + localStorage.applicationId;
 			return {...state};
 		},
