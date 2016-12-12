@@ -30,27 +30,34 @@ const ConstructionTree = (props) => {
       let lastIndex = -1,
           deleteIndex,
           key,
-          needChangeActive = false,
           activePage = props.designer.layoutState.activePage.key,
           activeController = props.designer.layoutState.activeController.key;
       for(let i = 0; i < data.length; i ++){
           if (data[i].key == sessionStorage.currentSelectedConstructionKey) {
 
-              if(activePage == sessionStorage.currentSelectedConstructionKey ||
-                  activeController == sessionStorage.currentSelectedConstructionKey) {
-                  needChangeActive = true;
-                  lastIndex = i - 1;
-                  deleteIndex = i;
-                  if (lastIndex < 0) {
-                      lastIndex = 0;
-                  }
-                  key = data[lastIndex].key;
+              lastIndex = i - 1;
+              deleteIndex = i;
+              if (lastIndex < 0) {
+                  lastIndex = 0;
+              }
+              if (lastIndex == data.length - 2) {
+                if (data.length == 2) {
+                    if (i == 0) {
+                        key = data[1].key;
+                    }else {
+                        key = data[0].key
+                    }
+                }else {
+                    key = data[lastIndex].key;
+                }
+              }else {
+                key = data[lastIndex + 1] && data[lastIndex + 1].key;
               }
               return {
                 level: level - i,
                 deleteIndex,
-                key,
-                needChangeActive
+                lastIndex,
+                key
               };
               // break;
           }else {
@@ -142,13 +149,13 @@ const ConstructionTree = (props) => {
 
             // layoutAction.setActiveController(state.layoutState, index, parentCtrl.key, ctrl.level - 1);
         }else {
-            if (parentCtrl.type == 'page') {
+            if (deleteType.type == 'page') {
                 activeType = 'page';
             }else {
-                activeType = 'controller'
+                activeType = 'controller';
             }
-            activeKey = ctrl.key;
             activeIndex = ctrl.lastIndex;
+            activeKey = ctrl.key;
             activeLevel = ctrl.level;
         }
     }
@@ -164,7 +171,6 @@ const ConstructionTree = (props) => {
             deleteIndex: ctrl.deleteIndex
         }
     });
-
     props.dispatch({
         type: 'attr/setFormItemsByType',
         payload: {
