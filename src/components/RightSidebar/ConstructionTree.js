@@ -70,17 +70,17 @@ const ConstructionTree = (props) => {
 
   const deleteThisConstruction = function() {
 
-      let ctrl = findCtrl(props.designer.layout, 1);
-      let deleteType = sessionStorage.currentSelectedConstructionType;
-      let deleteKey = sessionStorage.currentSelectedConstructionKey;
-      let parentCtrl, activeKey, activeType, activeIndex, activeLevel;
-      let layout = props.designer.layout[0];
-      if (deleteKey == props.designer.layout.key) {
+    let ctrl = findCtrl(props.designer.layout, 1);
+    let deleteType = sessionStorage.currentSelectedConstructionType;
+    let deleteKey = sessionStorage.currentSelectedConstructionKey;
+    let parentCtrl, activeKey, activeType, activeIndex, activeLevel;
+    let layout = props.designer.layout[0];
+    if (deleteKey == props.designer.layout.key) {
         message.error('不能删除应用');
         return false;
-      }
+    }
 
-      if (deleteType == 'page') {
+    if (deleteType == 'page') {
         parentCtrl = layout;
         activeType = 'page';
         if(layout.children.length == 1) {
@@ -95,7 +95,7 @@ const ConstructionTree = (props) => {
             }
             activeLevel = 2;
         }
-      }else {
+    }else {
         let findParentCtrl = function(data, deleteKey) {
 
             for(let i = 0; i < data.children.length; i ++) {
@@ -131,7 +131,7 @@ const ConstructionTree = (props) => {
                 let parparentCtrl = findParentCtrl(layout, parentCtrl.key);
 
                 for(let i = 0; i < parparentCtrl.children.length; i ++) {
-                    if (parparentCtrl.children[i].key = parentCtrl.key) {
+                    if (parparentCtrl.children[i].key == parentCtrl.key) {
                         activeIndex = i;
                     }
                 }
@@ -151,9 +151,9 @@ const ConstructionTree = (props) => {
             activeIndex = ctrl.lastIndex;
             activeLevel = ctrl.level;
         }
-      }
+    }
 
-      props.dispatch({
+    props.dispatch({
         type: 'designer/deleteConstruction',
         payload: {
             activeKey,
@@ -163,17 +163,17 @@ const ConstructionTree = (props) => {
             parentCtrl,
             deleteIndex: ctrl.deleteIndex
         }
-      });
+    });
 
-      props.dispatch({
+    props.dispatch({
         type: 'attr/setFormItemsByType',
         payload: {
-          type: activeType,
-          key: activeKey
+            type: activeType,
+            key: activeKey
         }
-      })
+    })
 
-  };
+};
 
   const layoutTreeProps = {
 
