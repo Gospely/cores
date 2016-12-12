@@ -1226,7 +1226,7 @@ export default {
 						}]
 					}]
 				}, {
-					name: '表单项四',
+					name: '表单项五',
 					type: 'div',
 					tag: 'div',
 					attr: {},
@@ -2382,12 +2382,12 @@ export default {
 			}else {
 				layoutAction.setActiveController(state.layoutState, params.activeIndex, params.activeKey, params.activeLevel);
 			}
-			console.log(params.parentCtrl)
-			params.parentCtrl.children.splice(params.deleteIndex, 1);
 
 			gospelDesigner.postMessage({
-				ctrlRemoved: layoutAction.getActivePage(state)
+				ctrlRemoved: params.parentCtrl.children[params.deleteIndex]
 			}, '*');
+
+			params.parentCtrl.children.splice(params.deleteIndex, 1);
 
 			return {...state};
 		},
