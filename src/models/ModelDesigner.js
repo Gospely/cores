@@ -2037,13 +2037,13 @@ export default {
 					type: 'form',
 					tag: 'form',
 					name: '搜索form',
-					baseClassName: 'weui-search-bar_form',
+					baseClassName: 'weui-search-bar__form',
 					attr: {},
 					children: [{
 						type: 'div',
 						tag: 'div',
 						name: '搜索box',
-						baseClassName: 'weui-search-bar_box',
+						baseClassName: 'weui-search-bar__box',
 						attr: {},
 						children: [{
 							type: 'i',
@@ -2065,7 +2065,7 @@ export default {
 							}
 						}, {
 							type: 'input',
-							baseClassName: 'weui-search-bar_input',
+							baseClassName: 'weui-search-bar__input',
 							name: '搜索input',
 							tag: 'input',
 							attr: {
@@ -2095,7 +2095,7 @@ export default {
 						tag: 'lable',
 						name: '搜索按钮区域',
 						attr: {},
-						baseClassName: 'weui-search-bar_label',
+						baseClassName: 'weui-search-bar__label',
 						children: [{
 							type: 'i',
 							tag: 'i',
@@ -2132,7 +2132,7 @@ export default {
 				}, {
 					type: 'a',
 					tag: 'a',
-					baseClassName: 'weui-search-bar_cancel-btn',
+					baseClassName: 'weui-search-bar__cancel-btn',
 					attr: {
 						href: {
 							isSetAttribute: true,
