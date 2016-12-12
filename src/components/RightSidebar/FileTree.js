@@ -99,7 +99,7 @@ const FileTree = (props) => {
           localStorage.suffix = suffix;
         }
         props.dispatch({
-  				type: 'editorTop/dynamicChangeSyntax',
+  				type: 'devpanel/dynamicChangeSyntax',
   				payload:{suffix}
   			});
         var isLeaf = node.node.props.isLeaf;
@@ -119,6 +119,7 @@ const FileTree = (props) => {
         var fileName = localStorage.currentSelectedFile;
         localStorage.onSelect = false;
         if(node.node.props.isLeaf) {
+          console.log("devpanel/dynamicChangeSyntax");
           props.dispatch({
             type: 'file/readFile',
             payload: localStorage.currentSelectedFile.split('/').pop()
@@ -276,7 +277,7 @@ const FileTree = (props) => {
             type: 'file/fetchUploadFile',
              payload: info
           });
-          
+
         },
 
         onCancel: function() {
@@ -395,7 +396,7 @@ const FileTree = (props) => {
           }
         }
         props.dispatch({
-          type: 'editorTop/dynamicChangeSyntax',
+          type: 'devpanel/dynamicChangeSyntax',
           payload: {suffix}
         });
         if(localStorage.currentFileOperation == 'remove') {
@@ -719,7 +720,7 @@ const FileTree = (props) => {
     //切换语法
 
     props.dispatch({
-      type: 'editorTop/dynamicChangeSyntax',
+      type: 'devpanel/dynamicChangeSyntax',
       payload:{suffix}
     });
     props.dispatch({

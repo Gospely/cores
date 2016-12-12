@@ -10,8 +10,6 @@ export default {
 		replaceContent: '',
 
 		jumpLine: '0:0',
-		currentMode: 'javascript',
-
 		syntaxList: [{
 			language: 'HTML',
 			key: 'html',
@@ -146,56 +144,6 @@ export default {
 
 		selectSyntax() {
 
-		},
-		dynamicChangeSyntax(state,{payload: params}) {
-
-			var setMode = {
-				js: function(){
-						console.log('javascript');
-						return 'javascript';
-				},
-				css: function(){
-						console.log('css');
-						return 'css';
-				},
-				html: function(){
-						console.log('html');
-						return 'html';
-				},
-				php: function(){
-						console.log('php');
-						return 'php';
-				},
-				java: function() {
-						console.log('java');
-						return 'java';
-				},
-				txt: function() {
-					console.log('txt');
-					return 'plain_text';
-				},
-				md: function() {
-					console.log('markdown');
-					return 'markdown';
-				},
-				json: function() {
-					console.log('json');
-					return 'json';
-				},
-				xml: function(){
-					console.log("xml");
-					return "xml"
-				}
-			}
-			console.log("denamicChange");
-			console.log(params.suffix);
-
-			if(setMode[params.suffix] == undefined) {
-				params.suffix = 'txt';
-			}
-			state.currentMode = setMode[params.suffix]();
-			state.currentLanguage = state.currentMode.toUpperCase();
-			return {...state};
 		},
 		showJumpLine(state) {
 			return {...state, jumpLineVisible: true

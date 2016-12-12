@@ -30,7 +30,6 @@ export default {
 
 			console.log("====================onLoad============" + window.applicationId);
 			var applicationId = window.applicationId;
-			localStorage.flashState == 'true'
 
 			if(applicationId != null && applicationId != undefined) {
 				var url = configs.baseURL + "applications/" + applicationId;
@@ -66,7 +65,7 @@ export default {
 		});
 
 		window.addEventListener("message", (evt) =>  {
-			
+
 			var data = evt.data,
 				eventName = '';
 			const evtAction = {

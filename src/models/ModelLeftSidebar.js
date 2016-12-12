@@ -234,6 +234,13 @@ export default {
 
 			state.activeMenu = name;
 			return {...state};
+		},
+		initState(state, { payload: params }) {
+
+			console.log("sidebar initState");
+			console.log(params.UIState.activeMenu);
+			state.activeMenu = params.UIState.activeMenu;
+			return {...state};
 		}
 
 	}

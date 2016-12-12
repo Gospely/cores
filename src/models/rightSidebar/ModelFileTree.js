@@ -146,8 +146,8 @@ export default {
       			method:'POST',
       			//mode: "no-cors",
       			body:formdata,
-      		}).then(function(response) {  
-		    console.log(response.headers);  
+      		}).then(function(response) {
+		    console.log(response.headers);
 		});
       	},
 
@@ -232,6 +232,8 @@ export default {
       	},
 
       	*readFile({payload: fileName}, {call, put}) {
+
+					console.log("======readFile====");
 			var readResult = yield request('fs/read', {
       			method: 'POST',
       			body: JSON.stringify({
@@ -553,7 +555,7 @@ export default {
 			}
 
 		},
-		
+
 		hideSaveModal(state) {
 			return {...state, saveModal: {
 				visible: false,
