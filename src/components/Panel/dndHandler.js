@@ -1,4 +1,6 @@
-
+import fetch from 'dva/fetch';
+import configs from '../../configs.js';
+import initApplication from '../../utils/initApplication';
 import { message, notification } from 'antd';
 
 export default {
@@ -15,64 +17,56 @@ export default {
 		//监听页面刷新，保存最新的UI状态
 		window.addEventListener("beforeunload",(evt) =>{
 
-			var state = {
-				applicationId: localStorage.applicationId,
-				UIState: props.devpanel,
-			};
-			localStorage.UIState = JSON.stringify(state,function(key,value){
-				if(key == 'content' || key == 'value'){
-					return undefined
-				}else{
-					return value;
-				}
-			});
+
 		});
 		//监听关闭页面，保存ui状态
 		window.addEventListener("unload",(evt) =>{
 
 			//todo
-		});
 
+	});
 		//监听页面加载，获取刷新前的页面状态
 		window.addEventListener("load",(evt) =>{
 
-			console.log("=========================onLoad=================");
-			props.dispatch({
-				type: 'file/fetchFileList'
-			});
-			props.dispatch({
-				type: 'file/initFiles',
-			});
-			props.dispatch({
-				type: 'UIState/readConfig',
-				payload: {
-					id: localStorage.applicationId
-				}
-			});
-			props.dispatch({
-				type: 'devpanel/getConfig',
-				payload: { id : localStorage.applicationId}
-			});
-			props.dispatch({
-				type: 'devpanel/handleImages',
-				payload: { id : localStorage.image}
-			});
-			props.dispatch({
-          type: 'sidebar/hideModalSwitchApp'
-      });
-			props.dispatch({
-       type: 'devpanel/startDocker',
-       payload: { id: localStorage.applicationId}
-     	});
-     	props.dispatch({
-       type: 'devpanel/openTerminal',
-       payload: { id:  localStorage.terminal}
-     	});
+			console.log("====================onLoad============" + window.applicationId);
+			var applicationId = window.applicationId;
+			localStorage.flashState == 'true'
+
+			if(applicationId != null && applicationId != undefined) {
+				var url = configs.baseURL + "applications/" + applicationId;
+				fetch(url).then(function(response){
+					if (response.status >= 200 && response.status < 300) {
+				    return response;
+				  }
+				  const error = new Error(response.statusText);
+				  error.response = response;
+				  openNotificationWithIcon('error', '出错了: ' + response.status, response.statusText);
+				  throw error;
+				})
+		    .then(function(response){
+					return response.json();
+				})
+		    .then(function(data){
+
+					console.log(data);
+					if(data.code == 200 || data.code == 1) {
+				    if(data.message != null) {
+				      message.success(data.message);
+				    }
+				  }else {
+				    if(typeof data.length == 'number') {
+				      return data;
+				    }
+				    openNotificationWithIcon('error', data.message, data.fields);
+				  }
+					var application = data.fields;
+					initApplication(application,props);
+				});
+		  }
 		});
 		window.addEventListener("message", (evt) =>  {
 			var data = evt.data,
 				eventName = '';
-			console.log("=====data=======",data);
 			const evtAction = {
 
 				ctrlClicked () {
@@ -153,7 +147,7 @@ export default {
 			for(var key in data) {
 				eventName = key
 			}
-			evtAction[eventName]();
+
 			if(evtAction[eventName]) {
 
 				console.log('typeof', typeof data[eventName]);

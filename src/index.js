@@ -15,6 +15,7 @@ window.flag = false;
 window.fileFlag = false;
 //认证和状态同步
 auth();
+localStorage.flashState == 'false'
 
 // 1. Initialize
 const app = dva({
@@ -42,8 +43,22 @@ app.use({
 			window.appRouter = app._history;
 		}
 
-		var state = app._store.getState();
-		var UIState = packUIStage(state);
+		if(localStorage.flashState == 'true') {
+			console.log("=============flash UIState==========");
+			var state = app._store.getState();
+			var UIState = packUIStage(state);
+			var state = {
+				applicationId: localStorage.applicationId,
+				UIState: UIState,
+			};
+			localStorage.UIState = JSON.stringify(state,function(key,value){
+				if(key == 'content' || key == 'value'){
+					return undefined
+				}else{
+					return value;
+				}
+			});
+		}
 
 		// app._store.dispatch({
 		// 	type: 'UIState/writeConfig',

@@ -25,7 +25,7 @@ const layoutAction = {
 			console.log('------------======activePage==========', state.layout[0].children);
 			return state.layout[0].children[state.layoutState.activePage.index];
 		}
-		
+
 	},
 
 	getActiveControllerByKey (controllerList, key) {
@@ -1286,7 +1286,7 @@ export default {
 					layoutState: state.layoutState
 				}
 			}, '*');
-			
+
 			return {...state};
 		},
 
@@ -1415,7 +1415,7 @@ export default {
 					for (var i = 0; i < controller.children.length; i++) {
 						var currentCtrl = controller.children[i];
 						childCtrl = loopAttr(currentCtrl);
-						ctrl.children.push(childCtrl);							
+						ctrl.children.push(childCtrl);
 					};
 				}else {
 					ctrl.children = undefined;

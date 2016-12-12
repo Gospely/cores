@@ -21,6 +21,7 @@ function checkStatus(response) {
 
   const error = new Error(response.statusText);
   error.response = response;
+  console.log(response.statusText);
   openNotificationWithIcon('error', '出错了: ' + response.status, response.statusText);
   throw error;
 }
@@ -34,6 +35,7 @@ function checkResData(data) {
     if(typeof data.length == 'number') {
       return data;
     }
+    console.log(data.message);
     openNotificationWithIcon('error', data.message, data.fields);
   }
   return data;

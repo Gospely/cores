@@ -39,7 +39,7 @@ const Designer = (props) => {
 	}
 
   	return (
-		<div className="designer-wrapper" hidden={!props.devpanel.devType.visual}>
+		<div className="designer-wrapper">
 
 			<div className="designer-header">
 				<label className="bold">设备</label>

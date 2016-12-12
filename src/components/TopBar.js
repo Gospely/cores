@@ -15,6 +15,8 @@ import dndHandler from './Panel/dndHandler';
 
 import keyRegister from './keybinding/register';
 
+import initApplication from '../utils/initApplication';
+
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 const InputGroup = Input.Group;
@@ -66,16 +68,6 @@ const LeftSidebar = (props) => {
 						 </div>
 					</Col>;
 		});
-	};
-	const designer = () => {
-
-		if(props.devpanel.devType.visual) {
-			return (
-				<Menu.Item key="designer">
-					<Icon type="windows-o" />
-				</Menu.Item>
-			);
-		}
 	};
 
 	const leftSidebarProps = {
@@ -258,11 +250,10 @@ const LeftSidebar = (props) => {
 
 	    openApp(application) {
 
-				window.isLoad = true;
-				localStorage.initOnce = 'true';
+				localStorage.isLoad = 'true';
 				window.location.href = 'http://localhost:8989/#/project/' + application.id;
-				 window.location.reload(); 
-	    	console.log('TopBar中dispatch')
+				initApplication(application,props);
+	    	// console.log('TopBar中dispatch')
 	    	// alert(1)
 	    },
 
@@ -355,7 +346,9 @@ const LeftSidebar = (props) => {
 		        <Menu.Item key="file">
 					<Icon type="file-text" />
 		        </Menu.Item>
-					{designer()}
+						<Menu.Item key="designer">
+							<Icon type="windows-o" />
+						</Menu.Item>
 		        <Menu.Item key="terminal">
 					<Icon type="code-o" />
 		        </Menu.Item>
