@@ -425,6 +425,8 @@ var init = function() {
 		this.elemLoaded = false;
 		this.refresh = false;
 
+		this.dragElement = '';
+
 		if(!this.tag) {
 			alert('组件数据结构出错');
 			return false;
@@ -622,10 +624,7 @@ var init = function() {
 
 						jqComponent = jq(component);
 
-						// console.log('loopComponent=============', jqComponent.chilren().eq(1), loopComponent);
 					jqComponent.append(jq(loopComponent));
-					// this.makeElemAddedDraggable(loopComponent);
-					// this.makeElemAddedDraggable(jqComponent);
 
 				};
 
@@ -633,48 +632,58 @@ var init = function() {
 
 			this.makeElemAddedDraggable();
 
-			console.log('component===========', component);
-
 			return component;
 		},
 
 		makeElemAddedDraggable: function() {
-			var orginClientX, orginClientY,movingClientX, movingClientY,
+			var orginClientX, orginClientY, movingClientX, movingClientY,
 
 				elem = this.elem;
 
-			window.dragElement = '';
+			elem.attr('draggable', true);
 
-			elem.attr('draggable',true);
-
-			elem.on('dragstart',function (e) {
+			elem.on('dragstart', function (e) {
 				console.log(e)
-				dragElement = jq(e.currentTarget);
-				orginClientX = e.clientX;
-				orginClientY = e.clientY;
+				this.dragElement = jq(e.currentTarget);
 
-				e.originalEvent.dataTransfer.setData('Text','true');
-				jq(e.currentTarget).css('opacity','.3');
+				if(this.dragElement.hasClass('hight-light')) {
+					orginClientX = e.clientX;
+					orginClientY = e.clientY;
+
+					e.originalEvent.dataTransfer.setData('Text','true');
+					jq(e.currentTarget).css('opacity','.3');
+				}
+
 			});
 
 			elem.on('drag',function (e) {
-				movingClientX = e.clientX;
-				movingClientY = e.clientY;
-				if(elem.position().top + orginClientY - movingClientY <= 42){
-					console.log('}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}非法位置')
-				}
-				direction = orginClientY,movingClientY - orginClientY
+
+				// if(this.dragElement.hasClass('hight-light')) {
+
+					movingClientX = e.clientX;
+					movingClientY = e.clientY;
+					if(elem.position().top + orginClientY - movingClientY <= 42){
+						console.log('}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}非法位置')
+					}
+					direction = orginClientY,movingClientY - orginClientY;
+
+				// }
+
 			});
 
 			elem.on('dragend', function (e) {
-				console.log('拖拽结束：＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝',e);
-				jq(e.currentTarget).css('opacity','1');
 
-				postMessageToFather.ctrlUpdated({
-					params: {
-						key: ''
-					}
-				});
+				// if(this.dragElement.hasClass('hight-light')) {
+					console.log('拖拽结束：＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝',e);
+					jq(e.currentTarget).css('opacity','1');
+
+					postMessageToFather.ctrlUpdated({
+						params: {
+							key: ''
+						}
+					});
+				// }
+
 			});
 
 			elem.on('dragenter', function (e) {
@@ -683,12 +692,15 @@ var init = function() {
 		
 			elem.on('dragleave', function (e) {
 				console.log('离开')
-				$this = jq(e.currentTarget);
-				hideDesignerDraggerBorder($this);
-				if($this.eq(0).attr('id') != dragElement.eq(0).attr('id')){
-					console.log('不同的')
-					$this.before(dragElement);
-				}
+				// if(this.dragElement.hasClass('hight-light')) {
+					$this = jq(e.currentTarget);
+					hideDesignerDraggerBorder($this);
+					if($this.eq(0).attr('id') != this.dragElement.eq(0).attr('id')){
+						console.log('不同的')
+						$this.before(this.dragElement);
+					}					
+				// }
+
 			})
 		}
 
