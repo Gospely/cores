@@ -274,7 +274,8 @@ var init = function() {
 			},
 
 			ctrlRemoved: function() {
-				console.log('ctrlRemoved', data);
+				var self = currentActiveCtrlDOM;
+				self.remove();
 			},
 
 			layoutLoaded: function() {
