@@ -709,11 +709,27 @@ var init = function() {
 					if(elem.position().top + orginClientY - movingClientY <= 42){
 						console.log('}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}非法位置')
 					}
-					direction = orginClientY,movingClientY - orginClientY;
+					// direction = orginClientY,movingClientY - orginClientY;
 
 				// }
 
 			});
+
+			elem.on('dragenter', function (e) {
+				console.log('进入',e)
+			})
+		
+			elem.on('dragleave', function (e) {
+				console.log('离开')
+				// if(this.dragElement.hasClass('hight-light')) {
+					$this = jq(e.currentTarget);
+					hideDesignerDraggerBorder($this);
+					if($this.eq(0).attr('id') != this.dragElement.eq(0).attr('id')){
+						$this.before(this.dragElement);
+					}					
+				// }
+
+			})
 
 			elem.on('dragend', function (e) {
 
@@ -729,23 +745,6 @@ var init = function() {
 				// }
 
 			});
-
-			elem.on('dragenter', function (e) {
-				console.log('进入',e)
-			})
-		
-			elem.on('dragleave', function (e) {
-				console.log('离开')
-				// if(this.dragElement.hasClass('hight-light')) {
-					$this = jq(e.currentTarget);
-					hideDesignerDraggerBorder($this);
-					if($this.eq(0).attr('id') != this.dragElement.eq(0).attr('id')){
-						console.log('不同的')
-						$this.before(this.dragElement);
-					}					
-				// }
-
-			})
 		}
 
 	}
