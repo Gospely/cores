@@ -98,6 +98,22 @@ var init = function() {
 							className: currentPage.key,
 
 							render: function () {
+
+								if(currentPage.children) {
+
+									for (var i = 0; i < currentPage.children.length; i++) {
+										var currentController = currentPage.children[i],
+										
+											ctrlIniter = new ComponentsGenerator({
+												controller: currentController
+											});
+
+										ctrlIniter.setAttribute();
+
+									};
+
+								}
+
 								return attr.template._value;
 							},
 
@@ -123,9 +139,9 @@ var init = function() {
 
 						for (var j = 0; j < controllers.length; j++) {
 							var ctrl = controllers[j];
-							window.postMessage({
-								ctrlAdded: ctrl
-							}, '*')
+							// window.postMessage({
+							// 	ctrlAdded: ctrl
+							// }, '*')
 						};
 					};
 
@@ -453,7 +469,6 @@ var init = function() {
 		this.elemLoaded = false;
 		this.refresh = false;
 
-		this.dragElement = '';
 
 		if(!this.tag) {
 			alert('组件数据结构出错');
@@ -672,9 +687,8 @@ var init = function() {
 
 			elem.on('dragstart', function (e) {
 				console.log(e)
-				this.dragElement = jq(e.currentTarget);
-
-				if(this.dragElement.hasClass('hight-light')) {
+				window.dragElement = jq(e.currentTarget);
+				if(window.dragElement.hasClass('hight-light')) {
 					orginClientX = e.clientX;
 					orginClientY = e.clientY;
 
@@ -693,11 +707,27 @@ var init = function() {
 					if(elem.position().top + orginClientY - movingClientY <= 42){
 						console.log('}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}非法位置')
 					}
-					direction = orginClientY,movingClientY - orginClientY;
+					// direction = orginClientY,movingClientY - orginClientY;
 
 				// }
 
 			});
+
+			elem.on('dragenter', function (e) {
+				console.log('进入',e)
+			})
+		
+			elem.on('dragleave', function (e) {
+				console.log('离开')
+				// if(this.dragElement.hasClass('hight-light')) {
+					$this = jq(e.currentTarget);
+					hideDesignerDraggerBorder($this);
+					if($this.eq(0).attr('id') != window.dragElement.eq(0).attr('id')){
+						$this.before(window.dragElement);
+					}					
+				// }
+
+			})
 
 			elem.on('dragend', function (e) {
 
@@ -713,23 +743,6 @@ var init = function() {
 				// }
 
 			});
-
-			elem.on('dragenter', function (e) {
-				console.log('进入',e)
-			})
-		
-			elem.on('dragleave', function (e) {
-				console.log('离开')
-				// if(this.dragElement.hasClass('hight-light')) {
-					$this = jq(e.currentTarget);
-					hideDesignerDraggerBorder($this);
-					if($this.eq(0).attr('id') != this.dragElement.eq(0).attr('id')){
-						console.log('不同的')
-						$this.before(this.dragElement);
-					}					
-				// }
-
-			})
 		}
 
 	}
