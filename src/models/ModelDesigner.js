@@ -498,7 +498,7 @@ export default {
 						},
 
 						children: [{
-								name: '页头',
+								name: '头部',
 								type: 'hd',
 								key: 'hd-123',
 								attr: {},
@@ -507,7 +507,7 @@ export default {
 								backend: true,
 								_value: ''
 							}, {
-								name: '页脚',
+								name: '底部',
 								type: 'ft',
 								key: 'ft-123',
 								attr: {},
@@ -516,7 +516,7 @@ export default {
 								backend: true,
 								_value: ''
 							}, {
-								name: '页体',
+								name: '中部',
 								type: 'bd',
 								key: 'bd-123',
 								attr: {},
@@ -2433,6 +2433,14 @@ export default {
 					layoutState: state.layoutState
 				}
 			}, '*');
+
+			gospelDesignerPreviewer.postMessage({
+				layoutLoaded: {
+					layout: state.layout,
+					layoutState: state.layoutState
+				}
+			}, '*');
+
 			return {...state};
 		},
 
