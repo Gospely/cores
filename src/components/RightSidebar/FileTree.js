@@ -92,9 +92,9 @@ const FileTree = (props) => {
       if(e.length > 0) {
         localStorage.currentSelectedFile = e[0];
         var file = e[0];
-        file = file.split('/');
+        file = file.split('.');
         console.log(file[file.length-1]);
-        var suffix = file[file.length-1].split('.')[1];
+        var suffix = file[file.length-1];
         if(suffix != undefined){
           localStorage.suffix = suffix;
         }
@@ -118,7 +118,6 @@ const FileTree = (props) => {
         var fileName = localStorage.currentSelectedFile;
         localStorage.onSelect = false;
         if(node.node.props.isLeaf) {
-          console.log("devpanel/dynamicChangeSyntax");
           props.dispatch({
             type: 'file/readFile',
             payload: localStorage.currentSelectedFile.split('/').pop()
@@ -389,9 +388,9 @@ const FileTree = (props) => {
 
         var suffix = 'js';
         if(fileName != undefined && fileName != '新文件'　&& fileName != '新标签页'){
-          fileName = fileName.split('/');
+          fileName = fileName.split('.');
           console.log(fileName[fileName.length-1]);
-          suffix= fileName[fileName.length-1].split('.')[1];
+          suffix= fileName[fileName.length-1];
           if(suffix != undefined){
             localStorage.suffix = suffix;
           }
@@ -707,23 +706,22 @@ const FileTree = (props) => {
 
     var file = fileName;
 
-    file = file.split('/');
+    file = file.split('.');
     console.log(file[file.length-1]);
-    var suffix = file[file.length-1].split('.')[1];
+    var suffix = file[file.length-1];
     if(suffix != undefined){
       localStorage.suffix = suffix;
     }
+    props.dispatch({
+      type: 'devpanel/dynamicChangeSyntax',
+      payload:{suffix}
+    });
     fileName = fileName.replace(localStorage.currentProject,'')
     props.dispatch({
       type: 'file/readFile',
       payload: fileName
     })
     //切换语法
-
-    props.dispatch({
-      type: 'devpanel/dynamicChangeSyntax',
-      payload:{suffix}
-    });
     props.dispatch({
       type: 'file/hideSearchPane'
     })

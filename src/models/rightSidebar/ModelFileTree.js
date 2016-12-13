@@ -326,7 +326,7 @@ export default {
 
 					var result = res.data;
 					for(var i = 0; i<res.data.length; i++){
-						res.data[i].folder = res.data[i].id.replace(localStorage.currentFolder,localStorage.currentProject);
+						res.data[i].folder = res.data[i].id.replace(localStorage.currentFolder,localStorage.currentProject + "/");
 					}
 
 					console.log(result);

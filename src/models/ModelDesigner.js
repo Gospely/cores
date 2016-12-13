@@ -1723,9 +1723,58 @@ export default {
 				}]
 			},
 			{
-				name: '头部',
+				name: 'NavBar',
 				type: 'header',
-				attr: {}
+				attr: {},
+				tag: 'div',
+				baseClassName: 'weui-tab',
+				children: [{
+					type: 'div',
+					tag: 'div',
+					name: 'navbar',
+					baseClassName: 'weui-navbar',
+					attr: {},
+					children: [{
+						type: 'div',
+						tag: 'div',
+						name: '选项一',
+						baseClassName: 'weui-navbar__item weui-bar__item_on',
+						attr: {
+							value: {
+								isHTML: true,
+								type: 'input',
+								_value: '选项一',
+								title: '选项一标题'
+							}
+						}
+					}, {
+						type: 'div',
+						tag: 'div',
+						name: '选项二',
+						baseClassName: 'weui-navbar__item',
+						attr: {
+							value: {
+								isHTML: true,
+								type: 'input',
+								_value: '选项二',
+								title: '选项二标题'
+							}
+						}
+					}, {
+						type: 'div',
+						tag: 'div',
+						name: '选项三',
+						baseClassName: 'weui-navbar__item',
+						attr: {
+							value: {
+								isHTML: true,
+								type: 'input',
+								_value: '选项三',
+								title: '选项三标题'
+							}
+						}
+					}]
+				}]
 			},
 			{
 				name: '底部说明',
@@ -1996,7 +2045,16 @@ export default {
 			{
 				name: '段落',
 				type: 'markdown',
-				attr: {}
+				attr: {
+					value: {
+						isHTML: true,
+						type: 'input',
+						_value: '文章内容',
+						title: '内容'
+					}
+				},
+				tag: 'article',
+				baseClassName: 'weui-article',
 			},
 			{
 				name: '滑块',
@@ -2376,7 +2434,7 @@ export default {
 		},
 
 		deleteConstruction(state,{payload: params}) {
-			
+
 			if (params.activeType == 'page') {
 				layoutAction.setActivePage(state.layoutState, params.activeIndex, params.activeKey, params.activeLevel);
 			}else {
@@ -2573,6 +2631,15 @@ export default {
 	      		activeCtrl.attr[params.attrName]['_value'] = params.newVal;
 
 			}
+			return {...state};
+		},
+		initState(state, { payload: params }){
+
+			console.log("=====initState designer=====");
+			console.log(params);
+			state.layout = params.UIState.layout;
+			state.layouState = params.UIState.layoutState;
+			state.defaultDevice = params.UIState.defaultDevice;
 			return {...state};
 		}
 
