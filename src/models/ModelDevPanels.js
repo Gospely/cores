@@ -672,7 +672,12 @@ export default {
 			activePane.activeTab = {key: activePane.activeTab.key, index: activePane.tabs.length - 1};
 			console.log({ title: target.title, content: target.content,
 		    					type: target.type, key: activePane.activeTab.key,
-		    					editorId: editorId,isSave: isSave})
+		    					editorId: editorId,isSave: isSave});
+				if(target.type == 'terminal') {
+					setTimeout(function(){
+						window.socket.send('cd /root/workspace && clear\n');
+					},1000)
+				}
 		    return {...state};
 		},
 		//UI状态初始化
