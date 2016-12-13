@@ -48,7 +48,7 @@ const FileTree = (props) => {
   );
 
   const buttonWidth = 70;
-  var preClickTimestamp = 0;
+  sessionStorage.preClickTimestamp = sessionStorage.preClickTimestamp || 0;
   var preClickTimestamp_search = 0;
 
   const fileTreeMenuStyles = {
@@ -114,8 +114,7 @@ const FileTree = (props) => {
       var currentClickTimestamp = new Date().getTime();
 
       //双击事件
-      if(currentClickTimestamp - preClickTimestamp <= 250) {
-
+      if(currentClickTimestamp - parseInt(sessionStorage.preClickTimestamp) <= 5000) {
         var fileName = localStorage.currentSelectedFile;
         localStorage.onSelect = false;
         if(node.node.props.isLeaf) {
@@ -127,7 +126,9 @@ const FileTree = (props) => {
         }
       }
 
-      preClickTimestamp = currentClickTimestamp;
+      sessionStorage.preClickTimestamp = currentClickTimestamp;
+
+      // alert(preClickTimestamp);
 
     },
 

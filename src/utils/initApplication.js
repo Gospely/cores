@@ -5,9 +5,12 @@ const openNotificationWithIcon = (type, title, description) => (
   })
 );
 
-const initApplication = function (application,props){
+const initApplication = function (application, props){
 
   localStorage.dir = localStorage.user + '/' + application.name + '_' + localStorage.userName + "/";
+
+  console.log('==========================application==========================', application);
+
   localStorage.currentProject = application.name;
   localStorage.port = application.port;
   localStorage.sshPort = application.sshPort;
