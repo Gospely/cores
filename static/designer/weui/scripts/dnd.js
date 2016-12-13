@@ -104,25 +104,16 @@ var init = function() {
 							bind: function() {
 							}
 						}
-<<<<<<< HEAD
 						routerInstance = router.push(tmpRoute);
 					};
 
-					routerInstance.setDefault('/').init();
+					routerInstance && routerInstance.setDefault('/').init();
 
 					window.currentRoute = layoutState.activePage.key;
 
 					console.log(';;;;;;;;;;;router;;;;;;;;;;', router);
 
 				}(pages),
-=======
-					}
-
-					routerInstance = router.push(tmpRoute);
-				};
-
-				routerInstance && routerInstance.setDefault('/').init();
->>>>>>> 847f7dae9db27199362d2bf41d0aa7fb97eee28e
 
 				initControllers = function(pages) {
 
