@@ -19,7 +19,7 @@ const ConstructionTree = (props) => {
                 type: 'designer/hideConstructionMenu'
             });
         }, false)
-        
+
     }
 
     window.constructionTreeLoaded = true;
@@ -295,7 +295,6 @@ const addPagePop = {
 const loopData = data => data.map((item) => {
 
     var title = item.attr.title ? item.attr.title._value : item.name;
-
 
     if (item.children) {
         return <TreeNode title={title} key={item.key}>{loopData(item.children)}</TreeNode>;
