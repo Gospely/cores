@@ -17,6 +17,20 @@ const layoutAction = {
 		return result;
 	},
 
+	getCtrlByKey(layout, key) {
+		for(let i = 0; i < layout.children.length; i ++) {
+			if (layout.children[i].key == key) {
+				return layout.children[i];
+			}
+			if (layout.children[i].children) {
+				let ctrl = layoutAction.getCtrlByKey(layout.children[i], key);
+				if(ctrl) {
+					return ctrl;
+				}
+			}
+		}
+	},
+
 	getActivePage (state) {
 		if(state.layoutState.activePage.level == 1){
 			return state.layout[state.layoutState.activePage.index];
@@ -806,7 +820,7 @@ export default {
 						_value: false
 					}
 				},
-				tag: ['button'],
+				tag: 'button',
 				baseClassName: 'weui-btn',
 				wrapper: ''
 			},
@@ -2416,7 +2430,6 @@ export default {
 					layoutState: state.layoutState
 				}
 			}, '*');
-
 			return {...state};
 		},
 
@@ -2453,7 +2466,7 @@ export default {
 
 			var tmpPage = {
 				type: 'page',
-				key: 'page-' + state.layout[0].children.length,
+				key: 'page-' + randomString(8, 10),
 				isLeaf: false,
 				attr: tmpAttr,
 				children: []
@@ -2499,16 +2512,15 @@ export default {
 			return {...state};
 		},
 
-		addController(state, { payload: controller }) {
+		addController(state, { payload: ctrlAndTarget }) {
 			if (state.layoutState.activePage.level == 1) {
 				message.error('请选择一个页面');
 				return {...state};
 			}
-
-			var activePage = layoutAction.getActivePage(state);
-
-			var deepCopiedController = layoutAction.deepCopyObj(controller);
-
+			let controller = ctrlAndTarget.ctrl,
+				targetId = ctrlAndTarget.target,
+				activePage = layoutAction.getActivePage(state),
+				deepCopiedController = layoutAction.deepCopyObj(controller);
 			const loopAttr = (controller) => {
 
 				var childCtrl = {},
@@ -2552,8 +2564,15 @@ export default {
     		gospelDesigner.postMessage({
     			ctrlAdded: tmpCtrl
     		}, '*');
-
-			activePage.children.push(tmpCtrl);
+    		if (targetId) {
+    			let parentCtrl = layoutAction.getCtrlByKey(state.layout[0], targetId);
+    			parentCtrl.children = parentCtrl.children || [];
+    			parentCtrl.children.push(tmpCtrl);
+    			console.log('这是增加ctrl的父亲',parentCtrl.children);
+    			state.layoutState.expandedKeys.push(targetId);
+    		}else {
+    			activePage.children.push(tmpCtrl);
+    		}
 			let level = layoutAction.getCurrentLevelByKey(state.layout, tmpCtrl.key);
 			layoutAction.setActiveController(state.layoutState, activePage.children.length - 1, tmpCtrl.key, level);
 			return {...state};
