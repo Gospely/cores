@@ -139,7 +139,7 @@ export default {
 						type: 'rightbar/setActiveMenu',
 						payload: 'attr'
 					});
-
+					
 					props.dispatch({
 						type: 'designer/addController',
 						payload: data
