@@ -234,6 +234,7 @@ export default {
       	*readFile({payload: fileName}, {call, put}) {
 
 					console.log("======readFile====");
+					console.log(localStorage.currentFolder);
 			var readResult = yield request('fs/read', {
       			method: 'POST',
       			body: JSON.stringify({
@@ -241,6 +242,7 @@ export default {
       			})
       		});
       		var content = readResult.data
+					console.log(readResult);
       		// console.log(content)
       		content = content.fields;
       		// console.log(content);

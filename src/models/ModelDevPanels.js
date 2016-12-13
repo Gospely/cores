@@ -172,7 +172,7 @@ export default {
 									localStorage.suffix = suffix;
 								}
 								yield put({
-									type: 'devpanel/dynamicChangeSyntax',
+									type: 'dynamicChangeSyntax',
 									payload:{suffix}
 								});
 								var readResult = yield request('fs/read', {

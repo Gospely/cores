@@ -92,9 +92,10 @@ const FileTree = (props) => {
       if(e.length > 0) {
         localStorage.currentSelectedFile = e[0];
         var file = e[0];
-        file = file.split('.');
-        console.log(file[file.length-1]);
-        var suffix = file[file.length-1];
+        file = file.split('/');
+        var files = e[0].split(".")
+        console.log(files[files.length-1]);
+        var suffix = files[files.length-1];
         if(suffix != undefined){
           localStorage.suffix = suffix;
         }
@@ -103,8 +104,11 @@ const FileTree = (props) => {
   				payload:{suffix}
   			});
         var isLeaf = node.node.props.isLeaf;
+        console.log(isLeaf);
         if(e[0] != localStorage.dir && isLeaf){
           file.pop();
+          console.log("===========pop================");
+          console.log(file);
         }
         localStorage.currentFolder = file.join('/') + "/";
         console.log(localStorage.currentFolder);
