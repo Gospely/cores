@@ -342,7 +342,7 @@ var init = function() {
 				initApp(data);
 			},
 
-			pageRender: function(app) {
+			pageConfigRender: function(app) {
 				console.log('pageRender');			
 			}
 
