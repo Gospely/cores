@@ -296,7 +296,6 @@ const loopData = data => data.map((item) => {
 
     var title = item.attr.title ? item.attr.title._value : item.name;
 
-    alert(item.key);
 
     if (item.children) {
         return <TreeNode title={title} key={item.key}>{loopData(item.children)}</TreeNode>;
