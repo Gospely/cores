@@ -37,34 +37,30 @@ const initApplication = function (application, props){
       type: 'sidebar/hideModalSwitchApp'
   });
   props.dispatch({
-    type: 'devpanel/openTerminal',
-    payload: { id:  application.docker}
-  });
-  props.dispatch({
     type: 'devpanel/startDocker',
-    payload: { id: application.id}
+    payload: { docker:  application.docker, id: application.id}
   });
   if(localStorage.UIState != null && localStorage != undefined){
 
     var UIState = JSON.parse(localStorage.UIState);
     console.log(UIState);
-    props.dispatch({
-        type: 'sidebar/initState',
-        payload: { UIState: UIState.UIState.sidebar }
-    });
+    // props.dispatch({
+    //     type: 'sidebar/initState',
+    //     payload: { UIState: UIState.UIState.sidebar }
+    // });
     props.dispatch({
       type: 'devpanel/getConfig',
       payload: { id : application.id, UIState: UIState.UIState.devpanel}
     });
-    console.log(UIState.UIState.rightbar);
-    props.dispatch({
-        type: 'rightbar/initState',
-        payload: { UIState: UIState.UIState.rightbar }
-    });
-    props.dispatch({
-        type: 'designer/initState',
-        payload: { UIState: UIState.UIState.designer }
-    });
+    // console.log(UIState.UIState.rightbar);
+    // props.dispatch({
+    //     type: 'rightbar/initState',
+    //     payload: { UIState: UIState.UIState.rightbar }
+    // });
+    // props.dispatch({
+    //     type: 'designer/initState',
+    //     payload: { UIState: UIState.UIState.designer }
+    // });
   }else{
     props.dispatch({
       type: 'devpanel/getConfig',

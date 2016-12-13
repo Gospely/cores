@@ -2516,10 +2516,12 @@ export default {
 		},
 
 		addController(state, { payload: ctrlAndTarget }) {
+			
 			if (state.layoutState.activePage.level == 1) {
 				message.error('请选择一个页面');
 				return {...state};
 			}
+
 			let controller = ctrlAndTarget.ctrl,
 				targetId = ctrlAndTarget.target,
 				activePage = layoutAction.getActivePage(state),

@@ -469,7 +469,6 @@ var init = function() {
 		this.elemLoaded = false;
 		this.refresh = false;
 
-		this.dragElement = '';
 
 		if(!this.tag) {
 			alert('组件数据结构出错');
@@ -688,9 +687,8 @@ var init = function() {
 
 			elem.on('dragstart', function (e) {
 				console.log(e)
-				this.dragElement = jq(e.currentTarget);
-
-				if(this.dragElement.hasClass('hight-light')) {
+				window.dragElement = jq(e.currentTarget);
+				if(window.dragElement.hasClass('hight-light')) {
 					orginClientX = e.clientX;
 					orginClientY = e.clientY;
 
@@ -724,8 +722,8 @@ var init = function() {
 				// if(this.dragElement.hasClass('hight-light')) {
 					$this = jq(e.currentTarget);
 					hideDesignerDraggerBorder($this);
-					if($this.eq(0).attr('id') != this.dragElement.eq(0).attr('id')){
-						$this.before(this.dragElement);
+					if($this.eq(0).attr('id') != window.dragElement.eq(0).attr('id')){
+						$this.before(window.dragElement);
 					}					
 				// }
 

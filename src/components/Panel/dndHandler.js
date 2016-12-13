@@ -134,7 +134,6 @@ export default {
 				ctrlToBeAdded () {
 
 					console.log('ctrlToBeAdded', data);
-
 					props.dispatch({
 						type: 'rightbar/setActiveMenu',
 						payload: 'attr'
