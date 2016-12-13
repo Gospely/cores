@@ -24,7 +24,8 @@ export default {
 
 			//todo
 
-	});
+		});
+
 		//监听页面加载，获取刷新前的页面状态
 		window.addEventListener("load", (evt) => {
 
@@ -42,26 +43,27 @@ export default {
 				  openNotificationWithIcon('error', '出错了: ' + response.status, response.statusText);
 				  throw error;
 				})
-		    .then(function(response){
+		    	.then(function(response){
 					return response.json();
 				})
-		    .then(function(data){
+		    	.then(function(data){
 
 					console.log(data);
 					if(data.code == 200 || data.code == 1) {
-				    if(data.message != null) {
-				      message.success(data.message);
-				    }
-				  }else {
-				    if(typeof data.length == 'number') {
-				      return data;
-				    }
-				    openNotificationWithIcon('error', data.message, data.fields);
-				  }
+				    	if(data.message != null) {
+				      		message.success(data.message);
+				    	}
+				  	}else {
+				    	if(typeof data.length == 'number') {
+				      		return data;
+				    	}
+				    	openNotificationWithIcon('error', data.message, data.fields);
+				  	}
 					var application = data.fields;
 					initApplication(application,props);
 				});
-		  }
+		  	}
+
 		});
 
 		window.addEventListener("message", (evt) =>  {
@@ -172,6 +174,10 @@ export default {
 					window.location.href = 'http://localhost:8989/#/project/' + data.application;
 					console.log("===================finishAppCreate===============");
 					console.log(data);
+				},
+
+				previewerLoaded () {
+					alert('previewerLoaded');
 				}
 
 			}

@@ -233,7 +233,35 @@ var init = function() {
 
 			showDesignerDraggerBorder(target);
 
-		};
+		},
+
+        initPreviewer = function(src) {
+        	var previewFrame = document.createElement('iframe');
+        	previewFrame.setAttribute('src', src);
+        	previewFrame.setAttribute('name', 'gospel-previewer');
+        	previewFrame.setAttribute('id', 'preview-frame');
+
+        	var designerOnload = function() {
+        		parent.gospelDesignerPreviewer = window.frames['gospel-previewer'];
+				parent.postMessage({
+					previewerLoaded: {
+						loaded: true
+					}
+				}, '*');
+        	}
+
+		    if (previewFrame.attachEvent){
+		        previewFrame.attachEvent("onload", function(){
+		          	designerOnload();
+		        });
+		    } else {
+		        previewFrame.onload = function(){
+		          	designerOnload();
+		        };
+		    }
+
+		    $('body .head').after(previewFrame);
+        }('http://localhost:8080/app/');
 
 	window.addEventListener("message", function (evt) {
 
@@ -776,4 +804,3 @@ var init = function() {
 
 	}
 }();
-
