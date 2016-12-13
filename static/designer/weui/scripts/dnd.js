@@ -340,7 +340,12 @@ var init = function() {
 
 			layoutLoaded: function() {
 				initApp(data);
+			},
+
+			pageRender: function(app) {
+				console.log('pageRender');			
 			}
+
 		}
 
 		var eventName = '';

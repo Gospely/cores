@@ -2433,6 +2433,14 @@ export default {
 					layoutState: state.layoutState
 				}
 			}, '*');
+
+			gospelDesignerPreviewer.postMessage({
+				layoutLoaded: {
+					layout: state.layout,
+					layoutState: state.layoutState
+				}
+			}, '*');
+
 			return {...state};
 		},
 

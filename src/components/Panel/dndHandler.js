@@ -172,12 +172,10 @@ export default {
 					})
 					//修改url
 					window.location.href = 'http://localhost:8989/#/project/' + data.application;
-					console.log("===================finishAppCreate===============");
-					console.log(data);
 				},
 
 				previewerLoaded () {
-					alert('previewerLoaded');
+					console.log('previewerLoaded', window.gospelDesignerPreviewer);
 				}
 
 			}

@@ -28,7 +28,6 @@ const Designer = (props) => {
 
 	const designerLoaded = () => {
 		window.gospelDesigner = window.frames['gospel-designer'];
-		window.gospelDesignerPreviewer = undefined;
 
 		gospelDesigner.postMessage({
 			designerLoaded: true
