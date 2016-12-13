@@ -142,7 +142,7 @@ export default {
 
 					props.dispatch({
 						type: 'designer/addController',
-						payload: dndData
+						payload: data
 					});
 
 				    props.dispatch({

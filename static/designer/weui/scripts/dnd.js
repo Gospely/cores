@@ -104,10 +104,11 @@ var init = function() {
 						bind: function() {
 						}
 					}
+
 					routerInstance = router.push(tmpRoute);
 				};
 
-				routerInstance.setDefault('/').init();
+				routerInstance && routerInstance.setDefault('/').init();
 
 				window.currentRoute = layoutState.activePage.key;
 
@@ -341,7 +342,11 @@ var init = function() {
 		//获取父元素的window对象上的数据
 		var controller = parent_window.dndData;
 		parent_window.currentTarget = e.target;
-		postMessageToFather.ctrlToBeAdded(controller);
+		var ctrlAndTarget = {
+			ctrl: controller,
+			target: e.target.id
+		}
+		postMessageToFather.ctrlToBeAdded(ctrlAndTarget);
 		hideDesignerDraggerBorder(dropTarget);
 	});
 
@@ -715,7 +720,7 @@ var init = function() {
 		},
 
 		ctrlToBeAdded: function(c) {
-			console.log("向父级发送信息");
+			console.log("向父级发送信息", c);
 			parent_window.postMessage({ 'ctrlToBeAdded': c }, "*");
 		},
 

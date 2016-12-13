@@ -67,7 +67,7 @@ const ConstructionTree = (props) => {
                 let ctrl = findCtrl(data[i].children, level);
                 if (ctrl) {
                     ctrl.level = ctrl.level - i;
-                return ctrl;
+                    return ctrl;
                 }
             }
             
@@ -100,12 +100,8 @@ const ConstructionTree = (props) => {
                 activeLevel = 1;
                 activeIndex = 0;
             }else {
-                for(let i = 0; i < layout.children.length; i ++) {
-
-                    if(layout.children[i].key == deleteKey) {
-                        activeIndex = i - 1;
-                    }
-                }
+                activeKey = ctrl.key;
+                activeIndex = ctrl.lastIndex;
                 activeLevel = 2;
             }
         }else {
