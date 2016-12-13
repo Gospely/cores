@@ -12,17 +12,17 @@ const TreeNode = Tree.TreeNode;
 
 const ConstructionTree = (props) => {
 
-    if (!window.flag) {
+    if (!window.constructionTreeLoaded) {
 
         window.addEventListener('click', function (data) {
             props.dispatch({
                 type: 'designer/hideConstructionMenu'
             });
         }, false)
-
+        
     }
 
-    window.flag = true;
+    window.constructionTreeLoaded = true;
 
     let findCtrl = function(data, level) {
 
@@ -294,12 +294,16 @@ const addPagePop = {
 
 const loopData = data => data.map((item) => {
 
+    var title = item.attr.title ? item.attr.title._value : item.name;
+
+    alert(item.key);
+
     if (item.children) {
-        return <TreeNode title={item.attr.title._value} key={item.key}>{loopData(item.children)}</TreeNode>;
+        return <TreeNode title={title} key={item.key}>{loopData(item.children)}</TreeNode>;
     }
 
     return (
-        <TreeNode title={item.attr.title._value} key={item.key} isLeaf={item.isLeaf} />
+        <TreeNode title={title} key={item.key} isLeaf={item.isLeaf} />
     );
 
 });

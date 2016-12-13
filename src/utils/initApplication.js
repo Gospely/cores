@@ -72,6 +72,9 @@ const initApplication = function (application, props){
     });
   }
 
+  // props.dispatch({
+  //   type: 'designer/handleLayoutLoaded'
+  // });
 
 }
 export default initApplication;
