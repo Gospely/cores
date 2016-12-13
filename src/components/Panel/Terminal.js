@@ -49,13 +49,12 @@ class Terminal extends Component {
 					termHeight = 900;
 
 				var cols = Math.ceil(termWidth / 8),
-					rows = Math.ceil((termHeight - 90) / 12),
+					rows = Math.ceil((termHeight - 90) / 17),
 					width = (cols * charWidth).toString() + 'px',
 					height = (rows * charHeight).toString() + 'px';
 
 				console.log(cols, rows, termWidth, termHeight, width, height, charWidth,
 					charHeight, '');
-
 				terminalContainer.style.width = width;
 				terminalContainer.style.height = height;
 				term.resize(cols, rows);
@@ -115,8 +114,14 @@ class Terminal extends Component {
 						socketURL += pid;
 						socket = new WebSocket(socketURL);
 						socket.onopen = runRealTerminal;
+						window.socket = socket;
 						socket.onclose = runFakeTerminal;
 						socket.onerror = runFakeTerminal;
+
+						socket.onmessage = function (evt) {
+							//收到服务器消息，使用evt.data提取
+							console.log(evt.data);
+					};
 						setTerminalSize();
 					});
 				});
