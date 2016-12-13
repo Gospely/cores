@@ -98,6 +98,22 @@ var init = function() {
 							className: currentPage.key,
 
 							render: function () {
+
+								if(currentPage.children) {
+
+									for (var i = 0; i < currentPage.children.length; i++) {
+										var currentController = currentPage.children[i],
+										
+											ctrlIniter = new ComponentsGenerator({
+												controller: currentController
+											});
+
+										ctrlIniter.setAttribute();
+
+									};
+
+								}
+
 								return attr.template._value;
 							},
 
@@ -123,9 +139,9 @@ var init = function() {
 
 						for (var j = 0; j < controllers.length; j++) {
 							var ctrl = controllers[j];
-							window.postMessage({
-								ctrlAdded: ctrl
-							}, '*')
+							// window.postMessage({
+							// 	ctrlAdded: ctrl
+							// }, '*')
 						};
 					};
 

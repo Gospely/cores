@@ -153,8 +153,6 @@ export default {
       		})
       	},
 
-
-
 	},
 
 	reducers: {
