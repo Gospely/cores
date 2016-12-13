@@ -35,7 +35,7 @@ const Designer = (props) => {
 
 		props.dispatch({
 			type: 'designer/handleLayoutLoaded'
-		})
+		});
 	}
 
   	return (

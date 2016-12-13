@@ -177,6 +177,8 @@ const Attr = (props) => {
 		}
 	};
 
+	console.log('==============formItems===========', props.attr.formItems);
+
 	const form = props.attr.formItems.map( (item, index) => {
 		if(!item.backend) {
 			return attrTypeActions[item.type](item);			

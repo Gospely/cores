@@ -80,40 +80,56 @@ var init = function() {
 
 			var initRouter = function(pages) {
 
-				window.router = new Router({
-				    container: '#gospel-designer-container',
-				    enter: 'enter',
-				    leave: 'leave'
-				});
+					window.router = new Router({
+					    container: '#gospel-designer-container',
+					    enter: 'enter',
+					    leave: 'leave'
+					});
 
-				var routerMap = [],
-					routerInstance;
+					var routerMap = [],
+						routerInstance;
 
-				for (var i = 0; i < pages.length; i++) {
-					var currentPage = pages[i];
-					console.log('currentPage', currentPage);
-					var attr = currentPage.attr;
-					var tmpRoute = {
-						url: attr.routingURL._value,
-						className: currentPage.key,
+					for (var i = 0; i < pages.length; i++) {
+						var currentPage = pages[i];
+						console.log('currentPage', currentPage);
+						var attr = currentPage.attr;
+						var tmpRoute = {
+							url: attr.routingURL._value,
+							className: currentPage.key,
 
-						render: function () {
-							return attr.template._value;
-						},
+							render: function () {
+								return attr.template._value;
+							},
 
-						bind: function() {
+							bind: function() {
+							}
 						}
-					}
-					routerInstance = router.push(tmpRoute);
-				};
+						routerInstance = router.push(tmpRoute);
+					};
 
-				routerInstance.setDefault('/').init();
+					routerInstance.setDefault('/').init();
 
-				window.currentRoute = layoutState.activePage.key;
+					window.currentRoute = layoutState.activePage.key;
 
-				console.log(';;;;;;;;;;;router;;;;;;;;;;', router);
+					console.log(';;;;;;;;;;;router;;;;;;;;;;', router);
 
-			}(pages);
+				}(pages),
+
+				initControllers = function(pages) {
+
+					for (var i = 0; i < pages.length; i++) {
+						var page = pages[i],
+							controllers = page.children;
+
+						for (var j = 0; j < controllers.length; j++) {
+							var ctrl = controllers[j];
+							window.postMessage({
+								ctrlAdded: ctrl
+							}, '*')
+						};
+					};
+
+				}(pages);
 
 		},
 
@@ -255,7 +271,7 @@ var init = function() {
 			},
 
 			ctrlAdded: function() {
-				console.log('ctrlAdded', data);
+				console.log('===================================ctrlAdded===================================', data);
 
 				var controller = data,
 
@@ -398,6 +414,14 @@ var init = function() {
 		hideDesignerDraggerBorder();
 		var removeBtn = jq('i.control-box.remove');
 		removeBtn.show();
+
+		if(!self) {
+			return false;
+		}
+
+		if(!self.offset()) {
+			return false;
+		}
 
 		removeBtn.css({
 			top: self.offset().top + 'px',
