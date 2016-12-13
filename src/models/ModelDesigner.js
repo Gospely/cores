@@ -500,6 +500,7 @@ export default {
 						children: [{
 								name: '页头',
 								type: 'hd',
+								key: 'hd-123',
 								attr: {},
 								tag: 'div',
 								baseClassName: 'page__hd',
@@ -508,6 +509,7 @@ export default {
 							}, {
 								name: '页脚',
 								type: 'ft',
+								key: 'ft-123',
 								attr: {},
 								tag: 'div',
 								baseClassName: 'page__ft',
@@ -516,6 +518,7 @@ export default {
 							}, {
 								name: '页体',
 								type: 'bd',
+								key: 'bd-123',
 								attr: {},
 								tag: 'div',
 								baseClassName: 'page__bd',
