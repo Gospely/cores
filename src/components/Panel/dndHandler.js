@@ -134,12 +134,11 @@ export default {
 				ctrlToBeAdded () {
 
 					console.log('ctrlToBeAdded', data);
-
 					props.dispatch({
 						type: 'rightbar/setActiveMenu',
 						payload: 'attr'
 					});
-					
+
 					props.dispatch({
 						type: 'designer/addController',
 						payload: data
