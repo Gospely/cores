@@ -497,7 +497,32 @@ export default {
 
 						},
 
-						children: [],
+						children: [{
+								name: '页头',
+								type: 'hd',
+								attr: {},
+								tag: 'div',
+								baseClassName: 'page__hd',
+								backend: true,
+								_value: ''
+							}, {
+								name: '页脚',
+								type: 'ft',
+								attr: {},
+								tag: 'div',
+								baseClassName: 'page__ft',
+								backend: true,
+								_value: ''
+							}, {
+								name: '页体',
+								type: 'bd',
+								attr: {},
+								tag: 'div',
+								baseClassName: 'page__bd',
+								backend: true,
+								_value: ''
+							}
+						]
 
 					},
 
@@ -2321,6 +2346,30 @@ export default {
 				name: '空白分割',
 				type: 'spacer',
 				attr: {}
+			},
+			{
+				name: '页头',
+				type: 'hd',
+				attr: {},
+				tag: 'div',
+				baseClassName: 'page__hd',
+				backend: true
+			},
+			{
+				name: '页脚',
+				type: 'ft',
+				attr: {},
+				tag: 'div',
+				baseClassName: 'page__ft',
+				backend: true
+			},
+			{
+				name: '页体',
+				type: 'bd',
+				attr: {},
+				tag: 'div',
+				baseClassName: 'page__bd',
+				backend: true
 			},
 			{
 				name: '视频',
