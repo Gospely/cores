@@ -40,6 +40,16 @@ const keyConfig = {
 				}
 			}
 		},
+		{
+			mainKey: ['ctrl+p','command+p'],
+			handler: function(props){
+
+				props.dispatch({
+					type: 'file/handleSearch',
+					payload:{value: '' }
+				});
+			}
+		},
 	],
 	escape:[
 
