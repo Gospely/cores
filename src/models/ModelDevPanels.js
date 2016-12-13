@@ -88,6 +88,10 @@ export default {
 			var res = yield request("container/restart/" + params.id, {
 				method: 'GET',
 			});
+			var url = "applications/startTerminal?docker=" + params.docker;
+			var res = yield request(url, {
+				method: 'GET',
+			});
 		},
 		*loadPanels({ payload: params }, {call, put, select}) {
 
@@ -125,14 +129,6 @@ export default {
 			}else{
 				yield put({ type: "handleVisual" });
 			}
-		},
-		*openTerminal({ payload: params}, {call, put, select}){
-
-			console.log("=============oppenTerminal=============");
-			var url = "applications/startTerminal?docker=" + params.docker;
-			var res = yield request(url, {
-				method: 'GET',
-			});
 		},
 		//获取界面初始化配置
 		*getConfig({ payload: params}, {call, put, select}){
