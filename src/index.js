@@ -54,12 +54,7 @@ app.use({
 			};
 			var escape = false
 			localStorage.UIState = JSON.stringify(state,function(key,value){
-				if(key == 'devpanel') {
-					escape = true;
-				}
-				if(key == 'designer'){
-					escape = false;
-				}
+
 				if(key == 'content' || ( key == 'value' && escape)){
 					return undefined
 				}else{

@@ -38,7 +38,7 @@ const initApplication = function (application, props){
   });
   props.dispatch({
     type: 'devpanel/openTerminal',
-    payload: { id:  application.docker}
+    payload: { docker:  application.docker}
   });
   props.dispatch({
     type: 'devpanel/startDocker',
@@ -61,10 +61,10 @@ const initApplication = function (application, props){
         type: 'rightbar/initState',
         payload: { UIState: UIState.UIState.rightbar }
     });
-    props.dispatch({
-        type: 'designer/initState',
-        payload: { UIState: UIState.UIState.designer }
-    });
+    // props.dispatch({
+    //     type: 'designer/initState',
+    //     payload: { UIState: UIState.UIState.designer }
+    // });
   }else{
     props.dispatch({
       type: 'devpanel/getConfig',
