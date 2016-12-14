@@ -243,6 +243,7 @@ var init = function() {
 
         	var designerOnload = function() {
         		parent.gospelDesignerPreviewer = window.frames['gospel-previewer'];
+        		window.gospelDesignerPreviewer = parent.gospelDesignerPreviewer;
 				parent.postMessage({
 					previewerLoaded: {
 						loaded: true
@@ -342,8 +343,37 @@ var init = function() {
 				initApp(data);
 			},
 
-			appConfigRender: function(app) {
+			appConfigRender: function() {
 				console.log('appConfigRender');			
+			},
+
+			makeComponentsDraggable: function() {
+                var sourceController = jq(data.rowSelector, window.parent.document).find('.ant-col-12'),
+                	inter = 0;
+
+				if(sourceController.length === 0) {
+					inter = setInterval(function() {
+						sourceController = jq("#dnd-row", window.parent.document).find('.ant-col-12')
+						if(sourceController.length > 0) {
+							clearInterval(inter);
+							sourceController.each(function(n) {
+								jq(this).find(".app-components").attr("draggable", true);
+								jq(this).find(".app-components").attr("id", "source" + n);
+								//开始拖拽
+								jq(this).find(".app-components").on("dragstart", function(ev) {
+									data = jq(ev.target).clone();
+									//ev.dataTransfer.setData("Text",ev.target.id);
+								})
+							});
+
+							window.frames['gospel-previewer'].postMessage({
+								componentsDraggable: { loaded: true }
+							}, '*');
+
+						}
+					}, 1);
+				}
+
 			}
 
 		}

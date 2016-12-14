@@ -108,7 +108,6 @@ function IndexPage(props) {
       if(action == 'remove'){
         localStorage.removeAction = JSON.stringify(removeAction);
         editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
-        console.log(targetKey);
         let currentTab = props.devpanel.panels.panes[paneKey.paneKey].tabs[targetKey - 1],
             tabType = currentTab.type;
 
@@ -128,12 +127,8 @@ function IndexPage(props) {
         }
 
         var fileName = localStorage.currentSelectedFile;
-        console.log(currentTab.isSave);
         if(!currentTab.isSave) {
-          console.log("show");
-          console.log(localStorage.isSave);
           if(fileName == '新标签页' || fileName == '新文件' || fileName ==  undefined){
-            console.log("fff");
             props.dispatch({
               type: 'file/showNewFileNameModal',
               payload: {targetKey, action,type}
