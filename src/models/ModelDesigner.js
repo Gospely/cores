@@ -2434,8 +2434,13 @@ export default {
 				}
 			}, '*');
 
+			return {...state};
+		},
+
+		handlePreviewerLayoutLoaded(state) {
+			alert('previewerLayoutLoaded')
 			gospelDesignerPreviewer.postMessage({
-				layoutLoaded: {
+				previewerLayoutLoaded: {
 					layout: state.layout,
 					layoutState: state.layoutState
 				}

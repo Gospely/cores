@@ -175,7 +175,9 @@ export default {
 				},
 
 				previewerLoaded () {
-					console.log('previewerLoaded', window.gospelDesignerPreviewer);
+					props.dispatch({
+						type: 'designer/handlePreviewerLayoutLoaded'
+					});
 				}
 
 			}

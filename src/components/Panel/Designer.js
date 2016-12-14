@@ -30,7 +30,9 @@ const Designer = (props) => {
 		window.gospelDesigner = window.frames['gospel-designer'];
 
 		gospelDesigner.postMessage({
-			designerLoaded: true
+			designerLoaded: {
+				loaded: true
+			}
 		}, '*');
 
 		props.dispatch({

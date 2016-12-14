@@ -246,6 +246,7 @@ var init = function() {
         	var designerOnload = function() {
         		parent.gospelDesignerPreviewer = window.frames['gospel-previewer'];
         		window.gospelDesignerPreviewer = parent.gospelDesignerPreviewer;
+
 				parent.postMessage({
 					previewerLoaded: {
 						loaded: true
@@ -353,6 +354,8 @@ var init = function() {
                 var sourceController = jq(data.rowSelector, window.parent.document).find('.ant-col-12'),
                 	inter = 0;
 
+                	alert('makeComponentsDraggable');
+
 				if(sourceController.length === 0) {
 					inter = setInterval(function() {
 						sourceController = jq("#dnd-row", window.parent.document).find('.ant-col-12')
@@ -394,29 +397,29 @@ var init = function() {
 
 	});
 
-	var sourceController = jQuery("#dnd-row", window.parent.document).find('.ant-col-12'),
-		inter = 0;
+	// var sourceController = jQuery("#dnd-row", window.parent.document).find('.ant-col-12'),
+	// 	inter = 0;
 
-	if(sourceController.length === 0) {
-		inter = setInterval(function() {
-			sourceController = jQuery("#dnd-row", window.parent.document).find('.ant-col-12')
-			if(sourceController.length > 0) {
-				clearInterval(inter);
-				sourceController.each(function(n) {
-					jq(this).find(".app-components").attr("draggable", true);
-					jq(this).find(".app-components").attr("id", "source" + n);
-					//开始拖拽
-					jq(this).find(".app-components").on("dragstart", function(ev) {
-						data = jq(ev.target).clone();
-						//ev.dataTransfer.setData("Text",ev.target.id);
-					})
-				});
-			}
-		}, 1);
-	}
+	// if(sourceController.length === 0) {
+	// 	inter = setInterval(function() {
+	// 		sourceController = jQuery("#dnd-row", window.parent.document).find('.ant-col-12')
+	// 		if(sourceController.length > 0) {
+	// 			clearInterval(inter);
+	// 			sourceController.each(function(n) {
+	// 				jq(this).find(".app-components").attr("draggable", true);
+	// 				jq(this).find(".app-components").attr("id", "source" + n);
+	// 				//开始拖拽
+	// 				jq(this).find(".app-components").on("dragstart", function(ev) {
+	// 					data = jq(ev.target).clone();
+	// 					//ev.dataTransfer.setData("Text",ev.target.id);
+	// 				})
+	// 			});
+	// 		}
+	// 	}, 1);
+	// }
 
 	//拖拽结束
-	jq("#gospel-designer-container").on("drop", function(e) {
+	jq("#preview-frame").on("drop", function(e) {
 		console.log('onrop=======', e, currentRoute);
 
 		if(e.originalEvent.dataTransfer.getData("Text") == 'true') {
@@ -517,7 +520,7 @@ var init = function() {
 		self.addClass("hight-light");
 	}
 
-	//拖拽结束
+	//拖拽过程中
 	jq("body").on("dragover",function(e){
 		e.preventDefault();
 		e.stopPropagation();

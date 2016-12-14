@@ -308,6 +308,17 @@ $(function () {
 
         document.domain = 'localhost';
 
+        jQuery.fn.isChildOf = function(b) { 
+            return (this.parents(b).length > 0); 
+        };
+
+        //判断:当前元素是否是被筛选元素的子元素或者本身 
+        jQuery.fn.isChildAndSelfOf = function(b) { 
+            return (this.closest(b).length > 0); 
+        }; 
+
+        var jq = jQuery.noConflict();
+
         var postMessageToFather = {
 
             ctrlClicked: function(c) {
@@ -345,8 +356,6 @@ $(function () {
             this.inter = 0;
 
             this.makeComponentsDraggable();
-
-            this.onDrop();
 
             this.initEvents({
                 onSourceController: function() {
@@ -388,41 +397,77 @@ $(function () {
             makeComponentsDraggable: function(cb) {
                 var self = this;
 
-                postMessageToFather.makeComponentsDraggable({
-                    rowSelector: self.rowSelector
-                })
+                var sourceController = jq(self.rowSelector, window.parent.parent.document).find('.ant-col-12'),
+                    inter = 0;
+
+                    alert('makeComponentsDraggable');
+
+                if(sourceController.length === 0) {
+                    inter = setInterval(function() {
+                        sourceController = jq(self.rowSelector, window.parent.parent.document).find('.ant-col-12')
+                        if(sourceController.length > 0) {
+                            clearInterval(inter);
+
+                            sourceController.each(function(n) {
+                                jq(this).find(".app-components").attr("draggable", true);
+                                jq(this).find(".app-components").attr("id", "source" + n);
+                                //开始拖拽
+                                jq(this).find(".app-components").on("dragstart", function(ev) {
+                                    data = jq(ev.target).clone();
+                                    //ev.dataTransfer.setData("Text",ev.target.id);
+                                    console.log(ev);
+                                })
+                            });
+
+                            self.onDrop();
+                            self.onDragover();
+
+                        }
+                    }, 1);
+                }
+                
             },
 
             onDrop: function() {
                 var self = this;
-                $(this.containerSelector).on("drop", function(e) {
-                    console.log('onrop=======', e, currentRoute);
+                alert('onDrop')
+                jq(this.containerSelector).on("drop", function(e) {
+                    console.log('onrop=======', e);
 
                     if(e.originalEvent.dataTransfer.getData("Text") == 'true') {
                         return false;
                     }
 
-                    var dropTarget = $(e.target),
-                        currentRouterDom = $('.' + currentRoute);
+                    // var dropTarget = jq(e.target),
+                    //     currentRouterDom = jq('.' + currentRoute);
 
-                    if(!dropTarget.isChildAndSelfOf('.' + currentRoute)) {
-                        parent_window.postMessage({
-                            invalidDropArea: true
-                        }, '*');
-                        return false;
-                    }
+                    // if(!dropTarget.isChildAndSelfOf('.' + currentRoute)) {
+                    //     parent_window.postMessage({
+                    //         invalidDropArea: true
+                    //     }, '*');
+                    //     return false;
+                    // }
 
-                    e.preventDefault(); 
+                    // e.preventDefault(); 
 
-                    //获取父元素的window对象上的数据
-                    var controller = parent.dndData;
-                    parent.currentTarget = e.target;
-                    var ctrlAndTarget = {
-                        ctrl: controller,
-                        target: e.target.id
-                    }
-                    postMessageToFather.ctrlToBeAdded(ctrlAndTarget);
-                    hideDesignerDraggerBorder(dropTarget);
+                    // //获取父元素的window对象上的数据
+                    // var controller = parent.dndData;
+                    // parent.currentTarget = e.target;
+                    // var ctrlAndTarget = {
+                    //     ctrl: controller,
+                    //     target: e.target.id
+                    // }
+                    // postMessageToFather.ctrlToBeAdded(ctrlAndTarget);
+                    // hideDesignerDraggerBorder(dropTarget);
+                });
+            },
+
+            onDragover: function() {
+                //拖拽过程中
+                jq("body").on("dragover",function(e){
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log(e);
                 });
             }
 
@@ -437,6 +482,8 @@ $(function () {
         function layoutGenerator(data) {
             this.layout = data.layout;
             this.layoutState = data.layoutState;
+
+            console.log('layoutGenerator=============', data);
 
             this.app = this.layout[0];
             this.pages = this.app.children;
@@ -796,19 +843,20 @@ $(function () {
 
             window.addEventListener("message", function (evt) {
 
+                alert('sss')
+
                 var data = evt.data,
                     eventName = '',
 
                     evtAction = {
 
-                        layoutLoaded: function() {
-                            console.log('previewer layoutLoaded', data);
+                        previewerLayoutLoaded: function() {
                             var LG = new layoutGenerator(data);
 
                             var dnd = new dndInitialization({
                                 rowSelector: '#dnd-row',
                                 comSelector: '.app-components',
-                                containerSelector: '.container'
+                                containerSelector: '#container'
                             });
                         },
 
@@ -850,7 +898,6 @@ $(function () {
                 }
 
                 if(evtAction[eventName]) {
-                    console.log('key', data[key]);
                     data = data[key];
                     evtAction[eventName]();
                 }
