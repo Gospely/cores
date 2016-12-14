@@ -13,9 +13,13 @@ import auth from './utils/auth';
 
 window.flag = false;
 window.fileFlag = false;
+
+document.domain = 'localhost';
+
 //认证和状态同步
 auth();
 localStorage.flashState = 'false'
+
 // 1. Initialize
 const app = dva({
 	initialState: {
@@ -34,9 +38,8 @@ const app = dva({
 	  	message.error(e.message);
 	}
 });
-console.log(app);
+
 // 2. Plugins
-//app.use({});
 app.use({
 	onStateChange: () => {
 
@@ -62,16 +65,7 @@ app.use({
 				}
 			});
 		}
-		// app._store.dispatch({
-		// 	type: 'UIState/writeConfig',
-		// 	payload: {
-		// 		id: '',
-		// 		application: '',
-		// 		creator: '',
-		// 		configs: UIState
-		// 	}
-		// })
-		// console.log('onStateChange', UIState, app);
+
 	}
 });
 

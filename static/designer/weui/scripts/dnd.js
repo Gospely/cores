@@ -1,5 +1,7 @@
 var init = function() {
 
+	document.domain = 'localhost';
+
 	jQuery.fn.isChildOf = function(b) { 
 		return (this.parents(b).length > 0); 
 	};
@@ -262,7 +264,7 @@ var init = function() {
 		    }
 
 		    $('body .head').after(previewFrame);
-        }('http://localhost:8080/app/');
+        }('../vui/app/index.html');
 
 	window.addEventListener("message", function (evt) {
 
