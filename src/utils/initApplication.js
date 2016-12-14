@@ -17,6 +17,7 @@ const initApplication = function (application, props){
   localStorage.socketPort = application.socketPort;
   localStorage.domain = application.domain;
   localStorage.image = application.image;
+  localStorage.docker = application.docker;
   localStorage.currentFolder = localStorage.user + '/' + application.name + '_' + localStorage.userName;
   localStorage.applicationId = application.id;
 
@@ -36,10 +37,12 @@ const initApplication = function (application, props){
   props.dispatch({
       type: 'sidebar/hideModalSwitchApp'
   });
-  props.dispatch({
-    type: 'devpanel/startDocker',
-    payload: { docker:  application.docker, id: application.id}
-  });
+  if(application.id != window.applicationId){
+    props.dispatch({
+      type: 'devpanel/startDocker',
+      payload: { docker:  application.docker, id: application.id}
+    });
+  }
   if(localStorage.UIState != null && localStorage != undefined){
 
     var UIState = JSON.parse(localStorage.UIState);

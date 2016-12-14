@@ -19,7 +19,7 @@ const styles = {
 }
 
 const DevPanel = ({
-	splitType, onChange, onEdit, panes, panels, onChangePane
+	splitType, onChange, onEdit, panes, panels, onChangePane, props
 }) => {
 
 	const currentDevType = {
@@ -36,7 +36,7 @@ const DevPanel = ({
 
 		terminal: function() {
 			return (
-				<Terminal></Terminal>
+				<Terminal ctx={props}></Terminal>
 			);
 		},
 
@@ -48,7 +48,7 @@ const DevPanel = ({
 
 		welcome: function() {
 			return (
-				<Welcome></Welcome>
+				<Welcome ></Welcome>
 			);
 		},
 

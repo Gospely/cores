@@ -16,7 +16,12 @@ import randomWord from '../../utils/randomString';
 class Terminal extends Component {
 
 	constructor(props) {
+
+
 		super(props);
+		console.log("====================init terminal============");
+		console.log(props);
+		this.props = props;
 		this.state = {
 			terminalId: randomWord()
 		}
@@ -112,6 +117,11 @@ class Terminal extends Component {
 					charHeight = Math.ceil(offsetHeight / rows);
 
 					res.text().then(function(pid) {
+
+						self.props.ctx.dispatch({
+							type: 'devpanel/setPID',
+							payload: { pid: pid}
+						});
 						window.pid = pid;
 						socketURL += pid;
 						socket = new WebSocket(socketURL);

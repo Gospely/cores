@@ -112,6 +112,13 @@ function IndexPage(props) {
             tabType = currentTab.type;
 
         if(tabType != 'editor') {
+
+          if(tabType == 'terminal') {
+            props.dispatch({
+              type: 'devpanel/killPID',
+              payload: { pid: currentTab.editorId }
+            });
+          }
           props.dispatch({
             type: 'devpanel/' + action,
             payload: removeAction
@@ -122,7 +129,6 @@ function IndexPage(props) {
               type: 'designer/handleDesignerClosed'
             })
           }
-
           return false;
         }
 
@@ -172,7 +178,7 @@ function IndexPage(props) {
                 </div>
                 <SplitPane split="vertical" defaultSize={devPanelMinSize}>
                     <div className={styles.devbar}>
-                      <DevPanel {...devPanelProps}></DevPanel>
+                      <DevPanel {...devPanelProps} props={props}></DevPanel>
                     </div>
                     <RightSidebar></RightSidebar>
                 </SplitPane>

@@ -199,14 +199,16 @@ export default {
 			var fileName = params.tab.title;
 			console.log(params);
 			var readResult = yield request('fs/read', {
-						method: 'POST',
-						body: JSON.stringify({
-							fileName: localStorage.currentFolder + fileName.replace(localStorage.currentProject + "/",""),
-						})
-					});
+				method: 'POST',
+				body: JSON.stringify({
+					fileName: localStorage.currentFolder + fileName.replace(localStorage.currentProject + "/",""),
+				})
+			});
+
 			console.log("=========================loadContent====================");
 			console.log(readResult);
 			var content = readResult.data.fields;
+
 			yield put({
 				type: "initTab",
 				payload: {
@@ -214,6 +216,13 @@ export default {
 					editorId: params.editorId,
 					paneKey: params.paneKey
 				}
+			});
+		},
+
+		*killPID({ payload: params}, {call, put, select}){
+
+			yield request('applications/killpid?pid=' + params.pid + "&&docker=" + localStorage.docker, {
+				method: 'GET',
 			});
 		}
 	},
@@ -677,6 +686,15 @@ export default {
 			console.log("=======================initState=================");
 			console.log(params);
 			state.panels = params.UIState.panels;
+			return {...state};
+		},
+		setPID(state, { payload: params }){
+
+			console.log("=================setPID===============");
+			var activePane = state.panels.panes[state.panels.activePane.key],
+			tabKey = activePane.activeTab.key,
+			activeTab = activePane.tabs[tabKey-1];
+			activeTab.editorId = params.pid;
 			return {...state};
 		},
 		dynamicChangeSyntax(state,{payload: params}) {
