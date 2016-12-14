@@ -48,7 +48,7 @@ class Terminal extends Component {
 				var termWidth = 800,
 					termHeight = 900;
 
-				var cols = Math.ceil(termWidth / 8),
+				var cols = Math.ceil(termWidth / 4),
 					rows = Math.ceil((termHeight - 90) / 17),
 					width = (cols * charWidth).toString() + 'px',
 					height = (rows * charHeight).toString() + 'px';
