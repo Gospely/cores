@@ -200,6 +200,16 @@ const LeftSidebar = (props) => {
 									type: 'devpanel/changeColumn',
 									payload: key
 								});
+								props.dispatch({
+									type: 'devpanel/initDebugPanel',
+								});
+
+								var title = '终端',
+										type = 'terminal';
+								props.dispatch({
+									type: 'devpanel/add',
+									payload: {title, type}
+								})
 								//创建termin，执行启动的shell
 							}
 						}

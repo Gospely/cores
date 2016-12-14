@@ -237,6 +237,10 @@ export default {
 
 			return {...state};
 		},
+		initDebugPanel(state, { payload: params}){
+			state.panels.activePane.key = 1;
+			return {...state}
+		},
 		initTab(state, { payload: params}){
 
 			console.log("=========initTab============");
