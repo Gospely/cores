@@ -88,10 +88,6 @@ export default {
 			var res = yield request("container/restart/" + params.id, {
 				method: 'GET',
 			});
-			var url = "applications/startTerminal?docker=" + params.docker;
-			var res = yield request(url, {
-				method: 'GET',
-			});
 		},
 		*loadPanels({ payload: params }, {call, put, select}) {
 

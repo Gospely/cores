@@ -121,6 +121,13 @@ class Terminal extends Component {
 						socket.onmessage = function (evt) {
 							//收到服务器消息，使用evt.data提取
 							console.log(evt.data);
+							if(/^\{[\s*"\w+":"\w+",*\s*]+\}$/.test(evt.data)){
+									console.log(evt.data);
+									var data = JSON.parse(evt.data);
+									console.log(JSON.parse(evt.data));
+								}else {
+
+								}
 					};
 						setTerminalSize();
 					});
