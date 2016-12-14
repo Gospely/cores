@@ -400,8 +400,6 @@ $(function () {
                 var sourceController = jq(self.rowSelector, window.parent.parent.document).find('.ant-col-12'),
                     inter = 0;
 
-                    alert('makeComponentsDraggable');
-
                 if(sourceController.length === 0) {
                     inter = setInterval(function() {
                         sourceController = jq(self.rowSelector, window.parent.parent.document).find('.ant-col-12')
@@ -430,7 +428,6 @@ $(function () {
 
             onDrop: function() {
                 var self = this;
-                alert('onDrop')
                 jq(this.containerSelector).on("drop", function(e) {
                     console.log('onrop=======', e);
 
@@ -842,8 +839,6 @@ $(function () {
         var evtHandler = function() {
 
             window.addEventListener("message", function (evt) {
-
-                alert('sss')
 
                 var data = evt.data,
                     eventName = '',

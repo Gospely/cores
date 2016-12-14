@@ -354,8 +354,6 @@ var init = function() {
                 var sourceController = jq(data.rowSelector, window.parent.document).find('.ant-col-12'),
                 	inter = 0;
 
-                	alert('makeComponentsDraggable');
-
 				if(sourceController.length === 0) {
 					inter = setInterval(function() {
 						sourceController = jq("#dnd-row", window.parent.document).find('.ant-col-12')
@@ -419,7 +417,7 @@ var init = function() {
 	// }
 
 	//拖拽结束
-	jq("#preview-frame").on("drop", function(e) {
+	jq("#gospel-designer-container").on("drop", function(e) {
 		console.log('onrop=======', e, currentRoute);
 
 		if(e.originalEvent.dataTransfer.getData("Text") == 'true') {

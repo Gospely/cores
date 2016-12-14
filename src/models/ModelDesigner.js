@@ -2438,7 +2438,6 @@ export default {
 		},
 
 		handlePreviewerLayoutLoaded(state) {
-			alert('previewerLayoutLoaded')
 			gospelDesignerPreviewer.postMessage({
 				previewerLayoutLoaded: {
 					layout: state.layout,
