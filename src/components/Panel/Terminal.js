@@ -62,6 +62,8 @@ class Terminal extends Component {
 
 			createTerminal();
 
+
+
 			function createTerminal() {
 				// Clean terminal
 				while (terminalContainer.children.length) {
@@ -128,7 +130,7 @@ class Terminal extends Component {
 								}else {
 
 								}
-					};
+						};
 						setTerminalSize();
 					});
 				});
@@ -137,6 +139,9 @@ class Terminal extends Component {
 			function runRealTerminal() {
 				console.log(socket);
 				term.attach(socket);
+				setTimeout(function(){
+					window.socket.send('cd /root/workspace && clear\n');
+				},1000)
 				term._initialized = true;
 			}
 
@@ -184,6 +189,7 @@ class Terminal extends Component {
 	}
 
 	render() {
+
 		return <div id = {
 			this.state.terminalId
 		} > < /div>;
