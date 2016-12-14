@@ -48,7 +48,7 @@ class Terminal extends Component {
 				var termWidth = 800,
 					termHeight = 900;
 
-				var cols = Math.ceil(termWidth / 8),
+				var cols = Math.ceil(termWidth / 4),
 					rows = Math.ceil((termHeight - 90) / 17),
 					width = (cols * charWidth).toString() + 'px',
 					height = (rows * charHeight).toString() + 'px';
@@ -121,6 +121,13 @@ class Terminal extends Component {
 						socket.onmessage = function (evt) {
 							//收到服务器消息，使用evt.data提取
 							console.log(evt.data);
+							if(/^\{[\s*"\w+":"\w+",*\s*]+\}$/.test(evt.data)){
+									console.log(evt.data);
+									var data = JSON.parse(evt.data);
+									console.log(JSON.parse(evt.data));
+								}else {
+
+								}
 					};
 						setTerminalSize();
 					});
