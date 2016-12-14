@@ -342,8 +342,8 @@ var init = function() {
 				initApp(data);
 			},
 
-			pageRender: function(app) {
-				console.log('pageRender');			
+			appConfigRender: function(app) {
+				console.log('appConfigRender');			
 			}
 
 		}

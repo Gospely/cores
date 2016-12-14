@@ -290,7 +290,7 @@ export default {
 			{
 				name: '应用',
 				type: 'page',
-				key: 'page-2233',
+				key: 'page-app',
 				attr: {
 
 					pages: {
@@ -298,7 +298,7 @@ export default {
 						attrType: '',
 						isClassName: false,
 						title: '页面',
-						_value: ['page-123']
+						_value: ['page-home']
 					},
 
 					title: {
@@ -412,7 +412,7 @@ export default {
 
 					{
 						type: 'page',
-						key: 'page-123',
+						key: 'page-home',
 						isLeaf: false,
 						attr: {
 
@@ -507,21 +507,21 @@ export default {
 								backend: true,
 								_value: ''
 							}, {
-								name: '底部',
-								type: 'ft',
-								key: 'ft-123',
-								attr: {},
-								tag: 'div',
-								baseClassName: 'page__ft',
-								backend: true,
-								_value: ''
-							}, {
 								name: '中部',
 								type: 'bd',
 								key: 'bd-123',
 								attr: {},
 								tag: 'div',
 								baseClassName: 'page__bd',
+								backend: true,
+								_value: ''
+							}, {
+								name: '底部',
+								type: 'ft',
+								key: 'ft-123',
+								attr: {},
+								tag: 'div',
+								baseClassName: 'page__ft',
 								backend: true,
 								_value: ''
 							}
@@ -537,7 +537,7 @@ export default {
 		layoutState: {
 			activePage: {
 				index: 0,
-				key: 'page-123',
+				key: 'page-home',
 				level: 2
 			},
 
@@ -547,9 +547,9 @@ export default {
 				level: 3
 			},
 
-			activeKey: 'page-123',
+			activeKey: 'page-home',
 			activeType: 'page',
-			expandedKeys: ['page-123']
+			expandedKeys: ['page-home']
 		},
 
 		controllersList: [
