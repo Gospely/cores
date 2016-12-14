@@ -322,27 +322,27 @@ $(function () {
         var postMessageToFather = {
 
             ctrlClicked: function(c) {
-                parent.postMessage({ 'ctrlClicked': c }, "*");
+                parent.parent.postMessage({ 'ctrlClicked': c }, "*");
             },
 
             ctrlToBeAdded: function(c) {
-                parent.postMessage({ 'ctrlToBeAdded': c }, "*");
+                parent.parent.postMessage({ 'ctrlToBeAdded': c }, "*");
             },
 
             ctrlUpdated: function(c) {
-                parent.postMessage({ 'ctrlUpdated': c }, "*");
+                parent.parent.postMessage({ 'ctrlUpdated': c }, "*");
             },
 
             ctrlRemoved: function(c) {
-                parent.postMessage({ 'ctrlRemoved': c }, "*");
+                parent.parent.postMessage({ 'ctrlRemoved': c }, "*");
             },
 
             pageSelected: function(c) {
-                parent.postMessage({ 'pageSelected': c }, "*");
+                parent.parent.postMessage({ 'pageSelected': c }, "*");
             },
 
             makeComponentsDraggable: function(c) {
-                parent.postMessage({ 'makeComponentsDraggable': c }, "*");
+                parent.parent.postMessage({ 'makeComponentsDraggable': c }, "*");
             }
 
         }
@@ -435,26 +435,26 @@ $(function () {
                         return false;
                     }
 
-                    // var dropTarget = jq(e.target),
+                    var dropTarget = jq(e.target);
                     //     currentRouterDom = jq('.' + currentRoute);
 
                     // if(!dropTarget.isChildAndSelfOf('.' + currentRoute)) {
-                    //     parent_window.postMessage({
+                    //     parent.parent.postMessage({
                     //         invalidDropArea: true
                     //     }, '*');
                     //     return false;
                     // }
 
-                    // e.preventDefault(); 
+                    e.preventDefault(); 
 
-                    // //获取父元素的window对象上的数据
-                    // var controller = parent.dndData;
-                    // parent.currentTarget = e.target;
-                    // var ctrlAndTarget = {
-                    //     ctrl: controller,
-                    //     target: e.target.id
-                    // }
-                    // postMessageToFather.ctrlToBeAdded(ctrlAndTarget);
+                    //获取父元素的window对象上的数据
+                    var controller = parent.parent.dndData;
+                    parent.parent.currentTarget = e.target;
+                    var ctrlAndTarget = {
+                        ctrl: controller,
+                        target: e.target.id
+                    }
+                    postMessageToFather.ctrlToBeAdded(ctrlAndTarget);
                     // hideDesignerDraggerBorder(dropTarget);
                 });
             },
@@ -520,8 +520,8 @@ $(function () {
             },
 
             appendPageToHTML: function(page) {
-                var wrapper = $(this.generateTplScript(page.key));
-                $('#container').after(wrapper);
+                var wrapper = jq(this.generateTplScript(page.key));
+                jq('#container').after(wrapper);
                 wrapper.append('<div class="page"></div>')
                 this.generateTpl(page, wrapper.find('.page'));
             },
@@ -575,9 +575,9 @@ $(function () {
             initElem: function() {
 
                 if(!this.elemLoaded) {
-                    var docCtrl = $('#' + this.controller.key);
+                    var docCtrl = jq('#' + this.controller.key);
 
-                    this.elem = docCtrl.length > 0 ? docCtrl : $(document.createElement(this.tag));
+                    this.elem = docCtrl.length > 0 ? docCtrl : jq(document.createElement(this.tag));
                     this.elemLoaded = true;
                     this.refresh = docCtrl.length > 0;
                 }
@@ -753,9 +753,9 @@ $(function () {
 
                             loopComponent = reComGenerator.createElement(),
 
-                            jqComponent = $(component);
+                            jqComponent = jq(component);
 
-                        jqComponent.append($(loopComponent));
+                        jqComponent.append(jq(loopComponent));
 
                     };
 
@@ -775,13 +775,13 @@ $(function () {
 
                 elem.on('dragstart', function (e) {
                     console.log(e)
-                    window.dragElement = $(e.currentTarget);
+                    window.dragElement = jq(e.currentTarget);
                     if(window.dragElement.hasClass('hight-light')) {
                         orginClientX = e.clientX;
                         orginClientY = e.clientY;
 
                         e.originalEvent.dataTransfer.setData('Text','true');
-                        $(e.currentTarget).css('opacity','.3');
+                        jq(e.currentTarget).css('opacity','.3');
                     }
 
                 });
@@ -808,7 +808,7 @@ $(function () {
                 elem.on('dragleave', function (e) {
                     console.log('离开')
                     // if(this.dragElement.hasClass('hight-light')) {
-                        $this = $(e.currentTarget);
+                        $this = jq(e.currentTarget);
                         hideDesignerDraggerBorder($this);
                         if($this.eq(0).attr('id') != window.dragElement.eq(0).attr('id')){
                             $this.before(window.dragElement);
@@ -821,7 +821,7 @@ $(function () {
 
                     // if(this.dragElement.hasClass('hight-light')) {
                         console.log('拖拽结束：＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝',e);
-                        $(e.currentTarget).css('opacity','1');
+                        jq(e.currentTarget).css('opacity','1');
 
                         postMessageToFather.ctrlUpdated({
                             params: {
@@ -872,6 +872,18 @@ $(function () {
                         },
 
                         ctrlAdded: function() {
+                            alert('             ctrlAdded: tmpCtrl')
+
+                            var controller = data,
+
+                                comGen = new ComponentsGenerator({
+                                    controller: controller,
+                                    initElem: true
+                                }),
+
+                                elem = comGen.createElement(),
+
+                                appendResult = jq(parent.parent.currentTarget).append(elem);
 
                         },
 

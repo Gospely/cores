@@ -319,20 +319,23 @@ var init = function() {
 			},
 
 			ctrlAdded: function() {
-				console.log('===================================ctrlAdded===================================', data);
 
-				var controller = data,
+				// alert('ctrlAdded')
 
-					comGen = new ComponentsGenerator({
-						controller: controller,
-						initElem: true
-					}),
+				// console.log('===================================ctrlAdded===================================', data);
 
-					elem = comGen.createElement(),
+				// var controller = data,
 
-					appendResult = jq(parent_window.currentTarget).append(elem);
+				// 	comGen = new ComponentsGenerator({
+				// 		controller: controller,
+				// 		initElem: true
+				// 	}),
 
-				selectCtrl(controller);
+				// 	elem = comGen.createElement(),
+
+				// 	appendResult = jq(parent_window.currentTarget).append(elem);
+
+				// selectCtrl(controller);
 
 				// refreshRouterList(elem);
 			},

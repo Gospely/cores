@@ -2538,6 +2538,7 @@ export default {
 				targetId = ctrlAndTarget.target,
 				activePage = layoutAction.getActivePage(state),
 				deepCopiedController = layoutAction.deepCopyObj(controller);
+
 			const loopAttr = (controller) => {
 
 				var childCtrl = {},
@@ -2581,6 +2582,11 @@ export default {
     		gospelDesigner.postMessage({
     			ctrlAdded: tmpCtrl
     		}, '*');
+
+			gospelDesignerPreviewer.postMessage({
+    			ctrlAdded: tmpCtrl
+			}, '*');
+
     		if (targetId) {
     			let parentCtrl = layoutAction.getCtrlByKey(state.layout[0], targetId);
     			parentCtrl.children = parentCtrl.children || [];
@@ -2590,6 +2596,7 @@ export default {
     		}else {
     			activePage.children.push(tmpCtrl);
     		}
+
 			let level = layoutAction.getCurrentLevelByKey(state.layout, tmpCtrl.key);
 			layoutAction.setActiveController(state.layoutState, activePage.children.length - 1, tmpCtrl.key, level);
 			return {...state};
