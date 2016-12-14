@@ -30,7 +30,7 @@ const ColumnLayout = (props) => {
         mode="inline"
       >
         {rightColumnProps.columnsType.map(type => <Menu.Item key={type.name}><span>{type.alias}</span></Menu.Item>)}
-        
+
       </Menu>
 
     </div>

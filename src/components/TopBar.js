@@ -180,26 +180,40 @@ const LeftSidebar = (props) => {
 
 	        start() {
 
-				console.log("debugger");
-				//调试
-				const debugType = {
+						console.log("debugger");
+						const debugType = {
+							common(){
+								console.log('common');
+								sessionStorage.currentDebugResource = 'http://gospely.com:' + localStorage.port;
+								var debug = window.open('http://localhost:8989/static/debugger/wordpress.html','_blank')
+								props.dispatch({
+									type: 'devpanel/handleDebugger',
+									payload: {debug}
+								});
+							},
+							visual(){
+								console.log('===================visual===================');
 
-					common(){
+								//分栏
+								var key = "vertical-dbl";
+								props.dispatch({
+									type: 'devpanel/changeColumn',
+									payload: key
+								});
+								props.dispatch({
+									type: 'devpanel/initDebugPanel',
+								});
 
-						console.log('common');
-						sessionStorage.currentDebugResource = 'http://gospely.com:' + localStorage.port;
-						var debug = window.open('http://localhost:8989/static/debugger/wordpress.html','_blank')
-
-						props.dispatch({
-							type: 'devpanel/handleDebugger',
-							payload: {debug}
-						});
-
-
-					}
-				}
-				debugType['common']();
-
+								var title = '终端',
+										type = 'terminal';
+								props.dispatch({
+									type: 'devpanel/add',
+									payload: {title, type}
+								})
+								//创建termin，执行启动的shell
+							}
+						}
+						debugType["visual"]();
 	        },
 
 	        pause() {
@@ -250,7 +264,7 @@ const LeftSidebar = (props) => {
 
 	    openApp(application) {
 
-				
+
 				window.location.href = 'http://localhost:8989/#/project/' + application.id;
 				initApplication(application,props);
 	    	// console.log('TopBar中dispatch')
@@ -452,8 +466,8 @@ const LeftSidebar = (props) => {
 
 }
 
-function mapStateToProps({ sidebar, editor, rightbar, designer, attr ,devpanel}) {
-  return { sidebar, editor, rightbar, designer, attr ,devpanel};
+function mapStateToProps({ sidebar, editor, rightbar, designer, attr ,devpanel,layout}) {
+  return { sidebar, editor, rightbar, designer, attr ,devpanel,layout};
 }
 
 export default connect(mapStateToProps)(LeftSidebar);

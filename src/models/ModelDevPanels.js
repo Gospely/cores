@@ -22,6 +22,7 @@ export default {
 		devType: {
 			visual: localStorage.visual || true,
 			defaultActiveKey: localStorage.defaultActiveKey || 'controllers',
+			type: "common"
 		},
 		currentMode: 'javascript',
 		currentLanguage: 'HTML',
@@ -236,6 +237,10 @@ export default {
 
 			return {...state};
 		},
+		initDebugPanel(state, { payload: params}){
+			state.panels.activePane.key = 1;
+			return {...state}
+		},
 		initTab(state, { payload: params}){
 
 			console.log("=========initTab============");
@@ -269,6 +274,7 @@ export default {
 				"searchVisible":false,
 				"isSave":false
 			}];
+			state.devType.type = 'common';
 			// appRouter.go('/project/' + localStorage.currentProject);
 			//window.location.href = 'http://localhost:8989/#/project/' + localStorage.applicationId;
 			return {...state};
@@ -293,6 +299,7 @@ export default {
 						"type":"designer","key":"2",
 						"editorId":"","isSave":true
 					}];
+			state.devType.type = 'visual';
 			//window.location.href = 'http://localhost:8989/#/project/' + localStorage.applicationId;
 			return {...state};
 		},
