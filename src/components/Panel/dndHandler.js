@@ -31,7 +31,6 @@ export default {
 
 			console.log("====================onLoad============" + window.applicationId);
 			var applicationId = window.applicationId;
-
 			if(applicationId != null && applicationId != undefined) {
 				var url = configs.baseURL + "applications/" + applicationId;
 				fetch(url).then(function(response){

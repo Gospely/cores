@@ -742,6 +742,13 @@ export default {
 				xml: function(){
 					console.log("xml");
 					return "xml"
+				},
+				vue: function(){
+
+					return "javascript";
+				},
+				sh: function(){
+					return "bat";
 				}
 			}
 			console.log("denamicChange");
