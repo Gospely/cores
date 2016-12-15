@@ -2646,8 +2646,6 @@ export default {
 				var pageIndex = layoutAction.getPageIndexByKey(state.layout, params.key, level);
 				layoutAction.setActivePage(state.layoutState, pageIndex, params.key, level);
 
-				alert('handleTreeChanged, page');
-
 				gospelDesignerPreviewer.postMessage({
 					pageSelected: layoutAction.getActivePage(state)
 				}, '*');

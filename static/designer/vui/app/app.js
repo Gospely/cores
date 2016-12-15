@@ -995,7 +995,6 @@ $(function () {
                         },
 
                         pageSelected: function() {
-                            alert('pageSelected');
                             pageManager.go(data.key);
                             controllerOperations.hideDesignerDraggerBorder();
                         },
