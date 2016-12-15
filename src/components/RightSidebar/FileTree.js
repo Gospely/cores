@@ -731,6 +731,14 @@ const FileTree = (props) => {
     })
   }
 
+  const escHideSearchPane = function (Proxy) {
+      if(Proxy.keyCode == 27) {
+        props.dispatch({
+          type: 'file/hideSearchPane'
+        })
+      }
+  }
+
   const searchPaneInputChange = function (e) {
 
 
@@ -747,9 +755,12 @@ const FileTree = (props) => {
   const fileSearchPane = {
 
     content: (
-        <div className={TreeStyle.fileSearchPane} onClick={() => {props.dispatch({type: 'file/hideSearchPane'})}}>
+        <div className={TreeStyle.fileSearchPane} 
+             onClick={() => {props.dispatch({type: 'file/hideSearchPane'})}}
+             onKeyUp={escHideSearchPane}
+        >
           <div onClick={(e) => e.stopPropagation()} style={{maxWidth: 400, margin: '0 auto'}}>
-            <Input size="large" placeholder="index.js" onChange={searchPaneInputChange} value={props.file.searchFilePane.inputValue}/>
+            <Input autoFocus="autofocus" size="large" placeholder="index.js" onChange={searchPaneInputChange} value={props.file.searchFilePane.inputValue}/>
             <div style={{overflow: 'auto', maxHeight: 500}}>
                 {props.file.searchFilePane.files.map(file=> {
                     return  <div onClick={searchThisFile.bind(this,file.folder)}
