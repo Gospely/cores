@@ -1,5 +1,7 @@
 var init = function() {
 
+	document.domain = 'localhost';
+
 	jQuery.fn.isChildOf = function(b) { 
 		return (this.parents(b).length > 0); 
 	};
@@ -244,6 +246,7 @@ var init = function() {
         	var designerOnload = function() {
         		parent.gospelDesignerPreviewer = window.frames['gospel-previewer'];
         		window.gospelDesignerPreviewer = parent.gospelDesignerPreviewer;
+
 				parent.postMessage({
 					previewerLoaded: {
 						loaded: true
@@ -262,7 +265,7 @@ var init = function() {
 		    }
 
 		    $('body .head').after(previewFrame);
-        }('http://localhost:8080/app/');
+        }('../vui/app/index.html');
 
 	window.addEventListener("message", function (evt) {
 
@@ -316,20 +319,23 @@ var init = function() {
 			},
 
 			ctrlAdded: function() {
-				console.log('===================================ctrlAdded===================================', data);
 
-				var controller = data,
+				// alert('ctrlAdded')
 
-					comGen = new ComponentsGenerator({
-						controller: controller,
-						initElem: true
-					}),
+				// console.log('===================================ctrlAdded===================================', data);
 
-					elem = comGen.createElement(),
+				// var controller = data,
 
-					appendResult = jq(parent_window.currentTarget).append(elem);
+				// 	comGen = new ComponentsGenerator({
+				// 		controller: controller,
+				// 		initElem: true
+				// 	}),
 
-				selectCtrl(controller);
+				// 	elem = comGen.createElement(),
+
+				// 	appendResult = jq(parent_window.currentTarget).append(elem);
+
+				// selectCtrl(controller);
 
 				// refreshRouterList(elem);
 			},
@@ -392,26 +398,26 @@ var init = function() {
 
 	});
 
-	var sourceController = jQuery("#dnd-row", window.parent.document).find('.ant-col-12'),
-		inter = 0;
+	// var sourceController = jQuery("#dnd-row", window.parent.document).find('.ant-col-12'),
+	// 	inter = 0;
 
-	if(sourceController.length === 0) {
-		inter = setInterval(function() {
-			sourceController = jQuery("#dnd-row", window.parent.document).find('.ant-col-12')
-			if(sourceController.length > 0) {
-				clearInterval(inter);
-				sourceController.each(function(n) {
-					jq(this).find(".app-components").attr("draggable", true);
-					jq(this).find(".app-components").attr("id", "source" + n);
-					//开始拖拽
-					jq(this).find(".app-components").on("dragstart", function(ev) {
-						data = jq(ev.target).clone();
-						//ev.dataTransfer.setData("Text",ev.target.id);
-					})
-				});
-			}
-		}, 1);
-	}
+	// if(sourceController.length === 0) {
+	// 	inter = setInterval(function() {
+	// 		sourceController = jQuery("#dnd-row", window.parent.document).find('.ant-col-12')
+	// 		if(sourceController.length > 0) {
+	// 			clearInterval(inter);
+	// 			sourceController.each(function(n) {
+	// 				jq(this).find(".app-components").attr("draggable", true);
+	// 				jq(this).find(".app-components").attr("id", "source" + n);
+	// 				//开始拖拽
+	// 				jq(this).find(".app-components").on("dragstart", function(ev) {
+	// 					data = jq(ev.target).clone();
+	// 					//ev.dataTransfer.setData("Text",ev.target.id);
+	// 				})
+	// 			});
+	// 		}
+	// 	}, 1);
+	// }
 
 	//拖拽结束
 	jq("#gospel-designer-container").on("drop", function(e) {
@@ -515,7 +521,7 @@ var init = function() {
 		self.addClass("hight-light");
 	}
 
-	//拖拽结束
+	//拖拽过程中
 	jq("body").on("dragover",function(e){
 		e.preventDefault();
 		e.stopPropagation();
