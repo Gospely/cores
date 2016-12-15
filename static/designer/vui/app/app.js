@@ -442,6 +442,18 @@ $(function () {
             hideDesignerDraggerBorder: function() {
                 jq("i.control-box.remove").hide();
                 jq(".hight-light").removeClass("hight-light");
+            },
+
+            refresh: function(controller) {
+
+                var ctrlID = controller.key,
+
+                    ctrlRefresher = new ComponentsGenerator({
+                        controller: controller
+                    });
+
+                ctrlRefresher.setAttribute();
+
             }
         }
 
@@ -993,6 +1005,10 @@ $(function () {
 
                         ctrlUpdated: function() {
 
+                        },
+
+                        ctrlAttrRefreshed: function() {
+                            controllerOperations.refresh(data);
                         },
 
                         ctrlSelected: function() {

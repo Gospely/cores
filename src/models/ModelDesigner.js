@@ -2522,6 +2522,10 @@ export default {
 				ctrlRemoved: params.parentCtrl.children[params.deleteIndex]
 			}, '*');
 
+			gospelDesignerPreviewer.postMessage({
+				ctrlRemoved: params.parentCtrl.children[params.deleteIndex]
+			}, '*');
+
 			params.parentCtrl.children.splice(params.deleteIndex, 1);
 
 			return {...state};
@@ -2636,12 +2640,15 @@ export default {
 	    		gospelDesigner.postMessage({
 	    			attrRefreshed: activePage
 	    		}, '*');
-
     		}
 
     		if(state.layoutState.activeType == 'controller') {
     			var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
 	    		gospelDesigner.postMessage({
+	    			ctrlAttrRefreshed: activeCtrl
+	    		}, '*');
+
+	    		gospelDesignerPreviewer.postMessage({
 	    			ctrlAttrRefreshed: activeCtrl
 	    		}, '*');
     		}
@@ -2662,12 +2669,20 @@ export default {
 	    		gospelDesigner.postMessage({
 	    			pageSelected: activePage
 	    		}, '*');
+
+	    		gospelDesignerPreviewer.postMessage({
+	    			pageSelected: activePage
+	    		}, '*');
     		}
 
     		if(state.layoutState.activeType == 'controller') {
     			var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
 
 	    		gospelDesigner.postMessage({
+	    			ctrlSelected: activeCtrl
+	    		}, '*');
+
+	    		gospelDesignerPreviewer.postMessage({
 	    			ctrlSelected: activeCtrl
 	    		}, '*');
     		}
@@ -2691,12 +2706,20 @@ export default {
 		    			pageAdded: activePage
 		    		}, '*');
 
+		    		gospelDesignerPreviewer.postMessage({
+		    			pageAdded: activePage
+		    		}, '*');
+
 	    		}
 
 	    		if(state.layoutState.activeType == 'controller') {
 	    			var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
 
 		    		gospelDesigner.postMessage({
+		    			pageAdded: activeCtrl
+		    		}, '*');
+
+		    		gospelDesignerPreviewer.postMessage({
 		    			pageAdded: activeCtrl
 		    		}, '*');
 	    		}
