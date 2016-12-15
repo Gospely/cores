@@ -5,3 +5,7 @@ body,html{height:100%;-webkit-tap-highlight-color:transparent}body{font-family:-
 	z-index: 65535;
 	display: none;
 }
+
+.hight-light {
+	border: 1px solid #0894ec;
+}

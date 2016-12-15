@@ -380,6 +380,8 @@ $(function () {
                 isController = target.data('is-controller'),
                 dataControl = target.data("controller");
 
+                console.log('===========dataControl============', dataControl);
+
             if(isController) {
                 //触发控件被点击事件
                 controllerOperations.select(dataControl);
@@ -419,7 +421,6 @@ $(function () {
 
             showDesignerDraggerBorder: function(self) {
                 controllerOperations.hideDesignerDraggerBorder();
-                var removeBtn = jq('i.control-box.remove');
                 removeBtn.show();
 
                 if(!self) {
@@ -435,7 +436,6 @@ $(function () {
                     left: self.offset().left  + 'px'
                 });
 
-                console.log(self);
                 self.addClass("hight-light");
             },
 
@@ -687,7 +687,7 @@ $(function () {
 
                 this.initElem();
 
-                this.elem.data('controller', JSON.stringify(this.controller));
+                this.elem.data('controller', this.controller);
                 this.elem.data('is-controller', true);
             },
 
@@ -996,7 +996,7 @@ $(function () {
                         },
 
                         ctrlSelected: function() {
-
+                            controllerOperations.select(data, true);
                         }
                     };
 
