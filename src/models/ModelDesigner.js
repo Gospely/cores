@@ -2543,17 +2543,24 @@ export default {
 
 			if (params.activeType == 'page') {
 				layoutAction.setActivePage(state.layoutState, params.activeIndex, params.activeKey, params.activeLevel);
+				gospelDesignerPreviewer.postMessage({
+					pageRemoved: {
+						data: params.parentCtrl.children[params.deleteIndex],
+						index: params.deleteIndex
+					}
+				}, '*');
 			}else {
+
+				gospelDesigner.postMessage({
+					ctrlRemoved: params.parentCtrl.children[params.deleteIndex]
+				}, '*');
+
+				gospelDesignerPreviewer.postMessage({
+					ctrlRemoved: params.parentCtrl.children[params.deleteIndex]
+				}, '*');
+				
 				layoutAction.setActiveController(state.layoutState, params.activeIndex, params.activeKey, params.activeLevel);
 			}
-
-			gospelDesigner.postMessage({
-				ctrlRemoved: params.parentCtrl.children[params.deleteIndex]
-			}, '*');
-
-			gospelDesignerPreviewer.postMessage({
-				ctrlRemoved: params.parentCtrl.children[params.deleteIndex]
-			}, '*');
 
 			params.parentCtrl.children.splice(params.deleteIndex, 1);
 

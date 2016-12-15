@@ -172,6 +172,7 @@ const ConstructionTree = (props) => {
                 deleteIndex: ctrl.deleteIndex
             }
         });
+
         props.dispatch({
             type: 'attr/setFormItemsByType',
             payload: {

@@ -140,6 +140,18 @@ $(function () {
                 }
             }
             page.isBind = true;
+        },
+        remove: function(page) {
+            $('.page.' + page.data.key).remove();
+            $('script[id="' + page.data.key + '"]').remove();
+
+            this._configs.splice(page.index, 1);
+            this._pageStack.splice(page.index, 1);
+            this._pageIndex = page.index--;
+
+
+            console.log(this);
+
         }
     };
 
@@ -991,7 +1003,7 @@ $(function () {
                         },
 
                         pageRemoved: function() {
-
+                            pageManager.remove(data);
                         },
 
                         pageSelected: function() {
@@ -1022,7 +1034,9 @@ $(function () {
 
                         ctrlRemoved: function() {
                             var self = controllerState.currentActiveCtrlDOM;
-                            self.remove();
+                            if(self) {
+                                self.remove();                                
+                            }
                         },
 
                         ctrlUpdated: function() {
