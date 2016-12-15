@@ -29,7 +29,11 @@ class Terminal extends Component {
 
 	componentDidMount() {
 
-		var self = this;
+		var self = this,
+			activePane = this.props.ctx.devpanel.panels.panes[ this.props.ctx.devpanel.panels.activePane.key],
+			tabKey = activePane.activeTab.key,
+			activeTab = activePane.tabs[tabKey-1];
+
 
 		var init = function() {
 
@@ -98,52 +102,84 @@ class Terminal extends Component {
 
 				var cols = term.cols,
 					rows = term.rows;
+				var offsetWidth = term.element.offsetWidth,
+					offsetHeight = term.element.offsetHeight;
 
-				fetch(baseUrl + '/terminals?cols=' + cols + '&rows=' + rows, {
-					method: 'POST'
-				}).then(function(res) {
+				if (offsetWidth === 0) {
+					offsetWidth = 800;
+					offsetHeight = 900;
+				}
 
-					var offsetWidth = term.element.offsetWidth,
-						offsetHeight = term.element.offsetHeight;
+				console.log(offsetHeight);
 
-					if (offsetWidth === 0) {
-						offsetWidth = 800;
-						offsetHeight = 900;
-					}
+				charWidth = Math.ceil(offsetWidth / cols);
+				charHeight = Math.ceil(offsetHeight / rows);
 
-					console.log(offsetHeight);
+				if(true){
+				// if(activeTab.editorId == null || activeTab.editorId == '') {
 
-					charWidth = Math.ceil(offsetWidth / cols);
-					charHeight = Math.ceil(offsetHeight / rows);
 
-					res.text().then(function(pid) {
+					console.log("============openTerminal===========");
+					console.log(activeTab);
+					fetch(baseUrl + '/terminals?cols=' + cols + '&rows=' + rows, {
+						method: 'POST'
+					}).then(function(res) {
 
-						self.props.ctx.dispatch({
-							type: 'devpanel/setPID',
-							payload: { pid: pid}
+
+						res.text().then(function(pid) {
+
+							self.props.ctx.dispatch({
+								type: 'devpanel/setPID',
+								payload: { pid: pid}
+							});
+							window.pid = pid;
+							socketURL += activeTab.editorId;
+							socket = new WebSocket(socketURL);
+							socket.onopen = runRealTerminal;
+							window.socket = socket;
+							socket.onclose = runFakeTerminal;
+							socket.onerror = runFakeTerminal;
+
+							socket.onmessage = function (evt) {
+								//收到服务器消息，使用evt.data提取
+								console.log(evt.data);
+								if(/^\{[\s*"\w+":"\w+",*\s*]+\}$/.test(evt.data)){
+										console.log(evt.data);
+										var data = JSON.parse(evt.data);
+										console.log(JSON.parse(evt.data));
+									}else {
+
+									}
+							};
+							setTerminalSize();
 						});
-						window.pid = pid;
-						socketURL += pid;
-						socket = new WebSocket(socketURL);
-						socket.onopen = runRealTerminal;
-						window.socket = socket;
-						socket.onclose = runFakeTerminal;
-						socket.onerror = runFakeTerminal;
-
-						socket.onmessage = function (evt) {
-							//收到服务器消息，使用evt.data提取
-							console.log(evt.data);
-							if(/^\{[\s*"\w+":"\w+",*\s*]+\}$/.test(evt.data)){
-									console.log(evt.data);
-									var data = JSON.parse(evt.data);
-									console.log(JSON.parse(evt.data));
-								}else {
-
-								}
-						};
-						setTerminalSize();
 					});
-				});
+				}else{
+
+					console.log("============connectTerminal===========");
+					console.log(activeTab);
+
+					socketURL += activeTab.editorId;
+					socket = new WebSocket(socketURL);
+					socket.onopen = runRealTerminal;
+					window.socket = socket;
+					socket.onclose = runFakeTerminal;
+					socket.onerror = runFakeTerminal;
+
+					socket.onmessage = function (evt) {
+						//收到服务器消息，使用evt.data提取
+						console.log(evt.data);
+						if(/^\{[\s*"\w+":"\w+",*\s*]+\}$/.test(evt.data)){
+								console.log(evt.data);
+								var data = JSON.parse(evt.data);
+								console.log(JSON.parse(evt.data));
+							}else {
+
+							}
+					};
+					setTerminalSize();
+				}
+
 			}
 
 			function runRealTerminal() {
