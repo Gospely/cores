@@ -44,9 +44,14 @@ const keyConfig = {
 			mainKey: ['ctrl+p','command+p'],
 			handler: function(props){
 
+				var name = 'file';
+				props.dispatch({
+					type: 'rightbar/handleTabChanged',
+					payload: name
+				});
 				props.dispatch({
 					type: 'file/handleSearch',
-					payload:{value: '' }
+					payload:{ value: '' }
 				});
 			}
 		},
