@@ -2558,7 +2558,7 @@ export default {
 				gospelDesignerPreviewer.postMessage({
 					ctrlRemoved: params.parentCtrl.children[params.deleteIndex]
 				}, '*');
-				
+
 				layoutAction.setActiveController(state.layoutState, params.activeIndex, params.activeKey, params.activeLevel);
 			}
 
@@ -2678,6 +2678,10 @@ export default {
     		if(state.layoutState.activeType == 'page') {
 
 	    		gospelDesigner.postMessage({
+	    			attrRefreshed: activePage
+	    		}, '*');
+
+	    		gospelDesignerPreviewer.postMessage({
 	    			attrRefreshed: activePage
 	    		}, '*');
     		}

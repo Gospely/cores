@@ -350,7 +350,8 @@ var init = function() {
 			},
 
 			appConfigRender: function() {
-				console.log('appConfigRender');			
+				console.log('appConfigRender');
+				refreshApp(data);
 			},
 
 			makeComponentsDraggable: function() {
