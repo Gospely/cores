@@ -899,7 +899,7 @@ const FileTree = (props) => {
 
       {fileTreeMenu}
 
-      <Tree className="myCls" showLine
+      <Tree className={TreeStyle.myCls} showLine
         onSelect={FileTreeProps.onSelect}
         onCheck={FileTreeProps.onCheck}
         loadData={FileTreeProps.onLoadData}
