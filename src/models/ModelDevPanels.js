@@ -86,7 +86,7 @@ export default {
 		*startDocker({ payload: params }, {call, put, select}){
 
 			console.log("=====================startDocker===========" + params.id);
-			var res = yield request("container/restart/" + params.id, {
+			var res = yield request("container/start/" + params.id, {
 				method: 'GET',
 			});
 		},
@@ -742,6 +742,13 @@ export default {
 				xml: function(){
 					console.log("xml");
 					return "xml"
+				},
+				vue: function(){
+
+					return "javascript";
+				},
+				sh: function(){
+					return "bat";
 				}
 			}
 			console.log("denamicChange");
