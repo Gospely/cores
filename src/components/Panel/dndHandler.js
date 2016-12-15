@@ -61,7 +61,12 @@ export default {
 					var application = data.fields;
 					initApplication(application,props);
 				});
-		  	}
+			}else{
+				if(localStorage.applicationId != null){
+					window.location.href = 'http://localhost:8989/#/project/' + localStorage.applicationId;
+					window.location.reload();
+				}
+			}
 
 		});
 
