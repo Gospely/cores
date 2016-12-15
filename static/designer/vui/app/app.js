@@ -347,6 +347,116 @@ $(function () {
 
         }
 
+        var controllerState = {
+            currentActiveCtrlDOM: ''
+        },
+
+            removeBtn = jq('i.control-box.remove');
+
+        removeBtn.click(function(e) {
+            e.stopPropagation();
+
+            var self = controllerState.currentActiveCtrlDOM,
+                dataControl = self.data('controller');
+
+            postMessageToFather.ctrlRemoved(dataControl);
+            self.remove();
+            controllerOperations.hideDesignerDraggerBorder();
+        });
+
+        //点击其他区域隐藏border和i
+        jq("body").on("click", function() {
+            controllerOperations.hideDesignerDraggerBorder();
+            // postMessageToFather.pageSelected({
+            //     key: window.currentRoute
+            // });
+        });
+
+        //点击组件
+        jq(document).on("click", function(e) {
+            e.stopPropagation();
+
+            var target = jq(e.target),
+                isController = target.data('is-controller'),
+                dataControl = target.data("controller");
+
+                console.log('===========dataControl============', dataControl);
+
+            if(isController) {
+                //触发控件被点击事件
+                controllerOperations.select(dataControl);
+            }
+        });
+
+        //鼠标进入
+        jq(document).on("mouseenter", function(e) {
+            var target = jq(e.target),
+                isController = target.data('is-controller');
+
+            if(isController) {
+                controllerOperations.showDesignerDraggerBorder(target);
+            }
+        });
+
+        var controllerOperations = {
+            select: function(controller, isSentByParent) {
+
+                if(!controller) {
+                    return false;
+                }
+
+                isSentByParent = isSentByParent || false;
+
+                var target = jq('#' + controller.key);
+
+                controllerState.currentActiveCtrlDOM = target;
+
+                if(!isSentByParent) {
+                    postMessageToFather.ctrlClicked(controller);                
+                }
+
+                controllerOperations.showDesignerDraggerBorder(target);
+
+            },
+
+            showDesignerDraggerBorder: function(self) {
+                controllerOperations.hideDesignerDraggerBorder();
+                removeBtn.show();
+
+                if(!self) {
+                    return false;
+                }
+
+                if(!self.offset()) {
+                    return false;
+                }
+
+                removeBtn.css({
+                    top: self.offset().top + 'px',
+                    left: self.offset().left  + 'px'
+                });
+
+                self.addClass("hight-light");
+            },
+
+            hideDesignerDraggerBorder: function() {
+                jq("i.control-box.remove").hide();
+                jq(".hight-light").removeClass("hight-light");
+            },
+
+            refresh: function(controller) {
+
+                var ctrlID = controller.key,
+
+                    ctrlRefresher = new ComponentsGenerator({
+                        controller: controller
+                    });
+
+                ctrlRefresher.setAttribute();
+
+            }
+        }
+
         function dndInitialization (options) {
             var self = this;
 
@@ -589,7 +699,7 @@ $(function () {
 
                 this.initElem();
 
-                this.elem.data('controller', JSON.stringify(this.controller));
+                this.elem.data('controller', this.controller);
                 this.elem.data('is-controller', true);
             },
 
@@ -872,7 +982,6 @@ $(function () {
                         },
 
                         ctrlAdded: function() {
-                            alert('             ctrlAdded: tmpCtrl')
 
                             var controller = data,
 
@@ -885,18 +994,25 @@ $(function () {
 
                                 appendResult = jq(parent.parent.currentTarget).append(elem);
 
+                            controllerOperations.select(controller);
+
                         },
 
                         ctrlRemoved: function() {
-
+                            var self = controllerState.currentActiveCtrlDOM;
+                            self.remove();
                         },
 
                         ctrlUpdated: function() {
 
                         },
 
-                        ctrlSelected: function() {
+                        ctrlAttrRefreshed: function() {
+                            controllerOperations.refresh(data);
+                        },
 
+                        ctrlSelected: function() {
+                            controllerOperations.select(data, true);
                         }
                     };
 
