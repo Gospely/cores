@@ -22,9 +22,15 @@ const HotKeyHandler = {
 
 				console.log(key);
 				var keys = key.split('+');
-				console.log(keys);
-				console.log(keymap[keys[0]],keymap[keys[1]]);
-				HotKeyHandler.register(key,keymap[keys[0]],keymap[keys[1]],config.handler);
+				console.log(keys.length);
+				if(keys.length<2){
+					console.log(key);
+					HotKeyHandler.register(key,null,keymap[key],config.handler);
+				}else{
+					console.log(keys);
+					console.log(keymap[keys[0]],keymap[keys[1]]);
+					HotKeyHandler.register(key,keymap[keys[0]],keymap[keys[1]],config.handler);
+				}
 			});
 		});
 	},
@@ -55,6 +61,14 @@ const HotKeyHandler = {
 				if(handler.mainKey == HotKeyHandler.currentMainKey) {
 					if(keyCode == handler.key) {
 						HotKeyHandler.currentMainKey = null;
+						if(func != null) {
+							console.log("exec");
+							handler.func(HotKeyHandler.props);
+							exec = true;
+						}
+					}
+				}else{
+					if(keyCode == handler.key && handler.mainKey == null) {
 						if(func != null) {
 							console.log("exec");
 							handler.func(HotKeyHandler.props);

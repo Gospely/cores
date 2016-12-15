@@ -50,6 +50,15 @@ const keyConfig = {
 				});
 			}
 		},
+		{
+			mainKey: ['esc'],
+			handler: function(props){
+
+				props.dispatch({
+		      type: 'file/hideSearchPane'
+		    })
+			}
+		},
 	],
 	escape:[
 
