@@ -2479,12 +2479,41 @@ export default {
 
 			console.log('page.attr', page.attr);
 
+			var pageRandomString = randomString(8, 10);
+
 			var tmpPage = {
 				type: 'page',
-				key: 'page-' + randomString(8, 10),
+				key: 'page-' + pageRandomString,
 				isLeaf: false,
 				attr: tmpAttr,
-				children: []
+				children: [{
+					name: '头部',
+					type: 'hd',
+					key: 'hd-' + pageRandomString,
+					attr: {},
+					tag: 'div',
+					baseClassName: 'page__hd',
+					backend: true,
+					_value: ''
+				}, {
+					name: '中部',
+					type: 'bd',
+					key: 'bd-' + pageRandomString,
+					attr: {},
+					tag: 'div',
+					baseClassName: 'page__bd',
+					backend: true,
+					_value: ''
+				}, {
+					name: '底部',
+					type: 'ft',
+					key: 'ft-' + pageRandomString,
+					attr: {},
+					tag: 'div',
+					baseClassName: 'page__ft',
+					backend: true,
+					_value: ''
+				}]
 			}
 
 			console.log(tmpPage);

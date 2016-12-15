@@ -78,12 +78,6 @@ export default {
 
 				pageSelected () {
 
-					alert(data)
-
-					console.log(data);
-
-					alert(data);
-
 				    props.dispatch({
 				        type: 'rightbar/setActiveMenu',
 				        payload: 'attr'

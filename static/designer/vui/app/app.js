@@ -249,6 +249,15 @@ $(function () {
             });
         });
     }
+
+    function getPageConfig(name, url, id) {
+        return {
+            name: name,
+            url: '#' + url,
+            template: '#' + id
+        }
+    }
+
     function setPageManager(def){
 
         def = def || 'page-home';
@@ -262,11 +271,7 @@ $(function () {
 
         for (var i = 0, len = tpls.length; i < len; ++i) {
             var tpl = tpls[i], name = tpl.id.replace(/tpl_/, '');
-            pages[name] = {
-                name: name,
-                url: '#' + name,
-                template: '#' + tpl.id
-            };
+            pages[name] = getPageConfig(name, name, tpl.id)
         }
 
         pages[def].url = '#';
@@ -288,8 +293,6 @@ $(function () {
             })
             .setDefault(def)
             .init();
-
-        location.hash = '' ? def : location.hash;
     }
 
     function init(){
@@ -297,12 +300,7 @@ $(function () {
         fastClick();
         androidInputBugFix();
         // setJSAPI();
-        setPageManager();
-
-        window.pageManager = pageManager;
-        window.home = function(){
-            location.hash = '';
-        };
+        // setPageManager();
     }
     init();
 
@@ -604,6 +602,11 @@ $(function () {
                 RG = new routerGenerator(this.pages);
 
             setPageManager();
+
+            window.pageManager = pageManager;
+            window.home = function(){
+                location.hash = '';
+            };
         }
 
         layoutGenerator.prototype = {
@@ -964,6 +967,7 @@ $(function () {
                     evtAction = {
 
                         previewerLayoutLoaded: function() {
+
                             var LG = new layoutGenerator(data);
 
                             var dnd = new dndInitialization({
@@ -975,7 +979,10 @@ $(function () {
 
                         pageAdded: function() {
                             var RG = new routerGenerator(data);
-                            setPageManager(data.key);
+                            pageManager
+                                .push(getPageConfig(data.key, data.key, data.key))
+                                .go(data.key);
+
                             controllerOperations.hideDesignerDraggerBorder();
                         },
 
@@ -988,7 +995,7 @@ $(function () {
                         },
 
                         pageSelected: function() {
-                            location.hash = data.key;
+                            pageManager.go(data.key);
                             controllerOperations.hideDesignerDraggerBorder();
                         },
 
