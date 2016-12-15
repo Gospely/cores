@@ -367,9 +367,9 @@ $(function () {
         //点击其他区域隐藏border和i
         jq("body").on("click", function() {
             controllerOperations.hideDesignerDraggerBorder();
-            // postMessageToFather.pageSelected({
-            //     key: location.hash
-            // });
+            postMessageToFather.pageSelected({
+                key: location.hash || 'page-home'
+            });
         });
 
         //点击组件
