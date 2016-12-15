@@ -265,7 +265,7 @@ var init = function() {
 		    }
 
 		    $('body .head').after(previewFrame);
-        }('../vui/app/index.html');
+        }(location.origin + '/static/designer/vui/app/index.html');
 
 	window.addEventListener("message", function (evt) {
 

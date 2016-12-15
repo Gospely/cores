@@ -274,7 +274,7 @@ $(function () {
             pages[name] = getPageConfig(name, name, tpl.id)
         }
 
-        pages[def].url = '#';
+        pages[def].url = '#' + def;
 
         for (var page in pages) {
             pageManager.push(pages[page]);
