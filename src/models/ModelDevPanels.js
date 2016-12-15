@@ -666,7 +666,7 @@ export default {
 				var editorObj = {
 					value: target.content,
 					id: target.editorId,
-					fileName: target.title
+					fileName: target.file
 				};
 				activePane.editors[target.editorId] = editorObj;
 				activePane.activeEditor.id = target.editorId;
