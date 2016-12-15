@@ -260,8 +260,6 @@ $(function () {
 
     function setPageManager(def){
 
-        alert('one');
-
         def = def || 'page-home';
 
         var pages = {}, tpls = $('script[type="text/html"]');
@@ -609,8 +607,6 @@ $(function () {
             window.home = function(){
                 location.hash = '';
             };
-
-            alert(location.hash)
         }
 
         layoutGenerator.prototype = {
@@ -987,9 +983,6 @@ $(function () {
                                 .push(getPageConfig(data.key, data.key, data.key))
                                 .go(data.key);
 
-                            console.log(pageManager);
-
-                            alert(location.hash)
                             controllerOperations.hideDesignerDraggerBorder();
                         },
 
@@ -1002,7 +995,7 @@ $(function () {
                         },
 
                         pageSelected: function() {
-                            location.hash = data.key;
+                            pageManager.go(data.key);
                             controllerOperations.hideDesignerDraggerBorder();
                         },
 
