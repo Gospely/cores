@@ -995,6 +995,7 @@ $(function () {
                         },
 
                         pageSelected: function() {
+                            alert('pageSelected');
                             pageManager.go(data.key);
                             controllerOperations.hideDesignerDraggerBorder();
                         },
@@ -1012,7 +1013,7 @@ $(function () {
 
                                 appendResult = jq(parent.parent.currentTarget).append(elem);
 
-                            var pageId = location.hash.split('#')[1];
+                            var pageId = location.hash.split('#')[1] || 'page-home';
 
                             jq('script[id="' + pageId + '"]').find('.page').html(jq('.' + pageId).html());
 
