@@ -134,9 +134,10 @@ export default {
 				config = '',
 				UIState = '';
 			console.log("============getConfig=============" + params.id);
+			console.log("============getConfig=============" + window.applicationId);
 			localStorage.flashState = 'true';
 			console.log(params);
-			if(window.applicationId != params.id || params.UIState == null || params.UIState == undefined){
+			if(localStorage.applicationId != params.id || params.UIState == null || params.UIState == undefined){
 				configs = yield request('uistates?application=' + params.id, {
  					method: 'get'
  				});
