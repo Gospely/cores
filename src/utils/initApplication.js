@@ -8,6 +8,7 @@ const openNotificationWithIcon = (type, title, description) => (
 const initApplication = function (application, props){
 
   localStorage.dir = localStorage.user + '/' + application.name + '_' + localStorage.userName + "/";
+  localStorage.currentFolder = localStorage.user + '/' + application.name + '_' + localStorage.userName;
 
   console.log('==========================application==========================', application);
   props.dispatch({
@@ -64,7 +65,6 @@ const initApplication = function (application, props){
   localStorage.domain = application.domain;
   localStorage.image = application.image;
   localStorage.docker = application.docker;
-  localStorage.currentFolder = localStorage.user + '/' + application.name + '_' + localStorage.userName;
   localStorage.applicationId = application.id;
   // props.dispatch({
   //   type: 'designer/handleLayoutLoaded'
