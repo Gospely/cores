@@ -288,6 +288,8 @@ $(function () {
             })
             .setDefault(def)
             .init();
+
+        location.hash = '' ? def : location.hash;
     }
 
     function init(){
@@ -368,7 +370,7 @@ $(function () {
         jq("body").on("click", function() {
             controllerOperations.hideDesignerDraggerBorder();
             // postMessageToFather.pageSelected({
-            //     key: window.currentRoute
+            //     key: location.hash
             // });
         });
 
@@ -623,10 +625,16 @@ $(function () {
 
         routerGenerator.prototype = {
             init: function() {
-                for (var i = 0; i < this.pages.length; i++) {
-                    var currentPage = this.pages[i];
-                    this.appendPageToHTML(currentPage);
-                };
+
+                if(this.pages.length) {
+                    for (var i = 0; i < this.pages.length; i++) {
+                        var currentPage = this.pages[i];
+                        this.appendPageToHTML(currentPage);
+                    };                    
+                }else {
+                    this.appendPageToHTML(this.pages);
+                }
+
             },
 
             appendPageToHTML: function(page) {
@@ -966,7 +974,9 @@ $(function () {
                         },
 
                         pageAdded: function() {
-
+                            var RG = new routerGenerator(data);
+                            setPageManager(data.key);
+                            controllerOperations.hideDesignerDraggerBorder();
                         },
 
                         pageUpdated: function() {
@@ -978,7 +988,8 @@ $(function () {
                         },
 
                         pageSelected: function() {
-
+                            location.hash = data.key;
+                            controllerOperations.hideDesignerDraggerBorder();
                         },
 
                         ctrlAdded: function() {
@@ -993,6 +1004,10 @@ $(function () {
                                 elem = comGen.createElement(),
 
                                 appendResult = jq(parent.parent.currentTarget).append(elem);
+
+                            var pageId = location.hash.split('#')[1];
+
+                            jq('script[id="' + pageId + '"]').find('.page').html(jq('.' + pageId).html());
 
                             controllerOperations.select(controller);
 
