@@ -2543,17 +2543,24 @@ export default {
 
 			if (params.activeType == 'page') {
 				layoutAction.setActivePage(state.layoutState, params.activeIndex, params.activeKey, params.activeLevel);
+				gospelDesignerPreviewer.postMessage({
+					pageRemoved: {
+						data: params.parentCtrl.children[params.deleteIndex],
+						index: params.deleteIndex
+					}
+				}, '*');
 			}else {
+
+				gospelDesigner.postMessage({
+					ctrlRemoved: params.parentCtrl.children[params.deleteIndex]
+				}, '*');
+
+				gospelDesignerPreviewer.postMessage({
+					ctrlRemoved: params.parentCtrl.children[params.deleteIndex]
+				}, '*');
+
 				layoutAction.setActiveController(state.layoutState, params.activeIndex, params.activeKey, params.activeLevel);
 			}
-
-			gospelDesigner.postMessage({
-				ctrlRemoved: params.parentCtrl.children[params.deleteIndex]
-			}, '*');
-
-			gospelDesignerPreviewer.postMessage({
-				ctrlRemoved: params.parentCtrl.children[params.deleteIndex]
-			}, '*');
 
 			params.parentCtrl.children.splice(params.deleteIndex, 1);
 
@@ -2645,12 +2652,16 @@ export default {
 				let level = layoutAction.getCurrentLevelByKey(state.layout, params.key);
 				var pageIndex = layoutAction.getPageIndexByKey(state.layout, params.key, level);
 				layoutAction.setActivePage(state.layoutState, pageIndex, params.key, level);
+
+				gospelDesignerPreviewer.postMessage({
+					pageSelected: layoutAction.getActivePage(state)
+				}, '*');
 			}else {
 				var activePage = layoutAction.getActivePage(state),
 					activeCtrllvlAndIndex = layoutAction.getControllerIndexAndLvlByKey(state, params.key, activePage),
 					controllerIndex = activeCtrllvlAndIndex.index,
 					level = activeCtrllvlAndIndex.level;
-				// let level = layoutAction.getCurrentLevelByKey(state.layout, params.key);
+
 				layoutAction.setActiveController(state.layoutState, controllerIndex, params.key, level);
 			}
 			return {...state};
@@ -2667,6 +2678,10 @@ export default {
     		if(state.layoutState.activeType == 'page') {
 
 	    		gospelDesigner.postMessage({
+	    			attrRefreshed: activePage
+	    		}, '*');
+
+	    		gospelDesignerPreviewer.postMessage({
 	    			attrRefreshed: activePage
 	    		}, '*');
     		}
@@ -2686,8 +2701,6 @@ export default {
 
 		handleCtrlSelected (state) {
 			var activePage = layoutAction.getActivePage(state);
-
-    		var gospelDesigner = window.frames['gospel-designer'];
 
     		if(!gospelDesigner) {
     			message.error('请先打开编辑器！');

@@ -97,30 +97,27 @@ export default {
 
 	      		activeCtrl = activeCtrl || window.currentMultLvlCtrl;
 
+	      		var parentPageAndCtrl = findParentPageByKey(layouts[0].children);
+
 	      		if(!activeCtrl) {
-
-	      			var parentPageAndCtrl = findParentPageByKey(layouts[0].children)
 	      			activeCtrl = parentPageAndCtrl.ctrl;
-
-	      			if(parentPageAndCtrl.page.key) {
-
-		      			//置上级page为当前活跃page
-					    yield put({
-					        type: 'designer/handleTreeChanged',
-					        payload: {
-					          	key: parentPageAndCtrl.page.key,
-					          	type: 'page'
-					        }
-					    });
-
-	      			}
 	      		}
 
+      			if(parentPageAndCtrl.page.key) {
+
+	      			//置上级page为当前活跃page
+				    yield put({
+				        type: 'designer/handleTreeChanged',
+				        payload: {
+				          	key: parentPageAndCtrl.page.key,
+				          	type: 'page'
+				        }
+				    });
+
+      			}
+
+
       		}
-
-      		// activePage = layouts[activePage.index];
-
-      		console.log('currentControllerKey', activeCtrl);
 
       		yield put({
       			type: 'setFormItems',
