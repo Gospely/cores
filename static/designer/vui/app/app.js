@@ -249,6 +249,15 @@ $(function () {
             });
         });
     }
+
+    function getPageConfig(name, url, id) {
+        return {
+            name: name,
+            url: '#' + url,
+            template: '#' + id
+        }
+    }
+
     function setPageManager(def){
 
         def = def || 'page-home';
@@ -262,11 +271,7 @@ $(function () {
 
         for (var i = 0, len = tpls.length; i < len; ++i) {
             var tpl = tpls[i], name = tpl.id.replace(/tpl_/, '');
-            pages[name] = {
-                name: name,
-                url: '#' + name,
-                template: '#' + tpl.id
-            };
+            pages[name] = getPageConfig(name, name, tpl.id)
         }
 
         pages[def].url = '#';
@@ -295,12 +300,7 @@ $(function () {
         fastClick();
         androidInputBugFix();
         // setJSAPI();
-        setPageManager();
-
-        window.pageManager = pageManager;
-        window.home = function(){
-            location.hash = '';
-        };
+        // setPageManager();
     }
     init();
 
@@ -345,6 +345,116 @@ $(function () {
                 parent.parent.postMessage({ 'makeComponentsDraggable': c }, "*");
             }
 
+        }
+
+        var controllerState = {
+            currentActiveCtrlDOM: ''
+        },
+
+            removeBtn = jq('i.control-box.remove');
+
+        removeBtn.click(function(e) {
+            e.stopPropagation();
+
+            var self = controllerState.currentActiveCtrlDOM,
+                dataControl = self.data('controller');
+
+            postMessageToFather.ctrlRemoved(dataControl);
+            self.remove();
+            controllerOperations.hideDesignerDraggerBorder();
+        });
+
+        //点击其他区域隐藏border和i
+        jq("body").on("click", function() {
+            controllerOperations.hideDesignerDraggerBorder();
+            // postMessageToFather.pageSelected({
+            //     key: location.hash
+            // });
+        });
+
+        //点击组件
+        jq(document).on("click", function(e) {
+            e.stopPropagation();
+
+            var target = jq(e.target),
+                isController = target.data('is-controller'),
+                dataControl = target.data("controller");
+
+                console.log('===========dataControl============', dataControl);
+
+            if(isController) {
+                //触发控件被点击事件
+                controllerOperations.select(dataControl);
+            }
+        });
+
+        //鼠标进入
+        jq(document).on("mouseenter", function(e) {
+            var target = jq(e.target),
+                isController = target.data('is-controller');
+
+            if(isController) {
+                controllerOperations.showDesignerDraggerBorder(target);
+            }
+        });
+
+        var controllerOperations = {
+            select: function(controller, isSentByParent) {
+
+                if(!controller) {
+                    return false;
+                }
+
+                isSentByParent = isSentByParent || false;
+
+                var target = jq('#' + controller.key);
+
+                controllerState.currentActiveCtrlDOM = target;
+
+                if(!isSentByParent) {
+                    postMessageToFather.ctrlClicked(controller);                
+                }
+
+                controllerOperations.showDesignerDraggerBorder(target);
+
+            },
+
+            showDesignerDraggerBorder: function(self) {
+                controllerOperations.hideDesignerDraggerBorder();
+                removeBtn.show();
+
+                if(!self) {
+                    return false;
+                }
+
+                if(!self.offset()) {
+                    return false;
+                }
+
+                removeBtn.css({
+                    top: self.offset().top + 'px',
+                    left: self.offset().left  + 'px'
+                });
+
+                self.addClass("hight-light");
+            },
+
+            hideDesignerDraggerBorder: function() {
+                jq("i.control-box.remove").hide();
+                jq(".hight-light").removeClass("hight-light");
+            },
+
+            refresh: function(controller) {
+
+                var ctrlID = controller.key,
+
+                    ctrlRefresher = new ComponentsGenerator({
+                        controller: controller
+                    });
+
+                ctrlRefresher.setAttribute();
+
+            }
         }
 
         function dndInitialization (options) {
@@ -492,6 +602,11 @@ $(function () {
                 RG = new routerGenerator(this.pages);
 
             setPageManager();
+
+            window.pageManager = pageManager;
+            window.home = function(){
+                location.hash = '';
+            };
         }
 
         layoutGenerator.prototype = {
@@ -513,10 +628,16 @@ $(function () {
 
         routerGenerator.prototype = {
             init: function() {
-                for (var i = 0; i < this.pages.length; i++) {
-                    var currentPage = this.pages[i];
-                    this.appendPageToHTML(currentPage);
-                };
+
+                if(this.pages.length) {
+                    for (var i = 0; i < this.pages.length; i++) {
+                        var currentPage = this.pages[i];
+                        this.appendPageToHTML(currentPage);
+                    };                    
+                }else {
+                    this.appendPageToHTML(this.pages);
+                }
+
             },
 
             appendPageToHTML: function(page) {
@@ -589,7 +710,7 @@ $(function () {
 
                 this.initElem();
 
-                this.elem.data('controller', JSON.stringify(this.controller));
+                this.elem.data('controller', this.controller);
                 this.elem.data('is-controller', true);
             },
 
@@ -846,6 +967,7 @@ $(function () {
                     evtAction = {
 
                         previewerLayoutLoaded: function() {
+
                             var LG = new layoutGenerator(data);
 
                             var dnd = new dndInitialization({
@@ -856,7 +978,12 @@ $(function () {
                         },
 
                         pageAdded: function() {
+                            var RG = new routerGenerator(data);
+                            pageManager
+                                .push(getPageConfig(data.key, data.key, data.key))
+                                .go(data.key);
 
+                            controllerOperations.hideDesignerDraggerBorder();
                         },
 
                         pageUpdated: function() {
@@ -868,11 +995,11 @@ $(function () {
                         },
 
                         pageSelected: function() {
-
+                            pageManager.go(data.key);
+                            controllerOperations.hideDesignerDraggerBorder();
                         },
 
                         ctrlAdded: function() {
-                            alert('             ctrlAdded: tmpCtrl')
 
                             var controller = data,
 
@@ -885,18 +1012,29 @@ $(function () {
 
                                 appendResult = jq(parent.parent.currentTarget).append(elem);
 
+                            var pageId = location.hash.split('#')[1];
+
+                            jq('script[id="' + pageId + '"]').find('.page').html(jq('.' + pageId).html());
+
+                            controllerOperations.select(controller);
+
                         },
 
                         ctrlRemoved: function() {
-
+                            var self = controllerState.currentActiveCtrlDOM;
+                            self.remove();
                         },
 
                         ctrlUpdated: function() {
 
                         },
 
-                        ctrlSelected: function() {
+                        ctrlAttrRefreshed: function() {
+                            controllerOperations.refresh(data);
+                        },
 
+                        ctrlSelected: function() {
+                            controllerOperations.select(data, true);
                         }
                     };
 

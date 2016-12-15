@@ -256,7 +256,8 @@ export default {
 			yield put({
 				type: 'devpanel/add',
 				payload: {
-					title: content.fileName,
+					title: splits.pop(),
+					file: content.fileName,
 					type: 'editor',
 					content: content.content,
 					editorId: randomWord(8,10)

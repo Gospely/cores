@@ -21,11 +21,14 @@ export default {
 	reducers: {
 
 		setActiveMenu (state, {payload: name}) {
+
 			state.activeMenu = name;
 			return {...state};
 		},
 
 		handleTabChanged(state, {payload: name}) {
+
+			console.log("==================setActiveMenu" + name);
 			state.activeMenu = name;
 			return {...state};
 		},

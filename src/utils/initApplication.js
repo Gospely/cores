@@ -8,20 +8,9 @@ const openNotificationWithIcon = (type, title, description) => (
 const initApplication = function (application, props){
 
   localStorage.dir = localStorage.user + '/' + application.name + '_' + localStorage.userName + "/";
+  localStorage.currentFolder = localStorage.user + '/' + application.name + '_' + localStorage.userName;
 
   console.log('==========================application==========================', application);
-
-  localStorage.currentProject = application.name;
-  localStorage.port = application.port;
-  localStorage.sshPort = application.sshPort;
-  localStorage.socketPort = application.socketPort;
-  localStorage.domain = application.domain;
-  localStorage.image = application.image;
-  localStorage.docker = application.docker;
-  localStorage.currentFolder = localStorage.user + '/' + application.name + '_' + localStorage.userName;
-  localStorage.applicationId = application.id;
-
-
   props.dispatch({
     type: 'file/fetchFileList'
   });
@@ -37,12 +26,10 @@ const initApplication = function (application, props){
   props.dispatch({
       type: 'sidebar/hideModalSwitchApp'
   });
-  if(application.id != window.applicationId){
-    props.dispatch({
-      type: 'devpanel/startDocker',
-      payload: { docker:  application.docker, id: application.id}
-    });
-  }
+  props.dispatch({
+    type: 'devpanel/startDocker',
+    payload: { docker:  application.docker, id: application.id}
+  });
   if(localStorage.UIState != null && localStorage != undefined){
 
     var UIState = JSON.parse(localStorage.UIState);
@@ -71,6 +58,14 @@ const initApplication = function (application, props){
     });
   }
 
+  localStorage.currentProject = application.name;
+  localStorage.port = application.port;
+  localStorage.sshPort = application.sshPort;
+  localStorage.socketPort = application.socketPort;
+  localStorage.domain = application.domain;
+  localStorage.image = application.image;
+  localStorage.docker = application.docker;
+  localStorage.applicationId = application.id;
   // props.dispatch({
   //   type: 'designer/handleLayoutLoaded'
   // });

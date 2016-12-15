@@ -2479,12 +2479,41 @@ export default {
 
 			console.log('page.attr', page.attr);
 
+			var pageRandomString = randomString(8, 10);
+
 			var tmpPage = {
 				type: 'page',
-				key: 'page-' + randomString(8, 10),
+				key: 'page-' + pageRandomString,
 				isLeaf: false,
 				attr: tmpAttr,
-				children: []
+				children: [{
+					name: '头部',
+					type: 'hd',
+					key: 'hd-' + pageRandomString,
+					attr: {},
+					tag: 'div',
+					baseClassName: 'page__hd',
+					backend: true,
+					_value: ''
+				}, {
+					name: '中部',
+					type: 'bd',
+					key: 'bd-' + pageRandomString,
+					attr: {},
+					tag: 'div',
+					baseClassName: 'page__bd',
+					backend: true,
+					_value: ''
+				}, {
+					name: '底部',
+					type: 'ft',
+					key: 'ft-' + pageRandomString,
+					attr: {},
+					tag: 'div',
+					baseClassName: 'page__ft',
+					backend: true,
+					_value: ''
+				}]
 			}
 
 			console.log(tmpPage);
@@ -2519,6 +2548,10 @@ export default {
 			}
 
 			gospelDesigner.postMessage({
+				ctrlRemoved: params.parentCtrl.children[params.deleteIndex]
+			}, '*');
+
+			gospelDesignerPreviewer.postMessage({
 				ctrlRemoved: params.parentCtrl.children[params.deleteIndex]
 			}, '*');
 
@@ -2636,12 +2669,15 @@ export default {
 	    		gospelDesigner.postMessage({
 	    			attrRefreshed: activePage
 	    		}, '*');
-
     		}
 
     		if(state.layoutState.activeType == 'controller') {
     			var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
 	    		gospelDesigner.postMessage({
+	    			ctrlAttrRefreshed: activeCtrl
+	    		}, '*');
+
+	    		gospelDesignerPreviewer.postMessage({
 	    			ctrlAttrRefreshed: activeCtrl
 	    		}, '*');
     		}
@@ -2662,12 +2698,20 @@ export default {
 	    		gospelDesigner.postMessage({
 	    			pageSelected: activePage
 	    		}, '*');
+
+	    		gospelDesignerPreviewer.postMessage({
+	    			pageSelected: activePage
+	    		}, '*');
     		}
 
     		if(state.layoutState.activeType == 'controller') {
     			var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
 
 	    		gospelDesigner.postMessage({
+	    			ctrlSelected: activeCtrl
+	    		}, '*');
+
+	    		gospelDesignerPreviewer.postMessage({
 	    			ctrlSelected: activeCtrl
 	    		}, '*');
     		}
@@ -2691,12 +2735,20 @@ export default {
 		    			pageAdded: activePage
 		    		}, '*');
 
+		    		gospelDesignerPreviewer.postMessage({
+		    			pageAdded: activePage
+		    		}, '*');
+
 	    		}
 
 	    		if(state.layoutState.activeType == 'controller') {
 	    			var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
 
 		    		gospelDesigner.postMessage({
+		    			pageAdded: activeCtrl
+		    		}, '*');
+
+		    		gospelDesignerPreviewer.postMessage({
 		    			pageAdded: activeCtrl
 		    		}, '*');
 	    		}

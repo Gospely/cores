@@ -27,9 +27,9 @@ const auth = function (router) {
 		fetch(url).then(function(res){
 			console.log(res);
 		});
-		if(localStorage.applicationId != null){
-			window.location.href = 'http://localhost:8989/#/project/' + localStorage.applicationId;
-		}
+		// if(localStorage.applicationId != null){
+		// 	window.location.href = 'http://localhost:8989/#/project/' + localStorage.applicationId;
+		// }
 	}else{
 
 		// window.location.href = 'http://dash.gospely.com';

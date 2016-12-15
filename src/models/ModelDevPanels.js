@@ -134,9 +134,10 @@ export default {
 				config = '',
 				UIState = '';
 			console.log("============getConfig=============" + params.id);
+			console.log("============getConfig=============" + window.applicationId);
 			localStorage.flashState = 'true';
 			console.log(params);
-			if(window.applicationId != params.id || params.UIState == null || params.UIState == undefined){
+			if(localStorage.applicationId != params.id || params.UIState == null || params.UIState == undefined){
 				configs = yield request('uistates?application=' + params.id, {
  					method: 'get'
  				});
@@ -666,7 +667,7 @@ export default {
 				var editorObj = {
 					value: target.content,
 					id: target.editorId,
-					fileName: target.title
+					fileName: target.file
 				};
 				activePane.editors[target.editorId] = editorObj;
 				activePane.activeEditor.id = target.editorId;
@@ -742,6 +743,13 @@ export default {
 				xml: function(){
 					console.log("xml");
 					return "xml"
+				},
+				vue: function(){
+
+					return "javascript";
+				},
+				sh: function(){
+					return "bat";
 				}
 			}
 			console.log("denamicChange");

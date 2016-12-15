@@ -31,7 +31,6 @@ export default {
 
 			console.log("====================onLoad============" + window.applicationId);
 			var applicationId = window.applicationId;
-
 			if(applicationId != null && applicationId != undefined) {
 				var url = configs.baseURL + "applications/" + applicationId;
 				fetch(url).then(function(response){
@@ -62,7 +61,12 @@ export default {
 					var application = data.fields;
 					initApplication(application,props);
 				});
-		  	}
+			}else{
+				if(localStorage.applicationId != null){
+					window.location.href = 'http://localhost:8989/#/project/' + localStorage.applicationId;
+					window.location.reload();
+				}
+			}
 
 		});
 
