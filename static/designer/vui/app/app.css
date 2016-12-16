@@ -11,6 +11,13 @@ body,html{height:100%;-webkit-tap-highlight-color:transparent}body{font-family:-
 }
 
 .container-box {
+	border: 1px dashed #0894ec;
+}
+
+.container-box.with-height {
 	height: 200px;
-	border: 1px solid #0894ec;
+}
+
+.container-box-a.bd {
+	height: 100%;
 }

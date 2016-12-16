@@ -405,16 +405,6 @@ $(function () {
             }
         });
 
-        //鼠标进入
-        jq(document).on("mouseenter", function(e) {
-            var target = jq(e.target),
-                isController = target.data('is-controller');
-
-            if(isController) {
-                controllerOperations.showDesignerDraggerBorder(target);
-            }
-        });
-
         var controllerOperations = {
                 select: function(controller, isSentByParent) {
 
@@ -619,7 +609,10 @@ $(function () {
                 jq("body").on("dragover",function(e){
                     e.preventDefault();
                     e.stopPropagation();
+                    var target = jq(e.target);
                     console.log(e);
+                    jq('.container-box').removeClass('container-box');
+                    target.addClass('container-box')
                 });
             }
 
@@ -702,8 +695,18 @@ $(function () {
                             controller: ctrl
                         });
 
-                    var currentElem = CG.createElement();
+                    var currentElem = CG.createElement(),
+                        elemID = currentElem.attr('id');
+
                     target.append(currentElem);
+
+                    var type =  elemID.split('-')[0];
+
+                    if(type == 'bd') {
+                        //某些无高度的div容器，要加上类container-box显示给用户看
+                        currentElem.addClass('container-box-a bd');
+                    }
+
                 };
             },
 
