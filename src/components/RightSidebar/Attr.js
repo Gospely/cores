@@ -1,5 +1,5 @@
 import React , {PropTypes} from 'react';
-import { Tree, Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button ,Menu, Dropdown, message, Tag, Modal} from 'antd';
+import { Tree, Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button ,Menu, Dropdown, message, Tag, Modal, Table, Popconfirm} from 'antd';
 import { Collapse, Switch } from 'antd';
 
 import { connect } from 'dva';
@@ -12,6 +12,55 @@ const Panel = Collapse.Panel;
 const TreeNode = Tree.TreeNode;
 const ButtonGroup = Button.Group;
 const CheckableTag = Tag.CheckableTag;
+
+class EditableCell extends React.Component {
+  state = {
+    value: this.props.value,
+    editable: false,
+  }
+  handleChange = (e) => {
+    const value = e.target.value;
+    this.setState({ value });
+  }
+  check = () => {
+    this.setState({ editable: false });
+    if (this.props.onChange) {
+      this.props.onChange(this.state.value);
+    }
+  }
+  edit = () => {
+    this.setState({ editable: true });
+  }
+  render() {
+    const { value, editable } = this.state;
+    return (<div className="editable-cell">
+      {
+        editable ?
+        <div className="editable-cell-input-wrapper">
+          <Input
+            value={value}
+            onChange={this.handleChange}
+            onPressEnter={this.check}
+          />
+          <Icon
+            type="check"
+            className="editable-cell-icon-check"
+            onClick={this.check}
+          />
+        </div>
+        :
+        <div className="editable-cell-text-wrapper">
+          {value || ' '}
+          <Icon
+            type="edit"
+            className="editable-cell-icon"
+            onClick={this.edit}
+          />
+        </div>
+      }
+    </div>);
+  }
+}
 
 const Attr = (props) => {
 	const styles = {
@@ -238,7 +287,7 @@ const Attr = (props) => {
 
 		onAddTab: () => {
 			if(tabList.length === 5) {
-				message('不能再加了哦，最多只能5个');
+				message.error('不能再加了哦，最多只能5个');
 				return false;
 			}
 
@@ -249,7 +298,7 @@ const Attr = (props) => {
 					value: ['page-home'],
 					isClassName: false,
 					isHTML: false,
-					_value: 'page-home'
+					_value: ''
 				},
 
 				text: {
@@ -286,66 +335,10 @@ const Attr = (props) => {
 		},
 
 		remove: (index) => {
-
+			// props.designer.layout[0].attr.tabBar._value.list.value.splice(index, 1);
 		}
 
 	};
-
-    const tabFormItemLayoutWithOutLabel = {
-      wrapperCol: { span: 20, offset: 4 },
-    };
-
-    const makeAttrObject2Array = (obj) => {
-    	var tmp = [];
-		for(var key in obj) {
-			try {
-				obj[key]['attrName'] = key;
-				tmp.push(obj[key]);
-			} catch(e) {
-				console.log(e.message)
-			}
-		}
-
-		return tmp
-    }
-
-    const attrArr = [];
-
-    for (var i = 0; i < tabList.length; i++) {
-    	var tmp = makeAttrObject2Array(tabList[i])
-    	attrArr.push(tmp);
-    };
-
-    console.log('--------------------------------attrArr--------------------------------', attrArr);
-
-    const tabFormItems = attrArr.map( (attrs , index) => {
-		var items =  attrs.map( (attr, key) => {
-			if(key === 0) {
-	    		return (
-		        	<FormItem required={true} key={pageKey + (itemKey ++)} {...tabFormItemLayoutWithOutLabel}>
-				        <Icon
-				            className="dynamic-delete-button"
-				            type="minus-circle-o"
-				            disabled={tabList.length <= 2}
-				            onClick={tabFormProps.remove(index)}/>
-				         <div style={{marginRight:'10px'}}></div>        	
-						<Input placeholder={attr.title} style={{ width: '60%', marginRight: 8 }} />
-			      	</FormItem>
-				);
-			}else {
-	    		return (
-		        	<FormItem required={true} key={pageKey + (itemKey ++) + 2} {...tabFormItemLayoutWithOutLabel}>
-						<Input placeholder={attr.title} style={{ width: '60%', marginRight: 8 }} />
-			      	</FormItem>
-				);
-			}
-    	});
-    	return (
-			<Form inline>
-	      		{items}
-	      	</Form>
-		);
-    });
 
 	let attrForms = props.attr.formItems.map( (item, index) => {
 		if(!item.backend) {
@@ -357,30 +350,82 @@ const Attr = (props) => {
 		attrForms = ( <p>暂无属性</p> );
 	}
 
+	const tabsTableDatasource = function(tabList) {
+		var tmp = [];
+		for (var i = 0; i < tabList.length; i++) {
+			var tab = tabList[i];
+			tmp.push({
+				pagePath: tab.pagePath._value,
+				text: tab.text._value,
+				iconPath: tab.iconPath._value,
+				selectedIconPath: tab.selectedIconPath._value
+			});
+		};
+
+		return tmp;
+	}(tabList);
+
+	const tabsTablesColumns = [{
+	      	title: '路径',
+	      	dataIndex: 'pagePath',
+	      	render: (text, record, index) => (
+		        <EditableCell
+		          value={text}/>
+		    )
+    	}, {
+      		title: '菜单名称',
+      		dataIndex: 'text',
+	      	render: (text, record, index) => (
+		        <EditableCell
+		          value={text}/>
+		    )      		
+    	}, {
+      		title: '图片路径',
+      		dataIndex: 'iconPath',
+	      	render: (text, record, index) => (
+		        <EditableCell
+		          value={text}/>
+		    )
+    	}, {
+      		title: '选中时图片路径',
+      		dataIndex: 'selectedIconPath',
+	      	render: (text, record, index) => (
+		        <EditableCell
+		          value={text}/>
+		    )
+		}, {
+      		title: '操作',
+      		dataIndex: 'operations',
+  		    render: (text, record, index) => {
+		        return (
+		          index >= 2 ?
+		          (
+		            <Popconfirm title="确定删除吗？" onConfirm={tabFormProps.remove(index)}>
+		              <a href="#">删除</a>
+		            </Popconfirm>
+		          ) : null
+		        );
+		    }
+		}];
+
     if (props.designer.loaded) {
     	 
 		return (
 			<div>
 				<Collapse className="noborder attrCollapse nomin" bordered={false} defaultActiveKey={['1']}>
 				    <Panel header="属性" key="1">
-
 				      	<Form onSubmit={handleSubmit}>
 				      		{attrForms}
 				      	</Form>
-
 				    </Panel>
 			  	</Collapse>
 
         		<Modal width="80%" title="配置底部菜单栏" visible={props.designer.modalTabsVisible}
 	          		onOk={modalTabs.handleOk} onCancel={modalTabs.handleCancel}>
-		          		{tabFormItems}
-		          		<Form inline>
-				        	<FormItem {...tabFormItemLayoutWithOutLabel}>
-				          		<Button onClick={tabFormProps.onAddTab} type="dashed" style={{ width: '60%' }}>
-				            		<Icon type="plus" /> 添加菜单项
-				          		</Button>
-				        	</FormItem>
-				      	</Form>
+		          		<Button onClick={tabFormProps.onAddTab} type="dashed" style={{ marginBottom: '15px' }}>
+		            		<Icon type="plus" /> 添加菜单项
+		          		</Button>
+		      	      	<Table bordered dataSource={tabsTableDatasource} columns={tabsTablesColumns} />
 	        	</Modal>
 
 			</div>
