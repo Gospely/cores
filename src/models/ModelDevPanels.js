@@ -137,7 +137,9 @@ export default {
 			console.log("============getConfig=============" + window.applicationId);
 			localStorage.flashState = 'true';
 			console.log(params);
-			if(localStorage.applicationId != params.id || params.UIState == null || params.UIState == undefined){
+			if(window.reload || params.UIState == null || params.UIState == undefined){
+
+				window.reload = false;
 				configs = yield request('uistates?application=' + params.id, {
  					method: 'get'
  				});

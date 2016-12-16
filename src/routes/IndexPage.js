@@ -19,6 +19,14 @@ import initApplication from '../utils/initApplication';
 function IndexPage(props) {
 
 // console.log("=======================IndexPage=");
+  if(props.query == '?from=dash') {
+    window.reload = true;
+  }
+  if(props.params.id == localStorage.applicationId) {
+    window.reload = false;
+  }else {
+    window.reload = true;
+  }
   window.applicationId = props.params.id;
   const devPanelProps = {
     panes: props.devpanel.panels.panes,
