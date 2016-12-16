@@ -360,13 +360,7 @@ export default {
 			const panes = state.panels.panes;
 			const pushPane = function(key) {
 				panes.push({
-					  tabs: [{
-						title: '欢迎页面 - Gospel',
-						content: '欢迎使用 Gospel在线集成开发环境',
-						key: '1',
-						type: 'welcome',
-						editorId: ''
-					}],
+					  tabs: [],
 				  	editors: {},
 					activeEditor: {
 						id: ''

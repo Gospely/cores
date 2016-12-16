@@ -182,10 +182,18 @@
 	  width: 100%;
 	}
 
-	.consCollapse .ant-collapse-item {
-		max-height: 400px;
-		min-height: 400px;
-		overflow: scroll;
+	.ant-collapse-item>.ant-collapse-content {
+		max-height: 600px;
+		overflow: auto;
+	}
+
+	.consCollapse>.ant-collapse-content {
+		max-height: 350px;
+		overflow: auto;
+	}
+
+	.consCollapseTopBorder {
+		border-top: 1px solid #d9d9d9!important;
 	}
 
 	.LeftSidebar .ant-menu-inline {
