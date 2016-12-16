@@ -16,7 +16,7 @@ const keyConfig = {
 					console.log('command');
 					var content = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value;
 
-					var fileName = activePane.tabs[tabKey-1].title.replace(localStorage.currentProject,localStorage.dir)
+					var fileName = activePane.tabs[tabKey-1].file.replace(localStorage.currentProject,localStorage.dir)
 					console.log(fileName);
 					if(fileName == '新标签页' || fileName == '新文件' || fileName == undefined) {
 

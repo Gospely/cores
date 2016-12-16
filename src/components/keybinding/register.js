@@ -25,12 +25,13 @@ const HotKeyHandler = {
 				console.log(keys.length);
 				if(keys.length<2){
 					console.log(key);
-					HotKeyHandler.register(key,null,keymap[key],config.handler);
+					HotKeyHandler.register(key,null,keymap[keys[1]],config.handler);
 				}else{
 					console.log(keys);
 					console.log(keymap[keys[0]],keymap[keys[1]]);
 					HotKeyHandler.register(key,keymap[keys[0]],keymap[keys[1]],config.handler);
 				}
+
 			});
 		});
 	},

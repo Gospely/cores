@@ -214,7 +214,7 @@ const FileTree = (props) => {
       ok: function() {
 
         const editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
-        var fileName = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].fileName;
+        var fileName = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].file;
         var content = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value;
 
         if(fileName == localStorage.currentFolder) {
@@ -755,7 +755,7 @@ const FileTree = (props) => {
   const fileSearchPane = {
 
     content: (
-        <div className={TreeStyle.fileSearchPane} 
+        <div className={TreeStyle.fileSearchPane}
              onClick={() => {props.dispatch({type: 'file/hideSearchPane'})}}
              onKeyUp={escHideSearchPane}
         >

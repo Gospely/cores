@@ -137,7 +137,9 @@ export default {
 			console.log("============getConfig=============" + window.applicationId);
 			localStorage.flashState = 'true';
 			console.log(params);
-			if(localStorage.applicationId != params.id || params.UIState == null || params.UIState == undefined){
+			if(window.reload || params.UIState == null || params.UIState == undefined){
+
+				window.reload = false;
 				configs = yield request('uistates?application=' + params.id, {
  					method: 'get'
  				});
@@ -148,16 +150,18 @@ export default {
 				console.log("============getConfig=============localStorage");
 			}
 			console.log(UIState);
-			if(UIState.panels.panes[0].activeEditor.id != '' ){
 				for(var i = 0; i < UIState.panels.panes.length; i++) {
 					var pane =  UIState.panels.panes[i];
-					console.log("============getConfig=============localStorage");
-					if(pane.tabs[pane.activeTab.index].type == 'editor') {
 
-							var activeEditor = pane.tabs[pane.activeTab.index].editorId,
-							fileName = UIState.panels.panes[i].editors[activeEditor].fileName;
+					for(var j= 0; j< pane.tabs.length; j++){
+						var activeTab = pane.tabs[j];
+						if(activeTab.type == 'editor') {
 
-							if(activeEditor != null && activeEditor != undefined && fileName != undefined && fileName != '新文件'　&& fileName != '新标签页') {
+
+							console.log("================== initTab state ============",activeTab);
+							var fileName = activeTab.file;
+
+							if(fileName != null && fileName != undefined && fileName != '新文件'　&& fileName != '新标签页') {
 
 								var file = fileName.split('.');
 								console.log(file[file.length-1]);
@@ -172,20 +176,19 @@ export default {
 								var readResult = yield request('fs/read', {
 											method: 'POST',
 											body: JSON.stringify({
-												fileName: localStorage.currentFolder + fileName.replace(localStorage.currentProject,""),
+												fileName: localStorage.dir + fileName.replace(localStorage.currentProject,""),
 											})
 										});
-								console.log("=========================getActive====================");
-								console.log(UIState.panels.panes[i].editors[activeEditor]);
 								console.log(readResult);
 								var content = readResult.data
 								// console.log(content)
 								content = content.fields;
-								UIState.panels.panes[i].editors[activeEditor].value = content.content;
+								activeTab.content = content.content;
+								UIState.panels.panes[i].tabs[j].content = content.content;
 							}
+						}
 					}
 				}
-			}
 			console.log(configs);
 			console.log("======================initState==================");
 			console.log(UIState);
@@ -246,7 +249,10 @@ export default {
 
 			console.log("=========initTab============");
 			console.log(params);
-			state.panels.panes[params.paneKey.paneKey].editors[params.editorId].value = params.content;
+			var pane = state.panels.panes[params.paneKey.paneKey],
+				activeTab = pane.tabs[pane.activeTab.index];
+			activeTab = params.content;
+			pane.editors[params.editorId].value = params.content;
 			return {...state};
 		},
 		handleDebugger(state, { payload: params}){
@@ -534,6 +540,7 @@ export default {
 
 		handleEditorChanged(state, { payload: params }) {
 			// localStorage.isSave = true;
+			console.log("========handleEditorChanged=======");
 			console.log(params)
 			let activePane = methods.getActivePane(state);
 			let editorObj = {
@@ -637,6 +644,7 @@ export default {
 
 
 			target.title = target.title || '新标签页';
+			target.file = target.file || '';
 			target.type = target.type || 'editor';
 			target.content = target.content || '';
 
@@ -673,7 +681,7 @@ export default {
 			activePane.activeEditor.id = target.editorId;
 			console.log("key",state.panels.activePane.key)
 		    activePane.tabs.push({ title: target.title, content: target.content,
-		    					type: target.type, key: activePane.activeTab.key,
+		    					type: target.type, key: activePane.activeTab.key, file: target.file,
 		    					editorId: editorId,isSave: isSave});
 		    // console.log('editorTab:',currentDevType)
 			activePane.activeTab = {key: activePane.activeTab.key, index: activePane.tabs.length - 1};

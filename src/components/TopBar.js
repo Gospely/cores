@@ -266,7 +266,14 @@ const LeftSidebar = (props) => {
 
 
 				window.location.href = 'http://localhost:8989/#/project/' + application.id;
-				initApplication(application,props);
+				if(application.id != localStorage.applicationId) {
+					window.reload = true
+					initApplication(application,props);
+				}else{
+					props.dispatch({
+				      type: 'sidebar/hideModalSwitchApp'
+				  });
+				}
 	    	// console.log('TopBar中dispatch')
 	    	// alert(1)
 	    },

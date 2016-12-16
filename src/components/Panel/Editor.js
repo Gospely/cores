@@ -194,6 +194,7 @@ const Editor = (props) => {
 		onLoad(e,editor) {
 
 			window.currentEditor = editor;
+			console.log(editor);
 			console.log('editor onLoad');
 
 		},
@@ -205,13 +206,14 @@ const Editor = (props) => {
     	},
 
     	handleEditorChanged(value) {
-    		const activePane = props.devpanel.panels.panes[props.devpanel.panels.activePane.key];
 
 				console.log('change');
 				console.log(this);
 				console.log(value);
-  			var editorId = activePane.activeEditor.id;
-
+				var activePane = props.devpanel.panels.panes[props.devpanel.panels.activePane.key],
+					tabKey = activePane.activeTab.key,
+					activeTab = activePane.tabs[tabKey-1],
+					editorId = activeTab.editorId;
 				props.dispatch({
     			type: 'devpanel/handleEditorChanged',
     			payload: {value, editorId}
@@ -248,7 +250,7 @@ const Editor = (props) => {
 					height="1000"
 					language={props.devpanel.currentMode}
 					options={props.editor.options}
-					value={belongTo.editors[editorId].value}
+					defaultValue={props.content}
 					onChange={editorProps.handleEditorChanged}
 					editorDidMount={editorProps.onLoad}
 				/>
