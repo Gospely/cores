@@ -142,6 +142,12 @@ function IndexPage(props) {
 
         var fileName = localStorage.currentSelectedFile;
         if(!currentTab.isSave) {
+          
+          var name = 'file';
+          props.dispatch({
+            type: 'rightbar/handleTabChanged',
+            payload: name
+          });
           if(fileName == '新标签页' || fileName == '新文件' || fileName ==  undefined){
             props.dispatch({
               type: 'file/showNewFileNameModal',

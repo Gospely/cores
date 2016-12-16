@@ -230,9 +230,9 @@ const Editor = (props) => {
   	let aceHeight;
 
   	if (splitType == 'single' || splitType == 'vertical-dbl') {
-  		aceHeight = ( parseInt(document.body.clientHeight) - 62 ) + 'px';
+  		aceHeight = ( parseInt(document.body.clientHeight) - 62 );
   	}else {
-  		aceHeight = ( parseInt(document.body.clientHeight) - 160 ) / 2+ 'px'
+  		aceHeight = ( parseInt(document.body.clientHeight) - 160 ) / 2;
   	}
 
 
@@ -247,7 +247,7 @@ const Editor = (props) => {
 
 				<MonacoEditor
 					width="100%"
-					height="1000"
+					height={aceHeight}
 					language={props.devpanel.currentMode}
 					options={props.editor.options}
 					defaultValue={props.content}
