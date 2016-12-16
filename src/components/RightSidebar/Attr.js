@@ -1,5 +1,5 @@
 import React , {PropTypes} from 'react';
-import { Tree, Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button ,Menu, Dropdown, message, Tag} from 'antd';
+import { Tree, Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button ,Menu, Dropdown, message, Tag, Modal, Table, Popconfirm} from 'antd';
 import { Collapse, Switch } from 'antd';
 
 import { connect } from 'dva';
@@ -12,6 +12,55 @@ const Panel = Collapse.Panel;
 const TreeNode = Tree.TreeNode;
 const ButtonGroup = Button.Group;
 const CheckableTag = Tag.CheckableTag;
+
+class EditableCell extends React.Component {
+  state = {
+    value: this.props.value,
+    editable: false,
+  }
+  handleChange = (e) => {
+    const value = e.target.value;
+    this.setState({ value });
+  }
+  check = () => {
+    this.setState({ editable: false });
+    if (this.props.onChange) {
+      this.props.onChange(this.state.value);
+    }
+  }
+  edit = () => {
+    this.setState({ editable: true });
+  }
+  render() {
+    const { value, editable } = this.state;
+    return (<div className="editable-cell">
+      {
+        editable ?
+        <div className="editable-cell-input-wrapper">
+          <Input
+            value={value}
+            onChange={this.handleChange}
+            onPressEnter={this.check}
+          />
+          <Icon
+            type="check"
+            className="editable-cell-icon-check"
+            onClick={this.check}
+          />
+        </div>
+        :
+        <div className="editable-cell-text-wrapper">
+          {value || ' '}
+          <Icon
+            type="edit"
+            className="editable-cell-icon"
+            onClick={this.edit}
+          />
+        </div>
+      }
+    </div>);
+  }
+}
 
 const Attr = (props) => {
 	const styles = {
@@ -49,7 +98,30 @@ const Attr = (props) => {
 
     		props.dispatch({
     			type: 'designer/handleAttrRefreshed'
-    		})
+    		});
+
+    		var specialEvt = {
+    			alias: function() {
+	    			props.dispatch({
+	    				type: 'designer/handlePageAliasChanged',
+	    				payload: {
+	    					newVal: newVal,
+		    				attr: attr,
+		    				parentAtt: parentAtt
+	    				}
+	    			});    				
+    			},
+
+    			enableTabs: function() {
+	    			props.dispatch({
+	    				type: 'designer/handleEnableTabs',
+	    				payload: newVal
+	    			});
+    			}
+    		}
+
+    		specialEvt[attr.attrName]();
+
     	},
 
     	handleAttrFormSwitchChange: (attr, parentAtt, checked) => {
@@ -86,6 +158,12 @@ const Attr = (props) => {
     			type: 'designer/handleAttrRefreshed'
     		})
 
+    	},
+
+    	handleAttrFormBtnClicked: (attr, parentAtt, e) => {
+    		props.dispatch({
+    			type: attr.onClick
+    		})
     	}
 
     };
@@ -109,6 +187,22 @@ const Attr = (props) => {
          				className="attrInput"
          				placeholder={attr.title} />
          		</FormItem>
+			);
+		},
+
+		span (attr, parentAtt) {
+			return (
+				<FormItem key={pageKey + (itemKey ++)} {...formItemLayout} label={attr.title}>
+					<span>{attr._value}</span>
+				</FormItem>
+			);
+		},
+
+		button (attr, parentAtt) {
+			return (
+				<FormItem key={pageKey + (itemKey ++)} {...formItemLayout} label={attr.title}>
+					<Button type="ghost" size="small" onClick={attrFormProps.handleAttrFormBtnClicked.bind(this, attr, parentAtt)}>{attr._value}</Button>
+				</FormItem>
 			);
 		},
 
@@ -177,17 +271,144 @@ const Attr = (props) => {
 		}
 	};
 
-	console.log('==============formItems===========', props.attr.formItems);
+	const modalTabs = {
+		handleOk: () => {
+			props.designer.modalTabsVisible = false;
+		},
 
-	var form = props.attr.formItems.map( (item, index) => {
+		handleCancel: () => {
+			props.designer.modalTabsVisible = false;
+		}
+	};
+
+    const tabList = props.designer.layout[0].attr.tabBar._value.list.value;
+
+	const tabFormProps = {
+
+		onAddTab: () => {
+			if(tabList.length === 5) {
+				message.error('最多只能使用5个菜单, 不能再加了哦');
+				return false;
+			}
+
+			var obj = {
+				pagePath: {
+					type: 'select',
+					title: '页面路径',
+					value: ['page-home'],
+					isClassName: false,
+					isHTML: false,
+					_value: ''
+				},
+
+				text: {
+					type: 'input',
+					attrType: 'text',
+					title: '菜单名称',
+					value: ['page-home'],
+					isClassName: false,
+					isHTML: false,
+					_value: '菜单'
+				},
+
+				iconPath: {
+					type: 'input',
+					attrType: 'text',
+					title: '图片路径(<=40kb)',
+					value: ['page-home'],
+					isClassName: false,
+					isHTML: false,
+					_value: ''
+				},
+
+				selectedIconPath: {
+					type: 'input',
+					attrType: 'text',
+					title: '选中时图片路径(<=40kb)',
+					value: ['page-home'],
+					isClassName: false,
+					isHTML: false,
+					_value: ''
+				}
+			}
+			props.designer.layout[0].attr.tabBar._value.list.value.push(obj);
+		},
+
+		remove: (index) => {
+			return () => {
+				props.designer.layout[0].attr.tabBar._value.list.value.splice(index, 1);				
+			}
+		}
+
+	};
+
+	let attrForms = props.attr.formItems.map( (item, index) => {
 		if(!item.backend) {
 			return attrTypeActions[item.type](item);			
 		}
 	});
 
-	if(form == '') {
-		form = ( <p>暂无属性</p> );
+	if(attrForms == '') {
+		attrForms = ( <p>暂无属性</p> );
 	}
+
+	const tabsTableDatasource = function(tabList) {
+		var tmp = [];
+		for (var i = 0; i < tabList.length; i++) {
+			var tab = tabList[i];
+			tmp.push({
+				pagePath: tab.pagePath._value,
+				text: tab.text._value,
+				iconPath: tab.iconPath._value,
+				selectedIconPath: tab.selectedIconPath._value
+			});
+		};
+
+		return tmp;
+	}(tabList);
+
+	const tabsTablesColumns = [{
+	      	title: '路径',
+	      	dataIndex: 'pagePath',
+	      	render: (text, record, index) => (
+		        <EditableCell
+		          value={text}/>
+		    )
+    	}, {
+      		title: '菜单名称',
+      		dataIndex: 'text',
+	      	render: (text, record, index) => (
+		        <EditableCell
+		          value={text}/>
+		    )      		
+    	}, {
+      		title: '图片路径',
+      		dataIndex: 'iconPath',
+	      	render: (text, record, index) => (
+		        <EditableCell
+		          value={text}/>
+		    )
+    	}, {
+      		title: '选中时图片路径',
+      		dataIndex: 'selectedIconPath',
+	      	render: (text, record, index) => (
+		        <EditableCell
+		          value={text}/>
+		    )
+		}, {
+      		title: '操作',
+      		dataIndex: 'operations',
+  		    render: (text, record, index) => {
+		        return (
+		          index >= 2 ?
+		          (
+		            <Popconfirm title="确定删除吗？" onConfirm={tabFormProps.remove(index)}>
+		              <a href="#">删除</a>
+		            </Popconfirm>
+		          ) : null
+		        );
+		    }
+		}];
 
     if (props.designer.loaded) {
     	 
@@ -195,13 +416,20 @@ const Attr = (props) => {
 			<div>
 				<Collapse className="noborder attrCollapse nomin" bordered={false} defaultActiveKey={['1']}>
 				    <Panel header="属性" key="1">
-
 				      	<Form onSubmit={handleSubmit}>
-				      		{form}
+				      		{attrForms}
 				      	</Form>
-
 				    </Panel>
-				  </Collapse>
+			  	</Collapse>
+
+        		<Modal width="80%" title="配置底部菜单栏" visible={props.designer.modalTabsVisible}
+	          		onOk={modalTabs.handleOk} onCancel={modalTabs.handleCancel}>
+		          		<Button onClick={tabFormProps.onAddTab} type="dashed" style={{ marginBottom: '15px' }}>
+		            		<Icon type="plus" /> 添加菜单项
+		          		</Button>
+		      	      	<Table bordered dataSource={tabsTableDatasource} columns={tabsTablesColumns} />
+	        	</Modal>
+
 			</div>
 		);
 

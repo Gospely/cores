@@ -79,7 +79,7 @@ class Terminal extends Component {
 			}
 
 			createTerminal();
-
+				
 
 
 			function createTerminal() {
