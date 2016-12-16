@@ -54,8 +54,17 @@ class Terminal extends Component {
 
 				var termParent = document.getElementById('');
 
+
 				var termWidth = 800,
 					termHeight = 900;
+
+				let splitType = self.props.ctx.devpanel.panels.splitType;
+
+				if (splitType == 'single' || splitType == 'vertical-dbl') {
+					termHeight = ( parseInt(document.body.clientHeight) - 62 );
+				}else {
+					termHeight = ( parseInt(document.body.clientHeight)) / 2;
+				}
 
 				var cols = Math.ceil(termWidth / 4),
 					rows = Math.ceil((termHeight - 90) / 17),
