@@ -194,7 +194,9 @@ const Editor = (props) => {
 		onLoad(e,editor) {
 
 			window.currentEditor = editor;
+			console.log(editor);
 			console.log('editor onLoad');
+			editor.setValue("sdsadsa");
 
 		},
 
@@ -211,7 +213,6 @@ const Editor = (props) => {
 				console.log(this);
 				console.log(value);
   			var editorId = activePane.activeEditor.id;
-
 				props.dispatch({
     			type: 'devpanel/handleEditorChanged',
     			payload: {value, editorId}
@@ -248,7 +249,7 @@ const Editor = (props) => {
 					height="1000"
 					language={props.devpanel.currentMode}
 					options={props.editor.options}
-					value={belongTo.editors[editorId].value}
+					value={props.content}
 					onChange={editorProps.handleEditorChanged}
 					editorDidMount={editorProps.onLoad}
 				/>

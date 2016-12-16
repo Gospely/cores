@@ -29,6 +29,7 @@ const DevPanel = ({
 				<CodingEditor searchVisible={params.searchVisible}
 				 editorId={params.editorId} belongTo={params.belongTo}
 				 isSave={params.isSave} tabKey={params.tabKey}
+				 content={params.content}
 				 >
 				</CodingEditor>
 			);
