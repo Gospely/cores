@@ -115,8 +115,12 @@ export default {
 				    });
 
       			}
+      		}
 
+      		// alert(activeCtrl);
 
+      		if(!activeCtrl) {
+      			return false;
       		}
 
       		yield put({

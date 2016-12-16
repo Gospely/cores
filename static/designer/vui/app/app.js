@@ -395,7 +395,7 @@ $(function () {
                 console.log('===========dataControl============', dataControl);
 
             if(!dataControl) {
-                alert('组件结构出错!');
+                // alert('组件结构出错!');
                 return false;
             }
 

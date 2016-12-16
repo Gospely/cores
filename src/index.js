@@ -33,8 +33,7 @@ const app = dva({
 	},
 
 	onError(e) {
-
-			console.log("============= error" + e.message + "==========");
+		console.log("============= error : " + e + "==========");
 	  	message.error(e.message);
 	}
 });

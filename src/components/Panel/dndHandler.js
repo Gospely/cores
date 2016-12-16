@@ -10,8 +10,6 @@ export default {
 			return false;
 		}
 
-		console.log('======================window.loadedOnce======================', window.dndHandlerLoadedOnce);
-
 		window.dndHandlerLoadedOnce = true;
 
 		//监听页面刷新，保存最新的UI状态
@@ -29,7 +27,6 @@ export default {
 		//监听页面加载，获取刷新前的页面状态
 		window.addEventListener("load", (evt) => {
 
-			console.log("====================onLoad============" + window.applicationId);
 			var applicationId = window.applicationId;
 			if(applicationId != null && applicationId != undefined) {
 				var url = configs.baseURL + "applications/" + applicationId;
@@ -47,7 +44,6 @@ export default {
 				})
 		    	.then(function(data){
 
-					console.log(data);
 					if(data.code == 200 || data.code == 1) {
 				    	if(data.message != null) {
 				      		message.success(data.message);
@@ -105,7 +101,6 @@ export default {
 				},
 
 				ctrlClicked () {
-					console.log(eventName, data);
 
 				    props.dispatch({
 				        type: 'rightbar/setActiveMenu',
@@ -139,7 +134,6 @@ export default {
 
 				ctrlToBeAdded () {
 
-					console.log('ctrlToBeAdded', data);
 					props.dispatch({
 						type: 'rightbar/setActiveMenu',
 						payload: 'attr'
@@ -157,8 +151,6 @@ export default {
 				},
 
 				ctrlRemoved () {
-					console.log(eventName, data);
-
 					props.dispatch({
 						type: 'designer/removeController',
 						payload: data
@@ -191,8 +183,6 @@ export default {
 			}
 
 			if(evtAction[eventName]) {
-
-				console.log('typeof', typeof data[eventName]);
 
 				if(typeof data[eventName] != 'object') {
 					data = JSON.parse(data[eventName]);
