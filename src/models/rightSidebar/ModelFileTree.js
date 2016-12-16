@@ -90,6 +90,7 @@ export default {
 		searchFilePane: {
 			visible: false,
 			currentIndex: 0,
+			currentFolder: '',
 			files: [
 				{text: 'index.js',id: 0},
 				{text: 'readme.md',id: 1},
@@ -409,17 +410,31 @@ export default {
 
 		searchPrvFile(state) {
 			let index = state.searchFilePane.currentIndex;
+			let container = document.getElementById('toSetScroll');
+			let acvOpt = document.getElementById('activeFileOption');
+			if (acvOpt.offsetTop - container.scrollTop < 150 && container.scrollTop != 0) {
+				container.scrollTop -= acvOpt.offsetHeight;
+			}
+
 			if (index > 0) {
 				state.searchFilePane.currentIndex --;
 			}
+			state.searchFilePane.currentFolder = state.searchFilePane.files[index + 1].folder;
 			return {...state}
 		},
 
 		searchNextFile(state) {
 			let index = state.searchFilePane.currentIndex;
+			let acvOpt = document.getElementById('activeFileOption');
+			let container = document.getElementById('toSetScroll');
+			if (index >= 4 && acvOpt.offsetTop - container.scrollTop >= acvOpt.offsetHeight * 4) {
+				container.scrollTop = acvOpt.offsetHeight * (index - 4);
+			}
+
 			if (index < state.searchFilePane.files.length - 1) {
 				state.searchFilePane.currentIndex ++;
 			}
+			state.searchFilePane.currentFolder = state.searchFilePane.files[index + 1].folder;
 			return {...state}
 		},
 
