@@ -287,7 +287,7 @@ const Attr = (props) => {
 
 		onAddTab: () => {
 			if(tabList.length === 5) {
-				message.error('不能再加了哦，最多只能5个');
+				message.error('最多只能使用5个菜单, 不能再加了哦');
 				return false;
 			}
 
@@ -335,7 +335,9 @@ const Attr = (props) => {
 		},
 
 		remove: (index) => {
-			// props.designer.layout[0].attr.tabBar._value.list.value.splice(index, 1);
+			return () => {
+				props.designer.layout[0].attr.tabBar._value.list.value.splice(index, 1);				
+			}
 		}
 
 	};
