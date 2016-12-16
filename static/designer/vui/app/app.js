@@ -976,7 +976,7 @@ $(function () {
                     console.log('离开')
                     // if(this.dragElement.hasClass('hight-light')) {
                         $this = jq(e.currentTarget);
-                        hideDesignerDraggerBorder($this);
+                        controllerOperations.hideDesignerDraggerBorder($this);
                         if($this.eq(0).attr('id') != window.dragElement.eq(0).attr('id')){
                             $this.before(window.dragElement);
                         }                   
