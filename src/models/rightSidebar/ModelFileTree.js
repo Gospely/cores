@@ -669,12 +669,24 @@ export default {
 			const generatorNode = (files) => {
 				var childNode = [];
 				files.map(file => {
-					var tmpChild = {};
-					tmpChild.name = file.text;
-					tmpChild.key = file.id;
-					tmpChild.isLeaf = !file.children;
-					tmpChild.original = file;
-					childNode.push(tmpChild);
+					if(file.children){
+						var tmpChild = {};
+						tmpChild.name = file.text;
+						tmpChild.key = file.id;
+						tmpChild.isLeaf = !file.children;
+						tmpChild.original = file;
+						childNode.push(tmpChild);
+					}
+				});
+				files.map(file => {
+					if(!file.children){
+						var tmpChild = {};
+						tmpChild.name = file.text;
+						tmpChild.key = file.id;
+						tmpChild.isLeaf = !file.children;
+						tmpChild.original = file;
+						childNode.push(tmpChild);
+					}
 				});
 				return childNode;
 			}

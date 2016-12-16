@@ -206,12 +206,14 @@ const Editor = (props) => {
     	},
 
     	handleEditorChanged(value) {
-    		const activePane = props.devpanel.panels.panes[props.devpanel.panels.activePane.key];
 
 				console.log('change');
 				console.log(this);
 				console.log(value);
-  			var editorId = activePane.activeEditor.id;
+				var activePane = props.devpanel.panels.panes[props.devpanel.panels.activePane.key],
+					tabKey = activePane.activeTab.key,
+					activeTab = activePane.tabs[tabKey-1],
+					editorId = activeTab.editorId;
 				props.dispatch({
     			type: 'devpanel/handleEditorChanged',
     			payload: {value, editorId}

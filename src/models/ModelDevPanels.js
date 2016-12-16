@@ -538,6 +538,7 @@ export default {
 
 		handleEditorChanged(state, { payload: params }) {
 			// localStorage.isSave = true;
+			console.log("========handleEditorChanged=======");
 			console.log(params)
 			let activePane = methods.getActivePane(state);
 			let editorObj = {
