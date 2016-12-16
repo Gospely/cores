@@ -196,7 +196,6 @@ const Editor = (props) => {
 			window.currentEditor = editor;
 			console.log(editor);
 			console.log('editor onLoad');
-			editor.setValue("sdsadsa");
 
 		},
 
@@ -249,7 +248,7 @@ const Editor = (props) => {
 					height="1000"
 					language={props.devpanel.currentMode}
 					options={props.editor.options}
-					value={props.content}
+					defaultValue={props.content}
 					onChange={editorProps.handleEditorChanged}
 					editorDidMount={editorProps.onLoad}
 				/>
