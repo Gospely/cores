@@ -367,7 +367,7 @@ export default {
 
 					tabBar: {
 						type: 'children',
-						title: '底部标签栏配置',
+						title: '底部菜单栏配置',
 						isClassName: false,
 						_value: {
 
