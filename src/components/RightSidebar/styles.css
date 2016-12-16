@@ -52,6 +52,9 @@
     text-align: left;
     transition: all .3s;
 }
+.fileSearchPaneOptionActive {
+    background-color: #e7f4fd;
+}
 .fileSearchPaneOption:hover {
     background-color: #e7f4fd;
 }

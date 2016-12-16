@@ -762,10 +762,11 @@ const FileTree = (props) => {
           <div onClick={(e) => e.stopPropagation()} style={{maxWidth: 400, margin: '0 auto'}}>
             <Input autoFocus="autofocus" size="large" placeholder="index.js" onChange={searchPaneInputChange} value={props.file.searchFilePane.inputValue}/>
             <div style={{overflow: 'auto', maxHeight: 500}}>
-                {props.file.searchFilePane.files.map(file=> {
+                {props.file.searchFilePane.files.map((file, i)=> {
                     return  <div onClick={searchThisFile.bind(this,file.folder)}
                             key={file.id}
-                            className={TreeStyle.fileSearchPaneOption}
+                            className={TreeStyle.fileSearchPaneOption +  ' ' + 
+                            (props.file.searchFilePane.currentIndex == i && TreeStyle.fileSearchPaneOptionActive)}
                             >
                                 {file.folder}
                             </div>

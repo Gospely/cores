@@ -89,6 +89,7 @@ export default {
 		},
 		searchFilePane: {
 			visible: false,
+			currentIndex: 0,
 			files: [
 				{text: 'index.js',id: 0},
 				{text: 'readme.md',id: 1},
@@ -395,7 +396,7 @@ export default {
 					if(state.files[i].text.indexOf(value) != -1){
 						newFiles.push(state.files[i]);
 					}
-					if(newFiles.length>100){
+					if(newFiles.length > 100){
 						break;
 					}
 				}
@@ -404,6 +405,22 @@ export default {
 			state.searchFilePane.files = newFiles;
 			state.searchFilePane.visible = true;
 			return {...state};
+		},
+
+		searchPrvFile(state) {
+			let index = state.searchFilePane.currentIndex;
+			if (index > 0) {
+				state.searchFilePane.currentIndex --;
+			}
+			return {...state}
+		},
+
+		searchNextFile(state) {
+			let index = state.searchFilePane.currentIndex;
+			if (index < state.searchFilePane.files.length - 1) {
+				state.searchFilePane.currentIndex ++;
+			}
+			return {...state}
 		},
 
 		showContextMenu(state, {payload: params}) {
