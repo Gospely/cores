@@ -7,7 +7,7 @@ body,html{height:100%;-webkit-tap-highlight-color:transparent}body{font-family:-
 }
 
 .hight-light {
-	border: 1px solid #0894ec;
+	border: 1px dotted #0894ec;
 }
 
 .container-box {

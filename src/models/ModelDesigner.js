@@ -425,6 +425,23 @@ export default {
 								'_value': '主页面'
 							},
 
+							setAsMainPage: {
+								type: 'toggle',
+								title: '设为主页',
+								isClassName: false,
+								isHTML: false,
+								_value: true
+							},
+
+							alias: {
+								type: 'input',
+								attrType: 'text',
+								title: '页面别名',
+								isClassName: false,
+								isHTML: false,
+								_value: 'index'
+							},
+
 							navigationBarBackgroundColor: {
 								type: 'input',
 								attrType: 'color',
@@ -474,12 +491,11 @@ export default {
 							},
 
 							routingURL: {
-								type: 'input',
-								attrType: 'text',
+								type: 'span',
 								title: '路由',
 								isClassName: false,
-								isHTML: false,
-								_value: '/'
+								isHTML: true,
+								_value: 'pages/index'
 							},
 
 							template: {
@@ -689,6 +705,23 @@ export default {
 						_value: ''
 					},
 
+					setAsMainPage: {
+						type: 'toggle',
+						title: '设为主页',
+						isClassName: false,
+						isHTML: false,
+						_value: false
+					},
+
+					alias: {
+						type: 'input',
+						attrType: 'text',
+						title: '页面别名',
+						isClassName: false,
+						isHTML: false,
+						_value: ''
+					},
+
 					navigationBarBackgroundColor: {
 						type: 'input',
 						attrType: 'color',
@@ -737,11 +770,10 @@ export default {
 					},
 
 					routingURL: {
-						type: 'input',
-						attrType: 'text',
+						type: 'span',
 						title: '路由',
 						isClassName: false,
-						isHTML: false,
+						isHTML: true,
 						_value: ''
 					},
 
@@ -2468,6 +2500,7 @@ export default {
 			tmpAttr['title']['title'] = '页面名称';
 
 			tmpAttr['routingURL']['_value'] = '/pages/page-' + state.layout[0].children.length;
+			tmpAttr['alias']['_value'] = 'page-' + state.layout[0].children.length;
 
 			//设置新增加的页面和应用整体的值相同
 			tmpAttr['navigationBarTitleText']['_value'] = state.layout[0].attr.window._value.navigationBarTitleText._value;
@@ -2697,6 +2730,12 @@ export default {
 	    		}, '*');
     		}
     		return {...state};
+		},
+
+		handlePageAliasChanged (state, { payload: params}) {
+			var activePage = layoutAction.getActivePage(state);
+			activePage.attr.routingURL._value = 'pages/' + params.newVal;
+			return {...state};
 		},
 
 		handleCtrlSelected (state) {

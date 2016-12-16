@@ -49,7 +49,19 @@ const Attr = (props) => {
 
     		props.dispatch({
     			type: 'designer/handleAttrRefreshed'
-    		})
+    		});
+
+    		if(attr.attrName == 'alias') {
+    			props.dispatch({
+    				type: 'designer/handlePageAliasChanged',
+    				payload: {
+    					newVal: newVal,
+	    				attr: attr,
+	    				parentAtt: parentAtt
+    				}
+    			})
+    		}
+
     	},
 
     	handleAttrFormSwitchChange: (attr, parentAtt, checked) => {
@@ -109,6 +121,14 @@ const Attr = (props) => {
          				className="attrInput"
          				placeholder={attr.title} />
          		</FormItem>
+			);
+		},
+
+		span (attr, parentAtt) {
+			return (
+				<FormItem key={pageKey + (itemKey ++)} {...formItemLayout} label={attr.title}>
+					<span>{attr._value}</span>
+				</FormItem>
 			);
 		},
 
