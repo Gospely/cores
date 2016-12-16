@@ -203,7 +203,7 @@ export default {
 			var readResult = yield request('fs/read', {
 				method: 'POST',
 				body: JSON.stringify({
-					fileName: localStorage.currentFolder + fileName.replace(localStorage.currentProject + "/",""),
+					fileName: localStorage.dir + fileName.replace(localStorage.currentProject + "/",""),
 				})
 			});
 
