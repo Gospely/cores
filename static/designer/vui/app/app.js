@@ -470,8 +470,12 @@ $(function () {
             },
 
             pageOperations = {
+                app: {},
+
                 refreshApp: function(data) {
                     var attr = {};
+
+                    this.app = data;
 
                     if(data.attr.window) {
                         attr = data.attr.window._value;
@@ -489,7 +493,7 @@ $(function () {
                 },
 
                 changeBackgroundColor: function(color) {
-                    jq('body').css('background-color', color);
+                    jq('.page.' + this.app.key).css('background-color', color);
                 }
             }
 
@@ -620,7 +624,7 @@ $(function () {
             parent.postMessage({
                 appConfigRender: app
             }, '*');
-            refreshApp(app);
+            pageOperations.refreshApp(app);
         }
 
         function layoutGenerator(data) {
@@ -1032,9 +1036,12 @@ $(function () {
                         },
 
                         pageSelected: function() {
+                            alert('pageSelected')
                             pageManager.go(data.key);
-                            pageOperations.refreshApp(data);
                             controllerOperations.hideDesignerDraggerBorder();
+                            setTimeout(function() {
+                                pageOperations.refreshApp(data);
+                            }, 100);
                         },
 
                         ctrlAdded: function() {
