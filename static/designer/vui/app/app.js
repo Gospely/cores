@@ -394,6 +394,11 @@ $(function () {
 
                 console.log('===========dataControl============', dataControl);
 
+            if(!dataControl) {
+                alert('组件结构出错!');
+                return false;
+            }
+
             if(isController) {
                 //触发控件被点击事件
                 controllerOperations.select(dataControl);
