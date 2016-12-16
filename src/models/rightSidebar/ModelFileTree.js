@@ -613,13 +613,26 @@ export default {
 			for (var i = 0; i <= data.length - 1; i++) {
 				var curr = data[i],
 					tmpTree = {};
+				if(curr.children) {
+					tmpTree.name = curr.text;
+					tmpTree.key = curr.id;
+					tmpTree.isLeaf = !curr.children;
+					tmpTree.original = curr;
 
-				tmpTree.name = curr.text;
-				tmpTree.key = curr.id;
-				tmpTree.isLeaf = !curr.children;
-				tmpTree.original = curr;
+					tree.push(tmpTree);
+				}
+			};
+			for (var i = 0; i <= data.length - 1; i++) {
+				var curr = data[i],
+					tmpTree = {};
+				if(!curr.children) {
+					tmpTree.name = curr.text;
+					tmpTree.key = curr.id;
+					tmpTree.isLeaf = !curr.children;
+					tmpTree.original = curr;
 
-				tree.push(tmpTree);
+					tree.push(tmpTree);
+				}
 			};
 
 			console.log(tree);
