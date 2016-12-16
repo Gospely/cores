@@ -53,9 +53,6 @@ const keyConfig = {
 					payload:{ value: '' }
 				});
 			}
-<<<<<<< HEAD
-		}
-=======
 		},
 		{
 			mainKey: ['esc'],
@@ -82,7 +79,6 @@ const keyConfig = {
 			}
 		}
 
->>>>>>> a111703895f93265fb7f5dd583a7104ff0e8ae8f
 	],
 	escape:[
 
