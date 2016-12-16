@@ -427,10 +427,10 @@ export default {
 									pagePath: {
 										type: 'select',
 										title: '页面路径',
-										value: ['page-home'],
+										value: ['pages/index'],
 										isClassName: false,
 										isHTML: false,
-										_value: 'page-home'
+										_value: 'pages/index'
 									},
 
 									text: {
