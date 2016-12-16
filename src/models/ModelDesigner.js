@@ -2570,7 +2570,7 @@ export default {
 		addController(state, { payload: ctrlAndTarget }) {
 			
 			if (state.layoutState.activePage.level == 1) {
-				message.error('请选择一个页面');
+				message.error('请在左上角组件树中选择一个页面');
 				return {...state};
 			}
 
