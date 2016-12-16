@@ -43,7 +43,6 @@ const keyConfig = {
 		{
 			mainKey: ['ctrl+p','command+p'],
 			handler: function(props){
-
 				var name = 'file';
 				props.dispatch({
 					type: 'rightbar/handleTabChanged',
@@ -58,12 +57,28 @@ const keyConfig = {
 		{
 			mainKey: ['esc'],
 			handler: function(props){
-
 				props.dispatch({
-		      type: 'file/hideSearchPane'
-		    })
+		      		type: 'file/hideSearchPane'
+		    	})
 			}
 		},
+		{
+			mainKey: ['up'],
+			handler: function (props) {
+				props.dispatch({
+					type: 'file/searchPrvFile'
+				})
+			}
+		},
+		{
+			mainKey: ['down'],
+			handler: function (props) {
+				props.dispatch({
+					type: 'file/searchNextFile'
+				})
+			}
+		}
+
 	],
 	escape:[
 
