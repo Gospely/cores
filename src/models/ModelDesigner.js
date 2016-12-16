@@ -223,6 +223,8 @@ export default {
 
 		loaded: false,
 
+		modalTabsVisible: false,
+
 		deviceList: [
 			{
 				name: 'iPhone',
@@ -370,6 +372,100 @@ export default {
 						title: '底部菜单栏配置',
 						isClassName: false,
 						_value: {
+
+							color: {
+								type: 'input',
+								attrType: 'color',
+								title: '文本颜色',
+								isClassName: false,
+								isHTML: false,
+								_value: ''
+							},
+
+							selectedColors: {
+								type: 'input',
+								attrType: 'color',
+								title: '选中颜色',
+								isClassName: false,
+								isHTML: false,
+								_value: ''
+							},
+
+							backgroundColor: {
+								type: 'input',
+								attrType: 'color',
+								title: '背景色',
+								isClassName: false,
+								isHTML: false,
+								_value: ''
+							},
+
+							borderStyle: {
+								type: 'select',
+								title: '边框颜色',
+								value: ['black', 'white'],
+								isClassName: false,
+								isHTML: false,
+								_value: 'black'
+							},
+
+							position: {
+								type: 'select',
+								title: '位置',
+								value: ['bottom', 'top'],
+								isClassName: false,
+								isHTML: false,
+								_value: 'bottom'
+							},
+
+							list: {
+								type: 'button',
+								title: '菜单列表',
+								isClassName: false,
+								isHTML: false,
+								value: [{
+									pagePath: {
+										type: 'select',
+										title: '页面路径',
+										value: ['page-home'],
+										isClassName: false,
+										isHTML: false,
+										_value: 'page-home'
+									},
+
+									text: {
+										type: 'input',
+										attrType: 'text',
+										title: '菜单名称',
+										value: ['page-home'],
+										isClassName: false,
+										isHTML: false,
+										_value: '菜单'
+									},
+
+									iconPath: {
+										type: 'input',
+										attrType: 'text',
+										title: '图片路径(<=40kb)',
+										value: ['page-home'],
+										isClassName: false,
+										isHTML: false,
+										_value: ''
+									},
+
+									selectedIconPath: {
+										type: 'input',
+										attrType: 'text',
+										title: '选中时图片路径(<=40kb)',
+										value: ['page-home'],
+										isClassName: false,
+										isHTML: false,
+										_value: ''
+									}
+								}],
+								_value: '添加',
+								onClick: 'designer/handleEnableTabs'
+							}
 
 						}
 					},
@@ -654,9 +750,68 @@ export default {
 						}
 					},
 
-					// tabBar: {
+					tabBar: {
+						type: 'children',
+						title: '底部菜单栏配置',
+						isClassName: false,
+						_value: {
 
-					// },
+							color: {
+								type: 'input',
+								attrType: 'color',
+								title: '文本颜色',
+								isClassName: false,
+								isHTML: false,
+								_value: ''
+							},
+
+							selectedColors: {
+								type: 'input',
+								attrType: 'color',
+								title: '选中颜色',
+								isClassName: false,
+								isHTML: false,
+								_value: ''
+							},
+
+							backgroundColor: {
+								type: 'input',
+								attrType: 'color',
+								title: '背景色',
+								isClassName: false,
+								isHTML: false,
+								_value: ''
+							},
+
+							borderStyle: {
+								type: 'select',
+								title: '边框颜色',
+								value: ['black', 'white'],
+								isClassName: false,
+								isHTML: false,
+								_value: 'black'
+							},
+
+							position: {
+								type: 'select',
+								title: '位置',
+								value: ['bottom', 'top'],
+								isClassName: false,
+								isHTML: false,
+								_value: 'bottom'
+							},
+
+							list: {
+								type: 'button',
+								title: '菜单列表',
+								isClassName: false,
+								isHTML: false,
+								_value: '添加',
+								onClick: 'designer/handleEnableTabs'
+							}
+
+						}
+					},
 
 					networkTimeout: {
 						type: 'children',
@@ -2735,6 +2890,11 @@ export default {
 		handlePageAliasChanged (state, { payload: params}) {
 			var activePage = layoutAction.getActivePage(state);
 			activePage.attr.routingURL._value = 'pages/' + params.newVal;
+			return {...state};
+		},
+
+		handleEnableTabs (state, { payload: enabled }) {
+			state.modalTabsVisible = true;
 			return {...state};
 		},
 

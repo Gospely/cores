@@ -131,7 +131,7 @@ var init = function() {
 
 					console.log(';;;;;;;;;;;router;;;;;;;;;;', router);
 
-				}(pages),
+				},
 
 				initControllers = function(pages) {
 
@@ -147,7 +147,7 @@ var init = function() {
 						};
 					};
 
-				}(pages);
+				};
 
 		},
 

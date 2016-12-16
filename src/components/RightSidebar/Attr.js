@@ -1,5 +1,5 @@
 import React , {PropTypes} from 'react';
-import { Tree, Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button ,Menu, Dropdown, message, Tag} from 'antd';
+import { Tree, Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button ,Menu, Dropdown, message, Tag, Modal} from 'antd';
 import { Collapse, Switch } from 'antd';
 
 import { connect } from 'dva';
@@ -51,16 +51,27 @@ const Attr = (props) => {
     			type: 'designer/handleAttrRefreshed'
     		});
 
-    		if(attr.attrName == 'alias') {
-    			props.dispatch({
-    				type: 'designer/handlePageAliasChanged',
-    				payload: {
-    					newVal: newVal,
-	    				attr: attr,
-	    				parentAtt: parentAtt
-    				}
-    			})
+    		var specialEvt = {
+    			alias: function() {
+	    			props.dispatch({
+	    				type: 'designer/handlePageAliasChanged',
+	    				payload: {
+	    					newVal: newVal,
+		    				attr: attr,
+		    				parentAtt: parentAtt
+	    				}
+	    			});    				
+    			},
+
+    			enableTabs: function() {
+	    			props.dispatch({
+	    				type: 'designer/handleEnableTabs',
+	    				payload: newVal
+	    			});
+    			}
     		}
+
+    		specialEvt[attr.attrName]();
 
     	},
 
@@ -98,6 +109,12 @@ const Attr = (props) => {
     			type: 'designer/handleAttrRefreshed'
     		})
 
+    	},
+
+    	handleAttrFormBtnClicked: (attr, parentAtt, e) => {
+    		props.dispatch({
+    			type: attr.onClick
+    		})
     	}
 
     };
@@ -128,6 +145,14 @@ const Attr = (props) => {
 			return (
 				<FormItem key={pageKey + (itemKey ++)} {...formItemLayout} label={attr.title}>
 					<span>{attr._value}</span>
+				</FormItem>
+			);
+		},
+
+		button (attr, parentAtt) {
+			return (
+				<FormItem key={pageKey + (itemKey ++)} {...formItemLayout} label={attr.title}>
+					<Button type="ghost" size="small" onClick={attrFormProps.handleAttrFormBtnClicked.bind(this, attr, parentAtt)}>{attr._value}</Button>
 				</FormItem>
 			);
 		},
@@ -197,16 +222,139 @@ const Attr = (props) => {
 		}
 	};
 
-	console.log('==============formItems===========', props.attr.formItems);
+	const modalTabs = {
+		handleOk: () => {
+			props.designer.modalTabsVisible = false;
+		},
 
-	var form = props.attr.formItems.map( (item, index) => {
+		handleCancel: () => {
+			props.designer.modalTabsVisible = false;
+		}
+	};
+
+    const tabList = props.designer.layout[0].attr.tabBar._value.list.value;
+
+	const tabFormProps = {
+
+		onAddTab: () => {
+			if(tabList.length === 5) {
+				message('不能再加了哦，最多只能5个');
+				return false;
+			}
+
+			var obj = {
+				pagePath: {
+					type: 'select',
+					title: '页面路径',
+					value: ['page-home'],
+					isClassName: false,
+					isHTML: false,
+					_value: 'page-home'
+				},
+
+				text: {
+					type: 'input',
+					attrType: 'text',
+					title: '菜单名称',
+					value: ['page-home'],
+					isClassName: false,
+					isHTML: false,
+					_value: '菜单'
+				},
+
+				iconPath: {
+					type: 'input',
+					attrType: 'text',
+					title: '图片路径(<=40kb)',
+					value: ['page-home'],
+					isClassName: false,
+					isHTML: false,
+					_value: ''
+				},
+
+				selectedIconPath: {
+					type: 'input',
+					attrType: 'text',
+					title: '选中时图片路径(<=40kb)',
+					value: ['page-home'],
+					isClassName: false,
+					isHTML: false,
+					_value: ''
+				}
+			}
+			props.designer.layout[0].attr.tabBar._value.list.value.push(obj);
+		},
+
+		remove: (index) => {
+
+		}
+
+	};
+
+    const tabFormItemLayoutWithOutLabel = {
+      wrapperCol: { span: 20, offset: 4 },
+    };
+
+    const makeAttrObject2Array = (obj) => {
+    	var tmp = [];
+		for(var key in obj) {
+			try {
+				obj[key]['attrName'] = key;
+				tmp.push(obj[key]);
+			} catch(e) {
+				console.log(e.message)
+			}
+		}
+
+		return tmp
+    }
+
+    const attrArr = [];
+
+    for (var i = 0; i < tabList.length; i++) {
+    	var tmp = makeAttrObject2Array(tabList[i])
+    	attrArr.push(tmp);
+    };
+
+    console.log('--------------------------------attrArr--------------------------------', attrArr);
+
+    const tabFormItems = attrArr.map( (attrs , index) => {
+		var items =  attrs.map( (attr, key) => {
+			if(key === 0) {
+	    		return (
+		        	<FormItem required={true} key={pageKey + (itemKey ++)} {...tabFormItemLayoutWithOutLabel}>
+				        <Icon
+				            className="dynamic-delete-button"
+				            type="minus-circle-o"
+				            disabled={tabList.length <= 2}
+				            onClick={tabFormProps.remove(index)}/>
+				         <div style={{marginRight:'10px'}}></div>        	
+						<Input placeholder={attr.title} style={{ width: '60%', marginRight: 8 }} />
+			      	</FormItem>
+				);
+			}else {
+	    		return (
+		        	<FormItem required={true} key={pageKey + (itemKey ++) + 2} {...tabFormItemLayoutWithOutLabel}>
+						<Input placeholder={attr.title} style={{ width: '60%', marginRight: 8 }} />
+			      	</FormItem>
+				);
+			}
+    	});
+    	return (
+			<Form inline>
+	      		{items}
+	      	</Form>
+		);
+    });
+
+	let attrForms = props.attr.formItems.map( (item, index) => {
 		if(!item.backend) {
 			return attrTypeActions[item.type](item);			
 		}
 	});
 
-	if(form == '') {
-		form = ( <p>暂无属性</p> );
+	if(attrForms == '') {
+		attrForms = ( <p>暂无属性</p> );
 	}
 
     if (props.designer.loaded) {
@@ -217,11 +365,24 @@ const Attr = (props) => {
 				    <Panel header="属性" key="1">
 
 				      	<Form onSubmit={handleSubmit}>
-				      		{form}
+				      		{attrForms}
 				      	</Form>
 
 				    </Panel>
-				  </Collapse>
+			  	</Collapse>
+
+        		<Modal width="80%" title="配置底部菜单栏" visible={props.designer.modalTabsVisible}
+	          		onOk={modalTabs.handleOk} onCancel={modalTabs.handleCancel}>
+		          		{tabFormItems}
+		          		<Form inline>
+				        	<FormItem {...tabFormItemLayoutWithOutLabel}>
+				          		<Button onClick={tabFormProps.onAddTab} type="dashed" style={{ width: '60%' }}>
+				            		<Icon type="plus" /> 添加菜单项
+				          		</Button>
+				        	</FormItem>
+				      	</Form>
+	        	</Modal>
+
 			</div>
 		);
 
