@@ -80,14 +80,14 @@ export default {
 			if(compileResult) {
 	      		yield put({ type: 'updateWeappCompilerStep' });
 
-				topbar.weappCompiler.percent = 60;
-
 				cloudPackResult = yield weappCompiler.cloudPack();
 
-				if(cloudPackResult.code == 200) {
+				console.log('-----------------------cloudPackResult===========================', cloudPackResult);
+
+				if(cloudPackResult.data.code == 200) {
 		      		yield put({ type: 'updateWeappCompilerStep' });
+		      		openNotificationWithIcon('success', '云打包成功');
 					weappCompiler.download();
-					topbar.weappCompiler.percent = 100;
 				}else {
 		      		yield put({ type: 'setWeappCompilerStatusExpection' });
 				}
@@ -364,6 +364,10 @@ export default {
 
 		updateWeappCompilerStep(state) {
 			state.weappCompiler.current++;
+			state.weappCompiler.percent += 30;
+			if(state.weappCompiler.percent == 90) {
+				state.weappCompiler.percent = 10;
+			}
 			return {...state};
 		},
 

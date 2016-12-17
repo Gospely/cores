@@ -82,7 +82,7 @@ export default {
 						fetch(url, {
 							method: 'PUT',
 							headers: {
-      					"Content-Type": "application/json;charset=UTF-8",
+      							"Content-Type": "application/json;charset=UTF-8",
 							},
 							body: JSON.stringify(configTobeSaved)
 						})
@@ -138,10 +138,11 @@ export default {
 			return {...state};
 		},
 
-    setDySaveGap(state, { payload: params }) {
+    	setDySaveGap(state, { payload: params }) {
           state.gap = params.val;
           return {...state};
-    },
+    	},
+
 		setSaveInterval(state, { payload: params }) {
 
 			state.saveInterval = params.saveInterval;

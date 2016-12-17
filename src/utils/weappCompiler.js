@@ -251,10 +251,13 @@ const weappCompiler = {
 		var self = this;
 		var result = yield request('weapp/pack/', {
   			method: 'POST',
-  			body: self.app
+  			headers: {
+				"Content-Type": "application/json;charset=UTF-8",
+			},
+  			body: self.app,
   		});
 
-		if(result.code !== 200) {
+		if(result.data.code !== 200) {
 			return false;
 		}
 

@@ -456,7 +456,7 @@ const LeftSidebar = (props) => {
 	          	onCancel={compilerModalProps.handleCancel}
 	          	width="60%"
       	        footer={[
-		            <Button key="back" type="ghost" size="small" onClick={compilerModalProps.handleCancel}>取消</Button>,
+		            <Button key="back" type="ghost" size="small" onClick={compilerModalProps.handleCancel}>返回</Button>,
 		            <Button key="submit" disabled={props.sidebar.weappCompiler.start} type="primary" size="small" onClick={compilerModalProps.handleOk}>
 		              开始
 		            </Button>,
