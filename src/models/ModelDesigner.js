@@ -605,6 +605,14 @@ export default {
 									<div class="page__bd"></div> \
 									<div class="page__ft"></div> \ ',
 								backend: true
+							},
+
+							cssEditor: {
+								type: 'button',
+								title: '编辑CSS',
+								isClassName: false,
+								isHTML: true,
+								_value: '打开编辑器'
 							}
 
 						},
@@ -943,6 +951,14 @@ export default {
 								<div class="page__bd"></div> \
 								<div class="page__ft"></div> \ ',
 						backend: true
+					},
+
+					cssEditor: {
+						type: 'button',
+						title: '编辑CSS',
+						isClassName: false,
+						isHTML: true,
+						_value: '打开编辑器'
 					}
 
 				},

@@ -1,5 +1,9 @@
+import request from './request.js';
+
 const weappCompiler = {
 	layout: {},
+
+	app: {},
 
 	init (layout) {
 		this.layout = layout;
@@ -21,8 +25,6 @@ const weappCompiler = {
 
 		let mainPage = this.compilePage(this.getMainPage());
 
-		console.log(mainPage);
-
 		app['pages'] = {
 			pages: this.compilePages(this.getPageExceptMainPage())
 		};
@@ -33,8 +35,10 @@ const weappCompiler = {
 
 		console.log(app);
 
+		self.app = app;
+
 		console.log('==============================================weappCompiler==============================================')
-		return false;
+		return true;
 	},
 
 	compileAPPJSON (options) {
@@ -97,8 +101,14 @@ const weappCompiler = {
 		return options.string ? JSON.stringify(pageJSON) : pageJSON;
 	},
 
-	compilePageWXML () {
+	compilePageWXML (options) {
+		options.string = options.string || false;
 
+		var pageWXML = {};
+
+
+
+		return options.string ? JSON.stringify(pageWXML) : pageWXML;
 	},
 
 	compilePageWXSS () {
@@ -176,7 +186,6 @@ const weappCompiler = {
 		for (var attrName in page.attr) {
 			let attr = page.attr[attrName];
 			if(attrName == 'setAsMainPage') {
-				alert(attr._value)
 				if(attr._value) {
 					return true;
 				}
@@ -192,7 +201,6 @@ const weappCompiler = {
 		for (var i = 0; i < pages.length; i++) {
 			var page = pages[i];
 			if(!this.isMainPage(page)) {
-				alert('ssss')
 				pagesExceptMainPage.push(page);
 			}
 		};
@@ -209,8 +217,11 @@ const weappCompiler = {
 			string: true
 		});
 
-		tmpPage[alias + '.js'] = '';
-		tmpPage[alias + '.wxss'] = '';
+		tmpPage[alias + '.js'] = 'Page({});';
+		tmpPage[alias + '.wxss'] = this.compilePageWXML({
+			page: page,
+			string: true
+		});
 		tmpPage[alias + '.wxml'] = '';
 
 		return tmpPage;
@@ -226,7 +237,7 @@ const weappCompiler = {
 	},
 
 	filter (key) {
-		const filterKey = ['title', 'alias', 'template', 'setAsMainPage', 'routingURL'];
+		const filterKey = ['title', 'alias', 'template', 'setAsMainPage', 'routingURL', ''];
 		for (var i = 0; i < filterKey.length; i++) {
 			var k = filterKey[i];
 			if(key == k) {
@@ -236,8 +247,18 @@ const weappCompiler = {
 		return true;
 	},
 
-	cloudPack () {
-		return false;
+	cloudPack: function *() {
+		var self = this;
+		var result = yield request('weapp/pack/', {
+  			method: 'POST',
+  			body: self.app
+  		});
+
+		if(result.code !== 200) {
+			return false;
+		}
+
+		return result;
 	},
 
 	download () {

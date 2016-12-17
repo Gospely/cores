@@ -72,27 +72,29 @@ export default {
 
       		yield put({ type: 'setWeappCompilerStartTrue' });
 
+			topbar.weappCompiler.percent = 30;
+
 			weappCompiler.init(modelDesigner.layout);
 			compileResult = weappCompiler.compile();
 
 			if(compileResult) {
 	      		yield put({ type: 'updateWeappCompilerStep' });
+
+				topbar.weappCompiler.percent = 60;
+
+				cloudPackResult = yield weappCompiler.cloudPack();
+
+				if(cloudPackResult.code == 200) {
+		      		yield put({ type: 'updateWeappCompilerStep' });
+					weappCompiler.download();
+					topbar.weappCompiler.percent = 100;
+				}else {
+		      		yield put({ type: 'setWeappCompilerStatusExpection' });
+				}
+
 			}else {
 	      		yield put({ type: 'setWeappCompilerStatusExpection' });
 			}
-
-			cloudPackResult = weappCompiler.cloudPack();
-
-			if(cloudPackResult) {
-	      		yield put({ type: 'updateWeappCompilerStep' });
-			}else {
-	      		yield put({ type: 'setWeappCompilerStatusExpection' });
-			}
-
-			weappCompiler.download();
-			topbar.weappCompiler.percent = 100;
-
-
 		},
 
 		*isGitProject({payload: params}, {call, put, select}) {
