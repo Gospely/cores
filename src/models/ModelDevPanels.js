@@ -563,12 +563,13 @@ export default {
 					activeKey = tabs[lastIndex].key;
 
 					//切换语法
-					if (activePane.tabs[lastIndex].type == 'editor') {
-						let fileName = activePane.tabs[lastIndex].title.split('.');
+					if (tabs[lastIndex].type == 'editor') {
+						let fileName = tabs[lastIndex].title.split('.');
 						let suffix = fileName[fileName.length - 1];
 						if(setMode[suffix] == undefined) {
-							params.suffix = 'txt';
+							suffix = 'txt';
 						}
+						localStorage.suffix = suffix;
 						state.currentMode = setMode[suffix]();
 						state.currentLanguage = state.currentMode.toUpperCase();
 					}
@@ -591,7 +592,6 @@ export default {
 			// console.log('activeTab',activeKey)
 			activePane.activeTab.index = ( parseInt(activeKey) - 1 ).toString();
 
-			return {...state};
 			reTabKey();
 
 			return {...state};

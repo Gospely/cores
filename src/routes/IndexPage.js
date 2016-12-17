@@ -117,8 +117,9 @@ function IndexPage(props) {
             if (action == 'remove') {
                 localStorage.removeAction = JSON.stringify(removeAction);
                 editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
-                let currentTab = props.devpanel.panels.panes[paneKey.paneKey].tabs[targetKey - 1],
-                    tabType = currentTab.type;
+                let currentTab = props.devpanel.panels.panes[paneKey.paneKey].tabs[targetKey - 1];
+                let tabType = 'currentTab.type';
+                    
                 if (tabType != 'editor') {
 
                     if (tabType == 'terminal') {
