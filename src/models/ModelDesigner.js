@@ -2998,7 +2998,6 @@ export default {
 			state.defaultDevice = params.UIState.defaultDevice;
 			return {...state};
 		}
-
 	}
 
 }

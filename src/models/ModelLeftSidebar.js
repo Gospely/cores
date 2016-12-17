@@ -1,5 +1,6 @@
 import dva from 'dva';
 import request from '../utils/request.js';
+import weappCompiler from '../utils/weappCompiler.js';
 
 import { notification } from 'antd';
 
@@ -29,7 +30,24 @@ export default {
 		activeMenu: localStorage.defaultActiveKey || 'attr',
 
 		isAutoSave: false,
-		autoSaveInterval: ''
+		autoSaveInterval: '',
+
+		weappCompilerModalVisible: false,
+
+		weappCompiler: {
+			current: 0,
+			steps: [{
+				title: '云编译',
+				description: '编译成符合小程序的结构化数据'
+			}, {
+				title: '云打包',
+				description: '打包成小程序的目录结构'
+			}, {
+				title: '下载',
+				description: '下载压缩包:)'
+			}],
+			percent: 0
+		}
 	},
 
 	subscriptions: {
@@ -43,6 +61,14 @@ export default {
 	},
 
 	effects: {
+
+		*startCompileWeapp({ payload: params }, {call, put, select}) {
+			var modelDesigner = yield select(state => state.designer);
+
+			weappCompiler.init(modelDesigner.layout);
+
+			weappCompiler.compile();
+		},
 
 		*isGitProject({payload: params}, {call, put, select}) {
       		var isGit = yield request('fs/git/', {
@@ -271,14 +297,22 @@ export default {
 			state.activeMenu = name;
 			return {...state};
 		},
-		initState(state, { payload: params }) {
 
-			console.log("sidebar initState");
+		initState(state, { payload: params }) {
 			console.log(params.UIState.activeMenu);
 			state.activeMenu = params.UIState.activeMenu;
 			return {...state};
-		}
+		},
 
+		showWeappCompilerModal(state, { payload: params }) {
+			state.weappCompilerModalVisible = true;
+			return {...state};
+		},
+
+		hideWeappCompilerModal(state, { payload: params }) {
+			state.weappCompilerModalVisible = false;
+			return {...state};
+		}
 	}
 
 }
