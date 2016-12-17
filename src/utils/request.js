@@ -3,7 +3,7 @@ import configs from '../configs.js';
 
 import { message, Spin, notification } from 'antd';
 
-const openNotificationWithIcon = (type, title, description) => (
+window.openNotificationWithIcon = (type, title, description) => (
   notification[type]({
     message: title,
     description: description,
@@ -21,7 +21,6 @@ function checkStatus(response) {
 
   const error = new Error(response.statusText);
   error.response = response;
-  console.log(response.statusText);
   openNotificationWithIcon('error', '出错了: ' + response.status, response.statusText);
   throw error;
 }

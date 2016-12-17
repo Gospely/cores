@@ -76,14 +76,14 @@ export default {
   					configs: configStr
   				}
   				if(config.dySave) {
-					var url = baseUrl.baseURL + "uistates";
-					fetch(url, {
-						method: 'PUT',
-						headers: {
-  						"Content-Type": "application/json;charset=UTF-8",
-						},
-						body: JSON.stringify(configTobeSaved)
-					})
+						var url = baseUrl.baseURL + "uistates";
+						fetch(url, {
+							method: 'PUT',
+							headers: {
+      							"Content-Type": "application/json;charset=UTF-8",
+							},
+							body: JSON.stringify(configTobeSaved)
+						})
   				}else {
   					clearInterval(state.saveInterval);
   				}
@@ -136,10 +136,11 @@ export default {
 			return {...state};
 		},
 
-	    setDySaveGap(state, { payload: params }) {
-	          state.gap = params.val;
-	          return {...state};
-	    },
+    	setDySaveGap(state, { payload: params }) {
+          state.gap = params.val;
+          return {...state};
+    	},
+
 		setSaveInterval(state, { payload: params }) {
 
 			state.saveInterval = params.saveInterval;

@@ -228,10 +228,10 @@ const weappCompiler = {
 	},
 
 	compilePages (pages) {
-		var pageList = [];
+		var pageList = {};
 		for (var i = 0; i < pages.length; i++) {
 			var page = pages[i];
-			pageList.push(this.compilePage(page));
+			pageList[page.attr.alias._value] = this.compilePage(page);
 		};
 		return pageList;
 	},
@@ -251,18 +251,21 @@ const weappCompiler = {
 		var self = this;
 		var result = yield request('weapp/pack/', {
   			method: 'POST',
-  			body: self.app
+  			headers: {
+				"Content-Type": "application/json;charset=UTF-8",
+			},
+  			body: JSON.stringify(self.app),
   		});
 
-		if(result.code !== 200) {
+		if(result.data.code !== 200) {
 			return false;
 		}
 
 		return result;
 	},
 
-	download () {
-
+	download (file) {
+		window.open('http://api.gospely.com/weapp/download/' + file);
 	}
 
 }
