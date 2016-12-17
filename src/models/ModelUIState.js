@@ -19,18 +19,18 @@ export default {
 		setup({ dispatch, history }) {
 	      	history.listen(({ pathname }) => {
 
-						console.log(pathname);
-						var splits = pathname.split("/");
-						if(splits[1] == 'project' && splits[2] != null && splits[2] != undefined){
+				console.log(pathname);
+				var splits = pathname.split("/");
+				if(splits[1] == 'project' && splits[2] != null && splits[2] != undefined){
 
-							var id = splits[2];
-							console.log("===================setup===========");
+					var id = splits[2];
+					console.log("===================setup===========");
 		      		dispatch({
 		      			type: 'readConfig',
 								payload:{id}
 		      		});
-						}
-						return true;
+				}
+				return true;
 	      	});
 		}
 	},
@@ -39,53 +39,51 @@ export default {
 
 		*readConfig({ payload: params }, { call, put, select }) {
 
-				console.log(params);
-				console.log("=======readConfig========" + params.id);
+			console.log(params);
+			console.log("=======readConfig========" + params.id);
   			var configs = yield request('uistates?application=' + params.id, {
       			method: 'get'
       		});
-
   			if(!configs) {
   				message.error('读取配置失败');
   				return false;
   			}
-
-				var config = configs.data.fields[0];
-				console.log(config);
-      	yield put({
+			var config = configs.data.fields[0];
+			console.log(config);
+      		yield put({
     			type: 'setDySave',
 					payload: {
 	    			dySave: config.dySave,
 	    			gap: config.gap
 	    		}
     		});
-				var state = yield select(state => state.devpanel);
+			var state = yield select(state => state.devpanel);
 
   			function cb() {
 
-					console.log("setInterval");
-					var configStr = JSON.stringify(state,function(key,value){
-						if(key == 'content' || key == 'value'){
-							return undefined
-						}else{
-							return value;
-						}
-					});
-					console.log(configStr);
+				console.log("setInterval");
+				var configStr = JSON.stringify(state,function(key,value){
+					if(key == 'content' || key == 'value'){
+						return undefined
+					}else{
+						return value;
+					}
+				});
+				console.log(configStr);
   				var configTobeSaved = {
   					id: config.id,
   					application: params.id,
   					configs: configStr
   				}
   				if(config.dySave) {
-						var url = baseUrl.baseURL + "uistates";
-						fetch(url, {
-							method: 'PUT',
-							headers: {
-      					"Content-Type": "application/json;charset=UTF-8",
-							},
-							body: JSON.stringify(configTobeSaved)
-						})
+					var url = baseUrl.baseURL + "uistates";
+					fetch(url, {
+						method: 'PUT',
+						headers: {
+  					"Content-Type": "application/json;charset=UTF-8",
+						},
+						body: JSON.stringify(configTobeSaved)
+					})
   				}else {
   					clearInterval(state.saveInterval);
   				}
@@ -138,10 +136,10 @@ export default {
 			return {...state};
 		},
 
-    setDySaveGap(state, { payload: params }) {
-          state.gap = params.val;
-          return {...state};
-    },
+	    setDySaveGap(state, { payload: params }) {
+	          state.gap = params.val;
+	          return {...state};
+	    },
 		setSaveInterval(state, { payload: params }) {
 
 			state.saveInterval = params.saveInterval;
