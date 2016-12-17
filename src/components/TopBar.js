@@ -1,5 +1,5 @@
 import React , { PropTypes } from 'react';
-import { Menu, Icon, Modal, Input, Button, message, Tabs, Card, Popconfirm, Row, Col } from 'antd';
+import { Menu, Icon, Modal, Input, Button, message, Tabs, Card, Popconfirm, Row, Col} from 'antd';
 
 const TabPane = Tabs.TabPane;
 
@@ -8,15 +8,16 @@ import { Router, Route, IndexRoute, Link } from 'dva/router';
 
 import CodingEditor from './Panel/Editor.js';
 import Terminal from './Panel/Terminal.js';
-
 import randomWord from '../utils/randomString';
-
 import dndHandler from './Panel/dndHandler';
-
 import keyRegister from './keybinding/register';
-
 import initApplication from '../utils/initApplication';
 
+import { Steps } from 'antd';
+import { Progress } from 'antd';
+
+const ButtonGroup = Button.Group;
+const Step = Steps.Step;
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 const InputGroup = Input.Group;
@@ -180,40 +181,40 @@ const LeftSidebar = (props) => {
 
 	        start() {
 
-						console.log("debugger");
-						const debugType = {
-							common(){
-								console.log('common');
-								sessionStorage.currentDebugResource = 'http://gospely.com:' + localStorage.port;
-								var debug = window.open('http://localhost:8989/static/debugger/wordpress.html','_blank')
-								props.dispatch({
-									type: 'devpanel/handleDebugger',
-									payload: {debug}
-								});
-							},
-							visual(){
-								console.log('===================visual===================');
+				console.log("debugger");
+				const debugType = {
+					common(){
+						console.log('common');
+						sessionStorage.currentDebugResource = 'http://gospely.com:' + localStorage.port;
+						var debug = window.open('http://localhost:8989/static/debugger/wordpress.html','_blank')
+						props.dispatch({
+							type: 'devpanel/handleDebugger',
+							payload: {debug}
+						});
+					},
+					visual(){
+						console.log('===================visual===================');
 
-								//分栏
-								var key = "vertical-dbl";
-								props.dispatch({
-									type: 'devpanel/changeColumn',
-									payload: key
-								});
-								props.dispatch({
-									type: 'devpanel/initDebugPanel',
-								});
+						//分栏
+						var key = "vertical-dbl";
+						props.dispatch({
+							type: 'devpanel/changeColumn',
+							payload: key
+						});
+						props.dispatch({
+							type: 'devpanel/initDebugPanel',
+						});
 
-								var title = '终端',
-										type = 'terminal';
-								props.dispatch({
-									type: 'devpanel/add',
-									payload: {title, type}
-								})
-								//创建termin，执行启动的shell
-							}
-						}
-						debugType["visual"]();
+						var title = '终端',
+								type = 'terminal';
+						props.dispatch({
+							type: 'devpanel/add',
+							payload: {title, type}
+						})
+						//创建termin，执行启动的shell
+					}
+				}
+				debugType["visual"]();
 	        },
 
 	        pause() {
@@ -224,6 +225,12 @@ const LeftSidebar = (props) => {
 	        	var title = '小程序预览',
 	        		type = 'previewer';
         		props.dispatch({type: 'devpanel/add',payload: {title,type}});
+	        },
+
+	        'download-weapp'() {
+	        	props.dispatch({
+	        		type: 'sidebar/showWeappCompilerModal'
+	        	});
 	        }
 
 	      }
@@ -263,25 +270,18 @@ const LeftSidebar = (props) => {
 	    },
 
 	    openApp(application) {
-
-
-				window.location.href = 'http://localhost:8989/#/project/' + application.id;
-				if(application.id != localStorage.applicationId) {
-					window.reload = true
-					initApplication(application,props);
-				}else{
-					props.dispatch({
-				      type: 'sidebar/hideModalSwitchApp'
-				  });
-				}
-	    	// console.log('TopBar中dispatch')
-	    	// alert(1)
+			window.location.href = 'http://localhost:8989/#/project/' + application.id;
+			if(application.id != localStorage.applicationId) {
+				window.reload = true
+				initApplication(application,props);
+			}else{
+				props.dispatch({
+			      type: 'sidebar/hideModalSwitchApp'
+			  });
+			}
 	    },
 
 	    switchApp() {
-
-			console.log('switch app');
-
 	      	props.dispatch({
 	        	type: 'sidebar/switchApp'
 	      	})
@@ -324,20 +324,54 @@ const LeftSidebar = (props) => {
 		},
 
 		createAppFromModal() {
-			console.log("create app");
 			props.dispatch({
 				type: 'sidebar/showNewAppAndHideSwitch',
 			})
 		}
 	};
 
+	const compilerModalProps = {
+		handleOk () {
+        	props.dispatch({
+        		type: 'sidebar/startCompileWeapp'
+        	});
+		},
+
+		handleCancel () {
+        	props.dispatch({
+        		type: 'sidebar/hideWeappCompilerModal'
+        	});
+		},
+
+		handleRestart () {
+			compilerModalProps.handleCancel();
+			setTimeout(function() {
+	        	props.dispatch({
+	        		type: 'sidebar/showWeappCompilerModal'
+	        	});
+
+	        	setTimeout(function() {
+					compilerModalProps.handleOk();
+	        	}, 200);
+			}, 200);
+		},
+
+		stepTemplate () {
+			return props.sidebar.weappCompiler.steps.map( (item, index) => {
+    			return (
+			    	<Step key={index} title={item.title} description={item.description} />
+    			);
+    		});
+
+		}
+	};
 
 	const searchCls = {
 	    antSearchInput: true,
 	    antSearchInputFocus: false,
 	};
 
-  const btnCls = {
+  	const btnCls = {
 	    borderRadius: '0px',
 	    marginLeft: '-1px'
 	};
@@ -367,9 +401,9 @@ const LeftSidebar = (props) => {
 		        <Menu.Item key="file">
 					<Icon type="file-text" />
 		        </Menu.Item>
-						<Menu.Item key="designer">
-							<Icon type="windows-o" />
-						</Menu.Item>
+				<Menu.Item key="designer">
+					<Icon type="windows-o" />
+				</Menu.Item>
 		        <Menu.Item key="terminal">
 					<Icon type="code-o" />
 		        </Menu.Item>
@@ -382,7 +416,9 @@ const LeftSidebar = (props) => {
 		        <Menu.Item key="preview">
 		        	<Icon type="eye-o" />
 		        </Menu.Item>
-
+		        <Menu.Item key="download-weapp">
+		        	打包小程序
+		        </Menu.Item>
 	      	</Menu>
 
 	    	<Modal width="80%"  title="新建应用" visible={props.sidebar.modalNewAppVisible}
@@ -411,6 +447,30 @@ const LeftSidebar = (props) => {
 				</Col>
 				{initApplications()}
         	    </Row>
+	        </Modal>
+
+	        <Modal
+	          	visible={props.sidebar.weappCompilerModalVisible}
+	          	title="小程序打包器"
+	          	onOk={compilerModalProps.handleOk}
+	          	onCancel={compilerModalProps.handleCancel}
+	          	width="60%"
+      	        footer={[
+		            <Button key="back" type="ghost" size="small" onClick={compilerModalProps.handleCancel}>取消</Button>,
+		            <Button key="submit" disabled={props.sidebar.weappCompiler.start} type="primary" size="small" onClick={compilerModalProps.handleOk}>
+		              开始
+		            </Button>,
+		            <Button disabled={props.sidebar.weappCompiler.status == 'success'} key="restart" type="primary" size="small" onClick={compilerModalProps.handleRestart}>
+		              重新开始
+		            </Button>
+		        ]}
+	        >
+			  	<Steps current={props.sidebar.weappCompiler.current}>
+		        	{compilerModalProps.stepTemplate()}
+			  	</Steps>
+		        <div className="steps-content">
+        	        <Progress type="circle" status={props.sidebar.weappCompiler.status} percent={props.sidebar.weappCompiler.percent} />
+		        </div>
 	        </Modal>
 
 	    	<Modal width="60%"  title="添加/更改 Git 源" visible={props.sidebar.modalModifyGitOriginVisible}

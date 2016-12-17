@@ -1,5 +1,6 @@
 import dva from 'dva';
 import request from '../utils/request.js';
+import weappCompiler from '../utils/weappCompiler.js';
 
 import { notification } from 'antd';
 
@@ -29,7 +30,26 @@ export default {
 		activeMenu: localStorage.defaultActiveKey || 'attr',
 
 		isAutoSave: false,
-		autoSaveInterval: ''
+		autoSaveInterval: '',
+
+		weappCompilerModalVisible: false,
+
+		weappCompiler: {
+			current: 0,
+			start: false,
+			steps: [{
+				title: '云编译',
+				description: '编译成符合小程序的结构化数据'
+			}, {
+				title: '云打包',
+				description: '打包成小程序的目录结构'
+			}, {
+				title: '下载',
+				description: '下载压缩包:)'
+			}],
+			percent: 0,
+			status: 'success'
+		}
 	},
 
 	subscriptions: {
@@ -43,6 +63,39 @@ export default {
 	},
 
 	effects: {
+
+		*startCompileWeapp({ payload: params }, {call, put, select}) {
+			var modelDesigner = yield select(state => state.designer),
+				topbar = yield select(state => state.sidebar),
+				compileResult,
+				cloudPackResult;
+
+      		yield put({ type: 'setWeappCompilerStartTrue' });
+
+			topbar.weappCompiler.percent = 30;
+
+			weappCompiler.init(modelDesigner.layout);
+			compileResult = weappCompiler.compile();
+
+			if(compileResult) {
+	      		yield put({ type: 'updateWeappCompilerStep' });
+
+				topbar.weappCompiler.percent = 60;
+
+				cloudPackResult = yield weappCompiler.cloudPack();
+
+				if(cloudPackResult.code == 200) {
+		      		yield put({ type: 'updateWeappCompilerStep' });
+					weappCompiler.download();
+					topbar.weappCompiler.percent = 100;
+				}else {
+		      		yield put({ type: 'setWeappCompilerStatusExpection' });
+				}
+
+			}else {
+	      		yield put({ type: 'setWeappCompilerStatusExpection' });
+			}
+		},
 
 		*isGitProject({payload: params}, {call, put, select}) {
       		var isGit = yield request('fs/git/', {
@@ -271,14 +324,53 @@ export default {
 			state.activeMenu = name;
 			return {...state};
 		},
-		initState(state, { payload: params }) {
 
-			console.log("sidebar initState");
+		initState(state, { payload: params }) {
 			console.log(params.UIState.activeMenu);
 			state.activeMenu = params.UIState.activeMenu;
 			return {...state};
-		}
+		},
 
+		showWeappCompilerModal(state, { payload: params }) {
+			state.weappCompilerModalVisible = true;
+			return {...state};
+		},
+
+		hideWeappCompilerModal(state, { payload: params }) {
+			state.weappCompilerModalVisible = false;
+			state.weappCompiler = {
+				current: 0,
+				start: false,
+				steps: [{
+					title: '云编译',
+					description: '编译成符合小程序的结构化数据'
+				}, {
+					title: '云打包',
+					description: '打包成小程序的目录结构'
+				}, {
+					title: '下载',
+					description: '下载压缩包:)'
+				}],
+				status: 'success',
+				percent: 0
+			};
+			return {...state};
+		},
+
+		setWeappCompilerStartTrue(state) {
+			state.weappCompiler.start = true;
+			return {...state};
+		},
+
+		updateWeappCompilerStep(state) {
+			state.weappCompiler.current++;
+			return {...state};
+		},
+
+		setWeappCompilerStatusExpection(state) {
+			state.weappCompiler.status = 'exception';
+			return {...state};
+		}
 	}
 
 }

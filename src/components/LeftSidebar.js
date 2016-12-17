@@ -43,10 +43,10 @@ const leftSidebar = (props) => {
 	  	<Tabs tabPosition="left" defaultActiveKey={props.devpanel.devType.defaultActiveKey} activeKey={props.sidebar.activeMenu} onChange={handleTabChanged}>
 	    	<TabPane style={styles.tab} tab={<span style={styles.span}><Icon style={styles.icon} type="bars" />结构</span>} key="controllers">
 				<Collapse  className="noborder attrCollapse" bordered={false} defaultActiveKey={['controllers', 'construction']}>
-				    <Panel header="组件树" key="construction" className="consCollapse" >
+				    <Panel header="组件树" key="construction">
 	    	    		<ConstructionTree></ConstructionTree>
 				    </Panel>
-				    <Panel header="控件" key="controllers" className="consCollapse consCollapseTopBorder" >
+				    <Panel header="控件" key="controllers" className="consCollapseTopBorder" >
 	    	    		<Controllers></Controllers>
 				    </Panel>
 				</Collapse>
