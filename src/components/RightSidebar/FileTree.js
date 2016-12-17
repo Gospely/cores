@@ -704,7 +704,8 @@ const FileTree = (props) => {
   });
 
   const searchThisFile = function(fileName) {
-
+    
+    fileName = props.file.searchFilePane.currentFolder || fileName;
     console.log(fileName);
     console.log(localStorage.currentFolder);
 
@@ -731,12 +732,29 @@ const FileTree = (props) => {
     })
   }
 
-  const escHideSearchPane = function (Proxy) {
+  const handleKeyUp = function (Proxy) {
       if(Proxy.keyCode == 27) {
         props.dispatch({
           type: 'file/hideSearchPane'
         })
       }
+
+      if (Proxy.keyCode == 38) {
+        props.dispatch({
+            type: 'file/searchPrvFile'
+        })
+      }
+
+      if (Proxy.keyCode == 40) {
+        props.dispatch({
+            type: 'file/searchNextFile'
+        })
+      }
+
+      if (Proxy.keyCode == 13) {
+        searchThisFile();
+      }
+
   }
 
   const searchPaneInputChange = function (e) {
@@ -757,14 +775,15 @@ const FileTree = (props) => {
     content: (
         <div className={TreeStyle.fileSearchPane}
              onClick={() => {props.dispatch({type: 'file/hideSearchPane'})}}
-             onKeyUp={escHideSearchPane}
+             onKeyUp={handleKeyUp}
         >
           <div onClick={(e) => e.stopPropagation()} style={{maxWidth: 400, margin: '0 auto'}}>
             <Input autoFocus="autofocus" size="large" placeholder="index.js" onChange={searchPaneInputChange} value={props.file.searchFilePane.inputValue}/>
-            <div style={{overflow: 'auto', maxHeight: 500}}>
+            <div style={{overflow: 'auto', maxHeight: 500}} id="toSetScroll">
                 {props.file.searchFilePane.files.map((file, i)=> {
                     return  <div onClick={searchThisFile.bind(this,file.folder)}
                             key={file.id}
+                            id={props.file.searchFilePane.currentIndex == i && 'activeFileOption'}
                             className={TreeStyle.fileSearchPaneOption +  ' ' + 
                             (props.file.searchFilePane.currentIndex == i && TreeStyle.fileSearchPaneOptionActive)}
                             >

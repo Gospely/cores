@@ -40,8 +40,14 @@ const Designer = (props) => {
 		});
 	}
 
+	let splitType = props.devpanel.panels.splitType;
+	let maxHeight = '88vh';
+	if (splitType == 'horizontal-dbl' || splitType == 'grid') {
+		maxHeight = '41vh';
+	}
+
   	return (
-		<div className="designer-wrapper">
+		<div className="designer-wrapper" style={{maxHeight: maxHeight}}>
 
 			<div className="designer-header">
 				<label className="bold">设备</label>

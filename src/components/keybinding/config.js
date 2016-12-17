@@ -61,22 +61,6 @@ const keyConfig = {
 		      		type: 'file/hideSearchPane'
 		    	})
 			}
-		},
-		{
-			mainKey: ['up'],
-			handler: function (props) {
-				props.dispatch({
-					type: 'file/searchPrvFile'
-				})
-			}
-		},
-		{
-			mainKey: ['down'],
-			handler: function (props) {
-				props.dispatch({
-					type: 'file/searchNextFile'
-				})
-			}
 		}
 
 	],

@@ -38,8 +38,14 @@ const Welcome = (props) => {
       	});
 	}
 
+	let splitType = props.devpanel.panels.splitType;
+	let maxHeight = '88vh';
+	if (splitType == 'horizontal-dbl' || splitType == 'grid') {
+		maxHeight = '41vh';
+	}
+
   	return (
-		<div style={styles.wrapper}>
+		<div style={styles.wrapper} style={{maxHeight: maxHeight}}>
 			<img src={gospel} style={{marginBottom: 50}} height="60" width="200" />
 			<a style={styles.newOrOpenApp} className="a-hover" onClick={createApp}>
 				<Icon type="file-text" style={{marginRight: 5}} />
@@ -61,8 +67,8 @@ const Welcome = (props) => {
 
 };
 
-function mapSateToProps({ designer }) {
-	return { designer };
+function mapSateToProps({ designer, devpanel }) {
+	return { designer, devpanel };
 }
 
 export default connect(mapSateToProps)(Welcome);
