@@ -24,12 +24,12 @@ const weappCompiler = {
 		console.log(mainPage);
 
 		app['pages'] = {
-			'index.js': '',
-			'index.json': '',
-			'index.wxml': '',
-			'index.wxss': '',
-			pages: []
+			pages: this.compilePages(this.getPageExceptMainPage())
 		};
+
+		for(var key in mainPage) {
+			app['pages'][key] = mainPage[key];
+		}
 
 		console.log(app);
 
@@ -97,6 +97,14 @@ const weappCompiler = {
 		return options.string ? JSON.stringify(pageJSON) : pageJSON;
 	},
 
+	compilePageWXML () {
+
+	},
+
+	compilePageWXSS () {
+
+	},
+
 	getAppjs () {
 		return "App({ \
 		    onLaunch: function () { \
@@ -157,37 +165,64 @@ const weappCompiler = {
 
 		for (var i = 0; i < pages.length; i++) {
 			var page = pages[i];
-			for (var attrName in page.attr) {
-				let attr = page.attr[attrName];
-				if(attrName = 'setAsMainPage') {
-					if(attr._value) {
-						return page;
-					}
-				}
+			if(this.isMainPage(page)) {
+				return page;
 			}
 		};
 		return undefined;
 	},
 
+	isMainPage (page) {
+		for (var attrName in page.attr) {
+			let attr = page.attr[attrName];
+			if(attrName == 'setAsMainPage') {
+				alert(attr._value)
+				if(attr._value) {
+					return true;
+				}
+			}
+		}
+		return false;
+	},
+
+	getPageExceptMainPage () {
+		let pages = this.layout[0].children,
+			pagesExceptMainPage = [];
+
+		for (var i = 0; i < pages.length; i++) {
+			var page = pages[i];
+			if(!this.isMainPage(page)) {
+				alert('ssss')
+				pagesExceptMainPage.push(page);
+			}
+		};
+		return pagesExceptMainPage;
+	},
+
 	compilePage (page) {
 
-		var page = {},
-			alias = 'index';
+		var tmpPage = {},
+			alias = page.attr.alias._value;
 
-		page[alias + '.json'] = this.compilePageJSON({
+		tmpPage[alias + '.json'] = this.compilePageJSON({
 			page: page,
 			string: true
 		});
 
-		page[alias + '.js'] = '';
-		page[alias + '.wxss'] = '';
-		page[alias + '.wxml'] = '';
+		tmpPage[alias + '.js'] = '';
+		tmpPage[alias + '.wxss'] = '';
+		tmpPage[alias + '.wxml'] = '';
 
-		return page;
+		return tmpPage;
 	},
 
-	compilePages () {
-
+	compilePages (pages) {
+		var pageList = [];
+		for (var i = 0; i < pages.length; i++) {
+			var page = pages[i];
+			pageList.push(this.compilePage(page));
+		};
+		return pageList;
 	},
 
 	filter (key) {
