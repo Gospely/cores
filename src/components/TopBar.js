@@ -343,10 +343,23 @@ const LeftSidebar = (props) => {
         	});
 		},
 
+		handleRestart () {
+			compilerModalProps.handleCancel();
+			setTimeout(function() {
+	        	props.dispatch({
+	        		type: 'sidebar/showWeappCompilerModal'
+	        	});
+
+	        	setTimeout(function() {
+					compilerModalProps.handleOk();
+	        	}, 200);
+			}, 200);
+		},
+
 		stepTemplate () {
 			return props.sidebar.weappCompiler.steps.map( (item, index) => {
     			return (
-			    	<Step title={item.title} description={item.description} />
+			    	<Step key={index} title={item.title} description={item.description} />
     			);
     		});
 
@@ -444,16 +457,19 @@ const LeftSidebar = (props) => {
 	          	width="60%"
       	        footer={[
 		            <Button key="back" type="ghost" size="small" onClick={compilerModalProps.handleCancel}>取消</Button>,
-		            <Button key="submit" type="primary" size="small" onClick={compilerModalProps.handleCancel}>
-		              开始打包
+		            <Button key="submit" disabled={props.sidebar.weappCompiler.start} type="primary" size="small" onClick={compilerModalProps.handleOk}>
+		              开始
 		            </Button>,
+		            <Button disabled={props.sidebar.weappCompiler.status == 'success'} key="restart" type="primary" size="small" onClick={compilerModalProps.handleRestart}>
+		              重新开始
+		            </Button>
 		        ]}
 	        >
-			  	<Steps current={props.sidebar.weappCompiler.steps.current}>
+			  	<Steps current={props.sidebar.weappCompiler.current}>
 		        	{compilerModalProps.stepTemplate()}
 			  	</Steps>
 		        <div className="steps-content">
-        	        <Progress type="circle" percent={props.sidebar.weappCompiler.percent} />
+        	        <Progress type="circle" status={props.sidebar.weappCompiler.status} percent={props.sidebar.weappCompiler.percent} />
 		        </div>
 	        </Modal>
 
