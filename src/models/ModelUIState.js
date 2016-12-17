@@ -80,7 +80,7 @@ export default {
 					fetch(url, {
 						method: 'PUT',
 						headers: {
-  					"Content-Type": "application/json;charset=UTF-8",
+  						"Content-Type": "application/json;charset=UTF-8",
 						},
 						body: JSON.stringify(configTobeSaved)
 					})
