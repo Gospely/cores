@@ -346,7 +346,7 @@ const LeftSidebar = (props) => {
 		stepTemplate () {
 			return props.sidebar.weappCompiler.steps.map( (item, index) => {
     			return (
-			    	<Step title={item.title} description={item.description} />
+			    	<Step key={index} title={item.title} description={item.description} />
     			);
     		});
 
@@ -444,12 +444,12 @@ const LeftSidebar = (props) => {
 	          	width="60%"
       	        footer={[
 		            <Button key="back" type="ghost" size="small" onClick={compilerModalProps.handleCancel}>取消</Button>,
-		            <Button key="submit" type="primary" size="small" onClick={compilerModalProps.handleCancel}>
+		            <Button key="submit" type="primary" size="small" onClick={compilerModalProps.handleOk}>
 		              开始打包
 		            </Button>,
 		        ]}
 	        >
-			  	<Steps current={props.sidebar.weappCompiler.steps.current}>
+			  	<Steps current={props.sidebar.weappCompiler.current}>
 		        	{compilerModalProps.stepTemplate()}
 			  	</Steps>
 		        <div className="steps-content">

@@ -7,11 +7,15 @@ const weappCompiler = {
 	},
 
 	compile: function() {
-
+		return true;
 	},
 
 	cloudPack: function() {
-		
+		return true;
+	},
+
+	download: function() {
+
 	}
 
 }

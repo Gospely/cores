@@ -63,11 +63,26 @@ export default {
 	effects: {
 
 		*startCompileWeapp({ payload: params }, {call, put, select}) {
-			var modelDesigner = yield select(state => state.designer);
+			var modelDesigner = yield select(state => state.designer),
+				topbar = yield select(state => state.sidebar),
+				compileResult,
+				cloudPackResult;
 
 			weappCompiler.init(modelDesigner.layout);
+			compileResult = weappCompiler.compile();
 
-			weappCompiler.compile();
+			if(compileResult) {
+	      		yield put({ type: 'updateWeappCompilerStep' });
+			}
+
+			cloudPackResult = weappCompiler.cloudPack();
+
+			if(cloudPackResult) {
+	      		yield put({ type: 'updateWeappCompilerStep' });
+			}
+
+			weappCompiler.download();
+			topbar.weappCompiler.percent = 100;
 		},
 
 		*isGitProject({payload: params}, {call, put, select}) {
@@ -311,6 +326,25 @@ export default {
 
 		hideWeappCompilerModal(state, { payload: params }) {
 			state.weappCompilerModalVisible = false;
+			state.weappCompiler = {
+				current: 0,
+				steps: [{
+					title: '云编译',
+					description: '编译成符合小程序的结构化数据'
+				}, {
+					title: '云打包',
+					description: '打包成小程序的目录结构'
+				}, {
+					title: '下载',
+					description: '下载压缩包:)'
+				}],
+				percent: 0
+			};
+			return {...state};
+		},
+
+		updateWeappCompilerStep(state) {
+			state.weappCompiler.current++;
 			return {...state};
 		}
 	}
