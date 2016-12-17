@@ -411,17 +411,17 @@ const Attr = (props) => {
 		}];
 
     if (props.designer.loaded) {
-    	 let maxHeight = document.documentElement.clientHeight - 100;
 		return (
 			<div>
-				<Collapse className="noborder attrCollapse nomin" bordered={false} defaultActiveKey={['1']}>
-				    <Panel header="属性" key="1">
-				      	<Form onSubmit={handleSubmit} style={{maxHeight: maxHeight}}>
-				      		{attrForms}
-				      	</Form>
-				    </Panel>
-			  	</Collapse>
-
+				<div>
+					<Collapse className="noborder attrCollapse nomin" bordered={false} defaultActiveKey={['1']}>
+					    <Panel header="属性" key="1">
+					      	<Form onSubmit={handleSubmit}>
+					      		{attrForms}
+					      	</Form>
+					    </Panel>
+				  	</Collapse>
+				</div>
         		<Modal width="80%" title="配置底部菜单栏" visible={props.designer.modalTabsVisible}
 	          		onOk={modalTabs.handleOk} onCancel={modalTabs.handleCancel}>
 		          		<Button onClick={tabFormProps.onAddTab} type="dashed" style={{ marginBottom: '15px' }}>
