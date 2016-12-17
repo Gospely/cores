@@ -41,9 +41,9 @@ const Designer = (props) => {
 	}
 
 	let splitType = props.devpanel.panels.splitType;
-	let maxHeight = '88vh';
+	let maxHeight = document.documentElement.clientHeight - 70;
 	if (splitType == 'horizontal-dbl' || splitType == 'grid') {
-		maxHeight = '41vh';
+		maxHeight = (maxHeight - 32) / 2;
 	}
 
   	return (

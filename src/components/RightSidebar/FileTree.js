@@ -29,6 +29,7 @@ const FileTree = (props) => {
   }
 
   window.fileFlag = true;
+  let maxHeight = document.documentElement.clientHeight - 68;
   const styles = {
     searchSuggestions: {
       border: ' 1px solid rgba(0, 0, 0, .2)',
@@ -36,6 +37,10 @@ const FileTree = (props) => {
     },
     searchSuggestionsItem: {
       padding: '3px 5px'
+    },
+    fileTreeMaxHeight: {
+        maxHeight: maxHeight,
+        overflow: 'auto'
     }
   }
 
@@ -929,19 +934,20 @@ const FileTree = (props) => {
       </div>
 
       {fileTreeMenu}
-
-      <Tree className={TreeStyle.myCls} showLine
-        onSelect={FileTreeProps.onSelect}
-        onCheck={FileTreeProps.onCheck}
-        loadData={FileTreeProps.onLoadData}
-        onRightClick={FileTreeProps.onRightClick}
-        draggable={true}
-        onDragEnter={FileTreeProps.onDragEnter}
-        onDrop={FileTreeProps.onDrop}
-        defaultExpandedKeys={[localStorage.dir]}
-      >
-        {treeNodes}
-      </Tree>
+        <div style={styles.fileTreeMaxHeight}>
+          <Tree showLine
+            onSelect={FileTreeProps.onSelect}
+            onCheck={FileTreeProps.onCheck}
+            loadData={FileTreeProps.onLoadData}
+            onRightClick={FileTreeProps.onRightClick}
+            draggable={true}
+            onDragEnter={FileTreeProps.onDragEnter}
+            onDrop={FileTreeProps.onDrop}
+            defaultExpandedKeys={[localStorage.dir]}
+          >
+            {treeNodes}
+          </Tree>
+        </div>
       {props.file.searchFilePane.visible ? fileSearchPane.content : null}
     </div>
 

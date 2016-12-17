@@ -310,10 +310,10 @@ const loopData = data => data.map((item) => {
 const treeNodes = loopData(props.designer.layout);
 
     if(props.designer.loaded) {
-
+        let height = (document.documentElement.clientHeight - 100) / 2;
         return (
       
-            <div style={{marginTop: -20}}>
+            <div style={{marginTop: -20, height: height}}>
                 <div className={TreeStyle.headerCons}>
                     <Row>
                         <Col span={24}>
