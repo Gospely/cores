@@ -6,13 +6,19 @@ import gospel from '../../assets/gospel.png'
 
 const Welcome = (props) => {
 
+	let splitType = props.devpanel.panels.splitType;
+	let maxHeight = '88vh';
+	if (splitType == 'horizontal-dbl' || splitType == 'grid') {
+		maxHeight = '41vh';
+	}
 	const styles = {
 		wrapper: {
 			width: '100%',
 			textAlign: 'center',
 			paddingTop: 50,
 			height: '100%',
-			fontWeight: '200'
+			fontWeight: '200',
+			maxHeight: maxHeight
 		},
 		newOrOpenApp: {
 			color: '#666',
@@ -38,14 +44,8 @@ const Welcome = (props) => {
       	});
 	}
 
-	let splitType = props.devpanel.panels.splitType;
-	let maxHeight = '88vh';
-	if (splitType == 'horizontal-dbl' || splitType == 'grid') {
-		maxHeight = '41vh';
-	}
-
   	return (
-		<div style={styles.wrapper} style={{maxHeight: maxHeight}}>
+		<div style={styles.wrapper}>
 			<img src={gospel} style={{marginBottom: 50}} height="60" width="200" />
 			<a style={styles.newOrOpenApp} className="a-hover" onClick={createApp}>
 				<Icon type="file-text" style={{marginRight: 5}} />

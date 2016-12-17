@@ -411,12 +411,12 @@ const Attr = (props) => {
 		}];
 
     if (props.designer.loaded) {
-    	 
+    	 let maxHeight = document.documentElement.clientHeight - 100;
 		return (
 			<div>
 				<Collapse className="noborder attrCollapse nomin" bordered={false} defaultActiveKey={['1']}>
 				    <Panel header="属性" key="1">
-				      	<Form onSubmit={handleSubmit}>
+				      	<Form onSubmit={handleSubmit} style={{maxHeight: maxHeight}}>
 				      		{attrForms}
 				      	</Form>
 				    </Panel>
