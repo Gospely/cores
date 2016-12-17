@@ -36,6 +36,7 @@ export default {
 
 		weappCompiler: {
 			current: 0,
+			start: false,
 			steps: [{
 				title: '云编译',
 				description: '编译成符合小程序的结构化数据'
@@ -46,7 +47,8 @@ export default {
 				title: '下载',
 				description: '下载压缩包:)'
 			}],
-			percent: 0
+			percent: 0,
+			status: 'success'
 		}
 	},
 
@@ -68,21 +70,29 @@ export default {
 				compileResult,
 				cloudPackResult;
 
+      		yield put({ type: 'setWeappCompilerStartTrue' });
+
 			weappCompiler.init(modelDesigner.layout);
 			compileResult = weappCompiler.compile();
 
 			if(compileResult) {
 	      		yield put({ type: 'updateWeappCompilerStep' });
+			}else {
+	      		yield put({ type: 'setWeappCompilerStatusExpection' });
 			}
 
 			cloudPackResult = weappCompiler.cloudPack();
 
 			if(cloudPackResult) {
 	      		yield put({ type: 'updateWeappCompilerStep' });
+			}else {
+	      		yield put({ type: 'setWeappCompilerStatusExpection' });
 			}
 
 			weappCompiler.download();
 			topbar.weappCompiler.percent = 100;
+
+
 		},
 
 		*isGitProject({payload: params}, {call, put, select}) {
@@ -328,6 +338,7 @@ export default {
 			state.weappCompilerModalVisible = false;
 			state.weappCompiler = {
 				current: 0,
+				start: false,
 				steps: [{
 					title: '云编译',
 					description: '编译成符合小程序的结构化数据'
@@ -338,13 +349,24 @@ export default {
 					title: '下载',
 					description: '下载压缩包:)'
 				}],
+				status: 'success',
 				percent: 0
 			};
 			return {...state};
 		},
 
+		setWeappCompilerStartTrue(state) {
+			state.weappCompiler.start = true;
+			return {...state};
+		},
+
 		updateWeappCompilerStep(state) {
 			state.weappCompiler.current++;
+			return {...state};
+		},
+
+		setWeappCompilerStatusExpection(state) {
+			state.weappCompiler.status = 'exception';
 			return {...state};
 		}
 	}

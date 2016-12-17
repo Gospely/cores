@@ -11,7 +11,7 @@ const weappCompiler = {
 	},
 
 	cloudPack: function() {
-		return true;
+		return false;
 	},
 
 	download: function() {
