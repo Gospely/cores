@@ -1,6 +1,7 @@
 import fetch from 'dva/fetch';
 import configs from '../../configs.js';
 import initApplication from '../../utils/initApplication';
+import gitTerminal from '../../utils/gitTerminal';
 import { message, notification } from 'antd';
 
 export default {
@@ -28,6 +29,7 @@ export default {
 		window.addEventListener("load", (evt) => {
 
 			var applicationId = window.applicationId;
+			gitTerminal();
 			if(applicationId != null && applicationId != undefined) {
 				var url = configs.baseURL + "applications/" + applicationId;
 				fetch(url).then(function(response){

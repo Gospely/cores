@@ -79,7 +79,7 @@ class Terminal extends Component {
 			}
 
 			createTerminal();
-				
+
 
 
 			function createTerminal() {
@@ -142,10 +142,9 @@ class Terminal extends Component {
 								payload: { pid: pid}
 							});
 							window.pid = pid;
-							socketURL += activeTab.editorId;
+							socketURL += pid;
 							socket = new WebSocket(socketURL);
 							socket.onopen = runRealTerminal;
-							window.socket = socket;
 							socket.onclose = runFakeTerminal;
 							socket.onerror = runFakeTerminal;
 
@@ -195,7 +194,7 @@ class Terminal extends Component {
 				console.log(socket);
 				term.attach(socket);
 				setTimeout(function(){
-					window.socket.send('cd /root/workspace && clear\n');
+					socket.send('cd /root/workspace && clear\n');
 				},1000)
 				term._initialized = true;
 			}

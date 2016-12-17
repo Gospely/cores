@@ -12,6 +12,7 @@ import randomWord from '../utils/randomString';
 import dndHandler from './Panel/dndHandler';
 import keyRegister from './keybinding/register';
 import initApplication from '../utils/initApplication';
+import gitTerminal from '../utils/gitTerminal';
 
 import { Steps } from 'antd';
 import { Progress } from 'antd';
@@ -111,9 +112,10 @@ const LeftSidebar = (props) => {
 						type: 'sidebar/showModalModifyGitOrgin'
 					})
 				}else {
-					props.dispatch({
-						type: 'sidebar/pushGit'
-					})
+					gitTerminal();
+					// props.dispatch({
+					// 	type: 'sidebar/pushGit'
+					// })
 				}
 	        },
 

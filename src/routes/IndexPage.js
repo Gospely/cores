@@ -14,21 +14,21 @@ import CodingEditor from '../components/Panel/Editor.js';
 
 import SplitPane from 'react-split-pane';
 import randomString from '../utils/randomString';
-import initApplication from '../utils/initApplication';
+
 
 function IndexPage(props) {
 
-// console.log("=======================IndexPage=");
-  if(props.query == '?from=dash') {
+    // console.log("=======================IndexPage=");
+    if(props.query == '?from=dash') {
     window.reload = true;
-  }
-  if(props.params.id == localStorage.applicationId) {
+    }
+    if(props.params.id == localStorage.applicationId) {
     window.reload = false;
-  }else {
+    }else {
     window.reload = true;
-  }
-  window.applicationId = props.params.id;
-  const devPanelProps = {
+    }
+    window.applicationId = props.params.id;
+    const devPanelProps = {
     panes: props.devpanel.panels.panes,
 
     splitType: props.devpanel.panels.splitType,
@@ -142,7 +142,7 @@ function IndexPage(props) {
 
         var fileName = localStorage.currentSelectedFile;
         if(!currentTab.isSave) {
-          
+
           var name = 'file';
           props.dispatch({
             type: 'rightbar/handleTabChanged',
@@ -178,6 +178,7 @@ function IndexPage(props) {
 
   return (
     <div className="body">
+        <div hidden='true' id="git-terminal"></div>
       <div className="table-ftw" style={{paddingBottom: '0px'}}>
         <div className="tr-ftw">
           <div className="td-ftw" style={{height: '38px'}}>
