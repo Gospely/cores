@@ -287,7 +287,7 @@ var init = function() {
 
 			pageSelected: function() {
 				console.log('pageSelected', data);
-				navToPage(data);
+				// navToPage(data);
 			},
 
 			ctrlSelected: function() {
@@ -309,7 +309,7 @@ var init = function() {
 					}
 				}
 				window.router.push(tmpRoute);
-				navToPage(data);
+				// navToPage(data);
 				console.log(window.router);
 			},
 
