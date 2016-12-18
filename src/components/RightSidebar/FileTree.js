@@ -127,10 +127,10 @@ const FileTree = (props) => {
         var fileName = localStorage.currentSelectedFile;
         localStorage.onSelect = false;
         if(node.node.props.isLeaf) {
-          props.dispatch({
+            props.dispatch({
             type: 'file/readFile',
             payload: localStorage.currentSelectedFile.split('/').pop()
-          })
+            })
         }
       }
 
@@ -709,7 +709,7 @@ const FileTree = (props) => {
   });
 
   const searchThisFile = function(fileName) {
-    
+
     fileName = props.file.searchFilePane.currentFolder || fileName;
     console.log(fileName);
     console.log(localStorage.currentFolder);
@@ -789,7 +789,7 @@ const FileTree = (props) => {
                     return  <div onClick={searchThisFile.bind(this,file.folder)}
                             key={file.id}
                             id={props.file.searchFilePane.currentIndex == i && 'activeFileOption'}
-                            className={TreeStyle.fileSearchPaneOption +  ' ' + 
+                            className={TreeStyle.fileSearchPaneOption +  ' ' +
                             (props.file.searchFilePane.currentIndex == i && TreeStyle.fileSearchPaneOptionActive)}
                             >
                                 {file.folder}

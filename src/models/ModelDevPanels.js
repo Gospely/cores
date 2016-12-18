@@ -16,6 +16,51 @@ const methods = {
 	}
 }
 
+const setMode = {
+				js: function(){
+					console.log('javascript');
+					return 'javascript';
+				},
+				css: function(){
+					console.log('css');
+					return 'css';
+				},
+				html: function(){
+					console.log('html');
+					return 'html';
+				},
+				php: function(){
+					console.log('php');
+					return 'php';
+				},
+				java: function() {
+					console.log('java');
+					return 'java';
+				},
+				txt: function() {
+					console.log('txt');
+					return 'plain_text';
+				},
+				md: function() {
+					console.log('markdown');
+					return 'markdown';
+				},
+				json: function() {
+					console.log('json');
+					return 'json';
+				},
+				xml: function(){
+					console.log("xml");
+					return "xml"
+				},
+				vue: function(){
+					return "javascript";
+				},
+				sh: function(){
+					return "bat";
+				}
+			}
+
 export default {
 	namespace: 'devpanel',
 	state: {
@@ -289,7 +334,7 @@ export default {
 
 		handleVisual(state){
 
-				console.log("visual");
+			console.log("visual");
 			state.panels.panes[0].activeTab.key = "2";
 			state.devType.defaultActiveKey = 'controllers';
 			localStorage.defaultActiveKey = 'controllers';
@@ -302,10 +347,10 @@ export default {
 				"searchVisible":false,
 				"isSave":false
 				},{
-						"title":"Gospel 微信小程序 设计器",
-						"type":"designer","key":"2",
-						"editorId":"","isSave":true
-					}];
+					"title":"Gospel 微信小程序 设计器",
+					"type":"designer","key":"2",
+					"editorId":"","isSave":true
+				}];
 			state.devType.type = 'visual';
 			//window.location.href = 'http://localhost:8989/#/project/' + localStorage.applicationId;
 			return {...state};
@@ -516,6 +561,19 @@ export default {
 			if(lastIndex >= 0 && activeKey === targetKey) {
 				if(tabs.length != 0) {
 					activeKey = tabs[lastIndex].key;
+
+					//切换语法
+					if (tabs[lastIndex].type == 'editor') {
+						let fileName = tabs[lastIndex].title.split('.');
+						let suffix = fileName[fileName.length - 1];
+						if(setMode[suffix] == undefined) {
+							suffix = 'txt';
+						}
+						localStorage.suffix = suffix;
+						state.currentMode = setMode[suffix]();
+						state.currentLanguage = state.currentMode.toUpperCase();
+					}
+					
 				}else {
 					if(type != 'welcome') {
 						// tabs.push({
@@ -533,6 +591,7 @@ export default {
 			activePane.activeTab.key = activeKey;
 			// console.log('activeTab',activeKey)
 			activePane.activeTab.index = ( parseInt(activeKey) - 1 ).toString();
+
 			reTabKey();
 
 			return {...state};
@@ -597,22 +656,22 @@ export default {
 			if(!params.isReplaceAll) {
 				console.log('all');
 				currentEditor.replaceAll(params.replaceContent,{
-						needle:params.searchContent,
-						backwards: false,
-						wrap: true,
-						caseSensitive: true,
-						wholeWord: true,
-						regExp: false
+					needle:params.searchContent,
+					backwards: false,
+					wrap: true,
+					caseSensitive: true,
+					wholeWord: true,
+					regExp: false
 				});
 			}else{
 				console.log('single');
 				currentEditor.replace(params.replaceContent,{
-						needle:params.searchContent,
-						backwards: false,
-						wrap: true,
-						caseSensitive: true,
-						wholeWord: true,
-						regExp: false
+					needle:params.searchContent,
+					backwards: false,
+					wrap: true,
+					caseSensitive: true,
+					wholeWord: true,
+					regExp: false
 				});
 
 				currentEditor.find(params.replaceContent,{
@@ -641,8 +700,6 @@ export default {
 
 		    let panes = state.panels.panes;
 		    let activePane = methods.getActivePane(state);
-
-
 			target.title = target.title || '新标签页';
 			target.file = target.file || '';
 			target.type = target.type || 'editor';
@@ -662,7 +719,6 @@ export default {
 			}
 
 			activePane.activeTab.key = (activePane.tabs.length + 1).toString();
-
 			console.log(target.content)
 			let isSave = true;
 			if (target.type === 'editor') {
@@ -708,53 +764,9 @@ export default {
 			return {...state};
 		},
 		dynamicChangeSyntax(state,{payload: params}) {
-
-			var setMode = {
-				js: function(){
-						console.log('javascript');
-						return 'javascript';
-				},
-				css: function(){
-						console.log('css');
-						return 'css';
-				},
-				html: function(){
-						console.log('html');
-						return 'html';
-				},
-				php: function(){
-						console.log('php');
-						return 'php';
-				},
-				java: function() {
-						console.log('java');
-						return 'java';
-				},
-				txt: function() {
-					console.log('txt');
-					return 'plain_text';
-				},
-				md: function() {
-					console.log('markdown');
-					return 'markdown';
-				},
-				json: function() {
-					console.log('json');
-					return 'json';
-				},
-				xml: function(){
-					console.log("xml");
-					return "xml"
-				},
-				vue: function(){
-
-					return "javascript";
-				},
-				sh: function(){
-					return "bat";
-				}
-			}
-			console.log("denamicChange");
+			
+			console.log("-----------------------------------------------denamicChange");
+			// alert('kk')
 			console.log(params.suffix);
 
 			if(setMode[params.suffix] == undefined) {

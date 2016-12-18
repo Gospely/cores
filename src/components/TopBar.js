@@ -12,6 +12,7 @@ import randomWord from '../utils/randomString';
 import dndHandler from './Panel/dndHandler';
 import keyRegister from './keybinding/register';
 import initApplication from '../utils/initApplication';
+import gitTerminal from '../utils/gitTerminal';
 
 import { Steps } from 'antd';
 import { Progress } from 'antd';
@@ -98,9 +99,10 @@ const LeftSidebar = (props) => {
 		        		type: 'sidebar/showModalModifyGitOrgin'
 		        	});
 				}else {
-					props.dispatch({
-						type: 'sidebar/pushCommit'
-					})
+					// props.dispatch({
+					// 	type: 'sidebar/pushCommit'
+					// })
+					window.socket.send("cd /root/workspace && git push\n")
 				}
 	        },
 
@@ -111,9 +113,10 @@ const LeftSidebar = (props) => {
 						type: 'sidebar/showModalModifyGitOrgin'
 					})
 				}else {
-					props.dispatch({
-						type: 'sidebar/pushGit'
-					})
+					window.socket.send("cd /root/workspace && git push\n")
+					// props.dispatch({
+					// 	type: 'sidebar/pushGit'
+					// })
 				}
 	        },
 
@@ -124,9 +127,10 @@ const LeftSidebar = (props) => {
 						type: 'sidebar/showModalModifyGitOrgin'
 					})
 				}else {
-					props.dispatch({
-						type: 'sidebar/pullGit'
-					})
+					window.socket.send("cd /root/workspace && git pull\n")
+					// props.dispatch({
+					// 	type: 'sidebar/pullGit'
+					// })
 				}
 	        },
 
