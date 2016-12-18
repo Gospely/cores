@@ -93,8 +93,6 @@ export default {
 		      		filePath = filePath.split('/');
 		      		filePath = filePath.pop();
 
-		      		alert(filePath)
-
 					weappCompiler.download(filePath);
 				}else {
 		      		yield put({ type: 'setWeappCompilerStatusExpection' });
