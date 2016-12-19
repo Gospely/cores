@@ -2,19 +2,7 @@ var init = function() {
 
 	document.domain = location.hostname;
 
-	jQuery.fn.isChildOf = function(b) { 
-		return (this.parents(b).length > 0); 
-	};
-
-	//判断:当前元素是否是被筛选元素的子元素或者本身 
-	jQuery.fn.isChildAndSelfOf = function(b) { 
-		return (this.closest(b).length > 0); 
-	}; 
-
 	var jq = jQuery.noConflict(),
-		data,
-		parent_window = window.parent,
-
 		pageAction = {
 
 			changeNavigationBarTitleText: function(title) {
@@ -161,7 +149,7 @@ var init = function() {
 	var postMessageToFather = {
 
 		pageSelected: function(c) {
-			parent_window.postMessage({ 'pageSelected': c }, "*");
+			parent.postMessage({ 'pageSelected': c }, "*");
 		}
 
 	}
