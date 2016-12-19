@@ -300,7 +300,8 @@ export default {
 						attrType: '',
 						isClassName: false,
 						title: '页面',
-						_value: ['page-home']
+						value: ['pages/index'],
+						_value: 'pages/index'
 					},
 
 					title: {
@@ -437,7 +438,7 @@ export default {
 										type: 'input',
 										attrType: 'text',
 										title: '菜单名称',
-										value: ['page-home'],
+										value: ['pages/index'],
 										isClassName: false,
 										isHTML: false,
 										_value: '菜单'
@@ -2670,7 +2671,7 @@ export default {
 			tmpAttr['title']['isHTML'] = false;
 			tmpAttr['title']['title'] = '页面名称';
 
-			tmpAttr['routingURL']['_value'] = '/pages/page-' + state.layout[0].children.length;
+			tmpAttr['routingURL']['_value'] = 'pages/page-' + state.layout[0].children.length;
 			tmpAttr['alias']['_value'] = 'page-' + state.layout[0].children.length;
 
 			//设置新增加的页面和应用整体的值相同
@@ -2682,6 +2683,9 @@ export default {
 			tmpAttr['navigationBarTextStyle']['_value'] = state.layout[0].attr.window._value.navigationBarTextStyle._value;
 
 			console.log('page.attr', page.attr);
+
+			//加路由后在应用的路由选项里进行配置
+			state.layout[0].attr.pages.value.push(tmpAttr['routingURL']['_value']);
 
 			var pageRandomString = randomString(8, 10);
 
@@ -2881,10 +2885,6 @@ export default {
 
     		if(state.layoutState.activeType == 'page') {
 
-	    		gospelDesigner.postMessage({
-	    			attrRefreshed: activePage
-	    		}, '*');
-
 	    		gospelDesignerPreviewer.postMessage({
 	    			attrRefreshed: activePage
 	    		}, '*');
@@ -2892,10 +2892,6 @@ export default {
 
     		if(state.layoutState.activeType == 'controller') {
     			var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
-	    		gospelDesigner.postMessage({
-	    			ctrlAttrRefreshed: activeCtrl
-	    		}, '*');
-
 	    		gospelDesignerPreviewer.postMessage({
 	    			ctrlAttrRefreshed: activeCtrl
 	    		}, '*');
@@ -2906,6 +2902,16 @@ export default {
 		handlePageAliasChanged (state, { payload: params}) {
 			var activePage = layoutAction.getActivePage(state);
 			activePage.attr.routingURL._value = 'pages/' + params.newVal;
+
+			state.layout[0].attr.pages.value = [];
+
+			var pageList = state.layout[0].children;
+
+			for (var i = 0; i < pageList.length; i++) {
+				var page = pageList[i];
+				state.layout[0].attr.pages.value.push(page.attr.routingURL._value);
+			};
+
 			return {...state};
 		},
 

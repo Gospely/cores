@@ -109,7 +109,7 @@ const Attr = (props) => {
 		    				attr: attr,
 		    				parentAtt: parentAtt
 	    				}
-	    			});    				
+	    			});
     			},
 
     			enableTabs: function() {
@@ -233,7 +233,7 @@ const Attr = (props) => {
 				<FormItem key={pageKey + (itemKey ++)} {...formItemLayout} label={attr.title}>
 				    <Select onChange={attrFormProps.handleAttrFormSelectChange.bind(this, attr, parentAtt)}
 				    		value={attr._value}>
-				    	{attr._value.map( type => (
+				    	{attr.value.map( type => (
 					      	<Option key={type} value={type}>{type}</Option>
 				    	))}
 				    </Select>
