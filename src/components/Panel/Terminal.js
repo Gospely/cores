@@ -136,7 +136,7 @@ class Terminal extends Component {
 							fetch(baseUrl + '/container/start/' + localStorage.applicationId ,{
 								method: 'GET'
 							}).then(function(res){
-								if(res.status != 200) {
+								if(res.status == 200) {
 									setTimeout(function () {
 									  //wait for the terminal start it completely
 									  fetch(baseUrl + '/terminals?cols=' + cols + '&rows=' + rows, {
