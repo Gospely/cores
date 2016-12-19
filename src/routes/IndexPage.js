@@ -119,7 +119,7 @@ function IndexPage(props) {
                 editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
                 let currentTab = props.devpanel.panels.panes[paneKey.paneKey].tabs[targetKey - 1];
                 let tabType = 'currentTab.type';
-                    
+
                 if (tabType != 'editor') {
 
                     if (tabType == 'terminal') {
@@ -178,31 +178,35 @@ function IndexPage(props) {
     devPanelMinSize = devPanelMinSize - (rightBarWidth + leftBarWidth);
 
     return ( <div className = "body">
-                <div hidden = 'true'
-                    id = "git-terminal" > 
-                </div> 
+                <div
+                    hidden='true'
+                    id = "git-terminal" >
+                </div>
+                <div
+                    id = "git-show" >
+                </div>
                 <div className = "table-ftw" style = {{ paddingBottom: '0px' }}>
                     <div className = "tr-ftw">
                         <div className = "td-ftw" style = {{ height: '38px' }}>
-                            <Topbar> </Topbar> 
-                        </div> 
-                    </div> 
+                            <Topbar> </Topbar>
+                        </div>
+                    </div>
                     <div className = "tr-ftw" >
                         <div className = "td-ftw" >
                             <SplitPane split = "vertical" minSize = { 41 } defaultSize = { leftBarWidth } >
                                 <div className = "LeftSidebar" >
-                                    <LeftSidebar></LeftSidebar> 
-                                </div> 
+                                    <LeftSidebar></LeftSidebar>
+                                </div>
                                 <SplitPane split = "vertical" defaultSize = { devPanelMinSize }>
                                     <div className = { styles.devbar } >
                                         <DevPanel {...devPanelProps } props = { props }></DevPanel>
                                     </div>
-                                    <RightSidebar></RightSidebar> 
-                                </SplitPane> 
-                            </SplitPane> 
-                        </div> 
-                    </div> 
-                </div> 
+                                    <RightSidebar></RightSidebar>
+                                </SplitPane>
+                            </SplitPane>
+                        </div>
+                    </div>
+                </div>
             </div>);
 }
 
