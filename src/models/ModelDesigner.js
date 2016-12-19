@@ -615,7 +615,19 @@ export default {
 								isClassName: false,
 								isHTML: true,
 								_value: '打开编辑器',
-								onClick: 'designer/showCSSEditor'
+								onClick: 'designer/showCSSEditor',
+								params: {
+									key: 'page-home'
+								}
+							},
+
+							css: {
+								type: 'input',
+								title: 'css',
+								isClassName: false,
+								isHTML: false,
+								_value: '',
+								backend: true
 							}
 
 						},
@@ -962,7 +974,8 @@ export default {
 						isClassName: false,
 						isHTML: true,
 						_value: '打开编辑器',
-						onClick: 'designer/showCSSEditor'
+						onClick: 'designer/showCSSEditor',
+						params: {}
 					}
 
 				},
@@ -2621,10 +2634,8 @@ export default {
 	},
 
 	effects: {
-		*handleOpenCSSEditor({payload: params}, {call, put, select}) {
-			yield put({
-		        type: 'showCSSEditor'
-		    });
+		*handleCSSEditorSaved({payload: params}, {call, put, select}) {
+			alert(params);
 		}
 
 	},
@@ -2668,8 +2679,6 @@ export default {
 		addPage(state, { payload: page }) {
 			var page = page || layoutAction.getController(state.controllersList, 'page');
 
-			console.log('page', page);
-
 			let tmpAttr = {};
 			tmpAttr = layoutAction.deepCopyObj(page.attr, tmpAttr);
 
@@ -2690,12 +2699,12 @@ export default {
 			tmpAttr['enablePullDownRefresh']['_value'] = state.layout[0].attr.window._value.enablePullDownRefresh._value;
 			tmpAttr['navigationBarTextStyle']['_value'] = state.layout[0].attr.window._value.navigationBarTextStyle._value;
 
-			console.log('page.attr', page.attr);
-
 			//加路由后在应用的路由选项里进行配置
 			state.layout[0].attr.pages.value.push(tmpAttr['routingURL']['_value']);
 
 			var pageRandomString = randomString(8, 10);
+			//设置CSSEditor被打开后需要传的参数（key = [page.key]）
+			tmpAttr['cssEditor']['params']['key'] = 'page-' + pageRandomString;
 
 			var tmpPage = {
 				type: 'page',
@@ -2732,10 +2741,7 @@ export default {
 				}]
 			}
 
-			console.log(tmpPage);
-			console.log('pre push', state.layout);
 			state.layout[0].children.push(tmpPage);
-			console.log('after layout', state.layout);
 			layoutAction.setActivePage(state.layoutState, state.layout[0].children.length - 1, tmpPage.key, 2);
 			return {...state};
 		},
@@ -3032,6 +3038,7 @@ export default {
 
 		showCSSEditor(state, { payload: params }) {
 			state.modalCSSEditorVisible = true;
+			alert(params.key)
 			return {...state};
 		}
 

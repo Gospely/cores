@@ -163,9 +163,16 @@ const Attr = (props) => {
     	},
 
     	handleAttrFormBtnClicked: (attr, parentAtt, e) => {
-    		props.dispatch({
-    			type: attr.onClick
-    		})
+    		if(attr.params) {
+	    		props.dispatch({
+	    			type: attr.onClick,
+	    			payload: attr.params
+	    		});
+    		}else {
+	    		props.dispatch({
+	    			type: attr.onClick
+	    		});    			
+    		}
     	}
 
     };
@@ -415,7 +422,7 @@ const Attr = (props) => {
 	const modalCSSEditorProps = {
 		handleOk () {
 			props.dispatch({
-				type: 'designer/saveCSS'
+				type: 'designer/handleCSSEditorSaved'
 			});
 			props.dispatch({
 				type: 'designer/hideCSSEditor'
@@ -459,7 +466,7 @@ const Attr = (props) => {
 						height={aceHeight}
 						language="css"
 						options={props.editor.options}
-						defaultValue=""
+						defaultValue="/* CSS */"
 					/>
 	        	</Modal>
 
