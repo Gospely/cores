@@ -45,13 +45,6 @@ const LeftSidebar = (props) => {
 			height: '100%'
 		}
 	};
-	const openNotificationWithIcon = (type,duration, description) => (
-	  notification[type]({
-	    message: props.editorTop.gitOperate,
-	    description: props.editorTop.terminalMessage,
-	    duration: 0,
-	  })
-	);
 	const initApplications = () => {
 		console.log('side');
 		if(props.sidebar.applications.length < 1) {
@@ -111,11 +104,13 @@ const LeftSidebar = (props) => {
 					// 	type: 'sidebar/pushCommit'
 					// })
 					window.socket.send("cd /root/workspace && git commit\n");
+					localStorage.message = 'git commit ';
+					localStorage.gitOperate = 'git commit';
 					props.dispatch({
 						type: 'editorTop/initGitOperate',
 						payload: { operate: 'git comit'}
 					});
-					openNotificationWithIcon("info");
+
 
 				}
 	        },
@@ -128,12 +123,13 @@ const LeftSidebar = (props) => {
 					})
 				}else {
 					window.socket.send("cd /root/workspace && git push\n");
-
+					localStorage.message = 'git push ';
+					 localStorage.gitOperate = 'git push';
 					props.dispatch({
 						type: 'editorTop/initGitOperate',
 						payload: { operate: 'git push'}
 					});
-					openNotificationWithIcon("info");
+
 
 					// props.dispatch({
 					// 	type: 'sidebar/pushGit'
@@ -149,11 +145,13 @@ const LeftSidebar = (props) => {
 					});
 				}else {
 					window.socket.send("cd /root/workspace && git pull\n");
+					localStorage.message = 'git pull ';
+					 localStorage.gitOperate = 'git pull';
 					props.dispatch({
 						type: 'editorTop/initGitOperate',
 						payload: { operate: 'git pull'}
 					});
-					openNotificationWithIcon("info");
+
 				}
 	        },
 
