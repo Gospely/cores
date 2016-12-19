@@ -29,7 +29,7 @@ export default {
 		window.addEventListener("load", (evt) => {
 
 			var applicationId = window.applicationId;
-			gitTerminal();
+			gitTerminal(props);
 			if(applicationId != null && applicationId != undefined) {
 				var url = configs.baseURL + "applications/" + applicationId;
 				fetch(url).then(function(response){

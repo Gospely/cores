@@ -1,10 +1,3 @@
-const openNotificationWithIcon = (type, title, description) => (
-  notification[type]({
-    message: title,
-    description: description,
-  })
-);
-
 const initApplication = function (application, props){
 
   localStorage.dir = localStorage.user + '/' + application.name + '_' + localStorage.userName + "/";

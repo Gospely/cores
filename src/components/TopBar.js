@@ -1,5 +1,5 @@
 import React , { PropTypes } from 'react';
-import { Menu, Icon, Modal, Input, Button, message, Tabs, Card, Popconfirm, Row, Col} from 'antd';
+import { Menu, Icon, Modal, Input, Button, message, notification, Tabs, Card, Popconfirm, Row, Col} from 'antd';
 
 const TabPane = Tabs.TabPane;
 
@@ -23,6 +23,8 @@ const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 const InputGroup = Input.Group;
 
+
+
 const LeftSidebar = (props) => {
 
 	dndHandler.init(props);
@@ -43,7 +45,13 @@ const LeftSidebar = (props) => {
 			height: '100%'
 		}
 	};
-
+	const openNotificationWithIcon = (type,duration, description) => (
+	  notification[type]({
+	    message: props.editorTop.gitOperate,
+	    description: props.editorTop.terminalMessage,
+	    duration: 0,
+	  })
+	);
 	const initApplications = () => {
 		console.log('side');
 		if(props.sidebar.applications.length < 1) {
@@ -102,7 +110,13 @@ const LeftSidebar = (props) => {
 					// props.dispatch({
 					// 	type: 'sidebar/pushCommit'
 					// })
-					window.socket.send("cd /root/workspace && git push\n")
+					window.socket.send("cd /root/workspace && git commit\n");
+					props.dispatch({
+						type: 'editorTop/initGitOperate',
+						payload: { operate: 'git comit'}
+					});
+					openNotificationWithIcon("info");
+
 				}
 	        },
 
@@ -113,7 +127,14 @@ const LeftSidebar = (props) => {
 						type: 'sidebar/showModalModifyGitOrgin'
 					})
 				}else {
-					window.socket.send("cd /root/workspace && git push\n")
+					window.socket.send("cd /root/workspace && git push\n");
+
+					props.dispatch({
+						type: 'editorTop/initGitOperate',
+						payload: { operate: 'git push'}
+					});
+					openNotificationWithIcon("info");
+
 					// props.dispatch({
 					// 	type: 'sidebar/pushGit'
 					// })
@@ -125,12 +146,14 @@ const LeftSidebar = (props) => {
 					message.error('您尚未添加git源，请先添加');
 					props.dispatch({
 						type: 'sidebar/showModalModifyGitOrgin'
-					})
+					});
 				}else {
-					window.socket.send("cd /root/workspace && git pull\n")
-					// props.dispatch({
-					// 	type: 'sidebar/pullGit'
-					// })
+					window.socket.send("cd /root/workspace && git pull\n");
+					props.dispatch({
+						type: 'editorTop/initGitOperate',
+						payload: { operate: 'git pull'}
+					});
+					openNotificationWithIcon("info");
 				}
 	        },
 
@@ -537,8 +560,8 @@ const LeftSidebar = (props) => {
 
 }
 
-function mapStateToProps({ sidebar, editor, rightbar, designer, attr ,devpanel,layout}) {
-  return { sidebar, editor, rightbar, designer, attr ,devpanel,layout};
+function mapStateToProps({ sidebar, editor, editorTop, rightbar, designer, attr ,devpanel,layout}) {
+  return { sidebar, editor, editorTop, rightbar, designer, attr ,devpanel,layout};
 }
 
 export default connect(mapStateToProps)(LeftSidebar);
