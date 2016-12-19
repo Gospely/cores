@@ -14,7 +14,7 @@ import auth from './utils/auth';
 window.flag = false;
 window.fileFlag = false;
 
-document.domain = 'localhost';
+document.domain = location.hostname;
 
 //认证和状态同步
 auth();

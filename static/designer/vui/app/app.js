@@ -318,7 +318,7 @@ $(function () {
 
     var dndHandlder = function() {
 
-        document.domain = 'localhost';
+        document.domain = location.hostname;
 
         jQuery.fn.isChildOf = function(b) { 
             return (this.parents(b).length > 0); 
