@@ -545,28 +545,31 @@ $(function () {
                 var sourceController = jq(self.rowSelector, window.parent.parent.document).find('.ant-col-12'),
                     inter = 0;
 
+                var initDnd = function () {
+                    sourceController.each(function(n) {
+                        jq(this).find(".app-components").attr("draggable", true);
+                        jq(this).find(".app-components").attr("id", "source" + n);
+                        //开始拖拽
+                        jq(this).find(".app-components").on("dragstart", function(ev) {
+                            data = jq(ev.target).clone();
+                            //ev.dataTransfer.setData("Text",ev.target.id);
+                            console.log(ev);
+                        })
+                    });
+
+                    self.onDrop();
+                    self.onDragover();
+                }
                 if(sourceController.length === 0) {
                     inter = setInterval(function() {
                         sourceController = jq(self.rowSelector, window.parent.parent.document).find('.ant-col-12')
                         if(sourceController.length > 0) {
                             clearInterval(inter);
-
-                            sourceController.each(function(n) {
-                                jq(this).find(".app-components").attr("draggable", true);
-                                jq(this).find(".app-components").attr("id", "source" + n);
-                                //开始拖拽
-                                jq(this).find(".app-components").on("dragstart", function(ev) {
-                                    data = jq(ev.target).clone();
-                                    //ev.dataTransfer.setData("Text",ev.target.id);
-                                    console.log(ev);
-                                })
-                            });
-
-                            self.onDrop();
-                            self.onDragover();
-
+                            initDnd();
                         }
                     }, 1);
+                }else {
+                    initDnd();
                 }
                 
             },

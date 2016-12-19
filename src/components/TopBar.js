@@ -1,5 +1,5 @@
 import React , { PropTypes } from 'react';
-import { Menu, Icon, Modal, Input, Button, message, notification, Tabs, Card, Popconfirm, Row, Col} from 'antd';
+import { Menu, Icon, Modal, Input, Button, message, notification, Tabs, Card, Popconfirm, Row, Col, Dropdown, Form } from 'antd';
 
 const TabPane = Tabs.TabPane;
 
@@ -204,42 +204,8 @@ const LeftSidebar = (props) => {
 
 	        },
 
-	        start() {
-
-				console.log("debugger");
-				const debugType = {
-					common(){
-						console.log('common');
-						sessionStorage.currentDebugResource = 'http://gospely.com:' + localStorage.port;
-						var debug = window.open('http://localhost:8989/static/debugger/wordpress.html','_blank')
-						props.dispatch({
-							type: 'devpanel/handleDebugger',
-							payload: {debug}
-						});
-					},
-					visual(){
-						console.log('===================visual===================');
-
-						//分栏
-						var key = "vertical-dbl";
-						props.dispatch({
-							type: 'devpanel/changeColumn',
-							payload: key
-						});
-						props.dispatch({
-							type: 'devpanel/initDebugPanel',
-						});
-
-						var title = '终端',
-								type = 'terminal';
-						props.dispatch({
-							type: 'devpanel/add',
-							payload: {title, type}
-						})
-						//创建termin，执行启动的shell
-					}
-				}
-				debugType["visual"]();
+	        showStartMenu() {
+	        	return false;
 	        },
 
 	        pause() {
@@ -401,6 +367,93 @@ const LeftSidebar = (props) => {
 	    marginLeft: '-1px'
 	};
 
+	const onSelectStartMenu = function (activeMenu) {
+		let handleActiveMenuEvent = {
+			runCommand() {
+				
+			},
+
+			run() {
+				console.log("debugger");
+				const debugType = {
+					common(){
+						console.log('common');
+						sessionStorage.currentDebugResource = 'http://gospely.com:' + localStorage.port;
+						var debug = window.open('http://localhost:8989/static/debugger/wordpress.html','_blank')
+						props.dispatch({
+							type: 'devpanel/handleDebugger',
+							payload: {debug}
+						});
+					},
+					visual(){
+						console.log('===================visual===================');
+
+						//分栏
+						var key = "vertical-dbl";
+						props.dispatch({
+							type: 'devpanel/changeColumn',
+							payload: key
+						});
+						props.dispatch({
+							type: 'devpanel/initDebugPanel',
+						});
+
+						var title = '终端',
+								type = 'terminal';
+						props.dispatch({
+							type: 'devpanel/add',
+							payload: {title, type}
+						})
+						//创建termin，执行启动的shell
+					}
+				}
+				debugType["visual"]();
+			},
+			config() {
+				props.dispatch({
+					type: 'sidebar/showDebugConfigModal'
+				})
+			}
+		}
+		handleActiveMenuEvent[activeMenu.key]()
+	}
+
+	const startMenu = (
+		<Menu onClick={onSelectStartMenu}>
+			<Menu.Item key='runCommand'>运行命令:{props.sidebar.debugConfig.runCommand}</Menu.Item>
+			<Menu.Item key='run'>直接运行</Menu.Item>
+			<Menu.Divider/>
+			<Menu.Item key='config'>配置...</Menu.Item>
+		</Menu>
+	);
+
+	const debugConfigModal = {
+		formItemLayout: {
+			labelCol: { span: 4 },
+      		wrapperCol: { span: 16 }
+		},
+		hideModal() {
+			props.dispatch({
+				type: 'sidebar/hideDebugConfigModal'
+			})
+		},
+		runCommandChange(event) {
+			props.dispatch({
+				type: 'sidebar/handleRunCommandChange',
+				payload: event.target.value
+			})
+		},
+		startPortChange(event) {
+			props.dispatch({
+				type: 'sidebar/handleStartPortChange',
+				payload: event.target.value
+			})
+		},
+		commitDebugConfigChange() {
+			
+		}
+	}
+
 	return (
 		<div style={styles.wrapper}>
 	      	<Menu
@@ -432,8 +485,10 @@ const LeftSidebar = (props) => {
 		        <Menu.Item key="terminal">
 					<Icon type="code-o" />
 		        </Menu.Item>
-		        <Menu.Item key="start">
-					<Icon type="play-circle-o" />
+		        <Menu.Item key="showStartMenu">
+		        	<Dropdown overlay={startMenu} trigger={['click']}>
+						<Icon type="play-circle-o" />
+					</Dropdown>
 		        </Menu.Item>
 		        <Menu.Item key="pause">
 					<Icon type="pause-circle-o" />
@@ -551,6 +606,24 @@ const LeftSidebar = (props) => {
   			</Tabs>
 
 	        </Modal>
+
+	        <Modal width="30%"  title="配置调试参数" visible={props.sidebar.debugConfig.showConfigModal}
+	          	onOk={debugConfigModal.commitDebugConfigChange} onCancel={debugConfigModal.hideModal}
+		    >
+		    	<Form.Item key="runCommand" label="启动命令" {...debugConfigModal.formItemLayout}>
+		    		<Input value={props.sidebar.debugConfig.runCommand}
+	         				type="text"
+	         				onChange={debugConfigModal.runCommandChange}
+	         				placeholder="npm run dev" />
+		    	</Form.Item>
+
+		    	<Form.Item key="startPort" label="启动端口" {...debugConfigModal.formItemLayout}>
+		    		<Input value={props.sidebar.debugConfig.startPort}
+	         				type="number"
+	         				onChange={debugConfigModal.startPortChange}
+	         				placeholder="8080" />
+		    	</Form.Item>
+		    </Modal>
 
         </div>
 
