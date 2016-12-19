@@ -224,6 +224,7 @@ export default {
 		loaded: false,
 
 		modalTabsVisible: false,
+		modalCSSEditorVisible: false,
 
 		deviceList: [
 			{
@@ -300,7 +301,8 @@ export default {
 						attrType: '',
 						isClassName: false,
 						title: '页面',
-						_value: ['page-home']
+						value: ['pages/index'],
+						_value: 'pages/index'
 					},
 
 					title: {
@@ -437,7 +439,7 @@ export default {
 										type: 'input',
 										attrType: 'text',
 										title: '菜单名称',
-										value: ['page-home'],
+										value: ['pages/index'],
 										isClassName: false,
 										isHTML: false,
 										_value: '菜单'
@@ -612,7 +614,20 @@ export default {
 								title: '编辑CSS',
 								isClassName: false,
 								isHTML: true,
-								_value: '打开编辑器'
+								_value: '打开编辑器',
+								onClick: 'designer/showCSSEditor',
+								params: {
+									key: 'page-home'
+								}
+							},
+
+							css: {
+								type: 'input',
+								title: 'css',
+								isClassName: false,
+								isHTML: false,
+								_value: '/* CSS */',
+								backend: true
 							}
 
 						},
@@ -958,7 +973,18 @@ export default {
 						title: '编辑CSS',
 						isClassName: false,
 						isHTML: true,
-						_value: '打开编辑器'
+						_value: '打开编辑器',
+						onClick: 'designer/showCSSEditor',
+						params: {}
+					},
+
+					css: {
+						type: 'input',
+						title: 'css',
+						isClassName: false,
+						isHTML: false,
+						_value: '/* CSS */',
+						backend: true
 					}
 
 				},
@@ -2617,7 +2643,6 @@ export default {
 	},
 
 	effects: {
-
 	},
 
 	reducers: {
@@ -2659,8 +2684,6 @@ export default {
 		addPage(state, { payload: page }) {
 			var page = page || layoutAction.getController(state.controllersList, 'page');
 
-			console.log('page', page);
-
 			let tmpAttr = {};
 			tmpAttr = layoutAction.deepCopyObj(page.attr, tmpAttr);
 
@@ -2670,7 +2693,7 @@ export default {
 			tmpAttr['title']['isHTML'] = false;
 			tmpAttr['title']['title'] = '页面名称';
 
-			tmpAttr['routingURL']['_value'] = '/pages/page-' + state.layout[0].children.length;
+			tmpAttr['routingURL']['_value'] = 'pages/page-' + state.layout[0].children.length;
 			tmpAttr['alias']['_value'] = 'page-' + state.layout[0].children.length;
 
 			//设置新增加的页面和应用整体的值相同
@@ -2681,9 +2704,12 @@ export default {
 			tmpAttr['enablePullDownRefresh']['_value'] = state.layout[0].attr.window._value.enablePullDownRefresh._value;
 			tmpAttr['navigationBarTextStyle']['_value'] = state.layout[0].attr.window._value.navigationBarTextStyle._value;
 
-			console.log('page.attr', page.attr);
+			//加路由后在应用的路由选项里进行配置
+			state.layout[0].attr.pages.value.push(tmpAttr['routingURL']['_value']);
 
 			var pageRandomString = randomString(8, 10);
+			//设置CSSEditor被打开后需要传的参数（key = [page.key]）
+			tmpAttr['cssEditor']['params']['key'] = 'page-' + pageRandomString;
 
 			var tmpPage = {
 				type: 'page',
@@ -2720,10 +2746,7 @@ export default {
 				}]
 			}
 
-			console.log(tmpPage);
-			console.log('pre push', state.layout);
 			state.layout[0].children.push(tmpPage);
-			console.log('after layout', state.layout);
 			layoutAction.setActivePage(state.layoutState, state.layout[0].children.length - 1, tmpPage.key, 2);
 			return {...state};
 		},
@@ -2881,10 +2904,6 @@ export default {
 
     		if(state.layoutState.activeType == 'page') {
 
-	    		gospelDesigner.postMessage({
-	    			attrRefreshed: activePage
-	    		}, '*');
-
 	    		gospelDesignerPreviewer.postMessage({
 	    			attrRefreshed: activePage
 	    		}, '*');
@@ -2892,10 +2911,6 @@ export default {
 
     		if(state.layoutState.activeType == 'controller') {
     			var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
-	    		gospelDesigner.postMessage({
-	    			ctrlAttrRefreshed: activeCtrl
-	    		}, '*');
-
 	    		gospelDesignerPreviewer.postMessage({
 	    			ctrlAttrRefreshed: activeCtrl
 	    		}, '*');
@@ -2906,6 +2921,16 @@ export default {
 		handlePageAliasChanged (state, { payload: params}) {
 			var activePage = layoutAction.getActivePage(state);
 			activePage.attr.routingURL._value = 'pages/' + params.newVal;
+
+			state.layout[0].attr.pages.value = [];
+
+			var pageList = state.layout[0].children;
+
+			for (var i = 0; i < pageList.length; i++) {
+				var page = pageList[i];
+				state.layout[0].attr.pages.value.push(page.attr.routingURL._value);
+			};
+
 			return {...state};
 		},
 
@@ -2998,22 +3023,36 @@ export default {
 			if(state.layoutState.activeType == 'controller') {
 	      		var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
 
-	      		console.log(';;;;;;;;;;;;;;;;;;;;activeCtrl=========', activeCtrl);
-
 	      		activeCtrl.attr[params.attrName]['_value'] = params.newVal;
 
 			}
 			return {...state};
 		},
-		initState(state, { payload: params }){
 
-			console.log("=====initState designer=====");
-			console.log(params);
+		initState(state, { payload: params }){
 			state.layout = params.UIState.layout;
 			state.layouState = params.UIState.layoutState;
 			state.defaultDevice = params.UIState.defaultDevice;
 			return {...state};
+		},
+
+		hideCSSEditor(state, { payload: params }) {
+			state.modalCSSEditorVisible = false;
+			return {...state};
+		},
+
+		showCSSEditor(state, { payload: params }) {
+			state.modalCSSEditorVisible = true;
+			return {...state};
+		},
+
+		handleCSSEditorSaved(state, { payload: value }) {
+			var activePage = layoutAction.getActivePage(state);
+			activePage.attr.css._value = value;
+			return {...state};				
 		}
+
+
 	}
 
 }

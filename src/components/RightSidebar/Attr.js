@@ -4,6 +4,8 @@ import { Collapse, Switch } from 'antd';
 
 import { connect } from 'dva';
 
+import MonacoEditor from 'react-monaco-editor';
+
 // import randomString from '../../utils/randomString';
 
 const FormItem = Form.Item;
@@ -109,7 +111,7 @@ const Attr = (props) => {
 		    				attr: attr,
 		    				parentAtt: parentAtt
 	    				}
-	    			});    				
+	    			});
     			},
 
     			enableTabs: function() {
@@ -161,9 +163,16 @@ const Attr = (props) => {
     	},
 
     	handleAttrFormBtnClicked: (attr, parentAtt, e) => {
-    		props.dispatch({
-    			type: attr.onClick
-    		})
+    		if(attr.params) {
+	    		props.dispatch({
+	    			type: attr.onClick,
+	    			payload: attr.params
+	    		});
+    		}else {
+	    		props.dispatch({
+	    			type: attr.onClick
+	    		});    			
+    		}
     	}
 
     };
@@ -233,7 +242,7 @@ const Attr = (props) => {
 				<FormItem key={pageKey + (itemKey ++)} {...formItemLayout} label={attr.title}>
 				    <Select onChange={attrFormProps.handleAttrFormSelectChange.bind(this, attr, parentAtt)}
 				    		value={attr._value}>
-				    	{attr._value.map( type => (
+				    	{attr.value.map( type => (
 					      	<Option key={type} value={type}>{type}</Option>
 				    	))}
 				    </Select>
@@ -410,6 +419,29 @@ const Attr = (props) => {
 		    }
 		}];
 
+	const modalCSSEditorProps = {
+		handleOk () {
+			props.dispatch({
+				type: 'designer/hideCSSEditor'
+			});			
+		},
+
+		handleCSSEditorChanged (value) {
+			props.dispatch({
+				type: 'designer/handleCSSEditorSaved',
+				payload: value
+			});
+		},
+
+		handleCancel () {
+			props.dispatch({
+				type: 'designer/hideCSSEditor'
+			});
+		}
+	}
+
+	let aceHeight = (parseInt(document.body.clientHeight) - 300);
+
     if (props.designer.loaded) {
 		return (
 			<div>
@@ -422,12 +454,32 @@ const Attr = (props) => {
 					    </Panel>
 				  	</Collapse>
 				</div>
+
         		<Modal width="80%" title="配置底部菜单栏" visible={props.designer.modalTabsVisible}
 	          		onOk={modalTabs.handleOk} onCancel={modalTabs.handleCancel}>
 		          		<Button onClick={tabFormProps.onAddTab} type="dashed" style={{ marginBottom: '15px' }}>
 		            		<Icon type="plus" /> 添加菜单项
 		          		</Button>
 		      	      	<Table bordered dataSource={tabsTableDatasource} columns={tabsTablesColumns} />
+	        	</Modal>
+
+        		<Modal width="80%" title="CSS编辑器" 
+        			visible={props.designer.modalCSSEditorVisible}
+	          		onOk={modalCSSEditorProps.handleOk} onCancel={modalCSSEditorProps.handleCancel}
+	          		footer={[
+		            	<Button key="back" type="ghost" size="small" onClick={modalCSSEditorProps.handleCancel}>返回</Button>,
+			            <Button key="submit" type="primary" size="small" onClick={modalCSSEditorProps.handleOk}>
+			              确定
+			            </Button>,
+			        ]}>
+					<MonacoEditor
+						width="100%"
+						height={aceHeight}
+						language="css"
+						options={props.editor.options}
+						value={props.designer.layout[0].children[props.designer.layoutState.activePage.index].attr.css._value}
+						onChange={modalCSSEditorProps.handleCSSEditorChanged}
+					/>
 	        	</Modal>
 
 			</div>
@@ -441,8 +493,8 @@ const Attr = (props) => {
 	
 };
 
-function mapStateToProps({ designer, attr}) {
-  return { designer, attr};
+function mapStateToProps({ designer, attr, editor}) {
+  return { designer, attr, editor};
 }
 
 export default connect(mapStateToProps)(Attr);

@@ -7,27 +7,26 @@ export default {
 
 		editors: [],
 		options: {
-      selectOnLineNumbers: true,
-      roundedSelection: true,
-      readOnly: false,
-      theme: 'vs',
-      cursorStyle: 'line',
-      automaticLayout: true,
+	      	selectOnLineNumbers: true,
+	      	roundedSelection: true,
+	      	readOnly: false,
+	      	theme: 'vs',
+	      	cursorStyle: 'line',
+	      	automaticLayout: true,
 			fontSize: 14,
 			cursorBlinking: true
-    }
+    	}
 	},
 
 	reducers: {
 
 		pushEditor(state, { payload: editorId }) {
 			var editorObj = {
-				value: ''
-			},
+					value: ''
+				},
 				tmp = {};
-			tmp[editorId] = editorObj;
-			state.editors.push(tmp);
-			console.log(state.editors);
+				tmp[editorId] = editorObj;
+				state.editors.push(tmp);
 			return {...state};
 		},
 
