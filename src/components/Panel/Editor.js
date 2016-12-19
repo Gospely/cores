@@ -55,7 +55,6 @@ const Editor = (props) => {
 
 		isSlideUp: props$editorTop.isSlideUp,
 
-
 		onOpenSearch() {
 			var searchContent = props.editorTop.searchContent;
 			dispatch({
@@ -121,7 +120,6 @@ const Editor = (props) => {
 		},
 
 		onReplace(value) {
-
 			var replaceContent = props.editorTop.replaceContent;
 			var searchContent = props.editorTop.searchContent;
 			var isReplaceAll = props.editorTop.isReplaceAll;
@@ -192,11 +190,7 @@ const Editor = (props) => {
     	},
 
 		onLoad(e,editor) {
-
 			window.currentEditor = editor;
-			console.log(editor);
-			console.log('editor onLoad');
-
 		},
 
     	handleMouseLeave() {
@@ -206,15 +200,11 @@ const Editor = (props) => {
     	},
 
     	handleEditorChanged(value) {
-
-				console.log('change');
-				console.log(this);
-				console.log(value);
-				var activePane = props.devpanel.panels.panes[props.devpanel.panels.activePane.key],
-					tabKey = activePane.activeTab.key,
-					activeTab = activePane.tabs[tabKey-1],
-					editorId = activeTab.editorId;
-				props.dispatch({
+			var activePane = props.devpanel.panels.panes[props.devpanel.panels.activePane.key],
+				tabKey = activePane.activeTab.key,
+				activeTab = activePane.tabs[tabKey-1],
+				editorId = activeTab.editorId;
+			props.dispatch({
     			type: 'devpanel/handleEditorChanged',
     			payload: {value, editorId}
     		})
@@ -235,8 +225,6 @@ const Editor = (props) => {
   		aceHeight = ( parseInt(document.body.clientHeight) - 160 ) / 2;
   	}
 
-
-
 	// console.log('当前editor',props.belongTo)
 
 
@@ -244,7 +232,6 @@ const Editor = (props) => {
   		return (
 		<div className={EditorStyle.aceEditor}>
 			<EditorTop {...EditorTopProps}></EditorTop>
-
 				<MonacoEditor
 					width="100%"
 					height={aceHeight}
@@ -254,10 +241,7 @@ const Editor = (props) => {
 					onChange={editorProps.handleEditorChanged}
 					editorDidMount={editorProps.onLoad}
 				/>
-
 	        <EditorBottom></EditorBottom>
-
-
   		</div>
  		);
   			//全屏按钮

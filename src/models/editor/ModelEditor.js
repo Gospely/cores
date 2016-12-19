@@ -7,15 +7,15 @@ export default {
 
 		editors: [],
 		options: {
-      selectOnLineNumbers: true,
-      roundedSelection: true,
-      readOnly: false,
-      theme: 'vs',
-      cursorStyle: 'line',
-      automaticLayout: true,
+	      	selectOnLineNumbers: true,
+	      	roundedSelection: true,
+	      	readOnly: false,
+	      	theme: 'vs',
+	      	cursorStyle: 'line',
+	      	automaticLayout: true,
 			fontSize: 14,
 			cursorBlinking: true
-    }
+    	}
 	},
 
 	reducers: {
@@ -24,7 +24,7 @@ export default {
 			var editorObj = {
 				value: ''
 			},
-				tmp = {};
+			tmp = {};
 			tmp[editorId] = editorObj;
 			state.editors.push(tmp);
 			console.log(state.editors);

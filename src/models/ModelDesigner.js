@@ -224,6 +224,7 @@ export default {
 		loaded: false,
 
 		modalTabsVisible: false,
+		modalCSSEditorVisible: false,
 
 		deviceList: [
 			{
@@ -613,7 +614,8 @@ export default {
 								title: '编辑CSS',
 								isClassName: false,
 								isHTML: true,
-								_value: '打开编辑器'
+								_value: '打开编辑器',
+								onClick: 'designer/showCSSEditor'
 							}
 
 						},
@@ -959,7 +961,8 @@ export default {
 						title: '编辑CSS',
 						isClassName: false,
 						isHTML: true,
-						_value: '打开编辑器'
+						_value: '打开编辑器',
+						onClick: 'designer/showCSSEditor'
 					}
 
 				},
@@ -2618,6 +2621,11 @@ export default {
 	},
 
 	effects: {
+		*handleOpenCSSEditor({payload: params}, {call, put, select}) {
+			yield put({
+		        type: 'showCSSEditor'
+		    });
+		}
 
 	},
 
@@ -3004,22 +3012,29 @@ export default {
 			if(state.layoutState.activeType == 'controller') {
 	      		var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
 
-	      		console.log(';;;;;;;;;;;;;;;;;;;;activeCtrl=========', activeCtrl);
-
 	      		activeCtrl.attr[params.attrName]['_value'] = params.newVal;
 
 			}
 			return {...state};
 		},
-		initState(state, { payload: params }){
 
-			console.log("=====initState designer=====");
-			console.log(params);
+		initState(state, { payload: params }){
 			state.layout = params.UIState.layout;
 			state.layouState = params.UIState.layoutState;
 			state.defaultDevice = params.UIState.defaultDevice;
 			return {...state};
+		},
+
+		hideCSSEditor(state, { payload: params }) {
+			state.modalCSSEditorVisible = false;
+			return {...state};
+		},
+
+		showCSSEditor(state, { payload: params }) {
+			state.modalCSSEditorVisible = true;
+			return {...state};
 		}
+
 	}
 
 }

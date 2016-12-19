@@ -4,6 +4,8 @@ import { Collapse, Switch } from 'antd';
 
 import { connect } from 'dva';
 
+import MonacoEditor from 'react-monaco-editor';
+
 // import randomString from '../../utils/randomString';
 
 const FormItem = Form.Item;
@@ -410,6 +412,25 @@ const Attr = (props) => {
 		    }
 		}];
 
+	const modalCSSEditorProps = {
+		handleOk () {
+			props.dispatch({
+				type: 'designer/saveCSS'
+			});
+			props.dispatch({
+				type: 'designer/hideCSSEditor'
+			});			
+		},
+
+		handleCancel () {
+			props.dispatch({
+				type: 'designer/hideCSSEditor'
+			});
+		}
+	}
+
+	let aceHeight = (parseInt(document.body.clientHeight) - 300);
+
     if (props.designer.loaded) {
 		return (
 			<div>
@@ -422,12 +443,24 @@ const Attr = (props) => {
 					    </Panel>
 				  	</Collapse>
 				</div>
+
         		<Modal width="80%" title="配置底部菜单栏" visible={props.designer.modalTabsVisible}
 	          		onOk={modalTabs.handleOk} onCancel={modalTabs.handleCancel}>
 		          		<Button onClick={tabFormProps.onAddTab} type="dashed" style={{ marginBottom: '15px' }}>
 		            		<Icon type="plus" /> 添加菜单项
 		          		</Button>
 		      	      	<Table bordered dataSource={tabsTableDatasource} columns={tabsTablesColumns} />
+	        	</Modal>
+
+        		<Modal width="80%" title="CSS编辑器" visible={props.designer.modalCSSEditorVisible}
+	          		onOk={modalCSSEditorProps.handleOk} onCancel={modalCSSEditorProps.handleCancel}>
+					<MonacoEditor
+						width="100%"
+						height={aceHeight}
+						language="css"
+						options={props.editor.options}
+						defaultValue=""
+					/>
 	        	</Modal>
 
 			</div>
@@ -441,8 +474,8 @@ const Attr = (props) => {
 	
 };
 
-function mapStateToProps({ designer, attr}) {
-  return { designer, attr};
+function mapStateToProps({ designer, attr, editor}) {
+  return { designer, attr, editor};
 }
 
 export default connect(mapStateToProps)(Attr);
