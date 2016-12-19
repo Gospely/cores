@@ -126,40 +126,26 @@ class Terminal extends Component {
 
         /**
          * author:willian
-         * @param res
          * work:restart the terminal
          */
-				function fixed_terminal(res) {
-          if (res.startsCode != 200){
-            let docker_code = localStorage.terminal;
+				function restart_terminal() {
+            let docker_code = localStorage.docker;
             fetch('http://api.gospely.com/applications/startTerminal?docker=' + docker_code,{
               method: 'GET'
-            }).then(function (res) {
-              if (res.statusCode != 200){
-                fixed_terminal(res)
-              }else {
-                return true;
-              }
-            })
-          }else {
-            return true;
-          }
+            }).then(function (res) {})
         }
 
 				if(true){
 				// if(activeTab.editorId == null || activeTab.editorId == '') {
-
-
 					console.log("============openTerminal===========");
 					console.log(activeTab);
 					fetch(baseUrl + '/terminals?cols=' + cols + '&rows=' + rows, {
 						method: 'POST'
 					}).then(function(res) {
 
-					  let result = fixed_terminal(res);
-
-					  if (result){
-
+					  if (res.statusCode != 200){
+					    restart_terminal()
+            }
               console.log("============openTerminal===========");
               console.log(activeTab);
               setTimeout(function () {
@@ -169,8 +155,6 @@ class Terminal extends Component {
                 }).then(function(res) {
 
                   let result = fixed_terminal(res);
-
-                  if (result){
                     res.text().then(function(pid) {
                       self.props.ctx.dispatch({
                         type: 'devpanel/setPID',
@@ -193,16 +177,12 @@ class Terminal extends Component {
                       };
                       setTerminalSize();
                     });
-                  }
                 });
               },1000)
-            }
 					});
 				}else{
-
 					console.log("============connectTerminal===========");
 					console.log(activeTab);
-
 					socketURL += activeTab.editorId;
 					socket = new WebSocket(socketURL);
 					socket.onopen = runRealTerminal;
@@ -217,8 +197,6 @@ class Terminal extends Component {
 								console.log(evt.data);
 								var data = JSON.parse(evt.data);
 								console.log(JSON.parse(evt.data));
-							}else {
-
 							}
 					};
 					setTerminalSize();
@@ -231,7 +209,7 @@ class Terminal extends Component {
 				term.attach(socket);
 				setTimeout(function(){
 					socket.send('cd /root/workspace && clear\n');
-				},1000)
+				},1000);
 				term._initialized = true;
 			}
 
