@@ -126,47 +126,81 @@ class Terminal extends Component {
 
 				if(true){
 				// if(activeTab.editorId == null || activeTab.editorId == '') {
-
-
 					console.log("============openTerminal===========");
 					console.log(activeTab);
 					fetch(baseUrl + '/terminals?cols=' + cols + '&rows=' + rows, {
 						method: 'POST'
 					}).then(function(res) {
+						console.log(res);
+						if (res.status != 200){
+							fetch(baseUrl + '/container/start/' + localStorage.applicationId ,{
+								method: 'GET'
+							}).then(function(res){
+								if(res.status != 200) {
+									setTimeout(function () {
+									  //wait for the terminal start it completely
+									  fetch(baseUrl + '/terminals?cols=' + cols + '&rows=' + rows, {
+										method: 'POST'
+									  }).then(function(res) {
 
+										  res.text().then(function(pid) {
+											self.props.ctx.dispatch({
+											  type: 'devpanel/setPID',
+											  payload: { pid: pid}
+											});
+											window.pid = pid;
+											socketURL += pid;
+											socket = new WebSocket(socketURL);
+											socket.onopen = runRealTerminal;
+											socket.onclose = runFakeTerminal;
+											socket.onerror = runFakeTerminal;
+											socket.onmessage = function (evt) {
+											  //收到服务器消息，使用evt.data提取
+											  console.log(evt.data);i
+											  if(/^\{[\s*"\w+":"\w+",*\s*]+\}$/.test(evt.data)){
+												console.log(evt.data);
+												var data = JSON.parse(evt.data);
+												console.log(JSON.parse(evt.data));
+											  }
+											};
+											setTerminalSize();
+										  });
+									  });
+								  },1000);
+							  }else{
 
+							  }
+							})
+						}
 						res.text().then(function(pid) {
-
-							self.props.ctx.dispatch({
-								type: 'devpanel/setPID',
-								payload: { pid: pid}
-							});
-							window.pid = pid;
-							socketURL += pid;
-							socket = new WebSocket(socketURL);
-							socket.onopen = runRealTerminal;
-							socket.onclose = runFakeTerminal;
-							socket.onerror = runFakeTerminal;
-
-							socket.onmessage = function (evt) {
-								//收到服务器消息，使用evt.data提取
-								console.log(evt.data);i
-								if(/^\{[\s*"\w+":"\w+",*\s*]+\}$/.test(evt.data)){
-										console.log(evt.data);
-										var data = JSON.parse(evt.data);
-										console.log(JSON.parse(evt.data));
-									}else {
-
-									}
-							};
-							setTerminalSize();
+						  self.props.ctx.dispatch({
+							type: 'devpanel/setPID',
+							payload: { pid: pid}
+						  });
+						  window.pid = pid;
+						  socketURL += pid;
+						  socket = new WebSocket(socketURL);
+						  socket.onopen = runRealTerminal;
+						  socket.onclose = runFakeTerminal;
+						  socket.onerror = runFakeTerminal;
+						  socket.onmessage = function (evt) {
+							//收到服务器消息，使用evt.data提取
+							console.log(evt.data);i
+							if(/^\{[\s*"\w+":"\w+",*\s*]+\}$/.test(evt.data)){
+							  console.log(evt.data);
+							  var data = JSON.parse(evt.data);
+							  console.log(JSON.parse(evt.data));
+							}
+						  };
+						  setTerminalSize();
 						});
+						console.log("============openTerminal===========");
+						console.log(activeTab);
+
 					});
 				}else{
-
 					console.log("============connectTerminal===========");
 					console.log(activeTab);
-
 					socketURL += activeTab.editorId;
 					socket = new WebSocket(socketURL);
 					socket.onopen = runRealTerminal;
@@ -181,8 +215,6 @@ class Terminal extends Component {
 								console.log(evt.data);
 								var data = JSON.parse(evt.data);
 								console.log(JSON.parse(evt.data));
-							}else {
-
 							}
 					};
 					setTerminalSize();
@@ -195,7 +227,7 @@ class Terminal extends Component {
 				term.attach(socket);
 				setTimeout(function(){
 					socket.send('cd /root/workspace && clear\n');
-				},1000)
+				},1000);
 				term._initialized = true;
 			}
 
