@@ -86,6 +86,7 @@ function IndexPage(props) {
         onEdit(paneKey, targetKey, action) {
 
             // console.log(targetKey);
+            console.log("===============onEdit============" + action);
             var content = '',
                 title = undefined,
                 type = "editor";
@@ -115,11 +116,12 @@ function IndexPage(props) {
             localStorage.currentFileOperation = action;
 
             if (action == 'remove') {
+                console.log('remove');
                 localStorage.removeAction = JSON.stringify(removeAction);
                 editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
                 let currentTab = props.devpanel.panels.panes[paneKey.paneKey].tabs[targetKey - 1];
-                let tabType = 'currentTab.type';
-
+                let tabType = currentTab.type;
+                console.log(currentTab);
                 if (tabType != 'editor') {
 
                     if (tabType == 'terminal') {
@@ -142,6 +144,7 @@ function IndexPage(props) {
                 }
 
                 var fileName = localStorage.currentSelectedFile;
+
                 if (!currentTab.isSave) {
 
                     var name = 'file';

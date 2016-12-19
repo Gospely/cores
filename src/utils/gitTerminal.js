@@ -36,8 +36,8 @@ const createTerminal = function(props) {
         var termWidth = 10,
             termHeight = 10;
 
-        var cols = 8,
-            rows = 10,
+        var cols = 16,
+            rows = 1,
             width =  '100px',
             height = '100x';
         console.log(cols, rows, termWidth, termHeight, width, height, 30,
@@ -82,13 +82,14 @@ const createTerminal = function(props) {
                     console.log("=======message=======");
 
                     console.log(terminalContainer);
-                    var messages = terminalContainer.childNodes[0].childNodes[2];
+                    var messages = terminalContainer.childNodes[0].childNodes[2].childNodes;
                     console.log(messages.length);
                     for (var i = 0; i < messages.length; i++) {
-                        console.log(messages[i]);
-                        console.log(messages[i].childNodes[0].data);
-                        if(messages[i].childNodes.length == 1 && messages[i].childNodes[0].nodeValue != '' && messages[i].childNodes[0].nodeValue != undefined){
-                            localStorage.message = localStorage.message + console.log(messages[i].childNodes[0]);
+                        console.log(messages[i].childNodes)
+                        if(i != 0 && i != messages.length-1 && messages[i].childNodes.length == 1 && messages[i].childNodes[0].nodeValue != '' && messages[i].childNodes[0].nodeValue != undefined){
+
+                            console.log(messages[i]);
+                            localStorage.message = localStorage.message + messages[i].childNodes[0].nodeValue.replace(new RegExp("l", 'gm'), "");
                         }else{
 
                         }
