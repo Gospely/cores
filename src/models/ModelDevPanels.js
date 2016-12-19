@@ -573,7 +573,7 @@ export default {
 						state.currentMode = setMode[suffix]();
 						state.currentLanguage = state.currentMode.toUpperCase();
 					}
-					
+
 				}else {
 					if(type != 'welcome') {
 						// tabs.push({
@@ -708,7 +708,7 @@ export default {
 			for(let i = 0; i < panes.length; i ++) {
 				for(let j = 0; j < panes[i].tabs.length; j ++) {
 					if (target.title !== '新文件' && target.title !== '新标签页' &&
-						target.type === 'editor' && panes[i].tabs[j].title === target.title) {
+						target.type === 'editor' && panes[i].tabs[j].file === target.file) {
 						message.error('您已打开此文件!')
 						state.panels.activePane.key = i + '';
 						state.panels.panes[i].activeTab.key = j + 1 + '';
@@ -764,7 +764,7 @@ export default {
 			return {...state};
 		},
 		dynamicChangeSyntax(state,{payload: params}) {
-			
+
 			console.log("-----------------------------------------------denamicChange");
 			// alert('kk')
 			console.log(params.suffix);
