@@ -51,11 +51,29 @@ export default {
 		currentLanguage: 'HTML',
 
 		isSlideUp: false,
+		terminalMessage: '',
+		gitOperate: ''
 	},
 
 
 	reducers: {
 
+		flashTerminalMessage(state, { payload: params }){
+
+			console.log("==========flashTerminalMessage======");
+			console.log(params);
+
+			console.log("==========flashTerminalMessage======");
+			state.terminalMessage = state.terminalMessage + params.message;
+			console.log(state.terminalMessage);
+			return {...state};
+		},
+		initGitOperate(state, {payload: params }){
+
+			state.terminalMessage = '';
+			state.gitOperate = params.operate;
+			return {...state};
+		},
 		showSearchBar(state) {
 			return {...state, searchVisible: true};
 		},

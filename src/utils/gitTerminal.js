@@ -1,7 +1,8 @@
 import fetch from 'dva/fetch';
 import Xterm from './../components/Panel/TerminalFit';
 
-const createTerminal = function() {
+
+const createTerminal = function(props) {
 
     var protocol,
         socketURL,
@@ -61,15 +62,13 @@ const createTerminal = function() {
 
             socket.onmessage = function (evt) {
                 //收到服务器消息，使用evt.data提取
+                console.log("=======message=======");
+                console.log(props);
                 console.log(evt.data);
-                if(/^\{[\s*"\w+":"\w+",*\s*]+\}$/.test(evt.data)){
-                        console.log(evt.data);
-                        alert(data)
-                        var data = JSON.parse(evt.data);
-                        console.log(JSON.parse(evt.data));
-                    }else {
-
-                    }
+                props.dispatch({
+                    type: 'editorTop/flashTerminalMessage',
+                    payload: { message: evt.data }
+                });
             };
             setTerminalSize()
         });
