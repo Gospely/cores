@@ -124,17 +124,6 @@ class Terminal extends Component {
 				charWidth = Math.ceil(offsetWidth / cols);
 				charHeight = Math.ceil(offsetHeight / rows);
 
-        /**
-         * author:willian
-         * work:restart the terminal
-         */
-				function restart_terminal() {
-            let docker_code = localStorage.docker;
-            fetch('http://api.gospely.com/applications/startTerminal?docker=' + docker_code,{
-              method: 'GET'
-            }).then(function (res) {})
-        }
-
 				if(true){
 				// if(activeTab.editorId == null || activeTab.editorId == '') {
 					console.log("============openTerminal===========");
@@ -142,43 +131,72 @@ class Terminal extends Component {
 					fetch(baseUrl + '/terminals?cols=' + cols + '&rows=' + rows, {
 						method: 'POST'
 					}).then(function(res) {
+						console.log(res);
+						if (res.status != 200){
+							fetch(baseUrl + '/container/start/' + localStorage.applicationId ,{
+								method: 'GET'
+							}).then(function(res){
+								if(res.status != 200) {
+									setTimeout(function () {
+									  //wait for the terminal start it completely
+									  fetch(baseUrl + '/terminals?cols=' + cols + '&rows=' + rows, {
+										method: 'POST'
+									  }).then(function(res) {
 
-					  if (res.statusCode != 200){
-					    restart_terminal()
-            }
-              console.log("============openTerminal===========");
-              console.log(activeTab);
-              setTimeout(function () {
-                //wait for the terminal start it completely
-                fetch(baseUrl + '/terminals?cols=' + cols + '&rows=' + rows, {
-                  method: 'POST'
-                }).then(function(res) {
+										  res.text().then(function(pid) {
+											self.props.ctx.dispatch({
+											  type: 'devpanel/setPID',
+											  payload: { pid: pid}
+											});
+											window.pid = pid;
+											socketURL += pid;
+											socket = new WebSocket(socketURL);
+											socket.onopen = runRealTerminal;
+											socket.onclose = runFakeTerminal;
+											socket.onerror = runFakeTerminal;
+											socket.onmessage = function (evt) {
+											  //收到服务器消息，使用evt.data提取
+											  console.log(evt.data);i
+											  if(/^\{[\s*"\w+":"\w+",*\s*]+\}$/.test(evt.data)){
+												console.log(evt.data);
+												var data = JSON.parse(evt.data);
+												console.log(JSON.parse(evt.data));
+											  }
+											};
+											setTerminalSize();
+										  });
+									  });
+								  },1000);
+							  }else{
 
-                  let result = fixed_terminal(res);
-                    res.text().then(function(pid) {
-                      self.props.ctx.dispatch({
-                        type: 'devpanel/setPID',
-                        payload: { pid: pid}
-                      });
-                      window.pid = pid;
-                      socketURL += pid;
-                      socket = new WebSocket(socketURL);
-                      socket.onopen = runRealTerminal;
-                      socket.onclose = runFakeTerminal;
-                      socket.onerror = runFakeTerminal;
-                      socket.onmessage = function (evt) {
-                        //收到服务器消息，使用evt.data提取
-                        console.log(evt.data);i
-                        if(/^\{[\s*"\w+":"\w+",*\s*]+\}$/.test(evt.data)){
-                          console.log(evt.data);
-                          var data = JSON.parse(evt.data);
-                          console.log(JSON.parse(evt.data));
-                        }
-                      };
-                      setTerminalSize();
-                    });
-                });
-              },1000)
+							  }
+							})
+						}
+						res.text().then(function(pid) {
+						  self.props.ctx.dispatch({
+							type: 'devpanel/setPID',
+							payload: { pid: pid}
+						  });
+						  window.pid = pid;
+						  socketURL += pid;
+						  socket = new WebSocket(socketURL);
+						  socket.onopen = runRealTerminal;
+						  socket.onclose = runFakeTerminal;
+						  socket.onerror = runFakeTerminal;
+						  socket.onmessage = function (evt) {
+							//收到服务器消息，使用evt.data提取
+							console.log(evt.data);i
+							if(/^\{[\s*"\w+":"\w+",*\s*]+\}$/.test(evt.data)){
+							  console.log(evt.data);
+							  var data = JSON.parse(evt.data);
+							  console.log(JSON.parse(evt.data));
+							}
+						  };
+						  setTerminalSize();
+						});
+						console.log("============openTerminal===========");
+						console.log(activeTab);
+
 					});
 				}else{
 					console.log("============connectTerminal===========");
