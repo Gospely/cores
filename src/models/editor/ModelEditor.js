@@ -22,12 +22,11 @@ export default {
 
 		pushEditor(state, { payload: editorId }) {
 			var editorObj = {
-				value: ''
-			},
-			tmp = {};
-			tmp[editorId] = editorObj;
-			state.editors.push(tmp);
-			console.log(state.editors);
+					value: ''
+				},
+				tmp = {};
+				tmp[editorId] = editorObj;
+				state.editors.push(tmp);
 			return {...state};
 		},
 

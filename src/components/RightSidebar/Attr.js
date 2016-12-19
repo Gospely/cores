@@ -422,11 +422,15 @@ const Attr = (props) => {
 	const modalCSSEditorProps = {
 		handleOk () {
 			props.dispatch({
-				type: 'designer/handleCSSEditorSaved'
-			});
-			props.dispatch({
 				type: 'designer/hideCSSEditor'
 			});			
+		},
+
+		handleCSSEditorChanged (value) {
+			props.dispatch({
+				type: 'designer/handleCSSEditorSaved',
+				payload: value
+			});
 		},
 
 		handleCancel () {
@@ -459,14 +463,22 @@ const Attr = (props) => {
 		      	      	<Table bordered dataSource={tabsTableDatasource} columns={tabsTablesColumns} />
 	        	</Modal>
 
-        		<Modal width="80%" title="CSS编辑器" visible={props.designer.modalCSSEditorVisible}
-	          		onOk={modalCSSEditorProps.handleOk} onCancel={modalCSSEditorProps.handleCancel}>
+        		<Modal width="80%" title="CSS编辑器" 
+        			visible={props.designer.modalCSSEditorVisible}
+	          		onOk={modalCSSEditorProps.handleOk} onCancel={modalCSSEditorProps.handleCancel}
+	          		footer={[
+		            	<Button key="back" type="ghost" size="small" onClick={modalCSSEditorProps.handleCancel}>返回</Button>,
+			            <Button key="submit" type="primary" size="small" onClick={modalCSSEditorProps.handleOk}>
+			              确定
+			            </Button>,
+			        ]}>
 					<MonacoEditor
 						width="100%"
 						height={aceHeight}
 						language="css"
 						options={props.editor.options}
-						defaultValue="/* CSS */"
+						value={props.designer.layout[0].children[props.designer.layoutState.activePage.index].attr.css._value}
+						onChange={modalCSSEditorProps.handleCSSEditorChanged}
 					/>
 	        	</Modal>
 

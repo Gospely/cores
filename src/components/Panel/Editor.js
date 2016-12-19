@@ -95,7 +95,7 @@ const Editor = (props) => {
 				}else{
 					dispatch({
 						type: 'file/writeFile',
-						payload: {content,tabKey: tabKey}
+						payload: {content, tabKey: tabKey}
 					});
 					dispatch({
 						type: 'devpanel/handleFileSave',

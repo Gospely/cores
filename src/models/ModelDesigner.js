@@ -626,7 +626,7 @@ export default {
 								title: 'css',
 								isClassName: false,
 								isHTML: false,
-								_value: '',
+								_value: '/* CSS */',
 								backend: true
 							}
 
@@ -976,6 +976,15 @@ export default {
 						_value: '打开编辑器',
 						onClick: 'designer/showCSSEditor',
 						params: {}
+					},
+
+					css: {
+						type: 'input',
+						title: 'css',
+						isClassName: false,
+						isHTML: false,
+						_value: '/* CSS */',
+						backend: true
 					}
 
 				},
@@ -2634,10 +2643,6 @@ export default {
 	},
 
 	effects: {
-		*handleCSSEditorSaved({payload: params}, {call, put, select}) {
-			alert(params);
-		}
-
 	},
 
 	reducers: {
@@ -3038,9 +3043,15 @@ export default {
 
 		showCSSEditor(state, { payload: params }) {
 			state.modalCSSEditorVisible = true;
-			alert(params.key)
 			return {...state};
+		},
+
+		handleCSSEditorSaved(state, { payload: value }) {
+			var activePage = layoutAction.getActivePage(state);
+			activePage.attr.css._value = value;
+			return {...state};				
 		}
+
 
 	}
 
