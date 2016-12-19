@@ -124,6 +124,28 @@ class Terminal extends Component {
 				charWidth = Math.ceil(offsetWidth / cols);
 				charHeight = Math.ceil(offsetHeight / rows);
 
+        /**
+         * author:willian
+         * @param res
+         * work:restart the terminal
+         */
+				function fixed_terminal(res) {
+          if (res.startsCode != 200){
+            var docker_code = localStorage.terminal;
+            fetch(baseUrl + '/applications/startTerminal?docker=' + docker_code,{
+              method: 'GET'
+            }).then(function (res) {
+              if (res.statusCode != 200){
+                fixed_terminal(res)
+              }else {
+                return true;
+              }
+            })
+          }else {
+            return true;
+          }
+        }
+
 				if(true){
 				// if(activeTab.editorId == null || activeTab.editorId == '') {
 
@@ -134,33 +156,47 @@ class Terminal extends Component {
 						method: 'POST'
 					}).then(function(res) {
 
+					  let result = fixed_terminal(res);
 
-						res.text().then(function(pid) {
+					  if (result){
 
-							self.props.ctx.dispatch({
-								type: 'devpanel/setPID',
-								payload: { pid: pid}
-							});
-							window.pid = pid;
-							socketURL += pid;
-							socket = new WebSocket(socketURL);
-							socket.onopen = runRealTerminal;
-							socket.onclose = runFakeTerminal;
-							socket.onerror = runFakeTerminal;
+              console.log("============openTerminal===========");
+              console.log(activeTab);
+              setTimeout(function () {
+                //wait for the terminal start it completely
+                fetch(baseUrl + '/terminals?cols=' + cols + '&rows=' + rows, {
+                  method: 'POST'
+                }).then(function(res) {
 
-							socket.onmessage = function (evt) {
-								//收到服务器消息，使用evt.data提取
-								console.log(evt.data);i
-								if(/^\{[\s*"\w+":"\w+",*\s*]+\}$/.test(evt.data)){
-										console.log(evt.data);
-										var data = JSON.parse(evt.data);
-										console.log(JSON.parse(evt.data));
-									}else {
+                  let result = fixed_terminal(res);
 
-									}
-							};
-							setTerminalSize();
-						});
+                  if (result){
+                    res.text().then(function(pid) {
+                      self.props.ctx.dispatch({
+                        type: 'devpanel/setPID',
+                        payload: { pid: pid}
+                      });
+                      window.pid = pid;
+                      socketURL += pid;
+                      socket = new WebSocket(socketURL);
+                      socket.onopen = runRealTerminal;
+                      socket.onclose = runFakeTerminal;
+                      socket.onerror = runFakeTerminal;
+                      socket.onmessage = function (evt) {
+                        //收到服务器消息，使用evt.data提取
+                        console.log(evt.data);i
+                        if(/^\{[\s*"\w+":"\w+",*\s*]+\}$/.test(evt.data)){
+                          console.log(evt.data);
+                          var data = JSON.parse(evt.data);
+                          console.log(JSON.parse(evt.data));
+                        }
+                      };
+                      setTerminalSize();
+                    });
+                  }
+                });
+              },1000)
+            }
 					});
 				}else{
 
