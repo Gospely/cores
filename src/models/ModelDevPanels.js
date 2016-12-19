@@ -583,7 +583,7 @@ export default {
 						state.currentMode = setMode[suffix]();
 						state.currentLanguage = state.currentMode.toUpperCase();
 					}
-					
+
 				}else {
 					if(type != 'welcome') {
 						// tabs.push({
@@ -633,72 +633,6 @@ export default {
 			state.panels.panes[params.pane].tabs[params.tabKey - 1].isSave = true;
 			return {...state};
 		},
-
-		replace(state,{payload: params}) {
-
-			console.log('devpanel replace');
-			// methods.getActivePane(state).editors[state.panels.activeEditor.id].value = currentEditor.getValue();
-			// console.log(currentEditor.getValue());
-
-			console.log(state);
-			console.log(params.replaceContent);
-			console.log(params.searchContent);
-			console.log(params.isReplaceAll);
-			var content = currentEditor.getValue();
-			console.log(content);
-			currentEditor.find(state.searchContent,{
-				backwards: true,
-				wrap: true,
-				caseSensitive: true,
-				wholeWord: true,
-				regExp: false
-			});
-			currentEditor.findAll();
-
-
-			// if(!params.isReplaceAll) {
-			// 	content = content.replace(params.searchContent,params.replaceContent);
-			// 	console.log(content);
-			// }else{
-			// 	content = content.replace(new RegExp(params.searchContent, 'gm'), params.replaceContent);
-			// }
-
-			if(!params.isReplaceAll) {
-				console.log('all');
-				currentEditor.replaceAll(params.replaceContent,{
-					needle:params.searchContent,
-					backwards: false,
-					wrap: true,
-					caseSensitive: true,
-					wholeWord: true,
-					regExp: false
-				});
-			}else{
-				console.log('single');
-				currentEditor.replace(params.replaceContent,{
-					needle:params.searchContent,
-					backwards: false,
-					wrap: true,
-					caseSensitive: true,
-					wholeWord: true,
-					regExp: false
-				});
-
-				currentEditor.find(params.replaceContent,{
-					backwards: true,
-					wrap: true,
-					caseSensitive: true,
-					wholeWord: true,
-					regExp: false
-				});
-				currentEditor.findAll();
-			}
-			console.log("state", state);
-			var editorId = state.panels.panes[state.panels.activePane.key].activeEditor.id
-			state.panels.panes[state.panels.activePane.key].editors[editorId].value = currentEditor.getValue();
-			methods.getActiveTab(state,methods.getActivePane(state)).isSave = false;
-			return {...state};
-		},
 		add(state, {payload: target}) {
 
 			// localStorage.isSave = false;
@@ -718,7 +652,7 @@ export default {
 			for(let i = 0; i < panes.length; i ++) {
 				for(let j = 0; j < panes[i].tabs.length; j ++) {
 					if (target.title !== '新文件' && target.title !== '新标签页' &&
-						target.type === 'editor' && panes[i].tabs[j].title === target.title) {
+						target.type === 'editor' && panes[i].tabs[j].file === target.file) {
 						message.error('您已打开此文件!')
 						state.panels.activePane.key = i + '';
 						state.panels.panes[i].activeTab.key = j + 1 + '';
@@ -774,7 +708,7 @@ export default {
 			return {...state};
 		},
 		dynamicChangeSyntax(state,{payload: params}) {
-			
+
 			console.log("-----------------------------------------------denamicChange");
 			// alert('kk')
 			console.log(params.suffix);
