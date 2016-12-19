@@ -12,6 +12,7 @@
     "copy-webpack-plugin": "^4.0.1",
     "dva": "^1.1.0",
     "dva-loading": "^0.2.0",
+    "md5": "^2.2.1",
     "react": "^15.3.2",
     "react-ace": "^4.0.0",
     "react-addons-css-transition-group": "^15.3.2",

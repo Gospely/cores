@@ -442,6 +442,32 @@ const Attr = (props) => {
 
 	let aceHeight = (parseInt(document.body.clientHeight) - 300);
 
+	const CSSEditor = () => {
+
+		if(props.designer.layoutState.activeKey == 'page-app') {
+    		return (
+				<MonacoEditor
+					width="100%"
+					height={aceHeight}
+					language="css"
+					options={props.editor.options}
+					value={props.designer.layout[0].attr.css._value}
+					onChange={modalCSSEditorProps.handleCSSEditorChanged}/>
+    		);
+    	}else {
+    		return (
+				<MonacoEditor
+					width="100%"
+					height={aceHeight}
+					language="css"
+					options={props.editor.options}
+					value={props.designer.layout[0].children[props.designer.layoutState.activePage.index].attr.css._value}
+					onChange={modalCSSEditorProps.handleCSSEditorChanged}/>
+    		);
+    	}
+
+	}
+
     if (props.designer.loaded) {
 		return (
 			<div>
@@ -472,14 +498,7 @@ const Attr = (props) => {
 			              确定
 			            </Button>,
 			        ]}>
-					<MonacoEditor
-						width="100%"
-						height={aceHeight}
-						language="css"
-						options={props.editor.options}
-						value={props.designer.layout[0].children[props.designer.layoutState.activePage.index].attr.css._value}
-						onChange={modalCSSEditorProps.handleCSSEditorChanged}
-					/>
+			        {CSSEditor()}
 	        	</Modal>
 
 			</div>
