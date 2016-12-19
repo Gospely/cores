@@ -131,8 +131,8 @@ class Terminal extends Component {
          */
 				function fixed_terminal(res) {
           if (res.startsCode != 200){
-            var docker_code = localStorage.terminal;
-            fetch(baseUrl + '/applications/startTerminal?docker=' + docker_code,{
+            let docker_code = localStorage.terminal;
+            fetch('http://api.gospely.com/applications/startTerminal?docker=' + docker_code,{
               method: 'GET'
             }).then(function (res) {
               if (res.statusCode != 200){
