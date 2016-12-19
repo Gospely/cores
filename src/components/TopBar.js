@@ -487,7 +487,9 @@ const LeftSidebar = (props) => {
 		        </Menu.Item>
 		        <Menu.Item key="showStartMenu">
 		        	<Dropdown overlay={startMenu} trigger={['click']}>
-						<Icon type="play-circle-o" />
+		        		<div style={{width: 30}}>
+							<Icon type="play-circle-o" />
+						</div>
 					</Dropdown>
 		        </Menu.Item>
 		        <Menu.Item key="pause">

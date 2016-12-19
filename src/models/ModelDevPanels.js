@@ -112,7 +112,9 @@ export default {
 	    	activeEditor: {
 	    		id: ''
 	    	}
-	    }
+	    },
+
+	    isLoading: false
 
 	},
 
@@ -309,6 +311,14 @@ export default {
 		handleTabChanged(state, {payload: name}) {
 			state.activeMenu = name;
 			return {...state};
+		},
+
+		hideLoading(state) {
+			return {...state, isLoading: false};
+		},
+
+		showLoading(state) {
+			return {...state, isLoading: true};
 		},
 
 		handleCommon(state) {

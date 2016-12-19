@@ -2,8 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
 import styles from './IndexPage.css';
-
-import { Row, Col } from 'antd';
+import { Row, Col, Spin, Alert } from 'antd';
 
 import LeftSidebar from '../components/LeftSidebar';
 import RightSidebar from '../components/RightSidebar';
@@ -210,6 +209,12 @@ function IndexPage(props) {
                         </div>
                     </div>
                 </div>
+                {props.devpanel.isLoading && (<div style={{position: 'fixed', width: '100%', height: '100%', 
+                    left: 0, top: 0, textAlign: 'center', padding: '250px 0',
+                    backgroundColor: 'rgba(0, 0, 0, .1)'}}>
+                    <Spin tip="应用加载中..." spinning={props.devpanel.isLoading}>
+                    </Spin>
+                </div>)}
             </div>);
 }
 

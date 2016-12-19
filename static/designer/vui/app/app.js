@@ -499,6 +499,10 @@ $(function () {
             this.comSelector = options.comSelector;
             this.containerSelector = options.containerSelector;
             this.inter = 0;
+            this.needDrag = true;
+            this.isMouseDown = false;
+            this.mouseClientY = '';
+            this.orginMargin = '';
 
             this.makeComponentsDraggable();
 
@@ -785,7 +789,7 @@ $(function () {
                                     isClsInVal = true;
                                     break;
                                 }
-                            };1
+                            };
 
                             if(isClsInVal && currentAttr.isNoConflict) {
                                 // 不是添加控件而是刷新控件, 先重置为基本class再加新class
@@ -845,9 +849,19 @@ $(function () {
                         this.elem.html(currentAttr._value);
                     }
 
-                    //设置容器的默认高度等
+                    //设置默认样式，如容器的默认高度
                     if (currentAttr.isStyle) {
-                        this.elem.css(att, currentAttr._value);
+                        if (currentAttr.isMultiplyStyle) {
+                            var styles = currentAttr._value.split(';');
+                            console.log(styles)
+                            for(var i = 0, len = styles.length - 1; i < len; i ++) {
+                                var styleNameAndVal = styles[i].split(':');
+                                console.log(styleNameAndVal[0].trim(),styleNameAndVal[1].trim())
+                                this.elem.css(styleNameAndVal[0].trim(), styleNameAndVal[1].trim());
+                            }
+                        }else {
+                            this.elem.css(att, currentAttr._value);
+                        }
                     }
 
                     if (currentAttr.isBoundToId) {
@@ -868,6 +882,32 @@ $(function () {
                             return id;
                         }
                         this.elem.attr(att, getRadioInputId(this.controller));
+                    }
+
+                    if(currentAttr.isEvent) {
+                        //一些组件添加事件，如空白分割组件的mousedown事件等
+                        if (currentAttr._value == 'spacer' && att == 'topResize') {
+                            this.elem.on('mousedown', function(e) {
+                                this.isMouseDown = true;
+                                this.mouseClientY = e.clientY;
+                                this.orginMargin = jq(e.target).css('margin-bottom');
+                            });
+                            this.elem.on('mouseup', function(e) {
+                                this.isMouseDown = false;
+                            })
+                            this.elem.on('mousemove', function(e) {
+                                if(this.isMouseDown){
+                                    jq(e.target).css('margin-bottom', e.clientY - this.mouseClientY + this.orginMargin);
+                                }
+                            })
+
+                        }
+                        
+                    }
+
+                    if (currentAttr.isCreateAttr) {
+                        //一些在创建元素时需设置的属性，比如是否需要可拖拽
+                        this.att = currentAttr._value;
                     }
 
                     if (currentAttr.isRander == true) {
@@ -934,7 +974,9 @@ $(function () {
 
                 }
 
-                this.makeElemAddedDraggable();
+                if(this.needDrag){
+                    this.makeElemAddedDraggable();
+                }
 
                 return component;
             },

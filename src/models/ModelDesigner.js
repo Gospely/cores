@@ -333,42 +333,42 @@ export default {
 						isHTML: false,
 						_value: `@import 'style/weui.wxss';
 
-page {
-	background-color: #F8F8F8;
-	font-size: 16px;
-	font-family: -apple-system-font,Helvetica Neue,Helvetica,sans-serif;
-}
+						page {
+							background-color: #F8F8F8;
+							font-size: 16px;
+							font-family: -apple-system-font,Helvetica Neue,Helvetica,sans-serif;
+						}
 
-.page__hd {
-	padding: 40px;
-}
+						.page__hd {
+							padding: 40px;
+						}
 
-.page__bd {
-	padding-bottom: 40px;
-}
+						.page__bd {
+							padding-bottom: 40px;
+						}
 
-.page__bd_spacing {
-	padding-left: 15px;
-	padding-right: 15px;
-}
+						.page__bd_spacing {
+							padding-left: 15px;
+							padding-right: 15px;
+						}
 
-.page__ft {
-	padding-bottom: 10px;
-	text-align: center;
-}
+						.page__ft {
+							padding-bottom: 10px;
+							text-align: center;
+						}
 
-.page__title {
-	text-align: left;
-	font-size: 20px;
-	font-weight: 400;
-}
+						.page__title {
+							text-align: left;
+							font-size: 20px;
+							font-weight: 400;
+						}
 
-.page__desc {
-	margin-top: 5px;
-	color: #888888;
-	text-align: left;
-	font-size: 14px;
-}`,
+						.page__desc {
+							margin-top: 5px;
+							color: #888888;
+							text-align: left;
+							font-size: 14px;
+						}`,
 						backend: true
 					},
 
@@ -2635,7 +2635,89 @@ page {
 			{
 				name: '空白分割',
 				type: 'spacer',
-				attr: {}
+				tag: 'div',
+				baseClassName: '',
+				attr: {
+					// height: {
+					// 	isStyle: true,
+					// 	_value: '50px',
+					// 	title: '空白分割高度',
+					// 	type: 'input'
+					// },
+					width: {
+						isStyle: true,
+						hidden: true,
+						_value: '100%',
+						title: '',
+						type: 'input'
+					},
+					border: {
+						isStyle: true,
+						_value: '1px solid gray',
+						title: '',
+						type: 'input',
+						hidden: true
+					}
+				},
+				children: [{
+					tag: 'div',
+					type: 'div',
+					name: '上边',
+					baseClassName: '',
+					attr: {
+						makeResize: {
+							isStyle: true,
+							isMultiplyStyle: true,
+							_value: `   height: 11px;
+									    margin: -5px 0;
+									    border-top: 5px solid rgba(255, 255, 255, 0);
+									    border-bottom: 5px solid rgba(255, 255, 255, 0);
+									    cursor: row-resize;
+									    width: 100%;
+									    margin-bottom: 25px;
+									`,
+							type: 'input',
+							title: '',
+							hidden: true
+						},
+						topResize: {
+							isEvent: true,
+							type: 'input',
+							title: '',
+							hidden: true,
+							_value: 'spacer'
+						},
+						needDrag: {
+							isCreateAttr: true,
+							type: 'input',
+							title: '',
+							hidden: true,
+							_value: false
+						}
+					}
+				}, {
+					tag: 'div',
+					type: 'div',
+					name: '上边',
+					baseClassName: '',
+					attr: {
+						makeResize: {
+							isStyle: true,
+							isMultiplyStyle: true,
+							_value: `   height: 11px;
+									    margin: -5px 0;
+									    border-top: 5px solid rgba(255, 255, 255, 0);
+									    border-bottom: 5px solid rgba(255, 255, 255, 0);
+									    cursor: row-resize;
+									    width: 100%;
+									    margin-top: 25px;
+									`,
+							type: 'input',
+							title: '',
+							hidden: true
+						}
+					}
+				}]
 			},
 			{
 				name: '页头',

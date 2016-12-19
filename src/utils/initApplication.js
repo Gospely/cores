@@ -1,5 +1,9 @@
 const initApplication = function (application, props){
 
+  props.dispatch({
+    type: 'devpanel/showLoading'
+  });
+
   localStorage.dir = localStorage.user + '/' + application.name + '_' + localStorage.userName + "/";
   localStorage.currentFolder = localStorage.user + '/' + application.name + '_' + localStorage.userName;
 
@@ -62,6 +66,10 @@ const initApplication = function (application, props){
   // props.dispatch({
   //   type: 'designer/handleLayoutLoaded'
   // });
+
+  props.dispatch({
+    type: 'devpanel/hideLoading'
+  });
 
 }
 export default initApplication;
