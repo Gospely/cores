@@ -1,9 +1,20 @@
 import fetch from 'dva/fetch';
 import Xterm from './../components/Panel/TerminalFit';
 
+import { message, Spin, notification } from 'antd';
+
+import md5 from 'md5';
+
 
 const createTerminal = function(props) {
 
+    console.log(props);
+    const openNotificationWithIcon = (type, title, description) => (
+	  notification[type]({
+	    message: title,
+	    description: description,
+	  })
+	);
     var protocol,
         socketURL,
         socket,
@@ -36,6 +47,7 @@ const createTerminal = function(props) {
     }
 
     term.open(terminalContainer);
+    window.term = term;
     fetch(baseUrl + '/terminals?cols=' + 1 + '&rows=' + 2, {
         method: 'POST'
     }).then(function(res) {
@@ -51,7 +63,7 @@ const createTerminal = function(props) {
             console.log(socket);
             window.socket = socket;
             // window.socket.send('cd /root/workspace && clear\n');
-
+            localStorage.message = '';
             socket.onopen =runRealTerminal;
             socket.onclose = function(evt){
                 console.log("=======onclose");
@@ -63,12 +75,13 @@ const createTerminal = function(props) {
             socket.onmessage = function (evt) {
                 //收到服务器消息，使用evt.data提取
                 console.log("=======message=======");
-                console.log(props);
-                console.log(evt.data);
-                props.dispatch({
-                    type: 'editorTop/flashTerminalMessage',
-                    payload: { message: evt.data }
-                });
+                // var check = md5(evt.data);
+                if(localStorage.message != ''){
+                    localStorage.message = localStorage.message + evt.data;
+                    console.log("=======message=======");
+                    notification.destroy();
+                    openNotificationWithIcon('info', localStorage.gitOperate, localStorage.message);
+                }
             };
             setTerminalSize()
         });
