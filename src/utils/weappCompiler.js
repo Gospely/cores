@@ -21,7 +21,7 @@ const weappCompiler = {
 
 		app['app.json'] = self.compileAPPJSON({ string: true });
 		app['app.js'] = self.getAppjs();
-		app['app.wxss'] = self.getWXSS();
+		app['app.wxss'] = self.compilePageWXSS({ page: self.layout[0] });
 
 		let mainPage = this.compilePage(this.getMainPage());
 
@@ -102,17 +102,19 @@ const weappCompiler = {
 	},
 
 	compilePageWXML (options) {
-		options.string = options.string || false;
-
-		var pageWXML = {};
+		var pageWXML = '';
 
 
 
-		return options.string ? JSON.stringify(pageWXML) : pageWXML;
+		return pageWXML;
 	},
 
-	compilePageWXSS () {
+	compilePageWXSS (options) {
+		var pageWXSS = '';
 
+		pageWXSS = options.page.attr.css._value;
+
+		return pageWXSS;
 	},
 
 	getAppjs () {
@@ -130,44 +132,6 @@ const weappCompiler = {
 		        hasLogin: false \
 		    }\
 		});";
-	},
-
-	getWXSS () {
-		return "@import 'style/weui.wxss'; \
-\
-		page{ \
-		    background-color: #F8F8F8; \
-		    font-size: 16px; \
-		    font-family: -apple-system-font,Helvetica Neue,Helvetica,sans-serif; \
-		} \
-		.page__hd { \
-		    padding: 40px; \
-		} \
-		.page__bd { \
-		    padding-bottom: 40px; \
-		} \
-		.page__bd_spacing { \
-		    padding-left: 15px; \
-		    padding-right: 15px; \
-		} \
- \
-		.page__ft{ \
-		    padding-bottom: 10px; \
-		    text-align: center; \
-		} \
- \
-		.page__title { \
-		    text-align: left; \
-		    font-size: 20px; \
-		    font-weight: 400; \
-		} \
- \
-		.page__desc { \
-		    margin-top: 5px; \
-		    color: #888888; \
-		    text-align: left; \
-		    font-size: 14px; \
-		}";
 	},
 
 	getMainPage () {
@@ -218,11 +182,14 @@ const weappCompiler = {
 		});
 
 		tmpPage[alias + '.js'] = 'Page({});';
-		tmpPage[alias + '.wxss'] = this.compilePageWXML({
+		tmpPage[alias + '.wxml'] = this.compilePageWXML({
 			page: page,
 			string: true
 		});
-		tmpPage[alias + '.wxml'] = '';
+		tmpPage[alias + '.wxss'] = this.compilePageWXSS({
+			page: page,
+			string: true
+		});
 
 		return tmpPage;
 	},
@@ -237,7 +204,7 @@ const weappCompiler = {
 	},
 
 	filter (key) {
-		const filterKey = ['title', 'alias', 'template', 'setAsMainPage', 'routingURL', ''];
+		const filterKey = ['title', 'alias', 'template', 'setAsMainPage', 'routingURL', 'css'];
 		for (var i = 0; i < filterKey.length; i++) {
 			var k = filterKey[i];
 			if(key == k) {
