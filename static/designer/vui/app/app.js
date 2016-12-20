@@ -360,7 +360,7 @@ $(function () {
             spacerHeightChange: function(c) {
                 parent.parent.postMessage({ 'spacerHeightChange': c }, "*")
             },
-            
+
             tabBarAdded: function(c) {
                 parent.parent.postMessage({ 'tabBarAdded': c }, '*');
             }
@@ -469,6 +469,10 @@ $(function () {
                         jq(dragY[0]).on('mouseup', function(e) {
 
                             this.isMouseDown = false;
+                            postMessageToFather.spacerHeightChange({
+                                ctrlId: self[0].id, 
+                                height: e.pageY - this.orginY + this.orginHeight + 'px'
+                            });
 
                         })
                         jq(dragY[0]).on('mousemove', function(e) {
@@ -476,10 +480,8 @@ $(function () {
                                 jq(e.target).css({
                                     top: e.pageY - this.orginY + this.orginTop
                                 })
-                                postMessageToFather.spacerHeightChange({
-                                    ctrlId: self[0].id, 
-                                    height: e.pageY - this.orginY + this.orginHeight
-                                });
+                                self.height(e.pageY - this.orginY + this.orginHeight + 'px');
+                                
                             }
                         })
                     }
