@@ -478,7 +478,7 @@ page {
 								value: ['black', 'white'],
 								isClassName: false,
 								isHTML: false,
-								_value: 'black',
+								_value: 'white',
 								backend: true
 							},
 
@@ -939,7 +939,7 @@ page {
 								value: ['black', 'white'],
 								isClassName: false,
 								isHTML: false,
-								_value: 'black',
+								_value: 'white',
 								backend: true
 							},
 

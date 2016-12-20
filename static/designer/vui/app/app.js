@@ -522,6 +522,8 @@ $(function () {
 
                     this.changeBackgroundColor(attr.backgroundColor._value);
                     this.changeBackgroundTextStyle(attr.backgroundTextStyle._value);
+
+                    this.tabBar.refreshTabBarStyle(data);
                 },
 
                 changeBackgroundTextStyle: function(style) {
@@ -533,49 +535,81 @@ $(function () {
                     jq('.page.' + this.app.key).css('background-color', color);
                 },
 
-                refreshTabBar: function(checked, tabBar) {
-                    var tpl = jq('script[id="page-app"]');
+                tabBar: {
 
-                    if(checked) {
-                        var tabList = tabBar.list.value,
-                            tabs = this.generateTab(tabList);
+                    refreshTabBarStyle: function(data) {
 
-                        tpl.html('<div class="page">' + tabs + '</div>');
-                        jq('.page-app').html(this.generateTab(tabList));
-                    }else {
-                        tpl.html('');
-                        jq('.page-app').find('.weui-tab').remove();
+                        if(data.attr) {
+                            if(!data.attr.tabBar) {
+                                return false;
+                            }
+                        }
+
+                        var tabBar = data.attr ? data.attr.tabBar._value : data;
+                        var borderStyle = tabBar.borderStyle._value == 'black' ? '1px solid #000000' : '1px solid #FFFFFF';
+
+                        jq('.page-app .weui-tabbar, .page-home .weui-tabbar').css('background-color', tabBar.backgroundColor._value)
+                                                    .css('border-top', borderStyle);
+                        jq('.page-app .weui-tabbar__label, .page-home .weui-tabbar__label').css('color', tabBar.color._value);
+                    },
+
+                    refreshTabBar: function(checked, tabBar) {
+                        var tpl = jq('script[id="page-app"]');
+
+                        if(checked) {
+                            var tabList = tabBar.list.value,
+                                tabs = this.generateTab(tabList);
+
+                            tpl.html('<div class="page">' + tabs + '</div>');
+                            jq('.page-app').html(tabs);
+
+                            this.refreshTabBarStyle(tabBar);
+                            this.addTabBarToMainPage(tabList);
+                        }else {
+                            tpl.html('');
+                            jq('.page-app').find('.weui-tab').remove();
+                            this.cancelTabBarInMainPage();
+                        }
+
+                    },
+
+                    generateTab: function(tabList) {
+                        var tabBarTpl = this.generateTabBarLoop(tabList), tabWrapper;
+                        tabWrapper = this.generateTabWrapper(tabBarTpl);
+                        return tabWrapper;
+                    },
+
+                    generateTabBarLoop: function(tabList) {
+                        var tabBarTpl = '';
+                        for (var i = 0; i < tabList.length; i++) {
+                            var tab = tabList[i];
+                            tabBarTpl = tabBarTpl + this.generateTabBar(tab.iconPath._value, tab.text._value, tab.pagePath._value, tab.selectedIconPath._value);
+                        };
+                        return tabBarTpl;
+                    },
+
+                    generateTabBar: function(iconPath, text, pagePath, selectedIconPath) {
+                        return '<a href="javascript:location.hash=\"' + pagePath + '\";" class="weui-tabbar__item"> \
+                             <img src="' + iconPath + '" alt="" class="weui-tabbar__icon"> \
+                             <p class="weui-tabbar__label">' + text + '</p> \
+                        </a>';
+                    },
+
+                    generateTabWrapper: function(tabs) {
+                        return '<div class="weui-tab"> \
+                                    <div class="weui-tab__panel"></div> \
+                                    <div class="weui-tabbar">' + tabs + '</div> \
+                                </div>';
+                    },
+
+                    addTabBarToMainPage: function(tabList) {
+                        var tabs = this.generateTabBarLoop(tabList);
+                        jq('.page-home .weui-tabbar').append(tabs);
+                    },
+
+                    cancelTabBarInMainPage: function() {
+                        jq('.page-home .weui-tabbar').html('');
                     }
-
-                },
-
-                generateTab: function(tabList) {
-                    var tabBarTpl = this.generateTabBarLoop(tabList), tabWrapper;
-                    tabWrapper = this.generateTabWrapper(tabBarTpl);
-                    return tabWrapper;
-                },
-
-                generateTabBarLoop: function(tabList) {
-                    var tabBarTpl = '';
-                    for (var i = 0; i < tabList.length; i++) {
-                        var tab = tabList[i];
-                        tabBarTpl = tabBarTpl + this.generateTabBar(tab.iconPath._value, tab.text._value, tab.pagePath._value, tab.selectedIconPath._value);
-                    };
-                    return tabBarTpl;
-                },
-
-                generateTabBar: function(iconPath, text, pagePath, selectedIconPath) {
-                    return '<a href="javascript:location.hash=\"' + pagePath + '\";" class="weui-tabbar__item"> \
-                         <img src="' + iconPath + '" alt="" class="weui-tabbar__icon"> \
-                         <p class="weui-tabbar__label">' + text + '</p> \
-                    </a>';
-                },
-
-                generateTabWrapper: function(tabs) {
-                    return '<div class="weui-tab"> \
-                                <div class="weui-tab__panel"></div> \
-                                <div class="weui-tabbar">' + tabs + '</div> \
-                            </div>';
                 }
             }
 
@@ -614,7 +648,7 @@ $(function () {
                         eventName = '';
 
                     for(var key in data) {
-                        eventName = key
+                        eventName = key;
                     }
 
                     if(evtAction[eventName]) {
@@ -770,10 +804,19 @@ $(function () {
             },
 
             appendPageToHTML: function(page) {
-                var wrapper = jq(this.generateTplScript(page.key));
+                var wrapper = jq(this.generateTplScript(page.key)),
+                    target;
                 jq('#container').after(wrapper);
-                wrapper.append('<div class="page"></div>')
-                this.generateTpl(page, wrapper.find('.page'));
+
+                if(page.key == 'page-home') {
+                    wrapper.append('<div class="page">' + pageOperations.tabBar.generateTabWrapper('') + '</div>')
+                    target = jq('.weui-tab__panel');
+                }else {
+                    wrapper.append('<div class="page"></div>');
+                    target = wrapper.find('.page');
+                }
+
+                this.generateTpl(page, target);
             },
 
             generateTpl: function(page, target) {
@@ -1200,7 +1243,19 @@ $(function () {
                         },
 
                         toggleTabBar: function() {
-                            pageOperations.refreshTabBar(data.checked, data.tabBar);
+                            pageOperations.tabBar.refreshTabBar(data.checked, data.tabBar);
+                        },
+
+                        tabBarAdded: function() {
+                            pageOperations.tabBar.refreshTabBar(true, data);
+                        },
+
+                        tabBarRemoved: function() {
+                            pageOperations.tabBar.refreshTabBar(true, data);
+                        },
+
+                        tabBarUpdated: function() {
+                            pageOperations.tabBar.refreshTabBar(true, data);
                         }
                     };
 

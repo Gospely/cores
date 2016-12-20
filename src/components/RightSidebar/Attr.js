@@ -354,12 +354,65 @@ const Attr = (props) => {
 					_value: 'https://weui.io/images/icon_tabbar.png'
 				}
 			}
+			
 			props.designer.layout[0].attr.tabBar._value.list.value.push(obj);
+
+			gospelDesignerPreviewer.postMessage({
+				tabBarAdded: props.designer.layout[0].attr.tabBar._value
+			}, '*');
 		},
 
 		remove: (index) => {
 			return () => {
-				props.designer.layout[0].attr.tabBar._value.list.value.splice(index, 1);				
+				props.designer.layout[0].attr.tabBar._value.list.value.splice(index, 1);
+
+				gospelDesignerPreviewer.postMessage({
+					tabBarRemoved: props.designer.layout[0].attr.tabBar._value
+				}, '*');
+			}
+		},
+
+		onPagePathChange: (index, record) => {
+			return (value) => {				
+
+				props.designer.layout[0].attr.tabBar._value.list.value[index]['pagePath']._value = value;
+
+				gospelDesignerPreviewer.postMessage({
+					tabBarUpdated: props.designer.layout[0].attr.tabBar._value
+				}, '*');
+			}
+		},
+
+		onTextChange: (index, record) => {
+			return (value) => {				
+
+				props.designer.layout[0].attr.tabBar._value.list.value[index]['text']._value = value;
+
+				gospelDesignerPreviewer.postMessage({
+					tabBarUpdated: props.designer.layout[0].attr.tabBar._value
+				}, '*');
+			}
+		},
+
+		onIconPathChange: (index, record) => {
+			return (value) => {				
+
+				props.designer.layout[0].attr.tabBar._value.list.value[index]['iconPath']._value = value;
+
+				gospelDesignerPreviewer.postMessage({
+					tabBarUpdated: props.designer.layout[0].attr.tabBar._value
+				}, '*');
+			}
+		},
+
+		onSelectedIconPathChange: (index, record) => {
+			return (value) => {				
+
+				props.designer.layout[0].attr.tabBar._value.list.value[index]['selectedIconPath']._value = value;
+
+				gospelDesignerPreviewer.postMessage({
+					tabBarUpdated: props.designer.layout[0].attr.tabBar._value
+				}, '*');
 			}
 		}
 
@@ -393,16 +446,19 @@ const Attr = (props) => {
 	const tabsTablesColumns = [{
 	      	title: '路径',
 	      	dataIndex: 'pagePath',
+  	      	width: '20%',
 	      	render: (text, record, index) => (
 		        <EditableCell
-		          value={text}/>
+		          value={text}
+		          onChange={tabFormProps.onPagePathChange(index, record)}/>
 		    )
     	}, {
       		title: '菜单名称',
       		dataIndex: 'text',
 	      	render: (text, record, index) => (
 		        <EditableCell
-		          value={text}/>
+		          value={text}
+		          onChange={tabFormProps.onTextChange(index, record)}/>
 		    )      		
     	}, {
       		title: '图片路径',
@@ -411,7 +467,8 @@ const Attr = (props) => {
 	      		<div>
 		        	<img style={{height: 27, width: 27}}  src={text} />
 		        	<EditableCell
-		          		value={text}/>
+		          		value={text}
+		          		onChange={tabFormProps.onIconPathChange(index, record)}/>
 	      		</div>
 		    )
     	}, {
@@ -419,7 +476,8 @@ const Attr = (props) => {
       		dataIndex: 'selectedIconPath',
 	      	render: (text, record, index) => (
 		        <EditableCell
-		          value={text}/>
+		          value={text}
+		          onChange={tabFormProps.onSelectedIconPathChange(index, record)}/>
 		    )
 		}, {
       		title: '操作',
