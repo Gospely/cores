@@ -520,6 +520,8 @@ $(function () {
 
                     this.changeBackgroundColor(attr.backgroundColor._value);
                     this.changeBackgroundTextStyle(attr.backgroundTextStyle._value);
+
+                    this.tabBar.refreshTabBarStyle(attr.tabBar._value);
                 },
 
                 changeBackgroundTextStyle: function(style) {
@@ -532,6 +534,10 @@ $(function () {
                 },
 
                 tabBar: {
+
+                    refreshTabBarStyle: function(tabBar) {
+                        
+                    },
 
                     refreshTabBar: function(checked, tabBar) {
                         var tpl = jq('script[id="page-app"]');
