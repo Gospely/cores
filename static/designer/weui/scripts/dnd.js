@@ -116,7 +116,6 @@ var init = function() {
 		var evtAction = {
 
 			attrRefreshed: function() {
-				console.log('attrRefreshed', data);
 				refreshApp(data);
 			},
 

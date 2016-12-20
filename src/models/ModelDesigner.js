@@ -333,42 +333,42 @@ export default {
 						isHTML: false,
 						_value: `@import 'style/weui.wxss';
 
-						page {
-							background-color: #F8F8F8;
-							font-size: 16px;
-							font-family: -apple-system-font,Helvetica Neue,Helvetica,sans-serif;
-						}
+page {
+	background-color: #F8F8F8;
+	font-size: 16px;
+	font-family: -apple-system-font,Helvetica Neue,Helvetica,sans-serif;
+}
 
-						.page__hd {
-							padding: 40px;
-						}
+.page__hd {
+	padding: 40px;
+}
 
-						.page__bd {
-							padding-bottom: 40px;
-						}
+.page__bd {
+	padding-bottom: 40px;
+}
 
-						.page__bd_spacing {
-							padding-left: 15px;
-							padding-right: 15px;
-						}
+.page__bd_spacing {
+	padding-left: 15px;
+	padding-right: 15px;
+}
 
-						.page__ft {
-							padding-bottom: 10px;
-							text-align: center;
-						}
+.page__ft {
+	padding-bottom: 10px;
+	text-align: center;
+}
 
-						.page__title {
-							text-align: left;
-							font-size: 20px;
-							font-weight: 400;
-						}
+.page__title {
+	text-align: left;
+	font-size: 20px;
+	font-weight: 400;
+}
 
-						.page__desc {
-							margin-top: 5px;
-							color: #888888;
-							text-align: left;
-							font-size: 14px;
-						}`,
+.page__desc {
+	margin-top: 5px;
+	color: #888888;
+	text-align: left;
+	font-size: 14px;
+}`,
 						backend: true
 					},
 
@@ -433,13 +433,23 @@ export default {
 						isClassName: false,
 						_value: {
 
+							useTabBar: {
+								type: 'toggle',
+								title: '启用',
+								isClassName: false,
+								isHTML: false,
+								_value: false,
+								onChange: 'designer/toggleTabBar'
+							},
+
 							color: {
 								type: 'input',
 								attrType: 'color',
 								title: '文本颜色',
 								isClassName: false,
 								isHTML: false,
-								_value: ''
+								_value: '#999999',
+								backend: true
 							},
 
 							selectedColors: {
@@ -448,7 +458,8 @@ export default {
 								title: '选中颜色',
 								isClassName: false,
 								isHTML: false,
-								_value: ''
+								_value: '#09BB07',
+								backend: true
 							},
 
 							backgroundColor: {
@@ -457,7 +468,8 @@ export default {
 								title: '背景色',
 								isClassName: false,
 								isHTML: false,
-								_value: ''
+								_value: '#F7F7FA',
+								backend: true
 							},
 
 							borderStyle: {
@@ -466,7 +478,8 @@ export default {
 								value: ['black', 'white'],
 								isClassName: false,
 								isHTML: false,
-								_value: 'black'
+								_value: 'black',
+								backend: true
 							},
 
 							position: {
@@ -475,7 +488,8 @@ export default {
 								value: ['bottom', 'top'],
 								isClassName: false,
 								isHTML: false,
-								_value: 'bottom'
+								_value: 'bottom',
+								backend: true
 							},
 
 							list: {
@@ -483,6 +497,7 @@ export default {
 								title: '菜单列表',
 								isClassName: false,
 								isHTML: false,
+								backend: true,
 								value: [{
 									pagePath: {
 										type: 'select',
@@ -510,7 +525,7 @@ export default {
 										value: ['page-home'],
 										isClassName: false,
 										isHTML: false,
-										_value: ''
+										_value: 'https://weui.io/images/icon_tabbar.png'
 									},
 
 									selectedIconPath: {
@@ -520,7 +535,46 @@ export default {
 										value: ['page-home'],
 										isClassName: false,
 										isHTML: false,
-										_value: ''
+										_value: 'https://weui.io/images/icon_tabbar.png'
+									}
+								}, {
+									pagePath: {
+										type: 'select',
+										title: '页面路径',
+										value: ['pages/index'],
+										isClassName: false,
+										isHTML: false,
+										_value: 'pages/index'
+									},
+
+									text: {
+										type: 'input',
+										attrType: 'text',
+										title: '菜单名称',
+										value: ['pages/index'],
+										isClassName: false,
+										isHTML: false,
+										_value: '菜单2'
+									},
+
+									iconPath: {
+										type: 'input',
+										attrType: 'text',
+										title: '图片路径(<=40kb)',
+										value: ['page-home'],
+										isClassName: false,
+										isHTML: false,
+										_value: 'https://weui.io/images/icon_tabbar.png'
+									},
+
+									selectedIconPath: {
+										type: 'input',
+										attrType: 'text',
+										title: '选中时图片路径(<=40kb)',
+										value: ['page-home'],
+										isClassName: false,
+										isHTML: false,
+										_value: 'https://weui.io/images/icon_tabbar.png'
 									}
 								}],
 								_value: '添加',
@@ -583,10 +637,13 @@ export default {
 
 							setAsMainPage: {
 								type: 'toggle',
-								title: '设为主页',
+								title: '主界面(不可更改)',
 								isClassName: false,
 								isHTML: false,
-								_value: true
+								_value: true,
+								disabled: true,
+								checkedChildren: '真',
+								unCheckedChildren: '假'
 							},
 
 							alias: {
@@ -837,13 +894,23 @@ export default {
 						isClassName: false,
 						_value: {
 
+							useTabBar: {
+								type: 'toggle',
+								title: '启用',
+								isClassName: false,
+								isHTML: false,
+								_value: false,
+								onChange: 'designer/toggleTabBar'
+							},
+
 							color: {
 								type: 'input',
 								attrType: 'color',
 								title: '文本颜色',
 								isClassName: false,
 								isHTML: false,
-								_value: ''
+								_value: '#999999',
+								backend: true
 							},
 
 							selectedColors: {
@@ -852,7 +919,8 @@ export default {
 								title: '选中颜色',
 								isClassName: false,
 								isHTML: false,
-								_value: ''
+								_value: '#09BB07',
+								backend: true
 							},
 
 							backgroundColor: {
@@ -861,7 +929,8 @@ export default {
 								title: '背景色',
 								isClassName: false,
 								isHTML: false,
-								_value: ''
+								_value: '#F7F7FA',
+								backend: true
 							},
 
 							borderStyle: {
@@ -870,7 +939,8 @@ export default {
 								value: ['black', 'white'],
 								isClassName: false,
 								isHTML: false,
-								_value: 'black'
+								_value: 'black',
+								backend: true
 							},
 
 							position: {
@@ -879,7 +949,8 @@ export default {
 								value: ['bottom', 'top'],
 								isClassName: false,
 								isHTML: false,
-								_value: 'bottom'
+								_value: 'bottom',
+								backend: true
 							},
 
 							list: {
@@ -887,6 +958,86 @@ export default {
 								title: '菜单列表',
 								isClassName: false,
 								isHTML: false,
+								backend: true,
+								value: [{
+									pagePath: {
+										type: 'select',
+										title: '页面路径',
+										value: ['pages/index'],
+										isClassName: false,
+										isHTML: false,
+										_value: 'pages/index'
+									},
+
+									text: {
+										type: 'input',
+										attrType: 'text',
+										title: '菜单名称',
+										value: ['pages/index'],
+										isClassName: false,
+										isHTML: false,
+										_value: '菜单1'
+									},
+
+									iconPath: {
+										type: 'input',
+										attrType: 'text',
+										title: '图片路径(<=40kb)',
+										value: ['page-home'],
+										isClassName: false,
+										isHTML: false,
+										_value: ''
+									},
+
+									selectedIconPath: {
+										type: 'input',
+										attrType: 'text',
+										title: '选中时图片路径(<=40kb)',
+										value: ['page-home'],
+										isClassName: false,
+										isHTML: false,
+										_value: ''
+									}
+								}, {
+									pagePath: {
+										type: 'select',
+										title: '页面路径',
+										value: ['pages/index'],
+										isClassName: false,
+										isHTML: false,
+										_value: 'pages/index'
+									},
+
+									text: {
+										type: 'input',
+										attrType: 'text',
+										title: '菜单名称',
+										value: ['pages/index'],
+										isClassName: false,
+										isHTML: false,
+										_value: '菜单2'
+									},
+
+									iconPath: {
+										type: 'input',
+										attrType: 'text',
+										title: '图片路径(<=40kb)',
+										value: ['page-home'],
+										isClassName: false,
+										isHTML: false,
+										_value: ''
+									},
+
+									selectedIconPath: {
+										type: 'input',
+										attrType: 'text',
+										title: '选中时图片路径(<=40kb)',
+										value: ['page-home'],
+										isClassName: false,
+										isHTML: false,
+										_value: ''
+									}
+								}],
 								_value: '添加',
 								onClick: 'designer/handleEnableTabs'
 							}
@@ -943,10 +1094,13 @@ export default {
 
 					setAsMainPage: {
 						type: 'toggle',
-						title: '设为主页',
+						title: '主界面(不可更改)',
 						isClassName: false,
 						isHTML: false,
-						_value: false
+						_value: false,
+						disabled: true,
+						checkedChildren: '真',
+						unCheckedChildren: '假'
 					},
 
 					alias: {
@@ -2724,6 +2878,13 @@ export default {
 	},
 
 	effects: {
+
+		*fakePageSelected({payload: params}, {call, put, select}) {
+			yield put({
+				type: 'handleCtrlSelected'
+			});
+		}
+
 	},
 
 	reducers: {
@@ -2953,9 +3114,9 @@ export default {
 				var pageIndex = layoutAction.getPageIndexByKey(state.layout, params.key, level);
 				layoutAction.setActivePage(state.layoutState, pageIndex, params.key, level);
 
-				gospelDesignerPreviewer.postMessage({
-					pageSelected: layoutAction.getActivePage(state)
-				}, '*');
+				// gospelDesignerPreviewer.postMessage({
+				// 	pageSelected: layoutAction.getActivePage(state)
+				// }, '*');
 			}else {
 				var activePage = layoutAction.getActivePage(state),
 					activeCtrllvlAndIndex = layoutAction.getControllerIndexAndLvlByKey(state, params.key, activePage),
@@ -2976,6 +3137,10 @@ export default {
     		}
 
     		if(state.layoutState.activeType == 'page') {
+
+	    		gospelDesigner.postMessage({
+	    			attrRefreshed: activePage
+	    		}, '*');
 
 	    		gospelDesignerPreviewer.postMessage({
 	    			attrRefreshed: activePage
@@ -3118,8 +3283,28 @@ export default {
 			var activePage = layoutAction.getActivePage(state);
 			activePage.attr.css._value = value;
 			return {...state};				
-		}
+		},
 
+		toggleTabBar(state, { payload: checked }) {
+			var appAttr = state.layout[0].attr,
+				tabBarAttr = appAttr.tabBar._value;
+
+			for(var key in tabBarAttr) {
+				if(key != 'useTabBar') {
+					var currentAttr = tabBarAttr[key];
+					currentAttr.backend = !checked;			
+				}
+			}
+
+			gospelDesignerPreviewer.postMessage({
+				toggleTabBar: {
+					checked: checked,
+					tabBar: tabBarAttr
+				}
+			}, '*');
+
+			return {...state};
+		}
 
 	}
 
