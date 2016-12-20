@@ -495,49 +495,52 @@ $(function () {
                     jq('.page.' + this.app.key).css('background-color', color);
                 },
 
-                refreshTabBar: function(checked, tabBar) {
-                    var tpl = jq('script[id="page-app"]');
+                tabBar: {
 
-                    if(checked) {
-                        var tabList = tabBar.list.value,
-                            tabs = this.generateTab(tabList);
+                    refreshTabBar: function(checked, tabBar) {
+                        var tpl = jq('script[id="page-app"]');
 
-                        tpl.html('<div class="page">' + tabs + '</div>');
-                        jq('.page-app').html(this.generateTab(tabList));
-                    }else {
-                        tpl.html('');
-                        jq('.page-app').find('.weui-tab').remove();
+                        if(checked) {
+                            var tabList = tabBar.list.value,
+                                tabs = this.generateTab(tabList);
+
+                            tpl.html('<div class="page">' + tabs + '</div>');
+                            jq('.page-app').html(this.generateTab(tabList));
+                        }else {
+                            tpl.html('');
+                            jq('.page-app').find('.weui-tab').remove();
+                        }
+
+                    },
+
+                    generateTab: function(tabList) {
+                        var tabBarTpl = this.generateTabBarLoop(tabList), tabWrapper;
+                        tabWrapper = this.generateTabWrapper(tabBarTpl);
+                        return tabWrapper;
+                    },
+
+                    generateTabBarLoop: function(tabList) {
+                        var tabBarTpl = '';
+                        for (var i = 0; i < tabList.length; i++) {
+                            var tab = tabList[i];
+                            tabBarTpl = tabBarTpl + this.generateTabBar(tab.iconPath._value, tab.text._value, tab.pagePath._value, tab.selectedIconPath._value);
+                        };
+                        return tabBarTpl;
+                    },
+
+                    generateTabBar: function(iconPath, text, pagePath, selectedIconPath) {
+                        return '<a href="javascript:location.hash=\"' + pagePath + '\";" class="weui-tabbar__item"> \
+                             <img src="' + iconPath + '" alt="" class="weui-tabbar__icon"> \
+                             <p class="weui-tabbar__label">' + text + '</p> \
+                        </a>';
+                    },
+
+                    generateTabWrapper: function(tabs) {
+                        return '<div class="weui-tab"> \
+                                    <div class="weui-tab__panel"></div> \
+                                    <div class="weui-tabbar">' + tabs + '</div> \
+                                </div>';
                     }
-
-                },
-
-                generateTab: function(tabList) {
-                    var tabBarTpl = this.generateTabBarLoop(tabList), tabWrapper;
-                    tabWrapper = this.generateTabWrapper(tabBarTpl);
-                    return tabWrapper;
-                },
-
-                generateTabBarLoop: function(tabList) {
-                    var tabBarTpl = '';
-                    for (var i = 0; i < tabList.length; i++) {
-                        var tab = tabList[i];
-                        tabBarTpl = tabBarTpl + this.generateTabBar(tab.iconPath._value, tab.text._value, tab.pagePath._value, tab.selectedIconPath._value);
-                    };
-                    return tabBarTpl;
-                },
-
-                generateTabBar: function(iconPath, text, pagePath, selectedIconPath) {
-                    return '<a href="javascript:location.hash=\"' + pagePath + '\";" class="weui-tabbar__item"> \
-                         <img src="' + iconPath + '" alt="" class="weui-tabbar__icon"> \
-                         <p class="weui-tabbar__label">' + text + '</p> \
-                    </a>';
-                },
-
-                generateTabWrapper: function(tabs) {
-                    return '<div class="weui-tab"> \
-                                <div class="weui-tab__panel"></div> \
-                                <div class="weui-tabbar">' + tabs + '</div> \
-                            </div>';
                 }
             }
 
@@ -1186,7 +1189,19 @@ $(function () {
                         },
 
                         toggleTabBar: function() {
-                            pageOperations.refreshTabBar(data.checked, data.tabBar);
+                            pageOperations.tabBar.refreshTabBar(data.checked, data.tabBar);
+                        },
+
+                        tabBarAdded: function() {
+                            pageOperations.tabBar.refreshTabBar(true, data);
+                        },
+
+                        tabBarRemoved: function() {
+                            pageOperations.tabBar.refreshTabBar(true, data);
+                        },
+
+                        tabBarUpdated: function() {
+                            pageOperations.tabBar.refreshTabBar(true, data);
                         }
                     };
 
