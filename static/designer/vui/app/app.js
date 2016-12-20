@@ -521,7 +521,7 @@ $(function () {
                     this.changeBackgroundColor(attr.backgroundColor._value);
                     this.changeBackgroundTextStyle(attr.backgroundTextStyle._value);
 
-                    this.tabBar.refreshTabBarStyle(attr.tabBar._value);
+                    this.tabBar.refreshTabBarStyle(data);
                 },
 
                 changeBackgroundTextStyle: function(style) {
@@ -535,8 +535,14 @@ $(function () {
 
                 tabBar: {
 
-                    refreshTabBarStyle: function(tabBar) {
-                        
+                    refreshTabBarStyle: function(data) {
+                        var tabBar = data.attr ? data.attr.tabBar._value : data;
+
+                        var borderStyle = tabBar.borderStyle._value == 'black' ? '1px solid #000000' : '1px solid #C0BFC4';
+
+                        jq('.page-app .weui-tabbar').css('background-color', tabBar.backgroundColor._value)
+                                                    .css('border-top', borderStyle);
+                        jq('.page-app .weui-tabbar__label').css('color', tabBar.color._value);
                     },
 
                     refreshTabBar: function(checked, tabBar) {
@@ -548,6 +554,9 @@ $(function () {
 
                             tpl.html('<div class="page">' + tabs + '</div>');
                             jq('.page-app').html(this.generateTab(tabList));
+
+                            this.refreshTabBarStyle(tabBar);
+
                         }else {
                             tpl.html('');
                             jq('.page-app').find('.weui-tab').remove();
