@@ -126,7 +126,9 @@ const Attr = (props) => {
     			}
     		}
 
-    		specialEvt[attr.attrName]();
+    		if(specialEvt[attr.attrName]) {
+	    		specialEvt[attr.attrName]();
+    		}
 
     	},
 

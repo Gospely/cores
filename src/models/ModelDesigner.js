@@ -3197,6 +3197,10 @@ page {
 
     		if(state.layoutState.activeType == 'page') {
 
+	    		gospelDesigner.postMessage({
+	    			attrRefreshed: activePage
+	    		}, '*');
+
 	    		gospelDesignerPreviewer.postMessage({
 	    			attrRefreshed: activePage
 	    		}, '*');
