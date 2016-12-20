@@ -384,7 +384,7 @@ $(function () {
         jq("body").on("click", function() {
             controllerOperations.hideDesignerDraggerBorder();
             postMessageToFather.pageSelected({
-                key: location.hash || 'page-home'
+                key: location.hash.split('#')[1] || 'page-home'
             });
         });
 
