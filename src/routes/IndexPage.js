@@ -2,8 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
 import styles from './IndexPage.css';
-
-import { Row, Col } from 'antd';
+import { Row, Col, Spin, Alert } from 'antd';
 
 import LeftSidebar from '../components/LeftSidebar';
 import RightSidebar from '../components/RightSidebar';
@@ -86,6 +85,7 @@ function IndexPage(props) {
         onEdit(paneKey, targetKey, action) {
 
             // console.log(targetKey);
+            console.log("===============onEdit============" + action);
             var content = '',
                 title = undefined,
                 type = "editor";
@@ -115,11 +115,12 @@ function IndexPage(props) {
             localStorage.currentFileOperation = action;
 
             if (action == 'remove') {
+                console.log('remove');
                 localStorage.removeAction = JSON.stringify(removeAction);
                 editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
                 let currentTab = props.devpanel.panels.panes[paneKey.paneKey].tabs[targetKey - 1];
-                let tabType = 'currentTab.type';
-                    
+                let tabType = currentTab.type;
+                console.log(currentTab);
                 if (tabType != 'editor') {
 
                     if (tabType == 'terminal') {
@@ -142,6 +143,7 @@ function IndexPage(props) {
                 }
 
                 var fileName = localStorage.currentSelectedFile;
+
                 if (!currentTab.isSave) {
 
                     var name = 'file';
@@ -178,31 +180,41 @@ function IndexPage(props) {
     devPanelMinSize = devPanelMinSize - (rightBarWidth + leftBarWidth);
 
     return ( <div className = "body">
-                <div hidden = 'true'
-                    id = "git-terminal" > 
-                </div> 
+                <div
+                    hidden='true'
+                    id = "git-terminal" >
+                </div>
+                <div
+                    id = "git-show" >
+                </div>
                 <div className = "table-ftw" style = {{ paddingBottom: '0px' }}>
                     <div className = "tr-ftw">
                         <div className = "td-ftw" style = {{ height: '38px' }}>
-                            <Topbar> </Topbar> 
-                        </div> 
-                    </div> 
+                            <Topbar> </Topbar>
+                        </div>
+                    </div>
                     <div className = "tr-ftw" >
                         <div className = "td-ftw" >
                             <SplitPane split = "vertical" minSize = { 41 } defaultSize = { leftBarWidth } >
                                 <div className = "LeftSidebar" >
-                                    <LeftSidebar></LeftSidebar> 
-                                </div> 
+                                    <LeftSidebar></LeftSidebar>
+                                </div>
                                 <SplitPane split = "vertical" defaultSize = { devPanelMinSize }>
                                     <div className = { styles.devbar } >
                                         <DevPanel {...devPanelProps } props = { props }></DevPanel>
                                     </div>
-                                    <RightSidebar></RightSidebar> 
-                                </SplitPane> 
-                            </SplitPane> 
-                        </div> 
-                    </div> 
-                </div> 
+                                    <RightSidebar></RightSidebar>
+                                </SplitPane>
+                            </SplitPane>
+                        </div>
+                    </div>
+                </div>
+                {props.devpanel.isLoading && (<div style={{position: 'fixed', width: '100%', height: '100%', 
+                    left: 0, top: 0, textAlign: 'center', padding: '250px 0',
+                    backgroundColor: 'rgba(0, 0, 0, .1)'}}>
+                    <Spin tip="应用加载中..." spinning={props.devpanel.isLoading}>
+                    </Spin>
+                </div>)}
             </div>);
 }
 

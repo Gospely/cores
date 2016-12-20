@@ -49,6 +49,12 @@ export default {
 			}],
 			percent: 0,
 			status: 'success'
+		},
+
+		debugConfig: {
+			showConfigModal: false,
+			runCommand: 'npm run dev',
+			startPort: ''
 		}
 	},
 
@@ -286,6 +292,27 @@ export default {
 
 		showNewAppAndHideSwitch(state, {payload: val}) {
 			return {...state, modalNewAppVisible: true, modalSwitchAppVisible: false, createFromModal: true};
+		},
+
+		showDebugConfigModal(state) {
+			state.debugConfig.showConfigModal = true;
+			return {...state};
+		},
+
+		hideDebugConfigModal(state) {
+			state.debugConfig.showConfigModal = false;
+			return {...state};
+		},
+
+		handleRunCommandChange(state, {payload: val}) {
+			console.log(val)
+			state.debugConfig.runCommand = val;
+			return {...state};
+		},
+
+		handleStartPortChange(state, {payload: val}) {
+			state.debugConfig.startPort = val;
+			return {...state};
 		},
 
 		setIsGit(state, {payload: flag}) {
