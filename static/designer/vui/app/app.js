@@ -544,7 +544,6 @@ $(function () {
                         }
 
                         var tabBar = data.attr ? data.attr.tabBar._value : data;
-
                         var borderStyle = tabBar.borderStyle._value == 'black' ? '1px solid #000000' : '1px solid #FFFFFF';
 
                         jq('.page-app .weui-tabbar, .page-home .weui-tabbar').css('background-color', tabBar.backgroundColor._value)

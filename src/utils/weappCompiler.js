@@ -75,7 +75,13 @@ const weappCompiler = {
 					}else {
 						const childAttr = currAttr._value;
 						appJSON[key] = {};
-						loopAPPJSON(childAttr, key, appJSON);
+						if(childAttr.useTabBar) {
+							if(childAttr.useTabBar._value) {
+								loopAPPJSON(childAttr, key, appJSON);								
+							}
+						}else {
+							loopAPPJSON(childAttr, key, appJSON);
+						}
 					}
 				}
 			}
