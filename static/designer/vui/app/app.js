@@ -355,6 +355,10 @@ $(function () {
 
             makeComponentsDraggable: function(c) {
                 parent.parent.postMessage({ 'makeComponentsDraggable': c }, "*");
+            },
+
+            tabBarAdded: function(c) {
+                parent.parent.postMessage({ 'tabBarAdded': c }, '*');
             }
 
         }
@@ -495,12 +499,13 @@ $(function () {
                     var tpl = jq('script[id="page-app"]');
 
                     if(checked) {
-                        var tabList = tabBar.list.value;
-                        var tabs = this.generateTab(tabList);
-                        tpl.append(tabs);
+                        var tabList = tabBar.list.value,
+                            tabs = this.generateTab(tabList);
 
-                        
+                        alert(tpl.find('.page').length);
 
+                        tpl.html('<div class="page">' + tabs + '</div>');
+                        jq('.page-app').html(this.generateTab(tabList));
                     }else {
                         tpl.html('');
                         jq('.page-app').find('.weui-tab').remove();
@@ -509,15 +514,18 @@ $(function () {
                 },
 
                 generateTab: function(tabList) {
-                    var tabBarTpl = '', tabWrapper;
-
-                    for (var i = 0; i < tabList.length; i++) {
-                        var tab = tabList[i],
-                            tabBarTpl = tabBarTpl + this.generateTabBar(tab.iconPath._value, tab.text._value, tab.pagePath._value, tab.selectedIconPath._value);
-                    };
-
+                    var tabBarTpl = this.generateTabBarLoop(tabList), tabWrapper;
                     tabWrapper = this.generateTabWrapper(tabBarTpl);
                     return tabWrapper;
+                },
+
+                generateTabBarLoop: function(tabList) {
+                    var tabBarTpl = '';
+                    for (var i = 0; i < tabList.length; i++) {
+                        var tab = tabList[i];
+                        tabBarTpl = tabBarTpl + this.generateTabBar(tab.iconPath._value, tab.text._value, tab.pagePath._value, tab.selectedIconPath._value);
+                    };
+                    return tabBarTpl;
                 },
 
                 generateTabBar: function(iconPath, text, pagePath, selectedIconPath) {
@@ -528,12 +536,10 @@ $(function () {
                 },
 
                 generateTabWrapper: function(tabs) {
-                    return '<div class="page"> \
-                            <div class="weui-tab"> \
+                    return '<div class="weui-tab"> \
                                 <div class="weui-tab__panel"></div> \
                                 <div class="weui-tabbar">' + tabs + '</div> \
-                            </div> \
-                        </div>';
+                            </div>';
                 }
             }
 

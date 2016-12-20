@@ -2937,6 +2937,13 @@ page {
 	},
 
 	effects: {
+
+		*fakePageSelected({payload: params}, {call, put, select}) {
+			yield put({
+				type: 'handleCtrlSelected'
+			});
+		}
+
 	},
 
 	reducers: {
@@ -3166,9 +3173,9 @@ page {
 				var pageIndex = layoutAction.getPageIndexByKey(state.layout, params.key, level);
 				layoutAction.setActivePage(state.layoutState, pageIndex, params.key, level);
 
-				gospelDesignerPreviewer.postMessage({
-					pageSelected: layoutAction.getActivePage(state)
-				}, '*');
+				// gospelDesignerPreviewer.postMessage({
+				// 	pageSelected: layoutAction.getActivePage(state)
+				// }, '*');
 			}else {
 				var activePage = layoutAction.getActivePage(state),
 					activeCtrllvlAndIndex = layoutAction.getControllerIndexAndLvlByKey(state, params.key, activePage),

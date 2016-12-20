@@ -176,6 +176,12 @@ export default {
 					props.dispatch({
 						type: 'designer/handlePreviewerLayoutLoaded'
 					});
+				},
+
+				tabBarAdded () {
+					props.dispatch({
+						type: 'designer/fakePageSelected'
+					});
 				}
 
 			}
