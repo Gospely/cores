@@ -489,6 +489,51 @@ $(function () {
 
                 changeBackgroundColor: function(color) {
                     jq('.page.' + this.app.key).css('background-color', color);
+                },
+
+                refreshTabBar: function(checked, tabBar) {
+                    var tpl = jq('script[id="page-app"]');
+
+                    if(checked) {
+                        var tabList = tabBar.list.value;
+                        var tabs = this.generateTab(tabList);
+                        tpl.append(tabs);
+
+                        
+
+                    }else {
+                        tpl.html('');
+                        jq('.page-app').find('.weui-tab').remove();
+                    }
+
+                },
+
+                generateTab: function(tabList) {
+                    var tabBarTpl = '', tabWrapper;
+
+                    for (var i = 0; i < tabList.length; i++) {
+                        var tab = tabList[i],
+                            tabBarTpl = tabBarTpl + this.generateTabBar(tab.iconPath._value, tab.text._value, tab.pagePath._value, tab.selectedIconPath._value);
+                    };
+
+                    tabWrapper = this.generateTabWrapper(tabBarTpl);
+                    return tabWrapper;
+                },
+
+                generateTabBar: function(iconPath, text, pagePath, selectedIconPath) {
+                    return '<a href="javascript:location.hash=\"' + pagePath + '\";" class="weui-tabbar__item"> \
+                         <img src="' + iconPath + '" alt="" class="weui-tabbar__icon"> \
+                         <p class="weui-tabbar__label">' + text + '</p> \
+                    </a>';
+                },
+
+                generateTabWrapper: function(tabs) {
+                    return '<div class="page"> \
+                            <div class="weui-tab"> \
+                                <div class="weui-tab__panel"></div> \
+                                <div class="weui-tabbar">' + tabs + '</div> \
+                            </div> \
+                        </div>';
                 }
             }
 
@@ -1134,6 +1179,10 @@ $(function () {
 
                         ctrlSelected: function() {
                             controllerOperations.select(data, true);
+                        },
+
+                        toggleTabBar: function() {
+                            pageOperations.refreshTabBar(data.checked, data.tabBar);
                         }
                     };
 

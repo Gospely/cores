@@ -525,7 +525,7 @@ page {
 										value: ['page-home'],
 										isClassName: false,
 										isHTML: false,
-										_value: ''
+										_value: 'https://weui.io/images/icon_tabbar.png'
 									},
 
 									selectedIconPath: {
@@ -535,7 +535,46 @@ page {
 										value: ['page-home'],
 										isClassName: false,
 										isHTML: false,
-										_value: ''
+										_value: 'https://weui.io/images/icon_tabbar.png'
+									}
+								}, {
+									pagePath: {
+										type: 'select',
+										title: '页面路径',
+										value: ['pages/index'],
+										isClassName: false,
+										isHTML: false,
+										_value: 'pages/index'
+									},
+
+									text: {
+										type: 'input',
+										attrType: 'text',
+										title: '菜单名称',
+										value: ['pages/index'],
+										isClassName: false,
+										isHTML: false,
+										_value: '菜单2'
+									},
+
+									iconPath: {
+										type: 'input',
+										attrType: 'text',
+										title: '图片路径(<=40kb)',
+										value: ['page-home'],
+										isClassName: false,
+										isHTML: false,
+										_value: 'https://weui.io/images/icon_tabbar.png'
+									},
+
+									selectedIconPath: {
+										type: 'input',
+										attrType: 'text',
+										title: '选中时图片路径(<=40kb)',
+										value: ['page-home'],
+										isClassName: false,
+										isHTML: false,
+										_value: 'https://weui.io/images/icon_tabbar.png'
 									}
 								}],
 								_value: '添加',
@@ -598,10 +637,13 @@ page {
 
 							setAsMainPage: {
 								type: 'toggle',
-								title: '设为主页',
+								title: '主界面(不可更改)',
 								isClassName: false,
 								isHTML: false,
-								_value: true
+								_value: true,
+								disabled: true,
+								checkedChildren: '真',
+								unCheckedChildren: '假'
 							},
 
 							alias: {
@@ -852,13 +894,23 @@ page {
 						isClassName: false,
 						_value: {
 
+							useTabBar: {
+								type: 'toggle',
+								title: '启用',
+								isClassName: false,
+								isHTML: false,
+								_value: false,
+								onChange: 'designer/toggleTabBar'
+							},
+
 							color: {
 								type: 'input',
 								attrType: 'color',
 								title: '文本颜色',
 								isClassName: false,
 								isHTML: false,
-								_value: '#999999'
+								_value: '#999999',
+								backend: true
 							},
 
 							selectedColors: {
@@ -867,7 +919,8 @@ page {
 								title: '选中颜色',
 								isClassName: false,
 								isHTML: false,
-								_value: '#09BB07'
+								_value: '#09BB07',
+								backend: true
 							},
 
 							backgroundColor: {
@@ -876,7 +929,8 @@ page {
 								title: '背景色',
 								isClassName: false,
 								isHTML: false,
-								_value: '#F7F7FA'
+								_value: '#F7F7FA',
+								backend: true
 							},
 
 							borderStyle: {
@@ -885,7 +939,8 @@ page {
 								value: ['black', 'white'],
 								isClassName: false,
 								isHTML: false,
-								_value: 'black'
+								_value: 'black',
+								backend: true
 							},
 
 							position: {
@@ -894,7 +949,8 @@ page {
 								value: ['bottom', 'top'],
 								isClassName: false,
 								isHTML: false,
-								_value: 'bottom'
+								_value: 'bottom',
+								backend: true
 							},
 
 							list: {
@@ -902,6 +958,86 @@ page {
 								title: '菜单列表',
 								isClassName: false,
 								isHTML: false,
+								backend: true,
+								value: [{
+									pagePath: {
+										type: 'select',
+										title: '页面路径',
+										value: ['pages/index'],
+										isClassName: false,
+										isHTML: false,
+										_value: 'pages/index'
+									},
+
+									text: {
+										type: 'input',
+										attrType: 'text',
+										title: '菜单名称',
+										value: ['pages/index'],
+										isClassName: false,
+										isHTML: false,
+										_value: '菜单1'
+									},
+
+									iconPath: {
+										type: 'input',
+										attrType: 'text',
+										title: '图片路径(<=40kb)',
+										value: ['page-home'],
+										isClassName: false,
+										isHTML: false,
+										_value: ''
+									},
+
+									selectedIconPath: {
+										type: 'input',
+										attrType: 'text',
+										title: '选中时图片路径(<=40kb)',
+										value: ['page-home'],
+										isClassName: false,
+										isHTML: false,
+										_value: ''
+									}
+								}, {
+									pagePath: {
+										type: 'select',
+										title: '页面路径',
+										value: ['pages/index'],
+										isClassName: false,
+										isHTML: false,
+										_value: 'pages/index'
+									},
+
+									text: {
+										type: 'input',
+										attrType: 'text',
+										title: '菜单名称',
+										value: ['pages/index'],
+										isClassName: false,
+										isHTML: false,
+										_value: '菜单2'
+									},
+
+									iconPath: {
+										type: 'input',
+										attrType: 'text',
+										title: '图片路径(<=40kb)',
+										value: ['page-home'],
+										isClassName: false,
+										isHTML: false,
+										_value: ''
+									},
+
+									selectedIconPath: {
+										type: 'input',
+										attrType: 'text',
+										title: '选中时图片路径(<=40kb)',
+										value: ['page-home'],
+										isClassName: false,
+										isHTML: false,
+										_value: ''
+									}
+								}],
 								_value: '添加',
 								onClick: 'designer/handleEnableTabs'
 							}
@@ -958,10 +1094,13 @@ page {
 
 					setAsMainPage: {
 						type: 'toggle',
-						title: '设为主页',
+						title: '主界面(不可更改)',
 						isClassName: false,
 						isHTML: false,
-						_value: false
+						_value: false,
+						disabled: true,
+						checkedChildren: '真',
+						unCheckedChildren: '假'
 					},
 
 					alias: {
@@ -3190,9 +3329,18 @@ page {
 			for(var key in tabBarAttr) {
 				if(key != 'useTabBar') {
 					var currentAttr = tabBarAttr[key];
-					currentAttr.backend = !checked;					
+					currentAttr.backend = !checked;			
 				}
 			}
+
+			gospelDesignerPreviewer.postMessage({
+				toggleTabBar: {
+					checked: checked,
+					tabBar: tabBarAttr
+				}
+			}, '*');
+
+			return {...state};
 		}
 
 	}

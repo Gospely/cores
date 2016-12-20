@@ -18,21 +18,25 @@ const CheckableTag = Tag.CheckableTag;
 class EditableCell extends React.Component {
   state = {
     value: this.props.value,
-    editable: false,
+    editable: false
   }
+
   handleChange = (e) => {
     const value = e.target.value;
     this.setState({ value });
   }
+
   check = () => {
     this.setState({ editable: false });
     if (this.props.onChange) {
       this.props.onChange(this.state.value);
     }
   }
+
   edit = () => {
     this.setState({ editable: true });
   }
+
   render() {
     const { value, editable } = this.state;
     return (<div className="editable-cell">
@@ -225,7 +229,7 @@ const Attr = (props) => {
 		toggle (attr, parentAtt) {
 			return (
 				<FormItem key={pageKey + (itemKey ++)} {...formItemLayout} label={attr.title}>
-    				<Switch onChange={attrFormProps.handleAttrFormSwitchChange.bind(this, attr, parentAtt)}
+    				<Switch checkedChildren={attr.checkedChildren} unCheckedChildren={attr.unCheckedChildren} disabled={attr.disabled} onChange={attrFormProps.handleAttrFormSwitchChange.bind(this, attr, parentAtt)}
 						checked={attr._value} />
 				</FormItem>
 			);
@@ -335,7 +339,7 @@ const Attr = (props) => {
 					value: ['page-home'],
 					isClassName: false,
 					isHTML: false,
-					_value: ''
+					_value: 'https://weui.io/images/icon_tabbar.png'
 				},
 
 				selectedIconPath: {
@@ -345,7 +349,7 @@ const Attr = (props) => {
 					value: ['page-home'],
 					isClassName: false,
 					isHTML: false,
-					_value: ''
+					_value: 'https://weui.io/images/icon_tabbar.png'
 				}
 			}
 			props.designer.layout[0].attr.tabBar._value.list.value.push(obj);
@@ -402,8 +406,11 @@ const Attr = (props) => {
       		title: '图片路径',
       		dataIndex: 'iconPath',
 	      	render: (text, record, index) => (
-		        <EditableCell
-		          value={text}/>
+	      		<div>
+		        	<img style={{height: 27, width: 27}}  src={text} />
+		        	<EditableCell
+		          		value={text}/>
+	      		</div>
 		    )
     	}, {
       		title: '选中时图片路径',
@@ -494,6 +501,7 @@ const Attr = (props) => {
 		          		<Button onClick={tabFormProps.onAddTab} type="dashed" style={{ marginBottom: '15px' }}>
 		            		<Icon type="plus" /> 添加菜单项
 		          		</Button>
+		          		<span>&nbsp;&nbsp;注：菜单项只在主页面中显示</span>
 		      	      	<Table bordered dataSource={tabsTableDatasource} columns={tabsTablesColumns} />
 	        	</Modal>
 
