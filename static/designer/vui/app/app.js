@@ -536,6 +536,13 @@ $(function () {
                 tabBar: {
 
                     refreshTabBarStyle: function(data) {
+
+                        if(data.attr) {
+                            if(!data.attr.tabBar) {
+                                return false;
+                            }
+                        }
+
                         var tabBar = data.attr ? data.attr.tabBar._value : data;
 
                         var borderStyle = tabBar.borderStyle._value == 'black' ? '1px solid #000000' : '1px solid #C0BFC4';
@@ -556,6 +563,8 @@ $(function () {
                             jq('.page-app').html(this.generateTab(tabList));
 
                             this.refreshTabBarStyle(tabBar);
+
+                            this.addTabBarToMainPage();
 
                         }else {
                             tpl.html('');
@@ -591,6 +600,10 @@ $(function () {
                                     <div class="weui-tab__panel"></div> \
                                     <div class="weui-tabbar">' + tabs + '</div> \
                                 </div>';
+                    },
+
+                    addTabBarToMainPage: function() {
+
                     }
                 }
             }
