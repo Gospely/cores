@@ -140,7 +140,14 @@ const Attr = (props) => {
 
     		props.dispatch({
     			type: 'designer/handleAttrRefreshed'
-    		})
+    		});
+
+    		if(attr.onChange) {
+    			props.dispatch({
+    				type: attr.onChange,
+    				payload: checked
+    			});
+    		}
 
     	},
 
@@ -262,8 +269,9 @@ const Attr = (props) => {
 			}
 
 			const children = arrAttrChildren.map( (att, i) => {
-				console.log(att)
-				return attrTypeActions[att.type](att, parentAtt);
+				if(!att.backend) {
+					return attrTypeActions[att.type](att, parentAtt);					
+				}
 			});
 
 			console.log(children);

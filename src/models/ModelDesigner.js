@@ -433,13 +433,23 @@ page {
 						isClassName: false,
 						_value: {
 
+							useTabBar: {
+								type: 'toggle',
+								title: '启用',
+								isClassName: false,
+								isHTML: false,
+								_value: false,
+								onChange: 'designer/toggleTabBar'
+							},
+
 							color: {
 								type: 'input',
 								attrType: 'color',
 								title: '文本颜色',
 								isClassName: false,
 								isHTML: false,
-								_value: ''
+								_value: '#999999',
+								backend: true
 							},
 
 							selectedColors: {
@@ -448,7 +458,8 @@ page {
 								title: '选中颜色',
 								isClassName: false,
 								isHTML: false,
-								_value: ''
+								_value: '#09BB07',
+								backend: true
 							},
 
 							backgroundColor: {
@@ -457,7 +468,8 @@ page {
 								title: '背景色',
 								isClassName: false,
 								isHTML: false,
-								_value: ''
+								_value: '#F7F7FA',
+								backend: true
 							},
 
 							borderStyle: {
@@ -466,7 +478,8 @@ page {
 								value: ['black', 'white'],
 								isClassName: false,
 								isHTML: false,
-								_value: 'black'
+								_value: 'black',
+								backend: true
 							},
 
 							position: {
@@ -475,7 +488,8 @@ page {
 								value: ['bottom', 'top'],
 								isClassName: false,
 								isHTML: false,
-								_value: 'bottom'
+								_value: 'bottom',
+								backend: true
 							},
 
 							list: {
@@ -483,6 +497,7 @@ page {
 								title: '菜单列表',
 								isClassName: false,
 								isHTML: false,
+								backend: true,
 								value: [{
 									pagePath: {
 										type: 'select',
@@ -843,7 +858,7 @@ page {
 								title: '文本颜色',
 								isClassName: false,
 								isHTML: false,
-								_value: ''
+								_value: '#999999'
 							},
 
 							selectedColors: {
@@ -852,7 +867,7 @@ page {
 								title: '选中颜色',
 								isClassName: false,
 								isHTML: false,
-								_value: ''
+								_value: '#09BB07'
 							},
 
 							backgroundColor: {
@@ -861,7 +876,7 @@ page {
 								title: '背景色',
 								isClassName: false,
 								isHTML: false,
-								_value: ''
+								_value: '#F7F7FA'
 							},
 
 							borderStyle: {
@@ -3166,8 +3181,19 @@ page {
 			var activePage = layoutAction.getActivePage(state);
 			activePage.attr.css._value = value;
 			return {...state};				
-		}
+		},
 
+		toggleTabBar(state, { payload: checked }) {
+			var appAttr = state.layout[0].attr,
+				tabBarAttr = appAttr.tabBar._value;
+
+			for(var key in tabBarAttr) {
+				if(key != 'useTabBar') {
+					var currentAttr = tabBarAttr[key];
+					currentAttr.backend = !checked;					
+				}
+			}
+		}
 
 	}
 
