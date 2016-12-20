@@ -21,3 +21,26 @@ body,html{height:100%;-webkit-tap-highlight-color:transparent}body{font-family:-
 .container-box-a.bd {
 	height: 100%;
 }
+
+.spacerBottomBorder {
+	height: 11px;
+    margin: -5px 0;
+    // border-top: 5px solid rgba(255, 255, 255, 0);
+    // border-bottom: 5px solid rgba(255, 255, 255, 0);
+    border-top: 5px solid black;
+    border-bottom: 5px solid black;
+    cursor: row-resize;
+    width: 100%;
+    position: absolute;
+    display: none;
+    z-index: 65536;
+    background: #000;
+    opacity: .2;
+    box-sizing: border-box;
+    background-clip: padding-box;
+}
+
+.spacerBottomBorder:hover {
+	border-top: 5px solid rgba(0, 0, 0, 0.5);
+    border-bottom: 5px solid rgba(0, 0, 0, 0.5);
+}

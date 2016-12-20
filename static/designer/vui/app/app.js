@@ -357,6 +357,10 @@ $(function () {
                 parent.parent.postMessage({ 'makeComponentsDraggable': c }, "*");
             },
 
+            spacerHeightChange: function(c) {
+                parent.parent.postMessage({ 'spacerHeightChange': c }, "*")
+            },
+            
             tabBarAdded: function(c) {
                 parent.parent.postMessage({ 'tabBarAdded': c }, '*');
             }
@@ -367,7 +371,9 @@ $(function () {
                 currentActiveCtrlDOM: ''
             },
 
-            removeBtn = jq('i.control-box.remove');
+            removeBtn = jq('i.control-box.remove'),
+
+            dragY = jq('.spacerBottomBorder');
 
         removeBtn.click(function(e) {
             e.stopPropagation();
@@ -448,6 +454,35 @@ $(function () {
                     });
 
                     self.addClass("hight-light");
+
+                    if(self[0].id.split('-')[0] == 'spacer') {
+                        dragY.show();
+                        dragY.css({
+                            top: self.offset().top + self.height() + 'px',
+                        })
+                        jq(dragY[0]).on('mousedown', function(e) {
+                            this.isMouseDown = true;
+                            this.orginY = e.pageY;
+                            this.orginTop = parseInt(jq(e.target).css('top'));
+                            this.orginHeight = parseInt(self.height());
+                        })
+                        jq(dragY[0]).on('mouseup', function(e) {
+
+                            this.isMouseDown = false;
+
+                        })
+                        jq(dragY[0]).on('mousemove', function(e) {
+                            if(this.isMouseDown) {
+                                jq(e.target).css({
+                                    top: e.pageY - this.orginY + this.orginTop
+                                })
+                                postMessageToFather.spacerHeightChange({
+                                    ctrlId: self[0].id, 
+                                    height: e.pageY - this.orginY + this.orginHeight
+                                });
+                            }
+                        })
+                    }
                 },
 
                 hideDesignerDraggerBorder: function() {
@@ -458,12 +493,13 @@ $(function () {
                 refresh: function(controller) {
 
                     var ctrlID = controller.key,
-
+                        target = jq('#' + ctrlID);
                         ctrlRefresher = new ComponentsGenerator({
                             controller: controller
                         });
 
                     ctrlRefresher.setAttribute();
+                    controllerOperations.showDesignerDraggerBorder(target)
 
                 }
             },
@@ -551,10 +587,6 @@ $(function () {
             this.comSelector = options.comSelector;
             this.containerSelector = options.containerSelector;
             this.inter = 0;
-            this.needDrag = true;
-            this.isMouseDown = false;
-            this.mouseClientY = '';
-            this.orginMargin = '';
 
             this.makeComponentsDraggable();
 
@@ -920,8 +952,8 @@ $(function () {
                         //一些label获取id
                         var id = '';
                         var getRadioInputId = function (controller) {
-                            console.log('hahahahahahahahahahahahah', controller)
-                            console.log('hahahahahahahahahahahahah', typeof controller.children)
+                            // console.log('hahahahahahahahahahahahah', controller)
+                            // console.log('hahahahahahahahahahahahah', typeof controller.children)
                             for(var i = 0; i < controller.children.length; i ++) {
                                 if (controller.children[i].type == currentAttr.bindType) {
                                     id = controller.children[i].key;
@@ -936,26 +968,6 @@ $(function () {
                         this.elem.attr(att, getRadioInputId(this.controller));
                     }
 
-                    if(currentAttr.isEvent) {
-                        //一些组件添加事件，如空白分割组件的mousedown事件等
-                        if (currentAttr._value == 'spacer' && att == 'topResize') {
-                            this.elem.on('mousedown', function(e) {
-                                this.isMouseDown = true;
-                                this.mouseClientY = e.clientY;
-                                this.orginMargin = jq(e.target).css('margin-bottom');
-                            });
-                            this.elem.on('mouseup', function(e) {
-                                this.isMouseDown = false;
-                            })
-                            this.elem.on('mousemove', function(e) {
-                                if(this.isMouseDown){
-                                    jq(e.target).css('margin-bottom', e.clientY - this.mouseClientY + this.orginMargin);
-                                }
-                            })
-
-                        }
-                        
-                    }
 
                     if (currentAttr.isCreateAttr) {
                         //一些在创建元素时需设置的属性，比如是否需要可拖拽
