@@ -159,6 +159,13 @@ export default {
 					});
 				},
 
+				spacerHeightChange () {
+					props.dispatch({
+						type: 'designer/spacerHeightChange',
+						payload: data
+					});
+				},
+
 				invalidDropArea () {
 					message.error('非法的拖拽区域');
 				},
@@ -177,6 +184,7 @@ export default {
 						type: 'designer/handlePreviewerLayoutLoaded'
 					});
 				}
+
 
 			}
 

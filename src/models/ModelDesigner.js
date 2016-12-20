@@ -2638,12 +2638,12 @@ export default {
 				tag: 'div',
 				baseClassName: '',
 				attr: {
-					// height: {
-					// 	isStyle: true,
-					// 	_value: '50px',
-					// 	title: '空白分割高度',
-					// 	type: 'input'
-					// },
+					height: {
+						isStyle: true,
+						_value: '50px',
+						title: '空白分割高度',
+						type: 'input'
+					},
 					width: {
 						isStyle: true,
 						hidden: true,
@@ -2653,71 +2653,12 @@ export default {
 					},
 					border: {
 						isStyle: true,
-						_value: '1px solid gray',
+						_value: '1px dashed gray',
 						title: '',
 						type: 'input',
 						hidden: true
 					}
-				},
-				children: [{
-					tag: 'div',
-					type: 'div',
-					name: '上边',
-					baseClassName: '',
-					attr: {
-						makeResize: {
-							isStyle: true,
-							isMultiplyStyle: true,
-							_value: `   height: 11px;
-									    margin: -5px 0;
-									    border-top: 5px solid rgba(255, 255, 255, 0);
-									    border-bottom: 5px solid rgba(255, 255, 255, 0);
-									    cursor: row-resize;
-									    width: 100%;
-									    margin-bottom: 25px;
-									`,
-							type: 'input',
-							title: '',
-							hidden: true
-						},
-						topResize: {
-							isEvent: true,
-							type: 'input',
-							title: '',
-							hidden: true,
-							_value: 'spacer'
-						},
-						needDrag: {
-							isCreateAttr: true,
-							type: 'input',
-							title: '',
-							hidden: true,
-							_value: false
-						}
-					}
-				}, {
-					tag: 'div',
-					type: 'div',
-					name: '上边',
-					baseClassName: '',
-					attr: {
-						makeResize: {
-							isStyle: true,
-							isMultiplyStyle: true,
-							_value: `   height: 11px;
-									    margin: -5px 0;
-									    border-top: 5px solid rgba(255, 255, 255, 0);
-									    border-bottom: 5px solid rgba(255, 255, 255, 0);
-									    cursor: row-resize;
-									    width: 100%;
-									    margin-top: 25px;
-									`,
-							type: 'input',
-							title: '',
-							hidden: true
-						}
-					}
-				}]
+				}
 			},
 			{
 				name: '页头',
@@ -3142,6 +3083,17 @@ export default {
 	      		activeCtrl.attr[params.attrName]['_value'] = params.newVal;
 
 			}
+			return {...state};
+		},
+
+		spacerHeightChange(state, { payload: params }) {
+			// alert(params.ctrlId)
+			let activeCtrl = layoutAction.getCtrlByKey(state.layout[0], params.ctrlId);
+			activeCtrl.attr.height._value = params.height;
+			console.log(params.height);
+			gospelDesignerPreviewer.postMessage({
+    			ctrlAttrRefreshed: activeCtrl
+    		}, '*');			
 			return {...state};
 		},
 
