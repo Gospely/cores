@@ -502,8 +502,6 @@ $(function () {
                         var tabList = tabBar.list.value,
                             tabs = this.generateTab(tabList);
 
-                        alert(tpl.find('.page').length);
-
                         tpl.html('<div class="page">' + tabs + '</div>');
                         jq('.page-app').html(this.generateTab(tabList));
                     }else {
