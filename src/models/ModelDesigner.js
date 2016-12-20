@@ -2836,10 +2836,6 @@ page {
 				}, '*');
 			}else {
 
-				gospelDesigner.postMessage({
-					ctrlRemoved: params.parentCtrl.children[params.deleteIndex]
-				}, '*');
-
 				gospelDesignerPreviewer.postMessage({
 					ctrlRemoved: params.parentCtrl.children[params.deleteIndex]
 				}, '*');
@@ -2903,10 +2899,6 @@ page {
 			}
 
 			var tmpCtrl = loopAttr(deepCopiedController);
-
-    		gospelDesigner.postMessage({
-    			ctrlAdded: tmpCtrl
-    		}, '*');
 
 			gospelDesignerPreviewer.postMessage({
     			ctrlAdded: tmpCtrl
@@ -3006,10 +2998,6 @@ page {
     		}
 
     		if(state.layoutState.activeType == 'page') {
-	    		gospelDesigner.postMessage({
-	    			pageSelected: activePage
-	    		}, '*');
-
 	    		gospelDesignerPreviewer.postMessage({
 	    			pageSelected: activePage
 	    		}, '*');
@@ -3017,10 +3005,6 @@ page {
 
     		if(state.layoutState.activeType == 'controller') {
     			var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
-
-	    		gospelDesigner.postMessage({
-	    			ctrlSelected: activeCtrl
-	    		}, '*');
 
 	    		gospelDesignerPreviewer.postMessage({
 	    			ctrlSelected: activeCtrl
@@ -3042,10 +3026,6 @@ page {
 
 	    		if(state.layoutState.activeType == 'page') {
 
-		    		gospelDesigner.postMessage({
-		    			pageAdded: activePage
-		    		}, '*');
-
 		    		gospelDesignerPreviewer.postMessage({
 		    			pageAdded: activePage
 		    		}, '*');
@@ -3054,10 +3034,6 @@ page {
 
 	    		if(state.layoutState.activeType == 'controller') {
 	    			var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
-
-		    		gospelDesigner.postMessage({
-		    			pageAdded: activeCtrl
-		    		}, '*');
 
 		    		gospelDesignerPreviewer.postMessage({
 		    			pageAdded: activeCtrl
