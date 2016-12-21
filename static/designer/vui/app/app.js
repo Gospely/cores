@@ -492,6 +492,7 @@ $(function () {
                 hideDesignerDraggerBorder: function() {
                     jq("i.control-box.remove").hide();
                     jq(".hight-light").removeClass("hight-light");
+                    jq(".spacerBottomBorder").hide();
                 },
 
                 refresh: function(controller) {
