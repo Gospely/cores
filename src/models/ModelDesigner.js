@@ -646,6 +646,18 @@ page {
 								unCheckedChildren: '假'
 							},
 
+							cssEditor: {
+								type: 'button',
+								title: '编辑CSS',
+								isClassName: false,
+								isHTML: true,
+								_value: '打开编辑器',
+								onClick: 'designer/showCSSEditor',
+								params: {
+									key: 'page-home'
+								}
+							},
+
 							alias: {
 								type: 'input',
 								attrType: 'text',
@@ -722,18 +734,6 @@ page {
 									<div class="page__bd"></div> \
 									<div class="page__ft"></div> \ ',
 								backend: true
-							},
-
-							cssEditor: {
-								type: 'button',
-								title: '编辑CSS',
-								isClassName: false,
-								isHTML: true,
-								_value: '打开编辑器',
-								onClick: 'designer/showCSSEditor',
-								params: {
-									key: 'page-home'
-								}
 							},
 
 							css: {
@@ -1103,6 +1103,16 @@ page {
 						unCheckedChildren: '假'
 					},
 
+					cssEditor: {
+						type: 'button',
+						title: '编辑CSS',
+						isClassName: false,
+						isHTML: true,
+						_value: '打开编辑器',
+						onClick: 'designer/showCSSEditor',
+						params: {}
+					},
+
 					alias: {
 						type: 'input',
 						attrType: 'text',
@@ -1178,16 +1188,6 @@ page {
 								<div class="page__bd"></div> \
 								<div class="page__ft"></div> \ ',
 						backend: true
-					},
-
-					cssEditor: {
-						type: 'button',
-						title: '编辑CSS',
-						isClassName: false,
-						isHTML: true,
-						_value: '打开编辑器',
-						onClick: 'designer/showCSSEditor',
-						params: {}
 					},
 
 					css: {
@@ -3121,7 +3121,10 @@ page {
 			var tmpCtrl = loopAttr(deepCopiedController);
 
 			gospelDesignerPreviewer.postMessage({
-    			ctrlAdded: tmpCtrl
+    			ctrlAdded: {
+    				controller: tmpCtrl,
+    				page: activePage
+    			}
 			}, '*');
 
     		if (targetId) {
@@ -3186,7 +3189,10 @@ page {
     		if(state.layoutState.activeType == 'controller') {
     			var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
 	    		gospelDesignerPreviewer.postMessage({
-	    			ctrlAttrRefreshed: activeCtrl
+	    			ctrlAttrRefreshed: {
+	    				controller: activeCtrl,
+	    				page: activePage
+	    			}
 	    		}, '*');
     		}
     		return {...state};

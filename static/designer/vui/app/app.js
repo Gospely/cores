@@ -495,12 +495,13 @@ $(function () {
                     jq(".spacerBottomBorder").hide();
                 },
 
-                refresh: function(controller) {
+                refresh: function(controller, page) {
 
                     var ctrlID = controller.key,
                         target = jq('#' + ctrlID);
                         ctrlRefresher = new ComponentsGenerator({
-                            controller: controller
+                            controller: controller,
+                            page: page
                         });
 
                     ctrlRefresher.setAttribute();
@@ -899,7 +900,8 @@ $(function () {
                 for (var i = 0; i < controllers.length; i++) {
                     var ctrl = controllers[i],
                         CG = new ComponentsGenerator({
-                            controller: ctrl
+                            controller: ctrl,
+                            page: page
                         });
 
                     var currentElem = CG.createElement(),
@@ -928,6 +930,14 @@ $(function () {
             params.initElem = params.initElem || false;
 
             this.controller = params.controller;
+
+            this.page = params.page;
+
+            console.log('------------------------------------ComponentsGenerator------------------------------------');
+
+            console.log(this.page);
+
+            console.log('------------------------------------ComponentsGenerator------------------------------------');
 
             this.tag = typeof this.controller.tag == 'object' ? this.controller.tag[0] : this.controller.tag;
 
@@ -969,7 +979,7 @@ $(function () {
                 this.elem.data('controller', this.controller);
                 this.elem.data('is-controller', true);
 
-                this.elem.attr(location.hash.split('#')[1] || 'page-home', 'true');
+                this.elem.attr(this.page.key, 'true');
             },
 
             setAttribute: function() {
@@ -1126,6 +1136,8 @@ $(function () {
             createElement: function() {
                 console.log('createElement', this.controller);
 
+                var self = this;
+
                 this.initElem();
 
                 if(this.controller.baseClassName) {
@@ -1143,7 +1155,8 @@ $(function () {
                         var currentCtrl = this.controller.children[i],
 
                             reComGenerator = new ComponentsGenerator({
-                                controller: currentCtrl
+                                controller: currentCtrl,
+                                page: self.page
                             }),
 
                             loopComponent = reComGenerator.createElement(),
@@ -1278,11 +1291,12 @@ $(function () {
 
                         ctrlAdded: function() {
 
-                            var controller = data,
+                            var controller = data.controller,
 
                                 comGen = new ComponentsGenerator({
                                     controller: controller,
-                                    initElem: true
+                                    initElem: true,
+                                    page: data.page
                                 }),
 
                                 elem = comGen.createElement(),
@@ -1309,7 +1323,7 @@ $(function () {
                         },
 
                         ctrlAttrRefreshed: function() {
-                            controllerOperations.refresh(data);
+                            controllerOperations.refresh(data.controller, data.page);
                         },
 
                         ctrlSelected: function() {
