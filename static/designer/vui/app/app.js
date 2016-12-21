@@ -604,7 +604,7 @@ $(function () {
 
                     addTabBarToMainPage: function(tabList) {
                         var tabs = this.generateTabBarLoop(tabList);
-                        jq('.page-home .weui-tabbar').append(tabs);
+                        jq('.page-home .weui-tabbar').html(tabs);
                     },
 
                     cancelTabBarInMainPage: function() {
