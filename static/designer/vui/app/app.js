@@ -613,6 +613,13 @@ $(function () {
                     cancelTabBarInMainPage: function() {
                         jq('.page-home .weui-tabbar').html('');
                     }
+                },
+
+                css: {
+                    refresh: function(data) {
+                        var page = data.page,
+                            CSSG = new cssGenerator(page);                        
+                    }
                 }
             }
 
@@ -765,7 +772,8 @@ $(function () {
             window.layoutState = this.layoutState;
 
             var PR = new appRender(this.app),
-                RG = new routerGenerator(this.pages);
+                RG = new routerGenerator(this.pages),
+                CSS = new cssGenerator(this.app);
 
             setPageManager();
 
@@ -779,6 +787,69 @@ $(function () {
 
             init: function() {
 
+            }
+
+        };
+
+        var cssGenerator = function(app) {
+            this.app = app;
+            this.init();
+        };
+
+        cssGenerator.prototype = {
+
+            init: function() {
+                console.log('================================cssGenerator=============================');
+                console.log(this.app);
+
+                if(this.isStyleExist(this.app.key)) {
+                    var style = this.getStyle(this.app.key);
+
+                    if(this.app.key == 'page-app') {
+                        style.html(this.app.attr.css._value);
+                    }else {
+                        style.html(this.compileCSS(this.app.attr.css._value, this.app.key));
+                    }
+                }else {
+                    this.createStyleElement(this.app.attr.css._value);
+                }
+
+                console.log('================================cssGenerator=============================');
+            },
+
+            createStyleElement: function(styles) {
+                var id = this.app.key,
+                    css = '';
+
+                if(id == 'page-app') {
+                    css = jq('<style sid="' + id + '">' + styles + '</style>');
+                }else {
+                    css = jq('<style sid="' + id + '">' + this.compileCSS(styles, location.hash.split('#')[1] || 'page-home') + '</style>');
+                }
+
+                jq('head').append(css);
+            },
+
+            isStyleExist: function(id) {
+                return jq('style[sid="' + id + '"]').length !== 0;
+            },
+
+            getStyle: function(id) {
+                return jq('style[sid="' + id + '"]');
+            },
+
+            compileCSS: function(CSS, page) {
+
+                var jsonCSS = CSSJSON.toJSON(CSS);
+
+                for(var key in jsonCSS.children) {
+                    jsonCSS.children[key + '[' + page + '="true"]'] = jsonCSS.children[key];
+                    delete jsonCSS.children[key];
+                }
+
+                var CSSCompiled = CSSJSON.toCSS(jsonCSS);
+
+                return CSSCompiled;
             }
 
         };
@@ -897,6 +968,8 @@ $(function () {
 
                 this.elem.data('controller', this.controller);
                 this.elem.data('is-controller', true);
+
+                this.elem.attr(location.hash.split('#')[1] || 'page-home', 'true');
             },
 
             setAttribute: function() {
@@ -1257,6 +1330,10 @@ $(function () {
 
                         tabBarUpdated: function() {
                             pageOperations.tabBar.refreshTabBar(true, data);
+                        },
+
+                        CSSUpdated: function() {
+                            pageOperations.css.refresh(data);
                         }
                     };
 

@@ -3314,6 +3314,13 @@ page {
 		handleCSSEditorSaved(state, { payload: value }) {
 			var activePage = layoutAction.getActivePage(state);
 			activePage.attr.css._value = value;
+
+			gospelDesignerPreviewer.postMessage({
+				CSSUpdated: {
+					page: activePage
+				}
+			}, '*');
+
 			return {...state};				
 		},
 
