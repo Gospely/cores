@@ -38,7 +38,7 @@ const weappCompiler = {
 		self.app = app;
 
 		console.log('==============================================weappCompiler==============================================')
-		return false;
+		return true;
 	},
 
 	compileAPPJSON (options) {
