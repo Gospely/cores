@@ -25,12 +25,10 @@ body,html{height:100%;-webkit-tap-highlight-color:transparent}body{font-family:-
 .spacerBottomBorder {
 	height: 11px;
     margin: -5px 0;
-    // border-top: 5px solid rgba(255, 255, 255, 0);
-    // border-bottom: 5px solid rgba(255, 255, 255, 0);
-    border-top: 5px solid black;
-    border-bottom: 5px solid black;
+    border-top: 5px solid rgba(255, 255, 255, 0);
+    border-bottom: 5px solid rgba(255, 255, 255, 0);
     cursor: row-resize;
-    width: 100%;
+    // width: 100vh;
     position: absolute;
     display: none;
     z-index: 65536;

@@ -459,12 +459,14 @@ $(function () {
                         dragY.show();
                         dragY.css({
                             top: self.offset().top + self.height() + 'px',
+                            width: self.width()
                         })
                         jq(dragY[0]).on('mousedown', function(e) {
                             this.isMouseDown = true;
                             this.orginY = e.pageY;
                             this.orginTop = parseInt(jq(e.target).css('top'));
                             this.orginHeight = parseInt(self.height());
+                            this.tar = jq(e.target);
                         })
                         jq(dragY[0]).on('mouseup', function(e) {
 
@@ -475,12 +477,12 @@ $(function () {
                             });
 
                         })
-                        jq(dragY[0]).on('mousemove', function(e) {
-                            if(this.isMouseDown) {
-                                jq(e.target).css({
-                                    top: e.pageY - this.orginY + this.orginTop
+                        jq(window).on('mousemove', function(e) {
+                            if(dragY[0].isMouseDown) {
+                                dragY[0].tar.css({
+                                    top: e.pageY - dragY[0].orginY + dragY[0].orginTop
                                 })
-                                self.height(e.pageY - this.orginY + this.orginHeight + 'px');
+                                self.height(e.pageY - dragY[0].orginY + dragY[0].orginHeight + 'px');
                                 
                             }
                         })
@@ -1080,9 +1082,7 @@ $(function () {
 
                 }
 
-                if(this.needDrag){
-                    this.makeElemAddedDraggable();
-                }
+                this.makeElemAddedDraggable();
 
                 return component;
             },

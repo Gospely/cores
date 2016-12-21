@@ -3255,10 +3255,6 @@ page {
 			// alert(params.ctrlId)
 			let activeCtrl = layoutAction.getCtrlByKey(state.layout[0], params.ctrlId);
 			activeCtrl.attr.height._value = params.height;
-			console.log(params.height);
-			gospelDesignerPreviewer.postMessage({
-    			ctrlAttrRefreshed: activeCtrl
-    		}, '*');			
 			return {...state};
 		},
 
