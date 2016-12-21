@@ -210,7 +210,7 @@ const weappCompiler = {
 	},
 
 	filter (key) {
-		const filterKey = ['title', 'alias', 'template', 'setAsMainPage', 'routingURL', 'css'];
+		const filterKey = ['title', 'alias', 'template', 'setAsMainPage', 'routingURL', 'css', 'cssEditor'];
 		for (var i = 0; i < filterKey.length; i++) {
 			var k = filterKey[i];
 			if(key == k) {

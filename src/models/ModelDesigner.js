@@ -1226,6 +1226,42 @@ page {
 				children: []
 			},
 			{
+				name: 'Flex布局',
+				type: 'container',
+				attr: {
+					height: {
+						type: 'input',
+						title: '高度',
+						isStyle: true,
+						_value: '100px'
+					}
+				},
+				tag: ['div'],
+				baseClassName: 'weui-flex',
+				children: [{
+					name: '布局组1',
+					type: 'flex-item',
+					children: [],
+					tag: ['div'],
+					baseClassName: 'weui-flex__item',
+					attr: {}
+				}, {
+					name: '布局组2',
+					type: 'flex-item',
+					children: [],
+					tag: ['div'],
+					baseClassName: 'weui-flex__item',
+					attr: {}
+				}, {
+					name: '布局组3',
+					type: 'flex-item',
+					children: [],
+					tag: ['div'],
+					baseClassName: 'weui-flex__item',
+					attr: {}
+				}]
+			},
+			{
 				name: '按钮',
 				type: 'button',
 				attr: {
