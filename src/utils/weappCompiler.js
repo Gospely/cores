@@ -38,7 +38,7 @@ const weappCompiler = {
 		self.app = app;
 
 		console.log('==============================================weappCompiler==============================================')
-		return true;
+		return false;
 	},
 
 	compileAPPJSON (options) {
@@ -108,9 +108,69 @@ const weappCompiler = {
 	},
 
 	compilePageWXML (options) {
-		var pageWXML = '';
+		var pageWXML = '',
 
+			page = options.page,
 
+			reflectTable = {
+				div: 'view',
+			},
+
+			pageBaseTpl = $('<view class="page"></view>'),
+
+			getPageBaseTpl = (template) => {
+				return '<view class="page">' + template + '</view>';
+			},
+
+			controllers = page.children,
+
+			loopController = function(controller, parent) {
+				var 
+					tag = typeof controller.tag == 'string' ? controller.tag : controller.tag[0],
+
+					weappTag = reflectTable[tag];
+
+					if(!weappTag) {
+						weappTag = controller.tag;
+					}
+
+				var	elem = $(document.createElement(weappTag)),
+
+					attrs = controller.attr
+
+					if(controller.baseClassName) {
+						elem.addClass(controller.baseClassName);
+					}
+
+	                if(controller.children && controller.children.length > 0) {
+
+	                    for (var i = 0; i < controller.children.length; i++) {
+	                        var currentCtrl = controller.children[i],
+
+	                            loopComponent = loopController(currentCtrl, elem),
+
+	                            jqComponent = $(parent);
+
+	                        jqComponent.append($(loopComponent));
+
+	                    };
+
+	                }
+
+                return elem;
+			}
+
+			for (var i = 0; i < controllers.length; i++) {
+				var controller = controllers[i],
+					elem = loopController(controller);
+
+				pageBaseTpl.append(elem);
+				console.log(elem);
+			};
+
+		console.log(pageBaseTpl.html(), page);
+
+		pageWXML = getPageBaseTpl(pageBaseTpl.html());
 
 		return pageWXML;
 	},
@@ -189,12 +249,10 @@ const weappCompiler = {
 
 		tmpPage[alias + '.js'] = 'Page({});';
 		tmpPage[alias + '.wxml'] = this.compilePageWXML({
-			page: page,
-			string: true
+			page: page
 		});
 		tmpPage[alias + '.wxss'] = this.compilePageWXSS({
-			page: page,
-			string: true
+			page: page
 		});
 
 		return tmpPage;

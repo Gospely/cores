@@ -933,12 +933,6 @@ $(function () {
 
             this.page = params.page;
 
-            console.log('------------------------------------ComponentsGenerator------------------------------------');
-
-            console.log(this.page);
-
-            console.log('------------------------------------ComponentsGenerator------------------------------------');
-
             this.tag = typeof this.controller.tag == 'object' ? this.controller.tag[0] : this.controller.tag;
 
             this.elemLoaded = false;

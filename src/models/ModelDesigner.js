@@ -760,7 +760,17 @@ page {
 								name: '中部',
 								type: 'bd',
 								key: 'bd-123',
-								attr: {},
+								attr: {
+									spacing: {
+										type: 'toggle',
+										title: '开启内边距',
+										value: ['page__bd_spacing'],
+										isClassName: true,
+										isHTML: false,
+										isSingleToggleClass: true,
+										_value: false
+									}
+								},
 								tag: 'div',
 								baseClassName: 'page__bd',
 								backend: true,
@@ -3007,7 +3017,17 @@ page {
 					name: '中部',
 					type: 'bd',
 					key: 'bd-' + pageRandomString,
-					attr: {},
+					attr: {
+						spacing: {
+							type: 'toggle',
+							title: '开启内边距',
+							value: ['page__bd_spacing'],
+							isClassName: true,
+							isHTML: false,
+							isSingleToggleClass: true,
+							_value: false
+						}
+					},
 					tag: 'div',
 					baseClassName: 'page__bd',
 					backend: true,
