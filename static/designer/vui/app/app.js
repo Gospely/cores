@@ -1119,7 +1119,7 @@ $(function () {
                             }
 
                         }else {
-                            this.elem.html(currentAttr._value);                            
+                            this.elem.html(currentAttr._value);
                         }
                     }
 
