@@ -1277,6 +1277,7 @@ page {
 				attr: {
 					value: {
 						type: 'input',
+						attrType: 'text',
 						title: '值',
 						isClassName: false,
 						isHTML: true,
@@ -1289,7 +1290,8 @@ page {
 						isClassName: true,
 						isHTML: false,
 						isNoConflict: true,
-						_value: 'weui-btn_primary'
+						_value: 'weui-btn_primary',
+						backend: true
 					},
 					disabled: {
 						type: 'toggle',
@@ -1300,19 +1302,96 @@ page {
 						isSetAttribute: true,
 						_value: false
 					},
-					mini: {
-						type: 'toggle',
-						title: '迷你按钮',
-						value: ['weui-btn_mini'],
+					type: {
+						type: 'select',
+						title: '按钮类型',
+						value: ['primary', 'default', 'warn'],
+						isClassName: true,
+						isHTML: false,
+						isNoConflict: true,
+						isNeedPrefixClass: true,
+						prefixClassValue: 'weui-btn_',
+						_value: 'primary'
+					},
+					size: {
+						type: 'select',
+						title: '按钮大小',
+						value: ['default', 'mini'],
 						isClassName: true,
 						isHTML: false,
 						isSingleToggleClass: true,
+						isToggleButtonSize: true,
+						isNeedPrefixClass: true,
+						prefixClassValue: 'weui-btn_',
+						_value: 'default'
+					},
+					plain: {
+						type: 'toggle',
+						title: '镂空',
+						value: ['weui-btn_plain-default', 'weui-btn_plain-primary'],
+						isClassName: true,
+						isHTML: false,
+						isNoConflict: true,
 						_value: false
+					},
+					loading: {
+						type: 'toggle',
+						title: '加载中',
+						isClassName: false,
+						isHTML: false,
+						_value: false
+					},
+					'form-type': {
+						type: 'input',
+						attrType: 'text',
+						title: '表单类型',
+						isClassName: false,
+						isHTML: false,
+						isSetAttribute: true,
+						isFormType: true,
+						value: ['type'],
+						_value: ''
+					},
+					'hover-class': {
+						type: 'input',
+						attrType: 'text',
+						title: '点击态类',
+						isClassName: true,
+						isHTML: false,
+						value: [],
+						_value: 'none'
+					},
+					'hover-start-time': {
+						type: 'input',
+						attrType: 'number',
+						title: '点击态出现时间',
+						value: [],
+						isClassName: true,
+						isHTML: false,
+						_value: 'none'
+					},
+					'hover-stay-time': {
+						type: 'input',
+						attrType: 'number',
+						title: '点击态保留时间',
+						value: [],
+						isClassName: true,
+						isHTML: false,
+						_value: 'none'
 					}
+					// mini: {
+					// 	type: 'toggle',
+					// 	title: '迷你按钮',
+					// 	value: ['weui-btn_mini'],
+					// 	isClassName: true,
+					// 	isHTML: false,
+					// 	isSingleToggleClass: true,
+					// 	_value: false
+					// }
 				},
 				tag: 'button',
-				baseClassName: 'weui-btn',
-				wrapper: ''
+				weui: 'button',
+				baseClassName: 'weui-btn'
 			},
 			{
 				name: '表单',
