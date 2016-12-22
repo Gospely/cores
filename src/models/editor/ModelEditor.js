@@ -36,6 +36,11 @@ export default {
 
 		hideArrow(state) {
 			return {...state, showArrow: false};
+		},
+
+		changeTheme(state, { payload: key }) {
+			state.options.theme = key;
+			return {...state};
 		}
 	}
 

@@ -49,9 +49,13 @@ const Editor = (props) => {
 
 		syntaxList: props$editorTop.syntaxList,
 
+		themeList: props$editorTop.themeList,
+
 		isSaving: props$editorTop.isSaving,
 
 		currentLanguage: props.devpanel.currentLanguage,
+
+		currentTheme: props.editor.options.theme,
 
 		isSlideUp: props$editorTop.isSlideUp,
 
@@ -170,6 +174,13 @@ const Editor = (props) => {
 			// 	type: 'editorTop/dynamicChangeSyntax',
 			// 	payload: {suffix}
 			// });
+		},
+
+		onSelectTheme(e) {
+			props.dispatch({
+				type: 'editor/changeTheme',
+				payload: e.key
+			})
 		},
 
 		onSlideUp(proxy) {
