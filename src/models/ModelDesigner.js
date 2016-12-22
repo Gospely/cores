@@ -1222,6 +1222,7 @@ page {
 						isStyle: true,
 						_value: '100px'
 					},
+
 					type: {
 						type: 'select',
 						title: '容器类型',
@@ -1917,53 +1918,108 @@ page {
 			{
 				name: '文本框',
 				type: 'input',
-				attr: {
-					value: {
-						type: 'input',
-						title: '内容',
-						isClassName: false,
-						isHTML: false,
-						isSetAttribute: true,
-						_value: ''
-					},
-					disabled: {
-						type: 'toggle',
-						title: '禁止',
-						value: [],
-						isClassName: false,
-						isSetAttribute: true,
-						isHTML: false,
-						_value: false
-					},
-					type: {
-						type: 'select',
-						title: '类型',
-						isClassName: false,
-						isHTML: false,
-						isSetAttribute: true,
-						value: ['number', 'color', 'range', 'text', 'datetime-local', 'date', 'password', 'email', 'tel'],
-						_value: 'text'
-					},
-					placeholder: {
-						type: 'input',
-						title: '占位符',
-						isClassName: false,
-						isSetAttribute: true,
-						isHTML: false,
-						_value: ''
-					},
-					pattern: {
-						type: 'input',
-						title: '正则',
-						isClassName: false,
-						isHTML: false,
-						isSetAttribute: true,
-						_value: ''
+				attr: {},
+				tag: ['div'],
+				baseClassName: 'weui-cell weui-cell_input',
+				wrapper: '',
+				children: [{
+					name: '文本框头部',
+					type: 'input',
+					tag: ['div'],
+					baseClassName: 'weui-cell__hd',
+					children: [],
+					attr: {
+						display: {
+							type: 'toggle',
+							title: '显示',
+							_value: false,
+							value: ['none', 'block'],
+							isStyle: true,
+							isToggleStyle: true
+						}
 					}
-				},
-				tag: ['input'],
-				baseClassName: 'weui-input',
-				wrapper: ''
+				}, {
+					name: '文本框中部',
+					type: 'input',
+					attr: {
+						display: {
+							type: 'toggle',
+							title: '显示',
+							_value: true,
+							value: ['none', 'block'],
+							isStyle: true,
+							isToggleStyle: true
+						}
+					},
+					tag: ['div'],
+					baseClassName: 'weui-cell__bd',
+					children: [{
+						name: '文本框实体',
+						type: 'input',
+						tag: ['input'],
+						baseClassName: 'weui-input',
+						attr: {
+							value: {
+								type: 'input',
+								title: '内容',
+								isClassName: false,
+								isHTML: false,
+								isSetAttribute: true,
+								_value: ''
+							},
+							disabled: {
+								type: 'toggle',
+								title: '禁止',
+								value: [],
+								isClassName: false,
+								isSetAttribute: true,
+								isHTML: false,
+								_value: false
+							},
+							type: {
+								type: 'select',
+								title: '类型',
+								isClassName: false,
+								isHTML: false,
+								isSetAttribute: true,
+								value: ['number', 'color', 'range', 'text', 'datetime-local', 'date', 'password', 'email', 'tel'],
+								_value: 'text'
+							},
+							placeholder: {
+								type: 'input',
+								title: '占位符',
+								isClassName: false,
+								isSetAttribute: true,
+								isHTML: false,
+								_value: '请输入文本'
+							},
+							pattern: {
+								type: 'input',
+								title: '正则',
+								isClassName: false,
+								isHTML: false,
+								isSetAttribute: true,
+								_value: ''
+							}
+						}
+					}]
+				}, {
+					name: '文本框尾部',
+					type: 'input',
+					tag: ['div'],
+					baseClassName: 'weui-cell__ft',
+					children: [],
+					attr: {
+						display: {
+							type: 'toggle',
+							title: '显示',
+							_value: false,
+							value: ['none', 'block'],
+							isStyle: true,
+							isToggleStyle: true
+						}
+					}
+				}]
 			},
 			// {
 			// 	baseClassName: 'weui-cell__bd',
@@ -2253,120 +2309,134 @@ page {
 					}]
 				}]
 			},
-			// {
-			// 	baseClassName: 'weui-cell weui-cell_switch',
-			// 	tag: 'div',
-			// 	type: 'toggle',
-			// 	attr: {},
-			// 	name: '开关',
-			// 	children: [{
-			// 		baseClassName: 'weui-cell__bd',
-			// 		tag: 'div',
-			// 		attr: {
-			// 			label: {
-			// 				isHTML: true,
-			// 				isClassName: false,
-			// 				isSetAttribute: false,
-			// 				title: '提示信息',
-			// 				type: 'input',
-			// 				_value: '开关'
-			// 			},
-			// 			selfAdaption: {
-			// 				title: '自适应',
-			// 				type: 'toggle',
-			// 				isSingleToggleClass: true,
-			// 				isClassName: true,
-			// 				isHTML: false,
-			// 				isSetAttribute: false,
-			// 				value: ['weui_cell_primary'],
-			// 				_value: false
-			// 			}
-			// 		},
-			// 		type: 'div',
-			// 		name: '提示信息'
-			// 	}, {
-			// 		baseClassName: 'weui-cell__ft',
-			// 		tag: 'div',
-			// 		type: 'div',
-			// 		attr: {
-			// 			selfAdaption: {
-			// 				title: '自适应',
-			// 				type: 'toggle',
-			// 				isSingleToggleClass: true,
-			// 				isClassName: true,
-			// 				isHTML: false,
-			// 				isSetAttribute: false,
-			// 				value: ['weui_cell_primary'],
-			// 				_value: false
-			// 			}
-			// 		},
-			// 		name: '开关',
-			// 		children: [{
-			// 			baseClassName: 'weui-switch',
-			// 			tag: 'input',
-			// 			type: 'input',
-			// 			attr: {
-			// 				checked: {
-			// 					type: 'toggle',
-			// 					title: '默认',
-			// 					isSetAttribute: true,
-			// 					isClassName: false,
-			// 					isHTML: false,
-			// 					_value: true
-			// 				},
-			// 				type: {
-			// 					title: '类型',
-			// 					type: 'input',
-			// 					isSetAttribute: true,
-			// 					isHTML: false,
-			// 					isClassName: false,
-			// 					_value: 'checkbox',
-			// 					hidden: true
-			// 				}
-			// 			},
-			// 			name: '开关',
-			// 		}]
-			// 	}]
-			// },
 			{
-				baseClassName: 'weui-switch',
-				tag: 'input',
+				baseClassName: 'weui-cell weui-cell_switch',
+				tag: 'div',
 				type: 'toggle',
-				attr: {
-					checked: {
-						type: 'toggle',
-						title: '选中',
-						isSetAttribute: true,
-						isClassName: false,
-						isHTML: false,
-						_value: false
-					},
-
-					type: {
-						title: '类型',
-						type: 'select',
-						isSetAttribute: true,
-						isHTML: false,
-						isClassName: false,
-						_value: 'checkbox',
-						value: ['switch', 'checkbox'],
-						hidden: true
-					},
-
-					'background-color': {
-						title: '开关颜色',
-						type: 'input',
-						attrType: 'color',
-						isHTML: false,
-						isClassName: false,
-						isStyle: true,
-						value: [],
-						alias: 'color',
-						_value: '#04be02'
-					}
-				},
+				attr: {},
 				name: '开关',
+				children: [{
+					baseClassName: 'weui-cell__bd',
+					tag: 'div',
+					attr: {
+						label: {
+							isHTML: true,
+							isClassName: false,
+							isSetAttribute: false,
+							title: '提示信息',
+							type: 'input',
+							_value: '开关'
+						},
+						selfAdaption: {
+							title: '自适应',
+							type: 'toggle',
+							isSingleToggleClass: true,
+							isClassName: true,
+							isHTML: false,
+							isSetAttribute: false,
+							value: ['weui_cell_primary'],
+							_value: false
+						}
+					},
+					type: 'div',
+					name: '提示信息'
+				}, {
+					baseClassName: 'weui-cell__ft',
+					tag: 'div',
+					type: 'div',
+					attr: {
+						selfAdaption: {
+							title: '自适应',
+							type: 'toggle',
+							isSingleToggleClass: true,
+							isClassName: true,
+							isHTML: false,
+							isSetAttribute: false,
+							value: ['weui_cell_primary'],
+							_value: false
+						}
+					},
+					name: '开关',
+					children: [{
+						baseClassName: 'weui-switch',
+						tag: 'input',
+						type: 'input',
+						attr: {
+							checked: {
+								type: 'toggle',
+								title: '选中',
+								isSetAttribute: true,
+								isClassName: false,
+								isHTML: false,
+								_value: false
+							},
+
+							type: {
+								title: '类型',
+								type: 'select',
+								isSetAttribute: true,
+								isHTML: false,
+								isClassName: false,
+								_value: 'checkbox',
+								value: ['switch', 'checkbox'],
+								hidden: true
+							},
+
+							'background-color': {
+								title: '开关颜色',
+								type: 'input',
+								attrType: 'color',
+								isHTML: false,
+								isClassName: false,
+								isStyle: true,
+								value: [],
+								alias: 'color',
+								_value: '#04be02'
+							}
+						},
+						name: '开关',
+					}]
+				}]
 			},
+			// {
+			// 	baseClassName: 'weui-switch',
+			// 	tag: 'input',
+			// 	type: 'toggle',
+			// 	attr: {
+			// 		checked: {
+			// 			type: 'toggle',
+			// 			title: '选中',
+			// 			isSetAttribute: true,
+			// 			isClassName: false,
+			// 			isHTML: false,
+			// 			_value: false
+			// 		},
+
+			// 		type: {
+			// 			title: '类型',
+			// 			type: 'select',
+			// 			isSetAttribute: true,
+			// 			isHTML: false,
+			// 			isClassName: false,
+			// 			_value: 'checkbox',
+			// 			value: ['switch', 'checkbox'],
+			// 			hidden: true
+			// 		},
+
+			// 		'background-color': {
+			// 			title: '开关颜色',
+			// 			type: 'input',
+			// 			attrType: 'color',
+			// 			isHTML: false,
+			// 			isClassName: false,
+			// 			isStyle: true,
+			// 			value: [],
+			// 			alias: 'color',
+			// 			_value: '#04be02'
+			// 		}
+			// 	},
+			// 	name: '开关',
+			// },
 			{
 				name: '卡片',
 				type: 'card',

@@ -1134,7 +1134,11 @@ $(function () {
                                 this.elem.css(styleNameAndVal[0].trim(), styleNameAndVal[1].trim());
                             }
                         }else {
-                            this.elem.css(att, currentAttr._value);
+                            if(currentAttr.isToggleStyle) {
+                                this.elem.css(att, currentAttr._value ? currentAttr.value[1] :   currentAttr.value[0]);
+                            }else {
+                                this.elem.css(att, currentAttr._value);                                
+                            }
                         }
                     }
 
