@@ -1328,8 +1328,11 @@ page {
 					plain: {
 						type: 'toggle',
 						title: '镂空',
-						value: ['weui-btn_plain-default', 'weui-btn_plain-primary'],
+						value: ['default', 'primary'],
 						isClassName: true,
+						isSingleToggleClass: true,
+						isNeedPrefixClass: true,
+						prefixClassValue: 'weui-btn_plain-',
 						isHTML: false,
 						isNoConflict: true,
 						_value: false
@@ -1338,18 +1341,20 @@ page {
 						type: 'toggle',
 						title: '加载中',
 						isClassName: false,
-						isHTML: false,
+						isHTML: true,
+						isNeedAppend: true,
+						appendBefore: true,
+						value: '',
 						_value: false
 					},
 					'form-type': {
-						type: 'input',
-						attrType: 'text',
+						type: 'select',
 						title: '表单类型',
 						isClassName: false,
 						isHTML: false,
 						isSetAttribute: true,
 						isFormType: true,
-						value: ['type'],
+						value: ['submit', 'reset'],
 						_value: ''
 					},
 					'hover-class': {
@@ -1379,15 +1384,6 @@ page {
 						isHTML: false,
 						_value: 'none'
 					}
-					// mini: {
-					// 	type: 'toggle',
-					// 	title: '迷你按钮',
-					// 	value: ['weui-btn_mini'],
-					// 	isClassName: true,
-					// 	isHTML: false,
-					// 	isSingleToggleClass: true,
-					// 	_value: false
-					// }
 				},
 				tag: 'button',
 				weui: 'button',

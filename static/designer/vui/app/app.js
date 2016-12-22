@@ -1069,8 +1069,30 @@ $(function () {
                             if(currentAttr.isToggleButtonSize) {
                                 currentAttr._value = currentAttr._value == 'default' ? '' : currentAttr._value;
                             }
-                            alert(currentAttr.prefixClassValue + currentAttr._value)
-                            this.elem.addClass(currentAttr.prefixClassValue + currentAttr._value);    
+                            if(typeof currentAttr._value == 'boolean') {
+                                //开关操作
+
+                                if(currentAttr._value) {
+                                    for (var i = 0; i < currentAttr.value.length; i++) {
+                                        var val = currentAttr.value[i];
+                                        if(this.elem.attr('class').indexOf(val) != -1) {
+                                            this.elem.addClass(currentAttr.prefixClassValue + val);
+                                            break;
+                                        }
+                                    };
+                                }else {
+                                    for (var i = 0; i < currentAttr.value.length; i++) {
+                                        var val = currentAttr.value[i];
+                                        if(this.elem.attr('class').indexOf(val) != -1) {
+                                            this.elem.removeClass(currentAttr.prefixClassValue + val);
+                                            break;
+                                        }
+                                    };
+                                }
+
+                            }else {
+                                this.elem.addClass(currentAttr.prefixClassValue + currentAttr._value);                                
+                            }
                         }else {
                             this.elem.addClass(currentAttr._value);
                         }
@@ -1080,12 +1102,25 @@ $(function () {
                         if (currentAttr.isContrary) {
                             this.elem.attr(att,!currentAttr._value);
                         }else {
-                            this.elem.attr(att,currentAttr._value);
+
+                            if(currentAttr.isFormType) {
+                                this.elem.attr('type', currentAttr._value);
+                            }else {
+                                this.elem.attr(att, currentAttr._value);
+                            }
                         }
                     }
 
                     if(currentAttr.isHTML) {
-                        this.elem.html(currentAttr._value);
+                        if(currentAttr.isNeedAppend) {
+
+                            if(currentAttr.appendBefore) {
+                                this.elem.html(currentAttr.value + this.controller.attr.value._value);
+                            }
+
+                        }else {
+                            this.elem.html(currentAttr._value);                            
+                        }
                     }
 
                     //设置默认样式，如容器的默认高度
