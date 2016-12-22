@@ -191,6 +191,8 @@ const Editor = (props) => {
 
 		onLoad(e,editor) {
 			window.currentEditor = editor;
+			console.log(e);
+			console.log(editor);
 		},
 
     	handleMouseLeave() {
