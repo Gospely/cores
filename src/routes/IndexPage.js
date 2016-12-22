@@ -18,6 +18,12 @@ import randomString from '../utils/randomString';
 function IndexPage(props) {
 
     // console.log("=======================IndexPage=");
+    //判断是否打开了项目
+    if (location.hash.split('/')[1] !== 'project') {
+        window.disabled = true;
+    }else {
+        window.disabled = false;
+    }
     if (props.query == '?from=dash') {
         window.reload = true;
     }
@@ -209,10 +215,10 @@ function IndexPage(props) {
                         </div>
                     </div>
                 </div>
-                {props.devpanel.isLoading && (<div style={{position: 'fixed', width: '100%', height: '100%', 
+                {props.devpanel.loading.isLoading && (<div style={{position: 'fixed', width: '100%', height: '100%', 
                     left: 0, top: 0, textAlign: 'center', padding: '250px 0',
                     backgroundColor: 'rgba(0, 0, 0, .1)'}}>
-                    <Spin tip="应用加载中..." spinning={props.devpanel.isLoading}>
+                    <Spin tip={props.devpanel.loading.tips} spinning={props.devpanel.loading.isLoading}>
                     </Spin>
                 </div>)}
             </div>);
