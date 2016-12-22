@@ -49,9 +49,13 @@ const Editor = (props) => {
 
 		syntaxList: props$editorTop.syntaxList,
 
+		themeList: props$editorTop.themeList,
+
 		isSaving: props$editorTop.isSaving,
 
 		currentLanguage: props.devpanel.currentLanguage,
+
+		currentTheme: props.editor.options.theme,
 
 		isSlideUp: props$editorTop.isSlideUp,
 
@@ -172,6 +176,13 @@ const Editor = (props) => {
 			// });
 		},
 
+		onSelectTheme(e) {
+			props.dispatch({
+				type: 'editor/changeTheme',
+				payload: e.key
+			})
+		},
+
 		onSlideUp(proxy) {
 			dispatch({
 				type: 'editorTop/toggleSlide',
@@ -191,6 +202,8 @@ const Editor = (props) => {
 
 		onLoad(e,editor) {
 			window.currentEditor = editor;
+			console.log(e);
+			console.log(editor);
 		},
 
     	handleMouseLeave() {

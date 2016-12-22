@@ -697,56 +697,18 @@ export default {
 				parentNodeIndex;
 
 			var parentNode = findParentNode(state.treeData, parentDirName, 1);
-
+			
 			const generatorNode = (files) => {
 				var childNode = [];
 				files.map(file => {
-					if(file.children){
-						var tmpChild = {};
-						tmpChild.name = file.text;
-						tmpChild.key = file.id;
-						tmpChild.isLeaf = !file.children;
-						tmpChild.original = file;
-						childNode.push(tmpChild);
-					}
-				});
-				files.map(file => {
-					if(!file.children){
-						var tmpChild = {};
-						tmpChild.name = file.text;
-						tmpChild.key = file.id;
-						tmpChild.isLeaf = !file.children;
-						tmpChild.original = file;
-						childNode.push(tmpChild);
-					}
+					var tmpChild = {};
+					tmpChild.name = file.text;
+					tmpChild.key = file.id;
+					tmpChild.isLeaf = !file.children;
+					tmpChild.original = file;
+					childNode.push(tmpChild);
 				});
 				return childNode;
-			}
-
-			const setLeaf = (treeData, parentNode) => {
-
-			  	const loopLeaf = (data, parent) => {
-			  		var parentNodeA = parent.node.original.folder;
-			  		parentNodeA = findParentNode(data, parentNodeA, parent.lvl - 1);
-
-			  		if(!parentNodeA) {
-						data[parentNode.index].children = childNode;
-			  		}else {
-			  			var currNode = data[parentNodeA.index];
-			  			if(!currNode) {
-			  				loopLeaf(parentNodeA.node.children, parent);
-			  			}else {
-			  				currNode = currNode.children;
-			  				if(!currNode) {
-			  					loopLeaf(parentNodeA.node.children, parent);
-			  				}else {
-								currNode[parent.index].children = childNode;
-			  				}
-			  			}
-			  		}
-			  	};
-
-			  	loopLeaf(treeData, parentNode);
 			}
 
 			if(parentNode.node.key + '/' == parentDirName || parentNode.node.key == parentDirName) {
@@ -757,7 +719,7 @@ export default {
 				throw '不匹配的文件树'
 			}
 
-			setLeaf(treeData, parentNode);
+			parentNode.node.children = childNode;
 
 			return {...state, treeData};
 		},

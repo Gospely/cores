@@ -31,9 +31,13 @@ const EditorTop = ({
 	jumpLine,
 
 	onSelectSyntax,
+	onSelectTheme,
+	
 	currentLanguage,
+	currentTheme,
 
 	syntaxList,
+	themeList,
 
 	handleReplaceInputChange,
 	handleSearchInputChange,
@@ -47,15 +51,30 @@ const EditorTop = ({
 		}
 	};
 
-	const menuItem = syntaxList.map(syntax => (
-		<Menu.Item key={syntax.key}>{syntax.language}</Menu.Item>
-	));
+	// const menuItem = syntaxList.map(syntax => (
+	// 	<Menu.Item key={syntax.key}>{syntax.language}</Menu.Item>
+	// ));
 
-	const menu = (
-	  	<Menu onSelect={onSelectSyntax}>
-	    	{menuItem}
-	  	</Menu>
-	);
+	// const menu = (
+	//   	<Menu onSelect={onSelectSyntax}>
+	//     	{menuItem}
+	//   	</Menu>
+	// );
+
+	const generateMenu = function (menuList, selectOption, title) {
+		const menuItem = menuList.map(menu => (
+			<Menu.Item key={menu.key}>{menu[title]}</Menu.Item>
+		));
+		return (
+			<Menu onSelect={selectOption}>
+				{menuItem}
+			</Menu>
+		)
+	}
+
+	const syntaxMenu = generateMenu(syntaxList, onSelectSyntax, 'language');
+
+	const themeMenu = generateMenu(themeList, onSelectTheme, 'name')
 
   	return (
 		<div className={EditorStyle.topbar}>
@@ -65,7 +84,10 @@ const EditorTop = ({
 			<div className={EditorStyle.topbarRight}>
 				<ButtonGroup>
 					<Button style={{display:'none'}} onClick={onOpenJumpLine} className={EditorStyle.topbarBtn}>行: 4 列: 32</Button>
-					<Dropdown overlay={menu} trigger={['click']}>
+					<Dropdown overlay={themeMenu} trigger={['click']}>
+						<Button className={EditorStyle.topbarBtn}>{currentTheme}</Button>
+					</Dropdown>
+					<Dropdown overlay={syntaxMenu} trigger={['click']}>
 						<Button className={EditorStyle.topbarBtn}>{currentLanguage}</Button>
 					</Dropdown>
 					<Button onClick={onSlideUp} className={EditorStyle.topbarBtn}>{isSlideUp ? <Icon type="down" /> : <Icon type="up" />}</Button>
