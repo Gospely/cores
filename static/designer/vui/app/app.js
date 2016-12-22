@@ -976,9 +976,35 @@ $(function () {
                 this.elem.attr(this.page.key, 'true');
             },
 
+            handleWeuiTag: function(weuiType) {
+
+                var self = this;
+
+                var weuiTypeAction = {
+
+                    button: function() {
+
+                        for(var att in this.controller.attr) {
+                            var currentAttr = this.controller.attr[att];
+
+
+                        }
+
+                    }
+
+                };
+
+                if(weuiTypeAction[weuiType]) {
+                    weuiTypeAction[weuiType]();
+                }
+
+            },
+
             setAttribute: function() {
 
                 this.initElem();
+
+                // this.handleWeuiTag(this.controller.weui);
 
                 for(var att in this.controller.attr) {
                     var currentAttr = this.controller.attr[att];
@@ -999,7 +1025,7 @@ $(function () {
 
                             if(isClsInVal && currentAttr.isNoConflict) {
                                 // 不是添加控件而是刷新控件, 先重置为基本class再加新class
-                                this.elem.attr('class', this.controller.baseClassName);
+                                this.elem.attr('class', this.controller.baseClassName);                                    
                             }
                         }
 
@@ -1026,7 +1052,6 @@ $(function () {
 
                         if(currentAttr.isSingleToggleClass) {
                             //针对某些对一个类进行开关的属性
-
                             if(currentAttr._value) {
                                 for (var j = 0; j < currentAttr.value.length; j++) {
                                     var currentDisabledCSS = currentAttr.value[j];
@@ -1040,7 +1065,15 @@ $(function () {
                             }
                         }
 
-                        this.elem.addClass(currentAttr._value);
+                        if(currentAttr.isNeedPrefixClass) {
+                            if(currentAttr.isToggleButtonSize) {
+                                currentAttr._value = currentAttr._value == 'default' ? '' : currentAttr._value;
+                            }
+                            alert(currentAttr.prefixClassValue + currentAttr._value)
+                            this.elem.addClass(currentAttr.prefixClassValue + currentAttr._value);    
+                        }else {
+                            this.elem.addClass(currentAttr._value);
+                        }
                     }
 
                     if(currentAttr.isSetAttribute) {
@@ -1089,7 +1122,6 @@ $(function () {
                         }
                         this.elem.attr(att, getRadioInputId(this.controller));
                     }
-
 
                     if (currentAttr.isCreateAttr) {
                         //一些在创建元素时需设置的属性，比如是否需要可拖拽
@@ -1236,7 +1268,6 @@ $(function () {
             }
 
         }
-
 
         var evtHandler = function() {
 
