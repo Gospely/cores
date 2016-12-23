@@ -371,6 +371,10 @@ page {
 	color: #888888;
 	text-align: left;
 	font-size: 14px;
+}
+
+.weui-vcode-img {
+    width: 108px;
 }`,
 						backend: true
 					},
@@ -1399,7 +1403,16 @@ page {
 			{
 				name: '表单',
 				type: 'form',
-				attr: {},
+				attr: {
+					error: {
+						type: 'toggle',
+						isClassName: true,
+						isSingleToggleClass: true,
+						title: '是否报错',
+						_value: false,
+						value: ['weui-cell_warn']
+					}
+				},
 				baseClassName: 'weui-cells weui-cells_form',
 				tag: 'div',
 				children: [{
@@ -1420,6 +1433,16 @@ page {
 								type: 'input',
 								_value: '标题文字'
 							},
+
+							display: {
+								type: 'toggle',
+								title: '显示',
+								_value: true,
+								value: ['none', 'block'],
+								isStyle: true,
+								isToggleStyle: true
+							},
+
 							selfAdaption: {
 								title: '自适应',
 								type: 'toggle',
@@ -1447,9 +1470,19 @@ page {
 								isSetAttribute: false,
 								value: ['weui_cell_primary'],
 								_value: false
+							},
+
+							display: {
+								type: 'toggle',
+								title: '显示',
+								_value: true,
+								value: ['none', 'block'],
+								isStyle: true,
+								isToggleStyle: true
 							}
+
 						},
-						name: '开关',
+						name: '表单项尾部',
 						children: [{
 							baseClassName: 'weui-switch',
 							tag: 'input',
@@ -1477,10 +1510,19 @@ page {
 						}]
 					}]
 				}, {
-					baseClassName: 'weui-cell',
+					baseClassName: 'weui-cell weui-cell_input',
 					tag: 'div',
 					type: 'weui-cell',
-					attr: {},
+					attr: {
+						error: {
+							type: 'toggle',
+							isClassName: true,
+							isSingleToggleClass: true,
+							title: '是否报错',
+							_value: false,
+							value: ['weui-cell_warn']
+						}
+					},
 					name: '表单项二',
 					children: [{
 						tag: 'div',
@@ -1496,9 +1538,19 @@ page {
 								isSetAttribute: false,
 								value: ['weui_cell_primary'],
 								_value: false
+							},
+
+							display: {
+								type: 'toggle',
+								title: '显示',
+								_value: true,
+								value: ['none', 'block'],
+								isStyle: true,
+								isToggleStyle: true
 							}
+
 						},
-						name: '输入框提示信息',
+						name: '表单项头部',
 						children: [{
 							name: '提示信息',
 							tag: 'label',
@@ -1516,8 +1568,8 @@ page {
 						}]
 					}, {
 						tag: 'div',
-						baseClassName: 'weui-cell_bd',
-						type: 'weui-cell_bd',
+						baseClassName: 'weui-cell__bd',
+						type: 'weui-cell__bd',
 						attr: {
 							selfAdaption: {
 								title: '自适应',
@@ -1528,13 +1580,23 @@ page {
 								isSetAttribute: false,
 								value: ['weui_cell_primary'],
 								_value: false
+							},
+
+							display: {
+								type: 'toggle',
+								title: '显示',
+								_value: true,
+								value: ['none', 'block'],
+								isStyle: true,
+								isToggleStyle: true
 							}
+
 						},
-						name: '输入框二',
+						name: '标单项中部',
 						children: [{
 							tag: 'input',
 							baseClassName: 'weui-input',
-							name: '输入框二',
+							name: '输入框',
 							type: 'weui-input',
 							attr: {
 								placeholder: {
@@ -1566,12 +1628,49 @@ page {
 								}
 							}
 						}]
+					}, {
+						tag: 'div',
+						baseClassName: 'weui-cell__ft',
+						type: 'weui-cell__ft',
+						attr: {
+							selfAdaption: {
+								title: '自适应',
+								type: 'toggle',
+								isSingleToggleClass: true,
+								isClassName: true,
+								isHTML: false,
+								isSetAttribute: false,
+								value: ['weui_cell_primary'],
+								_value: false
+							},
+
+							display: {
+								type: 'toggle',
+								title: '显示',
+								_value: false,
+								value: ['none', 'block'],
+								isStyle: true,
+								isToggleStyle: true
+							}
+
+						},
+						name: '标单项尾部',
+						children: []
 					}]
 				}, {
-					baseClassName: 'weui-cell',
+					baseClassName: 'weui-cell weui-cell_input weui-cell_vcode',
 					tag: 'div',
 					type: 'div',
-					attr: {},
+					attr: {
+						error: {
+							type: 'toggle',
+							isClassName: true,
+							isSingleToggleClass: true,
+							title: '是否报错',
+							_value: false,
+							value: ['weui-cell_warn']
+						}
+					},
 					name: '表单项三',
 					children: [{
 						tag: 'div',
@@ -1587,9 +1686,19 @@ page {
 								isSetAttribute: false,
 								value: ['weui_cell_primary'],
 								_value: false
+							},
+
+							display: {
+								type: 'toggle',
+								title: '显示',
+								_value: true,
+								value: ['none', 'block'],
+								isStyle: true,
+								isToggleStyle: true
 							}
+
 						},
-						name: '提示信息',
+						name: '表单项头部',
 						children: [{
 							name: '提示信息',
 							tag: 'label',
@@ -1607,7 +1716,7 @@ page {
 						}]
 					}, {
 						tag: 'div',
-						baseClassName: 'weui-cell_bd',
+						baseClassName: 'weui-cell__bd',
 						type: 'div',
 						attr: {
 							selfAdaption: {
@@ -1619,9 +1728,19 @@ page {
 								isSetAttribute: false,
 								value: ['weui_cell_primary'],
 								_value: false
+							},
+
+							display: {
+								type: 'toggle',
+								title: '显示',
+								_value: true,
+								value: ['none', 'block'],
+								isStyle: true,
+								isToggleStyle: true
 							}
+
 						},
-						name: '输入框三',
+						name: '表单项中部',
 						children: [{
 							tag: 'input',
 							baseClassName: 'weui-input',
@@ -1665,7 +1784,7 @@ page {
 						}]
 					}, {
 						tag: 'div',
-						baseClassName: 'weui-cell_ft',
+						baseClassName: 'weui-cell__ft',
 						type: 'div',
 						attr: {
 							selfAdaption: {
@@ -1677,9 +1796,19 @@ page {
 								isSetAttribute: false,
 								value: ['weui_cell_primary'],
 								_value: false
+							},
+
+							display: {
+								type: 'toggle',
+								title: '显示',
+								_value: true,
+								value: ['none', 'block'],
+								isStyle: true,
+								isToggleStyle: true
 							}
+
 						},
-						name: '验证码',
+						name: '表单项尾部',
 						children: [{
 							tag: 'img',
 							baseClassName: 'weui-vcode-img',
@@ -1700,7 +1829,7 @@ page {
 
 				}, {
 					name: '表单项四',
-					baseClassName: 'weui-cell weui-cell_warn',
+					baseClassName: 'weui-cell weui-cell_input weui-cell_warn',
 					tag: 'div',
 					type: 'div',
 					attr: {
@@ -2226,14 +2355,14 @@ page {
 				},
 				baseClassName: 'weui-cell weui-check__label',
 				children: [{
-					name: '单选框lable',
+					name: '单选框',
 					type: 'div',
 					tag: 'div',
 					baseClassName: 'weui-cell__bd',
 					attr: {
 						label: {
 							type: 'input',
-							title: '单选框lable',
+							title: '单选框标题',
 							isHTML: true,
 							_value: '单选框',
 						},
@@ -3133,7 +3262,7 @@ page {
 							_value: 3
 						}
 					},
-					baseClassName: 'weui-cell_bd',
+					baseClassName: 'weui-cell__bd',
 					children: [{
 						attr: {},
 						tag: 'select',

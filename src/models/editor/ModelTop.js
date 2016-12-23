@@ -47,20 +47,16 @@ export default {
 			suffix: 'xml'
 		}],
 
-		themeList: [
-			{
-				name: 'vs',
-				key: 'vs'
-			},
-			{
-				name: 'vs-dark',
-				key: 'vs-dark'
-			},
-			{
-				name: 'hc-black',
-				key: 'hc-black'
-			}
-		],
+		themeList: [{
+			name: 'vs',
+			key: 'vs'
+		}, {
+			name: 'vs-dark',
+			key: 'vs-dark'
+		}, {
+			name: 'hc-black',
+			key: 'hc-black'
+		}],
 
 		isSaving: false,
 		currentLanguage: 'HTML',

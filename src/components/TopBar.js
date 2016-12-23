@@ -23,8 +23,6 @@ const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 const InputGroup = Input.Group;
 
-
-
 const LeftSidebar = (props) => {
 
 	dndHandler.init(props);
@@ -146,7 +144,7 @@ const LeftSidebar = (props) => {
 				}else {
 					window.socket.send("cd /root/workspace && git pull\n");
 					localStorage.message = 'git pull ';
-					 localStorage.gitOperate = 'git pull';
+					localStorage.gitOperate = 'git pull';
 					props.dispatch({
 						type: 'editorTop/initGitOperate',
 						payload: { operate: 'git pull'}
