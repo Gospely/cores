@@ -251,17 +251,18 @@ export default {
 				attrName: 'class',
 				title: '类名',
 				type: 'input',
-				isClassName: false,
+				isClassName: true,
 				isHTML: false,
 				_value: ''
 			},
 
-			id: {
+			_id: {
 				attrName: 'id',
 				title: 'id',
 				type: 'input',
 				isClassName: false,
 				isHTML: false,
+				isSetAttribute: true,
 				_value: ''
 			},
 
@@ -270,6 +271,7 @@ export default {
 				title: '内联样式',
 				type: 'input',
 				isClassName: false,
+				isStyle: true,
 				isHTML: false,
 				_value: ''
 			},
@@ -280,6 +282,7 @@ export default {
 				type: 'toggle',
 				isClassName: false,
 				isHTML: false,
+				isSetAttribute: true,
 				_value: false
 			}
 		},
@@ -3273,7 +3276,9 @@ page {
 
 		setup({ dispatch, history }) {
 	      	history.listen(({ pathname }) => {
-
+	      		dispatch({
+	      			type: 'attachPublicAttrToAll'
+	      		});
 	      	});
 		}
 
@@ -3290,6 +3295,34 @@ page {
 	},
 
 	reducers: {
+
+		attachPublicAttrToAll(state) {
+
+			var publicAttrs = state.publicAttrs,
+				allControllers = state.controllersList;
+
+			for (var i = 0; i < allControllers.length; i++) {
+				var controller = allControllers[i],
+					baseClassName = controller.baseClassName,
+					attrs = controller.attr;
+
+				for(var key in publicAttrs) {
+					attrs[key] = publicAttrs[key];
+				}
+
+				attrs.class._value = baseClassName;
+				// alert(attrs.class._value);
+
+			};
+
+			console.log('------------------------------------attachPublicAttrToAll-------------------------------');
+
+			console.log(allControllers);
+
+			console.log('------------------------------------attachPublicAttrToAll-------------------------------');
+
+			return {...state};
+		},
 
 		handleDesignerClosed(state) {
 			state.loaded = false;
