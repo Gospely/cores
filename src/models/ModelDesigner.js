@@ -278,7 +278,7 @@ export default {
 
 			hidden: {
 				attrName: 'hidden',
-				title: '内联样式',
+				title: '隐藏',
 				type: 'toggle',
 				isClassName: false,
 				isHTML: false,
