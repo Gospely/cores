@@ -685,7 +685,7 @@ $(function () {
                         jq(this).find(".app-components").on("dragstart", function(ev) {
                             data = jq(ev.target).clone();
                             //ev.dataTransfer.setData("Text",ev.target.id);
-                            console.log(ev);
+                            // console.log(ev);
                         })
                     });
 
@@ -710,8 +710,7 @@ $(function () {
                 var self = this;
                 jq(this.containerSelector).on("drop", function(e) {
                     console.log('onrop=======', e);
-
-                    if(e.originalEvent.dataTransfer.getData("Text") == 'true') {
+                    if(e.originalEvent.dataTransfer.getData("Text") == 'fromSelf') {
                         return false;
                     }
 
@@ -745,7 +744,7 @@ $(function () {
                     e.preventDefault();
                     e.stopPropagation();
                     var target = jq(e.target);
-                    console.log(e);
+                    // console.log(e);
                     jq('.container-box').removeClass('container-box');
                     target.addClass('container-box')
                 });
@@ -1199,7 +1198,7 @@ $(function () {
             },
 
             createElement: function() {
-                console.log('createElement', this.controller);
+                // console.log('createElement', this.controller);
 
                 var self = this;
 
@@ -1240,29 +1239,50 @@ $(function () {
             },
 
             makeElemAddedDraggable: function() {
-                var orginClientX, orginClientY, movingClientX, movingClientY,
-
+                var orginClientX, 
+                    orginClientY, 
+                    movingClientX, 
+                    movingClientY,
                     elem = this.elem;
 
                 elem.attr('draggable', true);
 
                 elem.on('dragstart', function (e) {
-                    console.log(e)
+                    // console.log(e)
                     window.dragElement = jq(e.currentTarget);
+                    window.dragStart = true;
+                    window.orginY = e.pageY;
                     if(window.dragElement.hasClass('hight-light')) {
                         orginClientX = e.clientX;
                         orginClientY = e.clientY;
 
-                        e.originalEvent.dataTransfer.setData('Text','true');
+                        e.originalEvent.dataTransfer.setData('Text','fromSelf');
                         jq(e.currentTarget).css('opacity','.3');
+                    }else {
+                        return false;
                     }
 
                 });
 
                 elem.on('drag',function (e) {
-
+                        var $this = jq(e.currentTarget);
+                        var thisId = $this.eq(0).attr('id');
+                        var hoverElementId = window.hoverElement.eq(0).attr('id');
                     // if(this.dragElement.hasClass('hight-light')) {
-
+                        // console.log(e.pageY, window.orginY)
+                        if(hoverElementId !== thisId) {
+                            if (window.hover) {
+                                // console.log(e.pageY - window.orginY, thisId)
+                                if(e.pageY - window.orginY == -30) {
+                                    window.hoverElement.before($this);
+                                }else if (e.pageY - window.orginY == 30) {
+                                    window.hoverElement.after($this);
+                                }else if (e.pageY - window.orginY == -15 && hoverElementId.split('-') !== thisId.split('-')) {
+                                    window.hoverElement.append($this);
+                                }
+                            }
+                        }
+                       
                         movingClientX = e.clientX;
                         movingClientY = e.clientY;
                         if(elem.position().top + orginClientY - movingClientY <= 42){
@@ -1275,17 +1295,20 @@ $(function () {
                 });
 
                 elem.on('dragenter', function (e) {
-                    console.log('进入',e)
+                    window.hoverElement = jq(e.currentTarget);
+                    console.log('-----------------------------',e.currentTarget)
+                    window.hover = true;
+                    window.orginY = e.pageY;
                 })
             
                 elem.on('dragleave', function (e) {
                     console.log('离开')
                     // if(this.dragElement.hasClass('hight-light')) {
-                        $this = jq(e.currentTarget);
-                        controllerOperations.hideDesignerDraggerBorder($this);
-                        if($this.eq(0).attr('id') != window.dragElement.eq(0).attr('id')){
-                            $this.before(window.dragElement);
-                        }                   
+                        // $this = jq(e.currentTarget);
+                        // controllerOperations.hideDesignerDraggerBorder($this);
+                        // if($this.eq(0).attr('id') != window.dragElement.eq(0).attr('id')){
+                        //     $this.before(window.dragElement);
+                        // }                   
                     // }
 
                 })

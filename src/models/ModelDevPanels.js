@@ -154,7 +154,7 @@ export default {
 				searchVisible: false,
 				isSave: false
 			}
-      devpanel.panels.panes[devpanel.panels.activePane.key].tabs.push(tmpTabs);
+      		devpanel.panels.panes[devpanel.panels.activePane.key].tabs.push(tmpTabs);
 		},
 
 		//根据项目的类型渲染ide面板
@@ -522,7 +522,7 @@ export default {
 					}
 			}
 
-			console.log(state.panels.panes)
+			// console.log(state.panels.panes)
 			state.panels.splitType = type;
 			return {...state};
 		},
@@ -661,23 +661,10 @@ export default {
 			target.type = target.type || 'editor';
 			target.content = target.content || '';
 
-			for(let i = 0; i < panes.length; i ++) {
-				for(let j = 0; j < panes[i].tabs.length; j ++) {
-					if (target.title !== '新文件' && target.title !== '新标签页' &&
-						(target.type === 'editor' || target.type === 'Loading') && 
-						panes[i].tabs[j].file === target.file) {
-						message.error('您已打开此文件!')
-						state.panels.activePane.key = i + '';
-						state.panels.panes[i].activeTab.key = j + 1 + '';
-						state.panels.panes[i].activeTab.index = j;
-						return {...state};
-					}
-				}
-			}
-
 			activePane.activeTab.key = (activePane.tabs.length + 1).toString();
 			// console.log(target.content)
 			let isSave = true;
+
 			if (target.type === 'editor') {
 				var editorObj = {
 					value: target.content,
@@ -711,16 +698,28 @@ export default {
 			for(let i = 0; i < panes.length; i ++) {
 				for(let j = 0; j < panes[i].tabs.length; j ++) {
 					if (panes[i].tabs[j].editorId == params.editorId) {
-						panes[i].editors[params.editorId] = params.content;
+						panes[i].editors[params.editorId] = {
+							content: params.content,
+							editorId: params.editorId,
+							fileName: params.file
+						};
 						// panes[i].tabs[j].title = params.title;
 						panes[i].tabs[j].type = 'editor';
-						panes[i].tabs[j].file = params.file;
 						panes[i].tabs[j].content = params.content;
 					}
 				}
 			}
 			return { ...state };
 		},
+
+		setActivePaneAndTab(state, { payload: params }) {
+			state.panels.activePane.key = params.paneKey;
+			state.panels.panes[params.paneIndex].activeTab.key = params.tabKey;
+			state.panels.panes[params.paneIndex].activeTab.index = params.tabIndex;
+			return { ...state };
+		},
+
+
 		//UI状态初始化
 		initState(state, { payload: params }){
 

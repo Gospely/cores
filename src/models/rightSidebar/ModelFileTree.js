@@ -235,15 +235,41 @@ export default {
 
       	*readFile({payload: fileName}, {call, put, select}) {
 
-					// console.log("======readFile====");
-					// console.log(localStorage.currentFolder);
+      		let file = localStorage.currentFolder + fileName;
+
+			let splits = file.split('/');
+					// console.log(splits);
+			file = file.replace(splits[0] + '/','');
+					// console.log(content.fileName);
+			file = file.replace(splits[1] + '/', localStorage.currentProject);
+
+			let panes = yield select(state => state.devpanel.panels.panes);
+
+			for(let i = 0; i < panes.length; i ++) {
+				for(let j = 0; j < panes[i].tabs.length; j ++) {
+					console.log(panes[i].tabs[j])
+					if (file === panes[i].tabs[j].file) {
+						message.error('您已打开此文件!')
+						yield put({
+							type: 'devpanel/setActivePaneAndTab',
+							payload: {
+								paneKey: i + '',
+								paneIndex: i,
+								tabKey: j + 1 + '',
+								tabIndex: j
+							}
+						})
+						return false;
+					}
+				}
+			}
 			let editorId = randomWord(8,10);
 			yield put({
 				type: 'devpanel/add',
 				payload: {
 					type: 'Loading',
 					title: fileName,
-					file: localStorage.currentFolder + fileName,
+					file,
 					editorId
 				}
 			})
@@ -255,25 +281,17 @@ export default {
       			})
       		});
       		let content = readResult.data
-					console.log(readResult);
-      		// console.log(content)
       		content = content.fields;
-      		// console.log(content);
-      		// console.log(content.fileName);
-			let splits = content.fileName.split('/');
-					// console.log(splits);
-			content.fileName = content.fileName.replace(splits[0] + '/','');
-					// console.log(content.fileName);
-			content.fileName = content.fileName.replace(splits[1] + '/', localStorage.currentProject);
+			
 
 			yield put({
 				type: 'devpanel/pushContentToEditors',
 				payload: {
-					file: content.fileName,
 					content: content.content,
 					editorId
 				}
 			})
+
       	},
 
       	*writeFile({payload: params}, {call, put, select}) {
