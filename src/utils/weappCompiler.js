@@ -174,7 +174,11 @@ const weappCompiler = {
 				const currAttr = appJSONOriginSource[key];
 				if(this.filter(key)) {
 					if(currAttr.type != 'children') {
-						appJSON[key] = currAttr._value;
+						if(key == 'pages') {
+							appJSON[key] = currAttr.value;
+						}else {
+							appJSON[key] = currAttr._value;							
+						}
 						if(parentKey) {
 							if(parentKey == 'tabBar' && key == 'list') {
 								var tabList = currAttr.value;
@@ -210,7 +214,9 @@ const weappCompiler = {
 
 		appJSON = loopAPPJSON(appJSONOriginSource);
 
-		return options.string ? JSON.stringify(appJSON) : appJSON;
+		alert(JSON.stringify(appJSON));
+
+		return options.string ? JSON.stringify(appJSON).replace(/,"tabBar":{}/g, '') : appJSON;
 	},
 
 	compilePageJSON (options) {
@@ -488,13 +494,9 @@ const weappCompiler = {
 						if(controller.baseClassName == 'weui-switch') {
 							weappTag = 'switch';
 							controller.attr.type._value = 'switch';
-						}
-
-						if(controller.baseClassName == 'weui-check') {
-							weappTag = controller.attr.type._value;
-						}
-
-						if(controller.baseClassName == 'weui-input') {
+						}else if(controller.baseClassName == 'weui-check') {
+							weappTag = controller.attr.type._value;							
+						}else {
 							weappTag = self.transferTag(tag);							
 						}
 
