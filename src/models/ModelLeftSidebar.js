@@ -20,6 +20,7 @@ export default {
 		modalModifyGitOriginVisible: false,
 		createFromModal: false,
 		applications: [],
+		showAppsLoading: false,
 
 		modifyGitOriginInput: {
 			value: '',
@@ -209,6 +210,10 @@ export default {
 		},
 		*getApplications({payload: params}, {call, put}){
 
+			yield put({
+				type: 'showAppsLoading'
+			})
+
 			var url = 'applications?creator=' + localStorage.user;
 			var result = yield request(url, {
 				method: 'GET'
@@ -218,6 +223,9 @@ export default {
 				type: 'initApplications',
 				payload: {applications}
 			});
+			yield put({
+				type: 'hideAppsLoading'
+			})
 		},
 		*deleteApp({payload: params}, {call, put}) {
 
@@ -342,6 +350,16 @@ export default {
 				isGit: params.isGit.data.fields,
 				pushValue: push
 			}}
+		},
+
+		showAppsLoading(state) {
+			state.showAppsLoading = true;
+			return {...state};
+		},
+
+		hideAppsLoading(state) {
+			state.showAppsLoading = false;
+			return {...state};
 		},
 
 		initApplications(state, {payload: params}) {

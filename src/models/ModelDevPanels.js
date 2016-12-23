@@ -73,6 +73,7 @@ export default {
 		currentLanguage: 'HTML',
 		debug: '',
 
+
 	    panels: {
 
 	    	panes: [
@@ -114,7 +115,10 @@ export default {
 	    	}
 	    },
 
-	    isLoading: false
+	    loading: {
+	    	isLoading: false,
+	    	tips: '请稍后...'
+	    }
 
 	},
 
@@ -313,12 +317,20 @@ export default {
 			return {...state};
 		},
 
-		hideLoading(state) {
-			return {...state, isLoading: false};
+		hideLoading(state, {payload: params}) {
+			return {...state, loading: {
+					isLoading: false,
+					tips: '请稍后...'
+				}
+			};
 		},
 
-		showLoading(state) {
-			return {...state, isLoading: true};
+		showLoading(state, {payload: params}) {
+			return {...state,loading: {
+					isLoading: true,
+					tips: params.tips
+				}
+			};
 		},
 
 		handleCommon(state) {
@@ -636,7 +648,7 @@ export default {
 		add(state, {payload: target}) {
 
 			// localStorage.isSave = false;
-			console.log("paneKey",target.paneKey)
+			// console.log("paneKey",target.paneKey)
 			if (typeof target.paneKey !== 'undefined') {
 				state.panels.activePane.key = target.paneKey;
 			}
@@ -652,7 +664,8 @@ export default {
 			for(let i = 0; i < panes.length; i ++) {
 				for(let j = 0; j < panes[i].tabs.length; j ++) {
 					if (target.title !== '新文件' && target.title !== '新标签页' &&
-						target.type === 'editor' && panes[i].tabs[j].file === target.file) {
+						(target.type === 'editor' || target.type === 'Loading') && 
+						panes[i].tabs[j].file === target.file) {
 						message.error('您已打开此文件!')
 						state.panels.activePane.key = i + '';
 						state.panels.panes[i].activeTab.key = j + 1 + '';
@@ -663,7 +676,7 @@ export default {
 			}
 
 			activePane.activeTab.key = (activePane.tabs.length + 1).toString();
-			console.log(target.content)
+			// console.log(target.content)
 			let isSave = true;
 			if (target.type === 'editor') {
 				var editorObj = {
@@ -679,16 +692,34 @@ export default {
 			}
 			let editorId = target.editorId || '';
 			activePane.activeEditor.id = target.editorId;
-			console.log("key",state.panels.activePane.key)
+			// console.log("key",state.panels.activePane.key)
 		    activePane.tabs.push({ title: target.title, content: target.content,
 		    					type: target.type, key: activePane.activeTab.key, file: target.file,
 		    					editorId: editorId,isSave: isSave});
 		    // console.log('editorTab:',currentDevType)
 			activePane.activeTab = {key: activePane.activeTab.key, index: activePane.tabs.length - 1};
-			console.log({ title: target.title, content: target.content,
-		    					type: target.type, key: activePane.activeTab.key,
-		    					editorId: editorId,isSave: isSave});
+			// console.log({ title: target.title, content: target.content,
+		 //    					type: target.type, key: activePane.activeTab.key,
+		 //    					editorId: editorId,isSave: isSave});
 		    return {...state};
+		},
+
+		//打开文件时，先打开编辑器，加载动画，再在此把内容放进去
+		pushContentToEditors(state, {payload: params}) {
+			
+			let panes = state.panels.panes;
+			for(let i = 0; i < panes.length; i ++) {
+				for(let j = 0; j < panes[i].tabs.length; j ++) {
+					if (panes[i].tabs[j].editorId == params.editorId) {
+						panes[i].editors[params.editorId] = params.content;
+						// panes[i].tabs[j].title = params.title;
+						panes[i].tabs[j].type = 'editor';
+						panes[i].tabs[j].file = params.file;
+						panes[i].tabs[j].content = params.content;
+					}
+				}
+			}
+			return { ...state };
 		},
 		//UI状态初始化
 		initState(state, { payload: params }){

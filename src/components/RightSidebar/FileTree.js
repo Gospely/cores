@@ -128,8 +128,8 @@ const FileTree = (props) => {
         localStorage.onSelect = false;
         if(node.node.props.isLeaf) {
             props.dispatch({
-            type: 'file/readFile',
-            payload: localStorage.currentSelectedFile.split('/').pop()
+                type: 'file/readFile',
+                payload: localStorage.currentSelectedFile.split('/').pop()
             })
         }
       }

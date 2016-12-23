@@ -1,5 +1,5 @@
 import React , {PropTypes} from 'react';
-import { Tabs, Icon, Popover } from 'antd';
+import { Tabs, Icon, Popover, Spin } from 'antd';
 
 import SplitPane from 'react-split-pane';
 
@@ -61,6 +61,11 @@ const DevPanel = ({
 		previewer: function () {
 			return(
 				<Previewer></Previewer>
+			)
+		},
+		Loading: function () {
+			return(
+				<Spin tip='文件读取中...' spinning={true}></Spin>
 			)
 		}
 	}

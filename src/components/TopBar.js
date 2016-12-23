@@ -1,5 +1,5 @@
 import React , { PropTypes } from 'react';
-import { Menu, Icon, Modal, Input, Button, message, notification, Tabs, Card, Popconfirm, Row, Col, Dropdown, Form } from 'antd';
+import { Menu, Spin, Icon, Modal, Input, Button, message, notification, Tabs, Card, Popconfirm, Row, Col, Dropdown, Form } from 'antd';
 
 const TabPane = Tabs.TabPane;
 
@@ -420,10 +420,10 @@ const LeftSidebar = (props) => {
 
 	const startMenu = (
 		<Menu onClick={onSelectStartMenu}>
-			<Menu.Item key='runCommand'>运行命令:{props.sidebar.debugConfig.runCommand}</Menu.Item>
-			<Menu.Item key='run'>直接运行</Menu.Item>
+			<Menu.Item key='runCommand' disabled={window.disabled}>运行命令:{props.sidebar.debugConfig.runCommand}</Menu.Item>
+			<Menu.Item key='run' disabled={window.disabled}>直接运行</Menu.Item>
 			<Menu.Divider/>
-			<Menu.Item key='config'>配置...</Menu.Item>
+			<Menu.Item key='config' disabled={window.disabled}>配置...</Menu.Item>
 		</Menu>
 	);
 
@@ -467,38 +467,38 @@ const LeftSidebar = (props) => {
 		        <Menu.Item key="switch">
 		          	<Icon type="appstore-o" />
 		        </Menu.Item>
-		        <Menu.Item key="commit">
+		        <Menu.Item key="commit" disabled={window.disabled}>
 					<Icon type="check"/>
 		        </Menu.Item>
-		        <Menu.Item key="push">
+		        <Menu.Item key="push" disabled={window.disabled}>
 					<Icon type="upload" />
 		        </Menu.Item>
-		        <Menu.Item key="pull">
+		        <Menu.Item key="pull" disabled={window.disabled}>
 					<Icon type="download" />
 		        </Menu.Item>
-		        <Menu.Item key="file">
+		        <Menu.Item key="file" disabled={window.disabled}>
 					<Icon type="file-text" />
 		        </Menu.Item>
-				<Menu.Item key="designer">
+				<Menu.Item key="designer" disabled={window.disabled}>
 					<Icon type="windows-o" />
 				</Menu.Item>
-		        <Menu.Item key="terminal">
+		        <Menu.Item key="terminal" disabled={window.disabled}>
 					<Icon type="code-o" />
 		        </Menu.Item>
-		        <Menu.Item key="showStartMenu">
+		        <Menu.Item key="showStartMenu" disabled={window.disabled}>
 		        	<Dropdown overlay={startMenu} trigger={['click']}>
 		        		<div style={{width: 30}}>
 							<Icon type="play-circle-o" />
 						</div>
 					</Dropdown>
 		        </Menu.Item>
-		        <Menu.Item key="pause">
+		        <Menu.Item key="pause" disabled={window.disabled}>
 					<Icon type="pause-circle-o" />
 		        </Menu.Item>
-		        <Menu.Item key="preview">
+		        <Menu.Item key="preview" disabled={window.disabled}>
 		        	<Icon type="eye-o" />
 		        </Menu.Item>
-		        <Menu.Item key="download-weapp">
+		        <Menu.Item key="download-weapp" disabled={window.disabled}>
 		        	打包小程序
 		        </Menu.Item>
 	      	</Menu>
@@ -512,23 +512,29 @@ const LeftSidebar = (props) => {
 	    	<Modal style={{maxWidth: 550}}  title="切换应用" visible={props.sidebar.modalSwitchAppVisible}
 	          	onOk={leftSidebarProps.switchApp} onCancel={leftSidebarProps.cancelSwitchApp}
 	        >
-        	    <Row gutter={16}>
-        	    <Col className="gutter-row" span={6} style={{marginTop: 20}} key='addApp'>
-					 <div className="gutter-box">
-							<Card onClick={console.log('')}
-							style={{ width: 110, height: 110 }}
-							bodyStyle={{height: '100%', background: 'whitesmoke', color: '#555', cursor: 'pointer'}}>
-									<div style={{ height: 50,lineHeight: '50px',textAlign: 'center' }}>
-										<a className="create-app-from-modal" onClick={leftSidebarProps.createAppFromModal}>
-											<Icon type="plus" />
-										</a>
+        	    {props.sidebar.showAppsLoading ? 
+        	    	(<div style={{width: '100%', textAlign: 'center', padding: '100px 0'}}>
+        	    		<Spin tip="应用加载中..." spinning={true}></Spin>
+        	    	</div>)
+                    :
+        	    	(<Row gutter={16}>
+		        	    <Col className="gutter-row" span={6} style={{marginTop: 20}} key='addApp'>
+							 <div className="gutter-box">
+									<Card onClick={console.log('')}
+									style={{ width: 110, height: 110 }}
+									bodyStyle={{height: '100%', background: 'whitesmoke', color: '#555', cursor: 'pointer'}}>
+											<div style={{ height: 50,lineHeight: '50px',textAlign: 'center' }}>
+												<a className="create-app-from-modal" onClick={leftSidebarProps.createAppFromModal}>
+													<Icon type="plus" />
+												</a>
 
-									</div>
-							</Card>
-					 </div>
-				</Col>
-				{initApplications()}
-        	    </Row>
+											</div>
+									</Card>
+							 </div>
+						</Col>
+						{initApplications()}
+        	    	</Row>)
+        	    }
 	        </Modal>
 
 	        <Modal

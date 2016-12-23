@@ -233,36 +233,45 @@ export default {
       		yield put({type: 'fetchFileList'});
       	},
 
-      	*readFile({payload: fileName}, {call, put}) {
+      	*readFile({payload: fileName}, {call, put, select}) {
 
-					console.log("======readFile====");
-					console.log(localStorage.currentFolder);
+					// console.log("======readFile====");
+					// console.log(localStorage.currentFolder);
+			let editorId = randomWord(8,10);
+			yield put({
+				type: 'devpanel/add',
+				payload: {
+					type: 'Loading',
+					title: fileName,
+					file: localStorage.currentFolder + fileName,
+					editorId
+				}
+			})
+
 			var readResult = yield request('fs/read', {
       			method: 'POST',
       			body: JSON.stringify({
       				fileName: localStorage.currentFolder + fileName,
       			})
       		});
-      		var content = readResult.data
+      		let content = readResult.data
 					console.log(readResult);
       		// console.log(content)
       		content = content.fields;
       		// console.log(content);
-      		console.log(content.fileName);
-					var splits = content.fileName.split('/');
-					console.log(splits);
-					content.fileName = content.fileName.replace(splits[0] + '/','');
-					console.log(content.fileName);
-					content.fileName = content.fileName.replace(splits[1] + '/', localStorage.currentProject);
+      		// console.log(content.fileName);
+			let splits = content.fileName.split('/');
+					// console.log(splits);
+			content.fileName = content.fileName.replace(splits[0] + '/','');
+					// console.log(content.fileName);
+			content.fileName = content.fileName.replace(splits[1] + '/', localStorage.currentProject);
 
 			yield put({
-				type: 'devpanel/add',
+				type: 'devpanel/pushContentToEditors',
 				payload: {
-					title: splits.pop(),
 					file: content.fileName,
-					type: 'editor',
 					content: content.content,
-					editorId: randomWord(8,10)
+					editorId
 				}
 			})
       	},

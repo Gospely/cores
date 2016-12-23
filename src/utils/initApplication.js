@@ -1,7 +1,10 @@
 const initApplication = function (application, props){
 
   props.dispatch({
-    type: 'devpanel/showLoading'
+    type: 'devpanel/showLoading',
+    payload: {
+      tips: '打开应用中...'
+    }
   });
 
   localStorage.dir = localStorage.user + '/' + application.name + '_' + localStorage.userName + "/";
