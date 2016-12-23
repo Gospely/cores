@@ -214,8 +214,6 @@ const weappCompiler = {
 
 		appJSON = loopAPPJSON(appJSONOriginSource);
 
-		alert(JSON.stringify(appJSON));
-
 		return options.string ? JSON.stringify(appJSON).replace(/,"tabBar":{}/g, '') : appJSON;
 	},
 
