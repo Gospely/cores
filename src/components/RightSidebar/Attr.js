@@ -86,6 +86,8 @@ const Attr = (props) => {
       	wrapperCol: { span: 16 }
     };
 
+    let activeElem = props.attr.activeElem;
+
     const attrFormProps = {
 
     	handleAttrFormInputChange: (attr, parentAtt, dom) => {
@@ -101,6 +103,54 @@ const Attr = (props) => {
     				parentAtt: parentAtt
     			}
     		});
+
+    		if(attr.isComponentAttr) {
+
+    			const findChildrenByIndexAndLvl = (elem, index, lvl, attrName, currentLvl) => {
+    				for (var i = 0; i < elem.length; i++) {
+    					var currentElem = elem[i];
+
+    					if(currentElem.children) {
+    						var result = findChildrenByIndexAndLvl(currentElem.children, index, lvl, attrName, currentLvl + 1);
+    						if(result) {
+    							return result;
+    						}
+    					}
+
+    					for(var key in currentElem.attr) {
+    						var currentAttr = currentElem.attr[key];
+    						if(key == attrName && i == index && currentLvl == lvl) {
+    							return currentElem;
+    						}
+    					}
+
+    				};
+
+    				return false;
+    			}
+
+    			var linkedComponent = findChildrenByIndexAndLvl(activeElem.children, attr.componentInfo.index, attr.componentInfo.level, attr.componentInfo.attr, 1);
+ 				var linkedComponentAttr = linkedComponent.attr[attr.componentInfo.attr];
+ 				linkedComponentAttr[attrName] = attr.componentInfo.attr;
+
+	            props.dispatch({
+	                type: 'designer/handlelinkedComponentChange',
+	                payload: {
+	                    key: linkedComponent.key,
+	                    attrName: attr.componentInfo.attr,
+	                    newVal: newVal,
+	                    type: 'controller'
+	                }
+	            });
+
+ 				attrFormProps.handleAttrFormInputChange(linkedComponentAttr, undefined, dom);
+
+    			console.log('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=', linkedComponent);
+
+    			return false;
+    		}
+
+    		console.log(activeElem);
 
     		props.dispatch({
     			type: 'designer/handleAttrRefreshed'
@@ -192,7 +242,6 @@ const Attr = (props) => {
 
     let itemKey = 1;
     let pageKey = props.attr.theKey;
-    // alert(pageKey)
 
     const attrTypeActions = {
 		input (attr, parentAtt) {
@@ -264,7 +313,6 @@ const Attr = (props) => {
 		},
 
 		children (attr, parentAtt) {
-			console.log('children', attr);
 			parentAtt = parentAtt || attr;
 			var attrChildren = attr._value;
 			var arrAttrChildren = [];
@@ -279,8 +327,6 @@ const Attr = (props) => {
 					return attrTypeActions[att.type](att, parentAtt);					
 				}
 			});
-
-			console.log(children);
 
 			return (
 				<div key={pageKey + (itemKey ++)}>

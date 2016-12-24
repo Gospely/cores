@@ -201,151 +201,151 @@ const ConstructionTree = (props) => {
             });
         },
 
-    onSelect: function(e) {
+        onSelect: function(e) {
 
-        if(e.length === 0) {
-            return false;
+            if(e.length === 0) {
+                return false;
+            }
+
+            var elemSelected = e[0];
+            var elemType = elemSelected.split('-')[0];
+
+            props.dispatch({
+                type: 'rightbar/setActiveMenu',
+                payload: 'attr'
+            });
+
+            props.dispatch({
+                type: 'attr/setFormItemsByType',
+                payload: {
+                    key: elemSelected,
+                    type: elemType
+                }
+            });
+
+            props.dispatch({
+                type: 'designer/handleTreeChanged',
+                payload: {
+                    key: e[0],
+                    type: elemType
+                }
+            });
+
+            props.dispatch({
+                type: 'designer/handleCtrlSelected'
+            });
+
         }
 
-        var elemSelected = e[0];
-        var elemType = elemSelected.split('-')[0];
+    }
 
-        props.dispatch({
-            type: 'rightbar/setActiveMenu',
-            payload: 'attr'
-        });
+    const addPageProps = {
 
-        props.dispatch({
-            type: 'attr/setFormItemsByType',
-            payload: {
-                key: elemSelected,
-                type: elemType
-            }
-        });
+        addThisPage () {
 
-        props.dispatch({
-            type: 'designer/handleTreeChanged',
-            payload: {
-                key: e[0],
-                type: elemType
-            }
-        });
+            props.dispatch({
+                type: 'designer/addPage'
+            });
 
-        props.dispatch({
-            type: 'designer/handleCtrlSelected'
-        });
+            props.dispatch({
+                type: 'rightbar/setActiveMenu',
+                payload: 'attr'
+            });
+
+            props.dispatch({
+                type: 'attr/setFormItemsByDefault'
+            });
+
+            props.dispatch({
+                type: 'designer/handlePageAdded'
+            });
+
+        }
 
     }
 
-}
+    const addPagePop = {
 
-const addPageProps = {
+        title: '添加页面',
 
-    addThisPage () {
+        content: (
 
-        props.dispatch({
-            type: 'designer/addPage'
-        });
-
-        props.dispatch({
-            type: 'rightbar/setActiveMenu',
-            payload: 'attr'
-        });
-
-        props.dispatch({
-            type: 'attr/setFormItemsByDefault'
-        });
-
-        props.dispatch({
-            type: 'designer/handlePageAdded'
-        });
-
-    }
-
-}
-
-const addPagePop = {
-
-    title: '添加页面',
-
-    content: (
-
-        <div>
-            <Row gutter={16} type="flex" justify="space-around" align="middle">
-                <Col span={12}>
-                    <Card onClick={addPageProps.addThisPage} loading title="空白页面">
-                    空白页面
-                    </Card>
-                </Col>
-                <Col span={12}>
-                    <Card onClick={addPageProps.addThisPage}  loading title="登录页面">
-                    空白页面
-                    </Card>
-                </Col>
-            </Row>
-        </div>
-
-    ),
-
-    overlayStyle: {
-        width: '50%'
-    }
-
-}
-
-const loopData = data => data.map((item) => {
-
-    var title = item.attr.title ? item.attr.title._value : item.name;
-
-    if (item.children) {
-        return <TreeNode title={title} key={item.key}>{loopData(item.children)}</TreeNode>;
-    }
-
-    return (
-        <TreeNode title={title} key={item.key} isLeaf={item.isLeaf} />
-    );
-
-});
-
-const treeNodes = loopData(props.designer.layout);
-
-    if(props.designer.loaded) {
-        return (
-      
-            <div style={{marginTop: -20}}>
-                <div className={TreeStyle.headerCons}>
-                    <Row>
-                        <Col span={24}>
-                            <Button onClick={addPageProps.addThisPage} className={TreeStyle.topbarBtnCons}><Icon type="plus" />添加页面</Button>
-                        </Col>
-                    </Row>
-                </div>
-
-                <Tree className="layoutTree"
-                    showLine
-                    defaultExpandAll
-                    onRightClick={layoutTreeProps.onRightClick}
-                    onSelect={layoutTreeProps.onSelect}
-                    selectedKeys={[props.designer.layoutState.activeKey]}
-                    expandedKeys={props.designer.layoutState.expandedKeys}
-                >
-                    {treeNodes}
-                </Tree>
-
-                <Menu style={props.designer.constructionMenuStyle} onClick={deleteThisConstruction} className="context-menu">
-                    <Menu.Item key="remove">删除</Menu.Item>
-                </Menu>
+            <div>
+                <Row gutter={16} type="flex" justify="space-around" align="middle">
+                    <Col span={12}>
+                        <Card onClick={addPageProps.addThisPage} loading title="空白页面">
+                        空白页面
+                        </Card>
+                    </Col>
+                    <Col span={12}>
+                        <Card onClick={addPageProps.addThisPage}  loading title="登录页面">
+                        空白页面
+                        </Card>
+                    </Col>
+                </Row>
             </div>
 
-    );
+        ),
 
-    }else {
-
-        return (
-            <p>无处理对象</p>
-        );
+        overlayStyle: {
+            width: '50%'
+        }
 
     }
+
+    const loopData = data => data.map((item) => {
+
+        var title = item.attr.title ? item.attr.title._value : item.name;
+
+        if (item.children) {
+            return <TreeNode title={title} key={item.key}>{loopData(item.children)}</TreeNode>;
+        }
+
+        return (
+            <TreeNode title={title} key={item.key} isLeaf={item.isLeaf} />
+        );
+
+    });
+
+    const treeNodes = loopData(props.designer.layout);
+
+        if(props.designer.loaded) {
+            return (
+          
+                <div style={{marginTop: -20}}>
+                    <div className={TreeStyle.headerCons}>
+                        <Row>
+                            <Col span={24}>
+                                <Button onClick={addPageProps.addThisPage} className={TreeStyle.topbarBtnCons}><Icon type="plus" />添加页面</Button>
+                            </Col>
+                        </Row>
+                    </div>
+
+                    <Tree className="layoutTree"
+                        showLine
+                        defaultExpandAll
+                        onRightClick={layoutTreeProps.onRightClick}
+                        onSelect={layoutTreeProps.onSelect}
+                        selectedKeys={[props.designer.layoutState.activeKey]}
+                        expandedKeys={props.designer.layoutState.expandedKeys}
+                    >
+                        {treeNodes}
+                    </Tree>
+
+                    <Menu style={props.designer.constructionMenuStyle} onClick={deleteThisConstruction} className="context-menu">
+                        <Menu.Item key="remove">删除</Menu.Item>
+                    </Menu>
+                </div>
+
+        );
+
+        }else {
+
+            return (
+                <p>无处理对象</p>
+            );
+
+        }
 
 };
 
