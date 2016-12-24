@@ -2921,7 +2921,7 @@ page {
 						isSetAttribute: true,
 						isComponentAttr: true,
 						componentInfo: {
-							attr: 'height',
+							attr: 'background-color',
 							index: 0,
 							level: 2
 						}
