@@ -128,7 +128,11 @@ const weappCompiler = {
 	weappControllersAttrs: {
 		button: ['size', 'type', 'plain', 'disabled', 'loading', 'form-type', 'hover-class', 'hover-start-time', 'hover-stay-time'],
 
-		'switch': ['checked', 'type', 'color']
+		'switch': ['checked', 'type', 'color'],
+
+		textarea: ['value', 'placeholder', 'placeholder-style', 'placeholder-class', 'disabled', 'maxlength', 'auto-focus', 'auto-height', 'fixed', 'cursor-spacing'],
+
+		input: ['value', 'type', 'password', 'placeholder', 'placeholder-style', 'placeholder-class', 'disabled', 'maxlength', 'cursor-spacing', 'auto-focus', 'focus']
 	},
 
 	init (layout) {
@@ -396,26 +400,25 @@ const weappCompiler = {
 
             //设置默认样式，如容器的默认高度
             if (currentAttr.isStyle) {
-
             	if(!currentAttr.alias) {
             		//若有别名，表示和小程序的属性不同，非style样式
-
-                	if (currentAttr.isMultiplyStyle) {
-	                    var styles = currentAttr._value.split(';');
-	                    console.log(styles)
-	                    for(var i = 0, len = styles.length - 1; i < len; i ++) {
-	                        var styleNameAndVal = styles[i].split(':');
-	                        console.log(styleNameAndVal[0].trim(),styleNameAndVal[1].trim())
-	                        this.elem.css(styleNameAndVal[0].trim(), styleNameAndVal[1].trim());
-	                    }
-	                }else {
-	                    if(currentAttr.isToggleStyle) {
-	                        this.elem.css(att, currentAttr._value ? currentAttr.value[1] :   currentAttr.value[0]);
-	                    }else {
-	                        this.elem.css(att, currentAttr._value);                                
-	                    }
-	                }
-
+            		if(!currentAttr.isDesignerStyle) {
+	                	if (currentAttr.isMultiplyStyle) {
+		                    var styles = currentAttr._value.split(';');
+		                    console.log(styles)
+		                    for(var i = 0, len = styles.length - 1; i < len; i ++) {
+		                        var styleNameAndVal = styles[i].split(':');
+		                        console.log(styleNameAndVal[0].trim(),styleNameAndVal[1].trim())
+		                        this.elem.css(styleNameAndVal[0].trim(), styleNameAndVal[1].trim());
+		                    }
+		                }else {
+		                    if(currentAttr.isToggleStyle) {
+		                        this.elem.css(att, currentAttr._value ? currentAttr.value[1] :   currentAttr.value[0]);
+		                    }else {
+		                        this.elem.css(att, currentAttr._value);                                
+		                    }
+		                }
+            		}
             	}
             }
 
@@ -473,7 +476,7 @@ const weappCompiler = {
             		if(currentWeappAttr == att || currentWeappAttr == currentAttr.alias) {
 
             			//小程序与web端有些属性不兼容，比如开关的颜色 在web中是一个CSS属性：background-color，在小程序中是color，所以要定义alias为color
-            			
+
             			if(currentAttr._value != '') {
 	            			this.elem.attr(currentWeappAttr, currentAttr._value);            				
             			}

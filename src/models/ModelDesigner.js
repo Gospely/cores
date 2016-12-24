@@ -1227,6 +1227,7 @@ page {
 						type: 'input',
 						title: '高度',
 						isStyle: true,
+						isDesignerStyle: true,
 						_value: '100px'
 					},
 
@@ -2101,7 +2102,7 @@ page {
 							},
 							disabled: {
 								type: 'toggle',
-								title: '禁止',
+								title: '禁用',
 								value: [],
 								isClassName: false,
 								isSetAttribute: true,
@@ -2114,7 +2115,7 @@ page {
 								isClassName: false,
 								isHTML: false,
 								isSetAttribute: true,
-								value: ['number', 'color', 'range', 'text', 'datetime-local', 'date', 'password', 'email', 'tel'],
+								value: ['text', 'number', 'idcard', 'digit'],
 								_value: 'text'
 							},
 							placeholder: {
@@ -2124,6 +2125,39 @@ page {
 								isSetAttribute: true,
 								isHTML: false,
 								_value: '请输入文本'
+							},
+							'placeholder-style': {
+								type: 'input',
+								attrType: 'text',
+								title: '占位符样式',
+								isClassName: false,
+								isSetAttribute: false,
+								isHTML: false,
+								_value: '',
+								value: []
+							},
+							'placeholder-class': {
+								type: 'input',
+								attrType: 'text',
+								title: '占位符样式类名',
+								isClassName: false,
+								isSetAttribute: false,
+								isHTML: false,
+								_value: '',
+								value: []
+							},
+							maxlength: {
+								type: 'input',
+								attrType: 'number',
+								title: '最大长度',
+								_value: 140,
+								value: []
+							},
+							'focus': {
+								type: 'toggle',
+								title: '自动聚焦',
+								value: [],
+								_value: false
 							},
 							pattern: {
 								type: 'input',
