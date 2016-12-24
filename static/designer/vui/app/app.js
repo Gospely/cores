@@ -1011,8 +1011,9 @@ $(function () {
                     if(currentAttr.isClassName) {
                         //更改的属性有css，则需要进行css操作
 
-                        if(this.refresh) {
+                        if(this.refresh && currentAttr.value) {
                             var isClsInVal = false;
+
                             for (var i = 0; i < currentAttr.value.length; i++) {
                                 var currentAttrVal = currentAttr.value[i];
 
@@ -1033,14 +1034,14 @@ $(function () {
                             this.elem.attr(att, currentAttr._value);
 
                             //禁止按钮特殊处理
-                            if(currentAttr._value) {
+                            if(currentAttr._value && currentAttr.value) {
                                 for (var j = 0; j < currentAttr.value.length; j++) {
                                     var currentDisabledCSS = currentAttr.value[j];
                                     this.elem.addClass(currentDisabledCSS);
                                 };
                             }
 
-                            if(!currentAttr._value) {
+                            if(!currentAttr._value && currentAttr.value) {
                                 for (var j = 0; j < currentAttr.value.length; j++) {
                                     var currentDisabledCSS = currentAttr.value[j];
                                     this.elem.removeClass(currentDisabledCSS);
@@ -1051,7 +1052,7 @@ $(function () {
 
                         if(currentAttr.isSingleToggleClass) {
                             //针对某些对一个类进行开关的属性
-                            if(currentAttr._value) {
+                            if(currentAttr._value && currentAttr.value) {
                                 for (var j = 0; j < currentAttr.value.length; j++) {
                                     var currentDisabledCSS = currentAttr.value[j];
                                     this.elem.addClass(currentDisabledCSS);
@@ -1071,7 +1072,7 @@ $(function () {
                             if(typeof currentAttr._value == 'boolean') {
                                 //开关操作
 
-                                if(currentAttr._value) {
+                                if(currentAttr._value && currentAttr.value) {
                                     for (var i = 0; i < currentAttr.value.length; i++) {
                                         var val = currentAttr.value[i];
                                         if(this.elem.attr('class').indexOf(val) != -1) {
@@ -1135,8 +1136,10 @@ $(function () {
                         }else {
                             if(currentAttr.isToggleStyle) {
                                 this.elem.css(att, currentAttr._value ? currentAttr.value[1] :   currentAttr.value[0]);
+                            }else if(currentAttr.isPercent) {
+                                this.elem.css(att, currentAttr._value + '%');
                             }else {
-                                this.elem.css(att, currentAttr._value);                                
+                                this.elem.css(att, currentAttr._value);
                             }
                         }
                     }

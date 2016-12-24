@@ -125,6 +125,16 @@ const weappCompiler = {
         'section'
 	],
 
+	weappControllersAttrs: {
+		button: ['size', 'type', 'plain', 'disabled', 'loading', 'form-type', 'hover-class', 'hover-start-time', 'hover-stay-time'],
+
+		'switch': ['checked', 'type', 'color'],
+
+		textarea: ['value', 'placeholder', 'placeholder-style', 'placeholder-class', 'disabled', 'maxlength', 'auto-focus', 'auto-height', 'fixed', 'cursor-spacing'],
+
+		input: ['value', 'type', 'password', 'placeholder', 'placeholder-style', 'placeholder-class', 'disabled', 'maxlength', 'cursor-spacing', 'auto-focus', 'focus']
+	},
+
 	init (layout) {
 		this.layout = layout;
 		return this;
@@ -158,7 +168,7 @@ const weappCompiler = {
 		self.app = app;
 
 		console.log('==============================================weappCompiler==============================================')
-		return true;
+		return false;
 	},
 
 	compileAPPJSON (options) {
@@ -268,11 +278,16 @@ const weappCompiler = {
 
 	setControllerAttribute (controller, elem) {
 
+		var self = this;
+
 		this.controller = controller;
 		this.elem = elem;
 
         for(var att in this.controller.attr) {
             var currentAttr = this.controller.attr[att];
+
+            //_id为组件的真实id，因为拖拽过程中也有组件的id，为避免冲突，将真实id设为_id，在此转换为id
+            att = att == '_id' ? 'id' : att;
 
             if(currentAttr.isClassName) {
                 //更改的属性有css，则需要进行css操作
@@ -367,12 +382,7 @@ const weappCompiler = {
                 if (currentAttr.isContrary) {
                     this.elem.attr(att,!currentAttr._value);
                 }else {
-
-                    if(currentAttr.isFormType) {
-                        this.elem.attr('type', currentAttr._value);
-                    }else {
-                        this.elem.attr(att, currentAttr._value);
-                    }
+                    this.elem.attr(att, currentAttr._value);
                 }
             }
 
@@ -390,21 +400,26 @@ const weappCompiler = {
 
             //设置默认样式，如容器的默认高度
             if (currentAttr.isStyle) {
-                if (currentAttr.isMultiplyStyle) {
-                    var styles = currentAttr._value.split(';');
-                    console.log(styles)
-                    for(var i = 0, len = styles.length - 1; i < len; i ++) {
-                        var styleNameAndVal = styles[i].split(':');
-                        console.log(styleNameAndVal[0].trim(),styleNameAndVal[1].trim())
-                        this.elem.css(styleNameAndVal[0].trim(), styleNameAndVal[1].trim());
-                    }
-                }else {
-                    if(currentAttr.isToggleStyle) {
-                        this.elem.css(att, currentAttr._value ? currentAttr.value[1] :   currentAttr.value[0]);
-                    }else {
-                        this.elem.css(att, currentAttr._value);                                
-                    }
-                }
+            	if(!currentAttr.alias) {
+            		//若有别名，表示和小程序的属性不同，非style样式
+            		if(!currentAttr.isDesignerStyle) {
+	                	if (currentAttr.isMultiplyStyle) {
+		                    var styles = currentAttr._value.split(';');
+		                    console.log(styles)
+		                    for(var i = 0, len = styles.length - 1; i < len; i ++) {
+		                        var styleNameAndVal = styles[i].split(':');
+		                        console.log(styleNameAndVal[0].trim(),styleNameAndVal[1].trim())
+		                        this.elem.css(styleNameAndVal[0].trim(), styleNameAndVal[1].trim());
+		                    }
+		                }else {
+		                    if(currentAttr.isToggleStyle) {
+		                        this.elem.css(att, currentAttr._value ? currentAttr.value[1] :   currentAttr.value[0]);
+		                    }else {
+		                        this.elem.css(att, currentAttr._value);                                
+		                    }
+		                }
+            		}
+            	}
             }
 
             if (currentAttr.isBoundToId) {
@@ -453,6 +468,20 @@ const weappCompiler = {
                 if (!currentAttr._value) {
                     obj.parent.children.splice(obj.child, 1);
                 }
+            }
+
+            if(self.weappControllersAttrs[self.currentControllerTag]) {
+            	for (var i = 0; i < self.weappControllersAttrs[self.currentControllerTag].length; i++) {
+            		var currentWeappAttr = self.weappControllersAttrs[self.currentControllerTag][i];
+            		if(currentWeappAttr == att || currentWeappAttr == currentAttr.alias) {
+
+            			//小程序与web端有些属性不兼容，比如开关的颜色 在web中是一个CSS属性：background-color，在小程序中是color，所以要定义alias为color
+
+            			if(currentAttr._value != '') {
+	            			this.elem.attr(currentWeappAttr, currentAttr._value);            				
+            			}
+            		}
+            	};
             }
         }
 	},
@@ -506,6 +535,8 @@ const weappCompiler = {
 						weappTag = controller.tag;
 					}
 
+					self.currentControllerTag = weappTag;
+
 				var	elem = $(document.createElement(weappTag)),
 
 					attrs = controller.attr;
@@ -543,6 +574,8 @@ const weappCompiler = {
 
 		pageWXML = pageWXML.replace(/gospel_input/g, 'input')
 						   .replace(/gospel_image/g, 'image');
+
+		console.log(pageWXML);
 
 		return pageWXML;
 	},
