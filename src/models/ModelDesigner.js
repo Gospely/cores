@@ -2861,28 +2861,41 @@ page {
 					}]
 				}]
 			},
-/*
-<div class="weui-progress">
-    <div class="weui-progress__bar">
-        <div class="weui-progress__inner-bar js_progress" style="width: 50%;"></div>
-    </div>
-    <a href="javascript:;" class="weui-progress__opr">
-        <i class="weui-icon-cancel"></i>
-    </a>
-</div>
-*/
 			{
 				name: '进度条',
 				type: 'list-item-divider',
 				tag: 'div',
 				baseClassName: 'weui-progress',
-				attr: {},
+				attr: {
+					isAttrBelow: {
+						backend: true,
+						value: [],
+						title: '属性在下方',
+						_value: true
+					},
+
+					isComponent: {
+						backend: true,
+						value: [],
+						title: '是否为完整的组件',
+						_value: true
+					}
+				},
 				children: [{
 					name: '进度外围',
 					tag: 'a',
 					type: 'progress',
 					baseClassName: 'weui-progress__bar',
-					attr: {},
+					attr: {
+						height: {
+							type: 'input',
+							attrType: 'number',
+							title: '线宽',
+							_value: '6',
+							value: [],
+							isStyle: true
+						}
+					},
 					children: [{
 						name: '进度滚动',
 						tag: 'div',
@@ -2896,6 +2909,15 @@ page {
 								value: [],
 								isStyle: true,
 								isPercent: true
+							},
+							'background-color': {
+								type: 'input',
+								attrType: 'color',
+								title: '进度条颜色',
+								_value: '#09BB07',
+								value: [],
+								alias: 'color',
+								isStyle: true
 							}
 						}
 					}]

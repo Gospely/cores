@@ -483,6 +483,11 @@ const weappCompiler = {
             		}
             	};
             }
+
+            //进度条特殊处理
+            if(this.controller.baseClassName == 'weui-progress') {
+
+            }
         }
 	},
 
@@ -527,6 +532,8 @@ const weappCompiler = {
 							weappTag = self.transferTag(tag);							
 						}
 
+					}else if(controller.baseClassName == 'weui-progress') {
+						weappTag = 'progress';
 					}else {
 						weappTag = self.transferTag(tag);
 					}
