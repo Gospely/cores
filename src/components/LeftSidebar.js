@@ -12,6 +12,8 @@ import SettingPanel from './RightSidebar/SettingPanel';
 
 import SplitPane from 'react-split-pane';
 
+import computeDomHeight from '../utils/computeDomHeight'
+
 const TabPane = Tabs.TabPane;
 const Panel = Collapse.Panel;
 
@@ -26,7 +28,7 @@ const leftSidebar = (props) => {
 
 	var styles = {
 		tab: {
-			minHeight: '100vh'
+			// minHeight: '100vh'
 		},
 
 		icon: {
@@ -38,7 +40,13 @@ const leftSidebar = (props) => {
 		 	writingMode: 'tb-rl'
 		}
 	}
-	console.log(props.sidebar.visible);
+
+
+	let collapseOnChange = function(e) {
+		computeDomHeight.leftSidebarCollapseChange(e);
+	}
+	
+	// console.log(props.sidebar.visible);
 	return (
 	  	<Tabs tabPosition="left" defaultActiveKey={props.devpanel.devType.defaultActiveKey} activeKey={props.sidebar.activeMenu} onChange={handleTabChanged}>
 	    	<TabPane style={styles.tab} 
@@ -48,8 +56,11 @@ const leftSidebar = (props) => {
 	    		key="controllers"
 	    		disabled={window.disabled}
 	    	>
-				<Collapse  className="noborder attrCollapse" bordered={false} defaultActiveKey={['controllers', 'construction']}>
-				    <Panel header="组件树" key="construction">
+				<Collapse className="noborder attrCollapse" bordered={false} 
+					defaultActiveKey={['controllers', 'construction']}
+					onChange={collapseOnChange}
+				>
+				    <Panel header="组件树" key="construction" className="toGetConstructionHeight">
 	    	    		<ConstructionTree></ConstructionTree>
 				    </Panel>
 				    <Panel header="控件" key="controllers" className="consCollapseTopBorder" >

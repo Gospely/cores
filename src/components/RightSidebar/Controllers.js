@@ -19,9 +19,8 @@ const Controllers = (props) => {
 	}
 
 	if(props.designer.loaded) {
-		let height = (document.documentElement.clientHeight - 130) / 2 ;
+		// let height = (document.documentElement.clientHeight - 130) / 2 ;
 	  	return (
-	  		<div style={{height: height, overflow: 'auto'}}>
 			    <Row id="dnd-row">
 			    	{props.designer.controllersList.map((controller, index) => {
 			    		if(!controller.backend) {
@@ -33,7 +32,6 @@ const Controllers = (props) => {
 			    		}
 			    	})}
 			    </Row>
-			</div>
 
 	  	);
 
