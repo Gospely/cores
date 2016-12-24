@@ -527,9 +527,9 @@ const weappCompiler = {
 							weappTag = 'switch';
 							controller.attr.type._value = 'switch';
 						}else if(controller.baseClassName == 'weui-check') {
-							weappTag = controller.attr.type._value;							
+							weappTag = controller.attr.type._value;
 						}else {
-							weappTag = self.transferTag(tag);							
+							weappTag = self.transferTag(tag);
 						}
 
 					}else if(controller.baseClassName == 'weui-progress') {

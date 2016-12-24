@@ -2922,7 +2922,7 @@ page {
 						}
 					}]
 				}, {
-					name: '停止按钮',
+					name: '进度显示区域',
 					tag: 'a',
 					type: 'progress',
 					baseClassName: 'weui-progress__opr',
