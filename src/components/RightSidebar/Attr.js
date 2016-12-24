@@ -131,21 +131,31 @@ const Attr = (props) => {
 
     			var linkedComponent = findChildrenByIndexAndLvl(activeElem.children, attr.componentInfo.index, attr.componentInfo.level, attr.componentInfo.attr, 1);
  				var linkedComponentAttr = linkedComponent.attr[attr.componentInfo.attr];
- 				linkedComponentAttr[attrName] = attr.componentInfo.attr;
+ 				linkedComponentAttr['attrName'] = attr.componentInfo.attr;
 
 	            props.dispatch({
-	                type: 'designer/handlelinkedComponentChange',
+	                type: 'designer/handleTreeChanged',
 	                payload: {
 	                    key: linkedComponent.key,
-	                    attrName: attr.componentInfo.attr,
-	                    newVal: newVal,
 	                    type: 'controller'
 	                }
 	            });
 
- 				attrFormProps.handleAttrFormInputChange(linkedComponentAttr, undefined, dom);
+	            props.dispatch({
+	                type: 'designer/handleCtrlSelected'
+	            });
 
     			console.log('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=', linkedComponent);
+
+ 				attrFormProps.handleAttrFormInputChange(linkedComponentAttr, undefined, dom);
+
+	            props.dispatch({
+	                type: 'designer/handleTreeChanged',
+	                payload: {
+	                    key: activeElem.key,
+	                    type: 'controller'
+	                }
+	            });
 
     			return false;
     		}

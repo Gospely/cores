@@ -3893,7 +3893,7 @@ page {
 			return {...state};
 		},
 
-		handleAttrRefreshed (state) {
+		handleAttrRefreshed (state, { payload: params }) {
 			var activePage = layoutAction.getActivePage(state);
 
     		if(!gospelDesigner) {
