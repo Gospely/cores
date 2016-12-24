@@ -88,6 +88,59 @@ const Attr = (props) => {
 
     let activeElem = props.attr.activeElem;
 
+    const handleLinkedComponent = (attr, dom, cb) => {
+		const findChildrenByIndexAndLvl = (elem, index, lvl, attrName, currentLvl) => {
+			for (var i = 0; i < elem.length; i++) {
+				var currentElem = elem[i];
+
+				if(currentElem.children) {
+					var result = findChildrenByIndexAndLvl(currentElem.children, index, lvl, attrName, currentLvl + 1);
+					if(result) {
+						return result;
+					}
+				}
+
+				for(var key in currentElem.attr) {
+					var currentAttr = currentElem.attr[key];
+					if(key == attrName && i == index && currentLvl == lvl) {
+						return currentElem;
+					}
+				}
+
+			};
+
+			return false;
+		}
+
+		var linkedComponent = findChildrenByIndexAndLvl(activeElem.children, attr.componentInfo.index, attr.componentInfo.level, attr.componentInfo.attr, 1);
+		var linkedComponentAttr = linkedComponent.attr[attr.componentInfo.attr];
+		linkedComponentAttr['attrName'] = attr.componentInfo.attr;
+
+        props.dispatch({
+            type: 'designer/handleTreeChanged',
+            payload: {
+                key: linkedComponent.key,
+                type: 'controller'
+            }
+        });
+
+        props.dispatch({
+            type: 'designer/handleCtrlSelected'
+        });
+
+		console.log('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=', linkedComponent);
+
+		cb(linkedComponentAttr, undefined, dom);
+
+        props.dispatch({
+            type: 'designer/handleTreeChanged',
+            payload: {
+                key: activeElem.key,
+                type: 'controller'
+            }
+        });
+    }
+
     const attrFormProps = {
 
     	handleAttrFormInputChange: (attr, parentAtt, dom) => {
@@ -105,58 +158,7 @@ const Attr = (props) => {
     		});
 
     		if(attr.isComponentAttr) {
-
-    			const findChildrenByIndexAndLvl = (elem, index, lvl, attrName, currentLvl) => {
-    				for (var i = 0; i < elem.length; i++) {
-    					var currentElem = elem[i];
-
-    					if(currentElem.children) {
-    						var result = findChildrenByIndexAndLvl(currentElem.children, index, lvl, attrName, currentLvl + 1);
-    						if(result) {
-    							return result;
-    						}
-    					}
-
-    					for(var key in currentElem.attr) {
-    						var currentAttr = currentElem.attr[key];
-    						if(key == attrName && i == index && currentLvl == lvl) {
-    							return currentElem;
-    						}
-    					}
-
-    				};
-
-    				return false;
-    			}
-
-    			var linkedComponent = findChildrenByIndexAndLvl(activeElem.children, attr.componentInfo.index, attr.componentInfo.level, attr.componentInfo.attr, 1);
- 				var linkedComponentAttr = linkedComponent.attr[attr.componentInfo.attr];
- 				linkedComponentAttr['attrName'] = attr.componentInfo.attr;
-
-	            props.dispatch({
-	                type: 'designer/handleTreeChanged',
-	                payload: {
-	                    key: linkedComponent.key,
-	                    type: 'controller'
-	                }
-	            });
-
-	            props.dispatch({
-	                type: 'designer/handleCtrlSelected'
-	            });
-
-    			console.log('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=', linkedComponent);
-
- 				attrFormProps.handleAttrFormInputChange(linkedComponentAttr, undefined, dom);
-
-	            props.dispatch({
-	                type: 'designer/handleTreeChanged',
-	                payload: {
-	                    key: activeElem.key,
-	                    type: 'controller'
-	                }
-	            });
-
+    			handleLinkedComponent(attr, dom, attrFormProps.handleAttrFormInputChange);
     			return false;
     		}
 
@@ -204,6 +206,11 @@ const Attr = (props) => {
     			}
     		});
 
+    		if(attr.isComponentAttr) {
+    			handleLinkedComponent(attr, checked, attrFormProps.handleAttrFormSwitchChange);
+    			return false;
+    		}
+
     		props.dispatch({
     			type: 'designer/handleAttrRefreshed'
     		});
@@ -228,6 +235,11 @@ const Attr = (props) => {
     				parentAtt: parentAtt
     			}
     		});
+
+    		if(attr.isComponentAttr) {
+    			handleLinkedComponent(attr, selectedVal, attrFormProps.handleAttrFormSelectChange);
+    			return false;
+    		}
 
     		props.dispatch({
     			type: 'designer/handleAttrRefreshed'
