@@ -1235,9 +1235,9 @@ $(function () {
                     };
 
                 }
-
-                this.makeElemAddedDraggable();
-
+                if(!this.controller.attr.isComponent) {
+                    this.makeElemAddedDraggable();
+                }
                 return component;
             },
 
@@ -1251,7 +1251,7 @@ $(function () {
                 elem.attr('draggable', true);
 
                 elem.on('dragstart', function (e) {
-                    // console.log(e)
+                    console.log(e)
                     window.dragElement = jq(e.currentTarget);
                     window.dragStart = true;
                     window.orginY = e.pageY;
@@ -1268,13 +1268,13 @@ $(function () {
                 });
 
                 elem.on('drag',function (e) {
+                    console.log('正在拖拽')
+                    if (window.hoverElement) {
                         var $this = jq(e.currentTarget);
                         var thisId = $this.eq(0).attr('id');
                         var hoverElementId = window.hoverElement.eq(0).attr('id');
-                    // if(this.dragElement.hasClass('hight-light')) {
-                        // console.log(e.pageY, window.orginY)
                         if(hoverElementId !== thisId) {
-                            if (window.hover) {
+                            if (window.isHover) {
                                 // console.log(e.pageY - window.orginY, thisId)
                                 if(e.pageY - window.orginY == -30) {
                                     window.hoverElement.before($this);
@@ -1285,22 +1285,19 @@ $(function () {
                                 }
                             }
                         }
-                       
+                        
                         movingClientX = e.clientX;
                         movingClientY = e.clientY;
                         if(elem.position().top + orginClientY - movingClientY <= 42){
                             console.log('}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}非法位置')
                         }
-                        // direction = orginClientY,movingClientY - orginClientY;
-
-                    // }
-
+                    }
                 });
 
                 elem.on('dragenter', function (e) {
                     window.hoverElement = jq(e.currentTarget);
                     console.log('-----------------------------',e.currentTarget)
-                    window.hover = true;
+                    window.isHover = true;
                     window.orginY = e.pageY;
                 })
             

@@ -310,10 +310,9 @@ const loopData = data => data.map((item) => {
 const treeNodes = loopData(props.designer.layout);
 
     if(props.designer.loaded) {
-        let height = (document.documentElement.clientHeight - 100) / 2;
         return (
       
-            <div style={{marginTop: -20, height: height}}>
+            <div style={{marginTop: -20}}>
                 <div className={TreeStyle.headerCons}>
                     <Row>
                         <Col span={24}>
@@ -323,12 +322,12 @@ const treeNodes = loopData(props.designer.layout);
                 </div>
 
                 <Tree className="layoutTree"
-                showLine
-                defaultExpandAll
-                onRightClick={layoutTreeProps.onRightClick}
-                onSelect={layoutTreeProps.onSelect}
-                selectedKeys={[props.designer.layoutState.activeKey]}
-                expandedKeys={props.designer.layoutState.expandedKeys}
+                    showLine
+                    defaultExpandAll
+                    onRightClick={layoutTreeProps.onRightClick}
+                    onSelect={layoutTreeProps.onSelect}
+                    selectedKeys={[props.designer.layoutState.activeKey]}
+                    expandedKeys={props.designer.layoutState.expandedKeys}
                 >
                     {treeNodes}
                 </Tree>

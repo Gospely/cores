@@ -154,6 +154,7 @@
 
 	.ant-tabs-vertical.ant-tabs-left > .ant-tabs-content {
     	padding-left: 0px!important;
+    	height: 100%;
 	}
 	
 	.Resizer {
@@ -214,6 +215,10 @@
 	  width: 100%;
 	}
 
+	.LeftSidebar .ant-tabs {
+		height: 100%;
+	}
+
 	.ant-collapse-item>.ant-collapse-content {
 		// max-height: 600px;
 		overflow: auto;
@@ -228,8 +233,22 @@
 		border-top: 1px solid #d9d9d9!important;
 	}
 
+	.consCollapseTopBorder .ant-collapse-content{
+		height: e("calc(100% - 30px)");
+		overflow-y: auto;
+	}
+
+	.toGetConstructionHeight {
+		max-height: 45vh;
+	}
+
+	.toGetConstructionHeight .ant-collapse-content {
+		overflow: auto;
+		max-height: e("calc(50vh - 68px)");
+	}
+
 	.LeftSidebar .ant-menu-inline {
-	  border-right: 0px!important;
+	  	border-right: 0px!important;
 	}
 
 	.ant-tabs {
@@ -2699,7 +2718,7 @@
 
 	.terminal-panel {
 		width: 100%;
-		height: calc(100% - 16px);
+		height: e("calc(100% - 16px)");
 	}
 
 	pre {
