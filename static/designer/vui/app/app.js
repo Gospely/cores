@@ -1251,7 +1251,7 @@ $(function () {
                 elem.attr('draggable', true);
 
                 elem.on('dragstart', function (e) {
-                    // console.log(e)
+                    console.log(e)
                     window.dragElement = jq(e.currentTarget);
                     window.dragStart = true;
                     window.orginY = e.pageY;
@@ -1268,32 +1268,30 @@ $(function () {
                 });
 
                 elem.on('drag',function (e) {
-                    if (!window.hoverElement) {
-                        return false
-                    }
-                    var $this = jq(e.currentTarget);
-                    var thisId = $this.eq(0).attr('id');
-                    var hoverElementId = window.hoverElement.eq(0).attr('id');
-                    if(hoverElementId !== thisId) {
-                        if (window.isHover) {
-                            // console.log(e.pageY - window.orginY, thisId)
-                            if(e.pageY - window.orginY == -30) {
-                                window.hoverElement.before($this);
-                            }else if (e.pageY - window.orginY == 30) {
-                                window.hoverElement.after($this);
-                            }else if (e.pageY - window.orginY == -15 && hoverElementId.split('-') !== thisId.split('-')) {
-                                window.hoverElement.append($this);
+                    console.log('正在拖拽')
+                    if (window.hoverElement) {
+                        var $this = jq(e.currentTarget);
+                        var thisId = $this.eq(0).attr('id');
+                        var hoverElementId = window.hoverElement.eq(0).attr('id');
+                        if(hoverElementId !== thisId) {
+                            if (window.isHover) {
+                                // console.log(e.pageY - window.orginY, thisId)
+                                if(e.pageY - window.orginY == -30) {
+                                    window.hoverElement.before($this);
+                                }else if (e.pageY - window.orginY == 30) {
+                                    window.hoverElement.after($this);
+                                }else if (e.pageY - window.orginY == -15 && hoverElementId.split('-') !== thisId.split('-')) {
+                                    window.hoverElement.append($this);
+                                }
                             }
                         }
+                        
+                        movingClientX = e.clientX;
+                        movingClientY = e.clientY;
+                        if(elem.position().top + orginClientY - movingClientY <= 42){
+                            console.log('}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}非法位置')
+                        }
                     }
-                   
-                    movingClientX = e.clientX;
-                    movingClientY = e.clientY;
-                    if(elem.position().top + orginClientY - movingClientY <= 42){
-                        console.log('}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}非法位置')
-                    }
-
-
                 });
 
                 elem.on('dragenter', function (e) {

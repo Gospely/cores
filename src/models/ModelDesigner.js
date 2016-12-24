@@ -2872,13 +2872,6 @@ page {
 						value: [],
 						title: '属性在下方',
 						_value: true
-					},
-
-					isComponent: {
-						backend: true,
-						value: [],
-						title: '是否为完整的组件',
-						_value: true
 					}
 				},
 				children: [{
@@ -2894,6 +2887,12 @@ page {
 							_value: '6',
 							value: [],
 							isStyle: true
+						},
+						isComponent: {
+							backend: true,
+							value: [],
+							title: '是否为完整的组件',
+							_value: true
 						}
 					},
 					children: [{
@@ -2918,6 +2917,12 @@ page {
 								value: [],
 								alias: 'color',
 								isStyle: true
+							},
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
 							}
 						}
 					}]
@@ -2934,14 +2939,27 @@ page {
 							value: ['none', 'block'],
 							isStyle: true,
 							isToggleStyle: true
-						},						
+						},
+						isComponent: {
+							backend: true,
+							value: [],
+							title: '是否为完整的组件',
+							_value: true
+						}						
 					},
 					children: [{
 						name: '停止按钮',
 						tag: 'i',
 						type: 'progress',
 						baseClassName: 'weui-icon-cancel',
-						attr: {}
+						attr: {
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
+							}
+						}
 					}]
 				}]
 			},
