@@ -474,9 +474,7 @@ const weappCompiler = {
             	for (var i = 0; i < self.weappControllersAttrs[self.currentControllerTag].length; i++) {
             		var currentWeappAttr = self.weappControllersAttrs[self.currentControllerTag][i];
             		if(currentWeappAttr == att || currentWeappAttr == currentAttr.alias) {
-
             			//小程序与web端有些属性不兼容，比如开关的颜色 在web中是一个CSS属性：background-color，在小程序中是color，所以要定义alias为color
-
             			if(currentAttr._value != '') {
 	            			this.elem.attr(currentWeappAttr, currentAttr._value);            				
             			}
