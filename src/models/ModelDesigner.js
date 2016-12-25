@@ -3199,7 +3199,38 @@ page {
 			{
 				name: '图片',
 				type: 'image',
-				attr: {}
+				tag: 'div',
+				baseClassName: '',
+				attr: {
+					'background-image': {
+						isStyle: true,
+						type: 'input',
+						_value: '',
+						title: '图片路径(<=40kb)'
+					},
+					'background-position': {
+						isStyle: true,
+						type: 'select',
+						value: ['top left', 'top center', 'top right', 
+								'center left', 'center center', 'center right', 
+								'bottom left', 'bottom center', 'bottom right'],
+						_value: 'center center',
+						title: '图片起始位置'
+					},
+					'background-repeat': {
+						isStyle: true,
+						type: 'select',
+						value: ['reprat', 'reprat-x', 'reprat-y', 'no-repeat'],
+						_value: 'reprat',
+						title: '图片重复方式'
+					},
+					'background-size': {
+						isStyle: true,
+						type: 'input',
+						title: '裁剪方式(cover,contain,百分比,像素)',
+						_value: 'cover'
+					}
+				}
 			},
 			{
 				name: '列表',
@@ -3551,7 +3582,134 @@ page {
 			{
 				name: '视频',
 				type: 'video',
-				attr: {}
+				tag: 'video',
+				attr: {
+					src: {
+						isSetAttribute: true,
+						_value: '',
+						title: '资源地址',
+						type: 'input'
+					},
+					controls: {
+						isSetAttribute: true,
+						_value: true,
+						title: '是否现实默认控件',
+						type: 'toggle'
+					},
+					autoplay: {
+						isSetAttribute: true,
+						_value: false,
+						title: '自动播放',
+						type: 'toggle'
+					},
+					'danmu-btn': {
+						isSetAttribute: true,
+						_value: false,
+						title: '弹幕按钮',
+						type: 'toggle'
+					},
+					'enable-danmu': {
+						isSetAttribute: true,
+						_value: false,
+						title: '显示弹幕',
+						type: 'toggle'
+					},
+					'objectFit': {
+						isSetAttribute: true,
+						_value: 'contain',
+						value: ['contain', 'cover', 'fill'],
+						type: 'select',
+						title: '容器与视频大小不一致时表现形式'
+					}
+				}
+			},
+			{
+				name: '音频',
+				type: 'audio',
+				tag: 'audio',
+				attr: {
+					src: {
+						isSetAttribute: true,
+						_value: '',
+						title: '资源地址',
+						type: 'input'
+					},
+					loop: {
+						isSetAttribute: true,
+						_value: false,
+						title: '是否循环',
+						type: 'toggle'
+					},
+					controls: {
+						isSetAttribute: true,
+						_value: true,
+						title: '默认控件',
+						type: 'toggle'
+					},
+					poster: {
+						isSetAttribute: true,
+						_value: true,
+						title: '封面图片(必须用默认控件)',
+						type: 'input'
+					},
+					name: {
+						isSetAttribute: true,
+						_value: '未知音频',
+						type: 'input',
+						title: '音频名字'
+					},
+					author: {
+						isSetAttribute: true,
+						_value: '未知作者',
+						type: 'input',
+						title: '音频作者'
+					}
+				}
+			},
+			{
+				name: '图标',
+				type: 'i',
+				tag: 'span',
+				baseClassName: '',
+				attr: {
+					icon: {
+						title: '图标',
+						isClassName: true,
+						_value: 'weui-icon-checked',
+						type: 'select',
+						value: ['weui-icon-success', 'weui-icon-success-circle', 'weui-icon-success-no-circle', 'weui-icon-info',
+								'weui-icon-waiting', 'weui-icon-waiting-circle', 'weui-icon-circle', 'weui-icon-warn', 'weui-icon-download',
+								'weui-icon-info-circle', 'weui-icon-cancel'
+							   ],
+						isNoConflict: true
+					}
+				}			
+			},
+			{
+				name: '画布',
+				type: 'canvas',
+				tag: 'canvas',
+				baseClassName: '',
+				attr: {
+					'disable-scroll': {
+						title: '在画布上移动时禁止屏幕滚动',
+						type: 'toggle',
+						_value: 'false',
+						isSetAttribute: 'true'
+					},
+					height: {
+						title: '高度',
+						type: 'input',
+						_value: '225px',
+						isSetAttribute: true
+					},
+					width: {
+						title: '宽度',
+						type: 'input',
+						_value: '300x',
+						isSetAttribute: true
+					}
+				}
 			},
 			{
 				name: '列表头像',
