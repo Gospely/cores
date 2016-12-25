@@ -2867,12 +2867,66 @@ page {
 				tag: 'div',
 				baseClassName: 'weui-progress',
 				attr: {
-					isAttrBelow: {
-						backend: true,
+
+					'percent': {
+						type: 'input',
+						attrType: 'number',
+						title: '进度(%)',
+						_value: '50',
 						value: [],
-						title: '属性在下方',
-						_value: true
-					}
+						isSetAttribute: true,
+						isComponentAttr: true,
+						componentInfo: {
+							attr: 'width',
+							index: 0,
+							level: 2
+						}
+					},
+
+					'stroke-width': {
+						type: 'input',
+						attrType: 'number',
+						title: '线宽',
+						_value: '6',
+						value: [],
+						isSetAttribute: true,
+						isComponentAttr: true,
+						componentInfo: {
+							attr: 'height',
+							index: 0,
+							level: 1
+						}
+					},
+
+					'show-info': {
+						type: 'toggle',
+						title: '显示进度',
+						_value: true,
+						value: [],
+						isSetAttribute: true,
+						isComponentAttr: true,
+						componentInfo: {
+							attr: 'display',
+							index: 1,
+							level: 1
+						}
+					},
+
+					'color': {
+						type: 'input',
+						attrType: 'color',
+						title: '进度条颜色',
+						_value: '#09BB07',
+						value: [],
+						isSetAttribute: true,
+						isComponentAttr: true,
+						componentInfo: {
+							attr: 'background-color',
+							index: 0,
+							level: 2
+						}
+					},
+
 				},
 				children: [{
 					name: '进度外围',
@@ -2903,7 +2957,7 @@ page {
 						attr: {
 							width: {
 								type: 'input',
-								title: '进度(百分比)',
+								title: '进度(%)',
 								_value: '50',
 								value: [],
 								isStyle: true,
@@ -2927,7 +2981,7 @@ page {
 						}
 					}]
 				}, {
-					name: '停止按钮',
+					name: '进度显示区域',
 					tag: 'a',
 					type: 'progress',
 					baseClassName: 'weui-progress__opr',
@@ -3827,7 +3881,19 @@ page {
 			return {...state};
 		},
 
-		handleAttrRefreshed (state) {
+		handlelinkedComponentChange(state, { payload: params }) {
+
+			var activePage = layoutAction.getActivePage(state);
+
+			if(params.type == 'controller') {
+	      		var linkedCtrl = layoutAction.getActiveControllerByKey(activePage.children, params.key);
+	      		linkedCtrl.attr[params.attrName]['_value'] = params.newVal;
+			}
+
+			return {...state};
+		},
+
+		handleAttrRefreshed (state, { payload: params }) {
 			var activePage = layoutAction.getActivePage(state);
 
     		if(!gospelDesigner) {

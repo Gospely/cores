@@ -484,10 +484,6 @@ const weappCompiler = {
             	};
             }
 
-            //进度条特殊处理
-            if(this.controller.baseClassName == 'weui-progress') {
-
-            }
         }
 	},
 
@@ -511,6 +507,11 @@ const weappCompiler = {
 			self = this,
 
 			loopController = function(controller) {
+
+				if(controller.attr.isComponent) {
+					return false;
+				}
+
 				var 
 					tag = typeof controller.tag == 'string' ? controller.tag : controller.tag[0],
 
@@ -527,9 +528,9 @@ const weappCompiler = {
 							weappTag = 'switch';
 							controller.attr.type._value = 'switch';
 						}else if(controller.baseClassName == 'weui-check') {
-							weappTag = controller.attr.type._value;							
+							weappTag = controller.attr.type._value;
 						}else {
-							weappTag = self.transferTag(tag);							
+							weappTag = self.transferTag(tag);
 						}
 
 					}else if(controller.baseClassName == 'weui-progress') {
@@ -574,7 +575,9 @@ const weappCompiler = {
 				var controller = controllers[i];
 				var elem = loopController(controller);
 
-				pageBaseTpl.append(elem);
+				if(elem) {
+					pageBaseTpl.append(elem);
+				}
 			};
 
 		pageWXML = getPageBaseTpl(pageBaseTpl.html());

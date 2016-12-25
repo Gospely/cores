@@ -10,6 +10,8 @@ export default {
 
 		activeFormItem: 0,
 
+		activeElem: {},
+
 		theKey: ''
 	},
 
@@ -124,6 +126,11 @@ export default {
       		}
 
       		yield put({
+      			type: 'setActiveElem',
+      			payload: activeCtrl
+      		})
+
+      		yield put({
       			type: 'setFormItems',
       			payload: {
       				attr: activeCtrl.attr,
@@ -157,11 +164,11 @@ export default {
 	},
 
 	reducers: {
-		handleClick (state, {payload: key}) {
+		handleClick (state, { payload: key }) {
 			return {...state, current: key};
 		},
 
-		setActiveFormItem(state, {payload: index}) {
+		setActiveFormItem(state, { payload: index }) {
 
 			return {...state};
 		},
@@ -171,7 +178,12 @@ export default {
 			return {...state};
 		},
 
-		setFormItems (state, {payload: params}) {
+		setActiveElem (state, { payload: activeCtrl }) {
+			state.activeElem = activeCtrl;
+			return {...state};
+		},
+
+		setFormItems (state, { payload: params }) {
 			var tmpAttr = [];
 			let attr = params.attr;
 
