@@ -357,8 +357,8 @@ $(function () {
                 parent.parent.postMessage({ 'makeComponentsDraggable': c }, "*");
             },
 
-            spacerHeightChange: function(c) {
-                parent.parent.postMessage({ 'spacerHeightChange': c }, "*")
+            attrChangeFromDrag: function(c) {
+                parent.parent.postMessage({ 'attrChangeFromDrag': c }, "*")
             },
 
             tabBarAdded: function(c) {
@@ -471,9 +471,10 @@ $(function () {
                         jq(dragY[0]).on('mouseup', function(e) {
 
                             this.isMouseDown = false;
-                            postMessageToFather.spacerHeightChange({
+                            postMessageToFather.attrChangeFromDrag({
                                 ctrlId: self[0].id, 
-                                height: e.pageY - this.orginY + this.orginHeight + 'px'
+                                value: e.pageY - this.orginY + this.orginHeight + 'px',
+                                attr: 'height'
                             });
 
                         })
@@ -678,6 +679,7 @@ $(function () {
                     inter = 0;
 
                 var initDnd = function () {
+                    
                     sourceController.each(function(n) {
                         jq(this).find(".app-components").attr("draggable", true);
                         jq(this).find(".app-components").attr("id", "source" + n);
@@ -739,6 +741,7 @@ $(function () {
             },
 
             onDragover: function() {
+
                 //拖拽过程中
                 jq("body").on("dragover",function(e){
                     e.preventDefault();
@@ -1252,9 +1255,11 @@ $(function () {
 
                 elem.on('dragstart', function (e) {
                     console.log(e)
+                    e.stopPropagation();
                     window.dragElement = jq(e.currentTarget);
                     window.dragStart = true;
                     window.orginY = e.pageY;
+                    window.dragElementParent = window.dragElement.parent();
                     if(window.dragElement.hasClass('hight-light')) {
                         orginClientX = e.clientX;
                         orginClientY = e.clientY;
@@ -1262,26 +1267,73 @@ $(function () {
                         e.originalEvent.dataTransfer.setData('Text','fromSelf');
                         jq(e.currentTarget).css('opacity','.3');
                     }else {
-                        return false;
+                        // return false;
                     }
 
                 });
 
                 elem.on('drag',function (e) {
-                    console.log('正在拖拽')
                     if (window.hoverElement) {
-                        var $this = jq(e.currentTarget);
-                        var thisId = $this.eq(0).attr('id');
-                        var hoverElementId = window.hoverElement.eq(0).attr('id');
+                        var $this = jq(e.currentTarget),
+                            thisId = $this.eq(0).attr('id'),
+                            hoverElement = window.hoverElement,
+                            hoverElementId = window.hoverElement.eq(0).attr('id'),
+                            hoverElementHeight = window.hoverElementHeight,
+                            thisHeight = $this.outerHeight(),
+                            moveY = e.pageY - window.orginY,
+                            dragElementParent = window.dragElementParent,
+                            referHeight = thisHeight;
+                        if (thisHeight > hoverElementHeight) {
+                            referHeight = hoverElementHeight;
+                        }
+
                         if(hoverElementId !== thisId) {
-                            if (window.isHover) {
+                            if (isHover) {
                                 // console.log(e.pageY - window.orginY, thisId)
-                                if(e.pageY - window.orginY == -30) {
-                                    window.hoverElement.before($this);
-                                }else if (e.pageY - window.orginY == 30) {
-                                    window.hoverElement.after($this);
-                                }else if (e.pageY - window.orginY == -15 && hoverElementId.split('-') !== thisId.split('-')) {
-                                    window.hoverElement.append($this);
+                                if(moveY <= - referHeight / 3 * 2) {
+
+                                    hoverElement.before($this);
+                                    if (!dragElementParent.hasClass('page__bd')) {
+
+                                        if (dragElementParent.height() < 20) {
+                                            dragElementParent.css({
+                                                height: '20px'
+                                            });
+                                            window.changeAttr = 'height';
+                                            window.changeId = dragElementParent.eq(0).attr('id');
+                                        }
+                                    }
+
+                                }else if (moveY >= referHeight / 3 * 2) {
+                                    // console.log('找到爸爸啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦', dragElementParent)
+                                    hoverElement.after($this);
+                                    if (!dragElementParent.hasClass('page__bd')) {
+                                        if (dragElementParent.height() < 20) {
+                                            dragElementParent.css({
+                                                height: '20px'
+                                            });
+                                            window.changeAttr = 'height';
+                                            window.changeId = dragElementParent.eq(0).attr('id');
+                                        }
+                                    }
+
+                                }else if ((moveY < - referHeight / 3 && moveY > - referHeight / 3 * 2 || 
+                                            moveY > referHeight / 3 && moveY < referHeight / 3 * 2) && 
+                                          hoverElementId.split('-')[0] !== thisId.split('-')[0]) {
+
+                                    hoverElement.append($this);
+
+                                    //增加被append的元素的高度
+                                    if (!hoverElement.hasClass('page__bd')) {
+                                        
+                                        hoverElement.css({
+                                            height: 'auto'
+                                        })
+
+                                        window.changeAttr = 'height';
+                                        window.changeId = hoverElementId;
+
+                                    }
                                 }
                             }
                         }
@@ -1289,7 +1341,7 @@ $(function () {
                         movingClientX = e.clientX;
                         movingClientY = e.clientY;
                         if(elem.position().top + orginClientY - movingClientY <= 42){
-                            console.log('}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}非法位置')
+                            // console.log('}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}非法位置')
                         }
                     }
                 });
@@ -1299,32 +1351,30 @@ $(function () {
                     console.log('-----------------------------',e.currentTarget)
                     window.isHover = true;
                     window.orginY = e.pageY;
+                    window.hoverElementHeight = e.currentTarget.offsetHeight;
                 })
             
                 elem.on('dragleave', function (e) {
                     console.log('离开')
-                    // if(this.dragElement.hasClass('hight-light')) {
-                        // $this = jq(e.currentTarget);
-                        // controllerOperations.hideDesignerDraggerBorder($this);
-                        // if($this.eq(0).attr('id') != window.dragElement.eq(0).attr('id')){
-                        //     $this.before(window.dragElement);
-                        // }                   
-                    // }
-
                 })
 
                 elem.on('dragend', function (e) {
 
-                    // if(this.dragElement.hasClass('hight-light')) {
-                        console.log('拖拽结束：＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝',e);
-                        jq(e.currentTarget).css('opacity','1');
-
-                        postMessageToFather.ctrlUpdated({
-                            params: {
-                                key: ''
-                            }
+                    console.log('拖拽结束：＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝',e);
+                    jq(e.currentTarget).css('opacity','1');
+                    if (window.changeId) {
+                        postMessageToFather.attrChangeFromDrag({
+                            ctrlId: window.changeId, 
+                            value: jq('#' + changeId).css(window.changeAttr),
+                            attr: window.changeAttr
                         });
-                    // }
+                    }
+                    
+                    postMessageToFather.ctrlUpdated({
+                        params: {
+                            key: ''
+                        }
+                    });
 
                 });
             }

@@ -159,9 +159,9 @@ export default {
 					});
 				},
 
-				spacerHeightChange () {
+				attrChangeFromDrag () {
 					props.dispatch({
-						type: 'designer/spacerHeightChange',
+						type: 'designer/attrChangeFromDrag',
 						payload: data
 					});
 				},

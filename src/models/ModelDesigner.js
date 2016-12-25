@@ -3953,10 +3953,9 @@ page {
 			return {...state};
 		},
 
-		spacerHeightChange(state, { payload: params }) {
-			// alert(params.ctrlId)
+		attrChangeFromDrag(state, { payload: params }) {
 			let activeCtrl = layoutAction.getCtrlByKey(state.layout[0], params.ctrlId);
-			activeCtrl.attr.height._value = params.height;
+			activeCtrl.attr[params.attr]._value = params.value;
 			return {...state};
 		},
 
