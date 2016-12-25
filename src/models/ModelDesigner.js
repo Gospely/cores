@@ -2866,6 +2866,7 @@ page {
 				type: 'list-item-divider',
 				tag: 'div',
 				baseClassName: 'weui-progress',
+				isWeappComponent: true,
 				attr: {
 
 					'percent': {
