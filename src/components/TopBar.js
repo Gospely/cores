@@ -232,9 +232,13 @@ const LeftSidebar = (props) => {
 	    },
 
 	    cancelNewApp() {
-	      props.dispatch({
-	        type: 'sidebar/hideModalNewApp'
-	      })
+	    	if(!props.sidebar.appCreator.loading) {
+		      props.dispatch({
+		        type: 'sidebar/hideModalNewApp'
+		      });
+	    	}else {
+	    		message.error('创建过程中不能关闭哦！');
+	    	}
 	    },
 
 	    createApp() {
@@ -635,6 +639,12 @@ const LeftSidebar = (props) => {
 			props.dispatch({
 				type: 'sidebar/handlePrevAppCreatingStep'
 			});
+		},
+
+		createApp () {
+			props.dispatch({
+				type: 'sidebar/handleCreateApp'
+			});
 		}
 	}
 
@@ -687,31 +697,33 @@ const LeftSidebar = (props) => {
 	    	<Modal width="80%"  title="新建应用" visible={props.sidebar.modalNewAppVisible}
 	          	onOk={leftSidebarProps.createApp} onCancel={leftSidebarProps.cancelNewApp}
 	          	footer={[]}
+	          	maskClosable={!props.sidebar.appCreator.loading}
 	        >
-
-	        	<Steps current={props.sidebar.currentAppCreatingStep}>
-			        {modalAppCreatorProps.appCreatingSteps.map(item => <Step key={item.title} title={item.title} />)}
-			    </Steps>
-			    <div className="steps-content">{modalAppCreatorProps.appCreatingSteps[props.sidebar.currentAppCreatingStep].content}</div>
-		        <div className="steps-action">
-			          {
-			            props.sidebar.currentAppCreatingStep < modalAppCreatorProps.appCreatingSteps.length - 1
-			            &&
-			            <Button type="primary" onClick={() => modalAppCreatorProps.next()}>下一步</Button>
-			          }
-			          {
-			            props.sidebar.currentAppCreatingStep === modalAppCreatorProps.appCreatingSteps.length - 1
-			            &&
-			            <Button type="primary" onClick={() => message.success('Processing complete!')}>立即创建</Button>
-			          }
-			          {
-			            props.sidebar.currentAppCreatingStep > 0
-			            &&
-			            <Button style={{ marginLeft: 8 }} type="ghost" onClick={() => modalAppCreatorProps.prev()}>
-			              上一步
-			            </Button>
-			          }
-			    </div>
+	            <Spin spinning={props.sidebar.appCreator.loading}>
+		        	<Steps current={props.sidebar.currentAppCreatingStep}>
+				        {modalAppCreatorProps.appCreatingSteps.map(item => <Step key={item.title} title={item.title} />)}
+				    </Steps>
+					    <div className="steps-content">{modalAppCreatorProps.appCreatingSteps[props.sidebar.currentAppCreatingStep].content}</div>
+			        <div className="steps-action">
+				          {
+				            props.sidebar.currentAppCreatingStep < modalAppCreatorProps.appCreatingSteps.length - 1
+				            &&
+				            <Button hidden={!props.sidebar.appCreator.loading} type="primary" onClick={() => modalAppCreatorProps.next()}>下一步</Button>
+				          }
+				          {
+				            props.sidebar.currentAppCreatingStep === modalAppCreatorProps.appCreatingSteps.length - 1
+				            &&
+				            <Button hidden={!props.sidebar.appCreator.loading} type="primary" onClick={modalAppCreatorProps.createApp}>立即创建</Button>
+				          }
+				          {
+				            props.sidebar.currentAppCreatingStep > 0
+				            &&
+				            <Button hidden={!props.sidebar.appCreator.loading} style={{ marginLeft: 8 }} type="ghost" onClick={() => modalAppCreatorProps.prev()}>
+				              上一步
+				            </Button>
+				          }
+				    </div>
+	            </Spin>
 
 	        </Modal>
 
@@ -720,7 +732,7 @@ const LeftSidebar = (props) => {
 	        >
         	    {props.sidebar.showAppsLoading ? 
         	    	(<div style={{width: '100%', textAlign: 'center', padding: '100px 0'}}>
-        	    		<Spin tip="应用加载中..." spinning={true}></Spin>
+        	    		<Spin spinning={true}></Spin>
         	    	</div>)
                     :
         	    	(<Row gutter={16}>

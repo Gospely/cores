@@ -19,12 +19,33 @@ export default {
 		}]
 	},
 
+	subscriptions: {
+		setup({ dispatch, history }) {
+	      	history.listen(({ pathname }) => {
+          		dispatch({
+            		type: 'changeColumnsType'
+          		});
+	      	});
+		}
+	},
+
 	reducers: {
 		handleClick (state, {payload: key}) {
-
-			console.log(key);
-			console.log("===========handleClick==============");
 			return {...state, current: key};
+		},
+
+		changeColumnsType (state) {
+			if(window.GospelDesignerPreviewer) {
+				state.columnsType = [{
+					name: 'single',
+					alias: '单栏布局'
+				}, {
+					name: 'vertical-dbl',
+					alias: '垂直双栏布局'
+				}]
+			}
+
+			return {...state};
 		}
 	}
 

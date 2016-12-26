@@ -76,6 +76,10 @@ export default {
 			createLocalServer: false,
 			databaseType: 'AngularJS 1',
 			databasePassword: ''
+		},
+
+		appCreator: {
+			loading: false
 		}
 	},
 
@@ -257,10 +261,33 @@ export default {
 			yield put({
 				type: 'getApplications'
 			});
-			}
+		},
+
+		*handleCreateApp({payload: params}, {call, put}) {
+
+			yield put({
+				type: 'setAppCreatorStart'
+			});
+
+			// yield put({
+			// 	type: 'setAppCreatorCompleted'
+			// })
+
+		}
+
 	},
 
 	reducers: {
+
+		setAppCreatorStart(state) {
+			state.appCreator.loading = true;
+			return {...state};
+		},
+
+		setAppCreatorCompleted(state) {
+			state.appCreator.loading = false;
+			return {...state};
+		},
 
 		showModalNewApp(state) {
 			return {...state, modalNewAppVisible: true};
@@ -465,7 +492,7 @@ export default {
 		handleInputChanged(state, { payload: params }) {
 			state.appCreatingForm[params['input']] = params.value;
 			return {...state};
-		}
+		},
 
 	}
 
