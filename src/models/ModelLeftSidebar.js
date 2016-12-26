@@ -64,163 +64,19 @@ export default {
 			startPort: ''
 		},
 
-		appCreatingSteps: [{
-		  	title: '基本信息',
-		  	content: (
-		  		<div>
+		currentAppCreatingStep: 0,
 
-			  		<div style={{ marginTop: 32 }}>
-			  		    <Row>
-					      	<Col span={4} style={{textAlign: 'right'}}>
-					      		<span>您的项目名称：</span>
-					      	</Col>
-					      	<Col span={8} style={{textAlign: 'left'}}>
-				              	<Input />
-					      	</Col>
-					    </Row>
-					</div>
-
-			  		<div style={{ marginTop: 32 }}>
-			  		    <Row>
-					      	<Col span={4} style={{textAlign: 'right'}}>
-					      		<span>从Git创建：</span>
-					      	</Col>
-					      	<Col span={8} style={{textAlign: 'left'}}>
-				              	<Switch />
-					      	</Col>
-					    </Row>
-					</div>
-
-			  		<div style={{ marginTop: 32 }}>
-			  		    <Row>
-					      	<Col span={4} style={{textAlign: 'right'}}>
-					      		<span>您的Git项目地址：</span>
-					      	</Col>
-					      	<Col span={8} style={{textAlign: 'left'}}>
-				              	<Input />
-					      	</Col>
-					    </Row>
-					</div>
-
-
-		  		</div>
-		    ),
-		}, {
-			title: '选择语言',
-			content: (
-
-				<div>
-				    <Row gutter={16}>
-				      	<Col className="gutter-row" span={6}>
-				        	<div className="language-box" 
-				        		 style={{ backgroundImage: 'url(https://2c83f56a78b49667fe56-b12053cd728125dfe3469627dcec4b31.ssl.cf2.rackcdn.com/app/js/packages/creationscreen/img/cs-html.1c040219d323.png)' }}>
-						  		<p className="ant-upload-text">HTML5</p>
-				        	</div>
-				      	</Col>
-				      	<Col className="gutter-row" span={6}>
-				        	<div className="language-box"
-				        		 style={{ backgroundImage: 'url(https://2c83f56a78b49667fe56-b12053cd728125dfe3469627dcec4b31.ssl.cf2.rackcdn.com/app/js/packages/creationscreen/img/cs-node.cdfabc6127ac.png)' }}>
-						  		<p className="ant-upload-text">Node.js</p>
-				        	</div>
-				      	</Col>
-				      	<Col className="gutter-row" span={6}>
-				        	<div className="language-box"
-				        		 style={{ backgroundImage: 'url("https://2c83f56a78b49667fe56-b12053cd728125dfe3469627dcec4b31.ssl.cf2.rackcdn.com/app/js/packages/creationscreen/img/cs-php.0e1ba2d12fe7.png")' }}>
-						  		<p className="ant-upload-text">PHP</p>
-				        	</div>
-				      	</Col>
-				      	<Col className="gutter-row" span={6}>
-				        	<div className="language-box"
-				        		 style={{ backgroundImage: 'url("https://2c83f56a78b49667fe56-b12053cd728125dfe3469627dcec4b31.ssl.cf2.rackcdn.com/app/js/packages/creationscreen/img/cs-php.0e1ba2d12fe7.png")' }}>
-						  		<p className="ant-upload-text">微信小程序</p>
-				        	</div>
-				      	</Col>
-				    </Row>
-
-
-			  		<div style={{ marginTop: 32, paddingLeft: 50 }}>
-			  		    <Row>
-					      	<Col span={8}>
-					      		<span>请选择版本：</span>
-							    <RadioGroup defaultValue="0">
-							      	<RadioButton value="0">4.5.6</RadioButton>
-							      	<RadioButton value="1">6.7.0</RadioButton>
-							      	<RadioButton value="2">latest</RadioButton>
-							    </RadioGroup>
-					      	</Col>
-					    </Row>
-					</div>
-
-			  		<div style={{ marginTop: 32, paddingLeft: 25 }}>
-			  		    <Row>
-					      	<Col span={6}>
-					      		<span>使用框架：</span>
-					      		<Switch />
-					      	</Col>
-					    </Row>
-					</div>
-
-			  		<div style={{ marginTop: 32, paddingLeft: 40 }}>
-			  		    <Row>
-					      	<Col span={12}>
-					      		<span>请选择框架：</span>
-							    <RadioGroup defaultValue="0">
-							      	<RadioButton value="0">AngularJS 1</RadioButton>
-							      	<RadioButton value="1">AngularJS 2</RadioButton>
-							      	<RadioButton value="2">ReactJS</RadioButton>
-							      	<RadioButton value="3">VueJS</RadioButton>
-							    </RadioGroup>
-					      	</Col>
-					    </Row>
-					</div>
-
-				</div>
-
-			)
-		}, {
-			title: '数据库配置',
-			content: (
-				<div>
-			  		<div style={{ marginTop: 32 }}>
-			  		    <Row>
-					      	<Col span={4} style={{textAlign: 'right'}}>
-					      		<span>创建本地数据库：</span>
-					      	</Col>
-					      	<Col span={8} style={{textAlign: 'left'}}>
-					      		<Switch />
-					      	</Col>
-					    </Row>
-					</div>
-
-			  		<div style={{ marginTop: 32 }}>
-			  		    <Row>
-					      	<Col span={4} style={{textAlign: 'right'}}>
-					      		<span>请选择数据库类型：</span>
-					      	</Col>
-					      	<Col span={8} style={{textAlign: 'left'}}>
-							    <RadioGroup defaultValue="0">
-							      	<RadioButton value="0">MySQL</RadioButton>
-							      	<RadioButton value="1">MongoDB</RadioButton>
-							    </RadioGroup>
-					      	</Col>
-					    </Row>
-					</div>				
-
-			  		<div style={{ marginTop: 32 }}>
-			  		    <Row>
-					      	<Col span={4} style={{textAlign: 'right'}}>
-					      		<span>数据库密码：</span>
-					      	</Col>
-					      	<Col span={8} style={{textAlign: 'left'}}>
-					      		<Input type="password" />
-					      	</Col>
-					    </Row>
-					</div>
-				</div>
-			)
-		}],
-
-		currentAppCreatingStep: 0
+		appCreatingForm: {
+			appName: '',
+			fromGit: false,
+			git: '',
+			image: '',
+			imageVersion: '',
+			useFramework: true,
+			createLocalServer: false,
+			databaseType: '',
+			databasePassword: ''
+		}
 	},
 
 	subscriptions: {
@@ -598,6 +454,11 @@ export default {
 
 		handlePrevAppCreatingStep(state) {
 			state.currentAppCreatingStep--;
+			return {...state};
+		},
+
+		handleSwitchChanged(state, { payload: params }) {
+			state.appCreatingForm[params['switch']] = params.checked;
 			return {...state};
 		}
 

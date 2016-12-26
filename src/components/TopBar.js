@@ -1,5 +1,5 @@
 import React , { PropTypes } from 'react';
-import { Menu, Spin, Icon, Modal, Input, Button, message, notification, Tabs, Card, Popconfirm, Row, Col, Dropdown, Form } from 'antd';
+import { Menu, Spin, Icon, Modal, Input, Button, message, notification, Tabs, Card, Popconfirm, Row, Col, Dropdown, Form, Radio, Switch } from 'antd';
 
 const TabPane = Tabs.TabPane;
 
@@ -16,6 +16,10 @@ import gitTerminal from '../utils/gitTerminal';
 
 import { Steps } from 'antd';
 import { Progress } from 'antd';
+
+const FormItem = Form.Item;
+const RadioButton = Radio.Button;
+const RadioGroup = Radio.Group;
 
 const ButtonGroup = Button.Group;
 const Step = Steps.Step;
@@ -452,7 +456,162 @@ const LeftSidebar = (props) => {
 		}
 	}
 
+	const modalAppCreatorFromHandler = {
+		onFromGitSwitchChange (s, checked) {
+			props.dispatch({
+				type: 'sidebar/handleSwitchChanged',
+				payload: {
+					'switch': s,
+					checked: checked
+				}
+			})
+		}		
+	}
+
 	const modalAppCreatorProps = {
+
+		appCreatingSteps: [{
+		  	title: '基本信息',
+		  	content: (
+		  		<div>
+
+			  		<div style={{ marginTop: 32 }}>
+			  		    <Row>
+					      	<Col span={4} style={{textAlign: 'right'}}>
+					      		<span>您的项目名称：</span>
+					      	</Col>
+					      	<Col span={8} style={{textAlign: 'left'}}>
+				              	<Input />
+					      	</Col>
+					    </Row>
+					</div>
+
+			  		<div style={{ marginTop: 32 }}>
+			  		    <Row>
+					      	<Col span={4} style={{textAlign: 'right'}}>
+					      		<span>从Git创建：</span>
+					      	</Col>
+					      	<Col span={8} style={{textAlign: 'left'}}>
+				              	<Switch onChange={modalAppCreatorFromHandler.onFromGitSwitchChange.bind(this, 'fromGit')} checked={props.sidebar.appCreatingForm.fromGit} />
+					      	</Col>
+					    </Row>
+					</div>
+
+			  		<div style={{ marginTop: 32 }} hidden={!props.sidebar.appCreatingForm.fromGit}>
+			  		    <Row>
+					      	<Col span={4} style={{textAlign: 'right'}}>
+					      		<span>您的Git项目地址：</span>
+					      	</Col>
+					      	<Col span={8} style={{textAlign: 'left'}}>
+				              	<Input />
+					      	</Col>
+					    </Row>
+					</div>
+
+
+		  		</div>
+		    ),
+		}, {
+			title: '选择语言',
+			content: (
+
+				<div>
+		  			<div style={{ marginTop: 32, paddingLeft: 10 }}>
+			  		    <Row>
+					      	<Col span={12}>
+					      		<span>请选择版本：</span>
+							    <RadioGroup defaultValue="0">
+							      	<RadioButton value="0">HTML5</RadioButton>
+							      	<RadioButton value="1">Node.js</RadioButton>
+							      	<RadioButton value="2">PHP</RadioButton>
+							      	<RadioButton value="2">微信小程序</RadioButton>
+							    </RadioGroup>
+					      	</Col>
+					    </Row>
+					</div>
+
+			  		<div style={{ marginTop: 32, paddingLeft: 50 }}>
+			  		    <Row>
+					      	<Col span={8}>
+					      		<span>请选择版本：</span>
+							    <RadioGroup defaultValue="0">
+							      	<RadioButton value="0">4.5.6</RadioButton>
+							      	<RadioButton value="1">6.7.0</RadioButton>
+							      	<RadioButton value="2">latest</RadioButton>
+							    </RadioGroup>
+					      	</Col>
+					    </Row>
+					</div>
+
+			  		<div style={{ marginTop: 32, paddingLeft: 25 }}>
+			  		    <Row>
+					      	<Col span={6}>
+					      		<span>使用框架：</span>
+					      		<Switch onChange={modalAppCreatorFromHandler.onFromGitSwitchChange.bind(this, 'useFramework')} checked={props.sidebar.appCreatingForm.useFramework} />
+					      	</Col>
+					    </Row>
+					</div>
+
+			  		<div style={{ marginTop: 32, paddingLeft: 40 }} hidden={!props.sidebar.appCreatingForm.useFramework}>
+			  		    <Row>
+					      	<Col span={12}>
+					      		<span>请选择框架：</span>
+							    <RadioGroup defaultValue="0">
+							      	<RadioButton value="0">AngularJS 1</RadioButton>
+							      	<RadioButton value="1">AngularJS 2</RadioButton>
+							      	<RadioButton value="2">ReactJS</RadioButton>
+							      	<RadioButton value="3">VueJS</RadioButton>
+							    </RadioGroup>
+					      	</Col>
+					    </Row>
+					</div>
+
+				</div>
+
+			)
+		}, {
+			title: '数据库配置',
+			content: (
+				<div>
+			  		<div style={{ marginTop: 32 }}>
+			  		    <Row>
+					      	<Col span={4} style={{textAlign: 'right'}}>
+					      		<span>创建本地数据库：</span>
+					      	</Col>
+					      	<Col span={8} style={{textAlign: 'left'}}>
+					      		<Switch onChange={modalAppCreatorFromHandler.onFromGitSwitchChange.bind(this, 'createLocalServer')} checked={props.sidebar.appCreatingForm.createLocalServer} />
+					      	</Col>
+					    </Row>
+					</div>
+
+			  		<div style={{ marginTop: 32 }} hidden={!props.sidebar.appCreatingForm.createLocalServer}>
+			  		    <Row>
+					      	<Col span={4} style={{textAlign: 'right'}}>
+					      		<span>请选择数据库类型：</span>
+					      	</Col>
+					      	<Col span={8} style={{textAlign: 'left'}}>
+							    <RadioGroup defaultValue="0">
+							      	<RadioButton value="0">MySQL</RadioButton>
+							      	<RadioButton value="1">MongoDB</RadioButton>
+							    </RadioGroup>
+					      	</Col>
+					    </Row>
+					</div>				
+
+			  		<div style={{ marginTop: 32 }} hidden={!props.sidebar.appCreatingForm.createLocalServer}>
+			  		    <Row>
+					      	<Col span={4} style={{textAlign: 'right'}}>
+					      		<span>数据库密码：</span>
+					      	</Col>
+					      	<Col span={8} style={{textAlign: 'left'}}>
+					      		<Input type="password" />
+					      	</Col>
+					    </Row>
+					</div>
+				</div>
+			)
+		}],
+
 		next () {
 			props.dispatch({
 				type: 'sidebar/handleNextAppCreatingStep'
@@ -465,11 +624,6 @@ const LeftSidebar = (props) => {
 			});
 		}
 	}
-
-  //   <Menu.Item key="pause" disabled={window.disabled}>
-		// <Icon type="pause-circle-o" />
-  //   </Menu.Item>	        	<iframe style={styles.ifr} src="http://localhost:8088/#!/apps/new"></iframe>
-
 
 	return (
 		<div style={styles.wrapper}>
@@ -519,20 +673,21 @@ const LeftSidebar = (props) => {
 
 	    	<Modal width="80%"  title="新建应用" visible={props.sidebar.modalNewAppVisible}
 	          	onOk={leftSidebarProps.createApp} onCancel={leftSidebarProps.cancelNewApp}
+	          	footer={[]}
 	        >
 
 	        	<Steps current={props.sidebar.currentAppCreatingStep}>
-			        {props.sidebar.appCreatingSteps.map(item => <Step key={item.title} title={item.title} />)}
+			        {modalAppCreatorProps.appCreatingSteps.map(item => <Step key={item.title} title={item.title} />)}
 			    </Steps>
-			    <div className="steps-content">{props.sidebar.appCreatingSteps[props.sidebar.currentAppCreatingStep].content}</div>
+			    <div className="steps-content">{modalAppCreatorProps.appCreatingSteps[props.sidebar.currentAppCreatingStep].content}</div>
 		        <div className="steps-action">
 			          {
-			            props.sidebar.currentAppCreatingStep < props.sidebar.appCreatingSteps.length - 1
+			            props.sidebar.currentAppCreatingStep < modalAppCreatorProps.appCreatingSteps.length - 1
 			            &&
 			            <Button type="primary" onClick={() => modalAppCreatorProps.next()}>下一步</Button>
 			          }
 			          {
-			            props.sidebar.currentAppCreatingStep === props.sidebar.appCreatingSteps.length - 1
+			            props.sidebar.currentAppCreatingStep === modalAppCreatorProps.appCreatingSteps.length - 1
 			            &&
 			            <Button type="primary" onClick={() => message.success('Processing complete!')}>立即创建</Button>
 			          }
