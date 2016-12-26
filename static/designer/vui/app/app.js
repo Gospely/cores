@@ -316,6 +316,7 @@ $(function () {
     }
     init();
 
+
     var dndHandlder = function() {
 
         document.domain = location.hostname;
@@ -397,7 +398,6 @@ $(function () {
         //点击组件
         jq(document).on("click", function(e) {
             e.stopPropagation();
-
             var target = jq(e.target),
                 isController = target.data('is-controller'),
                 dataControl = target.data("controller");
@@ -455,6 +455,7 @@ $(function () {
 
                     self.addClass("hight-light");
 
+                    //空白分隔符
                     if(self[0].id.split('-')[0] == 'spacer') {
                         dragY.show();
                         dragY.css({
@@ -976,6 +977,7 @@ $(function () {
                 this.elem.data('is-controller', true);
 
                 this.elem.attr(this.page.key, 'true');
+
             },
 
             handleWeuiTag: function(weuiType) {
@@ -1196,6 +1198,10 @@ $(function () {
                         }
                     }
 
+                    if (currentAttr.isContainer) {
+                        this.elem.data('is-container', true);
+                    }
+
                 }
 
                 this.elem.attr('id', this.controller.key);
@@ -1254,12 +1260,14 @@ $(function () {
                 elem.attr('draggable', true);
 
                 elem.on('dragstart', function (e) {
-                    console.log(e)
+                    // console.log(e)
+                    e.originalEvent.dataTransfer.effectAllowed = "move";
+                    window.haveAttrChange = false;
                     e.stopPropagation();
                     window.dragElement = jq(e.currentTarget);
-                    window.dragStart = true;
                     window.orginY = e.pageY;
                     window.dragElementParent = window.dragElement.parent();
+                    window.isHover = false;
                     if(window.dragElement.hasClass('hight-light')) {
                         orginClientX = e.clientX;
                         orginClientY = e.clientY;
@@ -1267,91 +1275,121 @@ $(function () {
                         e.originalEvent.dataTransfer.setData('Text','fromSelf');
                         jq(e.currentTarget).css('opacity','.3');
                     }else {
-                        // return false;
+                        return false;
                     }
 
                 });
 
                 elem.on('drag',function (e) {
-                    if (window.hoverElement) {
-                        var $this = jq(e.currentTarget),
-                            thisId = $this.eq(0).attr('id'),
-                            hoverElement = window.hoverElement,
-                            hoverElementId = window.hoverElement.eq(0).attr('id'),
-                            hoverElementHeight = window.hoverElementHeight,
-                            thisHeight = $this.outerHeight(),
-                            moveY = e.pageY - window.orginY,
-                            dragElementParent = window.dragElementParent,
-                            referHeight = thisHeight;
-                        if (thisHeight > hoverElementHeight) {
-                            referHeight = hoverElementHeight;
-                        }
+                    e.stopPropagation();
 
-                        if(hoverElementId !== thisId) {
-                            if (isHover) {
-                                // console.log(e.pageY - window.orginY, thisId)
-                                if(moveY <= - referHeight / 3 * 2) {
+                    var $this = jq(e.currentTarget),
+                        thisId = $this.eq(0).attr('id'),
+                        thisHeight = $this.outerHeight(),
+                        moveY = e.pageY - window.orginY,
+                        dragElementParent = window.dragElementParent,
+                        prevElement = $this.prev(),
+                        nextElement = $this.next(),
+                        referHeight = 30;
+                    
+                    if(moveY <= - referHeight / 3 * 2) {
+                        if (prevElement.length) {
+                            
+                            prevElement.before($this);
+                            window.orginY = e.pageY;
 
-                                    hoverElement.before($this);
-                                    if (!dragElementParent.hasClass('page__bd')) {
+                        }else if (dragElementParent.data('is-container')) {
 
-                                        if (dragElementParent.height() < 20) {
-                                            dragElementParent.css({
-                                                height: '20px'
-                                            });
-                                            window.changeAttr = 'height';
-                                            window.changeId = dragElementParent.eq(0).attr('id');
-                                        }
-                                    }
+                            dragElementParent.before($this);
+                            if (!dragElementParent.hasClass('page__bd')) {
 
-                                }else if (moveY >= referHeight / 3 * 2) {
-                                    // console.log('找到爸爸啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦', dragElementParent)
-                                    hoverElement.after($this);
-                                    if (!dragElementParent.hasClass('page__bd')) {
-                                        if (dragElementParent.height() < 20) {
-                                            dragElementParent.css({
-                                                height: '20px'
-                                            });
-                                            window.changeAttr = 'height';
-                                            window.changeId = dragElementParent.eq(0).attr('id');
-                                        }
-                                    }
-
-                                }else if ((moveY < - referHeight / 3 && moveY > - referHeight / 3 * 2 || 
-                                            moveY > referHeight / 3 && moveY < referHeight / 3 * 2) && 
-                                          hoverElementId.split('-')[0] !== thisId.split('-')[0]) {
-
-                                    hoverElement.append($this);
-
-                                    //增加被append的元素的高度
-                                    if (!hoverElement.hasClass('page__bd')) {
-                                        
-                                        hoverElement.css({
-                                            height: 'auto'
-                                        })
-
-                                        window.changeAttr = 'height';
-                                        window.changeId = hoverElementId;
-
-                                    }
+                                if (dragElementParent.height() < 20) {
+                                    dragElementParent.css({
+                                        height: '20px'
+                                    });
+                                    window.changeAttr = 'height';
+                                    window.changeId = dragElementParent.eq(0).attr('id');
+                                    window.haveAttrChange = true;
                                 }
                             }
+
+                            window.orginY = e.pageY;
                         }
                         
-                        movingClientX = e.clientX;
-                        movingClientY = e.clientY;
-                        if(elem.position().top + orginClientY - movingClientY <= 42){
-                            // console.log('}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}非法位置')
+                    }else if (moveY >= referHeight / 3 * 2) {
+                        // console.log('找到爸爸啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦', dragElementParent)
+                        if (nextElement.length) {
+                            console.log('jjjjj', nextElement)
+                            nextElement.after($this);
+                            window.orginY = e.pageY;
+
+                        }else if (dragElementParent.data('is-container')) {
+
+                            dragElementParent.after($this);
+                            if (!dragElementParent.hasClass('page__bd')) {
+                                if (dragElementParent.height() < 20) {
+                                    dragElementParent.css({
+                                        height: '20px'
+                                    });
+                                    window.changeAttr = 'height';
+                                    window.changeId = dragElementParent.eq(0).attr('id');
+                                    window.haveAttrChange = true;
+                                }
+                            }
+                            window.orginY = e.pageY;
+
                         }
+                    }else if (moveY < - referHeight / 3 && moveY > - referHeight / 3 * 2 && 
+                              prevElement && prevElement.data('is-container')) {
+
+                            prevElement.append($this);
+
+                            //容器高度
+                            if (!prevElement.hasClass('page__bd')) {
+                                
+                                prevElement.css({
+                                    height: 'auto'
+                                })
+
+                                window.changeAttr = 'height';
+                                window.changeId = prevElement.eq(0).attr('id');
+                                window.haveAttrChange = true;
+
+                            }
+                    }else if (moveY > referHeight / 3 && moveY < referHeight / 3 * 2 && 
+                             nextElement && nextElement.data('is-container')) {
+
+                            nextElement.append($this);
+
+                            //容器高度
+                            if (!nextElement.hasClass('page__bd')) {
+                                
+                                nextElement.css({
+                                    height: 'auto'
+                                })
+
+                                window.changeAttr = 'height';
+                                window.changeId = nextElement.eq(0).attr('id');
+                                window.haveAttrChange = true;
+
+                                nextElement.css({
+                                    height: 'auto'
+                                })
+
+                                window.changeAttr = 'height';
+                                window.changeId = nextElement.eq(0).attr('id');
+                                window.haveAttrChange = true;
+                            }
                     }
+                        
                 });
 
                 elem.on('dragenter', function (e) {
-                    window.hoverElement = jq(e.currentTarget);
-                    console.log('-----------------------------',e.currentTarget)
-                    window.isHover = true;
-                    window.orginY = e.pageY;
-                    window.hoverElementHeight = e.currentTarget.offsetHeight;
+                    e.stopPropagation();
+
+                    
+                    // console.log('-----------------------------',e.currentTarget)
+                    
                 })
             
                 elem.on('dragleave', function (e) {
@@ -1360,9 +1398,9 @@ $(function () {
 
                 elem.on('dragend', function (e) {
 
-                    console.log('拖拽结束：＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝',e);
+                    // console.log('拖拽结束：＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝',e);
                     jq(e.currentTarget).css('opacity','1');
-                    if (window.changeId) {
+                    if (window.haveAttrChange) {
                         postMessageToFather.attrChangeFromDrag({
                             ctrlId: window.changeId, 
                             value: jq('#' + changeId).css(window.changeAttr),
