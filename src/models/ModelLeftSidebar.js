@@ -1,8 +1,14 @@
+import React , { PropTypes } from 'react';
 import dva from 'dva';
 import request from '../utils/request.js';
 import weappCompiler from '../utils/weappCompiler.js';
 
-import { notification } from 'antd';
+import { notification, Form, Input, Radio, Switch } from 'antd';
+import { Row, Col } from 'antd';
+
+const FormItem = Form.Item;
+const RadioButton = Radio.Button;
+const RadioGroup = Radio.Group;
 
 const openNotificationWithIcon = (type, title, description) => (
   notification[type]({
@@ -56,6 +62,24 @@ export default {
 			showConfigModal: false,
 			runCommand: 'npm run dev',
 			startPort: ''
+		},
+
+		currentAppCreatingStep: 0,
+
+		appCreatingForm: {
+			appName: '',
+			fromGit: false,
+			git: '',
+			image: 'HTML5',
+			imageVersion: 'latest',
+			useFramework: true,
+			createLocalServer: false,
+			databaseType: 'AngularJS 1',
+			databasePassword: ''
+		},
+
+		appCreator: {
+			loading: false
 		}
 	},
 
@@ -237,16 +261,58 @@ export default {
 			yield put({
 				type: 'getApplications'
 			});
-			}
+		},
+
+		*handleCreateApp({payload: params}, {call, put}) {
+
+			yield put({
+				type: 'setAppCreatorStart'
+			});
+
+			// yield put({
+			// 	type: 'setAppCreatorCompleted'
+			// })
+
+		}
+
 	},
 
 	reducers: {
+
+		setAppCreatorStart(state) {
+			state.appCreator.loading = true;
+			return {...state};
+		},
+
+		setAppCreatorCompleted(state) {
+			state.appCreator.loading = false;
+			return {...state};
+		},
 
 		showModalNewApp(state) {
 			return {...state, modalNewAppVisible: true};
 		},
 
 		hideModalNewApp(state) {
+
+			state.currentAppCreatingStep = 0;
+
+			state. appCreatingForm = {
+				appName: '',
+				fromGit: false,
+				git: '',
+				image: 'HTML5',
+				imageVersion: 'latest',
+				useFramework: true,
+				createLocalServer: false,
+				databaseType: 'AngularJS 1',
+				databasePassword: ''
+			};
+
+			state.appCreator = {
+				loading: false
+			};
+
 			if (state.createFromModal) {
 				return {...state, modalNewAppVisible: false, modalSwitchAppVisible: true, createFromModal: false};
 			}else{
@@ -425,7 +491,28 @@ export default {
 		setWeappCompilerStatusExpection(state) {
 			state.weappCompiler.status = 'exception';
 			return {...state};
-		}
+		},
+
+		handleNextAppCreatingStep(state) {
+			state.currentAppCreatingStep++;
+			return {...state};
+		},
+
+		handlePrevAppCreatingStep(state) {
+			state.currentAppCreatingStep--;
+			return {...state};
+		},
+
+		handleSwitchChanged(state, { payload: params }) {
+			state.appCreatingForm[params['switch']] = params.checked;
+			return {...state};
+		},
+
+		handleInputChanged(state, { payload: params }) {
+			state.appCreatingForm[params['input']] = params.value;
+			return {...state};
+		},
+
 	}
 
 }
