@@ -1,7 +1,7 @@
 import React , { PropTypes } from 'react';
 import { Tree, Switch, Button, Icon, Tooltip, TreeSelect,
          Row, Col, Popover, Input, Dropdown, Menu, Popconfirm, message,
-         Modal, AutoComplete, Upload } from 'antd';
+         Modal, AutoComplete, Upload, Spin } from 'antd';
 import TreeStyle from './styles.css';
 import EditorStyle from '../Panel/Editor.css';
 
@@ -51,6 +51,8 @@ const FileTree = (props) => {
       <p>Content</p>
     </div>
   );
+
+  let treeNodes = {};
 
   const buttonWidth = 70;
   sessionStorage.preClickTimestamp = sessionStorage.preClickTimestamp || 0;
@@ -337,14 +339,20 @@ const FileTree = (props) => {
             }
         },
         customRequest(info){
-        	console.log("info::::::",info);
         	props.dispatch({
 	            type: 'file/initFileInfo',
 	             payload: info
 	       });
         }
-      }
+      },
 
+    },
+
+    reloadFile () {
+      props.dispatch({
+        type: 'file/fetchFileList'
+      });
+      treeNodes = loopData(props.file.treeData);
     },
 
     newFileNameModal: {
@@ -759,21 +767,15 @@ const FileTree = (props) => {
       if (Proxy.keyCode == 13) {
         searchThisFile();
       }
-
   }
 
   const searchPaneInputChange = function (e) {
-
-
-      console.log("time");
       var value = e.target.value;
       props.dispatch({
         type: 'file/searchPaneInputChange',
         payload: e.target.value
       });
-
   }
-
 
   const fileSearchPane = {
 
@@ -786,14 +788,16 @@ const FileTree = (props) => {
             <Input autoFocus="autofocus" size="large" placeholder="index.js" onChange={searchPaneInputChange} value={props.file.searchFilePane.inputValue}/>
             <div style={{overflow: 'auto', maxHeight: 500}} id="toSetScroll">
                 {props.file.searchFilePane.files.map((file, i)=> {
-                    return  <div onClick={searchThisFile.bind(this,file.folder)}
-                            key={file.id}
-                            id={props.file.searchFilePane.currentIndex == i && 'activeFileOption'}
-                            className={TreeStyle.fileSearchPaneOption +  ' ' +
-                            (props.file.searchFilePane.currentIndex == i && TreeStyle.fileSearchPaneOptionActive)}
-                            >
-                                {file.folder}
-                            </div>
+                  return  (
+                    <div onClick={searchThisFile.bind(this,file.folder)}
+                      key={file.id}
+                      id={props.file.searchFilePane.currentIndex == i && 'activeFileOption'}
+                      className={TreeStyle.fileSearchPaneOption +  ' ' +
+                      (props.file.searchFilePane.currentIndex == i && TreeStyle.fileSearchPaneOptionActive)}
+                      >
+                          {file.folder}
+                    </div>
+                  )
                 })}
             </div>
           </div>
@@ -801,12 +805,7 @@ const FileTree = (props) => {
     )
   }
 
-  const treeNodes = loopData(FileTreeProps.treeData);
-  console.log(props.file.searchFilePane.files);
-
-
-
-
+  treeNodes = loopData(FileTreeProps.treeData);
 
   return (
 
@@ -902,53 +901,59 @@ const FileTree = (props) => {
             </div>)
          }
       </Modal>
-
+      <Spin spinning={props.file.treeLoading}>
       <div className={TreeStyle.header}>
 
         <Row>
-          <Col span={6}>
+          <Col span={5}>
             <Tooltip placement="bottom" title="新建文件">
               <Popover placement="left" {...newFilePop} trigger="click">
                 <Button onClick={FileTreeProps.createFile} className={EditorStyle.topbarBtnColumn}><Icon type="file-text" /></Button>
               </Popover>
             </Tooltip>
           </Col>
-          <Col span={6}>
+          <Col span={5}>
             <Tooltip placement="bottom" title="新建文件夹">
               <Popover placement="left" {...newFolderPop} trigger="click">
                 <Button onClick={FileTreeProps.createFoler} className={EditorStyle.topbarBtnColumn}><Icon type="folder" /></Button>
               </Popover>
             </Tooltip>
           </Col>
-          <Col span={6}>
+          <Col span={5}>
             <Tooltip placement="bottom" title="上传文件">
                 <Button onClick={FileTreeProps.uploadFile} className={EditorStyle.topbarBtnColumn}><Icon type="cloud-upload-o" /></Button>
             </Tooltip>
           </Col>
-          <Col span={6}>
+          <Col span={5}>
             <Tooltip placement="bottom" title="搜索文件">
                 <Button onClick={FileTreeProps.searchFile} className={EditorStyle.topbarBtnColumn}><Icon type="search" /></Button>
             </Tooltip>
           </Col>
+          <Col span={4}>
+            <Tooltip placement="bottom" title="刷新文件列表">
+                <Button onClick={FileTreeProps.reloadFile} className={EditorStyle.topbarBtnColumn}><Icon type="reload" /></Button>
+            </Tooltip>
+          </Col>          
         </Row>
       </div>
 
       {fileTreeMenu}
         <div style={styles.fileTreeMaxHeight}>
-          <Tree showLine
-            onSelect={FileTreeProps.onSelect}
-            onCheck={FileTreeProps.onCheck}
-            loadData={FileTreeProps.onLoadData}
-            onRightClick={FileTreeProps.onRightClick}
-            draggable={true}
-            onDragEnter={FileTreeProps.onDragEnter}
-            onDrop={FileTreeProps.onDrop}
-            defaultExpandedKeys={[localStorage.dir]}
-          >
-            {treeNodes}
-          </Tree>
+            <Tree showLine
+              onSelect={FileTreeProps.onSelect}
+              onCheck={FileTreeProps.onCheck}
+              loadData={FileTreeProps.onLoadData}
+              onRightClick={FileTreeProps.onRightClick}
+              draggable={true}
+              onDragEnter={FileTreeProps.onDragEnter}
+              onDrop={FileTreeProps.onDrop}
+              defaultExpandedKeys={[localStorage.dir]}
+            >
+              {treeNodes}
+            </Tree>
         </div>
       {props.file.searchFilePane.visible ? fileSearchPane.content : null}
+      </Spin>
     </div>
 
   );
@@ -956,7 +961,7 @@ const FileTree = (props) => {
 };
 
 function mapStateToProps({ file, devpanel}) {
-  return { file,devpanel };
+  return { file, devpanel };
 }
 
 export default connect(mapStateToProps)(FileTree);

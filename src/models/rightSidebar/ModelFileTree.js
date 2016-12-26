@@ -97,7 +97,8 @@ export default {
 				{text: 'require.js',id: 2},
 			],
 			inputValue: ''
-		}
+		},
+		treeLoading: false
 	},
 
 	subscriptions: {
@@ -109,21 +110,19 @@ export default {
 	},
 
 	effects: {
-	*fetchFileList(payload, {call, put}) {
-
-			console.log("==================fetchFileList========================");
-  		var fileList = yield request('fs/list/file/?id=' + localStorage.dir);
+		*fetchFileList(payload, {call, put}) {
+			yield put({
+				type: 'setTreeLoadingStatus',
+				payload: true
+			});
+  			var fileList = yield request('fs/list/file/?id=' + localStorage.dir);
 			localStorage.currentFolder = localStorage.dir;
-    	yield put({ type: 'list', payload: fileList });
-  },
-
-      	// *fetchLastChildFile(payload: dirName,{call, put}) {
-      	// 	var fileList = yield request('fs/list/file/?id=' + dirName);
-      	// 	yield put({ type: 'handleLastChildFile', payload: {
-      	// 		fileList
-      	// 	}
-      	// });
-      	// },
+    		yield put({ type: 'list', payload: fileList });
+			yield put({
+				type: 'setTreeLoadingStatus',
+				payload: false
+			});
+  		},
 
       	*fetchFileNode({payload: params}, {call, put}) {
       		const dirName = params.treeNode.props.eventKey;
@@ -319,10 +318,6 @@ export default {
 						}
 					}
       	},
-      	// *handleUpload({payload: fileName}, {call, put, select}) {
-      	// 	var val = yield select(state => state.file.uploadInput.value);
-      	// 	console.log(val)
-      	// },
 
       	*handleSearch({payload: params}, {call, put, select}) {
 
@@ -350,20 +345,20 @@ export default {
 					}
 
       	},
-				*initFiles({payload: params}, {call, put, select}){
-					var url = "fs/list/all?id=" + localStorage.currentFolder;
-					var res = yield request(url, {
-								method: 'GET',
-								});
 
-					var result = res.data;
-					for(var i = 0; i<res.data.length; i++){
-						res.data[i].folder = res.data[i].id.replace(localStorage.currentFolder,localStorage.currentProject + "/");
-					}
+		*initFiles({payload: params}, {call, put, select}){
+			var url = "fs/list/all?id=" + localStorage.currentFolder;
+			var res = yield request(url, {
+						method: 'GET',
+						});
 
-					console.log(result);
-					localStorage.files = JSON.stringify(result);
-				},
+			var result = res.data;
+			for(var i = 0; i<res.data.length; i++){
+				res.data[i].folder = res.data[i].id.replace(localStorage.currentFolder,localStorage.currentProject + "/");
+			}
+			localStorage.files = JSON.stringify(result);
+		},
+
       	*unZipFile({payload: params}, {call, put, select}) {
       		var folder = yield select(state => state.file.uploadModal.folderValue);
       		if (folder == '') {
@@ -375,7 +370,6 @@ export default {
       			method: 'POST',
       			body: folder
       		});
-      		console.log(mkResult);
       		yield put({type: 'switchUnZipState', payload: false});
       		yield put({type: 'switchIsUnZip', payload: false});
       		yield put({type: 'switchIsNeedUnZip', payload: false});
@@ -384,10 +378,12 @@ export default {
 
 	reducers: {
 
-		showSearchPane(state,{payload:params}) {
+		setTreeLoadingStatus(state,  { payload: bool}) {
+			state.treeLoading = bool;
+			return {...state};
+		},
 
-			console.log("showSearchPane");
-			console.log(params.result);
+		showSearchPane(state,{payload:params}) {
 
 			state.searchFilePane.visible = true;
 			state.searchInput.visible = false;
@@ -411,11 +407,9 @@ export default {
 			state.searchFilePane.visible = false;
 			return {...state};
 		},
+
 		searchPaneInputChange(state,{payload: value}){
 
-			console.log(value);
-
-			console.log("searchPaneInputChange");
 			state.searchFilePane.inputValue = value;
 			var newFiles = new Array();
 
@@ -659,11 +653,8 @@ export default {
 
 		list (state, {payload: list}) {
 
-			console.log(list);
 			var data = list.data,
 				tree = [];
-
-				console.log('list=======', list);
 
 			if(list.length > 1) {
 				return {...state};

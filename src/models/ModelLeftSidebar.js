@@ -73,9 +73,11 @@ export default {
 			image: 'HTML5',
 			imageVersion: 'latest',
 			useFramework: true,
+			framework: 'AngularJS 1',
 			createLocalServer: false,
-			databaseType: 'AngularJS 1',
-			databasePassword: ''
+			databaseType: 'MySQL',
+			databasePassword: '',
+			databaseAccount: ''
 		},
 
 		appCreator: {
