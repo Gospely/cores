@@ -294,6 +294,25 @@ export default {
 		},
 
 		hideModalNewApp(state) {
+
+			state.currentAppCreatingStep = 0;
+
+			state. appCreatingForm = {
+				appName: '',
+				fromGit: false,
+				git: '',
+				image: 'HTML5',
+				imageVersion: 'latest',
+				useFramework: true,
+				createLocalServer: false,
+				databaseType: 'AngularJS 1',
+				databasePassword: ''
+			};
+
+			state.appCreator = {
+				loading: false
+			};
+
 			if (state.createFromModal) {
 				return {...state, modalNewAppVisible: false, modalSwitchAppVisible: true, createFromModal: false};
 			}else{
