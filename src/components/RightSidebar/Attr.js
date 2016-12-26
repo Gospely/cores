@@ -128,8 +128,6 @@ const Attr = (props) => {
             type: 'designer/handleCtrlSelected'
         });
 
-		console.log('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=', linkedComponent);
-
 		cb(linkedComponentAttr, undefined, dom);
 
         props.dispatch({

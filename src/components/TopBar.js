@@ -452,6 +452,25 @@ const LeftSidebar = (props) => {
 		}
 	}
 
+	const modalAppCreatorProps = {
+		next () {
+			props.dispatch({
+				type: 'sidebar/handleNextAppCreatingStep'
+			});
+		},
+
+		prev () {
+			props.dispatch({
+				type: 'sidebar/handlePrevAppCreatingStep'
+			});
+		}
+	}
+
+  //   <Menu.Item key="pause" disabled={window.disabled}>
+		// <Icon type="pause-circle-o" />
+  //   </Menu.Item>	        	<iframe style={styles.ifr} src="http://localhost:8088/#!/apps/new"></iframe>
+
+
 	return (
 		<div style={styles.wrapper}>
 	      	<Menu
@@ -490,9 +509,6 @@ const LeftSidebar = (props) => {
 						</div>
 					</Dropdown>
 		        </Menu.Item>
-		        <Menu.Item key="pause" disabled={window.disabled}>
-					<Icon type="pause-circle-o" />
-		        </Menu.Item>
 		        <Menu.Item key="preview" disabled={window.disabled}>
 		        	<Icon type="eye-o" />
 		        </Menu.Item>
@@ -504,7 +520,31 @@ const LeftSidebar = (props) => {
 	    	<Modal width="80%"  title="新建应用" visible={props.sidebar.modalNewAppVisible}
 	          	onOk={leftSidebarProps.createApp} onCancel={leftSidebarProps.cancelNewApp}
 	        >
-	        	<iframe style={styles.ifr} src="http://localhost:8088/#!/apps/new"></iframe>
+
+	        	<Steps current={props.sidebar.currentAppCreatingStep}>
+			        {props.sidebar.appCreatingSteps.map(item => <Step key={item.title} title={item.title} />)}
+			    </Steps>
+			    <div className="steps-content">{props.sidebar.appCreatingSteps[props.sidebar.currentAppCreatingStep].content}</div>
+		        <div className="steps-action">
+			          {
+			            props.sidebar.currentAppCreatingStep < props.sidebar.appCreatingSteps.length - 1
+			            &&
+			            <Button type="primary" onClick={() => modalAppCreatorProps.next()}>下一步</Button>
+			          }
+			          {
+			            props.sidebar.currentAppCreatingStep === props.sidebar.appCreatingSteps.length - 1
+			            &&
+			            <Button type="primary" onClick={() => message.success('Processing complete!')}>立即创建</Button>
+			          }
+			          {
+			            props.sidebar.currentAppCreatingStep > 0
+			            &&
+			            <Button style={{ marginLeft: 8 }} type="ghost" onClick={() => modalAppCreatorProps.prev()}>
+			              上一步
+			            </Button>
+			          }
+			    </div>
+
 	        </Modal>
 
 	    	<Modal style={{maxWidth: 550}}  title="切换应用" visible={props.sidebar.modalSwitchAppVisible}
