@@ -1340,7 +1340,7 @@ $(function () {
 
                         }
                     }else if (moveY < - referHeight / 3 && moveY > - referHeight / 3 * 2 && 
-                              prevElement && prevElement.data('is-container')) {
+                              prevElement.length && prevElement.data('is-container')) {
 
                             prevElement.append($this);
 
@@ -1357,9 +1357,9 @@ $(function () {
 
                             }
                     }else if (moveY > referHeight / 3 && moveY < referHeight / 3 * 2 && 
-                             nextElement && nextElement.data('is-container')) {
+                             nextElement.length && nextElement.data('is-container')) {
 
-                            nextElement.append($this);
+                            nextElement.prepend($this);
 
                             //容器高度
                             if (!nextElement.hasClass('page__bd')) {
@@ -1380,7 +1380,7 @@ $(function () {
                                 window.changeId = nextElement.eq(0).attr('id');
                                 window.haveAttrChange = true;
                             }
-                    }
+                        }
                         
                 });
 
