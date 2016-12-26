@@ -70,11 +70,11 @@ export default {
 			appName: '',
 			fromGit: false,
 			git: '',
-			image: '',
-			imageVersion: '',
+			image: 'HTML5',
+			imageVersion: 'latest',
 			useFramework: true,
 			createLocalServer: false,
-			databaseType: '',
+			databaseType: 'AngularJS 1',
 			databasePassword: ''
 		}
 	},
@@ -459,6 +459,11 @@ export default {
 
 		handleSwitchChanged(state, { payload: params }) {
 			state.appCreatingForm[params['switch']] = params.checked;
+			return {...state};
+		},
+
+		handleInputChanged(state, { payload: params }) {
+			state.appCreatingForm[params['input']] = params.value;
 			return {...state};
 		}
 

@@ -464,8 +464,18 @@ const LeftSidebar = (props) => {
 					'switch': s,
 					checked: checked
 				}
-			})
-		}		
+			});
+		},
+
+		onFormInputChange (s, dom) {
+			props.dispatch({
+				type: 'sidebar/handleInputChanged',
+				payload: {
+					input: s,
+					value: dom.target.value
+				}
+			});
+		}
 	}
 
 	const modalAppCreatorProps = {
@@ -474,14 +484,13 @@ const LeftSidebar = (props) => {
 		  	title: '基本信息',
 		  	content: (
 		  		<div>
-
 			  		<div style={{ marginTop: 32 }}>
 			  		    <Row>
 					      	<Col span={4} style={{textAlign: 'right'}}>
 					      		<span>您的项目名称：</span>
 					      	</Col>
 					      	<Col span={8} style={{textAlign: 'left'}}>
-				              	<Input />
+				              	<Input onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'appName')} value={props.sidebar.appCreatingForm.appName} />
 					      	</Col>
 					    </Row>
 					</div>
@@ -503,12 +512,10 @@ const LeftSidebar = (props) => {
 					      		<span>您的Git项目地址：</span>
 					      	</Col>
 					      	<Col span={8} style={{textAlign: 'left'}}>
-				              	<Input />
+				              	<Input onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'git')} value={props.sidebar.appCreatingForm.git} />
 					      	</Col>
 					    </Row>
 					</div>
-
-
 		  		</div>
 		    ),
 		}, {
@@ -520,11 +527,13 @@ const LeftSidebar = (props) => {
 			  		    <Row>
 					      	<Col span={12}>
 					      		<span>请选择版本：</span>
-							    <RadioGroup defaultValue="0">
-							      	<RadioButton value="0">HTML5</RadioButton>
-							      	<RadioButton value="1">Node.js</RadioButton>
-							      	<RadioButton value="2">PHP</RadioButton>
-							      	<RadioButton value="2">微信小程序</RadioButton>
+							    <RadioGroup 
+							    	value={props.sidebar.appCreatingForm.image} 
+							    	onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'image')}>
+							      	<RadioButton value="HTML5">HTML5</RadioButton>
+							      	<RadioButton value="Node.js">Node.js</RadioButton>
+							      	<RadioButton value="PHP">PHP</RadioButton>
+							      	<RadioButton value="微信小程序">微信小程序</RadioButton>
 							    </RadioGroup>
 					      	</Col>
 					    </Row>
@@ -534,10 +543,12 @@ const LeftSidebar = (props) => {
 			  		    <Row>
 					      	<Col span={8}>
 					      		<span>请选择版本：</span>
-							    <RadioGroup defaultValue="0">
-							      	<RadioButton value="0">4.5.6</RadioButton>
-							      	<RadioButton value="1">6.7.0</RadioButton>
-							      	<RadioButton value="2">latest</RadioButton>
+							    <RadioGroup 
+							    	value={props.sidebar.appCreatingForm.imageVersion} 
+							    	onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'imageVersion')}>
+							      	<RadioButton value="4.5.6">4.5.6</RadioButton>
+							      	<RadioButton value="6.7.0">6.7.0</RadioButton>
+							      	<RadioButton value="latest">latest</RadioButton>
 							    </RadioGroup>
 					      	</Col>
 					    </Row>
@@ -556,11 +567,13 @@ const LeftSidebar = (props) => {
 			  		    <Row>
 					      	<Col span={12}>
 					      		<span>请选择框架：</span>
-							    <RadioGroup defaultValue="0">
-							      	<RadioButton value="0">AngularJS 1</RadioButton>
-							      	<RadioButton value="1">AngularJS 2</RadioButton>
-							      	<RadioButton value="2">ReactJS</RadioButton>
-							      	<RadioButton value="3">VueJS</RadioButton>
+							    <RadioGroup 
+							    	value={props.sidebar.appCreatingForm.databaseType} 
+							    	onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'databaseType')}>
+							      	<RadioButton value="AngularJS 1">AngularJS 1</RadioButton>
+							      	<RadioButton value="AngularJS 2">AngularJS 2</RadioButton>
+							      	<RadioButton value="ReactJS">ReactJS</RadioButton>
+							      	<RadioButton value="VueJS">VueJS</RadioButton>
 							    </RadioGroup>
 					      	</Col>
 					    </Row>
@@ -604,7 +617,7 @@ const LeftSidebar = (props) => {
 					      		<span>数据库密码：</span>
 					      	</Col>
 					      	<Col span={8} style={{textAlign: 'left'}}>
-					      		<Input type="password" />
+					      		<Input onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'localServer')} value={props.sidebar.appCreatingForm.localServer} type="password" />
 					      	</Col>
 					    </Row>
 					</div>
