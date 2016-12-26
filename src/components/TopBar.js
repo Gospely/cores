@@ -233,11 +233,39 @@ const LeftSidebar = (props) => {
 
 	    cancelNewApp() {
 	    	if(!props.sidebar.appCreator.loading) {
-		      props.dispatch({
-		        type: 'sidebar/hideModalNewApp'
-		      });
+		      	props.dispatch({
+		        	type: 'sidebar/hideModalNewApp'
+		      	});
 	    	}else {
-	    		message.error('创建过程中不能关闭哦！');
+				const openNotification = () => {
+				  	const key = 'cancelNewApp';
+				  	const btnClick = function () {
+				    	notification.close(key);
+    			      	props.dispatch({
+		        			type: 'sidebar/hideModalNewApp'
+				      	});
+    		    		message.success('您已取消创建应用');
+				  	};
+				  	const cancelBtnClick = function () {
+				    	notification.close(key);
+				  	};
+				  	const btn = [
+				  		(<Button type="ghost" size="small" style={{ marginRight: 15 }} onClick={cancelBtnClick}>
+				      		不取消
+				    	</Button>),
+
+				  		(<Button type="primary" size="small" onClick={btnClick}>
+				      		取消
+				    	</Button>)
+				    ];				    	
+				  	notification.open({
+				    	message: '您确定要取消创建应用吗？',
+				    	btn,
+				    	key,
+				    	onClose: close,
+				    	duration: 0
+				  	});
+				};openNotification();
 	    	}
 	    },
 
