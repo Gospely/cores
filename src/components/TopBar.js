@@ -555,10 +555,12 @@ const LeftSidebar = (props) => {
 			content: (
 
 				<div>
-		  			<div style={{ marginTop: 32, paddingLeft: 10 }}>
+		  			<div style={{ marginTop: 32 }}>
 			  		    <Row>
-					      	<Col span={12}>
-					      		<span>请选择版本：</span>
+					      	<Col span={4} style={{textAlign: 'right'}}>
+					      		<span>请选择语言：</span>
+					      	</Col>
+					      	<Col style={{textAlign: 'left'}}>
 							    <RadioGroup 
 							    	value={props.sidebar.appCreatingForm.image} 
 							    	onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'image')}>
@@ -571,10 +573,12 @@ const LeftSidebar = (props) => {
 					    </Row>
 					</div>
 
-			  		<div style={{ marginTop: 32, paddingLeft: 50 }}>
+			  		<div style={{ marginTop: 32 }}>
 			  		    <Row>
-					      	<Col span={8}>
-					      		<span>请选择版本：</span>
+					      	<Col span={4} style={{textAlign: 'right'}}>
+					      		<span>请选择语言版本：</span>
+					      	</Col>
+					      	<Col style={{textAlign: 'left'}}>
 							    <RadioGroup 
 							    	value={props.sidebar.appCreatingForm.imageVersion} 
 							    	onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'imageVersion')}>
@@ -586,22 +590,26 @@ const LeftSidebar = (props) => {
 					    </Row>
 					</div>
 
-			  		<div style={{ marginTop: 32, paddingLeft: 25 }}>
+			  		<div style={{ marginTop: 32 }}>
 			  		    <Row>
-					      	<Col span={6}>
+					      	<Col span={4} style={{textAlign: 'right'}}>
 					      		<span>使用框架：</span>
+					      	</Col>
+					      	<Col style={{textAlign: 'left'}}>
 					      		<Switch onChange={modalAppCreatorFromHandler.onFromGitSwitchChange.bind(this, 'useFramework')} checked={props.sidebar.appCreatingForm.useFramework} />
 					      	</Col>
 					    </Row>
 					</div>
 
-			  		<div style={{ marginTop: 32, paddingLeft: 40 }} hidden={!props.sidebar.appCreatingForm.useFramework}>
+			  		<div style={{ marginTop: 32 }} hidden={!props.sidebar.appCreatingForm.useFramework}>
 			  		    <Row>
-					      	<Col span={12}>
+					      	<Col span={4} style={{textAlign: 'right'}}>
 					      		<span>请选择框架：</span>
+					      	</Col>
+					      	<Col style={{textAlign: 'left'}}>
 							    <RadioGroup 
-							    	value={props.sidebar.appCreatingForm.databaseType} 
-							    	onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'databaseType')}>
+							    	value={props.sidebar.appCreatingForm.framework} 
+							    	onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'framework')}>
 							      	<RadioButton value="AngularJS 1">AngularJS 1</RadioButton>
 							      	<RadioButton value="AngularJS 2">AngularJS 2</RadioButton>
 							      	<RadioButton value="ReactJS">ReactJS</RadioButton>
@@ -635,9 +643,11 @@ const LeftSidebar = (props) => {
 					      		<span>请选择数据库类型：</span>
 					      	</Col>
 					      	<Col span={8} style={{textAlign: 'left'}}>
-							    <RadioGroup defaultValue="0">
-							      	<RadioButton value="0">MySQL</RadioButton>
-							      	<RadioButton value="1">MongoDB</RadioButton>
+							    <RadioGroup 
+							    	value={props.sidebar.appCreatingForm.databaseType} 
+							    	onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'databaseType')}>
+							      	<RadioButton value="MySQL">MySQL</RadioButton>
+							      	<RadioButton value="MongoDB">MongoDB</RadioButton>
 							    </RadioGroup>
 					      	</Col>
 					    </Row>
@@ -646,10 +656,21 @@ const LeftSidebar = (props) => {
 			  		<div style={{ marginTop: 32 }} hidden={!props.sidebar.appCreatingForm.createLocalServer}>
 			  		    <Row>
 					      	<Col span={4} style={{textAlign: 'right'}}>
+					      		<span>数据库用户：</span>
+					      	</Col>
+					      	<Col span={8} style={{textAlign: 'left'}}>
+					      		<Input onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'databaseAccount')} value={props.sidebar.appCreatingForm.databaseAccount} type="text" />
+					      	</Col>
+					    </Row>
+					</div>
+
+			  		<div style={{ marginTop: 32 }} hidden={!props.sidebar.appCreatingForm.createLocalServer}>
+			  		    <Row>
+					      	<Col span={4} style={{textAlign: 'right'}}>
 					      		<span>数据库密码：</span>
 					      	</Col>
 					      	<Col span={8} style={{textAlign: 'left'}}>
-					      		<Input onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'localServer')} value={props.sidebar.appCreatingForm.localServer} type="password" />
+					      		<Input onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'databasePassword')} value={props.sidebar.appCreatingForm.databasePassword} type="password" />
 					      	</Col>
 					    </Row>
 					</div>
@@ -658,6 +679,44 @@ const LeftSidebar = (props) => {
 		}],
 
 		next () {
+
+			if(props.sidebar.currentAppCreatingStep === 0) {
+
+				if(props.sidebar.appCreatingForm.appName == '') {
+					message.error('请填写应用名!');
+					return false;
+				}
+
+				if(props.sidebar.appCreatingForm.fromGit) {
+					if(props.sidebar.appCreatingForm.git == '') {
+						message.error('请填写git地址');
+						return false;
+					}
+				}
+
+			}
+
+			if(props.sidebar.currentAppCreatingStep === 1) {
+
+				if(props.sidebar.appCreatingForm.image == '') {
+					message.error('请选择语言');
+					return false;
+				}
+
+				if(props.sidebar.appCreatingForm.imageVersion == '') {
+					message.error('请选择语言版本');
+					return false
+				}
+
+				if(props.sidebar.appCreatingForm.useFramework) {
+					if(props.sidebar.appCreatingForm.framework == '') {
+						message.error('请选择框架版本');
+						return false;
+					}
+				}
+
+			}
+
 			props.dispatch({
 				type: 'sidebar/handleNextAppCreatingStep'
 			});
@@ -670,6 +729,16 @@ const LeftSidebar = (props) => {
 		},
 
 		createApp () {
+
+			if(props.sidebar.currentAppCreatingStep === 2) {
+				if(props.sidebar.appCreatingForm.createLocalServer) {
+					if(props.sidebar.appCreatingForm.databaseType == '' || props.sidebar.appCreatingForm.databaseAccount == '' || props.sidebar.appCreatingForm.databasePassword == '') {
+						message.error('请完整填写数据库信息!');
+						return false;
+					}
+				}
+			}
+
 			props.dispatch({
 				type: 'sidebar/handleCreateApp'
 			});
