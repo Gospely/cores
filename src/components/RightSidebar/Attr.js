@@ -265,11 +265,6 @@ const Attr = (props) => {
 
     const attrTypeActions = {
 		input (attr, parentAtt) {
-
-			if (attr.hidden) {
-				return '';
-			}
-
 			return (
 				<FormItem key={pageKey + (itemKey ++)} {...formItemLayout} label={attr.title}>
              		<Input value={attr._value}

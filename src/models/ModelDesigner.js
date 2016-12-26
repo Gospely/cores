@@ -1231,6 +1231,13 @@ page {
 						_value: '100px'
 					},
 
+					isContainer: {
+						type: 'toggle',
+						backend: true,
+						isContainer: true,
+						title: '是否是容器'
+					},
+
 					type: {
 						type: 'select',
 						title: '容器类型',
@@ -1412,6 +1419,20 @@ page {
 						title: '是否报错',
 						_value: false,
 						value: ['weui-cell_warn']
+					},
+
+					isContainer: {
+						type: 'toggle',
+						backend: true,
+						isContainer: true,
+						title: '是否是容器'
+					},
+
+					height: {
+						type: 'input',
+						backend: true,
+						_value: 'auto',
+						title: '容器高度'
 					}
 				},
 				baseClassName: 'weui-cells weui-cells_form',
@@ -1433,6 +1454,13 @@ page {
 								title: '提示信息',
 								type: 'input',
 								_value: '标题文字'
+							},
+
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
 							},
 
 							display: {
@@ -1473,6 +1501,13 @@ page {
 								_value: false
 							},
 
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
+							},
+
 							display: {
 								type: 'toggle',
 								title: '显示',
@@ -1497,6 +1532,14 @@ page {
 									isHTML: false,
 									_value: true
 								},
+
+								isComponent: {
+									backend: true,
+									value: [],
+									title: '是否为完整的组件',
+									_value: true
+								},
+
 								type: {
 									title: '类型',
 									type: 'input',
@@ -1504,7 +1547,7 @@ page {
 									isHTML: false,
 									isClassName: false,
 									_value: 'checkbox',
-									hidden: true
+									backend: true
 								}
 							},
 							name: '开关',
@@ -1541,6 +1584,13 @@ page {
 								_value: false
 							},
 
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
+							},
+
 							display: {
 								type: 'toggle',
 								title: '显示',
@@ -1564,7 +1614,15 @@ page {
 									isClassName: false,
 									isHTML: true,
 									_value: 'qq'
-								}
+								},
+
+								isComponent: {
+									backend: true,
+									value: [],
+									title: '是否为完整的组件',
+									_value: true
+								},
+
 							}
 						}]
 					}, {
@@ -1581,6 +1639,13 @@ page {
 								isSetAttribute: false,
 								value: ['weui_cell_primary'],
 								_value: false
+							},
+
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
 							},
 
 							display: {
@@ -1614,6 +1679,12 @@ page {
 									isHTML: false,
 									_value: ''
 								},
+								isComponent: {
+									backend: true,
+									value: [],
+									title: '是否为完整的组件',
+									_value: true
+								},
 								type: {
 									title: '输入框类型',
 									isSetAttribute: true,
@@ -1643,6 +1714,13 @@ page {
 								isSetAttribute: false,
 								value: ['weui_cell_primary'],
 								_value: false
+							},
+
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
 							},
 
 							display: {
@@ -1689,6 +1767,13 @@ page {
 								_value: false
 							},
 
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
+							},
+
 							display: {
 								type: 'toggle',
 								title: '显示',
@@ -1712,7 +1797,14 @@ page {
 									isHTML: true,
 									isSetAttribute: false,
 									_value: '验证码'
-								}
+								},
+
+								isComponent: {
+									backend: true,
+									value: [],
+									title: '是否为完整的组件',
+									_value: true
+								},
 							}
 						}]
 					}, {
@@ -1729,6 +1821,13 @@ page {
 								isSetAttribute: false,
 								value: ['weui_cell_primary'],
 								_value: false
+							},
+
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
 							},
 
 							display: {
@@ -1755,6 +1854,12 @@ page {
 									isClassName: false,
 									title: '默认内容',
 									_value: '请输入验证码'
+								},
+								isComponent: {
+									backend: true,
+									value: [],
+									title: '是否为完整的组件',
+									_value: true
 								},
 								value: {
 									type: 'input',
@@ -1799,6 +1904,13 @@ page {
 								_value: false
 							},
 
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
+							},
+
 							display: {
 								type: 'toggle',
 								title: '显示',
@@ -1823,7 +1935,14 @@ page {
 									isHTML: false,
 									isClassName: false,
 									_value: './images/vcode.png'
-								}
+								},
+
+								isComponent: {
+									backend: true,
+									value: [],
+									title: '是否为完整的组件',
+									_value: true
+								},
 							}
 						}]
 					}]
@@ -1857,7 +1976,13 @@ page {
 								isSetAttribute: false,
 								value: ['weui_cell_primary'],
 								_value: false
-							}
+							},
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
+							},
 						},
 						baseClassName: 'weui-cell__hd',
 						children: [{
@@ -1873,7 +1998,13 @@ page {
 									isSetAttribute: false,
 									isClassName: false,
 									_value: '卡号'
-								}
+								},
+								isComponent: {
+									backend: true,
+									value: [],
+									title: '是否为完整的组件',
+									_value: true
+								},
 							}
 						}]
 					}, {
@@ -1890,7 +2021,13 @@ page {
 								isSetAttribute: false,
 								value: ['weui_cell_primary'],
 								_value: false
-							}
+							},
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
+							},
 						},
 						baseClassName: 'weui-cell-bd',
 						children: [{
@@ -1904,6 +2041,12 @@ page {
 									type: 'input',
 									_value: '卡号',
 									title: '占位符'
+								},
+								isComponent: {
+									backend: true,
+									value: [],
+									title: '是否为完整的组件',
+									_value: true
 								},
 								type: {
 									title: '输入框类型',
@@ -1942,7 +2085,13 @@ page {
 								isSetAttribute: false,
 								value: ['weui_cell_primary'],
 								_value: false
-							}
+							},
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
+							},
 						},
 						children: [{
 							name: '图标',
@@ -1962,7 +2111,13 @@ page {
 									isHTML: false,
 									isSetAttribute: false,
 									isNoConflict: true
-								}
+								},
+								isComponent: {
+									backend: true,
+									value: [],
+									title: '是否为完整的组件',
+									_value: true
+								},
 							}
 						}]
 					}]
@@ -2000,7 +2155,13 @@ page {
 									type: 'input',
 									_value: '5',
 									title: '行数'
-								}
+								},
+								isComponent: {
+									backend: true,
+									value: [],
+									title: '是否为完整的组件',
+									_value: true
+								},
 							},
 							baseClassName: 'weui-textarea'
 						}, {
@@ -2014,7 +2175,13 @@ page {
 									isContrary: true,
 									_value: true,
 									title: '计字器'
-								}
+								},
+								isComponent: {
+									backend: true,
+									value: [],
+									title: '是否为完整的组件',
+									_value: true
+								},
 							},
 							baseClassName: 'weui-textarea-counter',
 							children: [{
@@ -2027,7 +2194,13 @@ page {
 										title: '已写字数',
 										_value: 0,
 										type: 'input'
-									}
+									},
+									isComponent: {
+										backend: true,
+										value: [],
+										title: '是否为完整的组件',
+										_value: true
+									},
 								},
 								baseClassName: ''
 							}, {
@@ -2040,7 +2213,13 @@ page {
 										title: '最多字数',
 										_value: '/200',
 										type: 'input'
-									}
+									},
+									isComponent: {
+										backend: true,
+										value: [],
+										title: '是否为完整的组件',
+										_value: true
+									},
 								},
 								baseClassName: ''
 							}]
@@ -2069,7 +2248,13 @@ page {
 							value: ['none', 'block'],
 							isStyle: true,
 							isToggleStyle: true
-						}
+						},
+						isComponent: {
+							backend: true,
+							value: [],
+							title: '是否为完整的组件',
+							_value: true
+						},
 					}
 				}, {
 					name: '文本框中部',
@@ -2082,6 +2267,12 @@ page {
 							value: ['none', 'block'],
 							isStyle: true,
 							isToggleStyle: true
+						},
+						isComponent: {
+							backend: true,
+							value: [],
+							title: '是否为完整的组件',
+							_value: true
 						}
 					},
 					tag: ['div'],
@@ -2160,6 +2351,12 @@ page {
 								isSetAttribute: true,
 								value: [],
 								_value: false
+							},
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
 							}
 						}
 					}]
@@ -2177,6 +2374,12 @@ page {
 							value: ['none', 'block'],
 							isStyle: true,
 							isToggleStyle: true
+						},
+						isComponent: {
+							backend: true,
+							value: [],
+							title: '是否为完整的组件',
+							_value: true
 						}
 					}
 				}]
@@ -2337,7 +2540,7 @@ page {
 						type: 'input',
 						title: '',
 						isBoundToId: true,
-						hidden: true,
+						backend: true,
 						isClassName: false,
 						isHTML: false,
 						isSetAttribute: true,
@@ -2387,6 +2590,12 @@ page {
 							isHTML: true,
 							_value: '单选框',
 						},
+						isComponent: {
+							backend: true,
+							value: [],
+							title: '是否为完整的组件',
+							_value: true
+						},
 						selfAdaption: {
 							title: '自适应',
 							type: 'toggle',
@@ -2413,6 +2622,12 @@ page {
 							isSetAttribute: false,
 							value: ['weui_cell_primary'],
 							_value: false
+						},
+						isComponent: {
+							backend: true,
+							value: [],
+							title: '是否为完整的组件',
+							_value: true
 						}
 					},
 					children: [{
@@ -2423,7 +2638,7 @@ page {
 						attr: {
 							type: {
 								type: 'input',
-								hidden: true,
+								backend: true,
 								title: '',
 								_value: 'radio',
 								isSetAttribute: true
@@ -2439,6 +2654,12 @@ page {
 								title: '选中',
 								_value: true,
 								isSetAttribute: true
+							},
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
 							}
 						}
 					}, {
@@ -2457,6 +2678,12 @@ page {
 										'weui-icon-info-circle', 'weui-icon-cancel'
 									   ],
 								isNoConflict: true
+							},
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
 							}
 						}
 					}]
@@ -2489,6 +2716,12 @@ page {
 							isSetAttribute: false,
 							value: ['weui_cell_primary'],
 							_value: false
+						},
+						isComponent: {
+							backend: true,
+							value: [],
+							title: '是否为完整的组件',
+							_value: true
 						}
 					},
 					type: 'div',
@@ -2507,6 +2740,12 @@ page {
 							isSetAttribute: false,
 							value: ['weui_cell_primary'],
 							_value: false
+						},
+						isComponent: {
+							backend: true,
+							value: [],
+							title: '是否为完整的组件',
+							_value: true
 						}
 					},
 					name: '开关',
@@ -2526,13 +2765,19 @@ page {
 
 							type: {
 								title: '类型',
-								type: 'select',
+								type: 'input',
 								isSetAttribute: true,
 								isHTML: false,
 								isClassName: false,
 								_value: 'checkbox',
-								value: ['switch', 'checkbox'],
-								hidden: true
+								backend: true
+							},
+
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
 							},
 
 							'background-color': {
@@ -2599,7 +2844,7 @@ page {
 						type: 'input',
 						title: '',
 						isBoundToId: true,
-						hidden: true,
+						backend: true,
 						isClassName: false,
 						isHTML: false,
 						isSetAttribute: true,
@@ -2623,6 +2868,12 @@ page {
 							isSetAttribute: false,
 							value: ['weui_cell_primary'],
 							_value: false
+						},
+						isComponent: {
+							backend: true,
+							value: [],
+							title: '是否为完整的组件',
+							_value: true
 						}
 					},
 					children: [{
@@ -2633,7 +2884,7 @@ page {
 						attr: {
 							type: {
 								type: 'input',
-								hidden: true,
+								backend: true,
 								title: '',
 								_value: 'checkbox',
 								isSetAttribute: true
@@ -2649,6 +2900,12 @@ page {
 								title: '选中',
 								_value: true,
 								isSetAttribute: true
+							},
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
 							}
 						}
 					}, {
@@ -2667,6 +2924,12 @@ page {
 										'weui-icon-info-circle', 'weui-icon-cancel'
 									   ],
 								isNoConflict: true
+							},
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
 							}
 						}
 					}]
@@ -2691,6 +2954,12 @@ page {
 							isSetAttribute: false,
 							value: ['weui_cell_primary'],
 							_value: false
+						},
+						isComponent: {
+							backend: true,
+							value: [],
+							title: '是否为完整的组件',
+							_value: true
 						}
 					}
 				}]
@@ -2752,24 +3021,52 @@ page {
 					tag: 'div',
 					type: 'slider',
 					baseClassName: 'weui-slider',
-					attr: {},
+					attr: {
+						isComponent: {
+							backend: true,
+							value: [],
+							title: '是否为完整的组件',
+							_value: true
+						}
+					},
 					name: '滑块_拖动区域',
 					children: [{
 						tag: 'div',
 						name: '滑块内部',
-						attr: {},
+						attr: {
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
+							}
+						},
 						type: 'slider',
 						baseClassName: 'weui-slider__inner',
 						children: [{
 							tag: 'div',
-							attr: {},
+							attr: {
+								isComponent: {
+									backend: true,
+									value: [],
+									title: '是否为完整的组件',
+									_value: true
+								}
+							},
 							type: 'slider',
 							baseClassName: 'weui-slider__track',
 							name: '滑动追踪器',
 							children: []
 						}, {
 							tag: 'div',
-							attr: {},
+							attr: {
+								isComponent: {
+									backend: true,
+									value: [],
+									title: '是否为完整的组件',
+									_value: true
+								}
+							},
 							type: 'slider',
 							baseClassName: 'weui-slider__handler',
 							name: '滑动条',
@@ -2794,6 +3091,13 @@ page {
 							title: '值',
 							_value: 0,
 							isHTML: true
+						},
+
+						isComponent: {
+							backend: true,
+							value: [],
+							title: '是否为完整的组件',
+							_value: true
 						}
 					},
 					type: 'slider',
@@ -2823,6 +3127,12 @@ page {
 								type: 'input',
 								isHTML: true,
 								_value: '选一个'
+							},
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
 							}
 						}
 					}]
@@ -2839,7 +3149,14 @@ page {
 					},
 					baseClassName: 'weui-cell__bd',
 					children: [{
-						attr: {},
+						attr: {
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
+							}
+						},
 						tag: 'select',
 						type: 'select',
 						baseClassName: 'weui-select',
@@ -2854,6 +3171,12 @@ page {
 									type: 'input',
 									title: 'value值',
 									_value: '1'
+								},
+								isComponent: {
+									backend: true,
+									value: [],
+									title: '是否为完整的组件',
+									_value: true
 								}
 							},
 							baseClassName: ''
@@ -3509,7 +3832,7 @@ page {
 						title: '',
 						_value: 'block',
 						isStyle: true,
-						hidden: true
+						backend: true
 					}
 				},
 				baseClassName: 'weui-gallery',
@@ -3542,7 +3865,7 @@ page {
 					},
 					width: {
 						isStyle: true,
-						hidden: true,
+						backend: true,
 						_value: '100%',
 						title: '',
 						type: 'input'
@@ -3552,7 +3875,7 @@ page {
 						_value: '1px dashed gray',
 						title: '',
 						type: 'input',
-						hidden: true
+						backend: true
 					}
 				}
 			},

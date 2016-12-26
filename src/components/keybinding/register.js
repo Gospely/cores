@@ -12,23 +12,23 @@ const HotKeyHandler = {
 
 		HotKeyHandler.props = props;
 		HotKeyHandler.handlers = new Array();
-		console.log(configs.bindKey);
-		console.log('register');
+		// console.log(configs.bindKey);
+		// console.log('register');
 
 		configs.bindKey.map(config => {
 
-			console.log(config.mainKey);
+			// console.log(config.mainKey);
 			config.mainKey.map(key =>{
 
-				console.log(key);
+				// console.log(key);
 				var keys = key.split('+');
-				console.log(keys.length);
-				if(keys.length<2){
-					console.log(key);
+				// console.log(keys.length);
+				if(keys.length < 2){
+					// console.log(key);
 					HotKeyHandler.register(key,null,keymap[keys[1]],config.handler);
 				}else{
-					console.log(keys);
-					console.log(keymap[keys[0]],keymap[keys[1]]);
+					// console.log(keys);
+					// console.log(keymap[keys[0]],keymap[keys[1]]);
 					HotKeyHandler.register(key,keymap[keys[0]],keymap[keys[1]],config.handler);
 				}
 
@@ -54,16 +54,16 @@ const HotKeyHandler = {
 			var keyCode = event.keyCode;
 			var exec = false;
 
-			console.log(keyCode, keyCode);
+			// console.log(keyCode, keyCode);
 
 			HotKeyHandler.handlers.map(handler =>{
 
-				console.log(handler);
+				// console.log(handler);
 				if(handler.mainKey == HotKeyHandler.currentMainKey) {
 					if(keyCode == handler.key) {
 						HotKeyHandler.currentMainKey = null;
 						if(func != null) {
-							console.log("exec");
+							// console.log("exec");
 							handler.func(HotKeyHandler.props);
 							exec = true;
 						}
@@ -71,7 +71,7 @@ const HotKeyHandler = {
 				}else{
 					if(keyCode == handler.key && handler.mainKey == null) {
 						if(func != null) {
-							console.log("exec");
+							// console.log("exec");
 							handler.func(HotKeyHandler.props);
 							exec = true;
 						}
@@ -81,7 +81,7 @@ const HotKeyHandler = {
 
 			if(keyCode == keymap['ctrl'] || keyCode == keymap['command']){
 				HotKeyHandler.currentMainKey=keyCode;
-				console.log(HotKeyHandler.currentMainKey);
+				// console.log(HotKeyHandler.currentMainKey);
 
 			}
 			return !exec;
