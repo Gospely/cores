@@ -15,6 +15,7 @@ import SplitPane from 'react-split-pane';
 import randomString from '../utils/randomString';
 
 
+
 function IndexPage(props) {
 
     // console.log("=======================IndexPage=");
@@ -185,43 +186,42 @@ function IndexPage(props) {
         rightBarWidth = 280;
     devPanelMinSize = devPanelMinSize - (rightBarWidth + leftBarWidth);
 
-    return ( <div className = "body">
-                <div
-                    hidden='true'
-                    id = "git-terminal" >
-                </div>
-                <div
-                    id = "git-show" >
-                </div>
-                <div className = "table-ftw" style = {{ paddingBottom: '0px' }}>
-                    <div className = "tr-ftw">
-                        <div className = "td-ftw" style = {{ height: '38px' }}>
-                            <Topbar> </Topbar>
-                        </div>
+    return (
+            <Spin tip={props.devpanel.loading.tips} spinning={props.devpanel.loading.isLoading}> 
+                <div className = "body" style={{height: '100vh'}}>
+               
+                    <div
+                        hidden='true'
+                        id = "git-terminal" >
                     </div>
-                    <div className = "tr-ftw" >
-                        <div className = "td-ftw" >
-                            <SplitPane split = "vertical" minSize = { 41 } defaultSize = { leftBarWidth } >
-                                <div className = "LeftSidebar" >
-                                    <LeftSidebar></LeftSidebar>
-                                </div>
-                                <SplitPane split = "vertical" defaultSize = { devPanelMinSize }>
-                                    <div className = { styles.devbar } >
-                                        <DevPanel {...devPanelProps } props = { props }></DevPanel>
+                    <div id = "git-show" >
+                    </div>
+                    <div className = "table-ftw" style = {{ paddingBottom: '0px' }}>
+                        <div className = "tr-ftw">
+                            <div className = "td-ftw" style = {{ height: '38px' }}>
+                                <Topbar> </Topbar>
+                            </div>
+                        </div>
+                        <div className = "tr-ftw" >
+                            <div className = "td-ftw" >
+                                <SplitPane split = "vertical" minSize = { 41 } defaultSize = { leftBarWidth } >
+                                    <div className = "LeftSidebar" >
+                                        <LeftSidebar></LeftSidebar>
                                     </div>
-                                    <RightSidebar></RightSidebar>
+                                    <SplitPane split = "vertical" defaultSize = { devPanelMinSize }>
+                                        <div className = { styles.devbar } >
+                                            <DevPanel {...devPanelProps } props = { props }></DevPanel>
+                                        </div>
+                                        <RightSidebar></RightSidebar>
+                                    </SplitPane>
                                 </SplitPane>
-                            </SplitPane>
+                            </div>
                         </div>
                     </div>
+                    
                 </div>
-                {props.devpanel.loading.isLoading && (<div style={{position: 'fixed', width: '100%', height: '100%', 
-                    left: 0, top: 0, textAlign: 'center', padding: '250px 0',
-                    backgroundColor: 'rgba(0, 0, 0, .1)'}}>
-                    <Spin tip={props.devpanel.loading.tips} spinning={props.devpanel.loading.isLoading}>
-                    </Spin>
-                </div>)}
-            </div>);
+            </Spin>
+            );
 }
 
 IndexPage.propTypes = {
@@ -230,6 +230,7 @@ IndexPage.propTypes = {
     sidebar: PropTypes.object,
     devPanel: PropTypes.object
 };
+
 
 // 指定订阅数据，这里关联了 indexPage
 function mapStateToProps({ sidebar, devpanel, editorTop, file, rightbar, UIState }) {

@@ -1,6 +1,7 @@
 import dva from 'dva';
 import { message } from 'antd';
 import randomString from '../utils/randomString';
+import computeDomHeight from '../utils/computeDomHeight.js';
 
 const layoutAction = {
 
@@ -29,6 +30,47 @@ const layoutAction = {
 				}
 			}
 		}
+	},
+
+	getControllerIndexByKey(controllersList, key) {
+		var index;
+
+		for (var i = 0; i < controllersList.length; i++) {
+			var controller = controllersList[i];
+			if(controller.children) {
+				layoutAction.getControllerIndexByKey(controller.children, key);
+			}
+
+			if(controller.key == key) {
+				index = i;
+				break;
+			}
+		};
+		return index;
+	},
+
+	getCtrlParentAndIndexByKey(ctrl, key) {
+		// console.log(ctrl, key)
+	    for(let i = 0; i < ctrl.children.length; i ++) {
+
+	        if (ctrl.children[i].key == key) {
+	        	
+	        	let data = {
+	        		parentCtrl: ctrl,
+	        		index: i
+	        	}
+	            return data;
+	        }
+
+	        if (ctrl.children[i].children) {
+	            console.log(ctrl.children[i])
+	            let result = layoutAction.getCtrlParentAndIndexByKey(ctrl.children[i], key);
+	            if(result) {
+	                return result;
+	            }
+	        }
+
+	    }
 	},
 
 	getActivePage (state) {
@@ -107,23 +149,6 @@ const layoutAction = {
 				}
 			})
 		}
-		return index;
-	},
-
-	getControllerIndexByKey(controllersList, key) {
-		var index;
-
-		for (var i = 0; i < controllersList.length; i++) {
-			var controller = controllersList[i];
-			if(controller.children) {
-				layoutAction.getControllerIndexByKey(controller.children, key);
-			}
-
-			if(controller.key == key) {
-				index = i;
-				break;
-			}
-		};
 		return index;
 	},
 
@@ -4126,6 +4151,8 @@ page {
 				}
 			}, '*');
 
+			computeDomHeight.leftSidebarWhenLoaded();
+
 			return {...state};
 		},
 
@@ -4283,7 +4310,7 @@ page {
 					ctrl = {};
 
 				tmpAttr = controller.attr;
-				console.log('dsfdsfdsfffdsfdfdfdsf', tmpAttr)
+				// console.log('dsfdsfdsfffdsfdfdfdsf', tmpAttr)
 				tmpAttr['title'] = {};
 				tmpAttr['title']['_value'] = controller.name;
 				tmpAttr['title']['type'] = 'input';
@@ -4504,6 +4531,19 @@ page {
 		attrChangeFromDrag(state, { payload: params }) {
 			let activeCtrl = layoutAction.getCtrlByKey(state.layout[0], params.ctrlId);
 			activeCtrl.attr[params.attr]._value = params.value;
+			return {...state};
+		},
+
+		ctrlExchanged(state, {payload: params}) {
+			console.log('交换啦', params.data);
+			let exchange1 = layoutAction.getCtrlParentAndIndexByKey(state.layout[0], params.data.prevElementId);
+			let	exchange2 = layoutAction.getCtrlParentAndIndexByKey(state.layout[0], params.data.dragElementId);
+				// console.log(exchange2, exchange1)
+			if (exchange1.parentCtrl.key == exchange2.parentCtrl.key) {
+				exchange1.parentCtrl.children[exchange1.index] = 
+					exchange2.parentCtrl.children.splice(exchange2.parentCtrl.children[exchange2.index], 1, 
+					exchange1.parentCtrl.children[exchange1.index])[0];
+			}
 			return {...state};
 		},
 
