@@ -651,8 +651,8 @@ const LeftSidebar = (props) => {
 							    </RadioGroup>
 					      	</Col>
 					    </Row>
-					</div>				
-
+					</div>
+					
 			  		<div style={{ marginTop: 32 }} hidden={!props.sidebar.appCreatingForm.createLocalServer}>
 			  		    <Row>
 					      	<Col span={4} style={{textAlign: 'right'}}>

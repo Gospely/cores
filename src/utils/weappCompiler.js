@@ -506,9 +506,11 @@ const weappCompiler = {
 
 			loopController = function(controller) {
 
-				if(controller.attr.isComponent) {
-					return false;
-				}
+				// if(!controller.attr.isComponent) {
+				// 	return false;
+				// }
+
+				console.log(controller)
 
 				var 
 					tag = typeof controller.tag == 'string' ? controller.tag : controller.tag[0],
@@ -559,6 +561,8 @@ const weappCompiler = {
 	                        var currentCtrl = controller.children[i],
 
 	                            loopComponent = loopController(currentCtrl);
+
+	                        console.log(loopComponent, elem);
 
 	                        elem.append($(loopComponent));
 
