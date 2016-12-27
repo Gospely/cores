@@ -57,13 +57,14 @@ const layoutAction = {
 	        	
 	        	let data = {
 	        		parentCtrl: ctrl,
+	        		thisCtrl: ctrl.children[i],
 	        		index: i
 	        	}
 	            return data;
 	        }
 
 	        if (ctrl.children[i].children) {
-	            console.log(ctrl.children[i])
+	            // console.log(ctrl.children[i])
 	            let result = layoutAction.getCtrlParentAndIndexByKey(ctrl.children[i], key);
 	            if(result) {
 	                return result;
@@ -4354,7 +4355,7 @@ page {
     			let parentCtrl = layoutAction.getCtrlByKey(state.layout[0], targetId);
     			parentCtrl.children = parentCtrl.children || [];
     			parentCtrl.children.push(tmpCtrl);
-    			console.log('这是增加ctrl的父亲',parentCtrl.children);
+    			// console.log('这是增加ctrl的父亲',parentCtrl.children);
     			state.layoutState.expandedKeys.push(targetId);
     		}else {
     			activePage.children.push(tmpCtrl);
@@ -4529,21 +4530,47 @@ page {
 		},
 
 		attrChangeFromDrag(state, { payload: params }) {
-			let activeCtrl = layoutAction.getCtrlByKey(state.layout[0], params.ctrlId);
-			activeCtrl.attr[params.attr]._value = params.value;
+			for(let i = 0; i < params.changeId.length; i ++) {
+				let activeCtrl = layoutAction.getCtrlByKey(state.layout[0], params.changeId[i]);
+				activeCtrl.attr[params.changeAttr[i]]._value = params.changeValue[i];
+			}
 			return {...state};
 		},
 
 		ctrlExchanged(state, {payload: params}) {
-			console.log('交换啦', params.data);
-			let exchange1 = layoutAction.getCtrlParentAndIndexByKey(state.layout[0], params.data.prevElementId);
-			let	exchange2 = layoutAction.getCtrlParentAndIndexByKey(state.layout[0], params.data.dragElementId);
-				// console.log(exchange2, exchange1)
-			if (exchange1.parentCtrl.key == exchange2.parentCtrl.key) {
-				exchange1.parentCtrl.children[exchange1.index] = 
-					exchange2.parentCtrl.children.splice(exchange2.parentCtrl.children[exchange2.index], 1, 
-					exchange1.parentCtrl.children[exchange1.index])[0];
+			
+			for(let i = 0; i < params.changeType.length; i ++) {
+
+				let exchCtrl = layoutAction.getCtrlParentAndIndexByKey(state.layout[0], params.exchElementId[i]),
+					dragCtrl = layoutAction.getCtrlParentAndIndexByKey(state.layout[0], params.dragElementId[i]);
+
+				let type = params.changeType[i];
+
+				if (type == 'outPrev') {
+					let ctrl = dragCtrl.parentCtrl.children.splice(dragCtrl.index, 1)[0];
+					exchCtrl.parentCtrl.children.splice(exchCtrl.index, 0, ctrl);
+				}else if (type == 'outNext') {
+					let ctrl = dragCtrl.parentCtrl.children.splice(dragCtrl.index, 1)[0];
+					exchCtrl.parentCtrl.children.splice(exchCtrl.index + 1, 0, ctrl);
+				}else if (type == 'appendPrev') {
+					let ctrl = dragCtrl.parentCtrl.children.splice(dragCtrl.index, 1)[0];
+					exchCtrl.thisCtrl.children = exchCtrl.thisCtrl.children || [];
+					exchCtrl.thisCtrl.children.push(ctrl);
+				}else if (type == 'prependNext') {
+					console.log(exchCtrl.thisCtrl.children)
+					let ctrl = dragCtrl.parentCtrl.children.splice(dragCtrl.index, 1)[0];
+					exchCtrl.thisCtrl.children = exchCtrl.thisCtrl.children || [];
+					exchCtrl.thisCtrl.children.unshift(ctrl);
+					console.log(exchCtrl.thisCtrl.children)
+				}else {
+					let ctrl = dragCtrl.parentCtrl.children.splice(dragCtrl.index, 1, 
+									exchCtrl.parentCtrl.children[exchCtrl.index])[0];
+					exchCtrl.parentCtrl.children[exchCtrl.index] = ctrl;
+				}
+
 			}
+			
+			
 			return {...state};
 		},
 

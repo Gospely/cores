@@ -477,9 +477,9 @@ $(function () {
 
                             this.isMouseDown = false;
                             postMessageToFather.attrChangeFromDrag({
-                                ctrlId: self[0].id, 
-                                value: e.pageY - this.orginY + this.orginHeight + 'px',
-                                attr: 'height'
+                                changeId: [self[0].id], 
+                                changeValue: [e.pageY - this.orginY + this.orginHeight + 'px'],
+                                changeAttr: ['height']
                             });
 
                         })
@@ -934,7 +934,10 @@ $(function () {
 
         
         var dndData = {
-            dataPostToParent: {
+            constructTreeData: {
+
+            },
+            attrChangeData: {
 
             }
         };
@@ -1269,8 +1272,17 @@ $(function () {
                 elem.on('dragstart', function (e) {
                     // console.log(e)
                     e.originalEvent.dataTransfer.effectAllowed = "move";
-                    dndData.dataPostToParent.haveChange = false;
-                    window.haveAttrChange = false;
+                    
+                    dndData.attrChangeData.haveAttrChange = false;
+                    dndData.attrChangeData.changeId = [];
+                    dndData.attrChangeData.changeAttr = [];
+                    dndData.attrChangeData.changeValue = [];
+
+                    dndData.constructTreeData.haveChange = false;
+                    dndData.constructTreeData.changeType = [];
+                    dndData.constructTreeData.dragElementId = [];
+                    dndData.constructTreeData.exchElementId = [];
+
                     e.stopPropagation();
                     window.dragElement = jq(e.currentTarget);
                     window.orginY = e.pageY;
@@ -1290,7 +1302,7 @@ $(function () {
                 elem.on('drag',function (e) {
                     e.stopPropagation();
 
-                    var $this = jq(e.currentTarget),
+                    var $this = window.dragElement,
                         thisId = $this.eq(0).attr('id'),
                         thisHeight = $this.outerHeight(),
                         moveY = e.pageY - window.orginY,
@@ -1302,16 +1314,21 @@ $(function () {
                     if(moveY <= - referHeight / 3 * 2) {
                         if (prevElement.length) {
 
-                            dndData.dataPostToParent.haveChange = true;
-                            dndData.dataPostToParent.changeType = 'before';
-                            dndData.dataPostToParent.dragElementId = thisId;
-                            dndData.dataPostToParent.prevElementId = prevElement.eq(0).attr('id');
+                            dndData.constructTreeData.haveChange = true;
+                            dndData.constructTreeData.changeType.push('before');
+                            dndData.constructTreeData.dragElementId.push(thisId);
+                            dndData.constructTreeData.exchElementId.push(prevElement.eq(0).attr('id'));
                             
                             prevElement.before($this);
                             window.orginY = e.pageY;
                             
 
                         }else if (dragElementParent.data('is-container')) {
+
+                            dndData.constructTreeData.haveChange = true;
+                            dndData.constructTreeData.changeType.push('outPrev');
+                            dndData.constructTreeData.dragElementId.push(thisId);
+                            dndData.constructTreeData.exchElementId.push(dragElementParent.eq(0).attr('id'));
 
                             dragElementParent.before($this);
                             if (!dragElementParent.hasClass('page__bd')) {
@@ -1320,9 +1337,10 @@ $(function () {
                                     dragElementParent.css({
                                         height: '20px'
                                     });
-                                    window.changeAttr = 'height';
-                                    window.changeId = dragElementParent.eq(0).attr('id');
-                                    window.haveAttrChange = true;
+                                    dndData.attrChangeData.changeAttr.push('height');
+                                    dndData.attrChangeData.changeId.push(dragElementParent.eq(0).attr('id'));
+                                    dndData.attrChangeData.changeValue.push('20px');
+                                    dndData.attrChangeData.haveAttrChange = true;
                                 }
                             }
 
@@ -1332,11 +1350,21 @@ $(function () {
                     }else if (moveY >= referHeight / 3 * 2) {
                         // console.log('找到爸爸啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦', dragElementParent)
                         if (nextElement.length) {
-                            console.log('jjjjj', nextElement)
+                            
+                            dndData.constructTreeData.haveChange = true;
+                            dndData.constructTreeData.changeType.push('next');
+                            dndData.constructTreeData.dragElementId.push(thisId);
+                            dndData.constructTreeData.exchElementId.push(nextElement.eq(0).attr('id'));
+
                             nextElement.after($this);
                             window.orginY = e.pageY;
 
                         }else if (dragElementParent.data('is-container')) {
+
+                            dndData.constructTreeData.haveChange = true;
+                            dndData.constructTreeData.changeType.push('outNext');
+                            dndData.constructTreeData.dragElementId.push(thisId);
+                            dndData.constructTreeData.exchElementId.push(dragElementParent.eq(0).attr('id'));
 
                             dragElementParent.after($this);
                             if (!dragElementParent.hasClass('page__bd')) {
@@ -1344,9 +1372,10 @@ $(function () {
                                     dragElementParent.css({
                                         height: '20px'
                                     });
-                                    window.changeAttr = 'height';
-                                    window.changeId = dragElementParent.eq(0).attr('id');
-                                    window.haveAttrChange = true;
+                                    dndData.attrChangeData.changeAttr.push('height');
+                                    dndData.attrChangeData.changeId.push(dragElementParent.eq(0).attr('id'));
+                                    dndData.attrChangeData.changeValue.push('20px');
+                                    dndData.attrChangeData.haveAttrChange = true;
                                 }
                             }
                             window.orginY = e.pageY;
@@ -1354,6 +1383,11 @@ $(function () {
                         }
                     }else if (moveY < - referHeight / 3 && moveY > - referHeight / 3 * 2 && 
                               prevElement.length && prevElement.data('is-container')) {
+
+                            dndData.constructTreeData.haveChange = true;
+                            dndData.constructTreeData.changeType.push('appendPrev');
+                            dndData.constructTreeData.dragElementId.push(thisId);
+                            dndData.constructTreeData.exchElementId.push(prevElement.eq(0).attr('id'));
 
                             prevElement.append($this);
 
@@ -1364,13 +1398,19 @@ $(function () {
                                     height: 'auto'
                                 })
 
-                                window.changeAttr = 'height';
-                                window.changeId = prevElement.eq(0).attr('id');
-                                window.haveAttrChange = true;
+                                dndData.attrChangeData.changeAttr.push('height');
+                                dndData.attrChangeData.changeId.push(prevElement.eq(0).attr('id'));
+                                dndData.attrChangeData.changeValue.push('auto');
+                                dndData.attrChangeData.haveAttrChange = true;
 
                             }
                     }else if (moveY > referHeight / 3 && moveY < referHeight / 3 * 2 && 
                              nextElement.length && nextElement.data('is-container')) {
+
+                            dndData.constructTreeData.haveChange = true;
+                            dndData.constructTreeData.changeType.push('prependNext');
+                            dndData.constructTreeData.dragElementId.push(thisId);
+                            dndData.constructTreeData.exchElementId.push(nextElement.eq(0).attr('id'));
 
                             nextElement.prepend($this);
 
@@ -1381,17 +1421,11 @@ $(function () {
                                     height: 'auto'
                                 })
 
-                                window.changeAttr = 'height';
-                                window.changeId = nextElement.eq(0).attr('id');
-                                window.haveAttrChange = true;
+                                dndData.attrChangeData.changeAttr.push('height');
+                                dndData.attrChangeData.changeId.push(nextElement.eq(0).attr('id'));
+                                dndData.attrChangeData.changeValue.push('auto');
+                                dndData.attrChangeData.haveAttrChange = true;
 
-                                nextElement.css({
-                                    height: 'auto'
-                                })
-
-                                window.changeAttr = 'height';
-                                window.changeId = nextElement.eq(0).attr('id');
-                                window.haveAttrChange = true;
                             }
                         }
                         
@@ -1411,21 +1445,17 @@ $(function () {
 
                 elem.on('dragend', function (e) {
 
+                    e.stopPropagation();
+
                     // console.log('拖拽结束：＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝',e);
                     jq(e.currentTarget).css('opacity','1');
-                    if (window.haveAttrChange) {
-                        postMessageToFather.attrChangeFromDrag({
-                            ctrlId: window.changeId, 
-                            value: jq('#' + changeId).css(window.changeAttr),
-                            attr: window.changeAttr
-                        });
+                    if (dndData.attrChangeData.haveAttrChange) {
+                        postMessageToFather.attrChangeFromDrag(dndData.attrChangeData);
                     }
 
                     //组件树改变结构
-                    if (dndData.dataPostToParent.haveChange) {
-                        postMessageToFather.ctrlExchanged({
-                            data: dndData.dataPostToParent
-                        })
+                    if (dndData.constructTreeData.haveChange) {
+                        postMessageToFather.ctrlExchanged(dndData.constructTreeData)
                     }
                     
                     postMessageToFather.ctrlUpdated({
