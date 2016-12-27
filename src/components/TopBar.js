@@ -593,7 +593,7 @@ const LeftSidebar = (props) => {
 					    </Row>
 					</div>
 
-			  		<div style={{ marginTop: 32 }}>
+			  		<div style={{ marginTop: 32 }} hidden={props.sidebar.versions.length === 0 }>
 			  		    <Row>
 					      	<Col span={4} style={{textAlign: 'right'}}>
 					      		<span>请选择语言版本：</span>

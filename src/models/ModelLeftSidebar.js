@@ -72,8 +72,8 @@ export default {
 			git: '',
 			image: 'HTML5',
 			imageVersion: 'latest',
-			useFramework: true,
-			framework: '',
+			useFramework: false,
+			framework: 'AngularJS2',
 			createLocalServer: false,
 			databaseType: '',
 			databasePassword: '',
@@ -90,9 +90,13 @@ export default {
 	subscriptions: {
 		setup({ dispatch, history }) {
 	      	history.listen(({ pathname }) => {
-          		dispatch({
-            		type: 'isGitProject'
-          		});
+
+	      		if(location.hash.indexOf('project') != -1) {
+	          		dispatch({
+	            		type: 'isGitProject'
+	          		});
+	      		}
+
 	      	});
 		}
 	},

@@ -26,12 +26,14 @@ const DevPanel = ({
 		editor: function(params) {
 			console.log(params);
 			return (
-				<CodingEditor searchVisible={params.searchVisible}
-				 editorId={params.editorId} belongTo={params.belongTo}
-				 isSave={params.isSave} tabKey={params.tabKey}
-				 content={params.content}
-				 >
-				</CodingEditor>
+				<Spin spinning={params.loading}>
+					<CodingEditor searchVisible={params.searchVisible}
+					 editorId={params.editorId} belongTo={params.belongTo}
+					 isSave={params.isSave} tabKey={params.tabKey}
+					 content={params.content}
+					 >
+					</CodingEditor>
+				</Spin>
 			);
 		},
 
@@ -62,11 +64,6 @@ const DevPanel = ({
 			return(
 				<Previewer></Previewer>
 			)
-		},
-		Loading: function () {
-			return(
-				<Spin tip='文件读取中...' spinning={true}></Spin>
-			)
 		}
 	}
 
@@ -80,7 +77,8 @@ const DevPanel = ({
 				belongTo: belongTo || 0,
 				searchVisible: pane.searchVisible || false,
 				isSave: pane.isSave || false,
-				tabKey: pane.key
+				tabKey: pane.key,
+				loading: pane.loading || false
 			}
 			return <TabPane tab={pane.title} key={pane.key}>{currentDevType[pane.type](params)}</TabPane>;
 		});

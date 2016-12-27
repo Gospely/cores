@@ -86,7 +86,8 @@ export default {
 			    			type: 'welcome',
 			    			editorId: '',
 			    			searchVisible: false,
-			    			isSave: false
+			    			isSave: false,
+			    			loading: false
 			    		}
 		    		],
 
@@ -135,8 +136,6 @@ export default {
 	effects: {
 
 		*startDocker({ payload: params }, {call, put, select}){
-
-			console.log("=====================startDocker===========" + params.id);
 			var res = yield request("container/start/" + params.id, {
 				method: 'GET',
 			});
@@ -160,17 +159,11 @@ export default {
 		//根据项目的类型渲染ide面板
 		*handleImages({ payload: params}, {call, put, select}) {
 
-			console.log("handleImages");
-			console.log(params);
-
 			var url = "images/" + params.id;
-			console.log(url);
 
 			var res = yield request(url, {
 				method: 'GET',
 			});
-
-			console.log(res );
 
 			if(res.data.fields.devType == 'common'){
 				yield put({ type: "handleCommon" });
@@ -184,10 +177,7 @@ export default {
 			var configs = '',
 				config = '',
 				UIState = '';
-			console.log("============getConfig=============" + params.id);
-			console.log("============getConfig=============" + window.applicationId);
 			localStorage.flashState = 'true';
-			console.log(params);
 			if(window.reload || params.UIState == null || params.UIState == undefined){
 
 				window.reload = false;
@@ -198,51 +188,42 @@ export default {
 				UIState = JSON.parse(config.configs);
 			}else{
 				UIState = params.UIState;
-				console.log("============getConfig=============localStorage");
 			}
-			console.log(UIState);
-				for(var i = 0; i < UIState.panels.panes.length; i++) {
-					var pane =  UIState.panels.panes[i];
+			
+			for(var i = 0; i < UIState.panels.panes.length; i++) {
+				var pane =  UIState.panels.panes[i];
+				for(var j= 0; j< pane.tabs.length; j++){
+					var activeTab = pane.tabs[j];
+					if(activeTab.type == 'editor') {
 
-					for(var j= 0; j< pane.tabs.length; j++){
-						var activeTab = pane.tabs[j];
-						if(activeTab.type == 'editor') {
+						var fileName = activeTab.file;
 
-
-							console.log("================== initTab state ============",activeTab);
+						if(fileName != null && fileName != undefined && fileName != '新文件'　&& fileName != '新标签页') {
 							var fileName = activeTab.file;
 
-							if(fileName != null && fileName != undefined && fileName != '新文件'　&& fileName != '新标签页') {
-
-								var file = fileName.split('.');
-								console.log(file[file.length-1]);
-								var suffix = file[file.length-1];
-								if(suffix != undefined){
-									localStorage.suffix = suffix;
-								}
-								yield put({
-									type: 'dynamicChangeSyntax',
-									payload:{suffix}
-								});
-								var readResult = yield request('fs/read', {
-											method: 'POST',
-											body: JSON.stringify({
-												fileName: localStorage.dir + fileName.replace(localStorage.currentProject,""),
-											})
-										});
-								console.log(readResult);
-								var content = readResult.data
-								// console.log(content)
-								content = content.fields;
-								activeTab.content = content.content;
-								UIState.panels.panes[i].tabs[j].content = content.content;
+							var file = fileName.split('.');
+							var suffix = file[file.length-1];
+							if(suffix != undefined){
+								localStorage.suffix = suffix;
 							}
+							yield put({
+								type: 'dynamicChangeSyntax',
+								payload:{suffix}
+							});
+							var readResult = yield request('fs/read', {
+								method: 'POST',
+								body: JSON.stringify({
+									fileName: localStorage.dir + fileName.replace(localStorage.currentProject,""),
+								})
+							});
+							var content = readResult.data
+							content = content.fields;
+							activeTab.content = content.content;
+							UIState.panels.panes[i].tabs[j].content = content.content;
 						}
 					}
 				}
-			console.log(configs);
-			console.log("======================initState==================");
-			console.log(UIState);
+			}
 			yield put({
 				type: 'initState',
 				payload: {UIState}
@@ -250,10 +231,7 @@ export default {
 
 		},
 		*loadContent({ payload: params}, {call, put, select}){
-
-			console.log("=========================loadContent====================");
 			var fileName = params.tab.title;
-			console.log(params);
 			var readResult = yield request('fs/read', {
 				method: 'POST',
 				body: JSON.stringify({
@@ -261,8 +239,6 @@ export default {
 				})
 			});
 
-			console.log("=========================loadContent====================");
-			console.log(readResult);
 			var content = readResult.data.fields;
 
 			yield put({
@@ -285,11 +261,8 @@ export default {
 
 	reducers: {
 		initState(state, { payload: params}){
-
-			console.log("=========initState============");
 			state.panels = params.UIState.panels;
 			state.devType = params.UIState.devType;
-
 			return {...state};
 		},
 		initDebugPanel(state, { payload: params}){
@@ -297,9 +270,6 @@ export default {
 			return {...state}
 		},
 		initTab(state, { payload: params}){
-
-			console.log("=========initTab============");
-			console.log(params);
 			var pane = state.panels.panes[params.paneKey.paneKey],
 				activeTab = pane.tabs[pane.activeTab.index];
 			activeTab = params.content;
@@ -308,7 +278,6 @@ export default {
 		},
 		handleDebugger(state, { payload: params}){
 			state.debug = params.debug;
-			console.log('handleDebugger');
 			return {...state};
 		},
 
@@ -334,8 +303,6 @@ export default {
 		},
 
 		handleCommon(state) {
-
-			console.log("handleCommon");
 			state.panels.panes[0].activeTab.key = "1";
 			state.devType.defaultActiveKey = 'setting';
 			localStorage.defaultActiveKey = 'setting';
@@ -349,8 +316,6 @@ export default {
 				"isSave":false
 			}];
 			state.devType.type = 'common';
-			// appRouter.go('/project/' + localStorage.currentProject);
-			//window.location.href = 'http://localhost:8989/#/project/' + localStorage.applicationId;
 			return {...state};
 		},
 
@@ -378,54 +343,35 @@ export default {
 			return {...state};
 		},
 		toggleSearchBar(state,{payload:params}) {
-			console.log(params.belongTo)
 			let tab = methods.getActiveTab(state, state.panels.panes[params.belongTo]);
 			tab.searchVisible = !tab.searchVisible;
 			return {...state};
 		},
 
 		changePane(state,{payload: key}){
-			console.log(key);
 			state.panels.activePane.key = key;
 			return {...state};
 		},
 
 		tabChanged(state, {payload: params}) {
 
-			console.log('tab change');
-			// localStorage.isSave = false;
-			console.log(params);
-			// console.log(params.paneKey)
 			state.panels.activePane.key = params.paneKey;
 			const activePane = methods.getActivePane(state);
-			console.log(state);
 			methods.getActivePane(state).activeTab.key = params.active;
 			const activeTab = activePane.tabs[params.active - 1]
-			console.log(activeTab);
-			// console.log(activeTab)
 
 			methods.getActivePane(state).activeTab.index = ( parseInt(params.active) - 1 ).toString();
 
-			// console.log('activePane',methods.getActivePane(state))
-			// console.log('activeTab',activeTab);
-
 			if(activeTab.type == 'editor') {
-				// state.panels.activeEditor.id = activeTab.content.props.editorId;
-				console.log(activeTab)
-
 				activePane.activeEditor.id = activeTab.editorId;
 			}
-			console.log(activePane.activeEditor.id);
 			return {...state};
 		},
 		changeTabTitle(state,{payload:params}){
-			console.log(params);
 			const activePane = methods.getActivePane(state);
 			const activeTab = activePane.tabs[activePane.activeTab.index];
 			const activeEditor = activePane.editors[activePane.activeEditor.id];
 			activeEditor.fileName = params.value;
-			console.log(activeTab);
-			console.log(params.value);
 			activeTab.title = params.value;
 			return {...state};
 		},
@@ -541,7 +487,6 @@ export default {
 
 		remove(state, {payload: target}) {
 			if (typeof target.paneKey != 'undefined') {
-
 				state.panels.activePane.key = target.paneKey;
 			}
 			let targetKey = target.targetKey;
@@ -560,8 +505,6 @@ export default {
 					if (isKey) {
 						activePane.activeTab.key = tab.key;
 						activePane.activeTab.index = i;
-						console.log("=====================reTabKey==========");
-						console.log(tab);
 						activePane.activeEditor.id = tab.editorId;
 					}
 				})
@@ -576,14 +519,10 @@ export default {
 					}
 				}
 			});
-			console.log('lastIndex',lastIndex)
-
 			const tabs = activePane.tabs.filter(tab => tab.key !== targetKey);
-			// console.log('activePane',methods.getActivePane(state).key)
 			if(lastIndex >= 0 && activeKey === targetKey) {
 				if(tabs.length != 0) {
 					activeKey = tabs[lastIndex].key;
-
 					//切换语法
 					if (tabs[lastIndex].type == 'editor') {
 						let fileName = tabs[lastIndex].title.split('.');
@@ -620,17 +559,12 @@ export default {
 		},
 
 		handleEditorChanged(state, { payload: params }) {
-			// localStorage.isSave = true;
-			console.log("========handleEditorChanged=======");
-			console.log(params)
 			let activePane = methods.getActivePane(state);
 			let editorObj = {
 				id: params.editorId,
 				value: params.value
 			}
-			console.log(editorObj)
 			activePane.editors[params.editorId] = editorObj;
-			// methods.getActivePane(state).editors[params.editorId].value = params.value;
 			activePane.activeEditor.id = params.editorId;
 			methods.getActiveTab(state,activePane).isSave = false;
 
@@ -638,21 +572,14 @@ export default {
 		},
 
 		handleFileSave(state,{payload: params}) {
-
-			console.log("handleFileSave");
-			console.log(params);
-			console.log(state.panels.panes[params.pane].tabs)
 			state.panels.panes[params.pane].tabs[params.tabKey - 1].isSave = true;
 			return {...state};
 		},
 		add(state, {payload: target}) {
 
-			// localStorage.isSave = false;
-			// console.log("paneKey",target.paneKey)
 			if (typeof target.paneKey !== 'undefined') {
 				state.panels.activePane.key = target.paneKey;
 			}
-			// console.log(target.paneKey)
 
 		    let panes = state.panels.panes;
 		    let activePane = methods.getActivePane(state);
@@ -660,9 +587,9 @@ export default {
 			target.file = target.file || '';
 			target.type = target.type || 'editor';
 			target.content = target.content || '';
+			target.loading = target.loading || false;
 
 			activePane.activeTab.key = (activePane.tabs.length + 1).toString();
-			// console.log(target.content)
 			let isSave = true;
 
 			if (target.type === 'editor') {
@@ -679,15 +606,10 @@ export default {
 			}
 			let editorId = target.editorId || '';
 			activePane.activeEditor.id = target.editorId;
-			// console.log("key",state.panels.activePane.key)
 		    activePane.tabs.push({ title: target.title, content: target.content,
 		    					type: target.type, key: activePane.activeTab.key, file: target.file,
-		    					editorId: editorId,isSave: isSave});
-		    // console.log('editorTab:',currentDevType)
+		    					editorId: editorId,isSave: isSave,loading: target.loading});
 			activePane.activeTab = {key: activePane.activeTab.key, index: activePane.tabs.length - 1};
-			// console.log({ title: target.title, content: target.content,
-		 //    					type: target.type, key: activePane.activeTab.key,
-		 //    					editorId: editorId,isSave: isSave});
 		    return {...state};
 		},
 
@@ -703,9 +625,9 @@ export default {
 							editorId: params.editorId,
 							fileName: params.file
 						};
-						// panes[i].tabs[j].title = params.title;
 						panes[i].tabs[j].type = 'editor';
 						panes[i].tabs[j].content = params.content;
+						panes[i].tabs[j].loading = params.loading;
 					}
 				}
 			}
@@ -722,15 +644,10 @@ export default {
 
 		//UI状态初始化
 		initState(state, { payload: params }){
-
-			console.log("=======================initState=================");
-			console.log(params);
 			state.panels = params.UIState.panels;
 			return {...state};
 		},
 		setPID(state, { payload: params }){
-
-			console.log("=================setPID===============");
 			var activePane = state.panels.panes[state.panels.activePane.key],
 			tabKey = activePane.activeTab.key,
 			activeTab = activePane.tabs[tabKey-1];
@@ -738,11 +655,6 @@ export default {
 			return {...state};
 		},
 		dynamicChangeSyntax(state,{payload: params}) {
-
-			console.log("-----------------------------------------------denamicChange");
-			// alert('kk')
-			console.log(params.suffix);
-
 			if(setMode[params.suffix] == undefined) {
 				params.suffix = 'txt';
 			}
