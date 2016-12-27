@@ -86,7 +86,8 @@ export default {
 			    			type: 'welcome',
 			    			editorId: '',
 			    			searchVisible: false,
-			    			isSave: false
+			    			isSave: false,
+			    			loading: false
 			    		}
 		    		],
 
@@ -198,9 +199,9 @@ export default {
 				UIState = JSON.parse(config.configs);
 			}else{
 				UIState = params.UIState;
-				console.log("============getConfig=============localStorage");
+				// console.log("============getConfig=============localStorage");
 			}
-			console.log(UIState);
+			// console.log(UIState);
 				for(var i = 0; i < UIState.panels.panes.length; i++) {
 					var pane =  UIState.panels.panes[i];
 
@@ -209,7 +210,7 @@ export default {
 						if(activeTab.type == 'editor') {
 
 
-							console.log("================== initTab state ============",activeTab);
+							// console.log("================== initTab state ============",activeTab);
 							var fileName = activeTab.file;
 
 							if(fileName != null && fileName != undefined && fileName != '新文件'　&& fileName != '新标签页') {
@@ -660,6 +661,7 @@ export default {
 			target.file = target.file || '';
 			target.type = target.type || 'editor';
 			target.content = target.content || '';
+			target.loading = target.loading || false;
 
 			activePane.activeTab.key = (activePane.tabs.length + 1).toString();
 			// console.log(target.content)
@@ -682,7 +684,7 @@ export default {
 			// console.log("key",state.panels.activePane.key)
 		    activePane.tabs.push({ title: target.title, content: target.content,
 		    					type: target.type, key: activePane.activeTab.key, file: target.file,
-		    					editorId: editorId,isSave: isSave});
+		    					editorId: editorId,isSave: isSave,loading: target.loading});
 		    // console.log('editorTab:',currentDevType)
 			activePane.activeTab = {key: activePane.activeTab.key, index: activePane.tabs.length - 1};
 			// console.log({ title: target.title, content: target.content,
@@ -706,6 +708,7 @@ export default {
 						// panes[i].tabs[j].title = params.title;
 						panes[i].tabs[j].type = 'editor';
 						panes[i].tabs[j].content = params.content;
+						panes[i].tabs[j].loading = params.loading;
 					}
 				}
 			}

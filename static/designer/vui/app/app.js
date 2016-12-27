@@ -1212,8 +1212,14 @@ $(function () {
                         }
                     }
 
+                    //设置容器属性
                     if (currentAttr.isContainer) {
                         this.elem.data('is-container', true);
+                    }
+
+                    //阻止用户在设计器中改变表单的值
+                    if (att == 'value' || att == 'checked') {
+                        this.elem.attr('disabled', 'disabled');
                     }
 
                 }
