@@ -98,7 +98,7 @@ export default {
 			],
 			inputValue: ''
 		},
-		treeLoading: false
+		treeLoading: true
 	},
 
 	subscriptions: {

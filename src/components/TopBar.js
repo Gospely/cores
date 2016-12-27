@@ -196,6 +196,11 @@ const LeftSidebar = (props) => {
 
 	        designer() {
 
+	        	if(gospelDesignerPreviewer) {
+	        		message.warning('小程序设计器目前只能打开一个!');
+	        		return false;
+	        	}
+
 	          	var title = 'Gospel 微信小程序 设计器',
 	              	type = 'designer';
 
