@@ -90,9 +90,13 @@ export default {
 	subscriptions: {
 		setup({ dispatch, history }) {
 	      	history.listen(({ pathname }) => {
-          		dispatch({
-            		type: 'isGitProject'
-          		});
+
+	      		if(location.hash.indexOf('project') != -1) {
+	          		dispatch({
+	            		type: 'isGitProject'
+	          		});
+	      		}
+
 	      	});
 		}
 	},

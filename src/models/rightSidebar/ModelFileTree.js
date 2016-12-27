@@ -70,15 +70,18 @@ export default {
 			visible: false,
 			value: ''
 		},
+		
 		saveModal: {
 			visible: false,
 			title: ''
 		},
+		
 		newFileNameModal: {
 			visible: false,
 			value: '',
 			title: ''
 		},
+
 		uploadModal: {
 			visible: false,
 			title: '上传文件',
@@ -86,6 +89,7 @@ export default {
 			needUnZip: false,
 			isUnZip: false,
 			unZiping: false,
+		
 		},
 		searchFilePane: {
 			visible: false,

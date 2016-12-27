@@ -33,7 +33,6 @@ const initApplication = function (application, props){
   if(localStorage.UIState != null && localStorage != undefined){
 
     var UIState = JSON.parse(localStorage.UIState);
-    console.log(UIState);
     // props.dispatch({
     //     type: 'sidebar/initState',
     //     payload: { UIState: UIState.UIState.sidebar }
@@ -42,7 +41,6 @@ const initApplication = function (application, props){
       type: 'devpanel/getConfig',
       payload: { id : application.id, UIState: UIState.UIState.devpanel}
     });
-    // console.log(UIState.UIState.rightbar);
     // props.dispatch({
     //     type: 'rightbar/initState',
     //     payload: { UIState: UIState.UIState.rightbar }
@@ -75,4 +73,5 @@ const initApplication = function (application, props){
   });
 
 }
+
 export default initApplication;
