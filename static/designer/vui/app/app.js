@@ -364,6 +364,10 @@ $(function () {
 
             tabBarAdded: function(c) {
                 parent.parent.postMessage({ 'tabBarAdded': c }, '*');
+            },
+
+            ctrlExchanged: function(c) {
+                parent.parent.postMessage({'ctrlExchanged': c}, '*');
             }
 
         }
@@ -928,6 +932,13 @@ $(function () {
             }
         };
 
+        
+        var dndData = {
+            dataPostToParent: {
+
+            }
+        };
+
         function ComponentsGenerator(params) {
 
             params.initElem = params.initElem || false;
@@ -1251,23 +1262,19 @@ $(function () {
             },
 
             makeElemAddedDraggable: function() {
-                var orginClientX, 
-                    orginClientY, 
-                    movingClientX, 
-                    movingClientY,
-                    elem = this.elem;
+                var elem = this.elem;
 
                 elem.attr('draggable', true);
 
                 elem.on('dragstart', function (e) {
                     // console.log(e)
                     e.originalEvent.dataTransfer.effectAllowed = "move";
+                    dndData.dataPostToParent.haveChange = false;
                     window.haveAttrChange = false;
                     e.stopPropagation();
                     window.dragElement = jq(e.currentTarget);
                     window.orginY = e.pageY;
                     window.dragElementParent = window.dragElement.parent();
-                    window.isHover = false;
                     if(window.dragElement.hasClass('hight-light')) {
                         orginClientX = e.clientX;
                         orginClientY = e.clientY;
@@ -1294,9 +1301,15 @@ $(function () {
                     
                     if(moveY <= - referHeight / 3 * 2) {
                         if (prevElement.length) {
+
+                            dndData.dataPostToParent.haveChange = true;
+                            dndData.dataPostToParent.changeType = 'before';
+                            dndData.dataPostToParent.dragElementId = thisId;
+                            dndData.dataPostToParent.prevElementId = prevElement.eq(0).attr('id');
                             
                             prevElement.before($this);
                             window.orginY = e.pageY;
+                            
 
                         }else if (dragElementParent.data('is-container')) {
 
@@ -1406,6 +1419,13 @@ $(function () {
                             value: jq('#' + changeId).css(window.changeAttr),
                             attr: window.changeAttr
                         });
+                    }
+
+                    //组件树改变结构
+                    if (dndData.dataPostToParent.haveChange) {
+                        postMessageToFather.ctrlExchanged({
+                            data: dndData.dataPostToParent
+                        })
                     }
                     
                     postMessageToFather.ctrlUpdated({

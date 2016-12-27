@@ -189,6 +189,13 @@ export default {
 					props.dispatch({
 						type: 'designer/fakePageSelected'
 					});
+				},
+
+				ctrlExchanged () {
+					props.dispatch({
+						type: 'designer/ctrlExchanged',
+						payload: data
+					})
 				}
 
 
