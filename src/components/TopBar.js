@@ -661,8 +661,8 @@ const LeftSidebar = (props) => {
 							    <RadioGroup
 							    	value={props.sidebar.appCreatingForm.databaseType}
 							    	onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'databaseType')}>
-							      	<RadioButton value="MySQL">MySQL</RadioButton>
-							      	<RadioButton value="MongoDB">MongoDB</RadioButton>
+							      	<RadioButton value="mysql">MySQL</RadioButton>
+							      	<RadioButton value="mongodb">MongoDB</RadioButton>
 							    </RadioGroup>
 					      	</Col>
 					    </Row>
