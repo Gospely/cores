@@ -262,7 +262,7 @@ const LeftSidebar = (props) => {
 				  		(<Button type="primary" size="small" onClick={btnClick}>
 				      		取消
 				    	</Button>)
-				    ];				    	
+				    ];
 				  	notification.open({
 				    	message: '您确定要取消创建应用吗？',
 				    	btn,
@@ -409,7 +409,7 @@ const LeftSidebar = (props) => {
 	const onSelectStartMenu = function (activeMenu) {
 		let handleActiveMenuEvent = {
 			runCommand() {
-				
+
 			},
 
 			run() {
@@ -489,7 +489,7 @@ const LeftSidebar = (props) => {
 			})
 		},
 		commitDebugConfigChange() {
-			
+
 		}
 	}
 
@@ -505,6 +505,8 @@ const LeftSidebar = (props) => {
 		},
 
 		onFormInputChange (s, dom) {
+			console.log(s);
+			console.log(dom.target.value);
 			props.dispatch({
 				type: 'sidebar/handleInputChanged',
 				payload: {
@@ -512,6 +514,22 @@ const LeftSidebar = (props) => {
 					value: dom.target.value
 				}
 			});
+			if(s == 'image') {
+				props.dispatch({
+					type: 'sidebar/initVersions',
+					payload: {
+						input: s,
+						value: dom.target.value
+					}
+				});
+				props.dispatch({
+					type: 'sidebar/initFrameWork',
+					payload: {
+						input: s,
+						value: dom.target.value
+					}
+				});
+			}
 		}
 	}
 
@@ -566,30 +584,25 @@ const LeftSidebar = (props) => {
 					      		<span>请选择语言：</span>
 					      	</Col>
 					      	<Col style={{textAlign: 'left'}}>
-							    <RadioGroup 
-							    	value={props.sidebar.appCreatingForm.image} 
+							    <RadioGroup
+							    	value={props.sidebar.appCreatingForm.image}
 							    	onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'image')}>
-							      	<RadioButton value="HTML5">HTML5</RadioButton>
-							      	<RadioButton value="Node.js">Node.js</RadioButton>
-							      	<RadioButton value="PHP">PHP</RadioButton>
-							      	<RadioButton value="微信小程序">微信小程序</RadioButton>
+									{props.sidebar.images.map(image =><RadioButton value={image.id} key={image.id}>{image.name}</RadioButton>)}
 							    </RadioGroup>
 					      	</Col>
 					    </Row>
 					</div>
 
-			  		<div style={{ marginTop: 32 }}>
+			  		<div style={{ marginTop: 32 }} hidden={props.sidebar.versions.length === 0 }>
 			  		    <Row>
 					      	<Col span={4} style={{textAlign: 'right'}}>
 					      		<span>请选择语言版本：</span>
 					      	</Col>
 					      	<Col style={{textAlign: 'left'}}>
-							    <RadioGroup 
-							    	value={props.sidebar.appCreatingForm.imageVersion} 
+							    <RadioGroup
+							    	value={props.sidebar.appCreatingForm.imageVersion}
 							    	onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'imageVersion')}>
-							      	<RadioButton value="4.5.6">4.5.6</RadioButton>
-							      	<RadioButton value="6.7.0">6.7.0</RadioButton>
-							      	<RadioButton value="latest">latest</RadioButton>
+							      	{props.sidebar.versions.map(image =><RadioButton value={image.id} key={image.id}>{image.label}</RadioButton>)}
 							    </RadioGroup>
 					      	</Col>
 					    </Row>
@@ -612,13 +625,10 @@ const LeftSidebar = (props) => {
 					      		<span>请选择框架：</span>
 					      	</Col>
 					      	<Col style={{textAlign: 'left'}}>
-							    <RadioGroup 
-							    	value={props.sidebar.appCreatingForm.framework} 
+							    <RadioGroup
+							    	value={props.sidebar.appCreatingForm.framework}
 							    	onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'framework')}>
-							      	<RadioButton value="AngularJS 1">AngularJS 1</RadioButton>
-							      	<RadioButton value="AngularJS 2">AngularJS 2</RadioButton>
-							      	<RadioButton value="ReactJS">ReactJS</RadioButton>
-							      	<RadioButton value="VueJS">VueJS</RadioButton>
+							      	{props.sidebar.frameworks.map(image =><RadioButton value={image.id} key={image.id}>{image.name}</RadioButton>)}
 							    </RadioGroup>
 					      	</Col>
 					    </Row>
@@ -648,8 +658,8 @@ const LeftSidebar = (props) => {
 					      		<span>请选择数据库类型：</span>
 					      	</Col>
 					      	<Col span={8} style={{textAlign: 'left'}}>
-							    <RadioGroup 
-							    	value={props.sidebar.appCreatingForm.databaseType} 
+							    <RadioGroup
+							    	value={props.sidebar.appCreatingForm.databaseType}
 							    	onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'databaseType')}>
 							      	<RadioButton value="MySQL">MySQL</RadioButton>
 							      	<RadioButton value="MongoDB">MongoDB</RadioButton>
@@ -657,7 +667,7 @@ const LeftSidebar = (props) => {
 					      	</Col>
 					    </Row>
 					</div>
-					
+
 			  		<div style={{ marginTop: 32 }} hidden={!props.sidebar.appCreatingForm.createLocalServer}>
 			  		    <Row>
 					      	<Col span={4} style={{textAlign: 'right'}}>
@@ -698,7 +708,10 @@ const LeftSidebar = (props) => {
 						return false;
 					}
 				}
-
+				//初始化语言镜像
+				props.dispatch({
+					type: 'sidebar/initImages'
+				});
 			}
 
 			if(props.sidebar.currentAppCreatingStep === 1) {
@@ -832,7 +845,7 @@ const LeftSidebar = (props) => {
 	    	<Modal style={{maxWidth: 550}}  title="切换应用" visible={props.sidebar.modalSwitchAppVisible}
 	          	onOk={leftSidebarProps.switchApp} onCancel={leftSidebarProps.cancelSwitchApp}
 	        >
-        	    {props.sidebar.showAppsLoading ? 
+        	    {props.sidebar.showAppsLoading ?
         	    	(<div style={{width: '100%', textAlign: 'center', padding: '100px 0'}}>
         	    		<Spin spinning={true}></Spin>
         	    	</div>)

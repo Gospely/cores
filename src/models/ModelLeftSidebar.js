@@ -72,14 +72,16 @@ export default {
 			git: '',
 			image: 'HTML5',
 			imageVersion: 'latest',
-			useFramework: true,
-			framework: 'AngularJS 1',
+			useFramework: false,
+			framework: 'AngularJS2',
 			createLocalServer: false,
 			databaseType: 'MySQL',
 			databasePassword: '',
 			databaseAccount: ''
 		},
-
+        images: [],
+        versions: [],
+        frameworks: [],
 		appCreator: {
 			loading: false
 		}
@@ -192,7 +194,7 @@ export default {
       		if(pushResult.data.code == 200) {
       			openNotificationWithIcon('success', pushResult.data.message, pushResult.data.fields);
       		}else {
-      			openNotificationWithIcon('error', pushResult.data.message, '请检查是否已配置Git信息（user.email, user.name）');      			
+      			openNotificationWithIcon('error', pushResult.data.message, '请检查是否已配置Git信息（user.email, user.name）');
       		}
 		},
 
@@ -212,7 +214,7 @@ export default {
       		if(pullResult.data.code == 200) {
       			openNotificationWithIcon('success', pullResult.data.message, pullResult.data.fields);
       		}else {
-      			openNotificationWithIcon('error', pullResult.data.message, '请检查是否已配置Git信息（user.email, user.name）');      			
+      			openNotificationWithIcon('error', pullResult.data.message, '请检查是否已配置Git信息（user.email, user.name）');
       		}
 
 		},
@@ -231,7 +233,7 @@ export default {
       		if(commitResult.data.code == 200) {
       			openNotificationWithIcon('success', commitResult.data.message, commitResult.data.fields);
       		}else {
-      			openNotificationWithIcon('error', commitResult.data.message, '请检查当前版本未超过版本库版本（commit之后请先push再执行下一次commit）或已添加Git源');      			
+      			openNotificationWithIcon('error', commitResult.data.message, '请检查当前版本未超过版本库版本（commit之后请先push再执行下一次commit）或已添加Git源');
       		}
 		},
 		*getApplications({payload: params}, {call, put}){
@@ -275,12 +277,68 @@ export default {
 			// 	type: 'setAppCreatorCompleted'
 			// })
 
-		}
+		},
+        *initImages({payload: params}, {call, put}) {
+
+            console.log('========initImages=====');
+            var url = 'images?parent=0';
+			var result = yield request(url, {
+				method: 'GET'
+			});
+            var images = result.data.fields;
+			yield put({
+				type: 'handleImages',
+                payload: { images }
+			});
+        },
+        *initFrameWork({payload: params}, {call, put}){
+            var url = 'images?parent='+params.value + "&type=framework";
+            var result = yield request(url, {
+                method: 'GET'
+            });
+            var images = result.data.fields;
+            yield put({
+                type: 'handleFramework',
+                payload: { images }
+            });
+        },
+        *initVersions({payload: params}, {call, put}) {
+            var url = 'images?parent='+params.value + "&type=lang";
+            var result = yield request(url, {
+                method: 'GET'
+            });
+            var images = result.data.fields;
+            yield put({
+                type: 'handleVersion',
+                payload: { images }
+            });
+        }
 
 	},
 
 	reducers: {
 
+        handleImages(state, { payload: params }) {
+
+            console.log("handleImages");
+            console.log(params);
+            state.images = params.images;
+            return {...state};
+        },
+        handleFramework(state, { payload: params }) {
+
+            console.log("handleImages");
+            console.log(params);
+            state.frameworks = params.images;
+            return {...state};
+        },
+        handleVersion(state, { payload: params }) {
+
+            console.log("handleImages");
+            console.log(params);
+            state.versions = params.images;
+            return {...state};
+        },
 		setAppCreatorStart(state) {
 			state.appCreator.loading = true;
 			return {...state};
