@@ -274,7 +274,7 @@ export default {
 			yield put({
 				type: 'devpanel/add',
 				payload: {
-					type: 'editor',
+					type: 'loading',
 					title: fileName,
 					loading: true,
 					file,
