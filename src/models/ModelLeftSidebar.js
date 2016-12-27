@@ -34,7 +34,7 @@ export default {
 			pushValue: ''
 		},
 
-		activeMenu: localStorage.defaultActiveKey || 'attr',
+		activeMenu: localStorage.defaultActiveKey || 'file',
 
 		isAutoSave: false,
 		autoSaveInterval: '',
@@ -79,6 +79,7 @@ export default {
 			databasePassword: '',
 			databaseAccount: ''
 		},
+
         images: [],
         versions: [],
         frameworks: [],

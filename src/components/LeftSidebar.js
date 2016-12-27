@@ -41,12 +41,10 @@ const leftSidebar = (props) => {
 		}
 	}
 
-
 	let collapseOnChange = function(e) {
 		computeDomHeight.leftSidebarCollapseChange(e);
 	}
 	
-	// console.log(props.sidebar.visible);
 	return (
 	  	<Tabs tabPosition="left" defaultActiveKey={props.devpanel.devType.defaultActiveKey} activeKey={props.sidebar.activeMenu} onChange={handleTabChanged}>
 	    	<TabPane style={styles.tab} 
@@ -68,13 +66,13 @@ const leftSidebar = (props) => {
 				    </Panel>
 				</Collapse>
 	    	</TabPane>
-	    	<TabPane style={styles.tab} 
-	    	tab={<span style={styles.span}>
-	    			<Icon style={styles.icon} type="setting" />设置
-	    		</span>} key="setting"
+
+	    	<TabPane style={styles.tab} tab={<span style={styles.span}>
+	    		<Icon style={styles.icon} type="file-text" />文件</span>} 
+	    		key="file"
 	    		disabled={window.disabled}
 	    	>
-	    		<SettingPanel></SettingPanel>
+	    		<FileTree></FileTree>
 	    	</TabPane>
 	  	</Tabs>
 	)
