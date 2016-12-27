@@ -130,18 +130,27 @@ class Terminal extends Component {
 					console.log("============openTerminal===========");
 					console.log(activeTab);
 					fetch(baseUrl + '/terminals?cols=' + cols + '&rows=' + rows, {
-						method: 'POST'
+						method: 'POST',
+						'headers': {
+			                'Authorization': localStorage.token
+			            }
 					}).then(function(res) {
 						console.log(res);
 						if (res.status != 200){
 							fetch(baseUrl + '/container/start/' + localStorage.applicationId ,{
-								method: 'GET'
+								method: 'GET',
+								'headers': {
+					                'Authorization': localStorage.token
+					            }
 							}).then(function(res){
 								if(res.status == 200) {
 									setTimeout(function () {
 									  //wait for the terminal start it completely
 									  fetch(baseUrl + '/terminals?cols=' + cols + '&rows=' + rows, {
-										method: 'POST'
+										method: 'POST',
+										'headers': {
+							                'Authorization': localStorage.token
+							            }
 									  }).then(function(res) {
 
 										  res.text().then(function(pid) {

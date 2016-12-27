@@ -53,11 +53,32 @@ export default function request(url, options) {
     }else{
         url = localStorage.baseURL + url;
     }
-    // options.headers['Authorization'] = localStorage.token;
-    return fetch(url, options)
-        .then(checkStatus)
-        .then(parseJSON)
-        .then(checkResData)
-        .then((data) => ({ data }))
-        .catch((err) => ({ err }));
+    if(options == null || options == undefined){
+        return fetch(url, {
+            'headers': {
+                'Authorization': localStorage.token
+            }
+        })
+            .then(checkStatus)
+            .then(parseJSON)
+            .then(checkResData)
+            .then((data) => ({ data }))
+            .catch((err) => ({ err }));
+    }else{
+        if(options.headers == null || options.headers == undefined){
+            options.headers = {
+                'Authorization': localStorage.token
+            }
+        }else{
+            options.headers['Authorization'] = localStorage.token;
+        }
+        return fetch(url, options)
+            .then(checkStatus)
+            .then(parseJSON)
+            .then(checkResData)
+            .then((data) => ({ data }))
+            .catch((err) => ({ err }));
+    }
+
+
 }
