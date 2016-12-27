@@ -115,17 +115,21 @@ export default {
 
 	effects: {
 		*fetchFileList(payload, {call, put}) {
-			yield put({
-				type: 'setTreeLoadingStatus',
-				payload: true
-			});
-  			var fileList = yield request('fs/list/file/?id=' + localStorage.dir);
-			localStorage.currentFolder = localStorage.dir;
-    		yield put({ type: 'list', payload: fileList });
-			yield put({
-				type: 'setTreeLoadingStatus',
-				payload: false
-			});
+
+			if(location.hash.indexOf('project') != -1) {
+				yield put({
+					type: 'setTreeLoadingStatus',
+					payload: true
+				});
+	  			var fileList = yield request('fs/list/file/?id=' + localStorage.dir);
+				localStorage.currentFolder = localStorage.dir;
+	    		yield put({ type: 'list', payload: fileList });
+				yield put({
+					type: 'setTreeLoadingStatus',
+					payload: false
+				});
+			}
+
   		},
 
       	*fetchFileNode({payload: params}, {call, put}) {

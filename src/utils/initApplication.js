@@ -1,5 +1,9 @@
 const initApplication = function (application, props){
 
+  if(location.hash.indexOf('project') == -1) {
+    return false;
+  }
+
   props.dispatch({
     type: 'devpanel/showLoading',
     payload: {
