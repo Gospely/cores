@@ -250,7 +250,7 @@ export default {
 
 			for(let i = 0; i < panes.length; i ++) {
 				for(let j = 0; j < panes[i].tabs.length; j ++) {
-					console.log(panes[i].tabs[j])
+					// console.log(panes[i].tabs[j])
 					if (file === panes[i].tabs[j].file) {
 						message.error('您已打开此文件!')
 						yield put({
@@ -270,8 +270,9 @@ export default {
 			yield put({
 				type: 'devpanel/add',
 				payload: {
-					type: 'Loading',
+					type: 'editor',
 					title: fileName,
+					loading: true,
 					file,
 					editorId
 				}
@@ -291,6 +292,7 @@ export default {
 				type: 'devpanel/pushContentToEditors',
 				payload: {
 					content: content.content,
+					loading: false,
 					editorId
 				}
 			})

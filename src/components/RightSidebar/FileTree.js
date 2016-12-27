@@ -901,58 +901,58 @@ const FileTree = (props) => {
             </div>)
          }
       </Modal>
-      <Spin spinning={props.file.treeLoading}>
-      <div className={TreeStyle.header}>
+      <Spin spinning={props.file.treeLoading} style={{height: 'calc(100vh - 38px)'}}>
+          <div className={TreeStyle.header}>
 
-        <Row>
-          <Col span={5}>
-            <Tooltip placement="bottom" title="新建文件">
-              <Popover placement="left" {...newFilePop} trigger="click">
-                <Button onClick={FileTreeProps.createFile} className={EditorStyle.topbarBtnColumn}><Icon type="file-text" /></Button>
-              </Popover>
-            </Tooltip>
-          </Col>
-          <Col span={5}>
-            <Tooltip placement="bottom" title="新建文件夹">
-              <Popover placement="left" {...newFolderPop} trigger="click">
-                <Button onClick={FileTreeProps.createFoler} className={EditorStyle.topbarBtnColumn}><Icon type="folder" /></Button>
-              </Popover>
-            </Tooltip>
-          </Col>
-          <Col span={5}>
-            <Tooltip placement="bottom" title="上传文件">
-                <Button onClick={FileTreeProps.uploadFile} className={EditorStyle.topbarBtnColumn}><Icon type="cloud-upload-o" /></Button>
-            </Tooltip>
-          </Col>
-          <Col span={5}>
-            <Tooltip placement="bottom" title="搜索文件">
-                <Button onClick={FileTreeProps.searchFile} className={EditorStyle.topbarBtnColumn}><Icon type="search" /></Button>
-            </Tooltip>
-          </Col>
-          <Col span={4}>
-            <Tooltip placement="bottom" title="刷新文件列表">
-                <Button onClick={FileTreeProps.reloadFile} className={EditorStyle.topbarBtnColumn}><Icon type="reload" /></Button>
-            </Tooltip>
-          </Col>          
-        </Row>
-      </div>
+            <Row>
+              <Col span={5}>
+                <Tooltip placement="bottom" title="新建文件">
+                  <Popover placement="left" {...newFilePop} trigger="click">
+                    <Button onClick={FileTreeProps.createFile} className={EditorStyle.topbarBtnColumn}><Icon type="file-text" /></Button>
+                  </Popover>
+                </Tooltip>
+              </Col>
+              <Col span={5}>
+                <Tooltip placement="bottom" title="新建文件夹">
+                  <Popover placement="left" {...newFolderPop} trigger="click">
+                    <Button onClick={FileTreeProps.createFoler} className={EditorStyle.topbarBtnColumn}><Icon type="folder" /></Button>
+                  </Popover>
+                </Tooltip>
+              </Col>
+              <Col span={5}>
+                <Tooltip placement="bottom" title="上传文件">
+                    <Button onClick={FileTreeProps.uploadFile} className={EditorStyle.topbarBtnColumn}><Icon type="cloud-upload-o" /></Button>
+                </Tooltip>
+              </Col>
+              <Col span={5}>
+                <Tooltip placement="bottom" title="搜索文件">
+                    <Button onClick={FileTreeProps.searchFile} className={EditorStyle.topbarBtnColumn}><Icon type="search" /></Button>
+                </Tooltip>
+              </Col>
+              <Col span={4}>
+                <Tooltip placement="bottom" title="刷新文件列表">
+                    <Button onClick={FileTreeProps.reloadFile} className={EditorStyle.topbarBtnColumn}><Icon type="reload" /></Button>
+                </Tooltip>
+              </Col>          
+            </Row>
+          </div>
 
-      {fileTreeMenu}
-        <div style={styles.fileTreeMaxHeight}>
-            <Tree showLine
-              onSelect={FileTreeProps.onSelect}
-              onCheck={FileTreeProps.onCheck}
-              loadData={FileTreeProps.onLoadData}
-              onRightClick={FileTreeProps.onRightClick}
-              draggable={true}
-              onDragEnter={FileTreeProps.onDragEnter}
-              onDrop={FileTreeProps.onDrop}
-              defaultExpandedKeys={[localStorage.dir]}
-            >
-              {treeNodes}
-            </Tree>
-        </div>
-      {props.file.searchFilePane.visible ? fileSearchPane.content : null}
+          {fileTreeMenu}
+            <div style={styles.fileTreeMaxHeight}>
+                <Tree showLine
+                  onSelect={FileTreeProps.onSelect}
+                  onCheck={FileTreeProps.onCheck}
+                  loadData={FileTreeProps.onLoadData}
+                  onRightClick={FileTreeProps.onRightClick}
+                  draggable={true}
+                  onDragEnter={FileTreeProps.onDragEnter}
+                  onDrop={FileTreeProps.onDrop}
+                  defaultExpandedKeys={[localStorage.dir]}
+                >
+                  {treeNodes}
+                </Tree>
+            </div>
+          {props.file.searchFilePane.visible ? fileSearchPane.content : null}
       </Spin>
     </div>
 

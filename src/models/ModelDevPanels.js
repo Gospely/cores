@@ -86,7 +86,8 @@ export default {
 			    			type: 'welcome',
 			    			editorId: '',
 			    			searchVisible: false,
-			    			isSave: false
+			    			isSave: false,
+			    			loading: false
 			    		}
 		    		],
 
@@ -188,9 +189,9 @@ export default {
 			}else{
 				UIState = params.UIState;
 			}
+			
 			for(var i = 0; i < UIState.panels.panes.length; i++) {
 				var pane =  UIState.panels.panes[i];
-
 				for(var j= 0; j< pane.tabs.length; j++){
 					var activeTab = pane.tabs[j];
 					if(activeTab.type == 'editor') {
@@ -198,6 +199,7 @@ export default {
 						var fileName = activeTab.file;
 
 						if(fileName != null && fileName != undefined && fileName != '新文件'　&& fileName != '新标签页') {
+							var fileName = activeTab.file;
 
 							var file = fileName.split('.');
 							var suffix = file[file.length-1];
@@ -585,6 +587,7 @@ export default {
 			target.file = target.file || '';
 			target.type = target.type || 'editor';
 			target.content = target.content || '';
+			target.loading = target.loading || false;
 
 			activePane.activeTab.key = (activePane.tabs.length + 1).toString();
 			let isSave = true;
@@ -605,7 +608,7 @@ export default {
 			activePane.activeEditor.id = target.editorId;
 		    activePane.tabs.push({ title: target.title, content: target.content,
 		    					type: target.type, key: activePane.activeTab.key, file: target.file,
-		    					editorId: editorId,isSave: isSave});
+		    					editorId: editorId,isSave: isSave,loading: target.loading});
 			activePane.activeTab = {key: activePane.activeTab.key, index: activePane.tabs.length - 1};
 		    return {...state};
 		},
@@ -624,6 +627,7 @@ export default {
 						};
 						panes[i].tabs[j].type = 'editor';
 						panes[i].tabs[j].content = params.content;
+						panes[i].tabs[j].loading = params.loading;
 					}
 				}
 			}
