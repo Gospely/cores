@@ -371,7 +371,7 @@ const Attr = (props) => {
 
 		onAddTab: () => {
 			if(tabList.length === 5) {
-				message.error('最多只能使用5个菜单, 不能再加了哦');
+				message.warning('最多只能使用5个菜单, 不能再加了哦');
 				return false;
 			}
 
