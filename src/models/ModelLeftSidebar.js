@@ -73,9 +73,9 @@ export default {
 			image: 'HTML5',
 			imageVersion: 'latest',
 			useFramework: true,
-			framework: 'AngularJS 1',
+			framework: '',
 			createLocalServer: false,
-			databaseType: 'MySQL',
+			databaseType: '',
 			databasePassword: '',
 			databaseAccount: ''
 		},
@@ -267,12 +267,33 @@ export default {
 			});
 		},
 
-		*handleCreateApp({payload: params}, {call, put}) {
+		*handleCreateApp({payload: params}, {call, put, select}) {
 
+            var app = yield select(state => state.sidebar.appCreatingForm),
+                form ={
+    				name: app.appName,
+    				git: app.git,
+                    fromGit: app.fromGit,
+    				languageType: app.image,
+    				languageVersion: app.imageVersion,
+    				databaseType: app.databaseType,
+    				password: app.databasePassword,
+    				dbUser: app.databasePassword,
+    				framework: app.framework,
+    				creator: localStorage.user
+    			};
+            console.log(app);
+            console.log(form);
 			yield put({
 				type: 'setAppCreatorStart'
 			});
+            var url = 'applications';
+            var result = yield request(url, {
+                method:'POST',
+                body: JSON.stringify(form),
+			});
 
+            console.log(result);
 			// yield put({
 			// 	type: 'setAppCreatorCompleted'
 			// })
