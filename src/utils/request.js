@@ -53,7 +53,7 @@ export default function request(url, options) {
     }else{
         url = localStorage.baseURL + url;
     }
-
+    options.headers['Authorization'] = localStorage.token;
     return fetch(url, options)
         .then(checkStatus)
         .then(parseJSON)

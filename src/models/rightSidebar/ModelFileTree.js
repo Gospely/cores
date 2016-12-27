@@ -70,12 +70,12 @@ export default {
 			visible: false,
 			value: ''
 		},
-		
+
 		saveModal: {
 			visible: false,
 			title: ''
 		},
-		
+
 		newFileNameModal: {
 			visible: false,
 			value: '',
@@ -89,7 +89,7 @@ export default {
 			needUnZip: false,
 			isUnZip: false,
 			unZiping: false,
-		
+
 		},
 		searchFilePane: {
 			visible: false,
@@ -290,7 +290,7 @@ export default {
       		});
       		let content = readResult.data
       		content = content.fields;
-			
+
 
 			yield put({
 				type: 'devpanel/pushContentToEditors',
@@ -357,14 +357,14 @@ export default {
       	},
 
 		*initFiles({payload: params}, {call, put, select}){
-			var url = "fs/list/all?id=" + localStorage.currentFolder;
+			var url = "fs/list/all?id=" + localStorage.dir;
 			var res = yield request(url, {
 						method: 'GET',
 						});
 
 			var result = res.data;
 			for(var i = 0; i<res.data.length; i++){
-				res.data[i].folder = res.data[i].id.replace(localStorage.currentFolder,localStorage.currentProject + "/");
+				res.data[i].folder = res.data[i].id.replace(localStorage.dir,localStorage.currentProject + "/");
 			}
 			localStorage.files = JSON.stringify(result);
 		},
@@ -725,7 +725,7 @@ export default {
 				parentNodeIndex;
 
 			var parentNode = findParentNode(state.treeData, parentDirName, 1);
-			
+
 			const generatorNode = (files) => {
 				var childNode = [];
 				files.map(file => {
