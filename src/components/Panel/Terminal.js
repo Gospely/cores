@@ -17,7 +17,7 @@ class Terminal extends Component {
 
 	constructor(props) {
 
-    
+
 
 		super(props);
 		console.log("====================init terminal============");
@@ -46,7 +46,7 @@ class Terminal extends Component {
 				charWidth,
 				charHeight,
 				port = localStorage.socketPort || 0,
-				domain = 'gospely.com',
+				domain = localStorage.host,
 				baseUrl = 'http://' + domain + ':' + port;
 
 			var terminalContainer = document.getElementById(self.state.terminalId);

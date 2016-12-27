@@ -48,11 +48,16 @@ function checkResData(data) {
  * @return {object}           An object containing either "data" or "err"
  */
 export default function request(url, options) {
-  url = configs.baseURL + url;
-  return fetch(url, options)
-    .then(checkStatus)
-    .then(parseJSON)
-    .then(checkResData)
-    .then((data) => ({ data }))
-    .catch((err) => ({ err }));
+    if(url.split('?')[0] == 'applications'){
+        url = configs.baseURL + url;
+    }else{
+        url = localStorage.baseURL + url;
+    }
+
+    return fetch(url, options)
+        .then(checkStatus)
+        .then(parseJSON)
+        .then(checkResData)
+        .then((data) => ({ data }))
+        .catch((err) => ({ err }));
 }
