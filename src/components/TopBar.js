@@ -196,7 +196,7 @@ const LeftSidebar = (props) => {
 
 	        designer() {
 
-	        	if(gospelDesignerPreviewer) {
+	        	if(window.gospelDesignerPreviewer) {
 	        		message.warning('小程序设计器目前只能打开一个!');
 	        		return false;
 	        	}
