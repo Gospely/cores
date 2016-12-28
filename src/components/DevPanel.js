@@ -64,6 +64,13 @@ const DevPanel = ({
 			return(
 				<Previewer></Previewer>
 			)
+		},
+		loading: function() {
+			return(
+				<Spin>
+					<div style={{height: '100vh', width: '100vh'}}></div>
+				</Spin>
+			)
 		}
 	}
 

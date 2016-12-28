@@ -20,8 +20,8 @@ class Terminal extends Component {
 
 
 		super(props);
-		console.log("====================init terminal============");
-		console.log(props);
+		// console.log("====================init terminal============");
+		// console.log(props);
 		this.props = props;
 		this.state = {
 			terminalId: randomWord()
@@ -127,8 +127,8 @@ class Terminal extends Component {
 
 				if(true){
 				// if(activeTab.editorId == null || activeTab.editorId == '') {
-					console.log("============openTerminal===========");
-					console.log(activeTab);
+					// console.log("============openTerminal===========");
+					// console.log(activeTab);
 					fetch(baseUrl + '/terminals?cols=' + cols + '&rows=' + rows, {
 						method: 'POST',
 						'headers': {
@@ -209,8 +209,8 @@ class Terminal extends Component {
 
 					});
 				}else{
-					console.log("============connectTerminal===========");
-					console.log(activeTab);
+					// console.log("============connectTerminal===========");
+					// console.log(activeTab);
 					socketURL += activeTab.editorId;
 					socket = new WebSocket(socketURL);
 					socket.onopen = runRealTerminal;

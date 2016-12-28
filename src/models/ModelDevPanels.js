@@ -610,6 +610,7 @@ export default {
 		    					type: target.type, key: activePane.activeTab.key, file: target.file,
 		    					editorId: editorId,isSave: isSave,loading: target.loading});
 			activePane.activeTab = {key: activePane.activeTab.key, index: activePane.tabs.length - 1};
+
 		    return {...state};
 		},
 
@@ -620,17 +621,21 @@ export default {
 			for(let i = 0; i < panes.length; i ++) {
 				for(let j = 0; j < panes[i].tabs.length; j ++) {
 					if (panes[i].tabs[j].editorId == params.editorId) {
+
+						panes[i].tabs[j].type = 'editor';
+						panes[i].tabs[j].content = params.content;
+						panes[i].tabs[j].loading = params.loading;
+
 						panes[i].editors[params.editorId] = {
 							content: params.content,
 							editorId: params.editorId,
 							fileName: params.file
 						};
-						panes[i].tabs[j].type = 'editor';
-						panes[i].tabs[j].content = params.content;
-						panes[i].tabs[j].loading = params.loading;
+						
 					}
 				}
 			}
+
 			return { ...state };
 		},
 
