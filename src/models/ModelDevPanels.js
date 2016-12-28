@@ -271,6 +271,10 @@ export default {
 			state.cmd = params.cmd;
 			return {...state}
 		},
+		initCmd(state){
+			state.cmd = 'cd /root/workspace && clear\n';
+			return {...state};
+		},
 		initTab(state, { payload: params}){
 			var pane = state.panels.panes[params.paneKey.paneKey],
 				activeTab = pane.tabs[pane.activeTab.index];
