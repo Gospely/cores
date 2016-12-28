@@ -218,7 +218,20 @@ const LeftSidebar = (props) => {
 	        },
 
 	        pause() {
+				console.log("psus");
+				var kill = "kill -9 $(netstat -tlnp | grep "+ localStorage.exposePort +" |awk '{print $7}' | awk -F '/' '{print $1}')\n"
+				console.log(kill);
+				props.dispatch({
+					type: 'devpanel/initDebugPanel',
+					payload: { cmd: kill}
+				});
 
+				var title = '终端',
+						type = 'terminal';
+				props.dispatch({
+					type: 'devpanel/add',
+					payload: {title, type}
+				})
 	        },
 
 	        preview() {
@@ -431,7 +444,37 @@ const LeftSidebar = (props) => {
 					payload: {title, type}
 				})
 			},
+			visit(){
+				console.log('===================visual===================');
 
+				//分栏
+				var kill = "kill -9 $(netstat -tlnp | grep "+ localStorage.exposePort +" |awk '{print $7}' | awk -F '/' '{print $1}')"
+				var cmd = kill +' ||  cd /root/workspace && ' + props.sidebar.debugConfig.runCommand + ' && clear\n';
+				var key = "horizontal-dbl";
+				props.dispatch({
+					type: 'devpanel/changeColumn',
+					payload: key
+				});
+				props.dispatch({
+					type: 'devpanel/initDebugPanel',
+					payload: { cmd: cmd}
+				});
+
+				var title = '终端',
+						type = 'terminal';
+				props.dispatch({
+					type: 'devpanel/add',
+					payload: {title, type}
+				})
+				var url = 'http://' + localStorage.host + ':' + localStorage.port;
+				window.open(url);
+			},
+			'run&visit&noleave'(){
+
+				var title = '预览',
+	        		type = 'previewer';
+        		props.dispatch({type: 'devpanel/add',payload: {title,type}});
+			},
 			run() {
 				const debugType = {
 					common(){
@@ -479,14 +522,13 @@ const LeftSidebar = (props) => {
 	const startMenu = (
 		<Menu onClick={onSelectStartMenu}>
 			<Menu.Item key='runCommand' disabled={window.disabled}>运行：{props.sidebar.debugConfig.runCommand}</Menu.Item>
-			<Menu.Item key='visit' disabled={window.disabled}>访问调试：http://gospely.com:{localStorage.port}</Menu.Item>
+			<Menu.Item key='visit' disabled={window.disabled}>运行并访问：http://{localStorage.host}:{localStorage.port}</Menu.Item>
 			<Menu.Item key='run&visit&noleave' disabled={window.disabled}>运行并打开（不离开IDE）</Menu.Item>
-			<Menu.Item key='run&visit' disabled={window.disabled}>运行并打开（离开IDE）</Menu.Item>
 			<Menu.Item key='run' disabled={window.disabled}>直接运行</Menu.Item>
 			<Menu.Divider/>
 			<Menu.Item key='config' disabled={window.disabled}>配置...</Menu.Item>
 		</Menu>
-	);
+	)
 
 	const debugConfigModal = {
 		formItemLayout: {
@@ -848,7 +890,7 @@ const LeftSidebar = (props) => {
 			      	<Tooltip title="停止运行">
 						<Icon type="pause-circle-o" />
 					</Tooltip>
-			    </Menu.Item>			    
+			    </Menu.Item>
 			    <Menu.Item key="preview">
 			      	<Tooltip title="预览">
 			    		<Icon type="eye-o" />
