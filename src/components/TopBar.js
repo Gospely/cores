@@ -782,51 +782,76 @@ const LeftSidebar = (props) => {
 		}
 	}
 
-	return (
-		<div style={styles.wrapper}>
+	var topbarMenu = '';
+
+	if(!window.disabled) {
+		topbarMenu = (
 	      	<Menu
 	      		style={styles.sidebar}
 	      		onClick={leftSidebarProps.handleClick}
 	      		mode="horizontal">
-
-		        <Menu.Item key="create">
+				<Menu.Item key="create">
 		          	<Icon type="plus" />
 		        </Menu.Item>
 		        <Menu.Item key="switch">
 		          	<Icon type="appstore-o" />
 		        </Menu.Item>
-		        <Menu.Item key="commit" disabled={window.disabled}>
+
+			    <Menu.Item key="commit">
 					<Icon type="check"/>
-		        </Menu.Item>
-		        <Menu.Item key="push" disabled={window.disabled}>
+			    </Menu.Item>
+			    <Menu.Item key="push">
 					<Icon type="upload" />
-		        </Menu.Item>
-		        <Menu.Item key="pull" disabled={window.disabled}>
+			    </Menu.Item>
+			    <Menu.Item key="pull">
 					<Icon type="download" />
-		        </Menu.Item>
-		        <Menu.Item key="file" disabled={window.disabled}>
+			    </Menu.Item>
+			    <Menu.Item key="file">
 					<Icon type="file-text" />
-		        </Menu.Item>
-				<Menu.Item key="designer" disabled={window.disabled}>
+			    </Menu.Item>
+				<Menu.Item key="designer">
 					<Icon type="windows-o" />
 				</Menu.Item>
-		        <Menu.Item key="terminal" disabled={window.disabled}>
+			    <Menu.Item key="terminal">
 					<Icon type="code-o" />
-		        </Menu.Item>
-		        <Menu.Item key="showStartMenu" disabled={window.disabled}>
-		        	<Dropdown overlay={startMenu} trigger={['click']}>
-		        		<div style={{width: 30}}>
+			    </Menu.Item>
+			    <Menu.Item key="showStartMenu">
+			    	<Dropdown overlay={startMenu} trigger={['click']}>
+			    		<div style={{width: 30}}>
 							<Icon type="play-circle-o" />
 						</div>
 					</Dropdown>
+			    </Menu.Item>
+			    <Menu.Item key="preview">
+			    	<Icon type="eye-o" />
+			    </Menu.Item>
+			    <Menu.Item key="download-weapp">
+			    	打包小程序
+			    </Menu.Item>
+		    </Menu>
+		);
+	}else {
+		topbarMenu = (
+
+	      	<Menu
+	      		style={styles.sidebar}
+	      		onClick={leftSidebarProps.handleClick}
+	      		mode="horizontal">
+				<Menu.Item key="create">
+		          	<Icon type="plus" />
 		        </Menu.Item>
-		        <Menu.Item key="preview" disabled={window.disabled}>
-		        	<Icon type="eye-o" />
-		        </Menu.Item>
-		        <Menu.Item key="download-weapp" disabled={window.disabled}>
-		        	打包小程序
+		        <Menu.Item key="switch">
+		          	<Icon type="appstore-o" />
 		        </Menu.Item>
 	      	</Menu>
+
+		);
+
+	}
+
+	return (
+		<div style={styles.wrapper}>
+			{topbarMenu}
 
 	    	<Modal width="80%"  title="新建应用" visible={props.sidebar.modalNewAppVisible}
 	          	onOk={leftSidebarProps.createApp} onCancel={leftSidebarProps.cancelNewApp}

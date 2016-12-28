@@ -60,7 +60,7 @@ const Welcome = (props) => {
 
 	var welcomeTip = '';
 
-	if(window.loaded) {
+	if(window.disabled) {
 		welcomeTip = <div onClick={createApp} className="welcome-screen center-vertical welcome-screen--display-prompt"></div>;
 	}else {
 		welcomeTip = <div className="welcome-screen center-vertical welcome-screen--display-prompt loaded"></div>;
