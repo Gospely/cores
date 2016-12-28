@@ -695,8 +695,6 @@ export default {
 				}
 			};
 
-			console.log(tree);
-
 			return {...state, treeData: [{
 				isLeaf: false,
 				key: localStorage.dir,

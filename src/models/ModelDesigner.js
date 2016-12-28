@@ -4124,21 +4124,15 @@ page {
 				}
 
 				attrs.class._value = baseClassName;
-				// alert(attrs.class._value);
 
 			};
-
-			console.log('------------------------------------attachPublicAttrToAll-------------------------------');
-
-			console.log(allControllers);
-
-			console.log('------------------------------------attachPublicAttrToAll-------------------------------');
 
 			return {...state};
 		},
 
 		handleDesignerClosed(state) {
 			state.loaded = false;
+			window.gospelDesignerPreviewer = undefined;
 			return {...state};
 		},
 

@@ -354,7 +354,6 @@ export default {
 		},
 
 		tabChanged(state, {payload: params}) {
-
 			state.panels.activePane.key = params.paneKey;
 			const activePane = methods.getActivePane(state);
 			methods.getActivePane(state).activeTab.key = params.active;
