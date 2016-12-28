@@ -1,6 +1,8 @@
 import React , { PropTypes } from 'react';
 import { Menu, Spin, Icon, Modal, Input, Button, message, notification, Tabs, Card, Popconfirm, Row, Col, Dropdown, Form, Radio, Switch } from 'antd';
 
+import { Tooltip } from 'antd';
+
 const TabPane = Tabs.TabPane;
 
 import { connect } from 'dva';
@@ -794,39 +796,63 @@ const LeftSidebar = (props) => {
 	      		onClick={leftSidebarProps.handleClick}
 	      		mode="horizontal">
 				<Menu.Item key="create">
-		          	<Icon type="plus" />
+			      	<Tooltip title="新建项目">
+		          		<Icon type="plus" />
+		          	</Tooltip>
 		        </Menu.Item>
 		        <Menu.Item key="switch">
-		          	<Icon type="appstore-o" />
+			      	<Tooltip title="切换项目">
+		          		<Icon type="appstore-o" />
+		          	</Tooltip>
 		        </Menu.Item>
-
 			    <Menu.Item key="commit">
-					<Icon type="check"/>
+			      	<Tooltip title="commit操作">
+						<Icon type="check"/>
+					</Tooltip>
 			    </Menu.Item>
 			    <Menu.Item key="push">
-					<Icon type="upload" />
+			      	<Tooltip title="push操作">
+						<Icon type="upload" />
+					</Tooltip>
 			    </Menu.Item>
 			    <Menu.Item key="pull">
-					<Icon type="download" />
+			      	<Tooltip title="pull操作">
+						<Icon type="download" />
+					</Tooltip>
 			    </Menu.Item>
 			    <Menu.Item key="file">
-					<Icon type="file-text" />
+			      	<Tooltip title="新建文件">
+						<Icon type="file-text" />
+					</Tooltip>
 			    </Menu.Item>
 				<Menu.Item key="designer">
-					<Icon type="windows-o" />
+			      	<Tooltip title="打开小程序设计器">
+						<Icon type="windows-o" />
+					</Tooltip>
 				</Menu.Item>
 			    <Menu.Item key="terminal">
-					<Icon type="code-o" />
+			      	<Tooltip title="打开终端">
+						<Icon type="code-o" />
+					</Tooltip>
 			    </Menu.Item>
 			    <Menu.Item key="showStartMenu">
 			    	<Dropdown overlay={startMenu} trigger={['click']}>
-			    		<div style={{width: 30}}>
-							<Icon type="play-circle-o" />
-						</div>
+			      		<Tooltip title="调试运行">
+			    			<div style={{width: 30}}>
+								<Icon type="play-circle-o" />
+							</div>
+						</Tooltip>
 					</Dropdown>
 			    </Menu.Item>
+			    <Menu.Item key="pause">
+			      	<Tooltip title="停止运行">
+						<Icon type="pause-circle-o" />
+					</Tooltip>
+			    </Menu.Item>			    
 			    <Menu.Item key="preview">
-			    	<Icon type="eye-o" />
+			      	<Tooltip title="预览">
+			    		<Icon type="eye-o" />
+			      	</Tooltip>
 			    </Menu.Item>
 			    <Menu.Item key="download-weapp">
 			    	打包小程序
