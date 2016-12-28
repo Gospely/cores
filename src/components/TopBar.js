@@ -217,24 +217,39 @@ const LeftSidebar = (props) => {
 	        },
 
 	        showStartMenu() {
-	        	return false;
+
+				if(localStorage.debugType == 'common'){
+					console.log('common');
+					sessionStorage.currentDebugResource = 'http://'+ localStorage.host +':' + localStorage.port;
+					var debug = window.open('http://localhost:8989/static/debugger/wordpress.html','_blank')
+					props.dispatch({
+						type: 'devpanel/handleDebugger',
+						payload: {debug}
+					});
+				}else{
+					return false;
+				}
+
 	        },
 
 	        pause() {
-				console.log("psus");
-				var kill = "kill -9 $(netstat -tlnp | grep "+ localStorage.exposePort +" |awk '{print $7}' | awk -F '/' '{print $1}')\n"
-				console.log(kill);
-				props.dispatch({
-					type: 'devpanel/initDebugPanel',
-					payload: { cmd: kill}
-				});
 
-				var title = '终端',
-						type = 'terminal';
-				props.dispatch({
-					type: 'devpanel/add',
-					payload: {title, type}
-				})
+				if(localStorage.debugType == 'shell') {
+					console.log("psus");
+					var kill = "kill -9 $(netstat -tlnp | grep "+ localStorage.exposePort +" |awk '{print $7}' | awk -F '/' '{print $1}')\n"
+					console.log(kill);
+					props.dispatch({
+						type: 'devpanel/initDebugPanel',
+						payload: { cmd: kill}
+					});
+
+					var title = '终端',
+							type = 'terminal';
+					props.dispatch({
+						type: 'devpanel/add',
+						payload: {title, type}
+					})
+				}
 	        },
 
 	        preview() {
@@ -537,11 +552,11 @@ const LeftSidebar = (props) => {
 	}
 
 	const startMenu = (
+		localStorage.debugType == 'shell' &&
 		<Menu onClick={onSelectStartMenu}>
 			<Menu.Item key='runCommand' disabled={window.disabled}>运行：{props.sidebar.debugConfig.runCommand}</Menu.Item>
 			<Menu.Item key='visit' disabled={window.disabled}>运行并访问：http://{localStorage.host}:{localStorage.port}</Menu.Item>
 			<Menu.Item key='run&visit&noleave' disabled={window.disabled}>在IDE访问</Menu.Item>
-			<Menu.Item key='run' disabled={window.disabled}>直接运行</Menu.Item>
 			<Menu.Divider/>
 			<Menu.Item key='config' disabled={window.disabled}>配置...</Menu.Item>
 		</Menu>
@@ -895,7 +910,7 @@ const LeftSidebar = (props) => {
 					</Tooltip>
 			    </Menu.Item>
 			    <Menu.Item key="showStartMenu">
-			    	<Dropdown overlay={startMenu} trigger={['click']}>
+			    	<Dropdown overlay={startMenu}  trigger={['click']}>
 			      		<Tooltip title="调试运行">
 			    			<div style={{width: 30}}>
 								<Icon type="play-circle-o" />
