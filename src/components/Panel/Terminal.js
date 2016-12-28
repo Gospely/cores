@@ -206,6 +206,9 @@ class Terminal extends Component {
 				term.attach(socket);
 				setTimeout(function(){
 					socket.send(self.props.ctx.devpanel.cmd);
+					self.props.ctx.dispatch({
+						type: 'devpanel/initCmd',
+					});
 				},1000);
 				term._initialized = true;
 			}
