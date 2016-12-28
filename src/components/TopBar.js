@@ -52,9 +52,8 @@ const LeftSidebar = (props) => {
 		if(props.sidebar.applications.length < 1) {
 			return;
 		}
-		console.log('side==================', props);
 		return props.sidebar.applications.map(application => {
-			return   <Col className="gutter-row" span={6} style={{marginTop: 20}} key={application.id}>
+			return  ( <Col className="gutter-row" span={6} style={{marginTop: 20}} key={application.id}>
 						 <div className="gutter-box">
 								<Card onClick={leftSidebarProps.openApp.bind(this,application)} extra={
 									<Popconfirm onClick={(e) => e.stopPropagation()} title="确认删除此项目?"
@@ -71,7 +70,8 @@ const LeftSidebar = (props) => {
 										</div>
 								</Card>
 						 </div>
-					</Col>;
+					</Col>
+			);
 		});
 	};
 
@@ -286,9 +286,7 @@ const LeftSidebar = (props) => {
 	      });
 	    },
 
-
 	    confirmDeleteApp(application) {
-			console.log('confirm delete app')
 			props.dispatch({
 				type: 'sidebar/deleteApp',
 				payload: {application}
@@ -296,7 +294,7 @@ const LeftSidebar = (props) => {
 	    },
 
 	    cancelDeleteApp() {
-	    	console.log('cacle delete app')
+
 	    },
 
 	    openApp(application) {
@@ -433,7 +431,6 @@ const LeftSidebar = (props) => {
 			},
 
 			run() {
-				console.log("debugger");
 				const debugType = {
 					common(){
 						console.log('common');
@@ -639,7 +636,7 @@ const LeftSidebar = (props) => {
 					    </Row>
 					</div>
 
-			  		<div style={{ marginTop: 32 }} hidden={!props.sidebar.appCreatingForm.useFramework}>
+			  		<div style={{ marginTop: 32 }} hidden={!props.sidebar.appCreatingForm.useFramework || props.sidebar.frameworks.length === 0}>
 			  		    <Row>
 					      	<Col span={4} style={{textAlign: 'right'}}>
 					      		<span>请选择框架：</span>
@@ -741,12 +738,14 @@ const LeftSidebar = (props) => {
 					return false;
 				}
 
-				if(props.sidebar.appCreatingForm.imageVersion == '') {
-					message.error('请选择语言版本');
-					return false
+				if(props.sidebar.versions.length > 0) {
+					if(props.sidebar.appCreatingForm.imageVersion == '') {
+						message.error('请选择语言版本');
+						return false
+					}
 				}
 
-				if(props.sidebar.appCreatingForm.useFramework) {
+				if(props.sidebar.appCreatingForm.useFramework && props.sidebar.frameworks.length > 0) {
 					if(props.sidebar.appCreatingForm.framework == '') {
 						message.error('请选择框架版本');
 						return false;

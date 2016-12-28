@@ -70,10 +70,10 @@ export default {
 			appName: '',
 			fromGit: false,
 			git: '',
-			image: 'HTML5',
-			imageVersion: 'latest',
+			image: '',
+			imageVersion: '',
 			useFramework: false,
-			framework: 'AngularJS2',
+			framework: '',
 			createLocalServer: false,
 			databaseType: '',
 			databasePassword: '',
@@ -278,14 +278,17 @@ export default {
             if(!app.fromGit){
                 app.git = '';
             }
+
             if(!app.createLocalServer){
                 app.databaseType = '';
                 app.databasePassword = '';
                 app.dbUser = '';
             }
+
             if(!app.useFramework){
                 app.framework = '';
             }
+
             var form ={
                 name: app.appName,
                 git: app.git,
@@ -294,15 +297,15 @@ export default {
                 languageVersion: app.imageVersion,
                 databaseType: app.databaseType,
                 password: app.databasePassword,
-                dbUser: app.databasePassword,
+                dbUser: app.databaseAccount,
                 framework: app.framework,
                 creator: localStorage.user
             };
-            console.log(app);
-            console.log(form);
+
 			yield put({
 				type: 'setAppCreatorStart'
 			});
+
             var url = 'applications';
             var result = yield request(url, {
                 method:'POST',
@@ -323,11 +326,9 @@ export default {
                 });
             }
 
-
 		},
-        *initImages({payload: params}, {call, put}) {
 
-            console.log('========initImages=====');
+        *initImages({payload: params}, {call, put}) {
             var url = 'images?parent=0';
 			var result = yield request(url, {
 				method: 'GET'
@@ -338,6 +339,7 @@ export default {
                 payload: { images }
 			});
         },
+
         *initFrameWork({payload: params}, {call, put}){
             var url = 'images?parent='+params.value + "&type=framework";
             var result = yield request(url, {
@@ -349,6 +351,7 @@ export default {
                 payload: { images }
             });
         },
+
         *initVersions({payload: params}, {call, put}) {
             var url = 'images?parent='+params.value + "&type=lang";
             var result = yield request(url, {
@@ -366,28 +369,21 @@ export default {
 	reducers: {
 
         initRunCommond(state, {payload: params}){
-
             state.debugConfig.runCommand = params.command;
             return {...state};
         },
-        handleImages(state, { payload: params }) {
 
-            console.log("handleImages");
-            console.log(params);
+        handleImages(state, { payload: params }) {
             state.images = params.images;
             return {...state};
         },
-        handleFramework(state, { payload: params }) {
 
-            console.log("handleImages");
-            console.log(params);
+        handleFramework(state, { payload: params }) {
             state.frameworks = params.images;
             return {...state};
         },
-        handleVersion(state, { payload: params }) {
 
-            console.log("handleImages");
-            console.log(params);
+        handleVersion(state, { payload: params }) {
             state.versions = params.images;
             return {...state};
         },
@@ -408,7 +404,7 @@ export default {
 
 			state.currentAppCreatingStep = 0;
 
-			state. appCreatingForm = {
+			state.appCreatingForm = {
 				appName: '',
 				fromGit: false,
 				git: '',
@@ -490,7 +486,6 @@ export default {
 		},
 
 		handleRunCommandChange(state, {payload: val}) {
-			console.log(val)
 			state.debugConfig.runCommand = val;
 			return {...state};
 		},
@@ -540,21 +535,16 @@ export default {
 		},
 
 		initApplications(state, {payload: params}) {
-
-			console.log("initApplications");
-			console.log(params);
 			state.applications = params.applications;
 			return {...state};
 		},
 
 		handleTabChanged(state, {payload: name}) {
-
 			state.activeMenu = name;
 			return {...state};
 		},
 
 		initState(state, { payload: params }) {
-			console.log(params.UIState.activeMenu);
 			state.activeMenu = params.UIState.activeMenu;
 			return {...state};
 		},
@@ -621,6 +611,12 @@ export default {
 
 		handleInputChanged(state, { payload: params }) {
 			state.appCreatingForm[params['input']] = params.value;
+
+			if(params['input'] == 'image') {
+				state.appCreatingForm.imageVersion = '';
+				state.appCreatingForm.framework = '';
+			}
+
 			return {...state};
 		},
 

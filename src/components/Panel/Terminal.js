@@ -1,11 +1,5 @@
-import React, {
-	PropTypes, Component
-}
-from 'react';
-import {
-	Tabs, Icon, Popover
-}
-from 'antd';
+import React, { PropTypes, Component }from 'react';
+import { Tabs, Icon, Popover } from 'antd';
 
 const TabPane = Tabs.TabPane;
 
@@ -16,12 +10,7 @@ import randomWord from '../../utils/randomString';
 class Terminal extends Component {
 
 	constructor(props) {
-
-
-
 		super(props);
-		// console.log("====================init terminal============");
-		// console.log(props);
 		this.props = props;
 		this.state = {
 			terminalId: randomWord()
@@ -33,8 +22,7 @@ class Terminal extends Component {
 		var self = this,
 			activePane = this.props.ctx.devpanel.panels.panes[ this.props.ctx.devpanel.panels.activePane.key],
 			tabKey = activePane.activeTab.key,
-			activeTab = activePane.tabs[tabKey-1];
-
+			activeTab = activePane.tabs[tabKey - 1];
 
 		var init = function() {
 
@@ -72,16 +60,12 @@ class Terminal extends Component {
 					width = (cols * charWidth).toString() + 'px',
 					height = (rows * charHeight).toString() + 'px';
 
-				console.log(cols, rows, termWidth, termHeight, width, height, charWidth,
-					charHeight, '');
 				terminalContainer.style.width = width;
 				terminalContainer.style.height = height;
 				term.resize(cols, rows);
 			}
 
 			createTerminal();
-
-
 
 			function createTerminal() {
 				// Clean terminal
@@ -145,7 +129,6 @@ class Terminal extends Component {
 							}).then(function(res){
 								if(res.status == 200) {
 									setTimeout(function () {
-									  //wait for the terminal start it completely
 									  fetch(baseUrl + '/terminals?cols=' + cols + '&rows=' + rows, {
 										method: 'POST',
 										'headers': {
@@ -166,11 +149,8 @@ class Terminal extends Component {
 											socket.onerror = runFakeTerminal;
 											socket.onmessage = function (evt) {
 											  //收到服务器消息，使用evt.data提取
-											  console.log(evt.data);i
 											  if(/^\{[\s*"\w+":"\w+",*\s*]+\}$/.test(evt.data)){
-												console.log(evt.data);
 												var data = JSON.parse(evt.data);
-												console.log(JSON.parse(evt.data));
 											  }
 											};
 											setTerminalSize();
@@ -195,22 +175,14 @@ class Terminal extends Component {
 						  socket.onerror = runFakeTerminal;
 						  socket.onmessage = function (evt) {
 							//收到服务器消息，使用evt.data提取
-							console.log(evt.data);i
 							if(/^\{[\s*"\w+":"\w+",*\s*]+\}$/.test(evt.data)){
-							  console.log(evt.data);
 							  var data = JSON.parse(evt.data);
-							  console.log(JSON.parse(evt.data));
 							}
 						  };
 						  setTerminalSize();
 						});
-						console.log("============openTerminal===========");
-						console.log(activeTab);
-
 					});
 				}else{
-					// console.log("============connectTerminal===========");
-					// console.log(activeTab);
 					socketURL += activeTab.editorId;
 					socket = new WebSocket(socketURL);
 					socket.onopen = runRealTerminal;
@@ -220,12 +192,9 @@ class Terminal extends Component {
 
 					socket.onmessage = function (evt) {
 						//收到服务器消息，使用evt.data提取
-						console.log(evt.data);
 						if(/^\{[\s*"\w+":"\w+",*\s*]+\}$/.test(evt.data)){
-								console.log(evt.data);
-								var data = JSON.parse(evt.data);
-								console.log(JSON.parse(evt.data));
-							}
+							var data = JSON.parse(evt.data);
+						}
 					};
 					setTerminalSize();
 				}
@@ -278,14 +247,10 @@ class Terminal extends Component {
 				});
 			}
 
-
 		}();
-
-
 	}
 
 	render() {
-
 		return <div id = {
 			this.state.terminalId
 		} > < /div>;

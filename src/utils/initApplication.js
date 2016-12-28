@@ -79,15 +79,17 @@ const initApplication = function (application, props){
   //   type: 'designer/handleLayoutLoaded'
   // });
 
+  props.dispatch({
+    type: 'devpanel/hideLoading'
+  });
+
   //初始化命令
   props.dispatch({
     type: 'sidebar/initRunCommond',
     payload: { command: command.default}
   });
 
-  props.dispatch({
-    type: 'devpanel/hideLoading'
-  });
+  
 
 }
 
