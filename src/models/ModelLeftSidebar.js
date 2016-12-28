@@ -401,7 +401,7 @@ export default {
 
 			state.currentAppCreatingStep = 0;
 
-			state. appCreatingForm = {
+			state.appCreatingForm = {
 				appName: '',
 				fromGit: false,
 				git: '',
@@ -533,21 +533,16 @@ export default {
 		},
 
 		initApplications(state, {payload: params}) {
-
-			console.log("initApplications");
-			console.log(params);
 			state.applications = params.applications;
 			return {...state};
 		},
 
 		handleTabChanged(state, {payload: name}) {
-
 			state.activeMenu = name;
 			return {...state};
 		},
 
 		initState(state, { payload: params }) {
-			console.log(params.UIState.activeMenu);
 			state.activeMenu = params.UIState.activeMenu;
 			return {...state};
 		},
@@ -614,6 +609,12 @@ export default {
 
 		handleInputChanged(state, { payload: params }) {
 			state.appCreatingForm[params['input']] = params.value;
+
+			if(params['input'] == 'image') {
+				state.appCreatingForm.imageVersion = '';
+				state.appCreatingForm.framework = '';
+			}
+
 			return {...state};
 		},
 

@@ -633,7 +633,7 @@ const LeftSidebar = (props) => {
 					    </Row>
 					</div>
 
-			  		<div style={{ marginTop: 32 }} hidden={!props.sidebar.appCreatingForm.useFramework}>
+			  		<div style={{ marginTop: 32 }} hidden={!props.sidebar.appCreatingForm.useFramework || props.sidebar.frameworks.length === 0}>
 			  		    <Row>
 					      	<Col span={4} style={{textAlign: 'right'}}>
 					      		<span>请选择框架：</span>
@@ -735,12 +735,14 @@ const LeftSidebar = (props) => {
 					return false;
 				}
 
-				if(props.sidebar.appCreatingForm.imageVersion == '') {
-					message.error('请选择语言版本');
-					return false
+				if(props.sidebar.versions.length > 0) {
+					if(props.sidebar.appCreatingForm.imageVersion == '') {
+						message.error('请选择语言版本');
+						return false
+					}
 				}
 
-				if(props.sidebar.appCreatingForm.useFramework) {
+				if(props.sidebar.appCreatingForm.useFramework && props.sidebar.frameworks.length > 0) {
 					if(props.sidebar.appCreatingForm.framework == '') {
 						message.error('请选择框架版本');
 						return false;
