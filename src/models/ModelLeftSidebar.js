@@ -639,14 +639,18 @@ export default {
 			return {...state};
 		},
 
-		showModalCommitInfo (state) {
-			alert('ssss');
+		showModalCommitInfo(state) {
 			state.modalCommitInfo.visible = true;
 			return {...state};
 		},
 
-		showModalCommitInfo (state) {
+		hideModalCommitInfo(state) {
 			state.modalCommitInfo.visible = false;
+			return {...state};
+		},
+
+		handleCommitInfoInputChange(state, { payload: params }) {
+			state.modalCommitInfo[params.input] = params.value;
 			return {...state};
 		}
 

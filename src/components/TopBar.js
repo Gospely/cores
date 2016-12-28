@@ -952,6 +952,8 @@ const LeftSidebar = (props) => {
 
 		commit () {
 
+			modalCommitInfoProps.hideModal();
+
 			var key = "horizontal-dbl";
 			props.dispatch({
 				type: 'devpanel/changeColumn',
@@ -967,9 +969,19 @@ const LeftSidebar = (props) => {
 
 			props.dispatch({
 				type: 'devpanel/initDebugPanel',
-				payload: { cmd: 'cd /root/workspace\n clear && git commit\n' }
+				payload: { cmd: 'cd /root/workspace\n clear && git commit -a -m "' + props.sidebar.modalCommitInfo.title + '"\n' }
 			});
 
+		},
+
+		onInputChange (input, e) {
+			props.dispatch({
+				type: 'sidebar/handleCommitInfoInputChange',
+				value: {
+					value: e.target.value,
+					input: input
+				}
+			})
 		}
 	}
 
@@ -1047,7 +1059,7 @@ const LeftSidebar = (props) => {
 	          	onCancel={modalCommitInfoProps.hideModal}
 	        >
 
-	        	sss
+	        	<Input type="text" placeholder="请输入commit信息" onChange={modalCommitInfoProps.onInputChange.bind(this, 'title')} value={props.sidebar.modalCommitInfo.title} onPressEnter={modalCommitInfoProps.commit}></Input>
 	        </Modal>
 
 	        <Modal
