@@ -36,6 +36,10 @@ const initApplication = function (application, props){
     type: 'devpanel/startDocker',
     payload: { docker:  application.docker, id: application.id}
   });
+  props.dispatch({
+    type: 'devpanel/handleImages',
+    payload: { id: application.image}
+  });
   if(localStorage.UIState != null && localStorage != undefined){
 
     var UIState = JSON.parse(localStorage.UIState);

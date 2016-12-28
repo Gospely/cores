@@ -70,7 +70,6 @@ export default {
 			defaultActiveKey: localStorage.defaultActiveKey || 'controllers',
 			type: "common"
 		},
-
 		currentMode: 'javascript',
 		currentLanguage: 'HTML',
 		cmd: 'cd /root/workspace && clear\n',
@@ -165,7 +164,6 @@ export default {
 		*handleImages({ payload: params}, {call, put, select}) {
 
 			var url = "images/" + params.id;
-
 			var res = yield request(url, {
 				method: 'GET',
 			});
@@ -175,6 +173,7 @@ export default {
 			}else{
 				yield put({ type: "handleVisual" });
 			}
+			localStorage.debugType = res.data.fields.debugType;
 		},
 		//获取界面初始化配置
 		*getConfig({ payload: params}, {call, put, select}){
