@@ -97,17 +97,15 @@ function IndexPage(props) {
             var removeAction = { targetKey, title, content, type, editorId, paneKey: paneKey.paneKey };
 
             if (action == 'add') {
-                localStorage.currentSelectedFile = '新标签页'
+                localStorage.currentSelectedFile = '新标签页';
+                props.dispatch({
+                    type: 'sidebar/setActiveMenu',
+                    payload: 'file'
+                });
                 props.dispatch({
                     type: 'devpanel/' + action,
                     payload: removeAction
                 });
-
-                props.dispatch({
-                    type: 'rightbar/setActiveMenu',
-                    payload: 'file'
-                });
-
                 // 更换默认语法
                 localStorage.suffix = "js";
                 // localStorage.isSave = true;
@@ -176,7 +174,7 @@ function IndexPage(props) {
     var devPanelMinSize = document.body.clientWidth,
         leftBarWidth = 280,
         rightBarWidth = 280;
-    
+
     devPanelMinSize = devPanelMinSize - (rightBarWidth + leftBarWidth);
 
     var devPanelTemplate = '';
@@ -210,9 +208,9 @@ function IndexPage(props) {
     }
 
     return (
-            <Spin tip={props.devpanel.loading.tips} spinning={props.devpanel.loading.isLoading}> 
+            <Spin tip={props.devpanel.loading.tips} spinning={props.devpanel.loading.isLoading}>
                 <div className = "body" style={{height: '100vh'}}>
-               
+
                     <div
                         hidden='true'
                         id = "git-terminal" >
@@ -231,7 +229,7 @@ function IndexPage(props) {
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
             </Spin>
             );

@@ -44,9 +44,9 @@ const keyConfig = {
 			handler: function(props){
 				var name = 'file';
 				props.dispatch({
-					type: 'rightbar/handleTabChanged',
-					payload: name
-				});
+                    type: 'sidebar/setActiveMenu',
+                    payload: 'file'
+                });
 				props.dispatch({
 					type: 'file/handleSearch',
 					payload:{ value: '' }

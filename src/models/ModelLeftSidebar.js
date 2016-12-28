@@ -381,7 +381,10 @@ export default {
 	},
 
 	reducers: {
-
+        setActiveMenu (state, {payload: name}) {
+            state.activeMenu = name;
+            return {...state};
+        },
 		handleSSHKeyInputChange(state, { payload: value }) {
 			state.sshKey = value;
 			return {...state};
