@@ -608,13 +608,13 @@ const LeftSidebar = (props) => {
 					    </Row>
 					</div>
 
-			  		<div style={{ marginTop: 32 }}>
+			  		<div style={{ marginTop: 32 }} hidden={props.sidebar.appCreatingForm.fromGit}>
 			  		    <Row>
 					      	<Col span={4} style={{textAlign: 'right'}}>
 					      		<span>使用框架：</span>
 					      	</Col>
 					      	<Col style={{textAlign: 'left'}}>
-					      		<Switch onChange={modalAppCreatorFromHandler.onFromGitSwitchChange.bind(this, 'useFramework')} checked={props.sidebar.appCreatingForm.useFramework} />
+					      		<Switch onChange={modalAppCreatorFromHandler.onFromGitSwitchChange.bind(this, 'useFramework')} checked={props.sidebar.appCreatingForm.useFramework}  />
 					      	</Col>
 					    </Row>
 					</div>
