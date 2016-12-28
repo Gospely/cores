@@ -24,7 +24,6 @@ const DevPanel = ({
 
 	const currentDevType = {
 		editor: function(params) {
-			console.log(params);
 			return (
 				<Spin spinning={params.loading}>
 					<CodingEditor searchVisible={params.searchVisible}
@@ -51,7 +50,7 @@ const DevPanel = ({
 
 		welcome: function() {
 			return (
-				<Welcome ></Welcome>
+				<Welcome></Welcome>
 			);
 		},
 

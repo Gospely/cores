@@ -977,7 +977,7 @@ const LeftSidebar = (props) => {
 
 	       	var title = 'git commit',
 	          	type = 'terminal';
-	       	props.dispatch({
+	       		props.dispatch({
 		        	type: 'devpanel/add',
 	    	    	payload: { title, type }
 	      		});
@@ -1074,7 +1074,7 @@ const LeftSidebar = (props) => {
 	          	onCancel={modalCommitInfoProps.hideModal}
 	        >
 
-	        	<Input type="text" placeholder="请输入commit信息" onChange={modalCommitInfoProps.onInputChange.bind(this, 'title')} value={props.sidebar.modalCommitInfo.title} onPressEnter={modalCommitInfoProps.commit}></Input>
+	        	<Input type="text" placeholder="请输入commit信息（可以留空）" onChange={modalCommitInfoProps.onInputChange.bind(this, 'title')} value={props.sidebar.modalCommitInfo.title} onPressEnter={modalCommitInfoProps.commit}></Input>
 	        </Modal>
 
 	        <Modal

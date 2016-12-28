@@ -24,6 +24,39 @@ class Terminal extends Component {
 			tabKey = activePane.activeTab.key,
 			activeTab = activePane.tabs[tabKey - 1];
 
+		var terminalTypeName = false;
+
+		var activeTerminalAction = {
+
+			'git commit' () {
+				terminalTypeName = 'commitTerminal';
+			},
+
+			'git pull' () {
+				terminalTypeName = 'pullTerminal';
+			},
+
+			'git push' () {
+				terminalTypeName = 'pushTerminal';
+			}
+
+		}
+
+		if(activeTerminalAction[activeTab.title]) {
+			activeTerminalAction[activeTab.title]();
+		}
+
+		var setTerminalType = function(socket) {
+			if(terminalTypeName) {
+				window[terminalTypeName] = socket;
+			}
+		}
+
+		if(window[terminalTypeName]) {
+			alert('sss')
+			return false;
+		}
+
 		var init = function() {
 
 			var term,
@@ -147,6 +180,7 @@ class Terminal extends Component {
 											socket.onopen = runRealTerminal;
 											socket.onclose = runFakeTerminal;
 											socket.onerror = runFakeTerminal;
+											setTerminalType();						
 											socket.onmessage = function (evt) {
 											  //收到服务器消息，使用evt.data提取
 											  if(/^\{[\s*"\w+":"\w+",*\s*]+\}$/.test(evt.data)){
@@ -173,6 +207,7 @@ class Terminal extends Component {
 						  socket.onopen = runRealTerminal;
 						  socket.onclose = runFakeTerminal;
 						  socket.onerror = runFakeTerminal;
+						  setTerminalType();						
 						  socket.onmessage = function (evt) {
 							//收到服务器消息，使用evt.data提取
 							if(/^\{[\s*"\w+":"\w+",*\s*]+\}$/.test(evt.data)){
@@ -189,7 +224,7 @@ class Terminal extends Component {
 					window.socket = socket;
 					socket.onclose = runFakeTerminal;
 					socket.onerror = runFakeTerminal;
-
+					setTerminalType();
 					socket.onmessage = function (evt) {
 						//收到服务器消息，使用evt.data提取
 						if(/^\{[\s*"\w+":"\w+",*\s*]+\}$/.test(evt.data)){
@@ -202,7 +237,6 @@ class Terminal extends Component {
 			}
 
 			function runRealTerminal() {
-				console.log(socket);
 				term.attach(socket);
 				setTimeout(function(){
 					socket.send(self.props.ctx.devpanel.cmd);
