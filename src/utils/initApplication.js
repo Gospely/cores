@@ -4,17 +4,18 @@ const initApplication = function (application, props){
     return false;
   }
 
-  props.dispatch({
-    type: 'devpanel/showLoading',
-    payload: {
-      tips: '打开应用中...'
-    }
-  });
+  // props.dispatch({
+  //   type: 'devpanel/showLoading',
+  //   payload: {
+  //     tips: '打开应用中...'
+  //   }
+  // });
 
   localStorage.dir = localStorage.user + '/' + application.docker.replace('gospel_project_', '') + "/";
   localStorage.currentFolder = localStorage.user + '/' + application.name + '_' + localStorage.userName;
   localStorage.baseURL = 'http://' + application.host + ':9999/';
-  localStorage.host = application.host
+  localStorage.host = application.host;
+  localStorage.exposePort = application.exposePort;
 
 
 

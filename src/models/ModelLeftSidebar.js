@@ -310,10 +310,17 @@ export default {
 			});
 
             console.log(result);
-            if(result.code == 1){
+            if(result.data.code == 1){
                 yield put({
     				type: 'setAppCreatorCompleted'
-    			})
+    			});
+                yield put({
+                    type: 'hideModalNewApp',
+                });
+            }else{
+                yield put({
+                    type: 'hideModalNewApp',
+                });
             }
 
 
@@ -405,11 +412,11 @@ export default {
 				appName: '',
 				fromGit: false,
 				git: '',
-				image: 'HTML5',
-				imageVersion: 'latest',
+				image: '',
+				imageVersion: '',
 				useFramework: true,
 				createLocalServer: false,
-				databaseType: 'AngularJS 1',
+				databaseType: '',
 				databasePassword: ''
 			};
 

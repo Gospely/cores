@@ -412,13 +412,16 @@ const LeftSidebar = (props) => {
 				console.log('===================visual===================');
 
 				//分栏
-				var key = "vertical-dbl";
+				var kill = "kill -9 $(netstat -tlnp | grep "+ localStorage.exposePort +" |awk '{print $7}' | awk -F '/' '{print $1}')"
+				var cmd = kill +' ||  cd /root/workspace && ' + props.sidebar.debugConfig.runCommand + ' && clear\n';
+				var key = "horizontal-dbl";
 				props.dispatch({
 					type: 'devpanel/changeColumn',
 					payload: key
 				});
 				props.dispatch({
 					type: 'devpanel/initDebugPanel',
+					payload: { cmd: cmd}
 				});
 
 				var title = '终端',
@@ -441,7 +444,7 @@ const LeftSidebar = (props) => {
 							payload: {debug}
 						});
 					},
-					visual(){
+					shell(){
 						console.log('===================visual===================');
 
 						//分栏

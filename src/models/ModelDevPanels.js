@@ -71,6 +71,7 @@ export default {
 		},
 		currentMode: 'javascript',
 		currentLanguage: 'HTML',
+		cmd: 'cd /root/workspace && clear\n',
 		debug: '',
 
 
@@ -189,7 +190,7 @@ export default {
 			}else{
 				UIState = params.UIState;
 			}
-			
+
 			for(var i = 0; i < UIState.panels.panes.length; i++) {
 				var pane =  UIState.panels.panes[i];
 				for(var j= 0; j< pane.tabs.length; j++){
@@ -253,7 +254,7 @@ export default {
 
 		*killPID({ payload: params}, {call, put, select}){
 
-			yield request('applications/killpid?pid=' + params.pid + "&&docker=" + localStorage.docker, {
+			yield request('applications/killpid?pid=' + params.pid + "&&docker=" + localStorage.docker + "&&host=" + localStorage.host, {
 				method: 'GET',
 			});
 		}
@@ -267,6 +268,7 @@ export default {
 		},
 		initDebugPanel(state, { payload: params}){
 			state.panels.activePane.key = 1;
+			state.cmd = params.cmd;
 			return {...state}
 		},
 		initTab(state, { payload: params}){
@@ -616,7 +618,7 @@ export default {
 
 		//打开文件时，先打开编辑器，加载动画，再在此把内容放进去
 		pushContentToEditors(state, {payload: params}) {
-			
+
 			let panes = state.panels.panes;
 			for(let i = 0; i < panes.length; i ++) {
 				for(let j = 0; j < panes[i].tabs.length; j ++) {
@@ -631,7 +633,7 @@ export default {
 							editorId: params.editorId,
 							fileName: params.file
 						};
-						
+
 					}
 				}
 			}
