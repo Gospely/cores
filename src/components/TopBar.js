@@ -52,9 +52,8 @@ const LeftSidebar = (props) => {
 		if(props.sidebar.applications.length < 1) {
 			return;
 		}
-		console.log('side==================', props);
 		return props.sidebar.applications.map(application => {
-			return   <Col className="gutter-row" span={6} style={{marginTop: 20}} key={application.id}>
+			return  ( <Col className="gutter-row" span={6} style={{marginTop: 20}} key={application.id}>
 						 <div className="gutter-box">
 								<Card onClick={leftSidebarProps.openApp.bind(this,application)} extra={
 									<Popconfirm onClick={(e) => e.stopPropagation()} title="确认删除此项目?"
@@ -71,7 +70,8 @@ const LeftSidebar = (props) => {
 										</div>
 								</Card>
 						 </div>
-					</Col>;
+					</Col>
+			);
 		});
 	};
 
