@@ -87,7 +87,13 @@ export default {
 			loading: false
 		},
 
-		sshKey: ''
+		sshKey: '',
+
+		modalCommitInfo: {
+			visible: false,
+			title: '',
+			message: ''
+		}
 	},
 
 	subscriptions: {
@@ -632,6 +638,17 @@ export default {
 
 			return {...state};
 		},
+
+		showModalCommitInfo (state) {
+			alert('ssss');
+			state.modalCommitInfo.visible = true;
+			return {...state};
+		},
+
+		showModalCommitInfo (state) {
+			state.modalCommitInfo.visible = false;
+			return {...state};
+		}
 
 	}
 

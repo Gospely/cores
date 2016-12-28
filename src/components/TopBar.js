@@ -104,24 +104,7 @@ const LeftSidebar = (props) => {
 		        		type: 'sidebar/showModalModifyGitOrgin'
 		        	});
 				}else {
-
-					var key = "horizontal-dbl";
-					props.dispatch({
-						type: 'devpanel/changeColumn',
-						payload: key
-					});
-
-		          	var title = 'git commit',
-	              	type = 'terminal';
-		          	props.dispatch({
-	    	        	type: 'devpanel/add',
-	        	    	payload: { title, type }
-	          		});
-
-					props.dispatch({
-						type: 'devpanel/initDebugPanel',
-						payload: { cmd: 'cd /root/workspace\n clear && git commit\n' }
-					});
+					modalCommitInfoProps.showModal();
 				}
 	        },
 
@@ -954,6 +937,42 @@ const LeftSidebar = (props) => {
 
 	}
 
+	const modalCommitInfoProps = {
+		showModal () {
+			props.dispatch({
+				type: 'sidebar/showModalCommitInfo'
+			});
+		},
+
+		hideModal () {
+			props.dispatch({
+				type: 'sidebar/hideModalCommitInfo'
+			});
+		},
+
+		commit () {
+
+			var key = "horizontal-dbl";
+			props.dispatch({
+				type: 'devpanel/changeColumn',
+				payload: key
+			});
+
+	       	var title = 'git commit',
+	          	type = 'terminal';
+	       	props.dispatch({
+		        	type: 'devpanel/add',
+	    	    	payload: { title, type }
+	      		});
+
+			props.dispatch({
+				type: 'devpanel/initDebugPanel',
+				payload: { cmd: 'cd /root/workspace\n clear && git commit\n' }
+			});
+
+		}
+	}
+
 	return (
 		<div style={styles.wrapper}>
 			{topbarMenu}
@@ -1018,6 +1037,17 @@ const LeftSidebar = (props) => {
 						{initApplications()}
         	    	</Row>)
         	    }
+	        </Modal>
+
+	        <Modal
+	          	title="请输入commit信息"
+	          	style={{ top: 20 }}
+	          	visible={props.sidebar.modalCommitInfo.visible}
+	          	onOk={modalCommitInfoProps.commit}
+	          	onCancel={modalCommitInfoProps.hideModal}
+	        >
+
+	        	sss
 	        </Modal>
 
 	        <Modal
