@@ -15,9 +15,14 @@ const ColumnLayout = (props) => {
       });
 
       props.dispatch({
+        type: 'devpanel/changeHorizontalColumnHeight',
+        payload: '50%'
+      })
+
+      props.dispatch({
         type: 'devpanel/changeColumn',
         payload: e.key
-      })
+      });
     }
   }
 

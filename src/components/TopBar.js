@@ -425,8 +425,11 @@ const LeftSidebar = (props) => {
 				var cmd = kill +' ||  cd /root/workspace && ' + props.sidebar.debugConfig.runCommand + ' && clear\n';
 				var key = "horizontal-dbl";
 				props.dispatch({
-					type: 'devpanel/changeColumn',
-					payload: key
+					type: 'devpanel/changeColumnWithHeight',
+					payload: {
+						key: key,
+						height: '70%'
+					}
 				});
 				props.dispatch({
 					type: 'devpanel/initDebugPanel',
