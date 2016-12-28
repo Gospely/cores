@@ -70,10 +70,10 @@ export default {
 			appName: '',
 			fromGit: false,
 			git: '',
-			image: 'HTML5',
-			imageVersion: 'latest',
+			image: '',
+			imageVersion: '',
 			useFramework: false,
-			framework: 'AngularJS2',
+			framework: '',
 			createLocalServer: false,
 			databaseType: '',
 			databasePassword: '',
@@ -405,11 +405,11 @@ export default {
 				appName: '',
 				fromGit: false,
 				git: '',
-				image: 'HTML5',
-				imageVersion: 'latest',
+				image: '',
+				imageVersion: '',
 				useFramework: true,
 				createLocalServer: false,
-				databaseType: 'AngularJS 1',
+				databaseType: '',
 				databasePassword: ''
 			};
 

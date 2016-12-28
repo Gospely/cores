@@ -286,9 +286,7 @@ const LeftSidebar = (props) => {
 	      });
 	    },
 
-
 	    confirmDeleteApp(application) {
-			console.log('confirm delete app')
 			props.dispatch({
 				type: 'sidebar/deleteApp',
 				payload: {application}
@@ -296,7 +294,7 @@ const LeftSidebar = (props) => {
 	    },
 
 	    cancelDeleteApp() {
-	    	console.log('cacle delete app')
+
 	    },
 
 	    openApp(application) {
@@ -430,7 +428,6 @@ const LeftSidebar = (props) => {
 			},
 
 			run() {
-				console.log("debugger");
 				const debugType = {
 					common(){
 						console.log('common');
