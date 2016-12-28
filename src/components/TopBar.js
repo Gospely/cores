@@ -409,7 +409,24 @@ const LeftSidebar = (props) => {
 	const onSelectStartMenu = function (activeMenu) {
 		let handleActiveMenuEvent = {
 			runCommand() {
+				console.log('===================visual===================');
 
+				//分栏
+				var key = "vertical-dbl";
+				props.dispatch({
+					type: 'devpanel/changeColumn',
+					payload: key
+				});
+				props.dispatch({
+					type: 'devpanel/initDebugPanel',
+				});
+
+				var title = '终端',
+						type = 'terminal';
+				props.dispatch({
+					type: 'devpanel/add',
+					payload: {title, type}
+				})
 			},
 
 			run() {
