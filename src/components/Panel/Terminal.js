@@ -55,7 +55,7 @@ class Terminal extends Component {
 					termHeight = ( parseInt(document.body.clientHeight)) / 2;
 				}
 
-				var cols = Math.ceil(termWidth / 4),
+				var cols = 10000,
 					rows = Math.ceil((termHeight - 90) / 17),
 					width = (cols * charWidth).toString() + 'px',
 					height = (rows * charHeight).toString() + 'px';
@@ -205,7 +205,7 @@ class Terminal extends Component {
 				console.log(socket);
 				term.attach(socket);
 				setTimeout(function(){
-					socket.send('cd /root/workspace && clear\n');
+					socket.send(self.props.ctx.devpanel.cmd);
 				},1000);
 				term._initialized = true;
 			}

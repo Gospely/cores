@@ -147,7 +147,8 @@ export default {
       		var isGit = yield request('fs/git/', {
       			method: 'POST',
       			body: JSON.stringify({
-      				dir: localStorage.dir
+      				dir: localStorage.dir,
+                    remoteIp: localStorage.host
       			})
       		});
 
@@ -156,7 +157,8 @@ export default {
       			var origin = yield request('fs/origin/git', {
 	      			method: 'POST',
 	      			body: JSON.stringify({
-	      				dir: localStorage.dir
+	      				dir: localStorage.dir,
+                        remoteIp: localStorage.host
 	      			})
 	      		});
 
@@ -176,7 +178,8 @@ export default {
       			method: 'POST',
       			body: JSON.stringify({
       				dir: localStorage.dir,
-      				origin: val
+      				origin: val,
+                    remoteIp: localStorage.host
       			})
       		});
 
@@ -192,7 +195,8 @@ export default {
       		var pushResult = yield request('fs/push', {
       			method: 'POST',
       			body: JSON.stringify({
-      				dir: localStorage.dir
+      				dir: localStorage.dir,
+                    remoteIp: localStorage.host
       			})
       		});
 
@@ -210,7 +214,8 @@ export default {
       		var pullResult = yield request('fs/pull', {
       			method: 'POST',
       			body: JSON.stringify({
-      				dir: localStorage.dir
+      				dir: localStorage.dir,
+                    remoteIp: localStorage.host
       			})
       		});
 
@@ -231,7 +236,8 @@ export default {
       		var commitResult = yield request('fs/commit', {
       			method: 'POST',
       			body: JSON.stringify({
-      				dir: localStorage.dir
+      				dir: localStorage.dir,
+                    remoteIp: localStorage.host
       			})
       		});
 
@@ -312,10 +318,18 @@ export default {
                 body: JSON.stringify(form),
 			});
 
-            if(result.code == 1){
+            console.log(result);
+            if(result.data.code == 1){
                 yield put({
     				type: 'setAppCreatorCompleted'
-    			})
+    			});
+                yield put({
+                    type: 'hideModalNewApp',
+                });
+            }else{
+                yield put({
+                    type: 'hideModalNewApp',
+                });
             }
 
 		},

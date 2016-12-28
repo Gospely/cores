@@ -150,6 +150,7 @@ export default {
       		formdata.append('username','zx');
       		formdata.append('projectName','node');
       		formdata.append('fileUp',info.file);
+			formdata.append('remoteIp',localStorage.host);
       		console.log('formdata:',formdata);
       		var result = fetch('http://localhost:8089/fs/upload',{
       			method:'POST',
@@ -371,6 +372,7 @@ export default {
 
       	*unZipFile({payload: params}, {call, put, select}) {
       		var folder = yield select(state => state.file.uploadModal.folderValue);
+			folder.remoteIp = localStorage.host;
       		if (folder == '') {
       			message.error('请选择解压文件夹');
       			return;

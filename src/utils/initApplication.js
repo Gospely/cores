@@ -4,19 +4,19 @@ const initApplication = function (application, props){
     return false;
   }
 
-  props.dispatch({
-    type: 'devpanel/showLoading',
-    payload: {
-      tips: '打开应用中...'
-    }
-  });
+  // props.dispatch({
+  //   type: 'devpanel/showLoading',
+  //   payload: {
+  //     tips: '打开应用中...'
+  //   }
+  // });
 
   localStorage.dir = localStorage.user + '/' + application.docker.replace('gospel_project_', '') + "/";
   localStorage.currentFolder = localStorage.user + '/' + application.name + '_' + localStorage.userName;
   localStorage.baseURL = 'http://' + application.host + ':9999/';
   localStorage.host = application.host;
+  localStorage.exposePort = application.exposePort;
 
-  console.log('==========================application==========================', application);
   props.dispatch({
     type: 'file/fetchFileList'
   });
@@ -71,7 +71,6 @@ const initApplication = function (application, props){
   localStorage.docker = application.docker;
   localStorage.applicationId = application.id;
   var command = JSON.parse(application.cmds);
-  console.log(command);
   // props.dispatch({
   //   type: 'designer/handleLayoutLoaded'
   // });
