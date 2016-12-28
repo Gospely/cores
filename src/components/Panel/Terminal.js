@@ -20,7 +20,7 @@ class Terminal extends Component {
 	componentDidMount() {
 
 		var self = this,
-			activePane = this.props.ctx.devpanel.panels.panes[ this.props.ctx.devpanel.panels.activePane.key],
+			activePane = this.props.ctx.devpanel.panels.panes[this.props.ctx.devpanel.panels.activePane.key],
 			tabKey = activePane.activeTab.key,
 			activeTab = activePane.tabs[tabKey - 1];
 
@@ -30,14 +30,17 @@ class Terminal extends Component {
 
 			'git commit' () {
 				terminalTypeName = 'commitTerminal';
+				window.commitTerminalID = self.props.title;
 			},
 
 			'git pull' () {
 				terminalTypeName = 'pullTerminal';
+				window.pullTerminalID = self.props.title;
 			},
 
 			'git push' () {
 				terminalTypeName = 'pushTerminal';
+				window.pushTerminalID = self.props.title;
 			}
 
 		}

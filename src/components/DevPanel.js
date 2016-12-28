@@ -36,9 +36,9 @@ const DevPanel = ({
 			);
 		},
 
-		terminal: function() {
+		terminal: function(params) {
 			return (
-				<Terminal ctx={props}></Terminal>
+				<Terminal title={params.title} ctx={props}></Terminal>
 			);
 		},
 
@@ -107,8 +107,7 @@ const DevPanel = ({
 		var pane = [];
 
 		panels.map(panes => {
-			var tabPanes = generatorTabPanes(panes.tabs,panes.key);
-			console.log(tabPanes);
+			var tabPanes = generatorTabPanes(panes.tabs, panes.key);
 			const activeKey = panes.activeTab.key;
 			const paneKey = panes.key;
 			pane.push(<div style={styles.paneWrapper} onClick={onChangePane.bind(this,panes.key)} key={paneKey}>

@@ -522,15 +522,17 @@ export default {
 			let lastIndex;
 			let type = target.type;
 
-			if(target.title == 'git commit') {
+			console.log(activePane, target);
+
+			if(target.editorId == window.commitTerminalID) {
 				window.commitTerminal = undefined;
 			}
 
-			if(target.title == 'git pull') {
+			if(target.editorId == window.pullTerminalID) {
 				window.pullTerminal = undefined;		
 			}
 
-			if(target.title == 'git push') {
+			if(target.editorId == window.pushTerminalID) {
 				window.pushTerminal = undefined;
 			}
 

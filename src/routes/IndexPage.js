@@ -89,6 +89,8 @@ function IndexPage(props) {
 
         onEdit(paneKey, targetKey, action) {
 
+            console.log(paneKey);
+
             var content = '',
                 title = undefined,
                 type = "editor";
