@@ -20,9 +20,44 @@ class Terminal extends Component {
 	componentDidMount() {
 
 		var self = this,
-			activePane = this.props.ctx.devpanel.panels.panes[ this.props.ctx.devpanel.panels.activePane.key],
+			activePane = this.props.ctx.devpanel.panels.panes[this.props.ctx.devpanel.panels.activePane.key],
 			tabKey = activePane.activeTab.key,
 			activeTab = activePane.tabs[tabKey - 1];
+
+		var terminalTypeName = false;
+
+		var activeTerminalAction = {
+
+			'git commit' () {
+				terminalTypeName = 'commitTerminal';
+				window.commitTerminalID = self.props.title;
+			},
+
+			'git pull' () {
+				terminalTypeName = 'pullTerminal';
+				window.pullTerminalID = self.props.title;
+			},
+
+			'git push' () {
+				terminalTypeName = 'pushTerminal';
+				window.pushTerminalID = self.props.title;
+			}
+
+		}
+
+		if(activeTab && activeTerminalAction[activeTab.title]) {
+			activeTerminalAction[activeTab.title]();
+		}
+
+		var setTerminalType = function(socket) {
+			if(terminalTypeName) {
+				window[terminalTypeName] = socket;
+			}
+		}
+
+		if(window[terminalTypeName]) {
+			return false;
+		}
 
 		var init = function() {
 
@@ -55,7 +90,7 @@ class Terminal extends Component {
 					termHeight = ( parseInt(document.body.clientHeight)) / 2;
 				}
 
-				var cols = Math.ceil(termWidth / 4),
+				var cols = 10000,
 					rows = Math.ceil((termHeight - 90) / 17),
 					width = (cols * charWidth).toString() + 'px',
 					height = (rows * charHeight).toString() + 'px';
@@ -146,6 +181,7 @@ class Terminal extends Component {
 											socket.onopen = runRealTerminal;
 											socket.onclose = runFakeTerminal;
 											socket.onerror = runFakeTerminal;
+											setTerminalType(socket);						
 											socket.onmessage = function (evt) {
 											  //收到服务器消息，使用evt.data提取
 											  if(/^\{[\s*"\w+":"\w+",*\s*]+\}$/.test(evt.data)){
@@ -172,6 +208,7 @@ class Terminal extends Component {
 						  socket.onopen = runRealTerminal;
 						  socket.onclose = runFakeTerminal;
 						  socket.onerror = runFakeTerminal;
+						  setTerminalType(socket);						
 						  socket.onmessage = function (evt) {
 							//收到服务器消息，使用evt.data提取
 							if(/^\{[\s*"\w+":"\w+",*\s*]+\}$/.test(evt.data)){
@@ -188,7 +225,7 @@ class Terminal extends Component {
 					window.socket = socket;
 					socket.onclose = runFakeTerminal;
 					socket.onerror = runFakeTerminal;
-
+					setTerminalType(socket);
 					socket.onmessage = function (evt) {
 						//收到服务器消息，使用evt.data提取
 						if(/^\{[\s*"\w+":"\w+",*\s*]+\}$/.test(evt.data)){
@@ -201,10 +238,12 @@ class Terminal extends Component {
 			}
 
 			function runRealTerminal() {
-				console.log(socket);
 				term.attach(socket);
 				setTimeout(function(){
-					socket.send('cd /root/workspace && clear\n');
+					socket.send(self.props.ctx.devpanel.cmd);
+					self.props.ctx.dispatch({
+						type: 'devpanel/initCmd',
+					});
 				},1000);
 				term._initialized = true;
 			}

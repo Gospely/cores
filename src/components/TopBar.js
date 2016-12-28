@@ -1,6 +1,8 @@
 import React , { PropTypes } from 'react';
 import { Menu, Spin, Icon, Modal, Input, Button, message, notification, Tabs, Card, Popconfirm, Row, Col, Dropdown, Form, Radio, Switch } from 'antd';
 
+import { Tooltip } from 'antd';
+
 const TabPane = Tabs.TabPane;
 
 import { connect } from 'dva';
@@ -102,18 +104,7 @@ const LeftSidebar = (props) => {
 		        		type: 'sidebar/showModalModifyGitOrgin'
 		        	});
 				}else {
-					// props.dispatch({
-					// 	type: 'sidebar/pushCommit'
-					// })
-					window.socket.send("cd /root/workspace && git commit\n");
-					localStorage.message = 'git commit ';
-					localStorage.gitOperate = 'git commit';
-					props.dispatch({
-						type: 'editorTop/initGitOperate',
-						payload: { operate: 'git comit'}
-					});
-
-
+					modalCommitInfoProps.showModal();
 				}
 	        },
 
@@ -124,18 +115,25 @@ const LeftSidebar = (props) => {
 						type: 'sidebar/showModalModifyGitOrgin'
 					})
 				}else {
-					window.socket.send("cd /root/workspace && git push\n");
-					localStorage.message = 'git push ';
-					 localStorage.gitOperate = 'git push';
+
+					var key = "horizontal-dbl";
 					props.dispatch({
-						type: 'editorTop/initGitOperate',
-						payload: { operate: 'git push'}
+						type: 'devpanel/changeColumn',
+						payload: key
 					});
 
+		          	var title = 'git push',
+	              	type = 'terminal';
+		          	props.dispatch({
+	    	        	type: 'devpanel/add',
+	        	    	payload: { title, type }
+	          		});
 
-					// props.dispatch({
-					// 	type: 'sidebar/pushGit'
-					// })
+					props.dispatch({
+						type: 'devpanel/initDebugPanel',
+						payload: { cmd: 'cd /root/workspace\n clear && git push -u origin master\n' }
+					});
+
 				}
 	        },
 
@@ -146,26 +144,33 @@ const LeftSidebar = (props) => {
 						type: 'sidebar/showModalModifyGitOrgin'
 					});
 				}else {
-					window.socket.send("cd /root/workspace && git pull\n");
-					localStorage.message = 'git pull ';
-					localStorage.gitOperate = 'git pull';
+					var key = "horizontal-dbl";
 					props.dispatch({
-						type: 'editorTop/initGitOperate',
-						payload: { operate: 'git pull'}
+						type: 'devpanel/changeColumn',
+						payload: key
 					});
 
+		          	var title = 'git pull',
+	              	type = 'terminal';
+		          	props.dispatch({
+	    	        	type: 'devpanel/add',
+	        	    	payload: { title, type }
+	          		});
+
+					props.dispatch({
+						type: 'devpanel/initDebugPanel',
+						payload: { cmd: 'cd /root/workspace\n clear && git pull\n' }
+					});
 				}
 	        },
 
 	        terminal() {
-
 	          	var title = '终端',
 	              	type = 'terminal';
 	          	props.dispatch({
 	            	type: 'devpanel/add',
 	            	payload: {title, type}
-	          	})
-
+	          	});
 	        },
 
 	        file() {
@@ -212,11 +217,39 @@ const LeftSidebar = (props) => {
 	        },
 
 	        showStartMenu() {
-	        	return false;
+
+				if(localStorage.debugType == 'common'){
+					console.log('common');
+					sessionStorage.currentDebugResource = 'http://'+ localStorage.host +':' + localStorage.port;
+					var debug = window.open('http://localhost:8989/static/debugger/wordpress.html','_blank')
+					props.dispatch({
+						type: 'devpanel/handleDebugger',
+						payload: {debug}
+					});
+				}else{
+					return false;
+				}
+
 	        },
 
 	        pause() {
 
+				if(localStorage.debugType == 'shell') {
+					console.log("psus");
+					var kill = "kill -9 $(netstat -tlnp | grep "+ localStorage.exposePort +" |awk '{print $7}' | awk -F '/' '{print $1}')\n"
+					console.log(kill);
+					props.dispatch({
+						type: 'devpanel/initDebugPanel',
+						payload: { cmd: kill}
+					});
+
+					var title = '终端',
+							type = 'terminal';
+					props.dispatch({
+						type: 'devpanel/add',
+						payload: {title, type}
+					})
+				}
 	        },
 
 	        preview() {
@@ -286,9 +319,7 @@ const LeftSidebar = (props) => {
 	      });
 	    },
 
-
 	    confirmDeleteApp(application) {
-			console.log('confirm delete app')
 			props.dispatch({
 				type: 'sidebar/deleteApp',
 				payload: {application}
@@ -296,11 +327,11 @@ const LeftSidebar = (props) => {
 	    },
 
 	    cancelDeleteApp() {
-	    	console.log('cacle delete app')
+
 	    },
 
 	    openApp(application) {
-			window.location.href = 'http://localhost:8989/#/project/' + application.id;
+			window.location.hash = 'project/' + application.id;
 			if(application.id != localStorage.applicationId) {
 				window.reload = true
 				initApplication(application,props);
@@ -412,13 +443,42 @@ const LeftSidebar = (props) => {
 				console.log('===================visual===================');
 
 				//分栏
-				var key = "vertical-dbl";
+				var kill = "kill -9 $(netstat -tlnp | grep "+ localStorage.exposePort +" |awk '{print $7}' | awk -F '/' '{print $1}')"
+				var cmd = kill +' ||  cd /root/workspace && ' + props.sidebar.debugConfig.runCommand + ' && clear\n';
+				var key = "horizontal-dbl";
+				props.dispatch({
+					type: 'devpanel/changeColumnWithHeight',
+					payload: {
+						key: key,
+						height: '70%'
+					}
+				});
+				props.dispatch({
+					type: 'devpanel/initDebugPanel',
+					payload: { cmd: cmd}
+				});
+
+				var title = '终端',
+					type = 'terminal';
+				props.dispatch({
+					type: 'devpanel/add',
+					payload: {title, type}
+				})
+			},
+			visit(){
+				console.log('===================visual===================');
+
+				//分栏
+				var kill = "kill -9 $(netstat -tlnp | grep "+ localStorage.exposePort +" |awk '{print $7}' | awk -F '/' '{print $1}')"
+				var cmd = kill +' ||  cd /root/workspace && ' + props.sidebar.debugConfig.runCommand + ' && clear\n';
+				var key = "horizontal-dbl";
 				props.dispatch({
 					type: 'devpanel/changeColumn',
 					payload: key
 				});
 				props.dispatch({
 					type: 'devpanel/initDebugPanel',
+					payload: { cmd: cmd}
 				});
 
 				var title = '终端',
@@ -427,21 +487,38 @@ const LeftSidebar = (props) => {
 					type: 'devpanel/add',
 					payload: {title, type}
 				})
+				var url = 'http://' + localStorage.host + ':' + localStorage.port;
+				window.open(url);
 			},
+			'run&visit&noleave'(){
 
+				var key = "vertical-dbl";
+				props.dispatch({
+					type: 'devpanel/changeColumn',
+					payload: key
+				});
+				props.dispatch({
+					type: 'devpanel/initDebugPanel',
+					payload: {cmd: 'cd /root/workspace && clear\n'}
+				});
+
+				var title = '预览',
+	        		type = 'previewer',
+					url = 'http://' + localStorage.host +':' + localStorage.port;
+        		props.dispatch({type: 'devpanel/add',payload: {title,type,url}});
+			},
 			run() {
-				console.log("debugger");
 				const debugType = {
 					common(){
 						console.log('common');
 						sessionStorage.currentDebugResource = 'http://gospely.com:' + localStorage.port;
-						var debug = window.open('http://localhost:8989/static/debugger/wordpress.html','_blank')
+						var debug = window.open(location.hostname + '/static/debugger/wordpress.html','_blank')
 						props.dispatch({
 							type: 'devpanel/handleDebugger',
 							payload: {debug}
 						});
 					},
-					visual(){
+					shell(){
 						console.log('===================visual===================');
 
 						//分栏
@@ -454,8 +531,8 @@ const LeftSidebar = (props) => {
 							type: 'devpanel/initDebugPanel',
 						});
 
-						var title = '终端',
-								type = 'terminal';
+						var title = '启动命令终端',
+							type = 'terminal';
 						props.dispatch({
 							type: 'devpanel/add',
 							payload: {title, type}
@@ -475,13 +552,15 @@ const LeftSidebar = (props) => {
 	}
 
 	const startMenu = (
+		localStorage.debugType == 'shell' &&
 		<Menu onClick={onSelectStartMenu}>
-			<Menu.Item key='runCommand' disabled={window.disabled}>运行命令:{props.sidebar.debugConfig.runCommand}</Menu.Item>
-			<Menu.Item key='run' disabled={window.disabled}>直接运行</Menu.Item>
+			<Menu.Item key='runCommand' disabled={window.disabled}>运行：{props.sidebar.debugConfig.runCommand}</Menu.Item>
+			<Menu.Item key='visit' disabled={window.disabled}>运行并访问：http://{localStorage.host}:{localStorage.port}</Menu.Item>
+			<Menu.Item key='run&visit&noleave' disabled={window.disabled}>在IDE访问</Menu.Item>
 			<Menu.Divider/>
 			<Menu.Item key='config' disabled={window.disabled}>配置...</Menu.Item>
 		</Menu>
-	);
+	)
 
 	const debugConfigModal = {
 		formItemLayout: {
@@ -562,7 +641,7 @@ const LeftSidebar = (props) => {
 					      		<span>您的项目名称：</span>
 					      	</Col>
 					      	<Col span={8} style={{textAlign: 'left'}}>
-				              	<Input onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'appName')} value={props.sidebar.appCreatingForm.appName} />
+				              	<Input onPressEnter={() => modalAppCreatorProps.next()} onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'appName')} value={props.sidebar.appCreatingForm.appName} />
 					      	</Col>
 					    </Row>
 					</div>
@@ -584,7 +663,7 @@ const LeftSidebar = (props) => {
 					      		<span>您的Git项目地址：</span>
 					      	</Col>
 					      	<Col span={8} style={{textAlign: 'left'}}>
-				              	<Input onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'git')} value={props.sidebar.appCreatingForm.git} />
+				              	<Input onPressEnter={() => modalAppCreatorProps.next()} onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'git')} value={props.sidebar.appCreatingForm.git} />
 					      	</Col>
 					    </Row>
 					</div>
@@ -636,7 +715,7 @@ const LeftSidebar = (props) => {
 					    </Row>
 					</div>
 
-			  		<div style={{ marginTop: 32 }} hidden={!props.sidebar.appCreatingForm.useFramework}>
+			  		<div style={{ marginTop: 32 }} hidden={!props.sidebar.appCreatingForm.useFramework || props.sidebar.frameworks.length === 0}>
 			  		    <Row>
 					      	<Col span={4} style={{textAlign: 'right'}}>
 					      		<span>请选择框架：</span>
@@ -691,7 +770,7 @@ const LeftSidebar = (props) => {
 					      		<span>数据库用户：</span>
 					      	</Col>
 					      	<Col span={8} style={{textAlign: 'left'}}>
-					      		<Input onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'databaseAccount')} value={props.sidebar.appCreatingForm.databaseAccount} type="text" />
+					      		<Input onPressEnter={() => modalAppCreatorProps.next()} onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'databaseAccount')} value={props.sidebar.appCreatingForm.databaseAccount} type="text" />
 					      	</Col>
 					    </Row>
 					</div>
@@ -702,7 +781,7 @@ const LeftSidebar = (props) => {
 					      		<span>数据库密码：</span>
 					      	</Col>
 					      	<Col span={8} style={{textAlign: 'left'}}>
-					      		<Input onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'databasePassword')} value={props.sidebar.appCreatingForm.databasePassword} type="password" />
+					      		<Input onPressEnter={() => modalAppCreatorProps.next()} onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'databasePassword')} value={props.sidebar.appCreatingForm.databasePassword} type="password" />
 					      	</Col>
 					    </Row>
 					</div>
@@ -738,12 +817,14 @@ const LeftSidebar = (props) => {
 					return false;
 				}
 
-				if(props.sidebar.appCreatingForm.imageVersion == '') {
-					message.error('请选择语言版本');
-					return false
+				if(props.sidebar.versions.length > 0) {
+					if(props.sidebar.appCreatingForm.imageVersion == '') {
+						message.error('请选择语言版本');
+						return false
+					}
 				}
 
-				if(props.sidebar.appCreatingForm.useFramework) {
+				if(props.sidebar.appCreatingForm.useFramework && props.sidebar.frameworks.length > 0) {
 					if(props.sidebar.appCreatingForm.framework == '') {
 						message.error('请选择框架版本');
 						return false;
@@ -780,51 +861,149 @@ const LeftSidebar = (props) => {
 		}
 	}
 
-	return (
-		<div style={styles.wrapper}>
+	var topbarMenu = '';
+
+	if(!window.disabled) {
+		topbarMenu = (
 	      	<Menu
 	      		style={styles.sidebar}
 	      		onClick={leftSidebarProps.handleClick}
 	      		mode="horizontal">
+				<Menu.Item key="create">
+			      	<Tooltip title="新建项目">
+		          		<Icon type="plus" />
+		          	</Tooltip>
+		        </Menu.Item>
+		        <Menu.Item key="switch">
+			      	<Tooltip title="切换项目">
+		          		<Icon type="appstore-o" />
+		          	</Tooltip>
+		        </Menu.Item>
+			    <Menu.Item key="commit">
+			      	<Tooltip title="commit操作">
+						<Icon type="check"/>
+					</Tooltip>
+			    </Menu.Item>
+			    <Menu.Item key="push">
+			      	<Tooltip title="push操作">
+						<Icon type="upload" />
+					</Tooltip>
+			    </Menu.Item>
+			    <Menu.Item key="pull">
+			      	<Tooltip title="pull操作">
+						<Icon type="download" />
+					</Tooltip>
+			    </Menu.Item>
+			    <Menu.Item key="file">
+			      	<Tooltip title="新建文件">
+						<Icon type="file-text" />
+					</Tooltip>
+			    </Menu.Item>
+				<Menu.Item key="designer">
+			      	<Tooltip title="打开小程序设计器">
+						<Icon type="windows-o" />
+					</Tooltip>
+				</Menu.Item>
+			    <Menu.Item key="terminal">
+			      	<Tooltip title="打开终端">
+						<Icon type="code-o" />
+					</Tooltip>
+			    </Menu.Item>
+			    <Menu.Item key="showStartMenu">
+			    	<Dropdown overlay={startMenu}  trigger={['click']}>
+			      		<Tooltip title="调试运行">
+			    			<div style={{width: 30}}>
+								<Icon type="play-circle-o" />
+							</div>
+						</Tooltip>
+					</Dropdown>
+			    </Menu.Item>
+			    <Menu.Item key="pause">
+			      	<Tooltip title="停止运行">
+						<Icon type="pause-circle-o" />
+					</Tooltip>
+			    </Menu.Item>
+			    <Menu.Item key="preview">
+			      	<Tooltip title="预览">
+			    		<Icon type="eye-o" />
+			      	</Tooltip>
+			    </Menu.Item>
+			    <Menu.Item key="download-weapp">
+			    	打包小程序
+			    </Menu.Item>
+		    </Menu>
+		);
+	}else {
+		topbarMenu = (
 
-		        <Menu.Item key="create">
+	      	<Menu
+	      		style={styles.sidebar}
+	      		onClick={leftSidebarProps.handleClick}
+	      		mode="horizontal">
+				<Menu.Item key="create">
 		          	<Icon type="plus" />
 		        </Menu.Item>
 		        <Menu.Item key="switch">
 		          	<Icon type="appstore-o" />
 		        </Menu.Item>
-		        <Menu.Item key="commit" disabled={window.disabled}>
-					<Icon type="check"/>
-		        </Menu.Item>
-		        <Menu.Item key="push" disabled={window.disabled}>
-					<Icon type="upload" />
-		        </Menu.Item>
-		        <Menu.Item key="pull" disabled={window.disabled}>
-					<Icon type="download" />
-		        </Menu.Item>
-		        <Menu.Item key="file" disabled={window.disabled}>
-					<Icon type="file-text" />
-		        </Menu.Item>
-				<Menu.Item key="designer" disabled={window.disabled}>
-					<Icon type="windows-o" />
-				</Menu.Item>
-		        <Menu.Item key="terminal" disabled={window.disabled}>
-					<Icon type="code-o" />
-		        </Menu.Item>
-		        <Menu.Item key="showStartMenu" disabled={window.disabled}>
-		        	<Dropdown overlay={startMenu} trigger={['click']}>
-		        		<div style={{width: 30}}>
-							<Icon type="play-circle-o" />
-						</div>
-					</Dropdown>
-		        </Menu.Item>
-		        <Menu.Item key="preview" disabled={window.disabled}>
-		        	<Icon type="eye-o" />
-		        </Menu.Item>
-		        <Menu.Item key="download-weapp" disabled={window.disabled}>
-		        	打包小程序
-		        </Menu.Item>
 	      	</Menu>
+
+		);
+
+	}
+
+	const modalCommitInfoProps = {
+		showModal () {
+			props.dispatch({
+				type: 'sidebar/showModalCommitInfo'
+			});
+		},
+
+		hideModal () {
+			props.dispatch({
+				type: 'sidebar/hideModalCommitInfo'
+			});
+		},
+
+		commit () {
+
+			modalCommitInfoProps.hideModal();
+
+			var key = "horizontal-dbl";
+			props.dispatch({
+				type: 'devpanel/changeColumn',
+				payload: key
+			});
+
+	       	var title = 'git commit',
+	          	type = 'terminal';
+	       		props.dispatch({
+		        	type: 'devpanel/add',
+	    	    	payload: { title, type }
+	      		});
+
+			props.dispatch({
+				type: 'devpanel/initDebugPanel',
+				payload: { cmd: 'cd /root/workspace\n clear && git commit -a -m "' + props.sidebar.modalCommitInfo.title + '"\n' }
+			});
+
+		},
+
+		onInputChange (input, e) {
+			sessionStorage.commitInfo = e.target.value;
+			props.dispatch({
+				type: 'sidebar/handleCommitInfoInputChange',
+				value: {
+					value: e.target.value,
+					input: input
+				}
+			})
+		}
+	}
+
+	return (
+		<div style={styles.wrapper}>
+			{topbarMenu}
 
 	    	<Modal width="80%"  title="新建应用" visible={props.sidebar.modalNewAppVisible}
 	          	onOk={leftSidebarProps.createApp} onCancel={leftSidebarProps.cancelNewApp}
@@ -886,6 +1065,17 @@ const LeftSidebar = (props) => {
 						{initApplications()}
         	    	</Row>)
         	    }
+	        </Modal>
+
+	        <Modal
+	          	title="请输入commit信息"
+	          	style={{ top: 20 }}
+	          	visible={props.sidebar.modalCommitInfo.visible}
+	          	onOk={modalCommitInfoProps.commit}
+	          	onCancel={modalCommitInfoProps.hideModal}
+	        >
+
+	        	<Input type="text" placeholder="请输入commit信息（可以留空）" onChange={modalCommitInfoProps.onInputChange.bind(this, 'title')} value={props.sidebar.modalCommitInfo.title} onPressEnter={modalCommitInfoProps.commit}></Input>
 	        </Modal>
 
 	        <Modal

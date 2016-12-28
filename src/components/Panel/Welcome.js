@@ -16,7 +16,7 @@ const Welcome = (props) => {
 			width: '100%',
 			textAlign: 'center',
 			paddingTop: 50,
-			height: '100%',
+			height: parseInt(document.body.clientHeight) - 40,
 			fontWeight: '200',
 			maxHeight: maxHeight
 		},
@@ -44,23 +44,36 @@ const Welcome = (props) => {
       	});
 	}
 
+	// <a style={styles.newOrOpenApp} className="a-hover">
+	// 	<Icon type="bulb" style={{marginRight: 5}} />
+	// 	查看帮助
+	// </a>
+
+	// <a style={styles.newOrOpenApp} className="a-hover" onClick={createApp}>
+	// 	<Icon type="file-text" style={{marginRight: 5}} />
+	// 	新建项目
+	// </a>
+	// <a style={styles.newOrOpenApp} className="a-hover" onClick={openApp}>
+	// 	<Icon type="folder-open" style={{marginRight: 5}} />
+	// 	打开项目
+	// </a>
+
+	var welcomeTip = '';
+
+	if(window.disabled) {
+		welcomeTip = <div onClick={createApp} className="welcome-screen center-vertical welcome-screen--display-prompt"></div>;
+	}else {
+		welcomeTip = <div className="welcome-screen center-vertical welcome-screen--display-prompt loaded"></div>;
+	}
+
   	return (
-		<div style={styles.wrapper}>
+		<div style={styles.wrapper} >
 			<img src={gospel} style={{marginBottom: 50}} height="60" width="200" />
-			<a style={styles.newOrOpenApp} className="a-hover" onClick={createApp}>
-				<Icon type="file-text" style={{marginRight: 5}} />
-				新建项目
-			</a>
-			<a style={styles.newOrOpenApp} className="a-hover" onClick={openApp}>
-				<Icon type="folder-open" style={{marginRight: 5}} />
-				打开项目
-			</a>
-			<a style={styles.newOrOpenApp} className="a-hover">
-				<Icon type="bulb" style={{marginRight: 5}} />
-				查看帮助
-			</a>
-			<p style={{marginTop: 250}}>Gospel Alpha</p>
-			<p>为解放开发者生产力而生</p>
+			{welcomeTip}
+			<div className="welcome-footer">
+				<p style={{marginTop: 250}}>Gospel Alpha</p>
+				<p>为解放开发者生产力而生</p>
+			</div>
 		</div>
 		
   	);

@@ -51,7 +51,7 @@ export default function request(url, options) {
     if(url.split('?')[0] == 'applications'){
         url = configs.baseURL + url;
     }else{
-        url = localStorage.baseURL + url;
+        url = (localStorage.baseURL || configs.baseURL) + url;
     }
     if(options == null || options == undefined){
         return fetch(url, {
@@ -59,11 +59,11 @@ export default function request(url, options) {
                 'Authorization': localStorage.token
             }
         })
-            .then(checkStatus)
-            .then(parseJSON)
-            .then(checkResData)
-            .then((data) => ({ data }))
-            .catch((err) => ({ err }));
+          .then(checkStatus)
+          .then(parseJSON)
+          .then(checkResData)
+          .then((data) => ({ data }))
+          .catch((err) => ({ err }));
     }else{
         if(options.headers == null || options.headers == undefined){
             options.headers = {

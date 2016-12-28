@@ -6,22 +6,6 @@ import MonacoEditor from 'react-monaco-editor';
 
 import { Button, message } from 'antd';
 
-// import AceEditor from 'react-ace';
-// import 'brace/mode/java';
-// import 'brace/mode/javascript';
-// import 'brace/mode/html';
-// import 'brace/mode/css';
-// import 'brace/mode/php';
-// import 'brace/mode/plain_text';
-// import 'brace/mode/markdown';
-//
-// import 'brace/theme/github';
-// import 'brace/theme/eclipse';
-// import 'brace/theme/twilight';
-// import 'brace/theme/xcode';
-
-// import 'brace/ext/language_tools';
-
 import EditorTop from './EditorTop';
 import EditorBottom from './EditorBottom';
 
@@ -83,7 +67,6 @@ const Editor = (props) => {
 				const editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
 				var content = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value;
 				var fileName = localStorage.currentSelectedFile;
-				console.log(fileName);
 
 				if(fileName == localStorage.currentFoler) {
 					message.error('请输入文件名');
@@ -158,7 +141,6 @@ const Editor = (props) => {
 		},
 
 		handleJumpLineChange(proxy) {
-			console.log(proxy);
 			dispatch({
 				type: 'editorTop/handleJumpLineChange',
 				payload: proxy
@@ -166,7 +148,6 @@ const Editor = (props) => {
 		},
 
 		onSelectSyntax(e) {
-
 			// console.log(e);
 			// var suffix = e.key;
 			// console.log("===============change==========");
@@ -202,8 +183,6 @@ const Editor = (props) => {
 
 		onLoad(e,editor) {
 			window.currentEditor = editor;
-			console.log(e);
-			console.log(editor);
 		},
 
     	handleMouseLeave() {
@@ -238,9 +217,6 @@ const Editor = (props) => {
   		aceHeight = ( parseInt(document.body.clientHeight) - 160 ) / 2;
   	}
 
-	// console.log('当前editor',props.belongTo)
-
-
   	// if (editorId && thisPane && thisPane.editors && thisPane.editors[editorId]) {
   		return (
 		<div className={EditorStyle.aceEditor}>
@@ -270,7 +246,6 @@ const Editor = (props) => {
 			//         </div>
 			// 	}
 			// </ReactCSSTransitionGroup>
-
 
 };
 

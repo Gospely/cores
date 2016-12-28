@@ -64,6 +64,7 @@ const setMode = {
 export default {
 	namespace: 'devpanel',
 	state: {
+
 		devType: {
 			visual: localStorage.visual || true,
 			defaultActiveKey: localStorage.defaultActiveKey || 'controllers',
@@ -71,8 +72,8 @@ export default {
 		},
 		currentMode: 'javascript',
 		currentLanguage: 'HTML',
+		cmd: 'cd /root/workspace && clear\n',
 		debug: '',
-
 
 	    panels: {
 
@@ -119,7 +120,9 @@ export default {
 	    loading: {
 	    	isLoading: false,
 	    	tips: '请稍后...'
-	    }
+	    },
+
+	    horizontalColumnHeight: '50%'
 
 	},
 
@@ -160,7 +163,6 @@ export default {
 		*handleImages({ payload: params}, {call, put, select}) {
 
 			var url = "images/" + params.id;
-
 			var res = yield request(url, {
 				method: 'GET',
 			});
@@ -170,6 +172,7 @@ export default {
 			}else{
 				yield put({ type: "handleVisual" });
 			}
+			localStorage.debugType = res.data.fields.debugType;
 		},
 		//获取界面初始化配置
 		*getConfig({ payload: params}, {call, put, select}){
@@ -189,7 +192,7 @@ export default {
 			}else{
 				UIState = params.UIState;
 			}
-			
+
 			for(var i = 0; i < UIState.panels.panes.length; i++) {
 				var pane =  UIState.panels.panes[i];
 				for(var j= 0; j< pane.tabs.length; j++){
@@ -253,9 +256,23 @@ export default {
 
 		*killPID({ payload: params}, {call, put, select}){
 
-			yield request('applications/killpid?pid=' + params.pid + "&&docker=" + localStorage.docker, {
+			yield request('applications/killpid?pid=' + params.pid + "&&docker=" + localStorage.docker + "&&host=" + localStorage.host, {
 				method: 'GET',
 			});
+		},
+
+		*changeColumnWithHeight( { payload: params }, { call, put, select }) {
+
+			yield put({
+				type: 'changeColumn',
+				payload: params.key
+			});
+
+			yield put({
+				type: 'changeHorizontalColumnHeight',
+				payload: params.height
+			});
+
 		}
 	},
 
@@ -267,7 +284,12 @@ export default {
 		},
 		initDebugPanel(state, { payload: params}){
 			state.panels.activePane.key = 1;
+			state.cmd = params.cmd;
 			return {...state}
+		},
+		initCmd(state){
+			state.cmd = 'cd /root/workspace && clear\n';
+			return {...state};
 		},
 		initTab(state, { payload: params}){
 			var pane = state.panels.panes[params.paneKey.paneKey],
@@ -354,7 +376,6 @@ export default {
 		},
 
 		tabChanged(state, {payload: params}) {
-
 			state.panels.activePane.key = params.paneKey;
 			const activePane = methods.getActivePane(state);
 			methods.getActivePane(state).activeTab.key = params.active;
@@ -375,6 +396,12 @@ export default {
 			activeTab.title = params.value;
 			return {...state};
 		},
+
+		changeHorizontalColumnHeight(state, { payload: height }) {
+			state.horizontalColumnHeight = height;
+			return {...state};
+		},
+
 		changeColumn(state, {payload: type}) {
 			const panes = state.panels.panes;
 			const pushPane = function(key) {
@@ -468,7 +495,6 @@ export default {
 					}
 			}
 
-			// console.log(state.panels.panes)
 			state.panels.splitType = type;
 			return {...state};
 		},
@@ -489,11 +515,26 @@ export default {
 			if (typeof target.paneKey != 'undefined') {
 				state.panels.activePane.key = target.paneKey;
 			}
+
 			let targetKey = target.targetKey;
 			let activeKey = methods.getActivePane(state).activeTab.key;
 			let activePane = methods.getActivePane(state);
 			let lastIndex;
 			let type = target.type;
+
+			console.log(activePane, target);
+
+			if(target.editorId == window.commitTerminalID) {
+				window.commitTerminal = undefined;
+			}
+
+			if(target.editorId == window.pullTerminalID) {
+				window.pullTerminal = undefined;		
+			}
+
+			if(target.editorId == window.pushTerminalID) {
+				window.pushTerminal = undefined;
+			}
 
 			const reTabKey = function () {
 				activePane.tabs.forEach((tab,i) => {
@@ -581,6 +622,27 @@ export default {
 				state.panels.activePane.key = target.paneKey;
 			}
 
+			if(target.title == 'git commit') {
+				if(window.commitTerminal) {
+					window.commitTerminal.send('git commit -a -m "' + sessionStorage.commitInfo + '"\n');				
+					return {...state};
+				}
+			}
+
+			if(target.title == 'git pull') {
+				if(window.pullTerminal) {
+					window.pullTerminal.send('git pull\n');			
+					return {...state};
+				}
+			}
+
+			if(target.title == 'git push') {
+				if(window.pushTerminal) {
+					window.pushTerminal.send('git push -u origin master \n');				
+					return {...state};
+				}
+			}
+
 		    let panes = state.panels.panes;
 		    let activePane = methods.getActivePane(state);
 			target.title = target.title || '新标签页';
@@ -616,7 +678,7 @@ export default {
 
 		//打开文件时，先打开编辑器，加载动画，再在此把内容放进去
 		pushContentToEditors(state, {payload: params}) {
-			
+
 			let panes = state.panels.panes;
 			for(let i = 0; i < panes.length; i ++) {
 				for(let j = 0; j < panes[i].tabs.length; j ++) {
@@ -631,7 +693,7 @@ export default {
 							editorId: params.editorId,
 							fileName: params.file
 						};
-						
+
 					}
 				}
 			}

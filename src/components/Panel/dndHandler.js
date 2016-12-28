@@ -29,7 +29,7 @@ export default {
 		window.addEventListener("load", (evt) => {
 
 			var applicationId = window.applicationId;
-			gitTerminal(props);
+			//gitTerminal(props);
 			if(applicationId != null && applicationId != undefined) {
 				var url = configs.baseURL + "applications/" + applicationId;
 				fetch(url).then(function(response){
@@ -61,7 +61,7 @@ export default {
 				});
 			}else{
 				if(localStorage.applicationId != null){
-					window.location.href = 'http://localhost:8989/#/project/' + localStorage.applicationId;
+					window.location.hash = 'project/' + localStorage.applicationId;
 					window.location.reload();
 				}
 			}
@@ -176,7 +176,7 @@ export default {
         				type: 'sidebar/hideModalNewApp'
 					})
 					//修改url
-					window.location.href = 'http://localhost:8989/#/project/' + data.application;
+					window.location.hash = 'project/' + data.application;
 				},
 
 				previewerLoaded () {

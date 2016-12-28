@@ -18,8 +18,6 @@ const FileTree = (props) => {
     window.addEventListener('click', function (data) {
 
       if(localStorage.onSelect == 'false'){
-        console.log(data);
-        console.log("======================click===================");
         props.dispatch({type: 'file/hideContextMenu'});
       }else{
           return false;

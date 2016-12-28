@@ -1,7 +1,7 @@
 import React , {PropTypes} from 'react';
 import { connect } from 'dva';
 
-import { Button, Menu, Dropdown, Icon } from 'antd';
+import { Button, Menu, Dropdown, Icon, Spin } from 'antd';
 
 const Designer = (props) => {
 
@@ -45,6 +45,10 @@ const Designer = (props) => {
 		maxHeight = (maxHeight - 32) / 2;
 	}
 
+	const designerStyle = {
+		height: parseInt(document.body.clientHeight) - 107
+	}
+
   	return (
 		<div className="designer-wrapper" style={{maxHeight: maxHeight}}>
 
@@ -59,18 +63,22 @@ const Designer = (props) => {
 				</Dropdown>
 			</div>
 
-			<div className="designer-body">
-				<iframe
-					name="gospel-designer"
-					width={props.designer.deviceList[props.designer.defaultDevice].width}
-					height={props.designer.deviceList[props.designer.defaultDevice].height}
-					className="designer"
-					frameBorder="0"
-					src="static/designer/weui/designer.html"
-					onLoad={designerLoaded}
-					>
-				</iframe>
-			</div>
+			<Spin spinning={!props.designer.loaded}>
+
+				<div className="designer-body" style={designerStyle}>
+					<iframe
+						name="gospel-designer"
+						width={props.designer.deviceList[props.designer.defaultDevice].width}
+						height={props.designer.deviceList[props.designer.defaultDevice].height}
+						className="designer"
+						frameBorder="0"
+						src="static/designer/weui/designer.html"
+						onLoad={designerLoaded}
+						>
+					</iframe>
+				</div>
+
+			</Spin>
 
 		</div>
   	);

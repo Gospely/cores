@@ -80,7 +80,6 @@ export default {
 			return {...state};
 		},
 		initGitOperate(state, {payload: params }){
-
 			state.terminalMessage = '';
 			state.gitOperate = params.operate;
 			return {...state};

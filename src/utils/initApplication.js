@@ -14,11 +14,9 @@ const initApplication = function (application, props){
   localStorage.dir = localStorage.user + '/' + application.docker.replace('gospel_project_', '') + "/";
   localStorage.currentFolder = localStorage.user + '/' + application.name + '_' + localStorage.userName;
   localStorage.baseURL = 'http://' + application.host + ':9999/';
-  localStorage.host = application.host
+  localStorage.host = application.host;
+  localStorage.exposePort = application.exposePort;
 
-
-
-  console.log('==========================application==========================', application);
   props.dispatch({
     type: 'file/fetchFileList'
   });
@@ -37,6 +35,10 @@ const initApplication = function (application, props){
   props.dispatch({
     type: 'devpanel/startDocker',
     payload: { docker:  application.docker, id: application.id}
+  });
+  props.dispatch({
+    type: 'devpanel/handleImages',
+    payload: { id: application.image}
   });
   if(localStorage.UIState != null && localStorage != undefined){
 
@@ -73,10 +75,6 @@ const initApplication = function (application, props){
   localStorage.docker = application.docker;
   localStorage.applicationId = application.id;
   var command = JSON.parse(application.cmds);
-  console.log(command);
-  // props.dispatch({
-  //   type: 'designer/handleLayoutLoaded'
-  // });
 
   props.dispatch({
     type: 'devpanel/hideLoading'
@@ -88,7 +86,7 @@ const initApplication = function (application, props){
     payload: { command: command.default}
   });
 
-  
+
 
 }
 

@@ -70,10 +70,10 @@ export default {
 			appName: '',
 			fromGit: false,
 			git: '',
-			image: 'HTML5',
-			imageVersion: 'latest',
+			image: '',
+			imageVersion: '',
 			useFramework: false,
-			framework: 'AngularJS2',
+			framework: '',
 			createLocalServer: false,
 			databaseType: '',
 			databasePassword: '',
@@ -85,6 +85,14 @@ export default {
         frameworks: [],
 		appCreator: {
 			loading: false
+		},
+
+		sshKey: '',
+
+		modalCommitInfo: {
+			visible: false,
+			title: '',
+			message: ''
 		}
 	},
 
@@ -147,7 +155,8 @@ export default {
       		var isGit = yield request('fs/git/', {
       			method: 'POST',
       			body: JSON.stringify({
-      				dir: localStorage.dir
+      				dir: localStorage.dir,
+                    remoteIp: localStorage.host
       			})
       		});
 
@@ -156,7 +165,8 @@ export default {
       			var origin = yield request('fs/origin/git', {
 	      			method: 'POST',
 	      			body: JSON.stringify({
-	      				dir: localStorage.dir
+	      				dir: localStorage.dir,
+                        remoteIp: localStorage.host
 	      			})
 	      		});
 
@@ -176,7 +186,8 @@ export default {
       			method: 'POST',
       			body: JSON.stringify({
       				dir: localStorage.dir,
-      				origin: val
+      				origin: val,
+                    remoteIp: localStorage.host
       			})
       		});
 
@@ -192,7 +203,8 @@ export default {
       		var pushResult = yield request('fs/push', {
       			method: 'POST',
       			body: JSON.stringify({
-      				dir: localStorage.dir
+      				dir: localStorage.dir,
+                    remoteIp: localStorage.host
       			})
       		});
 
@@ -210,7 +222,8 @@ export default {
       		var pullResult = yield request('fs/pull', {
       			method: 'POST',
       			body: JSON.stringify({
-      				dir: localStorage.dir
+      				dir: localStorage.dir,
+                    remoteIp: localStorage.host
       			})
       		});
 
@@ -231,7 +244,8 @@ export default {
       		var commitResult = yield request('fs/commit', {
       			method: 'POST',
       			body: JSON.stringify({
-      				dir: localStorage.dir
+      				dir: localStorage.dir,
+                    remoteIp: localStorage.host
       			})
       		});
 
@@ -278,14 +292,17 @@ export default {
             if(!app.fromGit){
                 app.git = '';
             }
+
             if(!app.createLocalServer){
                 app.databaseType = '';
                 app.databasePassword = '';
                 app.dbUser = '';
             }
+
             if(!app.useFramework){
                 app.framework = '';
             }
+
             var form ={
                 name: app.appName,
                 git: app.git,
@@ -294,15 +311,15 @@ export default {
                 languageVersion: app.imageVersion,
                 databaseType: app.databaseType,
                 password: app.databasePassword,
-                dbUser: app.databasePassword,
+                dbUser: app.databaseAccount,
                 framework: app.framework,
                 creator: localStorage.user
             };
-            console.log(app);
-            console.log(form);
+
 			yield put({
 				type: 'setAppCreatorStart'
 			});
+
             var url = 'applications';
             var result = yield request(url, {
                 method:'POST',
@@ -310,17 +327,22 @@ export default {
 			});
 
             console.log(result);
-            if(result.code == 1){
+            if(result.data.code == 1){
                 yield put({
     				type: 'setAppCreatorCompleted'
-    			})
+    			});
+                yield put({
+                    type: 'hideModalNewApp',
+                });
+            }else{
+                yield put({
+                    type: 'hideModalNewApp',
+                });
             }
 
-
 		},
-        *initImages({payload: params}, {call, put}) {
 
-            console.log('========initImages=====');
+        *initImages({payload: params}, {call, put}) {
             var url = 'images?parent=0';
 			var result = yield request(url, {
 				method: 'GET'
@@ -331,6 +353,7 @@ export default {
                 payload: { images }
 			});
         },
+
         *initFrameWork({payload: params}, {call, put}){
             var url = 'images?parent='+params.value + "&type=framework";
             var result = yield request(url, {
@@ -342,6 +365,7 @@ export default {
                 payload: { images }
             });
         },
+
         *initVersions({payload: params}, {call, put}) {
             var url = 'images?parent='+params.value + "&type=lang";
             var result = yield request(url, {
@@ -357,30 +381,31 @@ export default {
 	},
 
 	reducers: {
+        setActiveMenu (state, {payload: name}) {
+            state.activeMenu = name;
+            return {...state};
+        },
+		handleSSHKeyInputChange(state, { payload: value }) {
+			state.sshKey = value;
+			return {...state};
+		},
 
         initRunCommond(state, {payload: params}){
-
             state.debugConfig.runCommand = params.command;
             return {...state};
         },
-        handleImages(state, { payload: params }) {
 
-            console.log("handleImages");
-            console.log(params);
+        handleImages(state, { payload: params }) {
             state.images = params.images;
             return {...state};
         },
-        handleFramework(state, { payload: params }) {
 
-            console.log("handleImages");
-            console.log(params);
+        handleFramework(state, { payload: params }) {
             state.frameworks = params.images;
             return {...state};
         },
-        handleVersion(state, { payload: params }) {
 
-            console.log("handleImages");
-            console.log(params);
+        handleVersion(state, { payload: params }) {
             state.versions = params.images;
             return {...state};
         },
@@ -401,15 +426,15 @@ export default {
 
 			state.currentAppCreatingStep = 0;
 
-			state. appCreatingForm = {
+			state.appCreatingForm = {
 				appName: '',
 				fromGit: false,
 				git: '',
-				image: 'HTML5',
-				imageVersion: 'latest',
+				image: '',
+				imageVersion: '',
 				useFramework: true,
 				createLocalServer: false,
-				databaseType: 'AngularJS 1',
+				databaseType: '',
 				databasePassword: ''
 			};
 
@@ -483,7 +508,6 @@ export default {
 		},
 
 		handleRunCommandChange(state, {payload: val}) {
-			console.log(val)
 			state.debugConfig.runCommand = val;
 			return {...state};
 		},
@@ -533,21 +557,16 @@ export default {
 		},
 
 		initApplications(state, {payload: params}) {
-
-			console.log("initApplications");
-			console.log(params);
 			state.applications = params.applications;
 			return {...state};
 		},
 
 		handleTabChanged(state, {payload: name}) {
-
 			state.activeMenu = name;
 			return {...state};
 		},
 
 		initState(state, { payload: params }) {
-			console.log(params.UIState.activeMenu);
 			state.activeMenu = params.UIState.activeMenu;
 			return {...state};
 		},
@@ -614,8 +633,29 @@ export default {
 
 		handleInputChanged(state, { payload: params }) {
 			state.appCreatingForm[params['input']] = params.value;
+
+			if(params['input'] == 'image') {
+				state.appCreatingForm.imageVersion = '';
+				state.appCreatingForm.framework = '';
+			}
+
 			return {...state};
 		},
+
+		showModalCommitInfo(state) {
+			state.modalCommitInfo.visible = true;
+			return {...state};
+		},
+
+		hideModalCommitInfo(state) {
+			state.modalCommitInfo.visible = false;
+			return {...state};
+		},
+
+		handleCommitInfoInputChange(state, { payload: params }) {
+			state.modalCommitInfo[params.input] = params.value;
+			return {...state};
+		}
 
 	}
 
