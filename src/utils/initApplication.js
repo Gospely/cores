@@ -72,9 +72,17 @@ const initApplication = function (application, props){
   localStorage.image = application.image;
   localStorage.docker = application.docker;
   localStorage.applicationId = application.id;
+  var command = JSON.parse(application.cmds);
+  console.log(command);
   // props.dispatch({
   //   type: 'designer/handleLayoutLoaded'
   // });
+
+  //初始化命令
+  props.dispatch({
+    type: 'sidebar/initRunCommond',
+    payload: { command: command.default}
+  });
 
   props.dispatch({
     type: 'devpanel/hideLoading'
