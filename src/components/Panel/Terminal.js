@@ -17,11 +17,11 @@ class Terminal extends Component {
 
 	constructor(props) {
 
-    
+
 
 		super(props);
-		console.log("====================init terminal============");
-		console.log(props);
+		// console.log("====================init terminal============");
+		// console.log(props);
 		this.props = props;
 		this.state = {
 			terminalId: randomWord()
@@ -46,7 +46,7 @@ class Terminal extends Component {
 				charWidth,
 				charHeight,
 				port = localStorage.socketPort || 0,
-				domain = 'gospely.com',
+				domain = localStorage.host,
 				baseUrl = 'http://' + domain + ':' + port;
 
 			var terminalContainer = document.getElementById(self.state.terminalId);
@@ -127,21 +127,30 @@ class Terminal extends Component {
 
 				if(true){
 				// if(activeTab.editorId == null || activeTab.editorId == '') {
-					console.log("============openTerminal===========");
-					console.log(activeTab);
+					// console.log("============openTerminal===========");
+					// console.log(activeTab);
 					fetch(baseUrl + '/terminals?cols=' + cols + '&rows=' + rows, {
-						method: 'POST'
+						method: 'POST',
+						'headers': {
+			                'Authorization': localStorage.token
+			            }
 					}).then(function(res) {
 						console.log(res);
 						if (res.status != 200){
 							fetch(baseUrl + '/container/start/' + localStorage.applicationId ,{
-								method: 'GET'
+								method: 'GET',
+								'headers': {
+					                'Authorization': localStorage.token
+					            }
 							}).then(function(res){
 								if(res.status == 200) {
 									setTimeout(function () {
 									  //wait for the terminal start it completely
 									  fetch(baseUrl + '/terminals?cols=' + cols + '&rows=' + rows, {
-										method: 'POST'
+										method: 'POST',
+										'headers': {
+							                'Authorization': localStorage.token
+							            }
 									  }).then(function(res) {
 
 										  res.text().then(function(pid) {
@@ -200,8 +209,8 @@ class Terminal extends Component {
 
 					});
 				}else{
-					console.log("============connectTerminal===========");
-					console.log(activeTab);
+					// console.log("============connectTerminal===========");
+					// console.log(activeTab);
 					socketURL += activeTab.editorId;
 					socket = new WebSocket(socketURL);
 					socket.onopen = runRealTerminal;

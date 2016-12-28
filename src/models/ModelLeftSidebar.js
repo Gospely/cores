@@ -274,19 +274,30 @@ export default {
 
 		*handleCreateApp({payload: params}, {call, put, select}) {
 
-            var app = yield select(state => state.sidebar.appCreatingForm),
-                form ={
-    				name: app.appName,
-    				git: app.git,
-                    fromGit: app.fromGit,
-    				languageType: app.image,
-    				languageVersion: app.imageVersion,
-    				databaseType: app.databaseType,
-    				password: app.databasePassword,
-    				dbUser: app.databasePassword,
-    				framework: app.framework,
-    				creator: localStorage.user
-    			};
+            var app = yield select(state => state.sidebar.appCreatingForm);
+            if(!app.fromGit){
+                app.git = '';
+            }
+            if(!app.createLocalServer){
+                app.databaseType = '';
+                app.databasePassword = '';
+                app.dbUser = '';
+            }
+            if(!app.useFramework){
+                app.framework = '';
+            }
+            var form ={
+                name: app.appName,
+                git: app.git,
+                fromGit: app.fromGit,
+                languageType: app.image,
+                languageVersion: app.imageVersion,
+                databaseType: app.databaseType,
+                password: app.databasePassword,
+                dbUser: app.databasePassword,
+                framework: app.framework,
+                creator: localStorage.user
+            };
             console.log(app);
             console.log(form);
 			yield put({
@@ -299,9 +310,12 @@ export default {
 			});
 
             console.log(result);
-			// yield put({
-			// 	type: 'setAppCreatorCompleted'
-			// })
+            if(result.code == 1){
+                yield put({
+    				type: 'setAppCreatorCompleted'
+    			})
+            }
+
 
 		},
         *initImages({payload: params}, {call, put}) {
@@ -369,7 +383,6 @@ export default {
 			state.appCreator.loading = true;
 			return {...state};
 		},
-
 		setAppCreatorCompleted(state) {
 			state.appCreator.loading = false;
 			return {...state};

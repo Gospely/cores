@@ -602,7 +602,7 @@ const LeftSidebar = (props) => {
 							    <RadioGroup
 							    	value={props.sidebar.appCreatingForm.imageVersion}
 							    	onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'imageVersion')}>
-							      	{props.sidebar.versions.map(image =><RadioButton value={image.id} key={image.id}>{image.label}</RadioButton>)}
+							      	{props.sidebar.versions.map(image =><RadioButton value={image.label} key={image.id}>{image.label}</RadioButton>)}
 							    </RadioGroup>
 					      	</Col>
 					    </Row>

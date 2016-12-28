@@ -11,8 +11,12 @@ const initApplication = function (application, props){
     }
   });
 
-  localStorage.dir = localStorage.user + '/' + application.name + '_' + localStorage.userName + "/";
+  localStorage.dir = localStorage.user + '/' + application.docker.replace('gospel_project_', '') + "/";
   localStorage.currentFolder = localStorage.user + '/' + application.name + '_' + localStorage.userName;
+  localStorage.baseURL = 'http://' + application.host + ':9999/';
+  localStorage.host = application.host
+
+
 
   console.log('==========================application==========================', application);
   props.dispatch({
