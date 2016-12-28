@@ -643,7 +643,7 @@ const LeftSidebar = (props) => {
 					      		<span>您的项目名称：</span>
 					      	</Col>
 					      	<Col span={8} style={{textAlign: 'left'}}>
-				              	<Input onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'appName')} value={props.sidebar.appCreatingForm.appName} />
+				              	<Input onPressEnter={() => modalAppCreatorProps.next()} onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'appName')} value={props.sidebar.appCreatingForm.appName} />
 					      	</Col>
 					    </Row>
 					</div>
@@ -665,7 +665,7 @@ const LeftSidebar = (props) => {
 					      		<span>您的Git项目地址：</span>
 					      	</Col>
 					      	<Col span={8} style={{textAlign: 'left'}}>
-				              	<Input onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'git')} value={props.sidebar.appCreatingForm.git} />
+				              	<Input onPressEnter={() => modalAppCreatorProps.next()} onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'git')} value={props.sidebar.appCreatingForm.git} />
 					      	</Col>
 					    </Row>
 					</div>
@@ -772,7 +772,7 @@ const LeftSidebar = (props) => {
 					      		<span>数据库用户：</span>
 					      	</Col>
 					      	<Col span={8} style={{textAlign: 'left'}}>
-					      		<Input onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'databaseAccount')} value={props.sidebar.appCreatingForm.databaseAccount} type="text" />
+					      		<Input onPressEnter={() => modalAppCreatorProps.next()} onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'databaseAccount')} value={props.sidebar.appCreatingForm.databaseAccount} type="text" />
 					      	</Col>
 					    </Row>
 					</div>
@@ -783,7 +783,7 @@ const LeftSidebar = (props) => {
 					      		<span>数据库密码：</span>
 					      	</Col>
 					      	<Col span={8} style={{textAlign: 'left'}}>
-					      		<Input onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'databasePassword')} value={props.sidebar.appCreatingForm.databasePassword} type="password" />
+					      		<Input onPressEnter={() => modalAppCreatorProps.next()} onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'databasePassword')} value={props.sidebar.appCreatingForm.databasePassword} type="password" />
 					      	</Col>
 					    </Row>
 					</div>
