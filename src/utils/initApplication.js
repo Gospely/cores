@@ -71,10 +71,7 @@ const initApplication = function (application, props){
   localStorage.docker = application.docker;
   localStorage.applicationId = application.id;
   var command = JSON.parse(application.cmds);
-  console.log(command);
-  props.dispatch({
-    type: 'designer/handleLayoutLoaded'
-  });
+
   props.dispatch({
     type: 'devpanel/hideLoading'
   });

@@ -67,7 +67,6 @@ const Editor = (props) => {
 				const editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
 				var content = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value;
 				var fileName = localStorage.currentSelectedFile;
-				console.log(fileName);
 
 				if(fileName == localStorage.currentFoler) {
 					message.error('请输入文件名');
@@ -142,7 +141,6 @@ const Editor = (props) => {
 		},
 
 		handleJumpLineChange(proxy) {
-			console.log(proxy);
 			dispatch({
 				type: 'editorTop/handleJumpLineChange',
 				payload: proxy
@@ -185,8 +183,6 @@ const Editor = (props) => {
 
 		onLoad(e,editor) {
 			window.currentEditor = editor;
-			console.log(e);
-			console.log(editor);
 		},
 
     	handleMouseLeave() {
