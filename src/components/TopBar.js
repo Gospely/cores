@@ -409,7 +409,24 @@ const LeftSidebar = (props) => {
 	const onSelectStartMenu = function (activeMenu) {
 		let handleActiveMenuEvent = {
 			runCommand() {
+				console.log('===================visual===================');
 
+				//分栏
+				var key = "vertical-dbl";
+				props.dispatch({
+					type: 'devpanel/changeColumn',
+					payload: key
+				});
+				props.dispatch({
+					type: 'devpanel/initDebugPanel',
+				});
+
+				var title = '终端',
+						type = 'terminal';
+				props.dispatch({
+					type: 'devpanel/add',
+					payload: {title, type}
+				})
 			},
 
 			run() {
@@ -608,13 +625,13 @@ const LeftSidebar = (props) => {
 					    </Row>
 					</div>
 
-			  		<div style={{ marginTop: 32 }}>
+			  		<div style={{ marginTop: 32 }} hidden={props.sidebar.appCreatingForm.fromGit}>
 			  		    <Row>
 					      	<Col span={4} style={{textAlign: 'right'}}>
 					      		<span>使用框架：</span>
 					      	</Col>
 					      	<Col style={{textAlign: 'left'}}>
-					      		<Switch onChange={modalAppCreatorFromHandler.onFromGitSwitchChange.bind(this, 'useFramework')} checked={props.sidebar.appCreatingForm.useFramework} />
+					      		<Switch onChange={modalAppCreatorFromHandler.onFromGitSwitchChange.bind(this, 'useFramework')} checked={props.sidebar.appCreatingForm.useFramework}  />
 					      	</Col>
 					    </Row>
 					</div>
