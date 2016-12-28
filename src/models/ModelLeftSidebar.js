@@ -85,7 +85,9 @@ export default {
         frameworks: [],
 		appCreator: {
 			loading: false
-		}
+		},
+
+		sshKey: ''
 	},
 
 	subscriptions: {
@@ -373,6 +375,11 @@ export default {
 	},
 
 	reducers: {
+
+		handleSSHKeyInputChange(state, { payload: value }) {
+			state.sshKey = value;
+			return {...state};
+		},
 
         initRunCommond(state, {payload: params}){
             state.debugConfig.runCommand = params.command;

@@ -135,7 +135,7 @@ const DevPanel = ({
 		  	},
 
 		  	"horizontal-dbl": function() {
-		  		return (<SplitPane split="horizontal" defaultSize={defaultSize}>
+		  		return (<SplitPane split="horizontal" defaultSize={props.devpanel.horizontalColumnHeight}>
   							{generatorPanes(panels.panes)}
 		  				</SplitPane>)
 		  	},

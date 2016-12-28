@@ -362,8 +362,17 @@ const LeftSidebar = (props) => {
 			}
 		},
 
-		onGitOperationTabChanged: function() {
+		onGitOperationTabChanged: function(e) {
+			if(e == 'ssh') {
+				var sshKey = '';
 
+				//terminal发送请求获得sshkey
+
+				props.dispatch({
+					type: 'sidebar/handleSSHKeyInputChange',
+					value: sshKey
+				})
+			}
 		},
 
 		createAppFromModal() {
@@ -429,8 +438,11 @@ const LeftSidebar = (props) => {
 				var cmd = kill +' ||  cd /root/workspace && ' + props.sidebar.debugConfig.runCommand + ' && clear\n';
 				var key = "horizontal-dbl";
 				props.dispatch({
-					type: 'devpanel/changeColumn',
-					payload: key
+					type: 'devpanel/changeColumnWithHeight',
+					payload: {
+						key: key,
+						height: '70%'
+					}
 				});
 				props.dispatch({
 					type: 'devpanel/initDebugPanel',
@@ -1015,7 +1027,7 @@ const LeftSidebar = (props) => {
 	        >
 
   			<Tabs className="modalTab" defaultActiveKey="1" onChange={leftSidebarProps.onGitOperationTabChanged}>
-    			<TabPane tab="HTTPS" key="1">
+    			<TabPane tab="HTTPS" key="https">
 
 		        	<div style={{ marginBottom: 16, marginTop: 16 }}>
 
@@ -1040,24 +1052,21 @@ const LeftSidebar = (props) => {
 				        		onChange={leftSidebarProps.modifyGitOriginInput.onPushValueChange}
 				        	/>
 				     	</InputGroup>
-
 		        	</div>
 
     			</TabPane>
-    			<TabPane tab="SSH" key="2">
+    			<TabPane tab="SSH" key="ssh">
     				<div style={{marginTop: 16}}>
 	    				<h4>ssh可以让您免密码使用push操作，请按照以下方法配置SSH：</h4>
 	    				<div style={{margin: 10}}>
 		    				<ol>
-		    					<li>1、打开终端</li>
-		    					<li>2、输入 ssh-keygen，一路回车</li>
-		    					<li>3、输入 vim /root/.ssh/id_rsa.pub</li>
-		    					<li>4、复制你所看到的内容</li>
-		    					<li>5、将其配置到您的Git平台中即可</li>
-		    					<li>6、开源中国（gitosc）官方说明：<a href="http://git.oschina.net/oschina/git-osc/wikis/%E5%B8%AE%E5%8A%A9" target="_blank">GitOSC ssh操作说明</a></li>
-		    					<li>7、Github 官方说明：<a href="https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/" target="_blank">Github ssh操作说明</a></li>
+		    					<li>1、复制下方的SSH key并将其配置到您的Git平台即可</li>
+		    					<li>2、开源中国（gitosc）官方说明：<a href="http://git.oschina.net/oschina/git-osc/wikis/%E5%B8%AE%E5%8A%A9" target="_blank">GitOSC ssh操作说明</a></li>
+		    					<li>3、Github 官方说明：<a href="https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/" target="_blank">Github ssh操作说明</a></li>
 		    				</ol>
 	    				</div>
+
+	    				<Input type="textarea" value={props.sidebar.sshKey} rows={4}></Input>
     				</div>
     			</TabPane>
   			</Tabs>

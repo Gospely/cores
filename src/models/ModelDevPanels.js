@@ -64,11 +64,13 @@ const setMode = {
 export default {
 	namespace: 'devpanel',
 	state: {
+
 		devType: {
 			visual: localStorage.visual || true,
 			defaultActiveKey: localStorage.defaultActiveKey || 'controllers',
 			type: "common"
 		},
+
 		currentMode: 'javascript',
 		currentLanguage: 'HTML',
 		cmd: 'cd /root/workspace && clear\n',
@@ -120,7 +122,9 @@ export default {
 	    loading: {
 	    	isLoading: false,
 	    	tips: '请稍后...'
-	    }
+	    },
+
+	    horizontalColumnHeight: '50%'
 
 	},
 
@@ -257,6 +261,20 @@ export default {
 			yield request('applications/killpid?pid=' + params.pid + "&&docker=" + localStorage.docker + "&&host=" + localStorage.host, {
 				method: 'GET',
 			});
+		},
+
+		*changeColumnWithHeight( { payload: params }, { call, put, select }) {
+
+			yield put({
+				type: 'changeColumn',
+				payload: params.key
+			});
+
+			yield put({
+				type: 'changeHorizontalColumnHeight',
+				payload: params.height
+			});
+
 		}
 	},
 
@@ -380,6 +398,12 @@ export default {
 			activeTab.title = params.value;
 			return {...state};
 		},
+
+		changeHorizontalColumnHeight(state, { payload: height }) {
+			state.horizontalColumnHeight = height;
+			return {...state};
+		},
+
 		changeColumn(state, {payload: type}) {
 			const panes = state.panels.panes;
 			const pushPane = function(key) {
@@ -473,7 +497,6 @@ export default {
 					}
 			}
 
-			// console.log(state.panels.panes)
 			state.panels.splitType = type;
 			return {...state};
 		},
