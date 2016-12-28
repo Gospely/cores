@@ -515,11 +515,24 @@ export default {
 			if (typeof target.paneKey != 'undefined') {
 				state.panels.activePane.key = target.paneKey;
 			}
+
 			let targetKey = target.targetKey;
 			let activeKey = methods.getActivePane(state).activeTab.key;
 			let activePane = methods.getActivePane(state);
 			let lastIndex;
 			let type = target.type;
+
+			if(target.title == 'git commit') {
+				window.commitTerminal = undefined;
+			}
+
+			if(target.title == 'git pull') {
+				window.pullTerminal = undefined;		
+			}
+
+			if(target.title == 'git push') {
+				window.pushTerminal = undefined;
+			}
 
 			const reTabKey = function () {
 				activePane.tabs.forEach((tab,i) => {
@@ -605,6 +618,27 @@ export default {
 
 			if (typeof target.paneKey !== 'undefined') {
 				state.panels.activePane.key = target.paneKey;
+			}
+
+			if(target.title == 'git commit') {
+				if(window.commitTerminal) {
+					window.commitTerminal.send('git commit -a -m "' + sessionStorage.commitInfo + '"\n');				
+					return {...state};
+				}
+			}
+
+			if(target.title == 'git pull') {
+				if(window.pullTerminal) {
+					window.pullTerminal.send('git pull\n');			
+					return {...state};
+				}
+			}
+
+			if(target.title == 'git push') {
+				if(window.pushTerminal) {
+					window.pushTerminal.send('git push -u origin master \n');				
+					return {...state};
+				}
 			}
 
 		    let panes = state.panels.panes;

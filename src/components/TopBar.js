@@ -990,6 +990,7 @@ const LeftSidebar = (props) => {
 		},
 
 		onInputChange (input, e) {
+			sessionStorage.commitInfo = e.target.value;
 			props.dispatch({
 				type: 'sidebar/handleCommitInfoInputChange',
 				value: {

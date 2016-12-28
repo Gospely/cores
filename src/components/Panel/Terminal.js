@@ -42,7 +42,7 @@ class Terminal extends Component {
 
 		}
 
-		if(activeTerminalAction[activeTab.title]) {
+		if(activeTab && activeTerminalAction[activeTab.title]) {
 			activeTerminalAction[activeTab.title]();
 		}
 
@@ -53,7 +53,6 @@ class Terminal extends Component {
 		}
 
 		if(window[terminalTypeName]) {
-			alert('sss')
 			return false;
 		}
 
@@ -180,7 +179,7 @@ class Terminal extends Component {
 											socket.onopen = runRealTerminal;
 											socket.onclose = runFakeTerminal;
 											socket.onerror = runFakeTerminal;
-											setTerminalType();						
+											setTerminalType(socket);						
 											socket.onmessage = function (evt) {
 											  //收到服务器消息，使用evt.data提取
 											  if(/^\{[\s*"\w+":"\w+",*\s*]+\}$/.test(evt.data)){
@@ -207,7 +206,7 @@ class Terminal extends Component {
 						  socket.onopen = runRealTerminal;
 						  socket.onclose = runFakeTerminal;
 						  socket.onerror = runFakeTerminal;
-						  setTerminalType();						
+						  setTerminalType(socket);						
 						  socket.onmessage = function (evt) {
 							//收到服务器消息，使用evt.data提取
 							if(/^\{[\s*"\w+":"\w+",*\s*]+\}$/.test(evt.data)){
@@ -224,7 +223,7 @@ class Terminal extends Component {
 					window.socket = socket;
 					socket.onclose = runFakeTerminal;
 					socket.onerror = runFakeTerminal;
-					setTerminalType();
+					setTerminalType(socket);
 					socket.onmessage = function (evt) {
 						//收到服务器消息，使用evt.data提取
 						if(/^\{[\s*"\w+":"\w+",*\s*]+\}$/.test(evt.data)){
