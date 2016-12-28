@@ -4,12 +4,12 @@ const initApplication = function (application, props){
     return false;
   }
 
-  // props.dispatch({
-  //   type: 'devpanel/showLoading',
-  //   payload: {
-  //     tips: '打开应用中...'
-  //   }
-  // });
+  props.dispatch({
+    type: 'devpanel/showLoading',
+    payload: {
+      tips: '打开应用中...'
+    }
+  });
 
   localStorage.dir = localStorage.user + '/' + application.docker.replace('gospel_project_', '') + "/";
   localStorage.currentFolder = localStorage.user + '/' + application.name + '_' + localStorage.userName;
@@ -76,9 +76,9 @@ const initApplication = function (application, props){
   localStorage.applicationId = application.id;
   var command = JSON.parse(application.cmds);
 
-  // props.dispatch({
-  //   type: 'devpanel/hideLoading'
-  // });
+  props.dispatch({
+    type: 'devpanel/hideLoading'
+  });
 
   //初始化命令
   props.dispatch({
