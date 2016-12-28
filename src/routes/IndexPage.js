@@ -49,10 +49,8 @@ function IndexPage(props) {
         },
 
         onChange(paneKey, active) {
-            // console.log(paneKey.paneKey)
             const activePane = props.devpanel.panels.panes[paneKey.paneKey];
             const activeTab = activePane.tabs[active - 1]
-            console.log(activeTab);
             localStorage.currentSelectedFile = activeTab.title;
             var file = activeTab.title;
             var suffix = 'js';
@@ -91,14 +89,10 @@ function IndexPage(props) {
 
         onEdit(paneKey, targetKey, action) {
 
-            // console.log(targetKey);
-            console.log("===============onEdit============" + action);
             var content = '',
                 title = undefined,
                 type = "editor";
             let editorId = randomString(8, 10);
-            // let paneKey = paneKey.paneKey;
-            // console.log('paneKey', paneKey)
 
             var removeAction = { targetKey, title, content, type, editorId, paneKey: paneKey.paneKey };
 
@@ -122,12 +116,10 @@ function IndexPage(props) {
             localStorage.currentFileOperation = action;
 
             if (action == 'remove') {
-                console.log('remove');
                 localStorage.removeAction = JSON.stringify(removeAction);
                 editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
                 let currentTab = props.devpanel.panels.panes[paneKey.paneKey].tabs[targetKey - 1];
                 let tabType = currentTab.type;
-                console.log(currentTab);
                 if (tabType != 'editor') {
 
                     if (tabType == 'terminal') {
@@ -184,7 +176,38 @@ function IndexPage(props) {
     var devPanelMinSize = document.body.clientWidth,
         leftBarWidth = 280,
         rightBarWidth = 280;
+    
     devPanelMinSize = devPanelMinSize - (rightBarWidth + leftBarWidth);
+
+    var devPanelTemplate = '';
+
+    if(window.disabled) {
+
+        var welcomePageWidth = document.body.clientWidth;
+
+        devPanelTemplate = (
+            <SplitPane split = "vertical" minSize = { welcomePageWidth } defaultSize = { welcomePageWidth } >
+                <div className = { styles.devbar } >
+                    <DevPanel {...devPanelProps } props = { props }></DevPanel>
+                </div>
+                <div></div>
+            </SplitPane>
+        );
+    }else {
+        devPanelTemplate = (
+            <SplitPane split = "vertical" minSize = { 41 } defaultSize = { leftBarWidth } >
+                <div className = "LeftSidebar" >
+                    <LeftSidebar></LeftSidebar>
+                </div>
+                <SplitPane split = "vertical" defaultSize = { devPanelMinSize }>
+                    <div className = { styles.devbar } >
+                        <DevPanel {...devPanelProps } props = { props }></DevPanel>
+                    </div>
+                    <RightSidebar></RightSidebar>
+                </SplitPane>
+            </SplitPane>
+        );
+    }
 
     return (
             <Spin tip={props.devpanel.loading.tips} spinning={props.devpanel.loading.isLoading}> 
@@ -204,17 +227,7 @@ function IndexPage(props) {
                         </div>
                         <div className = "tr-ftw" >
                             <div className = "td-ftw" >
-                                <SplitPane split = "vertical" minSize = { 41 } defaultSize = { leftBarWidth } >
-                                    <div className = "LeftSidebar" >
-                                        <LeftSidebar></LeftSidebar>
-                                    </div>
-                                    <SplitPane split = "vertical" defaultSize = { devPanelMinSize }>
-                                        <div className = { styles.devbar } >
-                                            <DevPanel {...devPanelProps } props = { props }></DevPanel>
-                                        </div>
-                                        <RightSidebar></RightSidebar>
-                                    </SplitPane>
-                                </SplitPane>
+                                {devPanelTemplate}
                             </div>
                         </div>
                     </div>

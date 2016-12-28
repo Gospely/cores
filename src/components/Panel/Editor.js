@@ -150,7 +150,6 @@ const Editor = (props) => {
 		},
 
 		onSelectSyntax(e) {
-
 			// console.log(e);
 			// var suffix = e.key;
 			// console.log("===============change==========");

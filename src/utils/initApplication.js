@@ -17,9 +17,6 @@ const initApplication = function (application, props){
   localStorage.host = application.host;
   localStorage.exposePort = application.exposePort;
 
-
-
-  console.log('==========================application==========================', application);
   props.dispatch({
     type: 'file/fetchFileList'
   });
@@ -78,7 +75,6 @@ const initApplication = function (application, props){
   props.dispatch({
     type: 'designer/handleLayoutLoaded'
   });
-
   props.dispatch({
     type: 'devpanel/hideLoading'
   });

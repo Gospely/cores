@@ -31,8 +31,6 @@ const SettingPanel = (props) => {
 	const GitSettingProps = {
 		onClick: function(item) {
 
-			console.log(item);
-
 			var action = {
 
 				origin: function() {
@@ -95,34 +93,31 @@ const SettingPanel = (props) => {
 	        </Menu.Item>
       	</Menu>
 	);
-	//修改主题的Menu
-	// <Menu.Item key="origin">
-	// 	<span>修改主题</span>
-	// </Menu.Item>
+
 	const Sync = (
-				<Menu onClick={SyncProps.onClick}
-					style={{ width: '100%' }}
-					defaultOpenKeys={['origin']}
-					mode="inline"
-				>
-					<Menu.Item key="autoSave">
-						<span>自动保存：</span>
-						<Switch defaultChecked={props.UIState.dySave} onChange={SyncProps.switchAutoSave} />
-					</Menu.Item>
-					<Menu.Item key="autoSaveInterval">
-						<span>时间间隔：</span>
-						<Input disabled={!props.UIState.dySave} style={{width: '50%'}}
-						onChange={SyncProps.setAutoSaveInterval}
-						value={props.UIState.gap}
-						placeholder="200000" />
-						<span> /ms </span>
-					</Menu.Item>
-				</Menu>
+		<Menu onClick={SyncProps.onClick}
+			style={{ width: '100%' }}
+			defaultOpenKeys={['origin']}
+			mode="inline"
+		>
+			<Menu.Item key="autoSave">
+				<span>自动保存：</span>
+				<Switch defaultChecked={props.UIState.dySave} onChange={SyncProps.switchAutoSave} />
+			</Menu.Item>
+			<Menu.Item key="autoSaveInterval">
+				<span>时间间隔：</span>
+				<Input disabled={!props.UIState.dySave} style={{width: '50%'}}
+				onChange={SyncProps.setAutoSaveInterval}
+				value={props.UIState.gap}
+				placeholder="200000" />
+				<span> /ms </span>
+			</Menu.Item>
+		</Menu>
 	);
 
   	return (
 
-		<Collapse className="settingCollapse" bordered={false} defaultActiveKey={['1']}>
+		<Collapse className="settingCollapse" bordered={false} defaultActiveKey={['1', '2']}>
 		    <Panel header="GIT 设置" key="1">
 		      	{GitSetting}
 		    </Panel>

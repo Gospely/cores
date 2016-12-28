@@ -298,7 +298,7 @@ const LeftSidebar = (props) => {
 	    },
 
 	    openApp(application) {
-			window.location.href = 'http://localhost:8989/#/project/' + application.id;
+			window.location.hash = 'project/' + application.id;
 			if(application.id != localStorage.applicationId) {
 				window.reload = true
 				initApplication(application,props);

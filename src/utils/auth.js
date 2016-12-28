@@ -3,8 +3,6 @@ import configs from '../configs.js';
 
 const auth = function (router) {
 
-	console.log("====================auth=======================");
-	console.log(router);
 	function getCookie(c_name) {
 		if (document.cookie.length > 0) {
 		  	var c_start = document.cookie.indexOf(c_name + "=");
@@ -27,12 +25,7 @@ const auth = function (router) {
 		fetch(url).then(function(res){
 			console.log(res);
 		});
-		// if(localStorage.applicationId != null){
-		// 	window.location.href = 'http://localhost:8989/#/project/' + localStorage.applicationId;
-		// }
 	}else{
-
-		// window.location.href = 'http://dash.gospely.com';
 		sessionStorage.from = 'ide';
 		window.location.href = 'http://localhost:8088/#!/accounts/login?where=fromIde';
 	}

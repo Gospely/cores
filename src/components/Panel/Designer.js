@@ -45,6 +45,10 @@ const Designer = (props) => {
 		maxHeight = (maxHeight - 32) / 2;
 	}
 
+	const designerStyle = {
+		height: parseInt(document.body.clientHeight) - 107
+	}
+
   	return (
 		<div className="designer-wrapper" style={{maxHeight: maxHeight}}>
 
@@ -61,7 +65,7 @@ const Designer = (props) => {
 
 			<Spin spinning={!props.designer.loaded}>
 
-				<div className="designer-body">
+				<div className="designer-body" style={designerStyle}>
 					<iframe
 						name="gospel-designer"
 						width={props.designer.deviceList[props.designer.defaultDevice].width}
