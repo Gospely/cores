@@ -14,6 +14,8 @@ import CodingEditor from '../components/Panel/Editor.js';
 import SplitPane from 'react-split-pane';
 import randomString from '../utils/randomString';
 
+import fileListen from '../utils/fileListen';
+
 
 
 function IndexPage(props) {
@@ -24,6 +26,9 @@ function IndexPage(props) {
         window.disabled = true;
     }else {
         window.disabled = false;
+
+        //监听文件
+        // fileListen(localStorage.applicationId, 8089)
     }
     if (props.query == '?from=dash') {
         window.reload = true;

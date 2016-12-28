@@ -90,7 +90,6 @@ class Terminal extends Component {
 				});
 				protocol = (location.protocol === 'https:') ? 'wss://' : 'ws://';
 				socketURL = protocol + domain + ':' + port + '/terminals/';
-
 				term.open(terminalContainer);
 				// term.fit();
 
