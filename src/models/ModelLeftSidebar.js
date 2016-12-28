@@ -358,6 +358,11 @@ export default {
 
 	reducers: {
 
+        initRunCommond(state, {payload: params}){
+
+            state.debugConfig.runCommand = params.command;
+            return {...state};
+        },
         handleImages(state, { payload: params }) {
 
             console.log("handleImages");
