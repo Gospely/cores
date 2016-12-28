@@ -476,7 +476,10 @@ const LeftSidebar = (props) => {
 
 	const startMenu = (
 		<Menu onClick={onSelectStartMenu}>
-			<Menu.Item key='runCommand' disabled={window.disabled}>运行命令:{props.sidebar.debugConfig.runCommand}</Menu.Item>
+			<Menu.Item key='runCommand' disabled={window.disabled}>运行：{props.sidebar.debugConfig.runCommand}</Menu.Item>
+			<Menu.Item key='visit' disabled={window.disabled}>访问调试：http://gospely.com:{localStorage.port}</Menu.Item>
+			<Menu.Item key='run&visit&noleave' disabled={window.disabled}>运行并打开（不离开IDE）</Menu.Item>
+			<Menu.Item key='run&visit' disabled={window.disabled}>运行并打开（离开IDE）</Menu.Item>
 			<Menu.Item key='run' disabled={window.disabled}>直接运行</Menu.Item>
 			<Menu.Divider/>
 			<Menu.Item key='config' disabled={window.disabled}>配置...</Menu.Item>
