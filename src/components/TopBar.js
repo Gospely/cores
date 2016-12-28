@@ -104,18 +104,24 @@ const LeftSidebar = (props) => {
 		        		type: 'sidebar/showModalModifyGitOrgin'
 		        	});
 				}else {
-					// props.dispatch({
-					// 	type: 'sidebar/pushCommit'
-					// })
-					window.socket.send("cd /root/workspace && git commit\n");
-					localStorage.message = 'git commit ';
-					localStorage.gitOperate = 'git commit';
+
+					var key = "horizontal-dbl";
 					props.dispatch({
-						type: 'editorTop/initGitOperate',
-						payload: { operate: 'git comit'}
+						type: 'devpanel/changeColumn',
+						payload: key
 					});
 
+		          	var title = 'git commit',
+	              	type = 'terminal';
+		          	props.dispatch({
+	    	        	type: 'devpanel/add',
+	        	    	payload: { title, type }
+	          		});
 
+					props.dispatch({
+						type: 'devpanel/initDebugPanel',
+						payload: { cmd: 'cd /root/workspace\n clear && git commit\n' }
+					});
 				}
 	        },
 
@@ -126,18 +132,25 @@ const LeftSidebar = (props) => {
 						type: 'sidebar/showModalModifyGitOrgin'
 					})
 				}else {
-					window.socket.send("cd /root/workspace && git push\n");
-					localStorage.message = 'git push ';
-					 localStorage.gitOperate = 'git push';
+
+					var key = "horizontal-dbl";
 					props.dispatch({
-						type: 'editorTop/initGitOperate',
-						payload: { operate: 'git push'}
+						type: 'devpanel/changeColumn',
+						payload: key
 					});
 
+		          	var title = 'git push',
+	              	type = 'terminal';
+		          	props.dispatch({
+	    	        	type: 'devpanel/add',
+	        	    	payload: { title, type }
+	          		});
 
-					// props.dispatch({
-					// 	type: 'sidebar/pushGit'
-					// })
+					props.dispatch({
+						type: 'devpanel/initDebugPanel',
+						payload: { cmd: 'cd /root/workspace\n clear && git push -u origin master\n' }
+					});
+
 				}
 	        },
 
@@ -148,26 +161,33 @@ const LeftSidebar = (props) => {
 						type: 'sidebar/showModalModifyGitOrgin'
 					});
 				}else {
-					window.socket.send("cd /root/workspace && git pull\n");
-					localStorage.message = 'git pull ';
-					localStorage.gitOperate = 'git pull';
+					var key = "horizontal-dbl";
 					props.dispatch({
-						type: 'editorTop/initGitOperate',
-						payload: { operate: 'git pull'}
+						type: 'devpanel/changeColumn',
+						payload: key
 					});
 
+		          	var title = 'git pull',
+	              	type = 'terminal';
+		          	props.dispatch({
+	    	        	type: 'devpanel/add',
+	        	    	payload: { title, type }
+	          		});
+
+					props.dispatch({
+						type: 'devpanel/initDebugPanel',
+						payload: { cmd: 'cd /root/workspace\n clear && git pull\n' }
+					});
 				}
 	        },
 
 	        terminal() {
-
 	          	var title = '终端',
 	              	type = 'terminal';
 	          	props.dispatch({
 	            	type: 'devpanel/add',
 	            	payload: {title, type}
-	          	})
-
+	          	});
 	        },
 
 	        file() {
@@ -437,7 +457,7 @@ const LeftSidebar = (props) => {
 				});
 
 				var title = '终端',
-						type = 'terminal';
+					type = 'terminal';
 				props.dispatch({
 					type: 'devpanel/add',
 					payload: {title, type}
@@ -449,7 +469,7 @@ const LeftSidebar = (props) => {
 					common(){
 						console.log('common');
 						sessionStorage.currentDebugResource = 'http://gospely.com:' + localStorage.port;
-						var debug = window.open('http://localhost:8989/static/debugger/wordpress.html','_blank')
+						var debug = window.open(location.hostname + '/static/debugger/wordpress.html','_blank')
 						props.dispatch({
 							type: 'devpanel/handleDebugger',
 							payload: {debug}
@@ -468,8 +488,8 @@ const LeftSidebar = (props) => {
 							type: 'devpanel/initDebugPanel',
 						});
 
-						var title = '终端',
-								type = 'terminal';
+						var title = '启动命令终端',
+							type = 'terminal';
 						props.dispatch({
 							type: 'devpanel/add',
 							payload: {title, type}

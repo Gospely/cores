@@ -76,7 +76,6 @@ export default {
 		cmd: 'cd /root/workspace && clear\n',
 		debug: '',
 
-
 	    panels: {
 
 	    	panes: [
