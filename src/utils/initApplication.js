@@ -80,13 +80,16 @@ const initApplication = function (application, props){
     type: 'devpanel/hideLoading'
   });
 
-  //初始化命令
-  props.dispatch({
-    type: 'sidebar/initRunCommond',
-    payload: { command: command.default}
-  });
 
+  if(command) {
 
+    //初始化命令
+    props.dispatch({
+      type: 'sidebar/initRunCommond',
+      payload: { command: command.default}
+    });
+
+  }
 
 }
 
