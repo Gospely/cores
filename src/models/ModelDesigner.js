@@ -4357,11 +4357,16 @@ page {
 
 			let level = layoutAction.getCurrentLevelByKey(state.layout, tmpCtrl.key);
 			layoutAction.setActiveController(state.layoutState, activePage.children.length - 1, tmpCtrl.key, level);
+
+			computeDomHeight.leftSidebarWhenLoaded();
+
 			return {...state};
 		},
 
 		removeController(state, { payload: controller }) {
 			layoutAction.removeControllerByKey(state, controller.key);
+
+			computeDomHeight.leftSidebarWhenLoaded();
 			return {...state};
 		},
 
