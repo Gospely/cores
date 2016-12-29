@@ -73,6 +73,7 @@ export default {
 		currentMode: 'javascript',
 		currentLanguage: 'HTML',
 		cmd: 'cd /root/workspace && clear\n',
+		sshKey: '',
 		debug: '',
 
 	    panels: {
@@ -138,6 +139,17 @@ export default {
 
 	effects: {
 
+		*getKey({ payload: params }, {call, put, select}){
+			var res = yield request("users/" + localStorage.user, {
+				method: 'GET',
+			});
+			console.log(res);
+			yield put({
+				type: "initKey",
+				payload :{ sshKey: res.data.fields.sshKey}
+			});
+
+		},
 		*startDocker({ payload: params }, {call, put, select}){
 			var res = yield request("container/start/" + params.id, {
 				method: 'GET',
@@ -277,6 +289,11 @@ export default {
 	},
 
 	reducers: {
+		initKey(state,  { payload: params}) {
+
+			state.sshKey = params.sshKey;
+			return {...state};
+		},
 		initState(state, { payload: params}){
 			state.panels = params.UIState.panels;
 			state.devType = params.UIState.devType;
@@ -529,7 +546,7 @@ export default {
 			}
 
 			if(target.editorId == window.pullTerminalID) {
-				window.pullTerminal = undefined;		
+				window.pullTerminal = undefined;
 			}
 
 			if(target.editorId == window.pushTerminalID) {
@@ -624,21 +641,21 @@ export default {
 
 			if(target.title == 'git commit') {
 				if(window.commitTerminal) {
-					window.commitTerminal.send('git commit -a -m "' + sessionStorage.commitInfo + '"\n');				
+					window.commitTerminal.send('git commit -a -m "' + sessionStorage.commitInfo + '"\n');
 					return {...state};
 				}
 			}
 
 			if(target.title == 'git pull') {
 				if(window.pullTerminal) {
-					window.pullTerminal.send('git pull\n');			
+					window.pullTerminal.send('git pull\n');
 					return {...state};
 				}
 			}
 
 			if(target.title == 'git push') {
 				if(window.pushTerminal) {
-					window.pushTerminal.send('git push -u origin master \n');				
+					window.pushTerminal.send('git push -u origin master \n');
 					return {...state};
 				}
 			}

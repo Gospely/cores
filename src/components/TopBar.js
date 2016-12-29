@@ -381,7 +381,10 @@ const LeftSidebar = (props) => {
 		},
 
 		onGitOperationTabChanged: function() {
-
+			console.log('dsada');
+			props.dispatch({
+				type: 'devpanel/getKey'
+			});
 		},
 
 		createAppFromModal() {
@@ -1149,6 +1152,13 @@ const LeftSidebar = (props) => {
 		    					<li>6、开源中国（gitosc）官方说明：<a href="http://git.oschina.net/oschina/git-osc/wikis/%E5%B8%AE%E5%8A%A9" target="_blank">GitOSC ssh操作说明</a></li>
 		    					<li>7、Github 官方说明：<a href="https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/" target="_blank">Github ssh操作说明</a></li>
 		    				</ol>
+	    				</div>
+    				</div>
+    			</TabPane>
+				<TabPane tab="查看公钥" key="3">
+    				<div style={{marginTop: 16}}>
+	    				<div style={{margin: 10}}>
+							<Input type="textarea" readOnly rows={4} value={props.devpanel.sshKey}/>
 	    				</div>
     				</div>
     			</TabPane>

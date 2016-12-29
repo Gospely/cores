@@ -15,6 +15,7 @@ const initApplication = function (application, props){
   localStorage.currentFolder = localStorage.user + '/' + application.name + '_' + localStorage.userName;
   localStorage.baseURL = 'http://' + application.host + ':9999/';
   localStorage.host = application.host;
+  localStorage.sshKey = application.sshKey;
   localStorage.exposePort = application.exposePort;
 
   props.dispatch({
