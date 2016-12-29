@@ -30,17 +30,17 @@ class Terminal extends Component {
 
 			'git commit' () {
 				terminalTypeName = 'commitTerminal';
-				window.commitTerminalID = self.props.title;
+				window.commitTerminalID = self.props.editorId;
 			},
 
 			'git pull' () {
 				terminalTypeName = 'pullTerminal';
-				window.pullTerminalID = self.props.title;
+				window.pullTerminalID = self.props.editorId;
 			},
 
 			'git push' () {
 				terminalTypeName = 'pushTerminal';
-				window.pushTerminalID = self.props.title;
+				window.pushTerminalID = self.props.editorId;
 			}
 
 		}

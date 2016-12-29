@@ -638,7 +638,7 @@ export default {
 
 			if(target.title == 'git push') {
 				if(window.pushTerminal) {
-					window.pushTerminal.send('git push -u origin master \n');				
+					window.pushTerminal.send('git push -u origin master \n');
 					return {...state};
 				}
 			}
