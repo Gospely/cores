@@ -18,16 +18,13 @@ export default {
 	subscriptions: {
 		setup({ dispatch, history }) {
 	      	history.listen(({ pathname }) => {
-
-				console.log(pathname);
 				var splits = pathname.split("/");
 				if(splits[1] == 'project' && splits[2] != null && splits[2] != undefined){
 
 					var id = splits[2];
-					console.log("===================setup===========");
 		      		dispatch({
 		      			type: 'readConfig',
-								payload:{id}
+						payload:{id}
 		      		});
 				}
 				return true;
@@ -38,9 +35,6 @@ export default {
 	effects: {
 
 		*readConfig({ payload: params }, { call, put, select }) {
-
-			console.log(params);
-			console.log("=======readConfig========" + params.id);
   			var configs = yield request('uistates?application=' + params.id, {
       			method: 'get'
       		});
@@ -49,7 +43,14 @@ export default {
   				return false;
   			}
 			var config = configs.data.fields[0];
-			console.log(config);
+
+			if(!config) {
+				config = {};
+			}
+
+			config.dySave = config.dySave || true;
+			config.gap = config.gap || 500000;
+				
       		yield put({
     			type: 'setDySave',
 					payload: {
@@ -130,8 +131,6 @@ export default {
 	reducers: {
 
 		setDySave(state, { payload: params }) {
-
-			console.log("========setDySave========");
 			state.dySave = params.checked;
 			return {...state};
 		},

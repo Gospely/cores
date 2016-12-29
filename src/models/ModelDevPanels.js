@@ -343,9 +343,9 @@ export default {
 
 		handleCommon(state) {
 			state.panels.panes[0].activeTab.key = "1";
-			state.devType.defaultActiveKey = 'setting';
-			localStorage.defaultActiveKey = 'setting';
-			localStorage.activeMenu = "file";
+			state.devType.defaultActiveKey = 'file';
+			localStorage.defaultActiveKey = 'file';
+			localStorage.activeMenu = "setting";
 
 			state.panels.panes[0].tabs = [{
 				"title":"欢迎页面 - Gospel",
@@ -378,7 +378,6 @@ export default {
 					"editorId":"","isSave":true
 				}];
 			state.devType.type = 'visual';
-			//window.location.href = 'http://localhost:8989/#/project/' + localStorage.applicationId;
 			return {...state};
 		},
 		toggleSearchBar(state,{payload:params}) {

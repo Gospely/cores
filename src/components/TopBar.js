@@ -118,8 +118,11 @@ const LeftSidebar = (props) => {
 
 					var key = "horizontal-dbl";
 					props.dispatch({
-						type: 'devpanel/changeColumn',
-						payload: key
+						type: 'devpanel/changeColumnWithHeight',
+						payload: {
+							key: key,
+							height: '70%'
+						}
 					});
 
 		          	var title = 'git push',
@@ -146,8 +149,11 @@ const LeftSidebar = (props) => {
 				}else {
 					var key = "horizontal-dbl";
 					props.dispatch({
-						type: 'devpanel/changeColumn',
-						payload: key
+						type: 'devpanel/changeColumnWithHeight',
+						payload: {
+							key: key,
+							height: '70%'
+						}
 					});
 
 		          	var title = 'git pull',
@@ -219,9 +225,8 @@ const LeftSidebar = (props) => {
 	        showStartMenu() {
 
 				if(localStorage.debugType == 'common'){
-					console.log('common');
 					sessionStorage.currentDebugResource = 'http://'+ localStorage.host +':' + localStorage.port;
-					var debug = window.open('http://localhost:8989/static/debugger/wordpress.html','_blank')
+					var debug = window.open(location.origin + '/static/debugger/wordpress.html','_blank')
 					props.dispatch({
 						type: 'devpanel/handleDebugger',
 						payload: {debug}
@@ -974,8 +979,11 @@ const LeftSidebar = (props) => {
 
 			var key = "horizontal-dbl";
 			props.dispatch({
-				type: 'devpanel/changeColumn',
-				payload: key
+				type: 'devpanel/changeColumnWithHeight',
+				payload: {
+					key: key,
+					height: '70%'
+				}
 			});
 
 	       	var title = 'git commit',

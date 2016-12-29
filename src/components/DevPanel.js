@@ -38,7 +38,7 @@ const DevPanel = ({
 
 		terminal: function(params) {
 			return (
-				<Terminal title={params.title} ctx={props}></Terminal>
+				<Terminal editorId={params.editorId} title={params.fileName} ctx={props}></Terminal>
 			);
 		},
 
