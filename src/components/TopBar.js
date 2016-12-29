@@ -225,9 +225,8 @@ const LeftSidebar = (props) => {
 	        showStartMenu() {
 
 				if(localStorage.debugType == 'common'){
-					console.log('common');
 					sessionStorage.currentDebugResource = 'http://'+ localStorage.host +':' + localStorage.port;
-					var debug = window.open('http://localhost:8989/static/debugger/wordpress.html','_blank')
+					var debug = window.open(location.origin + '/static/debugger/wordpress.html','_blank')
 					props.dispatch({
 						type: 'devpanel/handleDebugger',
 						payload: {debug}

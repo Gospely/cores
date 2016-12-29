@@ -76,6 +76,10 @@ const EditorTop = ({
 
 	const themeMenu = generateMenu(themeList, onSelectTheme, 'name')
 
+	// <Dropdown overlay={themeMenu} trigger={['click']}>
+	// 	<Button className={EditorStyle.topbarBtn}>{currentTheme}</Button>
+	// </Dropdown>
+
   	return (
 		<div className={EditorStyle.topbar}>
 			<ButtonGroup>
@@ -84,9 +88,6 @@ const EditorTop = ({
 			<div className={EditorStyle.topbarRight}>
 				<ButtonGroup>
 					<Button style={{display:'none'}} onClick={onOpenJumpLine} className={EditorStyle.topbarBtn}>行: 4 列: 32</Button>
-					<Dropdown overlay={themeMenu} trigger={['click']}>
-						<Button className={EditorStyle.topbarBtn}>{currentTheme}</Button>
-					</Dropdown>
 					<Dropdown overlay={syntaxMenu} trigger={['click']}>
 						<Button className={EditorStyle.topbarBtn}>{currentLanguage}</Button>
 					</Dropdown>
