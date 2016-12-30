@@ -13,8 +13,7 @@ const initApplication = function (application, props){
 
   localStorage.dir = localStorage.user + '/' + application.docker.replace('gospel_project_', '') + "/";
   localStorage.currentFolder = localStorage.user + '/' + application.name + '_' + localStorage.userName;
-  localStorage.baseURL = 'http://' + application.host + ':9999/';
-  localStorage.host = application.host;
+  localStorage.baseURL = 'http://' + localStorage.host + ':9999/';
   localStorage.sshKey = application.sshKey;
   localStorage.exposePort = application.exposePort;
 
