@@ -157,16 +157,14 @@ const FileTree = (props) => {
     },
 
     onRightClick: function(proxy) {
-      var fileName = proxy.node.props.eventKey;
+      var fileName = proxy.node.props.eventKey,
+          root = false;
 
-      console.log("============fileName========");
-      console.log(fileName);
-      var root = false;
       if(fileName == localStorage.dir){
         root = true;
       }
-      localStorage.currentSelectedFile = fileName;
 
+      localStorage.currentSelectedFile = fileName;
       fileName = fileName.split('/');
       fileName.pop();
       fileName = fileName.join('/') + '/';

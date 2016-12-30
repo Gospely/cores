@@ -506,14 +506,23 @@ export default {
 		},
 
 		showContextMenu(state, {payload: params}) {
+			var evt = params.event.event,
+				top = evt.clientY,
+				left = evt.clientX,
 
-			console.log(params.event.node);
-			var evt = params.event.event;
+				domHeight = parseInt($(document).height());
+
+			if((domHeight - top) < 250) {
+				top -= 200;
+			}
+
+			console.log(top, domHeight);
+
 			return {...state, contextMenuStyles: {
 				display: 'block',
 				position: 'fixed',
-				top: params.event.event.clientY,
-				left: params.event.event.clientX
+				top: top,
+				left: left
 			},root: params.root, isLeaf: !params.event.node.props.isLeaf  }
 		},
 
