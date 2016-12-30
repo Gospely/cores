@@ -457,7 +457,7 @@ const LeftSidebar = (props) => {
 				console.log('===================visual===================');
 
 				//分栏
-				var kill = "mv /root/temp.* /root/workspace && kill -9 $(netstat -tlnp | grep "+ localStorage.exposePort +" |awk '{print $7}' | awk -F '/' '{print $1}')"
+				var kill = "mv /root/temp/.* /root/workspace && kill -9 $(netstat -tlnp | grep "+ localStorage.exposePort +" |awk '{print $7}' | awk -F '/' '{print $1}')"
 				var cmd = kill +' ||  cd /root/workspace && ' + props.sidebar.debugConfig.runCommand + ' && clear\n';
 				var key = "horizontal-dbl";
 				props.dispatch({
