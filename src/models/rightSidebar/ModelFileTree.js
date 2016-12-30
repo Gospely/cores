@@ -1,7 +1,7 @@
 import dva from 'dva';
 import request from '../../utils/request.js';
 import randomWord from '../../utils/randomString.js';
-import { message } from 'antd';
+import { message, notification } from 'antd';
 import fetch from 'dva/fetch';
 
 const findParentNode = (treeData, parentDirName, lvl) => {
@@ -123,6 +123,19 @@ export default {
 				});
 	  			var fileList = yield request('fs/list/file/?id=' + localStorage.dir);
 				localStorage.currentFolder = localStorage.dir;
+
+				if(fileList.err) {
+					const openNotification = () => {
+					  	notification['error']({
+					    	description: fileList.err.message,
+					    	message: '文件树请求出错',
+					    	duration: 5000
+					  	});
+					};openNotification();
+
+					return false;
+				}
+
 	    		yield put({ type: 'list', payload: fileList });
 				yield put({
 					type: 'setTreeLoadingStatus',
