@@ -318,8 +318,10 @@ const LeftSidebar = (props) => {
 			props.dispatch({
 				type: 'sidebar/createApp'
 			});
-			winddowopenNotificationWithIcon('info', "创建中", "正在创建应用");
-
+			notification.open({
+				message: '正在创建应用，请稍等……',
+				title: '创建应用'
+			});
 	    },
 
 	    cancelSwitchApp() {
@@ -867,6 +869,12 @@ const LeftSidebar = (props) => {
 				type: 'sidebar/handleCreateApp',
 				payload: {ctx: props}
 			});
+
+			notification.open({
+				message: '正在创建应用，请稍等……',
+				title: '创建应用'
+			});
+
 		}
 	}
 

@@ -328,7 +328,6 @@ export default {
                 body: JSON.stringify(form),
 			});
 
-            console.log(result);
             if(result.data.code == 1){
                 yield put({
     				type: 'setAppCreatorCompleted'
@@ -336,6 +335,12 @@ export default {
                 yield put({
                     type: 'hideModalNewApp',
                 });
+
+				notification.open({
+					message: '创建应用成功，即将跳转',
+					title: '创建应用'
+				});
+
                 window.location.hash = 'project/' + result.data.fields.id;
                 initApplication(result.data.fields,params.ctx);
             }else{
