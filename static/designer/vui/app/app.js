@@ -716,7 +716,7 @@ $(function () {
             onDrop: function() {
                 var self = this;
                 jq(this.containerSelector).on("drop", function(e) {
-                    console.log('onrop=======', e);
+                    // console.log('onrop=======', e);
                     if(e.originalEvent.dataTransfer.getData("Text") == 'fromSelf') {
                         return false;
                     }
@@ -739,6 +739,17 @@ $(function () {
                     var ctrlAndTarget = {
                         ctrl: controller,
                         target: e.target.id
+                    }
+                    if (!dropTarget.hasClass('page__bd')) {
+                        dropTarget.css({
+                            height: 'auto'
+                        })
+
+                        postMessageToFather.attrChangeFromDrag({
+                            changeId: [dropTarget.eq(0).attr('id')],
+                            changeAttr: ['height'],
+                            changeValue: ['atuo']
+                        });
                     }
                     postMessageToFather.ctrlToBeAdded(ctrlAndTarget);
                     // hideDesignerDraggerBorder(dropTarget);
@@ -1219,7 +1230,9 @@ $(function () {
 
                     //阻止用户在设计器中改变表单的值
                     if (att == 'value' || att == 'checked') {
-                        this.elem.attr('disabled', 'disabled');
+                        this.elem.on('change', function () {
+                            return false;
+                        });
                     }
 
                 }
