@@ -188,7 +188,7 @@ export default {
 
       	*touch({payload: dirName}, {call, put, select}) {
       		var val = yield select(state => state.file.newFileInput.value);
-		var mkResult = yield request('fs/write', {
+			var mkResult = yield request('fs/write', {
     			method: 'POST',
     			body: JSON.stringify({
     				fileName: localStorage.currentFolder + val,
@@ -402,6 +402,21 @@ export default {
 	},
 
 	reducers: {
+
+		hideNewFilePopup(state) {
+			state.newFileInput.visible = false;
+			return {...state};
+		},
+
+		handleFilePopVisibleChange(state, { payload: visible }) {
+			state.newFileInput.visible = visible;
+			return {...state};
+		},
+
+		handleFolderPopVisibleChange(state, { payload: visible }) {
+			state.newFolderInput.visible = visible;
+			return {...state};
+		},
 
 		setTreeLoadingStatus(state,  { payload: bool}) {
 			state.treeLoading = bool;
