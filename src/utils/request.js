@@ -34,7 +34,6 @@ function checkResData(data) {
     if(typeof data.length == 'number') {
       return data;
     }
-    console.log(data.message);
     openNotificationWithIcon('error', data.message, data.fields);
   }
   return data;
@@ -55,15 +54,13 @@ export default function request(url, options) {
     }
     if(options == null || options == undefined){
         return fetch(url, {
-            'headers': {
-                'Authorization': localStorage.token
-            }
-        })
-          .then(checkStatus)
-          .then(parseJSON)
-          .then(checkResData)
-          .then((data) => ({ data }))
-          .catch((err) => ({ err }));
+                  'headers': { 'Authorization': localStorage.token }
+               })
+                .then(checkStatus)
+                .then(parseJSON)
+                .then(checkResData)
+                .then((data) => ({ data }))
+                .catch((err) => ({ err }));
     }else{
         if(options.headers == null || options.headers == undefined){
             options.headers = {
@@ -73,11 +70,11 @@ export default function request(url, options) {
             options.headers['Authorization'] = localStorage.token;
         }
         return fetch(url, options)
-            .then(checkStatus)
-            .then(parseJSON)
-            .then(checkResData)
-            .then((data) => ({ data }))
-            .catch((err) => ({ err }));
+               .then(checkStatus)
+               .then(parseJSON)
+               .then(checkResData)
+               .then((data) => ({ data }))
+               .catch((err) => ({ err }));
     }
 
 
