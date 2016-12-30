@@ -57,7 +57,13 @@ export default {
 				    	openNotificationWithIcon('error', data.message, data.fields);
 				  	}
 					var application = data.fields;
-					initApplication(application,props);
+					if(data.fields != null){
+						initApplication(application,props);
+					}else{
+						localStorage.clear();
+						window.location.href = window.location.origin;
+					}
+
 				});
 			}else{
 				if(localStorage.applicationId != null){

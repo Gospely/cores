@@ -296,6 +296,52 @@ export default {
 			state.sshKey = params.sshKey;
 			return {...state};
 		},
+		initPanel(state){
+
+			state.panels = {
+
+		    	panes: [
+		    		{
+		    			tabs: [
+				    		{
+				    			title: '欢迎页面 - Gospel',
+				    			content: '',
+				    			key: '1',
+				    			type: 'welcome',
+				    			editorId: '',
+				    			searchVisible: false,
+				    			isSave: false,
+				    			loading: false
+				    		}
+			    		],
+
+			    		editors: {},
+
+			    		activeEditor: {
+			    			id: ''
+			    		},
+
+			    		key: 0,
+
+			    		activeTab: {
+			    			key: '1',
+			    			index: 0
+			    		}
+		    		}
+		    	],
+
+		    	splitType: 'single',
+
+		    	activePane: {
+		    		key: 0
+		    	},
+		    	activeEditor: {
+		    		id: ''
+		    	}
+		    };
+			return {...state}
+
+		},
 		initState(state, { payload: params}){
 			state.panels = params.UIState.panels;
 			state.devType = params.UIState.devType;

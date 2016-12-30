@@ -26,13 +26,16 @@ const initApplication = function (application, props){
     localStorage.exposePort = application.exposePort;
 
     props.dispatch({
-    type: 'file/fetchFileList'
+        type: 'devpanel/initPanel'
     });
     props.dispatch({
-    type: 'file/initFiles',
+        type: 'file/fetchFileList'
     });
     props.dispatch({
-    type: 'UIState/readConfig',
+        type: 'file/initFiles',
+    });
+    props.dispatch({
+        type: 'UIState/readConfig',
     payload: {
       id: application.id
     }
@@ -41,12 +44,12 @@ const initApplication = function (application, props){
       type: 'sidebar/hideModalSwitchApp'
     });
     props.dispatch({
-    type: 'devpanel/startDocker',
-    payload: { docker:  application.docker, id: application.id}
+        type: 'devpanel/startDocker',
+        payload: { docker:  application.docker, id: application.id}
     });
     props.dispatch({
-    type: 'devpanel/handleImages',
-    payload: { id: application.image}
+        type: 'devpanel/handleImages',
+        payload: { id: application.image}
     });
     if(localStorage.UIState != null && localStorage != undefined){
 
