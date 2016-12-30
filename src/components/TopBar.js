@@ -1152,13 +1152,9 @@ const LeftSidebar = (props) => {
 	    				<h4>ssh可以让您免密码使用push操作，请按照以下方法配置SSH：</h4>
 	    				<div style={{margin: 10}}>
 		    				<ol>
-		    					<li>1、打开终端</li>
-		    					<li>2、输入 ssh-keygen，一路回车</li>
-		    					<li>3、输入 vim /root/.ssh/id_rsa.pub</li>
-		    					<li>4、复制你所看到的内容</li>
-		    					<li>5、将其配置到您的Git平台中即可</li>
-		    					<li>6、开源中国（gitosc）官方说明：<a href="http://git.oschina.net/oschina/git-osc/wikis/%E5%B8%AE%E5%8A%A9" target="_blank">GitOSC ssh操作说明</a></li>
-		    					<li>7、Github 官方说明：<a href="https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/" target="_blank">Github ssh操作说明</a></li>
+		    					<li>1、点击查看公钥并将其配置到您的Git平台中即可</li>
+		    					<li>2、开源中国（gitosc）官方说明：<a href="http://git.oschina.net/oschina/git-osc/wikis/%E5%B8%AE%E5%8A%A9" target="_blank">GitOSC ssh操作说明</a></li>
+		    					<li>3、Github 官方说明：<a href="https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/" target="_blank">Github ssh操作说明</a></li>
 		    				</ol>
 	    				</div>
     				</div>
