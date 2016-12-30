@@ -18,7 +18,8 @@ const auth = function (router) {
 
 	var user = getCookie('user'),
 		token =  getCookie('token'),
-		userName =  getCookie('userName');
+		userName =  getCookie('userName'),
+		host = getCookie('host');
 
 	if(token != null && token != undefined && token != '') {
 		var url = configs.baseURL + "innersessions/" + token;
@@ -36,6 +37,7 @@ const auth = function (router) {
 	localStorage.user = user;
 	localStorage.token = token;
 	localStorage.userName = userName;
+	localStorage.host = host;
 	return true;
 
 }

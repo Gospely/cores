@@ -1,47 +1,57 @@
 const initApplication = function (application, props){
 
-  if(location.hash.indexOf('project') == -1) {
-    return false;
-  }
+    console.log("====================initApplication============" + application.id);
+    console.log(localStorage.applicationId);
 
-  props.dispatch({
+    if(localStorage.applicationId == application.id){
+        window.reload = false;
+    }else{
+        window.reload = true;
+    }
+    if(location.hash.indexOf('project') == -1) {
+    return false;
+    }
+
+    props.dispatch({
     type: 'devpanel/showLoading',
     payload: {
       tips: '打开应用中...'
     }
-  });
+    });
 
-  localStorage.dir = localStorage.user + '/' + application.docker.replace('gospel_project_', '') + "/";
-  localStorage.currentFolder = localStorage.user + '/' + application.name + '_' + localStorage.userName;
-  localStorage.baseURL = 'http://' + application.host + ':9999/';
-  localStorage.host = application.host;
-  localStorage.sshKey = application.sshKey;
-  localStorage.exposePort = application.exposePort;
+    localStorage.dir = localStorage.user + '/' + application.docker.replace('gospel_project_', '') + "/";
+    localStorage.currentFolder = localStorage.user + '/' + application.name + '_' + localStorage.userName;
+    localStorage.baseURL = 'http://' + localStorage.host + ':9999/';
+    localStorage.sshKey = application.sshKey;
+    localStorage.exposePort = application.exposePort;
 
-  props.dispatch({
-    type: 'file/fetchFileList'
-  });
-  props.dispatch({
-    type: 'file/initFiles',
-  });
-  props.dispatch({
-    type: 'UIState/readConfig',
+    props.dispatch({
+        type: 'devpanel/initPanel'
+    });
+    props.dispatch({
+        type: 'file/fetchFileList'
+    });
+    props.dispatch({
+        type: 'file/initFiles',
+    });
+    props.dispatch({
+        type: 'UIState/readConfig',
     payload: {
       id: application.id
     }
-  });
-  props.dispatch({
+    });
+    props.dispatch({
       type: 'sidebar/hideModalSwitchApp'
-  });
-  props.dispatch({
-    type: 'devpanel/startDocker',
-    payload: { docker:  application.docker, id: application.id}
-  });
-  props.dispatch({
-    type: 'devpanel/handleImages',
-    payload: { id: application.image}
-  });
-  if(localStorage.UIState != null && localStorage != undefined){
+    });
+    props.dispatch({
+        type: 'devpanel/startDocker',
+        payload: { docker:  application.docker, id: application.id}
+    });
+    props.dispatch({
+        type: 'devpanel/handleImages',
+        payload: { id: application.image}
+    });
+    if(localStorage.UIState != null && localStorage != undefined){
 
     var UIState = JSON.parse(localStorage.UIState);
     // props.dispatch({
@@ -60,37 +70,37 @@ const initApplication = function (application, props){
     //     type: 'designer/initState',
     //     payload: { UIState: UIState.UIState.designer }
     // });
-  }else{
+    }else{
     props.dispatch({
       type: 'devpanel/getConfig',
       payload: { id : application.id}
     });
-  }
+    }
 
-  localStorage.currentProject = application.name;
-  localStorage.port = application.port;
-  localStorage.sshPort = application.sshPort;
-  localStorage.socketPort = application.socketPort;
-  localStorage.domain = application.domain;
-  localStorage.image = application.image;
-  localStorage.docker = application.docker;
-  localStorage.applicationId = application.id;
-  var command = JSON.parse(application.cmds);
+    localStorage.currentProject = application.name;
+    localStorage.port = application.port;
+    localStorage.sshPort = application.sshPort;
+    localStorage.socketPort = application.socketPort;
+    localStorage.domain = application.domain;
+    localStorage.image = application.image;
+    localStorage.docker = application.docker;
+    localStorage.applicationId = application.id;
+    var command = JSON.parse(application.cmds);
 
-  props.dispatch({
-    type: 'devpanel/hideLoading'
-  });
-
-
-  if(command) {
-
-    //初始化命令
     props.dispatch({
-      type: 'sidebar/initRunCommond',
-      payload: { command: command.default}
+    type: 'devpanel/hideLoading'
     });
 
-  }
+
+    if(command) {
+
+        //初始化命令
+        props.dispatch({
+          type: 'sidebar/initRunCommond',
+          payload: { command: command.default}
+        });
+
+    }
 
 }
 

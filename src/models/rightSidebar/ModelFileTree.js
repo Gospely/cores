@@ -438,6 +438,12 @@ export default {
 
 			state.searchFilePane.files = newFiles;
 			state.searchFilePane.visible = true;
+
+			state.searchFilePane.currentIndex = 0;
+			if (value != '') {
+				state.searchFilePane.currentFolder = state.searchFilePane.files[0].folder;	
+			}
+
 			return {...state};
 		},
 

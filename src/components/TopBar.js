@@ -315,9 +315,11 @@ const LeftSidebar = (props) => {
 		//onClose: close
 
 	    createApp() {
-	      props.dispatch({
-	        type: 'sidebar/createApp'
-	      })
+			props.dispatch({
+				type: 'sidebar/createApp'
+			});
+			winddowopenNotificationWithIcon('info', "创建中", "正在创建应用");
+
 	    },
 
 	    cancelSwitchApp() {
@@ -453,7 +455,7 @@ const LeftSidebar = (props) => {
 				console.log('===================visual===================');
 
 				//分栏
-				var kill = "kill -9 $(netstat -tlnp | grep "+ localStorage.exposePort +" |awk '{print $7}' | awk -F '/' '{print $1}')"
+				var kill = "mv /root/temp.* /root/workspace && kill -9 $(netstat -tlnp | grep "+ localStorage.exposePort +" |awk '{print $7}' | awk -F '/' '{print $1}')"
 				var cmd = kill +' ||  cd /root/workspace && ' + props.sidebar.debugConfig.runCommand + ' && clear\n';
 				var key = "horizontal-dbl";
 				props.dispatch({
@@ -862,7 +864,8 @@ const LeftSidebar = (props) => {
 			}
 
 			props.dispatch({
-				type: 'sidebar/handleCreateApp'
+				type: 'sidebar/handleCreateApp',
+				payload: {ctx: props}
 			});
 		}
 	}

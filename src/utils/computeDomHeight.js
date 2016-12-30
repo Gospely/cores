@@ -16,7 +16,10 @@ export default {
 		setTimeout(function() {
 			let construction = document.getElementsByClassName('toGetConstructionHeight')[0],
 				controllers = document.getElementsByClassName('consCollapseTopBorder')[0];
-			controllers.style.height = 'calc(100vh - 38px - ' + construction.offsetHeight + 'px)';
+				if(controllers) {
+					controllers.style.height = 'calc(100vh - 38px - ' + construction.offsetHeight + 'px)';
+				}
+			
 		}, 400)
 		
 	}

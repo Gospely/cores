@@ -193,6 +193,7 @@ export default {
 				config = '',
 				UIState = '';
 			localStorage.flashState = 'true';
+
 			if(window.reload || params.UIState == null || params.UIState == undefined){
 
 				window.reload = false;
@@ -203,6 +204,7 @@ export default {
 				UIState = JSON.parse(config.configs);
 			}else{
 				UIState = params.UIState;
+				console.log("===================from localStorage============");
 			}
 
 			for(var i = 0; i < UIState.panels.panes.length; i++) {
@@ -293,6 +295,52 @@ export default {
 
 			state.sshKey = params.sshKey;
 			return {...state};
+		},
+		initPanel(state){
+
+			state.panels = {
+
+		    	panes: [
+		    		{
+		    			tabs: [
+				    		{
+				    			title: '欢迎页面 - Gospel',
+				    			content: '',
+				    			key: '1',
+				    			type: 'welcome',
+				    			editorId: '',
+				    			searchVisible: false,
+				    			isSave: false,
+				    			loading: false
+				    		}
+			    		],
+
+			    		editors: {},
+
+			    		activeEditor: {
+			    			id: ''
+			    		},
+
+			    		key: 0,
+
+			    		activeTab: {
+			    			key: '1',
+			    			index: 0
+			    		}
+		    		}
+		    	],
+
+		    	splitType: 'single',
+
+		    	activePane: {
+		    		key: 0
+		    	},
+		    	activeEditor: {
+		    		id: ''
+		    	}
+		    };
+			return {...state}
+
 		},
 		initState(state, { payload: params}){
 			state.panels = params.UIState.panels;
