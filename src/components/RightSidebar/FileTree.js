@@ -157,16 +157,14 @@ const FileTree = (props) => {
     },
 
     onRightClick: function(proxy) {
-      var fileName = proxy.node.props.eventKey;
+      var fileName = proxy.node.props.eventKey,
+          root = false;
 
-      console.log("============fileName========");
-      console.log(fileName);
-      var root = false;
       if(fileName == localStorage.dir){
         root = true;
       }
-      localStorage.currentSelectedFile = fileName;
 
+      localStorage.currentSelectedFile = fileName;
       fileName = fileName.split('/');
       fileName.pop();
       fileName = fileName.join('/') + '/';
@@ -367,9 +365,7 @@ const FileTree = (props) => {
         paneKey = props.devpanel.panels.activePane.key,
         fileName = props.file.newFileNameModal.value;
         fileName = fileName.replace(localStorage.currentProject + '/',localStorage.currentFolder);
-        console.log(fileName);
         var content = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value;
-        console.log('ok');
 
         if(fileName == localStorage.currentFolder) {
           message.error('请输入文件名');
@@ -383,13 +379,16 @@ const FileTree = (props) => {
             content
           }
         });
+
         props.dispatch({
           type: 'devpanel/handleFileSave',
           payload: {
             tabKey: tabKey, pane: paneKey
           }
         });
+
         var value = props.file.newFileNameModal.value;
+
         props.dispatch({
           type: 'devpanel/changeTabTitle',
           payload: {
@@ -404,16 +403,17 @@ const FileTree = (props) => {
         var suffix = 'js';
         if(fileName != undefined && fileName != '新文件'　&& fileName != '新标签页'){
           fileName = fileName.split('.');
-          console.log(fileName[fileName.length-1]);
           suffix= fileName[fileName.length-1];
           if(suffix != undefined){
             localStorage.suffix = suffix;
           }
         }
+
         props.dispatch({
           type: 'devpanel/dynamicChangeSyntax',
           payload: {suffix}
         });
+
         if(localStorage.currentFileOperation == 'remove') {
           props.dispatch({
             type: 'devpanel/remove',
@@ -422,13 +422,12 @@ const FileTree = (props) => {
         }
 
       },
+
       cancel: function() {
 
-        console.log("==========concel");
         props.dispatch({
           type: 'file/hideNewFileNameModal'
         })
-        console.log("=============" + localStorage.currentFileOperation);
         if(localStorage.currentFileOperation == 'remove') {
           props.dispatch({
             type: 'devpanel/remove',
@@ -459,6 +458,10 @@ const FileTree = (props) => {
       onPressEnter: function(e) {
         props.dispatch({
           type: 'file/touch'
+        });
+
+        props.dispatch({
+          type: 'file/hideNewFilePopup'
         })
       }
     },
@@ -543,7 +546,14 @@ const FileTree = (props) => {
   const newFilePop = {
     title: <span>新建文件</span>,
 
-    visbile: props.file.newFileInput.visbile,
+    visible: props.file.newFileInput.visible,
+
+    onVisibleChange (visible) {
+      props.dispatch({
+        type: 'file/handleFilePopVisibleChange',
+        payload: visible
+      });
+    },
 
     content: (
       <InputGroup style={searchCls}>
@@ -560,7 +570,14 @@ const FileTree = (props) => {
   const newFolderPop = {
     title: <span>新建文件夹</span>,
 
-    visbile: props.file.newFolderInput.visbile,
+    visible: props.file.newFolderInput.visible,
+
+    onVisibleChange (visible) {
+      props.dispatch({
+        type: 'file/handleFolderPopVisibleChange',
+        payload: visible
+      });
+    },
 
     content: (
       <InputGroup style={searchCls}>

@@ -407,13 +407,10 @@ export default {
 		},
 
 		handleVisual(state){
-
-			console.log("visual");
 			state.panels.panes[0].activeTab.key = "2";
 			state.devType.defaultActiveKey = 'controllers';
 			localStorage.defaultActiveKey = 'controllers';
-			localStorage.activeMenu = "attr";
-			// appRouter.go('/project/' + localStorage.currentProject);
+			localStorage.activeMenu = "setting";
 			state.panels.panes[0].tabs = [{
 				"title":"欢迎页面 - Gospel",
 				"key":"1","type":"welcome",

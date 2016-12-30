@@ -1,7 +1,7 @@
 import dva from 'dva';
 import request from '../../utils/request.js';
 import randomWord from '../../utils/randomString.js';
-import { message } from 'antd';
+import { message, notification } from 'antd';
 import fetch from 'dva/fetch';
 
 const findParentNode = (treeData, parentDirName, lvl) => {
@@ -123,6 +123,19 @@ export default {
 				});
 	  			var fileList = yield request('fs/list/file/?id=' + localStorage.dir);
 				localStorage.currentFolder = localStorage.dir;
+
+				if(fileList.err) {
+					const openNotification = () => {
+					  	notification['error']({
+					    	description: fileList.err.message,
+					    	message: '文件树请求出错',
+					    	duration: 5000
+					  	});
+					};openNotification();
+
+					return false;
+				}
+
 	    		yield put({ type: 'list', payload: fileList });
 				yield put({
 					type: 'setTreeLoadingStatus',
@@ -175,7 +188,7 @@ export default {
 
       	*touch({payload: dirName}, {call, put, select}) {
       		var val = yield select(state => state.file.newFileInput.value);
-		var mkResult = yield request('fs/write', {
+			var mkResult = yield request('fs/write', {
     			method: 'POST',
     			body: JSON.stringify({
     				fileName: localStorage.currentFolder + val,
@@ -390,6 +403,21 @@ export default {
 
 	reducers: {
 
+		hideNewFilePopup(state) {
+			state.newFileInput.visible = false;
+			return {...state};
+		},
+
+		handleFilePopVisibleChange(state, { payload: visible }) {
+			state.newFileInput.visible = visible;
+			return {...state};
+		},
+
+		handleFolderPopVisibleChange(state, { payload: visible }) {
+			state.newFolderInput.visible = visible;
+			return {...state};
+		},
+
 		setTreeLoadingStatus(state,  { payload: bool}) {
 			state.treeLoading = bool;
 			return {...state};
@@ -478,14 +506,23 @@ export default {
 		},
 
 		showContextMenu(state, {payload: params}) {
+			var evt = params.event.event,
+				top = evt.clientY,
+				left = evt.clientX,
 
-			console.log(params.event.node);
-			var evt = params.event.event;
+				domHeight = parseInt($(document).height());
+
+			if((domHeight - top) < 250) {
+				top -= 200;
+			}
+
+			console.log(top, domHeight);
+
 			return {...state, contextMenuStyles: {
 				display: 'block',
 				position: 'fixed',
-				top: params.event.event.clientY,
-				left: params.event.event.clientX
+				top: top,
+				left: left
 			},root: params.root, isLeaf: !params.event.node.props.isLeaf  }
 		},
 

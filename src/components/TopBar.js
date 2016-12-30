@@ -226,11 +226,12 @@ const LeftSidebar = (props) => {
 
 				if(localStorage.debugType == 'common'){
 					sessionStorage.currentDebugResource = 'http://'+ localStorage.host +':' + localStorage.port;
-					var debug = window.open(location.origin + '/static/debugger/wordpress.html','_blank')
-					props.dispatch({
-						type: 'devpanel/handleDebugger',
-						payload: {debug}
-					});
+					// var debug = window.open(location.origin + '/static/debugger/wordpress.html','_blank')
+					var debug = window.open('http://'+ localStorage.host +':' + localStorage.port);
+					// props.dispatch({
+					// 	type: 'devpanel/handleDebugger',
+					// 	payload: {debug}
+					// });
 				}else{
 					return false;
 				}
@@ -302,22 +303,25 @@ const LeftSidebar = (props) => {
 				    	</Button>)
 				    ];
 				  	notification.open({
-				    	message: '您确定要取消创建应用吗？',
-				    	btn,
+				    	message: '应用创建过程中不允许取消喔',
 				    	key,
-				    	onClose: close,
 				    	duration: 0
 				  	});
 				};openNotification();
 	    	}
 	    },
 
+		//btn,
+		//onClose: close
+
 	    createApp() {
 			props.dispatch({
 				type: 'sidebar/createApp'
 			});
-			winddowopenNotificationWithIcon('info', "创建中", "正在创建应用");
-
+			notification.open({
+				message: '正在创建应用，请稍等……',
+				title: '创建应用'
+			});
 	    },
 
 	    cancelSwitchApp() {
@@ -476,8 +480,6 @@ const LeftSidebar = (props) => {
 				})
 			},
 			visit(){
-				console.log('===================visual===================');
-
 				//分栏
 				var kill = "kill -9 $(netstat -tlnp | grep "+ localStorage.exposePort +" |awk '{print $7}' | awk -F '/' '{print $1}')"
 				var cmd = kill +' ||  cd /root/workspace && ' + props.sidebar.debugConfig.runCommand + ' && clear\n';
@@ -520,17 +522,15 @@ const LeftSidebar = (props) => {
 			run() {
 				const debugType = {
 					common(){
-						console.log('common');
 						sessionStorage.currentDebugResource = 'http://gospely.com:' + localStorage.port;
-						var debug = window.open(location.hostname + '/static/debugger/wordpress.html','_blank')
-						props.dispatch({
-							type: 'devpanel/handleDebugger',
-							payload: {debug}
-						});
+						// var debug = window.open(location.hostname + '/static/debugger/wordpress.html','_blank')
+						window.open('http://gospely.com:' + localStorage.port);
+						// props.dispatch({
+						// 	type: 'devpanel/handleDebugger',
+						// 	payload: {debug}
+						// });
 					},
 					shell(){
-						console.log('===================visual===================');
-
 						//分栏
 						var key = "vertical-dbl";
 						props.dispatch({
@@ -869,6 +869,12 @@ const LeftSidebar = (props) => {
 				type: 'sidebar/handleCreateApp',
 				payload: {ctx: props}
 			});
+
+			notification.open({
+				message: '正在创建应用，请稍等……',
+				title: '创建应用'
+			});
+
 		}
 	}
 
