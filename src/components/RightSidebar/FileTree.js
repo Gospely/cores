@@ -27,7 +27,9 @@ const FileTree = (props) => {
   }
 
   window.fileFlag = true;
+
   let maxHeight = document.documentElement.clientHeight - 68;
+
   const styles = {
     searchSuggestions: {
       border: ' 1px solid rgba(0, 0, 0, .2)',
@@ -89,17 +91,12 @@ const FileTree = (props) => {
     },
 
     onSelect: function(e, node) {
-
       localStorage.onSelect = true;
-      console.log("=====================onSelect=============");
-      console.log(e);
-      console.log(node);
       if(e.length > 0) {
         localStorage.currentSelectedFile = e[0];
         var file = e[0];
         file = file.split('/');
         var files = e[0].split(".")
-        console.log(files[files.length-1]);
         var suffix = files[files.length-1];
         if(suffix != undefined){
           localStorage.suffix = suffix;
@@ -109,14 +106,10 @@ const FileTree = (props) => {
   				payload:{suffix}
   			});
         var isLeaf = node.node.props.isLeaf;
-        console.log(isLeaf);
         if(e[0] != localStorage.dir && isLeaf){
           file.pop();
-          console.log("===========pop================");
-          console.log(file);
         }
         localStorage.currentFolder = file.join('/') + "/";
-        console.log(localStorage.currentFolder);
         localStorage.currentFileIsDir = !node.node.props.isLeaf;
       }
 
@@ -163,6 +156,8 @@ const FileTree = (props) => {
       if(fileName == localStorage.dir){
         root = true;
       }
+
+      localStorage.onSelect = false;
 
       localStorage.currentSelectedFile = fileName;
       fileName = fileName.split('/');

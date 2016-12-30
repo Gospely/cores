@@ -516,8 +516,6 @@ export default {
 				top -= 200;
 			}
 
-			console.log(top, domHeight);
-
 			return {...state, contextMenuStyles: {
 				display: 'block',
 				position: 'fixed',
