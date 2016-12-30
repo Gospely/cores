@@ -69,7 +69,7 @@ class Terminal extends Component {
 				charWidth,
 				charHeight,
 				port = localStorage.socketPort || 0,
-				domain = localStorage.host || 'api.gospley.com',
+				domain = localStorage.host,
 				baseUrl = 'http://' + domain + ':' + port;
 
 			var terminalContainer = document.getElementById(self.state.terminalId);
