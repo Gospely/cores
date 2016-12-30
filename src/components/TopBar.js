@@ -864,7 +864,8 @@ const LeftSidebar = (props) => {
 			}
 
 			props.dispatch({
-				type: 'sidebar/handleCreateApp'
+				type: 'sidebar/handleCreateApp',
+				payload: {ctx: props}
 			});
 		}
 	}

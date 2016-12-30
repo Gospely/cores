@@ -2,6 +2,8 @@ import React , { PropTypes } from 'react';
 import dva from 'dva';
 import request from '../utils/request.js';
 import weappCompiler from '../utils/weappCompiler.js';
+import initApplication from '../utils/initApplication';
+
 
 import { notification, Form, Input, Radio, Switch } from 'antd';
 import { Row, Col } from 'antd';
@@ -334,6 +336,8 @@ export default {
                 yield put({
                     type: 'hideModalNewApp',
                 });
+                window.location.hash = 'project/' + result.data.fields.id;
+                initApplication(result.data.fields,params.ctx);
             }else{
                 yield put({
                     type: 'hideModalNewApp',
