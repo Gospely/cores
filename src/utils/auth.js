@@ -37,7 +37,7 @@ const auth = function (router) {
 	localStorage.user = user;
 	localStorage.token = token;
 	localStorage.userName = userName;
-	localStorage.host = host;
+	localStorage.host = host || 'api.gospely.com';
 	return true;
 
 }
