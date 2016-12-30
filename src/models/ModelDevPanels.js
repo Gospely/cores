@@ -193,6 +193,7 @@ export default {
 				config = '',
 				UIState = '';
 			localStorage.flashState = 'true';
+
 			if(window.reload || params.UIState == null || params.UIState == undefined){
 
 				window.reload = false;
@@ -203,6 +204,7 @@ export default {
 				UIState = JSON.parse(config.configs);
 			}else{
 				UIState = params.UIState;
+				console.log("===================from localStorage============");
 			}
 
 			for(var i = 0; i < UIState.panels.panes.length; i++) {
