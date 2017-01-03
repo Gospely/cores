@@ -97,7 +97,7 @@ const initApplication = function (application, props){
         //初始化命令
         props.dispatch({
           type: 'sidebar/initRunCommond',
-          payload: { command: command.default}
+          payload: { command: command.default, port: application.exposePort}
         });
 
     }

@@ -385,11 +385,35 @@ export default {
                 type: 'handleVersion',
                 payload: { images }
             });
+        },
+        *updateCmds({payload: params}, {call, put, select}){
+
+            var cmd = yield select(state => state.sidebar.debugConfig.runCommand);
+            var port = yield select(state => state.sidebar.debugConfig.startPort);
+            var cmd = JSON.stringify( {
+                default: cmd,
+            });
+            console.log(cmd);
+            var result = yield request("applications", {
+                method: 'PUT',
+                headers: {
+                    "Content-Type": "application/json;charset=UTF-8",
+                },
+                body: JSON.stringify({
+                    cmds: cmd,
+                    id: localStorage.applicationId,
+                    exposePort: port
+                })
+            });
         }
 
 	},
 
 	reducers: {
+        hideCmdsConfigModal(state){
+            state.debugConfig.showConfigModal = false;
+            return {...state};
+        },
         setActiveMenu (state, {payload: name}) {
             state.activeMenu = name;
             return {...state};
@@ -401,6 +425,7 @@ export default {
 
         initRunCommond(state, {payload: params}){
             state.debugConfig.runCommand = params.command;
+            state.debugConfig.startPort =  params.port;
             return {...state};
         },
 

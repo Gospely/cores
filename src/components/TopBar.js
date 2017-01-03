@@ -577,7 +577,12 @@ const LeftSidebar = (props) => {
 			})
 		},
 		commitDebugConfigChange() {
-
+			props.dispatch({
+				type: 'sidebar/updateCmds',
+			})
+			props.dispatch({
+				type: 'sidebar/hideCmdsConfigModal',
+			})
 		}
 	}
 
