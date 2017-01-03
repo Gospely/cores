@@ -481,24 +481,6 @@ const LeftSidebar = (props) => {
 			},
 			visit(){
 				//分栏
-				var kill = "kill -9 $(netstat -tlnp | grep "+ localStorage.exposePort +" |awk '{print $7}' | awk -F '/' '{print $1}')"
-				var cmd = kill +' ||  cd /root/workspace && ' + props.sidebar.debugConfig.runCommand + ' && clear\n';
-				var key = "horizontal-dbl";
-				props.dispatch({
-					type: 'devpanel/changeColumn',
-					payload: key
-				});
-				props.dispatch({
-					type: 'devpanel/initDebugPanel',
-					payload: { cmd: cmd}
-				});
-
-				var title = '终端',
-						type = 'terminal';
-				props.dispatch({
-					type: 'devpanel/add',
-					payload: {title, type}
-				})
 				var url = 'http://' + localStorage.host + ':' + localStorage.port;
 				window.open(url);
 			},
@@ -565,7 +547,7 @@ const LeftSidebar = (props) => {
 		localStorage.debugType == 'shell' &&
 		<Menu onClick={onSelectStartMenu}>
 			<Menu.Item key='runCommand' disabled={window.disabled}>运行：{props.sidebar.debugConfig.runCommand}</Menu.Item>
-			<Menu.Item key='visit' disabled={window.disabled}>运行并访问：http://{localStorage.host}:{localStorage.port}</Menu.Item>
+			<Menu.Item key='visit' disabled={window.disabled}>访问：http://{localStorage.host}:{localStorage.port}</Menu.Item>
 			<Menu.Item key='run&visit&noleave' disabled={window.disabled}>在IDE访问</Menu.Item>
 			<Menu.Divider/>
 			<Menu.Item key='config' disabled={window.disabled}>配置...</Menu.Item>
