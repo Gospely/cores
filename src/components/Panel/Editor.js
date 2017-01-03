@@ -217,6 +217,8 @@ const Editor = (props) => {
   		aceHeight = ( parseInt(document.body.clientHeight) - 160 ) / 2;
   	}
 
+  	//
+
   	// if (editorId && thisPane && thisPane.editors && thisPane.editors[editorId]) {
   		return (
 		<div className={EditorStyle.aceEditor}>
