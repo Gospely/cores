@@ -51,7 +51,7 @@ const initApplication = function (application, props){
         type: 'devpanel/handleImages',
         payload: { id: application.image}
     });
-    if(localStorage.UIState != null && localStorage != undefined){
+    if(localStorage.UIState != null && localStorage.UIState != undefined){
 
     var UIState = JSON.parse(localStorage.UIState);
     // props.dispatch({

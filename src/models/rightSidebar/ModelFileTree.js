@@ -116,6 +116,7 @@ export default {
 	effects: {
 		*fetchFileList(payload, {call, put}) {
 
+			console.log("fetchFileList");
 			if(location.hash.indexOf('project') != -1) {
 				yield put({
 					type: 'setTreeLoadingStatus',
@@ -469,7 +470,7 @@ export default {
 
 			state.searchFilePane.currentIndex = 0;
 			if (value != '') {
-				state.searchFilePane.currentFolder = state.searchFilePane.files[0].folder;	
+				state.searchFilePane.currentFolder = state.searchFilePane.files[0].folder;
 			}
 
 			return {...state};

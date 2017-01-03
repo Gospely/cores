@@ -29,8 +29,14 @@ export default {
 		window.addEventListener("load", (evt) => {
 
 			var applicationId = window.applicationId;
+			if(localStorage.applicationId != null && localStorage.applicationId != '' && applicationId == null){
+				window.location.hash = 'project/' + localStorage.applicationId;
+				applicationId = localStorage.applicationId;
+			}
+			console.log(applicationId);
 			//gitTerminal(props);
 			if(applicationId != null && applicationId != undefined) {
+				console.log(applicationId);
 				var url = configs.baseURL + "applications/" + applicationId;
 				fetch(url).then(function(response){
 					if (response.status >= 200 && response.status < 300) {
@@ -65,11 +71,6 @@ export default {
 					}
 
 				});
-			}else{
-				if(localStorage.applicationId != null){
-					window.location.hash = 'project/' + localStorage.applicationId;
-					window.location.reload();
-				}
 			}
 
 		});
