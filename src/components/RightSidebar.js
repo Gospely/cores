@@ -47,7 +47,7 @@ const RightSidebar = (props) => {
 	    			<Attr></Attr>
 	    		</div>
 	    	</TabPane>
-	    	<TabPane style={styles.tab} tab={<span style={styles.span}>
+	    	<TabPane hidden={window.isWeapp} style={styles.tab} tab={<span style={styles.span}>
 	    		<Icon style={styles.icon} type="eye-o" />布局</span>} 
 	    		key="4"
 	    		disabled={window.disabled}

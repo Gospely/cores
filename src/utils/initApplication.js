@@ -91,6 +91,9 @@ const initApplication = function (application, props){
     type: 'devpanel/hideLoading'
     });
 
+    if(localStorage.image == 'weapp:latest') {
+        window.isWeapp = true;
+    }
 
     if(command) {
 

@@ -868,75 +868,106 @@ const LeftSidebar = (props) => {
 	var topbarMenu = '';
 
 	if(!window.disabled) {
-		topbarMenu = (
-	      	<Menu
-	      		style={styles.sidebar}
-	      		onClick={leftSidebarProps.handleClick}
-	      		mode="horizontal">
-				<Menu.Item key="create">
-			      	<Tooltip title="新建项目">
-		          		<Icon type="plus" />
-		          	</Tooltip>
-		        </Menu.Item>
-		        <Menu.Item key="switch">
-			      	<Tooltip title="切换项目">
-		          		<Icon type="appstore-o" />
-		          	</Tooltip>
-		        </Menu.Item>
-			    <Menu.Item key="commit">
-			      	<Tooltip title="commit操作">
-						<Icon type="check"/>
-					</Tooltip>
-			    </Menu.Item>
-			    <Menu.Item key="push">
-			      	<Tooltip title="push操作">
-						<Icon type="upload" />
-					</Tooltip>
-			    </Menu.Item>
-			    <Menu.Item key="pull">
-			      	<Tooltip title="pull操作">
-						<Icon type="download" />
-					</Tooltip>
-			    </Menu.Item>
-			    <Menu.Item key="file">
-			      	<Tooltip title="新建文件">
-						<Icon type="file-text" />
-					</Tooltip>
-			    </Menu.Item>
-				<Menu.Item key="designer">
-			      	<Tooltip title="打开小程序设计器">
-						<Icon type="windows-o" />
-					</Tooltip>
-				</Menu.Item>
-			    <Menu.Item key="terminal">
-			      	<Tooltip title="打开终端">
-						<Icon type="code-o" />
-					</Tooltip>
-			    </Menu.Item>
-			    <Menu.Item key="showStartMenu">
-			    	<Dropdown overlay={startMenu}  trigger={['click']}>
-			      		<Tooltip title="调试运行">
-			    			<div style={{width: 30}}>
-								<Icon type="play-circle-o" />
-							</div>
+
+		if(window.isWeapp) {
+
+			topbarMenu = (
+		      	<Menu
+		      		style={styles.sidebar}
+		      		onClick={leftSidebarProps.handleClick}
+		      		mode="horizontal">
+					<Menu.Item key="create">
+				      	<Tooltip title="新建项目">
+			          		<Icon type="plus" />
+			          	</Tooltip>
+			        </Menu.Item>
+			        <Menu.Item key="switch">
+				      	<Tooltip title="切换项目">
+			          		<Icon type="appstore-o" />
+			          	</Tooltip>
+			        </Menu.Item>
+				    <Menu.Item key="terminal">
+				      	<Tooltip title="打开终端">
+							<Icon type="code-o" />
 						</Tooltip>
-					</Dropdown>
-			    </Menu.Item>
-			    <Menu.Item key="pause">
-			      	<Tooltip title="停止运行">
-						<Icon type="pause-circle-o" />
-					</Tooltip>
-			    </Menu.Item>
-			    <Menu.Item key="preview">
-			      	<Tooltip title="预览">
-			    		<Icon type="eye-o" />
-			      	</Tooltip>
-			    </Menu.Item>
-			    <Menu.Item key="download-weapp">
-			    	打包小程序
-			    </Menu.Item>
-		    </Menu>
-		);
+				    </Menu.Item>
+					<Menu.Item key="designer">
+				      	<Tooltip title="小程序设计器">
+							<i className="fa fa-weixin"></i>
+						</Tooltip>
+					</Menu.Item>
+				    <Menu.Item key="preview">
+				      	<Tooltip title="预览">
+				    		<Icon type="eye-o" />
+				      	</Tooltip>
+				    </Menu.Item>
+				    <Menu.Item key="download-weapp">
+				    	打包小程序
+				    </Menu.Item>
+			    </Menu>
+			);
+
+		}else {
+
+			topbarMenu = (
+		      	<Menu
+		      		style={styles.sidebar}
+		      		onClick={leftSidebarProps.handleClick}
+		      		mode="horizontal">
+					<Menu.Item key="create">
+				      	<Tooltip title="新建项目">
+			          		<Icon type="plus" />
+			          	</Tooltip>
+			        </Menu.Item>
+			        <Menu.Item key="switch">
+				      	<Tooltip title="切换项目">
+			          		<Icon type="appstore-o" />
+			          	</Tooltip>
+			        </Menu.Item>
+				    <Menu.Item key="commit">
+				      	<Tooltip title="commit操作">
+							<Icon type="check"/>
+						</Tooltip>
+				    </Menu.Item>
+				    <Menu.Item key="push">
+				      	<Tooltip title="push操作">
+							<Icon type="upload" />
+						</Tooltip>
+				    </Menu.Item>
+				    <Menu.Item key="pull">
+				      	<Tooltip title="pull操作">
+							<Icon type="download" />
+						</Tooltip>
+				    </Menu.Item>
+				    <Menu.Item key="file">
+				      	<Tooltip title="新建文件">
+							<Icon type="file-text" />
+						</Tooltip>
+				    </Menu.Item>
+				    <Menu.Item key="terminal">
+				      	<Tooltip title="打开终端">
+							<Icon type="code-o" />
+						</Tooltip>
+				    </Menu.Item>
+				    <Menu.Item key="showStartMenu">
+				    	<Dropdown overlay={startMenu}  trigger={['click']}>
+				      		<Tooltip title="调试运行">
+				    			<div style={{width: 30}}>
+									<Icon type="play-circle-o" />
+								</div>
+							</Tooltip>
+						</Dropdown>
+				    </Menu.Item>
+				    <Menu.Item key="pause">
+				      	<Tooltip title="停止运行">
+							<Icon type="pause-circle-o" />
+						</Tooltip>
+				    </Menu.Item>
+			    </Menu>
+			);
+
+		}
+
 	}else {
 		topbarMenu = (
 
