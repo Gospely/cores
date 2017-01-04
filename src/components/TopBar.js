@@ -598,8 +598,51 @@ const LeftSidebar = (props) => {
 		},
 
 		onFormInputChange (s, dom) {
-			console.log(s);
-			console.log(dom.target.value);
+
+			if(s == 'git') {
+
+				if(dom.target.value.indexOf('git@') != -1) {
+					notification['warning']({
+						message: '暂时不支持通过SSH创建',
+						description: '请先使用HTTP然后在程序创建完毕后在[设置]菜单中更改Git源',
+						duration: 6000
+					});
+
+					props.dispatch({
+						type: 'sidebar/handleInputChanged',
+						payload: {
+							input: s,
+							value: ''
+						}
+					});
+
+					return false;
+				}
+
+			}
+
+			if(s == 'appName') {
+
+				for(var i = 0; i < 10; i++) {
+					if(dom.target.value.indexOf(i.toString()) === 0) {
+
+						notification['warning']({
+							message: '首字符不能为数字',
+							description: '请重新输入'
+						});
+
+						props.dispatch({
+							type: 'sidebar/handleInputChanged',
+							payload: {
+								input: s,
+								value: ''
+							}
+						});						
+						return false;
+					}
+				}
+			}
+
 			props.dispatch({
 				type: 'sidebar/handleInputChanged',
 				payload: {
@@ -607,6 +650,7 @@ const LeftSidebar = (props) => {
 					value: dom.target.value
 				}
 			});
+
 			if(s == 'image') {
 				props.dispatch({
 					type: 'sidebar/initVersions',
@@ -660,7 +704,7 @@ const LeftSidebar = (props) => {
 					      		<span>您的Git项目地址：</span>
 					      	</Col>
 					      	<Col span={8} style={{textAlign: 'left'}}>
-				              	<Input onPressEnter={() => modalAppCreatorProps.next()} onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'git')} value={props.sidebar.appCreatingForm.git} />
+				              	<Input placeholder="暂不支持SSH创建，请使用HTTP" onPressEnter={() => modalAppCreatorProps.next()} onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'git')} value={props.sidebar.appCreatingForm.git} />
 					      	</Col>
 					    </Row>
 					</div>
