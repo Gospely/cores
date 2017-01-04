@@ -91,7 +91,7 @@ const initApplication = function (application, props){
     type: 'devpanel/hideLoading'
     });
 
-    if(localStorage.image == 'weapp:latest') {
+    if(localStorage.image == 'wechat:latest') {
         window.isWeapp = true;
     }
 
