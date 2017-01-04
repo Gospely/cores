@@ -46,9 +46,16 @@ const leftSidebar = (props) => {
 	}
 
 	let FileTreeComponent = () => {
-		return window.isWeapp ? FileTree : (
-			<p>无处理对象</p>
-		);
+		return !window.isWeapp ? (
+		    	<TabPane style={styles.tab} tab={<span style={styles.span}>
+		    		<Icon style={styles.icon} type="file-text" />文件</span>} 
+		    		key="file"
+		    		disabled={window.disabled}
+		    	>
+		    		<FileTree></FileTree>
+		    	</TabPane>
+
+			) : '';
 	}
 	
 	return (
@@ -73,13 +80,7 @@ const leftSidebar = (props) => {
 				</Collapse>
 	    	</TabPane>
 
-	    	<TabPane style={styles.tab} tab={<span style={styles.span}>
-	    		<Icon style={styles.icon} type="file-text" />文件</span>} 
-	    		key="file"
-	    		disabled={window.disabled}
-	    	>
-	    		<FileTree></FileTree>
-	    	</TabPane>
+	    	{FileTreeComponent()}
 	  	</Tabs>
 	)
 

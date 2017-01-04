@@ -8,13 +8,20 @@ const initApplication = function (application, props){
     if(location.hash.indexOf('project') == -1) {
         return false;
     }
-    
+
     if(application.image == 'wechat:latest'){
         localStorage.image = application.image;
         localStorage.currentProject = application.name;
+
         props.dispatch({
           type: 'sidebar/hideModalSwitchApp'
         });
+
+        props.dispatch({
+          type: 'sidebar/setActiveMenu',
+          payload: 'controllers'
+        });
+
         window.isWeapp = true;
     }else{
         window.isWeapp = false;
