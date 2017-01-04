@@ -454,7 +454,7 @@ const LeftSidebar = (props) => {
 	const onSelectStartMenu = function (activeMenu) {
 		let handleActiveMenuEvent = {
 			runCommand() {
-				
+
 				//分栏
 				var kill = "mv /root/temp/.* /root/workspace && kill -9 $(netstat -tlnp | grep "+ localStorage.exposePort +" |awk '{print $7}' | awk -F '/' '{print $1}')"
 				var cmd = kill +' ||  cd /root/workspace && ' + props.sidebar.debugConfig.runCommand + ' && clear\n';
@@ -1046,6 +1046,14 @@ const LeftSidebar = (props) => {
 		commit () {
 
 			modalCommitInfoProps.hideModal();
+			props.dispatch({
+
+				type: 'sidebar/handleCommitInfoInputChange',
+				payload: {
+					value: '',
+					input: 'title'
+				}
+			});
 
 			var key = "horizontal-dbl";
 			props.dispatch({
@@ -1074,11 +1082,11 @@ const LeftSidebar = (props) => {
 			sessionStorage.commitInfo = e.target.value;
 			props.dispatch({
 				type: 'sidebar/handleCommitInfoInputChange',
-				value: {
+				payload: {
 					value: e.target.value,
 					input: input
 				}
-			})
+			});
 		}
 	}
 
