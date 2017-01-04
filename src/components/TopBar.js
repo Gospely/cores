@@ -100,6 +100,27 @@ const LeftSidebar = (props) => {
 	        commit() {
 	        	if(!props.sidebar.modifyGitOriginInput.isGit) {
 					message.error('您尚未添加git源，请先添加');
+
+					props.dispatch({
+						type: 'devpanel/changeColumnWithHeight',
+						payload: {
+							key: "horizontal-dbl",
+							height: '70%'
+						}
+					});
+
+		          	var title = 'git init',
+	              		type = 'terminal';
+		          	props.dispatch({
+	    	        	type: 'devpanel/add',
+	        	    	payload: { title, type }
+	          		});
+
+					props.dispatch({
+						type: 'devpanel/initDebugPanel',
+						payload: { cmd: 'cd /root/workspace\n clear && git init\n' }
+					});
+
 		        	props.dispatch({
 		        		type: 'sidebar/showModalModifyGitOrgin'
 		        	});
