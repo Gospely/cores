@@ -22,6 +22,11 @@ const initApplication = function (application, props){
           payload: 'controllers'
         });
 
+        props.dispatch({
+          type: 'rightbar/setActiveMenu',
+          payload: 'attr'
+        });
+
         window.isWeapp = true;
     }else{
         window.isWeapp = false;
