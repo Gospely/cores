@@ -71,10 +71,10 @@ const initApplication = function (application, props){
     //     payload: { UIState: UIState.UIState.designer }
     // });
     }else{
-    props.dispatch({
-      type: 'devpanel/getConfig',
-      payload: { id : application.id}
-    });
+        props.dispatch({
+          type: 'devpanel/getConfig',
+          payload: { id : application.id}
+        });
     }
 
     localStorage.currentProject = application.name;
