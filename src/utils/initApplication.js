@@ -14,7 +14,12 @@ const initApplication = function (application, props){
     if(application.image == 'wechat:latest'){
         localStorage.image = application.image;
         localStorage.currentProject = application.name;
+        localStorage.applicationId = application.id;
 
+        props.dispatch({
+            type: 'devpanel/handleImages',
+            payload: { id: application.image}
+        });
         props.dispatch({
           type: 'sidebar/hideModalSwitchApp'
         });
