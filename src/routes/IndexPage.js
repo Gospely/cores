@@ -149,7 +149,7 @@ function IndexPage(props) {
 
                     var name = 'file';
                     props.dispatch({
-                        type: 'rightbar/handleTabChanged',
+                        type: 'sidebar/handleTabChanged',
                         payload: name
                     });
                     if (fileName == '新标签页' || fileName == '新文件' || fileName == undefined) {
