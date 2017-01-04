@@ -659,7 +659,7 @@ const LeftSidebar = (props) => {
 								input: s,
 								value: ''
 							}
-						});						
+						});
 						return false;
 					}
 				}
@@ -803,10 +803,10 @@ const LeftSidebar = (props) => {
 			  		<div style={{ marginTop: 32 }}>
 			  		    <Row>
 					      	<Col span={4} style={{textAlign: 'right'}}>
-					      		<span>创建本地数据库：</span>
+					      		<span>{props.sidebar.appCreatingForm.databaseShow}：</span>
 					      	</Col>
 					      	<Col span={8} style={{textAlign: 'left'}}>
-					      		<Switch onChange={modalAppCreatorFromHandler.onFromGitSwitchChange.bind(this, 'createLocalServer')} checked={props.sidebar.appCreatingForm.createLocalServer} />
+					      		<Switch onChange={modalAppCreatorFromHandler.onFromGitSwitchChange.bind(this, 'createLocalServer')} disabled={props.sidebar.appCreatingForm.isFront} checked={props.sidebar.appCreatingForm.createLocalServer} />
 					      	</Col>
 					    </Row>
 					</div>
