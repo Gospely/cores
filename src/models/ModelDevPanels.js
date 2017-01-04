@@ -445,7 +445,6 @@ export default {
 
 		changePane(state, { payload: key } ){
 			state.panels.activePane.key = key;
-			console.log(state.panels.activePane.key);
 			return {...state};
 		},
 
@@ -596,8 +595,6 @@ export default {
 			let lastIndex;
 			let type = target.type;
 
-			console.log(activePane, target);
-
 			if(target.editorId == window.commitTerminalID) {
 				window.commitTerminal = undefined;
 			}
@@ -625,7 +622,6 @@ export default {
 				})
 			}
 
-			// console.log('tabs',state.panels.panes.tabs)
 			activePane.tabs.forEach((tab, i) => {
 				if(tab.key === targetKey) {
 					lastIndex = i - 1;
@@ -634,6 +630,7 @@ export default {
 					}
 				}
 			});
+
 			const tabs = activePane.tabs.filter(tab => tab.key !== targetKey);
 			if(lastIndex >= 0 && activeKey === targetKey) {
 				if(tabs.length != 0) {
@@ -665,7 +662,6 @@ export default {
 
 			activePane.tabs = tabs;
 			activePane.activeTab.key = activeKey;
-			// console.log('activeTab',activeKey)
 			activePane.activeTab.index = ( parseInt(activeKey) - 1 ).toString();
 
 			reTabKey();

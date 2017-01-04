@@ -12,6 +12,18 @@ const previewer = (props) => {
 				type: 'previewer/handleInputChange',
 				payload: e.target.value
 			})
+		},
+
+		handleBGClicked() {
+            props.dispatch({
+                type: 'devpanel/remove',
+                payload: {
+                	paneKey: 0,
+                	targetKey: 2,
+                	type: 'previewer',
+                	editorId: ''
+                }
+            });
 		}
 
 	};
@@ -19,7 +31,7 @@ const previewer = (props) => {
   	return (
 		<div className="designer-wrapper">
 
-			<div className="designer-body-previewer"></div>
+			<div onClick={previewerProps.handleBGClicked} className="designer-body-previewer"></div>
 
 			<iframe 
 				name="gospel-designer" 
