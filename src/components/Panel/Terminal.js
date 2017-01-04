@@ -20,11 +20,6 @@ class Terminal extends Component {
 		this.tabKey = this.activePane.activeTab.key;
 		this.activeTab = this.activePane.tabs[this.tabKey - 1];
 
-		console.log('===============================================');
-		console.log(this.tabKey, this.activeTab);
-		// alert(this.activeTab.editorId);
-		console.log('===============================================');
-
 		this.state = {
 			terminalId: 'terminal-' + self.props.ctx.devpanel.panels.activePane.key + '-' + self.tabKey
 		}
@@ -89,13 +84,17 @@ class Terminal extends Component {
 				var termParent = document.getElementById('');
 
 
-				var termWidth = 800,
-					termHeight = 900;
+				var termWidth = $('#devbar').width(),
+					termHeight = $('#devbar').height();
+
+				console.log('===================================');
+				console.log(termWidth, termHeight);
+				console.log('===================================');
 
 				let splitType = self.props.ctx.devpanel.panels.splitType;
 
 				if (splitType == 'single' || splitType == 'vertical-dbl') {
-					termHeight = ( parseInt(document.body.clientHeight) - 62 );
+					termHeight = ( parseInt(document.body.clientHeight) - 30 );
 				}else {
 					termHeight = ( parseInt(document.body.clientHeight)) / 2;
 				}
@@ -108,6 +107,8 @@ class Terminal extends Component {
 				terminalContainer.style.width = width;
 				terminalContainer.style.height = height;
 				term.resize(cols, rows);
+
+				$('#' + self.state.terminalId).find('.terminal').css('height', '100%');
 			}
 
 			createTerminal();
@@ -136,10 +137,12 @@ class Terminal extends Component {
 				protocol = (location.protocol === 'https:') ? 'wss://' : 'ws://';
 				socketURL = protocol + domain + ':' + port + '/terminals/';
 				term.open(terminalContainer);
-				// term.fit();
+				term.fit();
 
-				var cols = term.cols,
-					rows = term.rows;
+			  	var initialGeometry = term.proposeGeometry(),
+			      	cols = initialGeometry.cols,
+			      	rows = initialGeometry.rows;
+
 				var offsetWidth = term.element.offsetWidth,
 					offsetHeight = term.element.offsetHeight;
 
@@ -154,9 +157,6 @@ class Terminal extends Component {
 				charHeight = Math.ceil(offsetHeight / rows);
 
 				if(true){
-				// if(activeTab.editorId == null || activeTab.editorId == '') {
-					// console.log("============openTerminal===========");
-					// console.log(activeTab);
 					fetch(baseUrl + '/terminals?cols=' + cols + '&rows=' + rows, {
 						method: 'POST',
 						'headers': {

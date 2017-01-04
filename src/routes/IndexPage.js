@@ -189,7 +189,7 @@ function IndexPage(props) {
 
         devPanelTemplate = (
             <SplitPane split = "vertical" minSize = { welcomePageWidth } defaultSize = { welcomePageWidth } >
-                <div className = { styles.devbar } >
+                <div id="devbar" className = { styles.devbar } >
                     <DevPanel {...devPanelProps } props = { props }></DevPanel>
                 </div>
                 <div></div>
@@ -202,7 +202,7 @@ function IndexPage(props) {
                     <LeftSidebar></LeftSidebar>
                 </div>
                 <SplitPane split = "vertical" defaultSize = { devPanelMinSize }>
-                    <div className = { styles.devbar } >
+                    <div id="devbar" className = { styles.devbar } >
                         <DevPanel {...devPanelProps } props = { props }></DevPanel>
                     </div>
                     <RightSidebar></RightSidebar>
