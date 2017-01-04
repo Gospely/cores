@@ -387,6 +387,7 @@ const LeftSidebar = (props) => {
 			onPushValueChange: function(e) {
 				props.dispatch({
 					type: 'sidebar/handleModifyGitPushOriginInputChange',
+					payload: e.target.value
 				})
 			}
 		},
