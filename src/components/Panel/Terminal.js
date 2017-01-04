@@ -11,18 +11,28 @@ class Terminal extends Component {
 
 	constructor(props) {
 		super(props);
+
+		var self = this;
+
 		this.props = props;
+
+		this.activePane = this.props.ctx.devpanel.panels.panes[this.props.ctx.devpanel.panels.activePane.key];
+		this.tabKey = this.activePane.activeTab.key;
+		this.activeTab = this.activePane.tabs[this.tabKey - 1];
+
+		console.log('===============================================');
+		console.log(this.tabKey, this.activeTab);
+		// alert(this.activeTab.editorId);
+		console.log('===============================================');
+
 		this.state = {
-			terminalId: randomWord()
+			terminalId: 'terminal-' + self.props.ctx.devpanel.panels.activePane.key + '-' + self.tabKey
 		}
 	}
 
 	componentDidMount() {
 
-		var self = this,
-			activePane = this.props.ctx.devpanel.panels.panes[this.props.ctx.devpanel.panels.activePane.key],
-			tabKey = activePane.activeTab.key,
-			activeTab = activePane.tabs[tabKey - 1];
+		var self = this;
 
 		var terminalTypeName = false;
 
@@ -45,8 +55,8 @@ class Terminal extends Component {
 
 		}
 
-		if(activeTab && activeTerminalAction[activeTab.title]) {
-			activeTerminalAction[activeTab.title]();
+		if(this.activeTab && activeTerminalAction[this.activeTab.title]) {
+			activeTerminalAction[this.activeTab.title]();
 		}
 
 		var setTerminalType = function(socket) {
@@ -219,7 +229,7 @@ class Terminal extends Component {
 						});
 					});
 				}else{
-					socketURL += activeTab.editorId;
+					socketURL += this.activeTab.editorId;
 					socket = new WebSocket(socketURL);
 					socket.onopen = runRealTerminal;
 					window.socket = socket;
