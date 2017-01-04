@@ -79,7 +79,9 @@ export default {
 			createLocalServer: false,
 			databaseType: '',
 			databasePassword: '',
-			databaseAccount: ''
+			databaseAccount: '',
+            databaseShow: '创建本地数据库',
+            isFront: false
 		},
 
         images: [],
@@ -666,6 +668,15 @@ export default {
 		},
 
 		handleInputChanged(state, { payload: params }) {
+
+            if(params.value == 'html:latest' || params.value == 'wechat:latest'){
+
+                state.appCreatingForm.isFront = true;
+                state.appCreatingForm.databaseShow = '前端项目暂时不支持创建本地数据库哦';
+            }else{
+                state.appCreatingForm.isFront = false;
+                state.appCreatingForm.databaseShow = '创建本地数据库';
+            }
 			state.appCreatingForm[params['input']] = params.value;
 
 			if(params['input'] == 'image') {
