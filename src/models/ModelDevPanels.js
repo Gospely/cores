@@ -7,10 +7,10 @@ import request from '../utils/request.js';
 const methods = {
 	getActivePane(state) {
 		var activePane = state.panels.panes[state.panels.activePane.key];
-		if(!activePane) {
-			state.panels.activePane.key = 1;
-			activePane = state.panels.panes[state.panels.activePane.key];
-		}
+		// if(!activePane) {
+		// 	state.panels.activePane.key = 1;
+		// 	activePane = state.panels.panes[state.panels.activePane.key];
+		// }
 		return activePane
 	},
 	getActiveTab(state,pane) {
