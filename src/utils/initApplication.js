@@ -1,8 +1,5 @@
 const initApplication = function (application, props){
 
-    console.log("====================initApplication============" + application.id);
-    console.log(localStorage.applicationId);
-
     if(localStorage.applicationId == application.id){
         window.reload = false;
     }else{
@@ -13,9 +10,9 @@ const initApplication = function (application, props){
     }
 
     if(application.image == 'wechat:latest'){
-
         localStorage.image = application.image;
         localStorage.currentProject = application.name;
+
         props.dispatch({
             type: 'devpanel/handleImages',
             payload: { id: application.image}
@@ -23,6 +20,17 @@ const initApplication = function (application, props){
         props.dispatch({
           type: 'sidebar/hideModalSwitchApp'
         });
+
+        props.dispatch({
+          type: 'sidebar/setActiveMenu',
+          payload: 'controllers'
+        });
+
+        props.dispatch({
+          type: 'rightbar/setActiveMenu',
+          payload: 'attr'
+        });
+
         window.isWeapp = true;
     }else{
         window.isWeapp = false;
@@ -102,12 +110,10 @@ const initApplication = function (application, props){
         var command = JSON.parse(application.cmds);
 
         props.dispatch({
-        type: 'devpanel/hideLoading'
+            type: 'devpanel/hideLoading'
         });
 
-
         if(command) {
-
             //初始化命令
             props.dispatch({
               type: 'sidebar/initRunCommond',

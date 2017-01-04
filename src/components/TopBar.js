@@ -973,11 +973,6 @@ const LeftSidebar = (props) => {
 			          		<Icon type="appstore-o" />
 			          	</Tooltip>
 			        </Menu.Item>
-				    <Menu.Item key="terminal">
-				      	<Tooltip title="打开终端">
-							<Icon type="code-o" />
-						</Tooltip>
-				    </Menu.Item>
 					<Menu.Item key="designer">
 				      	<Tooltip title="小程序设计器">
 							<i className="fa fa-weixin"></i>
