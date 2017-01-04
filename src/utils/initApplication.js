@@ -17,6 +17,10 @@ const initApplication = function (application, props){
         localStorage.image = application.image;
         localStorage.currentProject = application.name;
         props.dispatch({
+            type: 'devpanel/handleImages',
+            payload: { id: application.image}
+        });
+        props.dispatch({
           type: 'sidebar/hideModalSwitchApp'
         });
         window.isWeapp = true;
