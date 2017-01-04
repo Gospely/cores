@@ -1,9 +1,21 @@
 import Xterm from 'xterm'
 
 Xterm.prototype.proposeGeometry = function(splitType) {
-  const parentElementStyle = window.getComputedStyle(this.element.parentElement),
-      parentElementHeight = (splitType == 'single' || splitType == 'vertical-dbl') ? parseInt($('#devbar').height() - 32) : parseInt($('#devbar').height() / 2),
-      parentElementWidth = parseInt(parentElementStyle.getPropertyValue('width')),
+  const parentElementStyle = window.getComputedStyle(this.element.parentElement);
+
+  var parentElementHeight = 0;
+
+  if(splitType == 'single' || splitType == 'vertical-dbl') {
+    parentElementHeight = parseInt($('#devbar').height() - 32);
+  }else {
+    if(splitType == 'horizontal-dbl') {
+      parentElementHeight = parseInt($('#devbar').height() / 2 - 46);
+    }else {
+      parentElementHeight = parseInt($('#devbar').height() / 2);
+    }
+  }
+
+  const parentElementWidth = parseInt(parentElementStyle.getPropertyValue('width')),
       elementStyle = window.getComputedStyle(this.element),
       elementPaddingVer = parseInt(elementStyle.getPropertyValue('padding-top')) + parseInt(elementStyle.getPropertyValue('padding-bottom')),
       elementPaddingHor = parseInt(elementStyle.getPropertyValue('padding-right')) + parseInt(elementStyle.getPropertyValue('padding-left')),

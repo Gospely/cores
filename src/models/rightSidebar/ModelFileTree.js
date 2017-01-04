@@ -260,9 +260,7 @@ export default {
       		let file = localStorage.currentFolder + fileName;
 
 			let splits = file.split('/');
-					// console.log(splits);
 			file = file.replace(splits[0] + '/','');
-					// console.log(content.fileName);
 			file = file.replace(splits[1] + '/', localStorage.currentProject);
 
 			let panes = yield select(state => state.devpanel.panels.panes);
@@ -280,7 +278,7 @@ export default {
 								tabKey: j + 1 + '',
 								tabIndex: j
 							}
-						})
+						});
 						return false;
 					}
 				}

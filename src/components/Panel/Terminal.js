@@ -86,8 +86,15 @@ class Terminal extends Component {
 
 				var cols = self.cols,
 					rows = self.rows,
-					width = (cols * charWidth).toString() + 'px',
-					height = (rows * charHeight + 30).toString() + 'px';
+					width = (cols * charWidth).toString() + 'px';
+
+				if(self.props.ctx.devpanel.panels.splitType == 'grid') {
+					var height = (rows * charHeight - 30).toString() + 'px';
+				}else if(self.props.ctx.devpanel.panels.splitType == 'horizontal-dbl') {
+					var height = (rows * charHeight + 10).toString() + 'px';
+				}else {
+					var height = (rows * charHeight + 30).toString() + 'px';					
+				}
 
 				terminalContainer.style.width = width;
 				terminalContainer.style.height = height;

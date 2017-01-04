@@ -189,6 +189,12 @@ const LeftSidebar = (props) => {
 	        terminal() {
 	          	var title = '终端',
 	              	type = 'terminal';
+
+				props.dispatch({
+					type: 'devpanel/initDebugPanel',
+					payload: { cmd: 'cd /root/workspace && clear\n' }
+				});
+
 	          	props.dispatch({
 	            	type: 'devpanel/add',
 	            	payload: {title, type}
