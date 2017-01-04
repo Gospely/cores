@@ -58,30 +58,36 @@ function IndexPage(props) {
             localStorage.currentSelectedFile = activeTab.title;
             var file = activeTab.title;
             var suffix = 'js';
-            if (file != undefined && file != '新文件'　 && file != '新标签页') {
-                file = file.split('.');
-                console.log(file[file.length - 1]);
-                suffix = file[file.length - 1];
-                if (suffix != undefined) {
-                    localStorage.suffix = suffix;
-                }
-                props.dispatch({
-                    type: 'devpanel/dynamicChangeSyntax',
-                    payload: { suffix }
-                });
-                if (activePane.activeEditor.id != null && activePane.activeEditor.id != '' && activePane.editors[activeTab.editorId] != null) {
-                    if (activePane.editors[activeTab.editorId].value == null || activePane.editors[activeTab.editorId].value == '') {
-                        props.dispatch({
-                            type: 'devpanel/loadContent',
-                            payload: {
-                                editorId: activeTab.editorId,
-                                paneKey: paneKey,
-                                tab: activeTab
-                            }
-                        });
+
+            if(!window.isWeapp) {
+
+                if (file != undefined && file != '新文件'　 && file != '新标签页') {
+                    file = file.split('.');
+                    console.log(file[file.length - 1]);
+                    suffix = file[file.length - 1];
+                    if (suffix != undefined) {
+                        localStorage.suffix = suffix;
+                    }
+                    props.dispatch({
+                        type: 'devpanel/dynamicChangeSyntax',
+                        payload: { suffix }
+                    });
+                    if (activePane.activeEditor.id != null && activePane.activeEditor.id != '' && activePane.editors[activeTab.editorId] != null) {
+                        if (activePane.editors[activeTab.editorId].value == null || activePane.editors[activeTab.editorId].value == '') {
+                            props.dispatch({
+                                type: 'devpanel/loadContent',
+                                payload: {
+                                    editorId: activeTab.editorId,
+                                    paneKey: paneKey,
+                                    tab: activeTab
+                                }
+                            });
+                        }
                     }
                 }
+
             }
+
             props.dispatch({
                 type: 'devpanel/tabChanged',
                 payload: {

@@ -1,3 +1,5 @@
+import React , {PropTypes} from 'react';
+
 const initApplication = function (application, props){
 
     if(localStorage.applicationId == application.id){
@@ -22,10 +24,27 @@ const initApplication = function (application, props){
           payload: 'controllers'
         });
 
+        localStorage.activeMenu = 'attr';
+
+        var title = (
+                <span>
+                    <i className="fa fa-weixin"></i> Gospel 微信小程序 UI 设计器
+                </span>
+            ),
+        
+            type = 'designer';
+
         props.dispatch({
-          type: 'rightbar/setActiveMenu',
-          payload: 'attr'
+            type: 'devpanel/add',
+            payload: {title, type}
         });
+
+        setTimeout(function() {
+            props.dispatch({
+              type: 'rightbar/setActiveMenu',
+              payload: 'attr'
+            });
+        }, 200);
 
         window.isWeapp = true;
     }else{

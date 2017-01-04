@@ -426,7 +426,11 @@ export default {
 				"searchVisible":false,
 				"isSave":false
 				},{
-					"title":"Gospel 微信小程序 设计器",
+					"title": (
+						<span>
+							<i className="fa fa-weixin"></i> Gospel 微信小程序 UI 设计器
+						</span>
+					),
 					"type":"designer","key":"2",
 					"editorId":"","isSave":true
 				}];

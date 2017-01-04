@@ -255,7 +255,12 @@ const LeftSidebar = (props) => {
 	        		return false;
 	        	}
 
-	          	var title = 'Gospel 微信小程序 设计器',
+	          	var title = (
+						<span>
+							<i className="fa fa-weixin"></i> Gospel 微信小程序 UI 设计器
+						</span>
+					),
+	          	
 	              	type = 'designer';
 
 	          	var editor = props.dispatch({
