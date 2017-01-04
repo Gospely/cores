@@ -81,20 +81,13 @@ class Terminal extends Component {
 
 			function setTerminalSize() {
 
-				var termParent = document.getElementById('');
-
-
 				var termWidth = $('#devbar').width(),
 					termHeight = $('#devbar').height();
-
-				console.log('===================================');
-				console.log(termWidth, termHeight);
-				console.log('===================================');
 
 				var cols = self.cols,
 					rows = self.rows,
 					width = (cols * charWidth).toString() + 'px',
-					height = (rows * charHeight).toString() + 'px';
+					height = (rows * charHeight + 30).toString() + 'px';
 
 				terminalContainer.style.width = width;
 				terminalContainer.style.height = height;
