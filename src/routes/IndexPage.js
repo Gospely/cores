@@ -236,7 +236,6 @@ function IndexPage(props) {
                             </div>
                         </div>
                     </div>
-                    <div className="terminalPanel">sssss</div>
                 </div>
             </Spin>
             );

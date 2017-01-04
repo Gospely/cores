@@ -454,8 +454,7 @@ const LeftSidebar = (props) => {
 	const onSelectStartMenu = function (activeMenu) {
 		let handleActiveMenuEvent = {
 			runCommand() {
-				console.log('===================visual===================');
-
+				
 				//分栏
 				var kill = "mv /root/temp/.* /root/workspace && kill -9 $(netstat -tlnp | grep "+ localStorage.exposePort +" |awk '{print $7}' | awk -F '/' '{print $1}')"
 				var cmd = kill +' ||  cd /root/workspace && ' + props.sidebar.debugConfig.runCommand + ' && clear\n';
@@ -472,7 +471,7 @@ const LeftSidebar = (props) => {
 					payload: { cmd: cmd}
 				});
 
-				var title = '终端',
+				var title = '调试终端 - ' + props.sidebar.debugConfig.runCommand,
 					type = 'terminal';
 				props.dispatch({
 					type: 'devpanel/add',
@@ -1157,7 +1156,7 @@ const LeftSidebar = (props) => {
 	          	onCancel={modalCommitInfoProps.hideModal}
 	        >
 
-	        	<Input type="text" placeholder="请输入commit信息（可以留空）" onChange={modalCommitInfoProps.onInputChange.bind(this, 'title')} value={props.sidebar.modalCommitInfo.title} onPressEnter={modalCommitInfoProps.commit}></Input>
+	        	<Input type="text" placeholder="请输入commit信息" onChange={modalCommitInfoProps.onInputChange.bind(this, 'title')} value={props.sidebar.modalCommitInfo.title} onPressEnter={modalCommitInfoProps.commit}></Input>
 	        </Modal>
 
 	        <Modal
