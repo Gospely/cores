@@ -13,7 +13,7 @@ const initApplication = function (application, props){
     }
 
     if(application.image == 'wechat:latest'){
-        
+
         localStorage.image = application.image;
         localStorage.currentProject = application.name;
         props.dispatch({
@@ -21,6 +21,7 @@ const initApplication = function (application, props){
         });
         window.isWeapp = true;
     }else{
+        window.isWeapp = false;
         props.dispatch({
             type: 'devpanel/showLoading',
             payload: {
