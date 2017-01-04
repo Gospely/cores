@@ -189,7 +189,7 @@ const LeftSidebar = (props) => {
 				localStorage.currentSelectedFile = '新文件';
 
 	            props.dispatch({
-	            	type: 'rightbar/setActiveMenu',
+	            	type: 'sidebar/setActiveMenu',
 	            	payload: 'file'
 	            });
 

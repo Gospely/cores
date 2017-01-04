@@ -20,7 +20,6 @@ import fileListen from '../utils/fileListen';
 
 function IndexPage(props) {
 
-    // console.log("=======================IndexPage=");
     //判断是否打开了项目
     if (location.hash.split('/')[1] !== 'project') {
         window.disabled = true;
@@ -93,8 +92,6 @@ function IndexPage(props) {
         },
 
         onEdit(paneKey, targetKey, action) {
-
-            console.log(paneKey);
 
             var content = '',
                 title = undefined,
