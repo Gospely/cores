@@ -718,6 +718,26 @@ const LeftSidebar = (props) => {
 		}
 	}
 
+
+	const generateDatabaseSelector = () => {
+		if(props.sidebar.isFront) {
+			return (
+				<div>
+			      	<Col span={4} style={{textAlign: 'right'}}>
+			      		<span>{props.sidebar.appCreatingForm.databaseShow}：</span>
+			      	</Col>
+			      	<Col span={8} style={{textAlign: 'left'}}>
+			      		<Switch onChange={modalAppCreatorFromHandler.onFromGitSwitchChange.bind(this, 'createLocalServer')} disabled={props.sidebar.appCreatingForm.isFront} checked={props.sidebar.appCreatingForm.createLocalServer} />
+			      	</Col>
+				</div>
+			);
+		}else {
+			return (
+				<span>{props.sidebar.appCreatingForm.databaseShow}</span>
+			);
+		}
+	}	
+
 	const modalAppCreatorProps = {
 
 		appCreatingSteps: [{
@@ -828,12 +848,7 @@ const LeftSidebar = (props) => {
 				<div>
 			  		<div style={{ marginTop: 32 }}>
 			  		    <Row>
-					      	<Col span={4} style={{textAlign: 'right'}}>
-					      		<span>{props.sidebar.appCreatingForm.databaseShow}：</span>
-					      	</Col>
-					      	<Col span={8} style={{textAlign: 'left'}}>
-					      		<Switch onChange={modalAppCreatorFromHandler.onFromGitSwitchChange.bind(this, 'createLocalServer')} disabled={props.sidebar.appCreatingForm.isFront} checked={props.sidebar.appCreatingForm.createLocalServer} />
-					      	</Col>
+			  		    	{generateDatabaseSelector()}
 					    </Row>
 					</div>
 
