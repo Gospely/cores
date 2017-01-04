@@ -159,20 +159,31 @@ export default {
 
       	//上传文件
       	*fetchUploadFile({payload:info},{call, put, select}){
+
+			var folder = yield select(state=> state.file.uploadModal.folderValue);
       		console.log("fetchUploadFile");
+			console.log(folder);
       		var formdata = new FormData();
-      		formdata.append('username','zx');
-      		formdata.append('projectName','node');
+      		formdata.append('username', localStorage.userName);
+      		formdata.append('folder',folder);
       		formdata.append('fileUp',info.file);
 			formdata.append('remoteIp',localStorage.host);
       		console.log('formdata:',formdata);
-      		var result = fetch('http://localhost:8089/fs/upload',{
-      			method:'POST',
-      			//mode: "no-cors",
-      			body:formdata,
-      		}).then(function(response) {
-		    console.log(response.headers);
-		});
+
+			var result = yield upload(formdata);
+
+			if(result.status == 200){
+				yield put({type: 'fetchFileList'});
+			}
+			console.log(result);
+			function upload(formdata){
+				return fetch('http://' + localStorage.host + ':9999/fs/upload',{
+	      			method:'POST',
+	      			//mode: "no-cors",
+	      			body:formdata,
+	      		})
+			}
+
       	},
 
       	*mkdir({payload: dirName}, {call, put, select}) {
@@ -592,6 +603,7 @@ export default {
 		},
 
 		handleUploadFolderChange(state, {payload: val}) {
+			console.log(val);
 			state.uploadModal.folderValue = val;
 			return {...state};
 		},
