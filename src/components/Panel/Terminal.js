@@ -91,14 +91,6 @@ class Terminal extends Component {
 				console.log(termWidth, termHeight);
 				console.log('===================================');
 
-				let splitType = self.props.ctx.devpanel.panels.splitType;
-
-				if (splitType == 'single' || splitType == 'vertical-dbl') {
-					termHeight = ( parseInt(document.body.clientHeight) - 30 );
-				}else {
-					termHeight = ( parseInt(document.body.clientHeight)) / 2;
-				}
-
 				var cols = self.cols,
 					rows = self.rows,
 					width = (cols * charWidth).toString() + 'px',
@@ -114,13 +106,14 @@ class Terminal extends Component {
 			createTerminal();
 
 			function createTerminal() {
-				// Clean terminal
 				while (terminalContainer.children.length) {
 					terminalContainer.removeChild(terminalContainer.children[0]);
 				}
+
 				term = new Xterm({
 					cursorBlink: false
 				});
+
 				term.on('resize', function(size) {
 					if (!pid) {
 						return;
@@ -137,9 +130,9 @@ class Terminal extends Component {
 				protocol = (location.protocol === 'https:') ? 'wss://' : 'ws://';
 				socketURL = protocol + domain + ':' + port + '/terminals/';
 				term.open(terminalContainer);
-				term.fit();
+				term.fit(self.props.ctx.devpanel.panels.splitType);
 
-			  	var initialGeometry = term.proposeGeometry(),
+			  	var initialGeometry = term.proposeGeometry(self.props.ctx.devpanel.panels.splitType),
 			      	cols = initialGeometry.cols,
 			      	rows = initialGeometry.rows;
 
