@@ -117,6 +117,14 @@ const LeftSidebar = (props) => {
 				}else {
 
 					var key = "horizontal-dbl";
+
+					props.dispatch({
+						type: 'devpanel/setActivePane',
+						payload: {
+							paneKey: 1
+						}
+					});
+
 					props.dispatch({
 						type: 'devpanel/changeColumnWithHeight',
 						payload: {
@@ -126,7 +134,7 @@ const LeftSidebar = (props) => {
 					});
 
 		          	var title = 'git push',
-	              	type = 'terminal';
+	              		type = 'terminal';
 		          	props.dispatch({
 	    	        	type: 'devpanel/add',
 	        	    	payload: { title, type }
@@ -147,6 +155,14 @@ const LeftSidebar = (props) => {
 						type: 'sidebar/showModalModifyGitOrgin'
 					});
 				}else {
+
+					props.dispatch({
+						type: 'devpanel/setActivePane',
+						payload: {
+							paneKey: 1
+						}
+					});
+
 					var key = "horizontal-dbl";
 					props.dispatch({
 						type: 'devpanel/changeColumnWithHeight',
@@ -1048,11 +1064,17 @@ const LeftSidebar = (props) => {
 
 			modalCommitInfoProps.hideModal();
 			props.dispatch({
-
 				type: 'sidebar/handleCommitInfoInputChange',
 				payload: {
 					value: '',
 					input: 'title'
+				}
+			});
+
+			props.dispatch({
+				type: 'devpanel/setActivePane',
+				payload: {
+					paneKey: 1
 				}
 			});
 

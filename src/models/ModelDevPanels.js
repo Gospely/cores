@@ -682,6 +682,7 @@ export default {
 			state.panels.panes[params.pane].tabs[params.tabKey - 1].isSave = true;
 			return {...state};
 		},
+
 		add(state, {payload: target}) {
 
 			if (typeof target.paneKey !== 'undefined') {
@@ -774,6 +775,10 @@ export default {
 			return { ...state };
 		},
 
+		setActivePane(state, { payload: params }) {
+			state.panels.activePane.key = params.paneKey;
+			return {...state};
+		},
 
 		//UI状态初始化
 		initState(state, { payload: params }){
