@@ -357,7 +357,6 @@ export default {
 			return {...state};
 		},
 		initDebugPanel(state, { payload: params}){
-			// state.panels.activePane.key = 1;
 			state.cmd = params.cmd;
 			return {...state}
 		},
@@ -781,7 +780,7 @@ export default {
 		},
 
 		setActivePane(state, { payload: params }) {
-			state.panels.activePane.key = params.paneKey;
+			// state.panels.activePane.key = params.paneKey;
 			return {...state};
 		},
 
@@ -792,8 +791,8 @@ export default {
 		},
 		setPID(state, { payload: params }){
 			var activePane = state.panels.panes[state.panels.activePane.key],
-			tabKey = activePane.activeTab.key,
-			activeTab = activePane.tabs[tabKey-1];
+				tabKey = activePane.activeTab.key,
+				activeTab = activePane.tabs[tabKey - 1];
 			activeTab.editorId = params.pid;
 			return {...state};
 		},
