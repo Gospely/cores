@@ -99,8 +99,8 @@ class Terminal extends Component {
 					termHeight = ( parseInt(document.body.clientHeight)) / 2;
 				}
 
-				var cols = 10000,
-					rows = Math.ceil((termHeight - 90) / 17),
+				var cols = self.cols,
+					rows = self.rows,
 					width = (cols * charWidth).toString() + 'px',
 					height = (rows * charHeight).toString() + 'px';
 
@@ -143,6 +143,9 @@ class Terminal extends Component {
 			      	cols = initialGeometry.cols,
 			      	rows = initialGeometry.rows;
 
+			    self.cols = cols;
+			    self.rows = rows;
+
 				var offsetWidth = term.element.offsetWidth,
 					offsetHeight = term.element.offsetHeight;
 
@@ -150,8 +153,6 @@ class Terminal extends Component {
 					offsetWidth = 800;
 					offsetHeight = 900;
 				}
-
-				console.log(offsetHeight);
 
 				charWidth = Math.ceil(offsetWidth / cols);
 				charHeight = Math.ceil(offsetHeight / rows);
