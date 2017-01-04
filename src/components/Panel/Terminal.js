@@ -91,7 +91,11 @@ class Terminal extends Component {
 				if(self.props.ctx.devpanel.panels.splitType == 'grid') {
 					var height = (rows * charHeight - 30).toString() + 'px';
 				}else if(self.props.ctx.devpanel.panels.splitType == 'horizontal-dbl') {
-					var height = (rows * charHeight + 10).toString() + 'px';
+					if(self.props.ctx.devpanel.panels.activePane.key === 0) {
+						var height = (rows * charHeight + 22).toString() + 'px';						
+					}else {
+						var height = (rows * charHeight + 30).toString() + 'px';
+					}
 				}else {
 					var height = (rows * charHeight + 30).toString() + 'px';					
 				}
