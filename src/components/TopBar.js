@@ -257,7 +257,7 @@ const LeftSidebar = (props) => {
 
 	          	var title = (
 						<span>
-							<i className="fa fa-weixin"></i> Gospel 微信小程序 UI 设计器
+							<i className="fa fa-weixin"></i> Gospel 小程序 UI 设计器
 						</span>
 					),
 	          	
@@ -289,9 +289,7 @@ const LeftSidebar = (props) => {
 	        pause() {
 
 				if(localStorage.debugType == 'shell') {
-					console.log("psus");
 					var kill = "kill -9 $(netstat -tlnp | grep "+ localStorage.exposePort +" |awk '{print $7}' | awk -F '/' '{print $1}')\n"
-					console.log(kill);
 					props.dispatch({
 						type: 'devpanel/initDebugPanel',
 						payload: { cmd: kill}
@@ -307,8 +305,14 @@ const LeftSidebar = (props) => {
 	        },
 
 	        preview() {
-	        	var title = '小程序预览',
-	        		type = 'previewer';
+	          	var title = (
+						<span>
+							<i className="fa fa-weixin"></i> 小程序 预览
+						</span>
+					),
+
+		          	type = 'previewer';
+
         		props.dispatch({type: 'devpanel/add',payload: {title,type}});
 	        },
 
@@ -978,6 +982,12 @@ const LeftSidebar = (props) => {
 
 		if(window.isWeapp) {
 
+			// <Menu.Item key="designer">
+		 	//  <Tooltip title="小程序设计器">
+			// 		<i className="fa fa-weixin"></i>
+			// 	</Tooltip>
+			// </Menu.Item>
+
 			topbarMenu = (
 		      	<Menu
 		      		style={styles.sidebar}
@@ -993,17 +1003,13 @@ const LeftSidebar = (props) => {
 			          		<Icon type="appstore-o" />
 			          	</Tooltip>
 			        </Menu.Item>
-					<Menu.Item key="designer">
-				      	<Tooltip title="小程序设计器">
-							<i className="fa fa-weixin"></i>
-						</Tooltip>
-					</Menu.Item>
 				    <Menu.Item key="preview">
 				      	<Tooltip title="预览">
 				    		<Icon type="eye-o" />
 				      	</Tooltip>
 				    </Menu.Item>
 				    <Menu.Item key="download-weapp">
+				    	<Icon type="cloud-o" />
 				    	打包小程序
 				    </Menu.Item>
 			    </Menu>

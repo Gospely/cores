@@ -33,7 +33,7 @@ const initApplication = function (application, props){
 
         var title = (
                 <span>
-                    <i className="fa fa-weixin"></i> Gospel 微信小程序 UI 设计器
+                    <i className="fa fa-weixin"></i> Gospel 小程序 UI 设计器
                 </span>
             ),
         
