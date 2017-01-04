@@ -44,6 +44,12 @@ const leftSidebar = (props) => {
 	let collapseOnChange = function(e) {
 		computeDomHeight.leftSidebarCollapseChange(e);
 	}
+
+	let FileTreeComponent = () => {
+		return window.isWeapp ? FileTree : (
+			<p>无处理对象</p>
+		);
+	}
 	
 	return (
 	  	<Tabs tabPosition="left" defaultActiveKey={props.devpanel.devType.defaultActiveKey} activeKey={props.sidebar.activeMenu} onChange={handleTabChanged}>

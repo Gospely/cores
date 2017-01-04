@@ -6,7 +6,12 @@ import request from '../utils/request.js';
 
 const methods = {
 	getActivePane(state) {
-		return state.panels.panes[state.panels.activePane.key];
+		var activePane = state.panels.panes[state.panels.activePane.key];
+		if(!activePane) {
+			state.panels.activePane.key = 1;
+			activePane = state.panels.panes[state.panels.activePane.key];
+		}
+		return activePane
 	},
 	getActiveTab(state,pane) {
 		return pane.tabs[pane.activeTab.index];
@@ -18,7 +23,6 @@ const methods = {
 
 const setMode = {
 		js: function() {
-			console.log('javascript');
 			return 'javascript';
 		},
 		css: function() {
@@ -292,10 +296,15 @@ export default {
 
 	reducers: {
 		initKey(state,  { payload: params}) {
-
 			state.sshKey = params.sshKey;
 			return {...state};
 		},
+
+		setHorizontalSplitPaneHeight(state, { payload: sizePercentage }) {
+			state.horizontalColumnHeight = sizePercentage;
+			return {...state};
+		},
+
 		initPanel(state){
 
 			state.panels = {
@@ -348,7 +357,7 @@ export default {
 			return {...state};
 		},
 		initDebugPanel(state, { payload: params}){
-			state.panels.activePane.key = 1;
+			// state.panels.activePane.key = 1;
 			state.cmd = params.cmd;
 			return {...state}
 		},
@@ -431,8 +440,9 @@ export default {
 			return {...state};
 		},
 
-		changePane(state,{payload: key}){
+		changePane(state, { payload: key } ){
 			state.panels.activePane.key = key;
+			console.log(state.panels.activePane.key);
 			return {...state};
 		},
 
@@ -677,6 +687,7 @@ export default {
 			state.panels.panes[params.pane].tabs[params.tabKey - 1].isSave = true;
 			return {...state};
 		},
+
 		add(state, {payload: target}) {
 
 			if (typeof target.paneKey !== 'undefined') {
@@ -769,6 +780,10 @@ export default {
 			return { ...state };
 		},
 
+		setActivePane(state, { payload: params }) {
+			state.panels.activePane.key = params.paneKey;
+			return {...state};
+		},
 
 		//UI状态初始化
 		initState(state, { payload: params }){

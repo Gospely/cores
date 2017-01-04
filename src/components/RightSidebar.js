@@ -36,34 +36,57 @@ const RightSidebar = (props) => {
 
 	let maxHeight = document.documentElement.clientHeight - 38;
 
-	return (
-	  	<Tabs tabPosition="right" activeKey={props.rightbar.activeMenu} onChange={handleTabChanged}>
-	    	<TabPane style={styles.tab} tab={<span style={styles.span}>
-	    		<Icon style={styles.icon} type="exception" />属性</span>} 
-	    		key="attr"
-	    		disabled={window.disabled}
-	    	>
-	    		<div style={{height: maxHeight, overflow: 'auto'}}>
-	    			<Attr></Attr>
-	    		</div>
-	    	</TabPane>
-	    	<TabPane style={styles.tab} tab={<span style={styles.span}>
-	    		<Icon style={styles.icon} type="eye-o" />布局</span>} 
-	    		key="4"
-	    		disabled={window.disabled}
-	    	>
-	    		<CloumnLayout></CloumnLayout>
-	    	</TabPane>
-	    	<TabPane style={styles.tab} 
-	    	tab={<span style={styles.span}>
-	    			<Icon style={styles.icon} type="setting" />设置
-	    		</span>} key="setting"
-	    		disabled={window.disabled}
-	    	>
-	    		<SettingPanel></SettingPanel>
-	    	</TabPane>	    	
-	  	</Tabs>
-	)
+	const RightSidebarComponent = () => {
+
+		if(window.isWeapp) {
+
+		  	return (<Tabs tabPosition="right" activeKey={props.rightbar.activeMenu} onChange={handleTabChanged}>
+				    	<TabPane style={styles.tab} tab={<span style={styles.span}>
+				    		<Icon style={styles.icon} type="exception" />属性</span>} 
+				    		key="attr"
+				    		disabled={window.disabled}
+				    	>
+				    		<div style={{height: maxHeight, overflow: 'auto'}}>
+				    			<Attr></Attr>
+				    		</div>
+				    	</TabPane>
+				    	<TabPane style={styles.tab} 
+				    	tab={<span style={styles.span}>
+				    			<Icon style={styles.icon} type="setting" />设置
+				    		</span>} key="setting"
+				    		disabled={window.disabled}
+				    	>
+				    		<SettingPanel></SettingPanel>
+				    	</TabPane>	    	
+				  	</Tabs>
+		  	);
+
+		}else {
+
+		  	return (<Tabs tabPosition="right" activeKey={props.rightbar.activeMenu} onChange={handleTabChanged}>
+				    	<TabPane style={styles.tab} tab={<span style={styles.span}>
+				    		<Icon style={styles.icon} type="eye-o" />布局</span>} 
+				    		key="4"
+				    		disabled={window.disabled}
+				    	>
+				    		<CloumnLayout></CloumnLayout>
+				    	</TabPane>
+				    	<TabPane style={styles.tab} 
+				    	tab={<span style={styles.span}>
+				    			<Icon style={styles.icon} type="setting" />设置
+				    		</span>} key="setting"
+				    		disabled={window.disabled}
+				    	>
+				    		<SettingPanel></SettingPanel>
+				    	</TabPane>	    	
+				  	</Tabs>
+			);
+
+		}
+
+	}
+
+	return RightSidebarComponent();
 
 }
 

@@ -115,9 +115,23 @@ const DevPanel = ({
 					  </div>);
 		});
 
-		// console.log('pane', pane);
 		return pane;
 	};
+
+	const splitPaneEvt = {
+		onVerticalSplitPaneChange (size) {
+		},
+
+		onHorizontalSplitPaneChange (size) {
+
+			var sizePercentage = ((parseInt(size) / parseInt($('#devbar').height())) * 100).toFixed(2);
+
+			props.dispatch({
+				type: 'devpanel/setHorizontalSplitPaneHeight',
+				payload: sizePercentage + '%'
+			});
+		}
+	}
 
 	const animated = false,
 		  defaultSize = '50%',
@@ -127,20 +141,19 @@ const DevPanel = ({
 		  	},
 
 		  	'vertical-dbl': function() {
-		  		return 	(<SplitPane split="vertical" defaultSize={defaultSize}>
+		  		return 	(<SplitPane onChange={splitPaneEvt.onVerticalSplitPaneChange} split="vertical" defaultSize={defaultSize}>
   							{generatorPanes(panels.panes)}
 		  				</SplitPane>)
 		  	},
 
 		  	"horizontal-dbl": function() {
-		  		return (<SplitPane split="horizontal" defaultSize={props.devpanel.horizontalColumnHeight}>
+		  		return (<SplitPane onChange={splitPaneEvt.onHorizontalSplitPaneChange} split="horizontal" defaultSize={props.devpanel.horizontalColumnHeight}>
   							{generatorPanes(panels.panes)}
 		  				</SplitPane>)
 		  	},
 
 		  	'grid': function () {
 		  		let gridPanes = generatorPanes(panels.panes);
-		  		console.log('grid:',gridPanes)
 				return	(<SplitPane split="vertical" defaultSize={defaultSize}>
 		  					<SplitPane split="horizontal" defaultSize={defaultSize}>
 								{gridPanes[0]}

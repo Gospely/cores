@@ -11,18 +11,23 @@ class Terminal extends Component {
 
 	constructor(props) {
 		super(props);
+
+		var self = this;
+
 		this.props = props;
+
+		this.activePane = this.props.ctx.devpanel.panels.panes[this.props.ctx.devpanel.panels.activePane.key];
+		this.tabKey = this.activePane.activeTab.key;
+		this.activeTab = this.activePane.tabs[this.tabKey - 1];
+
 		this.state = {
-			terminalId: randomWord()
+			terminalId: 'terminal-' + self.props.ctx.devpanel.panels.activePane.key + '-' + self.tabKey
 		}
 	}
 
 	componentDidMount() {
 
-		var self = this,
-			activePane = this.props.ctx.devpanel.panels.panes[this.props.ctx.devpanel.panels.activePane.key],
-			tabKey = activePane.activeTab.key,
-			activeTab = activePane.tabs[tabKey - 1];
+		var self = this;
 
 		var terminalTypeName = false;
 
@@ -45,8 +50,8 @@ class Terminal extends Component {
 
 		}
 
-		if(activeTab && activeTerminalAction[activeTab.title]) {
-			activeTerminalAction[activeTab.title]();
+		if(this.activeTab && activeTerminalAction[this.activeTab.title]) {
+			activeTerminalAction[this.activeTab.title]();
 		}
 
 		var setTerminalType = function(socket) {
@@ -76,40 +81,43 @@ class Terminal extends Component {
 
 			function setTerminalSize() {
 
-				var termParent = document.getElementById('');
+				var termWidth = $('#devbar').width(),
+					termHeight = $('#devbar').height();
 
+				var cols = self.cols,
+					rows = self.rows,
+					width = (cols * charWidth).toString() + 'px';
 
-				var termWidth = 800,
-					termHeight = 900;
-
-				let splitType = self.props.ctx.devpanel.panels.splitType;
-
-				if (splitType == 'single' || splitType == 'vertical-dbl') {
-					termHeight = ( parseInt(document.body.clientHeight) - 62 );
+				if(self.props.ctx.devpanel.panels.splitType == 'grid') {
+					var height = (rows * charHeight - 30).toString() + 'px';
+				}else if(self.props.ctx.devpanel.panels.splitType == 'horizontal-dbl') {
+					if(self.props.ctx.devpanel.panels.activePane.key === 0) {
+						var height = (rows * charHeight + 22).toString() + 'px';
+					}else {
+						var height = (rows * charHeight + 30).toString() + 'px';
+					}
 				}else {
-					termHeight = ( parseInt(document.body.clientHeight)) / 2;
+					var height = (rows * charHeight + 30).toString() + 'px';					
 				}
-
-				var cols = 10000,
-					rows = Math.ceil((termHeight - 90) / 17),
-					width = (cols * charWidth).toString() + 'px',
-					height = (rows * charHeight).toString() + 'px';
 
 				terminalContainer.style.width = width;
 				terminalContainer.style.height = height;
 				term.resize(cols, rows);
+
+				$('#' + self.state.terminalId).find('.terminal').css('height', '100%');
 			}
 
 			createTerminal();
 
 			function createTerminal() {
-				// Clean terminal
 				while (terminalContainer.children.length) {
 					terminalContainer.removeChild(terminalContainer.children[0]);
 				}
+
 				term = new Xterm({
 					cursorBlink: false
 				});
+
 				term.on('resize', function(size) {
 					if (!pid) {
 						return;
@@ -126,10 +134,15 @@ class Terminal extends Component {
 				protocol = (location.protocol === 'https:') ? 'wss://' : 'ws://';
 				socketURL = protocol + domain + ':' + port + '/terminals/';
 				term.open(terminalContainer);
-				// term.fit();
+				term.fit(self.props.ctx.devpanel.panels.splitType);
 
-				var cols = term.cols,
-					rows = term.rows;
+			  	var initialGeometry = term.proposeGeometry(self.props.ctx.devpanel.panels.splitType),
+			      	cols = initialGeometry.cols,
+			      	rows = initialGeometry.rows;
+
+			    self.cols = cols;
+			    self.rows = rows;
+
 				var offsetWidth = term.element.offsetWidth,
 					offsetHeight = term.element.offsetHeight;
 
@@ -138,15 +151,10 @@ class Terminal extends Component {
 					offsetHeight = 900;
 				}
 
-				console.log(offsetHeight);
-
 				charWidth = Math.ceil(offsetWidth / cols);
 				charHeight = Math.ceil(offsetHeight / rows);
 
 				if(true){
-				// if(activeTab.editorId == null || activeTab.editorId == '') {
-					// console.log("============openTerminal===========");
-					// console.log(activeTab);
 					fetch(baseUrl + '/terminals?cols=' + cols + '&rows=' + rows, {
 						method: 'POST',
 						'headers': {
@@ -219,7 +227,7 @@ class Terminal extends Component {
 						});
 					});
 				}else{
-					socketURL += activeTab.editorId;
+					socketURL += this.activeTab.editorId;
 					socket = new WebSocket(socketURL);
 					socket.onopen = runRealTerminal;
 					window.socket = socket;

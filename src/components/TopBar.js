@@ -117,6 +117,14 @@ const LeftSidebar = (props) => {
 				}else {
 
 					var key = "horizontal-dbl";
+
+					props.dispatch({
+						type: 'devpanel/setActivePane',
+						payload: {
+							paneKey: 1
+						}
+					});
+
 					props.dispatch({
 						type: 'devpanel/changeColumnWithHeight',
 						payload: {
@@ -126,7 +134,7 @@ const LeftSidebar = (props) => {
 					});
 
 		          	var title = 'git push',
-	              	type = 'terminal';
+	              		type = 'terminal';
 		          	props.dispatch({
 	    	        	type: 'devpanel/add',
 	        	    	payload: { title, type }
@@ -147,6 +155,14 @@ const LeftSidebar = (props) => {
 						type: 'sidebar/showModalModifyGitOrgin'
 					});
 				}else {
+
+					props.dispatch({
+						type: 'devpanel/setActivePane',
+						payload: {
+							paneKey: 1
+						}
+					});
+
 					var key = "horizontal-dbl";
 					props.dispatch({
 						type: 'devpanel/changeColumnWithHeight',
@@ -173,6 +189,12 @@ const LeftSidebar = (props) => {
 	        terminal() {
 	          	var title = '终端',
 	              	type = 'terminal';
+
+				props.dispatch({
+					type: 'devpanel/initDebugPanel',
+					payload: { cmd: 'cd /root/workspace && clear\n' }
+				});
+
 	          	props.dispatch({
 	            	type: 'devpanel/add',
 	            	payload: {title, type}
@@ -189,7 +211,7 @@ const LeftSidebar = (props) => {
 				localStorage.currentSelectedFile = '新文件';
 
 	            props.dispatch({
-	            	type: 'rightbar/setActiveMenu',
+	            	type: 'sidebar/setActiveMenu',
 	            	payload: 'file'
 	            });
 
@@ -387,6 +409,7 @@ const LeftSidebar = (props) => {
 			onPushValueChange: function(e) {
 				props.dispatch({
 					type: 'sidebar/handleModifyGitPushOriginInputChange',
+					payload: e.target.value
 				})
 			}
 		},
@@ -454,7 +477,6 @@ const LeftSidebar = (props) => {
 	const onSelectStartMenu = function (activeMenu) {
 		let handleActiveMenuEvent = {
 			runCommand() {
-				console.log('===================visual===================');
 
 				//分栏
 				var kill = "mv /root/temp/.* /root/workspace && kill -9 $(netstat -tlnp | grep "+ localStorage.exposePort +" |awk '{print $7}' | awk -F '/' '{print $1}')"
@@ -472,7 +494,7 @@ const LeftSidebar = (props) => {
 					payload: { cmd: cmd}
 				});
 
-				var title = '终端',
+				var title = '调试终端 - ' + props.sidebar.debugConfig.runCommand,
 					type = 'terminal';
 				props.dispatch({
 					type: 'devpanel/add',
@@ -598,8 +620,51 @@ const LeftSidebar = (props) => {
 		},
 
 		onFormInputChange (s, dom) {
-			console.log(s);
-			console.log(dom.target.value);
+
+			if(s == 'git') {
+
+				if(dom.target.value.indexOf('git@') != -1) {
+					notification['warning']({
+						message: '暂时不支持通过SSH创建',
+						description: '请先使用HTTP然后在程序创建完毕后在[设置]菜单中更改Git源',
+						duration: 6000
+					});
+
+					props.dispatch({
+						type: 'sidebar/handleInputChanged',
+						payload: {
+							input: s,
+							value: ''
+						}
+					});
+
+					return false;
+				}
+
+			}
+
+			if(s == 'appName') {
+
+				for(var i = 0; i < 10; i++) {
+					if(dom.target.value.indexOf(i.toString()) === 0) {
+
+						notification['warning']({
+							message: '首字符不能为数字',
+							description: '请重新输入'
+						});
+
+						props.dispatch({
+							type: 'sidebar/handleInputChanged',
+							payload: {
+								input: s,
+								value: ''
+							}
+						});						
+						return false;
+					}
+				}
+			}
+
 			props.dispatch({
 				type: 'sidebar/handleInputChanged',
 				payload: {
@@ -607,6 +672,7 @@ const LeftSidebar = (props) => {
 					value: dom.target.value
 				}
 			});
+
 			if(s == 'image') {
 				props.dispatch({
 					type: 'sidebar/initVersions',
@@ -660,7 +726,7 @@ const LeftSidebar = (props) => {
 					      		<span>您的Git项目地址：</span>
 					      	</Col>
 					      	<Col span={8} style={{textAlign: 'left'}}>
-				              	<Input onPressEnter={() => modalAppCreatorProps.next()} onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'git')} value={props.sidebar.appCreatingForm.git} />
+				              	<Input placeholder="暂不支持SSH创建，请使用HTTP" onPressEnter={() => modalAppCreatorProps.next()} onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'git')} value={props.sidebar.appCreatingForm.git} />
 					      	</Col>
 					    </Row>
 					</div>
@@ -868,75 +934,106 @@ const LeftSidebar = (props) => {
 	var topbarMenu = '';
 
 	if(!window.disabled) {
-		topbarMenu = (
-	      	<Menu
-	      		style={styles.sidebar}
-	      		onClick={leftSidebarProps.handleClick}
-	      		mode="horizontal">
-				<Menu.Item key="create">
-			      	<Tooltip title="新建项目">
-		          		<Icon type="plus" />
-		          	</Tooltip>
-		        </Menu.Item>
-		        <Menu.Item key="switch">
-			      	<Tooltip title="切换项目">
-		          		<Icon type="appstore-o" />
-		          	</Tooltip>
-		        </Menu.Item>
-			    <Menu.Item key="commit">
-			      	<Tooltip title="commit操作">
-						<Icon type="check"/>
-					</Tooltip>
-			    </Menu.Item>
-			    <Menu.Item key="push">
-			      	<Tooltip title="push操作">
-						<Icon type="upload" />
-					</Tooltip>
-			    </Menu.Item>
-			    <Menu.Item key="pull">
-			      	<Tooltip title="pull操作">
-						<Icon type="download" />
-					</Tooltip>
-			    </Menu.Item>
-			    <Menu.Item key="file">
-			      	<Tooltip title="新建文件">
-						<Icon type="file-text" />
-					</Tooltip>
-			    </Menu.Item>
-				<Menu.Item key="designer">
-			      	<Tooltip title="打开小程序设计器">
-						<Icon type="windows-o" />
-					</Tooltip>
-				</Menu.Item>
-			    <Menu.Item key="terminal">
-			      	<Tooltip title="打开终端">
-						<Icon type="code-o" />
-					</Tooltip>
-			    </Menu.Item>
-			    <Menu.Item key="showStartMenu">
-			    	<Dropdown overlay={startMenu}  trigger={['click']}>
-			      		<Tooltip title="调试运行">
-			    			<div style={{width: 30}}>
-								<Icon type="play-circle-o" />
-							</div>
+
+		if(window.isWeapp) {
+
+			topbarMenu = (
+		      	<Menu
+		      		style={styles.sidebar}
+		      		onClick={leftSidebarProps.handleClick}
+		      		mode="horizontal">
+					<Menu.Item key="create">
+				      	<Tooltip title="新建项目">
+			          		<Icon type="plus" />
+			          	</Tooltip>
+			        </Menu.Item>
+			        <Menu.Item key="switch">
+				      	<Tooltip title="切换项目">
+			          		<Icon type="appstore-o" />
+			          	</Tooltip>
+			        </Menu.Item>
+				    <Menu.Item key="terminal">
+				      	<Tooltip title="打开终端">
+							<Icon type="code-o" />
 						</Tooltip>
-					</Dropdown>
-			    </Menu.Item>
-			    <Menu.Item key="pause">
-			      	<Tooltip title="停止运行">
-						<Icon type="pause-circle-o" />
-					</Tooltip>
-			    </Menu.Item>
-			    <Menu.Item key="preview">
-			      	<Tooltip title="预览">
-			    		<Icon type="eye-o" />
-			      	</Tooltip>
-			    </Menu.Item>
-			    <Menu.Item key="download-weapp">
-			    	打包小程序
-			    </Menu.Item>
-		    </Menu>
-		);
+				    </Menu.Item>
+					<Menu.Item key="designer">
+				      	<Tooltip title="小程序设计器">
+							<i className="fa fa-weixin"></i>
+						</Tooltip>
+					</Menu.Item>
+				    <Menu.Item key="preview">
+				      	<Tooltip title="预览">
+				    		<Icon type="eye-o" />
+				      	</Tooltip>
+				    </Menu.Item>
+				    <Menu.Item key="download-weapp">
+				    	打包小程序
+				    </Menu.Item>
+			    </Menu>
+			);
+
+		}else {
+
+			topbarMenu = (
+		      	<Menu
+		      		style={styles.sidebar}
+		      		onClick={leftSidebarProps.handleClick}
+		      		mode="horizontal">
+					<Menu.Item key="create">
+				      	<Tooltip title="新建项目">
+			          		<Icon type="plus" />
+			          	</Tooltip>
+			        </Menu.Item>
+			        <Menu.Item key="switch">
+				      	<Tooltip title="切换项目">
+			          		<Icon type="appstore-o" />
+			          	</Tooltip>
+			        </Menu.Item>
+				    <Menu.Item key="commit">
+				      	<Tooltip title="commit操作">
+							<Icon type="check"/>
+						</Tooltip>
+				    </Menu.Item>
+				    <Menu.Item key="push">
+				      	<Tooltip title="push操作">
+							<Icon type="upload" />
+						</Tooltip>
+				    </Menu.Item>
+				    <Menu.Item key="pull">
+				      	<Tooltip title="pull操作">
+							<Icon type="download" />
+						</Tooltip>
+				    </Menu.Item>
+				    <Menu.Item key="file">
+				      	<Tooltip title="新建文件">
+							<Icon type="file-text" />
+						</Tooltip>
+				    </Menu.Item>
+				    <Menu.Item key="terminal">
+				      	<Tooltip title="打开终端">
+							<Icon type="code-o" />
+						</Tooltip>
+				    </Menu.Item>
+				    <Menu.Item key="showStartMenu">
+				    	<Dropdown overlay={startMenu}  trigger={['click']}>
+				      		<Tooltip title="调试运行">
+				    			<div style={{width: 30}}>
+									<Icon type="play-circle-o" />
+								</div>
+							</Tooltip>
+						</Dropdown>
+				    </Menu.Item>
+				    <Menu.Item key="pause">
+				      	<Tooltip title="停止运行">
+							<Icon type="pause-circle-o" />
+						</Tooltip>
+				    </Menu.Item>
+			    </Menu>
+			);
+
+		}
+
 	}else {
 		topbarMenu = (
 
@@ -972,6 +1069,20 @@ const LeftSidebar = (props) => {
 		commit () {
 
 			modalCommitInfoProps.hideModal();
+			props.dispatch({
+				type: 'sidebar/handleCommitInfoInputChange',
+				payload: {
+					value: '',
+					input: 'title'
+				}
+			});
+
+			props.dispatch({
+				type: 'devpanel/setActivePane',
+				payload: {
+					paneKey: 1
+				}
+			});
 
 			var key = "horizontal-dbl";
 			props.dispatch({
@@ -1000,11 +1111,11 @@ const LeftSidebar = (props) => {
 			sessionStorage.commitInfo = e.target.value;
 			props.dispatch({
 				type: 'sidebar/handleCommitInfoInputChange',
-				value: {
+				payload: {
 					value: e.target.value,
 					input: input
 				}
-			})
+			});
 		}
 	}
 
@@ -1082,7 +1193,7 @@ const LeftSidebar = (props) => {
 	          	onCancel={modalCommitInfoProps.hideModal}
 	        >
 
-	        	<Input type="text" placeholder="请输入commit信息（可以留空）" onChange={modalCommitInfoProps.onInputChange.bind(this, 'title')} value={props.sidebar.modalCommitInfo.title} onPressEnter={modalCommitInfoProps.commit}></Input>
+	        	<Input type="text" placeholder="请输入commit信息" onChange={modalCommitInfoProps.onInputChange.bind(this, 'title')} value={props.sidebar.modalCommitInfo.title} onPressEnter={modalCommitInfoProps.commit}></Input>
 	        </Modal>
 
 	        <Modal

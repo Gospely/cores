@@ -1,9 +1,21 @@
 import Xterm from 'xterm'
 
-Xterm.prototype.proposeGeometry = function() {
-  const parentElementStyle = window.getComputedStyle(this.element.parentElement),
-      parentElementHeight = parseInt(parentElementStyle.getPropertyValue('height')),
-      parentElementWidth = parseInt(parentElementStyle.getPropertyValue('width')),
+Xterm.prototype.proposeGeometry = function(splitType) {
+  const parentElementStyle = window.getComputedStyle(this.element.parentElement);
+
+  var parentElementHeight = 0;
+
+  if(splitType == 'single' || splitType == 'vertical-dbl') {
+    parentElementHeight = parseInt($('#devbar').height() - 32);
+  }else {
+    if(splitType == 'horizontal-dbl') {
+      parentElementHeight = parseInt($('#devbar').height() / 2 - 46);
+    }else {
+      parentElementHeight = parseInt($('#devbar').height() / 2);
+    }
+  }
+
+  const parentElementWidth = parseInt(parentElementStyle.getPropertyValue('width')),
       elementStyle = window.getComputedStyle(this.element),
       elementPaddingVer = parseInt(elementStyle.getPropertyValue('padding-top')) + parseInt(elementStyle.getPropertyValue('padding-bottom')),
       elementPaddingHor = parseInt(elementStyle.getPropertyValue('padding-right')) + parseInt(elementStyle.getPropertyValue('padding-left')),
@@ -15,7 +27,7 @@ Xterm.prototype.proposeGeometry = function() {
       rows,
       characterWidth,
       cols,
-      geometry
+      geometry;
 
   subjectRow.style.display = 'inline'
   subjectRow.innerHTML = 'W'
@@ -31,8 +43,8 @@ Xterm.prototype.proposeGeometry = function() {
   return geometry
 }
 
-Xterm.prototype.fit = function() {
-  const geometry = this.proposeGeometry()
+Xterm.prototype.fit = function(splitType) {
+  const geometry = this.proposeGeometry(splitType)
   this.resize(geometry.cols, geometry.rows)
 }
 

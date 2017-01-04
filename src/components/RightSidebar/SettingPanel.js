@@ -14,20 +14,6 @@ const Panel = Collapse.Panel;
 
 const SettingPanel = (props) => {
 
-	// var UIState = packUIStage(state);
-
-		// app._store.dispatch({
-		// 	type: 'UIState/writeConfig',
-		// 	payload: {
-		// 		id: '',
-		// 		application: '',
-		// 		creator: '',
-		// 		configs: UIState
-		// 	}
-		// })
-		// console.log('onStateChange', UIState, app);
-	
-
 	const GitSettingProps = {
 		onClick: function(item) {
 
@@ -115,19 +101,32 @@ const SettingPanel = (props) => {
 		</Menu>
 	);
 
-  	return (
+	const settingPanelContent = () => {
 
-		<Collapse className="settingCollapse" bordered={false} defaultActiveKey={['1', '2']}>
-		    <Panel header="GIT 设置" key="1">
-		      	{GitSetting}
-		    </Panel>
-		    <Panel header="同步 设置" key="2">
-		      	{Sync}
-		    </Panel>
-		</Collapse>
+		if(window.isWeapp) {
+			return (
+				<Collapse className="settingCollapse" bordered={false} defaultActiveKey={['1', '2']}>
+				    <Panel header="同步 设置" key="2">
+				      	{Sync}
+				    </Panel>
+			    </Collapse>
+			);
+		}else {
+			return (
+				<Collapse className="settingCollapse" bordered={false} defaultActiveKey={['1', '2']}>
+					<Panel header="GIT 设置" key="1">
+				      	{GitSetting}
+				    </Panel>
+				    <Panel header="同步 设置" key="2">
+				      	{Sync}
+				    </Panel>
+				</Collapse>
+			);
+		}
 
-  	);
+	};
 
+  	return settingPanelContent();
 };
 
 function mapStateToProps({ UIState }) {

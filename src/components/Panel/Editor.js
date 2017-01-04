@@ -214,7 +214,7 @@ const Editor = (props) => {
   	if (splitType == 'single' || splitType == 'vertical-dbl') {
   		aceHeight = ( parseInt(document.body.clientHeight) - 62 );
   	}else {
-  		aceHeight = ( parseInt(document.body.clientHeight) - 160 ) / 2;
+  		aceHeight = ( parseInt(document.body.clientHeight) - 160 ) * (parseInt(props.devpanel.horizontalColumnHeight) / 100);
   	}
 
   	//

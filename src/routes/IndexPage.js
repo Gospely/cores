@@ -20,7 +20,6 @@ import fileListen from '../utils/fileListen';
 
 function IndexPage(props) {
 
-    // console.log("=======================IndexPage=");
     //判断是否打开了项目
     if (location.hash.split('/')[1] !== 'project') {
         window.disabled = true;
@@ -94,8 +93,6 @@ function IndexPage(props) {
 
         onEdit(paneKey, targetKey, action) {
 
-            console.log(paneKey);
-
             var content = '',
                 title = undefined,
                 type = "editor";
@@ -152,7 +149,7 @@ function IndexPage(props) {
 
                     var name = 'file';
                     props.dispatch({
-                        type: 'rightbar/handleTabChanged',
+                        type: 'sidebar/handleTabChanged',
                         payload: name
                     });
                     if (fileName == '新标签页' || fileName == '新文件' || fileName == undefined) {
@@ -186,13 +183,17 @@ function IndexPage(props) {
 
     var devPanelTemplate = '';
 
+    const onDevpanelSplitPaneDragFinished = (a, b) => {
+        console.log(a, b);
+    }
+
     if(window.disabled) {
 
         var welcomePageWidth = document.body.clientWidth;
 
         devPanelTemplate = (
             <SplitPane split = "vertical" minSize = { welcomePageWidth } defaultSize = { welcomePageWidth } >
-                <div className = { styles.devbar } >
+                <div id="devbar" className = { styles.devbar } >
                     <DevPanel {...devPanelProps } props = { props }></DevPanel>
                 </div>
                 <div></div>
@@ -205,7 +206,7 @@ function IndexPage(props) {
                     <LeftSidebar></LeftSidebar>
                 </div>
                 <SplitPane split = "vertical" defaultSize = { devPanelMinSize }>
-                    <div className = { styles.devbar } >
+                    <div id="devbar" className = { styles.devbar } >
                         <DevPanel {...devPanelProps } props = { props }></DevPanel>
                     </div>
                     <RightSidebar></RightSidebar>
@@ -217,7 +218,6 @@ function IndexPage(props) {
     return (
             <Spin tip={props.devpanel.loading.tips} spinning={props.devpanel.loading.isLoading}>
                 <div className = "body" style={{height: '100vh'}}>
-
                     <div
                         hidden='true'
                         id = "git-terminal" >
@@ -236,7 +236,6 @@ function IndexPage(props) {
                             </div>
                         </div>
                     </div>
-
                 </div>
             </Spin>
             );
@@ -248,7 +247,6 @@ IndexPage.propTypes = {
     sidebar: PropTypes.object,
     devPanel: PropTypes.object
 };
-
 
 // 指定订阅数据，这里关联了 indexPage
 function mapStateToProps({ sidebar, devpanel, editorTop, file, rightbar, UIState }) {
