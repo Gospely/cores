@@ -91,12 +91,14 @@ const DevPanel = ({
 		});
 	};
 
+	const tabType = window.isWeapp ? 'card' : 'editable-card';
+
 	const generatorTabs = (onChange, activeKey, onEdit, animated, tabPane, paneKey) => {
 		return (
 			<Tabs
 	        	onChange={onChange.bind(this,{paneKey})}
 	        	activeKey={activeKey}
-	        	type="editable-card"
+	        	type={tabType}
 	        	onEdit={onEdit.bind(this,{paneKey})}
 	        	animated={animated}>
 	        	{tabPane}
