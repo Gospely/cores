@@ -292,10 +292,15 @@ export default {
 
 	reducers: {
 		initKey(state,  { payload: params}) {
-
 			state.sshKey = params.sshKey;
 			return {...state};
 		},
+
+		setHorizontalSplitPaneHeight(state, { payload: sizePercentage }) {
+			state.horizontalColumnHeight = sizePercentage;
+			return {...state};
+		},
+
 		initPanel(state){
 
 			state.panels = {

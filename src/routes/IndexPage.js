@@ -183,6 +183,10 @@ function IndexPage(props) {
 
     var devPanelTemplate = '';
 
+    const onDevpanelSplitPaneDragFinished = (a, b) => {
+        console.log(a, b);
+    }
+
     if(window.disabled) {
 
         var welcomePageWidth = document.body.clientWidth;
@@ -214,7 +218,6 @@ function IndexPage(props) {
     return (
             <Spin tip={props.devpanel.loading.tips} spinning={props.devpanel.loading.isLoading}>
                 <div className = "body" style={{height: '100vh'}}>
-
                     <div
                         hidden='true'
                         id = "git-terminal" >
@@ -233,7 +236,7 @@ function IndexPage(props) {
                             </div>
                         </div>
                     </div>
-
+                    <div className="terminalPanel">sssss</div>
                 </div>
             </Spin>
             );
@@ -245,7 +248,6 @@ IndexPage.propTypes = {
     sidebar: PropTypes.object,
     devPanel: PropTypes.object
 };
-
 
 // 指定订阅数据，这里关联了 indexPage
 function mapStateToProps({ sidebar, devpanel, editorTop, file, rightbar, UIState }) {
