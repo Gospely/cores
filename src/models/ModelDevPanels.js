@@ -127,7 +127,9 @@ export default {
 	    	tips: '请稍后...'
 	    },
 
-	    horizontalColumnHeight: '50%'
+	    horizontalColumnHeight: '50%',
+
+	    loadPreviewer: false
 
 	},
 
@@ -295,6 +297,12 @@ export default {
 	},
 
 	reducers: {
+
+		loadPreviewer(state, { payload: load }) {
+			state.loadPreviewer = load;
+			return {...state};
+		},
+
 		initKey(state,  { payload: params}) {
 			state.sshKey = params.sshKey;
 			return {...state};

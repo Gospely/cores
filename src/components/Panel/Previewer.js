@@ -16,13 +16,8 @@ const previewer = (props) => {
 
 		handleBGClicked() {
             props.dispatch({
-                type: 'devpanel/remove',
-                payload: {
-                	paneKey: 0,
-                	targetKey: 2,
-                	type: 'previewer',
-                	editorId: ''
-                }
+                type: 'devpanel/loadPreviewer',
+                payload: false
             });
 		}
 
@@ -49,8 +44,8 @@ const previewer = (props) => {
 
 };
 
-function mapSateToProps({ previewer, designer }) {
-	return { previewer, designer };
+function mapSateToProps({ previewer, designer, devpanel }) {
+	return { previewer, designer, devpanel };
 }
 
 export default connect(mapSateToProps)(previewer);
