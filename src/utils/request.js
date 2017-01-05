@@ -34,7 +34,7 @@ function checkResData(data) {
     if(typeof data.length == 'number') {
       return data;
     }
-    openNotificationWithIcon('error', data.message, data.fields);
+    openNotificationWithIcon('error', '服务器提了个问题', data.message);
   }
   return data;
 }
