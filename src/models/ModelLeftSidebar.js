@@ -408,15 +408,14 @@ export default {
                 });
             }
 
-
-		},
-
-		*handleCreateAppFailed( { payload: params }, { call, put }) {
-
-
 		},
 
         *initImages({payload: params}, {call, put}) {
+
+			yield put({
+				type: 'setAppCreatorStart'
+			});
+
             var url = 'images?parent=0';
 			var result = yield request(url, {
 				method: 'GET'
@@ -426,9 +425,19 @@ export default {
 				type: 'handleImages',
                 payload: { images }
 			});
+
+            yield put({
+				type: 'setAppCreatorCompleted'
+			});
+
         },
 
         *initFrameWork({payload: params}, {call, put}){
+
+			yield put({
+				type: 'setAppCreatorStart'
+			});
+
             var url = 'images?parent='+params.value + "&type=framework";
             var result = yield request(url, {
                 method: 'GET'
@@ -438,9 +447,19 @@ export default {
                 type: 'handleFramework',
                 payload: { images }
             });
+
+            yield put({
+				type: 'setAppCreatorCompleted'
+			});
+
         },
 
         *initVersions({payload: params}, {call, put}) {
+
+			yield put({
+				type: 'setAppCreatorStart'
+			});
+
             var url = 'images?parent='+params.value + "&type=lang";
             var result = yield request(url, {
                 method: 'GET'
@@ -450,6 +469,11 @@ export default {
                 type: 'handleVersion',
                 payload: { images }
             });
+
+            yield put({
+				type: 'setAppCreatorCompleted'
+			});
+
         },
         *updateCmds({payload: params}, {call, put, select}){
 

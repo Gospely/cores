@@ -955,9 +955,14 @@ const LeftSidebar = (props) => {
 
 			}
 
-			props.dispatch({
-				type: 'sidebar/handleNextAppCreatingStep'
-			});
+			if(props.sidebar.currentAppCreatingStep === 2) {
+				modalAppCreatorProps.createApp();
+			}else {
+				props.dispatch({
+					type: 'sidebar/handleNextAppCreatingStep'
+				});				
+			}
+
 		},
 
 		prev () {
