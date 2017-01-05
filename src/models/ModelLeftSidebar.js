@@ -479,7 +479,7 @@ export default {
 			};
 
 			if (state.createFromModal) {
-				return {...state, modalNewAppVisible: false, modalSwitchAppVisible: true, createFromModal: false};
+				return {...state, modalNewAppVisible: false, modalSwitchAppVisible: false, createFromModal: false};
 			}else{
 				return {...state, modalNewAppVisible: false};
 			}
@@ -668,18 +668,19 @@ export default {
 		},
 
 		handleInputChanged(state, { payload: params }) {
-            if(params.value == 'html:latest' || params.value == 'wechat:latest'){
-                state.appCreatingForm.isFront = true;
-                state.appCreatingForm.databaseShow = '前端项目暂时不支持创建本地数据库';
-            }else{
-                state.appCreatingForm.isFront = false;
-                state.appCreatingForm.databaseShow = '创建本地数据库';
-            }
+
 			state.appCreatingForm[params['input']] = params.value;
 
 			if(params['input'] == 'image') {
 				state.appCreatingForm.imageVersion = '';
 				state.appCreatingForm.framework = '';
+                if(params.value == 'html:latest' || params.value == 'wechat:latest'){
+                    state.appCreatingForm.isFront = true;
+                    state.appCreatingForm.databaseShow = '前端项目暂时不支持创建本地数据库';
+                }else{
+                    state.appCreatingForm.isFront = false;
+                    state.appCreatingForm.databaseShow = '创建本地数据库';
+                }
 			}
 
 			return {...state};

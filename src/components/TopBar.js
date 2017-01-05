@@ -466,6 +466,9 @@ const LeftSidebar = (props) => {
 			props.dispatch({
 				type: 'sidebar/showNewAppAndHideSwitch',
 			})
+			props.dispatch({
+			  type: 'sidebar/hideModalSwitchApp'
+			});
 		}
 	};
 
@@ -973,14 +976,10 @@ const LeftSidebar = (props) => {
 					}
 				}
 			}
-
 			props.dispatch({
 				type: 'sidebar/handleCreateApp',
 				payload: {ctx: props}
 			});
-			props.dispatch({
-	          type: 'sidebar/hideModalSwitchApp'
-	        });
 			notification.open({
 				message: '正在创建应用，请稍等……',
 				title: '创建应用'
@@ -1350,7 +1349,7 @@ const LeftSidebar = (props) => {
 		    	</Form.Item>
 		    </Modal>
 
-			{initPreviewer()}			   	
+			{initPreviewer()}
 
         </div>
 
