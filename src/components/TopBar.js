@@ -394,6 +394,11 @@ const LeftSidebar = (props) => {
 	    },
 
 	    confirmDeleteApp(application) {
+			notification.open({
+				message: '正在删除应用，请稍等……',
+				title: '删除应用'
+			});
+
 			props.dispatch({
 				type: 'sidebar/deleteApp',
 				payload: {application}
@@ -1215,33 +1220,35 @@ const LeftSidebar = (props) => {
 
 	        </Modal>
 
-	    	<Modal style={{maxWidth: 550}}  title="切换应用" visible={props.sidebar.modalSwitchAppVisible}
+	    	<Modal style={{maxWidth: 550}}   title="切换应用" visible={props.sidebar.modalSwitchAppVisible}
 	          	onOk={leftSidebarProps.switchApp} onCancel={leftSidebarProps.cancelSwitchApp}
 	        >
-        	    {props.sidebar.showAppsLoading ?
-        	    	(<div style={{width: '100%', textAlign: 'center', padding: '100px 0'}}>
-        	    		<Spin spinning={true}></Spin>
-        	    	</div>)
-                    :
-        	    	(<Row gutter={16}>
-		        	    <Col className="gutter-row" span={6} style={{marginTop: 20}} key='addApp'>
-							 <div className="gutter-box">
-									<Card
-									style={{ width: 110, height: 110 }}
-									bodyStyle={{height: '100%', background: 'whitesmoke', color: '#555', cursor: 'pointer'}}
-									>
-											<div style={{ height: 50,lineHeight: '50px',textAlign: 'center' }}>
-												<a className="create-app-from-modal" onClick={leftSidebarProps.createAppFromModal}>
-													<Icon type="plus" />
-												</a>
+	            <Spin spinning={props.sidebar.appCreator.loading}>
+	        	    {props.sidebar.showAppsLoading ?
+	        	    	(<div style={{width: '100%', textAlign: 'center', padding: '100px 0'}}>
+	        	    		<Spin spinning={true}></Spin>
+	        	    	</div>)
+	                    :
+	        	    	(<Row gutter={16}>
+			        	    <Col className="gutter-row" span={6} style={{marginTop: 20}} key='addApp'>
+								 <div className="gutter-box">
+										<Card
+										style={{ width: 110, height: 110 }}
+										bodyStyle={{height: '100%', background: 'whitesmoke', color: '#555', cursor: 'pointer'}}
+										>
+												<div style={{ height: 50,lineHeight: '50px',textAlign: 'center' }}>
+													<a className="create-app-from-modal" onClick={leftSidebarProps.createAppFromModal}>
+														<Icon type="plus" />
+													</a>
 
-											</div>
-									</Card>
-							 </div>
-						</Col>
-						{initApplications()}
-        	    	</Row>)
-        	    }
+												</div>
+										</Card>
+								 </div>
+							</Col>
+							{initApplications()}
+	        	    	</Row>)
+	        	    }
+        	    </Spin>
 	        </Modal>
 
 	        <Modal

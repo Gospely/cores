@@ -282,12 +282,21 @@ export default {
 			})
 		},
 		*deleteApp({payload: params}, {call, put}) {
+
+			yield put({
+				type: 'setAppCreatorStart'
+			});
+
 			var url = 'applications/'+ params.application;
 			var result = yield request(url, {
 				method: 'DELETE'
 			});
 			yield put({
 				type: 'getApplications'
+			});
+
+			yield put({
+				type: 'setAppCreatorCompleted'
 			});
 		},
 
