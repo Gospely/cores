@@ -982,8 +982,8 @@ const LeftSidebar = (props) => {
 	          type: 'sidebar/hideModalSwitchApp'
 	        });
 			notification.open({
-				message: '正在创建应用，请稍等……',
-				title: '创建应用'
+				message: '正在创建应用',
+				description: '请稍等……'
 			});
 
 		}

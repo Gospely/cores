@@ -4,13 +4,16 @@ import request from '../utils/request.js';
 import weappCompiler from '../utils/weappCompiler.js';
 import initApplication from '../utils/initApplication';
 
-
+import { Modal, Button, message } from 'antd';
 import { notification, Form, Input, Radio, Switch } from 'antd';
 import { Row, Col } from 'antd';
+
+import config from '../configs.js';
 
 const FormItem = Form.Item;
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
+const confirm = Modal.confirm;
 
 const openNotificationWithIcon = (type, title, description) => (
   notification[type]({
@@ -279,8 +282,6 @@ export default {
 			})
 		},
 		*deleteApp({payload: params}, {call, put}) {
-
-			console.log('delete');
 			var url = 'applications/'+ params.application;
 			var result = yield request(url, {
 				method: 'DELETE'
@@ -324,11 +325,64 @@ export default {
 				type: 'setAppCreatorStart'
 			});
 
+        	const showConfirm = () => {
+			  	Modal.error({
+			    	title: '服务器提了一个问题',
+			    	content: '创建失败，请重试'
+			  	});
+        	}
+
+			const errorHandler = (response) => {
+				if (response.status >= 200 && response.status < 300) {
+					return response;
+				}
+				return {
+					data: {
+						message: '服务器提了一个问题',
+						code: 500
+					}
+				};
+			}
+
+			const parseJSON = (response) => {
+			  	return response.json();
+			}
+
+			const taskHandler = (data) => {
+
+			  	if(data.code == 200 || data.code == 1) {
+			    	if(data.message != null) {
+			      		message.success(data.message);
+			    	}
+			  	}else {
+			    	if(typeof data.length == 'number') {
+			      		return {
+			      			data: data
+			      		};
+			    	}
+					return {
+						data: {
+							message: '服务器提了一个问题',
+							code: 500
+						}
+					};
+			  	}
+
+			  	return {
+			  		data: data
+			  	};
+			}
+
             var url = 'applications';
-            var result = yield request(url, {
+            var result = yield fetch(config.baseURL + url, {
+           	   'headers': { 'Authorization': localStorage.token },
                 method:'POST',
                 body: JSON.stringify(form),
-			});
+           	})
+           	.then(errorHandler)
+           	.then(parseJSON)
+           	.then(taskHandler)
+           	.catch(errorHandler);
 
             if(result.data.code == 1){
                 yield put({
@@ -345,11 +399,20 @@ export default {
 
                 window.location.hash = 'project/' + result.data.fields.id;
                 initApplication(result.data.fields,params.ctx);
-            }else{
+            }else {
+
+            	showConfirm();
+
                 yield put({
                     type: 'hideModalNewApp',
                 });
             }
+
+
+		},
+
+		*handleCreateAppFailed( { payload: params }, { call, put }) {
+
 
 		},
 
@@ -468,7 +531,7 @@ export default {
 				git: '',
 				image: '',
 				imageVersion: '',
-				useFramework: true,
+				useFramework: false,
 				createLocalServer: false,
 				databaseType: '',
 				databasePassword: ''
