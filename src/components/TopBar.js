@@ -260,7 +260,7 @@ const LeftSidebar = (props) => {
 							<i className="fa fa-weixin"></i> Gospel 小程序 UI 设计器
 						</span>
 					),
-	          	
+
 	              	type = 'designer';
 
 	          	var editor = props.dispatch({
@@ -650,7 +650,7 @@ const LeftSidebar = (props) => {
 		},
 
 		onFormInputChange (s, dom) {
-
+			console.log(s);
 			if(s == 'git') {
 
 				if(dom.target.value.indexOf('git@') != -1) {
@@ -740,7 +740,7 @@ const LeftSidebar = (props) => {
 				<span>{props.sidebar.appCreatingForm.databaseShow}</span>
 			);
 		}
-	}	
+	}
 
 	const modalAppCreatorProps = {
 
@@ -967,7 +967,9 @@ const LeftSidebar = (props) => {
 				type: 'sidebar/handleCreateApp',
 				payload: {ctx: props}
 			});
-
+			props.dispatch({
+	          type: 'sidebar/hideModalSwitchApp'
+	        });
 			notification.open({
 				message: '正在创建应用，请稍等……',
 				title: '创建应用'
