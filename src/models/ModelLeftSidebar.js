@@ -668,7 +668,6 @@ export default {
 		},
 
 		handleInputChanged(state, { payload: params }) {
-
             if(params.value == 'html:latest' || params.value == 'wechat:latest'){
                 state.appCreatingForm.isFront = true;
                 state.appCreatingForm.databaseShow = '前端项目暂时不支持创建本地数据库';
