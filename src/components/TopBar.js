@@ -740,7 +740,7 @@ const LeftSidebar = (props) => {
 
 
 	const generateDatabaseSelector = () => {
-		if(!props.sidebar.isFront) {
+		if(!props.sidebar.appCreatingForm.isFront) {
 			return (
 				<div>
 			      	<Col span={4} style={{textAlign: 'right'}}>
