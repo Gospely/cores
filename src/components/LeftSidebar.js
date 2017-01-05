@@ -63,7 +63,7 @@ const leftSidebar = (props) => {
 		    	<TabPane style={styles.tab} 
 		    		tab={<span style={styles.span}>
 		    			<Icon style={styles.icon} type="bars" />结构
-		    			</span>} 
+		    			</span>}
 		    		key="controllers"
 		    		disabled={window.disabled}
 		    	>

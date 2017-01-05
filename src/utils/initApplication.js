@@ -1,4 +1,5 @@
 import React , {PropTypes} from 'react';
+import { message, notification } from 'antd';
 
 const initApplication = function (application, props){
 
@@ -144,7 +145,10 @@ const initApplication = function (application, props){
             });
 
         }
-
+        
+        notification.open({
+            message: '应用初始化成功'
+        });
     }
 
 }
