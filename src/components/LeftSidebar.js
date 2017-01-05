@@ -57,29 +57,34 @@ const leftSidebar = (props) => {
 
 			) : '';
 	}
+
+	let constructionTreeComponent = () => {
+		return window.isWeapp ? (
+		    	<TabPane style={styles.tab} 
+		    		tab={<span style={styles.span}>
+		    			<Icon style={styles.icon} type="bars" />结构
+		    			</span>} 
+		    		key="controllers"
+		    		disabled={window.disabled}
+		    	>
+					<Collapse className="noborder attrCollapse" bordered={false} 
+						defaultActiveKey={['controllers', 'construction']}
+						onChange={collapseOnChange}
+					>
+					    <Panel header="组件树" key="construction" className="toGetConstructionHeight">
+		    	    		<ConstructionTree></ConstructionTree>
+					    </Panel>
+					    <Panel header="控件" key="controllers" className="consCollapseTopBorder" >
+		    	    		<Controllers></Controllers>
+					    </Panel>
+					</Collapse>
+		    	</TabPane>
+			) : '';
+	}
 	
 	return (
 	  	<Tabs tabPosition="left" defaultActiveKey={props.devpanel.devType.defaultActiveKey} activeKey={props.sidebar.activeMenu} onChange={handleTabChanged}>
-	    	<TabPane style={styles.tab} 
-	    		tab={<span style={styles.span}>
-	    			<Icon style={styles.icon} type="bars" />结构
-	    			</span>} 
-	    		key="controllers"
-	    		disabled={window.disabled}
-	    	>
-				<Collapse className="noborder attrCollapse" bordered={false} 
-					defaultActiveKey={['controllers', 'construction']}
-					onChange={collapseOnChange}
-				>
-				    <Panel header="组件树" key="construction" className="toGetConstructionHeight">
-	    	    		<ConstructionTree></ConstructionTree>
-				    </Panel>
-				    <Panel header="控件" key="controllers" className="consCollapseTopBorder" >
-	    	    		<Controllers></Controllers>
-				    </Panel>
-				</Collapse>
-	    	</TabPane>
-
+	  		{constructionTreeComponent()}
 	    	{FileTreeComponent()}
 	  	</Tabs>
 	)
