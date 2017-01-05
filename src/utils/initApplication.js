@@ -37,7 +37,7 @@ const initApplication = function (application, props){
                     <i className="fa fa-weixin"></i> Gospel 小程序 UI 设计器
                 </span>
             ),
-        
+
             type = 'designer';
 
         props.dispatch({
@@ -67,6 +67,9 @@ const initApplication = function (application, props){
         localStorage.baseURL = 'http://' + ( localStorage.host ) + ':9999/';
         localStorage.sshKey = application.sshKey;
         localStorage.exposePort = application.exposePort;
+        if(application.version){
+            localStorage.version = application.version;
+        }
 
         props.dispatch({
             type: 'devpanel/initPanel'

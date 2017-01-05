@@ -97,7 +97,7 @@ class Terminal extends Component {
 						var height = (rows * charHeight + 30).toString() + 'px';
 					}
 				}else {
-					var height = (rows * charHeight + 30).toString() + 'px';					
+					var height = (rows * charHeight + 30).toString() + 'px';
 				}
 
 				terminalContainer.style.width = width;
@@ -252,6 +252,10 @@ class Terminal extends Component {
 			function runRealTerminal() {
 				term.attach(socket);
 				setTimeout(function(){
+
+					if(localStorage.version){
+						socket.send('nvm use v' + localStorage.version + ' && clear\n');
+					}
 					socket.send(self.props.ctx.devpanel.cmd);
 					self.props.ctx.dispatch({
 						type: 'devpanel/initCmd',
