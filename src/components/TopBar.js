@@ -466,9 +466,6 @@ const LeftSidebar = (props) => {
 			props.dispatch({
 				type: 'sidebar/showNewAppAndHideSwitch',
 			})
-			props.dispatch({
-			  type: 'sidebar/hideModalSwitchApp'
-			});
 		}
 	};
 
