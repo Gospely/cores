@@ -84,7 +84,8 @@ export default {
 			databasePassword: '',
 			databaseAccount: '',
             databaseShow: '创建本地数据库',
-            isFront: false
+            isFront: false,
+            mongodb: false,
 		},
 
         images: [],
@@ -776,6 +777,11 @@ export default {
                 }else{
                     state.appCreatingForm.isFront = false;
                     state.appCreatingForm.databaseShow = '创建本地数据库';
+                }
+                if(params.value == 'php:latest'){
+                    state.appCreatingForm.mongodb = true;
+                }else{
+                    state.appCreatingForm.mongodb = false;
                 }
 			}
 

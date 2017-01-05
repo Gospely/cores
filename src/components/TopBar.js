@@ -882,7 +882,7 @@ const LeftSidebar = (props) => {
 							    	value={props.sidebar.appCreatingForm.databaseType}
 							    	onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'databaseType')}>
 							      	<RadioButton value="mysql">MySQL</RadioButton>
-							      	<RadioButton value="mongodb">MongoDB</RadioButton>
+							      	<RadioButton value="mongodb" disabled={props.sidebar.appCreatingForm.mongodb}>MongoDB</RadioButton>
 							    </RadioGroup>
 					      	</Col>
 					    </Row>
@@ -962,7 +962,7 @@ const LeftSidebar = (props) => {
 			}else {
 				props.dispatch({
 					type: 'sidebar/handleNextAppCreatingStep'
-				});				
+				});
 			}
 
 		},
