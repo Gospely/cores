@@ -12,6 +12,13 @@ const previewer = (props) => {
 				type: 'previewer/handleInputChange',
 				payload: e.target.value
 			})
+		},
+
+		handleBGClicked() {
+            props.dispatch({
+                type: 'devpanel/loadPreviewer',
+                payload: false
+            });
 		}
 
 	};
@@ -19,7 +26,7 @@ const previewer = (props) => {
   	return (
 		<div className="designer-wrapper">
 
-			<div className="designer-body-previewer"></div>
+			<div onClick={previewerProps.handleBGClicked} className="designer-body-previewer"></div>
 
 			<iframe 
 				name="gospel-designer" 
@@ -37,8 +44,8 @@ const previewer = (props) => {
 
 };
 
-function mapSateToProps({ previewer, designer }) {
-	return { previewer, designer };
+function mapSateToProps({ previewer, designer, devpanel }) {
+	return { previewer, designer, devpanel };
 }
 
 export default connect(mapSateToProps)(previewer);

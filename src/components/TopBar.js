@@ -16,6 +16,8 @@ import keyRegister from './keybinding/register';
 import initApplication from '../utils/initApplication';
 import gitTerminal from '../utils/gitTerminal';
 
+import Previewer from './Panel/Previewer.js';
+
 import { Steps } from 'antd';
 import { Progress } from 'antd';
 
@@ -76,6 +78,12 @@ const LeftSidebar = (props) => {
 			);
 		});
 	};
+
+	const initPreviewer = () => {
+		if(props.devpanel.loadPreviewer) {
+			return <Previewer></Previewer>;
+		}
+	}
 
 	const leftSidebarProps = {
 
@@ -313,7 +321,10 @@ const LeftSidebar = (props) => {
 
 		          	type = 'previewer';
 
-        		props.dispatch({type: 'devpanel/add',payload: {title,type}});
+        		props.dispatch({
+        			type: 'devpanel/loadPreviewer',
+        			payload: true
+        		});
 	        },
 
 	        'download-weapp'() {
@@ -1338,6 +1349,8 @@ const LeftSidebar = (props) => {
 	         				placeholder="8080" />
 		    	</Form.Item>
 		    </Modal>
+
+			{initPreviewer()}			   	
 
         </div>
 
