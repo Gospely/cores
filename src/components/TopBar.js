@@ -81,7 +81,7 @@ const LeftSidebar = (props) => {
 
 	const initPreviewer = () => {
 		if(props.devpanel.loadPreviewer) {
-			return <Previewer></Previewer>;
+			// return <Previewer></Previewer>;
 		}
 	}
 
