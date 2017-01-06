@@ -772,7 +772,6 @@ export default {
 				state.appCreatingForm.imageVersion = '';
 				state.appCreatingForm.framework = '';
                 if(params.value == 'html:latest' || params.value == 'wechat:latest'){
-                	alert('ssss')
                     state.appCreatingForm.isFront = true;
                     state.appCreatingForm.databaseShow = '前端项目暂时不支持创建本地数据库';
                 }else{
