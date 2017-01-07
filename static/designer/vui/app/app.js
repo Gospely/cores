@@ -1292,13 +1292,13 @@ $(function () {
                     // console.log(e)
                     e.originalEvent.dataTransfer.effectAllowed = "move";
                     
-                    //初始化会改变属性数据
+                    //初始化会改变的属性数据
                     dndData.attrChangeData.haveAttrChange = false;
                     dndData.attrChangeData.changeId = [];
                     dndData.attrChangeData.changeAttr = [];
                     dndData.attrChangeData.changeValue = [];
 
-                    //初始化会改变的结构树的数据
+                    //初始化会改变的左边结构树的数据
                     dndData.constructTreeData.haveChange = false;
                     dndData.constructTreeData.changeType = [];
                     dndData.constructTreeData.dragElementId = [];

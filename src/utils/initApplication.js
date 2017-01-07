@@ -12,6 +12,13 @@ const initApplication = function (application, props){
         return false;
     }
 
+    props.dispatch({
+        type: 'devpanel/showLoading',
+        payload: {
+          tips: '打开应用中...'
+        }
+    });
+
     if(application.image == 'wechat:latest'){
         localStorage.image = application.image;
         localStorage.currentProject = application.name;
@@ -55,12 +62,8 @@ const initApplication = function (application, props){
         window.isWeapp = true;
     }else{
         window.isWeapp = false;
-        props.dispatch({
-            type: 'devpanel/showLoading',
-            payload: {
-              tips: '打开应用中...'
-            }
-        });
+        // localStorage.defaultActiveKey = 'file';
+        // localStorage.activeMenu = "setting";
 
         localStorage.dir = localStorage.user + '/' + application.docker.replace('gospel_project_', '') + "/";
         localStorage.currentFolder = localStorage.user + '/' + application.name + '_' + localStorage.userName;
@@ -117,10 +120,10 @@ const initApplication = function (application, props){
         //     payload: { UIState: UIState.UIState.designer }
         // });
         }else{
-        props.dispatch({
-          type: 'devpanel/getConfig',
-          payload: { id : application.id}
-        });
+            props.dispatch({
+              type: 'devpanel/getConfig',
+              payload: { id : application.id}
+            });
         }
 
         localStorage.currentProject = application.name;
@@ -132,10 +135,6 @@ const initApplication = function (application, props){
         localStorage.docker = application.docker;
         localStorage.applicationId = application.id;
         var command = JSON.parse(application.cmds);
-
-        props.dispatch({
-            type: 'devpanel/hideLoading'
-        });
 
         if(command) {
             //初始化命令
@@ -150,6 +149,10 @@ const initApplication = function (application, props){
             message: '应用初始化成功'
         });
     }
+
+    props.dispatch({
+        type: 'devpanel/hideLoading'
+    });
 
 }
 
