@@ -571,8 +571,7 @@ const LeftSidebar = (props) => {
 			run() {
 				const debugType = {
 					common(){
-						sessionStorage.currentDebugResource = 'http://' + localStorage.domain + '.gospely.com';
-						// var debug = window.open(location.hostname + '/static/debugger/wordpress.html','_blank')
+						// sessionStorage.currentDebugResource = 'http://' + localStorage.domain + '.gospely.com';
 						window.open('http://' + localStorage.domain + '.gospely.com');
 						// props.dispatch({
 						// 	type: 'devpanel/handleDebugger',
@@ -614,7 +613,7 @@ const LeftSidebar = (props) => {
 		localStorage.debugType == 'shell' &&
 		<Menu onClick={onSelectStartMenu}>
 			<Menu.Item key='runCommand' disabled={window.disabled}>运行：{props.sidebar.debugConfig.runCommand}</Menu.Item>
-			<Menu.Item key='visit' disabled={window.disabled}>访问：http://{localStorage.host}:{localStorage.port}</Menu.Item>
+			<Menu.Item key='visit' disabled={window.disabled}>访问：http://{localStorage.domain}</Menu.Item>
 			<Menu.Item key='run&visit&noleave' disabled={window.disabled}>在IDE访问</Menu.Item>
 			<Menu.Divider/>
 			<Menu.Item key='config' disabled={window.disabled}>配置...</Menu.Item>
