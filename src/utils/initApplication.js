@@ -69,6 +69,8 @@ const initApplication = function (application, props){
         localStorage.exposePort = application.exposePort;
         if(application.version){
             localStorage.version = application.version;
+        }else {
+            localStorage.version = 'null';
         }
 
         props.dispatch({
