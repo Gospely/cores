@@ -81,7 +81,7 @@ const LeftSidebar = (props) => {
 
 	const initPreviewer = () => {
 		if(props.devpanel.loadPreviewer) {
-			return <Previewer></Previewer>;
+			// return <Previewer></Previewer>;
 		}
 	}
 
@@ -740,7 +740,7 @@ const LeftSidebar = (props) => {
 
 
 	const generateDatabaseSelector = () => {
-		if(!props.sidebar.isFront) {
+		if(!props.sidebar.appCreatingForm.isFront) {
 			return (
 				<div>
 			      	<Col span={4} style={{textAlign: 'right'}}>
@@ -1036,6 +1036,30 @@ const LeftSidebar = (props) => {
 
 		}else {
 
+			var debugMenu = '';
+
+			if(localStorage.debugType == 'common') {
+				debugMenu = (
+				    <Menu.Item key="showStartMenu">
+			      		<Tooltip title="调试运行">
+							<Icon type="play-circle-o" />
+						</Tooltip>
+				    </Menu.Item>
+				);
+			}else {
+				debugMenu = (
+				    <Menu.Item key="showStartMenu">
+				    	<Dropdown overlay={startMenu}  trigger={['click']}>
+				      		<Tooltip title="调试运行">
+				    			<div style={{width: 30}}>
+									<Icon type="play-circle-o" />
+								</div>
+							</Tooltip>
+						</Dropdown>
+				    </Menu.Item>
+				);
+			}
+
 			topbarMenu = (
 		      	<Menu
 		      		style={styles.sidebar}
@@ -1076,15 +1100,7 @@ const LeftSidebar = (props) => {
 							<Icon type="code-o" />
 						</Tooltip>
 				    </Menu.Item>
-				    <Menu.Item key="showStartMenu">
-				    	<Dropdown overlay={startMenu}  trigger={['click']}>
-				      		<Tooltip title="调试运行">
-				    			<div style={{width: 30}}>
-									<Icon type="play-circle-o" />
-								</div>
-							</Tooltip>
-						</Dropdown>
-				    </Menu.Item>
+				    {debugMenu}
 				    <Menu.Item key="pause">
 				      	<Tooltip title="停止运行">
 							<Icon type="pause-circle-o" />

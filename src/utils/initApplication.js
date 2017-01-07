@@ -19,7 +19,7 @@ const initApplication = function (application, props){
 
         props.dispatch({
             type: 'devpanel/handleImages',
-            payload: { id: application.image}
+            payload: { id: application.image }
         });
         props.dispatch({
           type: 'sidebar/hideModalSwitchApp'
@@ -70,6 +70,8 @@ const initApplication = function (application, props){
         localStorage.domain = application.domain;
         if(application.version){
             localStorage.version = application.version;
+        }else {
+            localStorage.version = 'null';
         }
 
         props.dispatch({

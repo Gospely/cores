@@ -9,7 +9,12 @@ export default {
 
 	subscriptions: {
 		keyEvent(dispatch) {
-	      key('esc', () => { dispatch({type:'devpanel/loadPreviewer', payload: false}) });
+	      key('esc', () => { 
+	      	dispatch({
+	      		type:'devpanel/loadPreviewer',
+	      		payload: false
+	      	});
+	      });
 	    },
 	},
 
