@@ -281,9 +281,9 @@ const LeftSidebar = (props) => {
 	        showStartMenu() {
 
 				if(localStorage.debugType == 'common'){
-					sessionStorage.currentDebugResource = 'http://'+ localStorage.domain + '.gospely.com';
+					sessionStorage.currentDebugResource = 'http://'+ localStorage.domain;
 					// var debug = window.open(location.origin + '/static/debugger/wordpress.html','_blank')
-					var debug = window.open('http://'+ localStorage.domain + '.gospely.com');
+					var debug = window.open('http://'+ localStorage.domain);
 					// props.dispatch({
 					// 	type: 'devpanel/handleDebugger',
 					// 	payload: {debug}
