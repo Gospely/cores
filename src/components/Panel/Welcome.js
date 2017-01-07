@@ -16,7 +16,7 @@ const Welcome = (props) => {
 			width: '100%',
 			textAlign: 'center',
 			paddingTop: 50,
-			height: parseInt(document.body.clientHeight) - 40,
+			height: parseInt(document.body.clientHeight) - 70,
 			fontWeight: '200',
 			maxHeight: maxHeight
 		},

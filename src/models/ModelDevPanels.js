@@ -439,8 +439,10 @@ export default {
 							<i className="fa fa-weixin"></i> Gospel 小程序 UI 设计器
 						</span>
 					),
-					"type":"designer","key":"2",
-					"editorId":"","isSave":true
+					"type":"designer",
+					"key":"2",
+					"editorId":"",
+					"isSave":true
 				}];
 			state.devType.type = 'visual';
 			return {...state};

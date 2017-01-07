@@ -78,8 +78,8 @@ const layoutAction = {
 		if(state.layoutState.activePage.level == 1){
 			return state.layout[state.layoutState.activePage.index];
 		}else {
-			console.log(state.layoutState);
-			console.log('------------======activePage==========', state.layout[0].children);
+			// console.log(state.layoutState);
+			// console.log('------------======activePage==========', state.layout[0].children);
 			return state.layout[0].children[state.layoutState.activePage.index];
 		}
 
@@ -4283,6 +4283,8 @@ page {
 
 			params.parentCtrl.children.splice(params.deleteIndex, 1);
 
+			computeDomHeight.leftSidebarWhenLoaded();
+
 			return {...state};
 		},
 
@@ -4297,7 +4299,7 @@ page {
 				targetId = ctrlAndTarget.target,
 				activePage = layoutAction.getActivePage(state),
 				deepCopiedController = layoutAction.deepCopyObj(controller);
-
+		
 			const loopAttr = (controller) => {
 
 				var childCtrl = {},
@@ -4504,6 +4506,8 @@ page {
 		    			pageAdded: activeCtrl
 		    		}, '*');
 	    		}
+
+	    		computeDomHeight.leftSidebarWhenLoaded();
 	    		return {...state};
 
 		},

@@ -86,8 +86,8 @@ const ConstructionTree = (props) => {
             deleteKey = sessionStorage.currentSelectedConstructionKey,
             layout = props.designer.layout[0];
             
-        if (deleteKey == props.designer.layout.key) {
-            message.error('不能删除应用');
+        if (ctrl.level == 1 || ctrl.level == 3) {
+            message.error('不能删除此项');
             return false;
         }
 
