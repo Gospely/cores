@@ -283,7 +283,7 @@ const LeftSidebar = (props) => {
 				if(localStorage.debugType == 'common'){
 					// sessionStorage.currentDebugResource = 'http://'+ localStorage.host +':' + localStorage.port;
 					// var debug = window.open(location.origin + '/static/debugger/wordpress.html','_blank')
-					var debug = window.open('http://'+ localStorage.domain + '.gospely.com');
+					var debug = window.open('http://'+ localStorage.domain);
 					// props.dispatch({
 					// 	type: 'devpanel/handleDebugger',
 					// 	payload: {debug}
@@ -549,7 +549,7 @@ const LeftSidebar = (props) => {
 			},
 			visit(){
 				//分栏
-				var url = 'http://' + localStorage.domain + '.gospely.com';
+				var url = 'http://' + localStorage.domain;
 				window.open(url);
 			},
 			'run&visit&noleave'(){
@@ -571,8 +571,8 @@ const LeftSidebar = (props) => {
 			run() {
 				const debugType = {
 					common(){
-						// sessionStorage.currentDebugResource = 'http://' + localStorage.domain + '.gospely.com';
-						window.open('http://' + localStorage.domain + '.gospely.com');
+						// sessionStorage.currentDebugResource = 'http://' + localStorage.domain;
+						window.open('http://' + localStorage.domain);
 						// props.dispatch({
 						// 	type: 'devpanel/handleDebugger',
 						// 	payload: {debug}
