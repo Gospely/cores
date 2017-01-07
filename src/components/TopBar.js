@@ -549,7 +549,7 @@ const LeftSidebar = (props) => {
 			},
 			visit(){
 				//分栏
-				var url = 'http://' + localStorage.host + ':' + localStorage.port;
+				var url = 'http://' + localStorage.domain;
 				window.open(url);
 			},
 			'run&visit&noleave'(){
@@ -566,15 +566,15 @@ const LeftSidebar = (props) => {
 
 				var title = '预览',
 	        		type = 'previewer',
-					url = 'http://' + localStorage.host +':' + localStorage.port;
+					url = 'http://' + localStorage.domain;
         		props.dispatch({type: 'devpanel/add',payload: {title,type,url}});
 			},
 			run() {
 				const debugType = {
 					common(){
-						sessionStorage.currentDebugResource = 'http://gospely.com:' + localStorage.port;
+						sessionStorage.currentDebugResource = 'http://' + localStorage.domain;
 						// var debug = window.open(location.hostname + '/static/debugger/wordpress.html','_blank')
-						window.open('http://gospely.com:' + localStorage.port);
+						window.open('http://' + localStorage.domain;);
 						// props.dispatch({
 						// 	type: 'devpanel/handleDebugger',
 						// 	payload: {debug}

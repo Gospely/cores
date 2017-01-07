@@ -67,6 +67,7 @@ const initApplication = function (application, props){
         localStorage.baseURL = 'http://' + ( localStorage.host ) + ':9999/';
         localStorage.sshKey = application.sshKey;
         localStorage.exposePort = application.exposePort;
+        localStorage.domain = application.domain;
         if(application.version){
             localStorage.version = application.version;
         }
@@ -145,7 +146,7 @@ const initApplication = function (application, props){
             });
 
         }
-        
+
         notification.open({
             message: '应用初始化成功'
         });
