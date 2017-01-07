@@ -253,7 +253,7 @@ class Terminal extends Component {
 				term.attach(socket);
 				setTimeout(function(){
 
-					if(localStorage.version){
+					if(localStorage.version != 'null'){
 						socket.send('nvm use v' + localStorage.version + ' && clear\n');
 					}
 					socket.send(self.props.ctx.devpanel.cmd);

@@ -71,7 +71,7 @@ const initApplication = function (application, props){
         if(application.domain != null && application.domain != ''){
             localStorage.domain = application.domain + '.gospely.com';
         }else{
-            localStorage.domain = application.host + ':' + localStorage.port;
+            localStorage.domain = application.host + ':' + application.port;
         }
 
         if(application.version){
