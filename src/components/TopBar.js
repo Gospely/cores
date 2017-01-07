@@ -281,9 +281,9 @@ const LeftSidebar = (props) => {
 	        showStartMenu() {
 
 				if(localStorage.debugType == 'common'){
-					sessionStorage.currentDebugResource = 'http://'+ localStorage.host +':' + localStorage.port;
+					// sessionStorage.currentDebugResource = 'http://'+ localStorage.host +':' + localStorage.port;
 					// var debug = window.open(location.origin + '/static/debugger/wordpress.html','_blank')
-					var debug = window.open('http://'+ localStorage.host +':' + localStorage.port);
+					var debug = window.open('http://'+ localStorage.domain);
 					// props.dispatch({
 					// 	type: 'devpanel/handleDebugger',
 					// 	payload: {debug}
@@ -549,11 +549,10 @@ const LeftSidebar = (props) => {
 			},
 			visit(){
 				//分栏
-				var url = 'http://' + localStorage.host + ':' + localStorage.port;
+				var url = 'http://' + localStorage.domain;
 				window.open(url);
 			},
 			'run&visit&noleave'(){
-
 				var key = "vertical-dbl";
 				props.dispatch({
 					type: 'devpanel/changeColumn',
@@ -566,15 +565,14 @@ const LeftSidebar = (props) => {
 
 				var title = '预览',
 	        		type = 'previewer',
-					url = 'http://' + localStorage.host +':' + localStorage.port;
+					url = 'http://' + localStorage.domain;
         		props.dispatch({type: 'devpanel/add',payload: {title,type,url}});
 			},
 			run() {
 				const debugType = {
 					common(){
-						sessionStorage.currentDebugResource = 'http://gospely.com:' + localStorage.port;
-						// var debug = window.open(location.hostname + '/static/debugger/wordpress.html','_blank')
-						window.open('http://gospely.com:' + localStorage.port);
+						// sessionStorage.currentDebugResource = 'http://' + localStorage.domain;
+						window.open('http://' + localStorage.domain);
 						// props.dispatch({
 						// 	type: 'devpanel/handleDebugger',
 						// 	payload: {debug}
@@ -615,7 +613,7 @@ const LeftSidebar = (props) => {
 		localStorage.debugType == 'shell' &&
 		<Menu onClick={onSelectStartMenu}>
 			<Menu.Item key='runCommand' disabled={window.disabled}>运行：{props.sidebar.debugConfig.runCommand}</Menu.Item>
-			<Menu.Item key='visit' disabled={window.disabled}>访问：http://{localStorage.host}:{localStorage.port}</Menu.Item>
+			<Menu.Item key='visit' disabled={window.disabled}>访问：http://{localStorage.domain}</Menu.Item>
 			<Menu.Item key='run&visit&noleave' disabled={window.disabled}>在IDE访问</Menu.Item>
 			<Menu.Divider/>
 			<Menu.Item key='config' disabled={window.disabled}>配置...</Menu.Item>

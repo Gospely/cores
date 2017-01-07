@@ -70,8 +70,17 @@ const initApplication = function (application, props){
         localStorage.baseURL = 'http://' + ( localStorage.host ) + ':9999/';
         localStorage.sshKey = application.sshKey;
         localStorage.exposePort = application.exposePort;
+
+        if(application.domain != null && application.domain != ''){
+            localStorage.domain = application.domain + '.gospely.com';
+        }else{
+            localStorage.domain = application.host + ':' + localStorage.port;
+        }
+
         if(application.version){
             localStorage.version = application.version;
+        }else {
+            localStorage.version = 'null';
         }
 
         props.dispatch({
@@ -130,7 +139,6 @@ const initApplication = function (application, props){
         localStorage.port = application.port;
         localStorage.sshPort = application.sshPort;
         localStorage.socketPort = application.socketPort;
-        localStorage.domain = application.domain;
         localStorage.image = application.image;
         localStorage.docker = application.docker;
         localStorage.applicationId = application.id;
@@ -144,7 +152,7 @@ const initApplication = function (application, props){
             });
 
         }
-        
+
         notification.open({
             message: '应用初始化成功'
         });
