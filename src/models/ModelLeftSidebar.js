@@ -86,6 +86,7 @@ export default {
             databaseShow: '创建本地数据库',
             isFront: false,
             mongodb: false,
+            isProjectNameAvailabel: true
 		},
 
         images: [],
@@ -492,7 +493,7 @@ export default {
             var cmd = JSON.stringify( {
                 default: cmd,
             });
-            console.log(cmd);
+
             var result = yield request("applications", {
                 method: 'PUT',
                 headers: {
@@ -504,11 +505,35 @@ export default {
                     exposePort: port
                 })
             });
+        },
+
+        *checkProjectAvailable( { payload: params }, { call, put, select }) {
+
+        	var available = true;
+
+        	// available = yield request();
+
+			props.dispatch({
+				type: 'setProjectNameAvailabel',
+				payload: available
+			});
+
+        	if(!available) {
+				notification.open({
+					message: '您的项目名与已有项目重复'
+				});
+        	}
+
         }
 
 	},
 
 	reducers: {
+		setProjectNameAvailabel(state, { payload: available }) {
+			state.appCreatingForm.isProjectNameAvailabel = available;
+			return {...state};
+		},
+
         hideCmdsConfigModal(state){
             state.debugConfig.showConfigModal = false;
             return {...state};

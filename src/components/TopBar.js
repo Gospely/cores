@@ -708,6 +708,10 @@ const LeftSidebar = (props) => {
 						return false;
 					}
 				}
+
+				props.dispatch({
+					type: 'sidebar/checkProjectAvailable'
+				});
 			}
 
 			props.dispatch({
@@ -927,6 +931,12 @@ const LeftSidebar = (props) => {
 						return false;
 					}
 				}
+
+				if(!props.sidebar.appCreatingForm.isProjectNameAvailabel) {
+					message.error('您的项目名与已有项目重复，请重新填写');
+					return false;
+				}
+
 				//初始化语言镜像
 				props.dispatch({
 					type: 'sidebar/initImages'
