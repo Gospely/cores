@@ -510,10 +510,20 @@ export default {
         *checkProjectAvailable( { payload: params }, { call, put, select }) {
 
         	var available = true;
-
+            console.log(params);
         	// available = yield request();
+        	var url = 'applications/validator?name=' + params.name + '&userName=' + localStorage.userName + '&creator=' + localStorage.user;
 
-			props.dispatch({
+            var result = yield request(url, {
+                method: 'get',
+            });
+            console.log(result);
+            if(result.data.code == 1){
+                available = true;
+            }else{
+                available = false;
+            }
+			yield put({
 				type: 'setProjectNameAvailabel',
 				payload: available
 			});
@@ -530,6 +540,9 @@ export default {
 
 	reducers: {
 		setProjectNameAvailabel(state, { payload: available }) {
+
+            console.log('setProjectNameAvailabel');
+            console.log(available);
 			state.appCreatingForm.isProjectNameAvailabel = available;
 			return {...state};
 		},

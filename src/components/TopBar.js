@@ -710,7 +710,10 @@ const LeftSidebar = (props) => {
 				}
 
 				props.dispatch({
-					type: 'sidebar/checkProjectAvailable'
+					type: 'sidebar/checkProjectAvailable',
+					payload: {
+						name:  dom.target.value
+					}
 				});
 			}
 
