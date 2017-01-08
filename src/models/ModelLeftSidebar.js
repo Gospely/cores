@@ -336,10 +336,10 @@ export default {
 				type: 'setAppCreatorStart'
 			});
 
-        	const showConfirm = () => {
+        	const showConfirm = (data) => {
 			  	Modal.error({
 			    	title: '服务器提了一个问题',
-			    	content: '创建失败，请重试'
+			    	content: '创建失败，请重试,' + data.message
 			  	});
         	}
 
@@ -373,7 +373,7 @@ export default {
 			    	}
 					return {
 						data: {
-							message: '服务器提了一个问题',
+							message: '服务器提了一个问题' + data.message,
 							code: 500
 						}
 					};
@@ -412,7 +412,7 @@ export default {
                 initApplication(result.data.fields,params.ctx);
             }else {
 
-            	showConfirm();
+            	showConfirm(result.data);
 
                 yield put({
                     type: 'hideModalNewApp',
