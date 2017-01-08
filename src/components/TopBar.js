@@ -403,6 +403,7 @@ const LeftSidebar = (props) => {
 				type: 'sidebar/deleteApp',
 				payload: {application}
 			})
+			// window.location.href = window.location.origin;
 	    },
 
 	    cancelDeleteApp() {

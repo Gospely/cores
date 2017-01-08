@@ -51,7 +51,7 @@ export default {
 					return response.json();
 				})
 		    	.then(function(data){
-
+					console.log(data);
 					if(data.code == 200 || data.code == 1) {
 				    	if(data.message != null) {
 				      		message.success(data.message);
