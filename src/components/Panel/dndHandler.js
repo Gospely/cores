@@ -100,7 +100,7 @@ export default {
 				        type: 'designer/handleTreeChanged',
 				        payload: {
 				          key: data.key,
-				          type: 'controller'
+				          type: 'page'
 				        }
 				    });
 

@@ -558,7 +558,7 @@ page {
 										value: ['page-home'],
 										isClassName: false,
 										isHTML: false,
-										_value: 'https://weui.io/images/icon_tabbar.png'
+										_value: 'http://i64.tinypic.com/2a9711u.png'
 									},
 
 									selectedIconPath: {
@@ -568,7 +568,7 @@ page {
 										value: ['page-home'],
 										isClassName: false,
 										isHTML: false,
-										_value: 'https://weui.io/images/icon_tabbar.png'
+										_value: 'http://i64.tinypic.com/2a9711u.png'
 									}
 								}, {
 									pagePath: {
@@ -597,7 +597,7 @@ page {
 										value: ['page-home'],
 										isClassName: false,
 										isHTML: false,
-										_value: 'https://weui.io/images/icon_tabbar.png'
+										_value: 'http://i64.tinypic.com/2a9711u.png'
 									},
 
 									selectedIconPath: {
@@ -607,7 +607,7 @@ page {
 										value: ['page-home'],
 										isClassName: false,
 										isHTML: false,
-										_value: 'https://weui.io/images/icon_tabbar.png'
+										_value: 'http://i64.tinypic.com/2a9711u.png'
 									}
 								}],
 								_value: '添加',
@@ -4468,6 +4468,11 @@ page {
 	    		gospelDesignerPreviewer.postMessage({
 	    			pageSelected: activePage
 	    		}, '*');
+	    		
+	    		gospelDesigner.postMessage({
+	    			attrRefreshed: activePage
+	    		}, '*');
+
     		}
 
     		if(state.layoutState.activeType == 'controller') {

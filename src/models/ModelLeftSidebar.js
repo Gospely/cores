@@ -520,7 +520,7 @@ export default {
 
         	if(!available) {
 				notification.open({
-					message: '您的项目名与已有项目重复'
+					message: '您的项目名与已有项目重复，请重新填写'
 				});
         	}
 
