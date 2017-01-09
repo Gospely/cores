@@ -1001,6 +1001,7 @@ $(function () {
                 this.elem.data('controller', this.controller);
                 this.elem.data('is-controller', true);
 
+                //局部CSS实现方案
                 this.elem.attr(this.page.key, 'true');
 
             },

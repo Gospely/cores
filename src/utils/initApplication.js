@@ -126,27 +126,28 @@ const initApplication = function (application, props){
         if(localStorage.UIState != null && localStorage.UIState != undefined){
 
         var UIState = JSON.parse(localStorage.UIState);
-        // props.dispatch({
-        //     type: 'sidebar/initState',
-        //     payload: { UIState: UIState.UIState.sidebar }
-        // });
+        props.dispatch({
+            type: 'sidebar/initState',
+            payload: { UIState: UIState.UIState.sidebar }
+        });
         props.dispatch({
           type: 'devpanel/getConfig',
           payload: { id : application.id, UIState: UIState.UIState.devpanel}
         });
-        // props.dispatch({
-        //     type: 'rightbar/initState',
-        //     payload: { UIState: UIState.UIState.rightbar }
-        // });
-        // props.dispatch({
-        //     type: 'designer/initState',
-        //     payload: { UIState: UIState.UIState.designer }
-        // });
+
         props.dispatch({
                 type: 'sidebar/setActiveMenu',
                 payload: 'file'
             });
 
+        props.dispatch({
+            type: 'rightbar/initState',
+            payload: { UIState: UIState.UIState.rightbar }
+        });
+        props.dispatch({
+            type: 'designer/initState',
+            payload: { UIState: UIState.UIState.designer }
+        });
         }else{
             props.dispatch({
               type: 'devpanel/getConfig',

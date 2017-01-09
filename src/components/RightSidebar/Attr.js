@@ -402,7 +402,7 @@ const Attr = (props) => {
 					value: ['page-home'],
 					isClassName: false,
 					isHTML: false,
-					_value: 'https://weui.io/images/icon_tabbar.png'
+					_value: 'http://i64.tinypic.com/2a9711u.png'
 				},
 
 				selectedIconPath: {
@@ -412,7 +412,7 @@ const Attr = (props) => {
 					value: ['page-home'],
 					isClassName: false,
 					isHTML: false,
-					_value: 'https://weui.io/images/icon_tabbar.png'
+					_value: 'http://i64.tinypic.com/2a9711u.png'
 				}
 			}
 			
@@ -626,7 +626,7 @@ const Attr = (props) => {
 		      	      	<Table bordered dataSource={tabsTableDatasource} columns={tabsTablesColumns} />
 	        	</Modal>
 
-        		<Modal width="80%" title="CSS编辑器" 
+        		<Modal width="80%" title="CSS编辑器（自动保存）" 
         			visible={props.designer.modalCSSEditorVisible}
 	          		onOk={modalCSSEditorProps.handleOk} onCancel={modalCSSEditorProps.handleCancel}
 	          		footer={[
