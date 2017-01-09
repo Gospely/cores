@@ -70,13 +70,7 @@ export default {
 	reducers: {
 
 		flashTerminalMessage(state, { payload: params }){
-
-			console.log("==========flashTerminalMessage======");
-			console.log(params);
-
-			console.log("==========flashTerminalMessage======");
 			state.terminalMessage = state.terminalMessage + params.message;
-			console.log(state.terminalMessage);
 			return {...state};
 		},
 		initGitOperate(state, {payload: params }){
@@ -106,8 +100,6 @@ export default {
 		},
 
 		search(state,{payload: params}) {
-
-			console.log(params);
 			state.searchContent = params.searchContent;
 			return {...state};
 		},
@@ -121,7 +113,6 @@ export default {
 			});
 
 			currentEditor.findPrevious();
-			console.log('searchPrev');
 			return {...state};
 		},
 
@@ -135,15 +126,10 @@ export default {
 			});
 
 			currentEditor.findNext();
-			console.log('searchNext');
 			return {...state};
 		},
 		replace(state) {
-
-			console.log(state);
-			console.log(state.replaceContent);
 			if(!state.isReplaceAll) {
-				console.log('all');
 				currentEditor.replaceAll(state.replaceContent,{
 						needle:state.searchContent,
 						backwards: true,
@@ -152,9 +138,7 @@ export default {
 						wholeWord: true,
 						regExp: false
 				});
-				console.log(currentEditor.getValue());
 			}else{
-				console.log('single');
 				currentEditor.replace(state.replaceContent,{
 						needle:state.searchContent,
 						backwards: true,
@@ -165,8 +149,6 @@ export default {
 				});
 			}
 			currentEditor.findNext();
-			console.log("state", state);
-
 			return {...state};
 		},
 
@@ -198,7 +180,6 @@ export default {
 			var target = proxy.target;
 			var aceEditor = target.parentNode.parentNode.parentNode.parentNode.parentNode;
 			var tabHeader = aceEditor.parentNode.parentNode.parentNode.firstChild;
-			console.log(aceEditor, tabHeader, tabHeader.className); //ant-tabs-bar
 			if (tabHeader.className != 'ant-tabs-bar') {
 				tabHeader = tabHeader.firstChild;
 			}
@@ -241,7 +222,6 @@ export default {
 			payload: proxy
 		}) {
 			currentEditor.gotoLine(proxy.target.value);
-			console.log(state.jumpLine);
 			return {...state, jumpLine: proxy.target.value};
 		},
 

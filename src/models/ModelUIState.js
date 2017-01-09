@@ -61,8 +61,6 @@ export default {
 			var state = yield select(state => state.devpanel);
 
   			function cb() {
-
-				console.log("setInterval");
 				var configStr = JSON.stringify(state,function(key,value){
 					if(key == 'content' || key == 'value'){
 						return undefined
@@ -70,7 +68,6 @@ export default {
 						return value;
 					}
 				});
-				console.log(configStr);
   				var configTobeSaved = {
   					id: config.id,
   					application: params.id,
@@ -94,8 +91,6 @@ export default {
 		},
 
 		*writeConfig({ payload: params }, { call, put, select }) {
-
-			console.log("=========writeConfig=======");
 			var result = yield request('UIStates', {
       			method: 'PUT',
       			body: params

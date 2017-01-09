@@ -139,8 +139,6 @@ export default {
 
 				cloudPackResult = yield weappCompiler.cloudPack();
 
-				console.log('-----------------------cloudPackResult===========================', cloudPackResult);
-
 				if(cloudPackResult.data.code == 200) {
 		      		yield put({ type: 'updateWeappCompilerStep' });
 		      		openNotificationWithIcon('success', '云打包成功');
@@ -235,8 +233,6 @@ export default {
                     remoteIp: localStorage.host
       			})
       		});
-
-      		console.log(pullResult);
 
       		if(pullResult.data.code == 200) {
       			openNotificationWithIcon('success', pullResult.data.message, pullResult.data.fields);
@@ -520,14 +516,11 @@ export default {
         *checkProjectAvailable( { payload: params }, { call, put, select }) {
 
         	var available = true;
-            console.log(params);
-        	// available = yield request();
         	var url = 'applications/validator?name=' + params.name + '&userName=' + localStorage.userName + '&creator=' + localStorage.user;
 
             var result = yield request(url, {
                 method: 'get',
             });
-            console.log(result);
             if(result.data.code == 1){
                 available = true;
             }else{
@@ -550,9 +543,6 @@ export default {
 
 	reducers: {
 		setProjectNameAvailabel(state, { payload: available }) {
-
-            console.log('setProjectNameAvailabel');
-            console.log(available);
 			state.appCreatingForm.isProjectNameAvailabel = available;
 			return {...state};
 		},

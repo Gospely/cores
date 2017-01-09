@@ -28,7 +28,6 @@ export default {
 	effects: {
 
       	*setFormItemsByType({payload: params}, {call, put, select}) {
-      		console.log(params)
       		var controllersList = yield select(state => state.designer.controllersList);
       		var currentControllerKey = params.key;
       		var layouts = yield select(state => state.designer.layout);
@@ -187,8 +186,6 @@ export default {
 			var tmpAttr = [];
 			let attr = params.attr;
 
-			console.log('setFormItems', attr);
-
 			for(var att in attr) {
 				try {
 					attr[att]['attrName'] = att;
@@ -199,11 +196,7 @@ export default {
 			}
 
 			state.theKey = params.key;
-
 			state.formItems = tmpAttr;
-			// state.activeFormItem = state.formItems.length - 1;
-
-			console.log('formItems', state.formItems);
 			return {...state};
 		},
 

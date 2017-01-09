@@ -114,7 +114,6 @@ const ConstructionTree = (props) => {
                     }
 
                     if (data.children[i].children) {
-                        console.log(data)
                         let parentCtrl = findParentCtrl(data.children[i], deleteKey);
                         if(parentCtrl) {
                             return parentCtrl;

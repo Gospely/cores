@@ -78,7 +78,6 @@ const Attr = (props) => {
 
 	const handleSubmit = (e) => {
 	    e.preventDefault();
-		console.log(e);
 	};
 
     const formItemLayout = {
@@ -142,7 +141,6 @@ const Attr = (props) => {
     const attrFormProps = {
 
     	handleAttrFormInputChange: (attr, parentAtt, dom) => {
-    		console.log(parentAtt)
     		var newVal = dom.target.value;
     		var attrName = attr.attrName;
 
@@ -159,8 +157,6 @@ const Attr = (props) => {
     			handleLinkedComponent(attr, dom, attrFormProps.handleAttrFormInputChange);
     			return false;
     		}
-
-    		console.log(activeElem);
 
     		props.dispatch({
     			type: 'designer/handleAttrRefreshed'

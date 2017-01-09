@@ -406,10 +406,8 @@ const weappCompiler = {
             		if(!currentAttr.isDesignerStyle) {
 	                	if (currentAttr.isMultiplyStyle) {
 		                    var styles = currentAttr._value.split(';');
-		                    console.log(styles)
 		                    for(var i = 0, len = styles.length - 1; i < len; i ++) {
 		                        var styleNameAndVal = styles[i].split(':');
-		                        console.log(styleNameAndVal[0].trim(),styleNameAndVal[1].trim())
 		                        this.elem.css(styleNameAndVal[0].trim(), styleNameAndVal[1].trim());
 		                    }
 		                }else {
@@ -427,8 +425,6 @@ const weappCompiler = {
                 //一些label获取id
                 var id = '';
                 var getRadioInputId = function (controller) {
-                    // console.log('hahahahahahahahahahahahah', controller)
-                    // console.log('hahahahahahahahahahahahah', typeof controller.children)
                     for(var i = 0; i < controller.children.length; i ++) {
                         if (controller.children[i].type == currentAttr.bindType) {
                             id = controller.children[i].key;
@@ -451,7 +447,6 @@ const weappCompiler = {
             if (currentAttr.isRander == true) {
                 //针对某些子组件要不要渲染的情况，如页脚文字或链接
                 var getRanderObj = function (controller) {
-                    console.log(controller)
                     for(var i = 0; i < controller.children.length; i ++) {
                         if (controller.children[i].isRander == att) {
                             return {
@@ -511,8 +506,6 @@ const weappCompiler = {
 				// 	return false;
 				// }
 
-				console.log(controller)
-
 				var 
 					tag = typeof controller.tag == 'string' ? controller.tag : controller.tag[0],
 
@@ -562,8 +555,6 @@ const weappCompiler = {
 	                        var currentCtrl = controller.children[i],
 
 	                            loopComponent = loopController(currentCtrl);
-
-	                        console.log(loopComponent, elem);
 
 	                        elem.append($(loopComponent));
 

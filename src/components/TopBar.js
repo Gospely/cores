@@ -52,7 +52,6 @@ const LeftSidebar = (props) => {
 		}
 	};
 	const initApplications = () => {
-		// console.log('side');
 		if(props.sidebar.applications.length < 1) {
 			return;
 		}
@@ -462,7 +461,6 @@ const LeftSidebar = (props) => {
 		},
 
 		onGitOperationTabChanged: function() {
-			console.log('dsada');
 			props.dispatch({
 				type: 'devpanel/getKey'
 			});
@@ -665,7 +663,6 @@ const LeftSidebar = (props) => {
 		},
 
 		onFormInputChange (s, dom) {
-			console.log(s);
 			if(s == 'git') {
 
 				if(dom.target.value.indexOf('git@') != -1) {

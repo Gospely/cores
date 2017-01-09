@@ -115,8 +115,6 @@ export default {
 
 	effects: {
 		*fetchFileList(payload, {call, put}) {
-
-			console.log("fetchFileList");
 			if(location.hash.indexOf('project') != -1) {
 				yield put({
 					type: 'setTreeLoadingStatus',
@@ -161,21 +159,17 @@ export default {
       	*fetchUploadFile({payload:info},{call, put, select}){
 
 			var folder = yield select(state=> state.file.uploadModal.folderValue);
-      		console.log("fetchUploadFile");
-			console.log(folder);
       		var formdata = new FormData();
       		formdata.append('username', localStorage.userName);
       		formdata.append('folder',folder);
       		formdata.append('fileUp',info.file);
 			formdata.append('remoteIp',localStorage.host);
-      		console.log('formdata:',formdata);
 
 			var result = yield upload(formdata);
 
 			if(result.status == 200){
 				yield put({type: 'fetchFileList'});
 			}
-			console.log(result);
 			function upload(formdata){
 				return fetch('http://' + localStorage.host + ':9999/fs/upload',{
 	      			method:'POST',
@@ -278,7 +272,6 @@ export default {
 
 			for(let i = 0; i < panes.length; i ++) {
 				for(let j = 0; j < panes[i].tabs.length; j ++) {
-					// console.log(panes[i].tabs[j])
 					if (file === panes[i].tabs[j].file) {
 						message.error('您已打开此文件!')
 						yield put({
@@ -342,7 +335,6 @@ export default {
 							data: params.content
 						})
 					});
-					console.log(params);
 					yield put({type: 'fetchFileList'});
 
 					var debug = yield select(state => state.devpanel.debug.value);
@@ -367,8 +359,6 @@ export default {
 					for(var i = 0; i<res.data.length; i++){
 						res.data[i].folder = res.data[i].id.replace(localStorage.currentFolder,localStorage.currentProject);
 					}
-
-					console.log(result);
 					localStorage.files = JSON.stringify(result);
 					yield put({type: 'showSearchPane',payload: {result}});
 				}
@@ -441,7 +431,6 @@ export default {
 			var newFiles = new Array();
 
 			for(var i = 0; i<state.files.length; i++) {
-				console.log("search");
 				if(state.files[i].text.indexOf(state.searchInput.value) != -1){
 					newFiles.push(state.files[i]);
 				}
@@ -553,7 +542,6 @@ export default {
 		},
 
 		handleNewFolderInputVisible(state) {
-			console.log('handleNewFolderInputVisible');
 			return {...state, newFolderInput: {
 				visible: false,
 				value: ''
@@ -569,23 +557,9 @@ export default {
 		handleSearchInputChange(state, {payload: val}) {
 			state.searchInput.value = val;
 			state.searchFilePane.inputValue = val;
-			// state.searchFilePane.inputValue = val
-			// console.log('seacrh');
-			// console.log(state.files);
-			// var result = state.files.find(function(item){
-			//
-			// 		if(item.children == false){
-			// 			if(item.text == val){
-			// 				return item;
-			// 			}
-			// 		}
-			// });
-			// console.log(result);
-			// state.searchFilePane.files = result;
 			return {...state};
 		},
 		handleUploadInputChange(state, {payload: info}) {
-			console.log(info)
 			if (info.file.status == 'done') {
 				let suffix = info.file.name.split('.').pop();
 				let compressionSuffix = ['rar','zip','cab','arj','lzh','ace','7-zip','tar','gzip','uue','bz2','jar','iso','z'];
@@ -603,7 +577,6 @@ export default {
 		},
 
 		handleUploadFolderChange(state, {payload: val}) {
-			console.log(val);
 			state.uploadModal.folderValue = val;
 			return {...state};
 		},
@@ -659,11 +632,7 @@ export default {
 		},
 
 		showSaveModal(state, {payload: params}) {
-
-
-			console.log(params.targetKey);
 			if(params.action == 'remove') {
-				console.log("saveModal");
 				return {...state, saveModal: {
 					visible: true,
 					title: '保存文件？'
@@ -684,9 +653,7 @@ export default {
 		},
 
 		showNewFileNameModal(state, {payload: params}) {
-
 			if(params.type == 'editor') {
-				console.log("saveModal");
 				return {...state, newFileNameModal: {
 					visible: true,
 					value: localStorage.currentProject + '/',
@@ -703,7 +670,6 @@ export default {
 		},
 
 		handleNewFileModelInputChange(state, {payload: val}) {
-			console.log(val);
 			return {...state, newFileNameModal: {
 				value: val,
 				visible: true,
@@ -805,7 +771,6 @@ export default {
 		},
 
 		flashFiles(state,{payload: result}){
-			console.log('falsh');
 			state.files = result;
 			return {...state};
 		}

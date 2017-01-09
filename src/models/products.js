@@ -7,9 +7,6 @@ export default {
 	reducers: {
 
 		'delete'(state, {payload: id}) {
-
-			console.log(state, id);
-
 			return state.filter(item => item.id !== id);
 		}
 

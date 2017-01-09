@@ -1,14 +1,10 @@
 import fetch from 'dva/fetch';
 import Xterm from './../components/Panel/TerminalFit';
-
 import { message, Spin, notification } from 'antd';
-
 import md5 from 'md5';
-
 
 const createTerminal = function(props) {
 
-    console.log(props);
     const openNotificationWithIcon = (type, title, description) => (
 	  notification[type]({
 	    message: title,
@@ -40,8 +36,7 @@ const createTerminal = function(props) {
             rows = 1,
             width =  '100px',
             height = '100x';
-        console.log(cols, rows, termWidth, termHeight, width, height, 30,
-            30, '');
+
         terminalContainer.style.width = width;
         terminalContainer.style.height = height;
         term.resize(cols, rows);
@@ -105,7 +100,6 @@ const createTerminal = function(props) {
     //     });
     // });
     function runRealTerminal() {
-        console.log(socket);
         term.attach(socket);
         term._initialized = true;
     }

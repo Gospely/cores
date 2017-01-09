@@ -63,7 +63,6 @@ function IndexPage(props) {
 
                 if (file != undefined && file != '新文件'　 && file != '新标签页') {
                     file = file.split('.');
-                    console.log(file[file.length - 1]);
                     suffix = file[file.length - 1];
                     if (suffix != undefined) {
                         localStorage.suffix = suffix;
@@ -190,7 +189,7 @@ function IndexPage(props) {
     var devPanelTemplate = '';
 
     const onDevpanelSplitPaneDragFinished = (a, b) => {
-        console.log(a, b);
+        
     }
 
     if(window.disabled) {

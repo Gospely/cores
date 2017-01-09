@@ -161,7 +161,6 @@ class Terminal extends Component {
 			                'Authorization': localStorage.token
 			            }
 					}).then(function(res) {
-						console.log(res);
 						if (res.status != 200){
 							fetch(baseUrl + '/container/start/' + localStorage.applicationId ,{
 								method: 'GET',
