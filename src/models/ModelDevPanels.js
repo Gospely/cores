@@ -235,6 +235,9 @@ export default {
 							UIState.panels.panes[i].tabs[j].content = content.content;
 						}
 					}
+					// if(activeTab.type == 'terminal' && UIState.panels.panes[i].tabs != null && UIState.panels.panes[i] != null){
+					// 	UIState.panels.panes[i].tabs = UIState.panels.panes[i].tabs.splice(j,1);
+					// }
 				}
 			}
 			yield put({

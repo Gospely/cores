@@ -30,8 +30,6 @@ export default {
 			return {...state};
 		},
 		initState(state, { payload: params }) {
-			console.log('rightbar initState');
-			console.log(params);
 			state.activeMenu = params.UIState.activeMenu;
 			return {...state};
 		}

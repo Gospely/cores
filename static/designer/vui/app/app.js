@@ -403,7 +403,7 @@ $(function () {
                 dataControl = target.data("controller");
 
             if(!dataControl) {
-                alert('组件结构出错!');
+                // alert('组件结构出错!');
                 return false;
             }
 

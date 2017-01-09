@@ -155,9 +155,16 @@ const initApplication = function (application, props){
             });
 
             props.dispatch({
-                    type: 'sidebar/setActiveMenu',
-                    payload: 'file'
+                type: 'sidebar/setActiveMenu',
+                payload: 'file'
+            });
+
+            setTimeout(function() {
+                props.dispatch({
+                    type: 'rightbar/setActiveMenu',
+                    payload: 'setting'
                 });
+            }, 200);
 
             props.dispatch({
                 type: 'rightbar/initState',
