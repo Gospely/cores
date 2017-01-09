@@ -168,7 +168,7 @@ const weappCompiler = {
 		self.app = app;
 
 		console.log('==============================================weappCompiler==============================================')
-		return true;
+		return false;
 	},
 
 	compileAPPJSON (options) {
