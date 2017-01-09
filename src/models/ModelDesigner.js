@@ -4568,13 +4568,9 @@ page {
 		},
 
 		initState(state, { payload: params }){
-
-			console.log(params);
-			console.log('designer initState');
 			state.layout = params.UIState.layout;
 			state.layoutState = params.UIState.layoutState;
 			state.defaultDevice = params.UIState.defaultDevice;
-			console.log('designer initState');
 			return {...state};
 		},
 

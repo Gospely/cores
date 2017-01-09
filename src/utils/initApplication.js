@@ -59,9 +59,7 @@ const initApplication = function (application, props){
             }
         });
         if(localStorage.UIState != null && localStorage.UIState != undefined){
-
             var UIState = JSON.parse(localStorage.UIState);
-            console.log(UIState.UIState.designer);
             props.dispatch({
                 type: 'designer/initState',
                 payload: { UIState: UIState.UIState.designer }
