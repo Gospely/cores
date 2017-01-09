@@ -1245,7 +1245,7 @@ const LeftSidebar = (props) => {
 	    	<Modal style={{maxWidth: 550}}   title="切换应用" visible={props.sidebar.modalSwitchAppVisible}
 	          	onOk={leftSidebarProps.switchApp} onCancel={leftSidebarProps.cancelSwitchApp}
 	        >
-	            <Spin spinning={props.sidebar.showAppsLoading}>
+	            <Spin spinning={props.sidebar.showAppsLoading || props.sidebar.appCreator.loading}>
 	        	    <Row gutter={16}>
 		        	    <Col className="gutter-row" span={6} style={{marginTop: 20}} key='addApp'>
 							 <div className="gutter-box">
