@@ -412,10 +412,23 @@ const LeftSidebar = (props) => {
 	    openApp(application) {
 			window.location.hash = 'project/' + application.id;
 			if(application.id != localStorage.applicationId) {
-				window.reload = true
-				localStorage.UIState = '';
-				window.applicationId = application.id;
-				initApplication(application,props);
+
+				if(localStorage.image == 'wechat:latest'){
+					props.dispatch({
+						type: 'sidebar/handleWechatSave'
+					});
+					setTimeout(function(){
+						window.reload = true
+						window.applicationId = application.id;
+						initApplication(application,props);
+					},2000)
+				}else {
+					window.reload = true
+					window.applicationId = application.id;
+					initApplication(application,props);
+				}
+
+
 			}else{
 				props.dispatch({
 			      type: 'sidebar/hideModalSwitchApp'
@@ -540,13 +553,19 @@ const LeftSidebar = (props) => {
 					type: 'devpanel/initDebugPanel',
 					payload: { cmd: cmd}
 				});
-
 				var title = '调试终端 - ' + props.sidebar.debugConfig.runCommand,
 					type = 'terminal';
 				props.dispatch({
 					type: 'devpanel/add',
 					payload: {title, type}
 				})
+				// if(window.debugTerminal){
+				// 	fireKeyEvent(window.debug_el,'keydown',17)
+				// 	fireKeyEvent(window.debug_el,'keydown',67)
+				// 	window.debugTerminal.send(cmd);
+				// }else{
+				//
+				// }
 			},
 			visit(){
 				//分栏
@@ -620,7 +639,26 @@ const LeftSidebar = (props) => {
 			<Menu.Item key='config' disabled={window.disabled}>配置...</Menu.Item>
 		</Menu>
 	)
+	const wechatSave = {
+		hideModal() {
+			props.dispatch({
+				type: 'sidebar/handleWechatSave'
+			})
+		},
+		save(){
 
+			props.dispatch({
+				type: 'sidebar/handleWechatSave'
+			})
+			notification.open({
+				message: '正在保存设计...'
+			});
+
+			props.dispatch({
+				type: 'UIState/writeConfig'
+			})
+		}
+	}
 	const debugConfigModal = {
 		formItemLayout: {
 			labelCol: { span: 4 },
@@ -1377,6 +1415,11 @@ const LeftSidebar = (props) => {
 	         				onChange={debugConfigModal.startPortChange}
 	         				placeholder="8080" />
 		    	</Form.Item>
+		    </Modal>
+			<Modal width="30%"  title="保存设计？" visible={props.sidebar.wechatSaveShow}
+	          	onOk={wechatSave.save} onCancel={wechatSave.hideModal}
+		    >
+			请保存你的设计！
 		    </Modal>
 
 			{initPreviewer()}

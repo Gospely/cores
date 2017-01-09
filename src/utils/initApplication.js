@@ -13,7 +13,6 @@ const initApplication = function (application, props){
         return false;
     }
 
-    console.log(application);
     if(application.image == 'wechat:latest'){
 
         localStorage.image = application.image;
@@ -53,6 +52,7 @@ const initApplication = function (application, props){
                 id: application.id
             }
         });
+
         if(localStorage.UIState != '' && localStorage.UIState != null && localStorage.UIState != undefined && window.reload == false){
 
             var UIState = JSON.parse(localStorage.UIState);
@@ -66,8 +66,10 @@ const initApplication = function (application, props){
               payload: key
             });
         }else {
+            props.dispatch({
+                type: 'devpanel/wechatInit',
+            });
 
-            console.log('reload');
             props.dispatch({
               type: 'designer/getConfig',
               payload: { id : application.id}

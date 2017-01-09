@@ -200,6 +200,8 @@ export default {
 				config = configs.data.fields[0];
 				localStorage.UIState = config.configs;
 				UIState = JSON.parse(config.configs);
+
+				UIState = UIState.UIState.devpanel;
 			}else{
 				UIState = params.UIState;
 			}
@@ -352,7 +354,62 @@ export default {
 			return {...state}
 
 		},
+		wechatInit(state){
+
+			state.panels = {
+
+		    	panes: [
+		    		{
+		    			tabs: [
+				    		{
+				    			title: '欢迎页面 - Gospel',
+				    			content: '',
+				    			key: '1',
+				    			type: 'welcome',
+				    			editorId: '',
+				    			searchVisible: false,
+				    			isSave: false,
+				    			loading: false
+				    		},
+							{
+								title: 'Gospel 小程序 UI 设计器',
+								content: '',
+								key: '2',
+								type: 'designer',
+								editorId: '',
+								searchVisible: false,
+								isSave: false
+							}
+			    		],
+
+			    		editors: {},
+
+			    		activeEditor: {
+			    			id: ''
+			    		},
+
+			    		key: 0,
+
+			    		activeTab: {
+			    			key: '2',
+			    			index: 0
+			    		}
+		    		}
+		    	],
+
+		    	splitType: 'single',
+
+		    	activePane: {
+		    		key: 0
+		    	},
+		    	activeEditor: {
+		    		id: ''
+		    	}
+		    };
+			return {...state}
+		},
 		initState(state, { payload: params}){
+
 			state.panels = params.UIState.panels;
 			state.devType = params.UIState.devType;
 			return {...state};
@@ -445,7 +502,6 @@ export default {
 			tab.searchVisible = !tab.searchVisible;
 			return {...state};
 		},
-
 		changePane(state, { payload: key } ){
 			state.panels.activePane.key = key;
 			return {...state};

@@ -127,6 +127,10 @@ function IndexPage(props) {
                 editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
                 let currentTab = props.devpanel.panels.panes[paneKey.paneKey].tabs[targetKey - 1];
                 let tabType = currentTab.type;
+
+                // if(currentTab.title.split('-')[0].trim() == '调试终端'){
+                //     window.debugTerminal = null;
+                // }
                 if (tabType != 'editor') {
 
                     if (tabType == 'terminal') {
@@ -189,7 +193,7 @@ function IndexPage(props) {
     var devPanelTemplate = '';
 
     const onDevpanelSplitPaneDragFinished = (a, b) => {
-        
+
     }
 
     if(window.disabled) {
