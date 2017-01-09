@@ -54,7 +54,7 @@ const layoutAction = {
 	    for(let i = 0; i < ctrl.children.length; i ++) {
 
 	        if (ctrl.children[i].key == key) {
-	        	
+
 	        	let data = {
 	        		parentCtrl: ctrl,
 	        		thisCtrl: ctrl.children[i],
@@ -3349,7 +3349,7 @@ page {
 							value: [],
 							title: '是否为完整的组件',
 							_value: true
-						}						
+						}
 					},
 					children: [{
 						name: '停止按钮',
@@ -3561,8 +3561,8 @@ page {
 					'background-position': {
 						isStyle: true,
 						type: 'select',
-						value: ['top left', 'top center', 'top right', 
-								'center left', 'center center', 'center right', 
+						value: ['top left', 'top center', 'top right',
+								'center left', 'center center', 'center right',
 								'bottom left', 'bottom center', 'bottom right'],
 						_value: 'center center',
 						title: '图片起始位置'
@@ -3719,7 +3719,7 @@ page {
 				name: '代码',
 				type: 'html',
 				attr: {}
-			},			
+			},
 			{
 				name: '搜索框',
 				type: 'search',
@@ -4033,7 +4033,7 @@ page {
 							   ],
 						isNoConflict: true
 					}
-				}			
+				}
 			},
 			{
 				name: '画布',
@@ -4179,7 +4179,7 @@ page {
 			tmpAttr['title']['isHTML'] = false;
 			tmpAttr['title']['title'] = '页面名称';
 
-			tmpAttr['routingURL']['_value'] = 'templates/pages/page-' + state.layout[0].children.length 
+			tmpAttr['routingURL']['_value'] = 'templates/pages/page-' + state.layout[0].children.length
 			+ '/page-1' + state.layout[0].children.length;
 			tmpAttr['alias']['_value'] = 'page-' + state.layout[0].children.length;
 
@@ -4290,7 +4290,7 @@ page {
 		},
 
 		addController(state, { payload: ctrlAndTarget }) {
-			
+
 			if (state.layoutState.activePage.level == 1) {
 				message.error('请在左上角组件树中选择一个页面');
 				return {...state};
@@ -4300,7 +4300,7 @@ page {
 				targetId = ctrlAndTarget.target,
 				activePage = layoutAction.getActivePage(state),
 				deepCopiedController = layoutAction.deepCopyObj(controller);
-		
+
 			const loopAttr = (controller) => {
 
 				var childCtrl = {},
@@ -4547,7 +4547,7 @@ page {
 		},
 
 		ctrlExchanged(state, {payload: params}) {
-			
+
 			for(let i = 0; i < params.changeType.length; i ++) {
 
 				let exchCtrl = layoutAction.getCtrlParentAndIndexByKey(state.layout[0], params.exchElementId[i]),
@@ -4572,21 +4572,25 @@ page {
 					exchCtrl.thisCtrl.children.unshift(ctrl);
 					console.log(exchCtrl.thisCtrl.children)
 				}else {
-					let ctrl = dragCtrl.parentCtrl.children.splice(dragCtrl.index, 1, 
+					let ctrl = dragCtrl.parentCtrl.children.splice(dragCtrl.index, 1,
 									exchCtrl.parentCtrl.children[exchCtrl.index])[0];
 					exchCtrl.parentCtrl.children[exchCtrl.index] = ctrl;
 				}
 
 			}
-			
-			
+
+
 			return {...state};
 		},
 
 		initState(state, { payload: params }){
+
+			console.log(params);
+			console.log('designer initState');
 			state.layout = params.UIState.layout;
 			state.layouState = params.UIState.layoutState;
 			state.defaultDevice = params.UIState.defaultDevice;
+			console.log('designer initState');
 			return {...state};
 		},
 
@@ -4610,7 +4614,7 @@ page {
 				}
 			}, '*');
 
-			return {...state};				
+			return {...state};
 		},
 
 		toggleTabBar(state, { payload: checked }) {
@@ -4620,7 +4624,7 @@ page {
 			for(var key in tabBarAttr) {
 				if(key != 'useTabBar') {
 					var currentAttr = tabBarAttr[key];
-					currentAttr.backend = !checked;			
+					currentAttr.backend = !checked;
 				}
 			}
 

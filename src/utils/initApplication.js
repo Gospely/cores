@@ -12,14 +12,9 @@ const initApplication = function (application, props){
         return false;
     }
 
-    props.dispatch({
-        type: 'devpanel/showLoading',
-        payload: {
-          tips: '打开应用中...'
-        }
-    });
 
     if(application.image == 'wechat:latest'){
+
         localStorage.image = application.image;
         localStorage.currentProject = application.name;
         localStorage.applicationId = application.id;
@@ -58,23 +53,30 @@ const initApplication = function (application, props){
             });
         }, 200);
         props.dispatch({
-          type: 'devpanel/getConfig',
-          payload: { id : application.id}
-        });
-        var key = "single";
-        props.dispatch({
-            type: 'layout/handleClick',
-            payload: key
-        });
-        props.dispatch({
-            type: 'devpanel/setActivePane',
+            type: 'UIState/readConfig',
             payload: {
-                paneKey: 1
+                id: application.id
+            }
+        });
+        if(localStorage.UIState != null && localStorage.UIState != undefined){
+
+            var UIState = JSON.parse(localStorage.UIState);
+            console.log(UIState.UIState.designer);
+            props.dispatch({
+                type: 'designer/initState',
+                payload: { UIState: UIState.UIState.designer }
+            });
+        }
+        localStorage.flashState = 'true'
+        window.isWeapp = true;
+    }else{
+        props.dispatch({
+            type: 'devpanel/showLoading',
+            payload: {
+              tips: '打开应用中...'
             }
         });
 
-        window.isWeapp = true;
-    }else{
         window.isWeapp = false;
         // localStorage.defaultActiveKey = 'file';
         // localStorage.activeMenu = "setting";
@@ -125,29 +127,25 @@ const initApplication = function (application, props){
         });
         if(localStorage.UIState != null && localStorage.UIState != undefined){
 
-        var UIState = JSON.parse(localStorage.UIState);
-        props.dispatch({
-            type: 'sidebar/initState',
-            payload: { UIState: UIState.UIState.sidebar }
-        });
-        props.dispatch({
-          type: 'devpanel/getConfig',
-          payload: { id : application.id, UIState: UIState.UIState.devpanel}
-        });
-
-        props.dispatch({
-                type: 'sidebar/setActiveMenu',
-                payload: 'file'
+            var UIState = JSON.parse(localStorage.UIState);
+            props.dispatch({
+                type: 'sidebar/initState',
+                payload: { UIState: UIState.UIState.sidebar }
+            });
+            props.dispatch({
+              type: 'devpanel/getConfig',
+              payload: { id : application.id, UIState: UIState.UIState.devpanel}
             });
 
-        props.dispatch({
-            type: 'rightbar/initState',
-            payload: { UIState: UIState.UIState.rightbar }
-        });
-        props.dispatch({
-            type: 'designer/initState',
-            payload: { UIState: UIState.UIState.designer }
-        });
+            props.dispatch({
+                    type: 'sidebar/setActiveMenu',
+                    payload: 'file'
+                });
+
+            props.dispatch({
+                type: 'rightbar/initState',
+                payload: { UIState: UIState.UIState.rightbar }
+            });
         }else{
             props.dispatch({
               type: 'devpanel/getConfig',
@@ -176,11 +174,12 @@ const initApplication = function (application, props){
         notification.open({
             message: '应用初始化成功'
         });
+        props.dispatch({
+            type: 'devpanel/hideLoading'
+        });
+
     }
 
-    props.dispatch({
-        type: 'devpanel/hideLoading'
-    });
 
 }
 

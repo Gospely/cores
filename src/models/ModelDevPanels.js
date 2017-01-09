@@ -246,8 +246,8 @@ export default {
 						}
 					}
 					if(activeTab.type == 'terminal' && UIState.panels.panes[i].tabs != null && UIState.panels.panes[i] != null){
-						console.log(UIState.panels.panes[i].tabs);
-						UIState.panels.panes[i].tabs = UIState.panels.panes[i].tabs.splice(j,1);
+						// console.log(UIState.panels.panes[i].tabs);
+						// UIState.panels.panes[i].tabs = UIState.panels.panes[i].tabs.splice(j,1);
 					}
 				}
 			}
