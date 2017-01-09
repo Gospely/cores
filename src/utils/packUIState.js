@@ -1,8 +1,10 @@
 const packUIStage = function (params) {
 
+	console.log('packUIStage');
+	console.log(params);
 	var uiState = {
 	      	rightbar: {
-	            activeMenu: params.rightbar.activeMenu                                   
+	            activeMenu: params.rightbar.activeMenu
 	      	},
 
 	      	sidebar: {
@@ -13,7 +15,7 @@ const packUIStage = function (params) {
 
 	      	designer: {
 	            layout: params.designer.layout,
-	            layoutState: params.designer.layouState,
+	            layoutState: params.designer.layoutState,
 	            defaultDevice: params.designer.defaultDevice
 	      	}
 	}

@@ -46,12 +46,6 @@ const initApplication = function (application, props){
             payload: {title, type}
         });
 
-        setTimeout(function() {
-            props.dispatch({
-              type: 'rightbar/setActiveMenu',
-              payload: 'attr'
-            });
-        }, 200);
         props.dispatch({
             type: 'UIState/readConfig',
             payload: {
@@ -61,10 +55,20 @@ const initApplication = function (application, props){
         if(localStorage.UIState != null && localStorage.UIState != undefined){
             var UIState = JSON.parse(localStorage.UIState);
             props.dispatch({
+                type: 'rightbar/initState',
+                payload: { UIState: UIState.UIState.rightbar }
+            });
+            props.dispatch({
                 type: 'designer/initState',
                 payload: { UIState: UIState.UIState.designer }
             });
         }
+        setTimeout(function() {
+            props.dispatch({
+              type: 'rightbar/setActiveMenu',
+              payload: 'attr'
+            });
+        }, 200);
         localStorage.flashState = 'true'
         window.isWeapp = true;
     }else{
