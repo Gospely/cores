@@ -83,10 +83,19 @@ export default {
 		},
 
 		*writeConfig({ payload: params }, { call, put, select }) {
-			var result = yield request('UIStates', {
-      			method: 'PUT',
-      			body: params
-      		});
+
+			var configTobeSaved = {
+				id: localStorage.applicationId,
+				configs: localStorage.UIState
+			}
+			var url = baseUrl.baseURL + "uistates";
+			fetch(url, {
+				method: 'PUT',
+				headers: {
+					"Content-Type": "application/json;charset=UTF-8",
+				},
+				body: JSON.stringify(configTobeSaved)
+			});
 		},
 
 		*setDySaveEffects({ payload: params }, { call, put, select }) {

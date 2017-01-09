@@ -32,6 +32,7 @@ export default {
 		createFromModal: false,
 		applications: [],
 		showAppsLoading: false,
+        wechatSaveShow: false, //小程序设计保存modal
 
 		modifyGitOriginInput: {
 			value: '',
@@ -489,7 +490,7 @@ export default {
             var cmd = JSON.stringify( {
                 default: cmd,
             });
-            
+
             var result = yield request("applications", {
                 method: 'PUT',
                 headers: {
@@ -553,6 +554,10 @@ export default {
         },
         setActiveMenu (state, {payload: name}) {
             state.activeMenu = name;
+            return {...state};
+        },
+        handleWechatSave(state){
+            state.wechatSaveShow = !state.wechatSaveShow;
             return {...state};
         },
 		handleSSHKeyInputChange(state, { payload: value }) {
