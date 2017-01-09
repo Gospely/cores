@@ -148,9 +148,7 @@ const Editor = (props) => {
 		},
 
 		onSelectSyntax(e) {
-			// console.log(e);
 			// var suffix = e.key;
-			// console.log("===============change==========");
 			// dispatch({
 			// 	type: 'editorTop/dynamicChangeSyntax',
 			// 	payload: {suffix}

@@ -39,7 +39,6 @@ var init = function() {
 		},
 
 		initApp = function(designer) {
-			console.log('handleLayout added', designer);
 			var layout = designer.layout,
 				layoutState = designer.layoutState,
 				app = layout[0],
@@ -57,8 +56,6 @@ var init = function() {
 		},
 
 		refreshApp = function(data) {
-			console.log('refreshApp', data);
-
 			var attr = {};
 
 			if(data.attr.window) {
@@ -111,8 +108,6 @@ var init = function() {
 
 		var data = evt.data;
 
-		console.log('addEventListener', data);
-
 		var evtAction = {
 
 			attrRefreshed: function() {
@@ -124,7 +119,6 @@ var init = function() {
 			},
 
 			appConfigRender: function() {
-				console.log('appConfigRender');
 				refreshApp(data);
 			}
 
@@ -137,7 +131,6 @@ var init = function() {
 		}
 
 		if(evtAction[eventName]) {
-			console.log('key', data[key]);
 			data = data[key];
 			evtAction[eventName]();
 		}

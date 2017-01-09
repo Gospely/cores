@@ -42,7 +42,6 @@
 
 			if (!/*@cc_on!@*/0) { //如果不是ie
 			    iframe.onload = function(e) {
-			    	console.log($('iframe').attr('src'), e);
 			    	sessionStorage.currentDebugResource = $('iframe').attr('src');
 			    };
 			} else {

@@ -3,10 +3,8 @@ const fileListen = function (appId, port) {
 	let protocol = (location.protocol === 'https:') ? 'wss://' : 'ws://';
 	let socketURL = protocol + 'api.gospely.com';
 	let socket = io(socketURL);
-	console.log(socketURL)
 	let baseUrl = 'http://' + localStorage.host + ':' + port;
 	let url = baseUrl + '/listen/file?user_id=' + localStorage.user + '&project_name=' + localStorage.currentProject;
-	console.log(socket)
 	// socket.on('connect', function() {
 	// 	fetch(url, {
 	// 		method: 'POST'
@@ -32,7 +30,6 @@ const fileListen = function (appId, port) {
 	})
 
 	socket.on('join', function(ev) {
-		alert('来啊')
 		console.lgo(ev)
 	})
 	// socket.onopen = function() {

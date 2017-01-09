@@ -26,35 +26,27 @@ const setMode = {
 			return 'javascript';
 		},
 		css: function() {
-			console.log('css');
 			return 'css';
 		},
 		html: function() {
-			console.log('html');
 			return 'html';
 		},
 		php: function() {
-			console.log('php');
 			return 'php';
 		},
 		java: function() {
-			console.log('java');
 			return 'java';
 		},
 		txt: function() {
-			console.log('txt');
 			return 'plain_text';
 		},
 		md: function() {
-			console.log('markdown');
 			return 'markdown';
 		},
 		json: function() {
-			console.log('json');
 			return 'json';
 		},
 		xml: function() {
-			console.log("xml");
 			return "xml"
 		},
 		vue: function() {
@@ -149,7 +141,6 @@ export default {
 			var res = yield request("users/" + localStorage.user, {
 				method: 'GET',
 			});
-			console.log(res);
 			yield put({
 				type: "initKey",
 				payload :{ sshKey: res.data.fields.sshKey}
@@ -210,13 +201,11 @@ export default {
 				UIState = JSON.parse(config.configs);
 			}else{
 				UIState = params.UIState;
-				console.log("===================from localStorage============");
 			}
 			for(var i = 0; i < UIState.panels.panes.length; i++) {
 				var pane =  UIState.panels.panes[i];
 				for(var j= 0; j< pane.tabs.length; j++){
 					var activeTab = pane.tabs[j];
-					console.log(activeTab);
 					if(activeTab.type == 'editor') {
 
 						var fileName = activeTab.file;
@@ -246,7 +235,6 @@ export default {
 						}
 					}
 					if(activeTab.type == 'terminal' && UIState.panels.panes[i].tabs != null && UIState.panels.panes[i] != null){
-						console.log(UIState.panels.panes[i].tabs);
 						UIState.panels.panes[i].tabs = UIState.panels.panes[i].tabs.splice(j,1);
 					}
 				}
@@ -589,7 +577,6 @@ export default {
 		removeFile(state,{payload: fileName}) {
 			for(let i = 0; i < state.panels.panes.length; i ++){
 				for(let j = 0; j < state.panels.panes[i].tabs.length; j ++){
-					console.log(state.panels.panes[i].tabs[j].title.split('/').pop(),fileName)
 					if (state.panels.panes[i].tabs[j].title.split('/').pop() == fileName) {
 						state.panels.panes[i].tabs.splice(j,1);
 					}

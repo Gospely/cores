@@ -3,20 +3,14 @@ const keyConfig = {
 		{
 			mainKey: ['ctrl+s','command+s'],
 			handler: function(props){
-				console.log(props);
 				var activePane = props.devpanel.panels.panes[props.devpanel.panels.activePane.key],
 				tabKey = activePane.activeTab.key,
 				editorId = activePane.tabs[tabKey-1].editorId,
 				paneKey = props.devpanel.panels.activePane.key,
 				isSave = activePane.tabs[tabKey-1].isSave;
-				console.log(isSave);
-				console.log(tabKey);
-				console.log(activePane.tabs[tabKey-1]);
 				if(isSave == false) {
-					console.log('command');
 					var content = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value;
 					var fileName = activePane.tabs[tabKey-1].file.replace(localStorage.currentProject,localStorage.dir)
-					console.log(fileName);
 					if(fileName == '新标签页' || fileName == '新文件' || fileName == undefined || activePane.tabs[tabKey-1].file == '') {
 
 						var type = 'editor';

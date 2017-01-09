@@ -33,10 +33,8 @@ export default {
 				window.location.hash = 'project/' + localStorage.applicationId;
 				applicationId = localStorage.applicationId;
 			}
-			console.log(applicationId);
 			//gitTerminal(props);
 			if(applicationId != null && applicationId != undefined) {
-				console.log(applicationId);
 				var url = configs.baseURL + "applications/" + applicationId;
 				fetch(url).then(function(response){
 					if (response.status >= 200 && response.status < 300) {
@@ -51,7 +49,6 @@ export default {
 					return response.json();
 				})
 		    	.then(function(data){
-					console.log(data);
 					if(data.code == 200 || data.code == 1) {
 				    	if(data.message != null) {
 				      		message.success(data.message);
@@ -138,7 +135,7 @@ export default {
 				},
 
 				ctrlUpdated () {
-					console.log(eventName,data);
+
 				},
 
 				ctrlToBeAdded () {

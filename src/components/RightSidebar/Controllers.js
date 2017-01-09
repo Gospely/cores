@@ -12,7 +12,6 @@ const Controllers = (props) => {
 	const controllersProps = {
 
 		onSelect (controller) {
-			console.log('start dragging', controller);
 			window.dndData = controller;
 		},
 

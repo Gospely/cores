@@ -33,8 +33,6 @@ const SettingPanel = (props) => {
 	const SyncProps = {
 		onClick: function(item) {
 
-			console.log(item);
-
 			var action = {
 
 				origin: function() {

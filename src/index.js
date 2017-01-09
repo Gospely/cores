@@ -33,7 +33,6 @@ const app = dva({
 	},
 
 	onError(e) {
-		console.log("============= error : " + e + "==========");
 	  	message.error(e.message);
 	}
 });
@@ -47,7 +46,6 @@ app.use({
 		}
 
 		if(localStorage.flashState == 'true') {
-			console.log("=============flash UIState==========");
 			var state = app._store.getState();
 			var UIState = packUIStage(state);
 			var state = {

@@ -50,7 +50,6 @@ const layoutAction = {
 	},
 
 	getCtrlParentAndIndexByKey(ctrl, key) {
-		// console.log(ctrl, key)
 	    for(let i = 0; i < ctrl.children.length; i ++) {
 
 	        if (ctrl.children[i].key == key) {
@@ -64,7 +63,6 @@ const layoutAction = {
 	        }
 
 	        if (ctrl.children[i].children) {
-	            // console.log(ctrl.children[i])
 	            let result = layoutAction.getCtrlParentAndIndexByKey(ctrl.children[i], key);
 	            if(result) {
 	                return result;
@@ -78,8 +76,6 @@ const layoutAction = {
 		if(state.layoutState.activePage.level == 1){
 			return state.layout[state.layoutState.activePage.index];
 		}else {
-			// console.log(state.layoutState);
-			// console.log('------------======activePage==========', state.layout[0].children);
 			return state.layout[0].children[state.layoutState.activePage.index];
 		}
 
@@ -158,10 +154,7 @@ const layoutAction = {
 			index: '',
 			level: 3
 		};
-		// alert(state.layoutState.activePage.level)
-		console.log(activePage)
 		let controllers = activePage.children;
-		// let controllers = state.layout[0].children[0].children;
 		const loopControllers = function (controllers, level) {
 			level = level || 3;
 			for(let i = 0; i < controllers.length; i ++) {
@@ -185,17 +178,12 @@ const layoutAction = {
 	},
 
 	getCurrentLevelByKey(layouts, key) {
-		// let level = 1;
-		// console.log(layouts)
 		const loopData = function(data, level, key) {
-			console.log(data,level);
 			if (!data) {
 				return level - 1;
 			}
 			for(let i = 0; i < data.length; i ++) {
-				// let level = 1;
 				if(data[i].key == key) {
-					console.log(data[i].key)
 					return level;
 				}
 				level ++;
@@ -4308,7 +4296,6 @@ page {
 					ctrl = {};
 
 				tmpAttr = controller.attr;
-				// console.log('dsfdsfdsfffdsfdfdfdsf', tmpAttr)
 				tmpAttr['title'] = {};
 				tmpAttr['title']['_value'] = controller.name;
 				tmpAttr['title']['type'] = 'input';
@@ -4352,8 +4339,7 @@ page {
     			let parentCtrl = layoutAction.getCtrlByKey(state.layout[0], targetId);
     			parentCtrl.children = parentCtrl.children || [];
     			parentCtrl.children.push(tmpCtrl);
-    			// console.log('这是增加ctrl的父亲',parentCtrl.children);
-    			state.layoutState.expandedKeys.push(targetId);
+    			state.layoutState.expandedKeys.push(targetId);    				
     		}else {
     			activePage.children.push(tmpCtrl);
     		}
@@ -4566,11 +4552,9 @@ page {
 					exchCtrl.thisCtrl.children = exchCtrl.thisCtrl.children || [];
 					exchCtrl.thisCtrl.children.push(ctrl);
 				}else if (type == 'prependNext') {
-					console.log(exchCtrl.thisCtrl.children)
 					let ctrl = dragCtrl.parentCtrl.children.splice(dragCtrl.index, 1)[0];
 					exchCtrl.thisCtrl.children = exchCtrl.thisCtrl.children || [];
 					exchCtrl.thisCtrl.children.unshift(ctrl);
-					console.log(exchCtrl.thisCtrl.children)
 				}else {
 					let ctrl = dragCtrl.parentCtrl.children.splice(dragCtrl.index, 1, 
 									exchCtrl.parentCtrl.children[exchCtrl.index])[0];
@@ -4585,7 +4569,7 @@ page {
 
 		initState(state, { payload: params }){
 			state.layout = params.UIState.layout;
-			state.layouState = params.UIState.layoutState;
+			state.layoutState = params.UIState.layoutState;
 			state.defaultDevice = params.UIState.defaultDevice;
 			return {...state};
 		},

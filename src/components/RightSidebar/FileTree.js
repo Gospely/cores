@@ -220,7 +220,6 @@ const FileTree = (props) => {
           return false;
         }
 
-        console.log('ok');
         props.dispatch({
           type: 'file/writeFile',
           payload: {
@@ -274,7 +273,6 @@ const FileTree = (props) => {
             type: 'file/hideUploadModal'
           });
           var info = props.file.fileInfo;
-          console.log("===ok==info===:",info);
           props.dispatch({
             type: 'file/fetchUploadFile',
              payload: info
@@ -321,7 +319,6 @@ const FileTree = (props) => {
              type: 'file/handleUploadInputChange',
              payload: info
           })
-          // console.log(info.fileList)
         },
         beforeUpload() {
             if(props.file.uploadModal.folderValue == '') {
@@ -503,7 +500,6 @@ const FileTree = (props) => {
       value: props.file.searchInput.value,
 
       onChange: function(e) {
-        console.log(e.target.value)
         props.dispatch({
           type: 'file/handleSearchInputChange',
           payload: e.target.value
@@ -729,13 +725,10 @@ const FileTree = (props) => {
   const searchThisFile = function(fileName) {
 
     fileName = props.file.searchFilePane.currentFolder || fileName;
-    console.log(fileName);
-    console.log(localStorage.currentFolder);
 
     var file = fileName;
 
     file = file.split('.');
-    console.log(file[file.length-1]);
     var suffix = file[file.length-1];
     if(suffix != undefined){
       localStorage.suffix = suffix;

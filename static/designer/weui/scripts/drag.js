@@ -45,7 +45,6 @@ jQuery.fn.extend({
 		
 		hander.mousedown(function(e){
 			
-			//console.log('宽度：',$width,' 高度:',$height);
 			father.children().css({"zIndex":"0"});
 			$this.css({"zIndex":"1"});
 			mDown = true;
@@ -72,7 +71,6 @@ jQuery.fn.extend({
 			
 			yPage = e.pageY;//--
 			moveY = positionY+yPage-Y;
-			//console.log('宽度：',$width,' 高度:',$height);
 			$this.css({"position":"absolute"});
 			function thisXMove(){ //x轴移动
 				if(mDown == true){
