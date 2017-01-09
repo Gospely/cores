@@ -212,11 +212,11 @@ export default {
 				UIState = params.UIState;
 				console.log("===================from localStorage============");
 			}
-
 			for(var i = 0; i < UIState.panels.panes.length; i++) {
 				var pane =  UIState.panels.panes[i];
 				for(var j= 0; j< pane.tabs.length; j++){
 					var activeTab = pane.tabs[j];
+					console.log(activeTab);
 					if(activeTab.type == 'editor') {
 
 						var fileName = activeTab.file;
@@ -244,6 +244,10 @@ export default {
 							activeTab.content = content.content;
 							UIState.panels.panes[i].tabs[j].content = content.content;
 						}
+					}
+					if(activeTab.type == 'terminal' && UIState.panels.panes[i].tabs != null && UIState.panels.panes[i] != null){
+						console.log(UIState.panels.panes[i].tabs);
+						UIState.panels.panes[i].tabs = UIState.panels.panes[i].tabs.splice(j,1);
 					}
 				}
 			}

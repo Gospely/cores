@@ -31,7 +31,6 @@ const initApplication = function (application, props){
         props.dispatch({
           type: 'sidebar/hideModalSwitchApp'
         });
-
         props.dispatch({
           type: 'sidebar/setActiveMenu',
           payload: 'controllers'
@@ -58,6 +57,21 @@ const initApplication = function (application, props){
               payload: 'attr'
             });
         }, 200);
+        props.dispatch({
+          type: 'devpanel/getConfig',
+          payload: { id : application.id}
+        });
+        var key = "single";
+        props.dispatch({
+            type: 'layout/handleClick',
+            payload: key
+        });
+        props.dispatch({
+            type: 'devpanel/setActivePane',
+            payload: {
+                paneKey: 1
+            }
+        });
 
         window.isWeapp = true;
     }else{
@@ -128,6 +142,11 @@ const initApplication = function (application, props){
         //     type: 'designer/initState',
         //     payload: { UIState: UIState.UIState.designer }
         // });
+        props.dispatch({
+                type: 'sidebar/setActiveMenu',
+                payload: 'file'
+            });
+
         }else{
             props.dispatch({
               type: 'devpanel/getConfig',

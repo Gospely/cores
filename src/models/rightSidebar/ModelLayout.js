@@ -31,6 +31,8 @@ export default {
 
 	reducers: {
 		handleClick (state, {payload: key}) {
+			console.log('handleClick');
+			console.log(key);
 			return {...state, current: key};
 		},
 

@@ -50,7 +50,7 @@ export default {
 
 			config.dySave = config.dySave || true;
 			config.gap = config.gap || 500000;
-				
+
       		yield put({
     			type: 'setDySave',
 					payload: {
