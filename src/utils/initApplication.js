@@ -53,6 +53,7 @@ const initApplication = function (application, props){
                 id: application.id
             }
         });
+
         if(localStorage.UIState != '' && localStorage.UIState != null && localStorage.UIState != undefined && window.reload == false){
 
             var UIState = JSON.parse(localStorage.UIState);
@@ -66,12 +67,16 @@ const initApplication = function (application, props){
               payload: key
             });
         }else {
+            props.dispatch({
+                type: 'devpanel/wechatInit',
+            });
 
             console.log('reload');
             props.dispatch({
               type: 'designer/getConfig',
               payload: { id : application.id}
             });
+            console.log('reload');
             var key = 'single'
             props.dispatch({
               type: 'layout/handleClick',

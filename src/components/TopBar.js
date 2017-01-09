@@ -413,7 +413,6 @@ const LeftSidebar = (props) => {
 			window.location.hash = 'project/' + application.id;
 			if(application.id != localStorage.applicationId) {
 				window.reload = true
-				localStorage.UIState = '';
 				window.applicationId = application.id;
 				initApplication(application,props);
 			}else{
@@ -540,13 +539,19 @@ const LeftSidebar = (props) => {
 					type: 'devpanel/initDebugPanel',
 					payload: { cmd: cmd}
 				});
-
 				var title = '调试终端 - ' + props.sidebar.debugConfig.runCommand,
 					type = 'terminal';
 				props.dispatch({
 					type: 'devpanel/add',
 					payload: {title, type}
 				})
+				// if(window.debugTerminal){
+				// 	fireKeyEvent(window.debug_el,'keydown',17)
+				// 	fireKeyEvent(window.debug_el,'keydown',67)
+				// 	window.debugTerminal.send(cmd);
+				// }else{
+				//
+				// }
 			},
 			visit(){
 				//分栏

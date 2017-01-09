@@ -15,7 +15,7 @@ class Terminal extends Component {
 		var self = this;
 
 		this.props = props;
-
+		this.title = props.title;
 		this.activePane = this.props.ctx.devpanel.panels.panes[this.props.ctx.devpanel.panels.activePane.key];
 		this.tabKey = this.activePane.activeTab.key;
 		this.activeTab = this.activePane.tabs[this.tabKey - 1];
@@ -46,11 +46,12 @@ class Terminal extends Component {
 			'git push' () {
 				terminalTypeName = 'pushTerminal';
 				window.pushTerminalID = self.props.editorId;
-			}
+			},
 
 		}
 
 		if(this.activeTab && activeTerminalAction[this.activeTab.title]) {
+
 			activeTerminalAction[this.activeTab.title]();
 		}
 
@@ -185,6 +186,12 @@ class Terminal extends Component {
 											window.pid = pid;
 											socketURL += pid;
 											socket = new WebSocket(socketURL);
+											// var title = _self.activeTab.title.split(':');
+											// console.log(title);
+											// if(title == '调试终端'){
+											// 	window.debugTerminal = socket;
+											// }
+
 											socket.onopen = runRealTerminal;
 											socket.onclose = runFakeTerminal;
 											socket.onerror = runFakeTerminal;
@@ -250,11 +257,16 @@ class Terminal extends Component {
 
 			function runRealTerminal() {
 				term.attach(socket);
-				setTimeout(function(){
 
+				setTimeout(function(){
 					if(localStorage.version != 'null'){
 						socket.send('nvm use v' + localStorage.version + ' && clear\n');
 					}
+					// if(self.title.split('-')[0].trim() == '调试终端'){
+					// 	window.debugTerminal = socket;
+					// 	window.debugTerm = term;
+					// 	window.debug_el = terminalContainer;
+					// }
 					socket.send(self.props.ctx.devpanel.cmd);
 					self.props.ctx.dispatch({
 						type: 'devpanel/initCmd',
