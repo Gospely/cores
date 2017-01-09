@@ -13,7 +13,6 @@ const initApplication = function (application, props){
         return false;
     }
 
-    console.log(application);
     if(application.image == 'wechat:latest'){
 
         localStorage.image = application.image;
@@ -71,12 +70,10 @@ const initApplication = function (application, props){
                 type: 'devpanel/wechatInit',
             });
 
-            console.log('reload');
             props.dispatch({
               type: 'designer/getConfig',
               payload: { id : application.id}
             });
-            console.log('reload');
             var key = 'single'
             props.dispatch({
               type: 'layout/handleClick',

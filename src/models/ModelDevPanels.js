@@ -198,16 +198,13 @@ export default {
  					method: 'get'
  				});
 				config = configs.data.fields[0];
-				console.log(config);
 				localStorage.UIState = config.configs;
 				UIState = JSON.parse(config.configs);
 
-				console.log(UIState);
 				UIState = UIState.UIState.devpanel;
 			}else{
 				UIState = params.UIState;
 			}
-			console.log(UIState);
 			for(var i = 0; i < UIState.panels.panes.length; i++) {
 				var pane =  UIState.panels.panes[i];
 				for(var j= 0; j< pane.tabs.length; j++){
@@ -359,7 +356,6 @@ export default {
 		},
 		wechatInit(state){
 
-			console.log('wechatInit');
 			state.panels = {
 
 		    	panes: [
@@ -414,8 +410,6 @@ export default {
 		},
 		initState(state, { payload: params}){
 
-			console.log('devpanel');
-			console.log(params);
 			state.panels = params.UIState.panels;
 			state.devType = params.UIState.devType;
 			return {...state};
