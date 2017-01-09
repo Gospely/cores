@@ -330,8 +330,8 @@ export default {
 						attrType: '',
 						isClassName: false,
 						title: '页面',
-						value: ['pages/index'],
-						_value: 'pages/index'
+						value: ['templates/index'],
+						_value: 'templates/index'
 					},
 
 					title: {
@@ -535,17 +535,17 @@ page {
 									pagePath: {
 										type: 'select',
 										title: '页面路径',
-										value: ['pages/index'],
+										value: ['templates/index'],
 										isClassName: false,
 										isHTML: false,
-										_value: 'pages/index'
+										_value: 'templates/index'
 									},
 
 									text: {
 										type: 'input',
 										attrType: 'text',
 										title: '菜单名称',
-										value: ['pages/index'],
+										value: ['templates/index'],
 										isClassName: false,
 										isHTML: false,
 										_value: '菜单'
@@ -574,17 +574,17 @@ page {
 									pagePath: {
 										type: 'select',
 										title: '页面路径',
-										value: ['pages/index'],
+										value: ['templates/index'],
 										isClassName: false,
 										isHTML: false,
-										_value: 'pages/index'
+										_value: 'templates/index'
 									},
 
 									text: {
 										type: 'input',
 										attrType: 'text',
 										title: '菜单名称',
-										value: ['pages/index'],
+										value: ['templates/index'],
 										isClassName: false,
 										isHTML: false,
 										_value: '菜单2'
@@ -753,7 +753,7 @@ page {
 								title: '路由',
 								isClassName: false,
 								isHTML: true,
-								_value: 'pages/index'
+								_value: 'templates/index'
 							},
 
 							template: {
@@ -1006,17 +1006,17 @@ page {
 									pagePath: {
 										type: 'select',
 										title: '页面路径',
-										value: ['pages/index'],
+										value: ['templates/index'],
 										isClassName: false,
 										isHTML: false,
-										_value: 'pages/index'
+										_value: 'templates/index'
 									},
 
 									text: {
 										type: 'input',
 										attrType: 'text',
 										title: '菜单名称',
-										value: ['pages/index'],
+										value: ['templates/index'],
 										isClassName: false,
 										isHTML: false,
 										_value: '菜单1'
@@ -1045,17 +1045,17 @@ page {
 									pagePath: {
 										type: 'select',
 										title: '页面路径',
-										value: ['pages/index'],
+										value: ['templates/index'],
 										isClassName: false,
 										isHTML: false,
-										_value: 'pages/index'
+										_value: 'templates/index'
 									},
 
 									text: {
 										type: 'input',
 										attrType: 'text',
 										title: '菜单名称',
-										value: ['pages/index'],
+										value: ['templates/index'],
 										isClassName: false,
 										isHTML: false,
 										_value: '菜单2'
@@ -4179,7 +4179,8 @@ page {
 			tmpAttr['title']['isHTML'] = false;
 			tmpAttr['title']['title'] = '页面名称';
 
-			tmpAttr['routingURL']['_value'] = 'pages/page-' + state.layout[0].children.length;
+			tmpAttr['routingURL']['_value'] = 'templates/pages/page-' + state.layout[0].children.length 
+			+ '/page-' + state.layout[0].children.length;
 			tmpAttr['alias']['_value'] = 'page-' + state.layout[0].children.length;
 
 			//设置新增加的页面和应用整体的值相同
@@ -4437,7 +4438,7 @@ page {
 
 		handlePageAliasChanged (state, { payload: params}) {
 			var activePage = layoutAction.getActivePage(state);
-			activePage.attr.routingURL._value = 'pages/' + params.newVal;
+			activePage.attr.routingURL._value = 'templates/pages/' + params.newVal + '/' + params.newVal;
 
 			state.layout[0].attr.pages.value = [];
 
@@ -4468,7 +4469,7 @@ page {
 	    		gospelDesignerPreviewer.postMessage({
 	    			pageSelected: activePage
 	    		}, '*');
-	    		
+
 	    		gospelDesigner.postMessage({
 	    			attrRefreshed: activePage
 	    		}, '*');

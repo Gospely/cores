@@ -155,12 +155,12 @@ const weappCompiler = {
 
 		let mainPage = this.compilePage(this.getMainPage());
 
-		app['pages'] = {
+		app['templates'] = {
 			pages: this.compilePages(this.getPageExceptMainPage())
 		};
 
 		for(var key in mainPage) {
-			app['pages'][key] = mainPage[key];
+			app['templates'][key] = mainPage[key];
 		}
 
 		console.log(app);
@@ -168,7 +168,7 @@ const weappCompiler = {
 		self.app = app;
 
 		console.log('==============================================weappCompiler==============================================')
-		return false;
+		return true;
 	},
 
 	compileAPPJSON (options) {
@@ -186,6 +186,7 @@ const weappCompiler = {
 					if(currAttr.type != 'children') {
 						if(key == 'pages') {
 							appJSON[key] = currAttr.value;
+                            console.log(currAttr, currAttr.value);
 						}else {
 							appJSON[key] = currAttr._value;							
 						}
