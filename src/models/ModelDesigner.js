@@ -4374,7 +4374,6 @@ page {
 					activeCtrllvlAndIndex = layoutAction.getControllerIndexAndLvlByKey(state, params.key, activePage),
 					controllerIndex = activeCtrllvlAndIndex.index,
 					level = activeCtrllvlAndIndex.level;
-
 				layoutAction.setActiveController(state.layoutState, controllerIndex, params.key, level);
 			}
 			return {...state};
@@ -4460,7 +4459,6 @@ page {
 	    		gospelDesigner.postMessage({
 	    			attrRefreshed: activePage
 	    		}, '*');
-
     		}
 
     		if(state.layoutState.activeType == 'controller') {

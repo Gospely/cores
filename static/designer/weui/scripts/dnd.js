@@ -56,6 +56,7 @@ var init = function() {
 		},
 
 		refreshApp = function(data) {
+
 			var attr = {};
 
 			if(data.attr.window) {

@@ -3,8 +3,31 @@
  * Modified by bear on 2016/9/7.
  */
 $(function () {
+
+    jQuery.fn.isChildOf = function(b) { 
+        return (this.parents(b).length > 0); 
+    };
+
+    //判断:当前元素是否是被筛选元素的子元素或者本身 
+    jQuery.fn.isChildAndSelfOf = function(b) { 
+        return (this.closest(b).length > 0); 
+    }; 
+
+    var jq = jQuery.noConflict();
+
+    function traversalDOMTree (dom) {
+        for (var i = 0; i < jq(dom).length; i++) {
+            var currentElement = jq(jq(dom)[i]);
+
+            if(currentElement.children().length > 0) {
+                traversalDOMTree(currentElement.children());
+            }
+
+        };
+    }
+
     var pageManager = {
-        $container: $('#container'),
+        $container: jq('#container'),
         _pageStack: [],
         _configs: [],
         _pageAppend: function(){},
@@ -21,7 +44,7 @@ $(function () {
         init: function () {
             var self = this;
 
-            $(window).on('hashchange', function () {
+            jq(window).on('hashchange', function () {
                 var state = history.state || {};
                 var url = location.hash.indexOf('#') === 0 ? location.hash : '#';
                 var page = self._find('url', url) || self._defaultPage;
@@ -59,11 +82,12 @@ $(function () {
 
             history.replaceState && history.replaceState({_pageIndex: this._pageIndex}, '', location.href);
 
-            var html = $(config.template).html();
-            var $html = $(html).addClass('slideIn').addClass(config.name);
+            var html = jq(config.template).find('.page').clone(true);
+            var $html = jq(html).addClass('slideIn').addClass(config.name);
             $html.on('animationend webkitAnimationEnd', function(){
                 $html.removeClass('slideIn').addClass('js_show');
             });
+
             this.$container.append($html);
             this._pageAppend.call(this, $html);
             this._pageStack.push({
@@ -91,8 +115,8 @@ $(function () {
             var url = location.hash.indexOf('#') === 0 ? location.hash : '#';
             var found = this._findInStack(url);
             if (!found) {
-                var html = $(config.template).html();
-                var $html = $(html).addClass('js_show').addClass(config.name);
+                var html = jq(config.template).find('.page').clone(true);
+                var $html = jq(html).addClass('js_show').addClass(config.name);
                 $html.insertBefore(stack.dom);
 
                 if (!config.isBind) {
@@ -142,8 +166,8 @@ $(function () {
             page.isBind = true;
         },
         remove: function(page) {
-            $('.page.' + page.data.key).remove();
-            $('script[id="' + page.data.key + '"]').remove();
+            jq('.page.' + page.data.key).remove();
+            jq('script[id="' + page.data.key + '"]').remove();
 
             this._configs.splice(page.index, 1);
             this._pageStack.splice(page.index, 1);
@@ -181,7 +205,7 @@ $(function () {
         };
     }
     function preload(){
-        $(window).on("load", function(){
+        jq(window).on("load", function(){
             var imgList = [
                 "./images/layers/content.png",
                 "./images/layers/navigation.png",
@@ -270,8 +294,8 @@ $(function () {
 
         def = def || 'page-home';
 
-        var pages = {}, tpls = $('script[type="text/html"]');
-        var winH = $(window).height();
+        var pages = {}, tpls = jq('script[type="text/html"]');
+        var winH = jq(window).height();
 
         if(tpls.length === 0) {
             return false;
@@ -279,6 +303,7 @@ $(function () {
 
         for (var i = 0, len = tpls.length; i < len; ++i) {
             var tpl = tpls[i], name = tpl.id.replace(/tpl_/, '');
+            // traversalDOMTree(tpl);
             pages[name] = getPageConfig(name, name, tpl.id)
         }
 
@@ -316,17 +341,6 @@ $(function () {
     var dndHandlder = function() {
 
         document.domain = location.hostname;
-
-        jQuery.fn.isChildOf = function(b) { 
-            return (this.parents(b).length > 0); 
-        };
-
-        //判断:当前元素是否是被筛选元素的子元素或者本身 
-        jQuery.fn.isChildAndSelfOf = function(b) { 
-            return (this.closest(b).length > 0); 
-        }; 
-
-        var jq = jQuery.noConflict();
 
         var postMessageToFather = {
 
@@ -402,6 +416,8 @@ $(function () {
                 isController = target.data('is-controller'),
                 dataControl = target.data("controller");
 
+                console.log(target, isController, dataControl);
+
             if(!dataControl) {
                 // alert('组件结构出错!');
                 return false;
@@ -427,7 +443,7 @@ $(function () {
                     controllerState.currentActiveCtrlDOM = target;
 
                     if(!isSentByParent) {
-                        postMessageToFather.ctrlClicked(controller);                
+                        postMessageToFather.ctrlClicked(controller);
                     }
 
                     controllerOperations.showDesignerDraggerBorder(target);
@@ -619,7 +635,7 @@ $(function () {
                 css: {
                     refresh: function(data) {
                         var page = data.page,
-                            CSSG = new cssGenerator(page);                        
+                            CSSG = new cssGenerator(page);
                     }
                 }
             }
@@ -678,7 +694,6 @@ $(function () {
                     inter = 0;
 
                 var initDnd = function () {
-                    
                     sourceController.each(function(n) {
                         jq(this).find(".app-components").attr("draggable", true);
                         jq(this).find(".app-components").attr("id", "source" + n);
@@ -691,6 +706,7 @@ $(function () {
                     self.onDrop();
                     self.onDragover();
                 }
+
                 if(sourceController.length === 0) {
                     inter = setInterval(function() {
                         sourceController = jq(self.rowSelector, window.parent.parent.document).find('.ant-col-12')
@@ -781,14 +797,6 @@ $(function () {
                 location.hash = '';
             };
         }
-
-        layoutGenerator.prototype = {
-
-            init: function() {
-
-            }
-
-        };
 
         var cssGenerator = function(app) {
             this.app = app;
@@ -910,6 +918,11 @@ $(function () {
                         currentElem.addClass('container-box-a bd');
                     }
 
+                    if(ctrl.children) {
+                        this.generateTpl(ctrl, jq(currentElem));
+                    }
+
+
                 };
             },
 
@@ -941,7 +954,6 @@ $(function () {
 
             this.elemLoaded = false;
             this.refresh = false;
-
 
             if(!this.tag) {
                 alert('组件数据结构出错');

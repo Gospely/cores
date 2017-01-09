@@ -36,7 +36,6 @@ export default {
 
       		if(params.type == 'page') {
       			if(layouts[0].key !== params.key){
-      				// alert(1)
       				for (var i = 0; i < layouts[0].children.length; i++) {
       					var page = layouts[0].children[i];
       					if(page.key == params.key) {
@@ -118,8 +117,6 @@ export default {
       			}
       		}
 
-      		// alert(activeCtrl);
-
       		if(!activeCtrl) {
       			return false;
       		}
@@ -168,7 +165,6 @@ export default {
 		},
 
 		setActiveFormItem(state, { payload: index }) {
-
 			return {...state};
 		},
 
@@ -201,9 +197,7 @@ export default {
 		},
 
 		hideVisual(state) {
-
 			state.visible = false;
-
 			return {...state};
 		}
 	}
