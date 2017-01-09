@@ -29,6 +29,7 @@ export default {
 		window.addEventListener("load", (evt) => {
 
 			var applicationId = window.applicationId;
+			console.log("load");
 			if(localStorage.applicationId != null && localStorage.applicationId != '' && applicationId == null){
 				window.location.hash = 'project/' + localStorage.applicationId;
 				applicationId = localStorage.applicationId;

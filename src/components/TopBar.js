@@ -413,6 +413,8 @@ const LeftSidebar = (props) => {
 			window.location.hash = 'project/' + application.id;
 			if(application.id != localStorage.applicationId) {
 				window.reload = true
+				localStorage.UIState = '';
+				window.applicationId = application.id;
 				initApplication(application,props);
 			}else{
 				props.dispatch({

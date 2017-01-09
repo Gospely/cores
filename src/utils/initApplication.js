@@ -1,5 +1,6 @@
 import React , {PropTypes} from 'react';
 import { message, notification } from 'antd';
+import request from './request'
 
 const initApplication = function (application, props){
 
@@ -12,7 +13,7 @@ const initApplication = function (application, props){
         return false;
     }
 
-
+    console.log(application);
     if(application.image == 'wechat:latest'){
 
         localStorage.image = application.image;
@@ -52,17 +53,29 @@ const initApplication = function (application, props){
                 id: application.id
             }
         });
-        if(localStorage.UIState != null && localStorage.UIState != undefined){
+        if(localStorage.UIState != '' && localStorage.UIState != null && localStorage.UIState != undefined && window.reload == false){
 
             var UIState = JSON.parse(localStorage.UIState);
-            console.log(UIState.UIState.designer);
-            props.dispatch({
-                type: 'rightbar/initState',
-                payload: { UIState: UIState.UIState.rightbar }
-            });
             props.dispatch({
                 type: 'designer/initState',
                 payload: { UIState: UIState.UIState.designer }
+            });
+            var key = 'single'
+            props.dispatch({
+              type: 'layout/handleClick',
+              payload: key
+            });
+        }else {
+
+            console.log('reload');
+            props.dispatch({
+              type: 'designer/getConfig',
+              payload: { id : application.id}
+            });
+            var key = 'single'
+            props.dispatch({
+              type: 'layout/handleClick',
+              payload: key
             });
         }
         setTimeout(function() {

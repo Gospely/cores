@@ -198,6 +198,7 @@ export default {
  					method: 'get'
  				});
 				config = configs.data.fields[0];
+				localStorage.UIState = config.configs;
 				UIState = JSON.parse(config.configs);
 			}else{
 				UIState = params.UIState;
@@ -233,10 +234,6 @@ export default {
 							activeTab.content = content.content;
 							UIState.panels.panes[i].tabs[j].content = content.content;
 						}
-					}
-					if(activeTab.type == 'terminal' && UIState.panels.panes[i].tabs != null && UIState.panels.panes[i] != null){
-						console.log(UIState.panels.panes[i].tabs);
-						UIState.panels.panes[i].tabs = UIState.panels.panes[i].tabs.splice(j,1);
 					}
 				}
 			}

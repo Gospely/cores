@@ -2,6 +2,7 @@ import dva from 'dva';
 import { message } from 'antd';
 import randomString from '../utils/randomString';
 import computeDomHeight from '../utils/computeDomHeight.js';
+import request from '../utils/request.js';
 
 const layoutAction = {
 
@@ -4339,7 +4340,7 @@ page {
     			let parentCtrl = layoutAction.getCtrlByKey(state.layout[0], targetId);
     			parentCtrl.children = parentCtrl.children || [];
     			parentCtrl.children.push(tmpCtrl);
-    			state.layoutState.expandedKeys.push(targetId);    				
+    			state.layoutState.expandedKeys.push(targetId);
     		}else {
     			activePage.children.push(tmpCtrl);
     		}
@@ -4622,6 +4623,22 @@ page {
 			return {...state};
 		}
 
+	},
+	effects: {
+		*getConfig({ payload: params}, {call, put, select}){
+
+			var configs = yield request('uistates?application=' + params.id, {
+				method: 'get'
+			});
+			var config = configs.data.fields[0];
+			localStorage.UIState = config.configs;
+			var UIState = JSON.parse(config.configs);
+			console.log(UIState);
+			yield put({
+				type: 'initState',
+				payload: { UIState: UIState.UIState.designer }
+			});
+		}
 	}
 
 }

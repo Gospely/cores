@@ -61,17 +61,9 @@ export default {
 			var state = yield select(state => state.devpanel);
 
   			function cb() {
-				var configStr = JSON.stringify(state,function(key,value){
-					if(key == 'content' || key == 'value'){
-						return undefined
-					}else{
-						return value;
-					}
-				});
   				var configTobeSaved = {
   					id: config.id,
-  					application: params.id,
-  					configs: configStr
+  					configs: localStorage.UIState
   				}
   				if(config.dySave) {
 						var url = baseUrl.baseURL + "uistates";

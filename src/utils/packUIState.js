@@ -1,7 +1,5 @@
 const packUIStage = function (params) {
 
-	console.log('packUIStage');
-	console.log(params);
 	var uiState = {
 	      	rightbar: {
 	            activeMenu: params.rightbar.activeMenu
