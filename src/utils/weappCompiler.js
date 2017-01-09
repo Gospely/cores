@@ -188,7 +188,7 @@ const weappCompiler = {
 							appJSON[key] = currAttr.value;
                             console.log(currAttr, currAttr.value);
 						}else {
-							appJSON[key] = currAttr._value;							
+							appJSON[key] = currAttr._value;
 						}
 						if(parentKey) {
 							if(parentKey == 'tabBar' && key == 'list') {
