@@ -336,10 +336,10 @@ export default {
 				type: 'setAppCreatorStart'
 			});
 
-        	const showConfirm = () => {
+        	const showConfirm = (data) => {
 			  	Modal.error({
 			    	title: '服务器提了一个问题',
-			    	content: '创建失败，请重试'
+			    	content: '创建失败，请重试,' + data.message
 			  	});
         	}
 
@@ -373,7 +373,7 @@ export default {
 			    	}
 					return {
 						data: {
-							message: '服务器提了一个问题',
+							message: '服务器提了一个问题' + data.message,
 							code: 500
 						}
 					};
@@ -412,7 +412,7 @@ export default {
                 initApplication(result.data.fields,params.ctx);
             }else {
 
-            	showConfirm();
+            	showConfirm(result.data);
 
                 yield put({
                     type: 'hideModalNewApp',
@@ -493,7 +493,7 @@ export default {
             var cmd = JSON.stringify( {
                 default: cmd,
             });
-
+            
             var result = yield request("applications", {
                 method: 'PUT',
                 headers: {
@@ -505,15 +505,35 @@ export default {
                     exposePort: port
                 })
             });
+
+            if(result.data.code == 1){
+                notification.open({
+    	            message: '修改成功，即将重新加载配置'
+    	        });
+                window.location.reload();
+                yield put({
+                    type: 'sidebar/hideCmdsConfigModal',
+                });
+            }
         },
 
         *checkProjectAvailable( { payload: params }, { call, put, select }) {
 
         	var available = true;
-
+            console.log(params);
         	// available = yield request();
+        	var url = 'applications/validator?name=' + params.name + '&userName=' + localStorage.userName + '&creator=' + localStorage.user;
 
-			props.dispatch({
+            var result = yield request(url, {
+                method: 'get',
+            });
+            console.log(result);
+            if(result.data.code == 1){
+                available = true;
+            }else{
+                available = false;
+            }
+			yield put({
 				type: 'setProjectNameAvailabel',
 				payload: available
 			});
@@ -530,6 +550,9 @@ export default {
 
 	reducers: {
 		setProjectNameAvailabel(state, { payload: available }) {
+
+            console.log('setProjectNameAvailabel');
+            console.log(available);
 			state.appCreatingForm.isProjectNameAvailabel = available;
 			return {...state};
 		},
