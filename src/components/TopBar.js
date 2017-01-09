@@ -647,9 +647,9 @@ const LeftSidebar = (props) => {
 			props.dispatch({
 				type: 'sidebar/updateCmds',
 			})
-			props.dispatch({
-				type: 'sidebar/hideCmdsConfigModal',
-			})
+			notification.open({
+	            message: '正在修改端口配置....'
+	        });
 		}
 	}
 

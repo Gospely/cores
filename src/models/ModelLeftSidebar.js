@@ -493,7 +493,7 @@ export default {
             var cmd = JSON.stringify( {
                 default: cmd,
             });
-
+            
             var result = yield request("applications", {
                 method: 'PUT',
                 headers: {
@@ -505,6 +505,16 @@ export default {
                     exposePort: port
                 })
             });
+
+            if(result.data.code == 1){
+                notification.open({
+    	            message: '修改成功，即将重新加载配置'
+    	        });
+                window.location.reload();
+                yield put({
+                    type: 'sidebar/hideCmdsConfigModal',
+                });
+            }
         },
 
         *checkProjectAvailable( { payload: params }, { call, put, select }) {
