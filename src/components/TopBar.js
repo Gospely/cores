@@ -120,10 +120,7 @@ const LeftSidebar = (props) => {
 					    title: '即将切换应用',
 					    content: '您确定要切换吗（点击确定将保存您的工作内容并进行切换）',
 					    onOk() {
-							props.dispatch({
-								type: 'sidebar/handleWechatSave'
-							});
-
+					    	
 							wechatSave.save();
 
 							props.dispatch({
