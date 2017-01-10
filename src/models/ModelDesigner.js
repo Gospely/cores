@@ -1314,6 +1314,13 @@ page {
 						isHTML: true,
 						_value: '按钮'
 					},
+					href: {
+						type: 'input',
+						attrType: 'text',
+						title: '链接',
+						isSetAttribute: 'true',
+						_value: 'templates/index'
+					},
 					class: {
 						type: 'select',
 						title: '按钮类型',
@@ -2243,9 +2250,19 @@ page {
 				}]
 			},
 			{
-				name: '文本框',
+				name: '普通文本框',
 				type: 'input',
-				attr: {},
+				attr: {
+					theParent: {
+						isParent: true,
+						_value: {
+							tag: 'div',
+							className: 'weui-cells weui-cells_form'
+						},
+						backend: true,
+						type: 'input'
+					}
+				},
 				tag: ['div'],
 				baseClassName: 'weui-cell weui-cell_input',
 				wrapper: '',
@@ -2563,6 +2580,16 @@ page {
 						bindType: 'radio'
 					},
 
+					theParent: {
+						isParent: true,
+						_value: {
+							tag: 'div',
+							className: 'weui-cells weui-cells_checkbox'
+						},
+						backend: true,
+						type: 'input'
+					},
+
 					checked: {
 						type: 'toggle',
 						title: '是否选中',
@@ -2865,6 +2892,16 @@ page {
 						isSetAttribute: true,
 						_value: '',
 						bindType: 'checkbox'
+					},
+
+					theParent: {
+						isParent: true,
+						_value: {
+							tag: 'div',
+							className: 'weui-cells weui-cells_checkbox'
+						},
+						backend: true,
+						type: 'input'
 					}
 				},
 				baseClassName: 'weui-cell weui-check__label',
@@ -3572,16 +3609,18 @@ page {
 				}
 			},
 			{
-				name: '列表',
+				name: '普通列表',
 				type: 'list',
 				attr: {
-					linked: {
-						type: 'toggle',
-						title: '跳转',
-						isClassName: true,
-						value: ['weui-cell_access'],
-						isHTML: false,
-						_value: false
+
+					theParent: {
+						isParent: true,
+						_value: {
+							tag: 'div',
+							className: 'weui-cells'
+						},
+						backend: true,
+						type: 'input'
 					},
 
 					title: {
@@ -3600,13 +3639,20 @@ page {
 					name: '列表头部',
 					type: 'weui-cell__hd',
 					attr: {
-						useImage: {
+						isComponent: {
+							backend: true,
+							value: [],
+							title: '是否为完整的组件',
+							_value: true
+						},
+
+						display: {
 							type: 'toggle',
-							title: '使用图片',
-							isClassName: false,
-							value: [''],
-							isHTML: false,
-							_value: false
+							title: '显示',
+							_value: true,
+							value: ['none', 'block'],
+							isStyle: true,
+							isToggleStyle: true
 						},
 
 						title: {
@@ -3617,11 +3663,267 @@ page {
 							title: '名称'
 						}
 					},
-					children: []
+					children: [{
+						tag: 'img',
+						name: '列表头部图标',
+						type: 'img',
+						attr: {
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
+							},
+							width: {
+								isStyle: true,
+								backend: true,
+								_value: '20px'
+							},
+							'margin-right': {
+								isStyle: true,
+								backend: true,
+								_value: '5px'
+							},
+							display: {
+								isStyle: true,
+								backend: true,
+								_value: 'block'
+							},
+							src: {
+								isSetAttribute: true,
+								type: 'input',
+								title: '图片地址',
+								_value: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC4AAAAuCAMAAABgZ9sFAAAAVFBMVEXx8fHMzMzr6+vn5+fv7+/t7e3d3d2+vr7W1tbHx8eysrKdnZ3p6enk5OTR0dG7u7u3t7ejo6PY2Njh4eHf39/T09PExMSvr6+goKCqqqqnp6e4uLgcLY/OAAAAnklEQVRIx+3RSRLDIAxE0QYhAbGZPNu5/z0zrXHiqiz5W72FqhqtVuuXAl3iOV7iPV/iSsAqZa9BS7YOmMXnNNX4TWGxRMn3R6SxRNgy0bzXOW8EBO8SAClsPdB3psqlvG+Lw7ONXg/pTld52BjgSSkA3PV2OOemjIDcZQWgVvONw60q7sIpR38EnHPSMDQ4MjDjLPozhAkGrVbr/z0ANjAF4AcbXmYAAAAASUVORK5CYII='
+							}
+						}
+					}]
 				}, {
 					tag: 'div',
 					baseClassName: 'weui-cell__bd',
 					attr: {
+
+						title: {
+							_value: '列表标题文字',
+							type: 'input',
+							isClassName: false,
+							isHTML: false,
+							title: '名称'
+						},
+
+						isComponent: {
+							backend: true,
+							value: [],
+							title: '是否为完整的组件',
+							_value: true
+						},
+
+						display: {
+							type: 'toggle',
+							title: '显示',
+							_value: true,
+							value: ['none', 'block'],
+							isStyle: true,
+							isToggleStyle: true
+						},
+
+					},
+					name: '列表正文',
+					type: 'weui-cell__bd',
+					children: [{
+						tag: 'p',
+						baseClassName: '',
+						name: '列表标题文字',
+						type: 'p',
+						attr: {
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
+							},
+							content: {
+								type: 'input',
+								title: '文本内容',
+								isHTML: true,
+								isClassName: false,
+								_value: '列表标题文字'
+							},
+
+							title: {
+								_value: '列表标题文字',
+								type: 'input',
+								isClassName: false,
+								isHTML: false,
+								title: '名称'
+							}
+
+						}
+					}]
+				}, {
+					tag: 'div',
+					baseClassName: 'weui-cell__ft',
+					type: 'weui-cell__ft',
+					attr: {
+						isComponent: {
+							backend: true,
+							value: [],
+							title: '是否为完整的组件',
+							_value: true
+						},
+						display: {
+							type: 'toggle',
+							title: '显示',
+							_value: true,
+							value: ['none', 'block'],
+							isStyle: true,
+							isToggleStyle: true
+						},
+						title: {
+							_value: '列表标题文字',
+							type: 'input',
+							isClassName: false,
+							isHTML: false,
+							title: '名称'
+						}
+					},
+					name: '列表底部',
+					children: [{
+						tag: 'span',
+						baseClassName: '',
+						name: '说明文字',
+						type: 'span',
+						attr: {
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
+							},
+							content: {
+								type: 'input',
+								isHTML: true,
+								isClassName: false,
+								_value: '说明文字',
+								title: '内容'
+							},
+
+							title: {
+								_value: '列表标题文字',
+								type: 'input',
+								isClassName: false,
+								isHTML: false,
+								title: '名称'
+							}
+
+						}
+					}]
+				}]
+			},
+			{
+				name: '跳转列表',
+				type: 'list',
+				attr: {
+					href: {
+						type: 'input',
+						title: '跳转地址',
+						isSetAttribute: true,
+						_value: 'templates/index'
+					},
+					theParent: {
+						isParent: true,
+						_value: {
+							tag: 'div',
+							className: 'weui-cells'
+						},
+						backend: true,
+						type: 'input'
+					}
+				},
+				tag: 'a',
+				baseClassName: 'weui-cell weui-cell_access',
+				children: [{
+					tag: 'div',
+					baseClassName: 'weui-cell__hd',
+					name: '列表头部',
+					type: 'weui-cell__hd',
+					attr: {
+						isComponent: {
+							backend: true,
+							value: [],
+							title: '是否为完整的组件',
+							_value: true
+						},
+						display: {
+							type: 'toggle',
+							title: '显示',
+							_value: true,
+							value: ['none', 'block'],
+							isStyle: true,
+							isToggleStyle: true
+						},
+
+						title: {
+							_value: '列表正文头部',
+							type: 'input',
+							isClassName: false,
+							isHTML: false,
+							title: '名称'
+						}
+					},
+					children: [{
+						tag: 'img',
+						name: '列表头部图标',
+						type: 'img',
+						attr: {
+							width: {
+								isStyle: true,
+								backend: true,
+								_value: '20px'
+							},
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
+							},
+							'margin-right': {
+								isStyle: true,
+								backend: true,
+								_value: '5px'
+							},
+							display: {
+								isStyle: true,
+								backend: true,
+								_value: 'block'
+							},
+							src: {
+								isSetAttribute: true,
+								type: 'input',
+								title: '图片地址',
+								_value: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC4AAAAuCAMAAABgZ9sFAAAAVFBMVEXx8fHMzMzr6+vn5+fv7+/t7e3d3d2+vr7W1tbHx8eysrKdnZ3p6enk5OTR0dG7u7u3t7ejo6PY2Njh4eHf39/T09PExMSvr6+goKCqqqqnp6e4uLgcLY/OAAAAnklEQVRIx+3RSRLDIAxE0QYhAbGZPNu5/z0zrXHiqiz5W72FqhqtVuuXAl3iOV7iPV/iSsAqZa9BS7YOmMXnNNX4TWGxRMn3R6SxRNgy0bzXOW8EBO8SAClsPdB3psqlvG+Lw7ONXg/pTld52BjgSSkA3PV2OOemjIDcZQWgVvONw60q7sIpR38EnHPSMDQ4MjDjLPozhAkGrVbr/z0ANjAF4AcbXmYAAAAASUVORK5CYII='
+							}
+						}
+					}]
+				}, {
+					tag: 'div',
+					baseClassName: 'weui-cell__bd',
+					attr: {
+
+						display: {
+							type: 'toggle',
+							title: '显示',
+							_value: true,
+							value: ['none', 'block'],
+							isStyle: true,
+							isToggleStyle: true
+						},
+
+						isComponent: {
+							backend: true,
+							value: [],
+							title: '是否为完整的组件',
+							_value: true
+						},
 
 						title: {
 							_value: '列表标题文字',
@@ -3648,6 +3950,13 @@ page {
 								_value: '列表标题文字'
 							},
 
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
+							},
+
 							title: {
 								_value: '列表标题文字',
 								type: 'input',
@@ -3663,6 +3972,14 @@ page {
 					baseClassName: 'weui-cell__ft',
 					type: 'weui-cell__ft',
 					attr: {
+
+						isComponent: {
+							backend: true,
+							value: [],
+							title: '是否为完整的组件',
+							_value: true
+						},
+
 						title: {
 							_value: '列表标题文字',
 							type: 'input',
@@ -3670,6 +3987,7 @@ page {
 							isHTML: false,
 							title: '名称'
 						}
+
 					},
 					name: '列表底部',
 					children: [{
@@ -3678,12 +3996,27 @@ page {
 						name: '说明文字',
 						type: 'span',
 						attr: {
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
+							},
 							content: {
 								type: 'input',
 								isHTML: true,
 								isClassName: false,
 								_value: '说明文字',
 								title: '内容'
+							},
+
+							display: {
+								type: 'toggle',
+								title: '显示',
+								_value: true,
+								value: ['none', 'block'],
+								isStyle: true,
+								isToggleStyle: true
 							},
 
 							title: {
@@ -3694,8 +4027,7 @@ page {
 								title: '名称'
 							}
 
-						},
-						children: []
+						}
 					}]
 				}]
 			},
@@ -4060,11 +4392,11 @@ page {
 				type: 'list-item-thumbnail',
 				attr: {}
 			},
-			{
-				name: '列表图标',
-				type: 'list-item-icon',
-				attr: {}
-			}
+			// {
+			// 	name: '列表图标',
+			// 	type: 'list-item-icon',
+			// 	attr: {}
+			// }
 		],
 		constructionMenuStyle: {
 		    position: 'fixed',
@@ -4287,6 +4619,7 @@ page {
 
 			let controller = ctrlAndTarget.ctrl,
 				targetId = ctrlAndTarget.target,
+				theParent = ctrlAndTarget.theParent,
 				activePage = layoutAction.getActivePage(state),
 				deepCopiedController = layoutAction.deepCopyObj(controller);
 
@@ -4328,6 +4661,36 @@ page {
 			}
 
 			var tmpCtrl = loopAttr(deepCopiedController);
+
+			if (theParent) {
+				let theParentCtrl = {
+					type: theParent.tag,
+					tag: theParent.tag,
+					key: theParent.tag + '-' + randomString(8, 10),
+					attr: {
+						title: {
+							_value: controller.name + '容器',
+							title: '名称',
+							type: 'input'
+						},
+						isContainer: {
+							isContainer: {
+								type: 'toggle',
+								backend: true,
+								isContainer: true,
+								title: '是否是容器'
+							},
+						}
+					},
+					baseClassName: theParent.className,
+					children: []
+
+				};
+
+				theParentCtrl.children.push(tmpCtrl);
+
+				tmpCtrl = theParentCtrl;
+			}
 
 			gospelDesignerPreviewer.postMessage({
     			ctrlAdded: {

@@ -421,7 +421,7 @@ $(function () {
                 isController = target.data('is-controller'),
                 dataControl = target.data("controller");
 
-                console.log(target, isController, dataControl);
+                // console.log(target, isController, dataControl);
 
             if(!dataControl) {
                 // alert('组件结构出错!');
@@ -431,6 +431,8 @@ $(function () {
             if(isController) {
                 //触发控件被点击事件
                 controllerOperations.select(dataControl);
+                //阻止事件，比如 a 标签的跳转
+                e.preventDefault();
             }
         });
 
@@ -524,7 +526,6 @@ $(function () {
                             controller: controller,
                             page: page
                         });
-
                     ctrlRefresher.setAttribute();
                     controllerOperations.showDesignerDraggerBorder(target)
 
@@ -739,11 +740,23 @@ $(function () {
 
                     //获取父元素的window对象上的数据
                     var controller = parent.parent.dndData;
-                    parent.parent.currentTarget = e.target;
+
+                    //传回父页面的数据
                     var ctrlAndTarget = {
                         ctrl: controller,
                         target: e.target.id
                     }
+
+                    //若拖进来的元素必须有特定的父元素则判断是否需要添加其特定父元素
+                    if (controller.attr.theParent && controller.attr.theParent._value && 
+                        controller.attr.theParent._value.tag != e.target.tagName && 
+                        e.target.className.indexOf(controller.attr.theParent._value.className == -1)) {
+                        
+                        ctrlAndTarget.theParent = controller.attr.theParent._value;
+
+                    }
+                    parent.parent.currentTarget = e.target;
+                    
                     if (!dropTarget.hasClass('page__bd')) {
                         dropTarget.css({
                             height: 'auto'
@@ -1218,9 +1231,7 @@ $(function () {
 
                     //阻止用户在设计器中改变表单的值
                     if (att == 'value' || att == 'checked') {
-                        this.elem.on('change', function () {
-                            return false;
-                        });
+                        this.elem.attr('readonly', true);
                     }
 
                 }
@@ -1275,6 +1286,7 @@ $(function () {
                 elem.attr('draggable', true);
 
                 elem.on('dragstart', function (e) {
+
                     e.originalEvent.dataTransfer.effectAllowed = "move";
                     
                     //初始化会改变的属性数据

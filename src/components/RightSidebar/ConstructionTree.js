@@ -86,7 +86,7 @@ const ConstructionTree = (props) => {
             deleteKey = sessionStorage.currentSelectedConstructionKey,
             layout = props.designer.layout[0];
             
-        if (ctrl.level == 1 || ctrl.level == 3) {
+        if (ctrl.level == 1 || ctrl.level == 3 || sessionStorage.currentSelectedConstructionKey == 'page-home') {
             message.error('不能删除此项');
             return false;
         }
