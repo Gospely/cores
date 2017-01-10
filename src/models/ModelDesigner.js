@@ -4567,6 +4567,8 @@ page {
 		},
 
 		initState(state, { payload: params }){
+
+			console.log('initState designer');
 			state.layout = params.UIState.layout;
 			state.layoutState = params.UIState.layoutState;
 			state.defaultDevice = params.UIState.defaultDevice;
@@ -4627,7 +4629,6 @@ page {
 			var config = configs.data.fields[0];
 			localStorage.UIState = config.configs;
 			var UIState = JSON.parse(config.configs);
-			console.log(UIState);
 			yield put({
 				type: 'initState',
 				payload: { UIState: UIState.UIState.designer }

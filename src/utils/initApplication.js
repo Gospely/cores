@@ -20,10 +20,6 @@ const initApplication = function (application, props){
         localStorage.applicationId = application.id;
 
         props.dispatch({
-            type: 'devpanel/handleImages',
-            payload: { id: application.image }
-        });
-        props.dispatch({
           type: 'sidebar/hideModalSwitchApp'
         });
         props.dispatch({
@@ -69,11 +65,14 @@ const initApplication = function (application, props){
             props.dispatch({
                 type: 'devpanel/wechatInit',
             });
+            console.log('reload');
+            setTimeout(function(){
+                props.dispatch({
+                  type: 'designer/getConfig',
+                  payload: { id : application.id}
+                });
+            },1000)
 
-            props.dispatch({
-              type: 'designer/getConfig',
-              payload: { id : application.id}
-            });
             var key = 'single'
             props.dispatch({
               type: 'layout/handleClick',
