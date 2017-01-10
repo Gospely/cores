@@ -96,12 +96,21 @@ const LeftSidebar = (props) => {
 	        },
 
 	        'switch'() {
-	          	props.dispatch({
-	            	type: 'sidebar/showModalSwitchApp'
-	          	});
-				props.dispatch({
-	            	type: 'sidebar/getApplications'
-	          	});
+
+
+				if(localStorage.image == 'wechat:latest'){
+					props.dispatch({
+						type: 'sidebar/handleWechatSave'
+					});
+				}else {
+					props.dispatch({
+		            	type: 'sidebar/showModalSwitchApp'
+		          	});
+					props.dispatch({
+		            	type: 'sidebar/getApplications'
+		          	});
+
+				}
 		    },
 
 	        commit() {
@@ -412,23 +421,9 @@ const LeftSidebar = (props) => {
 	    openApp(application) {
 			window.location.hash = 'project/' + application.id;
 			if(application.id != localStorage.applicationId) {
-
-				if(localStorage.image == 'wechat:latest'){
-					props.dispatch({
-						type: 'sidebar/handleWechatSave'
-					});
-					setTimeout(function(){
-						window.reload = true
-						window.applicationId = application.id;
-						initApplication(application,props);
-					},2000)
-				}else {
-					window.reload = true
-					window.applicationId = application.id;
-					initApplication(application,props);
-				}
-
-
+				window.reload = true
+				window.applicationId = application.id;
+				initApplication(application,props);
 			}else{
 				props.dispatch({
 			      type: 'sidebar/hideModalSwitchApp'
@@ -437,9 +432,10 @@ const LeftSidebar = (props) => {
 	    },
 
 	    switchApp() {
-	      	props.dispatch({
-	        	type: 'sidebar/switchApp'
-	      	})
+
+			props.dispatch({
+				type: 'sidebar/switchApp'
+			})
 	    },
 
 		cancelModifyGitOrigin: function() {
@@ -644,6 +640,12 @@ const LeftSidebar = (props) => {
 			props.dispatch({
 				type: 'sidebar/handleWechatSave'
 			})
+			props.dispatch({
+				type: 'sidebar/showModalSwitchApp'
+			});
+			props.dispatch({
+				type: 'sidebar/getApplications'
+			});
 		},
 		save(){
 
@@ -657,6 +659,12 @@ const LeftSidebar = (props) => {
 			props.dispatch({
 				type: 'UIState/writeConfig'
 			})
+			props.dispatch({
+				type: 'sidebar/showModalSwitchApp'
+			});
+			props.dispatch({
+				type: 'sidebar/getApplications'
+			});
 		}
 	}
 	const debugConfigModal = {

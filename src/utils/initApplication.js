@@ -69,11 +69,14 @@ const initApplication = function (application, props){
             props.dispatch({
                 type: 'devpanel/wechatInit',
             });
+            console.log('reload');
+            setTimeout(function(){
+                props.dispatch({
+                  type: 'designer/getConfig',
+                  payload: { id : application.id}
+                });
+            },1000)
 
-            props.dispatch({
-              type: 'designer/getConfig',
-              payload: { id : application.id}
-            });
             var key = 'single'
             props.dispatch({
               type: 'layout/handleClick',
