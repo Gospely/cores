@@ -659,12 +659,14 @@ const LeftSidebar = (props) => {
 			props.dispatch({
 				type: 'UIState/writeConfig'
 			})
-			props.dispatch({
-				type: 'sidebar/showModalSwitchApp'
-			});
-			props.dispatch({
-				type: 'sidebar/getApplications'
-			});
+			setTimeout(function(){
+				props.dispatch({
+					type: 'sidebar/showModalSwitchApp'
+				});
+				props.dispatch({
+					type: 'sidebar/getApplications'
+				});
+			}, 1000)
 		}
 	}
 	const debugConfigModal = {

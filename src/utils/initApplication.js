@@ -20,10 +20,6 @@ const initApplication = function (application, props){
         localStorage.applicationId = application.id;
 
         props.dispatch({
-            type: 'devpanel/handleImages',
-            payload: { id: application.image }
-        });
-        props.dispatch({
           type: 'sidebar/hideModalSwitchApp'
         });
         props.dispatch({

@@ -43,7 +43,7 @@ export default {
   				return false;
   			}
 			var config = configs.data.fields[0];
-
+			localStorage.uistateId = config.id;
 			if(!config) {
 				config = {};
 			}
@@ -85,7 +85,7 @@ export default {
 		*writeConfig({ payload: params }, { call, put, select }) {
 
 			var configTobeSaved = {
-				id: localStorage.applicationId,
+				id: localStorage.uistateId,
 				configs: localStorage.UIState
 			}
 			var url = baseUrl.baseURL + "uistates";
