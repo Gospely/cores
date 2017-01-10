@@ -96,6 +96,8 @@ const LeftSidebar = (props) => {
 					    title: '即将新建应用',
 					    content: '您确定要切换吗（点击确定将保存您的工作内容并进行切换）',
 					    onOk() {
+							wechatSave.save();
+							
 	    	          		props.dispatch({
 				        		type: 'sidebar/showModalNewApp'
 				          	});
