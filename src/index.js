@@ -14,7 +14,9 @@ import auth from './utils/auth';
 window.flag = false;
 window.fileFlag = false;
 
-document.domain = location.hostname;
+if(document.domain != 'localhost') {
+	document.domain = 'gospely.com';
+}
 
 //认证和状态同步
 auth();

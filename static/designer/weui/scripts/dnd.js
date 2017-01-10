@@ -1,6 +1,8 @@
 var init = function() {
 
-	document.domain = location.hostname;
+    if(document.domain != 'localhost') {
+        document.domain = 'gospely.com';
+    }
 
 	var jq = jQuery.noConflict(),
 		pageAction = {
