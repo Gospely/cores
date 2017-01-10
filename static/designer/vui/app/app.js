@@ -23,6 +23,7 @@ $(function () {
                 traversalDOMTree(currentElement.children());
             }
 
+            console.log(currentElement.data('controller'));
         };
     }
 
@@ -35,6 +36,7 @@ $(function () {
         _pageIndex: 1,
         setDefault: function (defaultPage) {
             this._defaultPage = this._find('name', defaultPage);
+            location.hash = this._defaultPage.url;
             return this;
         },
         setPageAppend: function (pageAppend) {
@@ -88,6 +90,8 @@ $(function () {
                 $html.removeClass('slideIn').addClass('js_show');
             });
 
+            traversalDOMTree($html);
+
             this.$container.append($html);
             this._pageAppend.call(this, $html);
             this._pageStack.push({
@@ -117,6 +121,7 @@ $(function () {
             if (!found) {
                 var html = jq(config.template).find('.page').clone(true);
                 var $html = jq(html).addClass('js_show').addClass(config.name);
+
                 $html.insertBefore(stack.dom);
 
                 if (!config.isBind) {
@@ -166,7 +171,7 @@ $(function () {
             page.isBind = true;
         },
         remove: function(page) {
-            jq('.page.' + page.data.key).remove();
+            jq('.page.' + page.data.key).hide();
             jq('script[id="' + page.data.key + '"]').remove();
 
             this._configs.splice(page.index, 1);

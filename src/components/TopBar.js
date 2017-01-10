@@ -1416,10 +1416,10 @@ const LeftSidebar = (props) => {
 	         				placeholder="8080" />
 		    	</Form.Item>
 		    </Modal>
-			<Modal width="30%"  title="保存设计？" visible={props.sidebar.wechatSaveShow}
+			<Modal width="30%"  title="您正在切换应用" visible={props.sidebar.wechatSaveShow}
 	          	onOk={wechatSave.save} onCancel={wechatSave.hideModal}
 		    >
-			请保存你的设计！
+				要保存您的设计吗？
 		    </Modal>
 
 			{initPreviewer()}
