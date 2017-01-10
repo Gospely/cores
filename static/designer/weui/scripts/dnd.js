@@ -123,6 +123,14 @@ var init = function() {
 
 			appConfigRender: function() {
 				refreshApp(data);
+			},
+
+			startRouting: function() {
+				jq('.spinner-wrapper').show();
+			},
+
+			stopRouting: function() {
+				jq('.spinner-wrapper').hide();				
 			}
 
 		}

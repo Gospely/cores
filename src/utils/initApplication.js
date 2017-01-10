@@ -20,13 +20,6 @@ const initApplication = function (application, props){
         localStorage.applicationId = application.id;
 
         props.dispatch({
-            type: 'UIState/readConfig',
-            payload: {
-                id: application.id
-            }
-        });
-
-        props.dispatch({
           type: 'sidebar/hideModalSwitchApp'
         });
         props.dispatch({
@@ -47,6 +40,13 @@ const initApplication = function (application, props){
         props.dispatch({
             type: 'devpanel/add',
             payload: {title, type}
+        });
+
+        props.dispatch({
+            type: 'UIState/readConfig',
+            payload: {
+                id: application.id
+            }
         });
 
         if(localStorage.UIState != '' && localStorage.UIState != null && localStorage.UIState != undefined && window.reload == false){
@@ -71,7 +71,7 @@ const initApplication = function (application, props){
                   type: 'designer/getConfig',
                   payload: { id : application.id}
                 });
-            }, 1000);
+            }, 200);
 
             var key = 'single'
             props.dispatch({

@@ -335,6 +335,18 @@ $(function () {
 
             ctrlExchanged: function(c) {
                 parent.parent.postMessage({'ctrlExchanged': c}, '*');
+            },
+
+            startRouting: function() {
+                parent.postMessage({
+                    'startRouting': true
+                }, '*');
+            },
+
+            stopRouting: function() {
+                parent.postMessage({
+                    'stopRouting': true
+                }, '*');
             }
 
         }
@@ -376,7 +388,23 @@ $(function () {
                 console.log(target, isController, dataControl);
 
             if(!dataControl) {
-                // alert('组件结构出错!');
+                if(target.attr('tabbar')) {
+
+                    var tpls = jq('script[id]');
+
+                    for (var i = 0; i < tpls.length; i++) {
+                        var tpl = jq(tpls[i]);
+                        if(tpl.attr('router') == target.attr('router')) {
+                            postMessageToFather.startRouting();
+                            pageManager.go(tpl.attr('id'));
+                            controllerOperations.hideDesignerDraggerBorder();
+                            postMessageToFather.pageSelected({
+                                key: tpl.attr('id')
+                            });
+                            break;
+                        }
+                    };
+                }
                 return false;
             }
 
@@ -479,7 +507,6 @@ $(function () {
 
                     ctrlRefresher.setAttribute();
                     controllerOperations.showDesignerDraggerBorder(target)
-
                 }
             },
 
@@ -501,6 +528,12 @@ $(function () {
                     this.changeBackgroundTextStyle(attr.backgroundTextStyle._value);
 
                     this.tabBar.refreshTabBarStyle(data);
+
+                    if(data.attr.routingURL) {
+                        //页面路由发生变化，script模版路由属性跟着变化
+                        jq('script[id="' + data.key + '"').attr('router', data.attr.routingURL._value);
+                    }
+
                 },
 
                 changeBackgroundTextStyle: function(style) {
@@ -541,7 +574,7 @@ $(function () {
                             jq('.page-app').html(tabs);
 
                             this.refreshTabBarStyle(tabBar);
-                            this.addTabBarToMainPage(tabList);
+                            this.addTabBarToMainPage(tabList, tabBar);
                         }else {
                             tpl.html('');
                             jq('.page-app').find('.weui-tab').remove();
@@ -566,8 +599,8 @@ $(function () {
                     },
 
                     generateTabBar: function(iconPath, text, pagePath, selectedIconPath) {
-                        return '<a href="javascript:location.hash=\"' + pagePath + '\";" class="weui-tabbar__item"> \
-                             <img src="' + iconPath + '" alt="" class="weui-tabbar__icon"> \
+                        return '<a tabbar="true" router="' + pagePath + '" href="#' + pagePath + '" class="weui-tabbar__item"> \
+                             <img tabbar="true" router="' + pagePath + '" src="' + iconPath + '" alt="" class="weui-tabbar__icon"> \
                              <p class="weui-tabbar__label">' + text + '</p> \
                         </a>';
                     },
@@ -579,7 +612,7 @@ $(function () {
                                 </div>';
                     },
 
-                    addTabBarToMainPage: function(tabList) {
+                    addTabBarToMainPage: function(tabList, tabBar) {
                         var tabs = this.generateTabBarLoop(tabList);
                         jq('.page-home .weui-tabbar').html(tabs);
                     },
@@ -837,7 +870,7 @@ $(function () {
             },
 
             appendPageToHTML: function(page) {
-                var wrapper = jq(this.generateTplScript(page.key)),
+                var wrapper = jq(this.generateTplScript(page.key, page.attr.routingURL._value)),
                     target;
 
                 jq('#container').after(wrapper);
@@ -879,12 +912,11 @@ $(function () {
                         this.generateTpl(ctrl, jq(currentElem));
                     }
 
-
                 };
             },
 
-            generateTplScript: function(id) {
-                var wrapper = '<script type="text/html" id="' + id + '"></script>';
+            generateTplScript: function(id, router) {
+                var wrapper = '<script type="text/html" id="' + id + '" router="' + router + '"></script>';
                 return wrapper;
             }
         };
@@ -1174,7 +1206,6 @@ $(function () {
                             return false;
                         });
                     }
-
                 }
 
                 this.elem.attr('id', this.controller.key);
@@ -1474,6 +1505,7 @@ $(function () {
                                 .push(getPageConfig(data.key, data.key, data.key))
                                 .go(data.key);
 
+                            pageOperations.refreshApp(data);
                             controllerOperations.hideDesignerDraggerBorder();
                         },
 
@@ -1490,6 +1522,7 @@ $(function () {
                             controllerOperations.hideDesignerDraggerBorder();
                             setTimeout(function() {
                                 pageOperations.refreshApp(data);
+                                postMessageToFather.stopRouting();
                             }, 100);
                         },
 
@@ -1509,7 +1542,6 @@ $(function () {
 
                             var pageId = location.hash.split('#')[1] || 'page-home';
 
-                            // jq('script[id="' + pageId + '"]').find('.page').append(jq('.' + pageId).clone(true));
                             jq('script[id="' + pageId + '"]').html(jq('.' + pageId).clone(true));
 
                             controllerOperations.select(controller);
