@@ -39,6 +39,10 @@ export default {
 			isGit: false,
 			pushValue: ''
 		},
+        modifyGitConfigInput: {
+			userName: '',
+			email: ''
+		},
 
 		activeMenu: localStorage.defaultActiveKey || 'file',
 
@@ -668,7 +672,18 @@ export default {
 				value: state.modifyGitOriginInput.value
 			}}
 		},
-
+        handleModifyGitConfigInputChange(state, {payload: val}) {
+			return {...state, modifyGitConfigInput: {
+				userName: val,
+                email: state.modifyGitConfigInput.email
+			}}
+		},
+        handleModifyGitConfigEmailInputChange(state, {payload: val}) {
+            return {...state, modifyGitConfigInput: {
+				email: val,
+                userName: state.modifyGitConfigInput.userName
+			}}
+		},
 		showNewAppAndHideSwitch(state, {payload: val}) {
 			return {...state, modalNewAppVisible: true, modalSwitchAppVisible: false, createFromModal: true};
 		},

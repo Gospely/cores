@@ -203,6 +203,7 @@ export default {
 
 				UIState = UIState.UIState.devpanel;
 			}else{
+				console.log('localStorage');
 				UIState = params.UIState;
 			}
 			for(var i = 0; i < UIState.panels.panes.length; i++) {

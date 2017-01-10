@@ -115,12 +115,12 @@ const LeftSidebar = (props) => {
 	        'switch'() {
 
 	        	if(location.hash.indexOf('project') != -1) {
-				
+
 					confirm({
 					    title: '即将切换应用',
 					    content: '您确定要切换吗（点击确定将保存您的工作内容并进行切换）',
 					    onOk() {
-					    	
+
 							wechatSave.save();
 
 							props.dispatch({
@@ -252,7 +252,7 @@ const LeftSidebar = (props) => {
 
 					props.dispatch({
 						type: 'devpanel/initDebugPanel',
-						payload: { cmd: 'cd /root/workspace\n clear && git pull\n' }
+						payload: { cmd: 'cd /root/workspace\n clear && git pull origin master\n' }
 					});
 				}
 	        },
@@ -484,10 +484,16 @@ const LeftSidebar = (props) => {
 					message.error('git源不能为空');
 					return false;
 				}
-
-				props.dispatch({
-					type: 'sidebar/modifyGitOrigin'
-				})
+				if(props.sidebar.modifyGitConfigInput.userName == '' || props.sidebar.modifyGitConfigInput.email == '') {
+					message.error('git 配置不能为空');
+					return false;
+				}
+				window.socket.send('git remote set-url origin ' + props.sidebar.modifyGitOriginInput.value + '\n');
+				window.socket.send('git config user.name ' + props.sidebar.modifyGitConfigInput.userName + ' --replace-all\n');
+				window.socket.send('git config user.email ' + props.sidebar.modifyGitConfigInput.email + ' --replace-all\n');
+				// props.dispatch({
+				// 	type: 'sidebar/modifyGitOrigin'
+				// })
 			},
 
 			onChange: function(e) {
@@ -504,11 +510,45 @@ const LeftSidebar = (props) => {
 				})
 			}
 		},
+		modifyGitConfigInput: {
+			onPressEnter: function() {
+				if(props.sidebar.modifyGitConfigInput.userName == '' || props.sidebar.modifyGitConfigInput.email == '') {
+					message.error('git 配置不能为空');
+					return false;
+				}
 
-		onGitOperationTabChanged: function() {
-			props.dispatch({
-				type: 'devpanel/getKey'
-			});
+				props.dispatch({
+					type: 'sidebar/modifyGitOrigin'
+				})
+			},
+
+			onChange: function(e) {
+				props.dispatch({
+					type: 'sidebar/handleModifyGitConfigInputChange',
+					payload: e.target.value
+				})
+			},
+
+			onEmailChange: function(e) {
+				props.dispatch({
+					type: 'sidebar/handleModifyGitConfigEmailInputChange',
+					payload: e.target.value
+				})
+			}
+		},
+
+		onGitOperationTabChanged: function(key) {
+
+			if(key == '3'){
+				props.dispatch({
+					type: 'devpanel/getKey'
+				});
+			}
+			if(key == '4'){
+				window.socket.send('cd /root/workspace && git config user.name  && git config user.email\n');
+				window.socket.send('echo begin');
+				window.processMsg = true;
+			}
 		},
 
 		createAppFromModal() {
@@ -1425,6 +1465,33 @@ const LeftSidebar = (props) => {
 							<Input type="textarea" readOnly rows={4} value={props.devpanel.sshKey}/>
 	    				</div>
     				</div>
+    			</TabPane>
+				<TabPane tab="git config" key="4">
+					<div style={{ marginBottom: 16, marginTop: 16 }}>
+
+				      	<InputGroup style={searchCls}>
+				        	<Input
+					        	addonBefore="user.name"
+				        		value={props.sidebar.modifyGitConfigInput.userName}
+				        		onPressEnter={leftSidebarProps.modifyGitOriginInput.onPressEnter}
+				        		onChange={leftSidebarProps.modifyGitConfigInput.onChange}
+				        	/>
+				     	</InputGroup>
+
+		        	</div>
+
+		        	<div style={{ marginBottom: 16 }}>
+
+				      	<InputGroup style={searchCls}>
+				        	<Input
+					        	addonBefore="user.email"
+				        		value={props.sidebar.modifyGitConfigInput.email}
+				        		onPressEnter={leftSidebarProps.modifyGitOriginInput.onPressEnter}
+				        		onChange={leftSidebarProps.modifyGitConfigInput.onEmailChange}
+				        	/>
+				     	</InputGroup>
+
+		        	</div>
     			</TabPane>
   			</Tabs>
 
