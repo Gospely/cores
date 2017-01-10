@@ -4,6 +4,10 @@
  */
 $(function () {
 
+    if(document.domain != 'localhost') {
+        document.domain = 'gospely.com';
+    }
+
     jQuery.fn.isChildOf = function(b) { 
         return (this.parents(b).length > 0); 
     };
@@ -344,8 +348,6 @@ $(function () {
 
 
     var dndHandlder = function() {
-
-        document.domain = location.hostname;
 
         var postMessageToFather = {
 
