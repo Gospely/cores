@@ -249,7 +249,7 @@ export default {
 
 		},
 		*loadContent({ payload: params}, {call, put, select}){
-			var fileName = params.tab.title;
+			var fileName = params.tab.file;
 			var readResult = yield request('fs/read', {
 				method: 'POST',
 				body: JSON.stringify({
