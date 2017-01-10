@@ -273,7 +273,7 @@ export default {
 			for(let i = 0; i < panes.length; i ++) {
 				for(let j = 0; j < panes[i].tabs.length; j ++) {
 					if (file === panes[i].tabs[j].file) {
-						message.error('您已打开此文件!')
+						message.success('您已打开此文件!')
 						yield put({
 							type: 'devpanel/setActivePaneAndTab',
 							payload: {

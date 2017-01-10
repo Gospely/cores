@@ -9,12 +9,12 @@ $(function () {
     }
 
     jQuery.fn.isChildOf = function(b) { 
-        return (this.parents(b).length > 0); 
+        return (this.parents(b).length > 0);
     };
 
     //判断:当前元素是否是被筛选元素的子元素或者本身 
     jQuery.fn.isChildAndSelfOf = function(b) { 
-        return (this.closest(b).length > 0); 
+        return (this.closest(b).length > 0);
     }; 
 
     var jq = jQuery.noConflict();
@@ -94,8 +94,6 @@ $(function () {
                 $html.removeClass('slideIn').addClass('js_show');
             });
 
-            traversalDOMTree($html);
-
             this.$container.append($html);
             this._pageAppend.call(this, $html);
             this._pageStack.push({
@@ -122,6 +120,7 @@ $(function () {
 
             var url = location.hash.indexOf('#') === 0 ? location.hash : '#';
             var found = this._findInStack(url);
+
             if (!found) {
                 var html = jq(config.template).find('.page').clone(true);
                 var $html = jq(html).addClass('js_show').addClass(config.name);
@@ -175,7 +174,7 @@ $(function () {
             page.isBind = true;
         },
         remove: function(page) {
-            jq('.page.' + page.data.key).hide();
+            jq('.' + page.data.key).remove();
             jq('script[id="' + page.data.key + '"]').remove();
 
             this._configs.splice(page.index, 1);
@@ -243,53 +242,6 @@ $(function () {
             })
         }
     }
-    function setJSAPI(){
-        var option = {
-            title: 'WeUI, 为微信 Web 服务量身设计',
-            desc: 'WeUI, 为微信 Web 服务量身设计',
-            link: "https://weui.io",
-            imgUrl: 'https://mmbiz.qpic.cn/mmemoticon/ajNVdqHZLLA16apETUPXh9Q5GLpSic7lGuiaic0jqMt4UY8P4KHSBpEWgM7uMlbxxnVR7596b3NPjUfwg7cFbfCtA/0'
-        };
-
-        $.getJSON('https://weui.io/api/sign?url=' + encodeURIComponent(location.href.split('#')[0]), function (res) {
-            wx.config({
-                beta: true,
-                debug: false,
-                appId: res.appid,
-                timestamp: res.timestamp,
-                nonceStr: res.nonceStr,
-                signature: res.signature,
-                jsApiList: [
-                    'onMenuShareTimeline',
-                    'onMenuShareAppMessage',
-                    'onMenuShareQQ',
-                    'onMenuShareWeibo',
-                    'onMenuShareQZone',
-                    // 'setNavigationBarColor',
-                    'setBounceBackground'
-                ]
-            });
-            wx.ready(function () {
-                /*
-                 wx.invoke('setNavigationBarColor', {
-                 color: '#F8F8F8'
-                 });
-                 */
-                wx.invoke('setBounceBackground', {
-                    'backgroundColor': '#F8F8F8',
-                    'footerBounceColor' : '#F8F8F8'
-                });
-                wx.onMenuShareTimeline(option);
-                wx.onMenuShareQQ(option);
-                wx.onMenuShareAppMessage({
-                    title: 'WeUI',
-                    desc: '为微信 Web 服务量身设计',
-                    link: location.href,
-                    imgUrl: 'https://mmbiz.qpic.cn/mmemoticon/ajNVdqHZLLA16apETUPXh9Q5GLpSic7lGuiaic0jqMt4UY8P4KHSBpEWgM7uMlbxxnVR7596b3NPjUfwg7cFbfCtA/0'
-                });
-            });
-        });
-    }
 
     function getPageConfig(name, url, id) {
         return {
@@ -341,11 +293,9 @@ $(function () {
         preload();
         fastClick();
         androidInputBugFix();
-        // setJSAPI();
-        // setPageManager();
     }
-    init();
 
+    init();
 
     var dndHandlder = function() {
 
@@ -889,6 +839,7 @@ $(function () {
             appendPageToHTML: function(page) {
                 var wrapper = jq(this.generateTplScript(page.key)),
                     target;
+
                 jq('#container').after(wrapper);
 
                 if(page.key == 'page-home') {
@@ -1552,13 +1503,14 @@ $(function () {
                                     page: data.page
                                 }),
 
-                                elem = comGen.createElement(),
+                                elem = jq(comGen.createElement()),
 
-                                appendResult = jq(parent.parent.currentTarget).append(elem);
+                                appendResult = jq(parent.parent.currentTarget).append(elem.clone(true));
 
                             var pageId = location.hash.split('#')[1] || 'page-home';
 
-                            jq('script[id="' + pageId + '"]').find('.page').html(jq('.' + pageId).html());
+                            // jq('script[id="' + pageId + '"]').find('.page').append(jq('.' + pageId).clone(true));
+                            jq('script[id="' + pageId + '"]').html(jq('.' + pageId).clone(true));
 
                             controllerOperations.select(controller);
 
