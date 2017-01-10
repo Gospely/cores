@@ -97,7 +97,7 @@ const LeftSidebar = (props) => {
 					    content: '您确定要切换吗（点击确定将保存您的工作内容并进行切换）',
 					    onOk() {
 							wechatSave.save();
-							
+
 	    	          		props.dispatch({
 				        		type: 'sidebar/showModalNewApp'
 				          	});
@@ -685,25 +685,12 @@ const LeftSidebar = (props) => {
 			});
 		},
 		save(){
-
-			props.dispatch({
-				type: 'sidebar/handleWechatSave'
-			})
 			notification.open({
 				message: '正在保存设计...'
 			});
-
 			props.dispatch({
 				type: 'UIState/writeConfig'
 			});
-			setTimeout(function(){
-				props.dispatch({
-					type: 'sidebar/showModalSwitchApp'
-				});
-				props.dispatch({
-					type: 'sidebar/getApplications'
-				});
-			}, 1000)
 		}
 	}
 	const debugConfigModal = {
