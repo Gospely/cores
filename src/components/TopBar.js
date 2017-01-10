@@ -30,6 +30,7 @@ const Step = Steps.Step;
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 const InputGroup = Input.Group;
+const confirm = Modal.confirm;
 
 const LeftSidebar = (props) => {
 
@@ -90,26 +91,60 @@ const LeftSidebar = (props) => {
 	      var handleActiveMenuEvent = {
 
 	        create() {
-          		props.dispatch({
-            		type: 'sidebar/showModalNewApp'
-	          	});
+	        	if(location.hash.indexOf('project') != -1) {
+					confirm({
+					    title: '即将新建应用',
+					    content: '您确定要切换吗（点击确定将保存您的工作内容并进行切换）',
+					    onOk() {
+	    	          		props.dispatch({
+				        		type: 'sidebar/showModalNewApp'
+				          	});
+					    },
+					    onCancel() {
+					    },
+					});
+	        	}else {
+	          		props.dispatch({
+		        		type: 'sidebar/showModalNewApp'
+		          	});
+	        	}
 	        },
 
 	        'switch'() {
 
+	        	if(location.hash.indexOf('project') != -1) {
+				
+					confirm({
+					    title: '即将切换应用',
+					    content: '您确定要切换吗（点击确定将保存您的工作内容并进行切换）',
+					    onOk() {
+							props.dispatch({
+								type: 'sidebar/handleWechatSave'
+							});
 
-				if(localStorage.image == 'wechat:latest'){
-					props.dispatch({
-						type: 'sidebar/handleWechatSave'
+							wechatSave.save();
+
+							props.dispatch({
+				            	type: 'sidebar/showModalSwitchApp'
+				          	});
+
+							props.dispatch({
+				            	type: 'sidebar/getApplications'
+				          	});
+
+					    },
+					    onCancel() {
+					    },
 					});
+
 				}else {
 					props.dispatch({
 		            	type: 'sidebar/showModalSwitchApp'
 		          	});
+
 					props.dispatch({
 		            	type: 'sidebar/getApplications'
 		          	});
-
 				}
 		    },
 
@@ -658,7 +693,7 @@ const LeftSidebar = (props) => {
 
 			props.dispatch({
 				type: 'UIState/writeConfig'
-			})
+			});
 			setTimeout(function(){
 				props.dispatch({
 					type: 'sidebar/showModalSwitchApp'

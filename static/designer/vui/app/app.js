@@ -875,7 +875,6 @@ $(function () {
 
         routerGenerator.prototype = {
             init: function() {
-
                 if(this.pages.length) {
                     for (var i = 0; i < this.pages.length; i++) {
                         var currentPage = this.pages[i];
@@ -1509,7 +1508,6 @@ $(function () {
                     evtAction = {
 
                         previewerLayoutLoaded: function() {
-
                             var LG = new layoutGenerator(data);
 
                             var dnd = new dndInitialization({
