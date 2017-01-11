@@ -1235,29 +1235,6 @@ page {
 				backend: true
 			},
 
-/*
-
-<div class="weui-grids">
-    <a href="javascript:;" class="weui-grid">
-        <div class="weui-grid__icon">
-            <img src="./images/icon_nav_button.png" alt="">
-        </div>
-        <p class="weui-grid__label">
-            Button
-        </p>
-    </a>
-    <a href="javascript:;" class="weui-grid">
-        <div class="weui-grid__icon">
-            <img src="./images/icon_nav_cell.png" alt="">
-        </div>
-        <p class="weui-grid__label">
-            Cell
-        </p>
-    </a>
-</div>
-
-*/			
-
 			{
 				name: '九宫格',
 				type: 'container',
@@ -4058,15 +4035,136 @@ page {
 			{
 				name: '段落',
 				type: 'markdown',
-				attr: {
-					value: {
-						isHTML: true,
-						type: 'input',
-						_value: '文章内容',
-						title: '内容'
+				attr: {},
+				children: [{
+					name: '大标题',
+					type: 'heading',
+					tag: 'h1',
+					baseClassName: 'page__title',
+					attr: {
+						value: {
+							type: 'input',
+							title: '标题',
+							isClassName: false,
+							isHTML: true,
+							_value: '大标题'
+						},
+						'font-size': {
+							type: 'input',
+							title: '标题大小',
+							isStyle: true,
+							_value: '20px',
+						}
 					}
-				},
-				tag: 'article',
+				}, {
+					name: '正文域',
+					type: 'section',
+					attr: {},
+					tag: 'div',
+					baseClassName: '',
+					children: [{
+						name: '章标题',
+						type: 'heading',
+						tag: 'h1',
+						baseClassName: 'page__title',
+						attr: {
+							value: {
+								type: 'input',
+								title: '标题',
+								isClassName: false,
+								isHTML: true,
+								_value: '章标题'
+							},
+							'font-size': {
+								type: 'input',
+								title: '标题大小',
+								isStyle: true,
+								_value: '18px',
+							}
+						}
+					}, {
+						name: '正文',
+						type: 'section',
+						attr: {},
+						tag: 'div',
+						baseClassName: '',
+						children: [{
+							name: '1.1 节标题',
+							type: 'heading',
+							tag: 'h1',
+							baseClassName: 'page__title',
+							attr: {
+								value: {
+									type: 'input',
+									title: '标题',
+									isClassName: false,
+									isHTML: true,
+									_value: '1.1 节标题'
+								},
+								'font-size': {
+									type: 'input',
+									title: '标题大小',
+									isStyle: true,
+									_value: '12px',
+								}
+							}
+						}, {
+							name: '段落',
+							type: 'h',
+							attr: {
+								value: {
+									isHTML: true,
+									type: 'input',
+									_value: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+									title: '内容'
+								}
+							},
+							tag: 'p',
+							baseClassName: ''
+						}]
+					}, {
+						name: '正文',
+						type: 'section',
+						attr: {},
+						tag: 'div',
+						baseClassName: '',
+						children: [{
+							name: '1.2 节标题',
+							type: 'heading',
+							tag: 'h1',
+							baseClassName: 'page__title',
+							attr: {
+								value: {
+									type: 'input',
+									title: '标题',
+									isClassName: false,
+									isHTML: true,
+									_value: '1.2 节标题'
+								},
+								'font-size': {
+									type: 'input',
+									title: '标题大小',
+									isStyle: true,
+									_value: '12px',
+								}
+							}
+						}, {
+							name: '段落',
+							type: 'h',
+							attr: {
+								value: {
+									isHTML: true,
+									type: 'input',
+									_value: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+									title: '内容'
+								}
+							},
+							tag: 'p',
+							baseClassName: ''
+						}]
+					}]
+				}],
+				tag: 'div',
 				baseClassName: 'weui-article',
 			},
 			{
@@ -5770,13 +5868,20 @@ page {
 					icon: {
 						title: '图标',
 						isClassName: true,
-						_value: 'weui-icon-checked',
+						_value: 'weui-icon-success',
 						type: 'select',
 						value: ['weui-icon-success', 'weui-icon-success-circle', 'weui-icon-success-no-circle', 'weui-icon-info',
 								'weui-icon-waiting', 'weui-icon-waiting-circle', 'weui-icon-circle', 'weui-icon-warn', 'weui-icon-download',
-								'weui-icon-info-circle', 'weui-icon-cancel'
-							   ],
+								'weui-icon-info-circle', 'weui-icon-cancel'],
 						isNoConflict: true
+					},
+
+					isBig: {
+						title: '警告类型',
+						isClassName: true,
+						value: ['weui-icon_msg', ' weui-icon_msg-primary'],
+						_value: '',
+						type: 'select'
 					}
 				}
 			},

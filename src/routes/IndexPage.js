@@ -135,9 +135,15 @@ function IndexPage(props) {
                 let currentTab = props.devpanel.panels.panes[paneKey.paneKey].tabs[targetKey - 1];
                 let tabType = currentTab.type;
 
-                // if(currentTab.title.split('-')[0].trim() == '调试终端'){
-                //     window.debugTerminal = null;
-                // }
+                if(currentTab.title == 'git pull'){
+                    window.pullTerminal = null;
+                }
+                if(currentTab.title == 'git push'){
+                    window.pushTerminal = null;
+                }
+                if(currentTab.title == 'git commit'){
+                    window.commitTerminal = null;
+                }
                 if (tabType != 'editor') {
 
                     if (tabType == 'terminal') {
