@@ -117,6 +117,12 @@ const createTerminal = function(props) {
     });
     function runRealTerminal() {
         term.attach(socket);
+        window.gitOrigin = true;
+        window.socket.send("cd /root/workspace && git remote -v | head -1 | awk '{print $2}'\n");
+        window.socket.send('echo begin');
+        notification.open({
+            message: 'git 设置服务已启动'
+        });
         term._initialized = true;
     }
 }

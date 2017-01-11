@@ -155,11 +155,6 @@ export default {
 			});
 			setTimeout(function(){
 				gitTerminal(params.ctx);
-				setTimeout(function(){
-					window.gitOrigin = true;
-					window.socket.send("cd /root/workspace && git remote -v | head -1 | awk '{print $2}'\n");
-					window.socket.send('echo begin');
-				},1000)
 			},100)
 
 		},
