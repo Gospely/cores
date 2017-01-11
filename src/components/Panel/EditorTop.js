@@ -89,7 +89,7 @@ const EditorTop = ({
 			</ButtonGroup>
 			<div className={EditorStyle.topbarRight}>
 				<ButtonGroup>
-					<Button onClick={refreshPage}>编辑器无法使用？点我</Button>
+					<Button onClick={refreshPage} className={EditorStyle.topbarBtn}>编辑器无法使用？点我</Button>
 					<Button style={{display:'none'}} onClick={onOpenJumpLine} className={EditorStyle.topbarBtn}>行: 4 列: 32</Button>
 					<Dropdown overlay={syntaxMenu} trigger={['click']}>
 						<Button className={EditorStyle.topbarBtn}>{currentLanguage}</Button>
