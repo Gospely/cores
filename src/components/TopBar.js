@@ -591,8 +591,10 @@ const LeftSidebar = (props) => {
 			if(key == '4'){
 				window.Pname = false;
 				window.email = false;
-				window.socket.send('cd /root/workspace && echo Pemail && git config user.email && echo Pname && git config user.name && clear\n');
-				window.getConfig = true;
+				if(props.sidebar.modifyGitOriginInput.isGit){
+					window.socket.send('cd /root/workspace && echo PPemail && git config user.email && echo PPname && git config user.name && clear\n');
+					window.getConfig = true;
+				}
 			}
 			if(key == '1'){
 
