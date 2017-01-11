@@ -15,6 +15,8 @@ const initApplication = function (application, props){
         return false;
     }
 
+    window.isWeapp = true;
+
     if(application.image == 'wechat:latest'){
 
         localStorage.image = application.image;
@@ -106,7 +108,6 @@ const initApplication = function (application, props){
         }, 200);
 
         localStorage.flashState = 'true'
-        window.isWeapp = true;
     }else{
         props.dispatch({
             type: 'devpanel/showLoading',
