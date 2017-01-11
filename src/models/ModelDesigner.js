@@ -5886,34 +5886,6 @@ page {
 				}
 			},
 
-/*
-
-<div class="weui-form-preview">
-    <div class="weui-form-preview__hd">
-        <label class="weui-form-preview__label">付款金额</label>
-        <em class="weui-form-preview__value">¥2400.00</em>
-    </div>
-    <div class="weui-form-preview__bd">
-        <p>
-            <label class="weui-form-preview__label">商品</label>
-            <span class="weui-form-preview__value">电动打蛋机</span>
-        </p>
-        <p>
-            <label class="weui-form-preview__label">标题标题</label>
-            <span class="weui-form-preview__value">名字名字名字</span>
-        </p>
-        <p>
-            <label class="weui-form-preview__label">标题标题</label>
-            <span class="weui-form-preview__value">很长很长的名字很长很长的名字很长很长的名字很长很长的名字很长很长的名字</span>
-        </p>
-    </div>
-    <div class="weui-form-preview__ft">
-        <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:">操作</a>
-    </div>
-</div>
-
-*/
-
 			{
 				name: '表单预览',
 				type: 'i',
@@ -5958,7 +5930,52 @@ page {
 					baseClassName: 'weui-form-preview__bd',
 					name: '预览表单中部',
 					type: 'weui-form-preview__bd',
-					attr: {},
+					attr: {
+						addPreviewerItem: {
+							type: 'button',
+							title: '添加项目',
+							isClassName: false,
+							isHTML: true,
+							_value: '添加项目',
+							onClick: 'designer/addPreviewerItem',
+							params: {
+								item: {
+									tag: 'p',
+									baseClassName: 'p',
+									name: '项目1',
+									type: 'p',
+									attr: {},
+									children: [{
+										tag: 'div',
+										baseClassName: 'weui-form-preview__label',
+										name: '项目标题',
+										type: 'weui-form-preview__label',
+										attr: {
+											value: {
+												type: 'input',
+												attrType: 'text',
+												isHTML: true,
+												_value: '项目标题'
+											}
+										}
+									}, {
+										tag: 'div',
+										baseClassName: 'weui-form-preview__value',
+										name: '项目正文',
+										type: 'weui-form-preview__value',
+										attr: {
+											value: {
+												type: 'input',
+												attrType: 'text',
+												isHTML: true,
+												_value: '项目正文'
+											}
+										}
+									}]
+								}
+							}
+						}
+					},
 					children: [{
 						tag: 'p',
 						baseClassName: 'p',
@@ -6064,7 +6081,43 @@ page {
 					baseClassName: 'weui-form-preview__ft',
 					name: '预览表单底部',
 					type: 'weui-form-preview__ft',
-					attr: {},
+					attr: {
+
+						addPreviewerFooterBtn: {
+							type: 'button',
+							title: '添加项目',
+							isClassName: false,
+							isHTML: true,
+							_value: '添加项目',
+							onClick: 'designer/addPreviewerFooterBtn',
+							params: {
+								tag: 'a',
+								baseClassName: 'weui-form-preview__btn',
+								name: '预览表单按钮',
+								type: 'weui-form-preview__btn',
+								attr: {
+									value: {
+										type: 'input',
+										title: '按钮标题',
+										value: [''],
+										isHTML: true,
+										_value: '辅助操作'
+									},
+
+									disabled: {
+										type: 'toggle',
+										title: '高亮',
+										value: ['weui-form-preview__btn_default', 'weui-form-preview__btn_primary'],
+										isClassName: true,
+										isHTML: false,
+										isSetAttribute: true,
+										_value: true
+									}					
+								}
+							}
+						}
+
+					},
 					children: [{
 						tag: 'a',
 						baseClassName: 'weui-form-preview__btn',
@@ -6722,6 +6775,32 @@ page {
 					target: modelDesigner.layoutState.activeController.key
 				}
 			});
+		},
+
+		*addPreviewerItem({ payload: params}, {call, put, select}) {
+			var modelDesigner = yield select(state => state.designer),
+				activePage = layoutAction.getActivePage(modelDesigner);
+
+			yield put({
+				type: 'addController',
+				payload: {
+					ctrl: params.item,
+					target: modelDesigner.layoutState.activeController.key
+				}
+			});
+		},
+
+		*addPreviewerFooterBtn({ payload: params}, {call, put, select}) {
+			var modelDesigner = yield select(state => state.designer),
+				activePage = layoutAction.getActivePage(modelDesigner);
+
+			yield put({
+				type: 'addController',
+				payload: {
+					ctrl: params.item,
+					target: modelDesigner.layoutState.activeController.key
+				}
+			});			
 		},
 
 		*initStateA({ payload: params}, {call, put, select}){

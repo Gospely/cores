@@ -677,7 +677,11 @@ const weappCompiler = {
 	},
 
 	filter (key) {
-		const filterKey = ['title', 'alias', 'template', 'setAsMainPage', 'routingURL', 'css', 'cssEditor'];
+		const filterKey = [
+            'title', 'alias', 'template', 'setAsMainPage', 
+            'routingURL', 'css', 'cssEditor',
+            'addGrid', 'addPreviewerItem'
+        ];
 		for (var i = 0; i < filterKey.length; i++) {
 			var k = filterKey[i];
 			if(key == k) {
