@@ -3,6 +3,8 @@ import { connect } from 'dva';
 
 import { Button, Menu, Dropdown, Icon, Spin } from 'antd';
 
+import { Affix } from 'antd';
+
 const Designer = (props) => {
 
 	const designerProps = {
@@ -46,26 +48,30 @@ const Designer = (props) => {
 	}
 
 	const designerStyle = {
-		height: parseInt(document.body.clientHeight) - 107
+		height: '100vh'
 	}
 
   	return (
 		<div className="designer-wrapper" style={{maxHeight: maxHeight}}>
 
-			<div className="designer-header">
-				<label className="bold">设备</label>
+		    <Affix>
 
-				<Dropdown overlay={deviceSelectedMenu} trigger={['click']}>
-					<Button
-						className="deviceSelectorBtn">
-						{props.designer.deviceList[props.designer.defaultDevice].name} <Icon type="down" />
-					</Button>
-				</Dropdown>
-			</div>
+				<div className="designer-header">
+					<label className="bold">设备</label>
+
+					<Dropdown overlay={deviceSelectedMenu} trigger={['click']}>
+						<Button
+							className="deviceSelectorBtn">
+							{props.designer.deviceList[props.designer.defaultDevice].name} <Icon type="down" />
+						</Button>
+					</Dropdown>
+				</div>
+
+		    </Affix>
 
 			<Spin spinning={!props.designer.loaded}>
 
-				<div className="designer-body">
+				<div className="designer-body" style={designerStyle}>
 					<iframe
 						name="gospel-designer"
 						width={props.designer.deviceList[props.designer.defaultDevice].width}
