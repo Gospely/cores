@@ -2145,9 +2145,32 @@ page {
 					}]
 				}, {
 					name: '表单项五',
-					type: 'div',
+					type: 'textarea',
 					tag: 'div',
-					attr: {},
+					attr: {
+
+						theParent: {
+							isParent: true,
+							_value: {
+								tag: 'div',
+								className: 'weui-cells weui-cells_form'
+							},
+							backend: true					
+						},
+
+						isCounter: {
+							type: 'toggle',
+							_value: true,
+							title: '带计字器',
+							isComponentAttr: true,
+							componentInfo: {
+								attr: 'display',
+								index: 1,
+								level: 2
+							}
+						}
+
+					},
 					baseClassName: 'weui-cell',
 					children: [{
 						baseClassName: 'weui-cell__bd',
@@ -2191,12 +2214,13 @@ page {
 							tag: 'div',
 							name: '计字器',
 							attr: {
-								hidden: {
+								display: {
 									type: 'toggle',
-									isSetAttribute: true,
-									isContrary: true,
+									title: '显示',
 									_value: true,
-									title: '计字器'
+									value: ['none', 'block'],
+									isStyle: true,
+									isToggleStyle: true
 								},
 								isComponent: {
 									backend: true,
@@ -2222,7 +2246,7 @@ page {
 										value: [],
 										title: '是否为完整的组件',
 										_value: true
-									},
+									}
 								},
 								baseClassName: ''
 							}, {
@@ -2491,77 +2515,133 @@ page {
 			// 	}]
 			// },
 			{
-				type: 'textarea',
-				tag: 'textarea',
 				name: '文本域',
+				type: 'textarea',
+				tag: 'div',
 				attr: {
-					placeholder: {
-						isSetAttribute: true,
-						type: 'input',
-						_value: '请输入文本',
-						title: '占位符',
+
+					theParent: {
+						isParent: true,
+						_value: {
+							tag: 'div',
+							className: 'weui-cells weui-cells_form'
+						},
+						backend: true					
 					},
 
-					value: {
-						isHTML: true,
-						type: 'input',
-						_value: '',
-						title: '内容',
-					},
-
-					disabled: {
-						isHTML: false,
-						isSetAttribute: true,
+					isCounter: {
 						type: 'toggle',
-						_value: false,
-						title: '是否禁用'
-					},
-
-					maxlength: {
-						isSetAttribute: true,
-						type: 'input',
-						attrType: 'number',
-						_value: 140,
-						title: '字符限制'
-					},
-
-					'auto-focus': {
-						isSetAttribute: true,
-						type: 'toggle',
-						_value: false,
-						title: '自动聚焦'
-					},
-
-					focus: {
-						isSetAttribute: true,
-						type: 'toggle',
-						_value: false,
-						title: '获取焦点'
-					},
-
-					'auto-height': {
-						isSetAttribute: true,
-						type: 'toggle',
-						_value: false,
-						title: '自动增高'
-					},
-
-					fixed: {
-						isSetAttribute: true,
-						type: 'toggle',
-						_value: false,
-						title: '固定'
-					},
-
-					'cursor-spacing': {
-						title: '光标与键盘的距离',
-						type: 'input',
-						attrType: 'number',
-						_value: 0,
-						isSetAttribute: true
+						_value: true,
+						title: '带计字器',
+						isComponentAttr: true,
+						componentInfo: {
+							attr: 'display',
+							index: 1,
+							level: 2
+						}
 					}
+
 				},
-				baseClassName: 'weui-textarea'
+				baseClassName: 'weui-cell',
+				children: [{
+					baseClassName: 'weui-cell__bd',
+					type: 'div',
+					tag: 'div',
+					attr: {},
+					name: '文本域',
+					children: [{
+						type: 'textarea',
+						tag: 'textarea',
+						name: '文本域',
+						attr: {
+							placeholder: {
+								isSetAttribute: true,
+								type: 'input',
+								_value: '请输入文本',
+								title: '占位符',
+							},
+							value: {
+								isHTML: true,
+								type: 'input',
+								_value: '',
+								title: '内容',
+							},
+							rows: {
+								isSetAttribute: true,
+								type: 'input',
+								_value: '5',
+								title: '行数'
+							},
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
+							},
+						},
+						baseClassName: 'weui-textarea'
+					}, {
+						type: 'div',
+						tag: 'div',
+						name: '计字器',
+						attr: {
+							display: {
+								type: 'toggle',
+								title: '显示',
+								_value: true,
+								value: ['none', 'block'],
+								isStyle: true,
+								isToggleStyle: true
+							},
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
+							},
+						},
+						baseClassName: 'weui-textarea-counter',
+						children: [{
+							type: 'span',
+							tag: 'span',
+							name: '已写字数',
+							attr: {
+								input: {
+									isHTML: true,
+									title: '已写字数',
+									_value: 0,
+									type: 'input'
+								},
+								isComponent: {
+									backend: true,
+									value: [],
+									title: '是否为完整的组件',
+									_value: true
+								}
+							},
+							baseClassName: ''
+						}, {
+							type: 'span',
+							tag: 'span',
+							name: '最多字数',
+							attr: {
+								input: {
+									isHTML: true,
+									title: '最多字数',
+									_value: '/200',
+									type: 'input'
+								},
+								isComponent: {
+									backend: true,
+									value: [],
+									title: '是否为完整的组件',
+									_value: true
+								},
+							},
+							baseClassName: ''
+						}]
+					}]
+				}]
 			},
 			{
 				name: '单选框',
@@ -3159,14 +3239,47 @@ page {
 			{
 				name: '选择框',
 				type: 'select',
-				attr: {},
+				attr: {
+					theParent: {
+						isParent: true,
+						_value: {
+							tag: 'div',
+							className: 'weui-cells'
+						},
+						backend: true,
+						type: 'input'
+					},
+					isLabel: {
+						isSingleToggleClass: true,
+						isClassName: true,
+						value: ['weui-cell_select-after'],
+						_value: true,
+						type: 'toggle',
+						title: '显示label',
+						isComponentAttr: true,
+						componentInfo: {
+							attr: 'display',
+							index: 0,
+							level: 1
+						}
+					}
+				},
 				tag: 'div',
-				baseClassName: 'weui weui-cell_select weui-cell_select-after',
+				baseClassName: 'weui-cell weui-cell_select',
 				children: [{
 					type: 'div',
 					tag: 'div',
-					baseClassName: 'weui-cell_hd',
-					attr:{},
+					baseClassName: 'weui-cell__hd',
+					attr:{
+						display: {
+							type: 'toggle',
+							title: '显示',
+							_value: true,
+							value: ['none', 'block'],
+							isStyle: true,
+							isToggleStyle: true
+						},
+					},
 					name: '选择框label',
 					children: [{
 						type: 'label',
@@ -3178,7 +3291,7 @@ page {
 								title: 'label文本',
 								type: 'input',
 								isHTML: true,
-								_value: '选一个'
+								_value: '国家/地区'
 							},
 							isComponent: {
 								backend: true,
@@ -3216,7 +3329,7 @@ page {
 						children: [{
 							tag: 'option',
 							type: 'option',
-							name: '选择option',
+							name: 'option1',
 							attr: {
 								value: {
 									isSetAttribute: true,
@@ -3229,6 +3342,62 @@ page {
 									value: [],
 									title: '是否为完整的组件',
 									_value: true
+								},
+								content: {
+									isHTML: true,
+									_value: '中国',
+									title: '选项一',
+									type: 'input'
+								}
+							},
+							baseClassName: ''
+						},{
+							tag: 'option',
+							type: 'option',
+							name: 'option2',
+							attr: {
+								value: {
+									isSetAttribute: true,
+									type: 'input',
+									title: 'value值',
+									_value: '2'
+								},
+								isComponent: {
+									backend: true,
+									value: [],
+									title: '是否为完整的组件',
+									_value: true
+								},
+								content: {
+									isHTML: true,
+									_value: '美国',
+									title: '选项一',
+									type: 'input'
+								}
+							},
+							baseClassName: ''
+						},{
+							tag: 'option',
+							type: 'option',
+							name: 'option3',
+							attr: {
+								value: {
+									isSetAttribute: true,
+									type: 'input',
+									title: 'value值',
+									_value: '3'
+								},
+								isComponent: {
+									backend: true,
+									value: [],
+									title: '是否为完整的组件',
+									_value: true
+								},
+								content: {
+									isHTML: true,
+									_value: '英国',
+									title: '选项一',
+									type: 'input'
 								}
 							},
 							baseClassName: ''
@@ -4673,12 +4842,9 @@ page {
 							type: 'input'
 						},
 						isContainer: {
-							isContainer: {
-								type: 'toggle',
-								backend: true,
-								isContainer: true,
-								title: '是否是容器'
-							},
+							backend: true,
+							isContainer: true,
+							title: '是否是容器'
 						}
 					},
 					baseClassName: theParent.className,

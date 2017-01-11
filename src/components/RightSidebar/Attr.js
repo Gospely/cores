@@ -477,7 +477,7 @@ const Attr = (props) => {
 
 	let attrForms = props.attr.formItems.map( (item, index) => {
 		if(!item.backend) {
-			return attrTypeActions[item.type](item);			
+			return attrTypeActions[item.type](item);	
 		}
 	});
 
