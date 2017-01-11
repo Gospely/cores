@@ -365,7 +365,7 @@ $(function () {
                 console.log(self);
                 console.log(className);
                 var baseClassName
-            if( || className.indexOf('page__bd') >-1, className.indexOf('page__ft') > -1){
+            if(baseClassName == 'page__bd' || baseClassName == 'page__hd' || baseClassName == 'page__ft') {
 
                 return false;
             }
