@@ -21,6 +21,8 @@ import Previewer from './Panel/Previewer.js';
 import { Steps } from 'antd';
 import { Progress } from 'antd';
 
+import Dashboard from './TopBar/Dashboard.js';
+
 const FormItem = Form.Item;
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
@@ -373,11 +375,19 @@ const LeftSidebar = (props) => {
 	        	props.dispatch({
 	        		type: 'sidebar/showWeappCompilerModal'
 	        	});
+	        },
+
+	        dashboard () {
+	        	// props.dispatch({
+	        	// 	type
+	        	// })
 	        }
 
 	      }
 
-	      handleActiveMenuEvent[activeMenu.key]();
+	      if(handleActiveMenuEvent[activeMenu.key]) {
+		      handleActiveMenuEvent[activeMenu.key]();
+	      }
 	    },
 
 	    cancelNewApp() {
@@ -1151,6 +1161,10 @@ const LeftSidebar = (props) => {
 				    	<Icon type="cloud-o" />
 				    	打包小程序
 				    </Menu.Item>
+    		        <Menu.Item key="dashboard">
+						<Icon type="laptop" />
+		        		控制台
+			        </Menu.Item>
 			    </Menu>
 			);
 
@@ -1226,6 +1240,10 @@ const LeftSidebar = (props) => {
 							<Icon type="pause-circle-o" />
 						</Tooltip>
 				    </Menu.Item>
+    		        <Menu.Item key="dashboard">
+						<Icon type="laptop" />
+		        		控制台
+			        </Menu.Item>
 			    </Menu>
 			);
 
@@ -1243,6 +1261,10 @@ const LeftSidebar = (props) => {
 		        </Menu.Item>
 		        <Menu.Item key="switch">
 		          	<Icon type="appstore-o" />
+		        </Menu.Item>
+		        <Menu.Item key="dashboard">
+					<Icon type="laptop" />
+	        		控制台
 		        </Menu.Item>
 	      	</Menu>
 
@@ -1519,6 +1541,8 @@ const LeftSidebar = (props) => {
 		    >
 				要保存您的设计吗？
 		    </Modal>
+
+		    <Dashboard></Dashboard>
 
 			{initPreviewer()}
 
