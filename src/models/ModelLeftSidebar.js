@@ -837,6 +837,7 @@ export default {
 
 		handleCommitInfoInputChange(state, { payload: params }) {
 			state.modalCommitInfo[params.input] = params.value;
+            state.modalCommitInfo.title = params.value;
 			return {...state};
 		}
 

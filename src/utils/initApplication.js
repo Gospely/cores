@@ -164,6 +164,14 @@ const initApplication = function (application, props){
           }
         });
         props.dispatch({
+            type: 'sidebar/handleModifyGitConfigInputChange',
+            payload: ''
+        });
+        props.dispatch({
+            type: 'sidebar/handleModifyGitConfigEmailInputChange',
+            payload: ''
+        });
+        props.dispatch({
             type: 'devpanel/startDocker',
             payload: { docker:  application.docker, id: application.id, ctx: props}
         });

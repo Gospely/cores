@@ -24,9 +24,6 @@ const createTerminal = function(props) {
         });
     var terminalContainer = document.getElementById("git-terminal");
     var show = document.getElementById("git-show");
-    var msgHandler = function(data){
-        console.log(data);
-    }
 
     function setTerminalSize() {
 
@@ -67,15 +64,12 @@ const createTerminal = function(props) {
             localStorage.message = '';
             socket.onopen =runRealTerminal;
             socket.onclose = function(evt){
-                console.log("=======onclose");
             };
             socket.onerror = function(evt){
-                console.log("=======onclose");
             };
 
             socket.onmessage = function (evt) {
                 //收到服务器消息，使用evt.data提取
-
                 if(evt.data.indexOf('root@') < 1 && evt.data.length > 2 && evt.data.indexOf('workspace') < 1){
 
                     if(window.gitOrigin){
@@ -103,14 +97,11 @@ const createTerminal = function(props) {
                                 payload: evt.data
                             });
                         }
-                        console.log(evt.data);
-                        if(evt.data.indexOf('name') >= 0){
-                            console.log('test name');
+                        if(evt.data.indexOf('Pname') >= 0){
                             window.Pname = true;
                         }
-                        if(evt.data.indexOf('email') >= 0){
+                        if(evt.data.indexOf('Pemail') >= 0){
                             window.email = true;
-                            console.log('test email');
                         }
 
                         // var reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
@@ -125,6 +116,12 @@ const createTerminal = function(props) {
     });
     function runRealTerminal() {
         term.attach(socket);
+        window.gitOrigin = true;
+        window.socket.send("cd /root/workspace && git remote -v | head -1 | awk '{print $2}'\n");
+        window.socket.send('echo begin');
+        notification.open({
+            message: 'git 设置服务已启动'
+        });
         term._initialized = true;
     }
 }
