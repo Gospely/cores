@@ -489,7 +489,7 @@ const LeftSidebar = (props) => {
 									message: '添加git源成功'
 								});
 
-							}, 4000)
+							}, 2000)
 						}else{
 							window.socket.send('git remote set-url origin ' + props.sidebar.modifyGitOriginInput.value + ' && clear\n');
 							window.socket.send('git remote set-url origin ' + props.sidebar.modifyGitOriginInput.value + ' && clear\n');
