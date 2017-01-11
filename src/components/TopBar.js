@@ -478,21 +478,25 @@ const LeftSidebar = (props) => {
 					}
 					if (( /git@github.com:?/.test(props.sidebar.modifyGitOriginInput.value) && /git@github.com:?/.test(props.sidebar.modifyGitOriginInput.pushValue)) ||  (/https:\/\/github.com\/?/.test(props.sidebar.modifyGitOriginInput.pushValue) && /https:\/\/github.com\/?/.test(props.sidebar.modifyGitOriginInput.value))) {
 						if(!props.sidebar.modifyGitOriginInput.isGit){
-							window.socket.send('git init\n');
+							window.socket.send('clear && git init\n');
 							setTimeout(function(){
 								window.socket.send('git remote add origin ' + props.sidebar.modifyGitOriginInput.value + ' && clear\n');
 								props.dispatch({
 									type: 'sidebar/setGitOrigin',
 	                                payload: { gitOrigin: props.sidebar.modifyGitOriginInput.value, isGit: true }
 								});
-							}, 1000)
+								notification.open({
+									message: '添加git源成功'
+								});
+
+							}, 4000)
 						}else{
 							window.socket.send('git remote set-url origin ' + props.sidebar.modifyGitOriginInput.value + ' && clear\n');
 							window.socket.send('git remote set-url origin ' + props.sidebar.modifyGitOriginInput.value + ' && clear\n');
+							notification.open({
+								message: '修改git源成功'
+							});
 						}
-						notification.open({
-							message: '配置git源成功'
-						});
 					}else{
 						message.error('git 源格式错误');
 					}
@@ -508,6 +512,15 @@ const LeftSidebar = (props) => {
 						}
 						window.socket.send('git config user.name ' + props.sidebar.modifyGitConfigInput.userName + ' --replace-all && clear\n');
 						window.socket.send('git config user.email ' + props.sidebar.modifyGitConfigInput.email + ' --replace-all && clear\n');
+						setTimeout(function(){
+							window.Pname = false;
+							window.email = false;
+							if(props.sidebar.modifyGitOriginInput.isGit){
+								window.socket.send('cd /root/workspace && echo PPemail && git config user.email && echo PPname && git config user.name && clear\n');
+								window.getConfig = true;
+							}
+
+						}, 100)
 						notification.open({
 							message: '配置成功'
 						});

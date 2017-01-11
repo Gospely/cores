@@ -70,7 +70,6 @@ const createTerminal = function(props) {
 
             socket.onmessage = function (evt) {
                 //收到服务器消息，使用evt.data提取
-
                 if(evt.data.indexOf('root@') < 1 && evt.data.length > 2 && evt.data.indexOf('workspace') < 1){
 
                     if(window.gitOrigin){
