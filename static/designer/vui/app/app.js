@@ -1037,14 +1037,23 @@ $(function () {
 
             },
 
-            setAttribute: function() {
+            attrIsUseless: function(att) {
+                this.uselessAttr = ['addGrid'];
+                return this.uselessAttr.indexOf(att) > -1;
+            },
 
+            setAttribute: function() {
+//5443
                 this.initElem();
 
                 // this.handleWeuiTag(this.controller.weui);
 
                 for(var att in this.controller.attr) {
                     var currentAttr = this.controller.attr[att];
+
+                    if(this.attrIsUseless(att)) {
+                        continue;
+                    }
 
                     if(currentAttr.isClassName) {
                         //更改的属性有css，则需要进行css操作

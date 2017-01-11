@@ -1234,37 +1234,329 @@ page {
 				},
 				backend: true
 			},
+
+/*
+
+<div class="weui-grids">
+    <a href="javascript:;" class="weui-grid">
+        <div class="weui-grid__icon">
+            <img src="./images/icon_nav_button.png" alt="">
+        </div>
+        <p class="weui-grid__label">
+            Button
+        </p>
+    </a>
+    <a href="javascript:;" class="weui-grid">
+        <div class="weui-grid__icon">
+            <img src="./images/icon_nav_cell.png" alt="">
+        </div>
+        <p class="weui-grid__label">
+            Cell
+        </p>
+    </a>
+</div>
+
+*/			
+
 			{
-				name: '容器',
+				name: '九宫格',
 				type: 'container',
 				attr: {
-					height: {
-						type: 'input',
-						title: '高度',
-						isStyle: true,
-						isDesignerStyle: true,
-						_value: '100px'
-					},
-
-					isContainer: {
-						type: 'toggle',
-						backend: true,
-						isContainer: true,
-						title: '是否是容器'
-					},
-
-					type: {
-						type: 'select',
-						title: '容器类型',
-						isClassName: true,
-						isNoConflict: true,
-						_value: 'weui-cells',
-						value: ['weui-cells', 'weui-cells_radio', 'weui-cells_checkbox', 'weui-cells_form']
+					addGrid: {
+						type: 'button',
+						title: '添加格子',
+						isClassName: false,
+						isHTML: true,
+						_value: '添加',
+						onClick: 'designer/addGrid',
+						params: {
+							grid: {
+								name: '项目n',
+								type: 'weui-grid',
+								baseClassName: 'weui-grid',
+								attr: {},
+								tag: 'div',
+								children: [{
+									name: '项目n-图标域',
+									type: 'weui-grid__icon',
+									baseClassName: 'weui-grid__icon',
+									tag: 'div',
+									children: [{
+										name: '项目n-图标',
+										type: 'weui-grid__icon',
+										baseClassName: '',
+										tag: 'img',
+										attr: {
+											src: {
+												type: 'input',
+												title: '图片地址',
+												isSetAttribute: true,
+												_value: 'http://i64.tinypic.com/2a9711u.png'
+											}
+										}
+									}],
+									attr: {}
+								}, {
+									name: '项目n-标题',
+									type: 'weui-grid__label',
+									baseClassName: 'weui-grid__label',
+									tag: 'div',
+									attr: {
+										description: {
+											type: 'input',
+											title: '标题',
+											isHTML: true,
+											_value: '九宫格'
+										}
+									}
+								}]
+							}
+						}
 					}
 				},
 				tag: ['div'],
-				baseClassName: 'weui-cells',
-				children: []
+				baseClassName: 'weui-grids',
+				children: [{
+					name: '项目1',
+					type: 'weui-grid',
+					baseClassName: 'weui-grid',
+					attr: {},
+					tag: 'div',
+					children: [{
+						name: '项目1-图标域',
+						type: 'weui-grid__icon',
+						baseClassName: 'weui-grid__icon',
+						tag: 'div',
+						children: [{
+							name: '项目1-图标',
+							type: 'weui-grid__icon',
+							baseClassName: '',
+							tag: 'img',
+							attr: {
+								src: {
+									type: 'input',
+									title: '图片地址',
+									isSetAttribute: true,
+									_value: 'http://i64.tinypic.com/2a9711u.png'
+								}
+							}
+						}],
+						attr: {}
+					}, {
+						name: '项目1-标题',
+						type: 'weui-grid__label',
+						baseClassName: 'weui-grid__label',
+						tag: 'div',
+						attr: {
+							description: {
+								type: 'input',
+								title: '标题',
+								isHTML: true,
+								_value: '九宫格'
+							}
+						}
+					}]
+				}, {
+					name: '项目1',
+					type: 'weui-grid',
+					baseClassName: 'weui-grid',
+					attr: {},
+					tag: 'div',
+					children: [{
+						name: '项目1-图标域',
+						type: 'weui-grid__icon',
+						baseClassName: 'weui-grid__icon',
+						tag: 'div',
+						children: [{
+							name: '项目1-图标',
+							type: 'weui-grid__icon',
+							baseClassName: '',
+							tag: 'img',
+							attr: {
+								src: {
+									type: 'input',
+									title: '图片地址',
+									isSetAttribute: true,
+									_value: 'http://i64.tinypic.com/2a9711u.png'
+								}
+							}
+						}],
+						attr: {}
+					}, {
+						name: '项目1-标题',
+						type: 'weui-grid__label',
+						baseClassName: 'weui-grid__label',
+						tag: 'div',
+						attr: {
+							description: {
+								type: 'input',
+								title: '标题',
+								isHTML: true,
+								_value: '九宫格'
+							}
+						}
+					}]
+				}, {
+					name: '项目2',
+					type: 'weui-grid',
+					baseClassName: 'weui-grid',
+					attr: {},
+					tag: 'div',
+					children: [{
+						name: '项目3-图标域',
+						type: 'weui-grid__icon',
+						baseClassName: 'weui-grid__icon',
+						tag: 'div',
+						children: [{
+							name: '项目3-图标',
+							type: 'weui-grid__icon',
+							baseClassName: '',
+							tag: 'img',
+							attr: {
+								src: {
+									type: 'input',
+									title: '图片地址',
+									isSetAttribute: true,
+									_value: 'http://i64.tinypic.com/2a9711u.png'
+								}
+							}
+						}],
+						attr: {}
+					}, {
+						name: '项目3-标题',
+						type: 'weui-grid__label',
+						baseClassName: 'weui-grid__label',
+						tag: 'div',
+						attr: {
+							description: {
+								type: 'input',
+								title: '标题',
+								isHTML: true,
+								_value: '九宫格'
+							}
+						}
+					}]
+				}, {
+					name: '项目4',
+					type: 'weui-grid',
+					baseClassName: 'weui-grid',
+					attr: {},
+					tag: 'div',
+					children: [{
+						name: '项目4-图标域',
+						type: 'weui-grid__icon',
+						baseClassName: 'weui-grid__icon',
+						tag: 'div',
+						children: [{
+							name: '项目4-图标',
+							type: 'weui-grid__icon',
+							baseClassName: '',
+							tag: 'img',
+							attr: {
+								src: {
+									type: 'input',
+									title: '图片地址',
+									isSetAttribute: true,
+									_value: 'http://i64.tinypic.com/2a9711u.png'
+								}
+							}
+						}],
+						attr: {}
+					}, {
+						name: '项目4-标题',
+						type: 'weui-grid__label',
+						baseClassName: 'weui-grid__label',
+						tag: 'div',
+						attr: {
+							description: {
+								type: 'input',
+								title: '标题',
+								isHTML: true,
+								_value: '九宫格'
+							}
+						}
+					}]
+				}, {
+					name: '项目5',
+					type: 'weui-grid',
+					baseClassName: 'weui-grid',
+					attr: {},
+					tag: 'div',
+					children: [{
+						name: '项目5-图标域',
+						type: 'weui-grid__icon',
+						baseClassName: 'weui-grid__icon',
+						tag: 'div',
+						children: [{
+							name: '项目5-图标',
+							type: 'weui-grid__icon',
+							baseClassName: '',
+							tag: 'img',
+							attr: {
+								src: {
+									type: 'input',
+									title: '图片地址',
+									isSetAttribute: true,
+									_value: 'http://i64.tinypic.com/2a9711u.png'
+								}
+							}
+						}],
+						attr: {}
+					}, {
+						name: '项目5-标题',
+						type: 'weui-grid__label',
+						baseClassName: 'weui-grid__label',
+						tag: 'div',
+						attr: {
+							description: {
+								type: 'input',
+								title: '标题',
+								isHTML: true,
+								_value: '九宫格'
+							}
+						}
+					}]
+				}, {
+					name: '项目6',
+					type: 'weui-grid',
+					baseClassName: 'weui-grid',
+					attr: {},
+					tag: 'div',
+					children: [{
+						name: '项目6-图标域',
+						type: 'weui-grid__icon',
+						baseClassName: 'weui-grid__icon',
+						tag: 'div',
+						children: [{
+							name: '项目6-图标',
+							type: 'weui-grid__icon',
+							baseClassName: '',
+							tag: 'img',
+							attr: {
+								src: {
+									type: 'input',
+									title: '图片地址',
+									isSetAttribute: true,
+									_value: 'http://i64.tinypic.com/2a9711u.png'
+								}
+							}
+						}],
+						attr: {}
+					}, {
+						name: '项目6-标题',
+						type: 'weui-grid__label',
+						baseClassName: 'weui-grid__label',
+						tag: 'div',
+						attr: {
+							description: {
+								type: 'input',
+								title: '标题',
+								isHTML: true,
+								_value: '九宫格'
+							}
+						}
+					}]
+				}]
 			},
 			{
 				name: 'Flex布局',
@@ -4889,7 +5181,6 @@ page {
 		},
 
 		handleTreeChanged(state, { payload: params }) {
-			// alert(params.type);
 			if(params.type == 'page') {
 				let level = layoutAction.getCurrentLevelByKey(state.layout, params.key);
 				var pageIndex = layoutAction.getPageIndexByKey(state.layout, params.key, level);
@@ -5091,7 +5382,6 @@ page {
 
 			}
 
-
 			return {...state};
 		},
 
@@ -5144,11 +5434,23 @@ page {
 			state.layoutState = params.UIState.layoutState;
 			state.defaultDevice = params.UIState.defaultDevice;
 			return {...state};
-		},
-
+		}
 	},
 
 	effects: {
+
+		*addGrid({ payload: params}, {call, put, select}) {
+			var modelDesigner = yield select(state => state.designer),
+				activePage = layoutAction.getActivePage(modelDesigner);
+
+			yield put({
+				type: 'addController',
+				payload: {
+					ctrl: params.grid,
+					target: modelDesigner.layoutState.activeController.key
+				}
+			});
+		},
 
 		*initStateA({ payload: params}, {call, put, select}){
 			state.layout = params.UIState.layout;
@@ -5158,8 +5460,6 @@ page {
 			yield put({
 				type: 'handlePreviewerLayoutLoaded'
 			});
-
-			return {...state};
 		},
 
 		*getConfig({ payload: params}, {call, put, select}){
