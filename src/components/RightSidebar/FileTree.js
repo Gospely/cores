@@ -116,7 +116,8 @@ const FileTree = (props) => {
       var currentClickTimestamp = new Date().getTime();
 
       //双击事件
-      if(currentClickTimestamp - parseInt(sessionStorage.preClickTimestamp) <= 5000) {
+      if(currentClickTimestamp - parseInt(sessionStorage.preClickTimestamp) <= 300) {
+        // alert(currentClickTimestamp - parseInt(sessionStorage.preClickTimestamp))
         var fileName = localStorage.currentSelectedFile;
         localStorage.onSelect = false;
         if(node.node.props.isLeaf) {
