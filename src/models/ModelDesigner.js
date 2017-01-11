@@ -4022,15 +4022,122 @@ page {
 			{
 				name: '段落',
 				type: 'markdown',
-				attr: {
-					value: {
-						isHTML: true,
-						type: 'input',
-						_value: '文章内容',
-						title: '内容'
-					}
-				},
-				tag: 'article',
+				attr: {},
+				children: [{
+					name: '大标题',
+					type: 'markdown',
+					attr: {
+						value: {
+							isHTML: true,
+							type: 'input',
+							_value: '大标题',
+							title: '内容'
+						}
+					},
+					tag: 'div',
+					baseClassName: 'title',
+				}, {
+					name: '正文域',
+					type: 'section',
+					attr: {},
+					tag: 'div',
+					baseClassName: '',
+					children: [{
+						name: '章标题',
+						type: 'h',
+						attr: {
+							value: {
+								isHTML: true,
+								type: 'input',
+								_value: '章标题',
+								title: '内容'
+							}
+						},
+						tag: 'div',
+						baseClassName: '',
+					}, {
+						name: '正文',
+						type: 'section',
+						attr: {
+							value: {
+								isHTML: true,
+								type: 'input',
+								_value: '章标题',
+								title: '内容'
+							}
+						},
+						tag: 'div',
+						baseClassName: '',
+						children: [{
+							name: '1.1 节标题',
+							type: 'h',
+							attr: {
+								value: {
+									isHTML: true,
+									type: 'input',
+									_value: '1.1 节标题',
+									title: '内容'
+								}
+							},
+							tag: 'div',
+							baseClassName: ''
+						}, {
+							name: '段落',
+							type: 'h',
+							attr: {
+								value: {
+									isHTML: true,
+									type: 'input',
+									_value: '段落内容',
+									title: '内容'
+								}
+							},
+							tag: 'p',
+							baseClassName: ''
+						}]
+					}, {
+						name: '正文',
+						type: 'section',
+						attr: {
+							value: {
+								isHTML: true,
+								type: 'input',
+								_value: '章标题',
+								title: '内容'
+							}
+						},
+						tag: 'div',
+						baseClassName: '',
+						children: [{
+							name: '1.2 节标题',
+							type: 'h',
+							attr: {
+								value: {
+									isHTML: true,
+									type: 'input',
+									_value: '1.2 节标题',
+									title: '内容'
+								}
+							},
+							tag: 'div',
+							baseClassName: ''
+						}, {
+							name: '段落',
+							type: 'h',
+							attr: {
+								value: {
+									isHTML: true,
+									type: 'input',
+									_value: '段落内容',
+									title: '内容'
+								}
+							},
+							tag: 'p',
+							baseClassName: ''
+						}]
+					}]
+				}],
+				tag: 'div',
 				baseClassName: 'weui-article',
 			},
 			{
