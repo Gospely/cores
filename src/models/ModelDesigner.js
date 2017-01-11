@@ -1565,9 +1565,9 @@ page {
 						type: 'button',
 						title: '添加列',
 						_value: '添加',
-						onClick: 'designer/addColumn',
+						onClick: 'designer/addControllerManually',
 						params:{
-							column:{
+							item:{
 								name: '布局组',
 								type: 'flex-item',
 								children: [],
