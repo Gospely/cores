@@ -9,6 +9,7 @@ const initApplication = function (application, props){
     }else{
         window.reload = true;
     }
+    
     if(location.hash.indexOf('project') == -1) {
         return false;
     }

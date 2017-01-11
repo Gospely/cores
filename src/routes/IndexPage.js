@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
 import styles from './IndexPage.css';
-import { Row, Col, Spin, Alert } from 'antd';
+import { Row, Col, Spin, Alert, message } from 'antd';
 
 import LeftSidebar from '../components/LeftSidebar';
 import RightSidebar from '../components/RightSidebar';
@@ -15,7 +15,6 @@ import SplitPane from 'react-split-pane';
 import randomString from '../utils/randomString';
 
 import fileListen from '../utils/fileListen';
-
 
 
 function IndexPage(props) {
@@ -97,6 +96,14 @@ function IndexPage(props) {
         },
 
         onEdit(paneKey, targetKey, action) {
+
+            if(location.hash.indexOf('project') == -1) {
+                message.success('您还未打开任何项目，请先创建');
+                props.dispatch({
+                    type: 'sidebar/showModalNewApp'
+                });
+                return false;
+            }
 
             var content = '',
                 title = undefined,
