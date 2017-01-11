@@ -753,7 +753,6 @@ $(function () {
             },
 
             onDragover: function() {
-
                 //拖拽过程中
                 jq("body").on("dragover",function(e){
                     e.preventDefault();

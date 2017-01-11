@@ -4723,6 +4723,7 @@ page {
 		},
 
 		handleTreeChanged(state, { payload: params }) {
+			// alert(params.type);
 			if(params.type == 'page') {
 				let level = layoutAction.getCurrentLevelByKey(state.layout, params.key);
 				var pageIndex = layoutAction.getPageIndexByKey(state.layout, params.key, level);
