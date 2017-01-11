@@ -32,6 +32,7 @@ export default {
 		createFromModal: false,
 		applications: [],
 		showAppsLoading: false,
+        gitTabKey: '1',
         wechatSaveShow: false, //小程序设计保存modal
 
 		modifyGitOriginInput: {
@@ -113,11 +114,7 @@ export default {
 	subscriptions: {
 		setup({ dispatch, history }) {
 	      	history.listen(({ pathname }) => {
-
-	      		if(location.hash.indexOf('project') != -1) {
-	          		dispatch({
-	            		type: 'isGitProject'
-	          		});
+                if(location.hash.indexOf('project') != -1) {
 	      		}
 
 	      	});
@@ -162,36 +159,6 @@ export default {
 	      		yield put({ type: 'setWeappCompilerStatusExpection' });
 			}
 		},
-
-		*isGitProject({payload: params}, {call, put, select}) {
-      		var isGit = yield request('fs/git/', {
-      			method: 'POST',
-      			body: JSON.stringify({
-      				dir: localStorage.dir,
-                    remoteIp: localStorage.host
-      			})
-      		});
-
-      		if(isGit.data.fields) {
-      			//获取origin源
-      			var origin = yield request('fs/origin/git', {
-	      			method: 'POST',
-	      			body: JSON.stringify({
-	      				dir: localStorage.dir,
-                        remoteIp: localStorage.host
-	      			})
-	      		});
-
-	      		yield put({ type: 'setOriginValue', payload: {
-	      			origin,
-	      			isGit
-	      		} })
-      		}else {
-	      		yield put({ type: 'setIsGit', payload: isGit });
-      		}
-
-		},
-
 		*modifyGitOrigin({payload: params}, {call, put, select}) {
       		var val = yield select(state => state.sidebar.modifyGitOriginInput.value);
 			var modifyResult = yield request('fs/origin/modify', {
@@ -648,7 +615,19 @@ export default {
 		selectApp(state) {
 
 		},
+        changeGitTabKey(state, { payload: params}){
 
+            state.gitTabKey = params.key;
+            return {...state};
+        },
+        setGitOrigin(state, {  payload: params }){
+
+            state.modifyGitOriginInput.value = params.gitOrigin;
+            state.modifyGitOriginInput.pushValue = params.gitOrigin;
+            state.modifyGitOriginInput.isGit = params.isGit;
+            console.log('setGit');
+            return {...state};
+        },
 		showModalModifyGitOrgin(state) {
 			return {...state, modalModifyGitOriginVisible: true};
 		},
