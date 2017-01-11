@@ -1231,6 +1231,7 @@ $(function () {
                     if (att == 'value' || att == 'checked') {
                         this.elem.attr('readonly', true);
                     }
+
                 }
 
                 this.elem.attr('id', this.controller.key);
