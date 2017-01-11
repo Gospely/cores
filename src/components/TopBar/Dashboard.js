@@ -9,16 +9,8 @@ const Dashboard = (props) => {
 
     hide () {
       props.dispatch({
-        type: '/hide'
+        type: 'dashboard/hideDash'
       });
-    },
-
-    src () {
-      if(document.domain == 'localhost') {
-        return 'http://localhost:8088';
-      }else {
-        return 'http://dash.gospely.com';
-      }
     }
 
   };
@@ -31,14 +23,14 @@ const Dashboard = (props) => {
           wrapClassName="vertical-center-modal"
           visible={props.dashboard.visible}
           wrapClassName="dashboard-wrapper"
-          onCancel={DashboardProps.hide()}
+          onCancel={DashboardProps.hide}
         >
           <iframe
             name="gospel-designer" 
             width="100%" 
             height="100%" 
             frameBorder="0" 
-            src={DashboardProps.src()}
+            src={props.dashboard.src}
             >
           </iframe>
         </Modal>

@@ -98,7 +98,7 @@ function IndexPage(props) {
         onEdit(paneKey, targetKey, action) {
 
             if(location.hash.indexOf('project') == -1) {
-                message.success('您还未打开任何项目，请先创建');
+                message.success('您还未打开任何项目，请先创建一个吧 :)');
                 props.dispatch({
                     type: 'sidebar/showModalNewApp'
                 });
