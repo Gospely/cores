@@ -4,14 +4,14 @@ $(function () {
         document.domain = 'gospely.com';
     }
 
-    jQuery.fn.isChildOf = function(b) { 
+    jQuery.fn.isChildOf = function(b) {
         return (this.parents(b).length > 0);
     };
 
-    //判断:当前元素是否是被筛选元素的子元素或者本身 
-    jQuery.fn.isChildAndSelfOf = function(b) { 
+    //判断:当前元素是否是被筛选元素的子元素或者本身
+    jQuery.fn.isChildAndSelfOf = function(b) {
         return (this.closest(b).length > 0);
-    }; 
+    };
 
     var jq = jQuery.noConflict();
 
@@ -357,7 +357,8 @@ $(function () {
 
         removeBtn.click(function(e) {
             e.stopPropagation();
-
+            console.log('btn_remove');
+            console.log(e);
             var self = controllerState.currentActiveCtrlDOM,
                 dataControl = self.data('controller');
 
@@ -472,7 +473,7 @@ $(function () {
 
                             this.isMouseDown = false;
                             postMessageToFather.attrChangeFromDrag({
-                                changeId: [self[0].id], 
+                                changeId: [self[0].id],
                                 changeValue: [e.pageY - this.orginY + this.orginHeight + 'px'],
                                 changeAttr: ['height']
                             });
@@ -484,7 +485,7 @@ $(function () {
                                     top: e.pageY - dragY[0].orginY + dragY[0].orginTop
                                 })
                                 self.height(e.pageY - dragY[0].orginY + dragY[0].orginHeight + 'px');
-                                
+
                             }
                         })
                     }
@@ -708,7 +709,7 @@ $(function () {
                 }else {
                     initDnd();
                 }
-                
+
             },
 
             onDrop: function() {
@@ -720,7 +721,7 @@ $(function () {
 
                     var dropTarget = jq(e.target);
 
-                    e.preventDefault(); 
+                    e.preventDefault();
 
                     //获取父元素的window对象上的数据
                     var controller = parent.parent.dndData;
@@ -732,15 +733,15 @@ $(function () {
                     }
 
                     //若拖进来的元素必须有特定的父元素则判断是否需要添加其特定父元素
-                    if (controller.attr.theParent && controller.attr.theParent._value && 
-                        controller.attr.theParent._value.tag != e.target.tagName && 
+                    if (controller.attr.theParent && controller.attr.theParent._value &&
+                        controller.attr.theParent._value.tag != e.target.tagName &&
                         e.target.className.indexOf(controller.attr.theParent._value.className == -1)) {
-                        
+
                         ctrlAndTarget.theParent = controller.attr.theParent._value;
 
                     }
                     parent.parent.currentTarget = e.target;
-                    
+
                     if (!dropTarget.hasClass('page__bd')) {
                         dropTarget.css({
                             height: 'auto'
@@ -889,7 +890,7 @@ $(function () {
                     for (var i = 0; i < this.pages.length; i++) {
                         var currentPage = this.pages[i];
                         this.appendPageToHTML(currentPage);
-                    };                    
+                    };
                 }else {
                     this.appendPageToHTML(this.pages);
                 }
@@ -1071,7 +1072,7 @@ $(function () {
 
                             if(isClsInVal && currentAttr.isNoConflict) {
                                 // 不是添加控件而是刷新控件, 先重置为基本class再加新class
-                                this.elem.attr('class', this.controller.baseClassName);                                    
+                                this.elem.attr('class', this.controller.baseClassName);
                             }
                         }
 
@@ -1107,7 +1108,7 @@ $(function () {
                                 for (var j = 0; j < currentAttr.value.length; j++) {
                                     var currentDisabledCSS = currentAttr.value[j];
                                     this.elem.removeClass(currentDisabledCSS);
-                                };                          
+                                };
                             }
                         }
 
@@ -1137,7 +1138,7 @@ $(function () {
                                 }
 
                             }else {
-                                this.elem.addClass(currentAttr.prefixClassValue + currentAttr._value);                                
+                                this.elem.addClass(currentAttr.prefixClassValue + currentAttr._value);
                             }
                         }else {
                             this.elem.addClass(currentAttr._value);
@@ -1297,7 +1298,7 @@ $(function () {
                 elem.on('dragstart', function (e) {
 
                     e.originalEvent.dataTransfer.effectAllowed = "move";
-                    
+
                     //初始化会改变的属性数据
                     dndData.attrChangeData.haveAttrChange = false;
                     dndData.attrChangeData.changeId = [];
@@ -1340,7 +1341,7 @@ $(function () {
                         nextElement = $this.next(),
 
                         referHeight = 30;//位置变换的参考高度
-                    
+
 
                     //小于参考高度的 -2/3 使用before()
                     if(moveY <= - referHeight / 3 * 2) {
@@ -1352,11 +1353,11 @@ $(function () {
                             dndData.constructTreeData.changeType.push('before');
                             dndData.constructTreeData.dragElementId.push(thisId);
                             dndData.constructTreeData.exchElementId.push(prevElement.eq(0).attr('id'));
-                            
+
                             prevElement.before($this);
 
                             dndData.orginY = e.pageY;
-                            
+
 
                         }else if (dragElementParent.data('is-container')) {
 
@@ -1383,11 +1384,11 @@ $(function () {
 
                             dndData.orginY = e.pageY;
                         }
-                        
+
 
                         //小于参考高度的 -2/3 使用after()
                     }else if (moveY >= referHeight / 3 * 2) {
-                        
+
                         if (nextElement.length) {
 
                             //被拖拽的元素前还有后兄弟元素，就after()到其后面去
@@ -1427,7 +1428,7 @@ $(function () {
 
 
                              //小于参考高度的 -1/3 且大于参考高度的 -2/3 使用 append()
-                    }else if (moveY < - referHeight / 3 && moveY > - referHeight / 3 * 2 && 
+                    }else if (moveY < - referHeight / 3 && moveY > - referHeight / 3 * 2 &&
                               prevElement.length && prevElement.data('is-container')) {
 
                             //从下往上拖，用 append()
@@ -1440,7 +1441,7 @@ $(function () {
 
                             //容器高度
                             if (!prevElement.hasClass('page__bd')) {
-                                
+
                                 prevElement.css({
                                     height: 'auto'
                                 })
@@ -1452,7 +1453,7 @@ $(function () {
 
                             }
 
-                    }else if (moveY > referHeight / 3 && moveY < referHeight / 3 * 2 && 
+                    }else if (moveY > referHeight / 3 && moveY < referHeight / 3 * 2 &&
                              nextElement.length && nextElement.data('is-container')) {
 
                             //从上往下拖，用 prepend()
@@ -1465,7 +1466,7 @@ $(function () {
 
                             //容器高度
                             if (!nextElement.hasClass('page__bd')) {
-                                
+
                                 nextElement.css({
                                     height: 'auto'
                                 })
@@ -1477,13 +1478,13 @@ $(function () {
 
                             }
                         }
-                        
+
                 });
 
                 elem.on('dragenter', function (e) {
                     e.stopPropagation();
                 })
-            
+
                 elem.on('dragleave', function (e) {
                     console.log('离开')
                 })
@@ -1503,7 +1504,7 @@ $(function () {
                     if (dndData.constructTreeData.haveChange) {
                         postMessageToFather.ctrlExchanged(dndData.constructTreeData)
                     }
-                    
+
                     postMessageToFather.ctrlUpdated({
                         params: {
                             key: ''
@@ -1588,7 +1589,7 @@ $(function () {
                         ctrlRemoved: function() {
                             var self = controllerState.currentActiveCtrlDOM;
                             if(self) {
-                                self.remove();                                
+                                self.remove();
                             }
                         },
 

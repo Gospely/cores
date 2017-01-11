@@ -1233,7 +1233,7 @@ page {
 
 				},
 				backend: true
-			},
+			},		
 
 			{
 				name: '九宫格',
@@ -1539,12 +1539,28 @@ page {
 				name: 'Flex布局',
 				type: 'card',
 				attr: {
+					column: {
+						type: 'button',
+						title: '添加列',
+						_value: '添加',
+						onClick: 'designer/addColumn',
+						params:{
+							column:{
+								name: '布局组',
+								type: 'flex-item',
+								children: [],
+								tag: ['div'],
+								baseClassName: 'weui-flex__item',
+								attr: {}
+							}
+						}
+					},
 					height: {
 						type: 'input',
 						title: '高度',
 						isStyle: true,
 						_value: '100px'
-					}
+					},
 				},
 				tag: ['div'],
 				baseClassName: 'weui-flex',
@@ -2424,7 +2440,7 @@ page {
 								tag: 'div',
 								className: 'weui-cells weui-cells_form'
 							},
-							backend: true					
+							backend: true
 						},
 
 						isCounter: {
@@ -2795,7 +2811,7 @@ page {
 							tag: 'div',
 							className: 'weui-cells weui-cells_form'
 						},
-						backend: true					
+						backend: true
 					},
 
 					isCounter: {
@@ -4035,136 +4051,15 @@ page {
 			{
 				name: '段落',
 				type: 'markdown',
-				attr: {},
-				children: [{
-					name: '大标题',
-					type: 'heading',
-					tag: 'h1',
-					baseClassName: 'page__title',
-					attr: {
-						value: {
-							type: 'input',
-							title: '标题',
-							isClassName: false,
-							isHTML: true,
-							_value: '大标题'
-						},
-						'font-size': {
-							type: 'input',
-							title: '标题大小',
-							isStyle: true,
-							_value: '20px',
-						}
+				attr: {
+					value: {
+						isHTML: true,
+						type: 'input',
+						_value: '文章内容',
+						title: '内容'
 					}
-				}, {
-					name: '正文域',
-					type: 'section',
-					attr: {},
-					tag: 'div',
-					baseClassName: '',
-					children: [{
-						name: '章标题',
-						type: 'heading',
-						tag: 'h1',
-						baseClassName: 'page__title',
-						attr: {
-							value: {
-								type: 'input',
-								title: '标题',
-								isClassName: false,
-								isHTML: true,
-								_value: '章标题'
-							},
-							'font-size': {
-								type: 'input',
-								title: '标题大小',
-								isStyle: true,
-								_value: '18px',
-							}
-						}
-					}, {
-						name: '正文',
-						type: 'section',
-						attr: {},
-						tag: 'div',
-						baseClassName: '',
-						children: [{
-							name: '1.1 节标题',
-							type: 'heading',
-							tag: 'h1',
-							baseClassName: 'page__title',
-							attr: {
-								value: {
-									type: 'input',
-									title: '标题',
-									isClassName: false,
-									isHTML: true,
-									_value: '1.1 节标题'
-								},
-								'font-size': {
-									type: 'input',
-									title: '标题大小',
-									isStyle: true,
-									_value: '12px',
-								}
-							}
-						}, {
-							name: '段落',
-							type: 'h',
-							attr: {
-								value: {
-									isHTML: true,
-									type: 'input',
-									_value: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-									title: '内容'
-								}
-							},
-							tag: 'p',
-							baseClassName: ''
-						}]
-					}, {
-						name: '正文',
-						type: 'section',
-						attr: {},
-						tag: 'div',
-						baseClassName: '',
-						children: [{
-							name: '1.2 节标题',
-							type: 'heading',
-							tag: 'h1',
-							baseClassName: 'page__title',
-							attr: {
-								value: {
-									type: 'input',
-									title: '标题',
-									isClassName: false,
-									isHTML: true,
-									_value: '1.2 节标题'
-								},
-								'font-size': {
-									type: 'input',
-									title: '标题大小',
-									isStyle: true,
-									_value: '12px',
-								}
-							}
-						}, {
-							name: '段落',
-							type: 'h',
-							attr: {
-								value: {
-									isHTML: true,
-									type: 'input',
-									_value: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-									title: '内容'
-								}
-							},
-							tag: 'p',
-							baseClassName: ''
-						}]
-					}]
-				}],
-				tag: 'div',
+				},
+				tag: 'article',
 				baseClassName: 'weui-article',
 			},
 			{
@@ -5392,15 +5287,9 @@ page {
 							type: 'toggle',
 							title: '显示',
 							_value: true,
-							value: ['none', 'block'],
+							value: ['none', 'flex'],
 							isStyle: true,
 							isToggleStyle: true
-						},
-						isComponent: {
-							backend: true,
-							value: [],
-							title: '是否为完整的组件',
-							_value: true
 						}
 					},
 					name: '联系人信息',
@@ -5487,6 +5376,14 @@ page {
 									value: [],
 									title: '是否为完整的组件',
 									_value: true
+								},
+								display: {
+									type: 'toggle',
+									title: '显示',
+									_value: true,
+									value: ['none', 'block'],
+									isStyle: true,
+									isToggleStyle: true
 								}
 							}
 						}]
@@ -5549,6 +5446,292 @@ page {
 									_value: true
 								}
 							}
+						}]
+					}]
+				}, {
+					tag: 'div',
+					type: 'div',
+					baseClassName: 'weui-cell weui-cell_access',
+					name: '单行列表',
+					attr: {
+						display: {
+							type: 'toggle',
+							title: '显示',
+							_value: true,
+							value: ['none', 'flex'],
+							isStyle: true,
+							isToggleStyle: true
+						}
+					},
+					children: [{
+						tag: 'div',
+						type: 'div',
+						baseClassName: 'weui-cell__bd',
+						name: '单行列表头部',
+						attr: {
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
+							}
+						},
+						children: [{
+							tag: 'span',
+							type: 'span',
+							name: '列表文本',
+							attr: {
+								isComponent: {
+									backend: true,
+									value: [],
+									title: '是否为完整的组件',
+									_value: true
+								},
+								content: {
+									title: '文本内容',
+									_value: '单行文本',
+									type: 'input',
+									isHTML: true
+								},
+								'vertical-align': {
+									isStyle: true,
+									_value: 'middle',
+									backend: true
+								}
+							}
+						}, {
+							tag: 'span',
+							type: 'span',
+							name: '小提示消息',
+							baseClassName: 'weui-badge',
+							attr: {
+								'margin-left': {
+									isStyle: true,
+									_value: '5px',
+									backend: true
+								},
+								isComponent: {
+									backend: true,
+									value: [],
+									title: '是否为完整的组件',
+									_value: true
+								},
+								display: {
+									type: 'toggle',
+									title: '显示',
+									_value: true,
+									value: ['none', 'inline-block'],
+									isStyle: true,
+									isToggleStyle: true
+								},
+								content: {
+									isHTML: true,
+									_value: '3',
+									type: 'input',
+									title: '提示文本'
+								}
+							}
+						}]
+					}, {
+						tag: 'div',
+						type: 'div',
+						baseClassName: 'weui-cell__ft',
+						name: '单行列表尾部',
+						attr: {
+							content: {
+								title: '文本内容',
+								_value: '详细信息',
+								type: 'input',
+								isHTML: true
+							},
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
+							},
+							display: {
+								type: 'toggle',
+								title: '显示',
+								_value: true,
+								value: ['none', 'block'],
+								isStyle: true,
+								isToggleStyle: true
+							}
+						}
+					}]
+				}, {
+					tag: 'div',
+					type: 'div',
+					baseClassName: 'weui-cell weui-cell_access',
+					name: '单行列表',
+					attr: {
+						display: {
+							type: 'toggle',
+							title: '显示',
+							_value: true,
+							value: ['none', 'flex'],
+							isStyle: true,
+							isToggleStyle: true
+						}
+					},
+					children: [{
+						tag: 'div',
+						type: 'div',
+						baseClassName: 'weui-cell__bd',
+						name: '单行列表头部',
+						attr: {
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
+							}
+						},
+						children: [{
+							tag: 'span',
+							type: 'span',
+							name: '列表文本',
+							attr: {
+								isComponent: {
+									backend: true,
+									value: [],
+									title: '是否为完整的组件',
+									_value: true
+								},
+								content: {
+									title: '文本内容',
+									_value: '单行文本',
+									type: 'input',
+									isHTML: true
+								},
+								'vertical-align': {
+									isStyle: true,
+									_value: 'middle',
+									backend: true
+								}
+							}
+						}, {
+							tag: 'span',
+							type: 'span',
+							name: '小提示消息',
+							baseClassName: 'weui-badge',
+							attr: {
+								'margin-left': {
+									isStyle: true,
+									_value: '5px',
+									backend: true
+								},
+								isComponent: {
+									backend: true,
+									value: [],
+									title: '是否为完整的组件',
+									_value: true
+								},
+								display: {
+									type: 'toggle',
+									title: '显示',
+									_value: true,
+									value: ['none', 'inline-block'],
+									isStyle: true,
+									isToggleStyle: true
+								},
+								content: {
+									isHTML: true,
+									_value: '3',
+									type: 'input',
+									title: '提示文本'
+								}
+							}
+						}]
+					}, {
+						tag: 'div',
+						type: 'div',
+						baseClassName: 'weui-cell__ft',
+						name: '单行列表尾部',
+						attr: {
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
+							},
+							display: {
+								type: 'toggle',
+								title: '显示',
+								_value: true,
+								value: ['none', 'block'],
+								isStyle: true,
+								isToggleStyle: true
+							}
+						},
+						children: [{
+							tag: 'div',
+							type: 'div',
+							name: '单行列表尾部文本',
+							attr: {
+								'vertical-align': {
+									isStyle: true,
+									_value: 'middle',
+									backend: true
+								},
+								'font-size': {
+									isStyle: true,
+									_value: '17px',
+									backend: true
+								},
+								content: {
+									isHTML: true,
+									_value: '详细信息',
+									title: '文本内容',
+									type: 'input'
+								},
+								isComponent: {
+									backend: true,
+									value: [],
+									title: '是否为完整的组件',
+									_value: true
+								},
+								display: {
+									type: 'toggle',
+									title: '显示',
+									_value: true,
+									value: ['none', 'inline-block'],
+									isStyle: true,
+									isToggleStyle: true
+								}
+							}
+						}, {
+							tag: 'div',
+							type: 'div',
+							name: '单行列表尾部小红点',
+							attr: {
+								'margin-left': {
+									isStyle: true,
+									_value: '5px',
+									backend: true
+								},
+								'margin-right': {
+									isStyle: true,
+									_value: '5px',
+									backend: true
+								},
+								isComponent: {
+									backend: true,
+									value: [],
+									title: '是否为完整的组件',
+									_value: true
+								},
+								display: {
+									type: 'toggle',
+									title: '显示',
+									_value: true,
+									value: ['none', 'inline-block'],
+									isStyle: true,
+									isToggleStyle: true
+								}
+							},
+							baseClassName: 'weui-badge weui-badge_dot'
 						}]
 					}]
 				}]
@@ -5868,20 +6051,12 @@ page {
 					icon: {
 						title: '图标',
 						isClassName: true,
-						_value: 'weui-icon-success',
+						_value: 'weui-icon-checked',
 						type: 'select',
 						value: ['weui-icon-success', 'weui-icon-success-circle', 'weui-icon-success-no-circle', 'weui-icon-info',
 								'weui-icon-waiting', 'weui-icon-waiting-circle', 'weui-icon-circle', 'weui-icon-warn', 'weui-icon-download',
 								'weui-icon-info-circle', 'weui-icon-cancel', 'weui-icon-search'],
 						isNoConflict: true
-					},
-
-					isBig: {
-						title: '警告类型',
-						isClassName: true,
-						value: ['weui-icon_msg', ' weui-icon_msg-primary'],
-						_value: '',
-						type: 'select'
 					}
 				}
 			},
@@ -6153,7 +6328,7 @@ page {
 								isHTML: false,
 								isSetAttribute: true,
 								_value: true
-							}					
+							}
 						}
 					}]
 				}]
@@ -6417,7 +6592,6 @@ page {
 				message.error('请在左上角组件树中选择一个页面');
 				return {...state};
 			}
-
 			let controller = ctrlAndTarget.ctrl,
 				targetId = ctrlAndTarget.target,
 				theParent = ctrlAndTarget.theParent,
@@ -6812,7 +6986,7 @@ page {
 			var config = configs.data.fields[0];
 			localStorage.UIState = config.configs;
 			var UIState = JSON.parse(config.configs);
-			
+
 			yield put({
 				type: 'initState',
 				payload: { UIState: UIState.UIState.designer }
