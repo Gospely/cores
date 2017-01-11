@@ -1245,9 +1245,9 @@ page {
 						isClassName: false,
 						isHTML: true,
 						_value: '添加',
-						onClick: 'designer/addGrid',
+						onClick: 'designer/addControllerManually',
 						params: {
-							grid: {
+							item: {
 								name: '项目n',
 								type: 'weui-grid',
 								baseClassName: 'weui-grid',
@@ -5908,6 +5908,7 @@ page {
 								type: 'input',
 								attrType: 'text',
 								isHTML: true,
+								title: '文本内容',
 								_value: '标题标题'
 							}
 						}
@@ -5919,6 +5920,7 @@ page {
 						attr: {
 							value: {
 								type: 'input',
+								title: '文本内容',
 								attrType: 'text',
 								isHTML: true,
 								_value: '名字名字名字'
@@ -5937,7 +5939,7 @@ page {
 							isClassName: false,
 							isHTML: true,
 							_value: '添加项目',
-							onClick: 'designer/addPreviewerItem',
+							onClick: 'designer/addControllerManually',
 							params: {
 								item: {
 									tag: 'p',
@@ -5955,6 +5957,7 @@ page {
 												type: 'input',
 												attrType: 'text',
 												isHTML: true,
+												title: '文本内容',
 												_value: '项目标题'
 											}
 										}
@@ -5968,6 +5971,7 @@ page {
 												type: 'input',
 												attrType: 'text',
 												isHTML: true,
+												title: '文本内容',
 												_value: '项目正文'
 											}
 										}
@@ -5992,6 +5996,7 @@ page {
 									type: 'input',
 									attrType: 'text',
 									isHTML: true,
+									title: '文本内容',
 									_value: '商   品'
 								}
 							}
@@ -6005,6 +6010,7 @@ page {
 									type: 'input',
 									attrType: 'text',
 									isHTML: true,
+									title: '文本内容',
 									_value: '名字名字名字'
 								}
 							}
@@ -6025,6 +6031,7 @@ page {
 									type: 'input',
 									attrType: 'text',
 									isHTML: true,
+									title: '文本内容',
 									_value: '标题标题'
 								}
 							}
@@ -6038,6 +6045,7 @@ page {
 									type: 'input',
 									attrType: 'text',
 									isHTML: true,
+									title: '文本内容',
 									_value: '项目2正文'
 								}
 							}
@@ -6058,6 +6066,7 @@ page {
 									type: 'input',
 									attrType: 'text',
 									isHTML: true,
+									title: '文本内容',
 									_value: '标题标题'
 								}
 							}
@@ -6071,6 +6080,7 @@ page {
 									type: 'input',
 									attrType: 'text',
 									isHTML: true,
+									title: '文本内容',
 									_value: '大段文本大段文本大段文本大段文本大段文本大段文本大段文本大段文本大段文本'
 								}
 							}
@@ -6089,30 +6099,33 @@ page {
 							isClassName: false,
 							isHTML: true,
 							_value: '添加项目',
-							onClick: 'designer/addPreviewerFooterBtn',
+							onClick: 'designer/addControllerManually',
 							params: {
-								tag: 'a',
-								baseClassName: 'weui-form-preview__btn',
-								name: '预览表单按钮',
-								type: 'weui-form-preview__btn',
-								attr: {
-									value: {
-										type: 'input',
-										title: '按钮标题',
-										value: [''],
-										isHTML: true,
-										_value: '辅助操作'
-									},
+								item: {
+									tag: 'a',
+									baseClassName: 'weui-form-preview__btn weui-form-preview__btn_default',
+									name: '预览表单按钮',
+									type: 'weui-form-preview__btn',
+									attr: {
+										value: {
+											type: 'input',
+											title: '按钮标题',
+											value: [''],
+											isHTML: true,
+											_value: '辅助操作'
+										},
 
-									disabled: {
-										type: 'toggle',
-										title: '高亮',
-										value: ['weui-form-preview__btn_default', 'weui-form-preview__btn_primary'],
-										isClassName: true,
-										isHTML: false,
-										isSetAttribute: true,
-										_value: true
-									}					
+										disabled: {
+											type: 'toggle',
+											title: '高亮',
+											value: ['weui-form-preview__btn_primary'],
+											isClassName: true,
+											isHTML: false,
+											isSingleToggleClass: true,
+											isSetAttribute: true,
+											_value: false
+										}					
+									}
 								}
 							}
 						}
@@ -6120,7 +6133,7 @@ page {
 					},
 					children: [{
 						tag: 'a',
-						baseClassName: 'weui-form-preview__btn',
+						baseClassName: 'weui-form-preview__btn weui-form-preview__btn_default',
 						name: '预览表单按钮',
 						type: 'weui-form-preview__btn',
 						attr: {
@@ -6135,7 +6148,7 @@ page {
 							disabled: {
 								type: 'toggle',
 								title: '高亮',
-								value: ['weui-form-preview__btn_default', 'weui-form-preview__btn_primary'],
+								value: ['weui-form-preview__btn_primary'],
 								isClassName: true,
 								isHTML: false,
 								isSetAttribute: true,
@@ -6764,43 +6777,20 @@ page {
 
 	effects: {
 
-		*addGrid({ payload: params}, {call, put, select}) {
+		*addControllerManually({ payload: params}, {call, put, select}) {
 			var modelDesigner = yield select(state => state.designer),
-				activePage = layoutAction.getActivePage(modelDesigner);
+				activePage = layoutAction.getActivePage(modelDesigner),
+				target = modelDesigner.layoutState.activeController.key;
 
-			yield put({
-				type: 'addController',
-				payload: {
-					ctrl: params.grid,
-					target: modelDesigner.layoutState.activeController.key
-				}
-			});
-		},
-
-		*addPreviewerItem({ payload: params}, {call, put, select}) {
-			var modelDesigner = yield select(state => state.designer),
-				activePage = layoutAction.getActivePage(modelDesigner);
+			window.currentTarget = gospelDesignerPreviewer.jQuery('#' + target);
 
 			yield put({
 				type: 'addController',
 				payload: {
 					ctrl: params.item,
-					target: modelDesigner.layoutState.activeController.key
+					target: target
 				}
 			});
-		},
-
-		*addPreviewerFooterBtn({ payload: params}, {call, put, select}) {
-			var modelDesigner = yield select(state => state.designer),
-				activePage = layoutAction.getActivePage(modelDesigner);
-
-			yield put({
-				type: 'addController',
-				payload: {
-					ctrl: params.item,
-					target: modelDesigner.layoutState.activeController.key
-				}
-			});			
 		},
 
 		*initStateA({ payload: params}, {call, put, select}){
