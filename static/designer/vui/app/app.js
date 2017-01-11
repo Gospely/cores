@@ -362,12 +362,12 @@ $(function () {
             var self = controllerState.currentActiveCtrlDOM,
                 dataControl = self.data('controller'),
                 baseClassName = self[0].className.split(' ')[0];
-                console.log(self);
-                console.log(baseClassName);
-            if(baseClassName == 'page__bd' || baseClassName == 'page__hd' || baseClassName == 'page__ft') {
 
+            if(baseClassName == 'page__bd' || baseClassName == 'page__hd' || baseClassName == 'page__ft') {
+                
                 return false;
             }
+
             postMessageToFather.ctrlRemoved(dataControl);
             self.remove();
             controllerOperations.hideDesignerDraggerBorder();

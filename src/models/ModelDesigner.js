@@ -6061,7 +6061,7 @@ page {
 					isBig: {
  						title: '警告类型',
  						isClassName: true,
- 						value: ['weui-icon_msg', ' weui-icon_msg-primary'],
+ 						value: ['', 'weui-icon_msg', ' weui-icon_msg-primary'],
  						_value: '',
  						type: 'select'
   					}
