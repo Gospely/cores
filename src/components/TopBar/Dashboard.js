@@ -8,9 +8,9 @@ const Dashboard = (props) => {
   const DashboardProps = {
 
     hide () {
-      // props.dispatch({
-      //   type: 'dashboard/hide'
-      // });
+      props.dispatch({
+        type: '/hide'
+      });
     },
 
     src () {
@@ -30,9 +30,8 @@ const Dashboard = (props) => {
           title="控制台 | Gospel - Web在线可视化集成开发环境"
           wrapClassName="vertical-center-modal"
           visible={props.dashboard.visible}
-          footer={[]}
           wrapClassName="dashboard-wrapper"
-          // onCancel={DashboardProps.hide()}
+          onCancel={DashboardProps.hide()}
         >
           <iframe
             name="gospel-designer" 
