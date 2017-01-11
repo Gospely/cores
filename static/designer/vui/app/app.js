@@ -764,6 +764,10 @@ $(function () {
                     e.stopPropagation();
                     var target = jq(e.target);
                     jq('.container-box').removeClass('container-box');
+                    console.log(e);
+                    if(target.height() <= 10) {
+
+                    }
                     target.addClass('container-box')
                 });
             }
