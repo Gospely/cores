@@ -379,7 +379,7 @@ const LeftSidebar = (props) => {
 
 	        dashboard () {
 	        	props.dispatch({
-	        		type: 'dashboard/show'
+	        		type: 'dashboard/showDash'
 	        	})
 	        }
 
@@ -1296,10 +1296,14 @@ const LeftSidebar = (props) => {
 	      		onClick={leftSidebarProps.handleClick}
 	      		mode="horizontal">
 				<Menu.Item key="create">
-		          	<Icon type="plus" />
+			      	<Tooltip title="新建项目">
+		          		<Icon type="plus" />
+		          	</Tooltip>
 		        </Menu.Item>
 		        <Menu.Item key="switch">
-		          	<Icon type="appstore-o" />
+			      	<Tooltip title="切换项目">
+		          		<Icon type="appstore-o" />
+		          	</Tooltip>
 		        </Menu.Item>
 		        <Menu.Item key="dashboard">
 					<Icon type="laptop" />

@@ -23,7 +23,7 @@ export default {
 	},
 
 	reducers: {
-		handleInputChange(state,{payload: val}) {
+		handleInputChange(state, {payload: val}) {
 			return {...state, siteValue: val};
 		}
 	}
