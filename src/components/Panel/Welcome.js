@@ -20,12 +20,17 @@ const Welcome = (props) => {
 			fontWeight: '200',
 			maxHeight: maxHeight
 		},
+
 		newOrOpenApp: {
 			color: '#666',
 			display: 'block',
 			marginBottom: 6,
 			width: 68,
 			margin: '0 auto'
+		},
+
+		welcomeFooter: {
+			marginTop: $('.welcome-wrapper').height() - 200
 		}
 	};
 
@@ -44,34 +49,20 @@ const Welcome = (props) => {
       	});
 	}
 
-	// <a style={styles.newOrOpenApp} className="a-hover">
-	// 	<Icon type="bulb" style={{marginRight: 5}} />
-	// 	查看帮助
-	// </a>
-
-	// <a style={styles.newOrOpenApp} className="a-hover" onClick={createApp}>
-	// 	<Icon type="file-text" style={{marginRight: 5}} />
-	// 	新建项目
-	// </a>
-	// <a style={styles.newOrOpenApp} className="a-hover" onClick={openApp}>
-	// 	<Icon type="folder-open" style={{marginRight: 5}} />
-	// 	打开项目
-	// </a>
-
 	var welcomeTip = '';
 
 	if(window.disabled) {
-		welcomeTip = <div onClick={createApp} className="welcome-screen center-vertical welcome-screen--display-prompt"></div>;
+		welcomeTip = <div className="welcome-screen center-vertical welcome-screen--display-prompt"></div>;
 	}else {
 		welcomeTip = <div className="welcome-screen center-vertical welcome-screen--display-prompt loaded"></div>;
 	}
 
   	return (
-		<div style={styles.wrapper} >
+		<div style={styles.wrapper} className="welcome-wrapper">
 			<img src={gospel} style={{marginBottom: 50}} height="60" width="200" />
 			{welcomeTip}
-			<div className="welcome-footer">
-				<p style={{marginTop: 250}}>Gospel Alpha</p>
+			<div style={styles.welcomeFooter} className="welcome-footer">
+				<p>Gospel Alpha</p>
 				<p>为解放开发者生产力而生</p>
 			</div>
 		</div>

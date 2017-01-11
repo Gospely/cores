@@ -803,6 +803,9 @@ $(function () {
         cssGenerator.prototype = {
 
             init: function() {
+
+                console.log(this.app);
+
                 if(this.isStyleExist(this.app.key)) {
                     var style = this.getStyle(this.app.key);
 
