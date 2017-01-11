@@ -1038,7 +1038,9 @@ $(function () {
             },
 
             attrIsUseless: function(att) {
-                this.uselessAttr = ['addGrid'];
+                this.uselessAttr = [
+                    'addGrid', 'addPreviewerItem'
+                ];
                 return this.uselessAttr.indexOf(att) > -1;
             },
 

@@ -5888,7 +5888,7 @@ page {
 						type: 'select',
 						value: ['weui-icon-success', 'weui-icon-success-circle', 'weui-icon-success-no-circle', 'weui-icon-info',
 								'weui-icon-waiting', 'weui-icon-waiting-circle', 'weui-icon-circle', 'weui-icon-warn', 'weui-icon-download',
-								'weui-icon-info-circle', 'weui-icon-cancel'],
+								'weui-icon-info-circle', 'weui-icon-cancel', 'weui-icon-search'],
 						isNoConflict: true
 					},
 
@@ -5900,6 +5900,266 @@ page {
 						type: 'select'
 					}
 				}
+			},
+
+			{
+				name: '表单预览',
+				type: 'i',
+				tag: 'div',
+				baseClassName: 'weui-form-preview',
+				attr: {},
+				children: [{
+					attr: {},
+					name: '预览表单头部',
+					type: 'weui-form-preview__hd',
+					tag: 'div',
+					baseClassName: 'weui-form-preview__hd',
+					children: [{
+						tag: 'div',
+						baseClassName: 'weui-form-preview__label',
+						name: '预览表单头部提示',
+						type: 'weui-form-preview__label',
+						attr: {
+							value: {
+								type: 'input',
+								attrType: 'text',
+								isHTML: true,
+								_value: '标题标题'
+							}
+						}
+					}, {
+						tag: 'div',
+						baseClassName: 'weui-form-preview__value',
+						name: '预览表单头部正文',
+						type: 'weui-form-preview__value',
+						attr: {
+							value: {
+								type: 'input',
+								attrType: 'text',
+								isHTML: true,
+								_value: '名字名字名字'
+							}
+						}
+					}]
+				}, {
+					tag: 'div',
+					baseClassName: 'weui-form-preview__bd',
+					name: '预览表单中部',
+					type: 'weui-form-preview__bd',
+					attr: {
+						addPreviewerItem: {
+							type: 'button',
+							title: '添加项目',
+							isClassName: false,
+							isHTML: true,
+							_value: '添加项目',
+							onClick: 'designer/addPreviewerItem',
+							params: {
+								item: {
+									tag: 'p',
+									baseClassName: 'p',
+									name: '项目1',
+									type: 'p',
+									attr: {},
+									children: [{
+										tag: 'div',
+										baseClassName: 'weui-form-preview__label',
+										name: '项目标题',
+										type: 'weui-form-preview__label',
+										attr: {
+											value: {
+												type: 'input',
+												attrType: 'text',
+												isHTML: true,
+												_value: '项目标题'
+											}
+										}
+									}, {
+										tag: 'div',
+										baseClassName: 'weui-form-preview__value',
+										name: '项目正文',
+										type: 'weui-form-preview__value',
+										attr: {
+											value: {
+												type: 'input',
+												attrType: 'text',
+												isHTML: true,
+												_value: '项目正文'
+											}
+										}
+									}]
+								}
+							}
+						}
+					},
+					children: [{
+						tag: 'p',
+						baseClassName: 'p',
+						name: '项目1',
+						type: 'p',
+						attr: {},
+						children: [{
+							tag: 'div',
+							baseClassName: 'weui-form-preview__label',
+							name: '项目1标题',
+							type: 'weui-form-preview__label',
+							attr: {
+								value: {
+									type: 'input',
+									attrType: 'text',
+									isHTML: true,
+									_value: '商   品'
+								}
+							}
+						}, {
+							tag: 'div',
+							baseClassName: 'weui-form-preview__value',
+							name: '项目1正文',
+							type: 'weui-form-preview__value',
+							attr: {
+								value: {
+									type: 'input',
+									attrType: 'text',
+									isHTML: true,
+									_value: '名字名字名字'
+								}
+							}
+						}]
+					}, {
+						tag: 'p',
+						baseClassName: 'p',
+						name: '项目2',
+						type: 'p',
+						attr: {},
+						children: [{
+							tag: 'div',
+							baseClassName: 'weui-form-preview__label',
+							name: '项目2正文',
+							type: 'weui-form-preview__label',
+							attr: {
+								value: {
+									type: 'input',
+									attrType: 'text',
+									isHTML: true,
+									_value: '标题标题'
+								}
+							}
+						}, {
+							tag: 'div',
+							baseClassName: 'weui-form-preview__value',
+							name: '项目2正文',
+							type: 'weui-form-preview__value',
+							attr: {
+								value: {
+									type: 'input',
+									attrType: 'text',
+									isHTML: true,
+									_value: '项目2正文'
+								}
+							}
+						}]
+					}, {
+						tag: 'p',
+						baseClassName: 'p',
+						name: '项目3',
+						type: 'p',
+						attr: {},
+						children: [{
+							tag: 'div',
+							baseClassName: 'weui-form-preview__label',
+							name: '项目3标题',
+							type: 'weui-form-preview__label',
+							attr: {
+								value: {
+									type: 'input',
+									attrType: 'text',
+									isHTML: true,
+									_value: '标题标题'
+								}
+							}
+						}, {
+							tag: 'div',
+							baseClassName: 'weui-form-preview__value',
+							name: '项目3正文',
+							type: 'weui-form-preview__value',
+							attr: {
+								value: {
+									type: 'input',
+									attrType: 'text',
+									isHTML: true,
+									_value: '大段文本大段文本大段文本大段文本大段文本大段文本大段文本大段文本大段文本'
+								}
+							}
+						}]
+					}]
+				}, {
+					tag: 'div',
+					baseClassName: 'weui-form-preview__ft',
+					name: '预览表单底部',
+					type: 'weui-form-preview__ft',
+					attr: {
+
+						addPreviewerFooterBtn: {
+							type: 'button',
+							title: '添加项目',
+							isClassName: false,
+							isHTML: true,
+							_value: '添加项目',
+							onClick: 'designer/addPreviewerFooterBtn',
+							params: {
+								tag: 'a',
+								baseClassName: 'weui-form-preview__btn',
+								name: '预览表单按钮',
+								type: 'weui-form-preview__btn',
+								attr: {
+									value: {
+										type: 'input',
+										title: '按钮标题',
+										value: [''],
+										isHTML: true,
+										_value: '辅助操作'
+									},
+
+									disabled: {
+										type: 'toggle',
+										title: '高亮',
+										value: ['weui-form-preview__btn_default', 'weui-form-preview__btn_primary'],
+										isClassName: true,
+										isHTML: false,
+										isSetAttribute: true,
+										_value: true
+									}					
+								}
+							}
+						}
+
+					},
+					children: [{
+						tag: 'a',
+						baseClassName: 'weui-form-preview__btn',
+						name: '预览表单按钮',
+						type: 'weui-form-preview__btn',
+						attr: {
+							value: {
+								type: 'input',
+								title: '按钮标题',
+								value: [''],
+								isHTML: true,
+								_value: '操作'
+							},
+
+							disabled: {
+								type: 'toggle',
+								title: '高亮',
+								value: ['weui-form-preview__btn_default', 'weui-form-preview__btn_primary'],
+								isClassName: true,
+								isHTML: false,
+								isSetAttribute: true,
+								_value: true
+							}					
+						}
+					}]
+				}]
 			},
 			{
 				name: '画布',
@@ -6225,7 +6485,6 @@ page {
 					},
 					baseClassName: theParent.className,
 					children: []
-
 				};
 
 				theParentCtrl.children.push(tmpCtrl);
@@ -6544,6 +6803,32 @@ page {
 					target: modelDesigner.layoutState.activeController.key
 				}
 			});
+		},
+
+		*addPreviewerItem({ payload: params}, {call, put, select}) {
+			var modelDesigner = yield select(state => state.designer),
+				activePage = layoutAction.getActivePage(modelDesigner);
+
+			yield put({
+				type: 'addController',
+				payload: {
+					ctrl: params.item,
+					target: modelDesigner.layoutState.activeController.key
+				}
+			});
+		},
+
+		*addPreviewerFooterBtn({ payload: params}, {call, put, select}) {
+			var modelDesigner = yield select(state => state.designer),
+				activePage = layoutAction.getActivePage(modelDesigner);
+
+			yield put({
+				type: 'addController',
+				payload: {
+					ctrl: params.item,
+					target: modelDesigner.layoutState.activeController.key
+				}
+			});			
 		},
 
 		*initStateA({ payload: params}, {call, put, select}){
