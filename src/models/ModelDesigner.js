@@ -1583,6 +1583,12 @@ page {
 						isStyle: true,
 						_value: '100px'
 					},
+					isContainer: {
+						type: 'toggle',
+						backend: true,
+						isContainer: true,
+						title: '是否是容器'
+					}
 				},
 				tag: ['div'],
 				baseClassName: 'weui-flex',
@@ -1592,21 +1598,42 @@ page {
 					children: [],
 					tag: ['div'],
 					baseClassName: 'weui-flex__item',
-					attr: {}
+					attr: {
+						isContainer: {
+							type: 'toggle',
+							backend: true,
+							isContainer: true,
+							title: '是否是容器'
+						}
+					}
 				}, {
 					name: '布局组2',
 					type: 'flex-item',
 					children: [],
 					tag: ['div'],
 					baseClassName: 'weui-flex__item',
-					attr: {}
+					attr: {
+						isContainer: {
+							type: 'toggle',
+							backend: true,
+							isContainer: true,
+							title: '是否是容器'
+						}
+					}
 				}, {
 					name: '布局组3',
 					type: 'flex-item',
 					children: [],
 					tag: ['div'],
 					baseClassName: 'weui-flex__item',
-					attr: {}
+					attr: {
+						isContainer: {
+							type: 'toggle',
+							backend: true,
+							isContainer: true,
+							title: '是否是容器'
+						}
+					}
 				}]
 			},
 			{
@@ -3923,15 +3950,38 @@ page {
 			{
 				name: '页面描述',
 				type: 'description',
-				tag: 'h1',
+				tag: 'p',
 				baseClassName: 'page__desc',
 				attr: {
 					value: {
 						type: 'input',
-						title: '标题',
+						title: '描述内容',
 						isClassName: false,
 						isHTML: true,
 						_value: '先进的在线Web可视化集成开发环境'
+					}
+				}
+			},
+			{
+				name: '普通文本区域',
+				type: 'text',
+				tag: 'p',
+				baseClassName: '',
+				attr: {
+					value: {
+						type: 'input',
+						title: '文本内容',
+						isClassName: false,
+						isHTML: true,
+						_value: '先进的在线Web可视化集成开发环境'
+					},
+					className: {
+						type: 'select',
+						title: '选择类型',
+						isClassName: true,
+						isSingleToggleClass: true,
+						_value: 'page__desc',
+						value: ['','page__desc']
 					}
 				}
 			},
