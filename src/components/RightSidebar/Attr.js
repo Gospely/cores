@@ -628,6 +628,7 @@ const Attr = (props) => {
         			visible={props.designer.modalCSSEditorVisible}
 	          		onOk={modalCSSEditorProps.handleOk} onCancel={modalCSSEditorProps.handleCancel}
 	          		footer={[
+		            	<Button key="refresh" type="ghost" size="small" onClick={() => { location.reload() }}>编辑器无法使用请点这里刷新</Button>,
 		            	<Button key="back" type="ghost" size="small" onClick={modalCSSEditorProps.handleCancel}>返回</Button>,
 			            <Button key="submit" type="primary" size="small" onClick={modalCSSEditorProps.handleOk}>
 			              确定

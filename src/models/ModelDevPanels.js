@@ -3,6 +3,8 @@ import React , { PropTypes } from 'react';
 import dva from 'dva';
 import { message } from 'antd';
 import request from '../utils/request.js';
+import gitTerminal from '../utils/gitTerminal';
+
 
 const methods = {
 	getActivePane(state) {
@@ -151,6 +153,10 @@ export default {
 			var res = yield request("container/start/" + params.id, {
 				method: 'GET',
 			});
+			setTimeout(function(){
+				gitTerminal(params.ctx);
+			},100)
+
 		},
 		*loadPanels({ payload: params }, {call, put, select}) {
 

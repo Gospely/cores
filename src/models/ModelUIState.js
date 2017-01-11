@@ -141,12 +141,11 @@ export default {
 		},
 
     	setDySaveGap(state, { payload: params }) {
-          state.gap = params.val;
-          return {...state};
+          	state.gap = params.val;
+          	return {...state};
     	},
 
 		setSaveInterval(state, { payload: params }) {
-
 			state.saveInterval = params.saveInterval;
 			return {...state};
 		}

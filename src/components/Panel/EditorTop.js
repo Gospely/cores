@@ -74,7 +74,9 @@ const EditorTop = ({
 
 	const syntaxMenu = generateMenu(syntaxList, onSelectSyntax, 'language');
 
-	const themeMenu = generateMenu(themeList, onSelectTheme, 'name')
+	const themeMenu = generateMenu(themeList, onSelectTheme, 'name');
+
+	const refreshPage = () => { location.reload(); };
 
 	// <Dropdown overlay={themeMenu} trigger={['click']}>
 	// 	<Button className={EditorStyle.topbarBtn}>{currentTheme}</Button>
@@ -87,6 +89,7 @@ const EditorTop = ({
 			</ButtonGroup>
 			<div className={EditorStyle.topbarRight}>
 				<ButtonGroup>
+					<Button onClick={refreshPage} className={EditorStyle.topbarBtn}>编辑器无法使用？点我</Button>
 					<Button style={{display:'none'}} onClick={onOpenJumpLine} className={EditorStyle.topbarBtn}>行: 4 列: 32</Button>
 					<Dropdown overlay={syntaxMenu} trigger={['click']}>
 						<Button className={EditorStyle.topbarBtn}>{currentLanguage}</Button>

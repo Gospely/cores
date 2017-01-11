@@ -24,9 +24,6 @@ const createTerminal = function(props) {
         });
     var terminalContainer = document.getElementById("git-terminal");
     var show = document.getElementById("git-show");
-    var msgHandler = function(data){
-        console.log(data);
-    }
 
     function setTerminalSize() {
 
@@ -67,18 +64,13 @@ const createTerminal = function(props) {
             localStorage.message = '';
             socket.onopen =runRealTerminal;
             socket.onclose = function(evt){
-                console.log("=======onclose");
             };
             socket.onerror = function(evt){
-                console.log("=======onclose");
             };
 
             socket.onmessage = function (evt) {
                 //收到服务器消息，使用evt.data提取
-                // var check = md5(evt.data);
-                // console.log(evt.data.split('root@'));
-                console.log(evt.data);
-                if(evt.data.indexOf('root@') < 1 && evt.data.trim() != ''){
+                if(evt.data.indexOf('root@') < 1 && evt.data.length > 2 && evt.data.indexOf('workspace') < 1){
 
                     if(window.gitOrigin){
 
@@ -87,33 +79,35 @@ const createTerminal = function(props) {
         						type: 'sidebar/setGitOrigin',
                                 payload: { gitOrigin: evt.data, isGit: true }
         					})
+                            window.gitOrigin = false;
                         }
                     }
                     if(window.getConfig){
-                        console.log(evt.data);
-                        if(evt.data.indexOf('begin') > 1){
-                            window.begin = true;
+                        if(window.Pname){
+                            props.dispatch({
+                                type: 'sidebar/handleModifyGitConfigInputChange',
+                                payload: evt.data
+                            });
+                            window.Pname = false;
                         }
-                        if(window.begin){
-                            var reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
-                    		    var isok = reg.test(evt.data);
-                            if(isok){
-                                props.dispatch({
-                                    type: 'sidebar/handleModifyGitConfigEmailInputChange',
-                					payload: evt.data
-                                });
-                                window.getConfig = false;
-                                window.begin = false;
-                            }else {
-                                if(evt.data != 'echo begin'){
-                                    props.dispatch({
-                                        type: 'sidebar/handleModifyGitConfigInputChange',
-                                        payload: evt.data
-                                    });
-                                }
-                            }
+                        if(window.email){
+                            window.email = false;
+                            props.dispatch({
+                                type: 'sidebar/handleModifyGitConfigEmailInputChange',
+                                payload: evt.data
+                            });
+                        }
+                        if(evt.data.indexOf('Pname') >= 0){
+                            window.Pname = true;
+                        }
+                        if(evt.data.indexOf('Pemail') >= 0){
+                            window.email = true;
+                        }
 
-                        }
+                        // var reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+                        //     var isok = reg.test(evt.data);
+                        // if(isok){}
+
                     }
                 }
             };
@@ -122,6 +116,12 @@ const createTerminal = function(props) {
     });
     function runRealTerminal() {
         term.attach(socket);
+        window.gitOrigin = true;
+        socket.send("cd /root/workspace && git remote -v | head -1 | awk '{print $2}'\n");
+        socket.send('echo begin');
+        notification.open({
+            message: 'git 设置服务已启动'
+        });
         term._initialized = true;
     }
 }
