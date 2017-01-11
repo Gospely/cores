@@ -772,7 +772,6 @@ $(function () {
                     e.stopPropagation();
                     var target = jq(e.target);
                     jq('.container-box').removeClass('container-box');
-                    console.log(e);
                     if(target.height() <= 10) {
 
                     }
@@ -819,8 +818,6 @@ $(function () {
         cssGenerator.prototype = {
 
             init: function() {
-
-                console.log(this.app);
 
                 //加载应用CSS
 
@@ -1047,13 +1044,13 @@ $(function () {
 
             attrIsUseless: function(att) {
                 this.uselessAttr = [
-                    'addGrid', 'addPreviewerItem'
+                    'addGrid', 'addPreviewerItem', 'addPreviewerFooterBtn'
                 ];
                 return this.uselessAttr.indexOf(att) > -1;
             },
 
             setAttribute: function() {
-//5443
+
                 this.initElem();
 
                 // this.handleWeuiTag(this.controller.weui);
@@ -1585,6 +1582,8 @@ $(function () {
                                 elem = jq(comGen.createElement()),
 
                                 appendResult = jq(parent.parent.currentTarget).append(elem.clone(true));
+
+                                console.log(parent.parent.currentTarget);
 
                             var pageId = location.hash.split('#')[1] || 'page-home';
 

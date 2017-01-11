@@ -1233,6 +1233,7 @@ page {
 
 				},
 				backend: true
+<<<<<<< HEAD
 			},
 
 /*
@@ -1257,6 +1258,9 @@ page {
 </div>
 
 */
+=======
+			},
+>>>>>>> 4ab718091b3c4ed5fe073c469b5554db12ce22fa
 
 			{
 				name: '九宫格',
@@ -1268,9 +1272,9 @@ page {
 						isClassName: false,
 						isHTML: true,
 						_value: '添加',
-						onClick: 'designer/addGrid',
+						onClick: 'designer/addControllerManually',
 						params: {
-							grid: {
+							item: {
 								name: '项目n',
 								type: 'weui-grid',
 								baseClassName: 'weui-grid',
@@ -5500,61 +5504,61 @@ page {
 							}
 						},
 						children: [{
-						tag: 'span',
-						type: 'span',
-						name: '列表文本',
-						attr: {
-							isComponent: {
-								backend: true,
-								value: [],
-								title: '是否为完整的组件',
-								_value: true
-							},
-							content: {
-								title: '文本内容',
-								_value: '单行文本',
-								type: 'input',
-								isHTML: true
-							},
-							'vertical-align': {
-								isStyle: true,
-								_value: 'middle',
-								backend: true
+							tag: 'span',
+							type: 'span',
+							name: '列表文本',
+							attr: {
+								isComponent: {
+									backend: true,
+									value: [],
+									title: '是否为完整的组件',
+									_value: true
+								},
+								content: {
+									title: '文本内容',
+									_value: '单行文本',
+									type: 'input',
+									isHTML: true
+								},
+								'vertical-align': {
+									isStyle: true,
+									_value: 'middle',
+									backend: true
+								}
 							}
-						}
-					}, {
-						tag: 'span',
-						type: 'span',
-						name: '小提示消息',
-						baseClassName: 'weui-badge',
-						attr: {
-							'margin-left': {
-								isStyle: true,
-								_value: '5px',
-								backend: true
-							},
-							isComponent: {
-								backend: true,
-								value: [],
-								title: '是否为完整的组件',
-								_value: true
-							},
-							display: {
-								type: 'toggle',
-								title: '显示',
-								_value: true,
-								value: ['none', 'inline-block'],
-								isStyle: true,
-								isToggleStyle: true
-							},
-							content: {
-								isHTML: true,
-								_value: '3',
-								type: 'input',
-								title: '提示文本'
+						}, {
+							tag: 'span',
+							type: 'span',
+							name: '小提示消息',
+							baseClassName: 'weui-badge',
+							attr: {
+								'margin-left': {
+									isStyle: true,
+									_value: '5px',
+									backend: true
+								},
+								isComponent: {
+									backend: true,
+									value: [],
+									title: '是否为完整的组件',
+									_value: true
+								},
+								display: {
+									type: 'toggle',
+									title: '显示',
+									_value: true,
+									value: ['none', 'inline-block'],
+									isStyle: true,
+									isToggleStyle: true
+								},
+								content: {
+									isHTML: true,
+									_value: '3',
+									type: 'input',
+									title: '提示文本'
+								}
 							}
-						}
-					}]
+						}]
 					}, {
 						tag: 'div',
 						type: 'div',
@@ -5582,6 +5586,180 @@ page {
 								isToggleStyle: true
 							}
 						}
+					}]
+				}, {
+					tag: 'div',
+					type: 'div',
+					baseClassName: 'weui-cell weui-cell_access',
+					name: '单行列表',
+					attr: {
+						display: {
+							type: 'toggle',
+							title: '显示',
+							_value: true,
+							value: ['none', 'flex'],
+							isStyle: true,
+							isToggleStyle: true
+						}
+					},
+					children: [{
+						tag: 'div',
+						type: 'div',
+						baseClassName: 'weui-cell__bd',
+						name: '单行列表头部',
+						attr: {
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
+							}
+						},
+						children: [{
+							tag: 'span',
+							type: 'span',
+							name: '列表文本',
+							attr: {
+								isComponent: {
+									backend: true,
+									value: [],
+									title: '是否为完整的组件',
+									_value: true
+								},
+								content: {
+									title: '文本内容',
+									_value: '单行文本',
+									type: 'input',
+									isHTML: true
+								},
+								'vertical-align': {
+									isStyle: true,
+									_value: 'middle',
+									backend: true
+								}
+							}
+						}, {
+							tag: 'span',
+							type: 'span',
+							name: '小提示消息',
+							baseClassName: 'weui-badge',
+							attr: {
+								'margin-left': {
+									isStyle: true,
+									_value: '5px',
+									backend: true
+								},
+								isComponent: {
+									backend: true,
+									value: [],
+									title: '是否为完整的组件',
+									_value: true
+								},
+								display: {
+									type: 'toggle',
+									title: '显示',
+									_value: true,
+									value: ['none', 'inline-block'],
+									isStyle: true,
+									isToggleStyle: true
+								},
+								content: {
+									isHTML: true,
+									_value: '3',
+									type: 'input',
+									title: '提示文本'
+								}
+							}
+						}]
+					}, {
+						tag: 'div',
+						type: 'div',
+						baseClassName: 'weui-cell__ft',
+						name: '单行列表尾部',
+						attr: {
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
+							},
+							display: {
+								type: 'toggle',
+								title: '显示',
+								_value: true,
+								value: ['none', 'block'],
+								isStyle: true,
+								isToggleStyle: true
+							}
+						},
+						children: [{
+							tag: 'div',
+							type: 'div',
+							name: '单行列表尾部文本',
+							attr: {
+								'vertical-align': {
+									isStyle: true,
+									_value: 'middle',
+									backend: true
+								},
+								'font-size': {
+									isStyle: true,
+									_value: '17px',
+									backend: true
+								},
+								content: {
+									isHTML: true,
+									_value: '详细信息',
+									title: '文本内容',
+									type: 'input'
+								},
+								isComponent: {
+									backend: true,
+									value: [],
+									title: '是否为完整的组件',
+									_value: true
+								},
+								display: {
+									type: 'toggle',
+									title: '显示',
+									_value: true,
+									value: ['none', 'inline-block'],
+									isStyle: true,
+									isToggleStyle: true
+								}
+							}
+						}, {
+							tag: 'div',
+							type: 'div',
+							name: '单行列表尾部小红点',
+							attr: {
+								'margin-left': {
+									isStyle: true,
+									_value: '5px',
+									backend: true
+								},
+								'margin-right': {
+									isStyle: true,
+									_value: '5px',
+									backend: true
+								},
+								isComponent: {
+									backend: true,
+									value: [],
+									title: '是否为完整的组件',
+									_value: true
+								},
+								display: {
+									type: 'toggle',
+									title: '显示',
+									_value: true,
+									value: ['none', 'inline-block'],
+									isStyle: true,
+									isToggleStyle: true
+								}
+							},
+							baseClassName: 'weui-badge weui-badge_dot'
+						}]
 					}]
 				}]
 			},
@@ -5932,6 +6110,7 @@ page {
 								type: 'input',
 								attrType: 'text',
 								isHTML: true,
+								title: '文本内容',
 								_value: '标题标题'
 							}
 						}
@@ -5943,6 +6122,7 @@ page {
 						attr: {
 							value: {
 								type: 'input',
+								title: '文本内容',
 								attrType: 'text',
 								isHTML: true,
 								_value: '名字名字名字'
@@ -5961,7 +6141,7 @@ page {
 							isClassName: false,
 							isHTML: true,
 							_value: '添加项目',
-							onClick: 'designer/addPreviewerItem',
+							onClick: 'designer/addControllerManually',
 							params: {
 								item: {
 									tag: 'p',
@@ -5979,6 +6159,7 @@ page {
 												type: 'input',
 												attrType: 'text',
 												isHTML: true,
+												title: '文本内容',
 												_value: '项目标题'
 											}
 										}
@@ -5992,6 +6173,7 @@ page {
 												type: 'input',
 												attrType: 'text',
 												isHTML: true,
+												title: '文本内容',
 												_value: '项目正文'
 											}
 										}
@@ -6016,6 +6198,7 @@ page {
 									type: 'input',
 									attrType: 'text',
 									isHTML: true,
+									title: '文本内容',
 									_value: '商   品'
 								}
 							}
@@ -6029,6 +6212,7 @@ page {
 									type: 'input',
 									attrType: 'text',
 									isHTML: true,
+									title: '文本内容',
 									_value: '名字名字名字'
 								}
 							}
@@ -6049,6 +6233,7 @@ page {
 									type: 'input',
 									attrType: 'text',
 									isHTML: true,
+									title: '文本内容',
 									_value: '标题标题'
 								}
 							}
@@ -6062,6 +6247,7 @@ page {
 									type: 'input',
 									attrType: 'text',
 									isHTML: true,
+									title: '文本内容',
 									_value: '项目2正文'
 								}
 							}
@@ -6082,6 +6268,7 @@ page {
 									type: 'input',
 									attrType: 'text',
 									isHTML: true,
+									title: '文本内容',
 									_value: '标题标题'
 								}
 							}
@@ -6095,6 +6282,7 @@ page {
 									type: 'input',
 									attrType: 'text',
 									isHTML: true,
+									title: '文本内容',
 									_value: '大段文本大段文本大段文本大段文本大段文本大段文本大段文本大段文本大段文本'
 								}
 							}
@@ -6113,29 +6301,32 @@ page {
 							isClassName: false,
 							isHTML: true,
 							_value: '添加项目',
-							onClick: 'designer/addPreviewerFooterBtn',
+							onClick: 'designer/addControllerManually',
 							params: {
-								tag: 'a',
-								baseClassName: 'weui-form-preview__btn',
-								name: '预览表单按钮',
-								type: 'weui-form-preview__btn',
-								attr: {
-									value: {
-										type: 'input',
-										title: '按钮标题',
-										value: [''],
-										isHTML: true,
-										_value: '辅助操作'
-									},
+								item: {
+									tag: 'a',
+									baseClassName: 'weui-form-preview__btn weui-form-preview__btn_default',
+									name: '预览表单按钮',
+									type: 'weui-form-preview__btn',
+									attr: {
+										value: {
+											type: 'input',
+											title: '按钮标题',
+											value: [''],
+											isHTML: true,
+											_value: '辅助操作'
+										},
 
-									disabled: {
-										type: 'toggle',
-										title: '高亮',
-										value: ['weui-form-preview__btn_default', 'weui-form-preview__btn_primary'],
-										isClassName: true,
-										isHTML: false,
-										isSetAttribute: true,
-										_value: true
+										disabled: {
+											type: 'toggle',
+											title: '高亮',
+											value: ['weui-form-preview__btn_primary'],
+											isClassName: true,
+											isHTML: false,
+											isSingleToggleClass: true,
+											isSetAttribute: true,
+											_value: false
+										}
 									}
 								}
 							}
@@ -6144,7 +6335,7 @@ page {
 					},
 					children: [{
 						tag: 'a',
-						baseClassName: 'weui-form-preview__btn',
+						baseClassName: 'weui-form-preview__btn weui-form-preview__btn_default',
 						name: '预览表单按钮',
 						type: 'weui-form-preview__btn',
 						attr: {
@@ -6159,7 +6350,7 @@ page {
 							disabled: {
 								type: 'toggle',
 								title: '高亮',
-								value: ['weui-form-preview__btn_default', 'weui-form-preview__btn_primary'],
+								value: ['weui-form-preview__btn_primary'],
 								isClassName: true,
 								isHTML: false,
 								isSetAttribute: true,
@@ -6787,6 +6978,7 @@ page {
 
 	effects: {
 
+<<<<<<< HEAD
 		*addGrid({ payload: params}, {call, put, select}) {
 			var modelDesigner = yield select(state => state.designer),
 				activePage = layoutAction.getActivePage(modelDesigner);
@@ -6800,28 +6992,18 @@ page {
 			});
 		},
 
-		*addPreviewerItem({ payload: params}, {call, put, select}) {
+		*addControllerManually({ payload: params}, {call, put, select}) {
 			var modelDesigner = yield select(state => state.designer),
-				activePage = layoutAction.getActivePage(modelDesigner);
+				activePage = layoutAction.getActivePage(modelDesigner),
+				target = modelDesigner.layoutState.activeController.key;
+
+			window.currentTarget = gospelDesignerPreviewer.jQuery('#' + target);
 
 			yield put({
 				type: 'addController',
 				payload: {
 					ctrl: params.item,
-					target: modelDesigner.layoutState.activeController.key
-				}
-			});
-		},
-
-		*addPreviewerFooterBtn({ payload: params}, {call, put, select}) {
-			var modelDesigner = yield select(state => state.designer),
-				activePage = layoutAction.getActivePage(modelDesigner);
-
-			yield put({
-				type: 'addController',
-				payload: {
-					ctrl: params.item,
-					target: modelDesigner.layoutState.activeController.key
+					target: target
 				}
 			});
 		},
