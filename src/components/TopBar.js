@@ -490,20 +490,32 @@ const LeftSidebar = (props) => {
 
 		modifyGitOriginInput: {
 			onPressEnter: function() {
-				if(props.sidebar.modifyGitOriginInput.value == '' || props.sidebar.modifyGitOriginInput.pushValue == '') {
-					message.error('git源不能为空');
-					return false;
+
+				if(props.sidebar.gitTabKey == '1'){
+					if(props.sidebar.modifyGitOriginInput.value == '' || props.sidebar.modifyGitOriginInput.pushValue == '') {
+						message.error('git源不能为空');
+						return false;
+					}
+					if (( /git@github.com:?/.test(props.sidebar.modifyGitOriginInput.value) && /git@github.com:?/.test(props.sidebar.modifyGitOriginInput.pushValue)) ||  (/https:\/\/github.com\/?/.test(props.sidebar.modifyGitOriginInput.pushValue) && /https:\/\/github.com\/?/.test(props.sidebar.modifyGitOriginInput.value))) {
+						window.socket.send('git remote set-url origin ' + props.sidebar.modifyGitOriginInput.value + '\n');
+						window.socket.send('git remote set-url origin ' + props.sidebar.modifyGitOriginInput.value + '\n');
+					}else{
+						message.error('git 源格式错误');
+					}
 				}
-				if(props.sidebar.modifyGitConfigInput.userName == '' || props.sidebar.modifyGitConfigInput.email == '') {
-					message.error('git 配置不能为空');
-					return false;
+				if(props.sidebar.gitTabKey == '4'){
+					if(props.sidebar.modifyGitConfigInput.userName == '' || props.sidebar.modifyGitConfigInput.email == '') {
+						message.error('git 配置不能为空');
+						return false;
+					}else {
+						window.socket.send('git config user.name ' + props.sidebar.modifyGitConfigInput.userName + ' --replace-all\n');
+						window.socket.send('git config user.email ' + props.sidebar.modifyGitConfigInput.email + ' --replace-all\n');
+						notification.open({
+							message: '配置成功'
+						});
+					}
 				}
-				window.socket.send('git remote set-url origin ' + props.sidebar.modifyGitOriginInput.value + '\n');
-				window.socket.send('git config user.name ' + props.sidebar.modifyGitConfigInput.userName + ' --replace-all\n');
-				window.socket.send('git config user.email ' + props.sidebar.modifyGitConfigInput.email + ' --replace-all\n');
-				// props.dispatch({
-				// 	type: 'sidebar/modifyGitOrigin'
-				// })
+
 			},
 
 			onChange: function(e) {
@@ -549,6 +561,10 @@ const LeftSidebar = (props) => {
 
 		onGitOperationTabChanged: function(key) {
 
+			props.dispatch({
+				type: 'sidebar/changeGitTabKey',
+				payload: { key: key }
+			});
 			if(key == '3'){
 				props.dispatch({
 					type: 'devpanel/getKey'
@@ -557,7 +573,12 @@ const LeftSidebar = (props) => {
 			if(key == '4'){
 				window.socket.send('cd /root/workspace && git config user.name  && git config user.email\n');
 				window.socket.send('echo begin');
-				window.processMsg = true;
+				window.getConfig = true;
+			}
+			if(key == '1'){
+				window.socket.send("cd /root/workspace && git remote -v | head -1 | awk '{print $2}'\n");
+				window.socket.send('echo begin');
+				window.gitOrigin = true;
 			}
 		},
 

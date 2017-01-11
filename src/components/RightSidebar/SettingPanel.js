@@ -20,6 +20,9 @@ const SettingPanel = (props) => {
 			var action = {
 
 				origin: function() {
+					window.socket.send("cd /root/workspace && git remote -v | head -1 | awk '{print $2}'\n");
+					window.socket.send('echo begin');
+					window.gitOrigin = true;
 					props.dispatch({
 						type: 'sidebar/showModalModifyGitOrgin'
 					})
