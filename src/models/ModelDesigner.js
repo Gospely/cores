@@ -1234,29 +1234,6 @@ page {
 				},
 				backend: true
 			},
-
-/*
-
-<div class="weui-grids">
-    <a href="javascript:;" class="weui-grid">
-        <div class="weui-grid__icon">
-            <img src="./images/icon_nav_button.png" alt="">
-        </div>
-        <p class="weui-grid__label">
-            Button
-        </p>
-    </a>
-    <a href="javascript:;" class="weui-grid">
-        <div class="weui-grid__icon">
-            <img src="./images/icon_nav_cell.png" alt="">
-        </div>
-        <p class="weui-grid__label">
-            Cell
-        </p>
-    </a>
-</div>
-
-*/
 			{
 				name: '九宫格',
 				type: 'container',
@@ -6073,13 +6050,22 @@ page {
 					icon: {
 						title: '图标',
 						isClassName: true,
-						_value: 'weui-icon-checked',
+						_value: 'weui-icon-success',
 						type: 'select',
 						value: ['weui-icon-success', 'weui-icon-success-circle', 'weui-icon-success-no-circle', 'weui-icon-info',
 								'weui-icon-waiting', 'weui-icon-waiting-circle', 'weui-icon-circle', 'weui-icon-warn', 'weui-icon-download',
-								'weui-icon-info-circle', 'weui-icon-cancel', 'weui-icon-search'],
+								'weui-icon-info-circle', 'weui-icon-cancel', 'weui-icon-search', 'weui-icon-search'],
 						isNoConflict: true
-					}
+					},
+
+					isBig: {
+ 						title: '警告类型',
+ 						isClassName: true,
+ 						value: ['weui-icon_msg', ' weui-icon_msg-primary'],
+ 						_value: '',
+ 						type: 'select'
+  					}
+
 				}
 			},
 
