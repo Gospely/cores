@@ -75,10 +75,8 @@ const createTerminal = function(props) {
 
             socket.onmessage = function (evt) {
                 //收到服务器消息，使用evt.data提取
-                // var check = md5(evt.data);
-                // console.log(evt.data.split('root@'));
-                console.log(evt.data);
-                if(evt.data.indexOf('root@') < 1 && evt.data.trim() != ''){
+
+                if(evt.data.indexOf('root@') < 1 && evt.data.length > 2 && evt.data.indexOf('workspace') < 1){
 
                     if(window.gitOrigin){
 
@@ -87,33 +85,38 @@ const createTerminal = function(props) {
         						type: 'sidebar/setGitOrigin',
                                 payload: { gitOrigin: evt.data, isGit: true }
         					})
+                            window.gitOrigin = false;
                         }
                     }
                     if(window.getConfig){
+                        if(window.Pname){
+                            props.dispatch({
+                                type: 'sidebar/handleModifyGitConfigInputChange',
+                                payload: evt.data
+                            });
+                            window.Pname = false;
+                        }
+                        if(window.email){
+                            window.email = false;
+                            props.dispatch({
+                                type: 'sidebar/handleModifyGitConfigEmailInputChange',
+                                payload: evt.data
+                            });
+                        }
                         console.log(evt.data);
-                        if(evt.data.indexOf('begin') > 1){
-                            window.begin = true;
+                        if(evt.data.indexOf('name') >= 0){
+                            console.log('test name');
+                            window.Pname = true;
                         }
-                        if(window.begin){
-                            var reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
-                    		    var isok = reg.test(evt.data);
-                            if(isok){
-                                props.dispatch({
-                                    type: 'sidebar/handleModifyGitConfigEmailInputChange',
-                					payload: evt.data
-                                });
-                                window.getConfig = false;
-                                window.begin = false;
-                            }else {
-                                if(evt.data != 'echo begin'){
-                                    props.dispatch({
-                                        type: 'sidebar/handleModifyGitConfigInputChange',
-                                        payload: evt.data
-                                    });
-                                }
-                            }
+                        if(evt.data.indexOf('email') >= 0){
+                            window.email = true;
+                            console.log('test email');
+                        }
 
-                        }
+                        // var reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+                        //     var isok = reg.test(evt.data);
+                        // if(isok){}
+
                     }
                 }
             };

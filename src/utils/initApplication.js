@@ -1,7 +1,6 @@
 import React , {PropTypes} from 'react';
 import { message, notification } from 'antd';
 import request from './request';
-import gitTerminal from './gitTerminal';
 
 const initApplication = function (application, props){
 
@@ -11,7 +10,7 @@ const initApplication = function (application, props){
     }else{
         window.reload = true;
     }
-    
+
     if(location.hash.indexOf('project') == -1) {
         return false;
     }
@@ -157,17 +156,16 @@ const initApplication = function (application, props){
           type: 'sidebar/hideModalSwitchApp'
         });
         props.dispatch({
-            type: 'devpanel/startDocker',
-            payload: { docker:  application.docker, id: application.id}
+          type: 'sidebar/setGitOrigin',
+          payload: {
+              gitOrigin: '',
+              isGit: false
+          }
         });
-        setTimeout(function(){
-            gitTerminal(props);
-            setTimeout(function(){
-                window.socket.send("cd /root/workspace && git remote -v | head -1 | awk '{print $2}'\n");
-                window.socket.send('echo begin');
-                window.gitOrigin = true;
-            },3000)
-        },1000)
+        props.dispatch({
+            type: 'devpanel/startDocker',
+            payload: { docker:  application.docker, id: application.id, ctx: props}
+        });
         props.dispatch({
             type: 'devpanel/handleImages',
             payload: { id: application.image}

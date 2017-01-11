@@ -500,16 +500,19 @@ const LeftSidebar = (props) => {
 						if(!props.sidebar.modifyGitOriginInput.isGit){
 							window.socket.send('git init\n');
 							setTimeout(function(){
-								window.socket.send('git remote add origin ' + props.sidebar.modifyGitOriginInput.value + '\n');
+								window.socket.send('git remote add origin ' + props.sidebar.modifyGitOriginInput.value + ' && clear\n');
 								props.dispatch({
 									type: 'sidebar/setGitOrigin',
 	                                payload: { gitOrigin: props.sidebar.modifyGitOriginInput.value, isGit: true }
 								});
 							}, 1000)
 						}else{
-							window.socket.send('git remote set-url origin ' + props.sidebar.modifyGitOriginInput.value + '\n');
-							window.socket.send('git remote set-url origin ' + props.sidebar.modifyGitOriginInput.value + '\n');
+							window.socket.send('git remote set-url origin ' + props.sidebar.modifyGitOriginInput.value + ' && clear\n');
+							window.socket.send('git remote set-url origin ' + props.sidebar.modifyGitOriginInput.value + ' && clear\n');
 						}
+						notification.open({
+							message: '配置git源成功'
+						});
 					}else{
 						message.error('git 源格式错误');
 					}
@@ -523,8 +526,8 @@ const LeftSidebar = (props) => {
 							message.error('为配置git源');
 							return false;
 						}
-						window.socket.send('git config user.name ' + props.sidebar.modifyGitConfigInput.userName + ' --replace-all\n');
-						window.socket.send('git config user.email ' + props.sidebar.modifyGitConfigInput.email + ' --replace-all\n');
+						window.socket.send('git config user.name ' + props.sidebar.modifyGitConfigInput.userName + ' --replace-all && clear\n');
+						window.socket.send('git config user.email ' + props.sidebar.modifyGitConfigInput.email + ' --replace-all && clear\n');
 						notification.open({
 							message: '配置成功'
 						});
@@ -586,16 +589,17 @@ const LeftSidebar = (props) => {
 				});
 			}
 			if(key == '4'){
-				window.socket.send('cd /root/workspace && git config user.name  && git config user.email\n');
-				window.socket.send('echo begin');
+				window.Pname = false;
+				window.email = false;
+				window.socket.send('cd /root/workspace && echo Pemail && git config user.email && echo Pname && git config user.name && clear\n');
 				window.getConfig = true;
 			}
 			if(key == '1'){
 
-				if(props.modifyGitOriginInput.isGit){
+				window.gitOrigin = true;
+				if(props.sidebar.modifyGitOriginInput.isGit){
 					window.socket.send("cd /root/workspace && git remote -v | head -1 | awk '{print $2}'\n");
 					window.socket.send('echo begin');
-					window.gitOrigin = true;
 				}
 			}
 		},

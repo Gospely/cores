@@ -3,6 +3,8 @@ import React , { PropTypes } from 'react';
 import dva from 'dva';
 import { message } from 'antd';
 import request from '../utils/request.js';
+import gitTerminal from '../utils/gitTerminal';
+
 
 const methods = {
 	getActivePane(state) {
@@ -151,6 +153,15 @@ export default {
 			var res = yield request("container/start/" + params.id, {
 				method: 'GET',
 			});
+			setTimeout(function(){
+				gitTerminal(params.ctx);
+				setTimeout(function(){
+					window.gitOrigin = true;
+					window.socket.send("cd /root/workspace && git remote -v | head -1 | awk '{print $2}'\n");
+					window.socket.send('echo begin');
+				},1000)
+			},100)
+
 		},
 		*loadPanels({ payload: params }, {call, put, select}) {
 
