@@ -497,8 +497,19 @@ const LeftSidebar = (props) => {
 						return false;
 					}
 					if (( /git@github.com:?/.test(props.sidebar.modifyGitOriginInput.value) && /git@github.com:?/.test(props.sidebar.modifyGitOriginInput.pushValue)) ||  (/https:\/\/github.com\/?/.test(props.sidebar.modifyGitOriginInput.pushValue) && /https:\/\/github.com\/?/.test(props.sidebar.modifyGitOriginInput.value))) {
-						window.socket.send('git remote set-url origin ' + props.sidebar.modifyGitOriginInput.value + '\n');
-						window.socket.send('git remote set-url origin ' + props.sidebar.modifyGitOriginInput.value + '\n');
+						if(!props.sidebar.modifyGitOriginInput.isGit){
+							window.socket.send('git init\n');
+							setTimeout(function(){
+								window.socket.send('git remote add origin ' + props.sidebar.modifyGitOriginInput.value + '\n');
+								props.dispatch({
+									type: 'sidebar/setGitOrigin',
+	                                payload: { gitOrigin: props.sidebar.modifyGitOriginInput.value, isGit: true }
+								});
+							}, 1000)
+						}else{
+							window.socket.send('git remote set-url origin ' + props.sidebar.modifyGitOriginInput.value + '\n');
+							window.socket.send('git remote set-url origin ' + props.sidebar.modifyGitOriginInput.value + '\n');
+						}
 					}else{
 						message.error('git 源格式错误');
 					}
@@ -508,6 +519,10 @@ const LeftSidebar = (props) => {
 						message.error('git 配置不能为空');
 						return false;
 					}else {
+						if(!props.sidebar.modifyGitOriginInput.isGit){
+							message.error('为配置git源');
+							return false;
+						}
 						window.socket.send('git config user.name ' + props.sidebar.modifyGitConfigInput.userName + ' --replace-all\n');
 						window.socket.send('git config user.email ' + props.sidebar.modifyGitConfigInput.email + ' --replace-all\n');
 						notification.open({
@@ -576,9 +591,12 @@ const LeftSidebar = (props) => {
 				window.getConfig = true;
 			}
 			if(key == '1'){
-				window.socket.send("cd /root/workspace && git remote -v | head -1 | awk '{print $2}'\n");
-				window.socket.send('echo begin');
-				window.gitOrigin = true;
+
+				if(props.modifyGitOriginInput.isGit){
+					window.socket.send("cd /root/workspace && git remote -v | head -1 | awk '{print $2}'\n");
+					window.socket.send('echo begin');
+					window.gitOrigin = true;
+				}
 			}
 		},
 

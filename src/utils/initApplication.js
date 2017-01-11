@@ -167,8 +167,8 @@ const initApplication = function (application, props){
                 window.socket.send("cd /root/workspace && git remote -v | head -1 | awk '{print $2}'\n");
                 window.socket.send('echo begin');
                 window.gitOrigin = true;
-            },1000)
-        },2000)
+            },3000)
+        },1000)
         props.dispatch({
             type: 'devpanel/handleImages',
             payload: { id: application.image}
