@@ -1233,7 +1233,6 @@ page {
 
 				},
 				backend: true
-<<<<<<< HEAD
 			},
 
 /*
@@ -1258,10 +1257,6 @@ page {
 </div>
 
 */
-=======
-			},
->>>>>>> 4ab718091b3c4ed5fe073c469b5554db12ce22fa
-
 			{
 				name: '九宫格',
 				type: 'container',
@@ -6977,20 +6972,6 @@ page {
 	},
 
 	effects: {
-
-<<<<<<< HEAD
-		*addGrid({ payload: params}, {call, put, select}) {
-			var modelDesigner = yield select(state => state.designer),
-				activePage = layoutAction.getActivePage(modelDesigner);
-
-			yield put({
-				type: 'addController',
-				payload: {
-					ctrl: params.grid,
-					target: modelDesigner.layoutState.activeController.key
-				}
-			});
-		},
 
 		*addControllerManually({ payload: params}, {call, put, select}) {
 			var modelDesigner = yield select(state => state.designer),
