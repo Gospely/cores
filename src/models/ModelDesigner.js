@@ -1256,7 +1256,7 @@ page {
     </a>
 </div>
 
-*/			
+*/
 
 			{
 				name: '九宫格',
@@ -6795,18 +6795,6 @@ page {
 				type: 'addController',
 				payload: {
 					ctrl: params.grid,
-					target: modelDesigner.layoutState.activeController.key
-				}
-			});
-		},
-		*addColumn({ payload: params}, {call, put, select}) {
-			var modelDesigner = yield select(state => state.designer),
-				activePage = layoutAction.getActivePage(modelDesigner);
-
-			yield put({
-				type: 'addController',
-				payload: {
-					ctrl: params.column,
 					target: modelDesigner.layoutState.activeController.key
 				}
 			});

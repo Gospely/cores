@@ -358,10 +358,17 @@ $(function () {
         removeBtn.click(function(e) {
             e.stopPropagation();
             console.log('btn_remove');
-            console.log(e);
-            var self = controllerState.currentActiveCtrlDOM,
-                dataControl = self.data('controller');
 
+            var self = controllerState.currentActiveCtrlDOM,
+                dataControl = self.data('controller'),
+                baseClassName = self[0].className.split(' ')[0];
+                console.log(self);
+                console.log(className);
+                var baseClassName
+            if( || className.indexOf('page__bd') >-1, className.indexOf('page__ft') > -1){
+
+                return false;
+            }
             postMessageToFather.ctrlRemoved(dataControl);
             self.remove();
             controllerOperations.hideDesignerDraggerBorder();
