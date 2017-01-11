@@ -33,7 +33,6 @@ export default {
 				window.location.hash = 'project/' + localStorage.applicationId;
 				applicationId = localStorage.applicationId;
 			}
-			//gitTerminal(props);
 			if(applicationId != null && applicationId != undefined) {
 				var url = configs.baseURL + "applications/" + applicationId;
 				fetch(url).then(function(response){
@@ -62,6 +61,11 @@ export default {
 					var application = data.fields;
 					if(data.fields != null){
 						initApplication(application,props);
+						if(application.image != 'wechat:latest'){
+							gitTerminal(props);
+						}else{
+							window.socket = null;
+						}
 					}else{
 						localStorage.clear();
 						window.location.href = window.location.origin;

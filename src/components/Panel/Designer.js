@@ -65,7 +65,7 @@ const Designer = (props) => {
 
 			<Spin spinning={!props.designer.loaded}>
 
-				<div className="designer-body" style={designerStyle}>
+				<div className="designer-body">
 					<iframe
 						name="gospel-designer"
 						width={props.designer.deviceList[props.designer.defaultDevice].width}

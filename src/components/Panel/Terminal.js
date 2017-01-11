@@ -109,7 +109,14 @@ class Terminal extends Component {
 			}
 
 			createTerminal();
+			function handleCmd(data){
 
+				const handler = {
+					'git origin': function(){
+
+					}
+				}
+			}
 			function createTerminal() {
 				while (terminalContainer.children.length) {
 					terminalContainer.removeChild(terminalContainer.children[0]);
@@ -198,6 +205,9 @@ class Terminal extends Component {
 											setTerminalType(socket);
 											socket.onmessage = function (evt) {
 											  //收到服务器消息，使用evt.data提取
+											    if(window.currentCmd){
+												  	handleCmd(evt.data);
+				  								}
 											  if(/^\{[\s*"\w+":"\w+",*\s*]+\}$/.test(evt.data)){
 												var data = JSON.parse(evt.data);
 											  }
@@ -225,6 +235,11 @@ class Terminal extends Component {
 						  setTerminalType(socket);
 						  socket.onmessage = function (evt) {
 							//收到服务器消息，使用evt.data提取
+							console.log("------");
+							console.log(evt.data);
+							if(window.currentCmd){
+								handleCmd(evt.data);
+							}
 							if(/^\{[\s*"\w+":"\w+",*\s*]+\}$/.test(evt.data)){
 							  var data = JSON.parse(evt.data);
 							}
@@ -244,6 +259,9 @@ class Terminal extends Component {
 						//收到服务器消息，使用evt.data提取
 						if(/^\{[\s*"\w+":"\w+",*\s*]+\}$/.test(evt.data)){
 							var data = JSON.parse(evt.data);
+						}
+						if(window.currentCmd){
+							handleCmd(evt.data);
 						}
 						if(window.sshKey){
 							alert(evt.data);
@@ -310,6 +328,10 @@ class Terminal extends Component {
 				term.on('paste', function(data, ev) {
 					term.write(data);
 				});
+				// term.on('data', function(data){
+				// 	console.log("data");
+				// 	console.log(data);
+				// });
 			}
 
 		}();

@@ -203,6 +203,7 @@ export default {
 
 				UIState = UIState.UIState.devpanel;
 			}else{
+				console.log('localStorage');
 				UIState = params.UIState;
 			}
 			for(var i = 0; i < UIState.panels.panes.length; i++) {
@@ -249,7 +250,7 @@ export default {
 
 		},
 		*loadContent({ payload: params}, {call, put, select}){
-			var fileName = params.tab.title;
+			var fileName = params.tab.file;
 			var readResult = yield request('fs/read', {
 				method: 'POST',
 				body: JSON.stringify({

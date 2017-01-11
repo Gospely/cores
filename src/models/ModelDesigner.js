@@ -4479,7 +4479,6 @@ page {
 					layoutState: state.layoutState
 				}
 			}, '*');
-
 			return {...state};
 		},
 
@@ -4929,13 +4928,6 @@ page {
 			return {...state};
 		},
 
-		initState(state, { payload: params }){
-			state.layout = params.UIState.layout;
-			state.layoutState = params.UIState.layoutState;
-			state.defaultDevice = params.UIState.defaultDevice;
-			return {...state};
-		},
-
 		hideCSSEditor(state, { payload: params }) {
 			state.modalCSSEditorVisible = false;
 			return {...state};
@@ -4978,19 +4970,41 @@ page {
 			}, '*');
 
 			return {...state};
-		}
+		},
+
+		initState(state, { payload: params }){
+			state.layout = params.UIState.layout;
+			state.layoutState = params.UIState.layoutState;
+			state.defaultDevice = params.UIState.defaultDevice;
+			return {...state};
+		},
 
 	},
+
 	effects: {
+
+		*initStateA({ payload: params}, {call, put, select}){
+			state.layout = params.UIState.layout;
+			state.layoutState = params.UIState.layoutState;
+			state.defaultDevice = params.UIState.defaultDevice;
+
+			yield put({
+				type: 'handlePreviewerLayoutLoaded'
+			});
+
+			return {...state};
+		},
+
 		*getConfig({ payload: params}, {call, put, select}){
 
 			var configs = yield request('uistates?application=' + params.id, {
 				method: 'get'
 			});
+
 			var config = configs.data.fields[0];
 			localStorage.UIState = config.configs;
 			var UIState = JSON.parse(config.configs);
-			console.log(UIState);
+			
 			yield put({
 				type: 'initState',
 				payload: { UIState: UIState.UIState.designer }

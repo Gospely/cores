@@ -1,6 +1,8 @@
 var init = function() {
 
-	document.domain = location.hostname;
+    if(document.domain != 'localhost') {
+        document.domain = 'gospely.com';
+    }
 
 	var jq = jQuery.noConflict(),
 		pageAction = {
@@ -121,6 +123,14 @@ var init = function() {
 
 			appConfigRender: function() {
 				refreshApp(data);
+			},
+
+			startRouting: function() {
+				jq('.spinner-wrapper').show();
+			},
+
+			stopRouting: function() {
+				jq('.spinner-wrapper').hide();				
 			}
 
 		}

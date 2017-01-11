@@ -168,7 +168,7 @@ const weappCompiler = {
 		self.app = app;
 
 		console.log('==============================================weappCompiler==============================================')
-		return false;
+		return true;
 	},
 
 	compileAPPJSON (options) {
@@ -200,11 +200,11 @@ const weappCompiler = {
 										pagePath: tab.pagePath._value,
 										text: tab.text._value,
 										iconPath: tab.iconPath._value,
-										selectedIconPath: tab.selectedIconPath._value 
+										selectedIconPath: tab.selectedIconPath._value
 									});
 								};
 							}else {
-								_appJSON[parentKey][key] = currAttr._value;								
+								_appJSON[parentKey][key] = currAttr._value;
 							}
 						}
 					}else {
@@ -212,7 +212,7 @@ const weappCompiler = {
 						appJSON[key] = {};
 						if(childAttr.useTabBar) {
 							if(childAttr.useTabBar._value) {
-								loopAPPJSON(childAttr, key, appJSON);								
+								loopAPPJSON(childAttr, key, appJSON);
 							}
 						}else {
 							loopAPPJSON(childAttr, key, appJSON);
@@ -306,7 +306,7 @@ const weappCompiler = {
 
                     if(isClsInVal && currentAttr.isNoConflict) {
                         // 不是添加控件而是刷新控件, 先重置为基本class再加新class
-                        this.elem.attr('class', this.controller.baseClassName);                                    
+                        this.elem.attr('class', this.controller.baseClassName);
                     }
                 }
 
@@ -342,7 +342,7 @@ const weappCompiler = {
                         for (var j = 0; j < currentAttr.value.length; j++) {
                             var currentDisabledCSS = currentAttr.value[j];
                             this.elem.removeClass(currentDisabledCSS);
-                        };                          
+                        };
                     }
                 }
 
@@ -372,7 +372,7 @@ const weappCompiler = {
                         }
 
                     }else {
-                        this.elem.addClass(currentAttr.prefixClassValue + currentAttr._value);                                
+                        this.elem.addClass(currentAttr.prefixClassValue + currentAttr._value);
                     }
                 }else {
                     this.elem.addClass(currentAttr._value);
@@ -414,7 +414,7 @@ const weappCompiler = {
 		                    if(currentAttr.isToggleStyle) {
 		                        this.elem.css(att, currentAttr._value ? currentAttr.value[1] :   currentAttr.value[0]);
 		                    }else {
-		                        this.elem.css(att, currentAttr._value);                                
+		                        this.elem.css(att, currentAttr._value);
 		                    }
 		                }
             		}
@@ -472,7 +472,7 @@ const weappCompiler = {
             		if(currentWeappAttr == att || currentWeappAttr == currentAttr.alias) {
             			//小程序与web端有些属性不兼容，比如开关的颜色 在web中是一个CSS属性：background-color，在小程序中是color，所以要定义alias为color
             			if(currentAttr._value != '') {
-	            			this.elem.attr(currentWeappAttr, currentAttr._value);            				
+	            			this.elem.attr(currentWeappAttr, currentAttr._value);
             			}
             		}
             	};
@@ -506,7 +506,7 @@ const weappCompiler = {
 				// 	return false;
 				// }
 
-				var 
+				var
 					tag = typeof controller.tag == 'string' ? controller.tag : controller.tag[0],
 
 					weappTag = '';

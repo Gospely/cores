@@ -3,7 +3,7 @@ import request from '../utils/request.js';
 import fetch from 'dva/fetch';
 import baseUrl from '../configs.js';
 
-import { message } from 'antd';
+import { message, notification } from 'antd';
 
 export default {
 	namespace: 'UIState',
@@ -43,7 +43,7 @@ export default {
   				return false;
   			}
 			var config = configs.data.fields[0];
-
+			localStorage.uistateId = config.id;
 			if(!config) {
 				config = {};
 			}
@@ -85,16 +85,25 @@ export default {
 		*writeConfig({ payload: params }, { call, put, select }) {
 
 			var configTobeSaved = {
-				id: localStorage.applicationId,
+				id: localStorage.uistateId,
 				configs: localStorage.UIState
 			}
 			var url = baseUrl.baseURL + "uistates";
-			fetch(url, {
+
+			var result = yield fetch(url, {
 				method: 'PUT',
 				headers: {
 					"Content-Type": "application/json;charset=UTF-8",
 				},
 				body: JSON.stringify(configTobeSaved)
+			}).then(function() {
+				notification.open({
+					message: '保存成功'
+				});
+			}).catch(function() {
+				notification.open({
+					message: '保存失败'
+				});				
 			});
 		},
 

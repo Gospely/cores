@@ -28,7 +28,7 @@ const auth = function (router) {
 		});
 	}else{
 		sessionStorage.from = 'ide';
-		if(document.domain == 'gospely.com') {
+		if(document.domain != 'localhost') {
 			window.location.href = 'http://dash.gospely.com/#!/accounts/login?where=fromIde';
 		}else {
 			window.location.href = 'http://localhost:8088/#!/accounts/login?where=fromIde';

@@ -513,9 +513,12 @@ body {
     border: 2px dotted red!important;
 }
 
+<<<<<<< HEAD
 // .hight-light {
 //     outline: #00ff00 solid 2px!important;
 // }
+=======
+>>>>>>> c5a240b06db7dcf47a2eb48fc89cf6ff4c740ade
 .container-box {
     border: 1px dashed #0894ec;
 }
@@ -548,3 +551,10 @@ body {
     border-top: 5px solid rgba(0, 0, 0, 0.5);
     border-bottom: 5px solid rgba(0, 0, 0, 0.5);
 }
+<<<<<<< HEAD
+=======
+
+.weui-icon-cancel {
+    font-size:15px!important;
+}
+>>>>>>> c5a240b06db7dcf47a2eb48fc89cf6ff4c740ade
