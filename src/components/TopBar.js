@@ -1360,7 +1360,6 @@ const LeftSidebar = (props) => {
 		        	type: 'devpanel/add',
 	    	    	payload: { title, type }
 	      		});
-			console.log( props.sidebar.modalCommitInfo.title);
 			props.dispatch({
 				type: 'devpanel/initDebugPanel',
 				payload: { cmd: 'cd /root/workspace\n clear && git commit -a -m "' + props.sidebar.modalCommitInfo.title + '"\n' }
