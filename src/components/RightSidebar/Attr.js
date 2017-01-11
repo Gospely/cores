@@ -221,14 +221,16 @@ const Attr = (props) => {
     	handleAttrFormSelectChange: (attr, parentAtt, selectedVal) => {
 			var newVal = selectedVal;
 			var attrName = attr.attrName;
-    		props.dispatch({
-    			type: 'designer/handleAttrFormChange',
-    			payload: {
-    				newVal: newVal,
-    				attrName: attrName,
-    				parentAtt: parentAtt
-    			}
-    		});
+
+			props.dispatch({
+				type: 'designer/handleAttrFormChange',
+				payload: {
+					newVal: newVal,
+					attrName: attrName,
+					parentAtt: parentAtt
+				}
+			});
+    			
 
     		if(attr.isComponentAttr) {
     			handleLinkedComponent(attr, selectedVal, attrFormProps.handleAttrFormSelectChange);
