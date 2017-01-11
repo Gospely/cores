@@ -6128,7 +6128,7 @@ page {
 										isHTML: false,
 										isSetAttribute: true,
 										_value: true
-									}					
+									}
 								}
 							}
 						}
@@ -6156,7 +6156,7 @@ page {
 								isHTML: false,
 								isSetAttribute: true,
 								_value: true
-							}					
+							}
 						}
 					}]
 				}]
@@ -6420,7 +6420,6 @@ page {
 				message.error('请在左上角组件树中选择一个页面');
 				return {...state};
 			}
-			console.log(ctrlAndTarget);
 			let controller = ctrlAndTarget.ctrl,
 				targetId = ctrlAndTarget.target,
 				theParent = ctrlAndTarget.theParent,
@@ -6828,7 +6827,7 @@ page {
 					ctrl: params.item,
 					target: modelDesigner.layoutState.activeController.key
 				}
-			});			
+			});
 		},
 
 		*initStateA({ payload: params}, {call, put, select}){
