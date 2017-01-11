@@ -1539,12 +1539,28 @@ page {
 				name: 'Flex布局',
 				type: 'card',
 				attr: {
+					column: {
+						type: 'button',
+						title: '添加列',
+						_value: '添加',
+						onClick: 'designer/addColumn',
+						params:{
+							column:{
+								name: '布局组',
+								type: 'flex-item',
+								children: [],
+								tag: ['div'],
+								baseClassName: 'weui-flex__item',
+								attr: {}
+							}
+						}
+					},
 					height: {
 						type: 'input',
 						title: '高度',
 						isStyle: true,
 						_value: '100px'
-					}
+					},
 				},
 				tag: ['div'],
 				baseClassName: 'weui-flex',
@@ -2424,7 +2440,7 @@ page {
 								tag: 'div',
 								className: 'weui-cells weui-cells_form'
 							},
-							backend: true					
+							backend: true
 						},
 
 						isCounter: {
@@ -2795,7 +2811,7 @@ page {
 							tag: 'div',
 							className: 'weui-cells weui-cells_form'
 						},
-						backend: true					
+						backend: true
 					},
 
 					isCounter: {
@@ -6144,7 +6160,7 @@ page {
 				message.error('请在左上角组件树中选择一个页面');
 				return {...state};
 			}
-
+			console.log(ctrlAndTarget);
 			let controller = ctrlAndTarget.ctrl,
 				targetId = ctrlAndTarget.target,
 				theParent = ctrlAndTarget.theParent,
@@ -6517,6 +6533,18 @@ page {
 				}
 			});
 		},
+		*addColumn({ payload: params}, {call, put, select}) {
+			var modelDesigner = yield select(state => state.designer),
+				activePage = layoutAction.getActivePage(modelDesigner);
+
+			yield put({
+				type: 'addController',
+				payload: {
+					ctrl: params.column,
+					target: modelDesigner.layoutState.activeController.key
+				}
+			});
+		},
 
 		*initStateA({ payload: params}, {call, put, select}){
 			state.layout = params.UIState.layout;
@@ -6537,7 +6565,7 @@ page {
 			var config = configs.data.fields[0];
 			localStorage.UIState = config.configs;
 			var UIState = JSON.parse(config.configs);
-			
+
 			yield put({
 				type: 'initState',
 				payload: { UIState: UIState.UIState.designer }
