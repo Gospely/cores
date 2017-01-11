@@ -1,7 +1,3 @@
-/**
- * Created by jf on 2015/9/11.
- * Modified by bear on 2016/9/7.
- */
 $(function () {
 
     if(document.domain != 'localhost') {
@@ -384,8 +380,6 @@ $(function () {
             var target = jq(e.target),
                 isController = target.data('is-controller'),
                 dataControl = target.data("controller");
-
-                console.log(target, isController, dataControl);
 
             if(!dataControl) {
                 if(target.attr('tabbar')) {

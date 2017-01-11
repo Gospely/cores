@@ -65,7 +65,7 @@ const initApplication = function (application, props){
             props.dispatch({
                 type: 'devpanel/wechatInit',
             });
-            console.log('reload');
+
             setTimeout(function(){
                 props.dispatch({
                   type: 'designer/getConfig',
@@ -85,6 +85,24 @@ const initApplication = function (application, props){
               payload: 'attr'
             });
         }, 200);
+
+        var inter = setInterval(function() {
+
+            if(window.gospelDesigner) {
+                clearInterval(inter);
+                
+                props.dispatch({
+                    type: 'attr/setFormItemsByDefault'
+                });
+
+                props.dispatch({
+                    type: 'designer/handleCtrlSelected'
+                });
+
+            }
+
+        }, 200);
+
         localStorage.flashState = 'true'
         window.isWeapp = true;
     }else{

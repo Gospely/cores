@@ -622,7 +622,7 @@ const Attr = (props) => {
 		      	      	<Table bordered dataSource={tabsTableDatasource} columns={tabsTablesColumns} />
 	        	</Modal>
 
-        		<Modal width="80%" title="CSS编辑器（自动保存）" 
+        		<Modal width="80%" title="CSS编辑器（自动保存，请保证语法正确，否则无法解析）" 
         			visible={props.designer.modalCSSEditorVisible}
 	          		onOk={modalCSSEditorProps.handleOk} onCancel={modalCSSEditorProps.handleCancel}
 	          		footer={[

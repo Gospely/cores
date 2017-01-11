@@ -4445,7 +4445,7 @@ page {
 		handleCtrlSelected (state) {
 			var activePage = layoutAction.getActivePage(state);
 
-    		if(!gospelDesigner) {
+    		if(!window.gospelDesigner) {
     			message.error('请先打开编辑器！');
     			return false;
     		}
@@ -4476,7 +4476,7 @@ page {
 
 	    		var gospelDesigner = window.frames['gospel-designer'];
 
-	    		if(!gospelDesigner) {
+	    		if(!window.gospelDesigner) {
 	    			message.error('请先打开编辑器！')
 	    			return false;
 	    		}
