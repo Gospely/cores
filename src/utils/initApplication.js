@@ -1,17 +1,22 @@
 import React , {PropTypes} from 'react';
 import { message, notification } from 'antd';
-import request from './request'
+import request from './request';
+import gitTerminal from './gitTerminal';
 
 const initApplication = function (application, props){
 
+    window.socket = null;
     if(localStorage.applicationId == application.id){
         window.reload = false;
     }else{
         window.reload = true;
     }
+    
     if(location.hash.indexOf('project') == -1) {
         return false;
     }
+
+    window.isWeapp = true;
 
     if(application.image == 'wechat:latest'){
 
@@ -90,7 +95,7 @@ const initApplication = function (application, props){
 
             if(window.gospelDesigner) {
                 clearInterval(inter);
-                
+
                 props.dispatch({
                     type: 'attr/setFormItemsByDefault'
                 });
@@ -104,7 +109,6 @@ const initApplication = function (application, props){
         }, 200);
 
         localStorage.flashState = 'true'
-        window.isWeapp = true;
     }else{
         props.dispatch({
             type: 'devpanel/showLoading',
@@ -157,6 +161,14 @@ const initApplication = function (application, props){
             type: 'devpanel/startDocker',
             payload: { docker:  application.docker, id: application.id}
         });
+        setTimeout(function(){
+            gitTerminal(props);
+            setTimeout(function(){
+                window.socket.send("cd /root/workspace && git remote -v | head -1 | awk '{print $2}'\n");
+                window.socket.send('echo begin');
+                window.gitOrigin = true;
+            },3000)
+        },1000)
         props.dispatch({
             type: 'devpanel/handleImages',
             payload: { id: application.image}

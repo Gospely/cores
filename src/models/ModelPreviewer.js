@@ -8,14 +8,14 @@ export default {
 	},
 
 	subscriptions: {
-		keyEvent(dispatch) {
-	      key('esc', () => { 
-	      	dispatch({
-	      		type:'devpanel/loadPreviewer',
-	      		payload: false
-	      	});
-	      });
-	    },
+		// keyEvent(dispatch) {
+	 //      key('esc', () => { 
+	 //      	dispatch({
+	 //      		type:'devpanel/loadPreviewer',
+	 //      		payload: false
+	 //      	});
+	 //      });
+	 //    },
 	},
 
 	effects: {
@@ -23,7 +23,7 @@ export default {
 	},
 
 	reducers: {
-		handleInputChange(state,{payload: val}) {
+		handleInputChange(state, {payload: val}) {
 			return {...state, siteValue: val};
 		}
 	}

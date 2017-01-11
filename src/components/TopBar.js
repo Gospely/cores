@@ -21,6 +21,8 @@ import Previewer from './Panel/Previewer.js';
 import { Steps } from 'antd';
 import { Progress } from 'antd';
 
+import Dashboard from './TopBar/Dashboard.js';
+
 const FormItem = Form.Item;
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
@@ -373,11 +375,19 @@ const LeftSidebar = (props) => {
 	        	props.dispatch({
 	        		type: 'sidebar/showWeappCompilerModal'
 	        	});
+	        },
+
+	        dashboard () {
+	        	props.dispatch({
+	        		type: 'dashboard/showDash'
+	        	})
 	        }
 
 	      }
 
-	      handleActiveMenuEvent[activeMenu.key]();
+	      if(handleActiveMenuEvent[activeMenu.key]) {
+		      handleActiveMenuEvent[activeMenu.key]();
+	      }
 	    },
 
 	    cancelNewApp() {
@@ -480,20 +490,47 @@ const LeftSidebar = (props) => {
 
 		modifyGitOriginInput: {
 			onPressEnter: function() {
-				if(props.sidebar.modifyGitOriginInput.value == '' || props.sidebar.modifyGitOriginInput.pushValue == '') {
-					message.error('git源不能为空');
-					return false;
+
+				if(props.sidebar.gitTabKey == '1'){
+					if(props.sidebar.modifyGitOriginInput.value == '' || props.sidebar.modifyGitOriginInput.pushValue == '') {
+						message.error('git源不能为空');
+						return false;
+					}
+					if (( /git@github.com:?/.test(props.sidebar.modifyGitOriginInput.value) && /git@github.com:?/.test(props.sidebar.modifyGitOriginInput.pushValue)) ||  (/https:\/\/github.com\/?/.test(props.sidebar.modifyGitOriginInput.pushValue) && /https:\/\/github.com\/?/.test(props.sidebar.modifyGitOriginInput.value))) {
+						if(!props.sidebar.modifyGitOriginInput.isGit){
+							window.socket.send('git init\n');
+							setTimeout(function(){
+								window.socket.send('git remote add origin ' + props.sidebar.modifyGitOriginInput.value + '\n');
+								props.dispatch({
+									type: 'sidebar/setGitOrigin',
+	                                payload: { gitOrigin: props.sidebar.modifyGitOriginInput.value, isGit: true }
+								});
+							}, 1000)
+						}else{
+							window.socket.send('git remote set-url origin ' + props.sidebar.modifyGitOriginInput.value + '\n');
+							window.socket.send('git remote set-url origin ' + props.sidebar.modifyGitOriginInput.value + '\n');
+						}
+					}else{
+						message.error('git 源格式错误');
+					}
 				}
-				if(props.sidebar.modifyGitConfigInput.userName == '' || props.sidebar.modifyGitConfigInput.email == '') {
-					message.error('git 配置不能为空');
-					return false;
+				if(props.sidebar.gitTabKey == '4'){
+					if(props.sidebar.modifyGitConfigInput.userName == '' || props.sidebar.modifyGitConfigInput.email == '') {
+						message.error('git 配置不能为空');
+						return false;
+					}else {
+						if(!props.sidebar.modifyGitOriginInput.isGit){
+							message.error('为配置git源');
+							return false;
+						}
+						window.socket.send('git config user.name ' + props.sidebar.modifyGitConfigInput.userName + ' --replace-all\n');
+						window.socket.send('git config user.email ' + props.sidebar.modifyGitConfigInput.email + ' --replace-all\n');
+						notification.open({
+							message: '配置成功'
+						});
+					}
 				}
-				window.socket.send('git remote set-url origin ' + props.sidebar.modifyGitOriginInput.value + '\n');
-				window.socket.send('git config user.name ' + props.sidebar.modifyGitConfigInput.userName + ' --replace-all\n');
-				window.socket.send('git config user.email ' + props.sidebar.modifyGitConfigInput.email + ' --replace-all\n');
-				// props.dispatch({
-				// 	type: 'sidebar/modifyGitOrigin'
-				// })
+
 			},
 
 			onChange: function(e) {
@@ -539,6 +576,10 @@ const LeftSidebar = (props) => {
 
 		onGitOperationTabChanged: function(key) {
 
+			props.dispatch({
+				type: 'sidebar/changeGitTabKey',
+				payload: { key: key }
+			});
 			if(key == '3'){
 				props.dispatch({
 					type: 'devpanel/getKey'
@@ -547,7 +588,15 @@ const LeftSidebar = (props) => {
 			if(key == '4'){
 				window.socket.send('cd /root/workspace && git config user.name  && git config user.email\n');
 				window.socket.send('echo begin');
-				window.processMsg = true;
+				window.getConfig = true;
+			}
+			if(key == '1'){
+
+				if(props.modifyGitOriginInput.isGit){
+					window.socket.send("cd /root/workspace && git remote -v | head -1 | awk '{print $2}'\n");
+					window.socket.send('echo begin');
+					window.gitOrigin = true;
+				}
 			}
 		},
 
@@ -1151,6 +1200,10 @@ const LeftSidebar = (props) => {
 				    	<Icon type="cloud-o" />
 				    	打包小程序
 				    </Menu.Item>
+    		        <Menu.Item key="dashboard">
+						<Icon type="laptop" />
+		        		控制台
+			        </Menu.Item>
 			    </Menu>
 			);
 
@@ -1226,6 +1279,10 @@ const LeftSidebar = (props) => {
 							<Icon type="pause-circle-o" />
 						</Tooltip>
 				    </Menu.Item>
+    		        <Menu.Item key="dashboard">
+						<Icon type="laptop" />
+		        		控制台
+			        </Menu.Item>
 			    </Menu>
 			);
 
@@ -1239,10 +1296,18 @@ const LeftSidebar = (props) => {
 	      		onClick={leftSidebarProps.handleClick}
 	      		mode="horizontal">
 				<Menu.Item key="create">
-		          	<Icon type="plus" />
+			      	<Tooltip title="新建项目">
+		          		<Icon type="plus" />
+		          	</Tooltip>
 		        </Menu.Item>
 		        <Menu.Item key="switch">
-		          	<Icon type="appstore-o" />
+			      	<Tooltip title="切换项目">
+		          		<Icon type="appstore-o" />
+		          	</Tooltip>
+		        </Menu.Item>
+		        <Menu.Item key="dashboard">
+					<Icon type="laptop" />
+	        		控制台
 		        </Menu.Item>
 	      	</Menu>
 
@@ -1519,6 +1584,8 @@ const LeftSidebar = (props) => {
 		    >
 				要保存您的设计吗？
 		    </Modal>
+
+		    <Dashboard></Dashboard>
 
 			{initPreviewer()}
 

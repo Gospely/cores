@@ -1,7 +1,6 @@
 import fetch from 'dva/fetch';
 import configs from '../../configs.js';
 import initApplication from '../../utils/initApplication';
-import gitTerminal from '../../utils/gitTerminal';
 import { message, notification } from 'antd';
 
 export default {
@@ -61,11 +60,6 @@ export default {
 					var application = data.fields;
 					if(data.fields != null){
 						initApplication(application,props);
-						if(application.image != 'wechat:latest'){
-							gitTerminal(props);
-						}else{
-							window.socket = null;
-						}
 					}else{
 						localStorage.clear();
 						window.location.href = window.location.origin;

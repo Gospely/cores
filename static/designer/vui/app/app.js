@@ -809,6 +809,10 @@ $(function () {
 
             init: function() {
 
+                console.log(this.app);
+
+                //加载应用CSS
+
                 if(this.isStyleExist(this.app.key)) {
                     var style = this.getStyle(this.app.key);
 
@@ -820,6 +824,17 @@ $(function () {
                 }else {
                     this.createStyleElement(this.app.attr.css._value);
                 }
+
+                //加载页面CSS
+                var appPages = this.app.children;
+
+                for (var i = 0; i < appPages.length; i++) {
+                    var currentPage = appPages[i];
+                    if(currentPage.type == 'page') {
+                        var CG = new cssGenerator(currentPage);
+                    }
+                };
+
             },
 
             createStyleElement: function(styles) {

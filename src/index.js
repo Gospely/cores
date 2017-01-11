@@ -2,14 +2,12 @@ import './index.html';
 import './index.less';
 import dva from 'dva';
 import { message } from 'antd';
-
 import createLoading from 'dva-loading';
-
 import packUIStage from './utils/packUIState.js';
+import auth from './utils/auth';
 
 localStorage.itemToCut = localStorage.itemToCut || undefined;
 localStorage.itemToCopy = localStorage.itemToCopy || undefined;
-import auth from './utils/auth';
 
 window.flag = false;
 window.fileFlag = false;
@@ -95,6 +93,7 @@ app.model(require('./models/ModelDesigner'));
 app.model(require('./models/ModelPreviewer'));
 app.model(require('./models/ModelConstruction'));
 app.model(require('./models/ModelUIState'));
+app.model(require('./models/topbar/ModelDashboard'));
 
 // 4. Router
 app.router(require('./router'));
