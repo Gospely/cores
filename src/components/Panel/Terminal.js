@@ -235,8 +235,6 @@ class Terminal extends Component {
 						  setTerminalType(socket);
 						  socket.onmessage = function (evt) {
 							//收到服务器消息，使用evt.data提取
-							console.log("------");
-							console.log(evt.data);
 							if(window.currentCmd){
 								handleCmd(evt.data);
 							}

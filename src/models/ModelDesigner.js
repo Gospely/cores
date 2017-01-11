@@ -5378,6 +5378,182 @@ page {
 				}]
 			},
 			{
+				name: '徽章',
+				type: 'badge',
+				baseClassName: 'weui-cells',
+				attr: {},
+				tag: 'div',
+				children: [{
+					type: 'div',
+					tag: 'div',
+					baseClassName: 'weui-cell',
+					attr: {
+						display: {
+							type: 'toggle',
+							title: '显示',
+							_value: true,
+							value: ['none', 'block'],
+							isStyle: true,
+							isToggleStyle: true
+						},
+						isComponent: {
+							backend: true,
+							value: [],
+							title: '是否为完整的组件',
+							_value: true
+						}
+					},
+					name: '联系人信息',
+					children: [{
+						tag: 'div',
+						type: 'div',
+						baseClassName: 'weui-cell__hd',
+						name: '头像',
+						attr: {
+							position: {
+								backend: true,
+								isStyle: true,
+								_value: 'relative'
+							},
+							'margin-right': {
+								backend: true,
+								isStyle: true,
+								_value: '10px'
+							},
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
+							}
+						},
+						children: [{
+							name: '头像图片',
+							type: 'img',
+							tag: 'img',
+							attr: {
+								display: {
+									isStyle: true,
+									backend: true,
+									_value: 'block'
+								},
+								width: {
+									isStyle: true,
+									backend: true,
+									_value: '50px'
+								},
+								src: {
+									isSetAttribute: true,
+									_value: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAB4CAMAAAAOusbgAAAAeFBMVEUAwAD///+U5ZTc9twOww7G8MYwzDCH4YcfyR9x23Hw+/DY9dhm2WZG0kbT9NP0/PTL8sux7LFe115T1VM+zz7i+OIXxhes6qxr2mvA8MCe6J6M4oz6/frr+us5zjn2/fa67rqB4IF13XWn6ad83nxa1loqyirn+eccHxx4AAAC/klEQVRo3u2W2ZKiQBBF8wpCNSCyLwri7v//4bRIFVXoTBBB+DAReV5sG6lTXDITiGEYhmEYhmEYhmEYhmEY5v9i5fsZGRx9PyGDne8f6K9cfd+mKXe1yNG/0CcqYE86AkBMBh66f20deBc7wA/1WFiTwvSEpBMA2JJOBsSLxe/4QEEaJRrASP8EVF8Q74GbmevKg0saa0B8QbwBdjRyADYxIhqxAZ++IKYtciPXLQVG+imw+oo4Bu56rjEJ4GYsvPmKOAB+xlz7L5aevqUXuePWVhvWJ4eWiwUQ67mK51qPj4dFDMlRLBZTqF3SDvmr4BwtkECu5gHWPkmDfQh02WLxXuvbvC8ku8F57GsI5e0CmUwLz1kq3kD17R1In5816rGvQ5VMk5FEtIiWislTffuDpl/k/PzscdQsv8r9qWq4LRWX6tQYtTxvI3XyrwdyQxChXioOngH3dLgOFjk0all56XRi/wDFQrGQU3Os5t0wJu1GNtNKHdPqYaGYQuRDfbfDf26AGLYSyGS3ZAK4S8XuoAlxGSdYMKwqZKM9XJMtyqXi7HX/CiAZS6d8bSVUz5J36mEMFDTlAFQzxOT1dzLRljjB6+++ejFqka+mXIe6F59mw22OuOw1F4T6lg/9VjL1rLDoI9Xzl1MSYDNHnPQnt3D1EE7PrXjye/3pVpr1Z45hMUdcACc5NVQI0bOdS1WA0wuz73e7/5TNqBPhQXPEFGJNV2zNqWI7QKBd2Gn6AiBko02zuAOXeWIXjV0jNqdKegaE/kJQ6Bfs4aju04lMLkA2T5wBSYPKDGF3RKhFYEa6A1L1LG2yacmsaZ6YPOSAMKNsO+N5dNTfkc5Aqe26uxHpx7ZirvgCwJpWq/lmX1hA7LyabQ34tt5RiJKXSwQ+0KU0V5xg+hZrd4Bn1n4EID+WkQdgLfRNtvil9SPfwy+WQ7PFBWQz6dGWZBLkeJFXZGCfLUjCgGgqXo5TuSu3cugdcTv/HjqnBTEMwzAMwzAMwzAMwzAMw/zf/AFbXiOA6frlMAAAAABJRU5ErkJggg==',
+									title: '图片地址',
+									type: 'input'
+								},
+								isComponent: {
+									backend: true,
+									value: [],
+									title: '是否为完整的组件',
+									_value: true
+								}
+							}
+						}, {
+							tag: 'span',
+							type: 'span',
+							name: '小提示信息',
+							baseClassName: 'weui-badge',
+							attr: {
+								content: {
+									isHTML: true,
+									_value: '8',
+									type: 'input',
+									title: '提示信息'
+								},
+								position: {
+									backend: true,
+									_value: 'absolute',
+									isStyle: 'true'
+								},
+								top: {
+									backend: true,
+									_value: '-.4em',
+									isStyle: true
+								},
+								right: {
+									backend: true,
+									_value: '-.4em',
+									isStyle: true
+								},
+								isComponent: {
+									backend: true,
+									value: [],
+									title: '是否为完整的组件',
+									_value: true
+								}
+							}
+						}]
+					}, {
+						tag: 'div',
+						type: 'div',
+						name: '联系人信息',
+						baseClassName: 'weui-cell__bd',
+						attr:{
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
+							}
+						},
+						children: [{
+							tag: 'p',
+							type: 'p',
+							name: '联系人名称',
+							attr: {
+								isComponent: {
+									backend: true,
+									value: [],
+									title: '是否为完整的组件',
+									_value: true
+								},
+								content: {
+									title: '标题',
+									isHTML: true,
+									_value: '联系人名称',
+									type: 'input'
+								}
+							}
+						}, {
+							tag: 'p',
+							type: 'p',
+							name: '摘要信息',
+							attr: {
+								'font-size': {
+									isStyle: true,
+									_value: '13px',
+									backend: true
+								},
+								color: {
+									isStyle: true,
+									_value: '#888',
+									backend: true
+								},
+								content: {
+									isHTML: true,
+									title: '摘要信息',
+									_value: '摘要信息',
+									type: 'input'
+								},
+								isComponent: {
+									backend: true,
+									value: [],
+									title: '是否为完整的组件',
+									_value: true
+								}
+							}
+						}]
+					}]
+				}]
+			},
+			{
 				name: '地图',
 				type: 'map',
 				attr: {}
