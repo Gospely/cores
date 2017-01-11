@@ -450,6 +450,10 @@ $(function () {
 
                     self.addClass("hight-light");
 
+                    //使其可拖动，且其子元素不可拖动
+                    self.attr('draggable', true);
+                    self.find("*").attr('draggable', false);
+
                     //空白分隔符
                     if(self[0].id.split('-')[0] == 'spacer') {
                         dragY.show();
@@ -489,6 +493,7 @@ $(function () {
                 hideDesignerDraggerBorder: function() {
                     jq("i.control-box.remove").hide();
                     jq(".hight-light").removeClass("hight-light");
+                    jq(".hight-light").attr("draggable", false);
                     jq(".spacerBottomBorder").hide();
                 },
 
@@ -1260,7 +1265,7 @@ $(function () {
             makeElemAddedDraggable: function() {
                 var elem = this.elem;
 
-                elem.attr('draggable', true);
+                // elem.attr('draggable', true);
 
                 elem.on('dragstart', function (e) {
 
@@ -1286,9 +1291,6 @@ $(function () {
                     dndData.dragElementParent = dndData.dragElement.parent();
 
                     if(dndData.dragElement.hasClass('hight-light')) {
-                        orginClientX = e.clientX;
-                        orginClientY = e.clientY;
-
                         e.originalEvent.dataTransfer.setData('Text','fromSelf');
                         jq(e.currentTarget).css('opacity','.3');
                     }else {

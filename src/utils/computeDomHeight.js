@@ -13,14 +13,17 @@ export default {
 	},
 
 	leftSidebarWhenLoaded() {
-		setTimeout(function() {
+		const toDo = () => {
 			let construction = document.getElementsByClassName('toGetConstructionHeight')[0],
 				controllers = document.getElementsByClassName('consCollapseTopBorder')[0];
-				if(controllers) {
-					controllers.style.height = 'calc(100vh - 38px - ' + construction.offsetHeight + 'px)';
-				}
+			if(controllers) {
+				controllers.style.height = 'calc(100vh - 38px - ' + construction.offsetHeight + 'px)';
+			}else {
+				this.leftSidebarWhenLoaded();
+			}
 			
-		}, 400)
+		}
+		setTimeout(toDo, 400)
 		
 	}
 
