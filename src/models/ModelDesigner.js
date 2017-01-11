@@ -5692,13 +5692,20 @@ page {
 					icon: {
 						title: '图标',
 						isClassName: true,
-						_value: 'weui-icon-checked',
+						_value: 'weui-icon-success',
 						type: 'select',
 						value: ['weui-icon-success', 'weui-icon-success-circle', 'weui-icon-success-no-circle', 'weui-icon-info',
 								'weui-icon-waiting', 'weui-icon-waiting-circle', 'weui-icon-circle', 'weui-icon-warn', 'weui-icon-download',
-								'weui-icon-info-circle', 'weui-icon-cancel'
-							   ],
+								'weui-icon-info-circle', 'weui-icon-cancel'],
 						isNoConflict: true
+					},
+
+					isBig: {
+						title: '警告类型',
+						isClassName: true,
+						value: ['weui-icon_msg', ' weui-icon_msg-primary'],
+						_value: '',
+						type: 'select'
 					}
 				}
 			},
