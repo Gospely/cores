@@ -30,7 +30,7 @@ const Welcome = (props) => {
 		},
 
 		welcomeFooter: {
-			marginTop: $('.welcome-wrapper').height() - 200
+			marginTop: 500
 		}
 	};
 
