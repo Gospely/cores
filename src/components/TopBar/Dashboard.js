@@ -11,6 +11,14 @@ const Dashboard = (props) => {
       // props.dispatch({
       //   type: 'dashboard/hide'
       // });
+    },
+
+    src () {
+      if(document.domain == 'localhost') {
+        return 'http://localhost:8088';
+      }else {
+        return 'http://dash.gospely.com';
+      }
     }
 
   };
@@ -24,15 +32,14 @@ const Dashboard = (props) => {
           visible={props.dashboard.visible}
           footer={[]}
           wrapClassName="dashboard-wrapper"
-          onCancel={DashboardProps.hide()}
+          // onCancel={DashboardProps.hide()}
         >
           <iframe
             name="gospel-designer" 
             width="100%" 
             height="100%" 
             frameBorder="0" 
-            // src="static/designer/weui/designer.html"
-            src="http://dash.gospely.com"
+            src={DashboardProps.src()}
             >
           </iframe>
         </Modal>

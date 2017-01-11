@@ -378,9 +378,9 @@ const LeftSidebar = (props) => {
 	        },
 
 	        dashboard () {
-	        	// props.dispatch({
-	        	// 	type
-	        	// })
+	        	props.dispatch({
+	        		type: 'dashboard/show'
+	        	})
 	        }
 
 	      }
