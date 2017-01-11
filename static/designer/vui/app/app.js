@@ -758,13 +758,16 @@ $(function () {
             },
 
             onDragover: function() {
-
                 //拖拽过程中
                 jq("body").on("dragover",function(e){
                     e.preventDefault();
                     e.stopPropagation();
                     var target = jq(e.target);
                     jq('.container-box').removeClass('container-box');
+                    console.log(e);
+                    if(target.height() <= 10) {
+
+                    }
                     target.addClass('container-box')
                 });
             }
