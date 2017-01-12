@@ -134,7 +134,8 @@ const weappCompiler = {
 
 		input: ['value', 'type', 'password', 'placeholder', 'placeholder-style', 'placeholder-class', 'disabled', 'maxlength', 'cursor-spacing', 'auto-focus', 'focus'],
 
-        icon: ['type', 'size']
+        icon: ['type', 'size'],
+		'navigator': ['url', 'redirect', 'open-type', 'hover-class', 'hover-start-time', 'hover-stay-time'],
 	},
 
 	init (layout) {
@@ -686,7 +687,7 @@ const weappCompiler = {
 
 	filter (key) {
 		const filterKey = [
-            'title', 'alias', 'template', 'setAsMainPage', 
+            'title', 'alias', 'template', 'setAsMainPage',
             'routingURL', 'css', 'cssEditor',
             'addColumn', 'addPreviewerItem', 'addPreviewerFooterBtn',
             'addGrid'

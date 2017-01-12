@@ -1853,6 +1853,17 @@ page {
 						isHTML: true,
 						_value: '跳转到新页面'
 					},
+					type: {
+						type: 'select',
+						title: '按钮类型',
+						value: ['default', 'primary', 'warn'],
+						isClassName: true,
+						isHTML: false,
+						isNoConflict: true,
+						isNeedPrefixClass: true,
+						prefixClassValue: 'weui-btn_',
+						_value: 'primary'
+					},
 					url: {
 						type: 'input',
 						attrType: 'text',
@@ -1900,7 +1911,7 @@ page {
 
 				},
 				tag: 'navigator',
-				weui: 'button',
+				weui: 'navigator',
 				baseClassName: 'weui-btn'
 			},
 			{
@@ -6899,7 +6910,7 @@ page {
 				controller = theParentCtrl;
 			}
 
-			
+
 
     		if (targetId) {
     			let parentCtrl = layoutAction.getCtrlByKey(state.layout[0], targetId);
