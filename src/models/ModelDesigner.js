@@ -4025,21 +4025,6 @@ page {
 				}
 			},
 			{
-				name: '页面描述',
-				type: 'description',
-				tag: 'p',
-				baseClassName: 'page__desc',
-				attr: {
-					value: {
-						type: 'input',
-						title: '描述内容',
-						isClassName: false,
-						isHTML: true,
-						_value: '先进的在线Web可视化集成开发环境'
-					}
-				}
-			},
-			{
 				name: '普通文本区域',
 				type: 'text',
 				tag: 'p',
@@ -4057,7 +4042,7 @@ page {
 						title: '选择类型',
 						isClassName: true,
 						isSingleToggleClass: true,
-						_value: 'page__desc',
+						_value: '',
 						value: ['','page__desc']
 					}
 				}
@@ -4370,7 +4355,7 @@ page {
 			},
 			{
 				name: '普通列表',
-				type: 'list',
+				type: 'list-item-avatar',
 				attr: {
 
 					theParent: {
@@ -4826,8 +4811,8 @@ page {
 				baseClassName: 'weui-cell weui-cell_link',
 			},
 			{
-				name: '图文组合列表',
-				type: 'list',
+				name: '图文列表',
+				type: 'list-item-thumbnail',
 				tag: 'div',
 				attr: {},
 				baseClassName: 'weui-panel weui-panel_access',
@@ -5548,8 +5533,8 @@ page {
 				}]
 			},
 			{
-				name: '徽章',
-				type: 'badge',
+				name: '徽章列表',
+				type: 'list-item-icon',
 				baseClassName: 'weui-cells',
 				attr: {},
 				tag: 'div',
@@ -5602,6 +5587,11 @@ page {
 									_value: 'block'
 								},
 								width: {
+									isStyle: true,
+									backend: true,
+									_value: '50px'
+								},
+								height: {
 									isStyle: true,
 									backend: true,
 									_value: '50px'
@@ -6661,21 +6651,6 @@ page {
 					}
 				}
 			},
-			{
-				name: '列表头像',
-				type: 'list-item-avatar',
-				attr: {}
-			},
-			{
-				name: '列表相册',
-				type: 'list-item-thumbnail',
-				attr: {}
-			},
-			// {
-			// 	name: '列表图标',
-			// 	type: 'list-item-icon',
-			// 	attr: {}
-			// }
 		],
 		constructionMenuStyle: {
 		    position: 'fixed',
