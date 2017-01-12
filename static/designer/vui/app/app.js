@@ -363,10 +363,7 @@ $(function () {
             dragY = jq('.spacerBottomBorder');
 
         removeBtn.click(function(e) {
-<<<<<<< HEAD
 
-=======
->>>>>>> a19b6c20ae78384c12a1141472b8f7087e045a68
             e.stopPropagation();
             var self = controllerState.currentActiveCtrlDOM,
                 dataControl = self.data('controller'),
@@ -385,10 +382,7 @@ $(function () {
                     }
                 };
             }
-<<<<<<< HEAD
-=======
 
->>>>>>> a19b6c20ae78384c12a1141472b8f7087e045a68
             postMessageToFather.ctrlRemoved(dataControl);
             self.remove();
             controllerOperations.hideDesignerDraggerBorder();
