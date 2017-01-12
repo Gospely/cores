@@ -359,20 +359,25 @@ $(function () {
             dragY = jq('.spacerBottomBorder');
 
         removeBtn.click(function(e) {
-            
             e.stopPropagation();
             var self = controllerState.currentActiveCtrlDOM,
-                dataControl = self.data('controller');
-            var jq_self = $(self[0]);
-            var baseClassName = jq_self.attr('class');
-            if(baseClassName != null && baseClassName != undefined) {
+                dataControl = self.data('controller'),
+                baseClassName = self.attr('class');
+
+            if(baseClassName) {
+                var componentCantBeRemoved = ['page__bd', 'page__hd', 'page__ft'];
                 baseClassName = baseClassName.split(' ')[0];
-                if(baseClassName == 'page__bd' || baseClassName == 'page__hd' || baseClassName == 'page__ft') {
-                    postMessageToFather.deleteError();
-                    return false;
-                }
+
+                for (var i = 0; i < componentCantBeRemoved.length; i++) {
+                    var CCBR = componentCantBeRemoved[i],
+                        pos = baseClassName.indexOf(CCBR);
+                    if(pos != -1) {
+                        postMessageToFather.deleteError();
+                        return false;
+                    }
+                };
             }
-            return false;
+            
             postMessageToFather.ctrlRemoved(dataControl);
             self.remove();
             controllerOperations.hideDesignerDraggerBorder();
