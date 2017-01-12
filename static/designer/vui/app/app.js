@@ -301,6 +301,10 @@ $(function () {
                 parent.parent.postMessage({ 'ctrlClicked': c }, "*");
             },
 
+            generateCtrl: function (c) {
+                parent.parent.postMessage({ 'generateCtrl': c }, "*");
+            },
+
             ctrlToBeAdded: function(c) {
                 parent.parent.postMessage({ 'ctrlToBeAdded': c }, "*");
             },
@@ -697,6 +701,9 @@ $(function () {
                         //开始拖拽
                         jq(this).find(".app-components").on("dragstart", function(ev) {
                             data = jq(ev.target).clone();
+
+                            //生成dom数据结构
+                            postMessageToFather.generateCtrl(parent.parent.dndData);
                         })
                     });
 
@@ -734,7 +741,7 @@ $(function () {
 
                     //传回父页面的数据
                     var ctrlAndTarget = {
-                        ctrl: controller,
+                        ctrl: dndData.dragAddCtrlData,
                         target: e.target.id
                     }
 
@@ -746,8 +753,10 @@ $(function () {
                         ctrlAndTarget.theParent = controller.attr.theParent._value;
 
                     }
+
                     parent.parent.currentTarget = e.target;
 
+                    //设置自动高度
                     if (!dropTarget.hasClass('page__bd')) {
                         dropTarget.css({
                             height: 'auto'
@@ -769,12 +778,21 @@ $(function () {
                 jq("body").on("dragover",function(e){
                     e.preventDefault();
                     e.stopPropagation();
-                    var target = jq(e.target);
+                    var target = jq(e.target),
+                        targetId = e.target.id;
                     jq('.container-box').removeClass('container-box');
                     if(target.height() <= 10) {
 
                     }
-                    target.addClass('container-box')
+                    target.addClass('container-box');
+
+                    if (targetId != dndData.dragAddCtrl.eq(0).attr('id') && !dndData.dragAddCtrl.find('#' + targetId).length) {
+                            
+                        target.append(dndData.dragAddCtrl);
+                        
+                    }
+
+
                 });
             }
 
@@ -961,6 +979,16 @@ $(function () {
 
             },
             attrChangeData: {
+
+            },
+
+            //左边组件开始拖拽时生成的数据结构转换为 dom 后的数据存在这里
+            dragAddCtrl: {
+
+            },
+
+            //左边组件开始拖拽生成的数据结构
+            dragAddCtrlData: {
 
             }
         };
@@ -1568,6 +1596,31 @@ $(function () {
                             }, 100);
                         },
 
+                        ctrlGenerated: function () {
+                            var controller = data.controller;
+
+                                comGen = new ComponentsGenerator({
+                                    controller: controller,
+                                    initElem: true,
+                                    page: data.page
+                                }),
+
+                                elem = jq(comGen.createElement());
+
+                            dndData.dragAddCtrl = elem;
+                            dndData.dragAddCtrlData = controller;
+
+                                // appendResult = jq(parent.parent.currentTarget).append(elem.clone(true));
+
+                                // console.log(parent.parent.currentTarget);
+
+                            // var pageId = location.hash.split('#')[1] || 'page-home';
+
+                            // jq('script[id="' + pageId + '"]').html(jq('.' + pageId).clone(true));
+
+                            // controllerOperations.select(controller);
+                        },
+
                         ctrlAdded: function() {
 
                             var controller = data.controller,
@@ -1580,9 +1633,12 @@ $(function () {
 
                                 elem = jq(comGen.createElement()),
 
-                                appendResult = jq(parent.parent.currentTarget).append(elem.clone(true));
-
-                                console.log(parent.parent.currentTarget);
+                                // appendResult = jq(parent.parent.currentTarget).append(elem.clone(true));
+                                //最后用生成好的最终的dom替换刚刚拖过来的dom
+                                appendResult = jq(parent.parent.currentTarget).find('#' + dndData.dragAddCtrl.eq(0).attr('id')).replaceWith(elem.clone(true));
+                                console.log(elem.clone(true))
+                                // elem.clone(true).replaceAll(jq(parent.parent.currentTarget).find(dndData.dragAddCtrl))
+                                // console.log(parent.parent.currentTarget);
 
                             var pageId = location.hash.split('#')[1] || 'page-home';
 

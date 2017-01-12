@@ -198,6 +198,13 @@ export default {
 						type: 'designer/ctrlExchanged',
 						payload: data
 					})
+				},
+
+				generateCtrl () {
+					props.dispatch({
+						type: 'designer/generateCtrl',
+						payload: data
+					})
 				}
 
 
