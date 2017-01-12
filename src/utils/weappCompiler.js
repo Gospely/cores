@@ -287,6 +287,10 @@ const weappCompiler = {
         for(var att in this.controller.attr) {
             var currentAttr = this.controller.attr[att];
 
+            if(!this.filter(att)) {
+                break;
+            }
+
             //_id为组件的真实id，因为拖拽过程中也有组件的id，为避免冲突，将真实id设为_id，在此转换为id
             att = att == '_id' ? 'id' : att;
 
@@ -680,7 +684,8 @@ const weappCompiler = {
 		const filterKey = [
             'title', 'alias', 'template', 'setAsMainPage', 
             'routingURL', 'css', 'cssEditor',
-            'addGrid', 'addPreviewerItem'
+            'addColumn', 'addPreviewerItem', 'addPreviewerFooterBtn',
+            'addGrid'
         ];
 		for (var i = 0; i < filterKey.length; i++) {
 			var k = filterKey[i];
