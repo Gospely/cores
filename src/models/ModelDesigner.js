@@ -1268,7 +1268,22 @@ page {
 												title: '图片地址',
 												isSetAttribute: true,
 												_value: 'http://i64.tinypic.com/2a9711u.png'
+											},
+
+											width: {
+												type: 'input',
+												title: '宽度',
+												_value: '28px',
+												isStyle: true
+											},
+
+											height: {
+												type: 'input',
+												title: '高度',
+												_value: '28px',
+												isStyle: true
 											}
+
 										}
 									}],
 									attr: {}
@@ -1314,7 +1329,22 @@ page {
 									title: '图片地址',
 									isSetAttribute: true,
 									_value: 'http://i64.tinypic.com/2a9711u.png'
+								},
+
+								width: {
+									type: 'input',
+									title: '宽度',
+									_value: '28px',
+									isStyle: true
+								},
+
+								height: {
+									type: 'input',
+									title: '高度',
+									_value: '28px',
+									isStyle: true
 								}
+
 							}
 						}],
 						attr: {}
@@ -1354,6 +1384,20 @@ page {
 									title: '图片地址',
 									isSetAttribute: true,
 									_value: 'http://i64.tinypic.com/2a9711u.png'
+								},
+
+								width: {
+									type: 'input',
+									title: '宽度',
+									_value: '28px',
+									isStyle: true
+								},
+
+								height: {
+									type: 'input',
+									title: '高度',
+									_value: '28px',
+									isStyle: true
 								}
 							}
 						}],
@@ -1394,6 +1438,20 @@ page {
 									title: '图片地址',
 									isSetAttribute: true,
 									_value: 'http://i64.tinypic.com/2a9711u.png'
+								},
+
+								width: {
+									type: 'input',
+									title: '宽度',
+									_value: '28px',
+									isStyle: true
+								},
+
+								height: {
+									type: 'input',
+									title: '高度',
+									_value: '28px',
+									isStyle: true
 								}
 							}
 						}],
@@ -1434,6 +1492,20 @@ page {
 									title: '图片地址',
 									isSetAttribute: true,
 									_value: 'http://i64.tinypic.com/2a9711u.png'
+								},
+
+								width: {
+									type: 'input',
+									title: '宽度',
+									_value: '28px',
+									isStyle: true
+								},
+
+								height: {
+									type: 'input',
+									title: '高度',
+									_value: '28px',
+									isStyle: true
 								}
 							}
 						}],
@@ -1474,6 +1546,20 @@ page {
 									title: '图片地址',
 									isSetAttribute: true,
 									_value: 'http://i64.tinypic.com/2a9711u.png'
+								},
+
+								width: {
+									type: 'input',
+									title: '宽度',
+									_value: '28px',
+									isStyle: true
+								},
+
+								height: {
+									type: 'input',
+									title: '高度',
+									_value: '28px',
+									isStyle: true
 								}
 							}
 						}],
@@ -1514,6 +1600,20 @@ page {
 									title: '图片地址',
 									isSetAttribute: true,
 									_value: 'http://i64.tinypic.com/2a9711u.png'
+								},
+
+								width: {
+									type: 'input',
+									title: '宽度',
+									_value: '28px',
+									isStyle: true
+								},
+
+								height: {
+									type: 'input',
+									title: '高度',
+									_value: '28px',
+									isStyle: true
 								}
 							}
 						}],
@@ -1538,7 +1638,7 @@ page {
 				name: 'Flex布局',
 				type: 'card',
 				attr: {
-					column: {
+					addColumn: {
 						type: 'button',
 						title: '添加列',
 						_value: '添加',
@@ -3925,21 +4025,6 @@ page {
 				}
 			},
 			{
-				name: '页面描述',
-				type: 'description',
-				tag: 'p',
-				baseClassName: 'page__desc',
-				attr: {
-					value: {
-						type: 'input',
-						title: '描述内容',
-						isClassName: false,
-						isHTML: true,
-						_value: '先进的在线Web可视化集成开发环境'
-					}
-				}
-			},
-			{
 				name: '普通文本区域',
 				type: 'text',
 				tag: 'p',
@@ -3957,7 +4042,7 @@ page {
 						title: '选择类型',
 						isClassName: true,
 						isSingleToggleClass: true,
-						_value: 'page__desc',
+						_value: '',
 						value: ['','page__desc']
 					}
 				}
@@ -4100,15 +4185,136 @@ page {
 			{
 				name: '段落',
 				type: 'markdown',
-				attr: {
-					value: {
-						isHTML: true,
-						type: 'input',
-						_value: '文章内容',
-						title: '内容'
+				attr: {},
+				children: [{
+					name: '大标题',
+					type: 'heading',
+					tag: 'h1',
+					baseClassName: 'page__title',
+					attr: {
+						value: {
+							type: 'input',
+							title: '标题',
+							isClassName: false,
+							isHTML: true,
+							_value: '大标题'
+						},
+						'font-size': {
+							type: 'input',
+							title: '标题大小',
+							isStyle: true,
+							_value: '20px',
+						}
 					}
-				},
-				tag: 'article',
+				}, {
+					name: '正文域',
+					type: 'section',
+					attr: {},
+					tag: 'div',
+					baseClassName: '',
+					children: [{
+						name: '章标题',
+						type: 'heading',
+						tag: 'h1',
+						baseClassName: 'page__title',
+						attr: {
+							value: {
+								type: 'input',
+								title: '标题',
+								isClassName: false,
+								isHTML: true,
+								_value: '章标题'
+							},
+							'font-size': {
+								type: 'input',
+								title: '标题大小',
+								isStyle: true,
+								_value: '18px',
+							}
+						}
+					}, {
+						name: '正文',
+						type: 'section',
+						attr: {},
+						tag: 'div',
+						baseClassName: '',
+						children: [{
+							name: '1.1 节标题',
+							type: 'heading',
+							tag: 'h1',
+							baseClassName: 'page__title',
+							attr: {
+								value: {
+									type: 'input',
+									title: '标题',
+									isClassName: false,
+									isHTML: true,
+									_value: '1.1 节标题'
+								},
+								'font-size': {
+									type: 'input',
+									title: '标题大小',
+									isStyle: true,
+									_value: '12px',
+								}
+							}
+						}, {
+							name: '段落',
+							type: 'h',
+							attr: {
+								value: {
+									isHTML: true,
+									type: 'input',
+									_value: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+									title: '内容'
+								}
+							},
+							tag: 'p',
+							baseClassName: ''
+						}]
+					}, {
+						name: '正文',
+						type: 'section',
+						attr: {},
+						tag: 'div',
+						baseClassName: '',
+						children: [{
+							name: '1.2 节标题',
+							type: 'heading',
+							tag: 'h1',
+							baseClassName: 'page__title',
+							attr: {
+								value: {
+									type: 'input',
+									title: '标题',
+									isClassName: false,
+									isHTML: true,
+									_value: '1.2 节标题'
+								},
+								'font-size': {
+									type: 'input',
+									title: '标题大小',
+									isStyle: true,
+									_value: '12px',
+								}
+							}
+						}, {
+							name: '段落',
+							type: 'h',
+							attr: {
+								value: {
+									isHTML: true,
+									type: 'input',
+									_value: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+									title: '内容'
+								}
+							},
+							tag: 'p',
+							baseClassName: ''
+						}]
+					}]
+				}],
+				tag: 'div',
 				baseClassName: 'weui-article',
 			},
 			{
@@ -4149,7 +4355,7 @@ page {
 			},
 			{
 				name: '普通列表',
-				type: 'list',
+				type: 'list-item-avatar',
 				attr: {
 
 					theParent: {
@@ -4218,6 +4424,11 @@ page {
 								backend: true,
 								_value: '20px'
 							},
+							height: {
+								isStyle: true,
+								backend: true,
+								_value: '20px'
+							},							
 							'margin-right': {
 								isStyle: true,
 								backend: true,
@@ -4600,8 +4811,8 @@ page {
 				baseClassName: 'weui-cell weui-cell_link',
 			},
 			{
-				name: '图文组合列表',
-				type: 'list',
+				name: '图文列表',
+				type: 'list-item-thumbnail',
 				tag: 'div',
 				attr: {},
 				baseClassName: 'weui-panel weui-panel_access',
@@ -5322,8 +5533,8 @@ page {
 				}]
 			},
 			{
-				name: '徽章',
-				type: 'badge',
+				name: '徽章列表',
+				type: 'list-item-icon',
 				baseClassName: 'weui-cells',
 				attr: {},
 				tag: 'div',
@@ -5376,6 +5587,11 @@ page {
 									_value: 'block'
 								},
 								width: {
+									isStyle: true,
+									backend: true,
+									_value: '50px'
+								},
+								height: {
 									isStyle: true,
 									backend: true,
 									_value: '50px'
@@ -6095,7 +6311,7 @@ page {
 				name: '图标',
 				type: 'i',
 				tag: 'span',
-				baseClassName: '',
+				baseClassName: 'weui-icon',
 				attr: {
 					icon: {
 						title: '图标',
@@ -6105,15 +6321,33 @@ page {
 						value: ['weui-icon-success', 'weui-icon-success-circle', 'weui-icon-success-no-circle', 'weui-icon-info',
 								'weui-icon-waiting', 'weui-icon-waiting-circle', 'weui-icon-circle', 'weui-icon-warn', 'weui-icon-download',
 								'weui-icon-info-circle', 'weui-icon-cancel', 'weui-icon-search', 'weui-icon-search'],
-						isNoConflict: true
+						isNoConflict: true,
+						backend: true
 					},
 
-					isBig: {
- 						title: '警告类型',
- 						isClassName: true,
- 						value: ['', 'weui-icon_msg', ' weui-icon_msg-primary'],
- 						_value: '',
- 						type: 'select'
+					type: {
+						type: 'select',
+						title: '图标类型',
+						value: ['success', 'success-circle', 'circle', 'info',
+								'waiting', 'waiting-circle', 'circle', 'warn', 'download',
+								'info-circle', 'cancel', 'search', 'search'],
+						isClassName: true,
+						isHTML: false,
+						isNoConflict: true,
+						isNeedPrefixClass: true,
+						prefixClassValue: 'weui-icon-',
+						_value: 'success'
+					},
+
+					'font-size': {
+ 						title: '图标大小',
+ 						alias: 'size',
+ 						isNeedUnit: true,
+ 						unitName: 'px',
+ 						_value: '23',
+ 						type: 'input',
+ 						attrType: 'number',
+ 						isStyle: true,
   					}
 
 				}
@@ -6130,7 +6364,7 @@ page {
 					name: '预览表单头部',
 					type: 'weui-form-preview__hd',
 					tag: 'div',
-					baseClassName: 'weui-form-preview__hd',
+					baseClassName: 'weui-form-preview__hd weui-form-preview__item',
 					children: [{
 						tag: 'div',
 						baseClassName: 'weui-form-preview__label',
@@ -6162,7 +6396,7 @@ page {
 					}]
 				}, {
 					tag: 'div',
-					baseClassName: 'weui-form-preview__bd',
+					baseClassName: 'weui-form-preview__bd weui-form-preview__item',
 					name: '预览表单中部',
 					type: 'weui-form-preview__bd',
 					attr: {
@@ -6321,7 +6555,7 @@ page {
 					}]
 				}, {
 					tag: 'div',
-					baseClassName: 'weui-form-preview__ft',
+					baseClassName: 'weui-form-preview__ft weui-form-preview__item',
 					name: '预览表单底部',
 					type: 'weui-form-preview__ft',
 					attr: {
@@ -6417,21 +6651,6 @@ page {
 					}
 				}
 			},
-			{
-				name: '列表头像',
-				type: 'list-item-avatar',
-				attr: {}
-			},
-			{
-				name: '列表相册',
-				type: 'list-item-thumbnail',
-				attr: {}
-			},
-			// {
-			// 	name: '列表图标',
-			// 	type: 'list-item-icon',
-			// 	attr: {}
-			// }
 		],
 		constructionMenuStyle: {
 		    position: 'fixed',
@@ -6628,6 +6847,15 @@ page {
 						index: params.deleteIndex
 					}
 				}, '*');
+
+				gospelDesigner.postMessage({
+					attrRefreshed: layoutAction.getActivePage(state)
+				}, '*');
+
+				gospelDesignerPreviewer.postMessage({
+					attrRefreshed: layoutAction.getActivePage(state)
+				}, '*');
+
 			}else {
 
 				gospelDesignerPreviewer.postMessage({
@@ -6921,31 +7149,35 @@ page {
 		handlePageAdded (state) {
 			var activePage = layoutAction.getActivePage(state);
 
-	    		var gospelDesigner = window.frames['gospel-designer'];
+    		var gospelDesigner = window.frames['gospel-designer'];
 
-	    		if(!window.gospelDesigner) {
-	    			message.error('请先打开编辑器！')
-	    			return false;
-	    		}
+    		if(!window.gospelDesigner) {
+    			message.error('请先打开编辑器！')
+    			return false;
+    		}
 
-	    		if(state.layoutState.activeType == 'page') {
+    		if(state.layoutState.activeType == 'page') {
 
-		    		gospelDesignerPreviewer.postMessage({
-		    			pageAdded: activePage
-		    		}, '*');
+	    		gospelDesignerPreviewer.postMessage({
+	    			pageAdded: activePage
+	    		}, '*');
 
-	    		}
+	    		gospelDesigner.postMessage({
+	    			attrRefreshed: activePage
+	    		}, '*');
 
-	    		if(state.layoutState.activeType == 'controller') {
-	    			var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
+    		}
 
-		    		gospelDesignerPreviewer.postMessage({
-		    			pageAdded: activeCtrl
-		    		}, '*');
-	    		}
+    		if(state.layoutState.activeType == 'controller') {
+    			var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
 
-	    		computeDomHeight.leftSidebarWhenLoaded();
-	    		return {...state};
+	    		gospelDesignerPreviewer.postMessage({
+	    			pageAdded: activeCtrl
+	    		}, '*');
+    		}
+
+    		computeDomHeight.leftSidebarWhenLoaded();
+    		return {...state};
 
 		},
 
@@ -6970,7 +7202,9 @@ page {
 		attrChangeFromDrag(state, { payload: params }) {
 			for(let i = 0; i < params.changeId.length; i ++) {
 				let activeCtrl = layoutAction.getCtrlByKey(state.layout[0], params.changeId[i]);
-				activeCtrl.attr[params.changeAttr[i]]._value = params.changeValue[i];
+				if(activeCtrl.attr[params.changeAttr[i]]) {
+					activeCtrl.attr[params.changeAttr[i]]._value = params.changeValue[i];					
+				}
 			}
 			return {...state};
 		},

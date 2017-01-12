@@ -336,6 +336,9 @@ $(function () {
             ctrlExchanged: function(c) {
                 parent.parent.postMessage({'ctrlExchanged': c}, '*');
             },
+            deleteError: function() {
+                parent.parent.postMessage({'deleteError': true}, '*');
+            },
 
             startRouting: function() {
                 parent.postMessage({
@@ -361,15 +364,22 @@ $(function () {
 
         removeBtn.click(function(e) {
             e.stopPropagation();
-            console.log('btn_remove');
-
             var self = controllerState.currentActiveCtrlDOM,
                 dataControl = self.data('controller'),
-                baseClassName = self[0].className.split(' ')[0];
+                baseClassName = self.attr('class');
 
-            if(baseClassName == 'page__bd' || baseClassName == 'page__hd' || baseClassName == 'page__ft') {
-                
-                return false;
+            if(baseClassName) {
+                var componentCantBeRemoved = ['page__bd', 'page__hd', 'page__ft'];
+                baseClassName = baseClassName.split(' ')[0];
+
+                for (var i = 0; i < componentCantBeRemoved.length; i++) {
+                    var CCBR = componentCantBeRemoved[i],
+                        pos = baseClassName.indexOf(CCBR);
+                    if(pos != -1) {
+                        postMessageToFather.deleteError();
+                        return false;
+                    }
+                };
             }
 
             postMessageToFather.ctrlRemoved(dataControl);
@@ -1217,6 +1227,8 @@ $(function () {
                                 this.elem.css(att, currentAttr._value ? currentAttr.value[1] :   currentAttr.value[0]);
                             }else if(currentAttr.isPercent) {
                                 this.elem.css(att, currentAttr._value + '%');
+                            }else if(currentAttr.unitName) {
+                                this.elem.css(att, currentAttr._value + currentAttr.unitName);
                             }else {
                                 this.elem.css(att, currentAttr._value);
                             }

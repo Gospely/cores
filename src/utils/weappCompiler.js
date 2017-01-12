@@ -132,7 +132,9 @@ const weappCompiler = {
 
 		textarea: ['value', 'placeholder', 'placeholder-style', 'placeholder-class', 'disabled', 'maxlength', 'auto-focus', 'auto-height', 'fixed', 'cursor-spacing'],
 
-		input: ['value', 'type', 'password', 'placeholder', 'placeholder-style', 'placeholder-class', 'disabled', 'maxlength', 'cursor-spacing', 'auto-focus', 'focus']
+		input: ['value', 'type', 'password', 'placeholder', 'placeholder-style', 'placeholder-class', 'disabled', 'maxlength', 'cursor-spacing', 'auto-focus', 'focus'],
+
+        icon: ['type', 'size']
 	},
 
 	init (layout) {
@@ -287,6 +289,10 @@ const weappCompiler = {
         for(var att in this.controller.attr) {
             var currentAttr = this.controller.attr[att];
 
+            if(!this.filter(att)) {
+                break;
+            }
+
             //_id为组件的真实id，因为拖拽过程中也有组件的id，为避免冲突，将真实id设为_id，在此转换为id
             att = att == '_id' ? 'id' : att;
 
@@ -389,11 +395,9 @@ const weappCompiler = {
 
             if(currentAttr.isHTML) {
                 if(currentAttr.isNeedAppend) {
-
                     if(currentAttr.appendBefore) {
                         this.elem.html(currentAttr.value + this.controller.attr.value._value);
                     }
-
                 }else {
                     this.elem.html(currentAttr._value);
                 }
@@ -472,7 +476,7 @@ const weappCompiler = {
             		if(currentWeappAttr == att || currentWeappAttr == currentAttr.alias) {
             			//小程序与web端有些属性不兼容，比如开关的颜色 在web中是一个CSS属性：background-color，在小程序中是color，所以要定义alias为color
             			if(currentAttr._value != '') {
-	            			this.elem.attr(currentWeappAttr, currentAttr._value);
+                            this.elem.attr(currentWeappAttr, currentAttr._value);
             			}
             		}
             	};
@@ -505,7 +509,7 @@ const weappCompiler = {
 				// if(!controller.attr.isComponent) {
 				// 	return false;
 				// }
-
+                //6194
 				var
 					tag = typeof controller.tag == 'string' ? controller.tag : controller.tag[0],
 
@@ -536,6 +540,10 @@ const weappCompiler = {
 					if(!weappTag) {
 						weappTag = controller.tag;
 					}
+
+                    if(controller.baseClassName == 'weui-icon') {
+                        weappTag = 'icon';
+                    }
 
 					self.currentControllerTag = weappTag;
 
@@ -680,7 +688,8 @@ const weappCompiler = {
 		const filterKey = [
             'title', 'alias', 'template', 'setAsMainPage', 
             'routingURL', 'css', 'cssEditor',
-            'addGrid', 'addPreviewerItem'
+            'addColumn', 'addPreviewerItem', 'addPreviewerFooterBtn',
+            'addGrid'
         ];
 		for (var i = 0; i < filterKey.length; i++) {
 			var k = filterKey[i];
