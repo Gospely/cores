@@ -747,12 +747,13 @@ const LeftSidebar = (props) => {
 		handleActiveMenuEvent[activeMenu.key]()
 	}
 
+	//<Menu.Item key='run&visit&noleave' disabled={window.disabled}>在IDE访问</Menu.Item>
+
 	const startMenu = (
 		localStorage.debugType == 'shell' &&
 		<Menu onClick={onSelectStartMenu}>
 			<Menu.Item key='runCommand' disabled={window.disabled}>运行：{props.sidebar.debugConfig.runCommand}</Menu.Item>
 			<Menu.Item key='visit' disabled={window.disabled}>访问：http://{localStorage.domain}</Menu.Item>
-			<Menu.Item key='run&visit&noleave' disabled={window.disabled}>在IDE访问</Menu.Item>
 			<Menu.Divider/>
 			<Menu.Item key='config' disabled={window.disabled}>配置...</Menu.Item>
 		</Menu>
