@@ -1268,7 +1268,22 @@ page {
 												title: '图片地址',
 												isSetAttribute: true,
 												_value: 'http://i64.tinypic.com/2a9711u.png'
+											},
+
+											width: {
+												type: 'input',
+												title: '宽度',
+												_value: '28px',
+												isStyle: true
+											},
+
+											height: {
+												type: 'input',
+												title: '高度',
+												_value: '28px',
+												isStyle: true
 											}
+
 										}
 									}],
 									attr: {}
@@ -1314,7 +1329,22 @@ page {
 									title: '图片地址',
 									isSetAttribute: true,
 									_value: 'http://i64.tinypic.com/2a9711u.png'
+								},
+
+								width: {
+									type: 'input',
+									title: '宽度',
+									_value: '28px',
+									isStyle: true
+								},
+
+								height: {
+									type: 'input',
+									title: '高度',
+									_value: '28px',
+									isStyle: true
 								}
+
 							}
 						}],
 						attr: {}
@@ -1354,6 +1384,20 @@ page {
 									title: '图片地址',
 									isSetAttribute: true,
 									_value: 'http://i64.tinypic.com/2a9711u.png'
+								},
+
+								width: {
+									type: 'input',
+									title: '宽度',
+									_value: '28px',
+									isStyle: true
+								},
+
+								height: {
+									type: 'input',
+									title: '高度',
+									_value: '28px',
+									isStyle: true
 								}
 							}
 						}],
@@ -1394,6 +1438,20 @@ page {
 									title: '图片地址',
 									isSetAttribute: true,
 									_value: 'http://i64.tinypic.com/2a9711u.png'
+								},
+
+								width: {
+									type: 'input',
+									title: '宽度',
+									_value: '28px',
+									isStyle: true
+								},
+
+								height: {
+									type: 'input',
+									title: '高度',
+									_value: '28px',
+									isStyle: true
 								}
 							}
 						}],
@@ -1434,6 +1492,20 @@ page {
 									title: '图片地址',
 									isSetAttribute: true,
 									_value: 'http://i64.tinypic.com/2a9711u.png'
+								},
+
+								width: {
+									type: 'input',
+									title: '宽度',
+									_value: '28px',
+									isStyle: true
+								},
+
+								height: {
+									type: 'input',
+									title: '高度',
+									_value: '28px',
+									isStyle: true
 								}
 							}
 						}],
@@ -1474,6 +1546,20 @@ page {
 									title: '图片地址',
 									isSetAttribute: true,
 									_value: 'http://i64.tinypic.com/2a9711u.png'
+								},
+
+								width: {
+									type: 'input',
+									title: '宽度',
+									_value: '28px',
+									isStyle: true
+								},
+
+								height: {
+									type: 'input',
+									title: '高度',
+									_value: '28px',
+									isStyle: true
 								}
 							}
 						}],
@@ -1514,6 +1600,20 @@ page {
 									title: '图片地址',
 									isSetAttribute: true,
 									_value: 'http://i64.tinypic.com/2a9711u.png'
+								},
+
+								width: {
+									type: 'input',
+									title: '宽度',
+									_value: '28px',
+									isStyle: true
+								},
+
+								height: {
+									type: 'input',
+									title: '高度',
+									_value: '28px',
+									isStyle: true
 								}
 							}
 						}],
@@ -1538,7 +1638,7 @@ page {
 				name: 'Flex布局',
 				type: 'card',
 				attr: {
-					column: {
+					addColumn: {
 						type: 'button',
 						title: '添加列',
 						_value: '添加',
