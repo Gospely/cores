@@ -85,12 +85,16 @@ $(function () {
             history.replaceState && history.replaceState({_pageIndex: this._pageIndex}, '', location.href);
 
             var html = jq(config.template).find('.page').clone(true);
+
             var $html = jq(html).addClass('slideIn').addClass(config.name);
             $html.on('animationend webkitAnimationEnd', function(){
                 $html.removeClass('slideIn').addClass('js_show');
             });
 
-            this.$container.append($html);
+            if(jq('.' + config.name).length <= 0) {
+                this.$container.append($html);                
+            }
+
             this._pageAppend.call(this, $html);
             this._pageStack.push({
                 config: config,
@@ -573,7 +577,6 @@ $(function () {
                                 jq('.' + pageId).css('background-color', '');
                             };
                             jq('body').css('background-color', color);
-
                         }else {
                             if(jq('.' + self.app.key).length > 0) {
                                 clearInterval(inter);
@@ -990,7 +993,7 @@ $(function () {
                 location.hash = '';
             };
 
-            if(this.app.attr.tabBar) {
+            if(this.app.attr.tabBar._value.useTabBar._value) {
                 pageOperations.tabBar.refreshTabBar(true, this.app.attr.tabBar._value);
             }
 
@@ -1781,6 +1784,7 @@ $(function () {
                         },
 
                         pageSelected: function() {
+                            console.log(data);
                             pageManager.go(data.key);
                             controllerOperations.hideDesignerDraggerBorder();
                             setTimeout(function() {
