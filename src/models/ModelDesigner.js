@@ -1862,7 +1862,7 @@ page {
 						isNoConflict: true,
 						isNeedPrefixClass: true,
 						prefixClassValue: 'weui-btn_',
-						_value: 'primary'
+						_value: 'default'
 					},
 					url: {
 						type: 'input',
