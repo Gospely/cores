@@ -956,9 +956,9 @@ $(function() {
                             dndData.addCtrlbyAfter.prevElementId = targetId;
                         }
                     }
-                    // if (targetId != dndData.dragAddCtrl.eq(0).attr('id') && 
+                    // if (targetId != dndData.dragAddCtrl.eq(0).attr('id') &&
                     //     !dndData.dragAddCtrl.find('#' + targetId).length &&
-                    //     (target.data('is-container') || target.hasClass('page__hd') || 
+                    //     (target.data('is-container') || target.hasClass('page__hd') ||
                     //         target.hasClass('page__bd') || target.hasClass('page__ft')) &&
                     //     !dndData.haveAppened) {
 
@@ -1748,7 +1748,6 @@ $(function() {
                     dndData.addCtrlbyAfter.isAfter = false;
 
                 });
-
                 elem.on('drag', function(e) {
 
                     dndProcessHandlder(e);
