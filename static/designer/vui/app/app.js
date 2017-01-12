@@ -50,6 +50,9 @@ $(function () {
                 var state = history.state || {};
                 var url = location.hash.indexOf('#') === 0 ? location.hash : '#';
                 var page = self._find('url', url) || self._defaultPage;
+
+                url = url.indexOf('page-app') != -1 ? '#page-home' : url;
+
                 if (state._pageIndex <= self._pageIndex || self._findInStack(url)) {
                     self._back(page);
                 } else {
@@ -92,7 +95,7 @@ $(function () {
             });
 
             if(jq('.' + config.name).length <= 0) {
-                this.$container.append($html);                
+                this.$container.append($html);                    
             }
 
             this._pageAppend.call(this, $html);
@@ -159,6 +162,7 @@ $(function () {
             for (var i = 0, len = this._configs.length; i < len; i++) {
                 if (this._configs[i][key] === value) {
                     page = this._configs[i];
+                    page.index = i;
                     break;
                 }
             }
@@ -175,7 +179,10 @@ $(function () {
         },
         remove: function(page) {
             jq('.' + page.data.key).remove();
-            jq('script[id="' + page.data.key + '"]').remove();
+
+            if(!page.keepTpl) {
+                jq('script[id="' + page.data.key + '"]').remove();
+            }
 
             this._configs.splice(page.index, 1);
             this._pageStack.splice(page.index, 1);
@@ -660,6 +667,7 @@ $(function () {
                     addTabBarToMainPage: function(tabList, tabBar) {
                         var tabs = this.generateTabBarLoop(tabList);
                         jq('.page-home .weui-tabbar').html(tabs);
+                        jq('script[id="page-home"]').find('.page .weui-tab .weui-tabbar').html(tabs);
                         setTimeout(function() {
                             if(jq('.page-home .weui-tabbar').html() == '') {
                                 jq('.page-home .weui-tabbar').html(tabs);
@@ -1784,7 +1792,6 @@ $(function () {
                         },
 
                         pageSelected: function() {
-                            console.log(data);
                             pageManager.go(data.key);
                             controllerOperations.hideDesignerDraggerBorder();
                             setTimeout(function() {
