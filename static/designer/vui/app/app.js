@@ -95,7 +95,7 @@ $(function () {
             });
 
             if(jq('.' + config.name).length <= 0) {
-                this.$container.append($html);                    
+                this.$container.append($html);
             }
 
             this._pageAppend.call(this, $html);
@@ -783,7 +783,7 @@ $(function () {
                         if (!dndData.haveAppened) {
                             return false;
                         }
-                    
+
                         dndProcessHandlder(e);
 
                     }).on('dragend', function (e) {
@@ -794,7 +794,7 @@ $(function () {
 
                     self.onDrop();
                     self.onDragover();
-                    
+
                 }
 
                 if(sourceController.length === 0) {
@@ -883,7 +883,7 @@ $(function () {
                         dndData.dragElement = dndData.dragAddCtrl;
 
                         //自己over自己或者父元素over子元素或者已经append了返回false
-                        if (targetId == dndData.dragAddCtrl.eq(0).attr('id') || 
+                        if (targetId == dndData.dragAddCtrl.eq(0).attr('id') ||
                             dndData.dragAddCtrl.find('#' + targetId).length ||
                             dndData.haveAppened) {
                             return false;
@@ -909,7 +909,7 @@ $(function () {
                         }
                     }else {
                         //over的元素是容器且不是自己就append进去
-                        if (target.data('is-container') && 
+                        if (target.data('is-container') &&
                             !dndData.dragAddCtrl.find('#' + targetId).length &&
                             !dndData.haveAppened) {
                             //appen进去
@@ -943,12 +943,12 @@ $(function () {
                             dndData.dragElementParent = dndData.dragElement.parent();
                         }
                     }
-                    // if (targetId != dndData.dragAddCtrl.eq(0).attr('id') && 
+                    // if (targetId != dndData.dragAddCtrl.eq(0).attr('id') &&
                     //     !dndData.dragAddCtrl.find('#' + targetId).length &&
-                    //     (target.data('is-container') || target.hasClass('page__hd') || 
+                    //     (target.data('is-container') || target.hasClass('page__hd') ||
                     //         target.hasClass('page__bd') || target.hasClass('page__ft')) &&
                     //     !dndData.haveAppened) {
-                        
+
                     //     //append进去
                     //     target.append(dndData.dragAddCtrl);
                     //     dndData.haveAppened = true;
@@ -1729,7 +1729,7 @@ $(function () {
                 });
 
                 elem.on('drag',function (e) {
-                    
+
                     dndProcessHandlder(e);
 
                 });
