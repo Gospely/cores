@@ -2924,80 +2924,6 @@ page {
 					}
 				}]
 			},
-			// {
-			// 	baseClassName: 'weui-cell__bd',
-			// 	type: 'div',
-			// 	tag: 'div',
-			// 	attr: {},
-			// 	name: '文本域',
-			// 	children: [{
-			// 		type: 'textarea',
-			// 		tag: 'textarea',
-			// 		name: '文本域',
-			// 		attr: {
-			// 			placeholder: {
-			// 				isSetAttribute: true,
-			// 				type: 'input',
-			// 				_value: '请输入文本',
-			// 				title: '占位符',
-			// 			},
-			// 			value: {
-			// 				isHTML: true,
-			// 				type: 'input',
-			// 				_value: '',
-			// 				title: '内容',
-			// 			},
-			// 			rows: {
-			// 				isSetAttribute: true,
-			// 				type: 'input',
-			// 				_value: '5',
-			// 				title: '行数'
-			// 			}
-			// 		},
-			// 		baseClassName: 'weui-textarea'
-			// 	}, {
-			// 		type: 'div',
-			// 		tag: 'div',
-			// 		name: '计字器',
-			// 		attr: {
-			// 			hidden: {
-			// 				type: 'toggle',
-			// 				isSetAttribute: true,
-			// 				isContrary: true,
-			// 				_value: true,
-			// 				title: '计字器'
-			// 			}
-			// 		},
-			// 		baseClassName: 'weui-textarea-counter',
-			// 		children: [{
-			// 			type: 'span',
-			// 			tag: 'span',
-			// 			name: '已写字数',
-			// 			attr: {
-			// 				input: {
-			// 					isHTML: true,
-			// 					title: '已写字数',
-			// 					_value: 0,
-			// 					type: 'input'
-			// 				}
-			// 			},
-			// 			baseClassName: ''
-			// 		}, {
-			// 			type: 'span',
-			// 			tag: 'span',
-			// 			name: '最多字数',
-			// 			attr: {
-			// 				input: {
-			// 					isHTML: true,
-			// 					title: '最多字数',
-			// 					_value: '/200',
-			// 					type: 'input'
-			// 				}
-			// 			},
-			// 			baseClassName: ''
-			// 		}]
-			// 	}]
-			// },
 			{
 				name: '文本域',
 				type: 'textarea',
@@ -3402,45 +3328,6 @@ page {
 					}]
 				}]
 			},
-			// {
-			// 	baseClassName: 'weui-switch',
-			// 	tag: 'input',
-			// 	type: 'toggle',
-			// 	attr: {
-			// 		checked: {
-			// 			type: 'toggle',
-			// 			title: '选中',
-			// 			isSetAttribute: true,
-			// 			isClassName: false,
-			// 			isHTML: false,
-			// 			_value: false
-			// 		},
-
-			// 		type: {
-			// 			title: '类型',
-			// 			type: 'select',
-			// 			isSetAttribute: true,
-			// 			isHTML: false,
-			// 			isClassName: false,
-			// 			_value: 'checkbox',
-			// 			value: ['switch', 'checkbox'],
-			// 			hidden: true
-			// 		},
-
-			// 		'background-color': {
-			// 			title: '开关颜色',
-			// 			type: 'input',
-			// 			attrType: 'color',
-			// 			isHTML: false,
-			// 			isClassName: false,
-			// 			isStyle: true,
-			// 			value: [],
-			// 			alias: 'color',
-			// 			_value: '#04be02'
-			// 		}
-			// 	},
-			// 	name: '开关',
-			// },
 			{
 				name: '复选框',
 				type: 'checkbox',
@@ -4258,15 +4145,136 @@ page {
 			{
 				name: '段落',
 				type: 'markdown',
-				attr: {
-					value: {
-						isHTML: true,
-						type: 'input',
-						_value: '文章内容',
-						title: '内容'
+				attr: {},
+				children: [{
+					name: '大标题',
+					type: 'heading',
+					tag: 'h1',
+					baseClassName: 'page__title',
+					attr: {
+						value: {
+							type: 'input',
+							title: '标题',
+							isClassName: false,
+							isHTML: true,
+							_value: '大标题'
+						},
+						'font-size': {
+							type: 'input',
+							title: '标题大小',
+							isStyle: true,
+							_value: '20px',
+						}
 					}
-				},
-				tag: 'article',
+				}, {
+					name: '正文域',
+					type: 'section',
+					attr: {},
+					tag: 'div',
+					baseClassName: '',
+					children: [{
+						name: '章标题',
+						type: 'heading',
+						tag: 'h1',
+						baseClassName: 'page__title',
+						attr: {
+							value: {
+								type: 'input',
+								title: '标题',
+								isClassName: false,
+								isHTML: true,
+								_value: '章标题'
+							},
+							'font-size': {
+								type: 'input',
+								title: '标题大小',
+								isStyle: true,
+								_value: '18px',
+							}
+						}
+					}, {
+						name: '正文',
+						type: 'section',
+						attr: {},
+						tag: 'div',
+						baseClassName: '',
+						children: [{
+							name: '1.1 节标题',
+							type: 'heading',
+							tag: 'h1',
+							baseClassName: 'page__title',
+							attr: {
+								value: {
+									type: 'input',
+									title: '标题',
+									isClassName: false,
+									isHTML: true,
+									_value: '1.1 节标题'
+								},
+								'font-size': {
+									type: 'input',
+									title: '标题大小',
+									isStyle: true,
+									_value: '12px',
+								}
+							}
+						}, {
+							name: '段落',
+							type: 'h',
+							attr: {
+								value: {
+									isHTML: true,
+									type: 'input',
+									_value: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+									title: '内容'
+								}
+							},
+							tag: 'p',
+							baseClassName: ''
+						}]
+					}, {
+						name: '正文',
+						type: 'section',
+						attr: {},
+						tag: 'div',
+						baseClassName: '',
+						children: [{
+							name: '1.2 节标题',
+							type: 'heading',
+							tag: 'h1',
+							baseClassName: 'page__title',
+							attr: {
+								value: {
+									type: 'input',
+									title: '标题',
+									isClassName: false,
+									isHTML: true,
+									_value: '1.2 节标题'
+								},
+								'font-size': {
+									type: 'input',
+									title: '标题大小',
+									isStyle: true,
+									_value: '12px',
+								}
+							}
+						}, {
+							name: '段落',
+							type: 'h',
+							attr: {
+								value: {
+									isHTML: true,
+									type: 'input',
+									_value: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+									title: '内容'
+								}
+							},
+							tag: 'p',
+							baseClassName: ''
+						}]
+					}]
+				}],
+				tag: 'div',
 				baseClassName: 'weui-article',
 			},
 			{
@@ -4307,7 +4315,7 @@ page {
 			},
 			{
 				name: '普通列表',
-				type: 'list',
+				type: 'list-item-avatar',
 				attr: {
 
 					theParent: {
@@ -4372,6 +4380,11 @@ page {
 								_value: true
 							},
 							width: {
+								isStyle: true,
+								backend: true,
+								_value: '20px'
+							},
+							height: {
 								isStyle: true,
 								backend: true,
 								_value: '20px'
@@ -4758,8 +4771,8 @@ page {
 				baseClassName: 'weui-cell weui-cell_link',
 			},
 			{
-				name: '图文组合列表',
-				type: 'list',
+				name: '图文列表',
+				type: 'list-item-thumbnail',
 				tag: 'div',
 				attr: {},
 				baseClassName: 'weui-panel weui-panel_access',
@@ -5480,8 +5493,8 @@ page {
 				}]
 			},
 			{
-				name: '徽章',
-				type: 'badge',
+				name: '徽章列表',
+				type: 'list-item-icon',
 				baseClassName: 'weui-cells',
 				attr: {},
 				tag: 'div',
@@ -6244,11 +6257,12 @@ page {
 					}
 				}
 			},
+
 			{
 				name: '图标',
 				type: 'i',
 				tag: 'span',
-				baseClassName: '',
+				baseClassName: 'weui-icon',
 				attr: {
 					icon: {
 						title: '图标',
@@ -6258,15 +6272,33 @@ page {
 						value: ['weui-icon-success', 'weui-icon-success-circle', 'weui-icon-success-no-circle', 'weui-icon-info',
 								'weui-icon-waiting', 'weui-icon-waiting-circle', 'weui-icon-circle', 'weui-icon-warn', 'weui-icon-download',
 								'weui-icon-info-circle', 'weui-icon-cancel', 'weui-icon-search', 'weui-icon-search'],
-						isNoConflict: true
+						isNoConflict: true,
+						backend: true
 					},
 
-					isBig: {
- 						title: '警告类型',
- 						isClassName: true,
- 						value: ['', 'weui-icon_msg', ' weui-icon_msg-primary'],
- 						_value: '',
- 						type: 'select'
+					type: {
+						type: 'select',
+						title: '图标类型',
+						value: ['success', 'success-circle', 'circle', 'info',
+								'waiting', 'waiting-circle', 'circle', 'warn', 'download',
+								'info-circle', 'cancel', 'search', 'search'],
+						isClassName: true,
+						isHTML: false,
+						isNoConflict: true,
+						isNeedPrefixClass: true,
+						prefixClassValue: 'weui-icon-',
+						_value: 'success'
+					},
+
+					'font-size': {
+ 						title: '图标大小',
+ 						alias: 'size',
+ 						isNeedUnit: true,
+ 						unitName: 'px',
+ 						_value: '23',
+ 						type: 'input',
+ 						attrType: 'number',
+ 						isStyle: true,
   					}
 
 				}
@@ -6283,7 +6315,7 @@ page {
 					name: '预览表单头部',
 					type: 'weui-form-preview__hd',
 					tag: 'div',
-					baseClassName: 'weui-form-preview__hd',
+					baseClassName: 'weui-form-preview__hd weui-form-preview__item',
 					children: [{
 						tag: 'div',
 						baseClassName: 'weui-form-preview__label',
@@ -6315,7 +6347,7 @@ page {
 					}]
 				}, {
 					tag: 'div',
-					baseClassName: 'weui-form-preview__bd',
+					baseClassName: 'weui-form-preview__bd weui-form-preview__item',
 					name: '预览表单中部',
 					type: 'weui-form-preview__bd',
 					attr: {
@@ -6474,7 +6506,7 @@ page {
 					}]
 				}, {
 					tag: 'div',
-					baseClassName: 'weui-form-preview__ft',
+					baseClassName: 'weui-form-preview__ft weui-form-preview__item',
 					name: '预览表单底部',
 					type: 'weui-form-preview__ft',
 					attr: {
@@ -6544,6 +6576,7 @@ page {
 					}]
 				}]
 			},
+
 			{
 				name: '画布',
 				type: 'canvas',
@@ -6569,22 +6602,7 @@ page {
 						isSetAttribute: true
 					}
 				}
-			},
-			{
-				name: '列表头像',
-				type: 'list-item-avatar',
-				attr: {}
-			},
-			{
-				name: '列表相册',
-				type: 'list-item-thumbnail',
-				attr: {}
-			},
-			// {
-			// 	name: '列表图标',
-			// 	type: 'list-item-icon',
-			// 	attr: {}
-			// }
+			}
 		],
 		constructionMenuStyle: {
 		    position: 'fixed',
