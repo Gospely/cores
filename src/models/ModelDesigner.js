@@ -1842,6 +1842,21 @@ page {
 				baseClassName: 'weui-btn'
 			},
 			{
+				name: '导航',
+				type: 'button',
+				attr: {
+					url: {
+						type: 'input',
+						backend: true,
+						_value: '#',
+						title: '跳转链接'
+					}
+				},
+				tag: 'navigator',
+				weui: 'weui-btn',
+				baseClassName: 'weui-navigator'
+			},
+			{
 				name: '表单',
 				type: 'form',
 				attr: {
@@ -4042,7 +4057,7 @@ page {
 						title: '选择类型',
 						isClassName: true,
 						isSingleToggleClass: true,
-						_value: '',
+						_value: 'page__desc',
 						value: ['','page__desc']
 					}
 				}
@@ -4185,136 +4200,15 @@ page {
 			{
 				name: '段落',
 				type: 'markdown',
-				attr: {},
-				children: [{
-					name: '大标题',
-					type: 'heading',
-					tag: 'h1',
-					baseClassName: 'page__title',
-					attr: {
-						value: {
-							type: 'input',
-							title: '标题',
-							isClassName: false,
-							isHTML: true,
-							_value: '大标题'
-						},
-						'font-size': {
-							type: 'input',
-							title: '标题大小',
-							isStyle: true,
-							_value: '20px',
-						}
+				attr: {
+					value: {
+						isHTML: true,
+						type: 'input',
+						_value: '文章内容',
+						title: '内容'
 					}
-				}, {
-					name: '正文域',
-					type: 'section',
-					attr: {},
-					tag: 'div',
-					baseClassName: '',
-					children: [{
-						name: '章标题',
-						type: 'heading',
-						tag: 'h1',
-						baseClassName: 'page__title',
-						attr: {
-							value: {
-								type: 'input',
-								title: '标题',
-								isClassName: false,
-								isHTML: true,
-								_value: '章标题'
-							},
-							'font-size': {
-								type: 'input',
-								title: '标题大小',
-								isStyle: true,
-								_value: '18px',
-							}
-						}
-					}, {
-						name: '正文',
-						type: 'section',
-						attr: {},
-						tag: 'div',
-						baseClassName: '',
-						children: [{
-							name: '1.1 节标题',
-							type: 'heading',
-							tag: 'h1',
-							baseClassName: 'page__title',
-							attr: {
-								value: {
-									type: 'input',
-									title: '标题',
-									isClassName: false,
-									isHTML: true,
-									_value: '1.1 节标题'
-								},
-								'font-size': {
-									type: 'input',
-									title: '标题大小',
-									isStyle: true,
-									_value: '12px',
-								}
-							}
-						}, {
-							name: '段落',
-							type: 'h',
-							attr: {
-								value: {
-									isHTML: true,
-									type: 'input',
-									_value: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-									title: '内容'
-								}
-							},
-							tag: 'p',
-							baseClassName: ''
-						}]
-					}, {
-						name: '正文',
-						type: 'section',
-						attr: {},
-						tag: 'div',
-						baseClassName: '',
-						children: [{
-							name: '1.2 节标题',
-							type: 'heading',
-							tag: 'h1',
-							baseClassName: 'page__title',
-							attr: {
-								value: {
-									type: 'input',
-									title: '标题',
-									isClassName: false,
-									isHTML: true,
-									_value: '1.2 节标题'
-								},
-								'font-size': {
-									type: 'input',
-									title: '标题大小',
-									isStyle: true,
-									_value: '12px',
-								}
-							}
-						}, {
-							name: '段落',
-							type: 'h',
-							attr: {
-								value: {
-									isHTML: true,
-									type: 'input',
-									_value: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-									title: '内容'
-								}
-							},
-							tag: 'p',
-							baseClassName: ''
-						}]
-					}]
-				}],
-				tag: 'div',
+				},
+				tag: 'article',
 				baseClassName: 'weui-article',
 			},
 			{
@@ -4355,7 +4249,7 @@ page {
 			},
 			{
 				name: '普通列表',
-				type: 'list-item-avatar',
+				type: 'list',
 				attr: {
 
 					theParent: {
@@ -4424,11 +4318,6 @@ page {
 								backend: true,
 								_value: '20px'
 							},
-							height: {
-								isStyle: true,
-								backend: true,
-								_value: '20px'
-							},							
 							'margin-right': {
 								isStyle: true,
 								backend: true,
@@ -4811,8 +4700,8 @@ page {
 				baseClassName: 'weui-cell weui-cell_link',
 			},
 			{
-				name: '图文列表',
-				type: 'list-item-thumbnail',
+				name: '图文组合列表',
+				type: 'list',
 				tag: 'div',
 				attr: {},
 				baseClassName: 'weui-panel weui-panel_access',
@@ -5533,8 +5422,8 @@ page {
 				}]
 			},
 			{
-				name: '徽章列表',
-				type: 'list-item-icon',
+				name: '徽章',
+				type: 'badge',
 				baseClassName: 'weui-cells',
 				attr: {},
 				tag: 'div',
@@ -5587,11 +5476,6 @@ page {
 									_value: 'block'
 								},
 								width: {
-									isStyle: true,
-									backend: true,
-									_value: '50px'
-								},
-								height: {
 									isStyle: true,
 									backend: true,
 									_value: '50px'
@@ -6306,7 +6190,7 @@ page {
 				name: '图标',
 				type: 'i',
 				tag: 'span',
-				baseClassName: 'weui-icon',
+				baseClassName: '',
 				attr: {
 					icon: {
 						title: '图标',
@@ -6316,33 +6200,15 @@ page {
 						value: ['weui-icon-success', 'weui-icon-success-circle', 'weui-icon-success-no-circle', 'weui-icon-info',
 								'weui-icon-waiting', 'weui-icon-waiting-circle', 'weui-icon-circle', 'weui-icon-warn', 'weui-icon-download',
 								'weui-icon-info-circle', 'weui-icon-cancel', 'weui-icon-search', 'weui-icon-search'],
-						isNoConflict: true,
-						backend: true
+						isNoConflict: true
 					},
 
-					type: {
-						type: 'select',
-						title: '图标类型',
-						value: ['success', 'success-circle', 'circle', 'info',
-								'waiting', 'waiting-circle', 'circle', 'warn', 'download',
-								'info-circle', 'cancel', 'search', 'search'],
-						isClassName: true,
-						isHTML: false,
-						isNoConflict: true,
-						isNeedPrefixClass: true,
-						prefixClassValue: 'weui-icon-',
-						_value: 'success'
-					},
-
-					'font-size': {
- 						title: '图标大小',
- 						alias: 'size',
- 						isNeedUnit: true,
- 						unitName: 'px',
- 						_value: '23',
- 						type: 'input',
- 						attrType: 'number',
- 						isStyle: true,
+					isBig: {
+ 						title: '警告类型',
+ 						isClassName: true,
+ 						value: ['', 'weui-icon_msg', ' weui-icon_msg-primary'],
+ 						_value: '',
+ 						type: 'select'
   					}
 
 				}
@@ -6359,7 +6225,7 @@ page {
 					name: '预览表单头部',
 					type: 'weui-form-preview__hd',
 					tag: 'div',
-					baseClassName: 'weui-form-preview__hd weui-form-preview__item',
+					baseClassName: 'weui-form-preview__hd',
 					children: [{
 						tag: 'div',
 						baseClassName: 'weui-form-preview__label',
@@ -6391,7 +6257,7 @@ page {
 					}]
 				}, {
 					tag: 'div',
-					baseClassName: 'weui-form-preview__bd weui-form-preview__item',
+					baseClassName: 'weui-form-preview__bd',
 					name: '预览表单中部',
 					type: 'weui-form-preview__bd',
 					attr: {
@@ -6550,7 +6416,7 @@ page {
 					}]
 				}, {
 					tag: 'div',
-					baseClassName: 'weui-form-preview__ft weui-form-preview__item',
+					baseClassName: 'weui-form-preview__ft',
 					name: '预览表单底部',
 					type: 'weui-form-preview__ft',
 					attr: {
@@ -6646,6 +6512,21 @@ page {
 					}
 				}
 			},
+			{
+				name: '列表头像',
+				type: 'list-item-avatar',
+				attr: {}
+			},
+			{
+				name: '列表相册',
+				type: 'list-item-thumbnail',
+				attr: {}
+			},
+			// {
+			// 	name: '列表图标',
+			// 	type: 'list-item-icon',
+			// 	attr: {}
+			// }
 		],
 		constructionMenuStyle: {
 		    position: 'fixed',
@@ -6842,15 +6723,6 @@ page {
 						index: params.deleteIndex
 					}
 				}, '*');
-
-				gospelDesigner.postMessage({
-					attrRefreshed: layoutAction.getActivePage(state)
-				}, '*');
-
-				gospelDesignerPreviewer.postMessage({
-					attrRefreshed: layoutAction.getActivePage(state)
-				}, '*');
-
 			}else {
 
 				gospelDesignerPreviewer.postMessage({
@@ -6867,17 +6739,8 @@ page {
 			return {...state};
 		},
 
-		addController(state, { payload: ctrlAndTarget }) {
-
-			if (state.layoutState.activePage.level == 1) {
-				message.error('请在左上角组件树中选择一个页面');
-				return {...state};
-			}
-			let controller = ctrlAndTarget.ctrl,
-				targetId = ctrlAndTarget.target,
-				theParent = ctrlAndTarget.theParent,
-				activePage = layoutAction.getActivePage(state),
-				deepCopiedController = layoutAction.deepCopyObj(controller);
+		generateCtrl(state, {payload: controller}) {
+			let deepCopiedController = deepCopiedController = layoutAction.deepCopyObj(controller);
 
 			const loopAttr = (controller) => {
 
@@ -6918,6 +6781,27 @@ page {
 
 			var tmpCtrl = loopAttr(deepCopiedController);
 
+			gospelDesignerPreviewer.postMessage({
+    			ctrlGenerated: {
+    				controller: tmpCtrl,
+    				page: layoutAction.getActivePage(state)
+    			}
+			}, '*');
+
+			return { ...state };
+		},
+
+		addController(state, { payload: ctrlAndTarget }) {
+
+			if (state.layoutState.activePage.level == 1) {
+				message.error('请在左上角组件树中选择一个页面');
+				return {...state};
+			}
+			let controller = ctrlAndTarget.ctrl,
+				targetId = ctrlAndTarget.target,
+				theParent = ctrlAndTarget.theParent,
+				activePage = layoutAction.getActivePage(state);
+
 			if (theParent) {
 				let theParentCtrl = {
 					type: theParent.tag,
@@ -6939,14 +6823,14 @@ page {
 					children: []
 				};
 
-				theParentCtrl.children.push(tmpCtrl);
+				theParentCtrl.children.push(controller);
 
-				tmpCtrl = theParentCtrl;
+				controller = theParentCtrl;
 			}
 
 			gospelDesignerPreviewer.postMessage({
     			ctrlAdded: {
-    				controller: tmpCtrl,
+    				controller: controller,
     				page: activePage
     			}
 			}, '*');
@@ -6954,14 +6838,14 @@ page {
     		if (targetId) {
     			let parentCtrl = layoutAction.getCtrlByKey(state.layout[0], targetId);
     			parentCtrl.children = parentCtrl.children || [];
-    			parentCtrl.children.push(tmpCtrl);
+    			parentCtrl.children.push(controller);
     			state.layoutState.expandedKeys.push(targetId);
     		}else {
-    			activePage.children.push(tmpCtrl);
+    			activePage.children.push(controller);
     		}
 
-			let level = layoutAction.getCurrentLevelByKey(state.layout, tmpCtrl.key);
-			layoutAction.setActiveController(state.layoutState, activePage.children.length - 1, tmpCtrl.key, level);
+			let level = layoutAction.getCurrentLevelByKey(state.layout, controller.key);
+			layoutAction.setActiveController(state.layoutState, activePage.children.length - 1, controller.key, level);
 
 			computeDomHeight.leftSidebarWhenLoaded();
 
@@ -6976,23 +6860,57 @@ page {
 		},
 
 		handleTreeChanged(state, { payload: params }) {
+			
 			if(params.type == 'page') {
 				let level = layoutAction.getCurrentLevelByKey(state.layout, params.key);
 				var pageIndex = layoutAction.getPageIndexByKey(state.layout, params.key, level);
 				layoutAction.setActivePage(state.layoutState, pageIndex, params.key, level);
 
-				// gospelDesignerPreviewer.postMessage({
-				// 	pageSelected: layoutAction.getActivePage(state)
-				// }, '*');
 			}else {
-				var activePage = layoutAction.getActivePage(state),
+
+				let ctrlAndParent = layoutAction.getCtrlParentAndIndexByKey(state.layout[0], params.key);
+				while (ctrlAndParent.parentCtrl.type != 'page') {
+					ctrlAndParent = layoutAction.getCtrlParentAndIndexByKey(state.layout[0], ctrlAndParent.parentCtrl.key)
+				}
+
+				let pageIndex = 0;
+				for (let i = 0; i < state.layout[0].children.length; i ++) {
+					if (state.layout[0].children[i].key == ctrlAndParent.parentCtrl.key) {
+						pageIndex = i;
+					}
+				}
+
+				let activePage = ctrlAndParent.parentCtrl,
 					activeCtrllvlAndIndex = layoutAction.getControllerIndexAndLvlByKey(state, params.key, activePage),
 					controllerIndex = activeCtrllvlAndIndex.index,
 					level = activeCtrllvlAndIndex.level;
+
+				layoutAction.setActivePage(state.layoutState, pageIndex, ctrlAndParent.parentCtrl.key, 2);
 				layoutAction.setActiveController(state.layoutState, controllerIndex, params.key, level);
+				
 			}
 			return {...state};
 		},
+
+		// handleTreeChanged(state, { payload: params }) {
+		// 	layoutAction.setActivePage(state.layoutState, 0, 'page-home', 2);
+		// 	if(params.type == 'page') {
+		// 		let level = layoutAction.getCurrentLevelByKey(state.layout, params.key);
+		// 		var pageIndex = layoutAction.getPageIndexByKey(state.layout, params.key, level);
+		// 		layoutAction.setActivePage(state.layoutState, pageIndex, params.key, level);
+
+		// 		// gospelDesignerPreviewer.postMessage({
+		// 		// 	pageSelected: layoutAction.getActivePage(state)
+		// 		// }, '*');
+		// 	}else {
+		// 		var activePage = layoutAction.getActivePage(state),
+		// 			activeCtrllvlAndIndex = layoutAction.getControllerIndexAndLvlByKey(state, params.key, activePage),
+		// 			controllerIndex = activeCtrllvlAndIndex.index,
+		// 			level = activeCtrllvlAndIndex.level;
+		// 		layoutAction.setActiveController(state.layoutState, controllerIndex, params.key, level);
+		// 	}
+		// 	return {...state};
+		// },
 
 		handlelinkedComponentChange(state, { payload: params }) {
 
@@ -7079,6 +6997,14 @@ page {
     		if(state.layoutState.activeType == 'controller') {
     			var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
 
+    			gospelDesignerPreviewer.postMessage({
+    				pageSelected: activePage
+    			}, '*');
+
+    			gospelDesigner.postMessage({
+    				attrRefreshed: activePage
+    			}, '*');
+
 	    		gospelDesignerPreviewer.postMessage({
 	    			ctrlSelected: activeCtrl
 	    		}, '*');
@@ -7090,35 +7016,31 @@ page {
 		handlePageAdded (state) {
 			var activePage = layoutAction.getActivePage(state);
 
-    		var gospelDesigner = window.frames['gospel-designer'];
+	    		var gospelDesigner = window.frames['gospel-designer'];
 
-    		if(!window.gospelDesigner) {
-    			message.error('请先打开编辑器！')
-    			return false;
-    		}
+	    		if(!window.gospelDesigner) {
+	    			message.error('请先打开编辑器！')
+	    			return false;
+	    		}
 
-    		if(state.layoutState.activeType == 'page') {
+	    		if(state.layoutState.activeType == 'page') {
 
-	    		gospelDesignerPreviewer.postMessage({
-	    			pageAdded: activePage
-	    		}, '*');
+		    		gospelDesignerPreviewer.postMessage({
+		    			pageAdded: activePage
+		    		}, '*');
 
-	    		gospelDesigner.postMessage({
-	    			attrRefreshed: activePage
-	    		}, '*');
+	    		}
 
-    		}
+	    		if(state.layoutState.activeType == 'controller') {
+	    			var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
 
-    		if(state.layoutState.activeType == 'controller') {
-    			var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
+		    		gospelDesignerPreviewer.postMessage({
+		    			pageAdded: activeCtrl
+		    		}, '*');
+	    		}
 
-	    		gospelDesignerPreviewer.postMessage({
-	    			pageAdded: activeCtrl
-	    		}, '*');
-    		}
-
-    		computeDomHeight.leftSidebarWhenLoaded();
-    		return {...state};
+	    		computeDomHeight.leftSidebarWhenLoaded();
+	    		return {...state};
 
 		},
 
@@ -7143,9 +7065,7 @@ page {
 		attrChangeFromDrag(state, { payload: params }) {
 			for(let i = 0; i < params.changeId.length; i ++) {
 				let activeCtrl = layoutAction.getCtrlByKey(state.layout[0], params.changeId[i]);
-				if(activeCtrl.attr[params.changeAttr[i]]) {
-					activeCtrl.attr[params.changeAttr[i]]._value = params.changeValue[i];					
-				}
+				activeCtrl.attr[params.changeAttr[i]]._value = params.changeValue[i];
 			}
 			return {...state};
 		},
