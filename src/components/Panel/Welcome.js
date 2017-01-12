@@ -52,7 +52,7 @@ const Welcome = (props) => {
 	var welcomeTip = '';
 
 	if(window.disabled) {
-		welcomeTip = <div className="welcome-screen center-vertical welcome-screen--display-prompt"></div>;
+		welcomeTip = <div onclick={createApp} className="welcome-screen center-vertical welcome-screen--display-prompt"></div>;
 	}else {
 		welcomeTip = <div className="welcome-screen center-vertical welcome-screen--display-prompt loaded"></div>;
 	}

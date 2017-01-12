@@ -4025,8 +4025,8 @@ page {
 				}
 			},
 			{
-				name: '普通文本区域',
-				type: 'text',
+				name: '普通文本',
+				type: 'html',
 				tag: 'p',
 				baseClassName: '',
 				attr: {
@@ -6004,11 +6004,6 @@ page {
 			{
 				name: '地图',
 				type: 'map',
-				attr: {}
-			},
-			{
-				name: '代码',
-				type: 'html',
 				attr: {}
 			},
 			{
