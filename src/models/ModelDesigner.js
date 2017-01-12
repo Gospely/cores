@@ -6723,6 +6723,21 @@ page {
 						index: params.deleteIndex
 					}
 				}, '*');
+
+				var app = state.layout[0],
+					appPagesList = app.attr.pages.value,
+					appPage = app.children,
+					appPageCount = appPage.length;
+
+				appPagesList = [];
+
+				for (var i = 0; i < appPageCount; i++) {
+					var currentPage = appPage[i];
+					appPagesList.push(currentPage.attr.routingURL._value);
+				};
+
+				console.log(app);
+
 			}else {
 
 				gospelDesignerPreviewer.postMessage({
