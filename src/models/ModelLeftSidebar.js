@@ -99,7 +99,8 @@ export default {
         versions: [],
         frameworks: [],
 		appCreator: {
-			loading: false
+			loading: false,
+            available: true
 		},
 
 		sshKey: '',
@@ -253,25 +254,49 @@ export default {
 		},
         *checkAvailable({payload: params}, {call, put}){
 
-            yield put({
-                type: 'showModalNewApp'
-            });
-            // var url = 'applications?creator=' + localStorage.user + '&host=120.76.235.234'
-            // var result = yield request(url, {
-			// 	method: 'GET'
-			// });
-            // if(result.data.code == 1){
-            //
-            //     if(result.data.fields.length >= 1){
-            //         notification.open({
-            //             message: '可创建应用数0'
-            //         });
-            //     }
-            // }else{
-            //     notification.open({
-            //         message: '无法创建'
-            //     });
-            // }
+            var url = 'applications?creator=' + localStorage.user + '&host=120.76.235.234'
+            var result = yield request(url, {
+				method: 'GET'
+			});
+            if(result.data.code == 1){
+
+                if(result.data.fields.length >= 1){
+                    notification.open({
+                        message: '创建的应用数已超出，请选择创建小程序应用'
+                    });
+                    yield put({
+                        type: 'handleAvailable',
+                        payload: {
+                            available: false,
+                        }
+                    });
+                }else{
+                    yield put({
+						type: 'initVersions',
+						payload: {
+							input: params.input,
+							value: params.value
+						}
+					});
+					yield put({
+						type: 'initFrameWork',
+						payload: {
+                            input: params.input,
+							value: params.value
+						}
+					});
+                    yield put({
+                        type: 'handleAvailable',
+                        payload: {
+                            available: true,
+                        }
+                    });
+                }
+            }else{
+                notification.open({
+                    message: '无法创建'
+                });
+            }
         },
 		*deleteApp({payload: params}, {call, put}) {
 
@@ -527,7 +552,7 @@ export default {
 
         	if(!available) {
 				notification.open({
-					message: '您的项目名与已有项目重复，请重新填写'
+					message: params.name + '与已有项目重复，请重新填写'
 				});
         	}
 
@@ -608,7 +633,8 @@ export default {
 			};
 
 			state.appCreator = {
-				loading: false
+				loading: false,
+                available: false,
 			};
 
 			if (state.createFromModal) {
@@ -747,7 +773,10 @@ export default {
 			state.showAppsLoading = false;
 			return {...state};
 		},
-
+        handleAvailable(state, { payload: params}){
+            state.appCreator.available = params.available;
+            return {...state};
+        },
 		initApplications(state, {payload: params}) {
 			state.applications = params.applications;
 			return {...state};
