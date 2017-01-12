@@ -147,13 +147,4 @@ var init = function() {
 		}
 
 	});
-
-	//发送信息给父级页面
-	var postMessageToFather = {
-
-		pageSelected: function(c) {
-			parent.postMessage({ 'pageSelected': c }, "*");
-		}
-
-	}
 }();

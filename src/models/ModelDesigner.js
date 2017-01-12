@@ -1856,7 +1856,7 @@ page {
 					url: {
 						type: 'input',
 						attrType: 'text',
-						title: '访问链接',
+						title: '跳转链接',
 						isClassName: false,
 						isHTML: false,
 						_value: '#'
@@ -1899,9 +1899,9 @@ page {
 					}
 
 				},
-				tag: 'navigator',
-				weui: 'button',
-				baseClassName: 'weui-btn'
+				tag: 'a',
+				weui: 'navigator',
+				baseClassName: ''
 			},
 			{
 				name: '表单',
@@ -6635,6 +6635,7 @@ page {
 		},
 
 		handleLayoutLoaded(state, { payload: params }) {
+
 			state.loaded = true;
 
 			gospelDesigner.postMessage({
@@ -6760,7 +6761,7 @@ page {
 			}}
 		},
 
-		deleteConstruction(state,{payload: params}) {
+		deleteConstruction(state, {payload: params}) {
 
 			if (params.activeType == 'page') {
 				layoutAction.setActivePage(state.layoutState, params.activeIndex, params.activeKey, params.activeLevel);
@@ -6769,6 +6770,10 @@ page {
 						data: params.parentCtrl.children[params.deleteIndex],
 						index: params.deleteIndex
 					}
+				}, '*');
+
+				gospelDesigner.postMessage({
+					attrRefreshed: layoutAction.getActivePage(state)
 				}, '*');
 
 			}else {
