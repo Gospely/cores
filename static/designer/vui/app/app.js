@@ -796,9 +796,9 @@ $(function () {
                     target.addClass('container-box');
 
                     if (targetId != dndData.dragAddCtrl.eq(0).attr('id') && !dndData.dragAddCtrl.find('#' + targetId).length) {
-                            
+
                         target.append(dndData.dragAddCtrl);
-                        
+
                     }
 
 
