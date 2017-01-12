@@ -108,8 +108,8 @@ const LeftSidebar = (props) => {
 					    },
 					});
 	        	}else {
-	          		props.dispatch({
-		        		type: 'sidebar/showModalNewApp'
+					props.dispatch({
+		        		type: 'sidebar/checkAvailable'
 		          	});
 	        	}
 	        },

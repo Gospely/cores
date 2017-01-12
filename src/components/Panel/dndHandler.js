@@ -198,6 +198,9 @@ export default {
 						type: 'designer/ctrlExchanged',
 						payload: data
 					})
+				},
+				deleteError () {
+					message.error('该项不能删除');
 				}
 
 

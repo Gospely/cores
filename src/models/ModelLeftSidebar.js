@@ -251,6 +251,28 @@ export default {
 				type: 'hideAppsLoading'
 			})
 		},
+        *checkAvailable({payload: params}, {call, put}){
+
+            yield put({
+                type: 'showModalNewApp'
+            });
+            // var url = 'applications?creator=' + localStorage.user + '&host=120.76.235.234'
+            // var result = yield request(url, {
+			// 	method: 'GET'
+			// });
+            // if(result.data.code == 1){
+            //
+            //     if(result.data.fields.length >= 1){
+            //         notification.open({
+            //             message: '可创建应用数0'
+            //         });
+            //     }
+            // }else{
+            //     notification.open({
+            //         message: '无法创建'
+            //     });
+            // }
+        },
 		*deleteApp({payload: params}, {call, put}) {
 
 			yield put({

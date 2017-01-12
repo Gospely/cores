@@ -106,7 +106,13 @@ const initApplication = function (application, props){
             }
 
         }, 200);
-
+        if(localStorage.applicationId == application.id){
+            window.reload = false;
+        }else{
+            setTimeout(function(){
+                window.location.reload();
+            }, 2000);
+        }
         localStorage.flashState = 'true'
     }else{
         props.dispatch({
