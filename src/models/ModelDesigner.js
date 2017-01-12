@@ -1845,16 +1845,63 @@ page {
 				name: '导航',
 				type: 'button',
 				attr: {
+					value: {
+						type: 'input',
+						attrType: 'text',
+						title: '值',
+						isClassName: false,
+						isHTML: true,
+						_value: '跳转到新页面'
+					},
 					url: {
 						type: 'input',
-						backend: true,
-						_value: '#',
-						title: '跳转链接'
+						attrType: 'text',
+						title: '访问链接',
+						isClassName: false,
+						isHTML: false,
+						_value: '#'
+					},
+					disabled: {
+						type: 'toggle',
+						title: '禁止',
+						value: ['weui-btn_disabled', 'weui-btn_plain-disabled'],
+						isClassName: true,
+						isHTML: false,
+						isSetAttribute: true,
+						_value: false
+					},
+					'open-type': {
+						title: '打开方式',
+						isSetAttribute: true,
+						type: 'select',
+						value: ['navigate', 'redirect', 'switchTab'],
+						_value: 'navigate'
+					},
+					'hover-class': {
+						title: '点击态类',
+						isSetAttribute: true,
+						type: 'input',
+						_value: 'navigator-hover'
+					},
+					'hover-start-time': {
+						title: '点击出现态时间',
+						attrType: 'number',
+						isSetAttribute: true,
+						type: 'input',
+						_value: '50'
+					},
+					'hover-stay-time': {
+						title: '点击态保留时间',
+						attrType: 'number',
+						isSetAttribute: true,
+						type: 'input',
+						_value: '600'
 					}
+
 				},
 				tag: 'navigator',
-				weui: 'weui-btn',
-				baseClassName: 'weui-navigator'
+				weui: 'button',
+				baseClassName: 'weui-btn'
 			},
 			{
 				name: '表单',
@@ -6838,17 +6885,19 @@ page {
 					children: []
 				};
 
+				gospelDesignerPreviewer.postMessage({
+	    			ctrlAdded: {
+	    				controller: theParentCtrl,
+	    				page: activePage
+	    			}
+				}, '*');
+
 				theParentCtrl.children.push(controller);
 
 				controller = theParentCtrl;
 			}
 
-			gospelDesignerPreviewer.postMessage({
-    			ctrlAdded: {
-    				controller: controller,
-    				page: activePage
-    			}
-			}, '*');
+			
 
     		if (targetId) {
     			let parentCtrl = layoutAction.getCtrlByKey(state.layout[0], targetId);
@@ -6875,7 +6924,7 @@ page {
 		},
 
 		handleTreeChanged(state, { payload: params }) {
-			
+
 			if(params.type == 'page') {
 				let level = layoutAction.getCurrentLevelByKey(state.layout, params.key);
 				var pageIndex = layoutAction.getPageIndexByKey(state.layout, params.key, level);
@@ -6902,7 +6951,7 @@ page {
 
 				layoutAction.setActivePage(state.layoutState, pageIndex, ctrlAndParent.parentCtrl.key, 2);
 				layoutAction.setActiveController(state.layoutState, controllerIndex, params.key, level);
-				
+
 			}
 			return {...state};
 		},
