@@ -6759,17 +6759,8 @@ page {
 			return {...state};
 		},
 
-		addController(state, { payload: ctrlAndTarget }) {
-
-			if (state.layoutState.activePage.level == 1) {
-				message.error('请在左上角组件树中选择一个页面');
-				return {...state};
-			}
-			let controller = ctrlAndTarget.ctrl,
-				targetId = ctrlAndTarget.target,
-				theParent = ctrlAndTarget.theParent,
-				activePage = layoutAction.getActivePage(state),
-				deepCopiedController = layoutAction.deepCopyObj(controller);
+		generateCtrl(state, {payload: controller}) {
+			let deepCopiedController = deepCopiedController = layoutAction.deepCopyObj(controller);
 
 			const loopAttr = (controller) => {
 
@@ -6810,6 +6801,27 @@ page {
 
 			var tmpCtrl = loopAttr(deepCopiedController);
 
+			gospelDesignerPreviewer.postMessage({
+    			ctrlGenerated: {
+    				controller: tmpCtrl,
+    				page: layoutAction.getActivePage(state)
+    			}
+			}, '*');
+
+			return { ...state };
+		},
+
+		addController(state, { payload: ctrlAndTarget }) {
+
+			if (state.layoutState.activePage.level == 1) {
+				message.error('请在左上角组件树中选择一个页面');
+				return {...state};
+			}
+			let controller = ctrlAndTarget.ctrl,
+				targetId = ctrlAndTarget.target,
+				theParent = ctrlAndTarget.theParent,
+				activePage = layoutAction.getActivePage(state);
+
 			if (theParent) {
 				let theParentCtrl = {
 					type: theParent.tag,
@@ -6831,14 +6843,14 @@ page {
 					children: []
 				};
 
-				theParentCtrl.children.push(tmpCtrl);
+				theParentCtrl.children.push(controller);
 
-				tmpCtrl = theParentCtrl;
+				controller = theParentCtrl;
 			}
 
 			gospelDesignerPreviewer.postMessage({
     			ctrlAdded: {
-    				controller: tmpCtrl,
+    				controller: controller,
     				page: activePage
     			}
 			}, '*');
@@ -6846,14 +6858,14 @@ page {
     		if (targetId) {
     			let parentCtrl = layoutAction.getCtrlByKey(state.layout[0], targetId);
     			parentCtrl.children = parentCtrl.children || [];
-    			parentCtrl.children.push(tmpCtrl);
+    			parentCtrl.children.push(controller);
     			state.layoutState.expandedKeys.push(targetId);
     		}else {
-    			activePage.children.push(tmpCtrl);
+    			activePage.children.push(controller);
     		}
 
-			let level = layoutAction.getCurrentLevelByKey(state.layout, tmpCtrl.key);
-			layoutAction.setActiveController(state.layoutState, activePage.children.length - 1, tmpCtrl.key, level);
+			let level = layoutAction.getCurrentLevelByKey(state.layout, controller.key);
+			layoutAction.setActiveController(state.layoutState, activePage.children.length - 1, controller.key, level);
 
 			computeDomHeight.leftSidebarWhenLoaded();
 
@@ -6868,23 +6880,57 @@ page {
 		},
 
 		handleTreeChanged(state, { payload: params }) {
+			
 			if(params.type == 'page') {
 				let level = layoutAction.getCurrentLevelByKey(state.layout, params.key);
 				var pageIndex = layoutAction.getPageIndexByKey(state.layout, params.key, level);
 				layoutAction.setActivePage(state.layoutState, pageIndex, params.key, level);
 
-				// gospelDesignerPreviewer.postMessage({
-				// 	pageSelected: layoutAction.getActivePage(state)
-				// }, '*');
 			}else {
-				var activePage = layoutAction.getActivePage(state),
+
+				let ctrlAndParent = layoutAction.getCtrlParentAndIndexByKey(state.layout[0], params.key);
+				while (ctrlAndParent.parentCtrl.type != 'page') {
+					ctrlAndParent = layoutAction.getCtrlParentAndIndexByKey(state.layout[0], ctrlAndParent.parentCtrl.key)
+				}
+
+				let pageIndex = 0;
+				for (let i = 0; i < state.layout[0].children.length; i ++) {
+					if (state.layout[0].children[i].key == ctrlAndParent.parentCtrl.key) {
+						pageIndex = i;
+					}
+				}
+
+				let activePage = ctrlAndParent.parentCtrl,
 					activeCtrllvlAndIndex = layoutAction.getControllerIndexAndLvlByKey(state, params.key, activePage),
 					controllerIndex = activeCtrllvlAndIndex.index,
 					level = activeCtrllvlAndIndex.level;
+
+				layoutAction.setActivePage(state.layoutState, pageIndex, ctrlAndParent.parentCtrl.key, 2);
 				layoutAction.setActiveController(state.layoutState, controllerIndex, params.key, level);
+				
 			}
 			return {...state};
 		},
+
+		// handleTreeChanged(state, { payload: params }) {
+		// 	layoutAction.setActivePage(state.layoutState, 0, 'page-home', 2);
+		// 	if(params.type == 'page') {
+		// 		let level = layoutAction.getCurrentLevelByKey(state.layout, params.key);
+		// 		var pageIndex = layoutAction.getPageIndexByKey(state.layout, params.key, level);
+		// 		layoutAction.setActivePage(state.layoutState, pageIndex, params.key, level);
+
+		// 		// gospelDesignerPreviewer.postMessage({
+		// 		// 	pageSelected: layoutAction.getActivePage(state)
+		// 		// }, '*');
+		// 	}else {
+		// 		var activePage = layoutAction.getActivePage(state),
+		// 			activeCtrllvlAndIndex = layoutAction.getControllerIndexAndLvlByKey(state, params.key, activePage),
+		// 			controllerIndex = activeCtrllvlAndIndex.index,
+		// 			level = activeCtrllvlAndIndex.level;
+		// 		layoutAction.setActiveController(state.layoutState, controllerIndex, params.key, level);
+		// 	}
+		// 	return {...state};
+		// },
 
 		handlelinkedComponentChange(state, { payload: params }) {
 
@@ -6970,6 +7016,14 @@ page {
 
     		if(state.layoutState.activeType == 'controller') {
     			var activeCtrl = layoutAction.getActiveControllerByKey(activePage.children, state.layoutState.activeController.key);
+
+    			gospelDesignerPreviewer.postMessage({
+    				pageSelected: activePage
+    			}, '*');
+
+    			gospelDesigner.postMessage({
+    				attrRefreshed: activePage
+    			}, '*');
 
 	    		gospelDesignerPreviewer.postMessage({
 	    			ctrlSelected: activeCtrl

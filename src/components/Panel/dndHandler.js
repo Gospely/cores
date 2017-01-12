@@ -199,6 +199,13 @@ export default {
 						payload: data
 					})
 				},
+
+				generateCtrl () {
+					props.dispatch({
+						type: 'designer/generateCtrl',
+						payload: data
+					})
+				},
 				
 				deleteError () {
 					message.error('该项不能删除');
