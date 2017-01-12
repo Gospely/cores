@@ -94,6 +94,12 @@ const LeftSidebar = (props) => {
 
 	        create() {
 	        	if(location.hash.indexOf('project') != -1) {
+					props.dispatch({
+						type: 'sidebar/handleAvailable',
+                        payload: {
+                            available: true,
+                        }
+					});
 					confirm({
 					    title: '即将新建应用',
 					    content: '您确定要切换吗（点击确定将保存您的工作内容并进行切换）',
@@ -105,12 +111,11 @@ const LeftSidebar = (props) => {
 				          	});
 					    },
 					    onCancel() {
+							props.dispatch({
+				        		type: 'sidebar/showModalNewApp'
+				          	});
 					    },
 					});
-	        	}else {
-					props.dispatch({
-		        		type: 'sidebar/checkAvailable'
-		          	});
 	        	}
 	        },
 
@@ -882,20 +887,37 @@ const LeftSidebar = (props) => {
 			});
 
 			if(s == 'image') {
-				props.dispatch({
-					type: 'sidebar/initVersions',
-					payload: {
+				console.log(dom.target.value);
+				if(dom.target.value != 'wechat:latest'){
+					console.log('check');
+					props.dispatch({
+						type: 'sidebar/checkAvailable',
 						input: s,
 						value: dom.target.value
-					}
-				});
-				props.dispatch({
-					type: 'sidebar/initFrameWork',
-					payload: {
-						input: s,
-						value: dom.target.value
-					}
-				});
+					});
+				}else{
+					props.dispatch({
+						type: 'sidebar/initVersions',
+						payload: {
+							input: s,
+							value: dom.target.value
+						}
+					});
+					props.dispatch({
+						type: 'sidebar/initFrameWork',
+						payload: {
+							input: s,
+							value: dom.target.value
+						}
+					});
+					props.dispatch({
+						type: 'sidebar/handleAvailable',
+                        payload: {
+                            available: true,
+                        }
+					});
+
+				}
 			}
 		}
 	}
@@ -1397,7 +1419,7 @@ const LeftSidebar = (props) => {
 				          {
 				            props.sidebar.currentAppCreatingStep < modalAppCreatorProps.appCreatingSteps.length - 1
 				            &&
-				            <Button hidden={!props.sidebar.appCreator.loading} type="primary" onClick={() => modalAppCreatorProps.next()}>下一步</Button>
+				            <Button hidden={!props.sidebar.appCreator.loading} type="primary" disabled={!props.sidebar.appCreator.available} onClick={() => modalAppCreatorProps.next()}>下一步</Button>
 				          }
 				          {
 				            props.sidebar.currentAppCreatingStep === modalAppCreatorProps.appCreatingSteps.length - 1
