@@ -1842,6 +1842,21 @@ page {
 				baseClassName: 'weui-btn'
 			},
 			{
+				name: '导航',
+				type: 'button',
+				attr: {
+					url: {
+						type: 'input',
+						backend: true,
+						_value: '#',
+						title: '跳转链接'
+					}
+				},
+				tag: 'navigator',
+				weui: 'weui-btn',
+				baseClassName: 'weui-navigator'
+			},
+			{
 				name: '表单',
 				type: 'form',
 				attr: {

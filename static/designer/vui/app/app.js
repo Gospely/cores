@@ -359,7 +359,7 @@ $(function () {
             dragY = jq('.spacerBottomBorder');
 
         removeBtn.click(function(e) {
-            
+
             e.stopPropagation();
             var self = controllerState.currentActiveCtrlDOM,
                 dataControl = self.data('controller');
@@ -372,7 +372,6 @@ $(function () {
                     return false;
                 }
             }
-            return false;
             postMessageToFather.ctrlRemoved(dataControl);
             self.remove();
             controllerOperations.hideDesignerDraggerBorder();
