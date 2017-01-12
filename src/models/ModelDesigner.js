@@ -6688,7 +6688,7 @@ page {
 			tmpAttr['title']['title'] = '页面名称';
 
 			tmpAttr['routingURL']['_value'] = 'templates/pages/page-' + state.layout[0].children.length
-			+ '/page-1' + state.layout[0].children.length;
+			+ '/page-' + state.layout[0].children.length;
 			tmpAttr['alias']['_value'] = 'page-' + state.layout[0].children.length;
 
 			//设置新增加的页面和应用整体的值相同
