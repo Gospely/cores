@@ -377,7 +377,7 @@ $(function () {
                     }
                 };
             }
-            
+
             postMessageToFather.ctrlRemoved(dataControl);
             self.remove();
             controllerOperations.hideDesignerDraggerBorder();

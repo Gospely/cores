@@ -178,7 +178,7 @@ const ConstructionTree = (props) => {
                 type: activeType,
                 key: activeKey
             }
-        })
+        });
 
     };
 
