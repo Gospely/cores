@@ -7135,6 +7135,10 @@ page {
 		    			pageAdded: activePage
 		    		}, '*');
 
+		    		gospelDesigner.postMessage({
+		    			attrRefreshed: activePage
+		    		}, '*');
+
 	    		}
 
 	    		if(state.layoutState.activeType == 'controller') {
