@@ -840,7 +840,7 @@ $(function() {
                         ctrl: dndData.dragAddCtrlData,
                         target: dndData.dragAddCtrlTargetId,
                         isAddByAfter: dndData.addCtrlbyAfter.isAfter,
-                        prevElement: dndData.addCtrlbyAfter.prevElementId
+                        prevElementId: dndData.addCtrlbyAfter.prevElementId
                     }
 
                     //若拖进来的元素必须有特定的父元素则判断是否需要添加其特定父元素

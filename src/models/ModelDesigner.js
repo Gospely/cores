@@ -33,21 +33,18 @@ const layoutAction = {
 		}
 	},
 
-	getControllerIndexByKey(controllersList, key) {
-		var index;
-
-		for (var i = 0; i < controllersList.length; i++) {
-			var controller = controllersList[i];
-			if(controller.children) {
-				layoutAction.getControllerIndexByKey(controller.children, key);
+	getControllerIndexByKey(layout, key) {
+		for(let i = 0; i < layout.children.length; i ++) {
+			if (layout.children[i].key == key) {
+				return i;
 			}
-
-			if(controller.key == key) {
-				index = i;
-				break;
+			if (layout.children[i].children) {
+				let index = layoutAction.getControllerIndexByKey(layout.children[i], key);
+				if(index) {
+					return index;
+				}
 			}
-		};
-		return index;
+		}
 	},
 
 	getCtrlParentAndIndexByKey(ctrl, key) {
@@ -6899,7 +6896,7 @@ page {
 				targetId = ctrlAndTarget.target,
 				theParent = ctrlAndTarget.theParent,
 				isAddByAfter = ctrlAndTarget.isAddByAfter,
-				prevElement = ctrlAndTarget.prevElement,
+				prevElementId = ctrlAndTarget.prevElementId,
 				activePage = layoutAction.getActivePage(state);
 
 			if (theParent) {
@@ -6941,18 +6938,21 @@ page {
 				controller = theParentCtrl;
 			}
 
-			//如果是after加进去的元素，结构树作特殊的变化，不是简单的push
-			if (isAddByAfter) {
-				
-			}
-
-
-
     		if (targetId) {
     			let parentCtrl = layoutAction.getCtrlByKey(state.layout[0], targetId);
     			parentCtrl.children = parentCtrl.children || [];
-    			parentCtrl.children.push(controller);
+
+    			if (isAddByAfter) {
+    				//如果是after加进去的元素，结构树作特殊的变化，不是简单的push
+    				let prevCtrlIndex = layoutAction.getControllerIndexByKey(state.layout[0], prevElementId);
+    				parentCtrl.children.splice(prevCtrlIndex + 1, 0, controller);
+    			}else {
+	    			parentCtrl.children.push(controller);
+	    			
+    			}
+
     			state.layoutState.expandedKeys.push(targetId);
+    			
     		}else {
     			activePage.children.push(controller);
     		}
