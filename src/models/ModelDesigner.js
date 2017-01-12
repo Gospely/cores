@@ -1853,10 +1853,21 @@ page {
 						isHTML: true,
 						_value: '跳转到新页面'
 					},
+					type: {
+						type: 'select',
+						title: '按钮类型',
+						value: ['default', 'primary', 'warn'],
+						isClassName: true,
+						isHTML: false,
+						isNoConflict: true,
+						isNeedPrefixClass: true,
+						prefixClassValue: 'weui-btn_',
+						_value: 'primary'
+					},
 					url: {
 						type: 'input',
 						attrType: 'text',
-						title: '访问链接',
+						title: '跳转链接',
 						isClassName: false,
 						isHTML: false,
 						_value: '#'
@@ -1899,9 +1910,9 @@ page {
 					}
 
 				},
-				tag: 'navigator',
-				weui: 'button',
-				baseClassName: 'weui-btn'
+				tag: 'a',
+				weui: 'navigator',
+				baseClassName: ''
 			},
 			{
 				name: '表单',
@@ -6635,6 +6646,7 @@ page {
 		},
 
 		handleLayoutLoaded(state, { payload: params }) {
+
 			state.loaded = true;
 
 			gospelDesigner.postMessage({
@@ -6677,7 +6689,7 @@ page {
 			tmpAttr['title']['title'] = '页面名称';
 
 			tmpAttr['routingURL']['_value'] = 'templates/pages/page-' + state.layout[0].children.length
-			+ '/page-1' + state.layout[0].children.length;
+			+ '/page-' + state.layout[0].children.length;
 			tmpAttr['alias']['_value'] = 'page-' + state.layout[0].children.length;
 
 			//设置新增加的页面和应用整体的值相同
@@ -6760,7 +6772,7 @@ page {
 			}}
 		},
 
-		deleteConstruction(state,{payload: params}) {
+		deleteConstruction(state, {payload: params}) {
 
 			if (params.activeType == 'page') {
 				layoutAction.setActivePage(state.layoutState, params.activeIndex, params.activeKey, params.activeLevel);
@@ -6770,6 +6782,11 @@ page {
 						index: params.deleteIndex
 					}
 				}, '*');
+
+				gospelDesigner.postMessage({
+					attrRefreshed: layoutAction.getActivePage(state)
+				}, '*');
+
 			}else {
 
 				gospelDesignerPreviewer.postMessage({
@@ -6782,6 +6799,22 @@ page {
 			params.parentCtrl.children.splice(params.deleteIndex, 1);
 
 			computeDomHeight.leftSidebarWhenLoaded();
+
+			//重置应用的路由列表
+
+			var app = state.layout[0],
+				appPagesList = app.attr.pages.value,
+				appPage = app.children,
+				appPageCount = appPage.length;
+
+			appPagesList = [];
+
+			for (var i = 0; i < appPageCount; i++) {
+				var currentPage = appPage[i];
+				appPagesList.push(currentPage.attr.routingURL._value);
+			};
+
+			state.layout[0].attr.pages.value = appPagesList;
 
 			return {...state};
 		},
@@ -6888,7 +6921,7 @@ page {
 				controller = theParentCtrl;
 			}
 
-			
+
 
     		if (targetId) {
     			let parentCtrl = layoutAction.getCtrlByKey(state.layout[0], targetId);

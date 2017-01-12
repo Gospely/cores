@@ -3,8 +3,6 @@ import { connect } from 'dva';
 
 import { Button, Menu, Dropdown, Icon, Spin } from 'antd';
 
-import { Affix } from 'antd';
-
 const Designer = (props) => {
 
 	const designerProps = {
@@ -48,45 +46,50 @@ const Designer = (props) => {
 	}
 
 	const designerStyle = {
-		height: '100vh'
+		height: 'auto'
+	}
+
+	const designerWrapperStyle = {
+	    position: 'absolute',
+    	width: '100%',
+    	height: '100%'
 	}
 
   	return (
-		<div className="designer-wrapper" style={{maxHeight: maxHeight}}>
+  		<div style={designerWrapperStyle}>
 
-		    <Affix>
+			<div className="designer-header">
+				<label className="bold">设备</label>
 
-				<div className="designer-header">
-					<label className="bold">设备</label>
+				<Dropdown overlay={deviceSelectedMenu} trigger={['click']}>
+					<Button
+						className="deviceSelectorBtn">
+						{props.designer.deviceList[props.designer.defaultDevice].name} <Icon type="down" />
+					</Button>
+				</Dropdown>
+			</div>
 
-					<Dropdown overlay={deviceSelectedMenu} trigger={['click']}>
-						<Button
-							className="deviceSelectorBtn">
-							{props.designer.deviceList[props.designer.defaultDevice].name} <Icon type="down" />
-						</Button>
-					</Dropdown>
-				</div>
+			<div className="designer-wrapper" style={{height: '100%'}}>
+				<Spin spinning={!props.designer.loaded}>
 
-		    </Affix>
+					<div className="designer-body" style={designerStyle}>
+						<iframe
+							name="gospel-designer"
+							width={props.designer.deviceList[props.designer.defaultDevice].width}
+							height={props.designer.deviceList[props.designer.defaultDevice].height}
+							className="designer"
+							frameBorder="0"
+							src="static/designer/weui/designer.html"
+							onLoad={designerLoaded}
+							>
+						</iframe>
+					</div>
 
-			<Spin spinning={!props.designer.loaded}>
+				</Spin>
 
-				<div className="designer-body" style={designerStyle}>
-					<iframe
-						name="gospel-designer"
-						width={props.designer.deviceList[props.designer.defaultDevice].width}
-						height={props.designer.deviceList[props.designer.defaultDevice].height}
-						className="designer"
-						frameBorder="0"
-						src="static/designer/weui/designer.html"
-						onLoad={designerLoaded}
-						>
-					</iframe>
-				</div>
+			</div>
 
-			</Spin>
-
-		</div>
+  		</div>
   	);
 
 };

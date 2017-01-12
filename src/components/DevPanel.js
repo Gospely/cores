@@ -170,8 +170,14 @@ const DevPanel = ({
 		  	}
 		  };
 
+	const devpanelWrapperStyle = {
+    	position: 'absolute',
+    	height: '100%',
+    	width: '100%'
+	}
+
 	return (
-		<div>
+		<div className="ant-tabs-wrapper" style={devpanelWrapperStyle}>
 			{columnList[splitType]()}
 		</div>
 	)

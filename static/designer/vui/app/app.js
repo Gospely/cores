@@ -562,7 +562,27 @@ $(function () {
                 },
 
                 changeBackgroundColor: function(color) {
-                    jq('.page.' + this.app.key).css('background-color', color);
+                    var self = this;
+                    var inter = setInterval(function() {
+
+                        if(self.app.key == 'page-app') {
+                            clearInterval(inter);
+                            for (var i = 0; i < jq('script[id]').length; i++) {
+                                var page = jq(jq('script[id]')[i]),
+                                    pageId = page.attr('id');
+                                jq('.' + pageId).css('background-color', '');
+                            };
+                            jq('body').css('background-color', color);
+
+                        }else {
+                            if(jq('.' + self.app.key).length > 0) {
+                                clearInterval(inter);
+                                jq('.' + self.app.key).css('background-color', color);
+                            }
+                        }
+
+                    });
+
                 },
 
                 tabBar: {
@@ -576,6 +596,7 @@ $(function () {
                         }
 
                         var tabBar = data.attr ? data.attr.tabBar._value : data;
+
                         var borderStyle = tabBar.borderStyle._value == 'black' ? '1px solid #000000' : '1px solid #FFFFFF';
 
                         jq('.page-app .weui-tabbar, .page-home .weui-tabbar').css('background-color', tabBar.backgroundColor._value)
@@ -584,6 +605,7 @@ $(function () {
                     },
 
                     refreshTabBar: function(checked, tabBar) {
+
                         var tpl = jq('script[id="page-app"]');
 
                         if(checked) {
@@ -635,6 +657,11 @@ $(function () {
                     addTabBarToMainPage: function(tabList, tabBar) {
                         var tabs = this.generateTabBarLoop(tabList);
                         jq('.page-home .weui-tabbar').html(tabs);
+                        setTimeout(function() {
+                            if(jq('.page-home .weui-tabbar').html() == '') {
+                                jq('.page-home .weui-tabbar').html(tabs);
+                            }
+                        }, 100);
                     },
 
                     cancelTabBarInMainPage: function() {
@@ -886,8 +913,11 @@ $(function () {
             window.wholeAppConfig = this.app.attr;
             window.layoutState = this.layoutState;
 
-            var PR = new appRender(this.app),
-                RG = new routerGenerator(this.pages),
+            if(window.layoutState.activeKey == 'page-app') {
+                var PR = new appRender(this.app);
+            }
+
+            var RG = new routerGenerator(this.pages),
                 CSS = new cssGenerator(this.app);
 
             setPageManager();
@@ -896,6 +926,11 @@ $(function () {
             window.home = function(){
                 location.hash = '';
             };
+
+            if(this.app.attr.tabBar) {
+                pageOperations.tabBar.refreshTabBar(true, this.app.attr.tabBar._value);
+            }
+
         }
 
         var cssGenerator = function(app) {
