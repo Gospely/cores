@@ -424,7 +424,7 @@ export default {
 				});
 
                 window.location.hash = 'project/' + result.data.fields.id;
-                initApplication(result.data.fields,params.ctx);
+                initApplication(result.data.fields,params.ctx,true);
             }else {
 
             	showConfirm(result.data);

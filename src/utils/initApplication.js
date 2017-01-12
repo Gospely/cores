@@ -2,7 +2,7 @@ import React , {PropTypes} from 'react';
 import { message, notification } from 'antd';
 import request from './request';
 
-const initApplication = function (application, props){
+const initApplication = function (application, props, create){
 
     window.socket = null;
     if(localStorage.applicationId == application.id){
@@ -106,7 +106,7 @@ const initApplication = function (application, props){
             }
 
         }, 200);
-        if(window.reload){
+        if(window.reload && ! create){
             setTimeout(function(){
                 window.location.reload();
             }, 2000);
