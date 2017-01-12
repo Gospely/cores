@@ -1189,6 +1189,8 @@ $(function () {
                                 this.elem.css(att, currentAttr._value ? currentAttr.value[1] :   currentAttr.value[0]);
                             }else if(currentAttr.isPercent) {
                                 this.elem.css(att, currentAttr._value + '%');
+                            }else if(currentAttr.unitName) {
+                                this.elem.css(att, currentAttr._value + currentAttr.unitName);
                             }else {
                                 this.elem.css(att, currentAttr._value);
                             }
