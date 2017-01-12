@@ -23,7 +23,7 @@ $(function () {
                 traversalDOMTree(currentElement.children());
             }
 
-            console.log(currentElement.data('controller'));
+            // console.log(currentElement.data('controller'));
         };
     }
 
@@ -756,8 +756,6 @@ $(function () {
                             dndData.dragAddCtrlTargetId = '';
                             dndData.haveAppened = false;
 
-
-
                             //初始化会改变的属性数据
                             dndData.attrChangeData.haveAttrChange = false;
                             dndData.attrChangeData.changeId = [];
@@ -879,27 +877,92 @@ $(function () {
 
                     }
                     target.addClass('container-box');
+                    console.log(targetId)
+                    if (target.hasClass('page__bd') || target.hasClass('page__hd') || target.hasClass('page__ft')) {
 
-                    if (targetId != dndData.dragAddCtrl.eq(0).attr('id') && 
-                        !dndData.dragAddCtrl.find('#' + targetId).length &&
-                        (target.data('is-container') || target.hasClass('page__hd') || 
-                            target.hasClass('page__bd') || target.hasClass('page__ft')) &&
-                        !dndData.haveAppened) {
-                        
-                        //append进去
-                        target.append(dndData.dragAddCtrl);
-                        dndData.haveAppened = true;
-                        jq(dndData.dragAddCtrl).css('opacity','.3');
-
-                        //append到父元素
-                        dndData.dragAddCtrlTargetId = targetId;
-
-                        //初始化拖拽元素
                         dndData.dragElement = dndData.dragAddCtrl;
-                        dndData.orginY = e.pageY;
-                        dndData.dragElementParent = dndData.dragElement.parent();
 
+                        //自己over自己或者父元素over子元素或者已经append了返回false
+                        if (targetId == dndData.dragAddCtrl.eq(0).attr('id') || 
+                            dndData.dragAddCtrl.find('#' + targetId).length ||
+                            dndData.haveAppened) {
+                            return false;
+                        }
+
+                        if (target.children().length) {
+                            return false;
+                        }else {
+                            //页面上没有元素就append进去
+                            target.append(dndData.dragAddCtrl);
+                            dndData.haveAppened = true;
+                            jq(dndData.dragAddCtrl).css('opacity','.3');
+
+                            controllerOperations.showDesignerDraggerBorder(jq(dndData.dragAddCtrl))
+
+                            //append到的父元素
+                            dndData.dragAddCtrlTargetId = targetId;
+
+                            //初始化拖拽元素
+                            dndData.dragElement = dndData.dragAddCtrl;
+                            dndData.orginY = e.pageY;
+                            dndData.dragElementParent = dndData.dragElement.parent();
+                        }
+                    }else {
+                        //over的元素是容器且不是自己就append进去
+                        if (target.data('is-container') && 
+                            !dndData.dragAddCtrl.find('#' + targetId).length &&
+                            !dndData.haveAppened) {
+                            //appen进去
+                            target.after(dndData.dragAddCtrl);
+                            dndData.haveAppened = true;
+                            jq(dndData.dragAddCtrl).css('opacity','.3');
+
+                            controllerOperations.showDesignerDraggerBorder(jq(dndData.dragAddCtrl))
+
+                            //append到的父元素
+                            dndData.dragAddCtrlTargetId = targetId;
+
+                            //初始化拖拽元素
+                            dndData.dragElement = dndData.dragAddCtrl;
+                            dndData.orginY = e.pageY;
+                            dndData.dragElementParent = dndData.dragElement.parent();
+                        }else if (!dndData.haveAppened) {
+                            //after到其后面去
+                            target.after(dndData.dragAddCtrl);
+                            dndData.haveAppened = true;
+                            jq(dndData.dragAddCtrl).css('opacity','.3');
+
+                            controllerOperations.showDesignerDraggerBorder(jq(dndData.dragAddCtrl))
+
+                            //append到的父元素
+                            dndData.dragAddCtrlTargetId = target.parent().eq(0).attr('id');
+
+                            //初始化拖拽元素
+                            dndData.dragElement = dndData.dragAddCtrl;
+                            dndData.orginY = e.pageY;
+                            dndData.dragElementParent = dndData.dragElement.parent();
+                        }
                     }
+                    // if (targetId != dndData.dragAddCtrl.eq(0).attr('id') && 
+                    //     !dndData.dragAddCtrl.find('#' + targetId).length &&
+                    //     (target.data('is-container') || target.hasClass('page__hd') || 
+                    //         target.hasClass('page__bd') || target.hasClass('page__ft')) &&
+                    //     !dndData.haveAppened) {
+                        
+                    //     //append进去
+                    //     target.append(dndData.dragAddCtrl);
+                    //     dndData.haveAppened = true;
+                    //     jq(dndData.dragAddCtrl).css('opacity','.3');
+
+                    //     //append到父元素
+                    //     dndData.dragAddCtrlTargetId = targetId;
+
+                    //     //初始化拖拽元素
+                    //     dndData.dragElement = dndData.dragAddCtrl;
+                    //     dndData.orginY = e.pageY;
+                    //     dndData.dragElementParent = dndData.dragElement.parent();
+
+                    // }
 
 
                 });
@@ -1269,6 +1332,14 @@ $(function () {
             e.stopPropagation();
 
             jq(e.currentTarget).css('opacity','1');
+
+            //空容器直接remove掉
+            jq('body').find('*').each(function () {
+                if(jq(this).data('is-container') && jq(this).children().length == 0 && jq(this).height() == 0) {
+                    jq(this).remove();
+                    postMessageToFather.ctrlRemoved(jq(this).data('controller'));
+                }
+            })
 
             //属性比如容器高度改变
             if (dndData.attrChangeData.haveAttrChange) {
