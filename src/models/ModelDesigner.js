@@ -4200,15 +4200,136 @@ page {
 			{
 				name: '段落',
 				type: 'markdown',
-				attr: {
-					value: {
-						isHTML: true,
-						type: 'input',
-						_value: '文章内容',
-						title: '内容'
+				attr: {},
+				children: [{
+					name: '大标题',
+					type: 'heading',
+					tag: 'h1',
+					baseClassName: 'page__title',
+					attr: {
+						value: {
+							type: 'input',
+							title: '标题',
+							isClassName: false,
+							isHTML: true,
+							_value: '大标题'
+						},
+						'font-size': {
+							type: 'input',
+							title: '标题大小',
+							isStyle: true,
+							_value: '20px',
+						}
 					}
-				},
-				tag: 'article',
+				}, {
+					name: '正文域',
+					type: 'section',
+					attr: {},
+					tag: 'div',
+					baseClassName: '',
+					children: [{
+						name: '章标题',
+						type: 'heading',
+						tag: 'h1',
+						baseClassName: 'page__title',
+						attr: {
+							value: {
+								type: 'input',
+								title: '标题',
+								isClassName: false,
+								isHTML: true,
+								_value: '章标题'
+							},
+							'font-size': {
+								type: 'input',
+								title: '标题大小',
+								isStyle: true,
+								_value: '18px',
+							}
+						}
+					}, {
+						name: '正文',
+						type: 'section',
+						attr: {},
+						tag: 'div',
+						baseClassName: '',
+						children: [{
+							name: '1.1 节标题',
+							type: 'heading',
+							tag: 'h1',
+							baseClassName: 'page__title',
+							attr: {
+								value: {
+									type: 'input',
+									title: '标题',
+									isClassName: false,
+									isHTML: true,
+									_value: '1.1 节标题'
+								},
+								'font-size': {
+									type: 'input',
+									title: '标题大小',
+									isStyle: true,
+									_value: '12px',
+								}
+							}
+						}, {
+							name: '段落',
+							type: 'h',
+							attr: {
+								value: {
+									isHTML: true,
+									type: 'input',
+									_value: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+									title: '内容'
+								}
+							},
+							tag: 'p',
+							baseClassName: ''
+						}]
+					}, {
+						name: '正文',
+						type: 'section',
+						attr: {},
+						tag: 'div',
+						baseClassName: '',
+						children: [{
+							name: '1.2 节标题',
+							type: 'heading',
+							tag: 'h1',
+							baseClassName: 'page__title',
+							attr: {
+								value: {
+									type: 'input',
+									title: '标题',
+									isClassName: false,
+									isHTML: true,
+									_value: '1.2 节标题'
+								},
+								'font-size': {
+									type: 'input',
+									title: '标题大小',
+									isStyle: true,
+									_value: '12px',
+								}
+							}
+						}, {
+							name: '段落',
+							type: 'h',
+							attr: {
+								value: {
+									isHTML: true,
+									type: 'input',
+									_value: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+									title: '内容'
+								}
+							},
+							tag: 'p',
+							baseClassName: ''
+						}]
+					}]
+				}],
+				tag: 'div',
 				baseClassName: 'weui-article',
 			},
 			{
@@ -4318,6 +4439,11 @@ page {
 								backend: true,
 								_value: '20px'
 							},
+							height: {
+								isStyle: true,
+								backend: true,
+								_value: '20px'
+							},							
 							'margin-right': {
 								isStyle: true,
 								backend: true,
