@@ -6901,13 +6901,14 @@ page {
 				activePage = layoutAction.getActivePage(state);
 
 			if (theParent) {
+
 				let theParentCtrl = {
 					type: theParent.tag,
 					tag: theParent.tag,
 					key: theParent.tag + '-' + randomString(8, 10),
 					attr: {
 						title: {
-							_value: controller.name + '容器',
+							_value: window.dndData.name + '容器',
 							title: '名称',
 							type: 'input'
 						},
@@ -6915,6 +6916,11 @@ page {
 							backend: true,
 							isContainer: true,
 							title: '是否是容器'
+						},
+						height: {
+							backend: true,
+							_value: 'auto',
+							isStyle: 'true'
 						}
 					},
 					baseClassName: theParent.className,
