@@ -6771,20 +6771,6 @@ page {
 					}
 				}, '*');
 
-				var app = state.layout[0],
-					appPagesList = app.attr.pages.value,
-					appPage = app.children,
-					appPageCount = appPage.length;
-
-				appPagesList = [];
-
-				for (var i = 0; i < appPageCount; i++) {
-					var currentPage = appPage[i];
-					appPagesList.push(currentPage.attr.routingURL._value);
-				};
-
-				console.log(app);
-
 			}else {
 
 				gospelDesignerPreviewer.postMessage({
@@ -6797,6 +6783,22 @@ page {
 			params.parentCtrl.children.splice(params.deleteIndex, 1);
 
 			computeDomHeight.leftSidebarWhenLoaded();
+
+			//重置应用的路由列表
+
+			var app = state.layout[0],
+				appPagesList = app.attr.pages.value,
+				appPage = app.children,
+				appPageCount = appPage.length;
+
+			appPagesList = [];
+
+			for (var i = 0; i < appPageCount; i++) {
+				var currentPage = appPage[i];
+				appPagesList.push(currentPage.attr.routingURL._value);
+			};
+
+			state.layout[0].attr.pages.value = appPagesList;
 
 			return {...state};
 		},
