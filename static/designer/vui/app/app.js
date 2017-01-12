@@ -715,7 +715,18 @@ $(function () {
 
                             //生成dom数据结构
                             postMessageToFather.generateCtrl(parent.parent.dndData);
+
+                            //初始化一些拖拽过程中的数据
+                            dndData.dragAddCtrlTargetId = '';
+                            dndData.haveAppened = false;
                         })
+
+                        // jq("#page__bd").on('dragleave', function (e) {
+                        //     console.log(3333)
+                        //     e.stopPropagation();
+                        //     console.log(jq(this).find('#' + dndData.dragAddCtrl.eq(0).attr('id')))
+                        //     jq(this).find('#' + dndData.dragAddCtrl.eq(0).attr('id')).remove();
+                        // })
                     });
 
                     self.onDrop();
@@ -753,7 +764,7 @@ $(function () {
                     //传回父页面的数据
                     var ctrlAndTarget = {
                         ctrl: dndData.dragAddCtrlData,
-                        target: e.target.id
+                        target: dndData.dragAddCtrlTargetId
                     }
 
                     //若拖进来的元素必须有特定的父元素则判断是否需要添加其特定父元素
@@ -797,10 +808,15 @@ $(function () {
                     }
                     target.addClass('container-box');
 
-                    if (targetId != dndData.dragAddCtrl.eq(0).attr('id') && !dndData.dragAddCtrl.find('#' + targetId).length) {
+                    if (targetId != dndData.dragAddCtrl.eq(0).attr('id') && 
+                        !dndData.dragAddCtrl.find('#' + targetId).length &&
+                        (target.data('is-container') || target.hasClass('page__hd') || 
+                            target.hasClass('page__bd') || target.hasClass('page__ft')) &&
+                        !dndData.haveAppened) {
                             
                         target.append(dndData.dragAddCtrl);
-                        
+                        dndData.dragAddCtrlTargetId = targetId;
+                        dndData.haveAppened = true;
                     }
 
 
@@ -1534,6 +1550,9 @@ $(function () {
 
                 elem.on('dragleave', function (e) {
                     console.log('离开')
+                    if (elem.hasClass('page__bd')) {
+                        dndData.dragAddCtrl.remove();
+                    }
                 })
 
                 elem.on('dragend', function (e) {
@@ -1644,12 +1663,13 @@ $(function () {
                                     page: data.page
                                 }),
 
-                                elem = jq(comGen.createElement()),
+                                elem = jq(comGen.createElement());
 
                                 // appendResult = jq(parent.parent.currentTarget).append(elem.clone(true));
                                 //最后用生成好的最终的dom替换刚刚拖过来的dom
-                                appendResult = jq(parent.parent.currentTarget).find('#' + dndData.dragAddCtrl.eq(0).attr('id')).replaceWith(elem.clone(true));
-                                console.log(elem.clone(true))
+                                jq(parent.parent.currentTarget).find(dndData.dragAddCtrl).replaceWith(elem.clone(true));
+                                jq(parent.parent.currentTarget).find('#' + elem.eq(0).attr('id')).append(dndData.dragAddCtrl);
+
                                 // elem.clone(true).replaceAll(jq(parent.parent.currentTarget).find(dndData.dragAddCtrl))
                                 // console.log(parent.parent.currentTarget);
 

@@ -6843,17 +6843,19 @@ page {
 					children: []
 				};
 
+				gospelDesignerPreviewer.postMessage({
+	    			ctrlAdded: {
+	    				controller: theParentCtrl,
+	    				page: activePage
+	    			}
+				}, '*');
+
 				theParentCtrl.children.push(controller);
 
 				controller = theParentCtrl;
 			}
 
-			gospelDesignerPreviewer.postMessage({
-    			ctrlAdded: {
-    				controller: controller,
-    				page: activePage
-    			}
-			}, '*');
+			
 
     		if (targetId) {
     			let parentCtrl = layoutAction.getCtrlByKey(state.layout[0], targetId);
