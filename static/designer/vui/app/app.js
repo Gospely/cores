@@ -332,6 +332,9 @@ $(function () {
             ctrlExchanged: function(c) {
                 parent.parent.postMessage({'ctrlExchanged': c}, '*');
             },
+            deleteError: function() {
+                parent.parent.postMessage({'deleteError': true}, '*');
+            },
 
             startRouting: function() {
                 parent.postMessage({
@@ -356,18 +359,20 @@ $(function () {
             dragY = jq('.spacerBottomBorder');
 
         removeBtn.click(function(e) {
+            
             e.stopPropagation();
-            console.log('btn_remove');
-
             var self = controllerState.currentActiveCtrlDOM,
-                dataControl = self.data('controller'),
-                baseClassName = self[0].className.split(' ')[0];
-
-            if(baseClassName == 'page__bd' || baseClassName == 'page__hd' || baseClassName == 'page__ft') {
-                
-                return false;
+                dataControl = self.data('controller');
+            var jq_self = $(self[0]);
+            var baseClassName = jq_self.attr('class');
+            if(baseClassName != null && baseClassName != undefined) {
+                baseClassName = baseClassName.split(' ')[0];
+                if(baseClassName == 'page__bd' || baseClassName == 'page__hd' || baseClassName == 'page__ft') {
+                    postMessageToFather.deleteError();
+                    return false;
+                }
             }
-
+            return false;
             postMessageToFather.ctrlRemoved(dataControl);
             self.remove();
             controllerOperations.hideDesignerDraggerBorder();
