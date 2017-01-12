@@ -1845,16 +1845,63 @@ page {
 				name: '导航',
 				type: 'button',
 				attr: {
+					value: {
+						type: 'input',
+						attrType: 'text',
+						title: '值',
+						isClassName: false,
+						isHTML: true,
+						_value: '跳转到新页面'
+					},
 					url: {
 						type: 'input',
-						backend: true,
-						_value: '#',
-						title: '跳转链接'
+						attrType: 'text',
+						title: '访问链接',
+						isClassName: false,
+						isHTML: false,
+						_value: '#'
+					},
+					disabled: {
+						type: 'toggle',
+						title: '禁止',
+						value: ['weui-btn_disabled', 'weui-btn_plain-disabled'],
+						isClassName: true,
+						isHTML: false,
+						isSetAttribute: true,
+						_value: false
+					},
+					'open-type': {
+						title: '打开方式',
+						isSetAttribute: true,
+						type: 'select',
+						value: ['navigate', 'redirect', 'switchTab'],
+						_value: 'navigate'
+					},
+					'hover-class': {
+						title: '点击态类',
+						isSetAttribute: true,
+						type: 'input',
+						_value: 'navigator-hover'
+					},
+					'hover-start-time': {
+						title: '点击出现态时间',
+						attrType: 'number',
+						isSetAttribute: true,
+						type: 'input',
+						_value: '50'
+					},
+					'hover-stay-time': {
+						title: '点击态保留时间',
+						attrType: 'number',
+						isSetAttribute: true,
+						type: 'input',
+						_value: '600'
 					}
+
 				},
 				tag: 'navigator',
-				weui: 'weui-btn',
-				baseClassName: 'weui-navigator'
+				weui: 'button',
+				baseClassName: 'weui-btn'
 			},
 			{
 				name: '表单',
@@ -4040,23 +4087,8 @@ page {
 				}
 			},
 			{
-				name: '页面描述',
-				type: 'description',
-				tag: 'p',
-				baseClassName: 'page__desc',
-				attr: {
-					value: {
-						type: 'input',
-						title: '描述内容',
-						isClassName: false,
-						isHTML: true,
-						_value: '先进的在线Web可视化集成开发环境'
-					}
-				}
-			},
-			{
-				name: '普通文本区域',
-				type: 'text',
+				name: '普通文本',
+				type: 'html',
 				tag: 'p',
 				baseClassName: '',
 				attr: {
@@ -5906,11 +5938,6 @@ page {
 				attr: {}
 			},
 			{
-				name: '代码',
-				type: 'html',
-				attr: {}
-			},
-			{
 				name: '搜索框',
 				type: 'search',
 				baseClassName: 'weui-search-bar',
@@ -6033,40 +6060,40 @@ page {
 					name: '取消'
 				}]
 			},
-			{
-				name: '幻灯片',
-				type: 'slider',
-				tag: 'div',
-				attr: {
-					number: {
-						type: 'input',
-						title: '图片数量',
-						_value: '3'
-					},
-					display: {
-						type: 'input',
-						title: '',
-						_value: 'block',
-						isStyle: true,
-						backend: true
-					}
-				},
-				baseClassName: 'weui-gallery',
-				children: [{
-					tag: 'span',
-					type: 'span',
-					name: '图片',
-					baseClassName: 'weui-gallery_img',
-					attr: {
-						'background-image': {
-							isStyle: true,
-							_value: '',
-							type: 'input',
-							title: '图片地址'
-						}
-					}
-				}]
-			},
+			// {
+			// 	name: '幻灯片',
+			// 	type: 'slider',
+			// 	tag: 'div',
+			// 	attr: {
+			// 		number: {
+			// 			type: 'input',
+			// 			title: '图片数量',
+			// 			_value: '3'
+			// 		},
+			// 		display: {
+			// 			type: 'input',
+			// 			title: '',
+			// 			_value: 'block',
+			// 			isStyle: true,
+			// 			backend: true
+			// 		}
+			// 	},
+			// 	baseClassName: 'weui-gallery',
+			// 	children: [{
+			// 		tag: 'span',
+			// 		type: 'span',
+			// 		name: '图片',
+			// 		baseClassName: 'weui-gallery_img',
+			// 		attr: {
+			// 			'background-image': {
+			// 				isStyle: true,
+			// 				_value: '',
+			// 				type: 'input',
+			// 				title: '图片地址'
+			// 			}
+			// 		}
+			// 	}]
+			// },
 			{
 				name: '空白分割',
 				type: 'spacer',
@@ -6882,7 +6909,7 @@ page {
 		},
 
 		handleTreeChanged(state, { payload: params }) {
-			
+
 			if(params.type == 'page') {
 				let level = layoutAction.getCurrentLevelByKey(state.layout, params.key);
 				var pageIndex = layoutAction.getPageIndexByKey(state.layout, params.key, level);
@@ -6909,7 +6936,7 @@ page {
 
 				layoutAction.setActivePage(state.layoutState, pageIndex, ctrlAndParent.parentCtrl.key, 2);
 				layoutAction.setActiveController(state.layoutState, controllerIndex, params.key, level);
-				
+
 			}
 			return {...state};
 		},

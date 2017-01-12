@@ -363,7 +363,6 @@ $(function () {
             dragY = jq('.spacerBottomBorder');
 
         removeBtn.click(function(e) {
-
             e.stopPropagation();
             var self = controllerState.currentActiveCtrlDOM,
                 dataControl = self.data('controller'),
@@ -382,7 +381,6 @@ $(function () {
                     }
                 };
             }
-
             postMessageToFather.ctrlRemoved(dataControl);
             self.remove();
             controllerOperations.hideDesignerDraggerBorder();
@@ -817,6 +815,7 @@ $(function () {
                         target.append(dndData.dragAddCtrl);
                         dndData.dragAddCtrlTargetId = targetId;
                         dndData.haveAppened = true;
+
                     }
 
 
