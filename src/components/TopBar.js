@@ -342,6 +342,11 @@ const LeftSidebar = (props) => {
 	        },
 
 	        preview() {
+
+	        	message.warning('暂不提供预览功能，请关注后续版本');
+
+	        	return false;
+
 	          	var title = (
 						<span>
 							<i className="fa fa-weixin"></i> 小程序 预览
