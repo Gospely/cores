@@ -6013,40 +6013,40 @@ page {
 					name: '取消'
 				}]
 			},
-			{
-				name: '幻灯片',
-				type: 'slider',
-				tag: 'div',
-				attr: {
-					number: {
-						type: 'input',
-						title: '图片数量',
-						_value: '3'
-					},
-					display: {
-						type: 'input',
-						title: '',
-						_value: 'block',
-						isStyle: true,
-						backend: true
-					}
-				},
-				baseClassName: 'weui-gallery',
-				children: [{
-					tag: 'span',
-					type: 'span',
-					name: '图片',
-					baseClassName: 'weui-gallery_img',
-					attr: {
-						'background-image': {
-							isStyle: true,
-							_value: '',
-							type: 'input',
-							title: '图片地址'
-						}
-					}
-				}]
-			},
+			// {
+			// 	name: '幻灯片',
+			// 	type: 'slider',
+			// 	tag: 'div',
+			// 	attr: {
+			// 		number: {
+			// 			type: 'input',
+			// 			title: '图片数量',
+			// 			_value: '3'
+			// 		},
+			// 		display: {
+			// 			type: 'input',
+			// 			title: '',
+			// 			_value: 'block',
+			// 			isStyle: true,
+			// 			backend: true
+			// 		}
+			// 	},
+			// 	baseClassName: 'weui-gallery',
+			// 	children: [{
+			// 		tag: 'span',
+			// 		type: 'span',
+			// 		name: '图片',
+			// 		baseClassName: 'weui-gallery_img',
+			// 		attr: {
+			// 			'background-image': {
+			// 				isStyle: true,
+			// 				_value: '',
+			// 				type: 'input',
+			// 				title: '图片地址'
+			// 			}
+			// 		}
+			// 	}]
+			// },
 			{
 				name: '空白分割',
 				type: 'spacer',
