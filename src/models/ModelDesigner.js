@@ -6898,6 +6898,8 @@ page {
 			let controller = ctrlAndTarget.ctrl,
 				targetId = ctrlAndTarget.target,
 				theParent = ctrlAndTarget.theParent,
+				isAddByAfter = ctrlAndTarget.isAddByAfter,
+				prevElement = ctrlAndTarget.prevElement,
 				activePage = layoutAction.getActivePage(state);
 
 			if (theParent) {
@@ -6937,6 +6939,11 @@ page {
 				theParentCtrl.children.push(controller);
 
 				controller = theParentCtrl;
+			}
+
+			//如果是after加进去的元素，结构树作特殊的变化，不是简单的push
+			if (isAddByAfter) {
+				
 			}
 
 
