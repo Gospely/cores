@@ -6248,7 +6248,7 @@ page {
 					name: '预览表单头部',
 					type: 'weui-form-preview__hd',
 					tag: 'div',
-					baseClassName: 'weui-form-preview__hd',
+					baseClassName: 'weui-form-preview__hd weui-form-preview__item',
 					children: [{
 						tag: 'div',
 						baseClassName: 'weui-form-preview__label',
@@ -6280,7 +6280,7 @@ page {
 					}]
 				}, {
 					tag: 'div',
-					baseClassName: 'weui-form-preview__bd',
+					baseClassName: 'weui-form-preview__bd weui-form-preview__item',
 					name: '预览表单中部',
 					type: 'weui-form-preview__bd',
 					attr: {
@@ -6439,7 +6439,7 @@ page {
 					}]
 				}, {
 					tag: 'div',
-					baseClassName: 'weui-form-preview__ft',
+					baseClassName: 'weui-form-preview__ft weui-form-preview__item',
 					name: '预览表单底部',
 					type: 'weui-form-preview__ft',
 					attr: {
@@ -7034,7 +7034,9 @@ page {
 		attrChangeFromDrag(state, { payload: params }) {
 			for(let i = 0; i < params.changeId.length; i ++) {
 				let activeCtrl = layoutAction.getCtrlByKey(state.layout[0], params.changeId[i]);
-				activeCtrl.attr[params.changeAttr[i]]._value = params.changeValue[i];
+				if(activeCtrl.attr[params.changeAttr[i]]) {
+					activeCtrl.attr[params.changeAttr[i]]._value = params.changeValue[i];					
+				}
 			}
 			return {...state};
 		},

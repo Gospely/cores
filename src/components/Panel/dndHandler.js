@@ -199,10 +199,10 @@ export default {
 						payload: data
 					})
 				},
+				
 				deleteError () {
 					message.error('该项不能删除');
 				}
-
 
 			}
 
