@@ -86,8 +86,6 @@ $(function () {
 
             var html = jq(config.template).find('.page').clone(true);
 
-            console.log(config);
-
             var $html = jq(html).addClass('slideIn').addClass(config.name);
             $html.on('animationend webkitAnimationEnd', function(){
                 $html.removeClass('slideIn').addClass('js_show');
