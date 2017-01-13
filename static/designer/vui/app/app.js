@@ -94,7 +94,7 @@ $(function() {
                 $html.removeClass('slideIn').addClass('js_show');
             });
 
-            if (jq('.' + config.name).length <= 0) {
+            if (jq('.container .' + config.name).length <= 0) {
                 this.$container.append($html);
             }
 
