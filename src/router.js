@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import { Router, Route, IndexRoute, Link } from 'dva/router';
-// import IndexPage from './routes/IndexPage';
 
 export default function({ history, app }) {
 
@@ -21,13 +20,6 @@ export default function({ history, app }) {
         		});
       		},
     	}];
-
-	/*
-      	<Route path="/" component={IndexPage}>
-      	</Route>
-        <Route path="/project/:id" component={IndexPage}>
-        </Route>
-	*/    	
 
   	return (
     	<Router history={ history } routes={ routes }>

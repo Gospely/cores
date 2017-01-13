@@ -7288,7 +7288,7 @@ page {
 
 			if (state.layoutState.activePage.level == 1) {
 				message.error('请在左上角组件树中选择一个页面');
-				return {...state};
+				return { ...state };
 			}
 			let controller = ctrlAndTarget.ctrl,
 				targetId = ctrlAndTarget.target,
@@ -7716,12 +7716,18 @@ page {
 			window.currentTarget = gospelDesignerPreviewer.jQuery('#' + target);
 
 			yield put({
+				type: 'generateCtrl',
+				payload: params.item
+			});
+
+			yield put({
 				type: 'addController',
 				payload: {
 					ctrl: params.item,
 					target: target
 				}
 			});
+
 		},
 
 		*initStateA({ payload: params}, {call, put, select}){
