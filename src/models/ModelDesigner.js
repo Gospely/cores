@@ -1865,6 +1865,7 @@ page {
 						type: 'input',
 						attrType: 'text',
 						title: '跳转链接',
+						isSetAttribute: true,
 						isClassName: false,
 						isHTML: false,
 						_value: '#'
@@ -4798,7 +4799,118 @@ page {
 					name: '图文组合列表中部',
 					type: 'div',
 					tag: 'div',
-					attr: {},
+					attr: {
+						addBtn: {
+							type: 'button',
+							title: '添加列表',
+							isClassName: false,
+							isHTML: false,
+							_value: '添加项目',
+							onClick: 'designer/addControllerManually',
+							params: {
+								item: {
+									name: '图文组合列表项一',
+									tag: 'a',
+									type: 'a',
+									attr: {
+										href: {
+											isSetAttribute: true,
+											_value: 'javascript:void(0);',
+											title: '跳转地址',
+											type: 'input'
+										}
+									},
+									baseClassName: 'weui-media-box weui-media-box_appmsg',
+									children: [{
+										name: '列表项图片',
+										type: 'div',
+										tag: 'div',
+										attr:{
+											isComponent: {
+												backend: true,
+												value: [],
+												title: '是否为完整的组件',
+												_value: true
+											}
+										},
+										baseClassName: 'weui-media-box__hd',
+										children: [{
+											name: '图片',
+											type: 'img',
+											tag: 'img',
+											baseClassName: 'weui-media-box__thumb',
+											attr: {
+												src: {
+													title: '图片地址',
+													type: 'input',
+													isSetAttribute: true,
+													_value: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAB4CAMAAAAOusbgAAAAeFBMVEUAwAD///+U5ZTc9twOww7G8MYwzDCH4YcfyR9x23Hw+/DY9dhm2WZG0kbT9NP0/PTL8sux7LFe115T1VM+zz7i+OIXxhes6qxr2mvA8MCe6J6M4oz6/frr+us5zjn2/fa67rqB4IF13XWn6ad83nxa1loqyirn+eccHxx4AAAC/klEQVRo3u2W2ZKiQBBF8wpCNSCyLwri7v//4bRIFVXoTBBB+DAReV5sG6lTXDITiGEYhmEYhmEYhmEYhmEY5v9i5fsZGRx9PyGDne8f6K9cfd+mKXe1yNG/0CcqYE86AkBMBh66f20deBc7wA/1WFiTwvSEpBMA2JJOBsSLxe/4QEEaJRrASP8EVF8Q74GbmevKg0saa0B8QbwBdjRyADYxIhqxAZ++IKYtciPXLQVG+imw+oo4Bu56rjEJ4GYsvPmKOAB+xlz7L5aevqUXuePWVhvWJ4eWiwUQ67mK51qPj4dFDMlRLBZTqF3SDvmr4BwtkECu5gHWPkmDfQh02WLxXuvbvC8ku8F57GsI5e0CmUwLz1kq3kD17R1In5816rGvQ5VMk5FEtIiWislTffuDpl/k/PzscdQsv8r9qWq4LRWX6tQYtTxvI3XyrwdyQxChXioOngH3dLgOFjk0all56XRi/wDFQrGQU3Os5t0wJu1GNtNKHdPqYaGYQuRDfbfDf26AGLYSyGS3ZAK4S8XuoAlxGSdYMKwqZKM9XJMtyqXi7HX/CiAZS6d8bSVUz5J36mEMFDTlAFQzxOT1dzLRljjB6+++ejFqka+mXIe6F59mw22OuOw1F4T6lg/9VjL1rLDoI9Xzl1MSYDNHnPQnt3D1EE7PrXjye/3pVpr1Z45hMUdcACc5NVQI0bOdS1WA0wuz73e7/5TNqBPhQXPEFGJNV2zNqWI7QKBd2Gn6AiBko02zuAOXeWIXjV0jNqdKegaE/kJQ6Bfs4aju04lMLkA2T5wBSYPKDGF3RKhFYEa6A1L1LG2yacmsaZ6YPOSAMKNsO+N5dNTfkc5Aqe26uxHpx7ZirvgCwJpWq/lmX1hA7LyabQ34tt5RiJKXSwQ+0KU0V5xg+hZrd4Bn1n4EID+WkQdgLfRNtvil9SPfwy+WQ7PFBWQz6dGWZBLkeJFXZGCfLUjCgGgqXo5TuSu3cugdcTv/HjqnBTEMwzAMwzAMwzAMwzAMw/zf/AFbXiOA6frlMAAAAABJRU5ErkJggg=='
+												},
+												isComponent: {
+													backend: true,
+													value: [],
+													title: '是否为完整的组件',
+													_value: true
+												}
+											}
+										}]
+									}, {
+										type: 'div',
+										tag: 'div',
+										baseClassName: 'weui-media-box__bd',
+										name: '文本',
+										attr: {
+											isComponent: {
+												backend: true,
+												value: [],
+												title: '是否为完整的组件',
+												_value: true
+											}
+										},
+										children: [{
+											tag: 'h4',
+											type: 'h4',
+											name: '标题一',
+											baseClassName: 'weui-media-box__title',
+											attr: {
+												isComponent: {
+													backend: true,
+													value: [],
+													title: '是否为完整的组件',
+													_value: true
+												},
+												content: {
+													title: '标题文本',
+													_value: '标题一',
+													type: 'input',
+													isHTML: true
+												}
+											}
+										}, {
+											tag: 'p',
+											type: 'p',
+											name: '描述文本',
+											baseClassName: 'weui-media-box__desc',
+											attr: {
+												isComponent: {
+													backend: true,
+													value: [],
+													title: '是否为完整的组件',
+													_value: true
+												},
+												content: {
+													title: '标题文本',
+													_value: '由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。',
+													type: 'input',
+													isHTML: true
+												}
+											}
+										}]
+									}]
+								}
+							}
+						}
+					},
 					baseClassName: 'weui-panel__bd',
 					children: [{
 						name: '图文组合列表项一',
@@ -6948,11 +7060,11 @@ page {
     				parentCtrl.children.splice(prevCtrlIndex + 1, 0, controller);
     			}else {
 	    			parentCtrl.children.push(controller);
-	    			
+
     			}
 
     			state.layoutState.expandedKeys.push(targetId);
-    			
+
     		}else {
     			activePage.children.push(controller);
     		}
@@ -6961,7 +7073,6 @@ page {
 			layoutAction.setActiveController(state.layoutState, activePage.children.length - 1, controller.key, level);
 
 			computeDomHeight.leftSidebarWhenLoaded();
-
 			return {...state};
 		},
 

@@ -415,8 +415,9 @@ $(function() {
             var target = jq(e.target),
                 isController = target.data('is-controller'),
                 dataControl = target.data("controller");
-
+                console.log(target);
             if (!dataControl) {
+                console.log(target);
                 if (target.attr('tabbar')) {
 
                     var tpls = jq('script[id]');
@@ -441,6 +442,23 @@ $(function() {
                 //触发控件被点击事件
                 controllerOperations.select(dataControl);
                 //阻止事件，比如 a 标签的跳转
+                if(target.attr('url')){
+                    var tpls = jq('script[id]');
+                    for (var i = 0; i < tpls.length; i++) {
+                        var tpl = jq(tpls[i]);
+                        console.log(tpl.attr('router'));
+                        console.log(target.attr('url'));
+                        if (tpl.attr('router') == target.attr('url')) {
+                            postMessageToFather.startRouting();
+                            pageManager.go(tpl.attr('id'));
+                            controllerOperations.hideDesignerDraggerBorder();
+                            postMessageToFather.pageSelected({
+                                key: tpl.attr('id')
+                            });
+                            break;
+                        }
+                    };
+                }
                 e.preventDefault();
             }
         });
