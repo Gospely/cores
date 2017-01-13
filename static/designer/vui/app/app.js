@@ -783,8 +783,23 @@ $(function() {
                         jq(this).find(".app-components").on("dragstart", function(ev) {
                             data = jq(ev.target).clone();
 
+                            var controller = parent.parent.dndData;
+
+                            //传回父页面的数据
+                            var ctrlAndParent = {
+                                controller: controller
+                            }
+
+                            //若拖进来的元素必须有特定的父元素则判断是否需要添加其特定父元素
+                            // var appendParent = jq('#' + dndData.dragAddCtrlTargetId)[0];
+                            if (controller.attr.theParent && controller.attr.theParent._value) {
+
+                                ctrlAndParent.theParent = controller.attr.theParent._value;
+
+                            }
+
                             //生成dom数据结构
-                            postMessageToFather.generateCtrl(parent.parent.dndData);
+                            postMessageToFather.generateCtrl(ctrlAndParent);
 
                             //初始化一些拖拽过程中的数据
                             dndData.dragAddCtrlTargetId = '';
@@ -873,16 +888,14 @@ $(function() {
                         prevElementId: dndData.addCtrlbyAfter.prevElementId
                     }
 
-                    //若拖进来的元素必须有特定的父元素则判断是否需要添加其特定父元素
-                    var appendParent = jq('#' + dndData.dragAddCtrlTargetId)[0];
-                    if (controller.attr.theParent && controller.attr.theParent._value &&
-                        controller.attr.theParent._value.tag != appendParent.tagName &&
-                        appendParent.className.indexOf(controller.attr.theParent._value.className) == -1) {
+                    // //若拖进来的元素必须有特定的父元素则判断是否需要添加其特定父元素
+                    // var appendParent = jq('#' + dndData.dragAddCtrlTargetId)[0];
+                    // if (controller.attr.theParent && controller.attr.theParent._value) {
 
-                        ctrlAndTarget.theParent = controller.attr.theParent._value;
-                        ctrlAndTarget.theParent.indexOfDragElement = dropTarget.children().index(dragElement);
+                    //     ctrlAndTarget.theParent = controller.attr.theParent._value;
+                    //     ctrlAndTarget.theParent.indexOfDragElement = dropTarget.children().index(dragElement);
 
-                    }
+                    // }
 
                     parent.parent.currentTarget = e.target;
 
@@ -1414,7 +1427,6 @@ $(function() {
 
             //组件树结构改变
             if (dndData.constructTreeData.haveChange) {
-                console.log('dragEnd')
                 postMessageToFather.ctrlExchanged(dndData.constructTreeData);
             }
 
@@ -1882,40 +1894,6 @@ $(function() {
 
                             dndData.dragAddCtrl = elem;
                             dndData.dragAddCtrlData = controller;
-
-                            // appendResult = jq(parent.parent.currentTarget).append(elem.clone(true));
-
-                            // console.log(parent.parent.currentTarget);
-
-                            // var pageId = location.hash.split('#')[1] || 'page-home';
-
-                            // jq('script[id="' + pageId + '"]').html(jq('.' + pageId).clone(true));
-
-                            // controllerOperations.select(controller);
-                        },
-
-                        ctrlParentAdded: function() {
-                            //若有特定父级则用父级将其包裹
-                            console.log('actlParentAdded')
-                            var controller = data.controller,
-
-                                comGen = new ComponentsGenerator({
-                                    controller: controller,
-                                    initElem: true,
-                                    page: data.page
-                                }),
-
-                                elem = jq(comGen.createElement());
-                            
-                            dndData.dragAddCtrl.wrap(elem);
-
-                            postMessageToFather.ctrlExchanged({
-                                exchElementId: [controller.key],
-                                dragElementId: [dndData.dragAddCtrlData.key],
-                                changeType: ['toFindParent']
-                            });
-
-                            // controllerOperations.select(controller);
 
                         },
 
