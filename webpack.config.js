@@ -16,6 +16,7 @@ module.exports = function(webpackConfig, env) {
   webpackConfig.plugins = webpackConfig.plugins.filter(function(plugin) {
     return !(plugin instanceof webpack.optimize.CommonsChunkPlugin);
   });
+  
   webpackConfig.plugins.push(
     new CopyWebpackPlugin([
       {

@@ -22,15 +22,7 @@ localStorage.flashState = 'false'
 
 // 1. Initialize
 const app = dva({
-	initialState: {
-		products: [{
-			name: 'dva',
-			id: 1
-		}, {
-			name: 'antd',
-			id: 2
-		}]
-	},
+	initialState: {},
 
 	onError(e) {
 	  	message.error(e.message);
@@ -80,7 +72,6 @@ app.use({
 app.use(createLoading());
 
 // 3. Model
-app.model(require('./models/products'));
 app.model(require('./models/ModelLeftSidebar'));
 app.model(require('./models/ModelRightSidebar'));
 app.model(require('./models/ModelDevPanels'));

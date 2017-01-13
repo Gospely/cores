@@ -116,6 +116,10 @@ const LeftSidebar = (props) => {
 				          	});
 					    },
 					});
+	        	}else {
+	          		props.dispatch({
+		        		type: 'sidebar/showModalNewApp'
+		          	});
 	        	}
 	        },
 
@@ -371,6 +375,12 @@ const LeftSidebar = (props) => {
 	        	props.dispatch({
 	        		type: 'dashboard/showDash'
 	        	})
+	        },
+
+	        feedback () {
+	        	props.dispatch({
+	        		type: 'sidebar/showFeedback'
+	        	});
 	        }
 
 	      }
@@ -1231,6 +1241,10 @@ const LeftSidebar = (props) => {
 						<Icon type="laptop" />
 		        		控制台
 			        </Menu.Item>
+    		        <Menu.Item key="feedback">
+						<Icon type="smile-o" />
+						反馈建议
+			        </Menu.Item>
 			    </Menu>
 			);
 
@@ -1310,6 +1324,10 @@ const LeftSidebar = (props) => {
 						<Icon type="laptop" />
 		        		控制台
 			        </Menu.Item>
+					<Menu.Item key="feedback">
+						<Icon type="smile-o" />
+						反馈建议
+			        </Menu.Item>
 			    </Menu>
 			);
 
@@ -1336,6 +1354,10 @@ const LeftSidebar = (props) => {
 					<Icon type="laptop" />
 	        		控制台
 		        </Menu.Item>
+				<Menu.Item key="feedback">
+					<Icon type="smile-o" />
+					反馈建议
+			    </Menu.Item>
 	      	</Menu>
 
 		);
@@ -1403,6 +1425,27 @@ const LeftSidebar = (props) => {
 					value: e.target.value,
 					input: input
 				}
+			});
+		}
+	}
+
+	const feedbackProps = {
+		'submit' () {
+			props.dispatch({
+				type: 'sidebar/submitFeedback'
+			});
+		},
+
+		hideModal () {
+			props.dispatch({
+				type: 'sidebar/hideFeedback'
+			});
+		},
+
+		onMsgChange (e) {
+			props.dispatch({
+				type: 'sidebar/handleFeedbackMsgChange',
+				payload: e.target.value
 			});
 		}
 	}
@@ -1612,6 +1655,13 @@ const LeftSidebar = (props) => {
 		    </Modal>
 
 		    <Dashboard></Dashboard>
+
+			<Modal width="30%"  title="意见建议" visible={props.sidebar.modalFeedback.visible}
+	          	onOk={feedbackProps.submit} onCancel={feedbackProps.hideModal}
+		    >
+		    	<Input type="textarea" placeholder="请留下您的想法:)" value={props.sidebar.modalFeedback.message} rows={4} onChange={feedbackProps.onMsgChange} />
+		    </Modal>
+
 
 			{initPreviewer()}
 
