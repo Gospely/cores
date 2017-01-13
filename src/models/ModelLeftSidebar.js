@@ -586,16 +586,20 @@ export default {
                         message: '提交成功，谢谢参与'
                     });
 
+					yield put({
+						type: 'hideFeedback'
+					});
+
+					yield put({
+						type: 'setFeedbackMessageBlank'
+					});
+
                 }else {
                     notification.open({
                         message: '提交失败，请重试'
                     });
 
                 }
-				yield put({
-					type: 'hideFeedback'
-				});
-
 	        }
         }
 
@@ -604,6 +608,11 @@ export default {
 	reducers: {
 		setProjectNameAvailabel(state, { payload: available }) {
 			state.appCreatingForm.isProjectNameAvailabel = available;
+			return {...state};
+		},
+
+		setFeedbackMessageBlank(state) {
+			state.modalFeedback.message = '';
 			return {...state};
 		},
 

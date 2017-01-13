@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Router, Route, IndexRoute, Link } from 'dva/router';
-import IndexPage from './routes/IndexPage';
+// import IndexPage from './routes/IndexPage';
 
 export default function({ history, app }) {
 
@@ -8,16 +8,16 @@ export default function({ history, app }) {
       		path: '/',
       		name: 'app',
       		getComponent(nextState, cb) {
-        		require.ensure([], require => {
-          			cb(null, IndexPage);
+        		require.ensure(['./routes/IndexPage'], require => {
+          			cb(null, require('./routes/IndexPage'));
         		});
       		},
     	}, {
       		path: '/project/:id',
       		name: 'project',
       		getComponent(nextState, cb) {
-        		require.ensure([], require => {
-          			cb(null, IndexPage);
+        		require.ensure(['./routes/IndexPage'], require => {
+          			cb(null, require('./routes/IndexPage'));
         		});
       		},
     	}];
