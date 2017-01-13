@@ -1865,6 +1865,7 @@ page {
 						type: 'input',
 						attrType: 'text',
 						title: '跳转链接',
+						isSetAttribute: true,
 						isClassName: false,
 						isHTML: false,
 						_value: '#'
@@ -4798,7 +4799,118 @@ page {
 					name: '图文组合列表中部',
 					type: 'div',
 					tag: 'div',
-					attr: {},
+					attr: {
+						addBtn: {
+							type: 'button',
+							title: '添加列表',
+							isClassName: false,
+							isHTML: false,
+							_value: '添加列表项',
+							onClick: 'designer/addControllerManually',
+							params: {
+								item: {
+									name: '图文组合列表项一',
+									tag: 'a',
+									type: 'a',
+									attr: {
+										href: {
+											isSetAttribute: true,
+											_value: 'javascript:void(0);',
+											title: '跳转地址',
+											type: 'input'
+										}
+									},
+									baseClassName: 'weui-media-box weui-media-box_appmsg',
+									children: [{
+										name: '列表项图片',
+										type: 'div',
+										tag: 'div',
+										attr:{
+											isComponent: {
+												backend: true,
+												value: [],
+												title: '是否为完整的组件',
+												_value: true
+											}
+										},
+										baseClassName: 'weui-media-box__hd',
+										children: [{
+											name: '图片',
+											type: 'img',
+											tag: 'img',
+											baseClassName: 'weui-media-box__thumb',
+											attr: {
+												src: {
+													title: '图片地址',
+													type: 'input',
+													isSetAttribute: true,
+													_value: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAB4CAMAAAAOusbgAAAAeFBMVEUAwAD///+U5ZTc9twOww7G8MYwzDCH4YcfyR9x23Hw+/DY9dhm2WZG0kbT9NP0/PTL8sux7LFe115T1VM+zz7i+OIXxhes6qxr2mvA8MCe6J6M4oz6/frr+us5zjn2/fa67rqB4IF13XWn6ad83nxa1loqyirn+eccHxx4AAAC/klEQVRo3u2W2ZKiQBBF8wpCNSCyLwri7v//4bRIFVXoTBBB+DAReV5sG6lTXDITiGEYhmEYhmEYhmEYhmEY5v9i5fsZGRx9PyGDne8f6K9cfd+mKXe1yNG/0CcqYE86AkBMBh66f20deBc7wA/1WFiTwvSEpBMA2JJOBsSLxe/4QEEaJRrASP8EVF8Q74GbmevKg0saa0B8QbwBdjRyADYxIhqxAZ++IKYtciPXLQVG+imw+oo4Bu56rjEJ4GYsvPmKOAB+xlz7L5aevqUXuePWVhvWJ4eWiwUQ67mK51qPj4dFDMlRLBZTqF3SDvmr4BwtkECu5gHWPkmDfQh02WLxXuvbvC8ku8F57GsI5e0CmUwLz1kq3kD17R1In5816rGvQ5VMk5FEtIiWislTffuDpl/k/PzscdQsv8r9qWq4LRWX6tQYtTxvI3XyrwdyQxChXioOngH3dLgOFjk0all56XRi/wDFQrGQU3Os5t0wJu1GNtNKHdPqYaGYQuRDfbfDf26AGLYSyGS3ZAK4S8XuoAlxGSdYMKwqZKM9XJMtyqXi7HX/CiAZS6d8bSVUz5J36mEMFDTlAFQzxOT1dzLRljjB6+++ejFqka+mXIe6F59mw22OuOw1F4T6lg/9VjL1rLDoI9Xzl1MSYDNHnPQnt3D1EE7PrXjye/3pVpr1Z45hMUdcACc5NVQI0bOdS1WA0wuz73e7/5TNqBPhQXPEFGJNV2zNqWI7QKBd2Gn6AiBko02zuAOXeWIXjV0jNqdKegaE/kJQ6Bfs4aju04lMLkA2T5wBSYPKDGF3RKhFYEa6A1L1LG2yacmsaZ6YPOSAMKNsO+N5dNTfkc5Aqe26uxHpx7ZirvgCwJpWq/lmX1hA7LyabQ34tt5RiJKXSwQ+0KU0V5xg+hZrd4Bn1n4EID+WkQdgLfRNtvil9SPfwy+WQ7PFBWQz6dGWZBLkeJFXZGCfLUjCgGgqXo5TuSu3cugdcTv/HjqnBTEMwzAMwzAMwzAMwzAMw/zf/AFbXiOA6frlMAAAAABJRU5ErkJggg=='
+												},
+												isComponent: {
+													backend: true,
+													value: [],
+													title: '是否为完整的组件',
+													_value: true
+												}
+											}
+										}]
+									}, {
+										type: 'div',
+										tag: 'div',
+										baseClassName: 'weui-media-box__bd',
+										name: '文本',
+										attr: {
+											isComponent: {
+												backend: true,
+												value: [],
+												title: '是否为完整的组件',
+												_value: true
+											}
+										},
+										children: [{
+											tag: 'h4',
+											type: 'h4',
+											name: '标题一',
+											baseClassName: 'weui-media-box__title',
+											attr: {
+												isComponent: {
+													backend: true,
+													value: [],
+													title: '是否为完整的组件',
+													_value: true
+												},
+												content: {
+													title: '标题文本',
+													_value: '标题一',
+													type: 'input',
+													isHTML: true
+												}
+											}
+										}, {
+											tag: 'p',
+											type: 'p',
+											name: '描述文本',
+											baseClassName: 'weui-media-box__desc',
+											attr: {
+												isComponent: {
+													backend: true,
+													value: [],
+													title: '是否为完整的组件',
+													_value: true
+												},
+												content: {
+													title: '标题文本',
+													_value: '由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。',
+													type: 'input',
+													isHTML: true
+												}
+											}
+										}]
+									}]
+								}
+							}
+						}
+					},
 					baseClassName: 'weui-panel__bd',
 					children: [{
 						name: '图文组合列表项一',
@@ -5108,7 +5220,169 @@ page {
 					name: '文字组合列表中部',
 					type: 'div',
 					tag: 'div',
-					attr: {},
+					attr: {
+						addBtn: {
+							type: 'button',
+							title: '添加列表',
+							isClassName: false,
+							isHTML: false,
+							_value: '添加列表',
+							onClick: 'designer/addControllerManually',
+							params: {
+								item: {
+									name: '文字组合列表项',
+									tag: 'div',
+									type: 'div',
+									attr: {},
+									baseClassName: 'weui-media-box weui-media-box_text',
+									children: [{
+										name: '标题一',
+										type: 'h4',
+										tag: 'h4',
+										attr: {
+											isComponent: {
+												backend: true,
+												value: [],
+												title: '是否为完整的组件',
+												_value: true
+											},
+
+											content: {
+												isHTML: true,
+												_value: '标题一',
+												type: 'input',
+												title: '标题文本'
+											}
+										},
+										baseClassName: 'weui-media-box__title'
+									}, {
+										name: '描述文本',
+										type: 'p',
+										tag: 'p',
+										attr: {
+											isComponent: {
+												backend: true,
+												value: [],
+												title: '是否为完整的组件',
+												_value: true
+											},
+
+											content: {
+												isHTML: true,
+												_value: '由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。',
+												type: 'input',
+												title: '描述文本'
+											}
+										},
+										baseClassName: 'weui-media-box__desc'
+									}, {
+										name: '来源信息',
+										type: 'ul',
+										tag: 'ul',
+										baseClassName: 'weui-media-box__info',
+										attr: {
+											isComponent: {
+												backend: true,
+												value: [],
+												title: '是否为完整的组件',
+												_value: true
+											},
+											display: {
+												type: 'toggle',
+												title: '显示',
+												_value: true,
+												value: ['none', 'block'],
+												isStyle: true,
+												isToggleStyle: true
+											}
+										},
+										children: [{
+											tag: 'li',
+											type: 'li',
+											name: '来源信息一',
+											attr: {
+												isComponent: {
+													backend: true,
+													value: [],
+													title: '是否为完整的组件',
+													_value: true
+												},
+												content: {
+													title: '来源信息文本',
+													_value: '文字来源',
+													type: 'input',
+													isHTML: true
+												},
+												display: {
+													type: 'toggle',
+													title: '显示',
+													_value: true,
+													value: ['none', 'block'],
+													isStyle: true,
+													isToggleStyle: true
+												}
+											},
+											baseClassName: 'weui-media-box__info__meta'
+										}, {
+											tag: 'li',
+											type: 'li',
+											name: '来源信息二',
+											attr: {
+												isComponent: {
+													backend: true,
+													value: [],
+													title: '是否为完整的组件',
+													_value: true
+												},
+												content: {
+													title: '来源信息文本',
+													_value: '时间',
+													type: 'input',
+													isHTML: true
+												},
+												display: {
+													type: 'toggle',
+													title: '显示',
+													_value: true,
+													value: ['none', 'block'],
+													isStyle: true,
+													isToggleStyle: true
+												}
+											},
+											baseClassName: 'weui-media-box__info__meta'
+										}, {
+											tag: 'li',
+											type: 'li',
+											name: '来源信息三',
+											attr: {
+												isComponent: {
+													backend: true,
+													value: [],
+													title: '是否为完整的组件',
+													_value: true
+												},
+												content: {
+													title: '来源信息文本',
+													_value: '其他信息',
+													type: 'input',
+													isHTML: true
+												},
+												display: {
+													type: 'toggle',
+													title: '显示',
+													_value: true,
+													value: ['none', 'block'],
+													isStyle: true,
+													isToggleStyle: true
+												}
+											},
+											baseClassName: 'weui-media-box__info__meta weui-media-box__info__meta_extra'
+										}]
+									}]
+								}
+							}
+						},
+					},
 					baseClassName: 'weui-panel__bd',
 					children: [{
 						name: '文字组合列表项一',
@@ -5493,7 +5767,131 @@ page {
 				name: '徽章列表',
 				type: 'list-item-icon',
 				baseClassName: 'weui-cells',
-				attr: {},
+				attr: {
+					addBtn: {
+						type: 'button',
+						title: '添加单行列表',
+						isClassName: false,
+						isHTML: false,
+						_value: '添加单行列表',
+						onClick: 'designer/addControllerManually',
+						params: {
+							item: {
+								tag: 'div',
+								type: 'div',
+								baseClassName: 'weui-cell weui-cell_access',
+								name: '单行列表',
+								attr: {
+									display: {
+										type: 'toggle',
+										title: '显示',
+										_value: true,
+										value: ['none', 'flex'],
+										isStyle: true,
+										isToggleStyle: true
+									}
+								},
+								children: [{
+									tag: 'div',
+									type: 'div',
+									baseClassName: 'weui-cell__bd',
+									name: '单行列表头部',
+									attr: {
+										isComponent: {
+											backend: true,
+											value: [],
+											title: '是否为完整的组件',
+											_value: true
+										}
+									},
+									children: [{
+										tag: 'span',
+										type: 'span',
+										name: '列表文本',
+										attr: {
+											isComponent: {
+												backend: true,
+												value: [],
+												title: '是否为完整的组件',
+												_value: true
+											},
+											content: {
+												title: '文本内容',
+												_value: '单行文本',
+												type: 'input',
+												isHTML: true
+											},
+											'vertical-align': {
+												isStyle: true,
+												_value: 'middle',
+												backend: true
+											}
+										}
+									}, {
+										tag: 'span',
+										type: 'span',
+										name: '小提示消息',
+										baseClassName: 'weui-badge',
+										attr: {
+											'margin-left': {
+												isStyle: true,
+												_value: '5px',
+												backend: true
+											},
+											isComponent: {
+												backend: true,
+												value: [],
+												title: '是否为完整的组件',
+												_value: true
+											},
+											display: {
+												type: 'toggle',
+												title: '显示',
+												_value: true,
+												value: ['none', 'inline-block'],
+												isStyle: true,
+												isToggleStyle: true
+											},
+											content: {
+												isHTML: true,
+												_value: '3',
+												type: 'input',
+												title: '提示文本'
+											}
+										}
+									}]
+								}, {
+									tag: 'div',
+									type: 'div',
+									baseClassName: 'weui-cell__ft',
+									name: '单行列表尾部',
+									attr: {
+										content: {
+											title: '文本内容',
+											_value: '详细信息',
+											type: 'input',
+											isHTML: true
+										},
+										isComponent: {
+											backend: true,
+											value: [],
+											title: '是否为完整的组件',
+											_value: true
+										},
+										display: {
+											type: 'toggle',
+											title: '显示',
+											_value: true,
+											value: ['none', 'block'],
+											isStyle: true,
+											isToggleStyle: true
+										}
+									}
+								}]
+							}
+						}
+					}
+				},
 				tag: 'div',
 				children: [{
 					type: 'div',
@@ -6900,6 +7298,7 @@ page {
 				activePage = layoutAction.getActivePage(state);
 
 			if (theParent) {
+				//加特定的父级
 
 				let theParentCtrl = {
 					type: theParent.tag,
@@ -6927,7 +7326,7 @@ page {
 				};
 
 				gospelDesignerPreviewer.postMessage({
-	    			ctrlAdded: {
+	    			ctrlParentAdded: {
 	    				controller: theParentCtrl,
 	    				page: activePage
 	    			}
@@ -6948,20 +7347,26 @@ page {
     				parentCtrl.children.splice(prevCtrlIndex + 1, 0, controller);
     			}else {
 	    			parentCtrl.children.push(controller);
-	    			
-    			}
 
-    			state.layoutState.expandedKeys.push(targetId);
+    			}
     			
+    			state.layoutState.expandedKeys.push(targetId);
+
     		}else {
     			activePage.children.push(controller);
     		}
+
+    		gospelDesignerPreviewer.postMessage({
+    			controllerAdded: {
+    				controller: controller
+    				// page: activePage
+    			}
+			}, '*');
 
 			let level = layoutAction.getCurrentLevelByKey(state.layout, controller.key);
 			layoutAction.setActiveController(state.layoutState, activePage.children.length - 1, controller.key, level);
 
 			computeDomHeight.leftSidebarWhenLoaded();
-
 			return {...state};
 		},
 
@@ -7192,28 +7597,56 @@ page {
 			for(let i = 0; i < params.changeType.length; i ++) {
 
 				let exchCtrl = layoutAction.getCtrlParentAndIndexByKey(state.layout[0], params.exchElementId[i]),
-					dragCtrl = layoutAction.getCtrlParentAndIndexByKey(state.layout[0], params.dragElementId[i]);
-
-				let type = params.changeType[i];
+					dragCtrl = layoutAction.getCtrlParentAndIndexByKey(state.layout[0], params.dragElementId[i]),
+					type = params.changeType[i];
 
 				if (type == 'outPrev') {
+
 					let ctrl = dragCtrl.parentCtrl.children.splice(dragCtrl.index, 1)[0];
 					exchCtrl.parentCtrl.children.splice(exchCtrl.index, 0, ctrl);
+
 				}else if (type == 'outNext') {
+
 					let ctrl = dragCtrl.parentCtrl.children.splice(dragCtrl.index, 1)[0];
 					exchCtrl.parentCtrl.children.splice(exchCtrl.index + 1, 0, ctrl);
+
 				}else if (type == 'appendPrev') {
+
 					let ctrl = dragCtrl.parentCtrl.children.splice(dragCtrl.index, 1)[0];
 					exchCtrl.thisCtrl.children = exchCtrl.thisCtrl.children || [];
 					exchCtrl.thisCtrl.children.push(ctrl);
+
 				}else if (type == 'prependNext') {
+
 					let ctrl = dragCtrl.parentCtrl.children.splice(dragCtrl.index, 1)[0];
 					exchCtrl.thisCtrl.children = exchCtrl.thisCtrl.children || [];
 					exchCtrl.thisCtrl.children.unshift(ctrl);
+
+				}else if (type == 'toFindParent') {
+					
+					if (exchCtrl.thisCtrl.children && exchCtrl.thisCtrl.children[dragCtrl.index]) {
+						if (exchCtrl.thisCtrl.children[dragCtrl.index].key == params.dragElementId) {
+							return {...state};
+						}
+					}
+					let exch = exchCtrl.parentCtrl.children.splice(exchCtrl.index, 1)[0],
+						ctrl = dragCtrl.parentCtrl.children.splice(dragCtrl.index, 1, exch)[0];
+					dragCtrl.parentCtrl.children[dragCtrl.index].children.push(ctrl);
+
+		    		gospelDesignerPreviewer.postMessage({
+		    			controllerAdded: {
+		    				controller: exch
+		    				// page: activePage
+		    			}
+					}, '*');
+
 				}else {
+
 					let ctrl = dragCtrl.parentCtrl.children.splice(dragCtrl.index, 1,
 									exchCtrl.parentCtrl.children[exchCtrl.index])[0];
+					
 					exchCtrl.parentCtrl.children[exchCtrl.index] = ctrl;
+
 				}
 
 			}
