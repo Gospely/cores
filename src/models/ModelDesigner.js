@@ -3241,7 +3241,17 @@ page {
 				baseClassName: 'weui-cell weui-cell_switch',
 				tag: 'div',
 				type: 'toggle',
-				attr: {},
+				attr: {
+					theParent: {
+						isParent: true,
+						_value: {
+							tag: 'div',
+							className: 'weui-cells weui-cells_form'
+						},
+						backend: true,
+						type: 'input'
+					}
+				},
 				name: '开关',
 				children: [{
 					baseClassName: 'weui-cell__bd',
@@ -7263,6 +7273,7 @@ page {
 
 			let controller = ctrlAndParent.controller,
 				theParent = ctrlAndParent.theParent,
+				toGenterParent = ctrlAndParent.toGenterParent,
 				deepCopiedController = deepCopiedController = layoutAction.deepCopyObj(controller);
 
 			const loopAttr = (controller) => {
@@ -7302,12 +7313,8 @@ page {
 				return ctrl;
 			}
 
-			let tmpCtrl = loopAttr(deepCopiedController);
-
-			if (theParent) {
-				//加特定的父级
-
-				let theParentCtrl = {
+			const loopParent = (theParent) => {
+				return {
 					type: theParent.tag,
 					tag: theParent.tag,
 					key: theParent.tag + '-' + randomString(8, 10),
@@ -7331,18 +7338,33 @@ page {
 					baseClassName: theParent.className,
 					children: []
 				};
-
-				theParentCtrl.children.push(tmpCtrl);
-
-				tmpCtrl = theParentCtrl;
 			}
 
-			gospelDesignerPreviewer.postMessage({
-    			ctrlGenerated: {
-    				controller: tmpCtrl,
-    				page: layoutAction.getActivePage(state)
-    			}
-			}, '*');
+			if (toGenterParent) {
+			//为了拖拽放下后生成特定父级
+				let tempParent = loopParent(theParent);
+				console.log(controller)
+
+			}else {
+				let tmpCtrl = loopAttr(deepCopiedController);
+
+				if (theParent) {
+					//加特定的父级
+
+					let theParentCtrl = loopParent(theParent);
+
+					theParentCtrl.children.push(tmpCtrl);
+
+					tmpCtrl = theParentCtrl;
+				}
+
+				gospelDesignerPreviewer.postMessage({
+	    			ctrlGenerated: {
+	    				controller: tmpCtrl,
+	    				page: layoutAction.getActivePage(state)
+	    			}
+				}, '*');
+			}
 
 			return { ...state };
 		},
@@ -7736,7 +7758,7 @@ page {
 		},
 
 		ctrlExchanged(state, {payload: params}) {
-
+			console.log(params)
 			for(let i = 0; i < params.changeType.length; i ++) {
 
 				let exchCtrl = layoutAction.getCtrlParentAndIndexByKey(state.layout[0], params.exchElementId[i]),
@@ -7765,6 +7787,8 @@ page {
 					exchCtrl.thisCtrl.children = exchCtrl.thisCtrl.children || [];
 					exchCtrl.thisCtrl.children.unshift(ctrl);
 
+				}else if(type == 'removeParent') {
+					exchCtrl.parentCtrl.children.splice(exchCtrl.index, 1, dragCtrl.thisCtrl);
 				}else {
 
 					let ctrl = dragCtrl.parentCtrl.children.splice(dragCtrl.index, 1,

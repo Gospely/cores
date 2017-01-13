@@ -1503,6 +1503,9 @@ $(function() {
                 return false;
             }
 
+            var dragClassName = dndData.dragElement[0].className;
+            var parentClassName = dndData.dragElementParent[0].className;
+
             jq(e.currentTarget).css('opacity', '1');
 
             //空容器直接remove掉
@@ -1521,6 +1524,20 @@ $(function() {
             //组件树结构改变
             if (dndData.constructTreeData.haveChange) {
                 postMessageToFather.ctrlExchanged(dndData.constructTreeData);
+            }
+
+            //拖拽元素的父元素已有其最外层容器的类，就把其最外层容器去掉
+            if (parentClassName.indexOf(dragClassName.replace(' hight-light', '')) !== -1) {
+
+                var child = dndData.dragElement.children().clone(true);
+                dndData.dragElement.remove();
+                dndData.dragElementParent.append(child);
+
+                postMessageToFather.ctrlExchanged({
+                    changeType: ['removeParent'],
+                    dragElementId: [child[0].id],
+                    exchElementId: [dndData.dragElement[0].id]
+                })
             }
 
             postMessageToFather.ctrlUpdated({
