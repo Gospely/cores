@@ -870,13 +870,14 @@ $(function() {
                             return false;
                         }
 
+                        $('.dragover-element').remove();
+
                         dndEndHandler(e);
                     });
 
                     self.onDrop();
                     self.onDragover();
                     self.ondragLeave();
-
                 }
 
                 if (sourceController.length === 0) {
@@ -908,6 +909,7 @@ $(function() {
                         dragElement = dndData.dragAddCtrl;
 
                     dragElement.css('opacity', '1');
+                    dragElement.removeClass('dragover-element');
 
                     e.preventDefault();
 
@@ -957,7 +959,6 @@ $(function() {
                     dndData.isLegal = true;
 
                     if (dndData.haveAppened || !dndData.dragAddCtrl) {
-
                         return false;
                     }
 
@@ -999,6 +1000,7 @@ $(function() {
                         target.append(dndData.dragAddCtrl);
                         dndData.haveAppened = true;
                         dndData.dragAddCtrl.css('opacity', '.3');
+                        dndData.dragAddCtrl.addClass('dragover-element');
 
                         controllerOperations.showDesignerDraggerBorder(dndData.dragAddCtrl)
 
@@ -1019,6 +1021,7 @@ $(function() {
                             target.append(dndData.dragAddCtrl);
                             dndData.haveAppened = true;
                             dndData.dragAddCtrl.css('opacity', '.3');
+                            dndData.dragAddCtrl.addClass('dragover-element');
 
                             controllerOperations.showDesignerDraggerBorder(dndData.dragAddCtrl)
 
@@ -1035,6 +1038,7 @@ $(function() {
                             target.after(dndData.dragAddCtrl);
                             dndData.haveAppened = true;
                             dndData.dragAddCtrl.css('opacity', '.3');
+                            dndData.dragAddCtrl.addClass('dragover-element');
 
                             controllerOperations.showDesignerDraggerBorder(dndData.dragAddCtrl)
 
@@ -1058,12 +1062,9 @@ $(function() {
             ondragLeave: function () {
                 jq(this.containerSelector).on('dragleave', function (e) {
                     e.stopPropagation();
-                    // console.log('feifa区域')
-                    if (dndData.dragAddCtrl && dndData.isLegal) {
-                        
+                    if (dndData.dragAddCtrl) {
                         dndData.isLegal = false;
-                        dndData.dragAddCtrl.remove();
-                        console.log('feifa区域')
+                        //非法区域
                     }
                     
                 })
