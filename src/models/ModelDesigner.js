@@ -7275,10 +7275,7 @@ page {
 				return ctrl;
 			}
 
-<<<<<<< HEAD
 			let tmpCtrl = loopAttr(deepCopiedController);
-=======
-			var tmpCtrl = loopAttr(deepCopiedController);
 
 			gospelDesignerPreviewer.postMessage({
     			ctrlGenerated: {
@@ -7299,16 +7296,14 @@ page {
 
 			let controller = ctrlAndTarget.ctrl,
 				targetId = ctrlAndTarget.target,
+				targetManually = ctrlAndTarget.targetManually,
 				theParent = ctrlAndTarget.theParent,
 				isAddByAfter = ctrlAndTarget.isAddByAfter,
 				prevElementId = ctrlAndTarget.prevElementId,
 				activePage = layoutAction.getActivePage(state);
->>>>>>> 0fbb7193f2bda1618dde3e721a72cad730cca1e8
 
 			var isManaully = false,
 				tmpCtrl = {};
-
-			console.log(controller);
 
 			if(!controller.key) {
 
@@ -7389,29 +7384,6 @@ page {
 				tmpCtrl = theParentCtrl;
 			}
 
-			gospelDesignerPreviewer.postMessage({
-    			ctrlGenerated: {
-    				controller: tmpCtrl,
-    				page: layoutAction.getActivePage(state)
-    			}
-			}, '*');
-
-			return { ...state };
-		},
-
-		addController(state, { payload: ctrlAndTarget }) {
-
-			if (state.layoutState.activePage.level == 1) {
-				message.error('请在左上角组件树中选择一个页面');
-				return {...state};
-			}
-			let controller = ctrlAndTarget.ctrl,
-				targetId = ctrlAndTarget.target,
-				theParent = ctrlAndTarget.theParent,
-				isAddByAfter = ctrlAndTarget.isAddByAfter,
-				prevElementId = ctrlAndTarget.prevElementId,
-				activePage = layoutAction.getActivePage(state);
-
     		if (targetId) {
     			let parentCtrl = layoutAction.getCtrlByKey(state.layout[0], targetId);
     			parentCtrl.children = parentCtrl.children || [];
@@ -7422,7 +7394,6 @@ page {
     				parentCtrl.children.splice(prevCtrlIndex + 1, 0, controller);
     			}else {
 	    			parentCtrl.children.push(controller);
-
     			}
     			
     			state.layoutState.expandedKeys.push(targetId);
@@ -7435,7 +7406,8 @@ page {
 				gospelDesignerPreviewer.postMessage({
 	    			ctrlGenerated: {
 	    				controller: controller,
-	    				page: activePage
+	    				page: activePage,
+	    				isManaully: true
 	    			}
 				}, '*');
     		}
@@ -7451,8 +7423,64 @@ page {
 			layoutAction.setActiveController(state.layoutState, activePage.children.length - 1, controller.key, level);
 
 			computeDomHeight.leftSidebarWhenLoaded();
-			return {...state};
+
+			return { ...state };
 		},
+
+		// addController(state, { payload: ctrlAndTarget }) {
+
+		// 	if (state.layoutState.activePage.level == 1) {
+		// 		message.error('请在左上角组件树中选择一个页面');
+		// 		return {...state};
+		// 	}
+		// 	let controller = ctrlAndTarget.ctrl,
+		// 		targetId = ctrlAndTarget.target,
+		// 		theParent = ctrlAndTarget.theParent,
+		// 		isAddByAfter = ctrlAndTarget.isAddByAfter,
+		// 		prevElementId = ctrlAndTarget.prevElementId,
+		// 		activePage = layoutAction.getActivePage(state);
+
+  //   		if (targetId) {
+  //   			let parentCtrl = layoutAction.getCtrlByKey(state.layout[0], targetId);
+  //   			parentCtrl.children = parentCtrl.children || [];
+
+  //   			if (isAddByAfter) {
+  //   				//如果是after加进去的元素，结构树作特殊的变化，不是简单的push
+  //   				let prevCtrlIndex = layoutAction.getControllerIndexByKey(state.layout[0], prevElementId);
+  //   				parentCtrl.children.splice(prevCtrlIndex + 1, 0, controller);
+  //   			}else {
+	 //    			parentCtrl.children.push(controller);
+
+  //   			}
+    			
+  //   			state.layoutState.expandedKeys.push(targetId);
+
+  //   		}else {
+  //   			activePage.children.push(controller);
+  //   		}
+
+  //   		if(isManaully) {
+		// 		gospelDesignerPreviewer.postMessage({
+	 //    			ctrlGenerated: {
+	 //    				controller: controller,
+	 //    				page: activePage
+	 //    			}
+		// 		}, '*');
+  //   		}
+
+  //   		gospelDesignerPreviewer.postMessage({
+  //   			controllerAdded: {
+  //   				controller: controller
+  //   				// page: activePage
+  //   			}
+		// 	}, '*');
+
+		// 	let level = layoutAction.getCurrentLevelByKey(state.layout, controller.key);
+		// 	layoutAction.setActiveController(state.layoutState, activePage.children.length - 1, controller.key, level);
+
+		// 	computeDomHeight.leftSidebarWhenLoaded();
+		// 	return {...state};
+		// },
 
 		removeController(state, { payload: controller }) {
 			layoutAction.removeControllerByKey(state, controller.key);
@@ -7787,6 +7815,7 @@ page {
 				type: 'addController',
 				payload: {
 					ctrl: params.item,
+					targetManually: target,
 					target: target
 				}
 			});

@@ -1439,6 +1439,8 @@ $(function() {
 
         function ComponentsGenerator(params) {
 
+            console.log(params);
+
             params.initElem = params.initElem || false;
 
             this.controller = params.controller;
@@ -1897,6 +1899,13 @@ $(function() {
 
                             dndData.dragAddCtrl = elem;
                             dndData.dragAddCtrlData = controller;
+
+                            if(data.isManaully) {
+                                jq(parent.parent.currentTarget).append(elem.clone(true));
+                                var pageId = location.hash.split('#')[1] || 'page-home';
+                                jq('script[id="' + pageId + '"]').html(jq('.' + pageId).clone(true));
+                                controllerOperations.select(data.controller);
+                            }
 
                         },
 
