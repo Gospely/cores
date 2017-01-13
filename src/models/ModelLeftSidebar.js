@@ -265,7 +265,7 @@ export default {
 			});
             if(result.data.code == 1){
 
-                if(result.data.fields.length >= 1){
+                if(result.data.fields.length >= 100){
                     notification.open({
                         message: '创建的应用数已超出，请选择创建小程序应用'
                     });
