@@ -259,13 +259,14 @@ export default {
 		},
         *checkAvailable({payload: params}, {call, put}){
 
+            console.log(params);
             var url = 'applications?creator=' + localStorage.user + '&host=120.76.235.234'
             var result = yield request(url, {
 				method: 'GET'
 			});
             if(result.data.code == 1){
 
-                if(result.data.fields.length >= 1){
+                if(result.data.fields.length >= 100){
                     notification.open({
                         message: '创建的应用数已超出，请选择创建小程序应用'
                     });
