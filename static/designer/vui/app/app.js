@@ -963,6 +963,7 @@ $(function() {
                             dndData.dragElement = dndData.dragAddCtrl;
                             dndData.orginY = e.pageY;
                             dndData.dragElementParent = dndData.dragElement.parent();
+
                         } else if (!dndData.haveAppened) {
                             //after到其后面去
                             target.after(dndData.dragAddCtrl);
@@ -984,27 +985,6 @@ $(function() {
                             dndData.addCtrlbyAfter.prevElementId = targetId;
                         }
                     }
-                    // if (targetId != dndData.dragAddCtrl.eq(0).attr('id') &&
-                    //     !dndData.dragAddCtrl.find('#' + targetId).length &&
-                    //     (target.data('is-container') || target.hasClass('page__hd') ||
-                    //         target.hasClass('page__bd') || target.hasClass('page__ft')) &&
-                    //     !dndData.haveAppened) {
-
-                    //     //append进去
-                    //     target.append(dndData.dragAddCtrl);
-                    //     dndData.haveAppened = true;
-                    //     dndData.dragAddCtrl.css('opacity','.3');
-
-                    //     //append到父元素
-                    //     dndData.dragAddCtrlTargetId = targetId;
-
-                    //     //初始化拖拽元素
-                    //     dndData.dragElement = dndData.dragAddCtrl;
-                    //     dndData.orginY = e.pageY;
-                    //     dndData.dragElementParent = dndData.dragElement.parent();
-
-                    // }
-
 
                 });
             }
@@ -1255,7 +1235,6 @@ $(function() {
 
                 referHeight = 30; //位置变换的参考高度
 
-
             //小于参考高度的 -2/3 使用before()
             if (moveY <= -referHeight / 3 * 2) {
 
@@ -1435,7 +1414,8 @@ $(function() {
 
             //组件树结构改变
             if (dndData.constructTreeData.haveChange) {
-                postMessageToFather.ctrlExchanged(dndData.constructTreeData)
+                console.log('dragEnd')
+                postMessageToFather.ctrlExchanged(dndData.constructTreeData);
             }
 
             postMessageToFather.ctrlUpdated({
@@ -1915,7 +1895,8 @@ $(function() {
                         },
 
                         ctrlParentAdded: function() {
-
+                            //若有特定父级则用父级将其包裹
+                            console.log('actlParentAdded')
                             var controller = data.controller,
 
                                 comGen = new ComponentsGenerator({
@@ -1925,8 +1906,7 @@ $(function() {
                                 }),
 
                                 elem = jq(comGen.createElement());
-
-                            //若有特定父级则用父级将其包裹
+                            
                             dndData.dragAddCtrl.wrap(elem);
 
                             postMessageToFather.ctrlExchanged({
@@ -1935,9 +1915,7 @@ $(function() {
                                 changeType: ['toFindParent']
                             });
 
-                            
-
-                            controllerOperations.select(controller);
+                            // controllerOperations.select(controller);
 
                         },
 
