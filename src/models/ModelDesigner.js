@@ -4467,7 +4467,8 @@ page {
 								title: '是否为完整的组件',
 								_value: true
 							},
-							content: {
+
+							value: {
 								type: 'input',
 								title: '文本内容',
 								isHTML: true,
@@ -4525,7 +4526,7 @@ page {
 								title: '是否为完整的组件',
 								_value: true
 							},
-							content: {
+							value: {
 								type: 'input',
 								isHTML: true,
 								isClassName: false,
@@ -4668,7 +4669,7 @@ page {
 						name: '列表标题文字',
 						type: 'p',
 						attr: {
-							content: {
+							value: {
 								type: 'input',
 								title: '文本内容',
 								isHTML: true,
@@ -4728,7 +4729,7 @@ page {
 								title: '是否为完整的组件',
 								_value: true
 							},
-							content: {
+							value: {
 								type: 'input',
 								isHTML: true,
 								isClassName: false,
@@ -4777,7 +4778,7 @@ page {
 						type: 'input',
 						isSetAttribute: 'true'
 					},
-					content: {
+					value: {
 						title: '文本内容',
 						_value: '查看更多',
 						type: 'input',
@@ -4805,7 +4806,7 @@ page {
 							isStyle: true,
 							isToggleStyle: true
 						},
-						content: {
+						value: {
 							isHTML: true,
 							title: '头部文本',
 							_value: '图文组合列表项',
@@ -4897,7 +4898,7 @@ page {
 													title: '是否为完整的组件',
 													_value: true
 												},
-												content: {
+												value: {
 													title: '标题文本',
 													_value: '标题一',
 													type: 'input',
@@ -4916,7 +4917,7 @@ page {
 													title: '是否为完整的组件',
 													_value: true
 												},
-												content: {
+												value: {
 													title: '标题文本',
 													_value: '由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。',
 													type: 'input',
@@ -5001,7 +5002,7 @@ page {
 										title: '是否为完整的组件',
 										_value: true
 									},
-									content: {
+									value: {
 										title: '标题文本',
 										_value: '标题一',
 										type: 'input',
@@ -5020,7 +5021,7 @@ page {
 										title: '是否为完整的组件',
 										_value: true
 									},
-									content: {
+									value: {
 										title: '标题文本',
 										_value: '由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。',
 										type: 'input',
@@ -5100,7 +5101,7 @@ page {
 										title: '是否为完整的组件',
 										_value: true
 									},
-									content: {
+									value: {
 										title: '标题文本',
 										_value: '标题二',
 										type: 'input',
@@ -5119,7 +5120,7 @@ page {
 										title: '是否为完整的组件',
 										_value: true
 									},
-									content: {
+									value: {
 										title: '标题文本',
 										_value: '由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。',
 										type: 'input',
@@ -5174,7 +5175,7 @@ page {
 									title: '是否为完整的组件',
 									_value: true
 								},
-								content: {
+								value: {
 									_value: '查看更多',
 									title: '文本内容',
 									isHTML: true,
@@ -5226,7 +5227,7 @@ page {
 							isStyle: true,
 							isToggleStyle: true
 						},
-						content: {
+						value: {
 							isHTML: true,
 							title: '头部文本',
 							_value: '文字组合列表项',
@@ -5265,7 +5266,7 @@ page {
 												_value: true
 											},
 
-											content: {
+											value: {
 												isHTML: true,
 												_value: '标题一',
 												type: 'input',
@@ -5285,7 +5286,7 @@ page {
 												_value: true
 											},
 
-											content: {
+											value: {
 												isHTML: true,
 												_value: '由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。',
 												type: 'input',
@@ -5325,7 +5326,7 @@ page {
 													title: '是否为完整的组件',
 													_value: true
 												},
-												content: {
+												value: {
 													title: '来源信息文本',
 													_value: '文字来源',
 													type: 'input',
@@ -5352,7 +5353,7 @@ page {
 													title: '是否为完整的组件',
 													_value: true
 												},
-												content: {
+												value: {
 													title: '来源信息文本',
 													_value: '时间',
 													type: 'input',
@@ -5379,7 +5380,7 @@ page {
 													title: '是否为完整的组件',
 													_value: true
 												},
-												content: {
+												value: {
 													title: '来源信息文本',
 													_value: '其他信息',
 													type: 'input',
@@ -5420,7 +5421,7 @@ page {
 									_value: true
 								},
 
-								content: {
+								value: {
 									isHTML: true,
 									_value: '标题一',
 									type: 'input',
@@ -5440,7 +5441,7 @@ page {
 									_value: true
 								},
 
-								content: {
+								value: {
 									isHTML: true,
 									_value: '由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。',
 									type: 'input',
@@ -5480,7 +5481,7 @@ page {
 										title: '是否为完整的组件',
 										_value: true
 									},
-									content: {
+									value: {
 										title: '来源信息文本',
 										_value: '文字来源',
 										type: 'input',
@@ -5507,7 +5508,7 @@ page {
 										title: '是否为完整的组件',
 										_value: true
 									},
-									content: {
+									value: {
 										title: '来源信息文本',
 										_value: '时间',
 										type: 'input',
@@ -5534,7 +5535,7 @@ page {
 										title: '是否为完整的组件',
 										_value: true
 									},
-									content: {
+									value: {
 										title: '来源信息文本',
 										_value: '其他信息',
 										type: 'input',
@@ -5570,7 +5571,7 @@ page {
 									_value: true
 								},
 
-								content: {
+								value: {
 									isHTML: true,
 									_value: '标题一',
 									type: 'input',
@@ -5590,7 +5591,7 @@ page {
 									_value: true
 								},
 
-								content: {
+								value: {
 									isHTML: true,
 									_value: '由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。',
 									type: 'input',
@@ -5630,7 +5631,7 @@ page {
 										title: '是否为完整的组件',
 										_value: true
 									},
-									content: {
+									value: {
 										title: '来源信息文本',
 										_value: '文字来源',
 										type: 'input',
@@ -5657,7 +5658,7 @@ page {
 										title: '是否为完整的组件',
 										_value: true
 									},
-									content: {
+									value: {
 										title: '来源信息文本',
 										_value: '时间',
 										type: 'input',
@@ -5684,7 +5685,7 @@ page {
 										title: '是否为完整的组件',
 										_value: true
 									},
-									content: {
+									value: {
 										title: '来源信息文本',
 										_value: '其他信息',
 										type: 'input',
@@ -5748,7 +5749,7 @@ page {
 									title: '是否为完整的组件',
 									_value: true
 								},
-								content: {
+								value: {
 									_value: '查看更多',
 									title: '文本内容',
 									isHTML: true,
@@ -5833,7 +5834,7 @@ page {
 												title: '是否为完整的组件',
 												_value: true
 											},
-											content: {
+											value: {
 												title: '文本内容',
 												_value: '单行文本',
 												type: 'input',
@@ -5870,7 +5871,7 @@ page {
 												isStyle: true,
 												isToggleStyle: true
 											},
-											content: {
+											value: {
 												isHTML: true,
 												_value: '3',
 												type: 'input',
@@ -5884,7 +5885,7 @@ page {
 									baseClassName: 'weui-cell__ft',
 									name: '单行列表尾部',
 									attr: {
-										content: {
+										value: {
 											title: '文本内容',
 											_value: '详细信息',
 											type: 'input',
@@ -5983,7 +5984,7 @@ page {
 							name: '小提示信息',
 							baseClassName: 'weui-badge',
 							attr: {
-								content: {
+								value: {
 									isHTML: true,
 									_value: '8',
 									type: 'input',
@@ -6044,7 +6045,7 @@ page {
 									title: '是否为完整的组件',
 									_value: true
 								},
-								content: {
+								value: {
 									title: '标题',
 									isHTML: true,
 									_value: '联系人名称',
@@ -6066,7 +6067,7 @@ page {
 									_value: '#888',
 									backend: true
 								},
-								content: {
+								value: {
 									isHTML: true,
 									title: '摘要信息',
 									_value: '摘要信息',
@@ -6120,7 +6121,7 @@ page {
 									title: '是否为完整的组件',
 									_value: true
 								},
-								content: {
+								value: {
 									title: '文本内容',
 									_value: '单行文本',
 									type: 'input',
@@ -6157,7 +6158,7 @@ page {
 									isStyle: true,
 									isToggleStyle: true
 								},
-								content: {
+								value: {
 									isHTML: true,
 									_value: '3',
 									type: 'input',
@@ -6171,7 +6172,7 @@ page {
 						baseClassName: 'weui-cell__ft',
 						name: '单行列表尾部',
 						attr: {
-							content: {
+							value: {
 								title: '文本内容',
 								_value: '详细信息',
 								type: 'input',
@@ -6232,7 +6233,7 @@ page {
 									title: '是否为完整的组件',
 									_value: true
 								},
-								content: {
+								value: {
 									title: '文本内容',
 									_value: '单行文本',
 									type: 'input',
@@ -6269,7 +6270,7 @@ page {
 									isStyle: true,
 									isToggleStyle: true
 								},
-								content: {
+								value: {
 									isHTML: true,
 									_value: '3',
 									type: 'input',
@@ -6313,7 +6314,7 @@ page {
 									_value: '17px',
 									backend: true
 								},
-								content: {
+								value: {
 									isHTML: true,
 									_value: '详细信息',
 									title: '文本内容',
@@ -7252,6 +7253,14 @@ page {
 
 		generateCtrl(state, {payload: ctrlAndParent}) {
 
+			if (state.layoutState.activePage.level == 1) {
+				message.error('请在左上角组件树中选择一个页面');
+				window.validDropArea = false;
+				return { ...state };
+			}
+
+			window.validDropArea = true;
+
 			let controller = ctrlAndParent.controller,
 				theParent = ctrlAndParent.theParent,
 				deepCopiedController = deepCopiedController = layoutAction.deepCopyObj(controller);
@@ -7309,8 +7318,11 @@ page {
 
 			if (state.layoutState.activePage.level == 1) {
 				message.error('请在左上角组件树中选择一个页面');
+				window.validDropArea = false;
 				return { ...state };
 			}
+
+			window.validDropArea = true;
 
 			let controller = ctrlAndTarget.ctrl,
 				targetId = ctrlAndTarget.target,

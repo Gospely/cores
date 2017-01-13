@@ -365,6 +365,12 @@ $(function() {
                 parent.postMessage({
                     'stopRouting': true
                 }, '*');
+            },
+
+            invalidDropArea: function() {
+                parent.postMessage({
+                    'invalidDropArea': true
+                }, '*');                
             }
 
         }
@@ -797,6 +803,8 @@ $(function() {
                         jq(this).find(".app-components").on("dragstart", function(ev) {
                             data = jq(ev.target).clone();
 
+                            console.log('dragstart..')
+
                             var controller = parent.parent.dndData;
 
                             //传回父页面的数据
@@ -807,9 +815,7 @@ $(function() {
                             //若拖进来的元素必须有特定的父元素则判断是否需要添加其特定父元素
                             // var appendParent = jq('#' + dndData.dragAddCtrlTargetId)[0];
                             if (controller.attr.theParent && controller.attr.theParent._value) {
-
                                 ctrlAndParent.theParent = controller.attr.theParent._value;
-
                             }
 
                             //生成dom数据结构
@@ -846,6 +852,11 @@ $(function() {
                         // })
                     }).on('drag', function(e) {
 
+                        if(!parent.parent.validDropArea) {
+                            e.preventDefault(e);
+                            return false;
+                        }
+
                         if (!dndData.haveAppened) {
                             return false;
                         }
@@ -854,8 +865,11 @@ $(function() {
 
                     }).on('dragend', function(e) {
 
-                        dndEndHandler(e);
+                        if(!parent.parent.validDropArea) {
+                            return false;
+                        }
 
+                        dndEndHandler(e);
                     });
 
                     self.onDrop();
@@ -881,6 +895,10 @@ $(function() {
                 var self = this;
                 jq(this.containerSelector).on("drop", function(e) {
                     if (e.originalEvent.dataTransfer.getData("Text") == 'fromSelf') {
+                        return false;
+                    }
+
+                    if(!parent.parent.validDropArea) {
                         return false;
                     }
 
@@ -932,12 +950,22 @@ $(function() {
 
             onDragover: function() {
                 //拖拽过程中
+
+                // if(!parent.parent.validDropArea) {
+                //     return false;
+                // }
+
                 if (dndData.haveAppened || !dndData.dragAddCtrl) {
                     return false;
                 }
                 jq("body").on("dragover", function(e) {
                     e.preventDefault();
                     e.stopPropagation();
+
+                    if(!parent.parent.validDropArea) {
+                        return false;
+                    }
+
                     var target = jq(e.target),
                         targetId = e.target.id;
                     jq('.container-box').removeClass('container-box');
@@ -1245,6 +1273,11 @@ $(function() {
         //拖拽过程处理函数(ondrag)
         var dndProcessHandlder = function(e) {
             e.stopPropagation();
+
+            if(!dndData.dragElement) {
+                postMessageToFather.invalidDropArea();
+                return false;
+            }
             
             var $this = dndData.dragElement,
                 thisId = $this.eq(0).attr('id'),
@@ -1826,9 +1859,7 @@ $(function() {
 
                 });
                 elem.on('drag', function(e) {
-
                     dndProcessHandlder(e);
-
                 });
 
                 elem.on('dragenter', function(e) {
@@ -1837,9 +1868,9 @@ $(function() {
 
                 elem.on('dragleave', function(e) {
                     console.log('离开')
-                        // if (elem.hasClass('page__bd')) {
-                        //     dndData.dragAddCtrl.remove();
-                        // }
+                    // if (elem.hasClass('page__bd')) {
+                    //     dndData.dragAddCtrl.remove();
+                    // }
                 })
 
                 elem.on('dragend', function(e) {

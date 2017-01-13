@@ -169,7 +169,7 @@ export default {
 				},
 
 				invalidDropArea () {
-					message.error('非法的拖拽区域');
+					message.error('无效的拖拽区域，请选择一个页面');
 				},
 
 				finishAppCreate () {
