@@ -109,6 +109,11 @@ export default {
 			visible: false,
 			title: '',
 			message: ''
+		},
+
+		modalFeedback: {
+			visible: false,
+			message: ''
 		}
 	},
 
@@ -556,6 +561,32 @@ export default {
 				});
         	}
 
+        },
+
+        *submitFeedback( { payload: params }, { call, put, select }) {
+
+            var feedback = yield select(state => state.sidebar.modalFeedback.message);
+
+            if(feedback == '') {
+	        	notification.open({
+	        		message: '请填写意见建议'
+	        	});
+
+	        }else {
+
+	        	notification.open({
+	        		message: '提交失败，请重试'
+	        	});
+
+	        	notification.open({
+	        		message: '提交成功，谢谢参与'
+	        	});
+
+				yield put({
+					type: 'hideFeedback'
+				});
+
+	        }
         }
 
 	},
@@ -890,7 +921,23 @@ export default {
 			state.modalCommitInfo[params.input] = params.value;
             state.modalCommitInfo.title = params.value;
 			return {...state};
+		},
+
+		showFeedback(state, { payload: params }) {
+			state.modalFeedback.visible = true;
+			return {...state};
+		},
+
+		hideFeedback(state, { payload: params }) {
+			state.modalFeedback.visible = false;
+			return {...state};
+		},
+
+		handleFeedbackMsgChange(state, { payload: value }) {
+			state.modalFeedback.message = value;
+			return {...state};
 		}
+
 
 	}
 
