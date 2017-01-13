@@ -4805,7 +4805,7 @@ page {
 							title: '添加列表',
 							isClassName: false,
 							isHTML: false,
-							_value: '添加项目',
+							_value: '添加列表项',
 							onClick: 'designer/addControllerManually',
 							params: {
 								item: {
@@ -5220,7 +5220,169 @@ page {
 					name: '文字组合列表中部',
 					type: 'div',
 					tag: 'div',
-					attr: {},
+					attr: {
+						addBtn: {
+							type: 'button',
+							title: '添加列表',
+							isClassName: false,
+							isHTML: false,
+							_value: '添加列表',
+							onClick: 'designer/addControllerManually',
+							params: {
+								item: {
+									name: '文字组合列表项',
+									tag: 'div',
+									type: 'div',
+									attr: {},
+									baseClassName: 'weui-media-box weui-media-box_text',
+									children: [{
+										name: '标题一',
+										type: 'h4',
+										tag: 'h4',
+										attr: {
+											isComponent: {
+												backend: true,
+												value: [],
+												title: '是否为完整的组件',
+												_value: true
+											},
+
+											content: {
+												isHTML: true,
+												_value: '标题一',
+												type: 'input',
+												title: '标题文本'
+											}
+										},
+										baseClassName: 'weui-media-box__title'
+									}, {
+										name: '描述文本',
+										type: 'p',
+										tag: 'p',
+										attr: {
+											isComponent: {
+												backend: true,
+												value: [],
+												title: '是否为完整的组件',
+												_value: true
+											},
+
+											content: {
+												isHTML: true,
+												_value: '由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。',
+												type: 'input',
+												title: '描述文本'
+											}
+										},
+										baseClassName: 'weui-media-box__desc'
+									}, {
+										name: '来源信息',
+										type: 'ul',
+										tag: 'ul',
+										baseClassName: 'weui-media-box__info',
+										attr: {
+											isComponent: {
+												backend: true,
+												value: [],
+												title: '是否为完整的组件',
+												_value: true
+											},
+											display: {
+												type: 'toggle',
+												title: '显示',
+												_value: true,
+												value: ['none', 'block'],
+												isStyle: true,
+												isToggleStyle: true
+											}
+										},
+										children: [{
+											tag: 'li',
+											type: 'li',
+											name: '来源信息一',
+											attr: {
+												isComponent: {
+													backend: true,
+													value: [],
+													title: '是否为完整的组件',
+													_value: true
+												},
+												content: {
+													title: '来源信息文本',
+													_value: '文字来源',
+													type: 'input',
+													isHTML: true
+												},
+												display: {
+													type: 'toggle',
+													title: '显示',
+													_value: true,
+													value: ['none', 'block'],
+													isStyle: true,
+													isToggleStyle: true
+												}
+											},
+											baseClassName: 'weui-media-box__info__meta'
+										}, {
+											tag: 'li',
+											type: 'li',
+											name: '来源信息二',
+											attr: {
+												isComponent: {
+													backend: true,
+													value: [],
+													title: '是否为完整的组件',
+													_value: true
+												},
+												content: {
+													title: '来源信息文本',
+													_value: '时间',
+													type: 'input',
+													isHTML: true
+												},
+												display: {
+													type: 'toggle',
+													title: '显示',
+													_value: true,
+													value: ['none', 'block'],
+													isStyle: true,
+													isToggleStyle: true
+												}
+											},
+											baseClassName: 'weui-media-box__info__meta'
+										}, {
+											tag: 'li',
+											type: 'li',
+											name: '来源信息三',
+											attr: {
+												isComponent: {
+													backend: true,
+													value: [],
+													title: '是否为完整的组件',
+													_value: true
+												},
+												content: {
+													title: '来源信息文本',
+													_value: '其他信息',
+													type: 'input',
+													isHTML: true
+												},
+												display: {
+													type: 'toggle',
+													title: '显示',
+													_value: true,
+													value: ['none', 'block'],
+													isStyle: true,
+													isToggleStyle: true
+												}
+											},
+											baseClassName: 'weui-media-box__info__meta weui-media-box__info__meta_extra'
+										}]
+									}]
+								}
+							}
+						},
+					},
 					baseClassName: 'weui-panel__bd',
 					children: [{
 						name: '文字组合列表项一',
@@ -5605,7 +5767,131 @@ page {
 				name: '徽章列表',
 				type: 'list-item-icon',
 				baseClassName: 'weui-cells',
-				attr: {},
+				attr: {
+					addBtn: {
+						type: 'button',
+						title: '添加单行列表',
+						isClassName: false,
+						isHTML: false,
+						_value: '添加单行列表',
+						onClick: 'designer/addControllerManually',
+						params: {
+							item: {
+								tag: 'div',
+								type: 'div',
+								baseClassName: 'weui-cell weui-cell_access',
+								name: '单行列表',
+								attr: {
+									display: {
+										type: 'toggle',
+										title: '显示',
+										_value: true,
+										value: ['none', 'flex'],
+										isStyle: true,
+										isToggleStyle: true
+									}
+								},
+								children: [{
+									tag: 'div',
+									type: 'div',
+									baseClassName: 'weui-cell__bd',
+									name: '单行列表头部',
+									attr: {
+										isComponent: {
+											backend: true,
+											value: [],
+											title: '是否为完整的组件',
+											_value: true
+										}
+									},
+									children: [{
+										tag: 'span',
+										type: 'span',
+										name: '列表文本',
+										attr: {
+											isComponent: {
+												backend: true,
+												value: [],
+												title: '是否为完整的组件',
+												_value: true
+											},
+											content: {
+												title: '文本内容',
+												_value: '单行文本',
+												type: 'input',
+												isHTML: true
+											},
+											'vertical-align': {
+												isStyle: true,
+												_value: 'middle',
+												backend: true
+											}
+										}
+									}, {
+										tag: 'span',
+										type: 'span',
+										name: '小提示消息',
+										baseClassName: 'weui-badge',
+										attr: {
+											'margin-left': {
+												isStyle: true,
+												_value: '5px',
+												backend: true
+											},
+											isComponent: {
+												backend: true,
+												value: [],
+												title: '是否为完整的组件',
+												_value: true
+											},
+											display: {
+												type: 'toggle',
+												title: '显示',
+												_value: true,
+												value: ['none', 'inline-block'],
+												isStyle: true,
+												isToggleStyle: true
+											},
+											content: {
+												isHTML: true,
+												_value: '3',
+												type: 'input',
+												title: '提示文本'
+											}
+										}
+									}]
+								}, {
+									tag: 'div',
+									type: 'div',
+									baseClassName: 'weui-cell__ft',
+									name: '单行列表尾部',
+									attr: {
+										content: {
+											title: '文本内容',
+											_value: '详细信息',
+											type: 'input',
+											isHTML: true
+										},
+										isComponent: {
+											backend: true,
+											value: [],
+											title: '是否为完整的组件',
+											_value: true
+										},
+										display: {
+											type: 'toggle',
+											title: '显示',
+											_value: true,
+											value: ['none', 'block'],
+											isStyle: true,
+											isToggleStyle: true
+										}
+									}
+								}]
+							}
+						}
+					}
+				},
 				tag: 'div',
 				children: [{
 					type: 'div',
