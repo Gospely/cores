@@ -1678,6 +1678,12 @@ page {
 							backend: true,
 							isContainer: true,
 							title: '是否是容器'
+						},
+						height: {
+							type: 'input',
+							title: '高度',
+							isStyle: true,
+							_value: '100px'
 						}
 					}
 				}, {
@@ -1692,6 +1698,12 @@ page {
 							backend: true,
 							isContainer: true,
 							title: '是否是容器'
+						},
+						height: {
+							type: 'input',
+							title: '高度',
+							isStyle: true,
+							_value: '100px'
 						}
 					}
 				}, {
@@ -1706,6 +1718,12 @@ page {
 							backend: true,
 							isContainer: true,
 							title: '是否是容器'
+						},
+						height: {
+							type: 'input',
+							title: '高度',
+							isStyle: true,
+							_value: '100px'
 						}
 					}
 				}]
