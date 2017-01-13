@@ -1903,6 +1903,7 @@ $(function() {
                             if(data.isManaully) {
                                 jq(parent.parent.currentTarget).append(elem.clone(true));
                                 var pageId = location.hash.split('#')[1] || 'page-home';
+                                jq('script[id="' + pageId + '"]').html('');
                                 jq('script[id="' + pageId + '"]').html(jq('.' + pageId).clone(true));
                                 controllerOperations.select(data.controller);
                             }
@@ -1910,8 +1911,9 @@ $(function() {
                         },
 
                         controllerAdded: function () {
-                            console.log(data);
+                            alert('controllerAdded');
                             var pageId = location.hash.split('#')[1] || 'page-home';
+                            jq('script[id="' + pageId + '"]').html('');
                             jq('script[id="' + pageId + '"]').html(jq('.' + pageId).clone(true));
                             controllerOperations.select(data.controller);
                         },
