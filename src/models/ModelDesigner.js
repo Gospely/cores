@@ -6900,6 +6900,7 @@ page {
 				activePage = layoutAction.getActivePage(state);
 
 			if (theParent) {
+				//加特定的父级
 
 				let theParentCtrl = {
 					type: theParent.tag,
@@ -6927,7 +6928,7 @@ page {
 				};
 
 				gospelDesignerPreviewer.postMessage({
-	    			ctrlAdded: {
+	    			ctrlParentAdded: {
 	    				controller: theParentCtrl,
 	    				page: activePage
 	    			}
@@ -6948,14 +6949,20 @@ page {
     				parentCtrl.children.splice(prevCtrlIndex + 1, 0, controller);
     			}else {
 	    			parentCtrl.children.push(controller);
-	    			
     			}
-
+    			
     			state.layoutState.expandedKeys.push(targetId);
     			
     		}else {
     			activePage.children.push(controller);
     		}
+
+    		gospelDesignerPreviewer.postMessage({
+    			controllerAdded: {
+    				controller: controller
+    				// page: activePage
+    			}
+			}, '*');
 
 			let level = layoutAction.getCurrentLevelByKey(state.layout, controller.key);
 			layoutAction.setActiveController(state.layoutState, activePage.children.length - 1, controller.key, level);
@@ -7192,28 +7199,56 @@ page {
 			for(let i = 0; i < params.changeType.length; i ++) {
 
 				let exchCtrl = layoutAction.getCtrlParentAndIndexByKey(state.layout[0], params.exchElementId[i]),
-					dragCtrl = layoutAction.getCtrlParentAndIndexByKey(state.layout[0], params.dragElementId[i]);
-
-				let type = params.changeType[i];
+					dragCtrl = layoutAction.getCtrlParentAndIndexByKey(state.layout[0], params.dragElementId[i]),
+					type = params.changeType[i];
 
 				if (type == 'outPrev') {
+
 					let ctrl = dragCtrl.parentCtrl.children.splice(dragCtrl.index, 1)[0];
 					exchCtrl.parentCtrl.children.splice(exchCtrl.index, 0, ctrl);
+
 				}else if (type == 'outNext') {
+
 					let ctrl = dragCtrl.parentCtrl.children.splice(dragCtrl.index, 1)[0];
 					exchCtrl.parentCtrl.children.splice(exchCtrl.index + 1, 0, ctrl);
+
 				}else if (type == 'appendPrev') {
+
 					let ctrl = dragCtrl.parentCtrl.children.splice(dragCtrl.index, 1)[0];
 					exchCtrl.thisCtrl.children = exchCtrl.thisCtrl.children || [];
 					exchCtrl.thisCtrl.children.push(ctrl);
+
 				}else if (type == 'prependNext') {
+
 					let ctrl = dragCtrl.parentCtrl.children.splice(dragCtrl.index, 1)[0];
 					exchCtrl.thisCtrl.children = exchCtrl.thisCtrl.children || [];
 					exchCtrl.thisCtrl.children.unshift(ctrl);
+
+				}else if (type == 'toFindParent') {
+					
+					if (exchCtrl.thisCtrl.children && exchCtrl.thisCtrl.children[dragCtrl.index]) {
+						if (exchCtrl.thisCtrl.children[dragCtrl.index].key == params.dragElementId) {
+							return {...state};
+						}
+					}
+					let exch = exchCtrl.parentCtrl.children.splice(exchCtrl.index, 1)[0],
+						ctrl = dragCtrl.parentCtrl.children.splice(dragCtrl.index, 1, exch)[0];
+					dragCtrl.parentCtrl.children[dragCtrl.index].children.push(ctrl);
+
+		    		gospelDesignerPreviewer.postMessage({
+		    			controllerAdded: {
+		    				controller: exch
+		    				// page: activePage
+		    			}
+					}, '*');
+
 				}else {
+
 					let ctrl = dragCtrl.parentCtrl.children.splice(dragCtrl.index, 1,
 									exchCtrl.parentCtrl.children[exchCtrl.index])[0];
+					
 					exchCtrl.parentCtrl.children[exchCtrl.index] = ctrl;
+
 				}
 
 			}
