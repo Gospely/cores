@@ -415,6 +415,7 @@ $(function() {
             var target = jq(e.target),
                 isController = target.data('is-controller'),
                 dataControl = target.data("controller");
+
             if (!dataControl) {
                 if (target.attr('tabbar')) {
 
@@ -439,6 +440,18 @@ $(function() {
             if (isController) {
                 //触发控件被点击事件
                 controllerOperations.select(dataControl);
+                //阻止事件，比如 a 标签的跳转
+                e.preventDefault();
+            }
+        });
+
+        jq(document).on("dblclick", function(e) {
+            e.stopPropagation();
+            var target = jq(e.target),
+                isController = target.data('is-controller'),
+                dataControl = target.data("controller");
+
+            if (isController) {
                 //阻止事件，比如 a 标签的跳转
                 if(target.attr('url')){
                     var tpls = jq('script[id]');
@@ -473,6 +486,7 @@ $(function() {
                 e.preventDefault();
             }
         });
+
 
         var controllerOperations = {
                 select: function(controller, isSentByParent) {
@@ -1911,7 +1925,6 @@ $(function() {
                         },
 
                         controllerAdded: function () {
-                            alert('controllerAdded');
                             var pageId = location.hash.split('#')[1] || 'page-home';
                             jq('script[id="' + pageId + '"]').html('');
                             jq('script[id="' + pageId + '"]').html(jq('.' + pageId).clone(true));
