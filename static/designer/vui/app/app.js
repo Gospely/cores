@@ -1898,6 +1898,7 @@ $(function() {
                         },
 
                         controllerAdded: function () {
+                            console.log(data);
                             var pageId = location.hash.split('#')[1] || 'page-home';
                             jq('script[id="' + pageId + '"]').html(jq('.' + pageId).clone(true));
                             controllerOperations.select(data.controller);
