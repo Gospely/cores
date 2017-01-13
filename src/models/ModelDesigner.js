@@ -7313,9 +7313,9 @@ page {
 				let exchCtrl = layoutAction.getCtrlParentAndIndexByKey(state.layout[0], params.exchElementId[i]),
 					dragCtrl = layoutAction.getCtrlParentAndIndexByKey(state.layout[0], params.dragElementId[i]),
 					type = params.changeType[i];
-
+					console.log(type)
 				if (type == 'outPrev') {
-
+					
 					let ctrl = dragCtrl.parentCtrl.children.splice(dragCtrl.index, 1)[0];
 					exchCtrl.parentCtrl.children.splice(exchCtrl.index, 0, ctrl);
 
