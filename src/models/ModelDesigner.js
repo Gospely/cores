@@ -7232,8 +7232,11 @@ page {
 			return {...state};
 		},
 
-		generateCtrl(state, {payload: controller}) {
-			let deepCopiedController = deepCopiedController = layoutAction.deepCopyObj(controller);
+		generateCtrl(state, {payload: ctrlAndParent}) {
+
+			let controller = ctrlAndParent.controller,
+				theParent = ctrlAndParent.theParent,
+				deepCopiedController = deepCopiedController = layoutAction.deepCopyObj(controller);
 
 			const loopAttr = (controller) => {
 
@@ -7272,6 +7275,9 @@ page {
 				return ctrl;
 			}
 
+<<<<<<< HEAD
+			let tmpCtrl = loopAttr(deepCopiedController);
+=======
 			var tmpCtrl = loopAttr(deepCopiedController);
 
 			gospelDesignerPreviewer.postMessage({
@@ -7297,6 +7303,7 @@ page {
 				isAddByAfter = ctrlAndTarget.isAddByAfter,
 				prevElementId = ctrlAndTarget.prevElementId,
 				activePage = layoutAction.getActivePage(state);
+>>>>>>> 0fbb7193f2bda1618dde3e721a72cad730cca1e8
 
 			var isManaully = false,
 				tmpCtrl = {};
@@ -7358,7 +7365,7 @@ page {
 					key: theParent.tag + '-' + randomString(8, 10),
 					attr: {
 						title: {
-							_value: window.dndData.name + '容器',
+							_value: controller.name + '容器',
 							title: '名称',
 							type: 'input'
 						},
@@ -7377,17 +7384,33 @@ page {
 					children: []
 				};
 
-				gospelDesignerPreviewer.postMessage({
-	    			ctrlParentAdded: {
-	    				controller: theParentCtrl,
-	    				page: activePage
-	    			}
-				}, '*');
+				theParentCtrl.children.push(tmpCtrl);
 
-				theParentCtrl.children.push(controller);
-
-				controller = theParentCtrl;
+				tmpCtrl = theParentCtrl;
 			}
+
+			gospelDesignerPreviewer.postMessage({
+    			ctrlGenerated: {
+    				controller: tmpCtrl,
+    				page: layoutAction.getActivePage(state)
+    			}
+			}, '*');
+
+			return { ...state };
+		},
+
+		addController(state, { payload: ctrlAndTarget }) {
+
+			if (state.layoutState.activePage.level == 1) {
+				message.error('请在左上角组件树中选择一个页面');
+				return {...state};
+			}
+			let controller = ctrlAndTarget.ctrl,
+				targetId = ctrlAndTarget.target,
+				theParent = ctrlAndTarget.theParent,
+				isAddByAfter = ctrlAndTarget.isAddByAfter,
+				prevElementId = ctrlAndTarget.prevElementId,
+				activePage = layoutAction.getActivePage(state);
 
     		if (targetId) {
     			let parentCtrl = layoutAction.getCtrlByKey(state.layout[0], targetId);
@@ -7662,7 +7685,7 @@ page {
 				let exchCtrl = layoutAction.getCtrlParentAndIndexByKey(state.layout[0], params.exchElementId[i]),
 					dragCtrl = layoutAction.getCtrlParentAndIndexByKey(state.layout[0], params.dragElementId[i]),
 					type = params.changeType[i];
-					console.log(type)
+					
 				if (type == 'outPrev') {
 					
 					let ctrl = dragCtrl.parentCtrl.children.splice(dragCtrl.index, 1)[0];
@@ -7684,24 +7707,6 @@ page {
 					let ctrl = dragCtrl.parentCtrl.children.splice(dragCtrl.index, 1)[0];
 					exchCtrl.thisCtrl.children = exchCtrl.thisCtrl.children || [];
 					exchCtrl.thisCtrl.children.unshift(ctrl);
-
-				}else if (type == 'toFindParent') {
-					
-					if (exchCtrl.thisCtrl.children && exchCtrl.thisCtrl.children[dragCtrl.index]) {
-						if (exchCtrl.thisCtrl.children[dragCtrl.index].key == params.dragElementId) {
-							return {...state};
-						}
-					}
-					let exch = exchCtrl.parentCtrl.children.splice(exchCtrl.index, 1)[0],
-						ctrl = dragCtrl.parentCtrl.children.splice(dragCtrl.index, 1, exch)[0];
-					dragCtrl.parentCtrl.children[dragCtrl.index].children.push(ctrl);
-
-		    		gospelDesignerPreviewer.postMessage({
-		    			controllerAdded: {
-		    				controller: exch
-		    				// page: activePage
-		    			}
-					}, '*');
 
 				}else {
 
