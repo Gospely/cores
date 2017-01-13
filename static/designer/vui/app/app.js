@@ -783,6 +783,9 @@ $(function() {
                         jq(this).find(".app-components").on("dragstart", function(ev) {
                             data = jq(ev.target).clone();
 
+                            //超出区域的标志
+                            dndData.isLegal = false;
+
                             var controller = parent.parent.dndData;
 
                             //传回父页面的数据
@@ -846,6 +849,7 @@ $(function() {
 
                     self.onDrop();
                     self.onDragover();
+                    self.ondragLeave();
 
                 }
 
@@ -866,7 +870,7 @@ $(function() {
             onDrop: function() {
                 var self = this;
                 jq(this.containerSelector).on("drop", function(e) {
-                    if (e.originalEvent.dataTransfer.getData("Text") == 'fromSelf') {
+                    if (e.originalEvent.dataTransfer.getData("Text") == 'fromSelf' || !dndData.isLegal) {
                         return false;
                     }
 
@@ -918,10 +922,23 @@ $(function() {
 
             onDragover: function() {
                 //拖拽过程中
-                if (dndData.haveAppened || !dndData.dragAddCtrl) {
-                    return false;
-                }
-                jq("body").on("dragover", function(e) {
+                jq(this.containerSelector).on("dragover", function(e) {
+
+                    dndData.isLegal = true;
+
+                    if (dndData.haveAppened || !dndData.dragAddCtrl) {
+
+                        return false;
+                    }
+
+                    var hasProp = false;
+                    for (var prop in dndData.dragAddCtrl){  
+                        hasProp = true;  
+                        break;  
+                    }
+                    if (!hasProp) {
+                        return false;
+                    }
                     e.preventDefault();
                     e.stopPropagation();
                     var target = jq(e.target),
@@ -1000,9 +1017,35 @@ $(function() {
                     }
 
                 });
+            },
+
+            ondragLeave: function () {
+                jq(this.containerSelector).on('dragleave', function (e) {
+                    e.stopPropagation();
+                    // console.log('feifa区域')
+                    if (dndData.dragAddCtrl && dndData.isLegal) {
+                        
+                        dndData.isLegal = false;
+                        dndData.dragAddCtrl.remove();
+                        console.log('feifa区域')
+                    }
+                    
+                })
             }
 
         };
+
+        //超出拖拽区域标志
+        // jq('#container').on('mouseover', function (e) {
+        //     // e.stopPropagation();
+        //     dndData.isLegal = true;
+        //     console.log('合法区域')
+        // })
+        // jq('#container').on('dragleave', function (e) {
+        //     e.stopPropagation();
+        //     dndData.isLegal = false;
+        //     console.log('非法区域')
+        // })
 
         function appRender(app) {
             parent.postMessage({
@@ -1231,6 +1274,10 @@ $(function() {
         //拖拽过程处理函数(ondrag)
         var dndProcessHandlder = function(e) {
             e.stopPropagation();
+
+            if (!dndData.isLegal) {
+                return false;
+            }
             
             var $this = dndData.dragElement,
                 thisId = $this.eq(0).attr('id'),
@@ -1410,6 +1457,10 @@ $(function() {
         var dndEndHandler = function(e) {
             e.stopPropagation();
 
+            if (!dndData.isLegal) {
+                return false;
+            }
+
             jq(e.currentTarget).css('opacity', '1');
 
             //空容器直接remove掉
@@ -1437,9 +1488,17 @@ $(function() {
             });
         }
 
-        function ComponentsGenerator(params) {
+        //拖拽离开处理函数
+        var dndLeaveHandler = function (e) {
+            console.log('函数')
+            // e.stopPropagation();
+            // var target = jq(e.currentTarget);
+            // if (e.currentTarget.id == 'container') {
+                
+            // }
+        }
 
-            console.log(params);
+        function ComponentsGenerator(params) {
 
             params.initElem = params.initElem || false;
 
@@ -1781,6 +1840,9 @@ $(function() {
 
                     // e.originalEvent.dataTransfer.effectAllowed = "move";
 
+                    //超出区域的标志
+                    dndData.isLegal = true;
+
                     //初始化会改变的属性数据
                     dndData.attrChangeData.haveAttrChange = false;
                     dndData.attrChangeData.changeId = [];
@@ -1818,14 +1880,13 @@ $(function() {
                 });
 
                 elem.on('dragenter', function(e) {
-                    e.stopPropagation();
+                    // e.stopPropagation();
                 })
 
                 elem.on('dragleave', function(e) {
-                    console.log('离开')
-                        // if (elem.hasClass('page__bd')) {
-                        //     dndData.dragAddCtrl.remove();
-                        // }
+
+                    // dndLeaveHandler(e);
+                        
                 })
 
                 elem.on('dragend', function(e) {
@@ -1885,8 +1946,6 @@ $(function() {
 
                         ctrlGenerated: function() {
 
-                            console.log('ctrlGenerated');
-
                             var controller = data.controller;
 
                             comGen = new ComponentsGenerator({
@@ -1910,7 +1969,6 @@ $(function() {
                         },
 
                         controllerAdded: function () {
-                            console.log(data);
                             var pageId = location.hash.split('#')[1] || 'page-home';
                             jq('script[id="' + pageId + '"]').html(jq('.' + pageId).clone(true));
                             controllerOperations.select(data.controller);

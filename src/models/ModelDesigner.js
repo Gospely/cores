@@ -7295,6 +7295,39 @@ page {
 
 			let tmpCtrl = loopAttr(deepCopiedController);
 
+			if (theParent) {
+				//加特定的父级
+
+				let theParentCtrl = {
+					type: theParent.tag,
+					tag: theParent.tag,
+					key: theParent.tag + '-' + randomString(8, 10),
+					attr: {
+						title: {
+							_value: controller.name + '容器',
+							title: '名称',
+							type: 'input'
+						},
+						isContainer: {
+							backend: true,
+							isContainer: true,
+							title: '是否是容器'
+						},
+						height: {
+							backend: true,
+							_value: 'auto',
+							isStyle: 'true'
+						}
+					},
+					baseClassName: theParent.className,
+					children: []
+				};
+
+				theParentCtrl.children.push(tmpCtrl);
+
+				tmpCtrl = theParentCtrl;
+			}
+
 			gospelDesignerPreviewer.postMessage({
     			ctrlGenerated: {
     				controller: tmpCtrl,
@@ -7320,8 +7353,7 @@ page {
 				prevElementId = ctrlAndTarget.prevElementId,
 				activePage = layoutAction.getActivePage(state);
 
-			var isManaully = false,
-				tmpCtrl = {};
+			var isManaully = false;
 
 			if(!controller.key) {
 
@@ -7367,39 +7399,6 @@ page {
 				}
 
 				controller = loopAttr(deepCopiedController);
-			}
-
-			if (theParent) {
-				//加特定的父级
-
-				let theParentCtrl = {
-					type: theParent.tag,
-					tag: theParent.tag,
-					key: theParent.tag + '-' + randomString(8, 10),
-					attr: {
-						title: {
-							_value: controller.name + '容器',
-							title: '名称',
-							type: 'input'
-						},
-						isContainer: {
-							backend: true,
-							isContainer: true,
-							title: '是否是容器'
-						},
-						height: {
-							backend: true,
-							_value: 'auto',
-							isStyle: 'true'
-						}
-					},
-					baseClassName: theParent.className,
-					children: []
-				};
-
-				theParentCtrl.children.push(tmpCtrl);
-
-				tmpCtrl = theParentCtrl;
 			}
 
     		if (targetId) {
