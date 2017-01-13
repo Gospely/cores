@@ -574,14 +574,24 @@ export default {
 
 	        }else {
 
-	        	notification.open({
-	        		message: '提交失败，请重试'
-	        	});
+                var result = yield request('feedbacks',{
+                    method: 'POST',
+                    body: JSON.stringify({
+                        creator: localStorage.user,
+                        message: feedback
+                    })
+                })
+                if(result.data.code == 1){
+                    notification.open({
+                        message: '提交成功，谢谢参与'
+                    });
 
-	        	notification.open({
-	        		message: '提交成功，谢谢参与'
-	        	});
+                }else {
+                    notification.open({
+                        message: '提交失败，请重试'
+                    });
 
+                }
 				yield put({
 					type: 'hideFeedback'
 				});
