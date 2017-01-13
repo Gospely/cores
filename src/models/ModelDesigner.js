@@ -7284,18 +7284,70 @@ page {
 			return { ...state };
 		},
 
+		addControllerManuallyA(state, { payload: ctrlAndTarget }) {
+
+			return { ...state };
+		},
+
 		addController(state, { payload: ctrlAndTarget }) {
 
 			if (state.layoutState.activePage.level == 1) {
 				message.error('请在左上角组件树中选择一个页面');
 				return { ...state };
 			}
+
 			let controller = ctrlAndTarget.ctrl,
 				targetId = ctrlAndTarget.target,
 				theParent = ctrlAndTarget.theParent,
 				isAddByAfter = ctrlAndTarget.isAddByAfter,
 				prevElementId = ctrlAndTarget.prevElementId,
 				activePage = layoutAction.getActivePage(state);
+
+			console.log(controller);
+
+			if(!controller.key) {
+
+				let deepCopiedController = deepCopiedController = layoutAction.deepCopyObj(controller);
+
+				const loopAttr = (controller) => {
+
+					var childCtrl = {},
+						tmpAttr = {},
+						ctrl = {};
+
+					tmpAttr = controller.attr;
+					tmpAttr['title'] = {};
+					tmpAttr['title']['_value'] = controller.name;
+					tmpAttr['title']['type'] = 'input';
+					tmpAttr['title']['isClassName'] = false;
+					tmpAttr['title']['isHTML'] = false;
+					tmpAttr['title']['title'] = '名称';
+
+					ctrl = {
+						type: controller.type,
+						key: controller.type + '-' + randomString(8, 10),
+						attr: tmpAttr,
+						tag: controller.tag,
+						baseClassName: controller.baseClassName,
+						children: [],
+						isRander: controller.isRander || ''
+					};
+
+					if(controller.children) {
+						for (var i = 0; i < controller.children.length; i++) {
+							var currentCtrl = controller.children[i];
+							childCtrl = loopAttr(currentCtrl);
+							ctrl.children.push(childCtrl);
+						};
+					}else {
+						ctrl.children = undefined;
+					}
+
+					return ctrl;
+				}
+
+				controller = loopAttr(deepCopiedController);
+			}
 
 			if (theParent) {
 				//加特定的父级
@@ -7587,7 +7639,9 @@ page {
 		attrChangeFromDrag(state, { payload: params }) {
 			for(let i = 0; i < params.changeId.length; i ++) {
 				let activeCtrl = layoutAction.getCtrlByKey(state.layout[0], params.changeId[i]);
-				activeCtrl.attr[params.changeAttr[i]]._value = params.changeValue[i];
+				if(activeCtrl.attr[params.changeAttr[i]]) {
+					activeCtrl.attr[params.changeAttr[i]]._value = params.changeValue[i];					
+				}
 			}
 			return {...state};
 		},
