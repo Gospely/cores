@@ -1311,8 +1311,12 @@ $(function() {
         var dndProcessHandlder = function(e) {
             e.stopPropagation();
 
-            if (!dndData.isLegal) {
-            if(!dndData.dragElement || !dndData.isLegal) {
+            if(!dndData.dragElement) {
+                postMessageToFather.invalidDropArea();
+                return false;
+            }
+
+            if(!dndData.isLegal) {
                 return false;
             }
             
@@ -1919,16 +1923,7 @@ $(function() {
                 })
 
                 elem.on('dragleave', function(e) {
-// <<<<<<< HEAD
 
-//                     // dndLeaveHandler(e);
-                        
-// =======
-//                     console.log('离开')
-//                     // if (elem.hasClass('page__bd')) {
-//                     //     dndData.dragAddCtrl.remove();
-//                     // }
-// >>>>>>> 0eb5cce2cc3b5150c56e0e77740d138f578d24e3
                 })
 
                 elem.on('dragend', function(e) {
