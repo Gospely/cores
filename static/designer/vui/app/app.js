@@ -1870,6 +1870,9 @@ $(function() {
                         },
 
                         ctrlGenerated: function() {
+
+                            console.log('ctrlGenerated');
+
                             var controller = data.controller;
 
                             comGen = new ComponentsGenerator({

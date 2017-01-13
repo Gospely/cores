@@ -7284,11 +7284,6 @@ page {
 			return { ...state };
 		},
 
-		addControllerManuallyA(state, { payload: ctrlAndTarget }) {
-
-			return { ...state };
-		},
-
 		addController(state, { payload: ctrlAndTarget }) {
 
 			if (state.layoutState.activePage.level == 1) {
@@ -7303,9 +7298,14 @@ page {
 				prevElementId = ctrlAndTarget.prevElementId,
 				activePage = layoutAction.getActivePage(state);
 
+			var isManaully = false,
+				tmpCtrl = {};
+
 			console.log(controller);
 
 			if(!controller.key) {
+
+				isManaully = true;
 
 				let deepCopiedController = deepCopiedController = layoutAction.deepCopyObj(controller);
 
@@ -7406,6 +7406,15 @@ page {
 
     		}else {
     			activePage.children.push(controller);
+    		}
+
+    		if(isManaully) {
+				gospelDesignerPreviewer.postMessage({
+	    			ctrlGenerated: {
+	    				controller: controller,
+	    				page: activePage
+	    			}
+				}, '*');
     		}
 
     		gospelDesignerPreviewer.postMessage({
@@ -7768,11 +7777,6 @@ page {
 				target = modelDesigner.layoutState.activeController.key;
 
 			window.currentTarget = gospelDesignerPreviewer.jQuery('#' + target);
-
-			yield put({
-				type: 'generateCtrl',
-				payload: params.item
-			});
 
 			yield put({
 				type: 'addController',
