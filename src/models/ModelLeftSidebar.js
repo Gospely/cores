@@ -654,6 +654,7 @@ export default {
 		},
 
 		showModalNewApp(state) {
+			state.appCreator.available = true;
 			return {...state, modalNewAppVisible: true};
 		},
 

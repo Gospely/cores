@@ -2,18 +2,35 @@ import React, { PropTypes } from 'react';
 import { Router, Route, IndexRoute, Link } from 'dva/router';
 import IndexPage from './routes/IndexPage';
 
-import Products from './routes/Products';
+export default function({ history, app }) {
 
-export default function({ history }) {
+  	const routes = [{
+      		path: '/',
+      		name: 'app',
+      		getComponent(nextState, cb) {
+        		require.ensure([], require => {
+          			cb(null, IndexPage);
+        		});
+      		},
+    	}, {
+      		path: '/project/:id',
+      		name: 'project',
+      		getComponent(nextState, cb) {
+        		require.ensure([], require => {
+          			cb(null, IndexPage);
+        		});
+      		},
+    	}];
 
-
-  return (
-    <Router history={history}>
+	/*
       	<Route path="/" component={IndexPage}>
       	</Route>
         <Route path="/project/:id" component={IndexPage}>
         </Route>
-    	<Route path="/products" component={Products} />
-    </Router>
-  );
+	*/    	
+
+  	return (
+    	<Router history={ history } routes={ routes }>
+    	</Router>
+  	);
 };
