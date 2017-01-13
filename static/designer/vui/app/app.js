@@ -94,7 +94,7 @@ $(function() {
                 $html.removeClass('slideIn').addClass('js_show');
             });
 
-            if (jq('.' + config.name).length <= 0) {
+            if (jq('.container .' + config.name).length <= 0) {
                 this.$container.append($html);
             }
 
@@ -365,6 +365,12 @@ $(function() {
                 parent.postMessage({
                     'stopRouting': true
                 }, '*');
+            },
+
+            invalidDropArea: function() {
+                parent.postMessage({
+                    'invalidDropArea': true
+                }, '*');                
             }
 
         }
@@ -415,6 +421,7 @@ $(function() {
             var target = jq(e.target),
                 isController = target.data('is-controller'),
                 dataControl = target.data("controller");
+
             if (!dataControl) {
                 if (target.attr('tabbar')) {
 
@@ -439,6 +446,18 @@ $(function() {
             if (isController) {
                 //触发控件被点击事件
                 controllerOperations.select(dataControl);
+                //阻止事件，比如 a 标签的跳转
+                e.preventDefault();
+            }
+        });
+
+        jq(document).on("dblclick", function(e) {
+            e.stopPropagation();
+            var target = jq(e.target),
+                isController = target.data('is-controller'),
+                dataControl = target.data("controller");
+
+            if (isController) {
                 //阻止事件，比如 a 标签的跳转
                 if(target.attr('url')){
                     var tpls = jq('script[id]');
@@ -473,6 +492,7 @@ $(function() {
                 e.preventDefault();
             }
         });
+
 
         var controllerOperations = {
                 select: function(controller, isSentByParent) {
@@ -796,9 +816,7 @@ $(function() {
                             //若拖进来的元素必须有特定的父元素则判断是否需要添加其特定父元素
                             // var appendParent = jq('#' + dndData.dragAddCtrlTargetId)[0];
                             if (controller.attr.theParent && controller.attr.theParent._value) {
-
                                 ctrlAndParent.theParent = controller.attr.theParent._value;
-
                             }
 
                             //生成dom数据结构
@@ -835,6 +853,11 @@ $(function() {
                         // })
                     }).on('drag', function(e) {
 
+                        if(!parent.parent.validDropArea) {
+                            e.preventDefault(e);
+                            return false;
+                        }
+
                         if (!dndData.haveAppened) {
                             return false;
                         }
@@ -843,8 +866,11 @@ $(function() {
 
                     }).on('dragend', function(e) {
 
-                        dndEndHandler(e);
+                        if(!parent.parent.validDropArea) {
+                            return false;
+                        }
 
+                        dndEndHandler(e);
                     });
 
                     self.onDrop();
@@ -871,6 +897,10 @@ $(function() {
                 var self = this;
                 jq(this.containerSelector).on("drop", function(e) {
                     if (e.originalEvent.dataTransfer.getData("Text") == 'fromSelf' || !dndData.isLegal) {
+                        return false;
+                    }
+
+                    if(!parent.parent.validDropArea) {
                         return false;
                     }
 
@@ -939,8 +969,14 @@ $(function() {
                     if (!hasProp) {
                         return false;
                     }
+
                     e.preventDefault();
                     e.stopPropagation();
+
+                    if(!parent.parent.validDropArea) {
+                        return false;
+                    }
+
                     var target = jq(e.target),
                         targetId = e.target.id;
                     jq('.container-box').removeClass('container-box');
@@ -1276,6 +1312,7 @@ $(function() {
             e.stopPropagation();
 
             if (!dndData.isLegal) {
+            if(!dndData.dragElement || !dndData.isLegal) {
                 return false;
             }
             
@@ -1874,9 +1911,7 @@ $(function() {
 
                 });
                 elem.on('drag', function(e) {
-
                     dndProcessHandlder(e);
-
                 });
 
                 elem.on('dragenter', function(e) {
@@ -1884,9 +1919,16 @@ $(function() {
                 })
 
                 elem.on('dragleave', function(e) {
+// <<<<<<< HEAD
 
-                    // dndLeaveHandler(e);
+//                     // dndLeaveHandler(e);
                         
+// =======
+//                     console.log('离开')
+//                     // if (elem.hasClass('page__bd')) {
+//                     //     dndData.dragAddCtrl.remove();
+//                     // }
+// >>>>>>> 0eb5cce2cc3b5150c56e0e77740d138f578d24e3
                 })
 
                 elem.on('dragend', function(e) {
@@ -1962,6 +2004,7 @@ $(function() {
                             if(data.isManaully) {
                                 jq(parent.parent.currentTarget).append(elem.clone(true));
                                 var pageId = location.hash.split('#')[1] || 'page-home';
+                                jq('script[id="' + pageId + '"]').html('');
                                 jq('script[id="' + pageId + '"]').html(jq('.' + pageId).clone(true));
                                 controllerOperations.select(data.controller);
                             }
@@ -1970,6 +2013,7 @@ $(function() {
 
                         controllerAdded: function () {
                             var pageId = location.hash.split('#')[1] || 'page-home';
+                            jq('script[id="' + pageId + '"]').html('');
                             jq('script[id="' + pageId + '"]').html(jq('.' + pageId).clone(true));
                             controllerOperations.select(data.controller);
                         },
