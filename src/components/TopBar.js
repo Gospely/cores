@@ -116,6 +116,10 @@ const LeftSidebar = (props) => {
 				          	});
 					    },
 					});
+	        	}else {
+	          		props.dispatch({
+		        		type: 'sidebar/showModalNewApp'
+		          	});
 	        	}
 	        },
 
@@ -1655,7 +1659,7 @@ const LeftSidebar = (props) => {
 			<Modal width="30%"  title="意见建议" visible={props.sidebar.modalFeedback.visible}
 	          	onOk={feedbackProps.submit} onCancel={feedbackProps.hideModal}
 		    >
-		    	<Input type="textarea" value={props.sidebar.modalFeedback.message} rows={4} onChange={feedbackProps.onMsgChange} />
+		    	<Input type="textarea" placeholder="请留下您的想法:)" value={props.sidebar.modalFeedback.message} rows={4} onChange={feedbackProps.onMsgChange} />
 		    </Modal>
 
 
