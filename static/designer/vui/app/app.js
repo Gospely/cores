@@ -1022,7 +1022,7 @@ $(function() {
 
                     var target = jq(e.target),
                         targetId = e.target.id;
-                    jq('.container-box').removeClass('container-box');
+                    
                     if (target.height() <= 10) {
 
                     }
@@ -1054,6 +1054,8 @@ $(function() {
                         dndData.orginY = e.pageY;
                         dndData.dragElementParent = dndData.dragElement.parent();
 
+                        jq('.container-box').removeClass('container-box');
+
                     } else {
                         //over的元素是容器且不是自己就append进去
                         if (target.data('is-container') &&
@@ -1075,6 +1077,8 @@ $(function() {
                             dndData.orginY = e.pageY;
                             dndData.dragElementParent = dndData.dragElement.parent();
 
+                            jq('.container-box').removeClass('container-box');
+
                         } else if (!dndData.haveAppened) {
                             //after到其后面去
                             target.after(dndData.dragAddCtrl);
@@ -1095,6 +1099,8 @@ $(function() {
                             //此时不是简单的append,所以左边结构树要做特殊变化
                             dndData.addCtrlbyAfter.isAfter = true;
                             dndData.addCtrlbyAfter.prevElementId = targetId;
+
+                            jq('.container-box').removeClass('container-box');
                         }
                     }
 
@@ -1619,6 +1625,8 @@ $(function() {
             var pageId = location.hash.split('#')[1] || 'page-home';
             jq('script[id="' + pageId + '"]').html('');
             jq('script[id="' + pageId + '"]').html(jq('.' + pageId).clone(true));
+
+            jq('.container-box').removeClass('container-box');
 
             //本次拖拽已结束标志
             dndData.haveEnd = true;
