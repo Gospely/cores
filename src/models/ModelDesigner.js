@@ -1755,17 +1755,17 @@ page {
 						isHTML: false,
 						isNoConflict: true,
 						_value: 'weui-btn_primary',
-						backend: true
+						backend: false
 					},
-					disabled: {
-						type: 'toggle',
-						title: '禁止',
-						value: ['weui-btn_disabled', 'weui-btn_plain-disabled'],
-						isClassName: true,
-						isHTML: false,
-						isSetAttribute: true,
-						_value: false
-					},
+					// disabled: {
+					// 	type: 'toggle',
+					// 	title: '禁止',
+					// 	value: ['weui-btn_disabled', 'weui-btn_plain-disabled'],
+					// 	isClassName: true,
+					// 	isHTML: false,
+					// 	isSetAttribute: true,
+					// 	_value: false
+					// },
 					type: {
 						type: 'select',
 						title: '按钮类型',
@@ -3990,7 +3990,7 @@ page {
 				}
 			},
 			{
-				name: '页面标题',
+				name: '页面大标题',
 				type: 'heading',
 				tag: 'h1',
 				baseClassName: 'page__title',
@@ -4092,20 +4092,7 @@ page {
 				type: 'footer',
 				tag: 'div',
 				baseClassName: 'weui-footer',
-				attr: {
-					footerText: {
-						isRander: true,
-						type: 'toggle',
-						_value: true,
-						title: '是否有链接'
-					},
-					footerLink: {
-						isRander: true,
-						type: 'toggle',
-						_value: true,
-						title: '是否有文字'
-					}
-				},
+				attr: {},
 				children: [{
 					name: '页脚文字',
 					isRander: 'footerText',
@@ -4113,6 +4100,14 @@ page {
 					tag: 'p',
 					baseClassName: 'weui-footer__text',
 					attr: {
+
+						display: {
+							type: 'toggle',
+							_value: true,
+							title: '是否显示',
+							isStyle: true
+						},
+
 						value: {
 							type: 'input',
 							isHTML: true,
@@ -4144,6 +4139,12 @@ page {
 								title: '内容',
 								type: 'input',
 								_value: '底部链接'
+							},
+							display: {
+								type: 'toggle',
+								_value: true,
+								title: '是否显示',
+								isStyle: true
 							}
 						}
 					}, {
@@ -4163,7 +4164,14 @@ page {
 								title: '内容',
 								type: 'input',
 								_value: '底部链接'
+							},
+							display: {
+								type: 'toggle',
+								_value: true,
+								title: '是否显示',
+								isStyle: true
 							}
+
 						}
 					}]
 				}]
