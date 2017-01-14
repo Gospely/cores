@@ -246,6 +246,11 @@ export default {
 					move: true
 				})
 			});
+
+			if (mkResult.data.code == 200) {
+				localStorage.currentSelectedFile = params.newFileName + params.fileName;				
+			}
+
       		yield put({type: 'fetchFileList'});
       	},
 

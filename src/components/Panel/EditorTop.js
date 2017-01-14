@@ -82,6 +82,8 @@ const EditorTop = ({
 	// 	<Button className={EditorStyle.topbarBtn}>{currentTheme}</Button>
 	// </Dropdown>
 
+	// <Button onClick={onSlideUp} className={EditorStyle.topbarBtn}>{isSlideUp ? <Icon type="down" /> : <Icon type="up" />}</Button>
+
   	return (
 		<div className={EditorStyle.topbar}>
 			<ButtonGroup>
@@ -94,7 +96,6 @@ const EditorTop = ({
 					<Dropdown overlay={syntaxMenu} trigger={['click']}>
 						<Button className={EditorStyle.topbarBtn}>{currentLanguage}</Button>
 					</Dropdown>
-					<Button onClick={onSlideUp} className={EditorStyle.topbarBtn}>{isSlideUp ? <Icon type="down" /> : <Icon type="up" />}</Button>
 				</ButtonGroup>
 			</div>
 			{searchVisible &&

@@ -522,7 +522,7 @@ body {
 }
 
 .container-box-a.bd {
-    height: auto;
+    min-height: 100%;
 }
 
 .spacerBottomBorder {

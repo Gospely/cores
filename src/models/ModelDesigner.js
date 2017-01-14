@@ -6392,11 +6392,11 @@ page {
 					}]
 				}]
 			},
-			{
-				name: '地图',
-				type: 'map',
-				attr: {}
-			},
+			// {
+			// 	name: '地图',
+			// 	type: 'map',
+			// 	attr: {}
+			// },
 			{
 				name: '搜索框',
 				type: 'search',
@@ -6613,7 +6613,7 @@ page {
 					controls: {
 						isSetAttribute: true,
 						_value: true,
-						title: '是否现实默认控件',
+						title: '显示默认控件',
 						type: 'toggle'
 					},
 					autoplay: {
@@ -6640,6 +6640,11 @@ page {
 						value: ['contain', 'cover', 'fill'],
 						type: 'select',
 						title: '容器与视频大小不一致时表现形式'
+					},
+					width: {
+						isStyle: true,
+						_value: 'calc(100% - 5px)',
+						backend: true
 					}
 				}
 			},
@@ -6683,6 +6688,11 @@ page {
 						_value: '未知作者',
 						type: 'input',
 						title: '音频作者'
+					},
+					width: {
+						isStyle: true,
+						_value: 'calc(100% - 5px)',
+						backend: true
 					}
 				}
 			},
@@ -7006,32 +7016,32 @@ page {
 				}]
 			},
 
-			{
-				name: '画布',
-				type: 'canvas',
-				tag: 'canvas',
-				baseClassName: '',
-				attr: {
-					'disable-scroll': {
-						title: '在画布上移动时禁止屏幕滚动',
-						type: 'toggle',
-						_value: 'false',
-						isSetAttribute: 'true'
-					},
-					height: {
-						title: '高度',
-						type: 'input',
-						_value: '225px',
-						isSetAttribute: true
-					},
-					width: {
-						title: '宽度',
-						type: 'input',
-						_value: '300x',
-						isSetAttribute: true
-					}
-				}
-			}
+			// {
+			// 	name: '画布',
+			// 	type: 'canvas',
+			// 	tag: 'canvas',
+			// 	baseClassName: '',
+			// 	attr: {
+			// 		'disable-scroll': {
+			// 			title: '在画布上移动时禁止屏幕滚动',
+			// 			type: 'toggle',
+			// 			_value: 'false',
+			// 			isSetAttribute: 'true'
+			// 		},
+			// 		height: {
+			// 			title: '高度',
+			// 			type: 'input',
+			// 			_value: '225px',
+			// 			isSetAttribute: true
+			// 		},
+			// 		width: {
+			// 			title: '宽度',
+			// 			type: 'input',
+			// 			_value: '300x',
+			// 			isSetAttribute: true
+			// 		}
+			// 	}
+			// }
 		],
 		constructionMenuStyle: {
 		    position: 'fixed',
