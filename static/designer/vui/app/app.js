@@ -996,6 +996,8 @@ $(function() {
                 //拖拽过程中
                 jq(this.containerSelector).on("dragover", function(e) {
 
+                    jq(e.target).addClass('container-box')
+
                     dndData.isLegal = true;
 
                     if (dndData.haveAppened || !dndData.dragAddCtrl) {
@@ -1106,6 +1108,7 @@ $(function() {
                         dndData.isLegal = false;
                         //非法区域
                     }
+                    jq(e.target).removeClass('container-box')
                 })
             }
 
