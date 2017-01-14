@@ -491,6 +491,9 @@ const LeftSidebar = (props) => {
 		modifyGitOriginInput: {
 			onPressEnter: function() {
 
+				props.dispatch({
+					type: 'sidebar/setModifyGitOriginStart'
+				});
 				if(props.sidebar.gitTabKey == '1'){
 					if(props.sidebar.modifyGitOriginInput.value == '' || props.sidebar.modifyGitOriginInput.pushValue == '') {
 						message.error('git源不能为空');
@@ -556,12 +559,16 @@ const LeftSidebar = (props) => {
 						message: '请在Github或git@oschina配置你的sshKey'
 					});
 				}
+
 				setTimeout(function(){
+					props.dispatch({
+						type: 'sidebar/setModifyGitOriginCompleted'
+					});
 					props.dispatch({
 						type: 'sidebar/hideModalModifyGitOrigin'
 					})
 
-				}, 500)
+				}, 1000)
 			},
 			onChange: function(e) {
 				props.dispatch({
@@ -1427,7 +1434,7 @@ const LeftSidebar = (props) => {
 	      		});
 			props.dispatch({
 				type: 'devpanel/initDebugPanel',
-				payload: { cmd: 'cd /root/workspace\n clear && git commit -a -m "' + props.sidebar.modalCommitInfo.title + '"\n' }
+				payload: { cmd: 'cd /root/workspace\n clear && git add * && git commit -a -m "' + props.sidebar.modalCommitInfo.title + '"\n' }
 			});
 
 		},
@@ -1565,7 +1572,7 @@ const LeftSidebar = (props) => {
 	    	<Modal width="60%"  title="添加/更改 Git 源" visible={props.sidebar.modalModifyGitOriginVisible}
 	          	onOk={leftSidebarProps.modifyGitOriginInput.onPressEnter} onCancel={leftSidebarProps.cancelModifyGitOrigin}
 	        >
-
+			<Spin spinning={props.sidebar.modifyGitOriginInput.loading}>
   			<Tabs className="modalTab" defaultActiveKey="1" onChange={leftSidebarProps.onGitOperationTabChanged}>
     			<TabPane tab="HTTPS" key="1">
 
@@ -1642,7 +1649,7 @@ const LeftSidebar = (props) => {
     			</TabPane>
 
   			</Tabs>
-
+		</Spin>
 	        </Modal>
 
 	        <Modal width="30%"  title="配置调试参数" visible={props.sidebar.debugConfig.showConfigModal}

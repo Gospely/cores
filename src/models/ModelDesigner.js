@@ -6565,7 +6565,8 @@ page {
 						isStyle: true,
 						_value: '1px dashed gray',
 						title: '',
-						backend: true
+						backend: true,
+						ignore: true
 					}
 				}
 			},
