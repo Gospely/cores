@@ -111,7 +111,7 @@ export default {
 
 		modalCommitInfo: {
 			visible: false,
-			title: 'commit',
+			title: '',
 			message: ''
 		},
 
@@ -1016,7 +1016,6 @@ export default {
 
 		handleCommitInfoInputChange(state, { payload: params }) {
 			state.modalCommitInfo[params.input] = params.value;
-            state.modalCommitInfo.title = params.value;
 			return {...state};
 		},
 

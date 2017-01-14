@@ -1402,13 +1402,6 @@ const LeftSidebar = (props) => {
 		commit () {
 
 			modalCommitInfoProps.hideModal();
-			props.dispatch({
-				type: 'sidebar/handleCommitInfoInputChange',
-				payload: {
-					value: '',
-					input: 'title'
-				}
-			});
 
 			props.dispatch({
 				type: 'devpanel/setActivePane',
@@ -1436,6 +1429,15 @@ const LeftSidebar = (props) => {
 				type: 'devpanel/initDebugPanel',
 				payload: { cmd: 'cd /root/workspace\n clear && git add * && git commit -a -m "' + props.sidebar.modalCommitInfo.title + '"\n' }
 			});
+			setTimeout(function(){
+				props.dispatch({
+					type: 'sidebar/handleCommitInfoInputChange',
+					payload: {
+						value: '',
+						input: 'title'
+					}
+				});
+			}, 200);
 
 		},
 
