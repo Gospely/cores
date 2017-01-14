@@ -22,7 +22,7 @@ body {
 }
 
 .container {
-    overflow: hidden
+    /*overflow: hidden;*/
 }
 
 .container,

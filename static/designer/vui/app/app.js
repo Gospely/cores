@@ -1677,6 +1677,10 @@ $(function() {
 
                 // this.handleWeuiTag(this.controller.weui);
 
+                if(!this.controller) {
+                    return false;
+                }
+
                 for (var att in this.controller.attr) {
                     var currentAttr = this.controller.attr[att];
 
@@ -1717,11 +1721,13 @@ $(function() {
                                 };
                             }
 
-                            if (!currentAttr._value && currentAttr.value) {
-                                for (var j = 0; j < currentAttr.value.length; j++) {
-                                    var currentDisabledCSS = currentAttr.value[j];
-                                    this.elem.removeClass(currentDisabledCSS);
-                                };
+                            if (!currentAttr._value) {
+                                if(currentAttr.value) {
+                                    for (var j = 0; j < currentAttr.value.length; j++) {
+                                        var currentDisabledCSS = currentAttr.value[j];
+                                        this.elem.removeClass(currentDisabledCSS);
+                                    };                                    
+                                }
                             }
 
                         }
