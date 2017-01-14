@@ -1434,7 +1434,7 @@ const LeftSidebar = (props) => {
 	      		});
 			props.dispatch({
 				type: 'devpanel/initDebugPanel',
-				payload: { cmd: 'cd /root/workspace\n clear && git commit -a -m "' + props.sidebar.modalCommitInfo.title + '"\n' }
+				payload: { cmd: 'cd /root/workspace\n clear && git add * && git commit -a -m "' + props.sidebar.modalCommitInfo.title + '"\n' }
 			});
 
 		},
