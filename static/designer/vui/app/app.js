@@ -1537,6 +1537,14 @@ $(function() {
                     dragElementId: [child[0].id],
                     exchElementId: [dndData.dragElement[0].id]
                 })
+            }else if (dndData.dragElement.data('controller').attr.theParent) {
+
+                postMessageToFather.generateCtrl({
+                    controller: dndData.dragElement.data('controller'),
+                    theParent: dndData.dragElement.data('controller').attr.theParent._value,
+                    toGenterParent: true
+                })
+
             }
 
             postMessageToFather.ctrlUpdated({
@@ -2002,13 +2010,23 @@ $(function() {
 
                             var controller = data.controller;
 
-                            comGen = new ComponentsGenerator({
+                                comGen = new ComponentsGenerator({
                                     controller: controller,
                                     initElem: true,
                                     page: data.page
                                 }),
 
                                 elem = jq(comGen.createElement());
+
+                            if (data.toGenterParent) {
+
+                                jq('#' + data.theCtrlId).wrap(elem.clone(true));
+
+                                var pageId = location.hash.split('#')[1] || 'page-home';
+                                jq('script[id="' + pageId + '"]').html('');
+                                jq('script[id="' + pageId + '"]').html(jq('.' + pageId).clone(true));
+                                controllerOperations.select(data.controller);
+                            }
 
                             dndData.dragAddCtrl = elem;
                             dndData.dragAddCtrlData = controller;

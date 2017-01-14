@@ -908,8 +908,10 @@ const LeftSidebar = (props) => {
 					console.log('check');
 					props.dispatch({
 						type: 'sidebar/checkAvailable',
-						input: s,
-						value: dom.target.value
+						payload: {
+							input: s,
+							value: dom.target.value
+						}
 					});
 				}else{
 					props.dispatch({

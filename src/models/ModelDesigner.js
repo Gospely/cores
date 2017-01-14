@@ -7313,7 +7313,7 @@ page {
 				return ctrl;
 			}
 
-			const loopParent = (theParent) => {
+			const loopParent = (theParent, name) => {
 				return {
 					type: theParent.tag,
 					tag: theParent.tag,
@@ -7342,16 +7342,34 @@ page {
 
 			if (toGenterParent) {
 			//为了拖拽放下后生成特定父级
-				let tempParent = loopParent(theParent);
-				console.log(controller)
+				
+				let theCtrl = layoutAction.getCtrlParentAndIndexByKey(state.layout[0], controller.key),
+					name = controller.attr.title ? controller.title._value : controller.name,
+					tempParent = loopParent(theParent, name);
+
+					// console.log(theCtrl.thisCtrl)
+
+				gospelDesignerPreviewer.postMessage({
+	    			ctrlGenerated: {
+	    				controller: tempParent,
+	    				page: layoutAction.getActivePage(state),
+	    				toGenterParent: true,
+	    				theCtrlId: controller.key
+	    			}
+				}, '*');
+
+				tempParent.children.push(controller);
+				theCtrl.parentCtrl.children[theCtrl.index] = tempParent;
+
+
 
 			}else {
 				let tmpCtrl = loopAttr(deepCopiedController);
 
 				if (theParent) {
 					//加特定的父级
-
-					let theParentCtrl = loopParent(theParent);
+					let name = controller.attr.title ? controller.title._value : controller.name,
+						theParentCtrl = loopParent(theParent, name);
 
 					theParentCtrl.children.push(tmpCtrl);
 
@@ -7758,7 +7776,7 @@ page {
 		},
 
 		ctrlExchanged(state, {payload: params}) {
-			console.log(params)
+			
 			for(let i = 0; i < params.changeType.length; i ++) {
 
 				let exchCtrl = layoutAction.getCtrlParentAndIndexByKey(state.layout[0], params.exchElementId[i]),
