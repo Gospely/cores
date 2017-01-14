@@ -36,8 +36,6 @@ export default {
 
 		*readConfig({ payload: params }, { call, put, select }) {
 
-			var saveInterval = yield select(state=> state.saveInterval);
-			clearInterval(saveInterval);
   			var configs = yield request('uistates?application=' + params.id, {
       			method: 'get'
       		});
@@ -78,11 +76,10 @@ export default {
 							body: JSON.stringify(configTobeSaved)
 						})
   				}else {
-  					clearInterval(saveInterval);
+  					window.clearInterval(window.uistateSave)
   				}
   			}
-  			saveInterval = setInterval(cb, config.gap);
-			yield put({ type: 'setSaveInterval', payload: saveInterval });
+  			window.uistateSave = window.setInterval(cb, config.gap);
 		},
 
 		*writeConfig({ payload: params }, { call, put, select }) {
