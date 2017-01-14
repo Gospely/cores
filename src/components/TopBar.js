@@ -619,7 +619,7 @@ const LeftSidebar = (props) => {
 			});
 			if(key == '3'){
 				props.dispatch({
-					type: 'devpanel/getKey'
+					type: 'sidebar/getKey'
 				});
 			}
 			if(key == ''){
@@ -1643,7 +1643,7 @@ const LeftSidebar = (props) => {
 				<TabPane tab="查看公钥" key="3">
     				<div style={{marginTop: 16}}>
 	    				<div style={{margin: 10}}>
-							<Input type="textarea" readOnly rows={4} value={props.devpanel.sshKey}/>
+							<Input type="textarea" readOnly rows={4} value={props.sidebar.sshKey}/>
 	    				</div>
     				</div>
     			</TabPane>
@@ -1655,6 +1655,7 @@ const LeftSidebar = (props) => {
 	        <Modal width="30%"  title="配置调试参数" visible={props.sidebar.debugConfig.showConfigModal}
 	          	onOk={debugConfigModal.commitDebugConfigChange} onCancel={debugConfigModal.hideModal}
 		    >
+				<Spin spinning={props.sidebar.debugConfig.loading}>
 		    	<Form.Item key="runCommand" label="启动命令" {...debugConfigModal.formItemLayout}>
 		    		<Input value={props.sidebar.debugConfig.runCommand}
 	         				type="text"
@@ -1668,6 +1669,7 @@ const LeftSidebar = (props) => {
 	         				onChange={debugConfigModal.startPortChange}
 	         				placeholder="8080" />
 		    	</Form.Item>
+			</Spin>
 		    </Modal>
 			<Modal width="30%"  title="您正在切换应用" visible={props.sidebar.wechatSaveShow}
 	          	onOk={wechatSave.save} onCancel={wechatSave.hideModal}
