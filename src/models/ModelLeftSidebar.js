@@ -111,7 +111,7 @@ export default {
 
 		modalCommitInfo: {
 			visible: false,
-			title: '',
+			title: 'commit',
 			message: ''
 		},
 
