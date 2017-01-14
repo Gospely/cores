@@ -117,7 +117,7 @@ const createTerminal = function(props) {
     function runRealTerminal() {
         term.attach(socket);
         window.gitOrigin = true;
-        socket.send("cd /root/workspace && git remote -v | head -1 | awk '{print $2}'\n");
+        socket.send(" mv /root/temp/.* /root/workspace && cd /root/workspace && git remote -v | head -1 | awk '{print $2}'\n");
         socket.send('echo begin');
         setTimeout(function(){
             window.Pname = false;
