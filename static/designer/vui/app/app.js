@@ -803,6 +803,9 @@ $(function() {
                         jq(this).find(".app-components").on("dragstart", function(ev) {
                             data = jq(ev.target).clone();
 
+                            //结束标志，防止重复发送dragEnd事件
+                            dndData.haveEnd = false;
+
                             //超出区域的标志
                             dndData.isLegal = false;
 
@@ -1332,10 +1335,16 @@ $(function() {
                 nextElement = $this.next(),
 
                 parentIsPage = dragElementParent.hasClass('page__hd') 
-                                || dragElementParent.hasClass('page__bd') 
-                                || dragElementParent.hasClass('page__ft'),
+                        || dragElementParent.hasClass('page__bd') 
+                        || dragElementParent.hasClass('page__ft'),
 
                 referHeight = 30; //位置变换的参考高度
+
+            var isParentPage = function (parent) {
+                return parent.hasClass('page__hd') 
+                        || parent.hasClass('page__bd') 
+                        || parent.hasClass('page__ft');
+                }
 
             //小于参考高度的 -2/3 使用before()
             if (moveY <= -referHeight / 3 * 2) {
@@ -1458,7 +1467,7 @@ $(function() {
                 prevElement.append($this);
 
                 //容器高度
-                if (!parentIsPage) {
+                if (!isParentPage(prevElement)) {
 
                     prevElement.css({
                         height: 'auto'
@@ -1480,8 +1489,8 @@ $(function() {
                 nextElement.prepend($this);
 
                 //容器高度
-                if (!parentIsPage) {
-
+                if (!isParentPage(nextElement)) {
+                    
                     nextElement.css({
                         height: 'auto'
                     })
@@ -1498,7 +1507,11 @@ $(function() {
         //拖拽结束处理函数
         var dndEndHandler = function(e) {
             e.stopPropagation();
-
+            
+            if (dndData.haveEnd) {
+                return false;
+            }
+            
             if (!dndData.isLegal) {
                 return false;
             }
@@ -1538,7 +1551,11 @@ $(function() {
                     dragElementId: [child[0].id],
                     exchElementId: [dndData.dragElement[0].id]
                 })
-            }else if (dndData.dragElement.data('controller').attr.theParent) {
+
+                controllerOperations.select(child.data('controller'));
+
+            }else if (dndData.dragElement.data('controller').attr.theParent && 
+                    parentClassName.indexOf(dndData.dragElement.data('controller').attr.theParent._value.className) == -1) {
 
                 postMessageToFather.generateCtrl({
                     controller: dndData.dragElement.data('controller'),
@@ -1553,6 +1570,13 @@ $(function() {
                     key: ''
                 }
             });
+
+            var pageId = location.hash.split('#')[1] || 'page-home';
+            jq('script[id="' + pageId + '"]').html('');
+            jq('script[id="' + pageId + '"]').html(jq('.' + pageId).clone(true));
+
+            //本次拖拽已结束标志
+            dndData.haveEnd = true;
         }
 
         //拖拽离开处理函数
@@ -1907,6 +1931,9 @@ $(function() {
 
                     // e.originalEvent.dataTransfer.effectAllowed = "move";
 
+                    //结束标志，防止重复发送dragEnd事件
+                    dndData.haveEnd = false;
+
                     //超出区域的标志
                     dndData.isLegal = true;
 
@@ -1954,7 +1981,10 @@ $(function() {
 
                 elem.on('dragend', function(e) {
 
+                    //结束标志，防止重复发送dragEnd事件
+                    
                     dndEndHandler(e);
+                   
 
                 });
             }
@@ -2046,7 +2076,11 @@ $(function() {
                             var pageId = location.hash.split('#')[1] || 'page-home';
                             jq('script[id="' + pageId + '"]').html('');
                             jq('script[id="' + pageId + '"]').html(jq('.' + pageId).clone(true));
-                            controllerOperations.select(data.controller);
+                            if (data.controller.children[0].attr.theParent) {
+                                controllerOperations.select(data.controller.children[0]);
+                            }else {
+                                controllerOperations.select(data.controller);
+                            }
                         },
 
                         ctrlRemoved: function() {

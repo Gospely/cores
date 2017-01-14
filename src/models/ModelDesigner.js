@@ -7320,7 +7320,7 @@ page {
 					key: theParent.tag + '-' + randomString(8, 10),
 					attr: {
 						title: {
-							_value: controller.name + '容器',
+							_value: name + '容器',
 							title: '名称',
 							type: 'input'
 						},
@@ -7344,10 +7344,8 @@ page {
 			//为了拖拽放下后生成特定父级
 				
 				let theCtrl = layoutAction.getCtrlParentAndIndexByKey(state.layout[0], controller.key),
-					name = controller.attr.title ? controller.title._value : controller.name,
+					name = controller.attr.title ? controller.attr.title._value : controller.name,
 					tempParent = loopParent(theParent, name);
-
-					// console.log(theCtrl.thisCtrl)
 
 				gospelDesignerPreviewer.postMessage({
 	    			ctrlGenerated: {
@@ -7368,7 +7366,7 @@ page {
 
 				if (theParent) {
 					//加特定的父级
-					let name = controller.attr.title ? controller.title._value : controller.name,
+					let name = controller.attr.title ? controller.attr.title._value : controller.name,
 						theParentCtrl = loopParent(theParent, name);
 
 					theParentCtrl.children.push(tmpCtrl);
@@ -7766,6 +7764,7 @@ page {
 		},
 
 		attrChangeFromDrag(state, { payload: params }) {
+			
 			for(let i = 0; i < params.changeId.length; i ++) {
 				let activeCtrl = layoutAction.getCtrlByKey(state.layout[0], params.changeId[i]);
 				if(activeCtrl.attr[params.changeAttr[i]]) {
