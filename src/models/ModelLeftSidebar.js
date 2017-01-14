@@ -34,6 +34,7 @@ export default {
 		showAppsLoading: false,
         gitTabKey: '1',
         isHttp: true,
+        sshKey: '',
         wechatSaveShow: false, //小程序设计保存modal
 
 		modifyGitOriginInput: {
@@ -74,7 +75,8 @@ export default {
 		debugConfig: {
 			showConfigModal: false,
 			runCommand: 'npm run dev',
-			startPort: ''
+			startPort: '',
+            loading: false
 		},
 
 		currentAppCreatingStep: 0,
@@ -510,6 +512,9 @@ export default {
         },
         *updateCmds({payload: params}, {call, put, select}){
 
+            yield put({
+                type: 'setDebugConfigStart'
+            });
             var cmd = yield select(state => state.sidebar.debugConfig.runCommand);
             var port = yield select(state => state.sidebar.debugConfig.startPort);
             var cmd = JSON.stringify( {
@@ -527,7 +532,9 @@ export default {
                     exposePort: port
                 })
             });
-
+            yield put({
+                type: 'setDebugConfigCompleted'
+            });
             if(result.data.code == 1){
                 notification.open({
     	            message: '修改成功，即将重新加载配置'
@@ -605,11 +612,42 @@ export default {
 
                 }
 	        }
-        }
+        },
+        *getKey({ payload: params }, {call, put, select}){
+
+            notification.open({
+                message: '获取sshKey ...'
+            });
+            yield put({
+                type: 'setModifyGitOriginStart'
+            });
+            var res = yield request("users/" + localStorage.user, {
+                method: 'GET',
+            });
+            if(res.data.code == 1){
+                yield put({
+                    type: "initKey",
+                    payload :{ sshKey: res.data.fields.sshKey}
+                });
+
+            }else{
+                notification.open({
+                    message: '获取sshKey 失败...' + res.data.message
+                });
+            }
+            yield put({
+                type: 'setModifyGitOriginCompleted'
+            });
+        },
+
 
 	},
 
 	reducers: {
+        initKey(state,  { payload: params}) {
+            state.sshKey = params.sshKey;
+            return {...state};
+        },
 		setProjectNameAvailabel(state, { payload: available }) {
 			state.appCreatingForm.isProjectNameAvailabel = available;
 			return {...state};
@@ -669,8 +707,16 @@ export default {
 			state.modifyGitOriginInput.loading = true;
 			return {...state};
 		},
-		setModifyGitOriginCompleted(state) {
+        setModifyGitOriginCompleted(state) {
 			state.modifyGitOriginInput.loading = false;
+			return {...state};
+		},
+        setDebugConfigStart(state) {
+			state.debugConfig.loading = true;
+			return {...state};
+		},
+		setDebugConfigCompleted(state) {
+			state.debugConfig.loading = false;
 			return {...state};
 		},
 		showModalNewApp(state) {
@@ -761,6 +807,7 @@ export default {
             }
 			return {...state, modifyGitOriginInput: {
 				value: val,
+                loading: false,
 				isGit: state.modifyGitOriginInput.isGit,
 				pushValue: state.modifyGitOriginInput.pushValue
 			}}
@@ -776,6 +823,7 @@ export default {
             }
 			return {...state, modifyGitOriginInput: {
 				pushValue: val,
+                loading: false,
 				isGit: state.modifyGitOriginInput.isGit,
 				value: state.modifyGitOriginInput.value
 			}}
@@ -970,7 +1018,6 @@ export default {
 
 		handleCommitInfoInputChange(state, { payload: params }) {
 			state.modalCommitInfo[params.input] = params.value;
-            state.modalCommitInfo.title = params.value;
 			return {...state};
 		},
 
