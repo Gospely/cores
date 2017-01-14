@@ -6574,7 +6574,8 @@ page {
 						_value: '1px dashed gray',
 						title: '',
 						type: 'input',
-						backend: true
+						backend: true,
+						ignore: true
 					}
 				}
 			},
