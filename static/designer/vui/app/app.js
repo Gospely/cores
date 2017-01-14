@@ -537,13 +537,16 @@ $(function() {
                     //使其可拖动，且其子元素不可拖动
                     self.attr('draggable', true);
                     self.find("*").attr('draggable', false);
-
-                    //空白分隔符
+                    jq('.weui-tab__panel').on('scroll', function () {
+                        console.log(3)
+                    })
+                    //空白分隔块
                     if (self[0].id.split('-')[0] == 'spacer') {
                         dragY.show();
                         dragY.css({
                             top: self.offset().top + self.height() + 'px',
-                            width: self.width()
+                            width: self.width(),
+                            left: '2px'
                         })
                         jq(dragY[0]).on('mousedown', function(e) {
                             this.isMouseDown = true;
@@ -1692,20 +1695,18 @@ $(function() {
                         //更改的属性有css，则需要进行css操作
 
                         if (this.refresh && currentAttr.value) {
-                            var isClsInVal = false;
 
-                            for (var i = 0; i < currentAttr.value.length; i++) {
-                                var currentAttrVal = currentAttr.value[i];
+                            if (currentAttr.isNoConflict) {
+                                // 不是添加类而是刷新类, 先去掉以选类，再添加新类
+                                for (var i = 0; i < currentAttr.value.length; i++) {
+                                    var currentAttrVal = currentAttr.value[i];
+                                    if (this.elem[0].className.indexOf(currentAttrVal) != -1) {
+                                        this.elem.removeClass(currentAttrVal);
+                                    }
+                                };
 
-                                if (currentAttrVal == currentAttr._value) {
-                                    isClsInVal = true;
-                                    break;
-                                }
-                            };
-
-                            if (isClsInVal && currentAttr.isNoConflict) {
-                                // 不是添加控件而是刷新控件, 先重置为基本class再加新class
-                                this.elem.attr('class', this.controller.baseClassName);
+                                this.elem.addClass(currentAttr._value);
+                                
                             }
                         }
 
@@ -1734,6 +1735,7 @@ $(function() {
 
                         if (currentAttr.isSingleToggleClass) {
                             //针对某些对一个类进行开关的属性
+                            
                             if (currentAttr._value && currentAttr.value) {
                                 for (var j = 0; j < currentAttr.value.length; j++) {
                                     var currentDisabledCSS = currentAttr.value[j];
@@ -1774,6 +1776,19 @@ $(function() {
 
                             } else {
                                 this.elem.addClass(currentAttr.prefixClassValue + currentAttr._value);
+
+                                if (currentAttr.isNoConflict) {
+                                // 不是添加类而是刷新类, 先去掉以选类，再添加新类
+                                    for (var i = 0; i < currentAttr.value.length; i++) {
+                                        var currentAttrVal = currentAttr.prefixClassValue + currentAttr.value[i];
+                                        if (this.elem[0].className.indexOf(currentAttrVal) != -1) {
+                                            this.elem.removeClass(currentAttrVal);
+                                        }
+                                    };
+
+                                    this.elem.addClass(currentAttr.prefixClassValue + currentAttr._value);
+                                    
+                                }
                             }
                         } else {
                             this.elem.addClass(currentAttr._value);
@@ -2081,7 +2096,7 @@ $(function() {
                             var pageId = location.hash.split('#')[1] || 'page-home';
                             jq('script[id="' + pageId + '"]').html('');
                             jq('script[id="' + pageId + '"]').html(jq('.' + pageId).clone(true));
-                            if (data.controller.children[0].attr.theParent) {
+                            if (data.controller.children && data.controller.children[0] && data.controller.children[0].attr.theParent) {
                                 controllerOperations.select(data.controller.children[0]);
                             }else {
                                 controllerOperations.select(data.controller);

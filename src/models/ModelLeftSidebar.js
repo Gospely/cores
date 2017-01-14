@@ -624,10 +624,17 @@ export default {
             var res = yield request("users/" + localStorage.user, {
                 method: 'GET',
             });
-            yield put({
-                type: "initKey",
-                payload :{ sshKey: res.data.fields.sshKey}
-            });
+            if(res.data.code == 1){
+                yield put({
+                    type: "initKey",
+                    payload :{ sshKey: res.data.fields.sshKey}
+                });
+
+            }else{
+                notification.open({
+                    message: '获取sshKey 失败...' + res.data.message
+                });
+            }
             yield put({
                 type: 'setModifyGitOriginCompleted'
             });

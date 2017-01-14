@@ -295,6 +295,10 @@ const weappCompiler = {
                 break;
             }
 
+            if(currentAttr.ignore) {
+                break;
+            }
+
             //_id为组件的真实id，因为拖拽过程中也有组件的id，为避免冲突，将真实id设为_id，在此转换为id
             att = att == '_id' ? 'id' : att;
 

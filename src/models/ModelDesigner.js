@@ -1755,17 +1755,16 @@ page {
 						isHTML: false,
 						isNoConflict: true,
 						_value: 'weui-btn_primary',
-						backend: false
+						backend: true
 					},
-					// disabled: {
-					// 	type: 'toggle',
-					// 	title: '禁止',
-					// 	value: ['weui-btn_disabled', 'weui-btn_plain-disabled'],
-					// 	isClassName: true,
-					// 	isHTML: false,
-					// 	isSetAttribute: true,
-					// 	_value: false
-					// },
+					disabled: {
+						type: 'toggle',
+						title: '禁止',
+						value: ['weui-btn_disabled', 'weui-btn_plain-disabled'],
+						isClassName: true,
+						isSetAttribute: true,
+						_value: false
+					},
 					type: {
 						type: 'select',
 						title: '按钮类型',
@@ -6562,19 +6561,12 @@ page {
 						title: '空白分割高度',
 						type: 'input'
 					},
-					width: {
-						isStyle: true,
-						backend: true,
-						_value: '100%',
-						title: '',
-						type: 'input'
-					},
 					border: {
 						isStyle: true,
 						_value: '1px dashed gray',
 						title: '',
-						type: 'input',
-						backend: true
+						backend: true,
+						ignore: true
 					}
 				}
 			},
