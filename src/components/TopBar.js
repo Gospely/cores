@@ -930,8 +930,10 @@ const LeftSidebar = (props) => {
 				if(dom.target.value != 'wechat:latest'){
 					props.dispatch({
 						type: 'sidebar/checkAvailable',
-						input: s,
-						value: dom.target.value
+						payload: {
+							input: s,
+							value: dom.target.value
+						}
 					});
 				}else{
 					props.dispatch({
