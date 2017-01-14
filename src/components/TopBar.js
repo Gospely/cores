@@ -1515,6 +1515,7 @@ const LeftSidebar = (props) => {
 
 	    	<Modal style={{maxWidth: 550}}   title="切换应用" visible={props.sidebar.modalSwitchAppVisible}
 	          	onOk={leftSidebarProps.switchApp} onCancel={leftSidebarProps.cancelSwitchApp}
+	          	footer={[(<Button onClick={leftSidebarProps.cancelSwitchApp}>取消</Button>)]}
 	        >
 	            <Spin spinning={props.sidebar.showAppsLoading || props.sidebar.appCreator.loading}>
 	        	    <Row gutter={16}>
