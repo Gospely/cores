@@ -35,6 +35,7 @@ export default {
 	effects: {
 
 		*readConfig({ payload: params }, { call, put, select }) {
+
   			var configs = yield request('uistates?application=' + params.id, {
       			method: 'get'
       		});
@@ -75,11 +76,10 @@ export default {
 							body: JSON.stringify(configTobeSaved)
 						})
   				}else {
-  					clearInterval(state.saveInterval);
+  					window.clearInterval(window.uistateSave)
   				}
   			}
-  			setInterval(cb, config.gap);
-				//yield put({ type: 'setSaveInterval', payload: saveInterval });
+  			window.uistateSave = window.setInterval(cb, config.gap);
 		},
 
 		*writeConfig({ payload: params }, { call, put, select }) {
@@ -103,7 +103,7 @@ export default {
 			}).catch(function() {
 				notification.open({
 					message: '保存失败'
-				});				
+				});
 			});
 		},
 

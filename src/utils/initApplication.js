@@ -4,6 +4,8 @@ import request from './request';
 
 const initApplication = function (application, props, create){
 
+    //清除定时器
+    window.clearInterval(window.uistateSave)
     window.socket = null;
     if(localStorage.applicationId == application.id){
         window.reload = false;

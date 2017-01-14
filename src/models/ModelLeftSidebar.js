@@ -807,6 +807,7 @@ export default {
             }
 			return {...state, modifyGitOriginInput: {
 				value: val,
+                loading: false,
 				isGit: state.modifyGitOriginInput.isGit,
 				pushValue: state.modifyGitOriginInput.pushValue
 			}}
@@ -822,6 +823,7 @@ export default {
             }
 			return {...state, modifyGitOriginInput: {
 				pushValue: val,
+                loading: false,
 				isGit: state.modifyGitOriginInput.isGit,
 				value: state.modifyGitOriginInput.value
 			}}
