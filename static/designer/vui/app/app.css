@@ -522,7 +522,7 @@ body {
 }
 
 .container-box-a.bd {
-    height: 100%;
+    height: auto;
 }
 
 .spacerBottomBorder {
@@ -531,7 +531,6 @@ body {
     border-top: 5px solid rgba(255, 255, 255, 0);
     border-bottom: 5px solid rgba(255, 255, 255, 0);
     cursor: row-resize;
-    // width: 100vh;
     position: absolute;
     display: none;
     z-index: 65536;
