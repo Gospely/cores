@@ -370,7 +370,7 @@ $(function() {
             invalidDropArea: function() {
                 parent.postMessage({
                     'invalidDropArea': true
-                }, '*');                
+                }, '*');
             }
 
         }
@@ -966,9 +966,9 @@ $(function() {
                     }
 
                     var hasProp = false;
-                    for (var prop in dndData.dragAddCtrl){  
-                        hasProp = true;  
-                        break;  
+                    for (var prop in dndData.dragAddCtrl){
+                        hasProp = true;
+                        break;
                     }
                     if (!hasProp) {
                         return false;
@@ -1322,7 +1322,7 @@ $(function() {
             if(!dndData.isLegal) {
                 return false;
             }
-            
+
             var $this = dndData.dragElement,
                 thisId = $this.eq(0).attr('id'),
 
@@ -1333,15 +1333,15 @@ $(function() {
                 prevElement = $this.prev(),
                 nextElement = $this.next(),
 
-                parentIsPage = dragElementParent.hasClass('page__hd') 
-                        || dragElementParent.hasClass('page__bd') 
+                parentIsPage = dragElementParent.hasClass('page__hd')
+                        || dragElementParent.hasClass('page__bd')
                         || dragElementParent.hasClass('page__ft'),
 
                 referHeight = 30; //位置变换的参考高度
 
             var isParentPage = function (parent) {
-                return parent.hasClass('page__hd') 
-                        || parent.hasClass('page__bd') 
+                return parent.hasClass('page__hd')
+                        || parent.hasClass('page__bd')
                         || parent.hasClass('page__ft');
                 }
 
@@ -1392,7 +1392,7 @@ $(function() {
                             dragElementParent.css({
                                 height: '20px'
                             });
-                            
+
                             dndData.pushAttrChangeData('height', dragElementParent.eq(0).attr('id'), '20px');
                         }
                     }
@@ -1424,7 +1424,7 @@ $(function() {
                             dragElementParent.css({
                                 height: '20px'
                             });
-                            
+
                             dndData.pushAttrChangeData('height', dragElementParent.eq(0).attr('id'), '20px');
                         }
                     }
@@ -1446,7 +1446,7 @@ $(function() {
                             dragElementParent.css({
                                 height: '20px'
                             });
-                            
+
                             dndData.pushAttrChangeData('height', dragElementParent.eq(0).attr('id'), '20px');
                         }
                     }
@@ -1489,7 +1489,7 @@ $(function() {
 
                 //容器高度
                 if (!isParentPage(nextElement)) {
-                    
+
                     nextElement.css({
                         height: 'auto'
                     })
@@ -1506,11 +1506,11 @@ $(function() {
         //拖拽结束处理函数
         var dndEndHandler = function(e) {
             e.stopPropagation();
-            
+
             if (dndData.haveEnd) {
                 return false;
             }
-            
+
             if (!dndData.isLegal) {
                 return false;
             }
@@ -1553,7 +1553,7 @@ $(function() {
 
                 controllerOperations.select(child.data('controller'));
 
-            }else if (dndData.dragElement.data('controller').attr.theParent && 
+            }else if (dndData.dragElement.data('controller').attr.theParent &&
                     parentClassName.indexOf(dndData.dragElement.data('controller').attr.theParent._value.className) == -1) {
 
                 postMessageToFather.generateCtrl({
@@ -1584,7 +1584,7 @@ $(function() {
             // e.stopPropagation();
             // var target = jq(e.currentTarget);
             // if (e.currentTarget.id == 'container') {
-                
+
             // }
         }
 
@@ -1987,9 +1987,9 @@ $(function() {
                 elem.on('dragend', function(e) {
 
                     //结束标志，防止重复发送dragEnd事件
-                    
+
                     dndEndHandler(e);
-                   
+
 
                 });
             }
