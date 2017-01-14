@@ -1763,7 +1763,6 @@ page {
 						value: ['weui-btn_disabled', 'weui-btn_plain-disabled'],
 						isClassName: true,
 						isSetAttribute: true,
-						isHTML: false,
 						_value: false
 					},
 					type: {
@@ -3990,7 +3989,7 @@ page {
 				}
 			},
 			{
-				name: '页面标题',
+				name: '页面大标题',
 				type: 'heading',
 				tag: 'h1',
 				baseClassName: 'page__title',
@@ -4033,79 +4032,66 @@ page {
 					}
 				}
 			},
-			{
-				name: '头菜单',
-				type: 'header',
-				attr: {},
-				tag: 'div',
-				baseClassName: 'weui-tab',
-				children: [{
-					type: 'div',
-					tag: 'div',
-					name: 'navbar',
-					baseClassName: 'weui-navbar',
-					attr: {},
-					children: [{
-						type: 'div',
-						tag: 'div',
-						name: '选项一',
-						baseClassName: 'weui-navbar__item weui-bar__item_on',
-						attr: {
-							value: {
-								isHTML: true,
-								type: 'input',
-								_value: '选项一',
-								title: '选项一标题'
-							}
-						}
-					}, {
-						type: 'div',
-						tag: 'div',
-						name: '选项二',
-						baseClassName: 'weui-navbar__item',
-						attr: {
-							value: {
-								isHTML: true,
-								type: 'input',
-								_value: '选项二',
-								title: '选项二标题'
-							}
-						}
-					}, {
-						type: 'div',
-						tag: 'div',
-						name: '选项三',
-						baseClassName: 'weui-navbar__item',
-						attr: {
-							value: {
-								isHTML: true,
-								type: 'input',
-								_value: '选项三',
-								title: '选项三标题'
-							}
-						}
-					}]
-				}]
-			},
+			// {
+			// 	name: '头菜单',
+			// 	type: 'header',
+			// 	attr: {},
+			// 	tag: 'div',
+			// 	baseClassName: 'weui-tab',
+			// 	children: [{
+			// 		type: 'div',
+			// 		tag: 'div',
+			// 		name: 'navbar',
+			// 		baseClassName: 'weui-navbar',
+			// 		attr: {},
+			// 		children: [{
+			// 			type: 'div',
+			// 			tag: 'div',
+			// 			name: '选项一',
+			// 			baseClassName: 'weui-navbar__item weui-bar__item_on',
+			// 			attr: {
+			// 				value: {
+			// 					isHTML: true,
+			// 					type: 'input',
+			// 					_value: '选项一',
+			// 					title: '选项一标题'
+			// 				}
+			// 			}
+			// 		}, {
+			// 			type: 'div',
+			// 			tag: 'div',
+			// 			name: '选项二',
+			// 			baseClassName: 'weui-navbar__item',
+			// 			attr: {
+			// 				value: {
+			// 					isHTML: true,
+			// 					type: 'input',
+			// 					_value: '选项二',
+			// 					title: '选项二标题'
+			// 				}
+			// 			}
+			// 		}, {
+			// 			type: 'div',
+			// 			tag: 'div',
+			// 			name: '选项三',
+			// 			baseClassName: 'weui-navbar__item',
+			// 			attr: {
+			// 				value: {
+			// 					isHTML: true,
+			// 					type: 'input',
+			// 					_value: '选项三',
+			// 					title: '选项三标题'
+			// 				}
+			// 			}
+			// 		}]
+			// 	}]
+			// },
 			{
 				name: '页脚',
 				type: 'footer',
 				tag: 'div',
 				baseClassName: 'weui-footer',
-				attr: {
-					footerText: {
-						isRander: true,
-						type: 'toggle',
-						_value: true,
-						title: '是否有链接'
-					},
-					footerLink: {
-						isRander: true,
-						type: 'toggle',
-						_value: true,
-						title: '是否有文字'
-					}
-				},
+				attr: {},
 				children: [{
 					name: '页脚文字',
 					isRander: 'footerText',
@@ -4113,6 +4099,14 @@ page {
 					tag: 'p',
 					baseClassName: 'weui-footer__text',
 					attr: {
+
+						display: {
+							type: 'toggle',
+							_value: true,
+							title: '是否显示',
+							isStyle: true
+						},
+
 						value: {
 							type: 'input',
 							isHTML: true,
@@ -4144,6 +4138,12 @@ page {
 								title: '内容',
 								type: 'input',
 								_value: '底部链接'
+							},
+							display: {
+								type: 'toggle',
+								_value: true,
+								title: '是否显示',
+								isStyle: true
 							}
 						}
 					}, {
@@ -4163,7 +4163,14 @@ page {
 								title: '内容',
 								type: 'input',
 								_value: '底部链接'
+							},
+							display: {
+								type: 'toggle',
+								_value: true,
+								title: '是否显示',
+								isStyle: true
 							}
+
 						}
 					}]
 				}]
@@ -6554,18 +6561,10 @@ page {
 						title: '空白分割高度',
 						type: 'input'
 					},
-					width: {
-						isStyle: true,
-						backend: true,
-						_value: '100%',
-						title: '',
-						type: 'input'
-					},
 					border: {
 						isStyle: true,
 						_value: '1px dashed gray',
 						title: '',
-						type: 'input',
 						backend: true
 					}
 				}

@@ -119,6 +119,15 @@ const createTerminal = function(props) {
         window.gitOrigin = true;
         socket.send("cd /root/workspace && git remote -v | head -1 | awk '{print $2}'\n");
         socket.send('echo begin');
+        setTimeout(function(){
+            window.Pname = false;
+            window.email = false;
+            if(props.sidebar.modifyGitOriginInput.isGit){
+                window.socket.send('cd /root/workspace && echo PPemail && git config user.email && echo PPname && git config user.name && clear\n');
+                window.getConfig = true;
+            }
+        }, 200);
+
         notification.open({
             message: 'git 设置服务已启动'
         });

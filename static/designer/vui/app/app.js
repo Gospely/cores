@@ -537,13 +537,16 @@ $(function() {
                     //使其可拖动，且其子元素不可拖动
                     self.attr('draggable', true);
                     self.find("*").attr('draggable', false);
-
-                    //空白分隔符
+                    jq('.weui-tab__panel').on('scroll', function () {
+                        console.log(3)
+                    })
+                    //空白分隔块
                     if (self[0].id.split('-')[0] == 'spacer') {
                         dragY.show();
                         dragY.css({
                             top: self.offset().top + self.height() + 'px',
-                            width: self.width()
+                            width: self.width(),
+                            left: '2px'
                         })
                         jq(dragY[0]).on('mousedown', function(e) {
                             this.isMouseDown = true;
@@ -1677,6 +1680,10 @@ $(function() {
 
                 // this.handleWeuiTag(this.controller.weui);
 
+                if(!this.controller) {
+                    return false;
+                }
+
                 for (var att in this.controller.attr) {
                     var currentAttr = this.controller.attr[att];
 
@@ -1715,11 +1722,13 @@ $(function() {
                                 };
                             }
 
-                            if (!currentAttr._value && currentAttr.value) {
-                                for (var j = 0; j < currentAttr.value.length; j++) {
-                                    var currentDisabledCSS = currentAttr.value[j];
-                                    this.elem.removeClass(currentDisabledCSS);
-                                };
+                            if (!currentAttr._value) {
+                                if(currentAttr.value) {
+                                    for (var j = 0; j < currentAttr.value.length; j++) {
+                                        var currentDisabledCSS = currentAttr.value[j];
+                                        this.elem.removeClass(currentDisabledCSS);
+                                    };                                    
+                                }
                             }
 
                         }
