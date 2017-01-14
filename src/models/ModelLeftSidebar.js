@@ -33,6 +33,7 @@ export default {
 		applications: [],
 		showAppsLoading: false,
         gitTabKey: '1',
+        isHttp: true,
         wechatSaveShow: false, //小程序设计保存modal
 
 		modifyGitOriginInput: {
@@ -259,7 +260,6 @@ export default {
 		},
         *checkAvailable({payload: params}, {call, put}){
 
-            console.log(params);
             var url = 'applications?creator=' + localStorage.user + '&host=120.76.235.234'
             var result = yield request(url, {
 				method: 'GET'
@@ -722,10 +722,15 @@ export default {
         },
         setGitOrigin(state, {  payload: params }){
 
+            if(/https:\/\/github.com\/?/.test(params.gitOrigin)){
+                state.isHttp = true;
+            }
+            if(/git@github.com:?/.test(params.gitOrigin)){
+                state.isHttp = false;
+            }
             state.modifyGitOriginInput.value = params.gitOrigin;
             state.modifyGitOriginInput.pushValue = params.gitOrigin;
             state.modifyGitOriginInput.isGit = params.isGit;
-            console.log('setGit');
             return {...state};
         },
 		showModalModifyGitOrgin(state) {
@@ -737,6 +742,13 @@ export default {
 		},
 
 		handleModifyGitOriginInputChange(state, {payload: val}) {
+
+            if(/https:\/\/github.com\/?/.test(val)){
+                state.isHttp = true;
+            }
+            if(/git@github.com:?/.test(val)){
+                state.isHttp = false;
+            }
 			return {...state, modifyGitOriginInput: {
 				value: val,
 				isGit: state.modifyGitOriginInput.isGit,
@@ -745,6 +757,13 @@ export default {
 		},
 
 		handleModifyGitPushOriginInputChange(state, {payload: val}) {
+
+            if(/https:\/\/github.com\/?/.test(val)){
+                state.isHttp = true;
+            }
+            if(/git@github.com:?/.test(val)){
+                state.isHttp = false;
+            }
 			return {...state, modifyGitOriginInput: {
 				pushValue: val,
 				isGit: state.modifyGitOriginInput.isGit,
@@ -752,6 +771,7 @@ export default {
 			}}
 		},
         handleModifyGitConfigInputChange(state, {payload: val}) {
+
 			return {...state, modifyGitConfigInput: {
 				userName: val,
                 email: state.modifyGitConfigInput.email

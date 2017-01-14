@@ -496,7 +496,19 @@ const LeftSidebar = (props) => {
 						message.error('git源不能为空');
 						return false;
 					}
-					if (( /git@github.com:?/.test(props.sidebar.modifyGitOriginInput.value) && /git@github.com:?/.test(props.sidebar.modifyGitOriginInput.pushValue)) ||  (/https:\/\/github.com\/?/.test(props.sidebar.modifyGitOriginInput.pushValue) && /https:\/\/github.com\/?/.test(props.sidebar.modifyGitOriginInput.value))) {
+					var isHttp = /https:\/\/github.com\/?/.test(props.sidebar.modifyGitOriginInput.pushValue) && /https:\/\/github.com\/?/.test(props.sidebar.modifyGitOriginInput.value);
+					var isSSH = /git@github.com:?/.test(props.sidebar.modifyGitOriginInput.value) && /git@github.com:?/.test(props.sidebar.modifyGitOriginInput.pushValue);
+					if(isHttp){
+						if(props.sidebar.modifyGitConfigInput.userName == '' || props.sidebar.modifyGitConfigInput.email == '') {
+							message.error('git 配置不能为空');
+							return false;
+						}
+						if(/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/.test(props.sidebar.modifyGitConfigInput.email)){
+							message.error('邮箱格式错误');
+							return false;
+						}
+					}
+					if (isHttp || isSSH) {
 						if(!props.sidebar.modifyGitOriginInput.isGit){
 							window.socket.send('clear && git init\n');
 							setTimeout(function(){
@@ -521,15 +533,8 @@ const LeftSidebar = (props) => {
 						message.error('git 源格式错误');
 					}
 				}
-				if(props.sidebar.gitTabKey == '4'){
-					if(props.sidebar.modifyGitConfigInput.userName == '' || props.sidebar.modifyGitConfigInput.email == '') {
-						message.error('git 配置不能为空');
-						return false;
-					}else {
-						if(!props.sidebar.modifyGitOriginInput.isGit){
-							message.error('为配置git源');
-							return false;
-						}
+				if(isHttp){
+					setTimeout(function(){
 						window.socket.send('git config user.name ' + props.sidebar.modifyGitConfigInput.userName + ' --replace-all && clear\n');
 						window.socket.send('git config user.email ' + props.sidebar.modifyGitConfigInput.email + ' --replace-all && clear\n');
 						setTimeout(function(){
@@ -539,16 +544,22 @@ const LeftSidebar = (props) => {
 								window.socket.send('cd /root/workspace && echo PPemail && git config user.email && echo PPname && git config user.name && clear\n');
 								window.getConfig = true;
 							}
+							notification.open({
+								message: '配置成功'
+							});
+							props.dispatch({
+								type: 'sidebar/hideModalModifyGitOrigin'
+							})
 
 						}, 100)
-						notification.open({
-							message: '配置成功'
-						});
-					}
+					},200);
 				}
-
+				if(isSSH){
+					notification.open({
+						message: '请在Github或git@oschina配置你的sshKey'
+					});
+				}
 			},
-
 			onChange: function(e) {
 				props.dispatch({
 					type: 'sidebar/handleModifyGitOriginInputChange',
@@ -601,13 +612,8 @@ const LeftSidebar = (props) => {
 					type: 'devpanel/getKey'
 				});
 			}
-			if(key == '4'){
-				window.Pname = false;
-				window.email = false;
-				if(props.sidebar.modifyGitOriginInput.isGit){
-					window.socket.send('cd /root/workspace && echo PPemail && git config user.email && echo PPname && git config user.name && clear\n');
-					window.getConfig = true;
-				}
+			if(key == ''){
+
 			}
 			if(key == '1'){
 
@@ -616,6 +622,14 @@ const LeftSidebar = (props) => {
 					window.socket.send("cd /root/workspace && git remote -v | head -1 | awk '{print $2}'\n");
 					window.socket.send('echo begin');
 				}
+				setTimeout(function(){
+					window.Pname = false;
+					window.email = false;
+					if(props.sidebar.modifyGitOriginInput.isGit){
+						window.socket.send('cd /root/workspace && echo PPemail && git config user.email && echo PPname && git config user.name && clear\n');
+						window.getConfig = true;
+					}
+				}, 200);
 			}
 		},
 
@@ -903,15 +917,11 @@ const LeftSidebar = (props) => {
 			});
 
 			if(s == 'image') {
-				console.log(dom.target.value);
 				if(dom.target.value != 'wechat:latest'){
-					console.log('check');
 					props.dispatch({
 						type: 'sidebar/checkAvailable',
-						payload: {
-							input: s,
-							value: dom.target.value
-						}
+						input: s,
+						value: dom.target.value
 					});
 				}else{
 					props.dispatch({
@@ -1582,6 +1592,31 @@ const LeftSidebar = (props) => {
 
 		        	</div>
 
+					<div style={{ marginBottom: 16, marginTop: 16 }}  hidden={!props.sidebar.isHttp}>
+
+				      	<InputGroup style={searchCls}>
+				        	<Input
+					        	addonBefore="user.name"
+				        		value={props.sidebar.modifyGitConfigInput.userName}
+				        		onPressEnter={leftSidebarProps.modifyGitOriginInput.onPressEnter}
+				        		onChange={leftSidebarProps.modifyGitConfigInput.onChange}
+				        	/>
+				     	</InputGroup>
+
+		        	</div>
+
+		        	<div style={{ marginBottom: 16 }}   hidden={!props.sidebar.isHttp}>
+
+				      	<InputGroup style={searchCls}>
+				        	<Input
+					        	addonBefore="user.email"
+				        		value={props.sidebar.modifyGitConfigInput.email}
+				        		onPressEnter={leftSidebarProps.modifyGitOriginInput.onPressEnter}
+				        		onChange={leftSidebarProps.modifyGitConfigInput.onEmailChange}
+				        	/>
+				     	</InputGroup>
+
+		        	</div>
     			</TabPane>
     			<TabPane tab="SSH" key="2">
     				<div style={{marginTop: 16}}>
@@ -1602,33 +1637,7 @@ const LeftSidebar = (props) => {
 	    				</div>
     				</div>
     			</TabPane>
-				<TabPane tab="git config" key="4">
-					<div style={{ marginBottom: 16, marginTop: 16 }}>
 
-				      	<InputGroup style={searchCls}>
-				        	<Input
-					        	addonBefore="user.name"
-				        		value={props.sidebar.modifyGitConfigInput.userName}
-				        		onPressEnter={leftSidebarProps.modifyGitOriginInput.onPressEnter}
-				        		onChange={leftSidebarProps.modifyGitConfigInput.onChange}
-				        	/>
-				     	</InputGroup>
-
-		        	</div>
-
-		        	<div style={{ marginBottom: 16 }}>
-
-				      	<InputGroup style={searchCls}>
-				        	<Input
-					        	addonBefore="user.email"
-				        		value={props.sidebar.modifyGitConfigInput.email}
-				        		onPressEnter={leftSidebarProps.modifyGitOriginInput.onPressEnter}
-				        		onChange={leftSidebarProps.modifyGitConfigInput.onEmailChange}
-				        	/>
-				     	</InputGroup>
-
-		        	</div>
-    			</TabPane>
   			</Tabs>
 
 	        </Modal>
