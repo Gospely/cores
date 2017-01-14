@@ -408,11 +408,14 @@ $(function() {
         });
 
         //点击其他区域隐藏border和i
-        jq("body").on("click", function() {
-            controllerOperations.hideDesignerDraggerBorder();
-            postMessageToFather.pageSelected({
-                key: location.hash.split('#')[1] || 'page-home'
-            });
+        jq("body").on("click", function(e) {
+            if (e.target.className !== 'spacerBottomBorder') {
+                controllerOperations.hideDesignerDraggerBorder();
+                postMessageToFather.pageSelected({
+                    key: location.hash.split('#')[1] || 'page-home'
+                });
+            }
+            
         });
 
         //点击组件
@@ -493,7 +496,6 @@ $(function() {
             }
         });
 
-
         var controllerOperations = {
                 select: function(controller, isSentByParent) {
 
@@ -519,6 +521,12 @@ $(function() {
                     controllerOperations.hideDesignerDraggerBorder();
                     removeBtn.show();
 
+                    jq('.weui-tab__panel').on('scroll', function () {
+                        removeBtn.css({
+                            top: self.offset().top + 'px'
+                        })
+                    })
+
                     if (!self) {
                         return false;
                     }
@@ -537,27 +545,47 @@ $(function() {
                     //使其可拖动，且其子元素不可拖动
                     self.attr('draggable', true);
                     self.find("*").attr('draggable', false);
-                    jq('.weui-tab__panel').on('scroll', function () {
-                        console.log(3)
-                    })
+
                     //空白分隔块
                     if (self[0].id.split('-')[0] == 'spacer') {
+
                         dragY.show();
                         dragY.css({
-                            top: self.offset().top + self.height() + 'px',
+                            top: self.offset().top + self.height() + 2 + 'px',
                             width: self.width(),
                             left: '2px'
                         })
+
+                        jq('.weui-tab__panel').on('scroll', function () {
+                            dragY.css({
+                                top: self.offset().top + self.height() + 2 + 'px'
+                            })
+                        })
+
                         jq(dragY[0]).on('mousedown', function(e) {
+                            jq('.hight-light').each(function () {
+                                if (this.id == self[0].id) {
+                                    self.data('isSelf', true);
+                                }
+                            })
+
+                            if (self.height() == 0) {
+                                self.css({
+                                    height: '1px'
+                                })
+                            }
+                            
                             this.isMouseDown = true;
                             this.orginY = e.pageY;
                             this.orginTop = parseInt(jq(e.target).css('top'));
                             this.orginHeight = parseInt(self.height());
                             this.tar = jq(e.target);
                         })
+
                         jq(dragY[0]).on('mouseup', function(e) {
 
                             this.isMouseDown = false;
+                            self.data('isSelf', false);
                             postMessageToFather.attrChangeFromDrag({
                                 changeId: [self[0].id],
                                 changeValue: [e.pageY - this.orginY + this.orginHeight + 'px'],
@@ -565,15 +593,20 @@ $(function() {
                             });
 
                         })
-                        jq(window).on('mousemove', function(e) {
-                            if (dragY[0].isMouseDown) {
-                                dragY[0].tar.css({
-                                    top: e.pageY - dragY[0].orginY + dragY[0].orginTop
-                                })
-                                self.height(e.pageY - dragY[0].orginY + dragY[0].orginHeight + 'px');
 
+                        jq(window).on('mousemove', function(e) {
+                            if (self.height() !== 0) {
+                                if (dragY[0].isMouseDown && self.data('isSelf')) {
+                                    dragY[0].tar.css({
+                                        top: e.pageY - dragY[0].orginY + dragY[0].orginTop
+                                    })
+                                    self.height(e.pageY - dragY[0].orginY + dragY[0].orginHeight + 'px');
+
+                                }
                             }
+                            
                         })
+
                     }
                 },
 
@@ -582,6 +615,7 @@ $(function() {
                     jq(".hight-light").removeClass("hight-light");
                     jq(".hight-light").attr("draggable", false);
                     jq(".spacerBottomBorder").hide();
+                    jq(".spacerBottomBorder").unbind();
                 },
 
                 refresh: function(controller, page) {
@@ -1544,6 +1578,12 @@ $(function() {
             //拖拽元素的父元素已有其最外层容器的类，就把其最外层容器去掉
             if (parentClassName.indexOf(dragClassName.replace(' hight-light', '')) !== -1) {
 
+               var parentArr = parentClassName.split(' '),
+                    commPrefix = dragClassName.replace(' hight-light', '');
+               if (jq.inArray(parentClassName.replace(commPrefix, ''), parentArr) == -1) {
+                    return false;
+               }
+
                 var child = dndData.dragElement.children().clone(true);
                 dndData.dragElement.remove();
                 dndData.dragElementParent.append(child);
@@ -1949,7 +1989,7 @@ $(function() {
 
                 elem.on('dragstart', function(e) {
 
-                    // e.originalEvent.dataTransfer.effectAllowed = "move";
+                    e.originalEvent.dataTransfer.effectAllowed = "move";
 
                     //结束标志，防止重复发送dragEnd事件
                     dndData.haveEnd = false;

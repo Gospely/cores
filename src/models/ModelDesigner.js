@@ -5988,6 +5988,11 @@ page {
 									title: '图片地址',
 									type: 'input'
 								},
+								height: {
+									isStyle: true,
+									backend: true,
+									_value: '50px'
+								},
 								isComponent: {
 									backend: true,
 									value: [],
