@@ -531,7 +531,9 @@ export default {
                 notification.open({
     	            message: '修改成功，即将重新加载配置'
     	        });
-                window.location.reload();
+                setTimeout(function(){
+                    window.location.reload();
+                }, 1000)
                 yield put({
                     type: 'sidebar/hideCmdsConfigModal',
                 });
