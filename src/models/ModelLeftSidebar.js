@@ -39,7 +39,8 @@ export default {
 		modifyGitOriginInput: {
 			value: '',
 			isGit: false,
-			pushValue: ''
+			pushValue: '',
+            loading: false
 		},
         modifyGitConfigInput: {
 			userName: '',
@@ -664,7 +665,14 @@ export default {
 			state.appCreator.loading = false;
 			return {...state};
 		},
-
+        setModifyGitOriginStart(state) {
+			state.modifyGitOriginInput.loading = true;
+			return {...state};
+		},
+		setModifyGitOriginCompleted(state) {
+			state.modifyGitOriginInput.loading = false;
+			return {...state};
+		},
 		showModalNewApp(state) {
 			state.appCreator.available = true;
 			return {...state, modalNewAppVisible: true};
