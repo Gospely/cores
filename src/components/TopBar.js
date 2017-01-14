@@ -499,11 +499,12 @@ const LeftSidebar = (props) => {
 					var isHttp = /https:\/\/github.com\/?/.test(props.sidebar.modifyGitOriginInput.pushValue) && /https:\/\/github.com\/?/.test(props.sidebar.modifyGitOriginInput.value);
 					var isSSH = /git@github.com:?/.test(props.sidebar.modifyGitOriginInput.value) && /git@github.com:?/.test(props.sidebar.modifyGitOriginInput.pushValue);
 					if(isHttp){
+						console.log('isHttp');
 						if(props.sidebar.modifyGitConfigInput.userName == '' || props.sidebar.modifyGitConfigInput.email == '') {
 							message.error('git 配置不能为空');
 							return false;
 						}
-						if(/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/.test(props.sidebar.modifyGitConfigInput.email)){
+						if(!/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/.test(props.sidebar.modifyGitConfigInput.email)){
 							message.error('邮箱格式错误');
 							return false;
 						}
@@ -547,10 +548,6 @@ const LeftSidebar = (props) => {
 							notification.open({
 								message: '配置成功'
 							});
-							props.dispatch({
-								type: 'sidebar/hideModalModifyGitOrigin'
-							})
-
 						}, 100)
 					},200);
 				}
@@ -559,6 +556,12 @@ const LeftSidebar = (props) => {
 						message: '请在Github或git@oschina配置你的sshKey'
 					});
 				}
+				setTimeout(function(){
+					props.dispatch({
+						type: 'sidebar/hideModalModifyGitOrigin'
+					})
+
+				}, 500)
 			},
 			onChange: function(e) {
 				props.dispatch({
