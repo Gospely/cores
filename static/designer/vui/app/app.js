@@ -1069,7 +1069,6 @@ $(function() {
                         dndData.isLegal = false;
                         //非法区域
                     }
-                    
                 })
             }
 
