@@ -985,7 +985,6 @@ export default {
 		handleInputChanged(state, { payload: params }) {
 
 			state.appCreatingForm[params['input']] = params.value;
-
 			if(params['input'] == 'image') {
 				state.appCreatingForm.imageVersion = '';
 				state.appCreatingForm.framework = '';

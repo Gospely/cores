@@ -70,9 +70,14 @@ const LeftSidebar = (props) => {
 										</a>
 									</Popconfirm>
 								} style={{ width: 110, height: 110 }}
-								bodyStyle={{height: '100%', background: 'whitesmoke', color: '#555', cursor: 'pointer'}}>
-										<div style={{ height: 50,lineHeight: '50px',textAlign: 'center'}}>
-											<p className="app-name-hover">{application.name}</p>
+								bodyStyle={{height: '100%', background: 'whitesmoke', display:'flex', 
+											color: '#555', cursor: 'pointer', wordWrap: 'break-word',
+											overflow: 'auto'}}>
+										<div style={{margin: 'auto', width: '100%', display: 'flex',
+													wordBreak: 'break-all', justifyContent: 'center'}}
+											className="app-name-hover"
+										>
+											{application.name}
 										</div>
 								</Card>
 						 </div>
@@ -816,7 +821,7 @@ const LeftSidebar = (props) => {
 		},
 		save(){
 			notification.open({
-				message: '正在保存设计...'
+				message: '正在保存工作状态...'
 			});
 			props.dispatch({
 				type: 'UIState/writeConfig'
@@ -909,6 +914,17 @@ const LeftSidebar = (props) => {
 						return false;
 					}
 				}
+
+				const illegalLetter = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '+', '=', '[', ']', 
+									'{', '}', '\\', '|', ':', ';', '\'', '"', '<', '>', ',', '.', '/', '?'];
+					let theCurrentLetter = dom.target.value.replace(props.sidebar.appCreatingForm.appName, '');
+					if(illegalLetter.indexOf(theCurrentLetter) !== -1) {
+						notification['warning']({
+							message: '请勿输入非法字符: \' ' + theCurrentLetter + ' \'',
+							description: '请重新输入'
+						});
+						return false;
+					}
 
 				props.dispatch({
 					type: 'sidebar/checkProjectAvailable',
@@ -1515,7 +1531,7 @@ const LeftSidebar = (props) => {
 
 	    	<Modal style={{maxWidth: 550}}   title="切换应用" visible={props.sidebar.modalSwitchAppVisible}
 	          	onOk={leftSidebarProps.switchApp} onCancel={leftSidebarProps.cancelSwitchApp}
-	          	footer={[(<Button onClick={leftSidebarProps.cancelSwitchApp}>取消</Button>)]}
+	          	footer={[(<Button key='cancel' onClick={leftSidebarProps.cancelSwitchApp}>取消</Button>)]}
 	        >
 	            <Spin spinning={props.sidebar.showAppsLoading || props.sidebar.appCreator.loading}>
 	        	    <Row gutter={16}>
