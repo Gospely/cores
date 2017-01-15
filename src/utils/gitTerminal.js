@@ -2,6 +2,7 @@ import fetch from 'dva/fetch';
 import Xterm from './../components/Panel/TerminalFit';
 import { message, Spin, notification } from 'antd';
 import md5 from 'md5';
+import config from '../configs'
 
 const createTerminal = function(props) {
 
@@ -17,7 +18,8 @@ const createTerminal = function(props) {
         socket,
         pid,
         port = localStorage.socketPort || 0,
-        domain = 'gospely.com',
+        //domain =  || 'gospely.com',
+        domain = localStorage.host,
         baseUrl = 'http://' + domain + ':' + port,
         term = new Xterm({
             cursorBlink: false
@@ -117,17 +119,19 @@ const createTerminal = function(props) {
     function runRealTerminal() {
         term.attach(socket);
         window.gitOrigin = true;
-        socket.send(" mv /root/temp/.* /root/workspace && cd /root/workspace && git remote -v | head -1 | awk '{print $2}'\n");
-        socket.send('echo begin');
+        socket.send("cd /root/workspace\n");
         setTimeout(function(){
-            window.Pname = false;
-            window.email = false;
-            if(props.sidebar.modifyGitOriginInput.isGit){
-                window.socket.send('cd /root/workspace && echo PPemail && git config user.email && echo PPname && git config user.name && clear\n');
-                window.getConfig = true;
-            }
-        }, 200);
-
+            socket.send(" mv /root/temp/.* /root/workspace && cd /root/workspace && git remote -v | head -1 | awk '{print $2}'\n");
+            socket.send('echo begin');
+            setTimeout(function(){
+                window.Pname = false;
+                window.email = false;
+                if(props.sidebar.modifyGitOriginInput.isGit){
+                    window.socket.send('cd /root/workspace && echo PPemail && git config user.email && echo PPname && git config user.name && clear\n');
+                    window.getConfig = true;
+                }
+            }, 200);
+        }, 300)
         notification.open({
             message: 'git 设置服务已启动'
         });
