@@ -7070,7 +7070,7 @@ page {
 				baseClassName: 'page__bd',
 				backend: true
 			},
-			
+
 			{
 				name: '图标',
 				type: 'i',
@@ -7132,7 +7132,7 @@ page {
 						isStyle: true,
 						type: 'input',
 						_value: '100％',
-						title: '高度'
+						title: '宽度'
 					},
 					'background-image': {
 						isStyle: true,
