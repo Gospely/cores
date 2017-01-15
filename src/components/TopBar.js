@@ -450,12 +450,17 @@ const LeftSidebar = (props) => {
 				message: '正在删除应用，请稍等……',
 				title: '删除应用'
 			});
-
+			if(localStorage.applicationId == application){
+				localStorage.clear;
+				window.location.hash = '#/'
+				props.dispatch({
+					type: 'devpanel/initPanel',
+				})
+			}
 			props.dispatch({
 				type: 'sidebar/deleteApp',
 				payload: {application}
 			})
-			// window.location.href = window.location.origin;
 	    },
 
 	    cancelDeleteApp() {
@@ -644,6 +649,12 @@ const LeftSidebar = (props) => {
 		},
 
 		createAppFromModal() {
+			props.dispatch({
+				type: 'sidebar/handleAvailable',
+				payload: {
+					available: true,
+				}
+			});
 			props.dispatch({
 				type: 'sidebar/showNewAppAndHideSwitch',
 			})
