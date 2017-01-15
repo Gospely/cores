@@ -218,6 +218,7 @@ export default {
 					var activeTab = pane.tabs[j];
 					if(activeTab.type == 'editor') {
 
+
 						var fileName = activeTab.file;
 
 						if(fileName != null && fileName != undefined && fileName != '新文件'　&& fileName != '新标签页') {
@@ -228,10 +229,6 @@ export default {
 							if(suffix != undefined){
 								localStorage.suffix = suffix;
 							}
-							yield put({
-								type: 'dynamicChangeSyntax',
-								payload:{suffix}
-							});
 							var readResult = yield request('fs/read', {
 								method: 'POST',
 								body: JSON.stringify({
