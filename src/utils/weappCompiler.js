@@ -137,6 +137,8 @@ const weappCompiler = {
         icon: ['type', 'size'],
 
 		'navigator': ['url', 'redirect', 'open-type', 'hover-class', 'hover-start-time', 'hover-stay-time'],
+
+        image: ['src', 'mode']
 	},
 
 	init (layout) {
@@ -549,6 +551,10 @@ const weappCompiler = {
 
                     if(controller.baseClassName == 'weui-icon') {
                         weappTag = 'icon';
+                    }
+
+                    if (controller.baseClassName == 'weui-image') {
+                        weappTag = 'image';
                     }
 
 					self.currentControllerTag = weappTag;
