@@ -216,6 +216,17 @@ export default {
 					props.dispatch({
 		        		type: 'dashboard/hideDash'
 		        	})
+				},
+
+				openApp () {
+					props.dispatch({
+						type: 'UIState/writeConfig'
+					});
+					window.location.hash = 'project/' + data.id;
+					props.dispatch({
+		        		type: 'dashboard/hideDash'
+		        	})
+					initApplication(data, props);
 				}
 
 			}
