@@ -883,14 +883,8 @@ $(function() {
 
                             ev.stopPropagation();
 
-                        })
+                        });
 
-                        // jq("#page__bd").on('dragleave', function (e) {
-                        //     console.log(3333)
-                        //     e.stopPropagation();
-                        //     console.log(jq(this).find('#' + dndData.dragAddCtrl.eq(0).attr('id')))
-                        //     jq(this).find('#' + dndData.dragAddCtrl.eq(0).attr('id')).remove();
-                        // })
                     }).on('drag', function(e) {
 
                         if(!parent.parent.validDropArea) {

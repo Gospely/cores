@@ -314,7 +314,6 @@ export default {
 			state.horizontalColumnHeight = sizePercentage;
 			return {...state};
 		},
-
 		initPanel(state){
 
 			state.panels = {
