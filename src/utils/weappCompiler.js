@@ -138,7 +138,7 @@ const weappCompiler = {
 
 		'navigator': ['url', 'redirect', 'open-type', 'hover-class', 'hover-start-time', 'hover-stay-time'],
 
-        image: ['src', 'mode']
+        'gospel_image': ['src', 'mode']
 	},
 
 	init (layout) {
