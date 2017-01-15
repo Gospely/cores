@@ -224,7 +224,7 @@ const Editor = (props) => {
 				<MonacoEditor
 					width="100%"
 					height={aceHeight}
-					language={props.devpanel.currentMode}
+					language={props.language}
 					options={props.editor.options}
 					defaultValue={props.content}
 					onChange={editorProps.handleEditorChanged}

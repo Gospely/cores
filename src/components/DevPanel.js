@@ -18,6 +18,42 @@ const styles = {
 		height: '100%'
 	}
 }
+const setMode = {
+
+		js: function() {
+			return 'javascript';
+		},
+		css: function() {
+			return 'css';
+		},
+		html: function() {
+			return 'html';
+		},
+		php: function() {
+			return 'php';
+		},
+		java: function() {
+			return 'java';
+		},
+		txt: function() {
+			return 'plain_text';
+		},
+		md: function() {
+			return 'markdown';
+		},
+		json: function() {
+			return 'json';
+		},
+		xml: function() {
+			return "xml"
+		},
+		vue: function() {
+			return "javascript";
+		},
+		sh: function() {
+			return "bat";
+		}
+	}
 
 const DevPanel = ({
 	splitType, onChange, onEdit, panes, panels, onChangePane, props
@@ -25,12 +61,20 @@ const DevPanel = ({
 
 	const currentDevType = {
 		editor: function(params) {
+
+			var file = params.fileName.split('.'),
+			suffix = setMode[file[file.length-1]];
+			if(suffix == undefined){
+				suffix = setMode['txt'];
+			}
+			var language = suffix();
 			return (
 				<Spin spinning={params.loading}>
 					<CodingEditor searchVisible={params.searchVisible}
 					 editorId={params.editorId} belongTo={params.belongTo}
 					 isSave={params.isSave} tabKey={params.tabKey}
 					 content={params.content}
+					 language={language}
 					 >
 					</CodingEditor>
 				</Spin>
@@ -85,7 +129,7 @@ const DevPanel = ({
 				searchVisible: pane.searchVisible || false,
 				isSave: pane.isSave || false,
 				tabKey: pane.key,
-				loading: pane.loading || false
+				loading: pane.loading || false,
 			}
 			return <TabPane tab={pane.title} key={pane.key}>{currentDevType[pane.type](params)}</TabPane>;
 		});
