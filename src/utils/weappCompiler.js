@@ -554,7 +554,7 @@ const weappCompiler = {
                     }
 
                     if (controller.baseClassName == 'weui-image') {
-                        weappTag = 'image';
+                        weappTag = 'gospel_image';
                     }
 
 					self.currentControllerTag = weappTag;
@@ -598,8 +598,6 @@ const weappCompiler = {
 
 		pageWXML = pageWXML.replace(/gospel_input/g, 'input')
 						   .replace(/gospel_image/g, 'image');
-
-		console.log(pageWXML);
 
 		return pageWXML;
 	},

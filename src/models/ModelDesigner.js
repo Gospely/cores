@@ -2947,7 +2947,7 @@ page {
 			{
 				baseClassName: 'weui-cell weui-cell_input',
 				tag: 'div',
-				type: 'weui-cell',
+				type: 'input',
 				attr: {
 					error: {
 						type: 'toggle',
@@ -7120,6 +7120,7 @@ page {
 				name: '图片',
 				type: 'image',
 				tag: 'div',
+				weui: 'image',
 				baseClassName: 'weui-image',
 				attr: {
 					height: {
