@@ -2,6 +2,7 @@ import fetch from 'dva/fetch';
 import Xterm from './../components/Panel/TerminalFit';
 import { message, Spin, notification } from 'antd';
 import md5 from 'md5';
+import config from '../configs'
 
 const createTerminal = function(props) {
 
@@ -17,7 +18,8 @@ const createTerminal = function(props) {
         socket,
         pid,
         port = localStorage.socketPort || 0,
-        domain = 'gospely.com',
+        //domain =  || 'gospely.com',
+        domain = localStorage.host,
         baseUrl = 'http://' + domain + ':' + port,
         term = new Xterm({
             cursorBlink: false

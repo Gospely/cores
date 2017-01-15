@@ -1,6 +1,7 @@
 import React , {PropTypes} from 'react';
 import { message, notification } from 'antd';
 import request from './request';
+import config from '../configs'
 
 const initApplication = function (application, props, create){
 
@@ -133,7 +134,7 @@ const initApplication = function (application, props, create){
         localStorage.sshKey = application.sshKey;
         localStorage.exposePort = application.exposePort;
 
-        if(application.domain != null && application.domain != ''){
+        if((application.domain != null && application.domain != '') && !config.dev){
             localStorage.domain = application.domain + '.gospely.com';
         }else{
             localStorage.domain = application.host + ':' + application.port;
