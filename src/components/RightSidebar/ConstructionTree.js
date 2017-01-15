@@ -234,6 +234,13 @@ const ConstructionTree = (props) => {
                 type: 'designer/handleCtrlSelected'
             });
 
+        },
+
+        onExpand(expandedKeys, node) {
+            props.dispatch({
+                type: 'designer/handleTreeExpaned',
+                payload: expandedKeys
+            })
         }
 
     }
@@ -327,6 +334,8 @@ const ConstructionTree = (props) => {
                         onSelect={layoutTreeProps.onSelect}
                         selectedKeys={[props.designer.layoutState.activeKey]}
                         expandedKeys={props.designer.layoutState.expandedKeys}
+                        onExpand={layoutTreeProps.onExpand}
+                        autoExpandParent={props.designer.layoutState.autoExpandParent}
                     >
                         {treeNodes}
                     </Tree>

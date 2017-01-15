@@ -106,7 +106,9 @@ const layoutAction = {
 		layoutState.activePage.key = pageKey;
 		layoutState.activeKey = pageKey;
 		layoutState.activePage.level = level;
-		layoutState.expandedKeys.push(pageKey);
+		if (layoutState.expandedKeys.indexOf(pageKey) === -1) {
+			layoutState.expandedKeys.push(pageKey);
+		}
 		layoutState.activeType = 'page';
 	},
 
@@ -116,7 +118,9 @@ const layoutAction = {
 		layoutState.activeKey = controllerKey;
 		layoutState.level = level;
 		layoutState.activeController.level = level;
-		layoutState.expandedKeys.push(controllerKey);
+		if (layoutState.expandedKeys.indexOf(controllerKey) === -1) {
+			layoutState.expandedKeys.push(controllerKey);
+		}
 		layoutState.activeType = 'controller';
 	},
 
@@ -226,6 +230,17 @@ const layoutAction = {
 
 		loopControllers(activePageChildren);
 
+	},
+
+	deleteExpandKey(state, key) {
+		let expandedKeys = state.layoutState.expandedKeys;
+		if (expandedKeys.indexOf(key) !== -1) {
+			for(let i = 0; i < expandedKeys.length; i ++) {
+				if(expandedKeys[i] === key) {
+					expandedKeys.splice(i, 1);
+				}
+			}
+		}
 	}
 }
 
@@ -828,7 +843,8 @@ page {
 
 			activeKey: 'page-home',
 			activeType: 'page',
-			expandedKeys: ['page-home']
+			expandedKeys: ['page-home'],
+			autoExpandParent: true
 		},
 
 		controllersList: [
@@ -1856,6 +1872,129 @@ page {
 				baseClassName: 'weui-btn'
 			},
 			{
+				name: '搜索框',
+				type: 'search',
+				baseClassName: 'weui-search-bar',
+				attr: {},
+				tag: 'div',
+				children: [{
+					type: 'form',
+					tag: 'form',
+					name: '搜索form',
+					baseClassName: 'weui-search-bar__form',
+					attr: {},
+					children: [{
+						type: 'div',
+						tag: 'div',
+						name: '搜索box',
+						baseClassName: 'weui-search-bar__box',
+						attr: {},
+						children: [{
+							type: 'i',
+							tag: 'i',
+							name: '图标',
+							baseClassName: '',
+							attr: {
+								icon: {
+									title: '图标',
+									isClassName: true,
+									_value: 'weui-icon-search',
+									type: 'select',
+									value: ['weui-icon-success', 'weui-icon-success-circle', 'weui-icon-success-no-circle', 'weui-icon-info',
+											'weui-icon-waiting', 'weui-icon-waiting-circle', 'weui-icon-circle', 'weui-icon-warn', 'weui-icon-download',
+											'weui-icon-info-circle', 'weui-icon-cancel'
+										   ],
+									isNoConflict: true
+								}
+							}
+						}, {
+							type: 'input',
+							baseClassName: 'weui-search-bar__input',
+							name: '搜索input',
+							tag: 'input',
+							attr: {
+								placeholder: {
+									title: '占位符',
+									type: 'input',
+									isSetAttribute: true,
+									_value: '搜索'
+								}
+							}
+						}, {
+							type: 'a',
+							tag: 'a',
+							baseClassName: 'weui-icon-clear',
+							name: '清空button',
+							attr: {
+								herf: {
+									isSetAttribute: true,
+									_value: 'javascript:',
+									title: '清空动作',
+									type: 'input'
+								}
+							},
+						}]
+					}, {
+						type: 'label',
+						tag: 'lable',
+						name: '搜索按钮区域',
+						attr: {},
+						baseClassName: 'weui-search-bar__label',
+						children: [{
+							type: 'i',
+							tag: 'i',
+							baseClassName: '',
+							name: '图标',
+							attr: {
+								icon: {
+									title: '图标',
+									isClassName: true,
+									_value: 'weui-icon-search',
+									type: 'select',
+									value: ['weui-icon-success', 'weui-icon-success-circle', 'weui-icon-success-no-circle', 'weui-icon-info',
+											'weui-icon-waiting', 'weui-icon-waiting-circle', 'weui-icon-circle', 'weui-icon-warn', 'weui-icon-download',
+											'weui-icon-info-circle', 'weui-icon-cancel'
+										   ],
+									isNoConflict: true
+								}
+							}
+						}, {
+							name: '提示文本',
+							tag: 'span',
+							type: 'span',
+							baseClassName: '',
+							attr: {
+								value: {
+									title: '提示文本',
+									type: 'input',
+									isHTML: true,
+									_value: '搜索'
+								}
+							}
+						}]
+					}]
+				}, {
+					type: 'a',
+					tag: 'a',
+					baseClassName: 'weui-search-bar__cancel-btn',
+					attr: {
+						href: {
+							isSetAttribute: true,
+							type: 'input',
+							title: '取消动作',
+							_value: 'javascript:'
+						},
+						value: {
+							isHTML: true,
+							type: 'input',
+							title: '取消文本',
+							_value: '取消'
+						}
+					},
+					name: '取消'
+				}]
+			},
+			{
 				name: '导航',
 				type: 'button',
 				attr: {
@@ -1962,7 +2101,16 @@ page {
 					baseClassName: 'weui-cell weui-cell_switch',
 					tag: 'div',
 					type: 'div',
-					attr: {},
+					attr: {
+						theParent: {
+							isParent: true,
+							_value: {
+								tag: 'div',
+								className: 'weui-cells weui-cells_form'
+							},
+							backend: true
+						},
+					},
 					name: '表单项一',
 					children: [{
 						baseClassName: 'weui-cell__bd',
@@ -2086,7 +2234,15 @@ page {
 							title: '是否报错',
 							_value: false,
 							value: ['weui-cell_warn']
-						}
+						},
+						theParent: {
+							isParent: true,
+							_value: {
+								tag: 'div',
+								className: 'weui-cells weui-cells_form'
+							},
+							backend: true
+						},
 					},
 					name: '表单项二',
 					children: [{
@@ -2269,7 +2425,15 @@ page {
 							title: '是否报错',
 							_value: false,
 							value: ['weui-cell_warn']
-						}
+						},
+						theParent: {
+							isParent: true,
+							_value: {
+								tag: 'div',
+								className: 'weui-cells weui-cells_form'
+							},
+							backend: true
+						},
 					},
 					name: '表单项三',
 					children: [{
@@ -2481,7 +2645,15 @@ page {
 							title: '是否报错',
 							_value: true,
 							value: ['weui-cell_warn']
-						}
+						},
+						theParent: {
+							isParent: true,
+							_value: {
+								tag: 'div',
+								className: 'weui-cells weui-cells_form'
+							},
+							backend: true
+						},
 					},
 					children: [{
 						name: '提示信息',
@@ -2773,7 +2945,165 @@ page {
 				}]
 			},
 			{
+				baseClassName: 'weui-cell weui-cell_input',
+				tag: 'div',
+				type: 'weui-cell',
+				attr: {
+					error: {
+						type: 'toggle',
+						isClassName: true,
+						isSingleToggleClass: true,
+						title: '是否报错',
+						_value: false,
+						value: ['weui-cell_warn']
+					},
+					theParent: {
+						isParent: true,
+						_value: {
+							tag: 'div',
+							className: 'weui-cells weui-cells_form'
+						},
+						backend: true
+					},
+				},
 				name: '普通文本框',
+				children: [{
+					tag: 'div',
+					baseClassName: 'weui-cell__hd',
+					type: 'weui-cell_hd',
+					attr: {
+						selfAdaption: {
+							title: '自适应',
+							type: 'toggle',
+							isSingleToggleClass: true,
+							isClassName: true,
+							isHTML: false,
+							isSetAttribute: false,
+							value: ['weui_cell_primary'],
+							_value: false
+						},
+
+						isComponent: {
+							backend: true,
+							value: [],
+							title: '是否为完整的组件',
+							_value: true
+						},
+
+						display: {
+							type: 'toggle',
+							title: '显示',
+							_value: true,
+							value: ['none', 'block'],
+							isStyle: true,
+							isToggleStyle: true
+						}
+
+					},
+					name: '表单项头部',
+					children: [{
+						name: '提示信息',
+						tag: 'label',
+						baseClassName: 'weui-label',
+						type: 'weui-label',
+						attr: {
+							value: {
+								type: 'input',
+								title: '提示信息',
+								isClassName: false,
+								isHTML: true,
+								_value: 'qq'
+							},
+
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
+							},
+
+						}
+					}]
+				}, {
+					tag: 'div',
+					baseClassName: 'weui-cell__bd',
+					type: 'weui-cell__bd',
+					attr: {
+						selfAdaption: {
+							title: '自适应',
+							type: 'toggle',
+							isSingleToggleClass: true,
+							isClassName: true,
+							isHTML: false,
+							isSetAttribute: false,
+							value: ['weui_cell_primary'],
+							_value: false
+						},
+
+						isComponent: {
+							backend: true,
+							value: [],
+							title: '是否为完整的组件',
+							_value: true
+						},
+
+						display: {
+							type: 'toggle',
+							title: '显示',
+							_value: true,
+							value: ['none', 'block'],
+							isStyle: true,
+							isToggleStyle: true
+						}
+
+					},
+					name: '标单项中部',
+					children: [{
+						tag: 'input',
+						baseClassName: 'weui-input',
+						name: '输入框',
+						type: 'weui-input',
+						attr: {
+							placeholder: {
+								type: 'input',
+								isSetAttribute: true,
+								title: '占位符',
+								_value: '请输入qq号'
+							},
+							value: {
+								type: 'input',
+								isSetAttribute: true,
+								title: '内容',
+								isClassName: false,
+								isHTML: false,
+								_value: ''
+							},
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
+							},
+							type: {
+								title: '输入框类型',
+								isSetAttribute: true,
+								type: 'select',
+								value: ['number', 'color', 'range', 'text', 'datetime-local', 'date', 'password', 'email', 'tel'],
+								_value: 'text'
+							},
+							pattern: {
+								title: '正则',
+								isSetAttribute: true,
+								type: 'input',
+								_value: ''
+							}
+						}
+					}]
+				}]
+			},
+
+			{
+				name: '带图标文本框',
 				type: 'input',
 				attr: {
 					theParent: {
@@ -2784,6 +3114,14 @@ page {
 						},
 						backend: true,
 						type: 'input'
+					},
+					error: {
+						type: 'toggle',
+						isClassName: true,
+						isSingleToggleClass: true,
+						title: '是否报错',
+						_value: true,
+						value: ['weui-cell_warn']
 					}
 				},
 				tag: ['div'],
@@ -2794,15 +3132,46 @@ page {
 					type: 'input',
 					tag: ['div'],
 					baseClassName: 'weui-cell__hd',
-					children: [],
+					children: [{
+							name: '提示信息',
+							tag: 'label',
+							baseClassName: 'weui-label',
+							type: 'label',
+							attr: {
+								value: {
+									type: 'input',
+									title: '提示信息',
+									isHTML: true,
+									isSetAttribute: false,
+									isClassName: false,
+									_value: '卡号'
+								},
+								isComponent: {
+									backend: true,
+									value: [],
+									title: '是否为完整的组件',
+									_value: true
+								},
+							}
+						}],
 					attr: {
 						display: {
 							type: 'toggle',
 							title: '显示',
-							_value: false,
+							_value: true,
 							value: ['none', 'block'],
 							isStyle: true,
 							isToggleStyle: true
+						},
+						selfAdaption: {
+							title: '自适应',
+							type: 'toggle',
+							isSingleToggleClass: true,
+							isClassName: true,
+							isHTML: false,
+							isSetAttribute: false,
+							value: ['weui_cell_primary'],
+							_value: false
 						},
 						isComponent: {
 							backend: true,
@@ -2916,29 +3285,286 @@ page {
 						}
 					}]
 				}, {
-					name: '文本框尾部',
-					type: 'input',
-					tag: ['div'],
+					name: '图标',
+					tag: 'div',
+					type: 'div',
 					baseClassName: 'weui-cell__ft',
-					children: [],
 					attr: {
-						display: {
+						selfAdaption: {
+							title: '自适应',
 							type: 'toggle',
-							title: '显示',
-							_value: false,
-							value: ['none', 'block'],
-							isStyle: true,
-							isToggleStyle: true
+							isSingleToggleClass: true,
+							isClassName: true,
+							isHTML: false,
+							isSetAttribute: false,
+							value: ['weui_cell_primary'],
+							_value: false
 						},
 						isComponent: {
 							backend: true,
 							value: [],
 							title: '是否为完整的组件',
 							_value: true
+						},
+						display: {
+							type: 'toggle',
+							title: '显示',
+							_value: true,
+							value: ['none', 'block'],
+							isStyle: true,
+							isToggleStyle: true
 						}
-					}
+					},
+					children: [{
+						name: '图标',
+						tag: 'i',
+						type: 'i',
+						baseClassName: '',
+						attr:{
+							iconClass: {
+								title: '图标类型',
+								type: 'select',
+								value: ['weui-icon-success', 'weui-icon-success-circle', 'weui-icon-success-no-circle', 'weui-icon-info',
+										'weui-icon-waiting', 'weui-icon-waiting-circle', 'weui-icon-circle', 'weui-icon-warn', 'weui-icon-download',
+										'weui-icon-info-circle', 'weui-icon-cancel'
+									   ],
+								_value: 'weui-icon-warn',
+								isClassName: true,
+								isHTML: false,
+								isSetAttribute: false,
+								isNoConflict: true
+							},
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
+							},
+						}
+					}]
 				}]
 			},
+			{
+				baseClassName: 'weui-cell weui-cell_input weui-cell_vcode',
+				tag: 'div',
+				type: 'div',
+				attr: {
+					error: {
+						type: 'toggle',
+						isClassName: true,
+						isSingleToggleClass: true,
+						title: '是否报错',
+						_value: false,
+						value: ['weui-cell_warn']
+					},
+					theParent: {
+						isParent: true,
+						_value: {
+							tag: 'div',
+							className: 'weui-cells weui-cells_form'
+						},
+						backend: true
+					},
+				},
+				name: '验证码文本框',
+				children: [{
+					tag: 'div',
+					baseClassName: 'weui-cell__hd',
+					type: 'div',
+					attr: {
+						selfAdaption: {
+							title: '自适应',
+							type: 'toggle',
+							isSingleToggleClass: true,
+							isClassName: true,
+							isHTML: false,
+							isSetAttribute: false,
+							value: ['weui_cell_primary'],
+							_value: false
+						},
+
+						isComponent: {
+							backend: true,
+							value: [],
+							title: '是否为完整的组件',
+							_value: true
+						},
+
+						display: {
+							type: 'toggle',
+							title: '显示',
+							_value: true,
+							value: ['none', 'block'],
+							isStyle: true,
+							isToggleStyle: true
+						}
+
+					},
+					name: '表单项头部',
+					children: [{
+						name: '提示信息',
+						tag: 'label',
+						baseClassName: 'weui-label',
+						attr: {
+							value: {
+								type: 'input',
+								title: '提示信息',
+								isClassName: false,
+								isHTML: true,
+								isSetAttribute: false,
+								_value: '验证码'
+							},
+
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
+							},
+						}
+					}]
+				}, {
+					tag: 'div',
+					baseClassName: 'weui-cell__bd',
+					type: 'div',
+					attr: {
+						selfAdaption: {
+							title: '自适应',
+							type: 'toggle',
+							isSingleToggleClass: true,
+							isClassName: true,
+							isHTML: false,
+							isSetAttribute: false,
+							value: ['weui_cell_primary'],
+							_value: false
+						},
+
+						isComponent: {
+							backend: true,
+							value: [],
+							title: '是否为完整的组件',
+							_value: true
+						},
+
+						display: {
+							type: 'toggle',
+							title: '显示',
+							_value: true,
+							value: ['none', 'block'],
+							isStyle: true,
+							isToggleStyle: true
+						}
+
+					},
+					name: '表单项中部',
+					children: [{
+						tag: 'input',
+						baseClassName: 'weui-input',
+						name: '文本框实体',
+						type: 'input',
+						attr: {
+							placeholder: {
+								type: 'input',
+								isSetAttribute: true,
+								isHTML: false,
+								isClassName: false,
+								title: '默认内容',
+								_value: '请输入验证码'
+							},
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
+							},
+							value: {
+								type: 'input',
+								isSetAttribute: true,
+								isClassName: false,
+								isHTML: false,
+								title: '内容',
+								_value: ''
+							},
+							type: {
+								title: '输入框类型',
+								isSetAttribute: true,
+								isHTML: false,
+								isClassName: false,
+								type: 'select',
+								value: ['number', 'color', 'range', 'text', 'datetime-local', 'date', 'password', 'email', 'tel'],
+								_value: 'text'
+							},
+							pattern: {
+								title: '正则',
+								isSetAttribute: true,
+								isHTML: false,
+								isClassName: false,
+								type: 'input',
+								_value: '[0-9]*'
+							}
+						}
+					}]
+				}, {
+					tag: 'div',
+					baseClassName: 'weui-cell__ft',
+					type: 'div',
+					attr: {
+						selfAdaption: {
+							title: '自适应',
+							type: 'toggle',
+							isSingleToggleClass: true,
+							isClassName: true,
+							isHTML: false,
+							isSetAttribute: false,
+							value: ['weui_cell_primary'],
+							_value: false
+						},
+
+						isComponent: {
+							backend: true,
+							value: [],
+							title: '是否为完整的组件',
+							_value: true
+						},
+
+						display: {
+							type: 'toggle',
+							title: '显示',
+							_value: true,
+							value: ['none', 'block'],
+							isStyle: true,
+							isToggleStyle: true
+						}
+
+					},
+					name: '表单项尾部',
+					children: [{
+						tag: 'img',
+						baseClassName: 'weui-vcode-img',
+						name: '验证码图片',
+						type: 'img',
+						attr: {
+							src: {
+								type: 'input',
+								title: '图片地址',
+								isSetAttribute: true,
+								isHTML: false,
+								isClassName: false,
+								_value: './images/vcode.png'
+							},
+
+							isComponent: {
+								backend: true,
+								value: [],
+								title: '是否为完整的组件',
+								_value: true
+							},
+						}
+					}]
+				}]
+
+			},
+
 			{
 				name: '文本域',
 				type: 'textarea',
@@ -3973,21 +4599,7 @@ page {
 					}
 				}
 			},
-			{
-				name: '列表标题',
-				type: 'heading',
-				tag: 'div',
-				baseClassName: 'weui-cells__title',
-				attr: {
-					value: {
-						type: 'input',
-						title: '标题',
-						isClassName: false,
-						isHTML: true,
-						_value: '标题内容'
-					}
-				}
-			},
+			
 			{
 				name: '页面大标题',
 				type: 'heading',
@@ -4310,42 +4922,23 @@ page {
 				tag: 'div',
 				baseClassName: 'weui-article',
 			},
+
 			{
-				name: '图片',
-				type: 'image',
+				name: '列表标题',
+				type: 'heading',
 				tag: 'div',
-				baseClassName: '',
+				baseClassName: 'weui-cells__title',
 				attr: {
-					'background-image': {
-						isStyle: true,
+					value: {
 						type: 'input',
-						_value: '',
-						title: '图片路径(<=40kb)'
-					},
-					'background-position': {
-						isStyle: true,
-						type: 'select',
-						value: ['top left', 'top center', 'top right',
-								'center left', 'center center', 'center right',
-								'bottom left', 'bottom center', 'bottom right'],
-						_value: 'center center',
-						title: '图片起始位置'
-					},
-					'background-repeat': {
-						isStyle: true,
-						type: 'select',
-						value: ['reprat', 'reprat-x', 'reprat-y', 'no-repeat'],
-						_value: 'reprat',
-						title: '图片重复方式'
-					},
-					'background-size': {
-						isStyle: true,
-						type: 'input',
-						title: '裁剪方式(cover,contain,百分比,像素)',
-						_value: 'cover'
+						title: '标题',
+						isClassName: false,
+						isHTML: true,
+						_value: '标题内容'
 					}
 				}
 			},
+			
 			{
 				name: '普通列表',
 				type: 'list-item-avatar',
@@ -6397,129 +6990,7 @@ page {
 			// 	type: 'map',
 			// 	attr: {}
 			// },
-			{
-				name: '搜索框',
-				type: 'search',
-				baseClassName: 'weui-search-bar',
-				attr: {},
-				tag: 'div',
-				children: [{
-					type: 'form',
-					tag: 'form',
-					name: '搜索form',
-					baseClassName: 'weui-search-bar__form',
-					attr: {},
-					children: [{
-						type: 'div',
-						tag: 'div',
-						name: '搜索box',
-						baseClassName: 'weui-search-bar__box',
-						attr: {},
-						children: [{
-							type: 'i',
-							tag: 'i',
-							name: '图标',
-							baseClassName: '',
-							attr: {
-								icon: {
-									title: '图标',
-									isClassName: true,
-									_value: 'weui-icon-search',
-									type: 'select',
-									value: ['weui-icon-success', 'weui-icon-success-circle', 'weui-icon-success-no-circle', 'weui-icon-info',
-											'weui-icon-waiting', 'weui-icon-waiting-circle', 'weui-icon-circle', 'weui-icon-warn', 'weui-icon-download',
-											'weui-icon-info-circle', 'weui-icon-cancel'
-										   ],
-									isNoConflict: true
-								}
-							}
-						}, {
-							type: 'input',
-							baseClassName: 'weui-search-bar__input',
-							name: '搜索input',
-							tag: 'input',
-							attr: {
-								placeholder: {
-									title: '占位符',
-									type: 'input',
-									isSetAttribute: true,
-									_value: '搜索'
-								}
-							}
-						}, {
-							type: 'a',
-							tag: 'a',
-							baseClassName: 'weui-icon-clear',
-							name: '清空button',
-							attr: {
-								herf: {
-									isSetAttribute: true,
-									_value: 'javascript:',
-									title: '清空动作',
-									type: 'input'
-								}
-							},
-						}]
-					}, {
-						type: 'label',
-						tag: 'lable',
-						name: '搜索按钮区域',
-						attr: {},
-						baseClassName: 'weui-search-bar__label',
-						children: [{
-							type: 'i',
-							tag: 'i',
-							baseClassName: '',
-							name: '图标',
-							attr: {
-								icon: {
-									title: '图标',
-									isClassName: true,
-									_value: 'weui-icon-search',
-									type: 'select',
-									value: ['weui-icon-success', 'weui-icon-success-circle', 'weui-icon-success-no-circle', 'weui-icon-info',
-											'weui-icon-waiting', 'weui-icon-waiting-circle', 'weui-icon-circle', 'weui-icon-warn', 'weui-icon-download',
-											'weui-icon-info-circle', 'weui-icon-cancel'
-										   ],
-									isNoConflict: true
-								}
-							}
-						}, {
-							name: '提示文本',
-							tag: 'span',
-							type: 'span',
-							baseClassName: '',
-							attr: {
-								value: {
-									title: '提示文本',
-									type: 'input',
-									isHTML: true,
-									_value: '搜索'
-								}
-							}
-						}]
-					}]
-				}, {
-					type: 'a',
-					tag: 'a',
-					baseClassName: 'weui-search-bar__cancel-btn',
-					attr: {
-						href: {
-							isSetAttribute: true,
-							type: 'input',
-							title: '取消动作',
-							_value: 'javascript:'
-						},
-						value: {
-							isHTML: true,
-							type: 'input',
-							title: '取消文本',
-							_value: '取消'
-						}
-					},
-					name: '取消'
-				}]
-			},
+			
 			// {
 			// 	name: '幻灯片',
 			// 	type: 'slider',
@@ -6599,6 +7070,104 @@ page {
 				baseClassName: 'page__bd',
 				backend: true
 			},
+			
+			{
+				name: '图标',
+				type: 'i',
+				tag: 'span',
+				baseClassName: 'weui-icon',
+				attr: {
+					icon: {
+						title: '图标',
+						isClassName: true,
+						_value: 'weui-icon-success',
+						type: 'select',
+						value: ['weui-icon-success', 'weui-icon-success-circle', 'weui-icon-success-no-circle', 'weui-icon-info',
+								'weui-icon-waiting', 'weui-icon-waiting-circle', 'weui-icon-circle', 'weui-icon-warn', 'weui-icon-download',
+								'weui-icon-info-circle', 'weui-icon-cancel', 'weui-icon-search', 'weui-icon-search'],
+						isNoConflict: true,
+						backend: true
+					},
+
+					type: {
+						type: 'select',
+						title: '图标类型',
+						value: ['success', 'success-circle', 'circle', 'info',
+								'waiting', 'waiting-circle', 'circle', 'warn', 'download',
+								'info-circle', 'cancel', 'search', 'search'],
+						isClassName: true,
+						isHTML: false,
+						isNoConflict: true,
+						isNeedPrefixClass: true,
+						prefixClassValue: 'weui-icon-',
+						_value: 'success'
+					},
+
+					'font-size': {
+ 						title: '图标大小',
+ 						alias: 'size',
+ 						isNeedUnit: true,
+ 						unitName: 'px',
+ 						_value: '23',
+ 						type: 'input',
+ 						attrType: 'number',
+ 						isStyle: true,
+  					}
+
+				}
+			},
+			{
+				name: '图片',
+				type: 'image',
+				tag: 'div',
+				baseClassName: '',
+				attr: {
+					height: {
+						isStyle: true,
+						type: 'input',
+						_value: '200px',
+						title: '高度'
+					},
+					width: {
+						isStyle: true,
+						type: 'input',
+						_value: '100％',
+						title: '高度'
+					},
+					'background-image': {
+						isStyle: true,
+						type: 'input',
+						_value: 'http://www.runoob.com/images/pulpit.jpg',
+						title: '图片路径(<=40kb)',
+						isConnect: {
+							prev: 'url(',
+							after: ')'
+						}
+					},
+					'background-position': {
+						isStyle: true,
+						type: 'select',
+						value: ['top left', 'top center', 'top right',
+								'center left', 'center center', 'center right',
+								'bottom left', 'bottom center', 'bottom right'],
+						_value: 'center center',
+						title: '图片起始位置'
+					},
+					'background-repeat': {
+						isStyle: true,
+						type: 'select',
+						value: ['reprat', 'reprat-x', 'reprat-y', 'no-repeat'],
+						_value: 'reprat',
+						title: '图片重复方式'
+					},
+					'background-size': {
+						isStyle: true,
+						type: 'input',
+						title: '裁剪方式(cover,contain,百分比,像素)',
+						_value: 'cover'
+					}
+				}
+			},
 			{
 				name: '视频',
 				type: 'video',
@@ -6606,7 +7175,7 @@ page {
 				attr: {
 					src: {
 						isSetAttribute: true,
-						_value: '',
+						_value: 'http://www.runoob.com/try/demo_source/movie.mp4',
 						title: '资源地址',
 						type: 'input'
 					},
@@ -6655,7 +7224,7 @@ page {
 				attr: {
 					src: {
 						isSetAttribute: true,
-						_value: '',
+						_value: 'http://www.runoob.com/try/demo_source/horse.ogg',
 						title: '资源地址',
 						type: 'input'
 					},
@@ -6694,52 +7263,6 @@ page {
 						_value: 'calc(100% - 5px)',
 						backend: true
 					}
-				}
-			},
-
-			{
-				name: '图标',
-				type: 'i',
-				tag: 'span',
-				baseClassName: 'weui-icon',
-				attr: {
-					icon: {
-						title: '图标',
-						isClassName: true,
-						_value: 'weui-icon-success',
-						type: 'select',
-						value: ['weui-icon-success', 'weui-icon-success-circle', 'weui-icon-success-no-circle', 'weui-icon-info',
-								'weui-icon-waiting', 'weui-icon-waiting-circle', 'weui-icon-circle', 'weui-icon-warn', 'weui-icon-download',
-								'weui-icon-info-circle', 'weui-icon-cancel', 'weui-icon-search', 'weui-icon-search'],
-						isNoConflict: true,
-						backend: true
-					},
-
-					type: {
-						type: 'select',
-						title: '图标类型',
-						value: ['success', 'success-circle', 'circle', 'info',
-								'waiting', 'waiting-circle', 'circle', 'warn', 'download',
-								'info-circle', 'cancel', 'search', 'search'],
-						isClassName: true,
-						isHTML: false,
-						isNoConflict: true,
-						isNeedPrefixClass: true,
-						prefixClassValue: 'weui-icon-',
-						_value: 'success'
-					},
-
-					'font-size': {
- 						title: '图标大小',
- 						alias: 'size',
- 						isNeedUnit: true,
- 						unitName: 'px',
- 						_value: '23',
- 						type: 'input',
- 						attrType: 'number',
- 						isStyle: true,
-  					}
-
 				}
 			},
 
@@ -7089,7 +7612,7 @@ page {
 					attrs[key] = publicAttrs[key];
 				}
 
-				attrs.class._value = baseClassName;
+				// attrs.class._value = baseClassName;
 
 			};
 
@@ -7230,6 +7753,8 @@ page {
 		},
 
 		deleteConstruction(state, {payload: params}) {
+
+			layoutAction.deleteExpandKey(state, params.parentCtrl.children[params.deleteIndex].key);
 
 			if (params.activeType == 'page') {
 				layoutAction.setActivePage(state.layoutState, params.activeIndex, params.activeKey, params.activeLevel);
@@ -7477,7 +8002,6 @@ page {
     			}else {
 	    			parentCtrl.children.push(controller);
     			}
-    			
     			state.layoutState.expandedKeys.push(targetId);
 
     		}else {
@@ -7509,64 +8033,9 @@ page {
 			return { ...state };
 		},
 
-		// addController(state, { payload: ctrlAndTarget }) {
-
-		// 	if (state.layoutState.activePage.level == 1) {
-		// 		message.error('请在左上角组件树中选择一个页面');
-		// 		return {...state};
-		// 	}
-		// 	let controller = ctrlAndTarget.ctrl,
-		// 		targetId = ctrlAndTarget.target,
-		// 		theParent = ctrlAndTarget.theParent,
-		// 		isAddByAfter = ctrlAndTarget.isAddByAfter,
-		// 		prevElementId = ctrlAndTarget.prevElementId,
-		// 		activePage = layoutAction.getActivePage(state);
-
-  //   		if (targetId) {
-  //   			let parentCtrl = layoutAction.getCtrlByKey(state.layout[0], targetId);
-  //   			parentCtrl.children = parentCtrl.children || [];
-
-  //   			if (isAddByAfter) {
-  //   				//如果是after加进去的元素，结构树作特殊的变化，不是简单的push
-  //   				let prevCtrlIndex = layoutAction.getControllerIndexByKey(state.layout[0], prevElementId);
-  //   				parentCtrl.children.splice(prevCtrlIndex + 1, 0, controller);
-  //   			}else {
-	 //    			parentCtrl.children.push(controller);
-
-  //   			}
-    			
-  //   			state.layoutState.expandedKeys.push(targetId);
-
-  //   		}else {
-  //   			activePage.children.push(controller);
-  //   		}
-
-  //   		if(isManaully) {
-		// 		gospelDesignerPreviewer.postMessage({
-	 //    			ctrlGenerated: {
-	 //    				controller: controller,
-	 //    				page: activePage
-	 //    			}
-		// 		}, '*');
-  //   		}
-
-  //   		gospelDesignerPreviewer.postMessage({
-  //   			controllerAdded: {
-  //   				controller: controller
-  //   				// page: activePage
-  //   			}
-		// 	}, '*');
-
-		// 	let level = layoutAction.getCurrentLevelByKey(state.layout, controller.key);
-		// 	layoutAction.setActiveController(state.layoutState, activePage.children.length - 1, controller.key, level);
-
-		// 	computeDomHeight.leftSidebarWhenLoaded();
-		// 	return {...state};
-		// },
-
 		removeController(state, { payload: controller }) {
 			layoutAction.removeControllerByKey(state, controller.key);
-
+			layoutAction.deleteExpandKey(state, controller.key);
 			computeDomHeight.leftSidebarWhenLoaded();
 			return {...state};
 		},
@@ -7604,25 +8073,12 @@ page {
 			return {...state};
 		},
 
-		// handleTreeChanged(state, { payload: params }) {
-		// 	layoutAction.setActivePage(state.layoutState, 0, 'page-home', 2);
-		// 	if(params.type == 'page') {
-		// 		let level = layoutAction.getCurrentLevelByKey(state.layout, params.key);
-		// 		var pageIndex = layoutAction.getPageIndexByKey(state.layout, params.key, level);
-		// 		layoutAction.setActivePage(state.layoutState, pageIndex, params.key, level);
-
-		// 		// gospelDesignerPreviewer.postMessage({
-		// 		// 	pageSelected: layoutAction.getActivePage(state)
-		// 		// }, '*');
-		// 	}else {
-		// 		var activePage = layoutAction.getActivePage(state),
-		// 			activeCtrllvlAndIndex = layoutAction.getControllerIndexAndLvlByKey(state, params.key, activePage),
-		// 			controllerIndex = activeCtrllvlAndIndex.index,
-		// 			level = activeCtrllvlAndIndex.level;
-		// 		layoutAction.setActiveController(state.layoutState, controllerIndex, params.key, level);
-		// 	}
-		// 	return {...state};
-		// },
+		handleTreeExpaned(state, {payload: expandedKeys}) {
+			state.layoutState.expandedKeys = expandedKeys;
+			state.layoutState.autoExpandParent = false;
+			computeDomHeight.leftSidebarWhenLoaded();
+			return {...state};
+		},
 
 		handlelinkedComponentChange(state, { payload: params }) {
 

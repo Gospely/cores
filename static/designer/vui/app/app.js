@@ -1751,10 +1751,12 @@ $(function() {
                                 };
 
                                 this.elem.addClass(currentAttr._value);
+
+
                                 
                             }
                         }
-
+                        
                         if (currentAttr.isSetAttribute) {
                             //对于某些控件既需要css，也需要attribute属性，比如禁止状态的按钮，需要disabled属性和css类
                             this.elem.attr(att, currentAttr._value);
@@ -1838,6 +1840,8 @@ $(function() {
                         } else {
                             this.elem.addClass(currentAttr._value);
                         }
+
+                        // console.log(this.elem.attr('class'), this.controller, currentAttr)
                     }
 
                     if (currentAttr.isSetAttribute) {
@@ -1880,6 +1884,8 @@ $(function() {
                                 this.elem.css(att, currentAttr._value + '%');
                             } else if (currentAttr.unitName) {
                                 this.elem.css(att, currentAttr._value + currentAttr.unitName);
+                            } else if (currentAttr.isConnect) {
+                                this.elem.css(att, currentAttr.isConnect.prev + currentAttr._value + currentAttr.isConnect.after)
                             } else {
                                 this.elem.css(att, currentAttr._value);
                             }
@@ -1954,6 +1960,7 @@ $(function() {
                 this.initElem();
 
                 if (this.controller.baseClassName) {
+
                     this.elem.addClass(this.controller.baseClassName);
                 }
 
