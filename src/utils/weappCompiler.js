@@ -18,7 +18,6 @@ const weappCompiler = {
         'h4',
         'h5',
         'h6',
-        'a',
         'abbr',
         'address',
         'applet',
@@ -558,7 +557,6 @@ const weappCompiler = {
                     if (controller.baseClassName == 'weui-image') {
                         weappTag = 'gospel_image';
                     }
-
 					self.currentControllerTag = weappTag;
 
 				var	elem = $(document.createElement(weappTag)),

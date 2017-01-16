@@ -5133,7 +5133,7 @@ page {
 							value: ['none', 'block'],
 							isStyle: true,
 							isToggleStyle: true
-						},
+						}
 
 					},
 					name: '列表正文',
@@ -5232,6 +5232,7 @@ page {
 			{
 				name: '跳转列表',
 				type: 'list',
+				weui: 'navigator',
 				attr: {
 					href: {
 						type: 'input',
@@ -5243,7 +5244,7 @@ page {
 						isParent: true,
 						_value: {
 							tag: 'div',
-							className: 'weui-cells'
+							className: 'weui-cells weui-cells_after-title'
 						},
 						backend: true,
 						type: 'input'
@@ -5286,6 +5287,11 @@ page {
 						type: 'img',
 						attr: {
 							width: {
+								isStyle: true,
+								backend: true,
+								_value: '20px'
+							},
+							height: {
 								isStyle: true,
 								backend: true,
 								_value: '20px'
@@ -5379,7 +5385,7 @@ page {
 					}]
 				}, {
 					tag: 'div',
-					baseClassName: 'weui-cell__ft',
+					baseClassName: 'weui-cell__ft weui-cell__ft_in-access',
 					type: 'weui-cell__ft',
 					attr: {
 
@@ -5535,7 +5541,7 @@ page {
 												_value: true
 											}
 										},
-										baseClassName: 'weui-media-box__hd',
+										baseClassName: 'weui-media-box__hd weui-media-box__hd_in-appmsg',
 										children: [{
 											name: '图片',
 											type: 'img',
@@ -5559,7 +5565,7 @@ page {
 									}, {
 										type: 'div',
 										tag: 'div',
-										baseClassName: 'weui-media-box__bd',
+										baseClassName: 'weui-media-box__bd weui-media-box__bd_in-appmsg',
 										name: '文本',
 										attr: {
 											isComponent: {
@@ -5639,7 +5645,7 @@ page {
 									_value: true
 								}
 							},
-							baseClassName: 'weui-media-box__hd',
+							baseClassName: 'weui-media-box__hd weui-media-box__hd_in-appmsg',
 							children: [{
 								name: '图片',
 								type: 'img',
@@ -5663,7 +5669,7 @@ page {
 						}, {
 							type: 'div',
 							tag: 'div',
-							baseClassName: 'weui-media-box__bd',
+							baseClassName: 'weui-media-box__bd weui-media-box__bd_in-appmsg',
 							name: '文本',
 							attr: {
 								isComponent: {
@@ -5738,7 +5744,7 @@ page {
 									_value: true
 								}
 							},
-							baseClassName: 'weui-media-box__hd',
+							baseClassName: 'weui-media-box__hd weui-media-box__hd_in-appmsg',
 							children: [{
 								name: '图片',
 								type: 'img',
@@ -5762,7 +5768,7 @@ page {
 						}, {
 							type: 'div',
 							tag: 'div',
-							baseClassName: 'weui-media-box__bd',
+							baseClassName: 'weui-media-box__bd weui-media-box__bd_in-appmsg',
 							name: '文本',
 							attr: {
 								isComponent: {
@@ -5870,7 +5876,7 @@ page {
 							name: '底部小箭头',
 							type: 'span',
 							tag: 'span',
-							baseClassName: 'weui-cell__ft',
+							baseClassName: 'weui-cell__ft weui-cell__ft_in-access',
 							attr: {
 								isComponent: {
 									backend: true,
@@ -6388,7 +6394,7 @@ page {
 						}]
 					}]
 				}, {
-					name: '图文组合列表底部',
+					name: '文字组合列表底部',
 					tag: 'div',
 					type: 'div',
 					baseClassName: 'weui-panel__ft',
@@ -6411,7 +6417,7 @@ page {
 					children: [{
 						tag: 'a',
 						type: 'a',
-						name: '图文组合列表底部链接',
+						name: '文字组合列表底部链接',
 						attr: {
 							href: {
 								type: 'input',
@@ -6444,7 +6450,7 @@ page {
 							name: '底部小箭头',
 							type: 'span',
 							tag: 'span',
-							baseClassName: 'weui-cell__ft',
+							baseClassName: 'weui-cell__ft weui-cell__ft_in-access',
 							attr: {
 								isComponent: {
 									backend: true,
@@ -6570,7 +6576,7 @@ page {
 								}, {
 									tag: 'div',
 									type: 'div',
-									baseClassName: 'weui-cell__ft',
+									baseClassName: 'weui-cell__ft weui-cell__ft_in-access',
 									name: '单行列表尾部',
 									attr: {
 										value: {
@@ -6867,7 +6873,7 @@ page {
 					}, {
 						tag: 'div',
 						type: 'div',
-						baseClassName: 'weui-cell__ft',
+						baseClassName: 'weui-cell__ft  weui-cell__ft_in-access',
 						name: '单行列表尾部',
 						attr: {
 							value: {
@@ -6984,7 +6990,7 @@ page {
 					}, {
 						tag: 'div',
 						type: 'div',
-						baseClassName: 'weui-cell__ft',
+						baseClassName: 'weui-cell__ft weui-cell__ft_in-access',
 						name: '单行列表尾部',
 						attr: {
 							isComponent: {
