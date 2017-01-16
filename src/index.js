@@ -15,7 +15,6 @@ window.fileFlag = false;
 if(document.domain != 'localhost') {
 	document.domain = 'gospely.com';
 }
-
 //认证和状态同步
 auth();
 localStorage.flashState = 'false'

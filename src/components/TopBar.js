@@ -70,7 +70,7 @@ const LeftSidebar = (props) => {
 										</a>
 									</Popconfirm>
 								} style={{ width: 110, height: 110 }}
-								bodyStyle={{height: '100%', background: 'whitesmoke', display:'flex', 
+								bodyStyle={{height: '100%', background: 'whitesmoke', display:'flex',
 											color: '#555', cursor: 'pointer', wordWrap: 'break-word',
 											overflow: 'auto'}}>
 										<div style={{margin: 'auto', width: '100%', display: 'flex',
@@ -475,6 +475,10 @@ const LeftSidebar = (props) => {
 	    openApp(application) {
 			window.location.hash = 'project/' + application.id;
 			if(application.id != localStorage.applicationId) {
+				props.dispatch({
+					type: 'devpanel/stopDocker',
+					payload: { id: localStorage.applicationId, image: localStorage.image }
+				});
 				window.reload = true
 				window.applicationId = application.id;
 				initApplication(application,props);
@@ -926,7 +930,7 @@ const LeftSidebar = (props) => {
 					}
 				}
 
-				const illegalLetter = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '+', '=', '[', ']', 
+				const illegalLetter = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '+', '=', '[', ']',
 									'{', '}', '\\', '|', ':', ';', '\'', '"', '<', '>', ',', '.', '/', '?'];
 					let theCurrentLetter = dom.target.value.replace(props.sidebar.appCreatingForm.appName, '');
 					if(illegalLetter.indexOf(theCurrentLetter) !== -1) {

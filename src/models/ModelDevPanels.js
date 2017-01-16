@@ -158,6 +158,14 @@ export default {
 			},100)
 
 		},
+		*stopDocker({ payload: params }, {call, put, select}){
+			if(params.image != 'wechat:latest'){
+				var res = yield request("container/stop/" + params.id, {
+					method: 'GET',
+				});
+			}
+			localStorage.reflash != 'false';
+		},
 		*loadPanels({ payload: params }, {call, put, select}) {
 
     		var devpanel = yield select(state => state.devpanel);
@@ -209,7 +217,6 @@ export default {
 
 				UIState = UIState.UIState.devpanel;
 			}else{
-				console.log('localStorage');
 				UIState = params.UIState;
 			}
 			for(var i = 0; i < UIState.panels.panes.length; i++) {

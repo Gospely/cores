@@ -15,12 +15,18 @@ export default {
 		//监听页面刷新，保存最新的UI状态
 		window.addEventListener("beforeunload", (evt) => {
 
-
+			props.dispatch({
+				type: 'devpanel/stopDocker',
+				payload: { id: localStorage.applicationId, image: localStorage.image }
+			});
+			props.dispatch({
+				type: 'UIState/writeConfig'
+			});
+			window.event.returnValue="确定要退出本页吗？";
 		});
 		//监听关闭页面，保存ui状态
 		window.addEventListener("unload", (evt) => {
 
-			//todo
 
 		});
 
@@ -206,7 +212,7 @@ export default {
 						payload: data
 					})
 				},
-				
+
 				deleteError () {
 					message.error('该项不能删除');
 				}
