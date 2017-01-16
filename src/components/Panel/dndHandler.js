@@ -29,7 +29,9 @@ export default {
 					payload: { id: localStorage.applicationId}
 				}, 2000);
 			});
-			window.event.returnValue="确定要退出本页吗？";
+			if(localStorage.image != 'wechat:latest'){
+				window.event.returnValue="确定要退出本页吗？";
+			}
 		});
 		//监听关闭页面，保存ui状态
 		window.addEventListener("unload", (evt) => {
