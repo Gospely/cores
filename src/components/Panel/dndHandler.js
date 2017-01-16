@@ -13,7 +13,7 @@ export default {
 		window.dndHandlerLoadedOnce = true;
 
 		//监听页面刷新，保存最新的UI状态
-		window.addEventListener("beforeunload", (evt) => {
+		window.addEventListener("beforeunload", (e) => {
 
 			props.dispatch({
 				type: 'devpanel/stopDocker',
@@ -21,6 +21,14 @@ export default {
 			});
 			props.dispatch({
 				type: 'UIState/writeConfig'
+			});
+			setTimeout(function(){
+
+				console.log('setTimeout');
+				props.dispatch({
+					type: 'devpanel/startDocker',
+					payload: { id: localStorage.applicationId}
+				}, 2000);
 			});
 			window.event.returnValue="确定要退出本页吗？";
 		});
