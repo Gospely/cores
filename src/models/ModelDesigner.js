@@ -6395,7 +6395,7 @@ page {
 			{
 				name: '徽章列表',
 				type: 'list-item-icon',
-				baseClassName: 'weui-cells',
+				baseClassName: 'weui-cells weui-cells_after-title',
 				attr: {
 					addBtn: {
 						type: 'button',
@@ -6454,6 +6454,11 @@ page {
 												isStyle: true,
 												_value: 'middle',
 												backend: true
+											},
+											display: {
+												isStyle: true,
+												backend: true,
+												_value: 'inline-block'
 											}
 										}
 									}, {
@@ -6746,6 +6751,11 @@ page {
 									isStyle: true,
 									_value: 'middle',
 									backend: true
+								},
+								display: {
+									isStyle: true,
+									backend: true,
+									_value: 'inline-block'
 								}
 							}
 						}, {
@@ -6858,6 +6868,11 @@ page {
 									isStyle: true,
 									_value: 'middle',
 									backend: true
+								},
+								display: {
+									isStyle: true,
+									backend: true,
+									_value: 'inline-block'
 								}
 							}
 						}, {
