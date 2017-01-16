@@ -150,21 +150,28 @@ export default {
 
 		},
 		*startDocker({ payload: params }, {call, put, select}){
-			var res = yield request("container/start/" + params.id, {
-				method: 'GET',
-			});
-			setTimeout(function(){
-				gitTerminal(params.ctx);
-			},100)
 
+			if(params.id != undefined && params.id != null){
+				var res = yield request("container/start/" + params.id, {
+					method: 'GET',
+				});
+				setTimeout(function(){
+					gitTerminal(params.ctx);
+				},100)
+			}else{
+				window.location.href = window.location.origin;
+			}
 		},
 		*stopDocker({ payload: params }, {call, put, select}){
-			if(params.image != 'wechat:latest'){
+			if(params.image != 'wechat:latest' && params.image != 'wordpress:latest' && params.image !=  'discuz:latest' && params.image != 'phpwind:latest' && params.id != undefined && params.id != null){
 				var res = yield request("container/stop/" + params.id, {
 					method: 'GET',
 				});
+				if(res.data.code === -1){
+					console.log(window.location.origin);
+					window.location.href = window.location.origin;
+				}
 			}
-			localStorage.reflash != 'false';
 		},
 		*loadPanels({ payload: params }, {call, put, select}) {
 

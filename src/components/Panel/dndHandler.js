@@ -13,7 +13,7 @@ export default {
 		window.dndHandlerLoadedOnce = true;
 
 		//监听页面刷新，保存最新的UI状态
-		window.addEventListener("beforeunload", (evt) => {
+		window.addEventListener("beforeunload", (e) => {
 
 			props.dispatch({
 				type: 'devpanel/stopDocker',
@@ -22,7 +22,16 @@ export default {
 			props.dispatch({
 				type: 'UIState/writeConfig'
 			});
-			window.event.returnValue="确定要退出本页吗？";
+			setTimeout(function(){
+
+				props.dispatch({
+					type: 'devpanel/startDocker',
+					payload: { id: localStorage.applicationId}
+				}, 2000);
+			});
+			if(localStorage.image != 'wechat:latest'){
+				window.event.returnValue="确定要退出本页吗？";
+			}
 		});
 		//监听关闭页面，保存ui状态
 		window.addEventListener("unload", (evt) => {
