@@ -4129,7 +4129,19 @@ page {
 						isClassName: false,
 						isHTML: false,
 						isSetWidth: true,
-						_value: 0
+						_value: 15,
+						isComponentAttr: true,
+						isSetAttribute: true,
+						componentInfo: [{
+							attr: 'left',
+							index: 1,
+							level: 3
+						}, {
+							attr: 'value',
+							index: 1,
+							level: 1
+						}],
+						isStyle: true
 					},
 
 					min: {
@@ -4165,9 +4177,43 @@ page {
 					'show-value': {
 						type: 'toggle',
 						title: '显示当前值',
-						_value: false,
-						isHTML: false
+						_value: true,
+						isComponentAttr: true,
+						componentInfo: {
+							attr: 'display',
+							index: 1,
+							level: 1
+						},
+						isSetAttribute: true
+					},
+
+					color: {
+						type: 'input',
+						title: '背景条颜色',
+						_value: '#e9e9e9',
+						attrType: 'color',
+						isComponentAttr: true,
+						componentInfo: {
+							attr: 'background-color',
+							index: 0,
+							level: 2
+						},
+						isSetAttribute: true
 					}
+
+					// selectColor: {
+					// 	type: 'input',
+					// 	title: '已选择条的颜色',
+					// 	_value: '#e9e9e9',
+					// 	attrType: 'color',
+					// 	isComponentAttr: true,
+					// 	componentInfo: {
+					// 		attr: 'background-color',
+					// 		index: 0,
+					// 		level: 3
+					// 	},
+					// 	isSetAttribute: true
+					// }
 				},
 				tag: 'div',
 				baseClassName: 'weui-slider-box',
@@ -4183,9 +4229,11 @@ page {
 							_value: true
 						}
 					},
+					ignore: true,
 					name: '滑块_拖动区域',
 					children: [{
 						tag: 'div',
+						ignore: true,
 						name: '滑块内部',
 						attr: {
 							isComponent: {
@@ -4193,12 +4241,19 @@ page {
 								value: [],
 								title: '是否为完整的组件',
 								_value: true
+							},
+
+							'background-color': {
+								backend: true,
+								_value: '#9e9e9e',
+								isStyle: true
 							}
 						},
 						type: 'slider',
 						baseClassName: 'weui-slider__inner',
 						children: [{
 							tag: 'div',
+							ignore: true,
 							attr: {
 								isComponent: {
 									backend: true,
@@ -4206,6 +4261,12 @@ page {
 									title: '是否为完整的组件',
 									_value: true
 								}
+
+								// 'background-color': {
+								// 	backend: true,
+								// 	_value: '#9e9e9e',
+								// 	isStyle: true
+								// }
 							},
 							type: 'slider',
 							baseClassName: 'weui-slider__track',
@@ -4213,12 +4274,19 @@ page {
 							children: []
 						}, {
 							tag: 'div',
+							ignore: true,
 							attr: {
 								isComponent: {
 									backend: true,
 									value: [],
 									title: '是否为完整的组件',
 									_value: true
+								},
+								left: {
+									backend: true,
+									isStyle: true,
+									_value: '15',
+									isPercent: true
 								}
 							},
 							type: 'slider',
@@ -4229,12 +4297,13 @@ page {
 					}]
 				}, {
 					tag: 'div',
+					ignore: true,
 					baseClassName: 'weui-slider-box__value',
 					attr: {
 						display: {
 							type: 'toggle',
 							title: '显示',
-							_value: false,
+							_value: true,
 							value: ['none', 'block'],
 							isStyle: true,
 							isToggleStyle: true
@@ -4499,6 +4568,7 @@ page {
 					name: '进度外围',
 					tag: 'a',
 					type: 'progress',
+					ignore: true,
 					baseClassName: 'weui-progress__bar',
 					attr: {
 						height: {
@@ -4518,6 +4588,7 @@ page {
 					},
 					children: [{
 						name: '进度滚动',
+						ignore: true,
 						tag: 'div',
 						type: 'progress',
 						baseClassName: 'weui-progress__inner-bar js_progress',
@@ -4551,6 +4622,7 @@ page {
 					name: '进度显示区域',
 					tag: 'a',
 					type: 'progress',
+					ignore: true,
 					baseClassName: 'weui-progress__opr',
 					attr: {
 						display: {
@@ -4570,6 +4642,7 @@ page {
 					},
 					children: [{
 						name: '停止按钮',
+						ignore: true,
 						tag: 'i',
 						type: 'progress',
 						baseClassName: 'weui-icon-cancel',
@@ -7862,7 +7935,8 @@ page {
 					tag: controller.tag,
 					baseClassName: controller.baseClassName,
 					children: [],
-					isRander: controller.isRander || ''
+					isRander: controller.isRander || '',
+					ignore: controller.ignore || false
 				};
 
 				if(controller.children) {
@@ -7997,7 +8071,8 @@ page {
 						tag: controller.tag,
 						baseClassName: controller.baseClassName,
 						children: [],
-						isRander: controller.isRander || ''
+						isRander: controller.isRander || '',
+						ignore: controller.ignore || false
 					};
 
 					if(controller.children) {
