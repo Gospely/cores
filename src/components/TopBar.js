@@ -1600,9 +1600,20 @@ const LeftSidebar = (props) => {
 			  	<Steps current={props.sidebar.weappCompiler.current}>
 		        	{compilerModalProps.stepTemplate()}
 			  	</Steps>
-		        <div className="steps-content">
-        	        <Progress type="circle" status={props.sidebar.weappCompiler.status} percent={props.sidebar.weappCompiler.percent} />
-		        </div>
+			  	<Spin spinning={props.sidebar.weappCompiler.percent >= 60 && props.sidebar.weappCompiler.percent !== 100}>
+			        <div className="steps-content">
+	        	        {	
+	        	        	props.sidebar.weappCompiler.status !== 'exception' &&
+	        	        	(props.sidebar.weappCompiler.percent == 100 ? 
+	        	        	<a href={props.sidebar.weappCompiler.filePath} target='blank'>若浏览器没有开始下载，请点击这里</a> : 
+	        	        	<Progress type="circle" percent={props.sidebar.weappCompiler.percent} />)
+	        	        }
+	        	        {
+	        	        	props.sidebar.weappCompiler.status === 'exception' && 
+	        	        	<Progress type="circle" status='exception' percent={props.sidebar.weappCompiler.percent} />
+	        	        }
+			        </div>
+			    </Spin>
 	        </Modal>
 
 	    	<Modal width="60%"  title="添加/更改 Git 源" visible={props.sidebar.modalModifyGitOriginVisible}

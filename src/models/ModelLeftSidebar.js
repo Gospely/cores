@@ -69,7 +69,8 @@ export default {
 				description: '下载压缩包:)'
 			}],
 			percent: 0,
-			status: 'success'
+			status: 'success',
+			filePath: ''
 		},
 
 		debugConfig: {
@@ -161,11 +162,19 @@ export default {
 		      		filePath = filePath.pop();
 
 					weappCompiler.download(filePath);
+					yield put({
+						type: 'showDownLoadLink',
+						payload: {
+							filePath
+						}
+					})
 				}else {
+					message.error('打包失败，请重试');
 		      		yield put({ type: 'setWeappCompilerStatusExpection' });
 				}
 
 			}else {
+				message.error('编译失败，请重试');
 	      		yield put({ type: 'setWeappCompilerStatusExpection' });
 			}
 		},
@@ -959,6 +968,11 @@ export default {
 			if(state.weappCompiler.percent == 90) {
 				state.weappCompiler.percent = 100;
 			}
+			return {...state};
+		},
+
+		showDownLoadLink(state, {payload}) {
+			state.weappCompiler.filePath = 'http://api.gospely.com/weapp/download/' + payload.filePath;
 			return {...state};
 		},
 

@@ -137,6 +137,8 @@ const weappCompiler = {
         icon: ['type', 'size'],
 
 		'navigator': ['url', 'redirect', 'open-type', 'hover-class', 'hover-start-time', 'hover-stay-time'],
+
+        'gospel_image': ['src', 'mode']
 	},
 
 	init (layout) {
@@ -551,6 +553,10 @@ const weappCompiler = {
                         weappTag = 'icon';
                     }
 
+                    if (controller.baseClassName == 'weui-image') {
+                        weappTag = 'gospel_image';
+                    }
+
 					self.currentControllerTag = weappTag;
 
 				var	elem = $(document.createElement(weappTag)),
@@ -592,8 +598,6 @@ const weappCompiler = {
 
 		pageWXML = pageWXML.replace(/gospel_input/g, 'input')
 						   .replace(/gospel_image/g, 'image');
-
-		console.log(pageWXML);
 
 		return pageWXML;
 	},
