@@ -24,7 +24,6 @@ export default {
 			});
 			setTimeout(function(){
 
-				console.log('setTimeout');
 				props.dispatch({
 					type: 'devpanel/startDocker',
 					payload: { id: localStorage.applicationId}

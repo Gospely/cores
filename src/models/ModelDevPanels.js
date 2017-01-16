@@ -159,7 +159,6 @@ export default {
 
 		},
 		*stopDocker({ payload: params }, {call, put, select}){
-			console.log('stop');
 			if(params.image != 'wechat:latest' && params.image != 'wordpress:latest' && params.image !=  'discuz:latest' && params.image != 'phpwind:latest'){
 				var res = yield request("container/stop/" + params.id, {
 					method: 'GET',
