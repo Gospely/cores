@@ -175,16 +175,18 @@ export default {
 
     		var devpanel = yield select(state => state.devpanel);
 
-    		var tmpTabs = {
-				title: 'Gospel 小程序 UI 设计器',
-				content: '',
-				key: '2',
-				type: 'designer',
-				editorId: '',
-				searchVisible: false,
-				isSave: false
+			if(devpanel.panels.panes[devpanel.panels.activePane.key].tabs < 1) {
+				var tmpTabs = {
+					title: 'Gospel 小程序 UI 设计器',
+					content: '',
+					key: '2',
+					type: 'designer',
+					editorId: '',
+					searchVisible: false,
+					isSave: false
+				}
+				devpanel.panels.panes[devpanel.panels.activePane.key].tabs.push(tmpTabs);
 			}
-      		devpanel.panels.panes[devpanel.panels.activePane.key].tabs.push(tmpTabs);
 		},
 
 		//根据项目的类型渲染ide面板

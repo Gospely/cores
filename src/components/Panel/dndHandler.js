@@ -244,7 +244,7 @@ export default {
 					props.dispatch({
 		        		type: 'dashboard/hideDash'
 		        	})
-					initApplication(data, props);
+					initApplication(data, props, true);
 				}
 
 			}
