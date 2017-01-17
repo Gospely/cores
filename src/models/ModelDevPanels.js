@@ -158,8 +158,6 @@ export default {
 				setTimeout(function(){
 					gitTerminal(params.ctx);
 				},100)
-			}else{
-				window.location.href = window.location.origin;
 			}
 		},
 		*stopDocker({ payload: params }, {call, put, select}){
@@ -167,26 +165,28 @@ export default {
 				var res = yield request("container/stop/" + params.id, {
 					method: 'GET',
 				});
-				if(res.data.code === -1){
-					console.log(window.location.origin);
-					window.location.href = window.location.origin;
-				}
+				// if(res.data.code === -1){
+				// 	console.log(window.location.origin);
+				// 	window.location.href = window.location.origin;
+				// }
 			}
 		},
 		*loadPanels({ payload: params }, {call, put, select}) {
 
     		var devpanel = yield select(state => state.devpanel);
 
-    		var tmpTabs = {
-				title: 'Gospel 小程序 UI 设计器',
-				content: '',
-				key: '2',
-				type: 'designer',
-				editorId: '',
-				searchVisible: false,
-				isSave: false
+			if(devpanel.panels.panes[devpanel.panels.activePane.key].tabs < 1) {
+				var tmpTabs = {
+					title: 'Gospel 小程序 UI 设计器',
+					content: '',
+					key: '2',
+					type: 'designer',
+					editorId: '',
+					searchVisible: false,
+					isSave: false
+				}
+				devpanel.panels.panes[devpanel.panels.activePane.key].tabs.push(tmpTabs);
 			}
-      		devpanel.panels.panes[devpanel.panels.activePane.key].tabs.push(tmpTabs);
 		},
 
 		//根据项目的类型渲染ide面板
@@ -235,7 +235,7 @@ export default {
 
 						var fileName = activeTab.file;
 
-						if(fileName != null && fileName != undefined && fileName != '新文件'　&& fileName != '新标签页') {
+						if(fileName != null && fileName != undefined && activeTab.title != '新文件'　&& activeTab.title != '新标签页') {
 							var fileName = activeTab.file;
 
 							var file = fileName.split('.');

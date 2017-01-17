@@ -24,8 +24,11 @@ const auth = function (router) {
 	if(token != null && token != undefined && token != '') {
 		var url = configs.baseURL + "innersessions/" + token;
 		fetch(url).then(function(res){
-			
+
 		});
+		if(localStorage.user != user){
+			localStorage.clear();
+		}
 	}else{
 		sessionStorage.from = 'ide';
 		if(document.domain != 'localhost') {

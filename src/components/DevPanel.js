@@ -188,7 +188,7 @@ const DevPanel = ({
 		  	},
 
 		  	'vertical-dbl': function() {
-		  		return 	(<SplitPane onChange={splitPaneEvt.onVerticalSplitPaneChange} split="vertical" defaultSize={defaultSize}>
+				return 	(<SplitPane onChange={splitPaneEvt.onVerticalSplitPaneChange} split="vertical" defaultSize={defaultSize}>
   							{generatorPanes(panels.panes)}
 		  				</SplitPane>)
 		  	},

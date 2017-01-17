@@ -3,7 +3,7 @@ import { message, notification } from 'antd';
 import request from './request';
 import config from '../configs'
 
-const initApplication = function (application, props, create){
+const initApplication = function (application, props, flag){
 
     //清除定时器
     window.clearInterval(window.uistateSave)
@@ -36,19 +36,20 @@ const initApplication = function (application, props, create){
 
         localStorage.activeMenu = 'attr';
 
-        var title = (
-                <span>
-                    <i className="fa fa-weixin"></i> Gospel 小程序 UI 设计器
-                </span>
-            ),
+        if(!flag){
+            var title = (
+                    <span>
+                        <i className="fa fa-weixin"></i> Gospel 小程序 UI 设计器
+                    </span>
+                ),
 
-            type = 'designer';
+                type = 'designer';
 
-        props.dispatch({
-            type: 'devpanel/add',
-            payload: {title, type}
-        });
-
+            props.dispatch({
+                type: 'devpanel/add',
+                payload: {title, type}
+            });
+        }
         props.dispatch({
             type: 'UIState/readConfig',
             payload: {
@@ -109,7 +110,7 @@ const initApplication = function (application, props, create){
             }
 
         }, 200);
-        if(window.reload && ! create){
+        if(window.reload && ! flag){
             setTimeout(function(){
                 window.location.reload();
             }, 2000);

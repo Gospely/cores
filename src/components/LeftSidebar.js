@@ -37,7 +37,8 @@ const leftSidebar = (props) => {
 		},
 
 		span: {
-		 	writingMode: 'tb-rl'
+		 	writingMode: 'tb-rl',
+		 	WebkitWritingMode: 'vertical-rl'
 		}
 	}
 

@@ -84,6 +84,10 @@ const EditorTop = ({
 
 	// <Button onClick={onSlideUp} className={EditorStyle.topbarBtn}>{isSlideUp ? <Icon type="down" /> : <Icon type="up" />}</Button>
 
+	// <Dropdown overlay={syntaxMenu} trigger={['click']}>
+	// 	<Button className={EditorStyle.topbarBtn}>{currentLanguage}</Button>
+	// </Dropdown>
+
   	return (
 		<div className={EditorStyle.topbar}>
 			<ButtonGroup>
@@ -93,9 +97,6 @@ const EditorTop = ({
 				<ButtonGroup>
 					<Button onClick={refreshPage} className={EditorStyle.topbarBtn}>编辑器无法使用？点我</Button>
 					<Button style={{display:'none'}} onClick={onOpenJumpLine} className={EditorStyle.topbarBtn}>行: 4 列: 32</Button>
-					<Dropdown overlay={syntaxMenu} trigger={['click']}>
-						<Button className={EditorStyle.topbarBtn}>{currentLanguage}</Button>
-					</Dropdown>
 				</ButtonGroup>
 			</div>
 			{searchVisible &&
