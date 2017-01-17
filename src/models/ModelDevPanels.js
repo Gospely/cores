@@ -158,8 +158,6 @@ export default {
 				setTimeout(function(){
 					gitTerminal(params.ctx);
 				},100)
-			}else{
-				window.location.href = window.location.origin;
 			}
 		},
 		*stopDocker({ payload: params }, {call, put, select}){
@@ -167,10 +165,10 @@ export default {
 				var res = yield request("container/stop/" + params.id, {
 					method: 'GET',
 				});
-				if(res.data.code === -1){
-					console.log(window.location.origin);
-					window.location.href = window.location.origin;
-				}
+				// if(res.data.code === -1){
+				// 	console.log(window.location.origin);
+				// 	window.location.href = window.location.origin;
+				// }
 			}
 		},
 		*loadPanels({ payload: params }, {call, put, select}) {
