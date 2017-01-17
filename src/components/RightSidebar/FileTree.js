@@ -260,18 +260,25 @@ const FileTree = (props) => {
       params: {
         visible: props.file.uploadModal.visible,
         title: props.file.uploadModal.title,
-
         onOk: function() {
-          let value = props.file.uploadModal.value;
-          props.dispatch({
-            type: 'file/',
-            payload: {
-              value
-            }
-          });
+            
+          let value = props.file.uploadInput.value;
+          // props.dispatch({
+          //   type: 'file/',
+          //   payload: {
+          //     value
+          //   }
+          // });
 
+
+          if (value.length == 0) {
+            props.dispatch({
+                type: 'file/hideUploadModal'
+              });
+            return false;
+          }
           props.dispatch({
-            type: 'file/hideUploadModal'
+            type: 'file/showUploading'
           });
           var info = props.file.fileInfo;
           props.dispatch({
@@ -289,29 +296,35 @@ const FileTree = (props) => {
         }
       },
 
-      folderChange(val) {
+      folderChange(val, node, extra) {
         props.dispatch({
             type: 'file/handleUploadFolderChange',
-            payload: val
+            payload: {
+                val,
+                node,
+                extra
+            }
         })
       },
 
-      switchIsUnZip: function (checked) {
+      switchIsOver: function (checked) {
           props.dispatch({
-            type: 'file/switchIsUnZip',
+            type: 'file/switchIsOver',
             payload: checked
           })
       },
 
-      confirmUnZip: function () {
-          props.dispatch({
-            type: 'file/unZipFile'
-          })
-      },
+      // confirmUnZip: function () {
+      //     props.dispatch({
+      //       type: 'file/unZipFile'
+      //     })
+      // },
 
       uploadInput: {
         name:'fileUp',
         fileList: props.file.uploadInput.value,
+
+        // disabled: props.file.uploadInput.disabled,
 
         multiple: true,
 
@@ -848,63 +861,47 @@ const FileTree = (props) => {
           </div>
         </InputGroup>
       </Modal>
+      
       <Modal {...FileTreeProps.uploadModal.params} style={{maxWidth: 400}}>
-        上传到：
-        <TreeSelect
-            showSearch
-            dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-            loadData={FileTreeProps.onLoadData}
-            style={{ width: 300, marginBottom: 10 }}
-            treeNodeFilterProp='title'
-            onSelect={FileTreeProps.uploadModal.folderChange}
-            searchPlaceholder=' 可在此输入搜索'
-            placeholder='文件夹'
-        >
-            {treeNodes}
-        </TreeSelect>
-        <div className={TreeStyle.uploadInput}>
-            <Upload.Dragger {...FileTreeProps.uploadModal.uploadInput}>
-              <p className="ant-upload-drag-icon">
-                <Icon type="inbox" />
-              </p>
-              <p className="ant-upload-text">点击或拖拽上传</p>
-            </Upload.Dragger>
-        </div>
-        {props.file.uploadModal.needUnZip &&
-             (<div style={{marginTop: 10}}>
-                解压否：<Switch value={props.file.uploadModal.isUnZip}
-                               checkedChildren={'是'}
-                               unCheckedChildren={'否'}
-                               onChange={FileTreeProps.uploadModal.switchIsUnZip}
-                       />
+          <Spin spinning={props.file.uploadModal.isUploading}>
+            上传到：
+            <TreeSelect
+                showSearch
+                dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                loadData={FileTreeProps.onLoadData}
+                style={{ width: 300, marginBottom: 10 }}
+                treeNodeFilterProp='title'
+                onSelect={FileTreeProps.uploadModal.folderChange}
+                searchPlaceholder=' 可在此输入搜索'
+                placeholder='文件夹'
+                value={props.file.uploadModal.folderValue}
+            >
+                {treeNodes}
+            </TreeSelect>
+            <div className={TreeStyle.uploadInput}>
+                <Upload.Dragger {...FileTreeProps.uploadModal.uploadInput}>
+                  <p className="ant-upload-drag-icon">
+                    <Icon type="inbox" />
+                  </p>
+                  <p className="ant-upload-text">点击或拖拽上传</p>
+                </Upload.Dragger>
+            </div>
+            {props.file.uploadModal.needUnZip ?
+                 (<div style={{marginTop: 10, paddingLeft: 48}}>
+                    解压后覆盖同名文件?
+                    <br />
+                    <Switch defaultChecked = {false}
+                            checkedChildren={'是'}
+                            unCheckedChildren={'否'}
+                            onChange={FileTreeProps.uploadModal.switchIsOver}
+                    />
 
-             </div>)
-        }
-        {props.file.uploadModal.isUnZip &&
-            (<div>
-                解压到：
-                <TreeSelect
-                    showSearch
-                    dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-                    loadData={FileTreeProps.onLoadData}
-                    style={{ width: 300, marginTop: 10 }}
-                    treeNodeFilterProp='title'
-                    onSelect={FileTreeProps.uploadModal.folderChange}
-                    searchPlaceholder=' 可在此输入搜索'
-                    placeholder='文件夹'
-                    defaultValue={props.file.uploadModal.folderValue}
-                >
-                    {treeNodes}
-                </TreeSelect>
-                <br/>
-                <Button loading={props.file.uploadModal.unZiping}
-                        onClick={FileTreeProps.uploadModal.confirmUnZip}
-                        type='primary' style={{marginTop: 10, marginLeft: 48}}
-                >解压
-                </Button>
-            </div>)
-         }
-      </Modal>
+                 </div>) : 
+                 (<div style={{marginTop: 10, paddingLeft: 48}}>同目录下若有同名文件将被覆盖</div>)
+            }
+        </Spin>
+    </Modal>
+      
       <Spin spinning={props.file.treeLoading} style={{height: 'calc(100vh - 38px)'}}>
           <div className={TreeStyle.header}>
 
