@@ -18,7 +18,6 @@ const weappCompiler = {
         'h4',
         'h5',
         'h6',
-        'a',
         'abbr',
         'address',
         'applet',
@@ -541,7 +540,9 @@ const weappCompiler = {
 
 					}else if(controller.baseClassName == 'weui-progress') {
 						weappTag = 'progress';
-					}else {
+					}else if (controller.baseClassName == 'weui-slider-box') {
+                        weappTag = 'slider';
+                    }else {
 						weappTag = self.transferTag(tag);
 					}
 
@@ -556,7 +557,6 @@ const weappCompiler = {
                     if (controller.baseClassName == 'weui-image') {
                         weappTag = 'gospel_image';
                     }
-
 					self.currentControllerTag = weappTag;
 
 				var	elem = $(document.createElement(weappTag)),
@@ -572,9 +572,13 @@ const weappCompiler = {
 	                if(controller.children && controller.children.length > 0) {
 
 	                    for (var i = 0; i < controller.children.length; i++) {
-	                        var currentCtrl = controller.children[i],
 
-	                            loopComponent = loopController(currentCtrl);
+
+	                        var currentCtrl = controller.children[i];
+                            if (currentCtrl.ignore) {
+                                continue;
+                            }
+	                        var loopComponent = loopController(currentCtrl);
 
 	                        elem.append($(loopComponent));
 

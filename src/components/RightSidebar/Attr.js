@@ -111,31 +111,46 @@ const Attr = (props) => {
 			return false;
 		}
 
-		var linkedComponent = findChildrenByIndexAndLvl(activeElem.children, attr.componentInfo.index, attr.componentInfo.level, attr.componentInfo.attr, 1);
-		var linkedComponentAttr = linkedComponent.attr[attr.componentInfo.attr];
-		linkedComponentAttr['attrName'] = attr.componentInfo.attr;
+		const linkedComponentFun = (attr, index, level) => {
+			var linkedComponent = findChildrenByIndexAndLvl(activeElem.children, index, level, attr, 1);
+			var linkedComponentAttr = linkedComponent.attr[attr];
+			linkedComponentAttr['attrName'] = attr;
 
-        props.dispatch({
-            type: 'designer/handleTreeChanged',
-            payload: {
-                key: linkedComponent.key,
-                type: 'controller'
-            }
-        });
+	        props.dispatch({
+	            type: 'designer/handleTreeChanged',
+	            payload: {
+	                key: linkedComponent.key,
+	                type: 'controller'
+	            }
+	        });
 
-        props.dispatch({
-            type: 'designer/handleCtrlSelected'
-        });
+	        props.dispatch({
+	            type: 'designer/handleCtrlSelected'
+	        });
 
-		cb(linkedComponentAttr, undefined, dom);
+			cb(linkedComponentAttr, undefined, dom);
 
-        props.dispatch({
-            type: 'designer/handleTreeChanged',
-            payload: {
-                key: activeElem.key,
-                type: 'controller'
-            }
-        });
+	        props.dispatch({
+	            type: 'designer/handleTreeChanged',
+	            payload: {
+	                key: activeElem.key,
+	                type: 'controller'
+	            }
+	        });
+		}
+
+		if (typeof attr.componentInfo.length !== 'undefined') {
+			for(let i = 0; i < attr.componentInfo.length; i ++) {
+				let info = attr.componentInfo[i];
+				linkedComponentFun(info.attr, info.index, info.level);
+			}
+			
+		}else {
+			let info = attr.componentInfo;
+			linkedComponentFun(info.attr, info.index, info.level);
+		}
+
+		
     }
 
     const attrFormProps = {
