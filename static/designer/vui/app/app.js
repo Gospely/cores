@@ -540,6 +540,34 @@ $(function() {
                         left: self.offset().left + 'px'
                     });
 
+                    //针对九宫格的特殊情况
+                    if (self.hasClass('weui-grid')) {
+                        self.find('.weui-grid__icon').css({
+                            height: '24px'
+                        })
+                    }
+                    if (self.hasClass('weui-grid__icon')) {
+                        self.css({
+                            height: '24px'
+                        })
+                    }
+                    if (self.hasClass('weui-grid__label')) {
+                        self.prev().css({
+                            height: '24px'
+                        })
+                    }
+
+                    // console.log(jq()
+
+                    
+
+                    // if (self.hasClass('weui-grids')) {
+                    //     self.css({
+                    //         height: self.outerHeight(),
+                    //         width: self.outerWidth() - 2
+                    //     })
+                    // }
+
                     self.addClass("hight-light");
 
                     //使其可拖动，且其子元素不可拖动
@@ -611,11 +639,19 @@ $(function() {
                 },
 
                 hideDesignerDraggerBorder: function() {
+
+                    var currentElem = jq('.hight-light');
+
+                    //九宫格
+                    jq('.weui-grid__icon').css({
+                        height: '28px'
+                    })
+
+
                     jq("i.control-box.remove").hide();
-                    jq(".hight-light").removeClass("hight-light");
-                    jq(".hight-light").attr("draggable", false);
+                    currentElem.removeClass("hight-light");
+                    currentElem.attr("draggable", false);
                     jq(".spacerBottomBorder").hide();
-                    jq(".spacerBottomBorder").unbind();
                 },
 
                 refresh: function(controller, page) {
@@ -1373,6 +1409,8 @@ $(function() {
                 prevElement = $this.prev(),
                 nextElement = $this.next(),
 
+                dragOverElement = dndData.dragOverElement,
+
                 parentIsPage = dragElementParent.hasClass('page__hd')
                         || dragElementParent.hasClass('page__bd')
                         || dragElementParent.hasClass('page__ft'),
@@ -1384,6 +1422,13 @@ $(function() {
                         || parent.hasClass('page__bd')
                         || parent.hasClass('page__ft');
                 }
+
+            // console.log( dndData.dragOverElement)
+            console.log(dragOverElement)
+            while (dragOverElement && !($this[0].id == dragOverElement[0].id || dragOverElement.isChildOf($this))) {
+                console.log('mei')
+                dndData.orginY = e.pageY;
+            }
 
             //小于参考高度的 -2/3 使用before()
             if (moveY <= -referHeight / 3 * 2) {
@@ -2044,7 +2089,8 @@ $(function() {
                 });
 
                 elem.on('dragenter', function(e) {
-                    // e.stopPropagation();
+                    e.stopPropagation();
+                    dndData.dragOverElement = jq(e.target);
                 })
 
                 elem.on('dragleave', function(e) {
