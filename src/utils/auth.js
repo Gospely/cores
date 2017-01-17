@@ -26,7 +26,7 @@ const auth = function (router) {
 		fetch(url).then(function(res){
 
 		});
-		if(localStorage.user != null && localStorage.user != user){
+		if(localStorage.user != user){
 			localStorage.clear();
 		}
 	}else{

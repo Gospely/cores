@@ -235,7 +235,7 @@ export default {
 
 						var fileName = activeTab.file;
 
-						if(fileName != null && fileName != undefined && fileName != '新文件'　&& fileName != '新标签页') {
+						if(fileName != null && fileName != undefined && activeTab.title != '新文件'　&& activeTab.title != '新标签页') {
 							var fileName = activeTab.file;
 
 							var file = fileName.split('.');
