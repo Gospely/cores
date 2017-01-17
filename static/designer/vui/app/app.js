@@ -1439,7 +1439,7 @@ $(function() {
             
             if (dragOverElement && $this[0].id == dragOverElement[0].id || dragOverElement.isChildAndSelfOf($this)) {
                 dndData.overSelf = true;
-                dndData.orginY = e.pageY;
+                // dndData.orginY = e.pageY;
             }
 
             if (!dndData.overSelf) {
