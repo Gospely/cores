@@ -86,7 +86,11 @@ const RightSidebar = (props) => {
 
 	}
 
-	return RightSidebarComponent();
+	return (
+		<div className="RightSidebar">
+			{RightSidebarComponent()}
+		</div>
+	);
 
 }
 
