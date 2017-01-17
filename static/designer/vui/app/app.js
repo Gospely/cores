@@ -1386,6 +1386,7 @@ $(function() {
             },
 
             changeDataAfterExch(e, elem) {
+                dndData.orginY = e.pageY;
                 dndData.overSelf = false;
                 dndData.dragElementParent = elem.parent();
             }
