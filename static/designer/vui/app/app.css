@@ -511,6 +511,7 @@ body {
 
 .hight-light {
     border: 2px dotted red!important;
+    box-sizing: border-box;
 }
 
 .container-box {

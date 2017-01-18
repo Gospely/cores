@@ -87,9 +87,8 @@ export default {
 			title: '上传文件',
 			folderValue: '',
 			needUnZip: false,
-			isUnZip: false,
-			unZiping: false,
-
+			isOverSameFile: false,
+			isUploading: false
 		},
 		searchFilePane: {
 			visible: false,
@@ -157,18 +156,21 @@ export default {
 
       	//上传文件
       	*fetchUploadFile({payload:info},{call, put, select}){
-
-			var folder = yield select(state=> state.file.uploadModal.folderValue);
+			var folder = yield select(state => state.file.uploadModal.folderValue);
+			var isOverSameFile = yield select(state => state.file.uploadModal.isOverSameFile);
       		var formdata = new FormData();
       		formdata.append('username', localStorage.userName);
       		formdata.append('folder',folder);
       		formdata.append('fileUp',info.file);
 			formdata.append('remoteIp',localStorage.host);
+			formdata.append('isOverSameFile', isOverSameFile + '');
 
 			var result = yield upload(formdata);
 
 			if(result.status == 200){
 				yield put({type: 'fetchFileList'});
+				yield put({type: 'hideUploading'});
+				message.success('文件上传成功')
 			}
 			function upload(formdata){
 				return fetch('http://' + localStorage.host + ':9999/fs/upload',{
@@ -177,6 +179,10 @@ export default {
 	      			body:formdata,
 	      		})
 			}
+
+			yield put({
+	            type: 'hideUploadModal'
+	        })
 
       	},
 
@@ -388,22 +394,22 @@ export default {
 			localStorage.files = JSON.stringify(result);
 		},
 
-      	*unZipFile({payload: params}, {call, put, select}) {
-      		var folder = yield select(state => state.file.uploadModal.folderValue);
-			folder.remoteIp = localStorage.host;
-      		if (folder == '') {
-      			message.error('请选择解压文件夹');
-      			return;
-      		}
-      		yield put({type: 'switchUnZipState', payload: true});
-      		var mkResult = yield request('fs/', {
-      			method: 'POST',
-      			body: folder
-      		});
-      		yield put({type: 'switchUnZipState', payload: false});
-      		yield put({type: 'switchIsUnZip', payload: false});
-      		yield put({type: 'switchIsNeedUnZip', payload: false});
-      	}
+   //    	*unZipFile({payload: params}, {call, put, select}) {
+   //    		var folder = yield select(state => state.file.uploadModal.folderValue);
+			// folder.remoteIp = localStorage.host;
+   //    		if (folder == '') {
+   //    			message.error('请选择解压文件夹');
+   //    			return;
+   //    		}
+   //    		yield put({type: 'switchUnZipState', payload: true});
+   //    		var mkResult = yield request('fs/', {
+   //    			method: 'POST',
+   //    			body: folder
+   //    		});
+   //    		yield put({type: 'switchUnZipState', payload: false});
+   //    		yield put({type: 'switchIsUnZip', payload: false});
+   //    		yield put({type: 'switchIsNeedUnZip', payload: false});
+   //    	}
 	},
 
 	reducers: {
@@ -565,42 +571,50 @@ export default {
 			return {...state};
 		},
 		handleUploadInputChange(state, {payload: info}) {
-			if (info.file.status == 'done') {
-				let suffix = info.file.name.split('.').pop();
-				let compressionSuffix = ['rar','zip','cab','arj','lzh','ace','7-zip','tar','gzip','uue','bz2','jar','iso','z'];
-				compressionSuffix.forEach(suf => {
-				    if (suf == suffix) {
-				        state.uploadModal.needUnZip = true;
-				    }
-				})
+			let suffix = info.file.name.split('.').pop();
+			let compressionSuffix = ['zip'];
+			// ['rar','zip','cab','arj','lzh','ace','7-zip','tar','gzip','uue','bz2','jar','iso','z']
+			compressionSuffix.forEach(suf => {
+			    if (suf == suffix) {
+			        state.uploadModal.needUnZip = true;
+			    }
+			})
+			if (state.uploadInput.value.length == 1) {
+				message.error('暂时只支持上传一个文件，您可打包后再上传');
+				return {...state};
 			}
+			state.uploadInput.value = info.fileList;
 			return {...state};
 		},
 		initFileInfo(state,{payload:info}){
-			state.fileInfo=info;
+			state.fileInfo = info;
 			return {...state};
 		},
 
-		handleUploadFolderChange(state, {payload: val}) {
-			state.uploadModal.folderValue = val;
+		handleUploadFolderChange(state, {payload: params}) {
+			if (params.node.props.isLeaf) {
+				message.error('请选择文件夹');
+				return {...state};
+			}
+			state.uploadModal.folderValue = params.val;
 			return {...state};
 		},
 
-		switchIsUnZip(state, {payload: checked}) {
+		switchIsOver(state, {payload: checked}) {
 			// alert(checked)
-			state.uploadModal.isUnZip = checked;
+			state.uploadModal.isOverSameFile = checked;
 			return {...state};
 		},
 
-		switchUnZipState(state, {payload: val}) {
-			state.uploadModal.unZiping = val;
-			return {...state};
-		},
+		// switchUnZipState(state, {payload: val}) {
+		// 	state.uploadModal.unZiping = val;
+		// 	return {...state};
+		// },
 
-		switchIsNeedUnZip(state, {payload: val}) {
-			state.uploadModal.needUnZip = val;
-			return {...state};
-		},
+		// switchIsNeedUnZip(state, {payload: val}) {
+		// 	state.uploadModal.needUnZip = val;
+		// 	return {...state};
+		// },
 
 		hideRenameModal(state) {
 			return {...state, renameModal: {
@@ -631,8 +645,23 @@ export default {
 			return {...state}
 		},
 
+		showUploading(state) {
+			state.uploadModal.isUploading = true;
+			return {...state};
+		},
+
+		hideUploading(state) {
+			state.uploadModal.isUploading = false;
+			return {...state};
+		},
+
 		showUploadModal(state) {
 			state.uploadModal.visible = true;
+			state.uploadInput.value = [];
+			state.uploadModal.needUnZip = false;
+			state.uploadModal.isOverSameFile = false;
+			state.uploadModal.folderValue = localStorage.user + '/' + localStorage.currentProject + '_' +
+			localStorage.userName.toLowerCase() + '/';
 			return {...state}
 		},
 

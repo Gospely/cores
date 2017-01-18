@@ -540,6 +540,34 @@ $(function() {
                         left: self.offset().left + 'px'
                     });
 
+                    //针对九宫格的特殊情况
+                    if (self.hasClass('weui-grid')) {
+                        self.find('.weui-grid__icon').css({
+                            height: '24px'
+                        })
+                    }
+                    if (self.hasClass('weui-grid__icon')) {
+                        self.css({
+                            height: '24px'
+                        })
+                    }
+                    if (self.hasClass('weui-grid__label')) {
+                        self.prev().css({
+                            height: '24px'
+                        })
+                    }
+
+                    // console.log(jq()
+
+                    
+
+                    // if (self.hasClass('weui-grids')) {
+                    //     self.css({
+                    //         height: self.outerHeight(),
+                    //         width: self.outerWidth() - 2
+                    //     })
+                    // }
+
                     self.addClass("hight-light");
 
                     //使其可拖动，且其子元素不可拖动
@@ -553,7 +581,7 @@ $(function() {
                         dragY.css({
                             top: self.offset().top + self.height() + 2 + 'px',
                             width: self.width(),
-                            left: '2px'
+                            left: self.offset().left + 2
                         })
 
                         jq('.weui-tab__panel').on('scroll', function () {
@@ -595,12 +623,13 @@ $(function() {
                         })
 
                         jq(window).on('mousemove', function(e) {
-                            if (self.height() !== 0) {
+                            var moveY = e.pageY - dragY[0].orginY;
+                            if (moveY >= 0 || moveY < 0 && -moveY <= dragY[0].orginHeight) {
                                 if (dragY[0].isMouseDown && self.data('isSelf')) {
                                     dragY[0].tar.css({
-                                        top: e.pageY - dragY[0].orginY + dragY[0].orginTop
+                                        top: moveY + dragY[0].orginTop
                                     })
-                                    self.height(e.pageY - dragY[0].orginY + dragY[0].orginHeight + 'px');
+                                    self.height(moveY + dragY[0].orginHeight + 'px');
 
                                 }
                             }
@@ -611,11 +640,19 @@ $(function() {
                 },
 
                 hideDesignerDraggerBorder: function() {
+
+                    var currentElem = jq('.hight-light');
+
+                    //九宫格
+                    jq('.weui-grid__icon').css({
+                        height: '28px'
+                    })
+
+
                     jq("i.control-box.remove").hide();
-                    jq(".hight-light").removeClass("hight-light");
-                    jq(".hight-light").attr("draggable", false);
+                    currentElem.removeClass("hight-light");
+                    currentElem.attr("draggable", false);
                     jq(".spacerBottomBorder").hide();
-                    jq(".spacerBottomBorder").unbind();
                 },
 
                 refresh: function(controller, page) {
@@ -1347,6 +1384,12 @@ $(function() {
                 dndData.attrChangeData.changeAttr.push(attr);
                 dndData.attrChangeData.changeId.push(changeId);
                 dndData.attrChangeData.changeValue.push(changeValue);
+            },
+
+            changeDataAfterExch(e, elem) {
+                dndData.orginY = e.pageY;
+                dndData.overSelf = false;
+                dndData.dragElementParent = elem.parent();
             }
         };
 
@@ -1373,6 +1416,8 @@ $(function() {
                 prevElement = $this.prev(),
                 nextElement = $this.next(),
 
+                dragOverElement = dndData.dragOverElement,
+
                 parentIsPage = dragElementParent.hasClass('page__hd')
                         || dragElementParent.hasClass('page__bd')
                         || dragElementParent.hasClass('page__ft'),
@@ -1385,6 +1430,23 @@ $(function() {
                         || parent.hasClass('page__ft');
                 }
 
+            // console.log( dndData.dragOverElement)
+            // if (dragOverElement) {
+            //     // console.log(dragOverElement.parents())
+            //     // console.log($this.children())
+            //     // console.log(dragOverElement.isChildOf($this))
+            //     console.log( dragOverElement.isChildAndSelfOf($this))
+            // }
+            
+            if (dragOverElement && $this[0].id == dragOverElement[0].id || dragOverElement.isChildAndSelfOf($this)) {
+                dndData.overSelf = true;
+                // dndData.orginY = e.pageY;
+            }
+
+            if (!dndData.overSelf) {
+                return false;
+            }
+
             //小于参考高度的 -2/3 使用before()
             if (moveY <= -referHeight / 3 * 2) {
 
@@ -1395,7 +1457,7 @@ $(function() {
 
                     prevElement.before($this);
 
-                    dndData.orginY = e.pageY;
+                    dndData.changeDataAfterExch(e, $this);
 
 
                 } else if (dragElementParent.data('is-container')) {
@@ -1416,8 +1478,7 @@ $(function() {
                         }
                     }
 
-                    dndData.orginY = e.pageY;
-                    dndData.dragElementParent = $this.parent();
+                    dndData.changeDataAfterExch(e, $this);
                 }else if(dragElementParent.hasClass('page__ft') || dragElementParent.hasClass('page__bd')) {
 
                     //被拖拽的元素没有前兄弟元素且其父元素是 page__bd 或 page__ft 就append到其父元素的前兄弟元素里面去
@@ -1438,9 +1499,7 @@ $(function() {
                     }
                 }
 
-                dndData.orginY = e.pageY;
-                dndData.dragElementParent = $this.parent();
-
+                dndData.changeDataAfterExch(e, $this);
                 //小于参考高度的 -2/3 使用after()
             } else if (moveY >= referHeight / 3 * 2) {
 
@@ -1451,7 +1510,7 @@ $(function() {
 
                     nextElement.after($this);
 
-                    dndData.orginY = e.pageY;
+                    dndData.changeDataAfterExch(e, $this);
 
                 } else if (dragElementParent.data('is-container')) {
 
@@ -1469,16 +1528,15 @@ $(function() {
                         }
                     }
 
-                    dndData.orginY = e.pageY;
-                    dndData.dragElementParent = $this.parent();
+                    dndData.changeDataAfterExch(e, $this);
 
                 }else if (dragElementParent.hasClass('page__bd') || dragElementParent.hasClass('page__hd')) {
 
                     //被拖拽的元素没有后兄弟元素且其父元素是 page__bd 或 page__ft 就append到其父元素的后兄弟元素里面去
-                    dndData.pushConstrData('outPrev', thisId, dragElementParent.eq(0).attr('id'));
-                    dndData.pushConstrData('appendPrev', thisId, dragElementParent.next().eq(0).attr('id'));
+                    dndData.pushConstrData('outNext', thisId, dragElementParent.eq(0).attr('id'));
+                    dndData.pushConstrData('prependNext', thisId, dragElementParent.next().eq(0).attr('id'));
 
-                    dragElementParent.next().append($this);
+                    dragElementParent.next().prepend($this);
 
                     if (!parentIsPage) {
 
@@ -1492,8 +1550,7 @@ $(function() {
                     }
                 }
 
-                dndData.orginY = e.pageY;
-                dndData.dragElementParent = $this.parent();
+                dndData.changeDataAfterExch(e, $this);
 
 
                 //小于参考高度的 -1/3 且大于参考高度的 -2/3 使用 append()
@@ -1516,8 +1573,7 @@ $(function() {
 
                 }
 
-                dndData.orginY = e.pageY;
-                dndData.dragElementParent = $this.parent();
+                dndData.changeDataAfterExch(e, $this);
 
             } else if (moveY > referHeight / 3 && moveY < referHeight / 3 * 2 &&
                 nextElement.length && nextElement.data('is-container')) {
@@ -1538,8 +1594,7 @@ $(function() {
 
                 }
 
-                dndData.orginY = e.pageY;
-                dndData.dragElementParent = $this.parent();
+                dndData.changeDataAfterExch(e, $this);
             }
         }
 
@@ -2044,7 +2099,8 @@ $(function() {
                 });
 
                 elem.on('dragenter', function(e) {
-                    // e.stopPropagation();
+                    e.stopPropagation();
+                    dndData.dragOverElement = jq(e.target);
                 })
 
                 elem.on('dragleave', function(e) {
