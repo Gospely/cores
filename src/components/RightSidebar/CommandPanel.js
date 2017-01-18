@@ -1,6 +1,7 @@
 import { connect } from 'dva';
 import React , { PropTypes } from 'react';
-import { Menu } from 'antd';
+import { Menu, Input } from 'antd';
+import TreeStyle from './styles.css';
 
 const CommandPanel = (props) => {
 
@@ -9,43 +10,14 @@ const CommandPanel = (props) => {
 			dispatch({
 				type: 'CommandPanel/showCommandPanel'
 			})
+		},
+
+		useThisCommand(key) {
+			console.log(key);
 		}
 	}
 
-	// <div className={TreeStyle.fileSearchPane}
- //             onClick={() => {props.dispatch({type: 'file/hideSearchPane'})}}
- //             onKeyUp={handleKeyUp}
- //        >
- //          <div onClick={(e) => e.stopPropagation()} style={{maxWidth: 400, margin: '0 auto'}}>
- //            <Input autoFocus="autofocus" size="large" placeholder="index.js" onChange={searchPaneInputChange} value={props.file.searchFilePane.inputValue}/>
- //            <div style={{overflow: 'auto', maxHeight: 500}} id="toSetScroll">
- //                {props.file.searchFilePane.files.map((file, i)=> {
- //                  return  (
- //                    <div onClick={searchThisFile.bind(this,file.folder)}
- //                      key={file.id}
- //                      id={props.file.searchFilePane.currentIndex == i && 'activeFileOption'}
- //                      className={TreeStyle.fileSearchPaneOption +  ' ' +
- //                      (props.file.searchFilePane.currentIndex == i && TreeStyle.fileSearchPaneOptionActive)}
- //                      >
- //                          {file.folder}
- //                    </div>
- //                  )
- //                })}
- //            </div>
- //          </div>
- //        </div>
-
-	return (	<Menu onClick={commandProps.onClick}
-	        		style={{ width: '100%' }}
-		        	defaultOpenKeys={['command']}
-		        	mode="inline"
-		      	>
-			        <Menu.Item key="command">
-						<span>查看快捷键</span>
-			        </Menu.Item>
-		      	</Menu>
-
-		      	)
+	return null
 }
 
 function mapStateToProps({ CommandPanel }) {
@@ -53,3 +25,38 @@ function mapStateToProps({ CommandPanel }) {
 }
 
 export default connect(mapStateToProps)(CommandPanel);
+
+// <div>
+// 				<Menu onClick={commandProps.onClick}
+// 	        		style={{ width: '100%' }}
+// 		        	defaultOpenKeys={['command']}
+// 		        	mode="inline"
+// 		      	>
+// 			        <Menu.Item key="command">
+// 						<span>查看快捷键</span>
+// 			        </Menu.Item>
+// 		      	</Menu>
+// 		      	{props.commandPanel.visible && (
+// 		      		<div className={TreeStyle.fileSearchPane}
+// 	      	             onClick={() => {props.dispatch({type: 'commandPanel/hidePane'})}}
+// 	      	             onKeyUp={handleKeyUp}
+// 	      	        >
+// 	      	          	<div onClick={(e) => e.stopPropagation()} style={{maxWidth: 400, margin: '0 auto'}}>
+// 		      	            <Input autoFocus="autofocus" size="large" placeholder="command" onChange={commandPaneInputChange} value={props.commandPanel.inputValue}/>
+// 		      	            <div style={{overflow: 'auto', maxHeight: 500}} id="toSetScrol">
+// 		      	                {props.commandPanel.shortcuts.map((shortcut, i)=> {
+// 		      	                  return  (
+// 		      	                    <div onClick={useThisCommand.bind(this,shortcut.key)}
+// 		      	                      key={shortcuts.key}
+// 		      	                      id={props.file.searchFilePane.currentIndex == i && 'activeFileOptio'}
+// 		      	                      className={TreeStyle.fileSearchPaneOption +  ' ' +
+// 		      	                      (props.commandPanel.currentIndex == i && TreeStyle.fileSearchPaneOptionActive)}
+// 		      	                      >
+// 		      	                          {shortcut.desc}
+// 		      	                    </div>)
+// 		      	                	})
+// 		      	            	}
+// 		      	            </div>
+// 	      	          	</div>
+// 	      	        </div>)
+// 		      	}
