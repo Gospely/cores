@@ -61,6 +61,7 @@ const createTerminal = function(props) {
             protocol = (location.protocol === 'https:') ? 'wss://' : 'ws://';
             socketURL = protocol + domain + ':' + port + '/terminals/' + pid;
             socket = new WebSocket(socketURL);
+            console.log(socket);
             window.socket = socket;
             // window.socket.send('cd /root/workspace && clear\n');
             localStorage.message = '';
