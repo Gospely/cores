@@ -107,7 +107,7 @@ const LeftSidebar = (props) => {
 					});
 					confirm({
 					    title: '即将新建应用',
-					    content: '您确定要切换吗（点击确定将保存您的工作内容并进行切换）',
+					    content: '您要保存工作状态后再进行新建操作吗? ',
 					    onOk() {
 							wechatSave.save();
 
@@ -130,37 +130,39 @@ const LeftSidebar = (props) => {
 
 	        'switch'() {
 
-	        	if(location.hash.indexOf('project') != -1) {
+	        	// if(location.hash.indexOf('project') != -1) {
 
-					confirm({
-					    title: '即将切换应用',
-					    content: '您确定要切换吗（点击确定将保存您的工作内容并进行切换）',
-					    onOk() {
+				props.dispatch({
+	            	type: 'sidebar/showModalSwitchApp'
+	          	});
 
-							wechatSave.save();
+				props.dispatch({
+	            	type: 'sidebar/getApplications'
+	          	});
 
-							props.dispatch({
-				            	type: 'sidebar/showModalSwitchApp'
-				          	});
+				// 	confirm({
+				// 	    title: '即将切换应用',
+				// 	    content: '您确定要切换吗（点击确定将保存您的工作内容并进行切换）',
+				// 	    onOk() {
 
-							props.dispatch({
-				            	type: 'sidebar/getApplications'
-				          	});
+				// 			wechatSave.save();
 
-					    },
-					    onCancel() {
-					    },
-					});
+							
 
-				}else {
-					props.dispatch({
-		            	type: 'sidebar/showModalSwitchApp'
-		          	});
+				// 	    },
+				// 	    onCancel() {
+				// 	    },
+				// 	});
 
-					props.dispatch({
-		            	type: 'sidebar/getApplications'
-		          	});
-				}
+				// }else {
+				// 	props.dispatch({
+		  //           	type: 'sidebar/showModalSwitchApp'
+		  //         	});
+
+				// 	props.dispatch({
+		  //           	type: 'sidebar/getApplications'
+		  //         	});
+				// }
 		    },
 
 	        commit() {
@@ -473,19 +475,39 @@ const LeftSidebar = (props) => {
 	    },
 
 	    openApp(application) {
-			window.location.hash = 'project/' + application.id;
-			if(application.id != localStorage.applicationId) {
-				props.dispatch({
-					type: 'devpanel/stopDocker',
-					payload: { id: localStorage.applicationId, image: localStorage.image }
-				});
-				window.reload = true
-				window.applicationId = application.id;
-				initApplication(application,props);
-			}else{
-				props.dispatch({
-			      type: 'sidebar/hideModalSwitchApp'
-			  });
+	    	const swApp = (application) => {
+	    		window.location.hash = 'project/' + application.id;
+    			props.dispatch({
+    				type: 'devpanel/stopDocker',
+    				payload: { id: localStorage.applicationId, image: localStorage.image }
+    			});
+    			window.reload = true
+    			window.applicationId = application.id;
+    			initApplication(application, props);
+	    		
+	    	}
+			
+        	if(location.hash.indexOf('project') != -1) {
+	    		if(application.id != localStorage.applicationId) {
+
+	    			confirm({
+	    			    title: '即将切换应用',
+	    			    content: '您确定要切换吗（点击确定将保存您的工作内容并进行切换）',
+	    			    onOk() {
+	    					wechatSave.save();
+	    					swApp(application);
+	    			    },
+	    			    onCancel() {
+	    			    },
+	    			});
+	    		}else {
+    				props.dispatch({
+    			      	type: 'sidebar/hideModalSwitchApp'
+    			  	});
+	    		}
+
+			}else {
+				swApp(application);
 			}
 	    },
 
