@@ -35,9 +35,9 @@ const fileListen = function (props, namespace) {
 		'git success'() {
 
 			if(window.gitSocket != null) {
-		        window.gitSocket.emit('leave', namespace);
+		        window.gitSocket.emit('leave', localStorage.user);
 		        window.gitSocket.disconnect();
-
+				console.log('success');
 		        props.dispatch({
 					type: 'file/fetchFileList'
 				});
@@ -59,8 +59,8 @@ const fileListen = function (props, namespace) {
 	}
 
 	let protocol = (location.protocol === 'https:') ? 'wss://' : 'ws://';
-	let socketURL = protocol + localStorage.host + ':9999';
-	//let socketURL = protocol + 'localhost:8089';
+	//let socketURL = protocol + localStorage.host + ':9999';
+	let socketURL = protocol + 'localhost:8089';
 
 	let socket = io(socketURL, {'reconnect':false,'auto connect':false} );
 	console.log(socket);
