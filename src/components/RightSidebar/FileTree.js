@@ -902,7 +902,7 @@ const FileTree = (props) => {
         </Spin>
     </Modal>
       
-      <Spin spinning={props.file.treeLoading} style={{height: 'calc(100vh - 38px)'}}>
+      <Spin spinning={props.file.treeLoading} tip={props.file.treeLoadingInfo} style={{height: 'calc(100vh - 38px)'}}>
           <div className={TreeStyle.header}>
 
             <Row>

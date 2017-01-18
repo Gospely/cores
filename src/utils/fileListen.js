@@ -37,18 +37,29 @@ const fileListen = function (props, namespace) {
 			if(window.gitSocket != null) {
 		        window.gitSocket.emit('leave', namespace);
 		        window.gitSocket.disconnect();
+
+		        props.dispatch({
+					type: 'file/fetchFileList'
+				});
+
+				props.dispatch({
+					type: 'file/setTreeLoadingStatus',
+					payload: 'clonded'
+				});
 		    }
 		},
 		'git error'(){
 			if(window.gitSocket != null) {
 		        window.gitSocket.emit('leave', namespace);
 		        window.gitSocket.disconnect();
+
+		        message.error('git clone 失败，请从终端手动 clone 或 pull')
 		    }
 		}
 	}
 
 	let protocol = (location.protocol === 'https:') ? 'wss://' : 'ws://';
-	let socketURL = protocol + localStorage.domain + ':9999';
+	let socketURL = protocol + localStorage.host + ':9999';
 	//let socketURL = protocol + 'localhost:8089';
 
 	let socket = io(socketURL, {'reconnect':false,'auto connect':false} );

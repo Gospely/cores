@@ -156,9 +156,13 @@ const initApplication = function (application, props, flag){
         props.dispatch({
             type: 'devpanel/initPanel'
         });
-        props.dispatch({
-            type: 'file/fetchFileList'
-        });
+
+        if (!props.sidebar.appCreatingForm.fromGit) {
+            props.dispatch({
+                type: 'file/fetchFileList'
+            });
+        }
+        
         props.dispatch({
             type: 'file/initFiles',
         });

@@ -79,6 +79,7 @@ app.model(require('./models/editor/ModelEditor'));
 app.model(require('./models/rightSidebar/ModelLayout'));
 app.model(require('./models/rightSidebar/ModelFileTree'));
 app.model(require('./models/rightSidebar/ModelAttr'));
+app.model(require('./models/rightSidebar/ModelCommandPanel'));
 app.model(require('./models/ModelDesigner'));
 app.model(require('./models/ModelPreviewer'));
 app.model(require('./models/ModelConstruction'));
