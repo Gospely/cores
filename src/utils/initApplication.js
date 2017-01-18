@@ -2,11 +2,17 @@ import React , {PropTypes} from 'react';
 import { message, notification } from 'antd';
 import request from './request';
 import config from '../configs'
+import fileListen from './fileListen';
 
 const initApplication = function (application, props, flag){
 
     //清除定时器
     window.clearInterval(window.uistateSave)
+    //断开上一个socket
+    if(window.fileSocket != null) {
+        window.fileSocket.emit('leave', localStorage.applicationId + localStorage.userName);
+        window.fileSocket.disconnect();
+    }
     window.socket = null;
     if(localStorage.applicationId == application.id){
         window.reload = false;
@@ -230,6 +236,9 @@ const initApplication = function (application, props, flag){
         localStorage.image = application.image;
         localStorage.docker = application.docker;
         localStorage.applicationId = application.id;
+        setTimeout(function(){
+            fileListen()
+        }, 2000);
         var command = JSON.parse(application.cmds);
 
         if(command) {

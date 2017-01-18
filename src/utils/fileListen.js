@@ -1,37 +1,53 @@
-const fileListen = function (appId, port) {
-	
+const fileListen = function () {
+	var namespace = localStorage.user + localStorage.currentProject + '_' + localStorage.userName;
 	let protocol = (location.protocol === 'https:') ? 'wss://' : 'ws://';
-	let socketURL = protocol + 'api.gospely.com';
-	let socket = io(socketURL);
-	let baseUrl = 'http://' + localStorage.host + ':' + port;
-	let url = baseUrl + '/listen/file?user_id=' + localStorage.user + '&project_name=' + localStorage.currentProject;
-	// socket.on('connect', function() {
-	// 	fetch(url, {
-	// 		method: 'POST'
-	// 	}).then(function(res) {
-	// 		console.log(res);
-	// 	});
+	let socketURL = protocol + 'localhost:8089';
+	let socket = io(socketURL, {'reconnect':false,'auto connect':false} );
+	console.log(socket);
+
+	socket.on('message', function(data) {
+
+		console.log(data);
+		console.log('connect');
+
+	})
+	socket.on('connections', function(data) {
+
+		console.log(data);
+
+	})
+	socket.on('connect', function(data) {
+
+		console.log('connect');
+
+		socket.emit( 'message', namespace)
+
+	});
+	setTimeout(function(){
+		socket.emit( 'leave', namespace)
+	}, 1000);
+	window.fileSocket = socket;
+
+	// socket.emit('join listen',{
+    //     user_id : localStorage.user
+    // });
+	//
+	//
+	// socket.on('connect_failed', function() {
+	// 	// alert('失败')
 	// })
-	socket.emit('join listen',{
-        user_id : localStorage.user
-    });
-
-
-	socket.on('connect_failed', function() {
-		// alert('失败')
-	})
-
-	socket.on('error', function() {
-		// alert('错误')
-	})
-
-	socket.on('connecting', function() {
-		console.log('正在连接')
-	})
-
-	socket.on('join', function(ev) {
-		console.lgo(ev)
-	})
+	//
+	// socket.on('error', function() {
+	// 	// alert('错误')
+	// })
+	//
+	// socket.on('connecting', function() {
+	// 	console.log('正在连接')
+	// })
+	//
+	// socket.on('join', function(ev) {
+	// 	console.lgo(ev)
+	// })
 	// socket.onopen = function() {
 	// 	console.log('文件监听打开')
 	// };

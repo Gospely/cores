@@ -39,7 +39,7 @@ const auth = function (router) {
 	}
 	localStorage.user = user;
 	localStorage.token = token;
-	localStorage.userName = userName;
+	localStorage.userName = userName.toLocaleLowerCase();
 	localStorage.host = host;
 	return true;
 
