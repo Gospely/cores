@@ -1,21 +1,42 @@
-const fileListen = function (props) {
+const fileListen = function (props, namespace) {
 
 	const fileListHandle = {
 
 		change: function() {
-
+			props.dispatch({
+				type: 'file/fetchFileList'
+			});
 		},
 		remove: function() {
-
+			props.dispatch({
+				type: 'file/fetchFileList'
+			});
 		},
 		add: function() {
-
+			props.dispatch({
+				type: 'file/fetchFileList'
+			});
 		},
 		addDir: function() {
+			props.dispatch({
+				type: 'file/fetchFileList'
+			});
+		},
+		'git success'() {
 
+			if(window.gitSocket != null) {
+		        window.gitSocket.emit('leave', namespace);
+		        window.gitSocket.disconnect();
+		    }
+		},
+		'git error '(){
+			if(window.gitSocket != null) {
+		        window.gitSocket.emit('leave', namespace);
+		        window.gitSocket.disconnect();
+		    }
 		}
 	}
-	var namespace = localStorage.user + localStorage.currentProject + '_' + localStorage.userName;
+
 	let protocol = (location.protocol === 'https:') ? 'wss://' : 'ws://';
 	//let socketURL = protocol + localStorage.domain + ':9999';
 	let socketURL = protocol + 'localhost:8089';
@@ -28,6 +49,7 @@ const fileListen = function (props) {
 		console.log(data);
 		var data = data.split('-:-');
 		console.log(data);
+		fileListHandle(data[0])
 
 	})
 	socket.on('connections', function(data) {
