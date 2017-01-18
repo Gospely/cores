@@ -22,6 +22,16 @@ const fileListen = function (props, namespace) {
 				type: 'file/fetchFileList'
 			});
 		},
+		unlinkDir: function(){
+			props.dispatch({
+				type: 'file/fetchFileList'
+			});
+		},
+		unlink: function(){
+			props.dispatch({
+				type: 'file/fetchFileList'
+			});
+		},
 		'git success'() {
 
 			if(window.gitSocket != null) {
