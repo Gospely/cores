@@ -581,7 +581,7 @@ $(function() {
                         dragY.css({
                             top: self.offset().top + self.height() + 2 + 'px',
                             width: self.width(),
-                            left: '2px'
+                            left: self.offset().left + 2
                         })
 
                         jq('.weui-tab__panel').on('scroll', function () {
@@ -623,12 +623,13 @@ $(function() {
                         })
 
                         jq(window).on('mousemove', function(e) {
-                            if (self.height() !== 0) {
+                            var moveY = e.pageY - dragY[0].orginY;
+                            if (moveY >= 0 || moveY < 0 && -moveY <= dragY[0].orginHeight) {
                                 if (dragY[0].isMouseDown && self.data('isSelf')) {
                                     dragY[0].tar.css({
-                                        top: e.pageY - dragY[0].orginY + dragY[0].orginTop
+                                        top: moveY + dragY[0].orginTop
                                     })
-                                    self.height(e.pageY - dragY[0].orginY + dragY[0].orginHeight + 'px');
+                                    self.height(moveY + dragY[0].orginHeight + 'px');
 
                                 }
                             }
