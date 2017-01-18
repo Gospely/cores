@@ -36,15 +36,19 @@ const keyConfig = {
 		{
 			mainKey: ['ctrl+p','command+p'],
 			handler: function(props){
-				var name = 'file';
-				props.dispatch({
-                    type: 'sidebar/setActiveMenu',
-                    payload: 'file'
-                });
-				props.dispatch({
-					type: 'file/handleSearch',
-					payload:{ value: '' }
-				});
+
+				if(localStorage.image != 'wechat:latest') {
+					var name = 'file';
+					props.dispatch({
+						type: 'sidebar/setActiveMenu',
+						payload: 'file'
+					});
+					props.dispatch({
+						type: 'file/handleSearch',
+						payload:{ value: '' }
+					});
+
+				}
 			}
 		},
 		{
