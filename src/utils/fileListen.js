@@ -1,8 +1,24 @@
-const fileListen = function () {
+const fileListen = function (props) {
+
+	const fileListHandle = {
+
+		change: function() {
+
+		},
+		remove: function() {
+
+		},
+		add: function() {
+
+		},
+		addDir: function() {
+
+		}
+	}
 	var namespace = localStorage.user + localStorage.currentProject + '_' + localStorage.userName;
 	let protocol = (location.protocol === 'https:') ? 'wss://' : 'ws://';
-	let socketURL = protocol + localStorage.domain + ':9999';
-	//let socketURL = protocol + 'localhost:8089';
+	//let socketURL = protocol + localStorage.domain + ':9999';
+	let socketURL = protocol + 'localhost:8089';
 
 	let socket = io(socketURL, {'reconnect':false,'auto connect':false} );
 	console.log(socket);
@@ -10,7 +26,8 @@ const fileListen = function () {
 	socket.on('message', function(data) {
 
 		console.log(data);
-		console.log('connect');
+		var data = data.split('-:-');
+		console.log(data);
 
 	})
 	socket.on('connections', function(data) {
