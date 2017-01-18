@@ -49,7 +49,7 @@ const fileListen = function (props, namespace) {
 		console.log(data);
 		var data = data.split('-:-');
 		console.log(data);
-		fileListHandle(data[0])
+		fileListHandle[data[0]]();
 
 	})
 	socket.on('connections', function(data) {

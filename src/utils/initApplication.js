@@ -238,7 +238,7 @@ const initApplication = function (application, props, flag){
         localStorage.applicationId = application.id;
         var namespace = localStorage.user + localStorage.currentProject + '_' + localStorage.userName;
         setTimeout(function(){
-            fileListen(props)
+            fileListen(props, namespace)
         }, 2000);
         var command = JSON.parse(application.cmds);
 
