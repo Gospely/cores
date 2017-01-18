@@ -1,5 +1,6 @@
 import { connect } from 'dva';
 import React , { PropTypes } from 'react';
+import { Menu } from 'antd';
 
 const CommandPanel = (props) => {
 

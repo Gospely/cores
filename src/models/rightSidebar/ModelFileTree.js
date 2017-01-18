@@ -101,7 +101,8 @@ export default {
 			],
 			inputValue: ''
 		},
-		treeLoading: true
+		treeLoading: true,
+		treeLoadingInfo: '',
 	},
 
 	subscriptions: {
@@ -430,7 +431,16 @@ export default {
 		},
 
 		setTreeLoadingStatus(state,  { payload: bool}) {
-			state.treeLoading = bool;
+			if (bool == 'cloning') {
+				state.treeLoading = true;
+				state.treeLoadingInfo = '项目克隆中，请稍后'
+			}else if (bool == 'clonded') {
+				state.treeLoading = false;
+				state.treeLoadingInfo = '';
+			}else {
+				state.treeLoading = bool;
+				state.treeLoadingInfo = '';
+			}
 			return {...state};
 		},
 

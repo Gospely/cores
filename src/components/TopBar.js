@@ -964,14 +964,14 @@ const LeftSidebar = (props) => {
 
 				const illegalLetter = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '+', '=', '[', ']',
 									'{', '}', '\\', '|', ':', ';', '\'', '"', '<', '>', ',', '.', '/', '?'];
-					let theCurrentLetter = dom.target.value.replace(props.sidebar.appCreatingForm.appName, '');
-					if(illegalLetter.indexOf(theCurrentLetter) !== -1) {
-						notification['warning']({
-							message: '请勿输入非法字符: \' ' + theCurrentLetter + ' \'',
-							description: '请重新输入'
-						});
-						return false;
-					}
+				let theCurrentLetter = dom.target.value.replace(props.sidebar.appCreatingForm.appName, '');
+				if(illegalLetter.indexOf(theCurrentLetter) !== -1) {
+					notification['warning']({
+						message: '请勿输入非法字符: \' ' + theCurrentLetter + ' \'',
+						description: '请重新输入'
+					});
+					return false;
+				}
 
 				props.dispatch({
 					type: 'sidebar/checkProjectAvailable',
@@ -1204,6 +1204,16 @@ const LeftSidebar = (props) => {
 
 			if(props.sidebar.currentAppCreatingStep === 0) {
 
+				const illegalLetter = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '+', '=', '[', ']',
+									'{', '}', '\\', '|', ':', ';', '\'', '"', '<', '>', ',', '.', '/', '?'];
+
+				for(let i = 0; i < illegalLetter.length; i ++) {
+					if (props.sidebar.appCreatingForm.appName.indexOf(illegalLetter[i]) !== -1) {
+						message.error('项目名中不能含有特殊字符');
+						return false;
+					}
+				}
+
 				if(props.sidebar.appCreatingForm.appName == '') {
 					message.error('请填写应用名!');
 					return false;
@@ -1279,7 +1289,7 @@ const LeftSidebar = (props) => {
 			if (props.sidebar.appCreatingForm.fromGit) {
 				props.dispatch({
 					type: 'file/setTreeLoadingStatus',
-					payload: true
+					payload: 'cloning'
 				});
 				fileListen(props, localStorage.user);
 			}

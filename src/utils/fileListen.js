@@ -31,6 +31,11 @@ const fileListen = function (props, namespace) {
 		        props.dispatch({
 					type: 'file/fetchFileList'
 				});
+
+				props.dispatch({
+					type: 'file/setTreeLoadingStatus',
+					payload: 'clonded'
+				});
 		    }
 		},
 		'git error'(){
@@ -44,7 +49,7 @@ const fileListen = function (props, namespace) {
 	}
 
 	let protocol = (location.protocol === 'https:') ? 'wss://' : 'ws://';
-	let socketURL = protocol + localStorage.domain + ':9999';
+	let socketURL = protocol + localStorage.host + ':9999';
 	//let socketURL = protocol + 'localhost:8089';
 
 	let socket = io(socketURL, {'reconnect':false,'auto connect':false} );
