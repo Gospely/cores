@@ -240,10 +240,10 @@ const initApplication = function (application, props, flag){
         localStorage.image = application.image;
         localStorage.docker = application.docker;
         localStorage.applicationId = application.id;
+
         var namespace = localStorage.user + localStorage.currentProject + '_' + localStorage.userName;
-        setTimeout(function(){
-            fileListen(props, namespace)
-        }, 2000);
+        fileListen(props, namespace)
+
         var command = JSON.parse(application.cmds);
 
         if(command) {
