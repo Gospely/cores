@@ -1,6 +1,6 @@
 export default {
 	baseURL: 'http://api.gospely.com/',
-	dev: false
+	dev: false,
 	//baseURL: 'http://120.76.235.234:9999/'
 	//baseURL: 'http://localhost:8089/'
 	//baseURL: 'http://api.gospely.com:9999/'

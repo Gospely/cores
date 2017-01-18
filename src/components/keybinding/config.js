@@ -58,6 +58,12 @@ const keyConfig = {
 		      		type: 'file/hideSearchPane'
 		    	})
 			}
+		},
+		{
+			mainKey: ['ctrl+shift+c'],
+			handler: function(props){
+				console.log("test shortcuts");
+			}
 		}
 
 	],
