@@ -898,6 +898,11 @@ const LeftSidebar = (props) => {
 			})
 		},
 		commitDebugConfigChange() {
+
+			if(props.sidebar.debugConfig.startPort < 0){
+				message.error('请填写正确的端口');
+				return false;
+			}
 			props.dispatch({
 				type: 'sidebar/updateCmds',
 			})
@@ -1120,7 +1125,7 @@ const LeftSidebar = (props) => {
 					    </Row>
 					</div>
 
-			  		<div style={{ marginTop: 32 }} hidden={props.sidebar.appCreatingForm.fromGit}>
+			  		<div style={{ marginTop: 32 }} >
 			  		    <Row>
 					      	<Col span={4} style={{textAlign: 'right'}}>
 					      		<span>使用框架：</span>

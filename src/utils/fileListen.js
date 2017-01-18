@@ -3,9 +3,6 @@ const fileListen = function (props, namespace) {
 	const fileListHandle = {
 
 		change: function() {
-			props.dispatch({
-				type: 'file/fetchFileList'
-			});
 		},
 		remove: function() {
 			props.dispatch({
@@ -32,30 +29,6 @@ const fileListen = function (props, namespace) {
 				type: 'file/fetchFileList'
 			});
 		},
-		'git success'() {
-
-			if(window.gitSocket != null) {
-		        window.gitSocket.emit('leave', localStorage.user);
-		        window.gitSocket.disconnect();
-				console.log('success');
-		        props.dispatch({
-					type: 'file/fetchFileList'
-				});
-
-				props.dispatch({
-					type: 'file/setTreeLoadingStatus',
-					payload: 'clonded'
-				});
-		    }
-		},
-		'git error'(){
-			if(window.gitSocket != null) {
-		        window.gitSocket.emit('leave', namespace);
-		        window.gitSocket.disconnect();
-
-		        message.error('git clone 失败，请从终端手动 clone 或 pull')
-		    }
-		}
 	}
 
 	let protocol = (location.protocol === 'https:') ? 'wss://' : 'ws://';
