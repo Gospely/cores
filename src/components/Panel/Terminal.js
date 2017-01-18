@@ -262,7 +262,6 @@ class Terminal extends Component {
 							handleCmd(evt.data);
 						}
 						if(window.sshKey){
-							alert(evt.data);
 							window.sshKey = false;
 						}
 					};

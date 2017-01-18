@@ -25,31 +25,31 @@ export default {
 			key: '⌘-P / Ctrl-P'
 		}, {
 			desc: '新建文件',
-			key: '⌃-N / Ctrl-N'
+			key: '⌥-N / Alt-N'
 		}, {
 			desc: '保存文件',
-			key: '⌃-S / Ctrl-S'
+			key: '⌘-S / Ctrl-S'
 		}, {
 			desc: '新建应用',
-			key: '⌃-⇧-N / Ctrl-Shift-N'
+			key: '⌥-⇧-N / Alt-Shift-N'
 		}, {
 			desc: '文件内查找',
 			key: '⌘-F / Ctrl-F'
 		}, {
 			desc: '跳至行尾',
-			key: '⌘-Right / Alt-Right'
+			key: '⌘-Right / Ctrl-Right'
 		}, {
 			desc: '跳至行首',
-			key: '⌘-Left / Alt-Left'
+			key: '⌘-Left / Ctrl-Left'
 		}, {
 			desc: '跳至单词首部',
 			key: '⌥-Left / Alt-Left'
 		}, {
 			desc: '跳至单词尾部',
-			key: '⌥-Right / ctrl+Right'
+			key: '⌥-Right / Alt+Right'
 		}, {
 			desc: '选择单词',
-			key: '⌥-D / Ctrl+D'
+			key: '⌥-D / Alt+D'
 		}, {
 			desc: '选择全部',
 			key: '⌘-A / Ctrl-A'
@@ -64,31 +64,31 @@ export default {
 			key: '⇧-Down / Shift-Down'
 		}, {
 			desc: '向上选择',
-			key: '⇧-Up / Ctrl-Up'
+			key: '⇧-Up / Shift-Up'
 		}, {
 			desc: '向左选择所有',
-			key: '⌘-⇧-Left / Alt-Shift-Left'
+			key: '⌘-⇧-Left / Ctrl-Shift-Left'
 		}, {
 			desc: '向右选择所有',
-			key: '⌘-⇧-Right / Alt-Shift-Right'
+			key: '⌘-⇧-Right / Ctrl-Shift-Right'
 		}, {
 			desc: '向下选择所有',
-			key: '⌘-⇧-Down / Alt-Shift-Down'
+			key: '⌘-⇧-Down / Ctrl-Shift-Down'
 		}, {
 			desc: '向上选择所有',
-			key: '⌘-⇧-Up / Alt-Shift-Up'
+			key: '⌘-⇧-Up / Ctrl-Shift-Up'
 		}, {
 			desc: '向左选择单词',
-			key: '⌥-⇧-Left / Ctrl-Alt-Left'
+			key: '⌥-⇧-Left / Alt-Shift-Left'
 		}, {
 			desc: '向右选择单词',
-			key: '⌥-⇧-Right / Ctrl-Alt-Right'
+			key: '⌥-⇧-Right / Alt-Shift-Right'
 		}, {
 			desc: '向上多行光标',
-			key: '⌘-⌥-⇧-Up / Ctrl-Alt-Up'
+			key: '⌘-⌥-⇧-Up / Ctrl-Alt-Shift-Up'
 		}, {
 			desc: '向下多行光标',
-			key: '⌘-⌥-⇧-Down / Ctrl-Alt-Down'
+			key: '⌘-⌥-⇧-Down / Ctrl-Alt-Shift-Down'
 		}, {
 			desc: '进入设置面板',
 			key: '⌥-, / Alt-,'
@@ -100,10 +100,10 @@ export default {
 			key: '⌥-⇧-W, / Alt+Shift+W'
 		}, {
 			desc: '下一个tab',
-			key: '⌥-Tab, / Ctrl-Tab'
+			key: '⌥-Tab, / Alt-Tab'
 		}, {
 			desc: '上一个tab',
-			key: '⌥-⇧-Tab, / Ctrl-Shift-Tab'
+			key: '⌥-⇧-Tab, / Alt-Shift-Tab'
 		}],
 		currentIndex: 0,
 		currentKey: 'commend+p / ctrl+p',

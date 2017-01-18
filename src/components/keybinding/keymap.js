@@ -37,6 +37,7 @@ var keyToKeyCode = {
   'z': 90,
 	'backspace': 8,
   'tab': 9,
+  'option': 18,
   'enter': 13,
   'shift': 16,
   'ctrl': 17,

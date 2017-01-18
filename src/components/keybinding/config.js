@@ -1,3 +1,4 @@
+import randomWord from '../../utils/randomString';
 const keyConfig = {
 	bindKey: [
 		{
@@ -52,11 +53,65 @@ const keyConfig = {
 			}
 		},
 		{
-			mainKey: ['esc'],
+			mainKey: ['option+n','alt+n'],
 			handler: function(props){
-				props.dispatch({
-		      		type: 'file/hideSearchPane'
-		    	})
+				if(localStorage.image != 'wechat:latest') {
+		          	var title = '新文件',
+		              	content = '',
+		              	type = 'editor',
+		              	editorId = randomWord(8, 10);
+
+					localStorage.currentSelectedFile = '新文件';
+
+		            props.dispatch({
+		            	type: 'sidebar/setActiveMenu',
+		            	payload: 'file'
+		            });
+
+					// 更换默认语法
+					localStorage.suffix = "js";
+
+		          	props.dispatch({
+		            	type: 'devpanel/add',
+		            	payload: {title, content, type, editorId}
+		          	});
+
+				}
+			}
+		},
+		{
+			mainKey: ['option+shift+n', 'alt+shift+n'],
+			handler: function (props) {
+				if(localStorage.image != 'wechat:latest') {
+		        	if(location.hash.indexOf('project') != -1) {
+						props.dispatch({
+							type: 'sidebar/handleAvailable',
+		                    payload: {
+		                        available: true,
+		                    }
+						});
+						confirm({
+						    title: '即将新建应用',
+						    content: '您要保存工作状态后再进行新建操作吗? ',
+						    onOk() {
+								wechatSave.save();
+
+		    	          		props.dispatch({
+					        		type: 'sidebar/showModalNewApp'
+					          	});
+						    },
+						    onCancel() {
+								props.dispatch({
+					        		type: 'sidebar/showModalNewApp'
+					          	});
+						    },
+						});
+		        	}else {
+		          		props.dispatch({
+			        		type: 'sidebar/showModalNewApp'
+			          	});
+		        	}
+		        }
 			}
 		}
 
