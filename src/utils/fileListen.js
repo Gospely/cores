@@ -29,7 +29,7 @@ const fileListen = function (props, namespace) {
 		        window.gitSocket.disconnect();
 		    }
 		},
-		'git error '(){
+		'git error'(){
 			if(window.gitSocket != null) {
 		        window.gitSocket.emit('leave', namespace);
 		        window.gitSocket.disconnect();
