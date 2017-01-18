@@ -1,7 +1,7 @@
 const fileListen = function () {
 	var namespace = localStorage.user + localStorage.currentProject + '_' + localStorage.userName;
 	let protocol = (location.protocol === 'https:') ? 'wss://' : 'ws://';
-	let socketURL = protocol + 'localhost:8089';
+	let socketURL = protocol + localStorage.domain + ':9999';
 	let socket = io(socketURL, {'reconnect':false,'auto connect':false} );
 	console.log(socket);
 
