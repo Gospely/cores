@@ -148,7 +148,7 @@ const LeftSidebar = (props) => {
 
 				// 			wechatSave.save();
 
-							
+
 
 				// 	    },
 				// 	    onCancel() {
@@ -485,9 +485,9 @@ const LeftSidebar = (props) => {
     			window.reload = true
     			window.applicationId = application.id;
     			initApplication(application, props);
-	    		
+
 	    	}
-			
+
         	if(location.hash.indexOf('project') != -1) {
 	    		if(application.id != localStorage.applicationId) {
 
@@ -528,9 +528,7 @@ const LeftSidebar = (props) => {
 		modifyGitOriginInput: {
 			onPressEnter: function() {
 
-				props.dispatch({
-					type: 'sidebar/setModifyGitOriginStart'
-				});
+
 				if(props.sidebar.gitTabKey == '1'){
 					if(props.sidebar.modifyGitOriginInput.value == '' || props.sidebar.modifyGitOriginInput.pushValue == '') {
 						message.error('git源不能为空');
@@ -549,6 +547,9 @@ const LeftSidebar = (props) => {
 							return false;
 						}
 					}
+					props.dispatch({
+						type: 'sidebar/setModifyGitOriginStart'
+					});
 					if (isHttp || isSSH) {
 						if(!props.sidebar.modifyGitOriginInput.isGit){
 							window.socket.send('clear && git init\n');
@@ -573,39 +574,47 @@ const LeftSidebar = (props) => {
 					}else{
 						message.error('git 源格式错误');
 					}
-				}
-				if(isHttp){
-					setTimeout(function(){
-						window.socket.send('git config user.name ' + props.sidebar.modifyGitConfigInput.userName + ' --replace-all && clear\n');
-						window.socket.send('git config user.email ' + props.sidebar.modifyGitConfigInput.email + ' --replace-all && clear\n');
+					if(isHttp){
 						setTimeout(function(){
-							window.Pname = false;
-							window.email = false;
-							if(props.sidebar.modifyGitOriginInput.isGit){
-								window.socket.send('cd /root/workspace && echo PPemail && git config user.email && echo PPname && git config user.name && clear\n');
-								window.getConfig = true;
-							}
-							notification.open({
-								message: '配置成功'
+							window.socket.send('git config user.name ' + props.sidebar.modifyGitConfigInput.userName + ' --replace-all && clear\n');
+							window.socket.send('git config user.email ' + props.sidebar.modifyGitConfigInput.email + ' --replace-all && clear\n');
+							setTimeout(function(){
+								window.Pname = false;
+								window.email = false;
+								if(props.sidebar.modifyGitOriginInput.isGit){
+									window.socket.send('cd /root/workspace && echo PPemail && git config user.email && echo PPname && git config user.name && clear\n');
+									window.getConfig = true;
+								}
+								notification.open({
+									message: '配置成功'
+								});
+							}, 100)
+						},200);
+						setTimeout(function(){
+							props.dispatch({
+								type: 'sidebar/setModifyGitOriginCompleted'
 							});
-						}, 100)
-					},200);
-				}
-				if(isSSH){
-					notification.open({
-						message: '请在Github或git@oschina配置你的sshKey'
-					});
-				}
+							props.dispatch({
+								type: 'sidebar/hideModalModifyGitOrigin'
+							})
 
-				setTimeout(function(){
+						}, 1000)
+
+					}
+					if(isSSH){
+						notification.open({
+							message: '请在Github或git@oschina配置你的sshKey'
+						});
+					}
+				}else {
 					props.dispatch({
 						type: 'sidebar/setModifyGitOriginCompleted'
 					});
 					props.dispatch({
 						type: 'sidebar/hideModalModifyGitOrigin'
 					})
+				}
 
-				}, 1000)
 			},
 			onChange: function(e) {
 				props.dispatch({
@@ -1632,14 +1641,14 @@ const LeftSidebar = (props) => {
 			  	</Steps>
 			  	<Spin spinning={props.sidebar.weappCompiler.percent >= 60 && props.sidebar.weappCompiler.percent !== 100}>
 			        <div className="steps-content">
-	        	        {	
+	        	        {
 	        	        	props.sidebar.weappCompiler.status !== 'exception' &&
-	        	        	(props.sidebar.weappCompiler.percent == 100 ? 
-	        	        	<a href={props.sidebar.weappCompiler.filePath} target='blank'>若浏览器没有开始下载，请点击这里</a> : 
+	        	        	(props.sidebar.weappCompiler.percent == 100 ?
+	        	        	<a href={props.sidebar.weappCompiler.filePath} target='blank'>若浏览器没有开始下载，请点击这里</a> :
 	        	        	<Progress type="circle" percent={props.sidebar.weappCompiler.percent} />)
 	        	        }
 	        	        {
-	        	        	props.sidebar.weappCompiler.status === 'exception' && 
+	        	        	props.sidebar.weappCompiler.status === 'exception' &&
 	        	        	<Progress type="circle" status='exception' percent={props.sidebar.weappCompiler.percent} />
 	        	        }
 			        </div>

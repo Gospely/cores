@@ -806,6 +806,7 @@ export default {
 		},
 
 		hideModalModifyGitOrigin(state) {
+            state.modifyGitOriginInput.loading = false;
 			return {...state, modalModifyGitOriginVisible: false};
 		},
 
