@@ -52,6 +52,12 @@
     text-align: left;
     transition: all .3s;
 }
+.commandPanelOption {
+    display: flex;
+    display: -webkit-flex;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+}
 .fileSearchPaneOptionActive {
     background-color: #e7f4fd;
 }

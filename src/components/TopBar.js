@@ -1291,7 +1291,7 @@ const LeftSidebar = (props) => {
 					type: 'file/setTreeLoadingStatus',
 					payload: 'cloning'
 				});
-				fileListen(props, localStorage.user);
+				//fileListen(props, localStorage.user);
 			}
 			props.dispatch({
 				type: 'sidebar/handleCreateApp',

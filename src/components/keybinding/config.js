@@ -58,6 +58,12 @@ const keyConfig = {
 		      		type: 'file/hideSearchPane'
 		    	})
 			}
+		},
+		{
+			mainKey: ['option+f'],
+			handler: function(props){
+				console.log(1)
+			}
 		}
 
 	],

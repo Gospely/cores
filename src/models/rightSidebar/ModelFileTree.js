@@ -505,8 +505,9 @@ export default {
 
 			if (index > 0) {
 				state.searchFilePane.currentIndex --;
+				state.searchFilePane.currentFolder = state.searchFilePane.files[index - 1].folder;
 			}
-			state.searchFilePane.currentFolder = state.searchFilePane.files[index + 1].folder;
+			
 			return {...state}
 		},
 
@@ -520,8 +521,9 @@ export default {
 
 			if (index < state.searchFilePane.files.length - 1) {
 				state.searchFilePane.currentIndex ++;
+				state.searchFilePane.currentFolder = state.searchFilePane.files[index + 1].folder;
 			}
-			state.searchFilePane.currentFolder = state.searchFilePane.files[index + 1].folder;
+			
 			return {...state}
 		},
 
