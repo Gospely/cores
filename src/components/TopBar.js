@@ -15,6 +15,7 @@ import dndHandler from './Panel/dndHandler';
 import keyRegister from './keybinding/register';
 import initApplication from '../utils/initApplication';
 import gitTerminal from '../utils/gitTerminal';
+import fileListen from '../utils/fileListen';
 
 import Previewer from './Panel/Previewer.js';
 
@@ -1265,6 +1266,13 @@ const LeftSidebar = (props) => {
 						return false;
 					}
 				}
+			}
+			if (props.sidebar.appCreatingForm.fromGit) {
+				props.dispatch({
+					type: 'file/setTreeLoadingStatus',
+					payload: true
+				});
+				fileListen(props, localStorage.user);
 			}
 			props.dispatch({
 				type: 'sidebar/handleCreateApp',

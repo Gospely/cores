@@ -78,7 +78,7 @@ const RightSidebar = (props) => {
 				    		disabled={window.disabled}
 				    	>
 				    		<SettingPanel></SettingPanel>
-				    	</TabPane>	    	
+				    	</TabPane>
 				  	</Tabs>
 			);
 

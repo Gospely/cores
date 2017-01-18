@@ -340,6 +340,8 @@ export default {
             var app = yield select(state => state.sidebar.appCreatingForm);
             if(!app.fromGit){
                 app.git = '';
+            }else {
+            	
             }
 
             if(!app.createLocalServer){

@@ -5,6 +5,8 @@ import { Row, Col } from 'antd';
 import { connect } from 'dva';
 import { Menu, Switch, Input } from 'antd';
 import { packUIStage } from '../../utils/packUIState.js';
+import CommandPanel from './CommandPanel';
+
 
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
@@ -132,12 +134,15 @@ const SettingPanel = (props) => {
 			);
 		}else {
 			return (
-				<Collapse className="settingCollapse" bordered={false} defaultActiveKey={['1', '2']}>
+				<Collapse className="settingCollapse" bordered={false} defaultActiveKey={['1', '2', '3']}>
 					<Panel header="GIT 设置" key="1">
 				      	{GitSetting}
 				    </Panel>
 				    <Panel header="同步 设置" key="2">
 				      	{Sync}
+				    </Panel>
+				    <Panel header="命令 面板" key="3">
+				      	<CommandPanel></CommandPanel>
 				    </Panel>
 				</Collapse>
 			);

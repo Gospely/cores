@@ -27,12 +27,18 @@ const fileListen = function (props, namespace) {
 			if(window.gitSocket != null) {
 		        window.gitSocket.emit('leave', namespace);
 		        window.gitSocket.disconnect();
+
+		        props.dispatch({
+					type: 'file/fetchFileList'
+				});
 		    }
 		},
 		'git error'(){
 			if(window.gitSocket != null) {
 		        window.gitSocket.emit('leave', namespace);
 		        window.gitSocket.disconnect();
+
+		        message.error('git clone 失败，请从终端手动 clone 或 pull')
 		    }
 		}
 	}
