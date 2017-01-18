@@ -38,8 +38,8 @@ const fileListen = function (props, namespace) {
 	}
 
 	let protocol = (location.protocol === 'https:') ? 'wss://' : 'ws://';
-	//let socketURL = protocol + localStorage.domain + ':9999';
-	let socketURL = protocol + 'localhost:8089';
+	let socketURL = protocol + localStorage.domain + ':9999';
+	//let socketURL = protocol + 'localhost:8089';
 
 	let socket = io(socketURL, {'reconnect':false,'auto connect':false} );
 	console.log(socket);
