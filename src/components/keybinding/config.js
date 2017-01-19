@@ -123,6 +123,14 @@ const keyConfig = {
 				}
 			}
 		},
+		{
+			mainKey: ['alt+,','option+,'],
+			handler: function(props){
+				props.dispatch({
+					type: 'commandpanel/showCommandPanel'
+				})
+			}
+		},
 
 	],
 	escape:[
