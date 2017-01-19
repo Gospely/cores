@@ -2,6 +2,7 @@ import { connect } from 'dva';
 import React , { PropTypes } from 'react';
 import { Menu, Input } from 'antd';
 import TreeStyle from './styles.css';
+import config from '../keybinding/config.js';
 
 const CommandPanel = (props) => {
 
@@ -18,6 +19,11 @@ const CommandPanel = (props) => {
 
 		useThisCommand(key) {
 			console.log(key);
+			var split = key.split(' / ');
+
+			for(var i = 0; i< config.length; i++){
+				
+			}
 		},
 
 		loopData(pros,shortcuts) {
@@ -97,8 +103,8 @@ const CommandPanel = (props) => {
 	)
 }
 
-function mapStateToProps({ commandpanel }) {
-  return { commandpanel };
+function mapStateToProps({ commandpanel, devpanel, sidebar, file, rightbar }) {
+  return { commandpanel, devpanel, sidebar, file, rightbar };
 }
 
 export default connect(mapStateToProps)(CommandPanel);

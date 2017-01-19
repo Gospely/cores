@@ -34,10 +34,6 @@ export default {
 			key: '⌘-P / Ctrl-P',
 			canDo: true
 		}, {
-			desc: '新建文件',
-			key: '⌥-N / Alt-N',
-			canDo: true
-		}, {
 			desc: '保存文件',
 			key: '⌘-S / Ctrl-S',
 			canDo: true

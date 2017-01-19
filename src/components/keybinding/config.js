@@ -127,6 +127,10 @@ const keyConfig = {
 			mainKey: ['alt+,','option+,'],
 			handler: function(props){
 				props.dispatch({
+					type: 'rightbar/setActiveMenu',
+					payload: 'setting'
+				});
+				props.dispatch({
 					type: 'commandpanel/showCommandPanel'
 				})
 			}
