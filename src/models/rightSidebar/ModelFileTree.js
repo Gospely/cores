@@ -255,7 +255,7 @@ export default {
 			});
 
 			if (mkResult.data.code == 200) {
-				localStorage.currentSelectedFile = params.newFileName + params.fileName;				
+				localStorage.currentSelectedFile = params.newFileName + params.fileName;
 			}
 
       		yield put({type: 'fetchFileList'});
@@ -390,7 +390,7 @@ export default {
 
 			var result = res.data;
 			for(var i = 0; i<res.data.length; i++){
-				res.data[i].folder = res.data[i].id.replace(localStorage.dir,localStorage.currentProject + "/");
+				res.data[i].folder = res.data[i].id.replace(localStorage.dir, localStorage.currentProject);
 			}
 			localStorage.files = JSON.stringify(result);
 		},
@@ -507,7 +507,7 @@ export default {
 				state.searchFilePane.currentIndex --;
 				state.searchFilePane.currentFolder = state.searchFilePane.files[index - 1].folder;
 			}
-			
+
 			return {...state}
 		},
 
@@ -523,7 +523,7 @@ export default {
 				state.searchFilePane.currentIndex ++;
 				state.searchFilePane.currentFolder = state.searchFilePane.files[index + 1].folder;
 			}
-			
+
 			return {...state}
 		},
 
