@@ -71,8 +71,12 @@ const keyConfig = {
 						    title: '即将新建应用',
 						    content: '您要保存工作状态后再进行新建操作吗? ',
 						    onOk() {
-								wechatSave.save();
-
+								notification.open({
+									message: '正在保存工作状态...'
+								});
+								props.dispatch({
+									type: 'UIState/writeConfig'
+								});
 		    	          		props.dispatch({
 					        		type: 'sidebar/showModalNewApp'
 					          	});
