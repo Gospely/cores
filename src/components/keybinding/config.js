@@ -1,6 +1,6 @@
 import randomWord from '../../utils/randomString';
 import React , { PropTypes } from 'react';
-import {Modal } from 'antd';
+import { Modal, Notification } from 'antd';
 const confirm = Modal.confirm;
 const keyConfig = {
 	bindKey: [
@@ -71,7 +71,7 @@ const keyConfig = {
 						    title: '即将新建应用',
 						    content: '您要保存工作状态后再进行新建操作吗? ',
 						    onOk() {
-								notification.open({
+								Notification.open({
 									message: '正在保存工作状态...'
 								});
 								props.dispatch({
