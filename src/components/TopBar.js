@@ -389,6 +389,18 @@ const LeftSidebar = (props) => {
 	        	props.dispatch({
 	        		type: 'sidebar/showFeedback'
 	        	});
+	        },
+
+	        delete() {
+	        	confirm({
+	        	    title: '确定要删除此应用吗',
+	        	    content: '您确定要删除此应用吗?删除后数据将不可恢复',
+	        	    onOk() {
+	        			leftSidebarProps.confirmDeleteApp(localStorage.applicationId);
+	        	    },
+	        	    onCancel() {
+	        	    },
+	        	});
 	        }
 
 	      }
@@ -1307,6 +1319,26 @@ const LeftSidebar = (props) => {
 				description: '请稍等……'
 			});
 
+		},
+
+		deployFast() {
+
+			let src;
+
+			if(document.domain == 'localhost') {
+	        	src = 'http://localhost:8088/#!/apps/new';
+	      	}else {
+	        	src = 'http://dash.gospely.com/#!/apps/new';
+	      	}
+
+			props.dispatch({
+				type: 'dashboard/setSrc',
+				payload: src
+			})
+
+			props.dispatch({
+				type: 'dashboard/showDash'
+			})
 		}
 	}
 
@@ -1353,6 +1385,11 @@ const LeftSidebar = (props) => {
     		        <Menu.Item key="feedback">
 						<Icon type="smile-o" />
 						反馈建议
+			        </Menu.Item>
+			        <Menu.Item key="delete" className='delete-app-btn'>
+				      	<Tooltip placement="leftBottom" title="删除此应用">
+			          		<Icon type="delete" />
+			          	</Tooltip>
 			        </Menu.Item>
 			    </Menu>
 			);
@@ -1436,6 +1473,11 @@ const LeftSidebar = (props) => {
 					<Menu.Item key="feedback">
 						<Icon type="smile-o" />
 						反馈建议
+			        </Menu.Item>
+			        <Menu.Item key="delete" placement="left" className='delete-app-btn'>
+				      	<Tooltip placement="leftBottom" title="删除此应用">
+			          		<Icon type="delete" />
+			          	</Tooltip>
 			        </Menu.Item>
 			    </Menu>
 			);
@@ -1580,6 +1622,11 @@ const LeftSidebar = (props) => {
 				            props.sidebar.currentAppCreatingStep < modalAppCreatorProps.appCreatingSteps.length - 1
 				            &&
 				            <Button hidden={!props.sidebar.appCreator.loading} type="primary" disabled={!props.sidebar.appCreator.available} onClick={() => modalAppCreatorProps.next()}>下一步</Button>
+				          }
+				          {
+				          	props.sidebar.currentAppCreatingStep == 0 
+				          	&&
+				          	<Button hidden={!props.sidebar.appCreator.loading} style={{ marginLeft: 8 }} type="ghost" onClick={modalAppCreatorProps.deployFast}>快速部署应用</Button>
 				          }
 				          {
 				            props.sidebar.currentAppCreatingStep === modalAppCreatorProps.appCreatingSteps.length - 1
