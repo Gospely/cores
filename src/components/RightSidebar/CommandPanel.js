@@ -19,13 +19,21 @@ const CommandPanel = (props) => {
 
 		useThisCommand(key) {
 			console.log(key);
-			var split = key.split(' / ');
-
-			for(var i = 0; i< config.length; i++){
-				
+			var split = key.split(' / '),
+				command = split[1].replace(new RegExp('-', 'gm'), '+').toLowerCase();
+			for(var i = 0; i< config.bindKey.length; i++){
+				for (var j = 0; j < config.bindKey[i].mainKey.length; j++) {
+					console.log(config.bindKey[i].mainKey[j]);
+					if(config.bindKey[i].mainKey[j] == command){
+						config.bindKey[i].handler(props);
+						props.dispatch({
+							type: 'commandpanel/hideCommandPanel'
+						})
+						return false;
+					}
+				}
 			}
 		},
-
 		loopData(pros,shortcuts) {
 			return	shortcuts.map((shortcut, i)=> {
 	          return  (
@@ -91,7 +99,7 @@ const CommandPanel = (props) => {
 	  	             onKeyUp={commandProps.handleKeyUp}
 	  	        >
 	  	          	<div onClick={(e) => e.stopPropagation()} style={{maxWidth: 400, margin: '0 auto'}}>
-	      	            <Input autoFocus="autofocus" size="large" placeholder="command" onChange={commandProps.commandPaneInputChange} 
+	      	            <Input autoFocus="autofocus" size="large" placeholder="command" onChange={commandProps.commandPaneInputChange}
 	      	            	value={props.commandpanel.inputValue}/>
 	      	            <div style={{overflow: 'auto', maxHeight: 500}} id="toSetScrollTwo">
 	      	               {commandProps.loopData(props, props.commandpanel.shortcuts)}
@@ -108,4 +116,3 @@ function mapStateToProps({ commandpanel, devpanel, sidebar, file, rightbar }) {
 }
 
 export default connect(mapStateToProps)(CommandPanel);
-
