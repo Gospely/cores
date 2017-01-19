@@ -1,4 +1,7 @@
 import randomWord from '../../utils/randomString';
+import React , { PropTypes } from 'react';
+import {Modal } from 'antd';
+const confirm = Modal.confirm;
 const keyConfig = {
 	bindKey: [
 		{
