@@ -53,35 +53,9 @@ const keyConfig = {
 			}
 		},
 		{
-			mainKey: ['option+n','alt+n'],
-			handler: function(props){
-				if(localStorage.image != 'wechat:latest') {
-		          	var title = '新文件',
-		              	content = '',
-		              	type = 'editor',
-		              	editorId = randomWord(8, 10);
-
-					localStorage.currentSelectedFile = '新文件';
-
-		            props.dispatch({
-		            	type: 'sidebar/setActiveMenu',
-		            	payload: 'file'
-		            });
-
-					// 更换默认语法
-					localStorage.suffix = "js";
-
-		          	props.dispatch({
-		            	type: 'devpanel/add',
-		            	payload: {title, content, type, editorId}
-		          	});
-
-				}
-			}
-		},
-		{
 			mainKey: ['option+shift+n', 'alt+shift+n'],
 			handler: function (props) {
+				console.log('option + shift n');
 				if(localStorage.image != 'wechat:latest') {
 		        	if(location.hash.indexOf('project') != -1) {
 						props.dispatch({
@@ -113,7 +87,35 @@ const keyConfig = {
 		        	}
 		        }
 			}
-		}
+		},
+		{
+			mainKey: ['option+n','alt+n'],
+			handler: function(props){
+				console.log('option + n');
+				if(localStorage.image != 'wechat:latest') {
+		          	var title = '新文件',
+		              	content = '',
+		              	type = 'editor',
+		              	editorId = randomWord(8, 10);
+
+					localStorage.currentSelectedFile = '新文件';
+
+		            props.dispatch({
+		            	type: 'sidebar/setActiveMenu',
+		            	payload: 'file'
+		            });
+
+					// 更换默认语法
+					localStorage.suffix = "js";
+
+		          	props.dispatch({
+		            	type: 'devpanel/add',
+		            	payload: {title, content, type, editorId}
+		          	});
+
+				}
+			}
+		},
 
 	],
 	escape:[
