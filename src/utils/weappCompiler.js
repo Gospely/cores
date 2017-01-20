@@ -170,6 +170,8 @@ const weappCompiler = {
 
 		console.log(app);
 
+        //
+
 		self.app = app;
 
 		console.log('==============================================weappCompiler==============================================')
