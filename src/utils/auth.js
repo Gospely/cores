@@ -23,7 +23,12 @@ const auth = function (router) {
 
 	if(token != null && token != undefined && token != '') {
 		var url = configs.baseURL + "innersessions/" + token;
-		fetch(url).then(function(res){
+		fetch(url,{
+			method: 'get',
+			headers: {
+                'Authorization': token
+            }
+		}).then(function(res){
 
 		});
 		if(localStorage.user != user){

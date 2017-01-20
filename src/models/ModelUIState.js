@@ -72,6 +72,7 @@ export default {
 							method: 'PUT',
 							headers: {
       							"Content-Type": "application/json;charset=UTF-8",
+								'Authorization': localStorage.token
 							},
 							body: JSON.stringify(configTobeSaved)
 						})

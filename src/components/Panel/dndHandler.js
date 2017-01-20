@@ -52,7 +52,11 @@ export default {
 			}
 			if(applicationId != null && applicationId != undefined) {
 				var url = configs.baseURL + "applications/" + applicationId;
-				fetch(url).then(function(response){
+				fetch(url, {
+					'headers': {
+			            'Authorization': localStorage.token
+			        }
+				}).then(function(response){
 					if (response.status >= 200 && response.status < 300) {
 				    return response;
 				  }
