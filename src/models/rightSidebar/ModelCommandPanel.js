@@ -170,7 +170,7 @@ export default {
 				state.currentIndex --;
 				state.currentKey = state.shortcuts[index - 1].key;
 			}
-			
+
 			return {...state}
 		},
 
@@ -187,7 +187,7 @@ export default {
 				console.log(state.currentIndex)
 				state.currentKey = state.shortcuts[index + 1].key;
 			}
-			
+
 			return {...state}
 		},
 

@@ -19,7 +19,10 @@ const initApplication = function (application, props, flag){
     }else{
         window.reload = true;
     }
-
+    if(application.creator != localStorage.user){
+        window.location.href = window.location.origin;
+        return false;
+    }
     if(location.hash.indexOf('project') == -1) {
         return false;
     }
