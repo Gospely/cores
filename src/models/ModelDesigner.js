@@ -1249,7 +1249,7 @@ page {
 			},
 			{
 				name: '九宫格',
-				type: 'container',
+				type: 'grid',
 				attr: {
 					addGrid: {
 						type: 'button',
@@ -1996,7 +1996,7 @@ page {
 			},
 			{
 				name: '导航',
-				type: 'button',
+				type: 'guide',
 				attr: {
 					value: {
 						type: 'input',
@@ -2070,7 +2070,7 @@ page {
 			},
 			{
 				name: '表单',
-				type: 'form',
+				type: 'formList',
 				attr: {
 					error: {
 						type: 'toggle',
@@ -2947,7 +2947,7 @@ page {
 			{
 				baseClassName: 'weui-cell weui-cell_input',
 				tag: 'div',
-				type: 'input',
+				type: 'commonInput',
 				attr: {
 					error: {
 						type: 'toggle',
@@ -3104,7 +3104,7 @@ page {
 
 			{
 				name: '图标文本框',
-				type: 'input',
+				type: 'iconInput',
 				attr: {
 					theParent: {
 						isParent: true,
@@ -3347,7 +3347,7 @@ page {
 			{
 				baseClassName: 'weui-cell weui-cell_input weui-cell_vcode',
 				tag: 'div',
-				type: 'div',
+				type: 'vrCode',
 				attr: {
 					error: {
 						type: 'toggle',
@@ -4498,7 +4498,7 @@ page {
 			},
 			{
 				name: '进度条',
-				type: 'list-item-divider',
+				type: 'progress',
 				tag: 'div',
 				baseClassName: 'weui-progress',
 				isWeappComponent: true,
@@ -4659,7 +4659,7 @@ page {
 			},
 			{
 				name: '底部说明',
-				type: 'heading',
+				type: 'bottomDesc',
 				tag: 'div',
 				baseClassName: 'weui-cells__tips',
 				attr: {
@@ -4675,7 +4675,7 @@ page {
 			
 			{
 				name: '页面大标题',
-				type: 'heading',
+				type: 'pageHeading',
 				tag: 'h1',
 				baseClassName: 'page__title',
 				attr: {
@@ -5231,7 +5231,7 @@ page {
 			},
 			{
 				name: '跳转列表',
-				type: 'list',
+				type: 'jumpList',
 				weui: 'navigator',
 				attr: {
 					href: {
@@ -5450,7 +5450,7 @@ page {
 			{
 				name: '链接列表项',
 				tag: 'a',
-				type: 'list',
+				type: 'linkList',
 				attr: {
 					theParent: {
 						isParent: true,
@@ -5899,7 +5899,7 @@ page {
 			},
 			{
 				name: '纯文字列表',
-				type: 'list',
+				type: 'textList',
 				tag: 'div',
 				attr: {},
 				baseClassName: 'weui-panel weui-panel_access',
@@ -7167,7 +7167,7 @@ page {
 
 			{
 				name: '图标',
-				type: 'i',
+				type: 'componentIcon',
 				tag: 'span',
 				baseClassName: 'weui-icon',
 				attr: {
@@ -7372,7 +7372,7 @@ page {
 
 			{
 				name: '表单预览',
-				type: 'i',
+				type: 'formPrev',
 				tag: 'div',
 				baseClassName: 'weui-form-preview',
 				attr: {},
