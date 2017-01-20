@@ -60,7 +60,6 @@ const HotKeyHandler = {
 				if(handler.mainKey != null){
 
 					if(handler.mainKey == HotKeyHandler.currentMainKey || handler.mainKey == HotKeyHandler.currentThirdKey){
-						console.log('got mainKey');
 						bool = bool && true;
 					}else{
 						bool = bool && false;
