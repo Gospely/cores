@@ -36,11 +36,9 @@ const fileListen = function (props, namespace) {
 	//let socketURL = protocol + 'localhost:8089';
 
 	let socket = io(socketURL, {'reconnect':false,'auto connect':false} );
-	console.log(socket);
 
 	socket.on('message', function(data) {
 
-		console.log(data);
 		var data = data.split('-:-');
 		console.log(data);
 		fileListHandle[data[0]]();
@@ -48,12 +46,12 @@ const fileListen = function (props, namespace) {
 	})
 	socket.on('connections', function(data) {
 
-		console.log(data);
+		//console.log(data);
 
 	})
 	socket.on('connect', function(data) {
 
-		console.log('connect');
+		//console.log('connect');
 
 		socket.emit( 'message', namespace)
 
