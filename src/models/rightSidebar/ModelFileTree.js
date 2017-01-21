@@ -120,7 +120,7 @@ export default {
 					type: 'setTreeLoadingStatus',
 					payload: true
 				});
-	  			var fileList = yield request('fs/list/file/?id=' + localStorage.dir);
+	  			var fileList = yield request('fs/list/file?id=' + localStorage.dir);
 				localStorage.currentFolder = localStorage.dir;
 
 				if(fileList.err) {
@@ -146,7 +146,7 @@ export default {
 
       	*fetchFileNode({payload: params}, {call, put}) {
       		const dirName = params.treeNode.props.eventKey;
-      		var fileList = yield request('fs/list/file/?id=' + dirName);
+      		var fileList = yield request('fs/list/file?id=' + dirName);
       		yield put({ type: 'treeOnLoadData', payload: {
 	      			fileList,
 	      			dirName
@@ -225,7 +225,7 @@ export default {
 
       	*removeFile({payload: fileName}, {call, put}) {
       		localStorage.isSave = true;
-			var mkResult = yield request('fs/remove/', {
+			var mkResult = yield request('fs/remove', {
 				method: 'POST',
 				body: JSON.stringify({
 					fileName: localStorage.currentFolder + fileName
@@ -235,7 +235,7 @@ export default {
       	},
 
       	*rmdir({payload: dirName}, {call, put}) {
-			var mkResult = yield request('fs/rmdir/', {
+			var mkResult = yield request('fs/rmdir', {
 				method: 'POST',
 				body: JSON.stringify({
 					dirName: localStorage.currentFolder + dirName
@@ -245,7 +245,7 @@ export default {
       	},
 
       	*mvFile({payload: params}, {call, put}) {
-			var mkResult = yield request('fs/move/', {
+			var mkResult = yield request('fs/move', {
 				method: 'POST',
 				body: JSON.stringify({
 					fileName: localStorage.currentFolder + params.fileName,
@@ -262,7 +262,7 @@ export default {
       	},
 
       	*copyFile({payload: params}, {call, put}) {
-			var mkResult = yield request('fs/copy/', {
+			var mkResult = yield request('fs/copy', {
 				method: 'POST',
 				body: JSON.stringify({
 					file: localStorage.currentFolder + params.fileName,

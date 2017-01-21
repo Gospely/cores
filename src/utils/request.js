@@ -2,6 +2,7 @@ import fetch from 'dva/fetch';
 import configs from '../configs.js';
 
 import { message, Spin, notification } from 'antd';
+import cookie from './cookies';
 
 window.openNotificationWithIcon = (type, title, description) => (
   notification[type]({
@@ -31,10 +32,25 @@ function checkResData(data) {
       message.success(data.message);
     }
   }else {
+
     if(typeof data.length == 'number') {
       return data;
     }
     openNotificationWithIcon('error', '服务器提了个问题', data.message);
+
+    if(data.code == -100) {
+
+        setTimeout(function(){
+            cookie.setCookie('token','','Thu, 01 Jan 1970 00:00:00 GMT');
+            cookie.setCookie('user','','Thu, 01 Jan 1970 00:00:00 GMT');
+            if(document.domain != 'localhost') {
+                window.location.href = 'http://dash.gospely.com/#!/accounts/login?where=fromIde';
+            }else {
+                window.location.href = 'http://localhost:8088/#!/accounts/login?where=fromIde';
+            }
+        }, 2000);
+        return false;
+    }
   }
   return data;
 }
