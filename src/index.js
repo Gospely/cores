@@ -15,11 +15,12 @@ window.fileFlag = false;
 if(document.domain != 'localhost') {
 	document.domain = 'gospely.com';
 }
-//认证和状态同步
-auth();
-localStorage.flashState = 'false'
 
-// 1. Initialize
+// 1. 认证和状态同步
+auth();
+localStorage.flashState = 'false';
+
+// 2. Initialize
 const app = dva({
 	initialState: {},
 
@@ -28,7 +29,7 @@ const app = dva({
 	}
 });
 
-// 2. Plugins
+// 3. Plugins
 app.use({
 	onStateChange: () => {
 
@@ -70,7 +71,7 @@ app.use({
 
 app.use(createLoading());
 
-// 3. Model
+// 4. Model
 app.model(require('./models/ModelLeftSidebar'));
 app.model(require('./models/ModelRightSidebar'));
 app.model(require('./models/ModelDevPanels'));
@@ -86,8 +87,8 @@ app.model(require('./models/ModelConstruction'));
 app.model(require('./models/ModelUIState'));
 app.model(require('./models/topbar/ModelDashboard'));
 
-// 4. Router
+// 5. Router
 app.router(require('./router'));
 
-// 5. Start
+// 6. Start
 app.start('#root');

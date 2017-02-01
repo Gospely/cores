@@ -7,7 +7,6 @@ import { Menu, Switch, Input } from 'antd';
 import { packUIStage } from '../../utils/packUIState.js';
 import CommandPanel from './CommandPanel';
 
-
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 const ButtonGroup = Button.Group;
@@ -60,12 +59,12 @@ const SettingPanel = (props) => {
 					window.gitOrigin = true;
 			        socket.send("cd /root/workspace && git remote -v | head -1 | awk '{print $2}'\n");
 			        socket.send('echo begin');
-
-
 				},
+
 				autoSave: function () {
 
 				},
+				
 				autoSaveInterval: function () {
 
 				}

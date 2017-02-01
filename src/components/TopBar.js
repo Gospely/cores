@@ -540,7 +540,6 @@ const LeftSidebar = (props) => {
 		modifyGitOriginInput: {
 			onPressEnter: function() {
 
-
 				if(props.sidebar.gitTabKey == '1'){
 					if(props.sidebar.modifyGitOriginInput.value == '' || props.sidebar.modifyGitOriginInput.pushValue == '') {
 						message.error('git源不能为空');
@@ -1720,105 +1719,106 @@ const LeftSidebar = (props) => {
 	    	<Modal width="60%"  title="添加/更改 Git 源" visible={props.sidebar.modalModifyGitOriginVisible}
 	          	onOk={leftSidebarProps.modifyGitOriginInput.onPressEnter} onCancel={leftSidebarProps.cancelModifyGitOrigin}
 	        >
-			<Spin spinning={props.sidebar.modifyGitOriginInput.loading}>
-  			<Tabs className="modalTab" defaultActiveKey="1" onChange={leftSidebarProps.onGitOperationTabChanged}>
-    			<TabPane tab="HTTPS" key="1">
+				<Spin spinning={props.sidebar.modifyGitOriginInput.loading}>
+		  			<Tabs className="modalTab" defaultActiveKey="1" onChange={leftSidebarProps.onGitOperationTabChanged}>
+		    			<TabPane tab="HTTPS" key="1">
 
-		        	<div style={{ marginBottom: 16, marginTop: 16 }}>
+				        	<div style={{ marginBottom: 16, marginTop: 16 }}>
 
-				      	<InputGroup style={searchCls}>
-				        	<Input
-					        	addonBefore="fetch"
-				        		value={props.sidebar.modifyGitOriginInput.value}
-				        		onPressEnter={leftSidebarProps.modifyGitOriginInput.onPressEnter}
-				        		onChange={leftSidebarProps.modifyGitOriginInput.onChange}
-				        	/>
-				     	</InputGroup>
+						      	<InputGroup style={searchCls}>
+						        	<Input
+							        	addonBefore="fetch"
+						        		value={props.sidebar.modifyGitOriginInput.value}
+						        		onPressEnter={leftSidebarProps.modifyGitOriginInput.onPressEnter}
+						        		onChange={leftSidebarProps.modifyGitOriginInput.onChange}
+						        	/>
+						     	</InputGroup>
 
-		        	</div>
+				        	</div>
 
-		        	<div style={{ marginBottom: 16 }}>
+				        	<div style={{ marginBottom: 16 }}>
 
-				      	<InputGroup style={searchCls}>
-				        	<Input
-					        	addonBefore="push"
-				        		value={props.sidebar.modifyGitOriginInput.pushValue}
-				        		onPressEnter={leftSidebarProps.modifyGitOriginInput.onPressEnter}
-				        		onChange={leftSidebarProps.modifyGitOriginInput.onPushValueChange}
-				        	/>
-				     	</InputGroup>
+						      	<InputGroup style={searchCls}>
+						        	<Input
+							        	addonBefore="push"
+						        		value={props.sidebar.modifyGitOriginInput.pushValue}
+						        		onPressEnter={leftSidebarProps.modifyGitOriginInput.onPressEnter}
+						        		onChange={leftSidebarProps.modifyGitOriginInput.onPushValueChange}
+						        	/>
+						     	</InputGroup>
 
-		        	</div>
+				        	</div>
 
-					<div style={{ marginBottom: 16, marginTop: 16 }}  hidden={!props.sidebar.isHttp}>
+							<div style={{ marginBottom: 16, marginTop: 16 }}  hidden={!props.sidebar.isHttp}>
 
-				      	<InputGroup style={searchCls}>
-				        	<Input
-					        	addonBefore="user.name"
-				        		value={props.sidebar.modifyGitConfigInput.userName}
-				        		onPressEnter={leftSidebarProps.modifyGitOriginInput.onPressEnter}
-				        		onChange={leftSidebarProps.modifyGitConfigInput.onChange}
-				        	/>
-				     	</InputGroup>
+						      	<InputGroup style={searchCls}>
+						        	<Input
+							        	addonBefore="user.name"
+						        		value={props.sidebar.modifyGitConfigInput.userName}
+						        		onPressEnter={leftSidebarProps.modifyGitOriginInput.onPressEnter}
+						        		onChange={leftSidebarProps.modifyGitConfigInput.onChange}
+						        	/>
+						     	</InputGroup>
 
-		        	</div>
+				        	</div>
 
-		        	<div style={{ marginBottom: 16 }}   hidden={!props.sidebar.isHttp}>
+				        	<div style={{ marginBottom: 16 }}   hidden={!props.sidebar.isHttp}>
 
-				      	<InputGroup style={searchCls}>
-				        	<Input
-					        	addonBefore="user.email"
-				        		value={props.sidebar.modifyGitConfigInput.email}
-				        		onPressEnter={leftSidebarProps.modifyGitOriginInput.onPressEnter}
-				        		onChange={leftSidebarProps.modifyGitConfigInput.onEmailChange}
-				        	/>
-				     	</InputGroup>
+						      	<InputGroup style={searchCls}>
+						        	<Input
+							        	addonBefore="user.email"
+						        		value={props.sidebar.modifyGitConfigInput.email}
+						        		onPressEnter={leftSidebarProps.modifyGitOriginInput.onPressEnter}
+						        		onChange={leftSidebarProps.modifyGitConfigInput.onEmailChange}
+						        	/>
+						     	</InputGroup>
 
-		        	</div>
-    			</TabPane>
-    			<TabPane tab="SSH" key="2">
-    				<div style={{marginTop: 16}}>
-	    				<h4>ssh可以让您免密码使用push操作，请按照以下方法配置SSH：</h4>
-	    				<div style={{margin: 10}}>
-		    				<ol>
-		    					<li>1、点击查看公钥并将其配置到您的Git平台中即可</li>
-		    					<li>2、开源中国（gitosc）官方说明：<a href="http://git.oschina.net/oschina/git-osc/wikis/%E5%B8%AE%E5%8A%A9" target="_blank">GitOSC ssh操作说明</a></li>
-		    					<li>3、Github 官方说明：<a href="https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/" target="_blank">Github ssh操作说明</a></li>
-		    				</ol>
-	    				</div>
-    				</div>
-    			</TabPane>
-				<TabPane tab="查看公钥" key="3">
-    				<div style={{marginTop: 16}}>
-	    				<div style={{margin: 10}}>
-							<Input type="textarea" readOnly rows={4} value={props.sidebar.sshKey}/>
-	    				</div>
-    				</div>
-    			</TabPane>
+				        	</div>
+		    			</TabPane>
+		    			<TabPane tab="SSH" key="2">
+		    				<div style={{marginTop: 16}}>
+			    				<h4>ssh可以让您免密码使用push操作，请按照以下方法配置SSH：</h4>
+			    				<div style={{margin: 10}}>
+				    				<ol>
+				    					<li>1、点击查看公钥并将其配置到您的Git平台中即可</li>
+				    					<li>2、开源中国（gitosc）官方说明：<a href="http://git.oschina.net/oschina/git-osc/wikis/%E5%B8%AE%E5%8A%A9" target="_blank">GitOSC ssh操作说明</a></li>
+				    					<li>3、Github 官方说明：<a href="https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/" target="_blank">Github ssh操作说明</a></li>
+				    				</ol>
+			    				</div>
+		    				</div>
+		    			</TabPane>
+						<TabPane tab="查看公钥" key="3">
+		    				<div style={{marginTop: 16}}>
+			    				<div style={{margin: 10}}>
+									<Input type="textarea" readOnly rows={4} value={props.sidebar.sshKey}/>
+			    				</div>
+		    				</div>
+		    			</TabPane>
 
-  			</Tabs>
-		</Spin>
+		  			</Tabs>
+				</Spin>
 	        </Modal>
 
 	        <Modal width="30%"  title="配置调试参数" visible={props.sidebar.debugConfig.showConfigModal}
 	          	onOk={debugConfigModal.commitDebugConfigChange} onCancel={debugConfigModal.hideModal}
 		    >
 				<Spin spinning={props.sidebar.debugConfig.loading}>
-		    	<Form.Item key="runCommand" label="启动命令" {...debugConfigModal.formItemLayout}>
-		    		<Input value={props.sidebar.debugConfig.runCommand}
-	         				type="text"
-	         				onChange={debugConfigModal.runCommandChange}
-	         				placeholder="npm run dev" />
-		    	</Form.Item>
+			    	<Form.Item key="runCommand" label="启动命令" {...debugConfigModal.formItemLayout}>
+			    		<Input value={props.sidebar.debugConfig.runCommand}
+		         				type="text"
+		         				onChange={debugConfigModal.runCommandChange}
+		         				placeholder="npm run dev" />
+			    	</Form.Item>
 
-		    	<Form.Item key="startPort" label="启动端口" {...debugConfigModal.formItemLayout}>
-		    		<Input value={props.sidebar.debugConfig.startPort}
-	         				type="number"
-	         				onChange={debugConfigModal.startPortChange}
-	         				placeholder="8080" />
-		    	</Form.Item>
-			</Spin>
+			    	<Form.Item key="startPort" label="启动端口" {...debugConfigModal.formItemLayout}>
+			    		<Input value={props.sidebar.debugConfig.startPort}
+		         				type="number"
+		         				onChange={debugConfigModal.startPortChange}
+		         				placeholder="8080" />
+			    	</Form.Item>
+				</Spin>
 		    </Modal>
+		    
 			<Modal width="30%"  title="您正在切换应用" visible={props.sidebar.wechatSaveShow}
 	          	onOk={wechatSave.save} onCancel={wechatSave.hideModal}
 		    >
