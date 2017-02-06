@@ -67,7 +67,7 @@ export default function request(url, options) {
         url = configs.baseURL + url;
     }else{
         url = (localStorage.baseURL || configs.baseURL) + url;
-    }z
+    }
     if(options == null || options == undefined){
         return fetch(url, {
                   'headers': { 'Authorization': localStorage.token }
