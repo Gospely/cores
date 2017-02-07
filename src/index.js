@@ -86,6 +86,7 @@ app.model(require('./models/ModelPreviewer'));
 app.model(require('./models/ModelConstruction'));
 app.model(require('./models/ModelUIState'));
 app.model(require('./models/topbar/ModelDashboard'));
+app.model(require('./models/ModelIndexPage'));
 
 // 5. Router
 app.router(require('./router'));

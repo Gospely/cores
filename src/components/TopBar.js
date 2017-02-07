@@ -373,6 +373,12 @@ const LeftSidebar = (props) => {
         		});
 	        },
 
+	        'common-preview'() {
+
+	        	
+	        	
+	        },
+
 	        'download-weapp'() {
 	        	props.dispatch({
 	        		type: 'sidebar/showWeappCompilerModal'
@@ -1465,6 +1471,10 @@ const LeftSidebar = (props) => {
 							<Icon type="pause-circle-o" />
 						</Tooltip>
 				    </Menu.Item>
+				    <Menu.Item key="common-preview">
+						<Icon type="eye-o" />
+						预览
+				    </Menu.Item>				    
     		        <Menu.Item key="dashboard">
 						<Icon type="laptop" />
 		        		控制台

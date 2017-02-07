@@ -204,10 +204,48 @@ function IndexPage(props) {
 
     }
 
+    var devPanelLayoutComponent = () => {
+
+        var layoutAction = {
+
+            shell: function() {
+                return <DevPanel {...devPanelProps } props = { props }></DevPanel>;
+            },
+
+            common: function() {
+                return (
+                    <SplitPane split = "vertical" defaultSize = { devPanelMinSize }>
+                        <div id="devbar" className = { styles.devbar } >
+                            <DevPanel {...devPanelProps } props = { props }></DevPanel>
+                        </div>
+                        <RightSidebar></RightSidebar>
+                    </SplitPane>
+                );
+            },
+
+            ha: function() {
+                return (
+                    <SplitPane split = "vertical" defaultSize = { devPanelMinSize }>
+                        <div id="devbar" className = { styles.devbar } >
+                            <DevPanel {...devPanelProps } props = { props }></DevPanel>
+                        </div>
+                        <RightSidebar></RightSidebar>
+                    </SplitPane>
+                );
+            }
+
+        }
+
+        if(window.isWeapp) {
+            return layoutAction['common']();
+        }
+
+        return layoutAction[props.index.debugType]();
+
+    }
+
     if(window.disabled) {
-
         var welcomePageWidth = document.body.clientWidth;
-
         devPanelTemplate = (
             <SplitPane split = "vertical" minSize = { welcomePageWidth } defaultSize = { welcomePageWidth } >
                 <div id="devbar" className = { styles.devbar } >
@@ -222,12 +260,7 @@ function IndexPage(props) {
                 <div className = "LeftSidebar" >
                     <LeftSidebar></LeftSidebar>
                 </div>
-                <SplitPane split = "vertical" defaultSize = { devPanelMinSize }>
-                    <div id="devbar" className = { styles.devbar } >
-                        <DevPanel {...devPanelProps } props = { props }></DevPanel>
-                    </div>
-                    <RightSidebar></RightSidebar>
-                </SplitPane>
+                {devPanelLayoutComponent()}
             </SplitPane>
         );
     }
@@ -237,14 +270,12 @@ function IndexPage(props) {
                 <div className = "body" style={{height: '100vh'}}>
                     <div
                         hidden='true'
-                        id = "git-terminal" >
-                    </div>
-                    <div id = "git-show" >
-                    </div>
+                        id="git-terminal"></div>
+                    <div id="git-show"></div>
                     <div className = "table-ftw" style = {{ paddingBottom: '0px' }}>
                         <div className = "tr-ftw">
                             <div className = "td-ftw" style = {{ height: '38px' }}>
-                                <Topbar> </Topbar>
+                                <Topbar></Topbar>
                             </div>
                         </div>
                         <div className = "tr-ftw" >
@@ -266,8 +297,8 @@ IndexPage.propTypes = {
 };
 
 // 指定订阅数据，这里关联了 indexPage
-function mapStateToProps({ sidebar, devpanel, editorTop, file, rightbar, UIState }) {
-    return { sidebar, devpanel, editorTop, file, rightbar, UIState };
+function mapStateToProps({ index, sidebar, devpanel, editorTop, file, rightbar, UIState }) {
+    return { index, sidebar, devpanel, editorTop, file, rightbar, UIState };
 }
 
 export default connect(mapStateToProps)(IndexPage);
