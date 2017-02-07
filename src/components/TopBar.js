@@ -1374,6 +1374,10 @@ const LeftSidebar = (props) => {
 			})
 
 			props.dispatch({
+				type: 'sidebar/hideModalNewApp',
+			})
+
+			props.dispatch({
 				type: 'dashboard/showDash'
 			})
 		}
@@ -1475,6 +1479,11 @@ const LeftSidebar = (props) => {
 				    <Menu.Item key="file">
 				      	<Tooltip title="新建文件">
 							<Icon type="file-text" />
+						</Tooltip>
+				    </Menu.Item>
+				    <Menu.Item key="packApp">
+				      	<Tooltip title="源码下载">
+							<Icon type="cloud-download-o" />
 						</Tooltip>
 				    </Menu.Item>
 				    <Menu.Item key="terminal">
