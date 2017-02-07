@@ -14,8 +14,6 @@ import CodingEditor from '../components/Panel/Editor.js';
 import SplitPane from 'react-split-pane';
 import randomString from '../utils/randomString';
 
-
-
 function IndexPage(props) {
 
     //判断是否打开了项目
