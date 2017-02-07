@@ -406,6 +406,12 @@ const LeftSidebar = (props) => {
 	        	})
 	        },
 
+	        packApp() {
+	        	props.dispatch({
+	        		type: 'sidebar/packApp',
+	        	});
+	        },
+
 	        feedback () {
 	        	props.dispatch({
 	        		type: 'sidebar/showFeedback'
