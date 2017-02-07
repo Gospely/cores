@@ -62,8 +62,7 @@ const CommonPreviewer = (props) => {
     <div className="common-previewer-wrapper">
 
       <div className="designer-header" style={{height: '36px'}}>
-
-        <Button onClick={previewerProps.reloadPreviewer} size="small" checked={props.cpre.fullscreen}>刷新</Button>
+        <Button style={{marginRight: '10px'}} onClick={previewerProps.reloadPreviewer} size="small" shape="circle" icon="reload" />
 
         <label className="bold" style={{lineHeight: '2.2'}}>占满屏幕：</label>
         <Switch onChange={previewerProps.onFullscreenSwitchChange} size="small" checked={props.cpre.fullscreen} />
