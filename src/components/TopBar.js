@@ -1374,6 +1374,10 @@ const LeftSidebar = (props) => {
 			})
 
 			props.dispatch({
+				type: 'sidebar/hideModalNewApp',
+			})
+
+			props.dispatch({
 				type: 'dashboard/showDash'
 			})
 		}
