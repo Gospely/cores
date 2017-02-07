@@ -18,6 +18,13 @@ const CommonPreviewer = (props) => {
           type: 'devpanel/loadPreviewer',
           payload: false
       });
+    },
+
+    onFullscreenSwitchChange(checked) {
+      props.dispatch({
+          type: 'cpre/handleFullscreenSwitchChange',
+          payload: checked
+      });
     }
 
   };
@@ -30,7 +37,6 @@ const CommonPreviewer = (props) => {
         payload: val.key
       })
     }
-
   };
 
   const deviceMenuItem = props.designer.deviceList.map((device, index) => (
@@ -47,30 +53,38 @@ const CommonPreviewer = (props) => {
 
     <div className="common-previewer-wrapper">
 
-      <div className="designer-header">
-        <label className="bold">大小：</label>
+      <div className="designer-header" style={{height: '36px'}}>
+        <label className="bold" style={{lineHeight: '2.2'}}>占满屏幕：</label>
+        <Switch onChange={previewerProps.onFullscreenSwitchChange} size="small" checked={props.cpre.fullscreen} />
 
-        <Dropdown overlay={deviceSelectedMenu} trigger={['click']}>
-          <Button
-            className="deviceSelectorBtn">
-            {props.designer.deviceList[props.designer.defaultDevice].name} <Icon type="down" />
-          </Button>
-        </Dropdown>
+        <span hidden={props.cpre.fullscreen} style={{marginLeft: '20px'}}>
 
-        <label className="bold">占满屏幕：</label>
-        <Switch size="small" />
+          <label className="bold">大小：</label>
+
+          <Dropdown overlay={deviceSelectedMenu} trigger={['click']}>
+            <Button
+              className="deviceSelectorBtn">
+              {props.designer.deviceList[props.designer.defaultDevice].name} <Icon type="down" />
+            </Button>
+          </Dropdown>
+
+        </span>
 
       </div>
 
-      <iframe 
-        name="gospel-common-previewer" 
-        width={props.designer.deviceList[props.designer.defaultDevice].width} 
-        height={props.designer.deviceList[props.designer.defaultDevice].height} 
-        className="designer-previewer common-previewer" 
-        frameBorder="0" 
-        src={'http://' + localStorage.domain}
-        >
-      </iframe>
+      <div className="common-frame-wrapper">
+
+        <iframe 
+          name="gospel-common-previewer" 
+          width={props.cpre.fullscreen ? '100%' : props.designer.deviceList[props.designer.defaultDevice].width} 
+          height={props.cpre.fullscreen ? '100%' : props.designer.deviceList[props.designer.defaultDevice].height} 
+          className="designer-previewer common-previewer" 
+          frameBorder="0" 
+          src={'http://' + localStorage.domain}
+          >
+        </iframe>
+
+      </div>
 
     </div>
 
@@ -78,8 +92,8 @@ const CommonPreviewer = (props) => {
 };
 
 // 指定订阅数据，这里关联了 indexPage
-function mapStateToProps({ devpanel, designer }) {
-  return { devpanel, designer };
+function mapStateToProps({ devpanel, designer, cpre }) {
+  return { devpanel, designer, cpre };
 }
 
 export default connect(mapStateToProps)(CommonPreviewer);
