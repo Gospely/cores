@@ -206,14 +206,16 @@ function IndexPage(props) {
 
     var devPanelLayoutComponent = () => {
 
-        const defaultDevpanelTpl = (
-            <SplitPane split = "vertical" defaultSize = { devPanelMinSize }>
-                <div id="devbar" className = { styles.devbar } >
-                    <DevPanel {...devPanelProps } props = { props }></DevPanel>
-                </div>
-                <RightSidebar></RightSidebar>
-            </SplitPane>
-        );
+        const generateDefaultDevpanelTpl = (isPreviewer) => {
+            return (
+                <SplitPane split = "vertical" defaultSize = { devPanelMinSize }>
+                    <div id="devbar" className = { styles.devbar } >
+                        <DevPanel {...devPanelProps } props = { props }></DevPanel>
+                    </div>
+                    <RightSidebar previewer={isPreviewer}></RightSidebar>
+                </SplitPane>
+            );
+        }
 
         var layoutAction = {
 
@@ -221,16 +223,20 @@ function IndexPage(props) {
                 return <DevPanel {...devPanelProps } props = { props }></DevPanel>;
             },
 
+            commonA: function() {
+                return generateDefaultDevpanelTpl();
+            },
+
             common: function() {
-                return defaultDevpanelTpl;
+                return <DevPanel {...devPanelProps } props = { props }></DevPanel>;
             },
 
             ha: function() {
-                return defaultDevpanelTpl;
+                return generateDefaultDevpanelTpl();
             },
 
             previewer: function() {
-                return defaultDevpanelTpl;
+                return generateDefaultDevpanelTpl(true);
             },
 
             noPreviewer: function() {
@@ -240,7 +246,7 @@ function IndexPage(props) {
         }
 
         if(window.isWeapp) {
-            return layoutAction['common']();
+            return layoutAction['commonA']();
         }
 
         if(props.index.debugType == '') {

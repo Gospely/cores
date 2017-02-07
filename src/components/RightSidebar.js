@@ -49,17 +49,35 @@ const RightSidebar = (props) => {
 				    		<div style={{height: maxHeight, overflow: 'auto'}}>
 				    			<Attr></Attr>
 				    		</div>
-				    	</TabPane>    	
+				    	</TabPane>
 				  	</Tabs>
 		  	);
 
 		}else {
 
-		 	// return (<Tabs tabPosition="right" activeKey={props.rightbar.activeMenu} onChange={handleTabChanged}>
-			// 	  	</Tabs>
-			// );
+			const generateRightSidebarByDebugType = () => {
+
+				if(props.index.debugType == 'previewer') {
+
+				 	return (
+				 		<Tabs tabPosition="right" activeKey={props.rightbar.activeMenu} onChange={handleTabChanged}>
+					    	<TabPane style={styles.tab} tab={<span style={styles.span}>
+				    			<Icon style={styles.icon} type="exception" />预览</span>} 
+				    			key="common-previewer"
+				    			disabled={window.disabled}
+				    		>
+				    			<div style={{height: maxHeight, overflow: 'auto'}}>
+				    				<Attr></Attr>
+				    			</div>
+				    		</TabPane>
+						</Tabs>
+					);
+				}
+
+				return '';
+			}
 			
-			return '';
+			return generateRightSidebarByDebugType();
 		}
 
 	}
@@ -72,8 +90,8 @@ const RightSidebar = (props) => {
 
 }
 
-function mapStateToProps({ rightbar, devpanel }) {
-  return { rightbar, devpanel };
+function mapStateToProps({ index, rightbar, devpanel }) {
+  return { index, rightbar, devpanel };
 }
 
 export default connect(mapStateToProps)(RightSidebar);

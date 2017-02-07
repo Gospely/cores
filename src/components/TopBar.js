@@ -379,6 +379,11 @@ const LeftSidebar = (props) => {
 	        		type: 'index/toggleCommonPreviewer'
 	        	});
 
+				props.dispatch({
+					type: 'rightbar/setActiveMenu',
+					payload: 'common-previewer'
+				});
+
 	        },
 
 	        'download-weapp'() {

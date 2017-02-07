@@ -72,6 +72,7 @@ app.use({
 app.use(createLoading());
 
 // 4. Model
+app.model(require('./models/ModelIndexPage'));
 app.model(require('./models/ModelLeftSidebar'));
 app.model(require('./models/ModelRightSidebar'));
 app.model(require('./models/ModelDevPanels'));
@@ -86,7 +87,6 @@ app.model(require('./models/ModelPreviewer'));
 app.model(require('./models/ModelConstruction'));
 app.model(require('./models/ModelUIState'));
 app.model(require('./models/topbar/ModelDashboard'));
-app.model(require('./models/ModelIndexPage'));
 
 // 5. Router
 app.router(require('./router'));
