@@ -1481,6 +1481,11 @@ const LeftSidebar = (props) => {
 							<Icon type="file-text" />
 						</Tooltip>
 				    </Menu.Item>
+				    <Menu.Item key="packApp">
+				      	<Tooltip title="源码下载">
+							<Icon type="cloud-download-o" />
+						</Tooltip>
+				    </Menu.Item>
 				    <Menu.Item key="terminal">
 				      	<Tooltip title="打开终端">
 							<Icon type="code-o" />
