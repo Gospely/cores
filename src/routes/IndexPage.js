@@ -206,6 +206,15 @@ function IndexPage(props) {
 
     var devPanelLayoutComponent = () => {
 
+        const defaultDevpanelTpl = (
+            <SplitPane split = "vertical" defaultSize = { devPanelMinSize }>
+                <div id="devbar" className = { styles.devbar } >
+                    <DevPanel {...devPanelProps } props = { props }></DevPanel>
+                </div>
+                <RightSidebar></RightSidebar>
+            </SplitPane>
+        );
+
         var layoutAction = {
 
             shell: function() {
@@ -213,31 +222,29 @@ function IndexPage(props) {
             },
 
             common: function() {
-                return (
-                    <SplitPane split = "vertical" defaultSize = { devPanelMinSize }>
-                        <div id="devbar" className = { styles.devbar } >
-                            <DevPanel {...devPanelProps } props = { props }></DevPanel>
-                        </div>
-                        <RightSidebar></RightSidebar>
-                    </SplitPane>
-                );
+                return defaultDevpanelTpl;
             },
 
             ha: function() {
-                return (
-                    <SplitPane split = "vertical" defaultSize = { devPanelMinSize }>
-                        <div id="devbar" className = { styles.devbar } >
-                            <DevPanel {...devPanelProps } props = { props }></DevPanel>
-                        </div>
-                        <RightSidebar></RightSidebar>
-                    </SplitPane>
-                );
+                return defaultDevpanelTpl;
+            },
+
+            previewer: function() {
+                return defaultDevpanelTpl;
+            },
+
+            noPreviewer: function() {
+                return <DevPanel {...devPanelProps } props = { props }></DevPanel>;
             }
 
         }
 
         if(window.isWeapp) {
             return layoutAction['common']();
+        }
+
+        if(props.index.debugType == '') {
+            props.index.debugType = 'noPreviewer';
         }
 
         return layoutAction[props.index.debugType]();

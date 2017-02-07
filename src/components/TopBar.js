@@ -375,8 +375,10 @@ const LeftSidebar = (props) => {
 
 	        'common-preview'() {
 
-	        	
-	        	
+	        	props.dispatch({
+	        		type: 'index/toggleCommonPreviewer'
+	        	});
+
 	        },
 
 	        'download-weapp'() {
