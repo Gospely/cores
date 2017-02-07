@@ -5,6 +5,7 @@ import FileTree from './RightSidebar/FileTree';
 import CloumnLayout from './RightSidebar/CloumnLayout';
 import Attr from './RightSidebar/Attr';
 import SettingPanel from './RightSidebar/SettingPanel';
+import CommonPreviewer from './RightSidebar/CommonPreviewer';
 
 const TabPane = Tabs.TabPane;
 
@@ -67,7 +68,7 @@ const RightSidebar = (props) => {
 				    			disabled={window.disabled}
 				    		>
 				    			<div style={{height: maxHeight, overflow: 'auto'}}>
-				    				<Attr></Attr>
+				    				<CommonPreviewer></CommonPreviewer>
 				    			</div>
 				    		</TabPane>
 						</Tabs>
