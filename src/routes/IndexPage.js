@@ -194,7 +194,7 @@ function IndexPage(props) {
 
     var devPanelMinSize = document.body.clientWidth,
         leftBarWidth = 280,
-        rightBarWidth = 280;
+        rightBarWidth = 480;
 
     devPanelMinSize = devPanelMinSize - (rightBarWidth + leftBarWidth);
 
@@ -269,7 +269,7 @@ function IndexPage(props) {
         );
     }else {
         devPanelTemplate = (
-            <SplitPane split = "vertical" minSize = { 41 } defaultSize = { leftBarWidth } >
+            <SplitPane split = "vertical" minSize = { 1 } defaultSize = { leftBarWidth } >
                 <div className = "LeftSidebar" >
                     <LeftSidebar></LeftSidebar>
                 </div>
