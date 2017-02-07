@@ -335,6 +335,10 @@ const LeftSidebar = (props) => {
 
 	        },
 
+	        'version-control' () {
+	        	return false;
+	        },
+
 	        pause() {
 
 				if(localStorage.debugType == 'shell') {
@@ -384,6 +388,10 @@ const LeftSidebar = (props) => {
 					payload: 'common-previewer'
 				});
 
+				props.dispatch({
+					type: 'cpre/setLoading'
+				});
+
 	        },
 
 	        'download-weapp'() {
@@ -414,6 +422,12 @@ const LeftSidebar = (props) => {
 	        	    onCancel() {
 	        	    },
 	        	});
+	        },
+
+	        configGit () {
+	        	props.dispatch({
+	        		type: 'sidebar/showModalModifyGitOrgin'
+	        	});	        	
 	        }
 
 	      }
@@ -877,7 +891,18 @@ const LeftSidebar = (props) => {
 			<Menu.Divider/>
 			<Menu.Item key='config' disabled={window.disabled}>配置...</Menu.Item>
 		</Menu>
-	)
+	);
+
+	const versionControlMenu = (
+		<Menu onClick={leftSidebarProps.handleClick}>
+			<Menu.Item key='commit' disabled={window.disabled}>commit...</Menu.Item>
+			<Menu.Item key='push' disabled={window.disabled}>push</Menu.Item>
+			<Menu.Item key='pull' disabled={window.disabled}>pull</Menu.Item>
+			<Menu.Divider/>
+			<Menu.Item key='configGit' disabled={window.disabled}>配置...</Menu.Item>
+		</Menu>
+	);
+
 	const wechatSave = {
 		hideModal() {
 			props.dispatch({
@@ -1447,21 +1472,6 @@ const LeftSidebar = (props) => {
 			          		<Icon type="appstore-o" />
 			          	</Tooltip>
 			        </Menu.Item>
-				    <Menu.Item key="commit">
-				      	<Tooltip title="commit操作">
-							<Icon type="check"/>
-						</Tooltip>
-				    </Menu.Item>
-				    <Menu.Item key="push">
-				      	<Tooltip title="push操作">
-							<Icon type="upload" />
-						</Tooltip>
-				    </Menu.Item>
-				    <Menu.Item key="pull">
-				      	<Tooltip title="pull操作">
-							<Icon type="download" />
-						</Tooltip>
-				    </Menu.Item>
 				    <Menu.Item key="file">
 				      	<Tooltip title="新建文件">
 							<Icon type="file-text" />
@@ -1477,6 +1487,15 @@ const LeftSidebar = (props) => {
 				      	<Tooltip title="停止运行">
 							<Icon type="pause-circle-o" />
 						</Tooltip>
+				    </Menu.Item>
+				    <Menu.Item key="version-control">
+				    	<Dropdown overlay={versionControlMenu}  trigger={['click']}>
+				      		<Tooltip title="版本控制">
+				    			<div style={{width: 30}}>
+									<Icon type="github" />
+								</div>
+							</Tooltip>
+						</Dropdown>
 				    </Menu.Item>
 				    <Menu.Item key="common-preview">
 						<Icon type="eye-o" />

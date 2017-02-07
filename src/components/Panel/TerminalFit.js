@@ -3,15 +3,20 @@ import Xterm from 'xterm'
 Xterm.prototype.proposeGeometry = function(splitType) {
   const parentElementStyle = window.getComputedStyle(this.element.parentElement);
 
-  var parentElementHeight = 0;
+  var parentElementHeight = 0,
+      devBar = $('#devBar');
+      
+  if(devBar.length === 0) {
+    devBar = $('.ant-tabs-wrapper');
+  }
 
   if(splitType == 'single' || splitType == 'vertical-dbl') {
-    parentElementHeight = parseInt($('#devbar').height() - 32);
+    parentElementHeight = parseInt(devBar.height() - 32);
   }else {
     if(splitType == 'horizontal-dbl') {
-      parentElementHeight = parseInt($('#devbar').height() / 2 - 46);
+      parentElementHeight = parseInt(devBar.height() / 2 - 46);
     }else {
-      parentElementHeight = parseInt($('#devbar').height() / 2);
+      parentElementHeight = parseInt(devBar.height() / 2);
     }
   }
 

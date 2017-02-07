@@ -340,7 +340,7 @@ export default {
 					}else{
 						fileName = params.fileName;
 					}
-					var mkResult = yield request('fs/write/', {
+					var mkResult = yield request('fs/write', {
 						method: 'POST',
 						body: JSON.stringify({
 							fileName: fileName,
