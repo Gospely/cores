@@ -3,4 +3,3 @@ node_modules
 .DS_Store
 *.json.gz
 .idea
-construction.sh
