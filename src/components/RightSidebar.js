@@ -5,6 +5,7 @@ import FileTree from './RightSidebar/FileTree';
 import CloumnLayout from './RightSidebar/CloumnLayout';
 import Attr from './RightSidebar/Attr';
 import SettingPanel from './RightSidebar/SettingPanel';
+import CommonPreviewer from './RightSidebar/CommonPreviewer';
 
 const TabPane = Tabs.TabPane;
 
@@ -50,38 +51,34 @@ const RightSidebar = (props) => {
 				    			<Attr></Attr>
 				    		</div>
 				    	</TabPane>
-				    	<TabPane style={styles.tab} 
-				    	tab={<span style={styles.span}>
-				    			<Icon style={styles.icon} type="setting" />设置
-				    		</span>} key="setting"
-				    		disabled={window.disabled}
-				    	>
-				    		<SettingPanel></SettingPanel>
-				    	</TabPane>	    	
 				  	</Tabs>
 		  	);
 
 		}else {
 
-		  	return (<Tabs tabPosition="right" activeKey={props.rightbar.activeMenu} onChange={handleTabChanged}>
-				    	<TabPane style={styles.tab} tab={<span style={styles.span}>
-				    		<Icon style={styles.icon} type="eye-o" />布局</span>} 
-				    		key="4"
-				    		disabled={window.disabled}
-				    	>
-				    		<CloumnLayout></CloumnLayout>
-				    	</TabPane>
-				    	<TabPane style={styles.tab} 
-				    	tab={<span style={styles.span}>
-				    			<Icon style={styles.icon} type="setting" />设置
-				    		</span>} key="setting"
-				    		disabled={window.disabled}
-				    	>
-				    		<SettingPanel></SettingPanel>
-				    	</TabPane>
-				  	</Tabs>
-			);
+			const generateRightSidebarByDebugType = () => {
 
+				if(props.index.debugType == 'previewer') {
+
+				 	return (
+				 		<Tabs tabPosition="right" activeKey={props.rightbar.activeMenu} onChange={handleTabChanged}>
+					    	<TabPane style={styles.tab} tab={<span style={styles.span}>
+				    			<Icon style={styles.icon} type="exception" />预览</span>} 
+				    			key="common-previewer"
+				    			disabled={window.disabled}
+				    		>
+				    			<div style={{height: maxHeight, overflow: 'auto'}}>
+				    				<CommonPreviewer></CommonPreviewer>
+				    			</div>
+				    		</TabPane>
+						</Tabs>
+					);
+				}
+
+				return '';
+			}
+			
+			return generateRightSidebarByDebugType();
 		}
 
 	}
@@ -94,8 +91,8 @@ const RightSidebar = (props) => {
 
 }
 
-function mapStateToProps({ rightbar, devpanel }) {
-  return { rightbar, devpanel };
+function mapStateToProps({ index, rightbar, devpanel }) {
+  return { index, rightbar, devpanel };
 }
 
 export default connect(mapStateToProps)(RightSidebar);

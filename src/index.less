@@ -10,7 +10,7 @@
 
   	.designer-wrapper {
   		width: 100%;
-  		background-color: #eff1f5;
+   		background: url(./assets/preview_device_bg.png);
   		overflow: auto;
   	}
 
@@ -81,6 +81,26 @@
   		position: fixed;
   		top: 0; left: 0; bottom: 0; right: 0;
   		z-index: 65535
+   	}
+
+   	.common-previewer-wrapper {
+   		height: 100%;
+   		width: 100%;
+   		background: url(./assets/preview_device_bg.png);
+   	}
+
+   	.common-frame-wrapper {
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+	    width: 100%;
+	    height: 100%;
+   	}
+
+   	.designer-previewer.common-previewer {
+   		position: relative;
+   		z-index: 10;
+   		box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
    	}
 
 	.language-box {
@@ -383,8 +403,6 @@
 	}
 
 	.rightColumn .ant-menu-inline .ant-menu-item-selected {
-		border-right: 0px;
-		border-left: 2px solid #2db7f5;
 	}
 
 	.context-menu {

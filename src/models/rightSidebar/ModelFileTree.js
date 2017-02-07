@@ -213,7 +213,7 @@ export default {
 
       	*renameFile({payload: params}, {call, put, select}) {
       		var val = yield select(state => state.file.renameModal.value);
-		var mkResult = yield request('fs/rename', {
+			var mkResult = yield request('fs/rename', {
     			method: 'POST',
     			body: JSON.stringify({
     				fileName: localStorage.currentFolder + params.fileName,
