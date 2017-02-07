@@ -1859,8 +1859,8 @@ const LeftSidebar = (props) => {
 
 }
 
-function mapStateToProps({ sidebar, editor, editorTop, rightbar, designer, attr ,devpanel,layout}) {
-  return { sidebar, editor, editorTop, rightbar, designer, attr ,devpanel,layout};
+function mapStateToProps({ sidebar, editor, editorTop, rightbar, designer, attr ,devpanel, layout, cpre}) {
+  return { sidebar, editor, editorTop, rightbar, designer, attr ,devpanel, layout, cpre};
 }
 
 export default connect(mapStateToProps)(LeftSidebar);

@@ -1,5 +1,5 @@
 import React , { PropTypes } from 'react';
-import { Menu, Icon, Dropdown, Button, Switch } from 'antd';
+import { Menu, Icon, Dropdown, Button, Switch, Spin } from 'antd';
 import { connect } from 'dva';
 
 const CommonPreviewer = (props) => {
@@ -25,6 +25,14 @@ const CommonPreviewer = (props) => {
           type: 'cpre/handleFullscreenSwitchChange',
           payload: checked
       });
+    },
+
+    reloadPreviewer () {
+      props.dispatch({
+          type: 'cpre/setLoading'
+      });
+      var gospelCommonPreviewer = window.frames['gospel-common-previewer'];
+      gospelCommonPreviewer.location.reload();
     }
 
   };
@@ -54,6 +62,9 @@ const CommonPreviewer = (props) => {
     <div className="common-previewer-wrapper">
 
       <div className="designer-header" style={{height: '36px'}}>
+
+        <Button onClick={previewerProps.reloadPreviewer} size="small" checked={props.cpre.fullscreen}>刷新</Button>
+
         <label className="bold" style={{lineHeight: '2.2'}}>占满屏幕：</label>
         <Switch onChange={previewerProps.onFullscreenSwitchChange} size="small" checked={props.cpre.fullscreen} />
 
@@ -73,14 +84,14 @@ const CommonPreviewer = (props) => {
       </div>
 
       <div className="common-frame-wrapper">
-
+        <Spin style={{position: 'absolute'}} spinning={!props.cpre.loaded}></Spin>
         <iframe 
           name="gospel-common-previewer" 
           width={props.cpre.fullscreen ? '100%' : props.designer.deviceList[props.designer.defaultDevice].width} 
           height={props.cpre.fullscreen ? '100%' : props.designer.deviceList[props.designer.defaultDevice].height} 
           className="designer-previewer common-previewer" 
           frameBorder="0" 
-          src={'http://' + localStorage.domain}
+          src='static/commonPreviewer/previewer.html'
           >
         </iframe>
 

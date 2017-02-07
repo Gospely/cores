@@ -249,6 +249,12 @@ export default {
 		        		type: 'dashboard/hideDash'
 		        	})
 					initApplication(data, props, true);
+				},
+
+				commonPreviewerLoaded () {
+					props.dispatch({
+						type: 'cpre/setLoaded'
+					})
 				}
 
 			}
