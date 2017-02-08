@@ -248,7 +248,7 @@ export default {
 					props.dispatch({
 		        		type: 'dashboard/hideDash'
 		        	});
-		        	location.reload(true);
+		        	top.location.reload(true);
 					initApplication(data, props, true);
 				},
 
