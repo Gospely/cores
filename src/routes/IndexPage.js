@@ -320,7 +320,6 @@ function IndexPage(props) {
                     </Col>
                 </Row>
             );
-
         }
 
         return wholePageLayout;
