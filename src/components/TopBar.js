@@ -24,6 +24,8 @@ import { Progress } from 'antd';
 
 import Dashboard from './TopBar/Dashboard.js';
 
+import { Badge } from 'antd';
+
 const FormItem = Form.Item;
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
@@ -1504,13 +1506,15 @@ const LeftSidebar = (props) => {
 						</Tooltip>
 				    </Menu.Item>
 				    <Menu.Item key="version-control">
-				    	<Dropdown overlay={versionControlMenu}  trigger={['click']}>
-				      		<Tooltip title="版本控制">
-				    			<div style={{width: 30}}>
-									<Icon type="github" />
-								</div>
-							</Tooltip>
-						</Dropdown>
+    					<Badge dot>
+				    		<Dropdown overlay={versionControlMenu}  trigger={['click']}>
+				      			<Tooltip title="版本控制(BETA)">
+				    				<div style={{width: 30}}>
+										<Icon type="github" />
+									</div>
+								</Tooltip>
+							</Dropdown>
+				   		</Badge>
 				    </Menu.Item>
 				    <Menu.Item key="common-preview">
 						<Icon type="eye-o" />
