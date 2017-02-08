@@ -247,7 +247,8 @@ export default {
 					window.location.hash = 'project/' + data.id;
 					props.dispatch({
 		        		type: 'dashboard/hideDash'
-		        	})
+		        	})；
+		        	location.reload(true);
 					initApplication(data, props, true);
 				},
 
