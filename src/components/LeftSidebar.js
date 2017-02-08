@@ -131,6 +131,22 @@ const leftSidebar = (props) => {
 
 	let sidebarMenuGenerator = () => {
 
+		var sidebarMenu = '';
+
+		if(localStorage.image == 'vd:site') {
+	    	sidebarMenu = (
+	    		<TabPane style={styles.tab} 
+	    			tab={<span style={styles.span}>
+	    				<Icon style={styles.icon} type="setting" />设置
+	    			</span>} key="setting"
+	    			disabled={window.disabled}
+	    		>
+	    			<SettingPanel></SettingPanel>
+	    		</TabPane>
+	    	);
+		}
+
+		return sidebarMenu;
 	}
 	
 	return (

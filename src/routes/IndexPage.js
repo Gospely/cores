@@ -288,6 +288,44 @@ function IndexPage(props) {
         );
     }
 
+    const wholePageLayoutGenerator = () => {
+
+        var wholePageLayout = '',
+            tpl = (
+                <div className = "table-ftw" style = {{ paddingBottom: '0px' }}>
+                    <div className = "tr-ftw">
+                        <div className = "td-ftw" style = {{ height: '38px' }}>
+                            <Topbar></Topbar>
+                        </div>
+                    </div>
+                    <div className = "tr-ftw" >
+                        <div className = "td-ftw" >
+                            {devPanelTemplate}
+                        </div>
+                    </div>
+                </div>
+            );
+
+        wholePageLayout = tpl;
+
+        if(localStorage.image == 'vd:site') {
+
+            wholePageLayout = (
+                <Row>
+                    <Col span={20}>
+                    {tpl}  
+                    </Col>
+                    <Col span={4}>
+                        <VDRightPanel></VDRightPanel>
+                    </Col>
+                </Row>
+            );
+
+        }
+
+        return wholePageLayout;
+    }
+
     return (
             <Spin tip={props.devpanel.loading.tips} spinning={props.devpanel.loading.isLoading}>
                 <div className = "body" style={{height: '100vh'}}>
@@ -295,25 +333,7 @@ function IndexPage(props) {
                         hidden='true'
                         id="git-terminal"></div>
                     <div id="git-show"></div>
-                    <Row>
-                        <Col span={20}>
-                            <div className = "table-ftw" style = {{ paddingBottom: '0px' }}>
-                                <div className = "tr-ftw">
-                                    <div className = "td-ftw" style = {{ height: '38px' }}>
-                                        <Topbar></Topbar>
-                                    </div>
-                                </div>
-                                <div className = "tr-ftw" >
-                                    <div className = "td-ftw" >
-                                        {devPanelTemplate}
-                                    </div>
-                                </div>
-                            </div>
-                        </Col>
-                        <Col span={4}>
-                            <VDRightPanel></VDRightPanel>
-                        </Col>
-                    </Row>
+                    {wholePageLayoutGenerator()}
                 </div>
             </Spin>
     );
