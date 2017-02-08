@@ -427,7 +427,7 @@ const LeftSidebar = (props) => {
 	        configGit () {
 	        	props.dispatch({
 	        		type: 'sidebar/showModalModifyGitOrgin'
-	        	});	        	
+	        	});
 	        }
 
 	      }
@@ -1140,14 +1140,14 @@ const LeftSidebar = (props) => {
 		  		</div>
 		    ),
 		}, {
-			title: '选择语言',
+			title: '选择项目类型',
 			content: (
 
 				<div>
 		  			<div style={{ marginTop: 32 }}>
 			  		    <Row>
 					      	<Col span={4} style={{textAlign: 'right'}}>
-					      		<span>请选择语言：</span>
+					      		<span>请选择项目类型：</span>
 					      	</Col>
 					      	<Col style={{textAlign: 'left'}}>
 							    <RadioGroup
@@ -1294,7 +1294,7 @@ const LeftSidebar = (props) => {
 			if(props.sidebar.currentAppCreatingStep === 1) {
 
 				if(props.sidebar.appCreatingForm.image == '') {
-					message.error('请选择语言');
+					message.error('请选择项目类型');
 					return false;
 				}
 
@@ -1509,7 +1509,7 @@ const LeftSidebar = (props) => {
 				    <Menu.Item key="common-preview">
 						<Icon type="eye-o" />
 						预览
-				    </Menu.Item>				    
+				    </Menu.Item>
     		        <Menu.Item key="dashboard">
 						<Icon type="laptop" />
 		        		控制台
@@ -1668,7 +1668,7 @@ const LeftSidebar = (props) => {
 				            <Button hidden={!props.sidebar.appCreator.loading} type="primary" disabled={!props.sidebar.appCreator.available} onClick={() => modalAppCreatorProps.next()}>下一步</Button>
 				          }
 				          {
-				          	props.sidebar.currentAppCreatingStep == 0 
+				          	props.sidebar.currentAppCreatingStep == 0
 				          	&&
 				          	<Button hidden={!props.sidebar.appCreator.loading} style={{ marginLeft: 8 }} type="ghost" onClick={modalAppCreatorProps.deployFast}>快速部署应用</Button>
 				          }
@@ -1863,7 +1863,7 @@ const LeftSidebar = (props) => {
 			    	</Form.Item>
 				</Spin>
 		    </Modal>
-		    
+
 			<Modal width="30%"  title="您正在切换应用" visible={props.sidebar.wechatSaveShow}
 	          	onOk={wechatSave.save} onCancel={wechatSave.hideModal}
 		    >

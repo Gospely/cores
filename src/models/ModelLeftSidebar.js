@@ -88,7 +88,7 @@ export default {
 			git: '',
 			image: '',
 			imageVersion: '',
-			useFramework: false,
+			useFramework: true,
 			framework: '',
 			createLocalServer: false,
 			databaseType: '',
@@ -746,7 +746,7 @@ export default {
 				git: '',
 				image: '',
 				imageVersion: '',
-				useFramework: false,
+				useFramework: true,
 				createLocalServer: false,
 				databaseType: '',
 				databasePassword: ''
@@ -1008,6 +1008,7 @@ export default {
 				state.appCreatingForm.framework = '';
                 if(params.value == 'html:latest' || params.value == 'wechat:latest'){
                     state.appCreatingForm.isFront = true;
+                    state.appCreatingForm.useFramework = false;
                     state.appCreatingForm.databaseShow = '前端项目暂时不支持创建本地数据库';
                 }else{
                     state.appCreatingForm.isFront = false;

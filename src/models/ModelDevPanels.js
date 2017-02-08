@@ -429,6 +429,7 @@ export default {
 
 			state.panels = params.UIState.panels;
 			state.devType = params.UIState.devType;
+			state.loadPreviewer = params.UIState.loadPreviewer;
 			return {...state};
 		},
 		initDebugPanel(state, { payload: params}){

@@ -73,6 +73,10 @@ const initApplication = function (application, props, flag){
                 type: 'designer/initState',
                 payload: { UIState: UIState.UIState.designer }
             });
+            props.dispatch({
+                type: 'cpre/initState',
+                payload: { UIState: UIState.UIState.previewer }
+            });
             var key = 'single'
             props.dispatch({
               type: 'layout/handleClick',
@@ -212,19 +216,23 @@ const initApplication = function (application, props, flag){
               type: 'devpanel/getConfig',
               payload: { id : application.id, UIState: UIState.UIState.devpanel}
             });
-
+            if(UIState.UIState.previewer.loaded){
+                props.dispatch({
+                    type: 'rightbar/setActiveMenu',
+                    payload: 'common-previewer'
+                });
+                props.dispatch({
+                    type: 'index/toggleCommonPreviewer'
+                });
+            }
+            props.dispatch({
+                type: 'cpre/initState',
+                payload: { UIState: UIState.UIState.previewer }
+            });
             props.dispatch({
                 type: 'sidebar/setActiveMenu',
                 payload: 'file'
             });
-
-            setTimeout(function() {
-                props.dispatch({
-                    type: 'rightbar/setActiveMenu',
-                    payload: 'setting'
-                });
-            }, 200);
-
             props.dispatch({
                 type: 'rightbar/initState',
                 payload: { UIState: UIState.UIState.rightbar }

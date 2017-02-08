@@ -21,7 +21,14 @@ export default {
 		setLoading(state) {
 			state.loaded = false;
 			return {...state};
+		},
+		initState(state, { payload: params }) {
+
+			state.fullscreen = params.UIState.fullscreen;
+			state.loaded = params.loaded;
+			return {...state};
 		}
+
 	}
 
 }
