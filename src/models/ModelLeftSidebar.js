@@ -625,6 +625,20 @@ export default {
                 }
 	        }
         },
+
+        *packApp({ payload: params}, {call, put}) {
+            notification.open({
+                message: '正在打包，请稍等...',
+            });
+
+            var url = 'fs/packsrc?user=' + localStorage.user + '&application=' + localStorage.applicationId;
+
+            var result = yield request(url, {
+                method: 'GET'
+            });
+
+        },
+
         *getKey({ payload: params }, {call, put, select}){
 
             notification.open({
