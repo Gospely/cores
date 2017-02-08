@@ -6,6 +6,10 @@ import config from '../configs'
 
 const createTerminal = function(props) {
 
+    if(localStorage.image == 'vd:site') {
+        return false;
+    }
+
     const openNotificationWithIcon = (type, title, description) => (
 	  notification[type]({
 	    message: title,

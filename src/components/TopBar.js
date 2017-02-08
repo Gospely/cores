@@ -1393,15 +1393,45 @@ const LeftSidebar = (props) => {
 
 	var topbarMenu = '';
 
-	if(!window.disabled) {
+	let generateTopBarMenu = () => {
+
+		var topbarMenu = '',
+			debugMenu = '';
+
+		if(window.disabled) {
+
+			topbarMenu = (
+
+		      	<Menu
+		      		style={styles.sidebar}
+		      		onClick={leftSidebarProps.handleClick}
+		      		mode="horizontal">
+					<Menu.Item key="create">
+				      	<Tooltip title="新建项目">
+			          		<Icon type="plus" />
+			          	</Tooltip>
+			        </Menu.Item>
+			        <Menu.Item key="switch">
+				      	<Tooltip title="切换项目">
+			          		<Icon type="appstore-o" />
+			          	</Tooltip>
+			        </Menu.Item>
+			        <Menu.Item key="dashboard">
+						<Icon type="laptop" />
+		        		控制台
+			        </Menu.Item>
+					<Menu.Item key="feedback">
+						<Icon type="smile-o" />
+						反馈建议
+				    </Menu.Item>
+		      	</Menu>
+
+			);
+			
+			return topbarMenu;
+		}
 
 		if(window.isWeapp) {
-
-			// <Menu.Item key="designer">
-		 	//  <Tooltip title="小程序设计器">
-			// 		<i className="fa fa-weixin"></i>
-			// 	</Tooltip>
-			// </Menu.Item>
 
 			topbarMenu = (
 		      	<Menu
@@ -1443,7 +1473,10 @@ const LeftSidebar = (props) => {
 			    </Menu>
 			);
 
-		}else {
+			return topbarMenu;
+		}
+
+		const debugMenuGenerator = () => {
 
 			var debugMenu = '';
 
@@ -1468,6 +1501,45 @@ const LeftSidebar = (props) => {
 				    </Menu.Item>
 				);
 			}
+			return debugMenu;
+		}
+
+		if(localStorage.image == 'vd:site') {
+
+			topbarMenu = (
+		      	<Menu
+		      		style={styles.sidebar}
+		      		onClick={leftSidebarProps.handleClick}
+		      		mode="horizontal">
+					<Menu.Item key="create">
+				      	<Tooltip title="新建项目">
+			          		<Icon type="plus" />
+			          	</Tooltip>
+			        </Menu.Item>
+			        <Menu.Item key="switch">
+				      	<Tooltip title="切换项目">
+			          		<Icon type="appstore-o" />
+			          	</Tooltip>
+			        </Menu.Item>
+			        <Menu.Item key="dashboard">
+						<Icon type="laptop" />
+		        		控制台
+			        </Menu.Item>
+					<Menu.Item key="feedback">
+						<Icon type="smile-o" />
+						反馈建议
+			        </Menu.Item>
+			        <Menu.Item key="delete" placement="left" className='delete-app-btn'>
+				      	<Tooltip placement="leftBottom" title="删除此应用">
+			          		<Icon type="delete" />
+			          	</Tooltip>
+			        </Menu.Item>
+			    </Menu>
+			);
+
+		}else {
+
+			debugMenu = debugMenuGenerator();
 
 			topbarMenu = (
 		      	<Menu
@@ -1491,7 +1563,9 @@ const LeftSidebar = (props) => {
 				    </Menu.Item>
 				    <Menu.Item key="packApp">
 				      	<Tooltip title="源码下载">
-							<Icon type="cloud-download-o" />
+				      		<Badge dot>
+								<Icon type="cloud-download-o" />
+				      		</Badge>
 						</Tooltip>
 				    </Menu.Item>
 				    <Menu.Item key="terminal">
@@ -1506,7 +1580,7 @@ const LeftSidebar = (props) => {
 						</Tooltip>
 				    </Menu.Item>
 				    <Menu.Item key="version-control">
-    					<Badge dot>
+						<Badge dot>
 				    		<Dropdown overlay={versionControlMenu}  trigger={['click']}>
 				      			<Tooltip title="版本控制(BETA)">
 				    				<div style={{width: 30}}>
@@ -1520,7 +1594,7 @@ const LeftSidebar = (props) => {
 						<Icon type="eye-o" />
 						预览
 				    </Menu.Item>
-    		        <Menu.Item key="dashboard">
+			        <Menu.Item key="dashboard">
 						<Icon type="laptop" />
 		        		控制台
 			        </Menu.Item>
@@ -1538,35 +1612,7 @@ const LeftSidebar = (props) => {
 
 		}
 
-	}else {
-		topbarMenu = (
-
-	      	<Menu
-	      		style={styles.sidebar}
-	      		onClick={leftSidebarProps.handleClick}
-	      		mode="horizontal">
-				<Menu.Item key="create">
-			      	<Tooltip title="新建项目">
-		          		<Icon type="plus" />
-		          	</Tooltip>
-		        </Menu.Item>
-		        <Menu.Item key="switch">
-			      	<Tooltip title="切换项目">
-		          		<Icon type="appstore-o" />
-		          	</Tooltip>
-		        </Menu.Item>
-		        <Menu.Item key="dashboard">
-					<Icon type="laptop" />
-	        		控制台
-		        </Menu.Item>
-				<Menu.Item key="feedback">
-					<Icon type="smile-o" />
-					反馈建议
-			    </Menu.Item>
-	      	</Menu>
-
-		);
-
+		return topbarMenu;
 	}
 
 	const modalCommitInfoProps = {
@@ -1659,7 +1705,7 @@ const LeftSidebar = (props) => {
 
 	return (
 		<div style={styles.wrapper}>
-			{topbarMenu}
+			{generateTopBarMenu()}
 
 	    	<Modal width="80%"  title="新建应用" visible={props.sidebar.modalNewAppVisible}
 	          	onOk={leftSidebarProps.createApp} onCancel={leftSidebarProps.cancelNewApp}
@@ -1699,7 +1745,7 @@ const LeftSidebar = (props) => {
 
 	        </Modal>
 
-	    	<Modal style={{maxWidth: 550}}   title="切换应用" visible={props.sidebar.modalSwitchAppVisible}
+	    	<Modal title="切换应用" visible={props.sidebar.modalSwitchAppVisible}
 	          	onOk={leftSidebarProps.switchApp} onCancel={leftSidebarProps.cancelSwitchApp}
 	          	footer={[(<Button key='cancel' onClick={leftSidebarProps.cancelSwitchApp}>取消</Button>)]}
 	        >

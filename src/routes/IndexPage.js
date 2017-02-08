@@ -14,6 +14,8 @@ import CodingEditor from '../components/Panel/Editor.js';
 import SplitPane from 'react-split-pane';
 import randomString from '../utils/randomString';
 
+import VDDesignerPanel from '../components/VDSite/VDDesignerPanel.js';
+
 function IndexPage(props) {
 
     //判断是否打开了项目
@@ -247,6 +249,10 @@ function IndexPage(props) {
 
         if(window.isWeapp) {
             return layoutAction['commonA']();
+        }
+
+        if(localStorage.image == 'vd:site') {
+            return <VDDesignerPanel></VDDesignerPanel>;
         }
 
         if(props.index.debugType == '') {
