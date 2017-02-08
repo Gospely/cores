@@ -3,6 +3,14 @@ const fileListen = function (props, namespace) {
 	const fileListHandle = {
 
 		change: function() {
+
+			props.dispatch({
+	            type: 'cpre/setLoading'
+	        });
+	        var gospelCommonPreviewer = window.frames['gospel-common-previewer'];
+			if(gospelCommonPreviewer != null){
+				gospelCommonPreviewer.location.reload();
+			}
 		},
 		remove: function() {
 			props.dispatch({
@@ -40,13 +48,12 @@ const fileListen = function (props, namespace) {
 	socket.on('message', function(data) {
 
 		var data = data.split('-:-');
-		console.log(data);
 		fileListHandle[data[0]]();
 
 	})
 	socket.on('connections', function(data) {
 
-		//console.log(data);
+		// console.log(data);
 
 	})
 	socket.on('connect', function(data) {
