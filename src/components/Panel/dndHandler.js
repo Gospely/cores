@@ -15,24 +15,26 @@ export default {
 		//监听页面刷新，保存最新的UI状态
 		window.addEventListener("beforeunload", (e) => {
 
-			props.dispatch({
-				type: 'devpanel/stopDocker',
-				payload: { id: localStorage.applicationId, image: localStorage.image }
-			});
-			props.dispatch({
-				type: 'UIState/writeConfig'
-			});
-			setTimeout(function(){
-
+			if(localStorage.image != 'wechat:latest') {
 				props.dispatch({
-					type: 'devpanel/startDocker',
-					payload: { id: localStorage.applicationId}
-				}, 3000);
-			});
-			var confirmationMessage = '确定离开此页吗？本页不需要刷新或后退';
+					type: 'devpanel/stopDocker',
+					payload: { id: localStorage.applicationId, image: localStorage.image }
+				});
+				props.dispatch({
+					type: 'UIState/writeConfig'
+				});
+				setTimeout(function(){
 
-			(e || window.event).returnValue = confirmationMessage;     // Gecko and Trident
-			return confirmationMessage;
+					props.dispatch({
+						type: 'devpanel/startDocker',
+						payload: { id: localStorage.applicationId}
+					}, 3000);
+				});
+				var confirmationMessage = '确定离开此页吗？本页不需要刷新或后退';
+
+				(e || window.event).returnValue = confirmationMessage;     // Gecko and Trident
+				return confirmationMessage;
+			}
 		});
 		//监听关闭页面，保存ui状态
 		window.addEventListener("unload", (evt) => {
