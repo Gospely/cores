@@ -292,8 +292,8 @@ function IndexPage(props) {
 
         var wholePageLayout = '',
             tpl = (
-                <div className = "table-ftw" style = {{ paddingBottom: '0px' }}>
-                    <div className = "tr-ftw">
+                <div className="table-ftw" style = {{ paddingBottom: '0px', height: '100vh' }}>
+                    <div className="tr-ftw">
                         <div className = "td-ftw" style = {{ height: '38px' }}>
                             <Topbar></Topbar>
                         </div>
