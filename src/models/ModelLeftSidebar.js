@@ -122,15 +122,26 @@ export default {
 		}
 	},
 
-	subscriptions: {
-		setup({ dispatch, history }) {
-	      	history.listen(({ pathname }) => {
-                if(location.hash.indexOf('project') != -1) {
-	      		}
+    subscriptions: {
 
-	      	});
-		}
-	},
+        setup({ dispatch, history }) {
+            history.listen(({ pathname }) => {
+                if(localStorage.image == 'vd:site') {
+                    dispatch({
+                        type: 'setActiveMenu',
+                        payload: 'vdsite-controllers'
+                    });
+                }else {
+                    dispatch({
+                        type: 'setActiveMenu',
+                        payload: 'file'
+                    });                    
+                }
+            });
+        }
+
+    },
+
 
 	effects: {
 
@@ -1069,7 +1080,6 @@ export default {
 			state.modalFeedback.message = value;
 			return {...state};
 		}
-
 
 	}
 

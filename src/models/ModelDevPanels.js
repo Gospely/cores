@@ -131,6 +131,12 @@ export default {
 
 		setup({ dispatch, history }) {
 	      	history.listen(({ pathname }) => {
+	      		if(localStorage.image == 'vd:site') {
+	      			dispatch({
+	      				type: 'setDevType',
+	      				payload: 'vdsite-controllers'
+	      			});
+	      		}
 	      	});
 		}
 
@@ -893,7 +899,7 @@ export default {
 			activeTab.editorId = params.pid;
 			return {...state};
 		},
-		dynamicChangeSyntax(state,{payload: params}) {
+		dynamicChangeSyntax(state, { payload: params }) {
 			if(setMode[params.suffix] == undefined) {
 				params.suffix = 'txt';
 			}
@@ -901,6 +907,10 @@ export default {
 			state.currentLanguage = state.currentMode.toUpperCase();
 			return {...state};
 		},
+		setDevType(state, { payload: key }) {
+			state.devType.defaultActiveKey = key;
+			return {...state};
+		}
 	}
 
 }
