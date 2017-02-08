@@ -1491,7 +1491,9 @@ const LeftSidebar = (props) => {
 				    </Menu.Item>
 				    <Menu.Item key="packApp">
 				      	<Tooltip title="源码下载">
-							<Icon type="cloud-download-o" />
+				      		<Badge dot>
+								<Icon type="cloud-download-o" />
+				      		</Badge>
 						</Tooltip>
 				    </Menu.Item>
 				    <Menu.Item key="terminal">
