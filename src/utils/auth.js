@@ -22,6 +22,7 @@ const auth = function (router) {
 		host = getCookie('host');
 
 	if(token != null && token != undefined && token != '') {
+
 		var url = configs.baseURL + "innersessions/" + token;
 		fetch(url,{
 			method: 'get',

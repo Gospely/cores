@@ -196,12 +196,12 @@ export default {
 			var res = yield request(url, {
 				method: 'GET',
 			});
-
+			console.log(res.data.fields.devType);
 			if(res.data.fields.devType == 'common'){
 				yield put({ type: "handleCommon" });
 			}
 			if(res.data.fields.devType == 'ha'){
-				yield put({ type: "handleCommon" });
+				yield put({ type: "handleHa" });
 			}
 			if(res.data.fields.devType == 'visual'){
 				yield put({ type: "handleVisual" });
@@ -491,6 +491,23 @@ export default {
 				"isSave":false
 			}];
 			state.devType.type = 'common';
+			return {...state};
+		},
+		handleHa(state) {
+			state.panels.panes[0].activeTab.key = "1";
+			state.devType.defaultActiveKey = 'file';
+			localStorage.version = '6';
+			localStorage.defaultActiveKey = 'file';
+			localStorage.activeMenu = "setting";
+
+			state.panels.panes[0].tabs = [{
+				"title":"欢迎页面 - Gospel",
+				"key":"1","type":"welcome",
+				"editorId":"",
+				"searchVisible":false,
+				"isSave":false
+			}];
+			state.devType.type = 'ha';
 			return {...state};
 		},
 

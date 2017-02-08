@@ -275,14 +275,15 @@ class Terminal extends Component {
 
 				setTimeout(function(){
 					if(localStorage.version != 'null'){
-						socket.send('nvm use v' + localStorage.version + ' && clear\n');
+						socket.send('nvm use v' + localStorage.version + ' && clear && ' + self.props.ctx.devpanel.cmd + '\n');
+					}else {
+						socket.send(self.props.ctx.devpanel.cmd);
 					}
 					// if(self.title.split('-')[0].trim() == '调试终端'){
 					// 	window.debugTerminal = socket;
 					// 	window.debugTerm = term;
 					// 	window.debug_el = terminalContainer;
 					// }
-					socket.send(self.props.ctx.devpanel.cmd);
 					self.props.ctx.dispatch({
 						type: 'devpanel/initCmd',
 					});
