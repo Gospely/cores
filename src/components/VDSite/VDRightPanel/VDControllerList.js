@@ -10,7 +10,10 @@ const TabPane = Tabs.TabPane;
 const Component = (props) => {
 
   return (
-    <div>2333</div>
+  	<Tabs defaultActiveKey="1">
+    	<TabPane tab="Tab 1" key="1">Content of Tab Pane 1</TabPane>
+    	<TabPane tab="Tab 2" key="2">Content of Tab Pane 2</TabPane>
+  	</Tabs>
   );
 
 };
