@@ -83,15 +83,42 @@ const leftSidebar = (props) => {
 	}
 
 	let columnLayouComponent = () => {
-		return !window.isWeapp ? (
-			<TabPane style={styles.tab} tab={<span style={styles.span}>
-	    		<Icon style={styles.icon} type="eye-o" />布局</span>} 
-	    		key="4"
-	    		disabled={window.disabled}
-	    	>
-	    		<CloumnLayout></CloumnLayout>
-	    	</TabPane>
-		) : '';
+
+		if(!window.isWeapp) {
+
+			if(localStorage.image != 'vd:site') {
+				return (
+					<TabPane style={styles.tab} tab={<span style={styles.span}>
+			    		<Icon style={styles.icon} type="eye-o" />布局</span>} 
+			    		key="4"
+			    		disabled={window.disabled}
+			    	>
+			    		<CloumnLayout></CloumnLayout>
+			    	</TabPane>
+				);
+			}
+		}
+
+		return '';
+	}
+
+	let settingLayoutComponent = () => {
+
+		if(localStorage.image != 'vd:site') {
+			return (
+		    	<TabPane style={styles.tab} 
+		    		tab={<span style={styles.span}>
+		    			<Icon style={styles.icon} type="setting" />设置
+		    		</span>} key="setting"
+		    		disabled={window.disabled}
+		    	>
+		    		<SettingPanel></SettingPanel>
+		    	</TabPane>
+			);
+		}
+
+		return ''
+
 	}
 	
 	return (
@@ -99,14 +126,7 @@ const leftSidebar = (props) => {
 	  		{constructionTreeComponent()}
 	    	{FileTreeComponent()}
 	    	{columnLayouComponent()}
-	    	<TabPane style={styles.tab} 
-	    	tab={<span style={styles.span}>
-	    			<Icon style={styles.icon} type="setting" />设置
-	    		</span>} key="setting"
-	    		disabled={window.disabled}
-	    	>
-	    		<SettingPanel></SettingPanel>
-	    	</TabPane>
+	    	{settingLayoutComponent()}
 	  	</Tabs>
 	)
 
