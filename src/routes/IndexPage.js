@@ -15,6 +15,7 @@ import SplitPane from 'react-split-pane';
 import randomString from '../utils/randomString';
 
 import VDDesignerPanel from '../components/VDSite/VDDesignerPanel.js';
+import VDRightPanel from '../components/VDSite/VDRightPanel/index.js';
 
 function IndexPage(props) {
 
@@ -24,14 +25,17 @@ function IndexPage(props) {
     }else {
         window.disabled = false;
     }
+
     if (props.query == '?from=dash') {
         window.reload = true;
     }
+
     if (props.params.id == localStorage.applicationId) {
         window.reload = false;
     } else {
         window.reload = true;
     }
+
     window.applicationId = props.params.id;
     const devPanelProps = {
         panes: props.devpanel.panels.panes,
@@ -291,21 +295,28 @@ function IndexPage(props) {
                         hidden='true'
                         id="git-terminal"></div>
                     <div id="git-show"></div>
-                    <div className = "table-ftw" style = {{ paddingBottom: '0px' }}>
-                        <div className = "tr-ftw">
-                            <div className = "td-ftw" style = {{ height: '38px' }}>
-                                <Topbar></Topbar>
+                    <Row>
+                        <Col span={20}>
+                            <div className = "table-ftw" style = {{ paddingBottom: '0px' }}>
+                                <div className = "tr-ftw">
+                                    <div className = "td-ftw" style = {{ height: '38px' }}>
+                                        <Topbar></Topbar>
+                                    </div>
+                                </div>
+                                <div className = "tr-ftw" >
+                                    <div className = "td-ftw" >
+                                        {devPanelTemplate}
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div className = "tr-ftw" >
-                            <div className = "td-ftw" >
-                                {devPanelTemplate}
-                            </div>
-                        </div>
-                    </div>
+                        </Col>
+                        <Col span={4}>
+                            <VDRightPanel></VDRightPanel>
+                        </Col>
+                    </Row>
                 </div>
             </Spin>
-            );
+    );
 }
 
 IndexPage.propTypes = {

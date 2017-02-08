@@ -47,15 +47,23 @@ const leftSidebar = (props) => {
 	}
 
 	let FileTreeComponent = () => {
-		return !window.isWeapp ? (
-	    		<TabPane style={styles.tab} tab={<span style={styles.span}>
-		    		<Icon style={styles.icon} type="file-text" />文件</span>} 
-		    		key="file"
-		    		disabled={window.disabled}
-		    	>
-		    		<FileTree></FileTree>
-		    	</TabPane>
-			) : '';
+
+		if(!window.isWeapp) {
+
+			if(localStorage.image != 'vd:site') {
+				return (
+		    		<TabPane style={styles.tab} tab={<span style={styles.span}>
+			    		<Icon style={styles.icon} type="file-text" />文件</span>} 
+			    		key="file"
+			    		disabled={window.disabled}
+			    	>
+			    		<FileTree></FileTree>
+			    	</TabPane>
+				);			
+			}
+		}
+
+		return '';
 	}
 
 	let constructionTreeComponent = () => {
@@ -120,6 +128,10 @@ const leftSidebar = (props) => {
 		return ''
 
 	}
+
+	let sidebarMenuGenerator = () => {
+
+	}
 	
 	return (
 	  	<Tabs tabPosition="left" defaultActiveKey={props.devpanel.devType.defaultActiveKey} activeKey={props.sidebar.activeMenu} onChange={handleTabChanged}>
@@ -127,6 +139,7 @@ const leftSidebar = (props) => {
 	    	{FileTreeComponent()}
 	    	{columnLayouComponent()}
 	    	{settingLayoutComponent()}
+	    	{sidebarMenuGenerator()}
 	  	</Tabs>
 	)
 
