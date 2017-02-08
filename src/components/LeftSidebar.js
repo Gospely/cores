@@ -14,6 +14,9 @@ import SplitPane from 'react-split-pane';
 
 import computeDomHeight from '../utils/computeDomHeight'
 
+import VDControllers from './VDSite/VDLeftPanel/VDControllers.js';
+import VDPages from './VDSite/VDLeftPanel/VDPages.js';
+
 const TabPane = Tabs.TabPane;
 const Panel = Collapse.Panel;
 
@@ -47,15 +50,23 @@ const leftSidebar = (props) => {
 	}
 
 	let FileTreeComponent = () => {
-		return !window.isWeapp ? (
-	    		<TabPane style={styles.tab} tab={<span style={styles.span}>
-		    		<Icon style={styles.icon} type="file-text" />文件</span>} 
-		    		key="file"
-		    		disabled={window.disabled}
-		    	>
-		    		<FileTree></FileTree>
-		    	</TabPane>
-			) : '';
+
+		if(!window.isWeapp) {
+
+			if(localStorage.image != 'vd:site') {
+				return (
+		    		<TabPane style={styles.tab} tab={<span style={styles.span}>
+			    		<Icon style={styles.icon} type="file-text" />文件</span>} 
+			    		key="file"
+			    		disabled={window.disabled}
+			    	>
+			    		<FileTree></FileTree>
+			    	</TabPane>
+				);			
+			}
+		}
+
+		return '';
 	}
 
 	let constructionTreeComponent = () => {
@@ -120,13 +131,55 @@ const leftSidebar = (props) => {
 		return ''
 
 	}
-	
+
+	let VDControllersComponent = () => {
+
+		var sidebarMenu = '';
+
+		if(localStorage.image == 'vd:site') {
+	    	sidebarMenu = (
+	    		<TabPane style={styles.tab} 
+	    			tab={<span style={styles.span}>
+	    				<Icon style={styles.icon} type="plus" />控件
+	    			</span>} key="vdsite-controllers"
+	    			disabled={window.disabled}
+	    		>
+	    			<VDControllers></VDControllers>
+	    		</TabPane>
+	    	);
+		}
+
+		return sidebarMenu;
+	}
+
+	let VDPagesComponent = () => {
+
+		var sidebarMenu = '';
+
+		if(localStorage.image == 'vd:site') {
+	    	sidebarMenu = (
+				<TabPane style={styles.tab} 
+	    			tab={<span style={styles.span}>
+	    				<Icon style={styles.icon} type="copy" />页面
+	    			</span>} key="vdsite-pages"
+	    			disabled={window.disabled}
+	    		>
+	    			<VDPages></VDPages>
+	    		</TabPane>
+	    	);
+		}
+
+		return sidebarMenu;
+	}
+
 	return (
 	  	<Tabs tabPosition="left" defaultActiveKey={props.devpanel.devType.defaultActiveKey} activeKey={props.sidebar.activeMenu} onChange={handleTabChanged}>
 	  		{constructionTreeComponent()}
 	    	{FileTreeComponent()}
 	    	{columnLayouComponent()}
 	    	{settingLayoutComponent()}
+	    	{VDControllersComponent()}
+	    	{VDPagesComponent()}
 	  	</Tabs>
 	)
 
