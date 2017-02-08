@@ -199,7 +199,11 @@ export default {
 
 			if(res.data.fields.devType == 'common'){
 				yield put({ type: "handleCommon" });
-			}else{
+			}
+			if(res.data.fields.devType == 'ha'){
+				yield put({ type: "handleCommon" });
+			}
+			if(res.data.fields.devType == 'visual'){
 				yield put({ type: "handleVisual" });
 			}
 			localStorage.debugType = res.data.fields.debugType;

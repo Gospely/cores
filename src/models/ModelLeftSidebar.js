@@ -1022,10 +1022,15 @@ export default {
 				state.appCreatingForm.framework = '';
                 if(params.value == 'html:latest' || params.value == 'wechat:latest'){
                     state.appCreatingForm.isFront = true;
-                    state.appCreatingForm.useFramework = false;
+                    if(params.value == 'wechat:latest'){
+                        state.appCreatingForm.useFramework = false;
+                    }else {
+                        state.appCreatingForm.useFramework = true;
+                    }
                     state.appCreatingForm.databaseShow = '前端项目暂时不支持创建本地数据库';
                 }else{
                     state.appCreatingForm.isFront = false;
+                    state.appCreatingForm.useFramework = true;
                     state.appCreatingForm.databaseShow = '创建本地数据库';
                 }
                 if(params.value == 'php:latest'){
