@@ -309,8 +309,121 @@ const Component = (props) => {
 
 						</FormItem>
 						<FormItem {...formItemLayout} label="字体颜色">
-							<Input type="color" />
+							<Input type="color" size="small" />
 						</FormItem>
+						<FormItem {...formItemLayout} label="字体大小">
+							<Input type="number" size="small" />
+						</FormItem>
+						<FormItem {...formItemLayout} label="行间距">
+							<Input type="number" size="small" />
+						</FormItem>
+						<FormItem {...formItemLayout} label="词间距">
+							<Input type="number" size="small" />
+						</FormItem>
+						<FormItem {...formItemLayout} label="缩进">
+							<Input type="number" size="small" />
+						</FormItem>
+			      	</Form>
+
+			      	<li className="ant-dropdown-menu-item-divider"></li>
+
+			      	<Form className="form-no-margin-bottom">
+
+						<FormItem {...formItemLayout} label="排列方式">
+
+							<RadioGroup defaultValue="left" size="small">
+						      	<RadioButton value="normal">
+			  		              	<Tooltip placement="top" title="left">
+			  		              		<span>I</span>
+						      		</Tooltip>
+					      		</RadioButton>
+						      	<RadioButton value="center">
+			  		              	<Tooltip placement="top" title="center">
+			  		              		<span style={{fontStyle: 'italic'}}>I</span>
+						      		</Tooltip>
+						      	</RadioButton>
+						      	<RadioButton value="right">
+			  		              	<Tooltip placement="top" title="right">
+			  		              		<span style={{fontStyle: 'italic'}}>I</span>
+						      		</Tooltip>
+						      	</RadioButton>
+						      	<RadioButton value="justify">
+			  		              	<Tooltip placement="top" title="justify">
+			  		              		<span style={{fontStyle: 'italic'}}>I</span>
+						      		</Tooltip>
+						      	</RadioButton>
+						    </RadioGroup>
+
+						</FormItem>
+
+						<FormItem {...formItemLayout} label="阅读顺序">
+
+							<RadioGroup defaultValue="left" size="small">
+						      	<RadioButton value="从左到右">
+			  		              	<Tooltip placement="top" title="从左到右">
+			  		              		<span>从左到右</span>
+						      		</Tooltip>
+					      		</RadioButton>
+						      	<RadioButton value="从右到左">
+			  		              	<Tooltip placement="top" title="从右到左">
+			  		              		<span>从右到左</span>
+						      		</Tooltip>
+						      	</RadioButton>
+						    </RadioGroup>
+
+						</FormItem>
+
+						<FormItem {...formItemLayout} label="渲染">
+
+							<RadioGroup defaultValue="none" size="small">
+						      	<RadioButton value="none">
+			  		              	<Tooltip placement="top" title="none">
+										<Icon type="close" />
+						      		</Tooltip>
+					      		</RadioButton>
+						      	<RadioButton value="underline">
+			  		              	<Tooltip placement="top" title="underline">
+			  		              		<span>I</span>
+						      		</Tooltip>
+						      	</RadioButton>
+						      	<RadioButton value="strikeout">
+			  		              	<Tooltip placement="top" title="strikeout">
+			  		              		<span>I</span>
+						      		</Tooltip>
+						      	</RadioButton>
+						    </RadioGroup>
+
+						</FormItem>
+
+						<FormItem {...formItemLayout} label="大小写">
+
+							<RadioGroup defaultValue="none" size="small">
+						      	<RadioButton value="none">
+			  		              	<Tooltip placement="top" title="none">
+										<Icon type="close" />
+						      		</Tooltip>
+					      		</RadioButton>
+						      	<RadioButton value="大写">
+			  		              	<Tooltip placement="top" title="大写">
+			  		              		<span>TT</span>
+						      		</Tooltip>
+						      	</RadioButton>
+						      	<RadioButton value="首字母大写">
+			  		              	<Tooltip placement="top" title="首字母大写">
+			  		              		<span>Tt</span>
+						      		</Tooltip>
+						      	</RadioButton>
+						      	<RadioButton value="小写">
+			  		              	<Tooltip placement="top" title="小写">
+			  		              		<span>tt</span>
+						      		</Tooltip>
+						      	</RadioButton>
+						    </RadioGroup>
+
+						</FormItem>
+
+
+
 			      	</Form>
 
 			    </Panel>
