@@ -150,12 +150,6 @@ const Component = (props) => {
 							    {children}
 						  	</Select>
 						</FormItem>
-
-						<FormItem {...formItemLayout} label="标题大小">
-						    <Select size="small" value="请选择">
-						      	<Option key="sss" value="h1">h1</Option>
-						    </Select>
-						</FormItem>
 			      	</Form>
 
 			    </Panel>
@@ -165,6 +159,15 @@ const Component = (props) => {
 				    </RadioGroup>
 
 			    	{linkSettingProps.tpl[props.vdcore.linkSetting.activeLinkType]}
+			    </Panel>
+			    <Panel header="标题大小" key="heading-type">
+			      	<Form className="form-no-margin-bottom">
+						<FormItem {...formItemLayout} label="标题大小">
+						    <Select size="small" value="请选择">
+						      	<Option key="sss" value="h1">h1</Option>
+						    </Select>
+						</FormItem>
+			      	</Form>
 			    </Panel>
 			    <Panel header="自定义属性" key="custom-attr">
 			    	<Form>
