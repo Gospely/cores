@@ -45,7 +45,8 @@ export default {
 		},
         modifyGitConfigInput: {
 			userName: '',
-			email: ''
+			email: '',
+            password: ''
 		},
 
 		activeMenu: localStorage.defaultActiveKey || 'file',
@@ -113,7 +114,8 @@ export default {
 		modalCommitInfo: {
 			visible: false,
 			title: '',
-			message: ''
+			message: '',
+            changes: []
 		},
 
 		modalFeedback: {
@@ -135,7 +137,7 @@ export default {
                     dispatch({
                         type: 'setActiveMenu',
                         payload: 'file'
-                    });                    
+                    });
                 }
             });
         }
@@ -190,34 +192,39 @@ export default {
 			}
 		},
 		*modifyGitOrigin({payload: params}, {call, put, select}) {
-      		var val = yield select(state => state.sidebar.modifyGitOriginInput.value);
-			var modifyResult = yield request('fs/origin/modify', {
+      		var git = yield select(state => state.sidebar.modifyGitOriginInput.value),
+                config =  yield select(state => state.sidebar.modifyGitConfigInput);
+
+			var modifyResult = yield request('git/origin', {
       			method: 'POST',
       			body: JSON.stringify({
-      				dir: localStorage.dir,
-      				origin: val,
-                    remoteIp: localStorage.host
+      				id: localStorage.applicationId,
+      				git: git,
+                    user: config.userName,
+                    email: config.email
       			})
       		});
 
-      		if(modifyResult.data.code == 200) {
+      		if(modifyResult.data.code == 1) {
+
 	      		yield put({ type: 'hideModalModifyGitOrigin' });
-      		}
+                yield put({ type: 'setModifyGitOriginCompleted'});
+
+      		}else{
+                yield put({ type: 'setModifyGitOriginCompleted'});
+                message.error('修改源失败,请重试');
+            }
 		},
 
 		*pushGit({payload: params}, {call, put}) {
 
   			openNotificationWithIcon('success', '正在push...', '请稍候...');
 
-      		var pushResult = yield request('fs/push', {
-      			method: 'POST',
-      			body: JSON.stringify({
-      				dir: localStorage.dir,
-                    remoteIp: localStorage.host
-      			})
+      		var pushResult = yield request('git/push/' + localStorage.applicationId, {
+      			method: 'get',
       		});
 
-      		if(pushResult.data.code == 200) {
+      		if(pushResult.data.code == 1) {
       			openNotificationWithIcon('success', pushResult.data.message, pushResult.data.fields);
       		}else {
       			openNotificationWithIcon('error', pushResult.data.message, '请检查是否已配置Git信息（user.email, user.name）');
@@ -228,15 +235,11 @@ export default {
 
   			openNotificationWithIcon('success', '正在pull...', '请稍候...');
 
-      		var pullResult = yield request('fs/pull', {
-      			method: 'POST',
-      			body: JSON.stringify({
-      				dir: localStorage.dir,
-                    remoteIp: localStorage.host
-      			})
+      		var pullResult = yield request('git/pull/' + localStorage.applicationId, {
+      			method: 'get',
       		});
 
-      		if(pullResult.data.code == 200) {
+      		if(pullResult.data.code == 1) {
       			openNotificationWithIcon('success', pullResult.data.message, pullResult.data.fields);
       		}else {
       			openNotificationWithIcon('error', pullResult.data.message, '请检查是否已配置Git信息（user.email, user.name）');
@@ -244,23 +247,39 @@ export default {
 
 		},
 
-		*pushCommit({payload: params}, {call, put}) {
+		*pushCommit({payload: params}, {call, put, select}) {
 
   			openNotificationWithIcon('success', '正在commit...', '请稍候...');
-
-      		var commitResult = yield request('fs/commit', {
-      			method: 'POST',
-      			body: JSON.stringify({
-      				dir: localStorage.dir,
-                    remoteIp: localStorage.host
-      			})
+            var message = yield select(state => state.sidebar.modalCommitInfo.title);
+            console.log(message);
+      		var commitResult = yield request('git/commit/' + localStorage.applicationId +'?message=' + message, {
+      			method: 'get',
       		});
 
-      		if(commitResult.data.code == 200) {
+      		if(commitResult.data.code == 1) {
       			openNotificationWithIcon('success', commitResult.data.message, commitResult.data.fields);
       		}else {
       			openNotificationWithIcon('error', commitResult.data.message, '请检查当前版本未超过版本库版本（commit之后请先push再执行下一次commit）或已添加Git源');
       		}
+            yield put({
+                type: 'handChanges',
+                payload: {
+                    changes: []
+                }
+            })
+		},
+        *gitChange({payload: params}, {call, put}) {
+
+
+      		var gitChange = yield request('git/change/' + localStorage.applicationId, {
+      			method: 'get',
+      		});
+            yield put({
+                type: 'handChanges',
+                payload: {
+                    changes: gitChange.data.fields
+                }
+            })
 		},
 		*getApplications({payload: params}, {call, put}){
 
@@ -820,7 +839,10 @@ export default {
             }
             state.modifyGitOriginInput.value = params.gitOrigin;
             state.modifyGitOriginInput.pushValue = params.gitOrigin;
+            console.log(params);
             state.modifyGitOriginInput.isGit = params.isGit;
+            state.modifyGitConfigInput.userName = params.userName,
+            state.modifyGitConfigInput.email = params.email;
             return {...state};
         },
 		showModalModifyGitOrgin(state) {
@@ -867,12 +889,21 @@ export default {
 
 			return {...state, modifyGitConfigInput: {
 				userName: val,
-                email: state.modifyGitConfigInput.email
+                email: state.modifyGitConfigInput.email,
+                password: state.modifyGitConfigInput.password,
 			}}
 		},
         handleModifyGitConfigEmailInputChange(state, {payload: val}) {
             return {...state, modifyGitConfigInput: {
 				email: val,
+                userName: state.modifyGitConfigInput.userName,
+                password: state.modifyGitConfigInput.password,
+			}}
+		},
+        handleModifyGitConfigPasswordInputChange(state, {payload: val}) {
+            return {...state, modifyGitConfigInput: {
+				password: val,
+                email: state.modifyGitConfigInput.email,
                 userName: state.modifyGitConfigInput.userName
 			}}
 		},
@@ -1065,7 +1096,10 @@ export default {
 			state.modalCommitInfo[params.input] = params.value;
 			return {...state};
 		},
-
+        handChanges(state, { payload: params }){
+            state.modalCommitInfo.changes = params.changes;
+			return {...state};
+        },
 		showFeedback(state, { payload: params }) {
 			state.modalFeedback.visible = true;
 			return {...state};

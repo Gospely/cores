@@ -22,20 +22,6 @@ const SettingPanel = (props) => {
 
 				origin: function() {
 
-					if(window.socket == null){
-
-					}
-					window.socket.send("cd /root/workspace && git remote -v | head -1 | awk '{print $2}'\n");
-					window.socket.send('echo begin');
-					window.gitOrigin = true;
-
-					setTimeout(function(){
-						window.Pname = false;
-						window.email = false;
-						window.socket.send('cd /root/workspace && echo PPemail && git config user.email && echo PPname && git config user.name && clear\n');
-						window.getConfig = true;
-					}, 200);
-
 					props.dispatch({
 						type: 'sidebar/showModalModifyGitOrgin'
 					})
@@ -64,7 +50,7 @@ const SettingPanel = (props) => {
 				autoSave: function () {
 
 				},
-				
+
 				autoSaveInterval: function () {
 
 				}
