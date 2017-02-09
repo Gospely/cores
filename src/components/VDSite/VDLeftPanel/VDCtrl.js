@@ -12,12 +12,6 @@ const TabPane = Tabs.TabPane;
 
 const Component = (props) => {
 
-	const text = `
-  		A dog is a type of domesticated animal.
-  		Known for its loyalty and faithfulness,
-  		it can be found as a welcome guest in many households across the world.
-	`;
-
   	return (
   		<div className="vdctrl-pane-wrapper">
 			<Collapse bordered={false} defaultActiveKey={['layout', 'basic', 'typo', 'media', 'forms', 'components']}>
@@ -44,19 +38,19 @@ const Component = (props) => {
 				  	</Row>
 			    </Panel>
 			    <Panel header="基础控件" key="basic">
-			      	<p>{text}</p>
+			      	<p>基础控件</p>
 			    </Panel>
 			    <Panel header="段落" key="typo">
-			      	<p>{text}</p>
+			      	<p>段落</p>
 			    </Panel>
 			    <Panel header="媒体" key="media">
-			      	<p>{text}</p>
+			      	<p>媒体</p>
 			    </Panel>
 			    <Panel header="表单" key="forms">
-			      	<p>{text}</p>
+			      	<p>表单</p>
 			    </Panel>
 			    <Panel header="组件" key="components">
-			      	<p>{text}</p>
+			      	<p>组件</p>
 			    </Panel>
 			</Collapse>
   		</div>
