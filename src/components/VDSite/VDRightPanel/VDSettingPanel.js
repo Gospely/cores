@@ -7,7 +7,7 @@ import { Tooltip } from 'antd';
 import { Collapse } from 'antd';
 import { Radio, Popover } from 'antd';
 
-import { Tree, Form, Input, Cascader, Select, Row, Col, Checkbox, Menu, Dropdown, message, Tag, Table, Popconfirm} from 'antd';
+import { Tree, Form, Switch, Input, Cascader, Select, Row, Col, Checkbox, Menu, Dropdown, message, Tag, Table, Popconfirm} from 'antd';
 
 const FormItem = Form.Item;
 const RadioButton = Radio.Button;
@@ -32,23 +32,29 @@ const Component = (props) => {
 
     const customAttrProps = {
     	creatorContent: (
-	      	<Form>
+	      	<Form className="form-no-margin-bottom">
 				<FormItem {...formItemLayout} label="key">
 					<Input size="small" />
 				</FormItem>
 				<FormItem {...formItemLayout} label="value">
 					<Input size="small" />
+				</FormItem>
+				<FormItem>
+					<Button size="small">保存</Button>
 				</FormItem>
 			</Form>
     	),
 
     	modifyContent: (
-	      	<Form>
+	      	<Form className="form-no-margin-bottom">
 				<FormItem {...formItemLayout} label="key">
-					<Input />
+					<Input size="small" />
 				</FormItem>
 				<FormItem {...formItemLayout} label="value">
-					<Input />
+					<Input size="small" />
+				</FormItem>
+				<FormItem>
+					<Button size="small">保存</Button>
 				</FormItem>
 			</Form>
     	),
@@ -58,13 +64,46 @@ const Component = (props) => {
     	}
     }
 
+    const linkSettingProps = {
+		
+    	linkSettingTemplate: props.vdcore.linkSetting.list.map( (item, index) => {
+			return (
+				<RadioButton key={item.value} value={item.value}>
+		              	<Tooltip placement="top" title={item.tip}>
+		      			<Icon type={item.icon} />
+		      		</Tooltip>
+		      	</RadioButton>
+			);
+		}),
+
+    	tpl: [(
+	      	<Form className="form-no-margin-bottom">
+				<FormItem {...formItemLayout} label="链接地址">
+					<Input size="small" />
+				</FormItem>
+
+				<FormItem {...formItemLayout} label="新窗口">
+					<Switch size="small" />
+				</FormItem>
+	      	</Form>
+    	), (<div></div>), (<div></div>), (<div></div>), (<div></div>)],
+
+    	onChange (e) {
+    		props.dispatch({
+    			type: 'vdcore/handleLinkSettingValueChange',
+    			payload: e.target.value
+    		});
+    	}
+
+    }
+
   	return (
 
   		<div className="vdctrl-pane-wrapper">
 			<Collapse bordered={false} defaultActiveKey={['basic', 'link', 'custom-attr', 'heading-type']}>
 			    <Panel header="基础设置" key="basic">
 
-			      	<Form>
+			      	<Form className="form-no-margin-bottom">
 						<FormItem {...formItemLayout} label="ID">
 							<Input size="small" />
 						</FormItem>
@@ -89,8 +128,12 @@ const Component = (props) => {
 			      	</Form>
 
 			    </Panel>
-			    <Panel header="链接属性" key="link">
-			      	<p>段落</p>
+			    <Panel header="链接设置" key="link">
+					<RadioGroup onChange={linkSettingProps.onChange} defaultValue="link" size="small">
+						{linkSettingProps.linkSettingTemplate}
+				    </RadioGroup>
+
+			    	{linkSettingProps.tpl[props.vdcore.linkSetting.activeLinkType]}
 			    </Panel>
 			    <Panel header="自定义属性" key="custom-attr">
 			    	<Form>
