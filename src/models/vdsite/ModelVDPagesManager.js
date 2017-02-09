@@ -4,7 +4,13 @@ import dva from 'dva';
 export default {
 	namespace: 'vdpm',
 	state: {
-		currentActivePageListItem: 'sub1'
+		currentActivePageListItem: 'sub1',
+
+		pageManager: {
+			treeSelect: {
+				value: ''
+			}
+		}
 	},
 
 	reducers: {

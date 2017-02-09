@@ -13,18 +13,18 @@ const TabPane = Tabs.TabPane;
 
 const Component = (props) => {
 
-  return (
-	<div className="vdctrl-pane-wrapper vdpage-pane-wrapper">
-		<Collapse bordered={false} defaultActiveKey={['page-manager', 'page-list']}>
-		    <Panel header="页面管理" key="page-manager">
-		      	<VDPageManager></VDPageManager>
-		    </Panel>
-		    <Panel header="页面列表" key="page-list">
-				<VDAllPages></VDAllPages>
-		    </Panel>
-		</Collapse>
-	</div>
-  );
+  	return (
+		<div className="vdctrl-pane-wrapper vdpage-pane-wrapper">
+			<Collapse bordered={false} defaultActiveKey={['page-manager', 'page-list']}>
+		    	<Panel header="页面管理" key="page-manager">
+		      		<VDPageManager></VDPageManager>
+		    	</Panel>
+		    	<Panel header="页面列表" key="page-list">
+					<VDAllPages></VDAllPages>
+		    	</Panel>
+			</Collapse>
+		</div>
+  	);
 
 };
 
