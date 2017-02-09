@@ -86,7 +86,38 @@ const Component = (props) => {
 					<Switch size="small" />
 				</FormItem>
 	      	</Form>
-    	), (<div></div>), (<div></div>), (<div></div>), (<div></div>)],
+    	), (
+	      	<Form className="form-no-margin-bottom">
+				<FormItem {...formItemLayout} label="邮箱地址">
+					<Input size="small" />
+				</FormItem>
+	      	</Form>
+    	), (
+	      	<Form className="form-no-margin-bottom">
+				<FormItem {...formItemLayout} label="手机号码">
+					<Input size="small" />
+				</FormItem>
+	      	</Form>
+    	), (
+	      	<Form className="form-no-margin-bottom">
+				<FormItem {...formItemLayout} label="页面">
+				    <Select size="small" value="请选择页面">
+				      	<Option key="sss" value="h1">h1</Option>
+				    </Select>
+				</FormItem>
+				<FormItem {...formItemLayout} label="新窗口">
+					<Switch size="small" />
+				</FormItem>
+	      	</Form>
+    	), (
+			<Form className="form-no-margin-bottom">
+				<FormItem {...formItemLayout} label="元素">
+				    <Select size="small" value="请选择元素">
+				      	<Option key="sss" value="h1">h1</Option>
+				    </Select>
+				</FormItem>
+	      	</Form>
+    	)],
 
     	onChange (e) {
     		props.dispatch({
