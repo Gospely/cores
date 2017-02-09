@@ -281,49 +281,84 @@ const Component = (props) => {
 
 			    </Panel>
 			    <Panel header="字体设置" key="typo">
-			      	<Form className="form-no-margin-bottom">
-						<FormItem {...formItemLayout} label="字体">
-        				    <Select size="small" value="选择字体">
-				      			<Option key="sss" value="h1">h1</Option>
-				    		</Select>
-						</FormItem>
-						<FormItem {...formItemLayout} label="字体粗细">
-        				    <Select size="small" value="选择大小">
-				      			<Option key="sss" value="h1">h1</Option>
-				    		</Select>
-						</FormItem>
-						<FormItem {...formItemLayout} label="字体样式">
 
-							<RadioGroup defaultValue="normal" size="small">
-						      	<RadioButton value="normal">
-			  		              	<Tooltip placement="top" title="normal">
-			  		              		<span>I</span>
-						      		</Tooltip>
-					      		</RadioButton>
-						      	<RadioButton value="italic">
-			  		              	<Tooltip placement="top" title="italic">
-			  		              		<span style={{fontStyle: 'italic'}}>I</span>
-						      		</Tooltip>
-						      	</RadioButton>
-						    </RadioGroup>
 
-						</FormItem>
-						<FormItem {...formItemLayout} label="字体颜色">
-							<Input type="color" size="small" />
-						</FormItem>
-						<FormItem {...formItemLayout} label="字体大小">
-							<Input type="number" size="small" />
-						</FormItem>
-						<FormItem {...formItemLayout} label="行间距">
-							<Input type="number" size="small" />
-						</FormItem>
-						<FormItem {...formItemLayout} label="词间距">
-							<Input type="number" size="small" />
-						</FormItem>
-						<FormItem {...formItemLayout} label="缩进">
-							<Input type="number" size="small" />
-						</FormItem>
-			      	</Form>
+				  	<Col span={12} style={{paddingRight: '5px'}}>
+				      	<Form className="form-no-margin-bottom">
+							<FormItem {...formItemLayout} label="字体">
+	        				    <Select size="small" value="选择字体">
+					      			<Option key="sss" value="h1">h1</Option>
+					    		</Select>
+							</FormItem>
+				      	</Form>
+				  	</Col>
+				  	<Col span={12} style={{paddingLeft: '5px'}}>
+				      	<Form className="form-no-margin-bottom">
+							<FormItem {...formItemLayout} label="颜色">
+								<Input type="color" size="small" />
+							</FormItem>
+						</Form>
+				  	</Col>
+
+				  	<Col span={12} style={{paddingRight: '5px'}}>
+				      	<Form className="form-no-margin-bottom">
+							<FormItem {...formItemLayout} label="粗细">
+	        				    <Select size="small" value="选择">
+					      			<Option key="sss" value="h1">h1</Option>
+					    		</Select>
+							</FormItem>
+						</Form>
+				  	</Col>
+				  	<Col span={12} style={{paddingLeft: '5px'}}>
+				      	<Form className="form-no-margin-bottom">
+							<FormItem {...formItemLayout} label="样式">
+
+								<RadioGroup defaultValue="normal" size="small">
+							      	<RadioButton value="normal">
+				  		              	<Tooltip placement="top" title="normal">
+				  		              		<span>I</span>
+							      		</Tooltip>
+						      		</RadioButton>
+							      	<RadioButton value="italic">
+				  		              	<Tooltip placement="top" title="italic">
+				  		              		<span style={{fontStyle: 'italic'}}>I</span>
+							      		</Tooltip>
+							      	</RadioButton>
+							    </RadioGroup>
+
+							</FormItem>
+				      	</Form>
+				  	</Col>
+
+				  	<Col span={12} style={{paddingRight: '5px'}}>
+					  	<Form className="form-no-margin-bottom">
+							<FormItem {...formItemLayout} label="缩进">
+								<Input type="number" size="small" />
+							</FormItem>
+					  	</Form>				  	
+				  	</Col>
+				  	<Col span={12} style={{paddingLeft: '5px'}}>
+				      	<Form className="form-no-margin-bottom">
+							<FormItem {...formItemLayout} label="大小">
+								<Input type="number" size="small" />
+							</FormItem>
+				      	</Form>
+				  	</Col>
+
+				  	<Col span={12} style={{paddingRight: '5px'}}>
+				      	<Form className="form-no-margin-bottom">
+							<FormItem {...formItemLayout} label="行间距">
+								<Input type="number" size="small" />
+							</FormItem>
+						</Form>
+				  	</Col>
+				  	<Col span={12} style={{paddingLeft: '5px'}}>
+				      	<Form className="form-no-margin-bottom">
+							<FormItem {...formItemLayout} label="词间距">
+								<Input type="number" size="small" />
+							</FormItem>
+				      	</Form>
+				  	</Col>
 
 			      	<li className="ant-dropdown-menu-item-divider"></li>
 
