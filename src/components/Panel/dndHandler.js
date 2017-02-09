@@ -246,10 +246,9 @@ export default {
 					});
 					window.location.hash = 'project/' + data.id;
 					props.dispatch({
-		        		type: 'dashboard/hideDash'
-		        	});
-		        	top.location.reload(true);
-					initApplication(data, props, true);
+						type: 'dashboard/hideDash'
+					});
+					initApplication(data, props, false);
 				},
 
 				commonPreviewerLoaded () {
