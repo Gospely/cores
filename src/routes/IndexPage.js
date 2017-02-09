@@ -312,10 +312,10 @@ function IndexPage(props) {
 
             wholePageLayout = (
                 <Row>
-                    <Col span={20}>
+                    <Col span={19}>
                     {tpl}  
                     </Col>
-                    <Col span={4}>
+                    <Col span={5}>
                         <VDRightPanel></VDRightPanel>
                     </Col>
                 </Row>
