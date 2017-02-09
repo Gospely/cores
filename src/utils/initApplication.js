@@ -182,21 +182,27 @@ const initApplication = function (application, props, flag){
         props.dispatch({
           type: 'sidebar/hideModalSwitchApp'
         });
-        props.dispatch({
-          type: 'sidebar/setGitOrigin',
-          payload: {
-              gitOrigin: '',
-              isGit: false
-          }
-        });
-        props.dispatch({
-            type: 'sidebar/handleModifyGitConfigInputChange',
-            payload: ''
-        });
-        props.dispatch({
-            type: 'sidebar/handleModifyGitConfigEmailInputChange',
-            payload: ''
-        });
+        if(application.git == null || application.git == ''){
+            props.dispatch({
+              type: 'sidebar/setGitOrigin',
+              payload: {
+                  gitOrigin: application.git,
+                  isGit: false,
+                  userName: application.gitUser,
+                  email: application.gitEmail
+              }
+            });
+        }else {
+            props.dispatch({
+              type: 'sidebar/setGitOrigin',
+              payload: {
+                  gitOrigin: application.git,
+                  isGit: true,
+                  userName: application.gitUser,
+                  email: application.gitEmail
+              }
+            });
+        }
         props.dispatch({
             type: 'devpanel/startDocker',
             payload: { docker:  application.docker, id: application.id, ctx: props}
@@ -234,7 +240,7 @@ const initApplication = function (application, props, flag){
                 props.dispatch({
                     type: 'sidebar/setActiveMenu',
                     payload: 'file'
-                });                
+                });
             }else {
                 props.dispatch({
                     type: 'sidebar/setActiveMenu',

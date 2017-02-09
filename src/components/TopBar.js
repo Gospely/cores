@@ -94,6 +94,21 @@ const LeftSidebar = (props) => {
 			// return <Previewer></Previewer>;
 		}
 	}
+	const genChanges = () => {
+
+		console.log(props.sidebar.modalCommitInfo.changes);
+		if(props.sidebar.modalCommitInfo.changes.length < 1 || props.sidebar.modalCommitInfo.changes.length == undefined) {
+			return;
+		}
+		return props.sidebar.modalCommitInfo.changes.map((item, index) => (
+			<div key={item.file}>
+				{item.type == 'M' && <Icon type="edit"/>}
+				{item.type == 'A' && <Icon type="plus"/>}
+				{item.type == 'D' && <Icon type="minus"/>}
+				<span> {item.file}</span>
+			</div>
+		));
+	}
 
 	const leftSidebarProps = {
 
@@ -176,6 +191,10 @@ const LeftSidebar = (props) => {
 		        		type: 'sidebar/showModalModifyGitOrgin'
 		        	});
 				}else {
+					//获取文件修改详细
+					props.dispatch({
+		        		type: 'sidebar/gitChange'
+		        	});
 					modalCommitInfoProps.showModal();
 				}
 	        },
@@ -187,36 +206,9 @@ const LeftSidebar = (props) => {
 						type: 'sidebar/showModalModifyGitOrgin'
 					})
 				}else {
-
-					var key = "horizontal-dbl";
-
 					props.dispatch({
-						type: 'devpanel/setActivePane',
-						payload: {
-							paneKey: 1
-						}
+						type: 'sidebar/pushGit',
 					});
-
-					props.dispatch({
-						type: 'devpanel/changeColumnWithHeight',
-						payload: {
-							key: key,
-							height: '70%'
-						}
-					});
-
-		          	var title = 'git push',
-	              		type = 'terminal';
-		          	props.dispatch({
-	    	        	type: 'devpanel/add',
-	        	    	payload: { title, type }
-	          		});
-
-					props.dispatch({
-						type: 'devpanel/initDebugPanel',
-						payload: { cmd: 'cd /root/workspace\n clear && git push -u origin master\n' }
-					});
-
 				}
 	        },
 
@@ -229,31 +221,7 @@ const LeftSidebar = (props) => {
 				}else {
 
 					props.dispatch({
-						type: 'devpanel/setActivePane',
-						payload: {
-							paneKey: 1
-						}
-					});
-
-					var key = "horizontal-dbl";
-					props.dispatch({
-						type: 'devpanel/changeColumnWithHeight',
-						payload: {
-							key: key,
-							height: '70%'
-						}
-					});
-
-		          	var title = 'git pull',
-	              	type = 'terminal';
-		          	props.dispatch({
-	    	        	type: 'devpanel/add',
-	        	    	payload: { title, type }
-	          		});
-
-					props.dispatch({
-						type: 'devpanel/initDebugPanel',
-						payload: { cmd: 'cd /root/workspace\n clear && git pull origin master\n' }
+						type: 'sidebar/pullGit',
 					});
 				}
 	        },
@@ -586,57 +554,9 @@ const LeftSidebar = (props) => {
 					props.dispatch({
 						type: 'sidebar/setModifyGitOriginStart'
 					});
-					if (isHttp || isSSH) {
-						if(!props.sidebar.modifyGitOriginInput.isGit){
-							window.socket.send('clear && git init\n');
-							setTimeout(function(){
-								window.socket.send('git remote add origin ' + props.sidebar.modifyGitOriginInput.value + ' && clear\n');
-								props.dispatch({
-									type: 'sidebar/setGitOrigin',
-	                                payload: { gitOrigin: props.sidebar.modifyGitOriginInput.value, isGit: true }
-								});
-								notification.open({
-									message: '添加git源成功'
-								});
-
-							}, 2000)
-						}else{
-							window.socket.send('git remote set-url origin ' + props.sidebar.modifyGitOriginInput.value + ' && clear\n');
-							window.socket.send('git remote set-url origin ' + props.sidebar.modifyGitOriginInput.value + ' && clear\n');
-							notification.open({
-								message: '修改git源成功'
-							});
-						}
-					}else{
-						message.error('git 源格式错误');
-					}
-					if(isHttp){
-						setTimeout(function(){
-							window.socket.send('git config user.name ' + props.sidebar.modifyGitConfigInput.userName + ' --replace-all && clear\n');
-							window.socket.send('git config user.email ' + props.sidebar.modifyGitConfigInput.email + ' --replace-all && clear\n');
-							setTimeout(function(){
-								window.Pname = false;
-								window.email = false;
-								if(props.sidebar.modifyGitOriginInput.isGit){
-									window.socket.send('cd /root/workspace && echo PPemail && git config user.email && echo PPname && git config user.name && clear\n');
-									window.getConfig = true;
-								}
-								notification.open({
-									message: '配置成功'
-								});
-							}, 100)
-						},200);
-						setTimeout(function(){
-							props.dispatch({
-								type: 'sidebar/setModifyGitOriginCompleted'
-							});
-							props.dispatch({
-								type: 'sidebar/hideModalModifyGitOrigin'
-							})
-
-						}, 1000)
-
-					}
+					props.dispatch({
+						type: 'sidebar/modifyGitOrigin'
+					})
 					if(isSSH){
 						notification.open({
 							message: '请在Github或git@oschina配置你的sshKey'
@@ -690,6 +610,12 @@ const LeftSidebar = (props) => {
 					type: 'sidebar/handleModifyGitConfigEmailInputChange',
 					payload: e.target.value
 				})
+			},
+			onPasswordChange: function(e) {
+				props.dispatch({
+					type: 'sidebar/handleModifyGitConfigPasswordInputChange',
+					payload: e.target.value
+				})
 			}
 		},
 
@@ -709,19 +635,6 @@ const LeftSidebar = (props) => {
 			}
 			if(key == '1'){
 
-				window.gitOrigin = true;
-				if(props.sidebar.modifyGitOriginInput.isGit){
-					window.socket.send("cd /root/workspace && git remote -v | head -1 | awk '{print $2}'\n");
-					window.socket.send('echo begin');
-				}
-				setTimeout(function(){
-					window.Pname = false;
-					window.email = false;
-					if(props.sidebar.modifyGitOriginInput.isGit){
-						window.socket.send('cd /root/workspace && echo PPemail && git config user.email && echo PPname && git config user.name && clear\n');
-						window.getConfig = true;
-					}
-				}, 200);
 			}
 		},
 
@@ -1623,41 +1536,8 @@ const LeftSidebar = (props) => {
 			modalCommitInfoProps.hideModal();
 
 			props.dispatch({
-				type: 'devpanel/setActivePane',
-				payload: {
-					paneKey: 1
-				}
+				type: 'sidebar/pushCommit',
 			});
-
-			var key = "horizontal-dbl";
-			props.dispatch({
-				type: 'devpanel/changeColumnWithHeight',
-				payload: {
-					key: key,
-					height: '70%'
-				}
-			});
-
-	       	var title = 'git commit',
-	          	type = 'terminal';
-	       		props.dispatch({
-		        	type: 'devpanel/add',
-	    	    	payload: { title, type }
-	      		});
-			props.dispatch({
-				type: 'devpanel/initDebugPanel',
-				payload: { cmd: 'cd /root/workspace\n clear && git add * && git commit -a -m "' + props.sidebar.modalCommitInfo.title + '"\n' }
-			});
-			setTimeout(function(){
-				props.dispatch({
-					type: 'sidebar/handleCommitInfoInputChange',
-					payload: {
-						value: '',
-						input: 'title'
-					}
-				});
-			}, 200);
-
 		},
 
 		onInputChange (input, e) {
@@ -1770,6 +1650,7 @@ const LeftSidebar = (props) => {
 	        >
 
 	        	<Input type="text" placeholder="请输入commit信息" onChange={modalCommitInfoProps.onInputChange.bind(this, 'title')} value={props.sidebar.modalCommitInfo.title} onPressEnter={modalCommitInfoProps.commit}></Input>
+				{genChanges()}
 	        </Modal>
 
 	        <Modal
@@ -1840,7 +1721,7 @@ const LeftSidebar = (props) => {
 
 				        	</div>
 
-							<div style={{ marginBottom: 16, marginTop: 16 }}  hidden={!props.sidebar.isHttp}>
+							<div style={{ marginBottom: 16, marginTop: 16 }}>
 
 						      	<InputGroup style={searchCls}>
 						        	<Input
@@ -1853,7 +1734,7 @@ const LeftSidebar = (props) => {
 
 				        	</div>
 
-				        	<div style={{ marginBottom: 16 }}   hidden={!props.sidebar.isHttp}>
+				        	<div style={{ marginBottom: 16 }} >
 
 						      	<InputGroup style={searchCls}>
 						        	<Input
@@ -1861,6 +1742,19 @@ const LeftSidebar = (props) => {
 						        		value={props.sidebar.modifyGitConfigInput.email}
 						        		onPressEnter={leftSidebarProps.modifyGitOriginInput.onPressEnter}
 						        		onChange={leftSidebarProps.modifyGitConfigInput.onEmailChange}
+						        	/>
+						     	</InputGroup>
+
+				        	</div>
+				        	<div style={{ marginBottom: 16 }}   hidden={!props.sidebar.isHttp}>
+
+						      	<InputGroup style={searchCls}>
+						        	<Input
+							        	addonBefore="user.password"
+										type="password"
+						        		value={props.sidebar.modifyGitConfigInput.password}
+						        		onPressEnter={leftSidebarProps.modifyGitOriginInput.onPressEnter}
+						        		onChange={leftSidebarProps.modifyGitConfigInput.onPasswordChange}
 						        	/>
 						     	</InputGroup>
 
