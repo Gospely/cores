@@ -13,7 +13,10 @@ window.flag = false;
 window.fileFlag = false;
 
 if(document.domain != 'localhost') {
+	window.debug = false;
 	document.domain = 'gospely.com';
+}else {
+	window.debug = true;
 }
 
 // 1. 认证和状态同步

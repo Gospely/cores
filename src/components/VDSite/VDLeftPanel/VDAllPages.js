@@ -110,7 +110,8 @@ const Component = (props) => {
           </FormItem>
 
           <FormItem {...tailFormItemLayout}>
-            <Button type="primary" htmlType="submit" size="large">保存</Button>
+            <Button type="primary" htmlType="submit">保存</Button>
+            <Button type="danger" style={{marginLeft: '10px'}}>删除页面</Button>            
           </FormItem>
         </Form>
       </div>
