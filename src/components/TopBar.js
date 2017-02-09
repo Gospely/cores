@@ -345,17 +345,7 @@ const LeftSidebar = (props) => {
 
 				if(localStorage.debugType == 'shell') {
 					var kill = "kill -9 $(netstat -tlnp | grep "+ localStorage.exposePort +" |awk '{print $7}' | awk -F '/' '{print $1}')\n"
-					props.dispatch({
-						type: 'devpanel/initDebugPanel',
-						payload: { cmd: kill}
-					});
-
-					var title = '终端',
-							type = 'terminal';
-					props.dispatch({
-						type: 'devpanel/add',
-						payload: {title, type}
-					})
+					window.socket.send(kill);
 				}
 	        },
 
@@ -1427,7 +1417,7 @@ const LeftSidebar = (props) => {
 		      	</Menu>
 
 			);
-			
+
 			return topbarMenu;
 		}
 
