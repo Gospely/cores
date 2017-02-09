@@ -281,7 +281,38 @@ const Component = (props) => {
 
 			    </Panel>
 			    <Panel header="字体设置" key="typo">
-			      	<p>段落</p>
+			      	<Form className="form-no-margin-bottom">
+						<FormItem {...formItemLayout} label="字体">
+        				    <Select size="small" value="选择字体">
+				      			<Option key="sss" value="h1">h1</Option>
+				    		</Select>
+						</FormItem>
+						<FormItem {...formItemLayout} label="字体粗细">
+        				    <Select size="small" value="选择大小">
+				      			<Option key="sss" value="h1">h1</Option>
+				    		</Select>
+						</FormItem>
+						<FormItem {...formItemLayout} label="字体样式">
+
+							<RadioGroup defaultValue="normal" size="small">
+						      	<RadioButton value="normal">
+			  		              	<Tooltip placement="top" title="normal">
+			  		              		<span>I</span>
+						      		</Tooltip>
+					      		</RadioButton>
+						      	<RadioButton value="italic">
+			  		              	<Tooltip placement="top" title="italic">
+			  		              		<span style={{fontStyle: 'italic'}}>I</span>
+						      		</Tooltip>
+						      	</RadioButton>
+						    </RadioGroup>
+
+						</FormItem>
+						<FormItem {...formItemLayout} label="字体颜色">
+							<Input type="color" />
+						</FormItem>
+			      	</Form>
+
 			    </Panel>
 			    <Panel header="背景设置" key="media">
 			      	<p>媒体</p>
