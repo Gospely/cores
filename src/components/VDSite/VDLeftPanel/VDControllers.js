@@ -5,12 +5,22 @@ import { Button, Modal } from 'antd';
 import { Tabs, Icon } from 'antd';
 import { Tooltip } from 'antd';
 
+import VDCtrl from './VDCtrl.js';
+import VDSymbol from './VDSymbol.js';
+
 const TabPane = Tabs.TabPane;
 
 const Component = (props) => {
 
   return (
-    <div>2333</div>
+  	<Tabs defaultActiveKey="ctrl">
+    	<TabPane tab="控件" key="ctrl">
+    		<VDCtrl></VDCtrl>
+    	</TabPane>
+    	<TabPane tab="Symbols" key="symbol">
+    		<VDSymbol></VDSymbol>
+    	</TabPane>
+  	</Tabs>    
   );
 
 };

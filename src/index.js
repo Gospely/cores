@@ -13,7 +13,10 @@ window.flag = false;
 window.fileFlag = false;
 
 if(document.domain != 'localhost') {
+	window.debug = false;
 	document.domain = 'gospely.com';
+}else {
+	window.debug = true;
 }
 
 // 1. 认证和状态同步
@@ -88,6 +91,9 @@ app.model(require('./models/ModelConstruction'));
 app.model(require('./models/ModelUIState'));
 app.model(require('./models/topbar/ModelDashboard'));
 app.model(require('./models/rightSidebar/ModelCommonPreviewer'));
+app.model(require('./models/vdsite/ModelVDPagesManager'));
+app.model(require('./models/vdsite/ModelVDAsets'));
+app.model(require('./models/vdsite/ModelVDCtrl'));
 
 // 5. Router
 app.router(require('./router'));

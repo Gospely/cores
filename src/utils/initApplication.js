@@ -229,10 +229,19 @@ const initApplication = function (application, props, flag){
                 type: 'cpre/initState',
                 payload: { UIState: UIState.UIState.previewer }
             });
-            props.dispatch({
-                type: 'sidebar/setActiveMenu',
-                payload: 'file'
-            });
+
+            if(localStorage.image != 'vd:site') {
+                props.dispatch({
+                    type: 'sidebar/setActiveMenu',
+                    payload: 'file'
+                });                
+            }else {
+                props.dispatch({
+                    type: 'sidebar/setActiveMenu',
+                    payload: 'vdsite-controllers'
+                });
+            }
+
             props.dispatch({
                 type: 'rightbar/initState',
                 payload: { UIState: UIState.UIState.rightbar }

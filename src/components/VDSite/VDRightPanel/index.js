@@ -14,6 +14,13 @@ import VDStylePanel from './VDStylePanel.js';
 
 const TabPane = Tabs.TabPane;
 
+        // <TabPane tab={
+        //   <Tooltip placement="bottom" title="样式管理">
+        //     <Icon type="exception" />
+        //   </Tooltip>} key="styles-manager">
+        //   <VDStyleManager></VDStyleManager>
+        // </TabPane>
+
 const VDRightPanel = (props) => {
 
   return (
@@ -39,13 +46,6 @@ const VDRightPanel = (props) => {
             <Icon type="bars" />
           </Tooltip>} key="controllers">
           <VDControllerList></VDControllerList>
-        </TabPane>
-
-        <TabPane tab={
-          <Tooltip placement="bottom" title="样式管理">
-            <Icon type="exception" />
-          </Tooltip>} key="styles-manager">
-          <VDStyleManager></VDStyleManager>
         </TabPane>
 
         <TabPane tab={
