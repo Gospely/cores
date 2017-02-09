@@ -27,7 +27,7 @@ const Component = (props) => {
           </Col>
         </Row>
       </li>
-      <li className=" ant-dropdown-menu-item-divider"></li>
+      <li className="ant-dropdown-menu-item-divider"></li>
 
       <li className="ant-dropdown-menu-item" role="menuitem">
         <Row>
