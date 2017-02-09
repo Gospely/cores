@@ -69,9 +69,9 @@ const Component = (props) => {
     	linkSettingTemplate: props.vdcore.linkSetting.list.map( (item, index) => {
 			return (
 				<RadioButton key={item.value} value={item.value}>
-		              	<Tooltip placement="top" title={item.tip}>
-		      			<Icon type={item.icon} />
-		      		</Tooltip>
+	              	<Tooltip placement="top" title={item.tip}>
+	      				<Icon type={item.icon} />
+	      			</Tooltip>
 		      	</RadioButton>
 			);
 		}),
