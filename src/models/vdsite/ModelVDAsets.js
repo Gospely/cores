@@ -11,6 +11,16 @@ export default {
 	      	name: 'xxx.png',
 	      	status: 'done',
 	      	url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+	    }, {
+	      	uid: 0,
+	      	name: 'xxx.png',
+	      	status: 'done',
+	      	url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+	    }, {
+	      	uid: 1,
+	      	name: 'xxx.png',
+	      	status: 'done',
+	      	url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
 	    }]
 	},
 

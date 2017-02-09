@@ -37,14 +37,14 @@ const Component = (props) => {
 	}
 
     const uploadButton = (
-      <div>
-        <Icon type="plus" />
-        <div className="ant-upload-text">Upload</div>
+      <div style={{height: '100%'}}>
+        <Icon type="plus" style={{lineHeight: '2.2'}} />
+        <div className="ant-upload-text">上传</div>
       </div>
     );	
 
   	return (
-		<div className="clearfix">
+		<div className="clearfix" style={{textAlign: 'center', marginTop: '10px'}}>
         	<Upload
           		action="/upload.do"
           		listType="picture-card"
