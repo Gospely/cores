@@ -26,6 +26,7 @@ const FormItem = Form.Item;
 const Panel = Collapse.Panel;
 
 import { SketchPicker } from 'react-color';
+// <SketchPicker style={{display: 'none'}} defaultValue="#345678" />
 
 const Component = (props) => {
 
@@ -317,7 +318,7 @@ const Component = (props) => {
 
   	return (
   		<div className="vdctrl-pane-wrapper">
-			<Collapse bordered={false} defaultActiveKey={['basic', 'media', 'forms', 'components']}>
+			<Collapse bordered={false} defaultActiveKey={['basic', 'forms', 'components']}>
 			    <Panel header={<span><i className="fa fa-css3"></i>&nbsp;CSS类选择器</span>} key="css">
 				  	<p style={{marginBottom: '10px'}}>选择类名：</p>
 			    	<Row>
@@ -560,8 +561,6 @@ const Component = (props) => {
 
 			    </Panel>
 			    <Panel header="字体设置" key="typo">
-					<SketchPicker style={{display: 'none'}} defaultValue="#345678" />
-
 			    	<Row>
 
 					  	<Col span={12} style={{paddingRight: '5px'}}>
@@ -782,7 +781,7 @@ const Component = (props) => {
 							        	placement="bottom"
 							      	>
 				  		              	<Tooltip placement="top" title="渐变">
-				  		              		<span>渐变</span>
+											<i className="fa fa-barcode"></i>
 							      		</Tooltip>
 						      		</Popover>
 						      	</RadioButton>
@@ -849,8 +848,111 @@ const Component = (props) => {
 			    	</Form>
 
 			    </Panel>
-			    <Panel header="边框设置" key="forms">
-			      	<p>表单</p>
+			    <Panel header="边框设置" key="border">
+
+					<Row>
+						<Col span={8}>
+							<Row style={{marginBottom: '5px'}}>
+								<Col span={8}></Col>
+								<Col span={8}>
+									<Button size="small"><i className="fa fa-window-maximize"></i></Button>
+								</Col>
+								<Col span={8}></Col>
+							</Row>
+							<Row style={{marginBottom: '5px'}}>
+								<Col span={8}>
+									<Button size="small"><i className="fa fa-window-maximize" style={{transform: 'rotate(-90deg)'}}></i></Button>
+								</Col>
+								<Col span={8}>
+									<Button style={{width: '27px'}} size="small"><i className="fa fa-square-o"></i></Button>
+								</Col>
+								<Col span={8}>
+									<Button size="small"><i className="fa fa-window-maximize" style={{transform: 'rotate(90deg)'}}></i></Button>
+								</Col>
+							</Row>
+							<Row>
+								<Col span={8}></Col>
+								<Col span={8}>
+									<Button size="small"><i className="fa fa-window-maximize" style={{transform: 'rotate(180deg)'}}></i></Button>
+								</Col>
+								<Col span={8}></Col>
+							</Row>
+						</Col>
+
+						<Col span={16} style={{paddingLeft: '15px'}}>
+					    	<Form className="form-no-margin-bottom">
+								<FormItem {...formItemLayout} label="宽度">
+									<Input size="small" />
+								</FormItem>
+
+								<FormItem {...formItemLayout} label="颜色">
+									<Input size="small" type="color" />
+								</FormItem>
+					    	</Form>
+						</Col>
+					</Row>
+
+			    	<Form className="form-no-margin-bottom">
+
+						<FormItem {...formItemLayout} label="样式">
+
+							<RadioGroup defaultValue="none" size="small">
+						      	<RadioButton value="none">
+			  		              	<Tooltip placement="top" title="无">
+										<Icon type="close" />
+						      		</Tooltip>
+					      		</RadioButton>
+						      	<RadioButton value="solid">
+			  		              	<Tooltip placement="top" title="直线">
+										<Icon type="minus" />
+						      		</Tooltip>
+						      	</RadioButton>
+						      	<RadioButton value="dashed">
+			  		              	<Tooltip placement="top" title="虚线">
+										<i className="fa fa-ellipsis-h"></i>
+						      		</Tooltip>
+						      	</RadioButton>
+						      	<RadioButton value="dotted">
+			  		              	<Tooltip placement="top" title="点线">
+										<Icon type="ellipsis" />
+						      		</Tooltip>
+						      	</RadioButton>
+						    </RadioGroup>
+
+						</FormItem>
+
+			    	</Form>
+
+			      	<li style={{marginTop: '15px', marginBottom: '15px'}} className="ant-dropdown-menu-item-divider"></li>
+
+					<Row>
+						<Col span={8}>
+							<Row style={{marginBottom: '5px'}}>
+								<Col span={8}>
+
+									<Button style={{borderTopLeftRadius: '28px', width: '28px', height: '28px'}} size="small"><i className="fa fa-window-maximize"></i></Button>									
+									<Button style={{borderBottomLeftRadius: '28px', width: '28px', height: '28px', marginTop: '3px'}} size="small"><i className="fa fa-window-maximize"></i></Button>									
+
+								</Col>
+								<Col span={8}>
+									<Button style={{marginTop: '16px', marginRight: '1px'}} size="small"><i className="fa fa-window-maximize"></i></Button>
+								</Col>
+								<Col span={8}>
+									<Button style={{borderTopRightRadius: '28px', width: '28px', height: '28px'}} size="small"><i className="fa fa-window-maximize"></i></Button>
+									<Button style={{borderBottomRightRadius: '28px', width: '28px', height: '28px', marginTop: '3px'}} size="small"><i className="fa fa-window-maximize"></i></Button>
+								</Col>
+							</Row>
+						</Col>
+
+						<Col span={16} style={{paddingLeft: '15px'}}>
+					    	<Form className="form-no-margin-bottom">
+								<FormItem {...formItemLayout} label="弧度">
+									<Input size="small" />
+								</FormItem>
+					    	</Form>
+						</Col>
+					</Row>
+
 			    </Panel>
 			    <Panel header="阴影设置" key="components">
 			      	<p>组件</p>
