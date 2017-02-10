@@ -811,7 +811,7 @@ const Component = (props) => {
 				          <Col span={3}>
 				            <Popconfirm title="确认删除吗？" okText="确定" cancelText="取消">
 								<Icon type="delete" />
-								</Popconfirm>
+							</Popconfirm>
 				          </Col>
 				        </Row>
 				      </li>
