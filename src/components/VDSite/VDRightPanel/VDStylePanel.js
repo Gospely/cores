@@ -344,7 +344,7 @@ const Component = (props) => {
 	      				</Col>
       				</Row>
 			    </Panel>
-			    <Panel header="布局设置" key="layout">
+			    <Panel header="布局" key="layout">
 
 					<div className="guidance-panel-wrapper">
 						<div className="guidance-panel-child">
@@ -560,7 +560,7 @@ const Component = (props) => {
 			      	</Form>
 
 			    </Panel>
-			    <Panel header="字体设置" key="typo">
+			    <Panel header="字体" key="typo">
 			    	<Row>
 
 					  	<Col span={12} style={{paddingRight: '5px'}}>
@@ -754,7 +754,7 @@ const Component = (props) => {
 			      	</Form>
 
 			    </Panel>
-			    <Panel header="背景设置" key="media">
+			    <Panel header="背景" key="media">
 
 			    	<Form className="form-no-margin-bottom">
 
@@ -848,7 +848,7 @@ const Component = (props) => {
 			    	</Form>
 
 			    </Panel>
-			    <Panel header="边框设置" key="border">
+			    <Panel header="边框" key="border">
 
 					<Row>
 						<Col span={8}>
@@ -954,7 +954,7 @@ const Component = (props) => {
 					</Row>
 
 			    </Panel>
-			    <Panel header="阴影设置" key="components">
+			    <Panel header="阴影" key="components">
 			      	<p>组件</p>
 			    </Panel>
 			    <Panel header="过度和变换" key="transitions-transforms">
