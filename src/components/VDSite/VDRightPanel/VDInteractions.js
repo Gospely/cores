@@ -41,21 +41,85 @@ const Component = (props) => {
 					</FormItem>
 		    	</Form>
 
-	      		<Menu className="interaction-list">
-	      			<Menu.Item>
-	      				<span>None</span>
-	      			</Menu.Item>
-	      			<Menu.Item>
-	      				<Row>
-							<Col span={18}>
-			      				<span>None</span>
-							</Col>
-	      				</Row>
-	       			</Menu.Item>
-	      		</Menu>
+		    	<div style={{paddingLeft: '10px', paddingRight: '10px'}}>
+
+		      		<Menu className="interaction-list">
+		      			<Menu.Item>
+		      				<Row>
+								<Col span={18}>
+				      				<span>None</span>
+								</Col>
+								<Col span={6} style={{textAlign: 'right'}}>
+									<Popover
+							        	content={<div>www</div>}
+							        	title="编辑 交互动画"
+							        	trigger="click"
+							        	placement="left"
+							      	>
+							            <Icon type="edit" />
+							      	</Popover>
+						            <Popconfirm title="确认删除吗？" placement="left" okText="确定" cancelText="取消">
+										<Icon type="delete" />
+									</Popconfirm>
+								</Col>
+		      				</Row>
+		       			</Menu.Item>
+		      		</Menu>
+
+		    	</div>
+
+		    	<Form className="form-no-margin-bottom">
+					<FormItem {...formItemLayout} label="触发条件">
+					</FormItem>
+		    	</Form>
+
+		    	<div style={{paddingLeft: '10px', paddingRight: '10px'}}>
+
+		      		<Menu className="interaction-list">
+		      			<Menu.Item>
+		      				<Row>
+								<Col span={18}>
+				      				<span>None</span>
+								</Col>
+								<Col span={6} style={{textAlign: 'right'}}>
+									<Popover
+							        	content={<div>www</div>}
+							        	title="编辑 交互动画"
+							        	trigger="click"
+							        	placement="left"
+							      	>
+							            <Icon type="edit" />
+							      	</Popover>
+						            <Popconfirm title="确认删除吗？" placement="left" okText="确定" cancelText="取消">
+										<Icon type="delete" />
+									</Popconfirm>
+								</Col>
+		      				</Row>
+		       			</Menu.Item>
+		      		</Menu>
+
+		    	</div>
 
     		</div>
-    	)
+    	),
+
+    	handleOk () {
+    		props.dispatch({
+    			type: 'vdanimations/hideInteractionCreator'
+    		});
+    	},
+
+    	handleCancel () {
+    		props.dispatch({
+    			type: 'vdanimations/hideInteractionCreator'
+    		});
+    	},
+
+    	show () {
+    		props.dispatch({
+    			type: 'vdanimations/showInteractionCreator'
+    		});
+    	}
     }
 
     const interactionEditor = {
@@ -68,14 +132,16 @@ const Component = (props) => {
 	    	<Row>
 	    		<Col span={18}><p>交互动画列表：</p></Col>
 	    		<Col span={6} style={{textAlign: 'right'}}>
-					<Popover
-			        	content={interactionCreator.content}
-			        	title="新增 交互动画"
-			        	trigger="click"
-			        	placement="left"
-			      	>
-			      		<Button size="small"><Icon type="plus" /></Button>
-			      	</Popover>
+		      		<Button onClick={interactionCreator.show} size="small"><Icon type="plus" /></Button>
+
+					<Modal title="新增 交互动画"
+          				visible={props.vdanimations.interactionCreator.modalCreator.visible}
+          				onOk={interactionCreator.handleOk}
+          				onCancel={interactionCreator.handleCancel}
+        			>
+        				{interactionCreator.content}
+        			</Modal>
+
 	    		</Col>
 	    	</Row>
 
@@ -110,8 +176,8 @@ const Component = (props) => {
 
 };
 
-function mapSateToProps({ dashboard }) {
-  return { dashboard };
+function mapSateToProps({ vdanimations }) {
+  return { vdanimations };
 }
 
 export default connect(mapSateToProps)(Component);
