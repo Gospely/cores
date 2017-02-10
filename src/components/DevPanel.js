@@ -52,6 +52,9 @@ const setMode = {
 		},
 		sh: function() {
 			return "bat";
+		},
+		ts: function(){
+			return "typescript";
 		}
 	}
 
