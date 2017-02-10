@@ -19,11 +19,13 @@ import { Radio } from 'antd';
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 
-import { Tree, Form, Switch, Input, Cascader, Checkbox, message, Tag, Table, Popconfirm} from 'antd';
+import { Tree, Form, Switch, Input, Cascader, Checkbox, message, Tag, Table, Popconfirm, Slider, InputNumber} from 'antd';
 
 const FormItem = Form.Item;
 
 const Panel = Collapse.Panel;
+
+import { SketchPicker } from 'react-color';
 
 const Component = (props) => {
 
@@ -59,6 +61,22 @@ const Component = (props) => {
 	    	url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
 	    	thumbUrl: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
 	  	}]
+    }
+
+    const bgGradientLinearAngelMarks = {
+		0: '0',
+		45: '45',
+		90: '90',
+		135: '135',
+		180: '180',
+		225: '225',
+		270: '270',
+		315: '315',
+		360: '360'
+    }
+
+    const popOverStyle = {
+    	width: parseInt($(document).width()) / 3
     }
 
     const backgroundImageAndGradient = {
@@ -146,9 +164,10 @@ const Component = (props) => {
 						</div>
 						<div className="bem-Frame_Body">
 
+							<label style={{marginBottom: '5px'}}>预设值：</label>
 							<Row>
 								<Col span={10}>
-									<Row>
+									<Row style={{marginBottom: '5px'}}>
 										<Col span={8}>
 											<Button size="small"><Icon type="arrow-up" style={{transform: 'rotate(-45deg)'}} /></Button>
 										</Col>
@@ -159,26 +178,32 @@ const Component = (props) => {
 											<Button size="small"><Icon type="arrow-up" style={{transform: 'rotate(45deg)'}} /></Button>
 										</Col>
 									</Row>
-									<Row>
+									<Row style={{marginBottom: '5px'}}>
 										<Col span={8}>
 											<Button size="small"><Icon type="arrow-left" /></Button>
 										</Col>
-										<Col span={8}>2</Col>
+										<Col span={8}>
+											<Button size="small"><Icon type="plus" /></Button>
+										</Col>
 										<Col span={8}>
 											<Button size="small"><Icon type="arrow-right" /></Button>
 										</Col>
 									</Row>
 									<Row>
 										<Col span={8}>
-											<Button size="small"><Icon type="arrow-down" style={{transform: 'rotate(-45deg)'}} /></Button>
+											<Button size="small"><Icon type="arrow-down" style={{transform: 'rotate(45deg)'}} /></Button>
 										</Col>
 										<Col span={8}>
 											<Button size="small"><Icon type="arrow-down" /></Button>
 										</Col>
 										<Col span={8}>
-											<Button size="small"><Icon type="arrow-down" style={{transform: 'rotate(45deg)'}} /></Button>
+											<Button size="small"><Icon type="arrow-down" style={{transform: 'rotate(-45deg)'}} /></Button>
 										</Col>
 									</Row>
+								</Col>
+
+								<Col span={14}>
+
 								</Col>
 							</Row>
 
@@ -214,7 +239,6 @@ const Component = (props) => {
 						</FormItem>
 			      	</Form>
 
-
 			      	<Form className="form-no-margin-bottom">
 						<FormItem {...formItemLayout} label="固定">
 
@@ -237,7 +261,58 @@ const Component = (props) => {
 				</div>
 			</div>
 
-    	)
+    	),
+
+		gradientSetter: (
+
+			<div style={{width: '320px'}}>
+
+		      	<Form className="form-no-margin-bottom">
+					<FormItem {...formItemLayout} label="类型">
+
+				        <RadioGroup defaultValue="linear" size="small">
+					      	<RadioButton value="linear">
+		  		              	<Tooltip placement="top" title="线性渐变">
+									<Icon type="swap-right" />
+					      		</Tooltip>
+				      		</RadioButton>
+					      	<RadioButton value="radial">
+		  		              	<Tooltip placement="top" title="放射渐变">
+									<Icon type="chrome" />
+					      		</Tooltip>
+					      	</RadioButton>
+					    </RadioGroup>
+
+					</FormItem>
+
+					<FormItem {...formItemLayout} label="角度">
+					</FormItem>
+
+		      	</Form>
+
+			    <Slider min={0} max={360} marks={bgGradientLinearAngelMarks} defaultValue={0} />
+
+			    <Row style={{marginTop: '25px'}}>
+			    	<Col span={12} style={{paddingRight: '15px'}}>
+				      	<Form className="form-no-margin-bottom">
+							<FormItem {...formItemLayout} label="从">
+								<Input type="color" size="small" />
+							</FormItem>
+				      	</Form>
+			    	</Col>
+
+			    	<Col span={12} style={{paddingLeft: '15px'}}>
+				      	<Form className="form-no-margin-bottom">
+							<FormItem {...formItemLayout} label="渐变到">
+								<Input type="color" size="small" />
+							</FormItem>
+				      	</Form>
+			    	</Col>
+			    </Row>
+
+			</div>
+
+		)
     }
 
   	return (
@@ -245,26 +320,28 @@ const Component = (props) => {
 			<Collapse bordered={false} defaultActiveKey={['basic', 'media', 'forms', 'components']}>
 			    <Panel header={<span><i className="fa fa-css3"></i>&nbsp;CSS类选择器</span>} key="css">
 				  	<p style={{marginBottom: '10px'}}>选择类名：</p>
-				  	<Col span={21} className="css-selector">
-				      	<Select
-					    	multiple
-					    	style={{ width: '100%' }}
-					    	placeholder="请选择CSS类"
-					    	defaultValue={['a10', 'a11']}
-					    	size="small"
-					  	>
-					    	{cssSelector.cssClassNameList}
-					  	</Select>
-				  	</Col>
-      				<Col span={3}>
-      				    <Dropdown overlay={cssSelector.cssClassListForDropdown}>
-						  	<Button style={{marginBottom: '10px', borderTopLeftRadius: '0px', borderBottomLeftRadius: '0px', marginLeft: '-1px'}} size="small">
-		  		              	<Tooltip placement="left" title="选择CSS类进行编辑">
-							  		<i className="fa fa-pencil"></i>
-		      					</Tooltip>
-						  	</Button>
-				  	    </Dropdown>
-      				</Col>
+			    	<Row>
+					  	<Col span={21} className="css-selector">
+					      	<Select
+						    	multiple
+						    	style={{ width: '100%' }}
+						    	placeholder="请选择CSS类"
+						    	defaultValue={['a10', 'a11']}
+						    	size="small"
+						  	>
+						    	{cssSelector.cssClassNameList}
+						  	</Select>
+					  	</Col>
+	      				<Col span={3}>
+	      				    <Dropdown overlay={cssSelector.cssClassListForDropdown}>
+							  	<Button style={{marginBottom: '10px', borderTopLeftRadius: '0px', borderBottomLeftRadius: '0px', marginLeft: '-1px'}} size="small">
+			  		              	<Tooltip placement="left" title="选择CSS类进行编辑">
+								  		<i className="fa fa-pencil"></i>
+			      					</Tooltip>
+							  	</Button>
+					  	    </Dropdown>
+	      				</Col>
+      				</Row>
 			    </Panel>
 			    <Panel header="布局设置" key="layout">
 
@@ -315,50 +392,62 @@ const Component = (props) => {
 
 			      	<li className="ant-dropdown-menu-item-divider"></li>
 
-				  	<Col span={12} style={{paddingRight: '5px'}}>
-				      	<Form className="form-no-margin-bottom">
-							<FormItem {...formItemLayout} label="宽度">
-								<Input size="small" />
-							</FormItem>
-				      	</Form>
-				  	</Col>
-				  	<Col span={12} style={{paddingLeft: '5px'}}>
-				      	<Form className="form-no-margin-bottom">
-							<FormItem {...formItemLayout} label="高度">
-								<Input size="small" />
-							</FormItem>
-				      	</Form>
-				  	</Col>
+			    	<Row>
 
-				  	<Col span={12} style={{paddingRight: '5px'}}>
-				      	<Form className="form-no-margin-bottom">
-							<FormItem {...formItemLayout} label="最大">
-								<Input size="small" />
-							</FormItem>
-				      	</Form>
-				  	</Col>
-				  	<Col span={12} style={{paddingLeft: '5px'}}>
-				      	<Form className="form-no-margin-bottom">
-							<FormItem {...formItemLayout} label="最大">
-								<Input size="small" />
-							</FormItem>
-				      	</Form>
-				  	</Col>
+					  	<Col span={12} style={{paddingRight: '5px'}}>
+					      	<Form className="form-no-margin-bottom">
+								<FormItem {...formItemLayout} label="宽度">
+									<Input size="small" />
+								</FormItem>
+					      	</Form>
+					  	</Col>
+					  	<Col span={12} style={{paddingLeft: '5px'}}>
+					      	<Form className="form-no-margin-bottom">
+								<FormItem {...formItemLayout} label="高度">
+									<Input size="small" />
+								</FormItem>
+					      	</Form>
+					  	</Col>
 
-				  	<Col span={12} style={{paddingRight: '5px'}}>
-				      	<Form className="form-no-margin-bottom">
-							<FormItem {...formItemLayout} label="最小">
-								<Input size="small" />
-							</FormItem>
-				      	</Form>
-				  	</Col>
-				  	<Col span={12} style={{paddingLeft: '5px'}}>
-				      	<Form className="form-no-margin-bottom">
-							<FormItem {...formItemLayout} label="最小">
-								<Input size="small" />
-							</FormItem>
-				      	</Form>
-				  	</Col>
+				  	</Row>
+
+			    	<Row>
+
+					  	<Col span={12} style={{paddingRight: '5px'}}>
+					      	<Form className="form-no-margin-bottom">
+								<FormItem {...formItemLayout} label="最大">
+									<Input size="small" />
+								</FormItem>
+					      	</Form>
+					  	</Col>
+					  	<Col span={12} style={{paddingLeft: '5px'}}>
+					      	<Form className="form-no-margin-bottom">
+								<FormItem {...formItemLayout} label="最大">
+									<Input size="small" />
+								</FormItem>
+					      	</Form>
+					  	</Col>
+
+				  	</Row>
+
+			    	<Row>
+
+					  	<Col span={12} style={{paddingRight: '5px'}}>
+					      	<Form className="form-no-margin-bottom">
+								<FormItem {...formItemLayout} label="最小">
+									<Input size="small" />
+								</FormItem>
+					      	</Form>
+					  	</Col>
+					  	<Col span={12} style={{paddingLeft: '5px'}}>
+					      	<Form className="form-no-margin-bottom">
+								<FormItem {...formItemLayout} label="最小">
+									<Input size="small" />
+								</FormItem>
+					      	</Form>
+					  	</Col>
+
+				  	</Row>
 
 			      	<li className="ant-dropdown-menu-item-divider"></li>
 
@@ -471,84 +560,100 @@ const Component = (props) => {
 
 			    </Panel>
 			    <Panel header="字体设置" key="typo">
+					<SketchPicker style={{display: 'none'}} defaultValue="#345678" />
 
+			    	<Row>
 
-				  	<Col span={12} style={{paddingRight: '5px'}}>
-				      	<Form className="form-no-margin-bottom">
-							<FormItem {...formItemLayout} label="字体">
-	        				    <Select size="small" value="选择字体">
-					      			<Option key="sss" value="h1">h1</Option>
-					    		</Select>
-							</FormItem>
-				      	</Form>
-				  	</Col>
-				  	<Col span={12} style={{paddingLeft: '5px'}}>
-				      	<Form className="form-no-margin-bottom">
-							<FormItem {...formItemLayout} label="颜色">
-								<Input type="color" size="small" />
-							</FormItem>
-						</Form>
-				  	</Col>
+					  	<Col span={12} style={{paddingRight: '5px'}}>
+					      	<Form className="form-no-margin-bottom">
+								<FormItem {...formItemLayout} label="字体">
+		        				    <Select size="small" value="选择字体">
+						      			<Option key="sss" value="h1">h1</Option>
+						    		</Select>
+								</FormItem>
+					      	</Form>
+					  	</Col>
+					  	<Col span={12} style={{paddingLeft: '5px'}}>
+					      	<Form className="form-no-margin-bottom">
+								<FormItem {...formItemLayout} label="颜色">
+									<Input type="color" size="small" />
+								</FormItem>
+							</Form>
+					  	</Col>
 
-				  	<Col span={12} style={{paddingRight: '5px'}}>
-				      	<Form className="form-no-margin-bottom">
-							<FormItem {...formItemLayout} label="粗细">
-	        				    <Select size="small" value="选择">
-					      			<Option key="sss" value="h1">h1</Option>
-					    		</Select>
-							</FormItem>
-						</Form>
-				  	</Col>
-				  	<Col span={12} style={{paddingLeft: '5px'}}>
-				      	<Form className="form-no-margin-bottom">
-							<FormItem {...formItemLayout} label="样式">
+			    	</Row>
 
-								<RadioGroup defaultValue="normal" size="small">
-							      	<RadioButton value="normal">
-				  		              	<Tooltip placement="top" title="normal">
-											<i className="fa fa-font"></i>
-							      		</Tooltip>
-						      		</RadioButton>
-							      	<RadioButton value="italic">
-				  		              	<Tooltip placement="top" title="italic">
-											<i className="fa fa-italic"></i>
-							      		</Tooltip>
-							      	</RadioButton>
-							    </RadioGroup>
+			    	<Row>
 
-							</FormItem>
-				      	</Form>
-				  	</Col>
+					  	<Col span={12} style={{paddingRight: '5px'}}>
+					      	<Form className="form-no-margin-bottom">
+								<FormItem {...formItemLayout} label="粗细">
+		        				    <Select size="small" value="选择">
+						      			<Option key="sss" value="h1">h1</Option>
+						    		</Select>
+								</FormItem>
+							</Form>
+					  	</Col>
+					  	<Col span={12} style={{paddingLeft: '5px'}}>
+					      	<Form className="form-no-margin-bottom">
+								<FormItem {...formItemLayout} label="样式">
 
-				  	<Col span={12} style={{paddingRight: '5px'}}>
-					  	<Form className="form-no-margin-bottom">
-							<FormItem {...formItemLayout} label="缩进">
-								<Input type="number" size="small" />
-							</FormItem>
-					  	</Form>				  	
-				  	</Col>
-				  	<Col span={12} style={{paddingLeft: '5px'}}>
-				      	<Form className="form-no-margin-bottom">
-							<FormItem {...formItemLayout} label="大小">
-								<Input type="number" size="small" />
-							</FormItem>
-				      	</Form>
-				  	</Col>
+									<RadioGroup defaultValue="normal" size="small">
+								      	<RadioButton value="normal">
+					  		              	<Tooltip placement="top" title="normal">
+												<i className="fa fa-font"></i>
+								      		</Tooltip>
+							      		</RadioButton>
+								      	<RadioButton value="italic">
+					  		              	<Tooltip placement="top" title="italic">
+												<i className="fa fa-italic"></i>
+								      		</Tooltip>
+								      	</RadioButton>
+								    </RadioGroup>
 
-				  	<Col span={12} style={{paddingRight: '5px'}}>
-				      	<Form className="form-no-margin-bottom">
-							<FormItem {...formItemLayout} label="行间距">
-								<Input type="number" size="small" />
-							</FormItem>
-						</Form>
-				  	</Col>
-				  	<Col span={12} style={{paddingLeft: '5px'}}>
-				      	<Form className="form-no-margin-bottom">
-							<FormItem {...formItemLayout} label="词间距">
-								<Input type="number" size="small" />
-							</FormItem>
-				      	</Form>
-				  	</Col>
+								</FormItem>
+					      	</Form>
+					  	</Col>
+
+				  	</Row>
+
+			    	<Row>
+
+					  	<Col span={12} style={{paddingRight: '5px'}}>
+						  	<Form className="form-no-margin-bottom">
+								<FormItem {...formItemLayout} label="缩进">
+									<Input type="number" size="small" />
+								</FormItem>
+						  	</Form>				  	
+					  	</Col>
+					  	<Col span={12} style={{paddingLeft: '5px'}}>
+					      	<Form className="form-no-margin-bottom">
+								<FormItem {...formItemLayout} label="大小">
+									<Input type="number" size="small" />
+								</FormItem>
+					      	</Form>
+					  	</Col>
+
+			    	</Row>
+
+			    	<Row>
+
+					  	<Col span={12} style={{paddingRight: '5px'}}>
+					      	<Form className="form-no-margin-bottom">
+								<FormItem {...formItemLayout} label="行间距">
+									<Input type="number" size="small" />
+								</FormItem>
+							</Form>
+					  	</Col>
+					  	<Col span={12} style={{paddingLeft: '5px'}}>
+					      	<Form className="form-no-margin-bottom">
+								<FormItem {...formItemLayout} label="词间距">
+									<Input type="number" size="small" />
+								</FormItem>
+					      	</Form>
+					  	</Col>
+
+				  	</Row>
 
 			      	<li className="ant-dropdown-menu-item-divider"></li>
 
@@ -670,9 +775,16 @@ const Component = (props) => {
 							      	</Popover>
 					      		</RadioButton>
 						      	<RadioButton value="渐变色">
-			  		              	<Tooltip placement="top" title="渐变">
-			  		              		<span>渐变</span>
-						      		</Tooltip>
+									<Popover
+							        	content={backgroundImageAndGradient.gradientSetter}
+							        	title="渐变处理"
+							        	trigger="click"
+							        	placement="bottom"
+							      	>
+				  		              	<Tooltip placement="top" title="渐变">
+				  		              		<span>渐变</span>
+							      		</Tooltip>
+						      		</Popover>
 						      	</RadioButton>
 						    </RadioGroup>
 
