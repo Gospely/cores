@@ -52,7 +52,7 @@ const Component = (props) => {
 
   	return (
   		<div className="vdctrl-pane-wrapper">
-			<Collapse bordered={false} defaultActiveKey={['css', 'layout', 'basic', 'typo', 'media', 'forms', 'components']}>
+			<Collapse bordered={false} defaultActiveKey={['basic', 'media', 'forms', 'components']}>
 			    <Panel header={<span><i className="fa fa-css3"></i>&nbsp;CSS类选择器</span>} key="css">
 				  	<p style={{marginBottom: '10px'}}>选择类名：</p>
 				  	<Col span={21} className="css-selector">
@@ -316,12 +316,12 @@ const Component = (props) => {
 								<RadioGroup defaultValue="normal" size="small">
 							      	<RadioButton value="normal">
 				  		              	<Tooltip placement="top" title="normal">
-				  		              		<span>I</span>
+											<i className="fa fa-font"></i>
 							      		</Tooltip>
 						      		</RadioButton>
 							      	<RadioButton value="italic">
 				  		              	<Tooltip placement="top" title="italic">
-				  		              		<span style={{fontStyle: 'italic'}}>I</span>
+											<i className="fa fa-italic"></i>
 							      		</Tooltip>
 							      	</RadioButton>
 							    </RadioGroup>
@@ -369,22 +369,22 @@ const Component = (props) => {
 							<RadioGroup defaultValue="left" size="small">
 						      	<RadioButton value="normal">
 			  		              	<Tooltip placement="top" title="left">
-			  		              		<span>I</span>
+										<i className="fa fa-align-left"></i>
 						      		</Tooltip>
 					      		</RadioButton>
 						      	<RadioButton value="center">
 			  		              	<Tooltip placement="top" title="center">
-			  		              		<span style={{fontStyle: 'italic'}}>I</span>
+										<i className="fa fa-align-center"></i>
 						      		</Tooltip>
 						      	</RadioButton>
 						      	<RadioButton value="right">
 			  		              	<Tooltip placement="top" title="right">
-			  		              		<span style={{fontStyle: 'italic'}}>I</span>
+										<i className="fa fa-align-right"></i>
 						      		</Tooltip>
 						      	</RadioButton>
 						      	<RadioButton value="justify">
 			  		              	<Tooltip placement="top" title="justify">
-			  		              		<span style={{fontStyle: 'italic'}}>I</span>
+										<i className="fa fa-align-justify"></i>
 						      		</Tooltip>
 						      	</RadioButton>
 						    </RadioGroup>
@@ -396,12 +396,12 @@ const Component = (props) => {
 							<RadioGroup defaultValue="left" size="small">
 						      	<RadioButton value="从左到右">
 			  		              	<Tooltip placement="top" title="从左到右">
-			  		              		<span>从左到右</span>
+										<i className="fa fa-indent"></i>
 						      		</Tooltip>
 					      		</RadioButton>
 						      	<RadioButton value="从右到左">
 			  		              	<Tooltip placement="top" title="从右到左">
-			  		              		<span>从右到左</span>
+										<i style={{transform:'rotate(180deg)'}} className="fa fa-indent"></i>
 						      		</Tooltip>
 						      	</RadioButton>
 						    </RadioGroup>
@@ -418,12 +418,12 @@ const Component = (props) => {
 					      		</RadioButton>
 						      	<RadioButton value="underline">
 			  		              	<Tooltip placement="top" title="underline">
-			  		              		<span>I</span>
+										<i className="fa fa-underline"></i>
 						      		</Tooltip>
 						      	</RadioButton>
-						      	<RadioButton value="strikeout">
-			  		              	<Tooltip placement="top" title="strikeout">
-			  		              		<span>I</span>
+						      	<RadioButton value="line-through">
+			  		              	<Tooltip placement="top" title="line-through">
+										<i className="fa fa-strikethrough"></i>
 						      		</Tooltip>
 						      	</RadioButton>
 						    </RadioGroup>
@@ -457,13 +457,37 @@ const Component = (props) => {
 
 						</FormItem>
 
-
-
 			      	</Form>
 
 			    </Panel>
 			    <Panel header="背景设置" key="media">
-			      	<p>媒体</p>
+
+			    	<Form className="form-no-margin-bottom">
+
+						<FormItem {...formItemLayout} label="图片和渐变">
+
+							<RadioGroup defaultValue="none" size="small">
+						      	<RadioButton value="none">
+			  		              	<Tooltip placement="top" title="none">
+										<i className="fa fa-picture-o"></i>
+						      		</Tooltip>
+					      		</RadioButton>
+						      	<RadioButton value="大写">
+			  		              	<Tooltip placement="top" title="大写">
+			  		              		<span>TT</span>
+						      		</Tooltip>
+						      	</RadioButton>
+						      	<RadioButton value="首字母大写">
+			  		              	<Tooltip placement="top" title="首字母大写">
+			  		              		<span>Tt</span>
+						      		</Tooltip>
+						      	</RadioButton>
+						    </RadioGroup>
+
+						</FormItem>
+
+			    	</Form>
+
 			    </Panel>
 			    <Panel header="边框设置" key="forms">
 			      	<p>表单</p>
