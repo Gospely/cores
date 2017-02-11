@@ -40,7 +40,7 @@
 	}
 
 	.vd-right-panel .ant-tabs-content {
-   		height: calc(100vh - 39px);
+   		height: e("calc(100vh - 39px)");
    	}
 
 	.vd-right-panel .ant-tabs-tab{
@@ -53,6 +53,11 @@
 
 	.vd-right-panel .ant-tabs-nav .ant-tabs-tab .anticon {
 		margin-right: 0px!important;
+	}
+
+	.vd-right-panel .ant-tabs-tabpane {
+		height: 100%;
+		overflow: auto;
 	}
 
 	.vdctrl-pane-wrapper {
@@ -395,8 +400,20 @@
 	}
 
     .LeftSidebar>.ant-tabs>.ant-tabs-content>.ant-tabs-tabpane {
-        height: 100vh;
+        overflow: auto;
+    	height: e("calc(100vh - 38px)");
     }
+
+    // .LeftSidebar>.ant-tabs>.ant-tabs-content>.tabpanel>.ant-tabs>.ant-tabs-content {
+    // 	overflow: auto;
+    // 	height: 100%;
+    // 	// height: e("calc(100% - 38px)");
+    // }
+
+	.LeftSidebar .ant-tabs:not(.ant-tabs-vertical) > .ant-tabs-content-animated {
+		overflow: auto;
+		height: e("calc(100vh - 75px)");
+	}
 
 	.RightSidebar .ant-tabs-bar {
 		min-width: 42px;
