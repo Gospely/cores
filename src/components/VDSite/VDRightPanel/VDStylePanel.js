@@ -955,7 +955,43 @@ const Component = (props) => {
 
 			    </Panel>
 			    <Panel header="阴影" key="components">
-			      	<p>组件</p>
+			    	<Form className="form-no-margin-bottom">
+    					<FormItem {...formItemLayout} label="盒子阴影">
+
+							<RadioGroup defaultValue="none" size="small">
+						      	<RadioButton style={{borderBottom: 'none'}} value="outerRightBottom">
+			  		              	<Tooltip placement="top" title="外面右下">
+										<Icon type="close" />
+						      		</Tooltip>
+					      		</RadioButton>
+						      	<RadioButton style={{borderBottom: 'none'}} value="outerWrapper">
+			  		              	<Tooltip placement="top" title="外面四周">
+										<Icon type="minus" />
+						      		</Tooltip>
+						      	</RadioButton>
+						      	<RadioButton style={{borderBottom: 'none'}} value="insideWrapper">
+			  		              	<Tooltip placement="top" title="里面四周">
+										<i className="fa fa-ellipsis-h"></i>
+						      		</Tooltip>
+						      	</RadioButton>
+						      	<RadioButton style={{borderBottom: 'none'}} value="insideTop">
+			  		              	<Tooltip placement="top" title="里面上方">
+										<Icon type="ellipsis" />
+						      		</Tooltip>
+						      	</RadioButton>
+						    </RadioGroup>
+
+    					</FormItem>
+    					<FormItem wrapperCol={{ span: 23 }} style={{position: 'relative', top: -5}}>
+    						<div style={{border: '1px solid #d9d9d9', minHeight: 10, display: 'flex', justifyContent: 'space-between'}}>
+    							<div>
+    								<i className="fa fa-eye"></i>
+    							</div>
+    							<div style={{width: '100%', textAlign: 'center'}}>暂无</div>
+    						</div>
+    					</FormItem>
+
+			    	</Form>
 			    </Panel>
 			    <Panel header="过度和变换" key="transitions-transforms">
 			      	<p>组件</p>
