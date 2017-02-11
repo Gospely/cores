@@ -983,11 +983,17 @@ const Component = (props) => {
 
     					</FormItem>
     					<FormItem wrapperCol={{ span: 23 }} style={{position: 'relative', top: -5}}>
-    						<div style={{border: '1px solid #d9d9d9', minHeight: 10, display: 'flex', justifyContent: 'space-between'}}>
+    						<div style={{border: '1px solid #d9d9d9', minHeight: 10, display: 'flex', justifyContent: 'space-around'}}>
     							<div>
     								<i className="fa fa-eye"></i>
     							</div>
-    							<div style={{width: '100%', textAlign: 'center'}}>暂无</div>
+    							<div style={{}}>暂无</div>
+    							<div>
+    								<i className="fa fa-circle"></i>
+    							</div>
+    							<div>
+    								<i className="fa fa-trash-o"></i>
+    							</div>
     						</div>
     					</FormItem>
 
