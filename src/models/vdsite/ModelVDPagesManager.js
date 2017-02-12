@@ -39,7 +39,7 @@ export default {
 				}
 			}, {
 				key: 'folder1/folder2',
-				name: '主页面',
+				name: '文件夹2',
 				children: [{
 					key: 'folder1/folder2/pw.html',
 					name: '忘记密码',

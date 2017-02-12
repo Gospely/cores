@@ -125,28 +125,28 @@ const Component = (props) => {
             var item = tree[i];
             if(item.children) {
               tpl.push((
-                <SubMenu key={item.key} title={<span><Icon type="folder" />{item.name}</span>}>
+                <SubMenu key={item.key + i} title={<span><Icon type="folder" />{item.name}</span>}>
                   {pageTreeGenerator(item.children, true)}
                 </SubMenu>
               ))
+            }else {
+              tpl.push((
+                <Menu.Item key={item.key}>
+                  <Row>
+                    <Col span={20}>
+                      {item.name}
+                    </Col>
+                    <Col span={4}>
+                      <Tooltip placement="top" title="设置页面的详细信息">
+                        <Popover placement="right" title="设置页面的详细信息" content={generatePageDetailSettings(item)} trigger="click">
+                          <Icon type="setting" />
+                        </Popover>
+                      </Tooltip>
+                    </Col>
+                  </Row>
+                </Menu.Item>
+              ));
             }
-
-            tpl.push((
-              <Menu.Item key={item.key}>
-                <Row>
-                  <Col span={20}>
-                    {item.name}
-                  </Col>
-                  <Col span={4}>
-                    <Tooltip placement="top" title="设置页面的详细信息">
-                      <Popover placement="right" title="设置页面的详细信息" content={generatePageDetailSettings(item)} trigger="click">
-                        <Icon type="setting" />
-                      </Popover>
-                    </Tooltip>
-                  </Col>
-                </Row>
-              </Menu.Item>
-            ));
           };
 
           return tpl;
