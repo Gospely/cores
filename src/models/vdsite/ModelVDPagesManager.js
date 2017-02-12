@@ -12,6 +12,8 @@ export default {
 			}
 		},
 
+		activePage: 'index.html',
+
 		pageList: [{
 			key: 'index.html',
 			name: '主页面',
