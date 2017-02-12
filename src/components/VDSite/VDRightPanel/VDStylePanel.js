@@ -48,7 +48,7 @@ const Component = (props) => {
 
 		cssClassNameList () {
   			return cssAction.getAllClasses().map((item, key) => {
-		    	return <Option key={key}>{item}</Option>
+		    	return <Option key={key} value={item.replace('.', '')}>{item.replace('.', '')}</Option>
   			});
 		},
 
@@ -357,7 +357,9 @@ const Component = (props) => {
 						    	multiple
 						    	style={{ width: '100%' }}
 						    	placeholder="请选择CSS类"
-						    	defaultValue={props.vdCtrlTree.activeCtrl.className}
+						    	defaultValue={
+						    		props.vdCtrlTree.activeCtrl.className
+						    	}
 						    	size="small"
 						  	>
 						    	{cssSelector.cssClassNameList()}
