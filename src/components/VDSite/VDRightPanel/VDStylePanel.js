@@ -2,6 +2,9 @@ import React , {PropTypes} from 'react';
 import { connect } from 'dva';
 
 import { Button, Modal } from 'antd';
+	
+const ButtonGroup = Button.Group;
+
 import { Tabs, Icon } from 'antd';
 import { Tooltip } from 'antd';
 
@@ -9,6 +12,7 @@ import { Select } from 'antd';
 import { Card, Upload } from 'antd';
 
 const Option = Select.Option;
+const OptGroup = Select.OptGroup;
 
 const TabPane = Tabs.TabPane;
 
@@ -23,12 +27,14 @@ import { Tree, Form, Switch, Input, Cascader, Checkbox, message, Tag, Table, Pop
 
 const FormItem = Form.Item;
 
+const InputGroup = Input.Group;
+
 const Panel = Collapse.Panel;
 
 import { SketchPicker } from 'react-color';
 // <SketchPicker style={{display: 'none'}} defaultValue="#345678" />
 
-const Component = (props) => {
+const VDStylePanel = (props) => {
 
 	const cssSelector = {
 
@@ -314,6 +320,448 @@ const Component = (props) => {
 			</div>
 
 		)
+    }
+
+    const shadowProps = {
+    	settingPopover: (
+    		<div style={{width: 300}}>
+		      	<Form className="form-no-margin-bottom">
+					<FormItem {...formItemLayout} label="类型">
+				        <RadioGroup defaultValue="Outside" size="small">
+					      	<RadioButton value="Outside">
+		  		              	<Tooltip placement="top" title="Outside">
+									Outside
+					      		</Tooltip>
+				      		</RadioButton>
+					      	<RadioButton value="Inside">
+		  		              	<Tooltip placement="top" title="Inside">
+									Inside
+					      		</Tooltip>
+					      	</RadioButton>
+					    </RadioGroup>
+					</FormItem>
+
+					<FormItem {...formItemLayout} label="颜色">
+						<Input type="color" size="small" />
+					</FormItem>
+
+					<FormItem {...formItemLayout} label="角度">
+						<Slider min={0} max={360} marks={bgGradientLinearAngelMarks} defaultValue={0} />
+					</FormItem>
+
+					<FormItem {...formItemLayout} label="距离">
+						<Row>
+					        <Col span={14}>
+					          	<Slider min={1} max={20}/>
+					        </Col>
+					        <Col span={4}>
+					          	<InputNumber/>
+					        </Col>
+					        <Col span={1}>PX</Col>
+					    </Row>
+					</FormItem>
+
+					<FormItem {...formItemLayout} label="模糊">
+						<Row>
+					        <Col span={14}>
+					          	<Slider min={1} max={20}/>
+					        </Col>
+					        <Col span={4}>
+					          	<InputNumber/>
+					        </Col>
+					        <Col span={1}>PX</Col>
+					    </Row>
+					</FormItem>
+
+					<FormItem {...formItemLayout} label="大小">
+						<Row>
+					        <Col span={14}>
+					          	<Slider min={1} max={20}/>
+					        </Col>
+					        <Col span={4}>
+					          	<InputNumber/>
+					        </Col>
+					        <Col span={1}>PX</Col>
+					    </Row>
+					</FormItem>
+
+		      	</Form>
+    		</div>
+    	)
+    }
+
+    const transformAndTransitionProps = {
+    	transformSettingPopover: (
+    		<Form style={{width: 400}}>
+    			<FormItem labelCol={{span: 4}} wrapperCol={{span: 20}} label={(<i title="属性" className='fa fa-search'></i>)}>
+    				<Select
+    				    showSearch
+    				    placeholder="选择变化属性"
+    				    optionFilterProp="children"
+    				    filterOption={(input, option) => option.props.value.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+    				    defaultValue="Opacity"
+    				>
+    				  	<OptGroup key="Common" label="Common">
+    				        <Option key="Opacity">Opacity</Option>
+    				        <Option key="Margin">Margin</Option>
+	    				    <Option key="Padding">Padding</Option>
+	    				    <Option key="Border">Border</Option>
+	    				    <Option key="Transform">Transform</Option>
+	    				    <Option key="fllter">fllter</Option>
+	    				    <Option key="Flex">Flex</Option>
+	    				</OptGroup>
+
+	    				<OptGroup key="Background" label="Background">
+	    					<Option key="BackgroundColor">Background Color</Option>
+	    					<Option key="BackgroundPosition">Background Position</Option>
+	    				</OptGroup>
+    				    
+	    				<OptGroup key="Shadows" label="Shadows">
+	    					<Option key="TextShadows">Text Shadows</Option>
+	    					<Option key="BoxShadows">Box Shadows</Option>
+	    				</OptGroup>
+
+    				</Select>
+    			</FormItem>
+
+    			<FormItem labelCol={{span: 4}} wrapperCol={{span: 20}} label={(<i title="时间" className='fa fa-clock-o'></i>)}>
+					<Row>
+				        <Col span={18}>
+				          	<Slider min={1} max={20}/>
+				        </Col>
+				        <Col span={4}>
+				          	<InputNumber/>
+				        </Col>
+				        <Col span={1}>MS</Col>
+				    </Row>
+				</FormItem>
+
+				<InputGroup compact>
+					<div style={{width: '16.7%', display: 'inline-block'}}>
+						<i className="fa fa-line-chart"></i>
+					</div>
+			      	<Select
+    				    placeholder="变化速度曲线"
+    				    defaultValue="ease"
+    				    style={{ width: '30%' }}
+    				>
+    					<Option key="ease">Ease</Option>
+    					<Option key="linear">Linear</Option>
+    					<Option key="ease-in">Ease In</Option>
+    					<Option key="ease-out">Ease Out</Option>
+    					<Option key="ease-in-out">Ease In Out</Option>
+    					<Option key="cubic-bezier">cubic Bezier</Option>
+    				</Select>
+			      	<Input style={{ width: '53.3%' }} disabled={true} defaultValue="cubic-bezier(0.25,0.1,0.25,1)" />
+			    </InputGroup>
+
+    		</Form>
+    	),
+
+    	transitionSttingPopover: (
+			<Form className="form-no-margin-bottom">
+				<FormItem label="起始位置" {...formItemLayout}></FormItem>
+				
+				<div style={{border: 'solid 1px #d9d9d9', padding: 5}}>
+					<InputGroup compact>
+						<div style={{width: '30%', display: 'inline-block'}}>
+							水平方向:
+						</div>
+						<Input style={{ width: '40%' }} defaultValue="0" />
+				      	<Select
+	    				    placeholder="选择单位"
+	    				    defaultValue="PX"
+	    				    style={{ width: '30%' }}
+	    				>
+	    					<Option key="PX">PX</Option>
+	    					<Option key="%">%</Option>
+	    				</Select>
+				    </InputGroup>
+
+    				<InputGroup compact style={{marginTop: 5}}>
+						<div style={{width: '30%', display: 'inline-block'}}>
+							垂直方向:
+						</div>
+						<Input style={{ width: '40%' }} defaultValue="0" />
+				      	<Select
+	    				    placeholder="选择单位"
+	    				    defaultValue="PX"
+	    				    style={{ width: '30%' }}
+	    				>
+	    					<Option key="PX">PX</Option>
+	    					<Option key="%">%</Option>
+	    				</Select>
+				    </InputGroup>
+				</div>
+
+				<FormItem {...formItemLayout} label="从自身看">
+					<Row>
+				        <Col span={13}>
+				          	<Slider min={1} max={2000}/>
+				        </Col>
+				        <Col span={3}>
+				          	<InputNumber/>
+				        </Col>
+				        <Col span={1}>PX</Col>
+				    </Row>
+				</FormItem>
+
+				<FormItem {...formItemLayout} label="背面">
+					<RadioGroup defaultValue="cansee" size="small">
+				      	<RadioButton value="cansee">
+	  		              	<i className="fa fa-eye"></i>
+			      		</RadioButton>
+			      		<RadioButton value="nosee">
+	  		              	<i className="fa fa-eye-slash"></i>
+			      		</RadioButton>
+			      	</RadioGroup>
+				</FormItem>
+			</Form>
+    	),
+
+    	transitionAddPopover: (
+			<Tabs defaultActiveKey="Move" size="small" animated={false}>
+			    <TabPane tab="Move" key="Move">
+					<InputGroup compact style={{marginTop: 5}}>
+						<div style={{width: '30%', display: 'inline-block'}}>
+							X轴方向:
+						</div>
+						<Input style={{ width: '40%' }} defaultValue="0" />
+				      	<Select
+	    				    placeholder="选择单位"
+	    				    defaultValue="PX"
+	    				    style={{ width: '30%' }}
+	    				>
+	    					<Option key="PX">PX</Option>
+	    					<Option key="%">%</Option>
+	    				</Select>
+				    </InputGroup>
+
+    				<InputGroup compact style={{marginTop: 5}}>
+    					<div style={{width: '30%', display: 'inline-block'}}>
+    						Y轴方向:
+    					</div>
+    					<Input style={{ width: '40%' }} defaultValue="0" />
+    			      	<Select
+        				    placeholder="选择单位"
+        				    defaultValue="PX"
+        				    style={{ width: '30%' }}
+        				>
+        					<Option key="PX">PX</Option>
+        					<Option key="%">%</Option>
+        				</Select>
+    			    </InputGroup>
+
+    			    <InputGroup compact style={{marginTop: 5}}>
+						<div style={{width: '30%', display: 'inline-block'}}>
+							Z轴方向:
+						</div>
+						<Input style={{ width: '40%' }} defaultValue="0" />
+				      	<Select
+	    				    placeholder="选择单位"
+	    				    defaultValue="PX"
+	    				    style={{ width: '30%' }}
+	    				>
+	    					<Option key="PX">PX</Option>
+	    					<Option key="%">%</Option>
+	    				</Select>
+				    </InputGroup>
+
+			    </TabPane>
+			    <TabPane tab="Scale" key="Scale">
+			    	<InputGroup compact style={{marginTop: 5}}>
+						<div style={{width: '30%', display: 'inline-block'}}>
+							X轴方向:
+						</div>
+						<Input style={{ width: '40%' }} defaultValue="0" />
+				      	<Select
+	    				    placeholder="选择单位"
+	    				    defaultValue="PX"
+	    				    style={{ width: '30%' }}
+	    				>
+	    					<Option key="PX">PX</Option>
+	    					<Option key="%">%</Option>
+	    				</Select>
+				    </InputGroup>
+
+    				<InputGroup compact style={{marginTop: 5}}>
+    					<div style={{width: '30%', display: 'inline-block'}}>
+    						Y轴方向:
+    					</div>
+    					<Input style={{ width: '40%' }} defaultValue="0" />
+    			      	<Select
+        				    placeholder="选择单位"
+        				    defaultValue="PX"
+        				    style={{ width: '30%' }}
+        				>
+        					<Option key="PX">PX</Option>
+        					<Option key="%">%</Option>
+        				</Select>
+    			    </InputGroup>
+
+    			    <InputGroup compact style={{marginTop: 5}}>
+						<div style={{width: '30%', display: 'inline-block'}}>
+							Z轴方向:
+						</div>
+						<Input style={{ width: '40%' }} defaultValue="0" />
+				      	<Select
+	    				    placeholder="选择单位"
+	    				    defaultValue="PX"
+	    				    style={{ width: '30%' }}
+	    				>
+	    					<Option key="PX">PX</Option>
+	    					<Option key="%">%</Option>
+	    				</Select>
+				    </InputGroup>
+			    </TabPane>
+			    <TabPane tab="Rotate" key="Rotate">
+			    	<InputGroup compact style={{marginTop: 5}}>
+						<div style={{width: '30%', display: 'inline-block'}}>
+							X轴方向:
+						</div>
+						<Input style={{ width: '40%' }} defaultValue="0" />
+				      	<Select
+	    				    placeholder="选择单位"
+	    				    defaultValue="DEG"
+	    				    style={{ width: '30%' }}
+	    				>
+	    					<Option key="DEG">DEG</Option>
+	    				</Select>
+				    </InputGroup>
+
+    				<InputGroup compact style={{marginTop: 5}}>
+    					<div style={{width: '30%', display: 'inline-block'}}>
+    						Y轴方向:
+    					</div>
+    					<Input style={{ width: '40%' }} defaultValue="0" />
+    			      	<Select
+        				    placeholder="选择单位"
+        				    defaultValue="DEG"
+        				    style={{ width: '30%' }}
+        				>
+        					<Option key="DEG">DEG</Option>
+        				</Select>
+    			    </InputGroup>
+
+    			    <InputGroup compact style={{marginTop: 5}}>
+						<div style={{width: '30%', display: 'inline-block'}}>
+							Z轴方向:
+						</div>
+						<Input style={{ width: '40%' }} defaultValue="0" />
+				      	<Select
+	    				    placeholder="选择单位"
+	    				    defaultValue="DEBG"
+	    				    style={{ width: '30%' }}
+	    				>
+	    					<Option key="DEG">DEG</Option>
+	    				</Select>
+				    </InputGroup>
+			    </TabPane>
+			    <TabPane tab="Skew" key="Skew">
+			    	<InputGroup compact style={{marginTop: 5}}>
+						<div style={{width: '30%', display: 'inline-block'}}>
+							X轴方向:
+						</div>
+						<Input style={{ width: '40%' }} defaultValue="0" />
+				      	<Select
+	    				    placeholder="选择单位"
+	    				    defaultValue="DEG"
+	    				    style={{ width: '30%' }}
+	    				>
+	    					<Option key="DEG">DEG</Option>
+	    				</Select>
+				    </InputGroup>
+
+    				<InputGroup compact style={{marginTop: 5}}>
+    					<div style={{width: '30%', display: 'inline-block'}}>
+    						Y轴方向:
+    					</div>
+    					<Input style={{ width: '40%' }} defaultValue="0" />
+    			      	<Select
+        				    placeholder="选择单位"
+        				    defaultValue="DEG"
+        				    style={{ width: '30%' }}
+        				>
+        					<Option key="DEG">DEG</Option>
+        				</Select>
+    			    </InputGroup>
+			    </TabPane>
+			</Tabs>
+    	)
+    }
+
+    const effectProps = {
+    	cursorPopover: (
+    		<div>
+    			<p>普通的</p>
+    			<ButtonGroup>
+    				<Button style={{cursor: 'default'}}>default</Button>
+    				<Button style={{cursor: 'none'}}>none</Button>
+    			</ButtonGroup>
+
+    			<li style={{marginBottom: 8, marginTop: 8}} className="ant-dropdown-menu-item-divider"></li>
+
+    			<p>链接 & 状态</p>
+    			<ButtonGroup>
+    				<Button style={{cursor: 'pointer'}}>pointer</Button>
+    				<Button style={{cursor: 'not-allowed'}}>not-allowed</Button>
+    				<Button style={{cursor: 'wait'}}>wait</Button>
+    				<Button style={{cursor: 'progress'}}>progress</Button>
+    				<Button style={{cursor: 'help'}}>help</Button>
+    				<Button style={{cursor: 'context-menu'}}>context-menu</Button>
+    			</ButtonGroup>
+
+    			<li style={{marginBottom: 8, marginTop: 8}} className="ant-dropdown-menu-item-divider"></li>
+
+    			<p>选择</p>
+    			<ButtonGroup>
+    				<Button style={{cursor: 'cell'}}>cell</Button>
+    				<Button style={{cursor: 'crosshair'}}>crosshair</Button>
+    				<Button style={{cursor: 'text'}}>text</Button>
+    				<Button style={{cursor: 'vertical-text'}}>vertical-text</Button>
+    			</ButtonGroup>
+
+    			<li style={{marginBottom: 8, marginTop: 8}} className="ant-dropdown-menu-item-divider"></li>
+
+    			<p>拖拽</p>
+    			<ButtonGroup>
+    				<Button style={{cursor: 'grab'}}>grab</Button>
+    				<Button style={{cursor: 'grabbing'}}>grabbing</Button>
+    				<Button style={{cursor: 'alias'}}>alias</Button>
+    				<Button style={{cursor: 'copy'}}>copy</Button>
+    				<Button style={{cursor: 'move'}}>move</Button>
+    			</ButtonGroup>
+
+    			<li style={{marginBottom: 8, marginTop: 8}} className="ant-dropdown-menu-item-divider"></li>
+
+    			<p>缩放</p>
+    			<ButtonGroup>
+    				<Button style={{cursor: 'zoom-in'}}>zoom-in</Button>
+    				<Button style={{cursor: 'zoom-out'}}>zoom-out</Button>
+    			</ButtonGroup>
+
+    			<li style={{marginBottom: 8, marginTop: 8}} className="ant-dropdown-menu-item-divider"></li>
+
+    			<p>改变大小</p>
+    			<ButtonGroup>
+    				<Button style={{cursor: 'col-resize'}}>col-resize</Button>
+    				<Button style={{cursor: 'row-resize'}}>row-resize</Button>
+    				<Button style={{cursor: 'nesw-resize'}}>nesw-resize</Button>
+    				<Button style={{cursor: 'nwse-resize'}}>nwse-resize</Button>
+    				<Button style={{cursor: 'ew-resize'}}>ew-resize</Button>
+    				<Button style={{cursor: 'ns-resize'}}>ns-resize</Button>
+    				<Button style={{cursor: 'n-resize'}}>n-resize</Button>
+    				<Button style={{cursor: 'w-resize'}}>w-resize</Button>
+    				<Button style={{cursor: 's-resize'}}>s-resize</Button>
+    				<Button style={{cursor: 'e-resize'}}>e-resize</Button>
+    				<Button style={{cursor: 'nw-resize'}}>nw-resize</Button>
+    				<Button style={{cursor: 'ne-resize'}}>ne-resize</Button>
+    				<Button style={{cursor: 'sw-resize'}}>sw-resize</Button>
+    				<Button style={{cursor: 'se-resize'}}>se-resize</Button>
+    			</ButtonGroup>
+
+    		</div>
+    	)
     }
 
   	return (
@@ -956,54 +1404,289 @@ const Component = (props) => {
 			    </Panel>
 			    <Panel header="阴影" key="components">
 			    	<Form className="form-no-margin-bottom">
-    					<FormItem {...formItemLayout} label="盒子阴影">
+    					<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right'}} label="盒子阴影">
 
 							<RadioGroup defaultValue="none" size="small">
 						      	<RadioButton style={{borderBottom: 'none'}} value="outerRightBottom">
-			  		              	<Tooltip placement="top" title="外面右下">
-										<Icon type="close" />
-						      		</Tooltip>
+				      				<Popover
+				      		        	content={shadowProps.settingPopover}
+				      		        	title="阴影设置"
+				      		        	trigger="click"
+				      		        	placement="left"
+				      		      	>
+				  		              	<Tooltip placement="top" title="外面右下">
+											<Icon type="close" />
+							      		</Tooltip>
+							      	</Popover>
 					      		</RadioButton>
 						      	<RadioButton style={{borderBottom: 'none'}} value="outerWrapper">
-			  		              	<Tooltip placement="top" title="外面四周">
-										<Icon type="minus" />
-						      		</Tooltip>
+							      	<Popover
+					      		        	content={shadowProps.settingPopover}
+					      		        	title="阴影设置"
+					      		        	trigger="click"
+					      		        	placement="left"
+					      		      	>
+				  		              	<Tooltip placement="top" title="外面四周">
+											<Icon type="minus" />
+							      		</Tooltip>
+							      	</Popover>
 						      	</RadioButton>
 						      	<RadioButton style={{borderBottom: 'none'}} value="insideWrapper">
-			  		              	<Tooltip placement="top" title="里面四周">
-										<i className="fa fa-ellipsis-h"></i>
-						      		</Tooltip>
+						      		<Popover
+				      		        	content={shadowProps.settingPopover}
+				      		        	title="阴影设置"
+				      		        	trigger="click"
+				      		        	placement="left"
+				      		      	>
+				  		              	<Tooltip placement="top" title="里面四周">
+											<i className="fa fa-ellipsis-h"></i>
+							      		</Tooltip>
+							      	</Popover>
 						      	</RadioButton>
 						      	<RadioButton style={{borderBottom: 'none'}} value="insideTop">
-			  		              	<Tooltip placement="top" title="里面上方">
-										<Icon type="ellipsis" />
-						      		</Tooltip>
+						      		<Popover
+				      		        	content={shadowProps.settingPopover}
+				      		        	title="阴影设置"
+				      		        	trigger="click"
+				      		        	placement="left"
+				      		      	>
+				  		              	<Tooltip placement="top" title="里面上方">
+											<Icon type="ellipsis" />
+							      		</Tooltip>
+							      	</Popover>
 						      	</RadioButton>
 						    </RadioGroup>
 
     					</FormItem>
-    					<FormItem wrapperCol={{ span: 23 }} style={{position: 'relative', top: -5}}>
-    						<div style={{border: '1px solid #d9d9d9', minHeight: 10, display: 'flex', justifyContent: 'space-around'}}>
-    							<div>
-    								<i className="fa fa-eye"></i>
-    							</div>
-    							<div style={{}}>暂无</div>
-    							<div>
-    								<i className="fa fa-circle"></i>
-    							</div>
-    							<div>
-    								<i className="fa fa-trash-o"></i>
-    							</div>
+    					<FormItem wrapperCol={{ span: 24 }} style={{position: 'relative', top: -5}}>
+    						<div style={{border: '1px solid #d9d9d9', minHeight: 10}}>
+    							<Row>
+    								<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
+    									<i className="fa fa-eye"></i>
+    								</Col>
+    								<Col span={2} style={{textAlign: 'center', cursor: 'ns-resize'}}>
+    									<i className="fa fa-chain"></i>
+    								</Col>
+    								<Col span={12} style={{textAlign: 'center', cursor: 'pointer'}}>
+    									暂无
+    								</Col>
+    								<Col span={2} style={{textAlign: 'center'}}>
+    									<i className="fa fa-circle"></i>
+    								</Col>
+    								<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
+    									<i className="fa fa-trash-o"></i>
+    								</Col>
+    							</Row>
     						</div>
     					</FormItem>
 
 			    	</Form>
+
+			    	<li style={{marginTop: '15px', marginBottom: '15px'}} className="ant-dropdown-menu-item-divider"></li>
+
+			    	<Form className="form-no-margin-bottom">
+    					<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right'}} label="文字阴影">
+
+							<RadioGroup defaultValue="none" size="small">
+						      	<RadioButton style={{borderBottom: 'none'}} value="outerRightBottom">
+				      				<Popover
+				      		        	content={shadowProps.settingPopover}
+				      		        	title="阴影设置"
+				      		        	trigger="click"
+				      		        	placement="left"
+				      		      	>
+				  		              	<Tooltip placement="top" title="右下">
+											<Icon type="close" />
+							      		</Tooltip>
+							      	</Popover>
+					      		</RadioButton>
+						      	<RadioButton style={{borderBottom: 'none'}} value="outerWrapper">
+							      	<Popover
+					      		        	content={shadowProps.settingPopover}
+					      		        	title="阴影设置"
+					      		        	trigger="click"
+					      		        	placement="left"
+					      		      	>
+				  		              	<Tooltip placement="top" title="正下">
+											<Icon type="minus" />
+							      		</Tooltip>
+							      	</Popover>
+						      	</RadioButton>
+						      	<RadioButton style={{borderBottom: 'none'}} value="insideWrapper">
+						      		<Popover
+				      		        	content={shadowProps.settingPopover}
+				      		        	title="阴影设置"
+				      		        	trigger="click"
+				      		        	placement="left"
+				      		      	>
+				  		              	<Tooltip placement="top" title="正上">
+											<i className="fa fa-ellipsis-h"></i>
+							      		</Tooltip>
+							      	</Popover>
+						      	</RadioButton>
+						    </RadioGroup>
+
+    					</FormItem>
+    					<FormItem wrapperCol={{ span: 24 }} style={{position: 'relative', top: -5}}>
+    						<div style={{border: '1px solid #d9d9d9', minHeight: 10}}>
+    							<Row>
+    								<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
+    									<i className="fa fa-eye"></i>
+    								</Col>
+    								<Col span={2} style={{textAlign: 'center', cursor: 'ns-resize'}}>
+    									<i className="fa fa-chain"></i>
+    								</Col>
+    								<Col span={12} style={{textAlign: 'center', cursor: 'pointer'}}>
+    									暂无
+    								</Col>
+    								<Col span={2} style={{textAlign: 'center'}}>
+    									<i className="fa fa-circle"></i>
+    								</Col>
+    								<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
+    									<i className="fa fa-trash-o"></i>
+    								</Col>
+    							</Row>
+    						</div>
+    					</FormItem>
+
+			    	</Form>
+
 			    </Panel>
-			    <Panel header="过度和变换" key="transitions-transforms">
-			      	<p>组件</p>
+			    <Panel header="过渡和变换" key="transitions-transforms">
+			      	<Form className="form-no-margin-bottom">
+			      		<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right', marginTop: 5}} label="过渡">
+			      			<Tooltip placement="top" title="添加过渡">
+			      				<Popover title='添加过渡' placement="leftTop" trigger="click" content={transformAndTransitionProps.transformSettingPopover}>
+					      			<Button style={{borderBottom: 'none'}}>
+					      				<i className="fa fa-clock-o"></i>
+					      			</Button>
+					      		</Popover>
+				      		</Tooltip>
+			      		</FormItem>
+
+			      		<FormItem wrapperCol={{ span: 24 }} style={{position: 'relative', top: -5}}>
+    						<div style={{border: '1px solid #d9d9d9', minHeight: 10}}>
+    							<Row>
+    								<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
+    									<i className="fa fa-eye"></i>
+    								</Col>
+    								<Col span={2} style={{textAlign: 'center', cursor: 'ns-resize'}}>
+    									<i className="fa fa-chain"></i>
+    								</Col>
+    								<Col span={14} style={{textAlign: 'center', cursor: 'pointer'}}>
+    									暂无
+    								</Col>
+    								<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
+    									<i className="fa fa-trash-o"></i>
+    								</Col>
+    							</Row>
+    						</div>
+    					</FormItem>
+
+    					<li className="ant-dropdown-menu-item-divider"></li>
+
+    					<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right', marginTop: 5}} label="变换">
+    						<ButtonGroup>
+	    						<Tooltip placement="top" title="变换设置">
+				      				<Popover title='变换设置' placement="leftTop" trigger="click" content={transformAndTransitionProps.transitionSttingPopover}>
+						      			<Button style={{textAlign: 'center'}}>
+						      				<i className="fa fa-cog"></i>
+						      			</Button>
+						      		</Popover>
+					      		</Tooltip>
+				      			<Tooltip placement="top" title="添加变换">
+				      				<Popover title='添加变换' placement="leftTop" trigger="click" content={transformAndTransitionProps.transitionAddPopover}>
+						      			<Button style={{textAlign: 'center'}}>
+						      				<i className="fa fa-plus"></i>
+						      			</Button>
+						      		</Popover>
+					      		</Tooltip>
+    						</ButtonGroup>
+			      		</FormItem>
+
+			      		<FormItem wrapperCol={{ span: 24 }} style={{position: 'relative', top: -3}}>
+    						<div style={{border: '1px solid #d9d9d9', minHeight: 10}}>
+    							<Row>
+    								<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
+    									<i className="fa fa-eye"></i>
+    								</Col>
+    								<Col span={2} style={{textAlign: 'center', cursor: 'ns-resize'}}>
+    									<i className="fa fa-chain"></i>
+    								</Col>
+    								<Col span={14} style={{textAlign: 'center', cursor: 'pointer'}}>
+    									暂无
+    								</Col>
+    								<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
+    									<i className="fa fa-trash-o"></i>
+    								</Col>
+    							</Row>
+    						</div>
+    					</FormItem>
+
+			      	</Form>
 			    </Panel>
 			    <Panel header="效果" key="effects">
-			      	<p>组件</p>
+			    	<Form className="form-no-margin-bottom">
+	  	    			<FormItem labelCol={{span: 6}} wrapperCol={{span: 16}} label="透明度">
+	  						<Row>
+	  					        <Col span={15}>
+	  					          	<Slider min={0} max={100}/>
+	  					        </Col>
+	  					        <Col span={4}>
+	  					          	<InputNumber/>
+	  					        </Col>
+	  					        <Col span={1}>%</Col>
+	  					    </Row>
+	  					</FormItem>
+
+	  					<li className="ant-dropdown-menu-item-divider"></li>
+
+	  					<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right', marginTop: 5}} label="过渡">
+			      			<Tooltip placement="top" title="添加过滤器">
+			      				<Popover title='添加过滤器' placement="leftTop" trigger="click" content={transformAndTransitionProps.transformSettingPopover}>
+					      			<Button style={{borderBottom: 'none'}}>
+					      				<i className="fa fa-plus"></i>
+					      			</Button>
+					      		</Popover>
+				      		</Tooltip>
+			      		</FormItem>
+
+			      		<FormItem wrapperCol={{ span: 24 }} style={{position: 'relative', top: -5}}>
+    						<div style={{border: '1px solid #d9d9d9', minHeight: 10}}>
+    							<Row>
+    								<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
+    									<i className="fa fa-eye"></i>
+    								</Col>
+    								<Col span={2} style={{textAlign: 'center', cursor: 'ns-resize'}}>
+    									<i className="fa fa-chain"></i>
+    								</Col>
+    								<Col span={14} style={{textAlign: 'center', cursor: 'pointer'}}>
+    									暂无
+    								</Col>
+    								<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
+    									<i className="fa fa-trash-o"></i>
+    								</Col>
+    							</Row>
+    						</div>
+    					</FormItem>
+
+    					<li className="ant-dropdown-menu-item-divider"></li>
+
+    					<FormItem style={{marginTop: 20}} labelCol={{span: 8}} wrapperCol={{span: 16}} label="鼠标样式">
+    						<Input addonBefore={<Popover 
+	    											content={effectProps.cursorPopover}
+										        	title="鼠标样式"
+										        	trigger="click"
+										        	placement="leftTop"
+										        >
+	    											<Icon type="setting"/>
+	    										</Popover>} 
+	    							size='small' 
+	    							defaultValue='auto' 
+    						/>
+    					</FormItem>
+
+    				</Form>
 			    </Panel>
 			</Collapse>
   		</div>
@@ -1011,8 +1694,8 @@ const Component = (props) => {
 
 };
 
-function mapSateToProps({ dashboard }) {
-  return { dashboard };
+function mapSateToProps({ vdstyle }) {
+  return { vdstyle };
 }
 
-export default connect(mapSateToProps)(Component);
+export default connect(mapSateToProps)(VDStylePanel);

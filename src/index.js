@@ -96,6 +96,7 @@ app.model(require('./models/vdsite/ModelVDAsets'));
 app.model(require('./models/vdsite/ModelVDCtrl'));
 app.model(require('./models/vdsite/ModelVDCore'));
 app.model(require('./models/vdsite/ModelInteractions'));
+app.model(require('./models/vdsite/ModelVDStyle'));
 
 // 5. Router
 app.router(require('./router'));
