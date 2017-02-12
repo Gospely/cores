@@ -13,37 +13,49 @@ const TabPane = Tabs.TabPane;
 const Component = (props) => {
 
 	const ctrlPros = {
-		onSelect () {
+			onSelect () {
 
+			},
+
+			onCheck () {
+
+			},
+
+			activePage: props.vdpm.activePage
 		},
 
-		onCheck () {
+		activeControllerTree = props.vdCtrlTree.layout[ctrlPros.activePage],
 
-		}
-	}
+    	loopControllerTree = data => data.map((item) => {
+    		const itemId = item.id == '' ? '' : '#' + item.id;
+    		const itemCls = item.className.length > 0 ? '.' + item.className.join('.') : '';
+    		const title = item.tag + itemCls + itemId;
+
+	        if (item.children) {
+	            return <TreeNode title={title} key={item.vdid}>{loopControllerTree(item.children)}</TreeNode>;
+	        }
+
+	        return (
+	            <TreeNode title={title} key={item.vdid} isLeaf={item.isLeaf} />
+	        );
+
+	    });
 
   	return (
       	<Tree showLine
-        	defaultExpandedKeys={props.vdctrl.defaultExpandedKeys}
-        	defaultSelectedKeys={props.vdctrl.defaultSelectedKeys}
+      		defaultExpandAll={true}
+        	defaultExpandedKeys={props.vdCtrlTree.defaultExpandedKeys}
+        	defaultSelectedKeys={props.vdCtrlTree.defaultSelectedKeys}
         	onSelect={ctrlPros.onSelect} onCheck={ctrlPros.onCheck}
       	>
-	        <TreeNode title="body" key="0-0">
-	          	<TreeNode title="div.Navgation#shit" key="0-0-0">
-	            	<TreeNode title="leaf" key="0-0-0-0" />
-	            	<TreeNode title="leaf" key="0-0-0-1" />
-	          	</TreeNode>
-	          	<TreeNode title="p.title#fuck" key="0-0-1">
-	            	<TreeNode title={<span style={{ color: '#08c' }}>sss</span>} key="0-0-1-0" />
-	          	</TreeNode>
-	        </TreeNode>
+      		{loopControllerTree(activeControllerTree)}
       </Tree>
   	);
 
 };
 
-function mapSateToProps({ vdctrl }) {
-  return { vdctrl };
+function mapSateToProps({ vdCtrlTree, vdpm }) {
+  return { vdCtrlTree, vdpm };
 }
 
 export default connect(mapSateToProps)(Component);
