@@ -141,6 +141,16 @@ export default {
 				name: '幻灯片',
 				key: 'slider'
 			}]
+		}],
+
+		symbols: [{
+			name: '底部',
+			controllers: [],
+			key: '123'
+		}, {
+			name: '头部',
+			controllers: [],
+			key: '234'
 		}]
 	},
 
