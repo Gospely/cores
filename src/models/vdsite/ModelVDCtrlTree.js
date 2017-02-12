@@ -16,7 +16,7 @@ export default {
 	    		ctrlName: 'body',
 	    		children: [{
 	    			tag: 'div',
-	    			className: ['nav', 'bar', 'top'],
+	    			className: ['designer-wrapper', 'designer-header', 'vd-right-panel'],
 		    		vdid: '456',
 	    			id: '',
 		    		ctrlName: 'div-block',
@@ -31,14 +31,31 @@ export default {
 	    			}]
 	    		}, {
 	    			tag: 'p',
-	    			className: ['title'],
+	    			className: ['ant-tabs-tab'],
 		    		ctrlName: 'paragraph',
 	    			vdid: '789',
 	    			id: '',
 	    			attr: []
 	    		}]
 	    	}]
-	    }
+	    },
+
+	    activeCtrl: {
+			tag: 'div',
+			className: ['designer-wrapper', 'designer-header', 'vd-right-panel'],
+    		vdid: '456',
+			id: '',
+    		ctrlName: 'div-block',
+			attr: [],
+			children: [{
+				tag: 'h1',
+				className: [],
+				vdid: '098',
+	    		ctrlName: 'heading',
+				id: '',
+				attr: []
+			}]
+		}
 	},
 
 	reducers: {

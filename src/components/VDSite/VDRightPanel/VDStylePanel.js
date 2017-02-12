@@ -357,7 +357,7 @@ const Component = (props) => {
 						    	multiple
 						    	style={{ width: '100%' }}
 						    	placeholder="请选择CSS类"
-						    	defaultValue={['a10', 'a11']}
+						    	defaultValue={props.vdCtrlTree.activeCtrl.className}
 						    	size="small"
 						  	>
 						    	{cssSelector.cssClassNameList()}
@@ -1050,8 +1050,8 @@ const Component = (props) => {
 
 };
 
-function mapSateToProps({ vdstyles }) {
-  return { vdstyles };
+function mapSateToProps({ vdstyles, vdCtrlTree }) {
+  return { vdstyles, vdCtrlTree };
 }
 
 export default connect(mapSateToProps)(Component);

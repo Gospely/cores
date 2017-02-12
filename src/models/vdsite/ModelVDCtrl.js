@@ -5,6 +5,13 @@ export default {
 	namespace: 'vdctrl',
 	state: {
 		
+		publicAttrs: [{
+			basic: [{
+				id: '',
+				
+			}]
+		}],
+
 		controllers: [{
 			name: "布局",
 			key: 'layout',
@@ -13,7 +20,7 @@ export default {
 				name: '区段',
 				key: 'section',
 				details: {
-					
+
 				}
 			}, {
     			icon: <svg width="62" height="50" viewBox="0 0 62 50" className="bem-Svg" style={{'transform': 'translate(0px, 0px)'}}><path opacity=".2" fill="currentColor" d="M14 10h34v34H14z"></path><g fill="currentColor"><path d="M14 10h2v4h-2zm32 0h2v4h-2zm-30 0h2v2h-2zm10 0h4v2h-4zm-6 0h4v2h-4zm12 0h4v2h-4zm-6 32h4v2h-4zm-6 0h4v2h-4zm12 0h4v2h-4zm6-32h4v2h-4zm0 32h4v2h-4z"></path><path d="M44 10h4v2h-4zm2 30h2v4h-2zm-32 0h2v4h-2zm0-18h2v4h-2zm0-6h2v4h-2zm32 6h2v4h-2zm-32 6h2v4h-2zm32 0h2v4h-2zm-32 6h2v4h-2zm32 0h2v4h-2zm0-18h2v4h-2zm-2 26h2v2h-2z"></path><path d="M14 42h4v2h-4z"></path></g><path opacity=".25" fill="currentColor" d="M59 1H3c-1.1 0-2 .9-2 2v44c0 1.1.9 2 2 2h56c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zM14.5 3c.8 0 1.5.7 1.5 1.5S15.3 6 14.5 6 13 5.3 13 4.5 13.7 3 14.5 3zm-5 0c.8 0 1.5.7 1.5 1.5S10.3 6 9.5 6 8 5.3 8 4.5 8.7 3 9.5 3zm-5 0C5.3 3 6 3.7 6 4.5S5.3 6 4.5 6 3 5.3 3 4.5 3.7 3 4.5 3zM59 47H3V8h56v39z"></path><path opacity=".4" d="M48 10v34H14V10h34m1-1H13v36h36V9z"></path></svg>,
@@ -30,7 +37,10 @@ export default {
 			content: [{
 				icon: <svg width="36" height="36" viewBox="0 0 36 36" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".2" fill="currentColor" d="M1 1h34v34H1z"></path><g fill="currentColor"><path d="M1 1h2v4H1zm32 0h2v4h-2zM3 1h2v2H3zm10 0h4v2h-4zM7 1h4v2H7zm12 0h4v2h-4zm-6 32h4v2h-4zm-6 0h4v2H7zm12 0h4v2h-4zm6-32h4v2h-4zm0 32h4v2h-4z"></path><path d="M31 1h4v2h-4zm2 30h2v4h-2zM1 31h2v4H1zm0-18h2v4H1zm0-6h2v4H1zm32 6h2v4h-2zM1 19h2v4H1zm32 0h2v4h-2zM1 25h2v4H1zm32 0h2v4h-2zm0-18h2v4h-2zm-2 26h2v2h-2z"></path><path d="M1 33h4v2H1z"></path></g><path opacity=".4" d="M35 1v34H1V1h34m1-1H0v36h36V0z"></path></svg>,				
 				name: 'div块',
-				key: 'div-block'
+				key: 'div-block',
+				details: {
+
+				}
 			}, {
 				icon: <svg width="36" height="36" viewBox="0 0 36 36" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".2" fill="currentColor" d="M1 1h34v34H1z"></path><g fill="currentColor"><path d="M1 1h2v4H1zm32 0h2v4h-2zM3 1h2v2H3zm10 0h4v2h-4zM7 1h4v2H7zm12 0h4v2h-4zm-6 32h4v2h-4zm-6 0h4v2H7zm12 0h4v2h-4zm6-32h4v2h-4zm0 32h4v2h-4z"></path><path d="M31 1h4v2h-4zm2 30h2v4h-2zM1 31h2v4H1zm0-18h2v4H1zm0-6h2v4H1zm32 6h2v4h-2zM1 19h2v4H1zm32 0h2v4h-2zM1 25h2v4H1zm32 0h2v4h-2zm0-18h2v4h-2zm-2 26h2v2h-2z"></path><path d="M1 33h4v2H1z"></path></g><path opacity=".4" d="M35 1v34H1V1h34m1-1H0v36h36V0z"></path><path opacity=".5" fill="currentColor" d="M13.6 27c-1.2 0-2.4-.5-3.2-1.3-.9-.9-1.3-2-1.3-3.2 0-1.2.5-2.4 1.3-3.2l3.2-3.2c.3-.3.7-.6 1-.8.7-.4 1.4-.6 2.2-.6 1.5 0 2.8.7 3.7 1.9l-1.3 1.3c-.5-.8-1.4-1.4-2.4-1.4-.2 0-.4 0-.6.1-.5.1-1 .4-1.3.7l-3.2 3.2c-.5.5-.8 1.2-.8 2 0 .7.3 1.4.8 2 .5.5 1.2.8 2 .8.7 0 1.4-.3 2-.8l.9-.9c.7.3 1.4.4 2.2.4L17 25.8c-1.1.7-2.2 1.2-3.4 1.2zm5.1-5.1c-.4 0-.7 0-1.1-.1-.8-.2-1.6-.6-2.2-1.2l-.5-.5 1.3-1.3c.1.2.3.4.4.5.5.5 1.2.8 2 .8.7 0 1.4-.3 2-.8l3.2-3.2c.5-.5.8-1.2.8-2 0-.7-.3-1.4-.8-2-.5-.5-1.2-.8-2-.8-.7 0-1.4.3-2 .8l-.7.9c-.7-.3-1.4-.4-2.2-.4l1.8-1.8c.9-.9 2-1.3 3.2-1.3 1.2 0 2.4.5 3.2 1.3.9.9 1.3 2 1.3 3.2s-.5 2.4-1.3 3.2l-3.2 3.2c-.3.3-.7.6-1 .8-.7.5-1.4.7-2.2.7z"></path></svg>,				
 				name: '链接',
@@ -155,6 +165,12 @@ export default {
 			controllers: [],
 			key: '234'
 		}]
+	},
+
+	setup({ dispatch, history }) {
+      	history.listen(({ pathname }) => {
+
+      	});
 	},
 
 	reducers: {

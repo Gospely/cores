@@ -47,7 +47,9 @@ export default {
 		    }
 		},
 
-
+		cssSelector: {
+			
+		}
 	},
 
 	reducers: {
