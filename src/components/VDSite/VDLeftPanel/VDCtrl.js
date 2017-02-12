@@ -14,22 +14,47 @@ const Component = (props) => {
 
 	const panels = props.vdctrl.controllers.map((item, i) => {
 		if(item.content) {
-			const panelCtrl = item.content.map((ctrl, j) => {
-				return (
-			    	<Col key={ctrl.key} span={8}>
-			    		<div className="anticons-list-item">
-			    			{ctrl.icon}
-			    			<div className="anticon-class">{ctrl.name}</div>
-			    		</div>
-			    	</Col>
-				);
-			});
+			const 
+				contentLength = item.content.length,
+				rowCount = contentLength / 3,
+				rowGenerator = (rowCount) => {
+					let rows = [];
+					for (var j = 0; j < rowCount; j++) {
+
+						let
+							ctrlTplGenerator = (index) => {
+								let panelCtrl = item.content.map((ctrl, j) => {
+									if(j < index + 3 && j >= index) {
+										return (
+									    	<Col key={ctrl.key} span={8}>
+									    		<div className="anticons-list-item">
+									    			{ctrl.icon}
+									    			<div className="anticon-class">{ctrl.name}</div>
+									    		</div>
+									    	</Col>
+										);
+									}
+								});
+
+								panelCtrl = (
+									<Row key={index}>
+										{panelCtrl}
+									</Row>
+								);
+
+								return panelCtrl;
+							}
+
+						rows.push(ctrlTplGenerator(j * 3));
+					};
+					return rows;
+				},
+
+				rows = rowGenerator(rowCount);
 
 			return (
 				<Panel header={item.name} key={item.key}>
-			      	<Row>
-			      		{panelCtrl}
-			      	</Row>
+			      	{rows}
 			    </Panel>
 			);
 		}
