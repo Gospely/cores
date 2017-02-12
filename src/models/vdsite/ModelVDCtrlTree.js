@@ -94,23 +94,26 @@ export default {
     		vdid: '456',
 			id: '',
     		ctrlName: 'div-block',
-			attrs: [{
-				basic: {
+			attrs: [
+				{
 					title: '基础设置',
+					key: 'basic',
 					children: [{
 						name: 'id',
 						desc: 'id',
 						type: 'input',
-						value: ''
+						value: '',
+						id: '5443'
 					}, {
 						name: 'class',
 						desc: '可见屏幕',
 						type: 'multipleSelect',
-						value: '',
-						children: [1, 2, 3, 4]
+						value: ['1', '2'],
+						children: ['1', '2', '3', '4'],
+						id: '0987'
 					}]
 				}
-			}],
+			],
 			children: [{
 				tag: 'h1',
 				className: [],
@@ -124,13 +127,15 @@ export default {
 							name: 'id',
 							desc: 'id',
 							type: 'input',
-							value: ''
+							value: '',
+							id: '5443'
 						}, {
 							name: 'class',
 							desc: '可见屏幕',
 							type: 'multipleSelect',
 							value: '',
-							children: [1, 2, 3, 4]
+							children: [1, 2, 3, 4],
+							id: '0987'
 						}]
 					}
 				}]

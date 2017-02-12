@@ -133,37 +133,59 @@ const Component = (props) => {
     		console.log('sss',item);
 
     		const formTypeGenerator = (item) => {
-    			return (
-					<FormItem {...formItemLayout} label={item.desc}>
-						<Input size="small" />
-					</FormItem>
-    			);
+
+    			const formTypeList = {
+    				input (item) {
+		    			return (
+							<FormItem key={item.id} {...formItemLayout} label={item.desc}>
+								<Input value={item.value} size="small" />
+							</FormItem>
+		    			);
+    				},
+
+    				multipleSelect (item) {
+    					console.log(item);
+    					return (
+							<FormItem key={item.id} {...formItemLayout} label={item.desc}>
+								<Select
+								    multiple
+								    style={{ width: '100%' }}
+								    defaultValue={item.value}
+								    size="small"
+								 >
+								    {	
+								    	item.children.map((val, key) => {
+								    		return (
+									    	  <Option key={key} value={val}>{val}</Option>
+								    		);
+								    	})
+								    }
+							  	</Select>
+							</FormItem>
+    					);
+    				}
+    			}
+
+    			return formTypeList[item.type](item);
     		}
 
-    		const formGenerator = (item) => {
+    		const formGenerator = (items) => {
+    			console.log(items);
     			return (
 			      	<Form className="form-no-margin-bottom">
-			      		{formTypeGenerator(item)}
-
-						<FormItem {...formItemLayout} label="可视屏幕">
-							<Select
-							    multiple
-							    style={{ width: '100%' }}
-							    placeholder="Please select"
-							    defaultValue={['a10', 'c12']}
-							    size="small"
-							 >
-							    {children}
-						  	</Select>
-						</FormItem>
+			      		{
+			    			items.map((item, index) => {
+			    				return formTypeGenerator(item);
+    						})
+			      		}
 			      	</Form>
     			);
     		}
 
 			const panelGenerator = (key) => {
 				return (
-			    	<Panel header={item.title} key={item.title}>
-			    		{formGenerator(item)}
+			    	<Panel header={item.title} key={item.key}>
+			    		{formGenerator(item.children)}
 					</Panel>
 				);
 			}
@@ -173,33 +195,32 @@ const Component = (props) => {
     	});
     }
 
-	attrsPanels()
+			   //  <Panel header="基础设置" key="basic">
 
+			   //    	<Form className="form-no-margin-bottom">
+						// <FormItem {...formItemLayout} label="ID">
+						// 	<Input size="small" />
+						// </FormItem>
+
+						// <FormItem {...formItemLayout} label="可视屏幕">
+						// 	<Select
+						// 	    multiple
+						// 	    style={{ width: '100%' }}
+						// 	    placeholder="Please select"
+						// 	    defaultValue={['a10', 'c12']}
+						// 	    size="small"
+						// 	 >
+						// 	    {children}
+						//   	</Select>
+						// </FormItem>
+			   //    	</Form>
+
+			   //  </Panel>
   	return (
 
   		<div className="vdctrl-pane-wrapper">
 			<Collapse bordered={false} defaultActiveKey={['basic', 'link', 'custom-attr', 'heading-type']}>
-			    <Panel header="基础设置" key="basic">
-
-			      	<Form className="form-no-margin-bottom">
-						<FormItem {...formItemLayout} label="ID">
-							<Input size="small" />
-						</FormItem>
-
-						<FormItem {...formItemLayout} label="可视屏幕">
-							<Select
-							    multiple
-							    style={{ width: '100%' }}
-							    placeholder="Please select"
-							    defaultValue={['a10', 'c12']}
-							    size="small"
-							 >
-							    {children}
-						  	</Select>
-						</FormItem>
-			      	</Form>
-
-			    </Panel>
+				{attrsPanels()}
 			    <Panel header="链接设置" key="link">
 					<RadioGroup onChange={linkSettingProps.onChange} defaultValue="link" size="small">
 						{linkSettingProps.linkSettingTemplate}
