@@ -24,8 +24,8 @@ const Component = (props) => {
 
   	return (
       	<Tree showLine
-        	defaultExpandedKeys={props.vdctrl.defaultExpandedKeys}
-        	defaultSelectedKeys={props.vdctrl.defaultSelectedKeys}
+        	defaultExpandedKeys={props.vdCtrlTree.defaultExpandedKeys}
+        	defaultSelectedKeys={props.vdCtrlTree.defaultSelectedKeys}
         	onSelect={ctrlPros.onSelect} onCheck={ctrlPros.onCheck}
       	>
 	        <TreeNode title="body" key="0-0">
