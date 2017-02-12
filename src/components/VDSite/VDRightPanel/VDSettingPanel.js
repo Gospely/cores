@@ -170,7 +170,6 @@ const Component = (props) => {
     		}
 
     		const formGenerator = (items) => {
-    			console.log(items);
     			return (
 			      	<Form className="form-no-margin-bottom">
 			      		{
@@ -194,7 +193,7 @@ const Component = (props) => {
     		return panel;
     	});
     }
-    
+
   	return (
 
   		<div className="vdctrl-pane-wrapper">
