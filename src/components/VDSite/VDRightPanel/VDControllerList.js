@@ -42,8 +42,8 @@ const Component = (props) => {
 
 };
 
-function mapSateToProps({ vdctrl }) {
-  return { vdctrl };
+function mapSateToProps({ vdCtrlTree }) {
+  return { vdCtrlTree };
 }
 
 export default connect(mapSateToProps)(Component);
