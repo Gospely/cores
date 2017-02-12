@@ -11,6 +11,7 @@
     "brace": "^0.9.0",
     "classnames": "^2.2.5",
     "copy-webpack-plugin": "^4.0.1",
+    "css2json": "0.0.4",
     "dva": "^1.1.0",
     "dva-loading": "^0.2.0",
     "keymaster": "^1.6.2",

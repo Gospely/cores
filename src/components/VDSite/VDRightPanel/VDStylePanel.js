@@ -26,23 +26,39 @@ const FormItem = Form.Item;
 const Panel = Collapse.Panel;
 
 import { SketchPicker } from 'react-color';
+import css2json from 'css2json';
+
 // <SketchPicker style={{display: 'none'}} defaultValue="#345678" />
 
 const Component = (props) => {
 
+	const cssAction = {
+
+		getAllClasses () {
+			var classes = [];
+			for(var key in props.vdstyles.stylesList) {
+				classes.push(key);
+			}
+			return classes;
+		}
+
+	}
+
 	const cssSelector = {
 
-		cssClassNameList: [(
-			<Option key="a10">a10</Option>
-		), (
-			<Option key="a11">a11</Option>
-		)],
+		cssClassNameList () {
+  			return cssAction.getAllClasses().map((item, key) => {
+		    	return <Option key={key}>{item}</Option>
+  			});
+		},
 
 		cssClassListForDropdown: (
 		  	<Menu>
-		    	<Menu.Item key="1">1st menu item</Menu.Item>
-		    	<Menu.Item key="2">2nd menu item</Menu.Item>
-		    	<Menu.Item key="3">3d menu item</Menu.Item>
+		  		{
+		  			cssAction.getAllClasses().map((item, key) => {
+				    	return <Menu.Item key={key}>{item}</Menu.Item>
+		  			})
+		  		}
 		  	</Menu>
 		),
 
@@ -344,7 +360,7 @@ const Component = (props) => {
 						    	defaultValue={['a10', 'a11']}
 						    	size="small"
 						  	>
-						    	{cssSelector.cssClassNameList}
+						    	{cssSelector.cssClassNameList()}
 						  	</Select>
 					  	</Col>
 	      				<Col span={3}>
