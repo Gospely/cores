@@ -118,6 +118,43 @@ const Component = (props) => {
     );
   };
 
+  const pageTreeGenerator = (tree, isFolder) => {
+          var tpl = [];
+
+          for (var i = 0; i < tree.length; i++) {
+            var item = tree[i];
+            if(item.children) {
+              tpl.push((
+                <SubMenu key={item.key} title={<span><Icon type="folder" />{item.name}</span>}>
+                  {pageTreeGenerator(item.children, true)}
+                </SubMenu>
+              ))
+            }else {
+              tpl.push((
+                <Menu.Item key={item.key}>
+                  <Row>
+                    <Col span={20}>
+                      {item.name}
+                    </Col>
+                    <Col span={4}>
+                      <Tooltip placement="top" title="设置页面的详细信息">
+                        <Popover placement="right" title="设置页面的详细信息" content={generatePageDetailSettings(item)} trigger="click">
+                          <Icon type="setting" />
+                        </Popover>
+                      </Tooltip>
+                    </Col>
+                  </Row>
+                </Menu.Item>
+              ));
+            }
+          };
+
+          return tpl;
+
+        },
+
+        pageTreeTpl = pageTreeGenerator(props.vdpm.pageList);
+
 	return (
     <div className="vd-allpages-list">
       <Menu onClick={allPagesProps.handlePageListItemClick}
@@ -126,81 +163,7 @@ const Component = (props) => {
       	selectedKeys={[props.vdpm.currentActivePageListItem]}
       	mode="inline"
       >
-        <Menu.Item key="index.html">
-          <Row>
-            <Col span={20}>
-              主页
-            </Col>
-            <Col span={4}>
-              <Tooltip placement="top" title="设置页面的详细信息">
-                <Popover placement="right" title="设置页面的详细信息" content={generatePageDetailSettings()} trigger="click">
-                  <Icon type="setting" />
-                </Popover>
-              </Tooltip>
-            </Col>
-          </Row>
-        </Menu.Item>
-      	<SubMenu key="folder1" title={<span><Icon type="folder" />文件夹1</span>}>
-          <Menu.Item key="1">
-            <Row>
-              <Col span={20}>
-                页面2
-              </Col>
-              <Col span={4}>
-                <Tooltip placement="top" title="设置页面的详细信息">
-                  <Popover placement="right" title="设置页面的详细信息" content={generatePageDetailSettings()} trigger="click">
-                    <Icon type="setting" />
-                  </Popover>
-                </Tooltip>
-              </Col>
-            </Row>
-          </Menu.Item>
-          <Menu.Item key="2">
-            <Row>
-              <Col span={20}>
-                页面3
-              </Col>
-              <Col span={4}>
-                <Tooltip placement="top" title="设置页面的详细信息">
-                  <Popover placement="right" title="设置页面的详细信息" content={generatePageDetailSettings()} trigger="click">
-                    <Icon type="setting" />
-                  </Popover>
-                </Tooltip>
-              </Col>
-            </Row>
-          </Menu.Item>
-
-          <SubMenu key="folder2" title={<span><Icon type="folder" />文件夹2</span>}>
-            <Menu.Item key="3">
-              <Row>
-                <Col span={20}>
-                  页面4
-                </Col>
-                <Col span={4}>
-                  <Tooltip placement="top" title="设置页面的详细信息">
-                    <Popover placement="right" title="设置页面的详细信息" content={generatePageDetailSettings()} trigger="click">
-                      <Icon type="setting" />
-                    </Popover>
-                  </Tooltip>
-                </Col>
-              </Row>
-            </Menu.Item>
-            <Menu.Item key="4">
-              <Row>
-                <Col span={20}>
-                  页面5
-                </Col>
-                <Col span={4}>
-                  <Tooltip placement="top" title="设置页面的详细信息">
-                    <Popover placement="right" title="设置页面的详细信息" content={generatePageDetailSettings()} trigger="click">
-                      <Icon type="setting" />
-                    </Popover>
-                  </Tooltip>
-                </Col>
-              </Row>
-            </Menu.Item>
-          </SubMenu>
-      	</SubMenu>
+        {pageTreeTpl}
       </Menu>
     </div>
 	);

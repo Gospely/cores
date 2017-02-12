@@ -45,7 +45,7 @@ export default {
 					name: 'Dropdown',
 					src: 'https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png'
 				}]
-		}
+		},
 
 	},
 

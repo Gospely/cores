@@ -1056,9 +1056,12 @@ export default {
 		handleInputChanged(state, { payload: params }) {
 
 			state.appCreatingForm[params['input']] = params.value;
+
 			if(params['input'] == 'image') {
 				state.appCreatingForm.imageVersion = '';
 				state.appCreatingForm.framework = '';
+
+
                 if(params.value == 'html:latest' || params.value == 'wechat:latest'){
                     state.appCreatingForm.isFront = true;
                     if(params.value == 'wechat:latest'){
@@ -1077,6 +1080,17 @@ export default {
                 }else{
                     state.appCreatingForm.mongodb = false;
                 }
+
+                if(params.value == 'vd:latest'){
+
+                    message.error('此功能未开放,正在开发');
+                    state.appCreatingForm.image = '';
+                    state.appCreatingForm.useFramework = false;
+                }else{
+                    if(params.value != 'wechat:latest')
+                    state.appCreatingForm.useFramework = true;
+                }
+
 			}
 
 			return {...state};

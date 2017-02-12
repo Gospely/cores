@@ -32,25 +32,55 @@ const InputGroup = Input.Group;
 const Panel = Collapse.Panel;
 
 import { SketchPicker } from 'react-color';
+import css2json from 'css2json';
+
 // <SketchPicker style={{display: 'none'}} defaultValue="#345678" />
 
 const VDStylePanel = (props) => {
 
+	const cssAction = {
+
+		getAllClasses () {
+			var classes = [];
+			for(var key in props.vdstyles.stylesList) {
+				classes.push(key);
+			}
+			return classes;
+		}
+
+	}
+
 	const cssSelector = {
 
-		cssClassNameList: [(
-			<Option key="a10">a10</Option>
-		), (
-			<Option key="a11">a11</Option>
-		)],
+		cssClassNameList () {
+  			return cssAction.getAllClasses().map((item, key) => {
+		    	return <Option key={key} value={item.replace('.', '')}>{item.replace('.', '')}</Option>
+  			});
+		},
 
 		cssClassListForDropdown: (
 		  	<Menu>
-		    	<Menu.Item key="1">1st menu item</Menu.Item>
-		    	<Menu.Item key="2">2nd menu item</Menu.Item>
-		    	<Menu.Item key="3">3d menu item</Menu.Item>
+		  		{
+		  			cssAction.getAllClasses().map((item, key) => {
+				    	return <Menu.Item key={key}>{item}</Menu.Item>
+		  			})
+		  		}
 		  	</Menu>
-		)
+		),
+
+		newStylePopover: {
+			content: (
+		      	<Form className="form-no-margin-bottom">
+					<FormItem {...formItemLayout} label="类名">
+						<Input size="small" />
+					</FormItem>
+
+					<FormItem {...formItemLayout} label="">
+						<Button style={{float: 'right'}} size="small">增加</Button>
+					</FormItem>
+		      	</Form>
+			)
+		}
 
 	}
 
@@ -766,19 +796,21 @@ const VDStylePanel = (props) => {
 
   	return (
   		<div className="vdctrl-pane-wrapper">
-			<Collapse bordered={false} defaultActiveKey={['basic', 'forms', 'components']}>
+			<Collapse bordered={false} defaultActiveKey={['css', 'layout', 'typo', 'background', 'borders', 'shadows', 'tt', 'effects']}>
 			    <Panel header={<span><i className="fa fa-css3"></i>&nbsp;CSS类选择器</span>} key="css">
 				  	<p style={{marginBottom: '10px'}}>选择类名：</p>
 			    	<Row>
-					  	<Col span={21} className="css-selector">
+					  	<Col span={18} className="css-selector">
 					      	<Select
 						    	multiple
 						    	style={{ width: '100%' }}
 						    	placeholder="请选择CSS类"
-						    	defaultValue={['a10', 'a11']}
+						    	defaultValue={
+						    		props.vdCtrlTree.activeCtrl.className
+						    	}
 						    	size="small"
 						  	>
-						    	{cssSelector.cssClassNameList}
+						    	{cssSelector.cssClassNameList()}
 						  	</Select>
 					  	</Col>
 	      				<Col span={3}>
@@ -789,6 +821,15 @@ const VDStylePanel = (props) => {
 			      					</Tooltip>
 							  	</Button>
 					  	    </Dropdown>
+	      				</Col>
+	      				<Col span={3}>
+	      				    <Popover placement="left" content={cssSelector.newStylePopover.content} trigger={['click']}>
+							  	<Button style={{marginBottom: '10px', borderTopLeftRadius: '0px', borderBottomLeftRadius: '0px', marginLeft: '-1px'}} size="small">
+			  		              	<Tooltip placement="left" title="新增一个样式">
+								  		<i className="fa fa-plus"></i>
+			      					</Tooltip>
+							  	</Button>
+					  	    </Popover>
 	      				</Col>
       				</Row>
 			    </Panel>
@@ -1202,7 +1243,7 @@ const VDStylePanel = (props) => {
 			      	</Form>
 
 			    </Panel>
-			    <Panel header="背景" key="media">
+			    <Panel header="背景" key="background">
 
 			    	<Form className="form-no-margin-bottom">
 
@@ -1296,7 +1337,7 @@ const VDStylePanel = (props) => {
 			    	</Form>
 
 			    </Panel>
-			    <Panel header="边框" key="border">
+			    <Panel header="边框" key="borders">
 
 					<Row>
 						<Col span={8}>
@@ -1402,7 +1443,7 @@ const VDStylePanel = (props) => {
 					</Row>
 
 			    </Panel>
-			    <Panel header="阴影" key="components">
+			    <Panel header="阴影" key="shadows">
 			    	<Form className="form-no-margin-bottom">
     					<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right'}} label="盒子阴影">
 
@@ -1694,8 +1735,9 @@ const VDStylePanel = (props) => {
 
 };
 
-function mapSateToProps({ vdstyle }) {
-  return { vdstyle };
+
+function mapSateToProps({ vdstyles, vdCtrlTree }) {
+  return { vdstyles, vdCtrlTree };
 }
 
 export default connect(mapSateToProps)(VDStylePanel);
