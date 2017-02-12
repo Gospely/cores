@@ -13,22 +13,26 @@ export default {
 	    		id: '',
 	    		tag: 'body',
 	    		vdid: '123',
+	    		ctrlName: 'body',
 	    		children: [{
 	    			tag: 'div',
 	    			className: ['nav', 'bar', 'top'],
 		    		vdid: '456',
 	    			id: '',
+		    		ctrlName: 'div-block',
 	    			attr: [],
 	    			children: [{
 	    				tag: 'h1',
 	    				className: [],
 	    				vdid: '098',
+			    		ctrlName: 'heading',
 	    				id: '',
 	    				attr: []
 	    			}]
 	    		}, {
 	    			tag: 'p',
 	    			className: ['title'],
+		    		ctrlName: 'paragraph',
 	    			vdid: '789',
 	    			id: '',
 	    			attr: []
