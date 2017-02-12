@@ -44,7 +44,21 @@ const Component = (props) => {
 		    	<Menu.Item key="2">2nd menu item</Menu.Item>
 		    	<Menu.Item key="3">3d menu item</Menu.Item>
 		  	</Menu>
-		)
+		),
+
+		newStylePopover: {
+			content: (
+		      	<Form className="form-no-margin-bottom">
+					<FormItem {...formItemLayout} label="类名">
+						<Input size="small" />
+					</FormItem>
+
+					<FormItem {...formItemLayout} label="">
+						<Button style={{float: 'right'}} size="small">增加</Button>
+					</FormItem>
+		      	</Form>
+			)
+		}
 
 	}
 
@@ -318,11 +332,11 @@ const Component = (props) => {
 
   	return (
   		<div className="vdctrl-pane-wrapper">
-			<Collapse bordered={false} defaultActiveKey={['basic', 'forms', 'components']}>
+			<Collapse bordered={false} defaultActiveKey={['css', 'layout', 'typo', 'background', 'borders', 'shadows', 'tt', 'effects']}>
 			    <Panel header={<span><i className="fa fa-css3"></i>&nbsp;CSS类选择器</span>} key="css">
 				  	<p style={{marginBottom: '10px'}}>选择类名：</p>
 			    	<Row>
-					  	<Col span={21} className="css-selector">
+					  	<Col span={18} className="css-selector">
 					      	<Select
 						    	multiple
 						    	style={{ width: '100%' }}
@@ -341,6 +355,15 @@ const Component = (props) => {
 			      					</Tooltip>
 							  	</Button>
 					  	    </Dropdown>
+	      				</Col>
+	      				<Col span={3}>
+	      				    <Popover placement="left" content={cssSelector.newStylePopover.content} trigger={['click']}>
+							  	<Button style={{marginBottom: '10px', borderTopLeftRadius: '0px', borderBottomLeftRadius: '0px', marginLeft: '-1px'}} size="small">
+			  		              	<Tooltip placement="left" title="新增一个样式">
+								  		<i className="fa fa-plus"></i>
+			      					</Tooltip>
+							  	</Button>
+					  	    </Popover>
 	      				</Col>
       				</Row>
 			    </Panel>
@@ -754,7 +777,7 @@ const Component = (props) => {
 			      	</Form>
 
 			    </Panel>
-			    <Panel header="背景" key="media">
+			    <Panel header="背景" key="background">
 
 			    	<Form className="form-no-margin-bottom">
 
@@ -848,7 +871,7 @@ const Component = (props) => {
 			    	</Form>
 
 			    </Panel>
-			    <Panel header="边框" key="border">
+			    <Panel header="边框" key="borders">
 
 					<Row>
 						<Col span={8}>
@@ -954,7 +977,7 @@ const Component = (props) => {
 					</Row>
 
 			    </Panel>
-			    <Panel header="阴影" key="components">
+			    <Panel header="阴影" key="shadows">
 			    	<Form className="form-no-margin-bottom">
     					<FormItem {...formItemLayout} label="盒子阴影">
 
@@ -999,7 +1022,7 @@ const Component = (props) => {
 
 			    	</Form>
 			    </Panel>
-			    <Panel header="过度和变换" key="transitions-transforms">
+			    <Panel header="过度和变换" key="tt">
 			      	<p>组件</p>
 			    </Panel>
 			    <Panel header="效果" key="effects">
@@ -1011,8 +1034,8 @@ const Component = (props) => {
 
 };
 
-function mapSateToProps({ dashboard }) {
-  return { dashboard };
+function mapSateToProps({ vdstyles }) {
+  return { vdstyles };
 }
 
 export default connect(mapSateToProps)(Component);

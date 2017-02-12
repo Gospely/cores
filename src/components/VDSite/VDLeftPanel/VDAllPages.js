@@ -125,7 +125,7 @@ const Component = (props) => {
             var item = tree[i];
             if(item.children) {
               tpl.push((
-                <SubMenu key={item.key + i} title={<span><Icon type="folder" />{item.name}</span>}>
+                <SubMenu key={item.key} title={<span><Icon type="folder" />{item.name}</span>}>
                   {pageTreeGenerator(item.children, true)}
                 </SubMenu>
               ))
