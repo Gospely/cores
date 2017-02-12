@@ -85,6 +85,62 @@ export default {
 				name: '视频',
 				key: 'video'
 			}]
+		}, {
+			name: "表单",
+			key: 'forms',
+			content: [{
+				icon: <svg width="41" height="39" viewBox="0 0 41 39" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path fill="currentColor" d="M38 3v7H3V3h35m2-2H1v11h39V1z"></path><path opacity=".2" fill="currentColor" d="M3 3h35v7H3z"></path><path opacity=".4" d="M40 1v11H1V1h39m1-1H0v13h41V0z"></path><path fill="currentColor" d="M38 18v7H3v-7h35m2-2H1v11h39V16z"></path><path opacity=".2" fill="currentColor" d="M3 18h35v7H3z"></path><path opacity=".4" d="M40 16v11H1V16h39m1-1H0v13h41V15zM19 30H3c-1.7 0-3 1.3-3 3v3c0 1.7 1.3 3 3 3h16c1.7 0 3-1.3 3-3v-3c0-1.7-1.3-3-3-3z"></path><path fill="currentColor" d="M19 31H3c-1.1 0-2 .9-2 2v3c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-3c0-1.1-.9-2-2-2z"></path></svg>,
+				name: '表单块',
+				key: 'form-block'
+			}, {
+				icon: <svg width="38" height="14" viewBox="0 0 38 14" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".4" d="M12.1 3.4c-1.4 0-2.6.4-3.7 1.3l-.7.6.6.8.7 1-.2.1c-.8.5-1.2 1.3-1.3 2.2H4V1.2H.4V13h8.1v-.9c-.1-.1-.1-.2-.2-.2l.3.3c.7.6 1.6.9 2.6.9.5 0 1-.1 1.5-.2v.1h3.4V7.2c0-1.3-.4-2.2-1.2-2.9-.8-.6-1.7-.9-2.8-.9zm-.4 6.4c-.3 0-.5-.1-.6-.1.1 0 .3-.1.7-.1h.6c-.3.1-.5.2-.7.2zM34.3.6v5.6c-.2-.6-.6-1.2-1.1-1.6-.9-.8-2-1.2-3.2-1.2-1.3 0-2.4.4-3.3 1.3-.5.4-.9 1-1.1 1.6-.2-.6-.6-1.1-1-1.6-.9-.9-2-1.3-3.3-1.3-.5 0-1 .1-1.4.3V.6h-3.6V13h3.6v-.2c.5.2 1 .3 1.5.3 1.2 0 2.3-.5 3.2-1.4.4-.4.8-1 1-1.5-.1-.2-.1-.4-.2-.6.2.9.6 1.6 1.2 2.2.9.9 2.1 1.3 3.4 1.3 1.6 0 2.9-.5 3.9-1.6l.5-.5v2H38V.6h-3.7zM21.9 9.3c-.3.3-.6.4-.9.4-.3 0-.6-.1-.8-.4-.3-.3-.4-.6-.4-1.1 0-.5.1-.8.4-1.1.2-.3.5-.4.8-.4.4 0 .6.1.9.4.3.3.4.6.4 1.1 0 .5-.1.9-.4 1.1zm12.4 1.4l-.5-.5-.2-.2h.7v.7z"></path><path d="M1.4 12V2.2H3v8.2h4.5V12H1.4zm13.7 0h-1.4v-1c-.6.7-1.4 1.1-2.5 1.1-.8 0-1.4-.2-1.9-.7s-.8-1-.8-1.8.3-1.3.8-1.6c.5-.4 1.3-.5 2.2-.5h2v-.3c0-1-.6-1.5-1.7-1.5-.7 0-1.4.3-2.2.8l-.6-1c.9-.7 1.9-1.1 3.1-1.1.9 0 1.6.2 2.1.7s.8 1.1.8 2.1V12zm-1.6-2.8v-.6h-1.8c-1.1 0-1.7.4-1.7 1.1 0 .4.1.6.4.8.3.2.7.3 1.2.3s.9-.1 1.3-.4c.4-.3.6-.7.6-1.2zm7.8-4.8c1 0 1.9.3 2.6 1 .7.7 1.1 1.6 1.1 2.8 0 1.1-.4 2.1-1.1 2.8-.7.7-1.5 1.1-2.5 1.1-.9 0-1.8-.4-2.5-1.2V12h-1.6V1.6h1.6v4.2c.6-.9 1.4-1.4 2.4-1.4zm-2.5 3.9c0 .7.2 1.3.6 1.7.4.5 1 .7 1.6.7s1.2-.2 1.6-.7.7-1 .7-1.7-.2-1.3-.6-1.8c-.4-.5-1-.7-1.6-.7-.6 0-1.2.2-1.6.7-.5.5-.7 1.1-.7 1.8zm14.8.7h-5.8c0 .5.3 1 .7 1.3.5.3 1 .5 1.6.5.9 0 1.6-.3 2.1-.9l.9 1c-.8.8-1.8 1.2-3.1 1.2-1 0-1.9-.3-2.7-1s-1.1-1.6-1.1-2.8c0-1.2.4-2.1 1.1-2.8.7-.7 1.6-1 2.6-1s1.9.3 2.6.9 1.1 1.5 1.1 2.5V9zm-5.8-1.3H32c0-.6-.2-1.1-.6-1.4-.3-.3-.8-.5-1.4-.5s-1.1.2-1.5.5c-.5.4-.7.8-.7 1.4zm9.1 4.3h-1.6V1.6h1.6V12z" fill="currentColor"></path></svg>,
+				name: '标签',
+				key: 'label'
+			}, {
+				icon: <svg width="48" height="21" viewBox="0 0 48 21" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path fill="currentColor" d="M45 3v15H3V3h42m2-2H1v19h46V1z"></path><path opacity=".2" fill="currentColor" d="M3 3h42v15H3z"></path><path opacity=".4" d="M47 1v19H1V1h46m1-1H0v21h48V0z"></path><path opacity=".5" fill="currentColor" d="M7 6h2v9H7z"></path></svg>,
+				name: '输入框',
+				key: 'input'
+			}, {
+				icon: <svg width="50" height="32" viewBox="0 0 50 32" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path fill="currentColor" d="M47 3v26H3V3h44m2-2H1v30h48V1z"></path><path opacity=".2" fill="currentColor" d="M3 3h44v26H3z"></path><path opacity=".4" d="M49 1v30H1V1h48m1-1H0v32h50V0z"></path><path opacity=".5" fill="currentColor" d="M7 6h2v9H7zm29.3 20h1.4l6.3-6.3v-1.4L36.3 26zm4.4 0l3.3-3.3v-1.4L39.3 26h1.4zm3 0l.3-.3v-1.4L42.3 26h1.4z"></path></svg>,
+				name: '文本框',
+				key: 'textarea'
+			}, {
+				icon: <svg width="28" height="24" viewBox="0 0 28 24" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".2" fill="currentColor" d="M3 1h22v22H3z"></path><path opacity=".4" d="M25 1v22H3V1h22m1-1H2v24h24V0z"></path><path fill="currentColor" d="M3 1v22h22V7.3c-.7.7-1.3 1.4-2 2.2V21H5V3h18c.6-.5 1.3-.9 2-1.4V1H3zm20 5.3c.6-.5 1.3-.9 2-1.4V4c-.7.7-1.3 1.5-2 2.3z"></path><path fill="currentColor" d="M7.4 10.7l1.7-1.6c2 1 3.3 1.7 5.5 3.3 4.2-4.8 7-7.2 12.2-10.5l.6 1.3c-4.3 3.7-7.4 7.9-11.9 16-2.8-3.2-4.7-5.3-8.1-8.5z"></path></svg>,
+				name: '多选框',
+				key: 'checkbox'
+			}, {
+				icon: <svg width="26" height="26" viewBox="0 0 26 26" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><circle opacity=".2" fill="currentColor" cx="13" cy="13" r="10.6"></circle><path d="M13 0c7.2 0 13 5.8 13 13s-5.8 13-13 13S0 20.2 0 13 5.8 0 13 0m0 1C6.4 1 1 6.4 1 13s5.4 12 12 12 12-5.4 12-12S19.6 1 13 1z" opacity=".4"></path><path fill="currentColor" d="M13 3.5c5.2 0 9.5 4.3 9.5 9.5s-4.3 9.5-9.5 9.5-9.5-4.3-9.5-9.5S7.8 3.5 13 3.5M13 1C6.4 1 1 6.4 1 13s5.4 12 12 12 12-5.4 12-12S19.6 1 13 1z"></path><circle fill="currentColor" cx="13" cy="13" r="5"></circle></svg>,
+				name: '单选框',
+				key: 'radio-button'
+			}, {
+				icon: <svg width="60" height="23" viewBox="0 0 60 23" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".4" d="M57 0H3C1.3 0 0 1.3 0 3v17c0 1.7 1.3 3 3 3h54c1.7 0 3-1.3 3-3V3c0-1.7-1.3-3-3-3zM32 13H8v-2h24v2z"></path><path fill="currentColor" d="M57 1H3c-1.1 0-2 .9-2 2v17c0 1.1.9 2 2 2h54c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zM32 13H8v-2h24v2zm17 1l-4-4h8l-4 4z"></path><path opacity=".75" fill="currentColor" d="M8 11h24v2H8z"></path></svg>,
+				name: '选择框',
+				key: 'select'
+			}, {
+				icon: <svg width="59" height="31" viewBox="0 0 59 31" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".4" d="M56 0H3C1.3 0 0 1.3 0 3v25c0 1.7 1.3 3 3 3h53c1.7 0 3-1.3 3-3V3c0-1.7-1.3-3-3-3z"></path><path fill="currentColor" d="M27 15.3c.2-.1.3-.3.3-.7s-.1-.6-.3-.7c-.2-.1-.6-.2-1.1-.2h-.8v1.7h.8c.5 0 .9 0 1.1-.1zM56 1H3c-1.1 0-2 .9-2 2v25c0 1.1.9 2 2 2h53c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zM12.9 19.4c-.5.4-1.2.6-2 .6-1.2 0-2.3-.5-3.3-1.4l1-1.3c.8.7 1.6 1.1 2.3 1.1.3 0 .6-.1.7-.2.2-.1.3-.3.3-.5s-.1-.4-.3-.5c-.2-.1-.6-.3-1.1-.4-.9-.2-1.5-.5-2-.8s-.6-.9-.6-1.6c0-.7.3-1.3.8-1.7.5-.4 1.2-.6 2-.6.5 0 1 .1 1.5.3.5.2 1 .4 1.3.7l-.9 1.3c-.7-.5-1.4-.8-2.1-.8-.3 0-.5.1-.7.2s-.2.3-.2.5.1.4.3.5c.2.1.7.3 1.4.5s1.3.4 1.7.8c.4.4.6.9.6 1.6.1.8-.2 1.3-.7 1.7zm8.7-2.8c0 1.1-.3 2-.9 2.6s-1.4.9-2.4.9-1.8-.3-2.4-.9c-.6-.6-.9-1.5-.9-2.6v-4.3h1.7v4.2c0 .6.1 1.1.4 1.5.3.4.7.5 1.2.5s.9-.2 1.1-.5.4-.8.4-1.5v-4.2h1.7v4.3zm7.4 2.7c-.4.5-1.2.7-2.2.7h-3.4v-7.7h3c.5 0 1 .1 1.3.2.4.1.7.3.9.5.3.4.5.8.5 1.3 0 .6-.2 1-.6 1.3-.1.1-.2.2-.3.2-.1 0-.1.1-.3.1.5.1.9.3 1.1.6s.4.7.4 1.2c.1.7 0 1.2-.4 1.6zm10.6.7h-1.7v-4.8l-2.1 4.2h-1l-2.1-4.2V20H31v-7.7h2.3l2 4.2 2-4.2h2.3V20zm3.6 0h-1.7v-7.7h1.7V20zm7.3-6.2h-2.2V20h-1.7v-6.2h-2.2v-1.5h6.1v1.5zm-23.1 3.1c-.3-.1-.7-.2-1.2-.2h-1v1.8h1.2c.5 0 .9-.1 1.1-.2s.4-.4.4-.7-.3-.5-.5-.7z"></path></svg>,
+				name: '提交按钮',
+				key: 'form-button'
+			}]
+		}, {
+			name: "组件",
+			key: 'components',
+			content: [{
+				icon: <svg width="53" height="39" viewBox="0 0 53 39" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path fill="currentColor" d="M3 10h47v26H3z" opacity=".2"></path><path fill="currentColor" d="M50 10v26H3V10h47m2-2H1v30h51V8z"></path><path d="M10 22h32v2H10zm0-4h32v2H10zm0 8h15v2H10z" fill="currentColor"></path><path opacity=".4" d="M45 7V1.8c0-1-.8-1.8-1.8-1.8H31.8c-1 0-1.8.8-1.8 1.8 0-1-.8-1.8-1.8-1.8H16.8c-1 0-1.8.8-1.8 1.8 0-1-.8-1.8-1.8-1.8H1.8C.8 0 0 .8 0 1.8V39h53V7h-8zM31 1.8c0-.4.4-.8.8-.8h11.4c.4 0 .8.4.8.8V6H31V1.8zm-15 0c0-.4.4-.8.8-.8h11.4c.4 0 .8.4.8.8V6H16V1.8zm-15 0c0-.4.4-.8.8-.8h11.4c.4 0 .8.4.8.8V7H1V1.8zM52 38H1V8h51v30z"></path><path fill="currentColor" d="M13.2 1H1.8c-.4 0-.8.4-.8.8V8h13V1.8c0-.4-.4-.8-.8-.8zm15 0H16.8c-.4 0-.8.4-.8.8V6h13V1.8c0-.4-.4-.8-.8-.8zm15 0H31.8c-.4 0-.8.4-.8.8V6h13V1.8c0-.4-.4-.8-.8-.8z"></path></svg>,
+				name: '标签页',
+				key: 'tabs'
+			}, {
+				icon: <svg width="64" height="22" viewBox="0 0 64 22" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".4" d="M61 0H3C1.3 0 0 1.3 0 3v16c0 1.7 1.3 3 3 3h58c1.7 0 3-1.3 3-3V3c0-1.7-1.3-3-3-3zM15 11v4h-1v-.2c0-1.5-1.1-2.8-2.5-2.8S9 13.3 9 14.8v.2H8v-4h-.4l3.9-3.6 3.9 3.6H15zm-5 3.8v-.4.4zm1.5-1.8h.3-.3c-.4 0-.7.2-.9.4.2-.2.5-.4.9-.4zM63 3c0-1.1-.9-2-2-2H3h58c1.1 0 2 .9 2 2z"></path><path fill="currentColor" d="M61 1H3c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h58c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zM16 12v4h-3v-1.2c0-1-.7-1.8-1.5-1.8s-1.5.8-1.5 1.8V16H7v-4H5l6.5-6 6.5 6h-2zm42 4H48v-2h10v2zm0-4H48v-2h10v2zm0-4H48V6h10v2z"></path></svg>,
+				name: '导航菜单',
+				key: 'navbar'
+			}, {
+				icon: <svg width="59" height="30" viewBox="0 0 59 30" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".4" d="M56 0H3C1.3 0 0 1.3 0 3v24c0 1.7 1.3 3 3 3h53c1.7 0 3-1.3 3-3V3c0-1.7-1.3-3-3-3z"></path><path fill="currentColor" d="M33.4 13.9c-.4 0-.8.2-1.1.5-.3.3-.4.8-.4 1.3s.1 1 .4 1.3c.3.3.6.5 1.1.5s.8-.2 1.1-.5c.3-.3.5-.8.5-1.3s-.2-1-.5-1.3c-.4-.3-.7-.5-1.1-.5zM56 1H3c-1.1 0-2 .9-2 2v24c0 1.1.9 2 2 2h53c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zM14.5 17.9c-.8.8-2 1.1-3.6 1.1H8v-8.4h3c1.5 0 2.6.4 3.4 1.1.8.7 1.2 1.8 1.2 3.1s-.4 2.3-1.1 3.1zm6.1-3.8c-.5 0-.9.2-1.2.6s-.4.9-.4 1.5V19h-1.8v-6.5H19v.9c.2-.3.5-.5.9-.7.3-.2.7-.3 1.1-.3v1.7h-.4zm7 4c-.6.6-1.5 1-2.4 1-1 0-1.8-.3-2.4-1-.6-.6-1-1.4-1-2.4 0-.9.3-1.7 1-2.4.6-.6 1.5-1 2.4-1 1 0 1.8.3 2.4 1 .6.6 1 1.4 1 2.4s-.3 1.8-1 2.4zm8.2 0c-.6.6-1.3 1-2.1 1s-1.4-.3-1.9-.9v3.2H30v-8.8h1.8v.7c.6-.6 1.2-.8 2-.8s1.4.3 2 .9.9 1.4.9 2.4-.3 1.7-.9 2.3zm11.7.9l-4.2-4.3 1.4-1.3 2.8 2.9 2.8-2.9 1.4 1.3-4.2 4.3zm-36.6-6.8h-1v5.1h1.2c.9 0 1.5-.2 2-.6.5-.4.7-1.1.7-1.9 0-.8-.2-1.5-.7-1.9-.5-.4-1.2-.7-2.2-.7zM25.2 14c-.5 0-.9.2-1.2.5s-.5.8-.5 1.3.2 1 .5 1.3c.3.3.7.5 1.2.5s.9-.2 1.2-.5c.3-.3.5-.8.5-1.3s-.2-1-.5-1.3-.7-.5-1.2-.5z"></path></svg>,
+				name: '下拉菜单',
+				key: 'dropdown'
+			}, {
+				icon: <svg width="50" height="37" viewBox="0 0 50 37" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".4" d="M47 0H3C1.3 0 0 1.3 0 3v31c0 1.7 1.3 3 3 3h44c1.7 0 3-1.3 3-3V3c0-1.7-1.3-3-3-3z"></path><path fill="currentColor" d="M47 1H3c-1.1 0-2 .9-2 2v31c0 1.1.9 2 2 2h44c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zM8.8 23.1l-4.7-4.7 4.7-4.7 1.4 1.4L7 18.5l3.2 3.2-1.4 1.4zM19 33c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm6 0c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm6 0c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm10.2-9.9l-1.4-1.4 3.2-3.2-3.2-3.2 1.4-1.4 4.7 4.7-4.7 4.5z"></path></svg>,
+				name: '幻灯片',
+				key: 'slider'
+			}]
 		}]
 	},
 
