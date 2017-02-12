@@ -21,21 +21,22 @@ export default {
 	    			id: '',
 		    		ctrlName: 'div-block',
 					attrs: [{
-						basic: {
-							title: '基础设置',
-							children: [{
-								name: 'id',
-								desc: 'id',
-								type: 'input',
-								value: ''
-							}: {
-								name: 'class',
-								desc: '可见屏幕',
-								type: 'multipleSelect',
-								value: '',
-								children: [1, 2, 3, 4]
-							}]
-						}
+						title: '基础设置',
+						key: 'basic',
+						children: [{
+							name: 'id',
+							desc: 'id',
+							type: 'input',
+							value: '',
+							id: '5443'
+						}, {
+							name: 'class',
+							desc: '可见屏幕',
+							type: 'multipleSelect',
+							value: ['1', '2'],
+							children: ['1', '2', '3', '4'],
+							id: '0987'
+						}]
 					}],
 	    			children: [{
 	    				tag: 'h1',
@@ -44,21 +45,22 @@ export default {
 			    		ctrlName: 'heading',
 	    				id: '',
 						attrs: [{
-							basic: {
-								title: '基础设置',
-								children: [{
-									name: 'id',
-									desc: 'id',
-									type: 'input',
-									value: ''
-								}, {
-									name: 'class',
-									desc: '可见屏幕',
-									type: 'multipleSelect',
-									value: '',
-									children: [1, 2, 3, 4]
-								}]
-							}
+							title: '基础设置',
+							key: 'basic',
+							children: [{
+								name: 'id',
+								desc: 'id',
+								type: 'input',
+								value: '',
+								id: '5443'
+							}, {
+								name: 'class',
+								desc: '可见屏幕',
+								type: 'multipleSelect',
+								value: ['1', '2'],
+								children: ['1', '2', '3', '4'],
+								id: '0987'
+							}]
 						}]
 	    			}]
 	    		}, {
@@ -68,21 +70,22 @@ export default {
 	    			vdid: '789',
 	    			id: '',
 					attrs: [{
-						basic: {
-							title: '基础设置',
-							children: [{
-								name: 'id',
-								desc: 'id',
-								type: 'input',
-								value: ''
-							}, {
-								name: 'class',
-								desc: '可见屏幕',
-								type: 'multipleSelect',
-								value: '',
-								children: [1, 2, 3, 4]
-							}]
-						}
+						title: '基础设置',
+						key: 'basic',
+						children: [{
+							name: 'id',
+							desc: 'id',
+							type: 'input',
+							value: '',
+							id: '5443'
+						}, {
+							name: 'class',
+							desc: '可见屏幕',
+							type: 'multipleSelect',
+							value: ['1', '2'],
+							children: ['1', '2', '3', '4'],
+							id: '0987'
+						}]
 					}]
 	    		}]
 	    	}]
@@ -94,8 +97,31 @@ export default {
     		vdid: '456',
 			id: '',
     		ctrlName: 'div-block',
-			attrs: [
-				{
+			attrs: [{
+				title: '基础设置',
+				key: 'basic',
+				children: [{
+					name: 'id',
+					desc: 'id',
+					type: 'input',
+					value: '',
+					id: '5443'
+				}, {
+					name: 'class',
+					desc: '可见屏幕',
+					type: 'multipleSelect',
+					value: ['1', '2'],
+					children: ['1', '2', '3', '4'],
+					id: '0987'
+				}]
+			}],
+			children: [{
+				tag: 'h1',
+				className: [],
+				vdid: '098',
+	    		ctrlName: 'heading',
+				id: '',
+				attrs: [{
 					title: '基础设置',
 					key: 'basic',
 					children: [{
@@ -112,32 +138,6 @@ export default {
 						children: ['1', '2', '3', '4'],
 						id: '0987'
 					}]
-				}
-			],
-			children: [{
-				tag: 'h1',
-				className: [],
-				vdid: '098',
-	    		ctrlName: 'heading',
-				id: '',
-				attrs: [{
-					basic: {
-						title: '基础设置',
-						children: [{
-							name: 'id',
-							desc: 'id',
-							type: 'input',
-							value: '',
-							id: '5443'
-						}, {
-							name: 'class',
-							desc: '可见屏幕',
-							type: 'multipleSelect',
-							value: '',
-							children: [1, 2, 3, 4],
-							id: '0987'
-						}]
-					}
 				}]
 			}]
 		}

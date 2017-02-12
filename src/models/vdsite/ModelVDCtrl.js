@@ -6,21 +6,22 @@ export default {
 	state: {
 		
 		publicAttrs: [{
-			basic: {
-				title: '基础设置',
-				id: {
-					name: 'id',
-					desc: 'id',
-					type: 'input',
-					value: ''
-				},
-				visualInScreen: {
-					name: 'class',
-					desc: '可见屏幕',
-					type: 'multipleSelect',
-					value: ''
-				}
-			}
+			title: '基础设置',
+			key: 'basic',
+			children: [{
+				name: 'id',
+				desc: 'id',
+				type: 'input',
+				value: '',
+				id: ''
+			}, {
+				name: 'class',
+				desc: '可见屏幕',
+				type: 'multipleSelect',
+				value: [],
+				children: [],
+				id: ''
+			}]
 		}],
 
 		controllers: [{

@@ -194,28 +194,7 @@ const Component = (props) => {
     		return panel;
     	});
     }
-
-			   //  <Panel header="基础设置" key="basic">
-
-			   //    	<Form className="form-no-margin-bottom">
-						// <FormItem {...formItemLayout} label="ID">
-						// 	<Input size="small" />
-						// </FormItem>
-
-						// <FormItem {...formItemLayout} label="可视屏幕">
-						// 	<Select
-						// 	    multiple
-						// 	    style={{ width: '100%' }}
-						// 	    placeholder="Please select"
-						// 	    defaultValue={['a10', 'c12']}
-						// 	    size="small"
-						// 	 >
-						// 	    {children}
-						//   	</Select>
-						// </FormItem>
-			   //    	</Form>
-
-			   //  </Panel>
+    
   	return (
 
   		<div className="vdctrl-pane-wrapper">
