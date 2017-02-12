@@ -15,7 +15,7 @@ export default {
 	    		vdid: '123',
 	    		children: [{
 	    			tag: 'div',
-	    			className: ['nav'],
+	    			className: ['nav', 'bar', 'top'],
 		    		vdid: '456',
 	    			id: '',
 	    			attr: [],
