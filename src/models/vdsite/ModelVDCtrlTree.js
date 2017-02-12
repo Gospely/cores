@@ -20,14 +20,46 @@ export default {
 		    		vdid: '456',
 	    			id: '',
 		    		ctrlName: 'div-block',
-	    			attr: [],
+					attrs: [{
+						basic: {
+							title: '基础设置',
+							children: [{
+								name: 'id',
+								desc: 'id',
+								type: 'input',
+								value: ''
+							}: {
+								name: 'class',
+								desc: '可见屏幕',
+								type: 'multipleSelect',
+								value: '',
+								children: [1, 2, 3, 4]
+							}]
+						}
+					}],
 	    			children: [{
 	    				tag: 'h1',
 	    				className: [],
 	    				vdid: '098',
 			    		ctrlName: 'heading',
 	    				id: '',
-	    				attr: []
+						attrs: [{
+							basic: {
+								title: '基础设置',
+								children: [{
+									name: 'id',
+									desc: 'id',
+									type: 'input',
+									value: ''
+								}, {
+									name: 'class',
+									desc: '可见屏幕',
+									type: 'multipleSelect',
+									value: '',
+									children: [1, 2, 3, 4]
+								}]
+							}
+						}]
 	    			}]
 	    		}, {
 	    			tag: 'p',
@@ -35,7 +67,23 @@ export default {
 		    		ctrlName: 'paragraph',
 	    			vdid: '789',
 	    			id: '',
-	    			attr: []
+					attrs: [{
+						basic: {
+							title: '基础设置',
+							children: [{
+								name: 'id',
+								desc: 'id',
+								type: 'input',
+								value: ''
+							}, {
+								name: 'class',
+								desc: '可见屏幕',
+								type: 'multipleSelect',
+								value: '',
+								children: [1, 2, 3, 4]
+							}]
+						}
+					}]
 	    		}]
 	    	}]
 	    },
@@ -46,14 +94,46 @@ export default {
     		vdid: '456',
 			id: '',
     		ctrlName: 'div-block',
-			attr: [],
+			attrs: [{
+				basic: {
+					title: '基础设置',
+					children: [{
+						name: 'id',
+						desc: 'id',
+						type: 'input',
+						value: ''
+					}, {
+						name: 'class',
+						desc: '可见屏幕',
+						type: 'multipleSelect',
+						value: '',
+						children: [1, 2, 3, 4]
+					}]
+				}
+			}],
 			children: [{
 				tag: 'h1',
 				className: [],
 				vdid: '098',
 	    		ctrlName: 'heading',
 				id: '',
-				attr: []
+				attrs: [{
+					basic: {
+						title: '基础设置',
+						children: [{
+							name: 'id',
+							desc: 'id',
+							type: 'input',
+							value: ''
+						}, {
+							name: 'class',
+							desc: '可见屏幕',
+							type: 'multipleSelect',
+							value: '',
+							children: [1, 2, 3, 4]
+						}]
+					}
+				}]
 			}]
 		}
 	},

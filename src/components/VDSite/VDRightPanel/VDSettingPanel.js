@@ -128,6 +128,53 @@ const Component = (props) => {
 
     }
 
+    const attrsPanels = () => {
+    	return props.vdCtrlTree.activeCtrl.attrs.map((item, index) => {
+    		console.log('sss',item);
+
+    		const formTypeGenerator = (item) => {
+    			return (
+					<FormItem {...formItemLayout} label={item.desc}>
+						<Input size="small" />
+					</FormItem>
+    			);
+    		}
+
+    		const formGenerator = (item) => {
+    			return (
+			      	<Form className="form-no-margin-bottom">
+			      		{formTypeGenerator(item)}
+
+						<FormItem {...formItemLayout} label="可视屏幕">
+							<Select
+							    multiple
+							    style={{ width: '100%' }}
+							    placeholder="Please select"
+							    defaultValue={['a10', 'c12']}
+							    size="small"
+							 >
+							    {children}
+						  	</Select>
+						</FormItem>
+			      	</Form>
+    			);
+    		}
+
+			const panelGenerator = (key) => {
+				return (
+			    	<Panel header={item.title} key={item.title}>
+			    		{formGenerator(item)}
+					</Panel>
+				);
+			}
+
+    		let panel = panelGenerator();
+    		return panel;
+    	});
+    }
+
+	attrsPanels()
+
   	return (
 
   		<div className="vdctrl-pane-wrapper">
@@ -240,8 +287,8 @@ const Component = (props) => {
 
 };
 
-function mapSateToProps({ vdcore }) {
-  return { vdcore };
+function mapSateToProps({ vdcore, vdctrl, vdCtrlTree }) {
+  return { vdcore, vdctrl, vdCtrlTree };
 }
 
 export default connect(mapSateToProps)(Component);
