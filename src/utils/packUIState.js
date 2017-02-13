@@ -15,7 +15,8 @@ const packUIStage = function (params) {
                   layoutState: params.designer.layoutState,
                   defaultDevice: params.designer.defaultDevice
       	},
-		previewer: params.cpre
+		previewer: params.cpre,
+		vdpm: params.vdpm
 	}
 
 	return uiState;

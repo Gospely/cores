@@ -624,36 +624,360 @@ export default {
 				name: '标签页',
 				key: 'tabs',
 				details: {
-					tag: 'ul',
+					tag: 'div',
 					className: [],
-					attrs: []
+					attrs: [{
+						title: '标签页设置',
+						key: 'tabs-setting',
+						children: []
+					}],
+					children: [{
+						tag: 'ul',
+						className: ['nav', 'nav-tabs'],
+						attrs: [{
+						title: '标签页设置',
+							key: 'tabs-setting',
+							children: []
+						}],
+						children: [{
+							tag: 'li',
+							className: ['tab-content', 'active'],
+							attrs: [{
+								title: '标签页设置',
+								key: 'tabs-setting',
+								children: []
+							}],
+							children: [{
+								tag: 'a',
+								className: ['tab-pane'],
+								children: [],
+								attrs: [{
+									title: '标签页设置',
+									key: 'tabs-setting',
+									children: [{
+										name: 'href',
+										attrName: 'href',
+										value: ''
+									}]
+								}]
+							}]
+						}]
+					}, {
+						tag: 'div',
+						className: ['tab-content'],
+						attrs: [{
+							title: '标签页设置',
+							key: 'tabs-setting',
+							children: []
+						}],
+						children: [{
+							tag: 'div',
+							className: ['tab-pane', 'active'],
+							children: [],
+							attrs: [{
+								title: '标签页设置',
+								key: 'tabs-setting',
+								children: []
+							}]
+						}]
+					}]
 				}
 			}, {
 				icon: <svg width="64" height="22" viewBox="0 0 64 22" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".4" d="M61 0H3C1.3 0 0 1.3 0 3v16c0 1.7 1.3 3 3 3h58c1.7 0 3-1.3 3-3V3c0-1.7-1.3-3-3-3zM15 11v4h-1v-.2c0-1.5-1.1-2.8-2.5-2.8S9 13.3 9 14.8v.2H8v-4h-.4l3.9-3.6 3.9 3.6H15zm-5 3.8v-.4.4zm1.5-1.8h.3-.3c-.4 0-.7.2-.9.4.2-.2.5-.4.9-.4zM63 3c0-1.1-.9-2-2-2H3h58c1.1 0 2 .9 2 2z"></path><path fill="currentColor" d="M61 1H3c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h58c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zM16 12v4h-3v-1.2c0-1-.7-1.8-1.5-1.8s-1.5.8-1.5 1.8V16H7v-4H5l6.5-6 6.5 6h-2zm42 4H48v-2h10v2zm0-4H48v-2h10v2zm0-4H48V6h10v2z"></path></svg>,
 				name: '导航菜单',
 				key: 'navbar',
 				details: {
-					tag: 'ul',
-					className: [],
-					attrs: []
+					tag: 'nav',
+					className: ['navbar', 'navbar-default'],
+					attrs: [{
+						title: '导航菜单设置',
+						key: 'navbar-setting',
+						children: []
+					}],
+					children: [{
+						tag: 'div',
+						className: ['container-fluid'],
+						attrs: [{
+							title: '导航菜单设置',
+							key: 'navbar-setting',
+							children: []
+						}],
+						children: [{
+							tag: 'div',
+							className: ['navbar-header'],
+							attrs: [{
+								title: '导航菜单设置',
+								key: 'navbar-setting',
+								children: []
+							}],
+							children: [{
+								tag: 'button',
+								className: ['navbar-toggle', 'collapsed'],
+								attrs: [{
+									title: '导航菜单设置',
+									key: 'navbar-setting',
+									children: []
+								}],
+								children: [{
+									tag: 'span',
+									className: ['sr-only'],
+									attrs: [{
+										title: '导航菜单设置',
+										key: 'navbar-setting',
+										children: []
+									}]
+								}, {
+									tag: 'span',
+									className: ['icon-bar'],
+									attrs: [{
+										title: '导航菜单设置',
+										key: 'navbar-setting',
+										children: []
+									}]
+								}, {
+									tag: 'span',
+									className: ['icon-bar'],
+									attrs: [{
+										title: '导航菜单设置',
+										key: 'navbar-setting',
+										children: []
+									}]
+								}, {
+									tag: 'span',
+									className: ['icon-bar'],
+									attrs: [{
+										title: '导航菜单设置',
+										key: 'navbar-setting',
+										children: []
+									}]
+								}]
+							}, {
+								tag: 'a',
+								className: ['navbar-brand'],
+								attrs: [{
+									title: '导航菜单设置',
+									key: 'navbar-setting',
+									children: []
+								}]
+							}]
+						}, {
+							tag: 'div',
+							className: ['collapse', 'navbar-collapse'],
+							attrs: [{
+								title: '导航菜单设置',
+								key: 'navbar-setting',
+								children: []
+							}],
+							children: [{
+								tag: 'ul',
+								className: ['nav', 'nav-bar', 'navbar-right'],
+								attrs: [{
+									title: '导航菜单设置',
+									key: 'navbar-setting',
+									children: []
+								}],
+								children: [{
+									tag: 'li',
+									className: [],
+									attrs: [{
+										title: '导航菜单设置',
+										key: 'navbar-setting',
+										children: []
+									}],
+									children: [{
+										tag: 'a',
+										className: [],
+										attrs: [{
+											title: '导航菜单设置',
+											key: 'navbar-setting',
+											children: []
+										}]
+									}]
+								}, {
+									tag: 'li',
+									className: [],
+									attrs: [{
+										title: '导航菜单设置',
+										key: 'navbar-setting',
+										children: []
+									}],
+									children: [{
+										tag: 'a',
+										className: [],
+										attrs: [{
+											title: '导航菜单设置',
+											key: 'navbar-setting',
+											children: []
+										}]
+									}]
+								}]
+							}]
+						}]
+					}]
 				}
 			}, {
 				icon: <svg width="59" height="30" viewBox="0 0 59 30" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".4" d="M56 0H3C1.3 0 0 1.3 0 3v24c0 1.7 1.3 3 3 3h53c1.7 0 3-1.3 3-3V3c0-1.7-1.3-3-3-3z"></path><path fill="currentColor" d="M33.4 13.9c-.4 0-.8.2-1.1.5-.3.3-.4.8-.4 1.3s.1 1 .4 1.3c.3.3.6.5 1.1.5s.8-.2 1.1-.5c.3-.3.5-.8.5-1.3s-.2-1-.5-1.3c-.4-.3-.7-.5-1.1-.5zM56 1H3c-1.1 0-2 .9-2 2v24c0 1.1.9 2 2 2h53c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zM14.5 17.9c-.8.8-2 1.1-3.6 1.1H8v-8.4h3c1.5 0 2.6.4 3.4 1.1.8.7 1.2 1.8 1.2 3.1s-.4 2.3-1.1 3.1zm6.1-3.8c-.5 0-.9.2-1.2.6s-.4.9-.4 1.5V19h-1.8v-6.5H19v.9c.2-.3.5-.5.9-.7.3-.2.7-.3 1.1-.3v1.7h-.4zm7 4c-.6.6-1.5 1-2.4 1-1 0-1.8-.3-2.4-1-.6-.6-1-1.4-1-2.4 0-.9.3-1.7 1-2.4.6-.6 1.5-1 2.4-1 1 0 1.8.3 2.4 1 .6.6 1 1.4 1 2.4s-.3 1.8-1 2.4zm8.2 0c-.6.6-1.3 1-2.1 1s-1.4-.3-1.9-.9v3.2H30v-8.8h1.8v.7c.6-.6 1.2-.8 2-.8s1.4.3 2 .9.9 1.4.9 2.4-.3 1.7-.9 2.3zm11.7.9l-4.2-4.3 1.4-1.3 2.8 2.9 2.8-2.9 1.4 1.3-4.2 4.3zm-36.6-6.8h-1v5.1h1.2c.9 0 1.5-.2 2-.6.5-.4.7-1.1.7-1.9 0-.8-.2-1.5-.7-1.9-.5-.4-1.2-.7-2.2-.7zM25.2 14c-.5 0-.9.2-1.2.5s-.5.8-.5 1.3.2 1 .5 1.3c.3.3.7.5 1.2.5s.9-.2 1.2-.5c.3-.3.5-.8.5-1.3s-.2-1-.5-1.3-.7-.5-1.2-.5z"></path></svg>,
 				name: '下拉菜单',
 				key: 'dropdown',
 				details: {
-					tag: 'ul',
-					className: [],
-					attrs: []
+					tag: 'div',
+					className: ['dropdown'],
+					attrs: [{
+						title: '下拉菜单设置',
+						key: 'dropdown-setting',
+						children: []
+					}],
+					children: [{
+						tag: 'a',
+						className: ['dropdown-toggle'],
+						attrs: [{
+							title: '链接设置',
+							key: 'link',
+							children: []
+						}, {
+							title: '下拉菜单设置',
+							key: 'dropdown-setting',
+							children: []
+						}]
+					}, {
+						tag: 'ul',
+						className: ['dropdown-menu'],
+						attrs: [{
+							title: '下拉菜单设置',
+							key: 'dropdown-setting',
+							children: []
+						}],
+						children: [{
+							tag: 'a',
+							attrs: [{
+								title: '链接设置',
+								key: 'link',
+								children: []
+							}]
+						}, {
+							tag: 'a',
+							attrs: [{
+								title: '链接设置',
+								key: 'link',
+								children: []
+							}]
+						}]
+					}]
 				}
 			}, {
 				icon: <svg width="50" height="37" viewBox="0 0 50 37" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".4" d="M47 0H3C1.3 0 0 1.3 0 3v31c0 1.7 1.3 3 3 3h44c1.7 0 3-1.3 3-3V3c0-1.7-1.3-3-3-3z"></path><path fill="currentColor" d="M47 1H3c-1.1 0-2 .9-2 2v31c0 1.1.9 2 2 2h44c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zM8.8 23.1l-4.7-4.7 4.7-4.7 1.4 1.4L7 18.5l3.2 3.2-1.4 1.4zM19 33c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm6 0c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm6 0c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm10.2-9.9l-1.4-1.4 3.2-3.2-3.2-3.2 1.4-1.4 4.7 4.7-4.7 4.5z"></path></svg>,
 				name: '幻灯片',
 				key: 'slider',
 				details: {
-					tag: 'ul',
-					className: [],
-					attrs: []
+					tag: 'div',
+					className: ['carousel', 'slide'],
+					attrs: [{
+						title: '幻灯片设置',
+						key: 'slider-settings',
+						children: []
+					}],
+					children: [{
+						tag: 'ol',
+						className: ['carousel-indicators'],
+						attrs: [{
+							title: '幻灯片设置',
+							key: 'slider-settings',
+							children: []
+						}],
+						children: [{
+							tag: 'li',
+							className: ['active'],
+							attrs: [{
+								title: '幻灯片设置',
+								key: 'slider-settings',
+								children: []
+							}, {
+								name: 'data-target',
+								attrName: 'data-target',
+								value: ''
+							}, {
+								name: 'data-slide-to',
+								attrName: 'data-slide-to',
+								value: '0'
+							}]
+						}, {
+							tag: 'li',
+							className: ['active'],
+							attrs: [{
+								title: '幻灯片设置',
+								key: 'slider-settings',
+								children: []
+							}, {
+								name: 'data-target',
+								attrName: 'data-target',
+								value: ''
+							}, {
+								name: 'data-slide-to',
+								attrName: 'data-slide-to',
+								value: '1'
+							}]
+						}]
+					}, {
+						tag: 'div',
+						className: ['carousel-inner'],
+						attrs: [{
+							title: '幻灯片设置',
+							key: 'slider-settings',
+							children: []
+						}],
+						children: [{
+							tag: 'div',
+							className: ['item'],
+							children: [],
+							attrs: [{
+								title: '幻灯片设置',
+								key: 'slider-settings',
+								children: []
+							}]
+						}, {
+							tag: 'div',
+							className: ['item'],
+							children: [],
+							attrs: [{
+								title: '幻灯片设置',
+								key: 'slider-settings',
+								children: []
+							}]
+						}]
+					}, {
+						tag: 'a',
+						className: ['left', 'carousel-control'],
+						attrs: [{
+							title: '幻灯片设置',
+							key: 'slider-settings',
+							children: []
+						}],
+						children: [{
+							tag: 'span',
+							className: ['glyphicon', 'glyphicon-chevron-right'],
+							attrs: [{
+								title: '幻灯片设置',
+								key: 'slider-settings',
+								children: []
+							}]
+						}, {
+							tag: 'span',
+							className: ['sr-only'],
+							attrs: [{
+								title: '幻灯片设置',
+								key: 'slider-settings',
+								children: []
+							}]
+						}]
+					}, {
+						tag: 'a',
+						className: ['right', 'carousel-control'],
+						attrs: [{
+							title: '幻灯片设置',
+							key: 'slider-settings',
+							children: []
+						}]
+					}]
 				}
 			}]
 		}],

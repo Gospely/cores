@@ -42,7 +42,7 @@ const Component = (props) => {
     	},
   	};
 	const loopData = data => data.map((item) => {
-
+		
 		if (item.children != null) {
 			return <TreeNode title={item.name} value={item.key} key={item.key} >{loopData(item.children)}</TreeNode>;
 		}
@@ -52,7 +52,7 @@ const Component = (props) => {
     });
 	const newFolderPopoverProps = {
 
-		treeSelectOnChange (value) {
+		newFolderTreeSelectOnChange (value) {
 			props.dispatch({
 				type: 'vdpm/handleRreeSelect',
 				payload: { value: value}
@@ -70,30 +70,94 @@ const Component = (props) => {
 				payload: { value: true}
 			});
 		},
-		hideNewFolderPopover(){
+		handleFolderNameChange(value){
+
+			props.dispatch({
+				type: 'vdpm/handleFolderName',
+				payload: { value: value.target.value}
+			});
+		},
+		handleCreate(){
+			localStorage.create = 'false'
 			props.dispatch({
 				type: 'vdpm/handleNewFolderVisible',
 				payload: { value: false}
 			});
+			props.dispatch({
+				type: 'vdpm/handleCreateFolder',
+			});
 		},
-		createFoler(){
-			localStorage.creatType = 'folder';
+		createFolder(){
+
+			if(localStorage.create == undefined || localStorage.create == null || localStorage.create == 'false'){
+				localStorage.create = 'true'
+				props.dispatch({
+					type: 'vdpm/handleNewPageVisible',
+					payload: { value: false}
+				});
+			}else{
+				localStorage.create = 'false'
+				setTimeout(function(){
+					props.dispatch({
+						type: 'vdpm/handleNewFolderVisible',
+						payload: { value: !props.vdpm.pageManager.newFolderVisible}
+					});
+					props.dispatch({
+						type: 'vdpm/handleNewPageVisible',
+						payload: { value: false}
+					});
+				}, 200);
+			}
 		},
 	}
 	const newPagePopoverProps = {
+		newPageTreeSelectOnChange (value) {
+			props.dispatch({
+				type: 'vdpm/handleNewPageRreeSelect',
+				payload: { value: value}
+			});
+		},
 		newPageVisibleChange(value){
 
-			console.log(value);
 			props.dispatch({
 				type: 'vdpm/handleNewPageVisible',
 				payload: { value: true}
 			});
 		},
+		handlePageNameChange(value){
+
+			props.dispatch({
+				type: 'vdpm/handleFolderName',
+				payload: { target: 'name', value: value.target.value}
+			});
+		},
 		createPage(){
-			localStorage.creatType = 'page';
+
+
+			if(localStorage.createPage == undefined || localStorage.createPage == null || localStorage.createPage == 'false'){
+				localStorage.createPage = 'true'
+				props.dispatch({
+					type: 'vdpm/handleNewFolderVisible',
+					payload: { value: false}
+				});
+			}else{
+				localStorage.createPage = 'false'
+				setTimeout(function(){
+					props.dispatch({
+						type: 'vdpm/handleNewPageVisible',
+						payload: { value: !props.vdpm.pageManager.newPageVisible}
+					});
+					props.dispatch({
+						type: 'vdpm/handleNewFolderVisible',
+						payload: { value:false}
+					});
+				}, 200);
+			}
+
 		},
 		handleCreatePage(){
 
+			localStorage.createPage = 'false'
 			props.dispatch({
 				type: 'vdpm/handleCreatePage',
 				payload: { value: false}
@@ -107,7 +171,6 @@ const Component = (props) => {
 		},
 		handlePageNameChange(value){
 
-			console.log(value);
 			props.dispatch({
 				type: 'vdpm/handNewPageFormChange',
 				payload: { target: 'name', value: value.target.value}
@@ -160,7 +223,7 @@ const Component = (props) => {
 			        	placeholder="请选择父级文件夹"
 			        	allowClear
 			        	treeDefaultExpandAll
-			        	onChange={newFolderPopoverProps.treeSelectOnChange}
+			        	onChange={newFolderPopoverProps.newFolderTreeSelectOnChange}
 			      	>
 			        	{treeNodes}
 			      	</TreeSelect>
@@ -178,11 +241,11 @@ const Component = (props) => {
 		            )}
 		            hasFeedback
 		          >
-		            <Input value={props.vdpm.newFolderForm.name}/>
+		            <Input value={props.vdpm.newFolderForm.name} onChange={newFolderPopoverProps.handleFolderNameChange}/>
 		          </FormItem>
 
 		          <FormItem {...tailFormItemLayout}>
-		            <Button type="primary" htmlType="submit" onClick={newFolderPopoverProps.hideNewFolderPopover}>创建</Button>
+		            <Button type="primary" htmlType="submit" onClick={newFolderPopoverProps.handleCreate}>创建</Button>
 		          </FormItem>
 		        </Form>
 			</div>
@@ -208,7 +271,7 @@ const Component = (props) => {
 			        	placeholder="请选择父级文件夹"
 			        	allowClear
 			        	treeDefaultExpandAll
-			        	onChange={newFolderPopoverProps.treeSelectOnChange}
+			        	onChange={newPagePopoverProps.newPageTreeSelectOnChange}
 			      	>
 			        	{treeNodes}
 			      	</TreeSelect>
