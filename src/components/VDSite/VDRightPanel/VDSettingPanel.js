@@ -30,7 +30,7 @@ const Component = (props) => {
       	wrapperCol: { span: 16 }
     };
 
-   	const specialAttrList = ['custom-attr', 'link-setting', 'list-setting', 'heading-type', 'image-setting'];
+   	const specialAttrList = ['custom-attr', 'link-setting', 'list-setting', 'heading-type', 'image-setting', 'select-setting'];
 
     const attrsPanels = () => {
     	return props.vdCtrlTree.activeCtrl.attrs.map((item, index) => {
@@ -334,6 +334,108 @@ const Component = (props) => {
 							    </Panel>
 		    				);
 		    			},
+
+		    			'select-setting' () {
+
+						    const selectSettingProps = {
+						    	creatorContent: (
+							      	<Form className="form-no-margin-bottom">
+										<FormItem {...formItemLayout} label="说明">
+											<Input size="small" />
+										</FormItem>
+										<FormItem {...formItemLayout} label="值">
+											<Input size="small" />
+										</FormItem>
+										<FormItem>
+											<Button size="small">保存</Button>
+										</FormItem>
+									</Form>
+						    	),
+
+						    	modifyContent: (
+							      	<Form className="form-no-margin-bottom">
+										<FormItem {...formItemLayout} label="说明">
+											<Input size="small" />
+										</FormItem>
+										<FormItem {...formItemLayout} label="值">
+											<Input size="small" />
+										</FormItem>
+										<FormItem>
+											<Button size="small">保存</Button>
+										</FormItem>
+									</Form>
+						    	),
+
+						    	onVisibleChange () {
+
+						    	}
+						    }
+
+		    				return (
+							    <Panel header={item.title} key={item.key}>
+							      	<Form className="form-no-margin-bottom">
+										<FormItem {...formItemLayout} label="名称">
+											<Input size="small" />
+										</FormItem>
+										<FormItem {...formItemLayout} label="允许多选">
+											<Switch size="small" />
+										</FormItem>
+										<Button type="circle" size="small"><Icon type="plus" /></Button>
+							      	</Form>
+
+								    <ul style={{marginTop: '-15px'}} className="ant-dropdown-menu ant-dropdown-menu-vertical ant-dropdown-menu-light ant-dropdown-menu-root symbol-list" role="menu">
+								      <li className="ant-dropdown-menu-item" role="menuitem">
+								        <Row>
+								          <Col span={18}>
+								            <p>key1="val2"</p>
+								          </Col>
+								          <Col span={3}>
+
+											<Popover
+									        	content={selectSettingProps.modifyContent}
+									        	title="修改 选项"
+									        	trigger="click"
+									      	>
+								            	<Icon type="edit" />
+									      	</Popover>
+
+								          </Col>
+								          <Col span={3}>
+								            <Popconfirm title="确认删除吗？" okText="确定" cancelText="取消">
+												<Icon type="delete" />
+												</Popconfirm>
+								          </Col>
+								        </Row>
+								      </li>
+								      <li className="ant-dropdown-menu-item-divider"></li>
+
+								      <li className="ant-dropdown-menu-item" role="menuitem">
+								        <Row>
+								          <Col span={18}>
+								            <p>key="val"</p>
+								          </Col>
+								          <Col span={3}>
+											<Popover
+									        	content={selectSettingProps.modifyContent}
+									        	title="修改 选项"
+									        	trigger="click"
+									      	>
+								            	<Icon type="edit" />
+									      	</Popover>
+								          </Col>
+								          <Col span={3}>
+								            <Popconfirm title="确认删除吗？" okText="确定" cancelText="取消">
+												<Icon type="delete" />
+												</Popconfirm>
+								          </Col>
+								        </Row>
+								      </li>
+								      <li className=" ant-dropdown-menu-item-divider"></li>
+								    </ul>
+
+							    </Panel>
+		    				);
+		    			}
 					};
 
 					return specialAttrHandler[item.key](item);

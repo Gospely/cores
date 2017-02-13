@@ -378,6 +378,15 @@ export default {
 						tag: 'input',
 						className: [],
 						attrs: [{
+							name: 'name',
+							desc: '名称',
+							type: 'input',
+							value: '',
+							props: {
+								placeholder: '输入名称'
+							},
+							id: ''
+						}, {
 							name: 'placeholder',
 							desc: '占位字符',
 							type: 'input',
@@ -408,6 +417,15 @@ export default {
 						tag: 'input',
 						className: [],
 						attrs: [{
+							name: 'name',
+							desc: '名称',
+							type: 'input',
+							value: '',
+							props: {
+								placeholder: '输入名称'
+							},
+							id: ''
+						}, {
 							name: 'placeholder',
 							desc: '占位字符',
 							type: 'input',
@@ -449,6 +467,15 @@ export default {
 					tag: 'input',
 					className: [],
 					attrs: [{
+						name: 'name',
+						desc: '名称',
+						type: 'input',
+						value: '',
+						props: {
+							placeholder: '输入名称'
+						},
+						id: ''
+					}, {
 						name: 'placeholder',
 						desc: '占位字符',
 						type: 'input',
@@ -479,25 +506,82 @@ export default {
 				details: {
 					tag: 'ul',
 					className: [],
-					attrs: []
+					attrs: [{
+						name: 'name',
+						desc: '名称',
+						type: 'input',
+						value: '',
+						props: {
+							placeholder: '输入名称'
+						},
+						id: ''
+					}, {
+						name: 'placeholder',
+						desc: '占位字符',
+						type: 'input',
+						value: '',
+						props: {
+							placeholder: '输入占位字符'
+						},
+						id: ''
+					}, {
+						name: 'autofocus',
+						desc: '自动聚焦',
+						type: 'toggle',
+						value: false,
+						id: ''
+					}]
 				}
 			}, {
 				icon: <svg width="28" height="24" viewBox="0 0 28 24" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".2" fill="currentColor" d="M3 1h22v22H3z"></path><path opacity=".4" d="M25 1v22H3V1h22m1-1H2v24h24V0z"></path><path fill="currentColor" d="M3 1v22h22V7.3c-.7.7-1.3 1.4-2 2.2V21H5V3h18c.6-.5 1.3-.9 2-1.4V1H3zm20 5.3c.6-.5 1.3-.9 2-1.4V4c-.7.7-1.3 1.5-2 2.3z"></path><path fill="currentColor" d="M7.4 10.7l1.7-1.6c2 1 3.3 1.7 5.5 3.3 4.2-4.8 7-7.2 12.2-10.5l.6 1.3c-4.3 3.7-7.4 7.9-11.9 16-2.8-3.2-4.7-5.3-8.1-8.5z"></path></svg>,
 				name: '多选框',
 				key: 'checkbox',
 				details: {
-					tag: 'ul',
+					tag: 'checkbox',
 					className: [],
-					attrs: []
+					attrs: [{
+						name: 'name',
+						desc: '名称',
+						type: 'input',
+						value: '',
+						props: {
+							placeholder: '输入名称'
+						},
+						id: ''
+					}, {
+						name: 'checked',
+						desc: '选中',
+						type: 'toggle',
+						value: false,
+						id: ''
+					}]
 				}
 			}, {
 				icon: <svg width="26" height="26" viewBox="0 0 26 26" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><circle opacity=".2" fill="currentColor" cx="13" cy="13" r="10.6"></circle><path d="M13 0c7.2 0 13 5.8 13 13s-5.8 13-13 13S0 20.2 0 13 5.8 0 13 0m0 1C6.4 1 1 6.4 1 13s5.4 12 12 12 12-5.4 12-12S19.6 1 13 1z" opacity=".4"></path><path fill="currentColor" d="M13 3.5c5.2 0 9.5 4.3 9.5 9.5s-4.3 9.5-9.5 9.5-9.5-4.3-9.5-9.5S7.8 3.5 13 3.5M13 1C6.4 1 1 6.4 1 13s5.4 12 12 12 12-5.4 12-12S19.6 1 13 1z"></path><circle fill="currentColor" cx="13" cy="13" r="5"></circle></svg>,
 				name: '单选框',
 				key: 'radio-button',
 				details: {
-					tag: 'ul',
+					tag: 'radio',
 					className: [],
-					attrs: []
+					attrs: [{
+						name: 'group-name',
+						desc: '组名称',
+						type: 'input',
+						value: '',
+						props: {
+							placeholder: '输入名称'
+						},
+						id: ''
+					}, {
+						name: 'choice-value',
+						desc: '选项值',
+						type: 'input',
+						value: '',
+						props: {
+							placeholder: '输入值'
+						},
+						id: ''
+					}]
 				}
 			}, {
 				icon: <svg width="60" height="23" viewBox="0 0 60 23" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".4" d="M57 0H3C1.3 0 0 1.3 0 3v17c0 1.7 1.3 3 3 3h54c1.7 0 3-1.3 3-3V3c0-1.7-1.3-3-3-3zM32 13H8v-2h24v2z"></path><path fill="currentColor" d="M57 1H3c-1.1 0-2 .9-2 2v17c0 1.1.9 2 2 2h54c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zM32 13H8v-2h24v2zm17 1l-4-4h8l-4 4z"></path><path opacity=".75" fill="currentColor" d="M8 11h24v2H8z"></path></svg>,
@@ -506,7 +590,11 @@ export default {
 				details: {
 					tag: 'ul',
 					className: [],
-					attrs: []
+					attrs: [{
+						title: '选择框设置',
+						key: 'select-setting',
+						children: []
+					}]
 				}
 			}, {
 				icon: <svg width="59" height="31" viewBox="0 0 59 31" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".4" d="M56 0H3C1.3 0 0 1.3 0 3v25c0 1.7 1.3 3 3 3h53c1.7 0 3-1.3 3-3V3c0-1.7-1.3-3-3-3z"></path><path fill="currentColor" d="M27 15.3c.2-.1.3-.3.3-.7s-.1-.6-.3-.7c-.2-.1-.6-.2-1.1-.2h-.8v1.7h.8c.5 0 .9 0 1.1-.1zM56 1H3c-1.1 0-2 .9-2 2v25c0 1.1.9 2 2 2h53c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zM12.9 19.4c-.5.4-1.2.6-2 .6-1.2 0-2.3-.5-3.3-1.4l1-1.3c.8.7 1.6 1.1 2.3 1.1.3 0 .6-.1.7-.2.2-.1.3-.3.3-.5s-.1-.4-.3-.5c-.2-.1-.6-.3-1.1-.4-.9-.2-1.5-.5-2-.8s-.6-.9-.6-1.6c0-.7.3-1.3.8-1.7.5-.4 1.2-.6 2-.6.5 0 1 .1 1.5.3.5.2 1 .4 1.3.7l-.9 1.3c-.7-.5-1.4-.8-2.1-.8-.3 0-.5.1-.7.2s-.2.3-.2.5.1.4.3.5c.2.1.7.3 1.4.5s1.3.4 1.7.8c.4.4.6.9.6 1.6.1.8-.2 1.3-.7 1.7zm8.7-2.8c0 1.1-.3 2-.9 2.6s-1.4.9-2.4.9-1.8-.3-2.4-.9c-.6-.6-.9-1.5-.9-2.6v-4.3h1.7v4.2c0 .6.1 1.1.4 1.5.3.4.7.5 1.2.5s.9-.2 1.1-.5.4-.8.4-1.5v-4.2h1.7v4.3zm7.4 2.7c-.4.5-1.2.7-2.2.7h-3.4v-7.7h3c.5 0 1 .1 1.3.2.4.1.7.3.9.5.3.4.5.8.5 1.3 0 .6-.2 1-.6 1.3-.1.1-.2.2-.3.2-.1 0-.1.1-.3.1.5.1.9.3 1.1.6s.4.7.4 1.2c.1.7 0 1.2-.4 1.6zm10.6.7h-1.7v-4.8l-2.1 4.2h-1l-2.1-4.2V20H31v-7.7h2.3l2 4.2 2-4.2h2.3V20zm3.6 0h-1.7v-7.7h1.7V20zm7.3-6.2h-2.2V20h-1.7v-6.2h-2.2v-1.5h6.1v1.5zm-23.1 3.1c-.3-.1-.7-.2-1.2-.2h-1v1.8h1.2c.5 0 .9-.1 1.1-.2s.4-.4.4-.7-.3-.5-.5-.7z"></path></svg>,
