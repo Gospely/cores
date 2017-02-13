@@ -30,104 +30,6 @@ const Component = (props) => {
       	wrapperCol: { span: 16 }
     };
 
-    const customAttrProps = {
-    	creatorContent: (
-	      	<Form className="form-no-margin-bottom">
-				<FormItem {...formItemLayout} label="key">
-					<Input size="small" />
-				</FormItem>
-				<FormItem {...formItemLayout} label="value">
-					<Input size="small" />
-				</FormItem>
-				<FormItem>
-					<Button size="small">保存</Button>
-				</FormItem>
-			</Form>
-    	),
-
-    	modifyContent: (
-	      	<Form className="form-no-margin-bottom">
-				<FormItem {...formItemLayout} label="key">
-					<Input size="small" />
-				</FormItem>
-				<FormItem {...formItemLayout} label="value">
-					<Input size="small" />
-				</FormItem>
-				<FormItem>
-					<Button size="small">保存</Button>
-				</FormItem>
-			</Form>
-    	),
-
-    	onVisibleChange () {
-
-    	}
-    }
-
-    const linkSettingProps = {
-		
-    	linkSettingTemplate: props.vdcore.linkSetting.list.map( (item, index) => {
-			return (
-				<RadioButton key={item.value} value={item.value}>
-	              	<Tooltip placement="top" title={item.tip}>
-	      				<Icon type={item.icon} />
-	      			</Tooltip>
-		      	</RadioButton>
-			);
-		}),
-
-    	tpl: [(
-	      	<Form className="form-no-margin-bottom">
-				<FormItem {...formItemLayout} label="链接地址">
-					<Input size="small" />
-				</FormItem>
-
-				<FormItem {...formItemLayout} label="新窗口">
-					<Switch size="small" />
-				</FormItem>
-	      	</Form>
-    	), (
-	      	<Form className="form-no-margin-bottom">
-				<FormItem {...formItemLayout} label="邮箱地址">
-					<Input size="small" />
-				</FormItem>
-	      	</Form>
-    	), (
-	      	<Form className="form-no-margin-bottom">
-				<FormItem {...formItemLayout} label="手机号码">
-					<Input size="small" />
-				</FormItem>
-	      	</Form>
-    	), (
-	      	<Form className="form-no-margin-bottom">
-				<FormItem {...formItemLayout} label="页面">
-				    <Select size="small" value="请选择页面">
-				      	<Option key="sss" value="h1">h1</Option>
-				    </Select>
-				</FormItem>
-				<FormItem {...formItemLayout} label="新窗口">
-					<Switch size="small" />
-				</FormItem>
-	      	</Form>
-    	), (
-			<Form className="form-no-margin-bottom">
-				<FormItem {...formItemLayout} label="元素">
-				    <Select size="small" value="请选择元素">
-				      	<Option key="sss" value="h1">h1</Option>
-				    </Select>
-				</FormItem>
-	      	</Form>
-    	)],
-
-    	onChange (e) {
-    		props.dispatch({
-    			type: 'vdcore/handleLinkSettingValueChange',
-    			payload: e.target.value
-    		});
-    	}
-
-    }
-
     const attrsPanels = () => {
     	return props.vdCtrlTree.activeCtrl.attrs.map((item, index) => {
 
@@ -135,11 +37,46 @@ const Component = (props) => {
 
     		//针对比如自定义属性这种拥有复杂交互的表单，不适合在控件属性中写form结构
     		const
-    			specialAttrList = ['custom-attr'];
+    			specialAttrList = ['custom-attr', 'link'];
 
     			if(specialAttrList.indexOf(item.key) != -1) {
 		    		const specialAttrHandler = {
 		    			'custom-attr' (item) {
+
+						    const customAttrProps = {
+						    	creatorContent: (
+							      	<Form className="form-no-margin-bottom">
+										<FormItem {...formItemLayout} label="key">
+											<Input size="small" />
+										</FormItem>
+										<FormItem {...formItemLayout} label="value">
+											<Input size="small" />
+										</FormItem>
+										<FormItem>
+											<Button size="small">保存</Button>
+										</FormItem>
+									</Form>
+						    	),
+
+						    	modifyContent: (
+							      	<Form className="form-no-margin-bottom">
+										<FormItem {...formItemLayout} label="key">
+											<Input size="small" />
+										</FormItem>
+										<FormItem {...formItemLayout} label="value">
+											<Input size="small" />
+										</FormItem>
+										<FormItem>
+											<Button size="small">保存</Button>
+										</FormItem>
+									</Form>
+						    	),
+
+						    	onVisibleChange () {
+
+						    	}
+						    }
+    
 		    				return (
 							    <Panel header="自定义属性" key="custom-attr">
 							    	<Form>
@@ -204,6 +141,83 @@ const Component = (props) => {
 									    </ul>
 
 									</Form>
+							    </Panel>
+		    				);
+		    			},
+
+		    			link (item) {
+
+						    const linkSettingProps = {
+								
+						    	linkSettingTemplate: props.vdcore.linkSetting.list.map( (item, index) => {
+									return (
+										<RadioButton key={item.value} value={item.value}>
+							              	<Tooltip placement="top" title={item.tip}>
+							      				<Icon type={item.icon} />
+							      			</Tooltip>
+								      	</RadioButton>
+									);
+								}),
+
+						    	tpl: [(
+							      	<Form className="form-no-margin-bottom">
+										<FormItem {...formItemLayout} label="链接地址">
+											<Input size="small" />
+										</FormItem>
+
+										<FormItem {...formItemLayout} label="新窗口">
+											<Switch size="small" />
+										</FormItem>
+							      	</Form>
+						    	), (
+							      	<Form className="form-no-margin-bottom">
+										<FormItem {...formItemLayout} label="邮箱地址">
+											<Input size="small" />
+										</FormItem>
+							      	</Form>
+						    	), (
+							      	<Form className="form-no-margin-bottom">
+										<FormItem {...formItemLayout} label="手机号码">
+											<Input size="small" />
+										</FormItem>
+							      	</Form>
+						    	), (
+							      	<Form className="form-no-margin-bottom">
+										<FormItem {...formItemLayout} label="页面">
+										    <Select size="small" value="请选择页面">
+										      	<Option key="sss" value="h1">h1</Option>
+										    </Select>
+										</FormItem>
+										<FormItem {...formItemLayout} label="新窗口">
+											<Switch size="small" />
+										</FormItem>
+							      	</Form>
+						    	), (
+									<Form className="form-no-margin-bottom">
+										<FormItem {...formItemLayout} label="元素">
+										    <Select size="small" value="请选择元素">
+										      	<Option key="sss" value="h1">h1</Option>
+										    </Select>
+										</FormItem>
+							      	</Form>
+						    	)],
+
+						    	onChange (e) {
+						    		props.dispatch({
+						    			type: 'vdcore/handleLinkSettingValueChange',
+						    			payload: e.target.value
+						    		});
+						    	}
+
+						    }
+
+		    				return (
+							    <Panel header="链接设置" key="link">
+									<RadioGroup onChange={linkSettingProps.onChange} defaultValue="link" size="small">
+										{linkSettingProps.linkSettingTemplate}
+								    </RadioGroup>
+
+							    	{linkSettingProps.tpl[props.vdcore.linkSetting.activeLinkType]}
 							    </Panel>
 		    				);
 		    			}
@@ -298,13 +312,6 @@ const Component = (props) => {
   		<div className="vdctrl-pane-wrapper">
 			<Collapse bordered={false} defaultActiveKey={['basic', 'link', 'custom-attr', 'heading-type']}>
 				{attrsPanels()}
-			    <Panel header="链接设置" key="link">
-					<RadioGroup onChange={linkSettingProps.onChange} defaultValue="link" size="small">
-						{linkSettingProps.linkSettingTemplate}
-				    </RadioGroup>
-
-			    	{linkSettingProps.tpl[props.vdcore.linkSetting.activeLinkType]}
-			    </Panel>
 			    <Panel header="标题大小" key="heading-type">
 			      	<Form className="form-no-margin-bottom">
 						<FormItem {...formItemLayout} label="标题大小">
