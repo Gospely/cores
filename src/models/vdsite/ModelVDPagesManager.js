@@ -86,18 +86,6 @@ export default {
 		},
 		handleNewPageVisible(state, { payload: params }){
 			state.pageManager.newPageVisible = params.value;
-			state.newPageFrom = {
-				key: '',
-				name: '',
-				seo: {
-					title: '',
-					description: ''
-				},
-				script: {
-					head: '',
-					script: ''
-				},
-			};
 			return {...state};
 		},
 		handleNewFolderVisible(state, { payload: params }){
@@ -106,13 +94,13 @@ export default {
 		},
 		handleRreeSelect(state, { payload: params }){
 
-			console.log(params);
 			state.pageManager.treeSelect.value = params.value;
-			if(localStorage.creatType == 'page'){
-				state.pageManager.newPageVisible = true;
-			}else{
-				state.pageManager.newFolderVisible = true;
-			}
+			state.pageManager.newFolderVisible = true;
+			return {...state};
+		},
+		handleNewPageRreeSelect(state, { payload: params }){
+			state.pageManager.treeSelect.value = params.value;
+			state.pageManager.newPageVisible = true;
 			return {...state};
 		},
 		handNewPageFormChange(state, { payload: params}){
@@ -130,14 +118,82 @@ export default {
 			var tree = state.pageManager.treeSelect.value;
 			console.log(tree);
 			state.newPageFrom.key = tree + state.newPageFrom.name + '.html'
-			for (var i = 0; i < state.pageList.length; i++) {
-				console.log(state.pageList[i].key);
-				if(state.pageList[i].key == tree){
-					state.pageList[i].children.push(state.newPageFrom);
-				}
-			}
 
+			let pushPage = function(pages){
+
+				for (var i = 0; i < pages.length; i++) {
+
+					console.log(pages[i].key);
+					if(pages[i].children != null && pages[i].key == tree){
+						pages.children = pages[i].children.push(state.newPageFrom);
+						return pages;
+					}else {
+						if(pages[i].children != null){
+							pages.children = pushPage(pages[i].children);
+						}
+					}
+				}
+				return pages;
+			}
+			state.pageList = pushPage(state.pageList);
+			state.newPageFrom = {
+				key: '',
+				name: '',
+				seo: {
+					title: '',
+					description: ''
+				},
+				script: {
+					head: '',
+					script: ''
+				},
+			};
 			return {...state};
+		},
+		handleCreateFolder(state, { payload: params}){
+
+			console.log(state.newFolderForm);
+			var tree = state.pageManager.treeSelect.value;
+			console.log(tree);
+			state.newFolderForm.key = tree + state.newFolderForm.name
+			state.newFolderForm.children = [];
+			let pushPage = function(pages){
+
+				for (var i = 0; i < pages.length; i++) {
+
+					console.log(pages[i].key);
+					if(pages[i].children != null && pages[i].key == tree){
+						console.log('push');
+						pages.children = pages[i].children.push(state.newFolderForm);
+						return pages;
+					}else {
+						if(pages[i].children != null){
+
+							pages.children = pushPage(pages[i].children);
+						}
+					}
+				}
+				return pages;
+			}
+			state.pageList = pushPage(state.pageList);
+			state.newPageFrom = {
+				key: '',
+				name: '',
+				seo: {
+					title: '',
+					description: ''
+				},
+				script: {
+					head: '',
+					script: ''
+				},
+			};
+			return {...state};
+		},
+		handleFolderName(state, { payload: params}){
+			console.log(params);
+			state.newFolderForm.name = params.value;
+			return { ...state};
 		},
 		list(state, { payload: params}){
 
@@ -172,7 +228,6 @@ export default {
 					tree.push(tmpTree);
 				}
 			};
-			console.log(tree);
 			return {...state, treeNodes: [{
 				isLeaf: false,
 				key: localStorage.dir,
