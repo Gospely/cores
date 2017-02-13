@@ -145,6 +145,14 @@ export default {
 							tag: 'li',
 							className: [],
 							attrs: []
+						}, {
+							tag: 'li',
+							className: [],
+							attrs: []
+						}, {
+							tag: 'li',
+							className: [],
+							attrs: []
 						}]
 					}]
 				}
@@ -153,7 +161,7 @@ export default {
 				name: '列表项',
 				key: 'list-item',
 				details: {
-					tag: 'ul',
+					tag: 'li',
 					className: [],
 					attrs: []
 				}
@@ -168,7 +176,12 @@ export default {
 				details: {
 					tag: 'ul',
 					className: [],
-					attrs: []
+					attrs: [{
+						title: '标题大小',
+						key: 'heading-type',
+						value: 'h1',
+						children: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']
+					}]
 				}
 			}, {
 				icon: <svg width="59" height="16" viewBox="0 0 59 16" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".4" d="M0 0v16h29v-4h29V8h-1V4h2V0H0zm1 7h55H1zm57-4H1h57z"></path><path fill="currentColor" d="M1 1v2h57V1H1zm55 4H1v2h55V5zM1 11h56V9H1v2zm0 4h27v-2H1v2z"></path></svg>,

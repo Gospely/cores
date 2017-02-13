@@ -35,7 +35,7 @@ const Component = (props) => {
 
     		//针对比如自定义属性这种拥有复杂交互的表单，不适合在控件属性中写form结构
     		const
-    			specialAttrList = ['custom-attr', 'link-setting', 'list-setting'];
+    			specialAttrList = ['custom-attr', 'link-setting', 'list-setting', 'heading-type'];
 
     			if(specialAttrList.indexOf(item.key) != -1) {
 		    		const specialAttrHandler = {
@@ -76,7 +76,7 @@ const Component = (props) => {
 						    }
 
 		    				return (
-							    <Panel header="自定义属性" key="custom-attr">
+							    <Panel header={item.title} key={item.key}>
 							    	<Form>
 										<FormItem {...formItemLayout} label="">
 											<Popover
@@ -210,7 +210,7 @@ const Component = (props) => {
 						    }
 
 		    				return (
-							    <Panel header="链接设置" key="link">
+							    <Panel header={item.title} key={item.key}>
 									<RadioGroup onChange={linkSettingProps.onChange} defaultValue="link" size="small">
 										{linkSettingProps.linkSettingTemplate}
 								    </RadioGroup>
@@ -220,9 +220,9 @@ const Component = (props) => {
 		    				);
 		    			},
 
-		    			'list-setting' () {
+		    			'list-setting' (item) {
 		    				return (
-							    <Panel header="列表设置" key="list-setting">
+							    <Panel header={item.title} key={item.key}>
 							      	<Form className="form-no-margin-bottom">
 										<FormItem {...formItemLayout} label="列表类型">
 									        <RadioGroup defaultValue="ul" size="small">
@@ -236,6 +236,26 @@ const Component = (props) => {
 										</FormItem>
 										<FormItem {...formItemLayout} label="无序号">
 											<Switch size="small" />
+										</FormItem>
+							      	</Form>
+							    </Panel>
+		    				);
+		    			},
+
+		    			'heading-type' (item) {
+		    				return (
+							    <Panel header={item.title} key={item.key}>
+							      	<Form className="form-no-margin-bottom">
+										<FormItem {...formItemLayout} label="标题大小">
+										    <Select size="small" value={item.value}>
+										    {
+										    	item.children.map((headingType, index) => {
+										    		return (
+												      	<Option key={index} value={headingType}>{headingType}</Option>
+										    		);
+										    	})
+										    }
+										    </Select>
 										</FormItem>
 							      	</Form>
 							    </Panel>
@@ -332,15 +352,6 @@ const Component = (props) => {
   		<div className="vdctrl-pane-wrapper">
 			<Collapse bordered={false} defaultActiveKey={['basic', 'link-setting', 'custom-attr', 'heading-type', 'list-setting']}>
 				{attrsPanels()}
-			    <Panel header="标题大小" key="heading-type">
-			      	<Form className="form-no-margin-bottom">
-						<FormItem {...formItemLayout} label="标题大小">
-						    <Select size="small" value="请选择">
-						      	<Option key="sss" value="h1">h1</Option>
-						    </Select>
-						</FormItem>
-			      	</Form>
-			    </Panel>
 			</Collapse>
   		</div>
 
