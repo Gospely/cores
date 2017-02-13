@@ -695,9 +695,49 @@ export default {
 				name: '下拉菜单',
 				key: 'dropdown',
 				details: {
-					tag: 'ul',
-					className: [],
-					attrs: []
+					tag: 'div',
+					className: ['dropdown'],
+					attrs: [{
+						title: '下拉菜单设置',
+						key: 'dropdown-setting',
+						children: []
+					}],
+					children: [{
+						tag: 'a',
+						className: ['dropdown-toggle'],
+						attrs: [{
+							title: '链接设置',
+							key: 'link',
+							children: []
+						}, {
+							title: '下拉菜单设置',
+							key: 'dropdown-setting',
+							children: []
+						}]
+					}, {
+						tag: 'ul',
+						className: ['dropdown-menu'],
+						attrs: [{
+							title: '下拉菜单设置',
+							key: 'dropdown-setting',
+							children: []
+						}],
+						children: [{
+							tag: 'a',
+							attrs: [{
+								title: '链接设置',
+								key: 'link',
+								children: []
+							}]
+						}, {
+							tag: 'a',
+							attrs: [{
+								title: '链接设置',
+								key: 'link',
+								children: []
+							}]
+						}]
+					}]
 				}
 			}, {
 				icon: <svg width="50" height="37" viewBox="0 0 50 37" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".4" d="M47 0H3C1.3 0 0 1.3 0 3v31c0 1.7 1.3 3 3 3h44c1.7 0 3-1.3 3-3V3c0-1.7-1.3-3-3-3z"></path><path fill="currentColor" d="M47 1H3c-1.1 0-2 .9-2 2v31c0 1.1.9 2 2 2h44c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zM8.8 23.1l-4.7-4.7 4.7-4.7 1.4 1.4L7 18.5l3.2 3.2-1.4 1.4zM19 33c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm6 0c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm6 0c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm10.2-9.9l-1.4-1.4 3.2-3.2-3.2-3.2 1.4-1.4 4.7 4.7-4.7 4.5z"></path></svg>,

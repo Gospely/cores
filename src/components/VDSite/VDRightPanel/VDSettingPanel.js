@@ -553,6 +553,21 @@ const Component = (props) => {
 
 							    </Panel>
 		    				);
+		    			},
+
+		    			'dropdown-menu' () {
+		    				return (
+							    <Panel header={item.title} key={item.key}>
+							    	<Row>
+							    		<Col span={12}>
+							    			<Button size="small"><Icon type="bars" />打开菜单</Button>
+							    		</Col>
+							    		<Col span={12}>
+							    			<Button size="small"><Icon type="plus" />新增菜单</Button>
+							    		</Col>
+							    	</Row>
+							    </Panel>
+		    				);
 		    			}
 					};
 
