@@ -744,9 +744,115 @@ export default {
 				name: '幻灯片',
 				key: 'slider',
 				details: {
-					tag: 'ul',
-					className: [],
-					attrs: []
+					tag: 'div',
+					className: ['carousel', 'slide'],
+					attrs: [{
+						title: '幻灯片设置',
+						key: 'slider-settings',
+						children: []
+					}],
+					children: [{
+						tag: 'ol',
+						className: ['carousel-indicators'],
+						attrs: [{
+							title: '幻灯片设置',
+							key: 'slider-settings',
+							children: []
+						}],
+						children: [{
+							tag: 'li',
+							className: ['active'],
+							attrs: [{
+								title: '幻灯片设置',
+								key: 'slider-settings',
+								children: []
+							}, {
+								name: 'data-target',
+								attrName: 'data-target',
+								value: ''
+							}, {
+								name: 'data-slide-to',
+								attrName: 'data-slide-to',
+								value: '0'
+							}]
+						}, {
+							tag: 'li',
+							className: ['active'],
+							attrs: [{
+								title: '幻灯片设置',
+								key: 'slider-settings',
+								children: []
+							}, {
+								name: 'data-target',
+								attrName: 'data-target',
+								value: ''
+							}, {
+								name: 'data-slide-to',
+								attrName: 'data-slide-to',
+								value: '1'
+							}]
+						}]
+					}, {
+						tag: 'div',
+						className: ['carousel-inner'],
+						attrs: [{
+							title: '幻灯片设置',
+							key: 'slider-settings',
+							children: []
+						}],
+						children: [{
+							tag: 'div',
+							className: ['item'],
+							children: [],
+							attrs: [{
+								title: '幻灯片设置',
+								key: 'slider-settings',
+								children: []
+							}]
+						}, {
+							tag: 'div',
+							className: ['item'],
+							children: [],
+							attrs: [{
+								title: '幻灯片设置',
+								key: 'slider-settings',
+								children: []
+							}]
+						}]
+					}, {
+						tag: 'a',
+						className: ['left', 'carousel-control'],
+						attrs: [{
+							title: '幻灯片设置',
+							key: 'slider-settings',
+							children: []
+						}],
+						children: [{
+							tag: 'span',
+							className: ['glyphicon', 'glyphicon-chevron-right'],
+							attrs: [{
+								title: '幻灯片设置',
+								key: 'slider-settings',
+								children: []
+							}]
+						}, {
+							tag: 'span',
+							className: ['sr-only'],
+							attrs: [{
+								title: '幻灯片设置',
+								key: 'slider-settings',
+								children: []
+							}]
+						}]
+					}, {
+						tag: 'a',
+						className: ['right', 'carousel-control'],
+						attrs: [{
+							title: '幻灯片设置',
+							key: 'slider-settings',
+							children: []
+						}]
+					}]
 				}
 			}]
 		}],
