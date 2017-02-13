@@ -47,7 +47,7 @@ const Component = (props) => {
 			return <TreeNode title={item.name} value={item.key} key={item.key} >{loopData(item.children)}</TreeNode>;
 		}
 		return (
-		  <TreeNode title={item.name} value={item.key} key={item.key} disabled={item.key === 'root'} />
+		  <TreeNode title={item.name} value={item.key} key={item.key} disabled="true" />
 		);
     });
 	const newFolderPopoverProps = {
@@ -161,7 +161,6 @@ const Component = (props) => {
 			        	allowClear
 			        	treeDefaultExpandAll
 			        	onChange={newFolderPopoverProps.treeSelectOnChange}
-						onSelect={newFolderPopoverProps.treeSelectOnChange}
 			      	>
 			        	{treeNodes}
 			      	</TreeSelect>
@@ -211,15 +210,7 @@ const Component = (props) => {
 			        	treeDefaultExpandAll
 			        	onChange={newFolderPopoverProps.treeSelectOnChange}
 			      	>
-			        	<TreeNode value="parent 1" title="parent 1" key="0-1">
-			          		<TreeNode value="parent 1-0" title="parent 1-0" key="0-1-1">
-			            	<TreeNode value="leaf1" title="my leaf" key="random" />
-			            	<TreeNode value="leaf2" title="your leaf" key="random1" />
-			          	</TreeNode>
-			          	<TreeNode value="parent 1-1" title="parent 1-1" key="random2">
-			            	<TreeNode value="sss" title={<b style={{ color: '#08c' }}>sss</b>} key="random3" />
-			          	</TreeNode>
-			        	</TreeNode>
+			        	{treeNodes}
 			      	</TreeSelect>
 
 		          </FormItem>
