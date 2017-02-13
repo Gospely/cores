@@ -1,4 +1,4 @@
-import React , {PropTypes} from 'react';
+import React , { PropTypes } from 'react';
 import { connect } from 'dva';
 
 import { Button, Modal } from 'antd';
@@ -7,7 +7,7 @@ import { Tooltip } from 'antd';
 import { Collapse } from 'antd';
 import { Radio, Popover } from 'antd';
 
-import { Tree, Form, Switch, Input, Cascader, Select, Row, Col, Checkbox, Menu, Dropdown, message, Tag, Table, Popconfirm} from 'antd';
+import { Tree, Form, Switch, Input, Cascader, Select, Row, Col, Checkbox, Menu, Dropdown, message, Tag, Table, Popconfirm } from 'antd';
 
 const FormItem = Form.Item;
 const RadioButton = Radio.Button;
@@ -33,11 +33,9 @@ const Component = (props) => {
     const attrsPanels = () => {
     	return props.vdCtrlTree.activeCtrl.attrs.map((item, index) => {
 
-    		console.log(item);
-
     		//针对比如自定义属性这种拥有复杂交互的表单，不适合在控件属性中写form结构
     		const
-    			specialAttrList = ['custom-attr', 'link'];
+    			specialAttrList = ['custom-attr', 'link-setting', 'list-setting'];
 
     			if(specialAttrList.indexOf(item.key) != -1) {
 		    		const specialAttrHandler = {
@@ -76,7 +74,7 @@ const Component = (props) => {
 
 						    	}
 						    }
-    
+
 		    				return (
 							    <Panel header="自定义属性" key="custom-attr">
 							    	<Form>
@@ -145,7 +143,7 @@ const Component = (props) => {
 		    				);
 		    			},
 
-		    			link (item) {
+		    			'link-setting' (item) {
 
 						    const linkSettingProps = {
 								
@@ -218,6 +216,28 @@ const Component = (props) => {
 								    </RadioGroup>
 
 							    	{linkSettingProps.tpl[props.vdcore.linkSetting.activeLinkType]}
+							    </Panel>
+		    				);
+		    			},
+
+		    			'list-setting' () {
+		    				return (
+							    <Panel header="列表设置" key="list-setting">
+							      	<Form className="form-no-margin-bottom">
+										<FormItem {...formItemLayout} label="列表类型">
+									        <RadioGroup defaultValue="ul" size="small">
+										      	<RadioButton value="ul">
+										      		无序列表
+									      		</RadioButton>
+										      	<RadioButton value="ol">
+										      		有序列表
+										      	</RadioButton>
+										    </RadioGroup>
+										</FormItem>
+										<FormItem {...formItemLayout} label="无序号">
+											<Switch size="small" />
+										</FormItem>
+							      	</Form>
 							    </Panel>
 		    				);
 		    			}
@@ -310,7 +330,7 @@ const Component = (props) => {
   	return (
 
   		<div className="vdctrl-pane-wrapper">
-			<Collapse bordered={false} defaultActiveKey={['basic', 'link', 'custom-attr', 'heading-type']}>
+			<Collapse bordered={false} defaultActiveKey={['basic', 'link-setting', 'custom-attr', 'heading-type', 'list-setting']}>
 				{attrsPanels()}
 			    <Panel header="标题大小" key="heading-type">
 			      	<Form className="form-no-margin-bottom">

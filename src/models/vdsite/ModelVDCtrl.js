@@ -49,6 +49,8 @@ export default {
 				name: '区段',
 				key: 'section',
 				details: {
+					tag: 'section',
+					className: [],
 					attrs: [{
 						name: 'tag',
 						desc: '标签',
@@ -63,6 +65,8 @@ export default {
 				name: '容器',
 				key: 'container',
 				details: {
+					tag: 'div',
+					className: [],
 					attrs: [{
 						name: 'tag',
 						desc: '标签',
@@ -77,6 +81,8 @@ export default {
 				name: '栅格',
 				key: 'columns',
 				details: {
+					tag: 'div',
+					className: [],
 					attrs: []
 				}
 			}]
@@ -87,7 +93,9 @@ export default {
 				icon: <svg width="36" height="36" viewBox="0 0 36 36" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".2" fill="currentColor" d="M1 1h34v34H1z"></path><g fill="currentColor"><path d="M1 1h2v4H1zm32 0h2v4h-2zM3 1h2v2H3zm10 0h4v2h-4zM7 1h4v2H7zm12 0h4v2h-4zm-6 32h4v2h-4zm-6 0h4v2H7zm12 0h4v2h-4zm6-32h4v2h-4zm0 32h4v2h-4z"></path><path d="M31 1h4v2h-4zm2 30h2v4h-2zM1 31h2v4H1zm0-18h2v4H1zm0-6h2v4H1zm32 6h2v4h-2zM1 19h2v4H1zm32 0h2v4h-2zM1 25h2v4H1zm32 0h2v4h-2zm0-18h2v4h-2zm-2 26h2v2h-2z"></path><path d="M1 33h4v2H1z"></path></g><path opacity=".4" d="M35 1v34H1V1h34m1-1H0v36h36V0z"></path></svg>,				
 				name: 'div块',
 				key: 'div-block',
+				className: [],
 				details: {
+					tag: 'div',
 					attrs: [{
 						name: 'tag',
 						desc: '标签',
@@ -102,27 +110,49 @@ export default {
 				name: '链接',
 				key: 'link-block',
 				details: {
-					attrs: []
+					tag: 'a',
+					className: [],
+					attrs: [{
+						title: '链接设置',
+						key: 'link',
+						children: []
+					}]
 				}
 			}, {
 				icon: <svg width="59" height="31" viewBox="0 0 59 31" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".4" d="M56 0H3C1.3 0 0 1.3 0 3v25c0 1.7 1.3 3 3 3h53c1.7 0 3-1.3 3-3V3c0-1.7-1.3-3-3-3z"></path><path fill="currentColor" d="M10 16.7H8.8v1.6H10c.6 0 .8-.4.8-.8s-.2-.8-.8-.8zm29.8-2.9c-1.2 0-2.1 1-2.1 2.3 0 1.3.9 2.4 2.1 2.4 1.2 0 2.1-1 2.1-2.4.1-1.4-.9-2.3-2.1-2.3zm-29.3.7c0-.4-.2-.7-.7-.7h-1v1.4h1c.5 0 .7-.4.7-.7zM56 1H3c-1.1 0-2 .9-2 2v25c0 1.1.9 2 2 2h53c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zM9.8 20H6.9v-7.9h2.9c1.6 0 2.7.7 2.7 2.1 0 .7-.3 1.3-.9 1.7.9.3 1.2 1.1 1.2 1.8 0 1.7-1.4 2.3-3 2.3zm10.8-2.9c0 1.8-1.3 3-3.3 3-2 0-3.3-1.3-3.3-3v-5h2v5c0 .8.5 1.3 1.4 1.3s1.4-.4 1.4-1.3v-5h1.9v5zm7.6-3.3h-2.4V20h-1.9v-6.2h-2.4v-1.7h6.7v1.7zm7.1 0h-2.4V20H31v-6.2h-2.4v-1.7h6.7v1.7zm4.5 6.3c-2.4 0-4.1-1.8-4.1-4.1s1.7-4 4.1-4c2.4 0 4.1 1.8 4.1 4 .1 2.3-1.7 4.1-4.1 4.1zm12.1-.1H50l-2.2-3.7c-.3-.5-.7-1.3-.7-1.3s.1.8.1 1.3V20h-1.9v-7.9h1.9l2.2 3.7c.3.5.7 1.3.7 1.3s-.1-.8-.1-1.3v-3.7h1.9V20z"></path></svg>,
 				name: '按钮',
 				key: 'button',
 				details: {
-					attrs: []
+					tag: 'a',
+					className: [],
+					attrs: [{
+						title: '链接设置',
+						key: 'link-setting',
+						children: []
+					}]
 				}
 			}, {
 				icon: <svg width="48" height="36" viewBox="0 0 48 36" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".2" fill="currentColor" d="M1 1h46v34H1z"></path><g fill="currentColor"><path d="M1 1h2v4H1zm44 0h2v4h-2zM3 1h2v2H3zm10 0h4v2h-4zM7 1h4v2H7zm12 0h4v2h-4zm-6 32h4v2h-4zm-6 0h4v2H7zm12 0h4v2h-4zm6-32h4v2h-4zm0 32h4v2h-4zm6-32h4v2h-4zm0 32h4v2h-4zm6-32h4v2h-4zm0 32h4v2h-4z"></path><path d="M43 1h4v2h-4zm2 30h2v4h-2zM1 31h2v4H1zm0-18h2v4H1zm0-6h2v4H1zm44 6h2v4h-2zM1 19h2v4H1zm44 0h2v4h-2zM1 25h2v4H1zm44 0h2v4h-2zm0-18h2v4h-2zm-2 26h2v2h-2z"></path><path d="M1 33h4v2H1z"></path></g><path opacity=".5" fill="currentColor" d="M18 14v-4h20v4H18m-2-6v8h24V8M18 26v-4h20v4H18m-2-6v8h24v-8"></path><circle fill="currentColor" cx="10" cy="12" r="2" opacity=".5"></circle><circle fill="currentColor" cx="10" cy="24" r="2" opacity=".5"></circle><path opacity=".4" d="M47 1v34H1V1h46m1-1H0v36h48V0z"></path></svg>,
 				name: '列表',
 				key: 'list',
 				details: {
-					attrs: []
+					tag: 'ul',
+					className: [],
+					attrs: [{
+						title: '列表设置',
+						key: 'list-setting',
+						children: [{
+							tag: ''
+						}]
+					}]
 				}
 			}, {
 				icon: <svg width="48" height="36" viewBox="0 0 48 36" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><g opacity=".3" fill="currentColor"><path d="M1 1h2v4H1zm44 0h2v4h-2zM3 1h2v2H3zm10 0h4v2h-4zM7 1h4v2H7zm12 0h4v2h-4zm-6 32h4v2h-4zm-6 0h4v2H7zm12 0h4v2h-4zm6-32h4v2h-4zm0 32h4v2h-4zm6-32h4v2h-4zm0 32h4v2h-4zm6-32h4v2h-4zm0 32h4v2h-4z"></path><path d="M43 1h4v2h-4zm2 30h2v4h-2zM1 31h2v4H1zm0-18h2v4H1zm0-6h2v4H1zm44 6h2v4h-2zM1 19h2v4H1zm44 0h2v4h-2zM1 25h2v4H1zm44 0h2v4h-2zm0-18h2v4h-2zm-2 26h2v2h-2z"></path><path d="M1 33h4v2H1z"></path></g><circle cx="9" cy="12" r="3" opacity=".4"></circle><circle fill="currentColor" cx="9" cy="12" r="2"></circle><circle cx="9" cy="24" r="3" opacity=".4"></circle><circle fill="currentColor" cx="9" cy="24" r="2"></circle><path fill="currentColor" d="M38 10v4H18v-4h20m2-2H16v8h24V8z"></path><path opacity=".2" fill="currentColor" d="M18 10h20v4H18z"></path><path opacity=".4" d="M40 8v8H16V8h24m1-1H15v10h26V7z"></path><path fill="currentColor" d="M38 22v4H18v-4h20m2-2H16v8h24v-8z"></path><path opacity=".2" fill="currentColor" d="M18 22h20v4H18z"></path><path opacity=".4" d="M40 20v8H16v-8h24m1-1H15v10h26V19z"></path></svg>,
 				name: '列表项',
 				key: 'list-item',
 				details: {
+					tag: 'ul',
+					className: [],
 					attrs: []
 				}
 			}]
@@ -134,6 +164,8 @@ export default {
 				name: '头部',
 				key: 'heading',
 				details: {
+					tag: 'ul',
+					className: [],
 					attrs: []
 				}
 			}, {
@@ -141,6 +173,8 @@ export default {
 				name: '段落',
 				key: 'paragraph',
 				details: {
+					tag: 'ul',
+					className: [],
 					attrs: []
 				}
 			}, {
@@ -148,6 +182,8 @@ export default {
 				name: '文本链接',
 				key: 'text-link',
 				details: {
+					tag: 'ul',
+					className: [],
 					attrs: []
 				}
 			}, {
@@ -155,6 +191,8 @@ export default {
 				name: '文本块',
 				key: 'text-block',
 				details: {
+					tag: 'ul',
+					className: [],
 					attrs: []
 				}
 			}, {
@@ -162,6 +200,8 @@ export default {
 				name: '引用',
 				key: 'block-quote',
 				details: {
+					tag: 'ul',
+					className: [],
 					attrs: []
 				}
 			}, {
@@ -169,6 +209,8 @@ export default {
 				name: '富文本框',
 				key: 'rich-text',
 				details: {
+					tag: 'ul',
+					className: [],
 					attrs: []
 				}
 			}]
@@ -180,6 +222,8 @@ export default {
 				name: '图片',
 				key: 'image',
 				details: {
+					tag: 'ul',
+					className: [],
 					attrs: []
 				}
 			}, {
@@ -187,6 +231,8 @@ export default {
 				name: '视频',
 				key: 'video',
 				details: {
+					tag: 'ul',
+					className: [],
 					attrs: []
 				}
 			}]
@@ -198,6 +244,8 @@ export default {
 				name: '表单块',
 				key: 'form-block',
 				details: {
+					tag: 'ul',
+					className: [],
 					attrs: []
 				}
 			}, {
@@ -205,6 +253,8 @@ export default {
 				name: '标签',
 				key: 'label',
 				details: {
+					tag: 'ul',
+					className: [],
 					attrs: []
 				}
 			}, {
@@ -212,6 +262,8 @@ export default {
 				name: '输入框',
 				key: 'input',
 				details: {
+					tag: 'ul',
+					className: [],
 					attrs: []
 				}
 			}, {
@@ -219,6 +271,8 @@ export default {
 				name: '文本框',
 				key: 'textarea',
 				details: {
+					tag: 'ul',
+					className: [],
 					attrs: []
 				}
 			}, {
@@ -226,6 +280,8 @@ export default {
 				name: '多选框',
 				key: 'checkbox',
 				details: {
+					tag: 'ul',
+					className: [],
 					attrs: []
 				}
 			}, {
@@ -233,6 +289,8 @@ export default {
 				name: '单选框',
 				key: 'radio-button',
 				details: {
+					tag: 'ul',
+					className: [],
 					attrs: []
 				}
 			}, {
@@ -240,6 +298,8 @@ export default {
 				name: '选择框',
 				key: 'select',
 				details: {
+					tag: 'ul',
+					className: [],
 					attrs: []
 				}
 			}, {
@@ -247,6 +307,8 @@ export default {
 				name: '提交按钮',
 				key: 'form-button',
 				details: {
+					tag: 'ul',
+					className: [],
 					attrs: []
 				}
 			}]
@@ -258,6 +320,8 @@ export default {
 				name: '标签页',
 				key: 'tabs',
 				details: {
+					tag: 'ul',
+					className: [],
 					attrs: []
 				}
 			}, {
@@ -265,6 +329,8 @@ export default {
 				name: '导航菜单',
 				key: 'navbar',
 				details: {
+					tag: 'ul',
+					className: [],
 					attrs: []
 				}
 			}, {
@@ -272,6 +338,8 @@ export default {
 				name: '下拉菜单',
 				key: 'dropdown',
 				details: {
+					tag: 'ul',
+					className: [],
 					attrs: []
 				}
 			}, {
@@ -279,6 +347,8 @@ export default {
 				name: '幻灯片',
 				key: 'slider',
 				details: {
+					tag: 'ul',
+					className: [],
 					attrs: []
 				}
 			}]
