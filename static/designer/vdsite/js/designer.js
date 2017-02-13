@@ -186,7 +186,9 @@ $(function() {
         	}
         }
 
-        var test = new DndInitialization();
+        setTimeout(function() {
+            var test = new DndInitialization();
+        }, 1000);
 
 	};
 

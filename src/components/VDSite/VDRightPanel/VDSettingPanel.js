@@ -587,7 +587,7 @@ const Component = (props) => {
 							    		</Col>
 							    	</Row>
 							    </Panel>
-		    				);		    				
+		    				);
 		    			},
 
 		    			'navbar-setting' () {
