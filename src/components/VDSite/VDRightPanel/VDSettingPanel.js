@@ -30,7 +30,7 @@ const Component = (props) => {
       	wrapperCol: { span: 16 }
     };
 
-   	const specialAttrList = ['custom-attr', 'link-setting', 'list-setting', 'heading-type', 'image-setting', 'select-setting', 'tabs-setting'];
+   	const specialAttrList = ['custom-attr', 'link-setting', 'list-setting', 'heading-type', 'image-setting', 'select-setting', 'tabs-setting', 'slider-settings'];
 
     const attrsPanels = () => {
     	return props.vdCtrlTree.activeCtrl.attrs.map((item, index) => {
@@ -568,6 +568,26 @@ const Component = (props) => {
 							    	</Row>
 							    </Panel>
 		    				);
+		    			},
+
+		    			'slider-settings' () {
+		    				return (
+							    <Panel header={item.title} key={item.key}>
+							    	<Row>
+							    		<Col span={12}>
+							    			<Button size="small"><Icon type="plus" />增加一个</Button>
+							    		</Col>
+							    		<Col span={12}>
+							    			<Col span={12} style={{textAlign: 'right'}}>
+								    			<Button size="small"><Icon type="left" /></Button>
+							    			</Col>
+							    			<Col span={12} style={{textAlign: 'left'}}>
+								    			<Button size="small"><Icon type="right" /></Button>
+							    			</Col>
+							    		</Col>
+							    	</Row>
+							    </Panel>
+		    				);		    				
 		    			}
 					};
 
