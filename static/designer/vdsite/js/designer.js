@@ -7,7 +7,7 @@ $(function() {
 
 	var dndHandlder = function () {
 
-		var parentWindow = parent;
+		var parentWindow = window.parent;
 
 		//给父级发送消息
 		var postMessageToFather = {
@@ -71,19 +71,17 @@ $(function() {
         		
         		var self = this;
         		
-        		var components = jq(parent.document).find('.anticons-list-item');
+        		var components = jq(parentWindow.document, parentWindow.document).find('.anticons-list-item');
         		
         		components.each(function(n) {
         			jq(this).attr("draggable", true);
         			jq(this).on("dragstart", function (e) {
-
-        				var ctrl = parentWindow.VDDnddata
+        				var ctrl = parentWindow.VDDnddata;
         				var ctrlData = {
         					ctrl: ctrl
         				}
 		        		console.log(ctrlData)
 		        		postMessageToFather.generateCtrlTree(ctrlData);
-
 		        	});
         		})
         	}

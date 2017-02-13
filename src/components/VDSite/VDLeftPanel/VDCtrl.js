@@ -16,6 +16,7 @@ const Component = (props) => {
 
 	const VDControllersProps = {
 		onSelect(ctrl) {
+			ctrl['icon'] = {};
 			window.VDDnddata = ctrl;
 		}
 	}
