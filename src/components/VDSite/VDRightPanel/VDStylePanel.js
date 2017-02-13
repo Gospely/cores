@@ -34,7 +34,7 @@ const Panel = Collapse.Panel;
 import { SketchPicker } from 'react-color';
 import css2json from 'css2json';
 
-// <SketchPicker style={{display: 'none'}} defaultValue="#345678" />
+// <SketchPicker style={{display: 'block'}} defaultValue="#345678" />
 
 const VDStylePanel = (props) => {
 

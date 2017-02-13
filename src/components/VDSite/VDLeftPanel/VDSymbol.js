@@ -5,10 +5,29 @@ import { Button, Modal } from 'antd';
 import { Tabs, Icon } from 'antd';
 import { Tooltip } from 'antd';
 import { Row, Col } from 'antd';
+import { Popover, Form, Input } from 'antd';
+
+const FormItem = Form.Item;
 
 const TabPane = Tabs.TabPane;
 
 const Component = (props) => {
+
+  const formItemLayout = {
+    labelCol: { span: 8 },
+    wrapperCol: { span: 16 }
+  };  
+
+  const newSymbolsPopover = {
+    content: (
+      <Form className="form-no-margin-bottom">
+        <FormItem {...formItemLayout} label="名称">
+          <Input size="small" />
+        </FormItem>
+        <Button size="small">添加</Button>
+      </Form>
+    )
+  };
 
   const symbols = props.vdctrl.symbols.map((item, index) => {
     return (
@@ -31,11 +50,25 @@ const Component = (props) => {
   });
 
   return (
+    <div>
 
-    <ul className="ant-dropdown-menu ant-dropdown-menu-vertical ant-dropdown-menu-light ant-dropdown-menu-root symbol-list" role="menu">
-      {symbols}
-    </ul>
+      <Row>
+        <Col span={4} offset={20}>
+          <Popover placement="right" trigger={['click']} content={newSymbolsPopover.content}>
+              <Tooltip placement="bottom" title="选择一个块然后点击此按钮添加一个Symbol">
+                <Button style={{marginTop: '10px'}} shape="circle"><Icon type="plus" /></Button>                
+              </Tooltip>
+          </Popover>
+        </Col>
+      </Row>
 
+      <li style={{marginTop: '10px'}} className="ant-dropdown-menu-item-divider"></li>
+
+      <ul className="ant-dropdown-menu ant-dropdown-menu-vertical ant-dropdown-menu-light ant-dropdown-menu-root symbol-list" role="menu">
+        {symbols}
+      </ul>
+
+    </div>
   );
 
 };
