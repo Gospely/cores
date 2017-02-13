@@ -49,6 +49,10 @@ export default {
 
 		cssSelector: {
 			
+		},
+
+		typoSetting: {
+			
 		}
 	},
 

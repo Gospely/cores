@@ -130,7 +130,87 @@ const Component = (props) => {
 
     const attrsPanels = () => {
     	return props.vdCtrlTree.activeCtrl.attrs.map((item, index) => {
-    		console.log('sss',item);
+
+    		console.log(item);
+
+    		//针对比如自定义属性这种拥有复杂交互的表单，不适合在控件属性中写form结构
+    		const
+    			specialAttrList = ['custom-attr'];
+
+    			if(specialAttrList.indexOf(item.key) != -1) {
+		    		const specialAttrHandler = {
+		    			'custom-attr' (item) {
+		    				return (
+							    <Panel header="自定义属性" key="custom-attr">
+							    	<Form>
+										<FormItem {...formItemLayout} label="">
+											<Popover
+									        	content={customAttrProps.creatorContent}
+									        	title="新建 自定义属性"
+									        	trigger="click"
+									      	>
+												<Button type="circle" size="small"><Icon type="plus" /></Button>
+									      	</Popover>
+										</FormItem>
+
+									    <ul style={{marginTop: '-15px'}} className="ant-dropdown-menu ant-dropdown-menu-vertical ant-dropdown-menu-light ant-dropdown-menu-root symbol-list" role="menu">
+									      <li className="ant-dropdown-menu-item" role="menuitem">
+									        <Row>
+									          <Col span={18}>
+									            <p>key1="val2"</p>
+									          </Col>
+									          <Col span={3}>
+
+												<Popover
+										        	content={customAttrProps.modifyContent}
+										        	title="修改 自定义属性"
+										        	trigger="click"
+										      	>
+									            	<Icon type="edit" />
+										      	</Popover>
+
+									          </Col>
+									          <Col span={3}>
+									            <Popconfirm title="确认删除吗？" okText="确定" cancelText="取消">
+													<Icon type="delete" />
+				  								</Popconfirm>
+									          </Col>
+									        </Row>
+									      </li>
+									      <li className="ant-dropdown-menu-item-divider"></li>
+
+									      <li className="ant-dropdown-menu-item" role="menuitem">
+									        <Row>
+									          <Col span={18}>
+									            <p>key="val"</p>
+									          </Col>
+									          <Col span={3}>
+												<Popover
+										        	content={customAttrProps.modifyContent}
+										        	title="修改 自定义属性"
+										        	trigger="click"
+										      	>
+									            	<Icon type="edit" />
+										      	</Popover>
+									          </Col>
+									          <Col span={3}>
+									            <Popconfirm title="确认删除吗？" okText="确定" cancelText="取消">
+													<Icon type="delete" />
+				  								</Popconfirm>
+									          </Col>
+									        </Row>
+									      </li>
+									      <li className=" ant-dropdown-menu-item-divider"></li>
+									    </ul>
+
+									</Form>
+							    </Panel>
+		    				);
+		    			}
+					};
+
+					return specialAttrHandler[item.key](item);
+    			}
 
     		const formTypeGenerator = (item) => {
 
@@ -144,7 +224,6 @@ const Component = (props) => {
     				},
 
     				multipleSelect (item) {
-    					console.log(item);
     					return (
 							<FormItem key={item.id} {...formItemLayout} label={item.desc}>
 								<Select
@@ -214,70 +293,6 @@ const Component = (props) => {
 						    </Select>
 						</FormItem>
 			      	</Form>
-			    </Panel>
-			    <Panel header="自定义属性" key="custom-attr">
-			    	<Form>
-						<FormItem {...formItemLayout} label="">
-							<Popover
-					        	content={customAttrProps.creatorContent}
-					        	title="新建 自定义属性"
-					        	trigger="click"
-					      	>
-								<Button type="circle" size="small"><Icon type="plus" /></Button>
-					      	</Popover>
-						</FormItem>
-
-					    <ul style={{marginTop: '-15px'}} className="ant-dropdown-menu ant-dropdown-menu-vertical ant-dropdown-menu-light ant-dropdown-menu-root symbol-list" role="menu">
-					      <li className="ant-dropdown-menu-item" role="menuitem">
-					        <Row>
-					          <Col span={18}>
-					            <p>key1="val2"</p>
-					          </Col>
-					          <Col span={3}>
-
-								<Popover
-						        	content={customAttrProps.modifyContent}
-						        	title="修改 自定义属性"
-						        	trigger="click"
-						      	>
-					            	<Icon type="edit" />
-						      	</Popover>
-
-					          </Col>
-					          <Col span={3}>
-					            <Popconfirm title="确认删除吗？" okText="确定" cancelText="取消">
-									<Icon type="delete" />
-  								</Popconfirm>
-					          </Col>
-					        </Row>
-					      </li>
-					      <li className="ant-dropdown-menu-item-divider"></li>
-
-					      <li className="ant-dropdown-menu-item" role="menuitem">
-					        <Row>
-					          <Col span={18}>
-					            <p>key="val"</p>
-					          </Col>
-					          <Col span={3}>
-								<Popover
-						        	content={customAttrProps.modifyContent}
-						        	title="修改 自定义属性"
-						        	trigger="click"
-						      	>
-					            	<Icon type="edit" />
-						      	</Popover>
-					          </Col>
-					          <Col span={3}>
-					            <Popconfirm title="确认删除吗？" okText="确定" cancelText="取消">
-									<Icon type="delete" />
-  								</Popconfirm>
-					          </Col>
-					        </Row>
-					      </li>
-					      <li className=" ant-dropdown-menu-item-divider"></li>
-					    </ul>
-
-					</Form>
 			    </Panel>
 			</Collapse>
   		</div>

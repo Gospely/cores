@@ -88,7 +88,7 @@ export default {
 						}]
 					}]
 	    		}]
-	    	}]
+	    	}],
 	    },
 
 	    activeCtrl: {
@@ -114,6 +114,10 @@ export default {
 					children: ['1', '2', '3', '4'],
 					id: '0987'
 				}]
+			}, {
+				title: '自定义属性',
+				key: 'custom-attr',
+				children: []
 			}],
 			children: [{
 				tag: 'h1',
