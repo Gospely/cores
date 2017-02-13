@@ -78,10 +78,50 @@ const Component = (props) => {
 				payload: { value: value}
 			});
 		},
-		hideNewPagePopover(){
+		handleCreatePage(){
+
 			props.dispatch({
-				type: 'vdpm/handleNewPageVisible',
+				type: 'vdpm/handleCreatePage',
 				payload: { value: false}
+			});
+			setTimeout(function(){
+				props.dispatch({
+					type: 'vdpm/handleNewPageVisible',
+					payload: { value: false}
+				});
+			}, 500)
+		},
+		handlePageNameChange(value){
+
+			console.log(value);
+			props.dispatch({
+				type: 'vdpm/handNewPageFormChange',
+				payload: { target: 'name', value: value.target.value}
+			});
+		},
+		handlePageTitleChange(value){
+			props.dispatch({
+				type: 'vdpm/handNewPageFormChange',
+				payload: { target: 'seo.title', value: value.target.value}
+			});
+		},
+		handlePageDescriptionChange(value){
+
+			props.dispatch({
+				type: 'vdpm/handNewPageFormChange',
+				payload: { target: 'seo.description', value: value.target.value}
+			});
+		},
+		handlePageHeadChange(value){
+			props.dispatch({
+				type: 'vdpm/handNewPageFormChange',
+				payload: { target: 'script.head', value: value.target.value}
+			});
+		},
+		handlePageScriptChange(value){
+			props.dispatch({
+				type: 'vdpm/handNewPageFormChange',
+				payload: { target: 'script.script', value: value.target.value}
 			});
 		}
 	}
@@ -131,7 +171,7 @@ const Component = (props) => {
 		            )}
 		            hasFeedback
 		          >
-		            <Input />
+		            <Input value={props.vdpm.newFolderForm.name}/>
 		          </FormItem>
 
 		          <FormItem {...tailFormItemLayout}>
@@ -187,7 +227,7 @@ const Component = (props) => {
 		            )}
 		            hasFeedback
 		          >
-		            <Input />
+		            <Input value={props.vdpm.newPageFrom.name} onChange={newPagePopoverProps.handlePageNameChange}/>
 		          </FormItem>
 		        </Form>
 		        <h2>SEO设置</h2>
@@ -204,7 +244,7 @@ const Component = (props) => {
 		            )}
 		            hasFeedback
 		          >
-		            <Input />
+		            <Input  value={props.vdpm.newPageFrom.seo.title} onChange={newPagePopoverProps.handlePageTitleChange}/>
 		          </FormItem>
 		          <FormItem
 		            {...formItemLayout}
@@ -218,7 +258,7 @@ const Component = (props) => {
 		            )}
 		            hasFeedback
 		          >
-		            <Input type="textarea" rows={4} />
+		            <Input type="textarea" rows={4}  value={props.vdpm.newPageFrom.seo.description} onChange={newPagePopoverProps.handlePageDescriptionChange}/>
 		          </FormItem>
 		        </Form>
 		        <h2>自定义代码</h2>
@@ -228,18 +268,18 @@ const Component = (props) => {
 		            label="在<head>标签内"
 		            hasFeedback
 		          >
-		            <Input type="textarea" rows={6} />
+		            <Input type="textarea" rows={6}  value={props.vdpm.newPageFrom.script.head}  onChange={newPagePopoverProps.handlePageHeadChange}/>
 		          </FormItem>
 		          <FormItem
 		            {...formItemLayout}
 		            label="在</body>标签前"
 		            hasFeedback
 		          >
-		            <Input type="textarea" rows={6} />
+		            <Input type="textarea" rows={6} value={props.vdpm.newPageFrom.script.script}  onChange={newPagePopoverProps.handlePageScriptChange}/>
 		          </FormItem>
 
 		          <FormItem {...tailFormItemLayout}>
-		            <Button type="primary" htmlType="submit" onClick={newPagePopoverProps.hideNewPagePopover}>创建</Button>
+		            <Button type="primary" htmlType="submit" onClick={newPagePopoverProps.handleCreatePage}>创建</Button>
 		          </FormItem>
 		        </Form>
 
