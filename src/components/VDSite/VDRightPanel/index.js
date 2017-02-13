@@ -15,6 +15,7 @@ import MessageHandeler from '../MessageHandeler.js';
 
 const TabPane = Tabs.TabPane;
 
+let flag = false;
         // <TabPane tab={
         //   <Tooltip placement="bottom" title="样式管理">
         //     <Icon type="exception" />
@@ -24,8 +25,12 @@ const TabPane = Tabs.TabPane;
 
 const VDRightPanel = (props) => {
 
-    MessageHandeler.init(props);
+    if (!flag) {
+      MessageHandeler.init(props);
+    }
 
+    flag = true;
+    
   return (
     <div className="vd-right-panel">
       <Tabs defaultActiveKey="styles">
@@ -70,8 +75,8 @@ const VDRightPanel = (props) => {
 
 };
 
-function mapSateToProps({ vdCtrlTree }) {
-  return { vdCtrlTree };
+function mapSateToProps({ vdCtrlTree, elemAdded }) {
+  return { vdCtrlTree, elemAdded };
 }
 
 export default connect(mapSateToProps)(VDRightPanel);

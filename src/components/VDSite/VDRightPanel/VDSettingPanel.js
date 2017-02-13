@@ -7,6 +7,8 @@ import { Tooltip } from 'antd';
 import { Collapse } from 'antd';
 import { Radio, Popover } from 'antd';
 
+import randomString from '../../../utils/randomString.js';
+
 import { Tree, Form, Switch, Input, Cascader, Select, Row, Col, Checkbox, Menu, Dropdown, message, Tag, Table, Popconfirm } from 'antd';
 
 const FormItem = Form.Item;
@@ -33,9 +35,36 @@ const Component = (props) => {
    	const specialAttrList = ['custom-attr', 'link-setting', 'list-setting', 'heading-type', 'image-setting', 'select-setting'];
 
     const attrsPanels = () => {
-    	return props.vdCtrlTree.activeCtrl.attrs.map((item, index) => {
+
+    	let attrs = props.vdCtrlTree.activeCtrl.attrs;
+    	   console.log(attrs)
+
+    	let tmp;
+    	let flag = false;
+
+
+    	for(let i = 0, len = attrs.length; i < len; i ++) {
+
+			if (!attrs[i].key) {
+				flag = true;
+				tmp = {
+					title: '属性设置',
+					key: randomString(8, 10),
+					children: []
+				}
+				tmp.children.push(attrs[i]);
+			}
+    	}
+    	if (flag) {
+    		attrs = [tmp];	
+    	}
+
+
+    	return attrs.map((item, index) => {
 
     		//针对比如自定义属性这种拥有复杂交互的表单，不适合在控件属性中写form结构
+
+
 
     			if(specialAttrList.indexOf(item.key) != -1) {
 		    		const specialAttrHandler = {
@@ -501,9 +530,11 @@ const Component = (props) => {
     				},
 
     				toggle (item) {
-						<FormItem {...formItemLayout} label={item.desc}>
-							<Switch size="small" checked={item.value} />
-						</FormItem>
+						return (
+							<FormItem {...formItemLayout} label={item.desc}>
+								<Switch size="small" checked={item.value} />
+							</FormItem>
+						);
     				}
     			}
 
@@ -522,16 +553,17 @@ const Component = (props) => {
     			);
     		}
 
-			const panelGenerator = (key) => {
+			const panelGenerator = (attrItem) => {
 				return (
 			    	<Panel header={item.title} key={item.key}>
-			    		{formGenerator(item.children)}
+			    		{formGenerator(attrItem.children)}
 					</Panel>
 				);
 			}
 
-    		let panel = panelGenerator();
-    		return panel;
+				let panel = panelGenerator(item);
+    			return panel;
+    		
     	});
     }
 

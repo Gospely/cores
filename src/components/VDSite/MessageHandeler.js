@@ -10,6 +10,22 @@ export default {
 						type: "vdCtrlTree/generateCtrlTree",
 						payload: data
 					})
+				},
+
+				elemAdded() {
+
+					props.dispatch({
+						type: "vdpm/elemAdded",
+						payload: data
+					})
+				},
+
+				ctrlSelected() {
+
+					props.dispatch({
+						type: "vdCtrlTree/ctrlSelected",
+						payload: data
+					})
 				}
 				
 			}
