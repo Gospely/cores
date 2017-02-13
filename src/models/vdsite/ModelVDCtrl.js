@@ -142,7 +142,9 @@ export default {
 						title: '列表设置',
 						key: 'list-setting',
 						children: [{
-							tag: ''
+							tag: 'li',
+							className: [],
+							attrs: []
 						}]
 					}]
 				}
@@ -381,15 +383,19 @@ export default {
 
 		appendPublicAttrsToCtrlList(state) {
 
-			state.controllers.map((item, index) => {
-				const content = item.content;
-				content.map((ctrl, j) => {
-					for (var i = 0; i < state.publicAttrs.length; i++) {
-						const attrs = state.publicAttrs[i];
-						ctrl.details.attrs.push(attrs);						
-					};
+			const push = () => {
+				state.controllers.map((item, index) => {
+					const content = item.content;
+					content.map((ctrl, j) => {
+						for (var i = 0; i < state.publicAttrs.length; i++) {
+							const attrs = state.publicAttrs[i];
+							ctrl.details.attrs.push(attrs);						
+						};
+					});
 				});
-			});
+			}
+
+			push();
 
 			return {...state};
 		}
