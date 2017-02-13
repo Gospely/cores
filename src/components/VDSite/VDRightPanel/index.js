@@ -67,8 +67,8 @@ const VDRightPanel = (props) => {
 
 };
 
-function mapSateToProps({ dashboard }) {
-  return { dashboard };
+function mapSateToProps({ vdCtrlTree }) {
+  return { vdCtrlTree };
 }
 
 export default connect(mapSateToProps)(VDRightPanel);

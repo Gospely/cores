@@ -223,6 +223,11 @@ export default {
 		handleCancel(state) {
 			state.previewVisible = false;
 			return {...state};
+		},
+
+		generateCtrlTree(state, { payload: ctrl }) {
+			console.log(ctrl);
+			return {...state};	
 		}		
 
 	}

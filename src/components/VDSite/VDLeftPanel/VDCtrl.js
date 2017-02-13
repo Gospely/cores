@@ -10,7 +10,15 @@ import { Row, Col } from 'antd';
 const Panel = Collapse.Panel;
 const TabPane = Tabs.TabPane;
 
+window.VDDnddata = '';
+
 const Component = (props) => {
+
+	const VDControllersProps = {
+		onSelect(ctrl) {
+			window.VDDnddata = ctrl;
+		}
+	}
 
 	const panels = props.vdctrl.controllers.map((item, i) => {
 		if(item.content) {
@@ -27,7 +35,7 @@ const Component = (props) => {
 									if(j < index + 3 && j >= index) {
 										return (
 									    	<Col key={ctrl.key} span={8}>
-									    		<div className="anticons-list-item">
+									    		<div className="anticons-list-item" onMouseDown={VDControllersProps.onSelect.bind(this, ctrl)}>
 									    			{ctrl.icon}
 									    			<div className="anticon-class">{ctrl.name}</div>
 									    		</div>
