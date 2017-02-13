@@ -39,25 +39,6 @@ const Component = (props) => {
     	let attrs = props.vdCtrlTree.activeCtrl.attrs;
     	   console.log(attrs)
 
-   //  	let tmp;
-   //  	let flag = false;
-
-   //  	for(let i = 0, len = attrs.length; i < len; i ++) {
-
-			// if (!attrs[i].key) {
-			// 	flag = true;
-			// 	tmp = {
-			// 		title: '属性设置',
-			// 		key: randomString(8, 10),
-			// 		children: []
-			// 	}
-			// 	tmp.children.push(attrs[i]);
-			// }
-   //  	}
-   //  	if (flag) {
-   //  		attrs = [tmp];	
-   //  	}
-
     	return attrs.map((item, index) => {
 
     		//针对比如自定义属性这种拥有复杂交互的表单，不适合在控件属性中写form结构
@@ -706,7 +687,7 @@ const Component = (props) => {
 
     				toggle (item) {
 						return (
-							<FormItem {...formItemLayout} label={item.desc}>
+							<FormItem key={item.id} {...formItemLayout} label={item.desc}>
 								<Switch size="small" checked={item.value} />
 							</FormItem>
 						);

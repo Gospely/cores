@@ -261,7 +261,10 @@ export default {
 
 				tmpAttr = controller.attrs;
 				for(let i = 0, len = tmpAttr.length; i < len; i ++) {
-					tmpAttr[i].id = randomString(8, 10);
+					for (var j = 0; j < tmpAttr[i].children.length; j++) {
+						var attr = tmpAttr[i].children[j];
+						attr['id'] = randomString(8, 10);
+					};
 				}
 
 				ctrl = {
@@ -283,6 +286,8 @@ export default {
 				}else {
 					ctrl.children = undefined;
 				}
+
+				console.log(ctrl);
 
 				return ctrl;
 			}

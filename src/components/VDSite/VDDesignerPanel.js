@@ -13,15 +13,14 @@ const VDDesignerPanel = (props) => {
       });
     },
 
-    handleDesPnelLoaded() {
-
-        window.VDDesignerFrame = window.frames["vdsite-designer"];
-
-        VDDesignerFrame.postMessage({
-            VDDesignerLoaded: {
-                load: true
-            }
-        }, '*');
+    handleDesPanelLoaded() {
+      alert('handleDesPanelLoaded')
+      window.VDDesignerFrame = window.frames["vdsite-designer"];
+      VDDesignerFrame.postMessage({
+          VDDesignerLoaded: {
+              load: true
+          }
+      }, '*');
     }
 
   };
@@ -34,7 +33,7 @@ const VDDesignerPanel = (props) => {
           height="100%" 
           frameBorder="0" 
           src="static/designer/vdsite/index.html"
-          onLoad={VDDesignerPanelProps.handleDesPnelLoaded}
+          onLoad={VDDesignerPanelProps.handleDesPanelLoaded}
           >
         </iframe>
     </div>

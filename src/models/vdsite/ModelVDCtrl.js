@@ -468,36 +468,40 @@ export default {
 					tag: 'input',
 					className: [],
 					attrs: [{
-						name: 'name',
-						desc: '名称',
-						type: 'input',
-						value: '',
-						props: {
-							placeholder: '输入名称'
-						},
-						id: ''
-					}, {
-						name: 'placeholder',
-						desc: '占位字符',
-						type: 'input',
-						value: '',
-						props: {
-							placeholder: '输入占位字符'
-						},
-						id: ''
-					}, {
-						name: 'input-type',
-						desc: '类型',
-						type: 'select',
-						value: 'input',
-						children: ['input', 'email', 'password', 'number', 'tel'],
-						id: ''
-					}, {
-						name: 'autofocus',
-						desc: '自动聚焦',
-						type: 'toggle',
-						value: false,
-						id: ''
+						title: '属性设置',
+						key: 'input-attr',
+						children: [{
+							name: 'name',
+							desc: '名称',
+							type: 'input',
+							value: '',
+							props: {
+								placeholder: '输入名称'
+							},
+							id: ''
+						}, {
+							name: 'placeholder',
+							desc: '占位字符',
+							type: 'input',
+							value: '',
+							props: {
+								placeholder: '输入占位字符'
+							},
+							id: ''
+						}, {
+							name: 'input-type',
+							desc: '类型',
+							type: 'select',
+							value: 'input',
+							children: ['input', 'email', 'password', 'number', 'tel'],
+							id: ''
+						}, {
+							name: 'autofocus',
+							desc: '自动聚焦',
+							type: 'toggle',
+							value: false,
+							id: ''
+						}]
 					}]
 				}
 			}, {
