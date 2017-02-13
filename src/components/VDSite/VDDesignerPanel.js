@@ -11,6 +11,14 @@ const VDDesignerPanel = (props) => {
       props.dispatch({
         type: 'dashboard/hideDash'
       });
+    },
+
+    handleDesPnelLoaded() {
+        window.frames["vdsite-designer"].postMessage({
+            VDDesignerLoaded: {
+                load: true
+            }
+        }, '*');
     }
 
   };
@@ -18,11 +26,12 @@ const VDDesignerPanel = (props) => {
   return (
     <div className="designer-wrapper" style={{height: '100%'}}>
         <iframe
-          name="vdsite-designer" 
+          name="vdsite-designer"
           width="100%" 
           height="100%" 
           frameBorder="0" 
           src="static/designer/vdsite/index.html"
+          onLoad={VDDesignerPanelProps.handleDesPnelLoaded}
           >
         </iframe>
     </div>
