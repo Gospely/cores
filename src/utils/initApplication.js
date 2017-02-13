@@ -218,6 +218,12 @@ const initApplication = function (application, props, flag){
                 type: 'sidebar/initState',
                 payload: { UIState: UIState.UIState.sidebar }
             });
+            // props.dispatch({
+            //     type: 'vdpm/initState',
+            //     payload: { UIState: UIState.UIState.vdpm }
+            // });
+            localStorage.create = 'false';
+            localStorage.createPage = 'false';
             props.dispatch({
               type: 'devpanel/getConfig',
               payload: { id : application.id, UIState: UIState.UIState.devpanel}
