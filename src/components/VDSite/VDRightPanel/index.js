@@ -11,6 +11,7 @@ import VDInteractions from './VDInteractions.js';
 import VDSettingPanel from './VDSettingPanel.js';
 import VDStyleManager from './VDStyleManager.js';
 import VDStylePanel from './VDStylePanel.js';
+import MessageHandeler from '../MessageHandeler.js';
 
 const TabPane = Tabs.TabPane;
 
@@ -22,6 +23,8 @@ const TabPane = Tabs.TabPane;
         // </TabPane>
 
 const VDRightPanel = (props) => {
+
+    MessageHandeler.init(props);
 
   return (
     <div className="vd-right-panel">

@@ -7918,7 +7918,7 @@ page {
 			let controller = ctrlAndParent.controller,
 				theParent = ctrlAndParent.theParent,
 				toGenterParent = ctrlAndParent.toGenterParent,
-				deepCopiedController = deepCopiedController = layoutAction.deepCopyObj(controller);
+				deepCopiedController = layoutAction.deepCopyObj(controller);
 
 			const loopAttr = (controller) => {
 

@@ -623,9 +623,63 @@ export default {
 				name: '标签页',
 				key: 'tabs',
 				details: {
-					tag: 'ul',
+					tag: 'div',
 					className: [],
-					attrs: []
+					attrs: [{
+						title: '标签页设置',
+						key: 'tabs-setting',
+						children: []
+					}],
+					children: [{
+						tag: 'ul',
+						className: ['nav', 'nav-tabs'],
+						attrs: [{
+						title: '标签页设置',
+							key: 'tabs-setting',
+							children: []
+						}],
+						children: [{
+							tag: 'li',
+							className: ['tab-content', 'active'],
+							attrs: [{
+								title: '标签页设置',
+								key: 'tabs-setting',
+								children: []
+							}],
+							children: [{
+								tag: 'a',
+								className: ['tab-pane'],
+								children: [],
+								attrs: [{
+									title: '标签页设置',
+									key: 'tabs-setting',
+									children: [{
+										name: 'href',
+										attrName: 'href',
+										value: ''
+									}]
+								}]
+							}]
+						}]
+					}, {
+						tag: 'div',
+						className: ['tab-content'],
+						attrs: [{
+							title: '标签页设置',
+							key: 'tabs-setting',
+							children: []
+						}],
+						children: [{
+							tag: 'div',
+							className: ['tab-pane', 'active'],
+							children: [],
+							attrs: [{
+								title: '标签页设置',
+								key: 'tabs-setting',
+								children: []
+							}]
+						}]
+					}]
 				}
 			}, {
 				icon: <svg width="64" height="22" viewBox="0 0 64 22" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".4" d="M61 0H3C1.3 0 0 1.3 0 3v16c0 1.7 1.3 3 3 3h58c1.7 0 3-1.3 3-3V3c0-1.7-1.3-3-3-3zM15 11v4h-1v-.2c0-1.5-1.1-2.8-2.5-2.8S9 13.3 9 14.8v.2H8v-4h-.4l3.9-3.6 3.9 3.6H15zm-5 3.8v-.4.4zm1.5-1.8h.3-.3c-.4 0-.7.2-.9.4.2-.2.5-.4.9-.4zM63 3c0-1.1-.9-2-2-2H3h58c1.1 0 2 .9 2 2z"></path><path fill="currentColor" d="M61 1H3c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h58c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zM16 12v4h-3v-1.2c0-1-.7-1.8-1.5-1.8s-1.5.8-1.5 1.8V16H7v-4H5l6.5-6 6.5 6h-2zm42 4H48v-2h10v2zm0-4H48v-2h10v2zm0-4H48V6h10v2z"></path></svg>,

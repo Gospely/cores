@@ -14,7 +14,10 @@ const VDDesignerPanel = (props) => {
     },
 
     handleDesPnelLoaded() {
-        window.frames["vdsite-designer"].postMessage({
+
+        window.VDDesignerFrame = window.frames["vdsite-designer"];
+
+        VDDesignerFrame.postMessage({
             VDDesignerLoaded: {
                 load: true
             }
