@@ -247,22 +247,28 @@ export default {
 
 		generateCtrlTree(state, { payload: ctrl }) {
 			
-			let deepCopiedController = VDTreeActions.deepCopyObj(ctrl);
+			let controller = ctrl.details;
+
+			const specialAttrList = ['custom-attr', 'link-setting', 'list-setting', 'heading-type', 'image-setting', 'select-setting'];
+
+			let deepCopiedController = VDTreeActions.deepCopyObj(controller);
 
 			const loopAttr = (controller) => {
 
-				var childCtrl = {},
+				let childCtrl = {},
 					tmpAttr = {},
 					ctrl = {};
 
-				tmpAttr = controller.details.attrs;
+				tmpAttr = controller.attrs;
+				for(let i = 0, len = tmpAttr.length; i < len; i ++) {
+					tmpAttr[i].id = randomString(8, 10);
+				}
 
 				ctrl = {
-					type: controller.type,
-					key: controller.key || controller.type + '-' + randomString(8, 10),
-					attr: tmpAttr,
+					vdid: controller.key ? (controller.key + '-' + randomString(8, 10)) : randomString(8, 10),
+					attrs: tmpAttr,
 					tag: controller.tag,
-					baseClassName: controller.baseClassName,
+					className: controller.className,
 					children: [],
 					isRander: controller.isRander || '',
 					ignore: controller.ignore || false
@@ -292,7 +298,20 @@ export default {
 			}, '*');
 
 			return {...state};	
-		}		
+		},
+
+		handleElemAdded(state, {payload: params}) {
+
+			state.layout[params.activePage][0].children.push(params.ctrl);
+			return {...state};
+		},
+
+		ctrlSelected(state, {payload: data}) {
+
+			state.activeCtrl = data;
+			console.log(state.activeCtrl)
+			return {...state};
+		}
 
 	}
 

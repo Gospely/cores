@@ -2,3 +2,7 @@ html, body, .VDDesignerContainer {
 	height: 100%;
 }
 
+.designerBorder {
+	border: 1px red solid;
+}
+

@@ -8,12 +8,23 @@ $(function() {
 	//拖拽过程中的一些数据
 	var dndData = {
 		//开始拖拽时生成的dom
-		elemToAdd: ''
+		elemToAdd: '',
+
+		//拖拽增加控件时生成的控件的数据
+		ctrlToAddData: ''
+
 	};
 
 	var dndHandlder = function () {
 
 		var parentWindow = window.parent;
+
+		//点击组件
+		jq(document).on("click", function (e) {
+			e.stopPropagation();
+			var data = jq(e.target).data('controller');
+			controllerOperations.selected(data);
+		})
 
 		//给父级发送消息
 		var postMessageToFather = {
@@ -27,6 +38,14 @@ $(function() {
 
 			generateCtrlTree: function(c) {
 				parentWindow.postMessage({ 'generateCtrlTree': c }, "*");
+			},
+
+			elemAdded: function (c) {
+				parentWindow.postMessage({ 'elemAdded': c }, "*");
+			},
+
+			ctrlSelected: function (c) {
+				parentWindow.postMessage({ 'ctrlSelected': c }, "*");
 			}
 		};
 
@@ -45,8 +64,9 @@ $(function() {
                             var elem = new ElemGenerator(data.controller);
                             
                             var elemToAdd = jq(elem.createElement());
-
+                            console.log(elemToAdd)
                             dndData.elemToAdd = elemToAdd;
+                            dndData.ctrlToAddData = data.controller;
                         }
                     };
                    
@@ -67,16 +87,26 @@ $(function() {
 		//对控件的一些操作
 		var controllerOperations = {
 			hideDesignerDraggerBorder: function () {
-				console.log(4)
+				
+			},
+
+			showDesignerDraggerBorder: function (elem) {
+				jq(".designerBorder").removeClass('designerBorder');
+				elem.addClass('designerBorder')
+			},
+
+			selected: function (data) {
+				controllerOperations.showDesignerDraggerBorder(jq('[vdid=' + data.vdid + ']'))
+				postMessageToFather.ctrlSelected(data);
 			}
 		};
 
 		//点击其他区域隐藏border和i
         jq("body").on("click", function(e) {
-            controllerOperations.hideDesignerDraggerBorder();
-            postMessageToFather.pageSelected({
-                key: ''
-            });
+            // controllerOperations.hideDesignerDraggerBorder();
+            // postMessageToFather.pageSelected({
+            //     key: ''
+            // });
             
         });
 
@@ -92,10 +122,14 @@ $(function() {
 
         	jq(self.containerSelector).on("drop", function (e) {
         		e.preventDefault();
-        		e.stopPropagation();
+        		e.stopPropagation();	
 
-        		jq(self.containerSelector).append(dndData.elemToAdd)
-        		
+        		jq(self.containerSelector).append(dndData.elemToAdd);
+
+        		postMessageToFather.elemAdded(dndData.ctrlToAddData);
+
+        		controllerOperations.showDesignerDraggerBorder(dndData.elemToAdd);
+
         	})
 
         	jq(self.containerSelector).on("dragover", function (e) {
@@ -115,9 +149,14 @@ $(function() {
         			jq(this).attr("draggable", true);
 
         			jq(this).on("dragstart", function (e) {
+
 		        		postMessageToFather.generateCtrlTree(parentWindow.VDDnddata);
 		        		e.stopPropagation();
 		        	});
+
+		        	jq(this).on("dragend", function (e) {
+		        		e.preventDefault();
+		        	})
 
         		})
         	}
@@ -132,6 +171,8 @@ $(function() {
 
         	this.elemLoaded = false;
 
+        	return this;
+
         }
 
         ElemGenerator.prototype = {
@@ -144,11 +185,30 @@ $(function() {
                     this.elemLoaded = true;
                     // this.refresh = docCtrl.length > 0;
                 }
-                console.log(this.controller)
         	},
 
         	bindData: function () {
+
+        		this.initElem();
         		this.elem.data('controller', this.controller);
+
+        	},
+
+        	setAttribute: function () {
+
+        		this.initElem();
+
+        		for(var i = 0, len = this.controller.attrs.length; i < len; i ++) {
+        			var attr = this.controller.attrs[i];
+
+        			//更换标签
+        			if (attr.isTag) {
+        				console.log('换标签啦');
+        			}
+        		}
+
+        		this.elem.attr('VDId', this.controller.vdid);
+
         	},
 
         	createElement: function () {
@@ -156,6 +216,14 @@ $(function() {
 
         		this.initElem();
         		this.bindData();
+        		this.setAttribute();
+
+        		var className = this.controller.className;
+        		if (className) {
+        			for(var i = 0, len = className.length; i < len; i ++) {
+        				this.elem.addClass(className[i]);
+        			}
+        		}
 
         		var component = this.elem;
 
@@ -179,6 +247,8 @@ $(function() {
                 }
 
                 this.makeElemAddedDraggable();
+
+                return component;
         	},
 
         	makeElemAddedDraggable: function () {

@@ -57,7 +57,8 @@ export default {
 						type: 'select',
 						value: ['section'],
 						children: ['div', 'header', 'footer', 'nav', 'main', 'section', 'article', 'aside', 'address', 'figure'],
-						id: ''
+						id: '',
+						isTag: true
 					}]
 				}
 			}, {
