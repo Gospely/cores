@@ -237,6 +237,14 @@ export default {
 					folder: 'null'
 				}
 			}]};
+		},
+		initState(state, {payload: params}){
+
+			console.log(params);
+			if(params.pageList != undefined){
+				state.pageList = params.UIState.pageList;
+			}
+			return { ...state};
 		}
 	},
 	effects: {

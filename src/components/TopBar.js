@@ -96,7 +96,6 @@ const LeftSidebar = (props) => {
 	}
 	const genChanges = () => {
 
-		console.log(props.sidebar.modalCommitInfo.changes);
 		if(props.sidebar.modalCommitInfo.changes.length < 1 || props.sidebar.modalCommitInfo.changes.length == undefined) {
 			return;
 		}
@@ -541,7 +540,6 @@ const LeftSidebar = (props) => {
 					var isHttp = /https:\/\/github.com\/?/.test(props.sidebar.modifyGitOriginInput.pushValue) && /https:\/\/github.com\/?/.test(props.sidebar.modifyGitOriginInput.value);
 					var isSSH = /git@github.com:?/.test(props.sidebar.modifyGitOriginInput.value) && /git@github.com:?/.test(props.sidebar.modifyGitOriginInput.pushValue);
 					if(isHttp){
-						console.log('isHttp');
 						if(props.sidebar.modifyGitConfigInput.userName == '' || props.sidebar.modifyGitConfigInput.email == '') {
 							message.error('git 配置不能为空');
 							return false;
@@ -1827,8 +1825,8 @@ const LeftSidebar = (props) => {
 
 }
 
-function mapStateToProps({ sidebar, editor, editorTop, rightbar, designer, attr ,devpanel, layout, cpre}) {
-  return { sidebar, editor, editorTop, rightbar, designer, attr ,devpanel, layout, cpre};
+function mapStateToProps({ sidebar, editor, editorTop, rightbar, designer, attr ,devpanel, layout, cpre, vdpm}) {
+  return { sidebar, editor, editorTop, rightbar, designer, attr ,devpanel, layout, cpre, vdpm};
 }
 
 export default connect(mapStateToProps)(LeftSidebar);
