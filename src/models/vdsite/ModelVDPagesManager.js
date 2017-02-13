@@ -70,7 +70,7 @@ export default {
 			state.pageManager.newPageVisible = params.value;
 			return {...state};
 		},
-		handleFolderPageVisible(state, { payload: params }){
+		handleNewFolderVisible(state, { payload: params }){
 			state.pageManager.newFolderVisible = params.value;
 			return {...state};
 		},

@@ -58,7 +58,7 @@ const Component = (props) => {
 		newFolderVisibleChange(value){
 
 			props.dispatch({
-				type: 'vdpm/handleFolderPageVisible',
+				type: 'vdpm/handleNewFolderVisible',
 				payload: { value: value}
 			});
 		},
