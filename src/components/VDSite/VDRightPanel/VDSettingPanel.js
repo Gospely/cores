@@ -30,12 +30,12 @@ const Component = (props) => {
       	wrapperCol: { span: 16 }
     };
 
+   	const specialAttrList = ['custom-attr', 'link-setting', 'list-setting', 'heading-type', 'image-setting'];
+
     const attrsPanels = () => {
     	return props.vdCtrlTree.activeCtrl.attrs.map((item, index) => {
 
     		//针对比如自定义属性这种拥有复杂交互的表单，不适合在控件属性中写form结构
-    		const
-    			specialAttrList = ['custom-attr', 'link-setting', 'list-setting', 'heading-type'];
 
     			if(specialAttrList.indexOf(item.key) != -1) {
 		    		const specialAttrHandler = {
@@ -347,10 +347,19 @@ const Component = (props) => {
     	});
     }
 
+    const settingPanelDefaultActiveKey = [];
+
+    for (var i = 0; i < specialAttrList.length; i++) {
+    	var attr = specialAttrList[i];
+    	settingPanelDefaultActiveKey.push(attr);
+    };
+
+    settingPanelDefaultActiveKey.push('basic');
+
   	return (
 
   		<div className="vdctrl-pane-wrapper">
-			<Collapse bordered={false} defaultActiveKey={['basic', 'link-setting', 'custom-attr', 'heading-type', 'list-setting']}>
+			<Collapse bordered={false} defaultActiveKey={settingPanelDefaultActiveKey}>
 				{attrsPanels()}
 			</Collapse>
   		</div>

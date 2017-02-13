@@ -174,7 +174,7 @@ export default {
 				name: '头部',
 				key: 'heading',
 				details: {
-					tag: 'ul',
+					tag: 'h1',
 					className: [],
 					attrs: [{
 						title: '标题大小',
@@ -212,8 +212,19 @@ export default {
 				details: {
 					tag: 'div',
 					className: [],
-					attrs: [],
-					children: []
+					attrs: [{
+						name: 'tag',
+						desc: '标签',
+						type: 'select',
+						value: ['div'],
+						children: ['div', 'header', 'footer', 'nav', 'main', 'section', 'article', 'aside', 'address', 'figure'],
+						id: ''
+					}],
+					children: [{
+						tag: 'p',
+						className: [],
+						attrs: []
+					}]
 				}
 			}, {
 				icon: <svg width="56" height="29" viewBox="0 0 56 29" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".4" d="M56 17v-4h-2V9H22v8H0v12h36v-4h19v-4h-1v-4h2zm-1-3v2-2zm-32 0v2-2zm-4.1 2l.8.2.3-.7.8-1.7.5-1-1-.4c-1.1-.4-2-1.3-2.4-2.3H21V0H11v6.5c0 4.9 3 8.5 7.9 9.5zm-2.2-7H20h-3.3zm-8.8 7l.8.2.3-.8.8-1.7.5-1-1-.4c-1.1-.4-2-1.3-2.4-2.3H10V0H0v6.5C0 11.4 3 15 7.9 16zm1-2.7l-.5 1 .5-1C7.7 12.8 6.7 12 6.2 11c.5 1 1.5 1.8 2.7 2.3zM5.7 9H9V1v8H5.7z"></path><path fill="currentColor" d="M23 14v2h32v-2H23zm30 4H1v2h52v-2zm0-8H23v2h30v-2zM1 24h53v-2H1v2zm0 4h34v-2H1v2zM1 6.5c0 4.6 2.9 7.7 7.1 8.5l.8-1.7c-2-.8-3.2-2.5-3.2-4.3H9V1H1v5.5zM20 1h-8v5.5c0 4.6 2.9 7.7 7.1 8.5l.8-1.7c-1.9-.7-3.2-2.5-3.2-4.3H20V1z"></path></svg>,
@@ -229,9 +240,27 @@ export default {
 				name: '富文本',
 				key: 'rich-text',
 				details: {
-					tag: 'ul',
+					tag: 'div',
 					className: [],
-					attrs: []
+					attrs: [],
+					children: [{
+						tag: 'h1',
+						className: [],
+						attrs: [{
+							title: '标题大小',
+							key: 'heading-type',
+							value: 'h1',
+							children: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']
+						}]
+					}, {
+						tag: 'p',
+						className: [],
+						attrs: []
+					}, {
+						tag: 'p',
+						className: [],
+						attrs: []
+					}]
 				}
 			}]
 		}, {
@@ -244,7 +273,11 @@ export default {
 				details: {
 					tag: 'ul',
 					className: [],
-					attrs: []
+					attrs: [{
+						title: '图片设置',
+						key: 'image-setting',
+						children: []
+					}]
 				}
 			}, {
 				icon: <svg width="50" height="37" viewBox="0 0 50 37" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".4" d="M47 0H3C1.3 0 0 1.3 0 3v31c0 1.7 1.3 3 3 3h44c1.7 0 3-1.3 3-3V3c0-1.7-1.3-3-3-3zm-9 13.7v9.6l-6-3.4v-2.8l6-3.4zM39 25l-3.6-2 3.6 2zM13 14c0-.6.4-1 1-1h13c.6 0 1 .4 1 1v9c0 .6-.4 1-1 1H14c-.6 0-1-.4-1-1v-9zm1 11h13c.9 0 1.7-.6 1.9-1.5-.2.8-1 1.5-1.9 1.5H14c-.6 0-1.1-.2-1.4-.6.3.4.9.6 1.4.6zm14.7-12.1c-.1-.1-.2-.2-.2-.3 0 .1.1.2.2.3.2.3.3.7.3 1.1 0-.4-.1-.8-.3-1.1zM1 3c0-.2 0-.3.1-.5-.1.2-.1.3-.1.5zm.1 31.5c-.1-.1-.1-.3-.1-.5 0 .2 0 .4.1.5z"></path><path fill="currentColor" d="M47 1H3c-1.1 0-2 .9-2 2v31c0 1.1.9 2 2 2h44c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zM29 23c0 1.1-.9 2-2 2H14c-1.1 0-2-.9-2-2v-9c0-1.1.9-2 2-2h13c1.1 0 2 .9 2 2v9zm10 2l-8-4.5v-4l8-4.5v13z"></path></svg>,
