@@ -603,7 +603,16 @@ export default {
 				details: {
 					tag: 'ul',
 					className: [],
-					attrs: []
+					attrs: [{
+						name: 'button-text',
+						desc: '文本名称',
+						type: 'input',
+						value: '',
+						props: {
+							placeholder: '输入名称'
+						},
+						id: ''
+					}]
 				}
 			}]
 		}, {
