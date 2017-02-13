@@ -6,20 +6,22 @@ export default {
 	state: {
 		
 		publicAttrs: [{
-			basic: {
-				id: {
-					name: 'id',
-					desc: 'id',
-					type: 'input',
-					value: ''
-				},
-				visualInScreen: {
-					name: 'class',
-					desc: '可见屏幕',
-					type: 'multipleSelect',
-					value: ''
-				}
-			}
+			title: '基础设置',
+			key: 'basic',
+			children: [{
+				name: 'id',
+				desc: 'id',
+				type: 'input',
+				value: '',
+				id: ''
+			}, {
+				name: 'class',
+				desc: '可见屏幕',
+				type: 'multipleSelect',
+				value: [],
+				children: [],
+				id: ''
+			}]
 		}],
 
 		controllers: [{
@@ -255,30 +257,31 @@ export default {
 		}]
 	},
 
-	setup({ dispatch, history }) {
-      	history.listen(({ pathname }) => {
-      		props.dispatch({
-      			type: 'appendPublicAttrsToCtrlList'
-      		})
-      	});
+	subscriptions: {
+
+		setup({ dispatch, history }) {
+	      	history.listen(({ pathname }) => {
+	      		dispatch({
+	      			type: 'appendPublicAttrsToCtrlList'
+	      		})
+	      	});
+		}
+
 	},
 
 	reducers: {
 
 		appendPublicAttrsToCtrlList(state) {
-			alert('sss')
 
 			state.controllers.map((item, index) => {
 				const content = item.content;
 				content.map((ctrl, j) => {
 					for (var i = 0; i < state.publicAttrs.length; i++) {
 						const attrs = state.publicAttrs[i];
-						ctrl.details.attrs.push(attr);						
+						ctrl.details.attrs.push(attrs);						
 					};
 				});
 			});
-
-			console.log(state.controllers);
 
 			return {...state};
 		}
