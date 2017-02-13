@@ -9,7 +9,9 @@ export default {
 		pageManager: {
 			treeSelect: {
 				value: ''
-			}
+			},
+			newPageVisible: false,
+			newFolderVisible: false
 		},
 
 		activePage: 'index.html',
@@ -64,6 +66,19 @@ export default {
 			state.currentActivePageListItem = key;
 			return {...state};
 		},
+		handleNewPageVisible(state, { payload: params }){
+			state.pageManager.newPageVisible = params.value;
+			return {...state};
+		},
+		handleFolderPageVisible(state, { payload: params }){
+			state.pageManager.newFolderVisible = params.value;
+			return {...state};
+		},
+		handleRreeSelect(state, { payload: params }){
+			state.pageManager.treeSelect.value = params.value;
+			state.pageManager.newPageVisible = true;
+			return {...state};
+		}
 	}
 
 }
