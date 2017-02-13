@@ -588,6 +588,32 @@ const Component = (props) => {
 							    	</Row>
 							    </Panel>
 		    				);		    				
+		    			},
+
+		    			'navbar-setting' () {
+		    				return (
+							    <Panel header={item.title} key={item.key}>
+							    	<Row>
+							    		<Col span={12}>
+							    			<Button size="small"><Icon type="bars" />打开菜单</Button>
+							    		</Col>
+							    		<Col span={12}>
+							    			<Button size="small"><Icon type="plus" />新增菜单</Button>
+							    		</Col>
+							    	</Row>
+
+							      	<Form className="form-no-margin-bottom">
+										<FormItem {...formItemLayout} label="菜单类型">
+											<select size="small">
+										    	  <Option key="drop-down" value="drop-down">向下</Option>
+										    	  <Option key="over-right" value="over-right">靠右</Option>
+										    	  <Option key="over-left" value="over-left">靠左</Option>
+											</select>
+										</FormItem>
+							      	</Form>
+
+							    </Panel>
+		    				);
 		    			}
 					};
 
