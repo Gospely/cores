@@ -306,7 +306,6 @@ const Component = (props) => {
 													</div>
 												</div>
 												<div className="bem-Frame_Body">
-
 													<Row>
 
 													  	<Col span={11} style={{paddingRight: '5px'}}>
@@ -334,7 +333,7 @@ const Component = (props) => {
 
 							    </Panel>
 		    				);
-		    			}
+		    			},
 					};
 
 					return specialAttrHandler[item.key](item);
@@ -344,9 +343,16 @@ const Component = (props) => {
 
     			const formTypeList = {
     				input (item) {
+
+    					var inputTpl = item.props ? (
+							<Input {...item.props} value={item.value} size="small" />
+    					) : (
+							<Input value={item.value} size="small" />
+    					);
+
 		    			return (
 							<FormItem key={item.id} {...formItemLayout} label={item.desc}>
-								<Input value={item.value} size="small" />
+								{inputTpl}
 							</FormItem>
 		    			);
     				},
@@ -390,6 +396,12 @@ const Component = (props) => {
 							  	</Select>
 							</FormItem>    						
     					);
+    				},
+
+    				toggle (item) {
+						<FormItem {...formItemLayout} label={item.desc}>
+							<Switch size="small" checked={item.value} />
+						</FormItem>
     				}
     			}
 
