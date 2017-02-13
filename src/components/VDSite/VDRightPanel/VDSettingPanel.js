@@ -30,12 +30,12 @@ const Component = (props) => {
       	wrapperCol: { span: 16 }
     };
 
+   	const specialAttrList = ['custom-attr', 'link-setting', 'list-setting', 'heading-type', 'image-setting', 'select-setting'];
+
     const attrsPanels = () => {
     	return props.vdCtrlTree.activeCtrl.attrs.map((item, index) => {
 
     		//针对比如自定义属性这种拥有复杂交互的表单，不适合在控件属性中写form结构
-    		const
-    			specialAttrList = ['custom-attr', 'link-setting', 'list-setting'];
 
     			if(specialAttrList.indexOf(item.key) != -1) {
 		    		const specialAttrHandler = {
@@ -76,7 +76,7 @@ const Component = (props) => {
 						    }
 
 		    				return (
-							    <Panel header="自定义属性" key="custom-attr">
+							    <Panel header={item.title} key={item.key}>
 							    	<Form>
 										<FormItem {...formItemLayout} label="">
 											<Popover
@@ -210,7 +210,7 @@ const Component = (props) => {
 						    }
 
 		    				return (
-							    <Panel header="链接设置" key="link">
+							    <Panel header={item.title} key={item.key}>
 									<RadioGroup onChange={linkSettingProps.onChange} defaultValue="link" size="small">
 										{linkSettingProps.linkSettingTemplate}
 								    </RadioGroup>
@@ -220,9 +220,9 @@ const Component = (props) => {
 		    				);
 		    			},
 
-		    			'list-setting' () {
+		    			'list-setting' (item) {
 		    				return (
-							    <Panel header="列表设置" key="list-setting">
+							    <Panel header={item.title} key={item.key}>
 							      	<Form className="form-no-margin-bottom">
 										<FormItem {...formItemLayout} label="列表类型">
 									        <RadioGroup defaultValue="ul" size="small">
@@ -240,6 +240,201 @@ const Component = (props) => {
 							      	</Form>
 							    </Panel>
 		    				);
+		    			},
+
+		    			'heading-type' (item) {
+		    				return (
+							    <Panel header={item.title} key={item.key}>
+							      	<Form className="form-no-margin-bottom">
+										<FormItem {...formItemLayout} label="标题大小">
+										    <Select size="small" value={item.value}>
+										    {
+										    	item.children.map((headingType, index) => {
+										    		return (
+												      	<Option key={index} value={headingType}>{headingType}</Option>
+										    		);
+										    	})
+										    }
+										    </Select>
+										</FormItem>
+							      	</Form>
+							    </Panel>
+		    				);
+		    			},
+
+		    			'image-setting' (item) {
+
+						    const bgUploaderProps = {
+						 		listType: 'picture',
+							  	defaultFileList: [{
+							    	uid: -1,
+							    	name: 'xxx.png',
+							    	status: 'done',
+							    	url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+							    	thumbUrl: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+							  	}]
+						    }
+
+		    				return (
+							    <Panel header={item.title} key={item.key}>
+
+									<div className="guidance-panel-wrapper">
+										<div className="guidance-panel-child">
+											<div className="bem-Frame">
+												<div className="bem-Frame_Head">
+													<div className="bem-Frame_Legend">
+														<div className="bem-SpecificityLabel bem-SpecificityLabel-local bem-SpecificityLabel-text">
+															图片资源
+														</div>
+													</div>
+												</div>
+												<div className="bem-Frame_Body">
+													<Upload {...bgUploaderProps}>
+														<Button><i className="fa fa-cloud-upload"></i>&nbsp;上传图片</Button>								
+												  	</Upload>
+
+													<Button style={{position: 'absolute', right: '30px', top: '60px'}}><i className="fa fa-picture-o"></i>&nbsp;图片资源</Button>							
+												</div>
+											</div>
+
+											<div className="bem-Frame">
+												<div className="bem-Frame_Head">
+													<div className="bem-Frame_Legend">
+														<div className="bem-SpecificityLabel bem-SpecificityLabel-local bem-SpecificityLabel-text">
+															大小
+														</div>
+													</div>
+												</div>
+												<div className="bem-Frame_Body">
+													<Row>
+
+													  	<Col span={11} style={{paddingRight: '5px'}}>
+													      	<Form className="form-no-margin-bottom">
+																<FormItem {...formItemLayout} label="宽度">
+																	<Input size="small" />
+																</FormItem>
+													      	</Form>
+													  	</Col>
+													  	<Col span={13} style={{paddingLeft: '5px'}}>
+													      	<Form className="form-no-margin-bottom">
+																<FormItem {...formItemLayout} label="高度">
+																	<Input size="small" />
+																</FormItem>
+													      	</Form>
+													  	</Col>
+
+													</Row>
+
+												</div>
+											</div>
+
+										</div>
+									</div>
+
+							    </Panel>
+		    				);
+		    			},
+
+		    			'select-setting' () {
+
+						    const selectSettingProps = {
+						    	creatorContent: (
+							      	<Form className="form-no-margin-bottom">
+										<FormItem {...formItemLayout} label="说明">
+											<Input size="small" />
+										</FormItem>
+										<FormItem {...formItemLayout} label="值">
+											<Input size="small" />
+										</FormItem>
+										<FormItem>
+											<Button size="small">保存</Button>
+										</FormItem>
+									</Form>
+						    	),
+
+						    	modifyContent: (
+							      	<Form className="form-no-margin-bottom">
+										<FormItem {...formItemLayout} label="说明">
+											<Input size="small" />
+										</FormItem>
+										<FormItem {...formItemLayout} label="值">
+											<Input size="small" />
+										</FormItem>
+										<FormItem>
+											<Button size="small">保存</Button>
+										</FormItem>
+									</Form>
+						    	),
+
+						    	onVisibleChange () {
+
+						    	}
+						    }
+
+		    				return (
+							    <Panel header={item.title} key={item.key}>
+							      	<Form className="form-no-margin-bottom">
+										<FormItem {...formItemLayout} label="名称">
+											<Input size="small" />
+										</FormItem>
+										<FormItem {...formItemLayout} label="允许多选">
+											<Switch size="small" />
+										</FormItem>
+										<Button type="circle" size="small"><Icon type="plus" /></Button>
+							      	</Form>
+
+								    <ul style={{marginTop: '-15px'}} className="ant-dropdown-menu ant-dropdown-menu-vertical ant-dropdown-menu-light ant-dropdown-menu-root symbol-list" role="menu">
+								      <li className="ant-dropdown-menu-item" role="menuitem">
+								        <Row>
+								          <Col span={18}>
+								            <p>key1="val2"</p>
+								          </Col>
+								          <Col span={3}>
+
+											<Popover
+									        	content={selectSettingProps.modifyContent}
+									        	title="修改 选项"
+									        	trigger="click"
+									      	>
+								            	<Icon type="edit" />
+									      	</Popover>
+
+								          </Col>
+								          <Col span={3}>
+								            <Popconfirm title="确认删除吗？" okText="确定" cancelText="取消">
+												<Icon type="delete" />
+												</Popconfirm>
+								          </Col>
+								        </Row>
+								      </li>
+								      <li className="ant-dropdown-menu-item-divider"></li>
+
+								      <li className="ant-dropdown-menu-item" role="menuitem">
+								        <Row>
+								          <Col span={18}>
+								            <p>key="val"</p>
+								          </Col>
+								          <Col span={3}>
+											<Popover
+									        	content={selectSettingProps.modifyContent}
+									        	title="修改 选项"
+									        	trigger="click"
+									      	>
+								            	<Icon type="edit" />
+									      	</Popover>
+								          </Col>
+								          <Col span={3}>
+								            <Popconfirm title="确认删除吗？" okText="确定" cancelText="取消">
+												<Icon type="delete" />
+												</Popconfirm>
+								          </Col>
+								        </Row>
+								      </li>
+								      <li className=" ant-dropdown-menu-item-divider"></li>
+								    </ul>
+
+							    </Panel>
+		    				);
 		    			}
 					};
 
@@ -250,9 +445,16 @@ const Component = (props) => {
 
     			const formTypeList = {
     				input (item) {
+
+    					var inputTpl = item.props ? (
+							<Input {...item.props} value={item.value} size="small" />
+    					) : (
+							<Input value={item.value} size="small" />
+    					);
+
 		    			return (
 							<FormItem key={item.id} {...formItemLayout} label={item.desc}>
-								<Input value={item.value} size="small" />
+								{inputTpl}
 							</FormItem>
 		    			);
     				},
@@ -296,6 +498,12 @@ const Component = (props) => {
 							  	</Select>
 							</FormItem>    						
     					);
+    				},
+
+    				toggle (item) {
+						<FormItem {...formItemLayout} label={item.desc}>
+							<Switch size="small" checked={item.value} />
+						</FormItem>
     				}
     			}
 
@@ -327,20 +535,20 @@ const Component = (props) => {
     	});
     }
 
+    const settingPanelDefaultActiveKey = [];
+
+    for (var i = 0; i < specialAttrList.length; i++) {
+    	var attr = specialAttrList[i];
+    	settingPanelDefaultActiveKey.push(attr);
+    };
+
+    settingPanelDefaultActiveKey.push('basic');
+
   	return (
 
   		<div className="vdctrl-pane-wrapper">
-			<Collapse bordered={false} defaultActiveKey={['basic', 'link-setting', 'custom-attr', 'heading-type', 'list-setting']}>
+			<Collapse bordered={false} defaultActiveKey={settingPanelDefaultActiveKey}>
 				{attrsPanels()}
-			    <Panel header="标题大小" key="heading-type">
-			      	<Form className="form-no-margin-bottom">
-						<FormItem {...formItemLayout} label="标题大小">
-						    <Select size="small" value="请选择">
-						      	<Option key="sss" value="h1">h1</Option>
-						    </Select>
-						</FormItem>
-			      	</Form>
-			    </Panel>
 			</Collapse>
   		</div>
 

@@ -41,7 +41,15 @@ const Component = (props) => {
       		offset: 0,
     	},
   	};
+	const loopData = data => data.map((item) => {
 
+		if (item.children != null) {
+			return <TreeNode title={item.name} value={item.key} key={item.key} >{loopData(item.children)}</TreeNode>;
+		}
+		return (
+		  <TreeNode title={item.name} value={item.key} key={item.key} disabled="true" />
+		);
+    });
 	const newFolderPopoverProps = {
 
 		treeSelectOnChange (value) {
@@ -59,7 +67,7 @@ const Component = (props) => {
 
 			props.dispatch({
 				type: 'vdpm/handleNewFolderVisible',
-				payload: { value: value}
+				payload: { value: true}
 			});
 		},
 		hideNewFolderPopover(){
@@ -67,7 +75,10 @@ const Component = (props) => {
 				type: 'vdpm/handleNewFolderVisible',
 				payload: { value: false}
 			});
-		}
+		},
+		createFoler(){
+			localStorage.creatType = 'folder';
+		},
 	}
 	const newPagePopoverProps = {
 		newPageVisibleChange(value){
@@ -75,8 +86,11 @@ const Component = (props) => {
 			console.log(value);
 			props.dispatch({
 				type: 'vdpm/handleNewPageVisible',
-				payload: { value: value}
+				payload: { value: true}
 			});
+		},
+		createPage(){
+			localStorage.creatType = 'page';
 		},
 		handleCreatePage(){
 
@@ -125,6 +139,7 @@ const Component = (props) => {
 			});
 		}
 	}
+	let treeNodes = loopData(props.vdpm.pageList);
 
 	const newFolderPopover = {
 		content: (
@@ -147,15 +162,7 @@ const Component = (props) => {
 			        	treeDefaultExpandAll
 			        	onChange={newFolderPopoverProps.treeSelectOnChange}
 			      	>
-			        	<TreeNode value="parent 1" title="parent 1" key="0-1">
-			          		<TreeNode value="parent 1-0" title="parent 1-0" key="0-1-1">
-			            	<TreeNode value="leaf1" title="my leaf" key="random" />
-			            	<TreeNode value="leaf2" title="your leaf" key="random1" />
-			          	</TreeNode>
-			          	<TreeNode value="parent 1-1" title="parent 1-1" key="random2">
-			            	<TreeNode value="sss" title={<b style={{ color: '#08c' }}>sss</b>} key="random3" />
-			          	</TreeNode>
-			        	</TreeNode>
+			        	{treeNodes}
 			      	</TreeSelect>
 
 		          </FormItem>
@@ -203,15 +210,7 @@ const Component = (props) => {
 			        	treeDefaultExpandAll
 			        	onChange={newFolderPopoverProps.treeSelectOnChange}
 			      	>
-			        	<TreeNode value="parent 1" title="parent 1" key="0-1">
-			          		<TreeNode value="parent 1-0" title="parent 1-0" key="0-1-1">
-			            	<TreeNode value="leaf1" title="my leaf" key="random" />
-			            	<TreeNode value="leaf2" title="your leaf" key="random1" />
-			          	</TreeNode>
-			          	<TreeNode value="parent 1-1" title="parent 1-1" key="random2">
-			            	<TreeNode value="sss" title={<b style={{ color: '#08c' }}>sss</b>} key="random3" />
-			          	</TreeNode>
-			        	</TreeNode>
+			        	{treeNodes}
 			      	</TreeSelect>
 
 		          </FormItem>
@@ -290,14 +289,14 @@ const Component = (props) => {
   	return (
 
 	    <ul className="ant-dropdown-menu ant-dropdown-menu-vertical ant-dropdown-menu-light ant-dropdown-menu-root symbol-list" role="menu">
-         	<Popover placement="right" title="新建文件夹" content={newFolderPopover.content} trigger="click" visible={props.vdpm.pageManager.newFolderVisible}  onVisibleChange={newFolderPopoverProps.newFolderVisibleChange}>
+         	<Popover placement="right" title="新建文件夹" content={newFolderPopover.content} trigger="click" onClick={newFolderPopoverProps.createFolder}  visible={props.vdpm.pageManager.newFolderVisible}  onVisibleChange={newFolderPopoverProps.newFolderVisibleChange}>
 	      		<li className="ant-dropdown-menu-item" role="menuitem">
 					<Icon type="folder-open" />&nbsp;新建文件夹
 	      		</li>
 			</Popover>
 	      	<li className=" ant-dropdown-menu-item-divider"></li>
 
-         	<Popover placement="right" title="新建页面" content={newPagePopover.content} trigger="click"  visible={props.vdpm.pageManager.newPageVisible}  onVisibleChange={newPagePopoverProps.newPageVisibleChange}>
+         	<Popover placement="right" title="新建页面" content={newPagePopover.content} trigger="click" onClick={newPagePopoverProps.createPage}  visible={props.vdpm.pageManager.newPageVisible}  onVisibleChange={newPagePopoverProps.newPageVisibleChange}>
 			    <li className="ant-dropdown-menu-item" role="menuitem">
 					<Icon type="file" />&nbsp;新建页面
 			    </li>
