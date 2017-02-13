@@ -1,5 +1,25 @@
 import React , {PropTypes} from 'react';
 import dva from 'dva';
+import randomString from '../../utils/randomString.js';
+
+const VDTreeActions = {
+	deepCopyObj(obj, result) {
+		result = result || {};
+		for(let key in obj) {
+			if (typeof obj[key] === 'object') {
+				result[key] = (obj[key].constructor === Array)? []: {};
+				VDTreeActions.deepCopyObj(obj[key], result[key]);
+			}else {
+				result[key] = obj[key];
+			}
+		}
+		return result;
+	},
+
+	getActiveCtrl(state) {
+		return state.activeCtrl;
+	}
+}
 
 export default {
 	namespace: 'vdCtrlTree',
@@ -226,7 +246,51 @@ export default {
 		},
 
 		generateCtrlTree(state, { payload: ctrl }) {
-			console.log(ctrl);
+			
+			let deepCopiedController = VDTreeActions.deepCopyObj(ctrl);
+
+			const loopAttr = (controller) => {
+
+				var childCtrl = {},
+					tmpAttr = {},
+					ctrl = {};
+
+				tmpAttr = controller.details.attrs;
+
+				ctrl = {
+					type: controller.type,
+					key: controller.key || controller.type + '-' + randomString(8, 10),
+					attr: tmpAttr,
+					tag: controller.tag,
+					baseClassName: controller.baseClassName,
+					children: [],
+					isRander: controller.isRander || '',
+					ignore: controller.ignore || false
+				};
+
+				if(controller.children) {
+					for (var i = 0; i < controller.children.length; i++) {
+						var currentCtrl = controller.children[i];
+						childCtrl = loopAttr(currentCtrl);
+						ctrl.children.push(childCtrl);
+					};
+				}else {
+					ctrl.children = undefined;
+				}
+
+				return ctrl;
+			}
+
+			let tmpCtrl = loopAttr(deepCopiedController);
+			let activeCtrl = VDTreeActions.getActiveCtrl(state);
+
+			VDDesignerFrame.postMessage({
+    			ctrlTreeGenerated: {
+    				controller: tmpCtrl,
+    				activeCtrl
+    			}
+			}, '*');
+
 			return {...state};	
 		}		
 
