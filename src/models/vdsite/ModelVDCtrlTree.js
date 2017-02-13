@@ -33,9 +33,21 @@ export default {
 							name: 'class',
 							desc: '可见屏幕',
 							type: 'multipleSelect',
-							value: ['1', '2'],
-							children: ['1', '2', '3', '4'],
-							id: '0987'
+							value: ['visible-lg-block', 'visible-md-block', 'visible-sm-block', 'visible-xs-block'],
+							children: [{
+								name: '大屏幕(桌面 (≥1200px))',
+								value: 'visible-lg-block'
+							}, {
+								name: '中等屏幕(桌面 (≥992px))',
+								value: 'visible-md-block'					
+							}, {
+								name: '小屏幕(平板 (≥768px))',
+								value: 'visible-sm-block'
+							}, {
+								name: '超小屏幕(手机 (<768px))',
+								value: 'visible-xs-block'
+							}],
+							id: ''
 						}]
 					}],
 	    			children: [{
@@ -57,9 +69,21 @@ export default {
 								name: 'class',
 								desc: '可见屏幕',
 								type: 'multipleSelect',
-								value: ['1', '2'],
-								children: ['1', '2', '3', '4'],
-								id: '0987'
+								value: ['visible-lg-block', 'visible-md-block', 'visible-sm-block', 'visible-xs-block'],
+								children: [{
+									name: '大屏幕(桌面 (≥1200px))',
+									value: 'visible-lg-block'
+								}, {
+									name: '中等屏幕(桌面 (≥992px))',
+									value: 'visible-md-block'					
+								}, {
+									name: '小屏幕(平板 (≥768px))',
+									value: 'visible-sm-block'
+								}, {
+									name: '超小屏幕(手机 (<768px))',
+									value: 'visible-xs-block'
+								}],
+								id: ''
 							}]
 						}]
 	    			}]
@@ -82,13 +106,25 @@ export default {
 							name: 'class',
 							desc: '可见屏幕',
 							type: 'multipleSelect',
-							value: ['1', '2'],
-							children: ['1', '2', '3', '4'],
-							id: '0987'
+							value: ['visible-lg-block', 'visible-md-block', 'visible-sm-block', 'visible-xs-block'],
+							children: [{
+								name: '大屏幕(桌面 (≥1200px))',
+								value: 'visible-lg-block'
+							}, {
+								name: '中等屏幕(桌面 (≥992px))',
+								value: 'visible-md-block'					
+							}, {
+								name: '小屏幕(平板 (≥768px))',
+								value: 'visible-sm-block'
+							}, {
+								name: '超小屏幕(手机 (<768px))',
+								value: 'visible-xs-block'
+							}],
+							id: ''
 						}]
 					}]
 	    		}]
-	    	}]
+	    	}],
 	    },
 
 	    activeCtrl: {
@@ -110,10 +146,26 @@ export default {
 					name: 'class',
 					desc: '可见屏幕',
 					type: 'multipleSelect',
-					value: ['1', '2'],
-					children: ['1', '2', '3', '4'],
-					id: '0987'
+					value: ['visible-lg-block', 'visible-md-block', 'visible-sm-block', 'visible-xs-block'],
+					children: [{
+						name: '大屏幕(桌面 (≥1200px))',
+						value: 'visible-lg-block'
+					}, {
+						name: '中等屏幕(桌面 (≥992px))',
+						value: 'visible-md-block'					
+					}, {
+						name: '小屏幕(平板 (≥768px))',
+						value: 'visible-sm-block'
+					}, {
+						name: '超小屏幕(手机 (<768px))',
+						value: 'visible-xs-block'
+					}],
+					id: ''
 				}]
+			}, {
+				title: '自定义属性',
+				key: 'custom-attr',
+				children: []
 			}],
 			children: [{
 				tag: 'h1',
@@ -134,9 +186,21 @@ export default {
 						name: 'class',
 						desc: '可见屏幕',
 						type: 'multipleSelect',
-						value: ['1', '2'],
-						children: ['1', '2', '3', '4'],
-						id: '0987'
+						value: ['visible-lg-block', 'visible-md-block', 'visible-sm-block', 'visible-xs-block'],
+						children: [{
+							name: '大屏幕(桌面 (≥1200px))',
+							value: 'visible-lg-block'
+						}, {
+							name: '中等屏幕(桌面 (≥992px))',
+							value: 'visible-md-block'					
+						}, {
+							name: '小屏幕(平板 (≥768px))',
+							value: 'visible-sm-block'
+						}, {
+							name: '超小屏幕(手机 (<768px))',
+							value: 'visible-xs-block'
+						}],
+						id: ''
 					}]
 				}]
 			}]
