@@ -235,12 +235,32 @@ const Component = (props) => {
 								    {	
 								    	item.children.map((val, key) => {
 								    		return (
-									    	  <Option key={key} value={val}>{val}</Option>
+									    	  <Option key={key} value={val.value}>{val.name}</Option>
 								    		);
 								    	})
 								    }
 							  	</Select>
 							</FormItem>
+    					);
+    				},
+
+    				select (item) {
+    					return (
+							<FormItem key={item.id} {...formItemLayout} label={item.desc}>
+								<Select
+								    style={{ width: '100%' }}
+								    defaultValue={item.value}
+								    size="small"
+								 >
+								    {	
+								    	item.children.map((val, key) => {
+								    		return (
+									    	  <Option key={key} value={val}>{val}</Option>
+								    		);
+								    	})
+								    }
+							  	</Select>
+							</FormItem>    						
     					);
     				}
     			}

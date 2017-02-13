@@ -43,13 +43,46 @@ const Component = (props) => {
   	};
 
 	const newFolderPopoverProps = {
-		treeSelectOnChange (value) {
 
+		treeSelectOnChange (value) {
+			props.dispatch({
+				type: 'vdpm/handleRreeSelect',
+				payload: { value: value}
+			});
 		},
 
 		style: {
 	      	width: parseInt($(document).width()) / 2,
 	      	height: parseInt($(document).height()) - 50
+		},
+		newFolderVisibleChange(value){
+
+			props.dispatch({
+				type: 'vdpm/handleNewFolderVisible',
+				payload: { value: value}
+			});
+		},
+		hideNewFolderPopover(){
+			props.dispatch({
+				type: 'vdpm/handleNewFolderVisible',
+				payload: { value: false}
+			});
+		}
+	}
+	const newPagePopoverProps = {
+		newPageVisibleChange(value){
+
+			console.log(value);
+			props.dispatch({
+				type: 'vdpm/handleNewPageVisible',
+				payload: { value: value}
+			});
+		},
+		hideNewPagePopover(){
+			props.dispatch({
+				type: 'vdpm/handleNewPageVisible',
+				payload: { value: false}
+			});
 		}
 	}
 
@@ -102,14 +135,14 @@ const Component = (props) => {
 		          </FormItem>
 
 		          <FormItem {...tailFormItemLayout}>
-		            <Button type="primary" htmlType="submit">创建</Button>
+		            <Button type="primary" htmlType="submit" onClick={newFolderPopoverProps.hideNewFolderPopover}>创建</Button>
 		          </FormItem>
 		        </Form>
 			</div>
 		)
 	}
 
-	const newFagePopover = {
+	const newPagePopover = {
 		content: (
 			<div style={newFolderPopoverProps.style}>
 		        <h2>文件夹设置</h2>
@@ -157,7 +190,7 @@ const Component = (props) => {
 		            <Input />
 		          </FormItem>
 		        </Form>
-		        <h2>SEO设置</h2>		        
+		        <h2>SEO设置</h2>
 		        <Form>
 		          <FormItem
 		            {...formItemLayout}
@@ -206,7 +239,7 @@ const Component = (props) => {
 		          </FormItem>
 
 		          <FormItem {...tailFormItemLayout}>
-		            <Button type="primary" htmlType="submit">创建</Button>
+		            <Button type="primary" htmlType="submit" onClick={newPagePopoverProps.hideNewPagePopover}>创建</Button>
 		          </FormItem>
 		        </Form>
 
@@ -217,14 +250,14 @@ const Component = (props) => {
   	return (
 
 	    <ul className="ant-dropdown-menu ant-dropdown-menu-vertical ant-dropdown-menu-light ant-dropdown-menu-root symbol-list" role="menu">
-         	<Popover placement="right" title="新建文件夹" content={newFolderPopover.content} trigger="click">
+         	<Popover placement="right" title="新建文件夹" content={newFolderPopover.content} trigger="click" visible={props.vdpm.pageManager.newFolderVisible}  onVisibleChange={newFolderPopoverProps.newFolderVisibleChange}>
 	      		<li className="ant-dropdown-menu-item" role="menuitem">
 					<Icon type="folder-open" />&nbsp;新建文件夹
 	      		</li>
 			</Popover>
 	      	<li className=" ant-dropdown-menu-item-divider"></li>
 
-         	<Popover placement="right" title="新建页面" content={newFagePopover.content} trigger="click">
+         	<Popover placement="right" title="新建页面" content={newPagePopover.content} trigger="click"  visible={props.vdpm.pageManager.newPageVisible}  onVisibleChange={newPagePopoverProps.newPageVisibleChange}>
 			    <li className="ant-dropdown-menu-item" role="menuitem">
 					<Icon type="file" />&nbsp;新建页面
 			    </li>

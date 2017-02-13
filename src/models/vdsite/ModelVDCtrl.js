@@ -19,8 +19,20 @@ export default {
 				name: 'class',
 				desc: '可见屏幕',
 				type: 'multipleSelect',
-				value: [],
-				children: [],
+				value: ['visible-lg-block', 'visible-md-block', 'visible-sm-block', 'visible-xs-block'],
+				children: [{
+					name: '大屏幕(桌面 (≥1200px))',
+					value: 'visible-lg-block'
+				}, {
+					name: '中等屏幕(桌面 (≥992px))',
+					value: 'visible-md-block'					
+				}, {
+					name: '小屏幕(平板 (≥768px))',
+					value: 'visible-sm-block'
+				}, {
+					name: '超小屏幕(手机 (<768px))',
+					value: 'visible-xs-block'
+				}],
 				id: ''
 			}]
 		}, {
@@ -42,7 +54,7 @@ export default {
 						desc: '标签',
 						type: 'select',
 						value: ['section'],
-						children: [],
+						children: ['div', 'header', 'footer', 'nav', 'main', 'section', 'article', 'aside', 'address', 'figure'],
 						id: ''
 					}]
 				}
