@@ -260,6 +260,80 @@ const Component = (props) => {
 							      	</Form>
 							    </Panel>
 		    				);
+		    			},
+
+		    			'image-setting' (item) {
+
+						    const bgUploaderProps = {
+						 		listType: 'picture',
+							  	defaultFileList: [{
+							    	uid: -1,
+							    	name: 'xxx.png',
+							    	status: 'done',
+							    	url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+							    	thumbUrl: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+							  	}]
+						    }
+
+		    				return (
+							    <Panel header={item.title} key={item.key}>
+
+									<div className="guidance-panel-wrapper">
+										<div className="guidance-panel-child">
+											<div className="bem-Frame">
+												<div className="bem-Frame_Head">
+													<div className="bem-Frame_Legend">
+														<div className="bem-SpecificityLabel bem-SpecificityLabel-local bem-SpecificityLabel-text">
+															图片资源
+														</div>
+													</div>
+												</div>
+												<div className="bem-Frame_Body">
+													<Upload {...bgUploaderProps}>
+														<Button><i className="fa fa-cloud-upload"></i>&nbsp;上传图片</Button>								
+												  	</Upload>
+
+													<Button style={{position: 'absolute', right: '30px', top: '60px'}}><i className="fa fa-picture-o"></i>&nbsp;图片资源</Button>							
+												</div>
+											</div>
+
+											<div className="bem-Frame">
+												<div className="bem-Frame_Head">
+													<div className="bem-Frame_Legend">
+														<div className="bem-SpecificityLabel bem-SpecificityLabel-local bem-SpecificityLabel-text">
+															大小
+														</div>
+													</div>
+												</div>
+												<div className="bem-Frame_Body">
+
+													<Row>
+
+													  	<Col span={11} style={{paddingRight: '5px'}}>
+													      	<Form className="form-no-margin-bottom">
+																<FormItem {...formItemLayout} label="宽度">
+																	<Input size="small" />
+																</FormItem>
+													      	</Form>
+													  	</Col>
+													  	<Col span={13} style={{paddingLeft: '5px'}}>
+													      	<Form className="form-no-margin-bottom">
+																<FormItem {...formItemLayout} label="高度">
+																	<Input size="small" />
+																</FormItem>
+													      	</Form>
+													  	</Col>
+
+													</Row>
+
+												</div>
+											</div>
+
+										</div>
+									</div>
+
+							    </Panel>
+		    				);
 		    			}
 					};
 
