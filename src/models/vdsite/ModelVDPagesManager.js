@@ -125,7 +125,16 @@ export default {
 
 					console.log(pages[i].key);
 					if(pages[i].children != null && pages[i].key == tree){
+
+						//检查是否同名
+						for (var j = 0; j < pages[i].children.length; i++) {
+							if(pages[j].children.name == state.newPageFrom.name){
+								message.error('文件不同同名,请重命名');
+								return {...state};
+							}
+						}
 						pages.children = pages[i].children.push(state.newPageFrom);
+
 						return pages;
 					}else {
 						if(pages[i].children != null){
@@ -163,7 +172,13 @@ export default {
 
 					console.log(pages[i].key);
 					if(pages[i].children != null && pages[i].key == tree){
-						console.log('push');
+						//检查是否同名
+						for (var j = 0; j < pages[i].children.length; i++) {
+							if(pages[j].children.name == state.newFolderForm.name){
+								message.error('文件不同同名,请重命名');
+								return {...state};
+							}
+						}
 						pages.children = pages[i].children.push(state.newFolderForm);
 						return pages;
 					}else {
@@ -282,12 +297,12 @@ export default {
 
   			var activePage = yield select(state => state.vdpm.activePage);
 
-  			yield put({ 
-  				type: 'vdCtrlTree/handleElemAdded', 
+  			yield put({
+  				type: 'vdCtrlTree/handleElemAdded',
   				payload: {
   					ctrl,
   					activePage
-  				} 
+  				}
   			});
   		}
 	}
