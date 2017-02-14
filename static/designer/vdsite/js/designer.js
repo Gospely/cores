@@ -104,9 +104,7 @@ $(function() {
 			},
 
             refreshCtrl: function(activeCtrl, attr) {
-                var activeController = jq('[vdid=' + activeCtrl.vdid + ']');
                 new ElemGenerator(activeCtrl).setAttribute();
-                console.log(activeCtrl);
             }
 		};
 
@@ -202,6 +200,18 @@ $(function() {
             setLinkSetting: function(attr) {
             },
 
+            transformTypeToUpper: function(type) {
+                var settingTypeSplit = type.split('-'),
+                    upperTypeName = '';
+                for (var j = 0; j < settingTypeSplit.length; j++) {
+                    var type = settingTypeSplit[j];
+                    type = type.replace(/^\S/,function(s){return s.toUpperCase();});
+                    upperTypeName += type;
+                };
+
+                return upperTypeName;
+            },
+
         	setAttribute: function () {
         		this.initElem();
         		for(var i = 0, len = this.controller.attrs.length; i < len; i ++) {
@@ -216,13 +226,7 @@ $(function() {
                     }else {
 
                         //调用所需要的属性设置类型
-                        var settingTypeSplit = attr.key.split('-'),
-                            upperTypeName = '';
-                        for (var j = 0; j < settingTypeSplit.length; j++) {
-                            var type = settingTypeSplit[j];
-                            type = type.replace(/^\S/,function(s){return s.toUpperCase();});
-                            upperTypeName += type;
-                        };
+                        var upperTypeName = this.transformTypeToUpper(attr.key);
 
                         if(this['set' + upperTypeName]) {
                             for (var j = 0; j < attr.children.length; j++) {
@@ -236,6 +240,10 @@ $(function() {
 
         		this.elem.attr('vdid', this.controller.vdid);
         	},
+
+            setAttributeByAttr: function(attr, type) {
+
+            },
 
         	createElement: function () {
         		var self = this;
@@ -258,7 +266,7 @@ $(function() {
                     for (var i = 0; i < this.controller.children.length; i++) {
                         var currentCtrl = this.controller.children[i],
 
-                            reComGenerator = new ComponentsGenerator({
+                            reComGenerator = new ElemGenerator({
                                 controller: currentCtrl
                             }),
 
