@@ -78,11 +78,6 @@ const Component = (props) => {
 			});
 		},
 		handleCreate(){
-			localStorage.create = 'false'
-			props.dispatch({
-				type: 'vdpm/handleNewFolderVisible',
-				payload: { value: false}
-			});
 			props.dispatch({
 				type: 'vdpm/handleCreateFolder',
 			});
@@ -138,17 +133,10 @@ const Component = (props) => {
 		},
 		handleCreatePage(){
 
-			localStorage.createPage = 'false'
 			props.dispatch({
 				type: 'vdpm/handleCreatePage',
 				payload: { value: false}
 			});
-			setTimeout(function(){
-				props.dispatch({
-					type: 'vdpm/handleNewPageVisible',
-					payload: { value: false}
-				});
-			}, 500)
 		},
 		handlePageNameChange(value){
 
