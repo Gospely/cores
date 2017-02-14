@@ -133,17 +133,10 @@ const Component = (props) => {
 		},
 		handleCreatePage(){
 
-			localStorage.createPage = 'false'
 			props.dispatch({
 				type: 'vdpm/handleCreatePage',
 				payload: { value: false}
 			});
-			setTimeout(function(){
-				props.dispatch({
-					type: 'vdpm/handleNewPageVisible',
-					payload: { value: false}
-				});
-			}, 500)
 		},
 		handlePageNameChange(value){
 

@@ -1,8 +1,15 @@
 import React , {PropTypes} from 'react';
 import dva from 'dva';
-import { message } from 'antd';
+import { notification } from 'antd';
 
 import request from '../../utils/request.js';
+
+const openNotificationWithIcon = (type, title, description) => (
+  notification[type]({
+    message: title,
+    description: description,
+  })
+);
 
 export default {
 	namespace: 'vdpm',
@@ -31,7 +38,6 @@ export default {
 		newFolderForm: {
 			key: '',
 			name: '',
-			parent: ''
 		},
 
 		activePage: 'index.html',
@@ -118,21 +124,21 @@ export default {
 		handleCreatePage(state, { payload: params}){
 
 			var tree = state.pageManager.treeSelect.value;
-			console.log(tree);
+			var bool = false;
 			state.newPageFrom.key = tree + state.newPageFrom.name + '.html'
 
 			let pushPage = function(pages){
 
 				for (var i = 0; i < pages.length; i++) {
 
-					console.log(pages[i].key);
 					if(pages[i].children != null && pages[i].key == tree){
 
 						//检查是否同名
 						for (var j = 0; j < pages[i].children.length; j++) {
 							if(pages[i].children[j].name == state.newPageFrom.name){
-								message.error('文件同名,请重命名');
-								return {...state};
+								openNotificationWithIcon('error', '文件同名,请重命名');
+								bool = true;
+								return pages;
 							}
 						}
 						pages.children = pages[i].children.push(state.newPageFrom);
@@ -147,38 +153,38 @@ export default {
 				return pages;
 			}
 			state.pageList = pushPage(state.pageList);
-			state.newPageFrom = {
-				key: '',
-				name: '',
-				seo: {
-					title: '',
-					description: ''
-				},
-				script: {
-					head: '',
-					script: ''
-				},
-			};
+			state.pageManager.newPageVisible = bool;
+			if(!bool){
+				state.newPageFrom = {
+					key: '',
+					name: '',
+					seo: {
+						title: '',
+						description: ''
+					},
+					script: {
+						head: '',
+						script: ''
+					},
+				};
+			}
 			return {...state};
 		},
 		handleCreateFolder(state, { payload: params}){
 
-			console.log(state.newFolderForm);
 			var bool = false;
 			var tree = state.pageManager.treeSelect.value;
-			state.newFolderForm.key = tree + state.newFolderForm.name
+			state.newFolderForm.key = tree + '/' + state.newFolderForm.name
 			state.newFolderForm.children = [];
 			let pushPage = function(pages){
 
 				for (var i = 0; i < pages.length; i++) {
 
-					console.log(pages[i].key);
 					if(pages[i].children != null && pages[i].key == tree){
 						//检查是否同名
 						for (var j = 0; j < pages[i].children.length; j++) {
-							console.log(pages[i].children[j].name);
 							if(pages[i].children[j].name == state.newFolderForm.name){
-								message.error('文件同名,请重命名');
+								openNotificationWithIcon('error', '文件夹同名,请重命名');
 								bool = true;
 								return pages;
 							}
@@ -197,22 +203,16 @@ export default {
 
 			state.pageList = pushPage(state.pageList);
 			state.pageManager.newFolderVisible = bool;
-			state.newPageFrom = {
-				key: '',
-				name: '',
-				seo: {
-					title: '',
-					description: ''
-				},
-				script: {
-					head: '',
-					script: ''
-				},
-			};
+
+			if(!bool){
+				state.newFolderForm = {
+					key: '',
+					name: '',
+				};
+			}
 			return {...state};
 		},
 		handleFolderName(state, { payload: params}){
-			console.log(params);
 			state.newFolderForm.name = params.value;
 			return { ...state};
 		},
@@ -220,7 +220,6 @@ export default {
 
 			var data = params.data,
 				tree = [];
-			console.log(data);
 			if(data.length < 1) {
 				return {...state};
 			}
@@ -261,7 +260,6 @@ export default {
 		},
 		initState(state, {payload: params}){
 
-			console.log(params);
 			if(params.pageList != undefined){
 				state.pageList = params.UIState.pageList;
 			}
