@@ -50,6 +50,16 @@ const VDStylePanel = (props) => {
 
 	}
 
+	var handleStylesChange = function(key, value) {
+		console.log(key);
+		console.log(value.target.value);
+
+		props.dispatch({
+			type: 'vdstyles/handleStylesChange',
+			payload: { target: '.body height', value: value.target.value }
+		});
+	}
+
 	const cssSelector = {
 
 		cssClassNameList () {
@@ -887,7 +897,7 @@ const VDStylePanel = (props) => {
 					  	<Col span={12} style={{paddingRight: '5px'}}>
 					      	<Form className="form-no-margin-bottom">
 								<FormItem {...formItemLayout} label="宽度">
-									<Input size="small" />
+									<Input size="small" onChange={handleStylesChange.bind(this, 'width')}/>
 								</FormItem>
 					      	</Form>
 					  	</Col>
