@@ -42,7 +42,7 @@ const Component = (props) => {
     	},
   	};
 	const loopData = data => data.map((item) => {
-		
+
 		if (item.children != null) {
 			return <TreeNode title={item.name} value={item.key} key={item.key} >{loopData(item.children)}</TreeNode>;
 		}
@@ -89,25 +89,13 @@ const Component = (props) => {
 		},
 		createFolder(){
 
-			if(localStorage.create == undefined || localStorage.create == null || localStorage.create == 'false'){
-				localStorage.create = 'true'
+			var value = props.vdpm.pageManager.newFolderVisible
+			setTimeout(function(){
 				props.dispatch({
-					type: 'vdpm/handleNewPageVisible',
-					payload: { value: false}
+					type: 'vdpm/handleNewFolderVisible',
+					payload: { value: !value}
 				});
-			}else{
-				localStorage.create = 'false'
-				setTimeout(function(){
-					props.dispatch({
-						type: 'vdpm/handleNewFolderVisible',
-						payload: { value: !props.vdpm.pageManager.newFolderVisible}
-					});
-					props.dispatch({
-						type: 'vdpm/handleNewPageVisible',
-						payload: { value: false}
-					});
-				}, 200);
-			}
+			}, 200);
 		},
 	}
 	const newPagePopoverProps = {
@@ -134,25 +122,18 @@ const Component = (props) => {
 		createPage(){
 
 
-			if(localStorage.createPage == undefined || localStorage.createPage == null || localStorage.createPage == 'false'){
-				localStorage.createPage = 'true'
+			var value = props.vdpm.pageManager.newPageVisible;
+
+			setTimeout(function(){
+				props.dispatch({
+					type: 'vdpm/handleNewPageVisible',
+					payload: { value: !value}
+				});
 				props.dispatch({
 					type: 'vdpm/handleNewFolderVisible',
-					payload: { value: false}
+					payload: { value:false}
 				});
-			}else{
-				localStorage.createPage = 'false'
-				setTimeout(function(){
-					props.dispatch({
-						type: 'vdpm/handleNewPageVisible',
-						payload: { value: !props.vdpm.pageManager.newPageVisible}
-					});
-					props.dispatch({
-						type: 'vdpm/handleNewFolderVisible',
-						payload: { value:false}
-					});
-				}, 200);
-			}
+			}, 200);
 
 		},
 		handleCreatePage(){
