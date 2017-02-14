@@ -13,7 +13,6 @@ export default {
 				},
 
 				elemAdded() {
-
 					props.dispatch({
 						type: "vdpm/elemAdded",
 						payload: data
@@ -21,7 +20,6 @@ export default {
 				},
 
 				ctrlSelected() {
-
 					props.dispatch({
 						type: "vdCtrlTree/ctrlSelected",
 						payload: data

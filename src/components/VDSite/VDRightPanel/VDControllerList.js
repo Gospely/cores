@@ -27,7 +27,7 @@ const Component = (props) => {
 		activeControllerTree = props.vdCtrlTree.layout[ctrlPros.activePage],
 
     	loopControllerTree = data => data.map((item) => {
-    		const itemId = item.id == '' ? '' : '#' + item.id;
+    		const itemId = !item.id ? '' : '#' + item.id;
     		const itemCls = item.className.length > 0 ? '.' + item.className.join('.') : '';
     		const title = item.tag + itemCls + itemId;
 

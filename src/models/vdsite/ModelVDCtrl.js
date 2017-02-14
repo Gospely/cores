@@ -125,11 +125,23 @@ export default {
 				key: 'button',
 				details: {
 					tag: 'a',
-					className: [],
+					className: ['btn', 'btn-default'],
 					attrs: [{
 						title: '链接设置',
 						key: 'link-setting',
 						children: []
+					}, {
+						title: '属性设置',
+						key: 'button-attr',
+						isAttrSetting: true,
+						children: [{
+							name: 'value',
+							desc: '按钮值',
+							type: 'input',
+							value: '按钮',
+							isHTML: true,
+							id: ''
+						}]
 					}]
 				}
 			}, {
@@ -470,6 +482,7 @@ export default {
 					attrs: [{
 						title: '属性设置',
 						key: 'input-attr',
+						isAttrSetting: true,
 						children: [{
 							name: 'name',
 							desc: '名称',
