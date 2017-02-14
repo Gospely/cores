@@ -71,6 +71,16 @@ const Component = (props) => {
 				type: 'vdpm/handNewPageFormChange',
 				payload: { target: 'script.script', value: value.target.value}
 			});
+		},
+		updatePage(){
+			props.dispatch({
+				type: 'vdpm/updatePage',
+			});
+		},
+		deletPage(){
+			props.dispatch({
+				type: 'vdpm/deletPage',
+			});
 		}
 	}
   const formItemLayout = {
@@ -150,8 +160,8 @@ const Component = (props) => {
           </FormItem>
 
           <FormItem {...tailFormItemLayout}>
-            <Button type="primary" htmlType="submit">保存</Button>
-            <Button type="danger" style={{marginLeft: '10px'}}>删除页面</Button>
+            <Button type="primary" htmlType="submit" onClick={formItemProps.updatePage}>保存</Button>
+            <Button type="danger" style={{marginLeft: '10px'}} onClick={formItemProps.deletPage}>删除页面</Button>
           </FormItem>
         </Form>
       </div>
@@ -163,27 +173,29 @@ const Component = (props) => {
 
           for (var i = 0; i < tree.length; i++) {
             var item = tree[i];
-            if(item.children) {
+            if(item != null && item.children) {
               tpl.push((
                 <SubMenu key={item.key} title={<span><Icon type="folder" />{item.name}</span>}>
                   {pageTreeGenerator(item.children, true)}
                 </SubMenu>
               ))
             }else {
-              tpl.push((
-                <Menu.Item key={item.key}>
-                  <Row>
-                    <Col span={20}>
-                      {item.name}
-                    </Col>
-                    <Col span={4}>
-                      <Tooltip placement="top" title="设置页面的详细信息">
-                          <Icon type="setting" onClick={allPagesProps.visibleChange}/>
-                      </Tooltip>
-                    </Col>
-                  </Row>
-                </Menu.Item>
-              ));
+			if(item != null){
+				tpl.push((
+				  <Menu.Item key={item.key}>
+					<Row>
+					  <Col span={20}>
+						{item.name}
+					  </Col>
+					  <Col span={4}>
+						<Tooltip placement="top" title="设置页面的详细信息">
+							<Icon type="setting" onClick={allPagesProps.visibleChange}/>
+						</Tooltip>
+					  </Col>
+					</Row>
+				  </Menu.Item>
+				));
+			}
             }
           };
 
@@ -195,7 +207,7 @@ const Component = (props) => {
 
 	return (
     <div className="vd-allpages-list">
-		<Popover placement="right" title="设置页面的详细信息" content={generatePageDetailSettings()} onClick={allPagesProps.handlePageListItemClick}  visible={props.vdpm.pageManager.upadtePopoverVisible}>
+		<Popover placement="right" title="设置页面的详细信息" content={generatePageDetailSettings()} onClick={allPagesProps.handlePageListItemClick} visibleChange={allPagesProps.visibleChange}  visible={props.vdpm.pageManager.updatePopoverVisible}>
 
 			<Menu
 				style={{ width: '100%' }}

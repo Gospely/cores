@@ -22,7 +22,7 @@ export default {
 			},
 			newPageVisible: false,
 			newFolderVisible: false,
-			upadtePopoverVisible: false
+			updatePopoverVisible: false
 		},
 		newPageFrom: {
 			key: '',
@@ -93,11 +93,9 @@ export default {
 
 			state.currentActivePageListItem = key;
 			state.pageManager.treeSelect.value = 'root'
-			console.log(key);
 			let getPageInfoByKey = function(pages){
 
 				for (var i = 0; i < pages.length; i++) {
-					console.log(pages[i].key);
 					if(pages[i].key == key){
 						return pages[i];
 					}
@@ -110,9 +108,7 @@ export default {
 					}
 				}
 			}
-			console.log(state.pageList);
 			state.newPageFrom = getPageInfoByKey(state.pageList);
-			console.log(state.newPageFrom);
 			return {...state};
 		},
 		handleNewPageVisible(state, { payload: params }){
@@ -124,9 +120,13 @@ export default {
 			return {...state};
 		},
 		handleUpdatePopoverVisible(state){
-			state.pageManager.upadtePopoverVisible = !state.pageManager.upadtePopoverVisible;
+			state.pageManager.updatePopoverVisible = !state.pageManager.updatePopoverVisible;
 			return { ...state};
 		},
+        visibleChange(state){
+            state.pageManager.updatePopoverVisible = true;
+            return { ...state};
+        },
 		handleRreeSelect(state, { payload: params }){
 
 			state.pageManager.treeSelect.value = params.value;
@@ -227,6 +227,76 @@ export default {
 			}
 			return {...state};
 		},
+        updatePage(state){
+
+            let updatePageInfoByKey = function(pages){
+
+				for (var i = 0; i < pages.length; i++) {
+
+					if(pages[i].key == state.currentActivePageListItem && pages[i].children == null){
+
+                        pages[i].seo = state.newPageFrom.seo;
+                        pages[i].script = state.newPageFrom.script;
+						break;
+					}else {
+
+                        if(pages[i].children != null && pages[i].children != undefined){
+                            pages[i].children = updatePageInfoByKey(pages[i].children)
+                        }
+					}
+				}
+                return pages;
+			}
+            state.pageList = updatePageInfoByKey(state.pageList);
+            state.pageManager.updatePopoverVisible = false;
+            state.newPageFrom = {
+                key: '',
+                name: '',
+                seo: {
+                    title: '',
+                    description: ''
+                },
+                script: {
+                    head: '',
+                    script: ''
+                },
+            };
+            return {...state};
+        },
+        deletPage(state){
+
+            let deletPageInfoByKey = function(pages){
+
+				for (var i = 0; i < pages.length; i++) {
+					if(pages[i].key == state.currentActivePageListItem ){
+
+                        pages.splice(i,1);
+                        break;
+					}else {
+                        if(pages[i].children != null){
+    					    pages[i].children = deletPageInfoByKey(pages[i].children);
+    					}
+					}
+				}
+                return pages;
+
+			}
+            state.pageList = deletPageInfoByKey(state.pageList);
+            state.pageManager.updatePopoverVisible = false;
+            state.newPageFrom = {
+                key: '',
+                name: '',
+                seo: {
+                    title: '',
+                    description: ''
+                },
+                script: {
+                    head: '',
+                    script: ''
+                },
+            };
+            return { ...state};
+        },
 		handleCreateFolder(state, { payload: params}){
 
 			var bool = false;
