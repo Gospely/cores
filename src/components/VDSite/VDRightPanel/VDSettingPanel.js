@@ -112,7 +112,7 @@ const Component = (props) => {
 
 			if(specialAttrList.indexOf(item.key) != -1) {
 	    		const specialAttrHandler = {
-	    			'custom-attr' (item) {
+	    			'custom-attr' (item, attrTypeIndex) {
 
 					    const customAttrProps = {
 					    	creatorContent: (
@@ -145,10 +145,22 @@ const Component = (props) => {
 
 					    	onVisibleChange () {
 
+					    	},
+
+					    	onConfirmDelete (index) {
+					    		console.log(index, item.children[index])
+					    		item.children.splice(index, 1);
+					    		console.log(item.children);
+
+					    		props.dispatch({
+					    			type: 'vdCtrlTree/handleCustomAttrRemoved',
+					    			payload: {
+					    				index,
+					    				attrTypeIndex: attrTypeIndex
+					    			}
+					    		});
 					    	}
 					    }
-
-
 
 	    				return (
 						    <Panel header={item.title} key={item.key}>
@@ -167,7 +179,7 @@ const Component = (props) => {
 								    	{
 								    		item.children.map((val, index) => {
 								    			return (
-									    			<li>
+									    			<li key={index}>
 												      <li className="ant-dropdown-menu-item" role="menuitem">
 												        <Row>
 												          <Col span={18}>
@@ -185,7 +197,7 @@ const Component = (props) => {
 
 												          </Col>
 												          <Col span={3}>
-												            <Popconfirm title="确认删除吗？" okText="确定" cancelText="取消">
+												            <Popconfirm title="确认删除吗？" onConfirm={customAttrProps.onConfirmDelete.bind(this, index)} okText="确定" cancelText="取消">
 																<Icon type="delete" />
 							  								</Popconfirm>
 												          </Col>
@@ -205,7 +217,7 @@ const Component = (props) => {
 	    				);
 	    			},
 
-	    			'link-setting' (item) {
+	    			'link-setting' (item, attrTypeIndex) {
 
 					    const linkSettingProps = {
 							
@@ -282,7 +294,7 @@ const Component = (props) => {
 	    				);
 	    			},
 
-	    			'list-setting' (item) {
+	    			'list-setting' (item, attrTypeIndex) {
 	    				return (
 						    <Panel header={item.title} key={item.key}>
 						      	<Form className="form-no-margin-bottom">
@@ -304,7 +316,7 @@ const Component = (props) => {
 	    				);
 	    			},
 
-	    			'heading-type' (item) {
+	    			'heading-type' (item, attrTypeIndex) {
 	    				return (
 						    <Panel header={item.title} key={item.key}>
 						      	<Form className="form-no-margin-bottom">
@@ -324,7 +336,7 @@ const Component = (props) => {
 	    				);
 	    			},
 
-	    			'image-setting' (item) {
+	    			'image-setting' (item, attrTypeIndex) {
 
 					    const bgUploaderProps = {
 					 		listType: 'picture',
@@ -397,7 +409,7 @@ const Component = (props) => {
 	    				);
 	    			},
 
-	    			'select-setting' () {
+	    			'select-setting' (item, attrTypeIndex) {
 
 					    const selectSettingProps = {
 					    	creatorContent: (
@@ -499,7 +511,7 @@ const Component = (props) => {
 	    				);
 	    			},
 
-	    			'tabs-setting' () {
+	    			'tabs-setting' (item, attrTypeIndex) {
 
 					    const props = {
 					    	creatorContent: (
@@ -617,7 +629,7 @@ const Component = (props) => {
 	    				);
 	    			},
 
-	    			'dropdown-menu' () {
+	    			'dropdown-menu' (item, attrTypeIndex) {
 	    				return (
 						    <Panel header={item.title} key={item.key}>
 						    	<Row>
@@ -632,7 +644,7 @@ const Component = (props) => {
 	    				);
 	    			},
 
-	    			'slider-settings' () {
+	    			'slider-settings' (item, attrTypeIndex) {
 	    				return (
 						    <Panel header={item.title} key={item.key}>
 						    	<Row>
@@ -652,7 +664,7 @@ const Component = (props) => {
 	    				);
 	    			},
 
-	    			'navbar-setting' () {
+	    			'navbar-setting' (item, attrTypeIndex) {
 	    				return (
 						    <Panel header={item.title} key={item.key}>
 						    	<Row>
@@ -679,7 +691,7 @@ const Component = (props) => {
 	    			}
 				};
 
-				return specialAttrHandler[item.key](item);
+				return specialAttrHandler[item.key](item, index);
 			}
 
     		const formTypeGenerator = (item) => {

@@ -242,6 +242,11 @@ export default {
 			}, '*');
 
 			return {...state};
+		},
+
+		handleCustomAttrRemoved(state, { payload: params }) {
+			state.activeCtrl.attrs[params.attrTypeIndex].children.splice(params.index, 1);
+			return {...state};
 		}
 	},
 
