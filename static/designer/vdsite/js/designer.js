@@ -70,7 +70,7 @@ $(function() {
                     },
 
                     VDAttrRefreshed: function() {
-                        controllerOperations.refreshCtrl(data.activeCtrl, data.attr);
+                        controllerOperations.refreshCtrl(data.activeCtrl, data.attr, data.attrType);
                     }
                 };
 
@@ -103,8 +103,8 @@ $(function() {
 				postMessageToFather.ctrlSelected(data);
 			},
 
-            refreshCtrl: function(activeCtrl, attr) {
-                new ElemGenerator(activeCtrl).setAttribute();
+            refreshCtrl: function(activeCtrl, attr, attrType) {
+                new ElemGenerator(activeCtrl).setAttributeByAttr(attr, attrType);
             }
 		};
 
@@ -190,14 +190,32 @@ $(function() {
             setBasic: function(attr) {
 
                 if(attr.isAttr) {
-                    this.elem.attr(attr.attrName, attr.value);
+                    console.log('isAttr');
+                    if(attr.value) {
+                        this.elem.attr(attr.attrName, attr.value);                        
+                    }
                 }
 
                 if(attr.isScreenSetting) {
-                    var className = attr.value;
+                    var className = attr.value,
+                        currentCtrlClass = this.elem.attr('class');
+
+                    if(currentCtrlClass) {
+                        var currentCtrlClassList = currentCtrlClass.split(' ');
+                        for (var i = 0; i < currentCtrlClassList.length; i++) {
+                            var cls = currentCtrlClassList[i];
+                            for (var j = 0; j < attr.children.length; j++) {
+                                var val = attr.children[j];
+                                if(val.value == cls) {
+                                    this.elem.removeClass(cls);                                    
+                                }
+                            };
+                        };
+                    }
+
                     for (var i = 0; i < className.length; i++) {
                         var cls = className[i];
-                        this.elem.toggleClass('cls');                        
+                        this.elem.addClass(cls);                        
                     };
                 }
             },
@@ -253,8 +271,16 @@ $(function() {
         		this.elem.attr('vdid', this.controller.vdid);
         	},
 
-            setAttributeByAttr: function(attr, type) {
-
+            setAttributeByAttr: function(attr, attrType) {
+                this.initElem();
+                var upperTypeName = this.transformTypeToUpper(attrType.key);
+                if(attrType.isAttrSetting) {
+                    this.setAttr(attr);
+                }else {
+                    if(this['set' + upperTypeName]) {
+                        this['set' + upperTypeName](attr);
+                    }                    
+                }
             },
 
         	createElement: function () {
