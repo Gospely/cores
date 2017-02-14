@@ -185,6 +185,7 @@ $(function() {
         	},
 
             setCustomAttr: function(attr) {
+                console.log(attr);
             },
 
             setBasic: function(attr) {

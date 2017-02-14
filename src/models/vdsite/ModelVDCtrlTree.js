@@ -246,6 +246,16 @@ export default {
 
 		handleCustomAttrRemoved(state, { payload: params }) {
 			state.activeCtrl.attrs[params.attrTypeIndex].children.splice(params.index, 1);
+			window.VDDesignerFrame.postMessage({
+				VDAttrRefreshed: {
+					activeCtrl: state.activeCtrl,
+					attr: {
+						value: params.index,
+						action: 'remove'
+					},
+					attrType: params.attrType
+				}
+			}, '*');			
 			return {...state};
 		}
 	},

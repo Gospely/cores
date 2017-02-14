@@ -156,7 +156,8 @@ const Component = (props) => {
 					    			type: 'vdCtrlTree/handleCustomAttrRemoved',
 					    			payload: {
 					    				index,
-					    				attrTypeIndex: attrTypeIndex
+					    				attrTypeIndex: attrTypeIndex,
+					    				attrType: item
 					    			}
 					    		});
 					    	}
