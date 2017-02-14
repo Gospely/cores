@@ -805,8 +805,8 @@ const VDStylePanel = (props) => {
 						    	multiple
 						    	style={{ width: '100%' }}
 						    	placeholder="请选择CSS类"
-						    	defaultValue={
-						    		props.vdCtrlTree.activeCtrl.className
+						    	value={
+						    		props.vdCtrlTree.activeCtrl.customClassName
 						    	}
 						    	size="small"
 						  	>

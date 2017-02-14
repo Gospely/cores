@@ -163,6 +163,7 @@ export default {
 					attrs: tmpAttr,
 					tag: controller.tag,
 					className: controller.className,
+					customClassName: [],
 					children: [],
 					isRander: controller.isRander || '',
 					ignore: controller.ignore || false
