@@ -21,7 +21,8 @@ export default {
 				value: ''
 			},
 			newPageVisible: false,
-			newFolderVisible: false
+			newFolderVisible: false,
+			upadtePopoverVisible: false
 		},
 		newPageFrom: {
 			key: '',
@@ -89,7 +90,29 @@ export default {
 	reducers: {
 
 		setCurrentActivePageListItem(state, { payload: key }) {
+
 			state.currentActivePageListItem = key;
+			state.pageManager.treeSelect.value = 'root'
+			console.log(key);
+			let getPageInfoByKey = function(pages){
+
+				for (var i = 0; i < pages.length; i++) {
+					console.log(pages[i].key);
+					if(pages[i].key == key){
+						return pages[i];
+					}
+
+				}
+				for (var i = 0; i < pages.length; i++) {
+					if(pages[i].children != null){
+						state.pageManager.treeSelect.value = pages[i].key;
+						return pages.children = getPageInfoByKey(pages[i].children);
+					}
+				}
+			}
+			console.log(state.pageList);
+			state.newPageFrom = getPageInfoByKey(state.pageList);
+			console.log(state.newPageFrom);
 			return {...state};
 		},
 		handleNewPageVisible(state, { payload: params }){
@@ -99,6 +122,10 @@ export default {
 		handleNewFolderVisible(state, { payload: params }){
 			state.pageManager.newFolderVisible = params.value;
 			return {...state};
+		},
+		handleUpdatePopoverVisible(state){
+			state.pageManager.upadtePopoverVisible = !state.pageManager.upadtePopoverVisible;
+			return { ...state};
 		},
 		handleRreeSelect(state, { payload: params }){
 
@@ -123,10 +150,6 @@ export default {
 		},
 		handleCreatePage(state, { payload: params}){
 
-			var tree = state.pageManager.treeSelect.value;
-			var bool = false;
-			state.newPageFrom.key = tree + state.newPageFrom.name + '.html'
-
 			let pushPage = function(pages){
 
 				for (var i = 0; i < pages.length; i++) {
@@ -135,7 +158,7 @@ export default {
 
 						//检查是否同名
 						for (var j = 0; j < pages[i].children.length; j++) {
-							if(pages[i].children[j].name == state.newPageFrom.name){
+							if(pages[i].children[j].name == state.newPageFrom.name && pages[i].children[j].children == null){
 								openNotificationWithIcon('error', '文件同名,请重命名');
 								bool = true;
 								return pages;
@@ -152,7 +175,41 @@ export default {
 				}
 				return pages;
 			}
-			state.pageList = pushPage(state.pageList);
+
+			var tree = state.pageManager.treeSelect.value;
+			var bool = false;
+
+
+			if(tree != 'root') {
+				state.newPageFrom.key = tree + state.newPageFrom.name + '.html'
+				state.pageList = pushPage(state.pageList);
+			}else {
+				state.newPageFrom.key = state.newPageFrom.name + '.html'
+				for (var j = 0; j < state.pageList.length; j++) {
+
+					if(state.pageList[j].name == state.newPageFrom.name && state.pageList[j].children == null){
+						openNotificationWithIcon('error', '文件同名,请重命名');
+						bool = true;
+						state.pageManager.newPageVisible = bool;
+						if(!bool){
+							state.newPageFrom = {
+								key: '',
+								name: '',
+								seo: {
+									title: '',
+									description: ''
+								},
+								script: {
+									head: '',
+									script: ''
+								},
+							};
+						}
+						return {...state};
+					}
+				}
+				state.pageList.push(state.newPageFrom);
+			}
 			state.pageManager.newPageVisible = bool;
 			if(!bool){
 				state.newPageFrom = {
@@ -183,7 +240,7 @@ export default {
 					if(pages[i].children != null && pages[i].key == tree){
 						//检查是否同名
 						for (var j = 0; j < pages[i].children.length; j++) {
-							if(pages[i].children[j].name == state.newFolderForm.name){
+							if(pages[i].children[j].name == state.newFolderForm.name && pages[i].children[j].children != null){
 								openNotificationWithIcon('error', '文件夹同名,请重命名');
 								bool = true;
 								return pages;
@@ -201,9 +258,27 @@ export default {
 				return pages;
 			}
 
-			state.pageList = pushPage(state.pageList);
-			state.pageManager.newFolderVisible = bool;
 
+			if(tree != 'root') {
+				state.pageList = pushPage(state.pageList);
+			}else {
+				for (var j = 0; j < state.pageList.length; j++) {
+					if(state.pageList[j].name == state.newFolderForm.name && state.pageList[j].children != null){
+						openNotificationWithIcon('error', '文件同名,请重命名');
+						bool = true;
+						state.pageManager.newFolderVisible = bool;
+						if(!bool){
+							state.newFolderForm = {
+								key: '',
+								name: '',
+							};
+						}
+						return {...state};
+					}
+				}
+				state.pageList.push(state.newFolderForm);
+			}
+			state.pageManager.newFolderVisible = bool;
 			if(!bool){
 				state.newFolderForm = {
 					key: '',

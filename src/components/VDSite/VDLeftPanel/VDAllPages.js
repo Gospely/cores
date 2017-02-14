@@ -29,10 +29,41 @@ const Component = (props) => {
 				type: 'vdpm/setCurrentActivePageListItem',
 				payload: key
 			});
+		},
+		visibleChange(){
+			props.dispatch({
+				type: 'vdpm/handleUpdatePopoverVisible',
+			});
 		}
-
 	}
+	const formItemProps = {
 
+		handlePageTitleChange(value){
+			props.dispatch({
+				type: 'vdpm/handNewPageFormChange',
+				payload: { target: 'seo.title', value: value.target.value}
+			});
+		},
+		handlePageDescriptionChange(value){
+
+			props.dispatch({
+				type: 'vdpm/handNewPageFormChange',
+				payload: { target: 'seo.description', value: value.target.value}
+			});
+		},
+		handlePageHeadChange(value){
+			props.dispatch({
+				type: 'vdpm/handNewPageFormChange',
+				payload: { target: 'script.head', value: value.target.value}
+			});
+		},
+		handlePageScriptChange(value){
+			props.dispatch({
+				type: 'vdpm/handNewPageFormChange',
+				payload: { target: 'script.script', value: value.target.value}
+			});
+		}
+	}
   const formItemLayout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 16 },
@@ -50,7 +81,7 @@ const Component = (props) => {
   };
   const rangeConfig = {
     rules: [{ type: 'array', required: true, message: 'Please select time!' }],
-  };  
+  };
 
   const generatePageDetailSettings = () => {
 
@@ -75,7 +106,7 @@ const Component = (props) => {
             )}
             hasFeedback
           >
-            <Input />
+            <Input  value={props.vdpm.newPageFrom.seo.title} onChange={formItemProps.handlePageTitleChange}/>
           </FormItem>
           <FormItem
             {...formItemLayout}
@@ -89,7 +120,7 @@ const Component = (props) => {
             )}
             hasFeedback
           >
-            <Input type="textarea" rows={4} />
+            <Input type="textarea" rows={4} value={props.vdpm.newPageFrom.seo.description} onChange={formItemProps.handlePageDescriptionChange}/>
           </FormItem>
         </Form>
         <h2>自定义代码</h2>
@@ -99,19 +130,19 @@ const Component = (props) => {
             label="在<head>标签内"
             hasFeedback
           >
-            <Input type="textarea" rows={10} />
+            <Input type="textarea" rows={10} value={props.vdpm.newPageFrom.script.head} onChange={formItemProps.handlePageHeadChange}/>
           </FormItem>
           <FormItem
             {...formItemLayout}
             label="在</body>标签前"
             hasFeedback
           >
-            <Input type="textarea" rows={10} />
+            <Input type="textarea" rows={10} value={props.vdpm.newPageFrom.script.script} onChange={formItemProps.handlePageScriptChange}/>
           </FormItem>
 
           <FormItem {...tailFormItemLayout}>
             <Button type="primary" htmlType="submit">保存</Button>
-            <Button type="danger" style={{marginLeft: '10px'}}>删除页面</Button>            
+            <Button type="danger" style={{marginLeft: '10px'}}>删除页面</Button>
           </FormItem>
         </Form>
       </div>
@@ -138,9 +169,7 @@ const Component = (props) => {
                     </Col>
                     <Col span={4}>
                       <Tooltip placement="top" title="设置页面的详细信息">
-                        <Popover placement="right" title="设置页面的详细信息" content={generatePageDetailSettings(item)} trigger="click">
-                          <Icon type="setting" />
-                        </Popover>
+                          <Icon type="setting" onClick={allPagesProps.visibleChange}/>
                       </Tooltip>
                     </Col>
                   </Row>
@@ -157,14 +186,18 @@ const Component = (props) => {
 
 	return (
     <div className="vd-allpages-list">
-      <Menu onClick={allPagesProps.handlePageListItemClick}
-      	style={{ width: '100%' }}
-      	defaultOpenKeys={['index.html']}
-      	selectedKeys={[props.vdpm.currentActivePageListItem]}
-      	mode="inline"
-      >
-        {pageTreeTpl}
-      </Menu>
+		<Popover placement="right" title="设置页面的详细信息" content={generatePageDetailSettings()} onClick={allPagesProps.handlePageListItemClick}  visible={props.vdpm.pageManager.upadtePopoverVisible}>
+
+			<Menu
+				style={{ width: '100%' }}
+				defaultOpenKeys={['index.html']}
+				selectedKeys={[props.vdpm.currentActivePageListItem]}
+				mode="inline"
+			>
+			{pageTreeTpl}
+			</Menu>
+  		</Popover>
+
     </div>
 	);
 

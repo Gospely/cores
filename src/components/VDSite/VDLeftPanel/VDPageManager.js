@@ -4,7 +4,7 @@ import { connect } from 'dva';
 import { Button, Modal } from 'antd';
 import { Tabs, Icon } from 'antd';
 import { Tooltip, Collapse } from 'antd';
-import { Popover } from 'antd';
+import { Popover, notification } from 'antd';
 
 import { Row, Col } from 'antd';
 
@@ -22,6 +22,12 @@ import { Form, Input, Cascader, Select, Checkbox } from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
 
+const openNotificationWithIcon = (type, title, description) => (
+  notification[type]({
+    message: title,
+    description: description,
+  })
+);
 const Component = (props) => {
 
 	const allPagesProps = {
@@ -47,7 +53,7 @@ const Component = (props) => {
 			return <TreeNode title={item.name} value={item.key} key={item.key} >{loopData(item.children)}</TreeNode>;
 		}
 		return (
-		  <TreeNode title={item.name} value={item.key} key={item.key} disabled="true" />
+		  <TreeNode title={item.name} value={item.key} key={item.key} disabled="true"/>
 		);
     });
 	const newFolderPopoverProps = {
@@ -78,6 +84,14 @@ const Component = (props) => {
 			});
 		},
 		handleCreate(){
+			if(props.vdpm.newFolderForm.name == null || props.vdpm.newFolderForm.name == '' || props.vdpm.newFolderForm.name == undefined ){
+				openNotificationWithIcon('error', '文件夹名为空');
+				return;
+			}
+			if(props.vdpm.pageManager.treeSelect.value == null || props.vdpm.pageManager.treeSelect.value == '' || props.vdpm.pageManager.treeSelect.value == undefined ){
+				openNotificationWithIcon('info', '请选择所属目录');
+				return;
+			}
 			props.dispatch({
 				type: 'vdpm/handleCreateFolder',
 			});
@@ -89,6 +103,10 @@ const Component = (props) => {
 				props.dispatch({
 					type: 'vdpm/handleNewFolderVisible',
 					payload: { value: !value}
+				});
+				props.dispatch({
+					type: 'vdpm/handleNewPageVisible',
+					payload: { value: false}
 				});
 			}, 200);
 		},
@@ -133,6 +151,14 @@ const Component = (props) => {
 		},
 		handleCreatePage(){
 
+			if(props.vdpm.newPageFrom.name == null || props.vdpm.newPageFrom.name == '' || props.vdpm.newPageFrom.name == undefined ){
+				openNotificationWithIcon('error', '文件名为空');
+				return;
+			}
+			if(props.vdpm.pageManager.treeSelect.value == null || props.vdpm.pageManager.treeSelect.value == '' || props.vdpm.pageManager.treeSelect.value == undefined ){
+				openNotificationWithIcon('info', '请选择所属目录');
+				return;
+			}
 			props.dispatch({
 				type: 'vdpm/handleCreatePage',
 				payload: { value: false}
@@ -171,7 +197,11 @@ const Component = (props) => {
 			});
 		}
 	}
-	let treeNodes = loopData(props.vdpm.pageList);
+	let treeNodes = loopData([{
+		key: 'root',
+		name: '根目录',
+		children: props.vdpm.pageList
+	}]);
 
 	const newFolderPopover = {
 		content: (
