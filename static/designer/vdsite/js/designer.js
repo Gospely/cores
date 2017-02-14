@@ -62,16 +62,13 @@ $(function() {
                 var eventName = '';
 
                 var evtAction = {
-                        ctrlTreeGenerated: function() {
-                            var elem = new ElemGenerator(data.controller);
-                            
-                            var elemToAdd = jq(elem.createElement());
-                            console.log(elemToAdd)
-                            dndData.elemToAdd = elemToAdd;
-                            dndData.ctrlToAddData = data.controller;
-                        }
-                    };
-                   
+                    ctrlTreeGenerated: function() {
+                        var elem = new ElemGenerator(data.controller);
+                        var elemToAdd = jq(elem.createElement());
+                        dndData.elemToAdd = elemToAdd;
+                        dndData.ctrlToAddData = data.controller;
+                    }
+                };
 
                 for (var key in data) {
                     eventName = key;
@@ -93,8 +90,8 @@ $(function() {
 			},
 
 			showDesignerDraggerBorder: function (elem) {
-				jq(".designerBorder").removeClass('designerBorder');
-				elem.addClass('designerBorder')
+				// jq(".designerBorder").removeClass('designerBorder');
+				// elem.addClass('designerBorder')
 			},
 
 			selected: function (data) {
@@ -124,14 +121,10 @@ $(function() {
 
         	jq(self.containerSelector).on("drop", function (e) {
         		e.preventDefault();
-        		e.stopPropagation();	
-
+        		e.stopPropagation();
         		jq(self.containerSelector).append(dndData.elemToAdd);
-
         		postMessageToFather.elemAdded(dndData.ctrlToAddData);
-
         		controllerOperations.showDesignerDraggerBorder(dndData.elemToAdd);
-
         	})
 
         	jq(self.containerSelector).on("dragover", function (e) {
@@ -142,39 +135,29 @@ $(function() {
 
         DndInitialization.prototype = {
         	makeComponentsDraggable: function(cb) {
-
         		var self = this;
-        		
         		var components = jq(parentWindow.document, parentWindow.document).find('.anticons-list-item');
         		
         		components.each(function(n) {
         			jq(this).attr("draggable", true);
-
         			jq(this).on("dragstart", function (e) {
-
 		        		postMessageToFather.generateCtrlTree(parentWindow.VDDnddata);
 		        		e.stopPropagation();
 		        	});
 
 		        	jq(this).on("dragend", function (e) {
 		        		e.preventDefault();
-		        	})
-
+		        	});
         		})
         	}
         }
 
         //生成dom类
         function ElemGenerator(params) {
-        	
         	this.controller = params;
-
         	this.tag = typeof this.controller.tag == 'object' ? this.controller.tag[0] : this.controller.tag;
-
         	this.elemLoaded = false;
-
         	return this;
-
         }
 
         ElemGenerator.prototype = {
@@ -182,7 +165,6 @@ $(function() {
         	initElem: function () {
         		if (!this.elemLoaded) {
                     var docCtrl = jq('#' + this.controller.key);
-
                     this.elem = docCtrl.length > 0 ? docCtrl : jq(document.createElement(this.tag));
                     this.elemLoaded = true;
                     // this.refresh = docCtrl.length > 0;
@@ -190,27 +172,59 @@ $(function() {
         	},
 
         	bindData: function () {
-
         		this.initElem();
         		this.elem.data('controller', this.controller);
-
         	},
 
+            setCustomAttr: function(attr) {
+            },
+
+            setBasic: function(attr) {
+            },
+
+            setAttr: function(attr) {
+                console.log('setAttr', attr);
+                if(attr.isHTML) {
+                    this.elem.html(attr.value);
+                }
+            },
+
+            setLinkSetting: function(attr) {
+            },
+
         	setAttribute: function () {
-
         		this.initElem();
-
         		for(var i = 0, len = this.controller.attrs.length; i < len; i ++) {
         			var attr = this.controller.attrs[i];
 
-        			//更换标签
-        			if (attr.isTag) {
-        				console.log('换标签啦');
-        			}
+                    if(attr.isAttrSetting) {
+                        //基础属性设置（无复杂交互）统一处理
+                        for (var j = 0; j < attr.children.length; j++) {
+                            var att = attr.children[j];
+                            this.setAttr(att);
+                        };
+                    }else {
+
+                        //调用所需要的属性设置类型
+                        var settingTypeSplit = attr.key.split('-'),
+                            upperTypeName = '';
+                        for (var j = 0; j < settingTypeSplit.length; j++) {
+                            var type = settingTypeSplit[j];
+                            type = type.replace(/^\S/,function(s){return s.toUpperCase();});
+                            upperTypeName += type;
+                        };
+
+                        if(this['set' + upperTypeName]) {
+                            for (var j = 0; j < attr.children.length; j++) {
+                                var att = attr.children[j];
+                                this['set' + upperTypeName](att);
+                            };
+                        }
+
+                    }
         		}
 
-        		this.elem.attr('VDId', this.controller.vdid);
-
+        		this.elem.attr('vdid', this.controller.vdid);
         	},
 
         	createElement: function () {
@@ -263,7 +277,6 @@ $(function() {
         }, 1000);
 
 	};
-
 
 	//iframe加载完再执行
 	window.addEventListener('message', function (evt) {

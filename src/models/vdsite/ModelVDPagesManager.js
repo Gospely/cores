@@ -33,6 +33,7 @@ export default {
 			name: '',
 			parent: ''
 		},
+
 		activePage: 'index.html',
 
 		pageList: [{
@@ -299,9 +300,7 @@ export default {
   		},
 
   		*elemAdded({payload: ctrl}, {call, put, select}) {
-
   			var activePage = yield select(state => state.vdpm.activePage);
-
   			yield put({
   				type: 'vdCtrlTree/handleElemAdded',
   				payload: {

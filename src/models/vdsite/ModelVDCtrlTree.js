@@ -24,7 +24,7 @@ const VDTreeActions = {
 export default {
 	namespace: 'vdCtrlTree',
 	state: {
-	    defaultExpandedKeys: ["123", '456', '789'],
+	    defaultExpandedKeys: ["body-main", '456', '789'],
 	    defaultSelectedKeys: [""],
 
 	    layout: {
@@ -32,118 +32,9 @@ export default {
 	    		className: ['body'],
 	    		id: '',
 	    		tag: 'body',
-	    		vdid: '123',
+	    		vdid: 'body-main',
 	    		ctrlName: 'body',
-	    		children: [{
-	    			tag: 'div',
-	    			className: ['designer-wrapper', 'designer-header', 'vd-right-panel'],
-		    		vdid: '456',
-	    			id: '',
-		    		ctrlName: 'div-block',
-					attrs: [{
-						title: '基础设置',
-						key: 'basic',
-						children: [{
-							name: 'id',
-							desc: 'id',
-							type: 'input',
-							value: '',
-							id: '5443'
-						}, {
-							name: 'class',
-							desc: '可见屏幕',
-							type: 'multipleSelect',
-							value: ['visible-lg-block', 'visible-md-block', 'visible-sm-block', 'visible-xs-block'],
-							children: [{
-								name: '大屏幕(桌面 (≥1200px))',
-								value: 'visible-lg-block'
-							}, {
-								name: '中等屏幕(桌面 (≥992px))',
-								value: 'visible-md-block'					
-							}, {
-								name: '小屏幕(平板 (≥768px))',
-								value: 'visible-sm-block'
-							}, {
-								name: '超小屏幕(手机 (<768px))',
-								value: 'visible-xs-block'
-							}],
-							id: ''
-						}]
-					}],
-	    			children: [{
-	    				tag: 'h1',
-	    				className: [],
-	    				vdid: '098',
-			    		ctrlName: 'heading',
-	    				id: '',
-						attrs: [{
-							title: '基础设置',
-							key: 'basic',
-							children: [{
-								name: 'id',
-								desc: 'id',
-								type: 'input',
-								value: '',
-								id: '5443'
-							}, {
-								name: 'class',
-								desc: '可见屏幕',
-								type: 'multipleSelect',
-								value: ['visible-lg-block', 'visible-md-block', 'visible-sm-block', 'visible-xs-block'],
-								children: [{
-									name: '大屏幕(桌面 (≥1200px))',
-									value: 'visible-lg-block'
-								}, {
-									name: '中等屏幕(桌面 (≥992px))',
-									value: 'visible-md-block'					
-								}, {
-									name: '小屏幕(平板 (≥768px))',
-									value: 'visible-sm-block'
-								}, {
-									name: '超小屏幕(手机 (<768px))',
-									value: 'visible-xs-block'
-								}],
-								id: ''
-							}]
-						}]
-	    			}]
-	    		}, {
-	    			tag: 'p',
-	    			className: ['ant-tabs-tab'],
-		    		ctrlName: 'paragraph',
-	    			vdid: '789',
-	    			id: '',
-					attrs: [{
-						title: '基础设置',
-						key: 'basic',
-						children: [{
-							name: 'id',
-							desc: 'id',
-							type: 'input',
-							value: '',
-							id: '5443'
-						}, {
-							name: 'class',
-							desc: '可见屏幕',
-							type: 'multipleSelect',
-							value: ['visible-lg-block', 'visible-md-block', 'visible-sm-block', 'visible-xs-block'],
-							children: [{
-								name: '大屏幕(桌面 (≥1200px))',
-								value: 'visible-lg-block'
-							}, {
-								name: '中等屏幕(桌面 (≥992px))',
-								value: 'visible-md-block'					
-							}, {
-								name: '小屏幕(平板 (≥768px))',
-								value: 'visible-sm-block'
-							}, {
-								name: '超小屏幕(手机 (<768px))',
-								value: 'visible-xs-block'
-							}],
-							id: ''
-						}]
-					}]
-	    		}]
+	    		children: []
 	    	}],
 	    },
 
@@ -272,6 +163,7 @@ export default {
 					attrs: tmpAttr,
 					tag: controller.tag,
 					className: controller.className,
+					customClassName: [],
 					children: [],
 					isRander: controller.isRander || '',
 					ignore: controller.ignore || false
@@ -286,8 +178,6 @@ export default {
 				}else {
 					ctrl.children = undefined;
 				}
-
-				console.log(ctrl);
 
 				return ctrl;
 			}
@@ -306,15 +196,13 @@ export default {
 		},
 
 		handleElemAdded(state, {payload: params}) {
-
 			state.layout[params.activePage][0].children.push(params.ctrl);
+			state.activeCtrl = params.ctrl;
 			return {...state};
 		},
 
 		ctrlSelected(state, {payload: data}) {
-
 			state.activeCtrl = data;
-			console.log(state.activeCtrl)
 			return {...state};
 		}
 
