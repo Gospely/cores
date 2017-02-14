@@ -38,6 +38,8 @@ export default {
 	    	}],
 	    },
 
+	    activeCtrlIndex: 0,
+
 	    activeCtrl: {
 			tag: 'div',
 			className: ['designer-wrapper', 'designer-header', 'vd-right-panel'],
@@ -195,15 +197,64 @@ export default {
 			return {...state};	
 		},
 
-		handleElemAdded(state, {payload: params}) {
+		handleElemAdded(state, { payload: params }) {
 			state.layout[params.activePage][0].children.push(params.ctrl);
 			state.activeCtrl = params.ctrl;
+			state.activeCtrlIndex = state.layout[params.activePage][0].children.length - 1;
 			return {...state};
 		},
 
-		ctrlSelected(state, {payload: data}) {
+		ctrlSelected(state, { payload: data }) {
 			state.activeCtrl = data;
 			return {...state};
+		},
+
+		handleAttrFormChangeA(state, { payload: params }) {
+			var currentActiveCtrl = state.layout[params.activePage][0].children[state.activeCtrlIndex];
+  			var ctrlAttrs = currentActiveCtrl.attrs;
+
+  			for (var i = 0; i < ctrlAttrs.length; i++) {
+  				for (var j = 0; j < ctrlAttrs[i].children.length; j++) {
+  					var attr = ctrlAttrs[i].children[j];
+  					var flag = false;
+	  				if(attr.name == params.attrName) {
+	  					attr.value = params.newVal;
+	  					flag = true;
+	  					break;
+	  				}
+	  				if(flag) {
+	  					break;
+	  				}
+  				};
+  			};
+
+			return {...state};
+		},
+
+		handleAttrRefreshed(state, { payload: params }) {
+
+			window.VDDesignerFrame.postMessage({
+				VDAttrRefreshed: params
+			}, '*');
+
+			return {...state};
+		}
+	},
+
+	effects: {
+
+		*handleAttrFormChange({payload: params}, {call, put, select}) {
+  			var activePage = yield select(state => state.vdpm.activePage);
+
+  			yield put({
+  				type: 'handleAttrFormChangeA',
+  				payload: {
+  					newVal: params.newVal,
+  					attrName: params.attrName,
+  					activePage: activePage
+  				}
+  			})
+
 		}
 
 	}

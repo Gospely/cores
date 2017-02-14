@@ -32,12 +32,58 @@ const Component = (props) => {
       	wrapperCol: { span: 16 }
     };
 
-   	const specialAttrList = ['custom-attr', 'link-setting', 'list-setting', 'heading-type', 'image-setting', 'select-setting', 'tabs-setting', 'slider-settings'];
+	const formProps = {
+		handleAttrFormInputChange (item, dom) {
+			var newVal = dom.target.value;
+			var attrName = item.name;
+
+			props.dispatch({
+				type: 'vdCtrlTree/handleAttrFormChange',
+				payload: {
+					newVal: newVal,
+					attrName: attrName
+				}
+			});
+
+			props.dispatch({
+				type: 'vdCtrlTree/handleAttrRefreshed',
+				payload: {
+					activeCtrl: props.vdCtrlTree.activeCtrl,
+					attr: item
+				}
+			});
+		},
+
+		handleAttrFormSwitchChange (item, checked) {
+
+		},
+
+		handleAttrFormSelectChange (item, selectedVal) {
+			var attrName = item.name;
+			props.dispatch({
+				type: 'vdCtrlTree/handleAttrFormChange',
+				payload: {
+					newVal: selectedVal,
+					attrName: attrName
+				}
+			});
+
+			props.dispatch({
+				type: 'vdCtrlTree/handleAttrRefreshed',
+				payload: {
+					activeCtrl: props.vdCtrlTree.activeCtrl,
+					attr: item
+				}
+			});			
+		}
+
+	}
+
+   	const specialAttrList = props.vdctrl.specialAttrList;
 
     const attrsPanels = () => {
 
     	let attrs = props.vdCtrlTree.activeCtrl.attrs;
-    	   console.log(attrs)
 
     	return attrs.map((item, index) => {
 
@@ -632,9 +678,9 @@ const Component = (props) => {
     				input (item) {
 
     					var inputTpl = item.props ? (
-							<Input {...item.props} value={item.value} size="small" />
+							<Input onChange={formProps.handleAttrFormInputChange.bind(this, item)} {...item.props} value={item.value} size="small" />
     					) : (
-							<Input value={item.value} size="small" />
+							<Input onChange={formProps.handleAttrFormInputChange.bind(this, item)} value={item.value} size="small" />
     					);
 
 		    			return (
@@ -650,8 +696,9 @@ const Component = (props) => {
 								<Select
 								    multiple
 								    style={{ width: '100%' }}
-								    defaultValue={item.value}
+								    value={item.value}
 								    size="small"
+								    onChange={formProps.handleAttrFormSelectChange.bind(this, item)}
 								 >
 								    {	
 								    	item.children.map((val, key) => {
@@ -670,8 +717,9 @@ const Component = (props) => {
 							<FormItem key={item.id} {...formItemLayout} label={item.desc}>
 								<Select
 								    style={{ width: '100%' }}
-								    defaultValue={item.value}
+								    value={item.value}
 								    size="small"
+							     	onChange={formProps.handleAttrFormSelectChange.bind(this, item)}
 								 >
 								    {	
 								    	item.children.map((val, key) => {
@@ -687,7 +735,7 @@ const Component = (props) => {
 
     				toggle (item) {
 						return (
-							<FormItem key={item.id} {...formItemLayout} label={item.desc}>
+							<FormItem key={item.id} {...formItemLayout}	onChange={formProps.handleAttrFormSwitchChange.bind(this, item)} label={item.desc}>
 								<Switch size="small" checked={item.value} />
 							</FormItem>
 						);
@@ -717,8 +765,8 @@ const Component = (props) => {
 				);
 			}
 
-				let panel = panelGenerator(item);
-    			return panel;
+			let panel = panelGenerator(item);
+			return panel;
     		
     	});
     }

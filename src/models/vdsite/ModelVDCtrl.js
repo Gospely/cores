@@ -6,6 +6,8 @@ export default {
 	namespace: 'vdctrl',
 	state: {
 		
+   		specialAttrList: ['custom-attr', 'link-setting', 'list-setting', 'heading-type', 'image-setting', 'select-setting', 'tabs-setting', 'slider-settings'],
+
 		publicAttrs: [{
 			title: '基础设置',
 			key: 'basic',
@@ -13,25 +15,52 @@ export default {
 				name: 'id',
 				desc: 'id',
 				type: 'input',
+				isAttr: true,
+				attrName: 'id',
 				value: '',
 				id: ''
 			}, {
 				name: 'class',
 				desc: '可见屏幕',
+				isScreenSetting: true,
 				type: 'multipleSelect',
 				value: ['visible-lg-block', 'visible-md-block', 'visible-sm-block', 'visible-xs-block'],
 				children: [{
-					name: '大屏幕(桌面 (≥1200px))',
+					name: 'block (≥1200px)',
 					value: 'visible-lg-block'
 				}, {
-					name: '中等屏幕(桌面 (≥992px))',
+					name: 'block (≥992px)',
 					value: 'visible-md-block'
 				}, {
-					name: '小屏幕(平板 (≥768px))',
+					name: 'block (≥768px)',
 					value: 'visible-sm-block'
 				}, {
-					name: '超小屏幕(手机 (<768px))',
+					name: 'block (<768px)',
 					value: 'visible-xs-block'
+				}, {
+					name: 'inline (≥1200px)',
+					value: 'visible-lg-inline'
+				}, {
+					name: 'inline (≥992px)',
+					value: 'visible-md-inline'
+				}, {
+					name: 'inline (≥768px)',
+					value: 'visible-sm-inline'
+				}, {
+					name: 'inline (<768px)',
+					value: 'visible-xs-inline'
+				}, {
+					name: 'inline-block (≥1200px)',
+					value: 'visible-lg-inline-block'
+				}, {
+					name: 'inline-block (≥992px)',
+					value: 'visible-md-inline-block'
+				}, {
+					name: 'inline-block (≥768px)',
+					value: 'visible-sm-inline-block'
+				}, {
+					name: 'inline-block (<768px)',
+					value: 'visible-xs-inline-block'
 				}],
 				id: ''
 			}]
@@ -150,22 +179,22 @@ export default {
 				key: 'list',
 				details: {
 					tag: 'ul',
-					className: [],
+					className: ['list-group'],
 					attrs: [{
 						title: '列表设置',
 						key: 'list-setting'
 					}],
 					children: [{
 						tag: 'li',
-						className: [],
+						className: ['list-group-item'],
 						attrs: []
 					}, {
 						tag: 'li',
-						className: [],
+						className: ['list-group-item'],
 						attrs: []
 					}, {
 						tag: 'li',
-						className: [],
+						className: ['list-group-item'],
 						attrs: []
 					}]
 				}
@@ -175,7 +204,7 @@ export default {
 				key: 'list-item',
 				details: {
 					tag: 'li',
-					className: [],
+					className: ['list-group-item'],
 					attrs: []
 				}
 			}]
@@ -202,7 +231,7 @@ export default {
 				key: 'paragraph',
 				details: {
 					tag: 'p',
-					className: [],
+					className: ['text-muted'],
 					attrs: []
 				}
 			}, {
@@ -235,7 +264,7 @@ export default {
 					}],
 					children: [{
 						tag: 'p',
-						className: [],
+						className: ['text-muted'],
 						attrs: []
 					}]
 				}
@@ -267,11 +296,11 @@ export default {
 						}]
 					}, {
 						tag: 'p',
-						className: [],
+						className: ['text-muted'],
 						attrs: []
 					}, {
 						tag: 'p',
-						className: [],
+						className: ['text-muted'],
 						attrs: []
 					}]
 				}
@@ -285,7 +314,7 @@ export default {
 				key: 'image',
 				details: {
 					tag: 'img',
-					className: [],
+					className: ['img-rounded'],
 					attrs: [{
 						title: '图片设置',
 						key: 'image-setting',
@@ -424,7 +453,7 @@ export default {
 						}]
 					}, {
 						tag: 'label',
-						className: [],
+						className: ['labe', 'label-default'],
 						attrs: []
 					}, {
 						tag: 'input',
@@ -469,7 +498,7 @@ export default {
 				key: 'label',
 				details: {
 					tag: 'label',
-					className: [],
+					className: ['labe', 'label-default'],
 					attrs: []
 				}
 			}, {
@@ -478,7 +507,7 @@ export default {
 				key: 'input',
 				details: {
 					tag: 'input',
-					className: [],
+					className: ['input-group'],
 					attrs: [{
 						title: '属性设置',
 						key: 'input-attr',
@@ -523,7 +552,7 @@ export default {
 				key: 'textarea',
 				details: {
 					tag: 'ul',
-					className: [],
+					className: ['list-group'],
 					attrs: [{
 						name: 'name',
 						desc: '名称',
@@ -556,7 +585,7 @@ export default {
 				key: 'checkbox',
 				details: {
 					tag: 'checkbox',
-					className: [],
+					className: ['checkbox'],
 					attrs: [{
 						name: 'name',
 						desc: '名称',
@@ -580,7 +609,7 @@ export default {
 				key: 'radio-button',
 				details: {
 					tag: 'radio',
-					className: [],
+					className: ['radio'],
 					attrs: [{
 						name: 'group-name',
 						desc: '组名称',
@@ -607,7 +636,7 @@ export default {
 				key: 'select',
 				details: {
 					tag: 'ul',
-					className: [],
+					className: ['dropdown-menu'],
 					attrs: [{
 						title: '选择框设置',
 						key: 'select-setting',
@@ -620,7 +649,7 @@ export default {
 				key: 'form-button',
 				details: {
 					tag: 'ul',
-					className: [],
+					className: ['btn', 'btn-default'],
 					attrs: [{
 						name: 'button-text',
 						desc: '文本名称',

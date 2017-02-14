@@ -14,7 +14,6 @@ const VDDesignerPanel = (props) => {
     },
 
     handleDesPanelLoaded() {
-      alert('handleDesPanelLoaded')
       window.VDDesignerFrame = window.frames["vdsite-designer"];
       VDDesignerFrame.postMessage({
           VDDesignerLoaded: {

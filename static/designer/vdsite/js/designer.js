@@ -67,6 +67,10 @@ $(function() {
                         var elemToAdd = jq(elem.createElement());
                         dndData.elemToAdd = elemToAdd;
                         dndData.ctrlToAddData = data.controller;
+                    },
+
+                    VDAttrRefreshed: function() {
+                        controllerOperations.refreshCtrl(data.activeCtrl, data.attr);
                     }
                 };
 
@@ -97,7 +101,11 @@ $(function() {
 			selected: function (data) {
 				controllerOperations.showDesignerDraggerBorder(jq('[vdid=' + data.vdid + ']'))
 				postMessageToFather.ctrlSelected(data);
-			}
+			},
+
+            refreshCtrl: function(activeCtrl, attr) {
+                new ElemGenerator(activeCtrl).setAttribute();
+            }
 		};
 
 		//点击其他区域隐藏border和i
@@ -164,7 +172,7 @@ $(function() {
 
         	initElem: function () {
         		if (!this.elemLoaded) {
-                    var docCtrl = jq('#' + this.controller.key);
+                    var docCtrl = jq('[vdid='+ this.controller.vdid + ']');
                     this.elem = docCtrl.length > 0 ? docCtrl : jq(document.createElement(this.tag));
                     this.elemLoaded = true;
                     // this.refresh = docCtrl.length > 0;
@@ -180,16 +188,40 @@ $(function() {
             },
 
             setBasic: function(attr) {
+
+                if(attr.isAttr) {
+                    this.elem.attr(attr.attrName, attr.value);
+                }
+
+                if(attr.isScreenSetting) {
+                    var className = attr.value;
+                    for (var i = 0; i < className.length; i++) {
+                        var cls = className[i];
+                        this.elem.toggleClass('cls');                        
+                    };
+                }
             },
 
             setAttr: function(attr) {
-                console.log('setAttr', attr);
+                console.log('setAttr', attr, this.elem);
                 if(attr.isHTML) {
                     this.elem.html(attr.value);
                 }
             },
 
             setLinkSetting: function(attr) {
+            },
+
+            transformTypeToUpper: function(type) {
+                var settingTypeSplit = type.split('-'),
+                    upperTypeName = '';
+                for (var j = 0; j < settingTypeSplit.length; j++) {
+                    var type = settingTypeSplit[j];
+                    type = type.replace(/^\S/,function(s){return s.toUpperCase();});
+                    upperTypeName += type;
+                };
+
+                return upperTypeName;
             },
 
         	setAttribute: function () {
@@ -206,13 +238,7 @@ $(function() {
                     }else {
 
                         //调用所需要的属性设置类型
-                        var settingTypeSplit = attr.key.split('-'),
-                            upperTypeName = '';
-                        for (var j = 0; j < settingTypeSplit.length; j++) {
-                            var type = settingTypeSplit[j];
-                            type = type.replace(/^\S/,function(s){return s.toUpperCase();});
-                            upperTypeName += type;
-                        };
+                        var upperTypeName = this.transformTypeToUpper(attr.key);
 
                         if(this['set' + upperTypeName]) {
                             for (var j = 0; j < attr.children.length; j++) {
@@ -226,6 +252,10 @@ $(function() {
 
         		this.elem.attr('vdid', this.controller.vdid);
         	},
+
+            setAttributeByAttr: function(attr, type) {
+
+            },
 
         	createElement: function () {
         		var self = this;
@@ -248,7 +278,7 @@ $(function() {
                     for (var i = 0; i < this.controller.children.length; i++) {
                         var currentCtrl = this.controller.children[i],
 
-                            reComGenerator = new ComponentsGenerator({
+                            reComGenerator = new ElemGenerator({
                                 controller: currentCtrl
                             }),
 
