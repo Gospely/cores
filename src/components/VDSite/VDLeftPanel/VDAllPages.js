@@ -25,12 +25,21 @@ const Component = (props) => {
 
 		handlePageListItemClick (e) {
 			var key = e.key;
+			localStorage.popoverKey = key;
 			props.dispatch({
 				type: 'vdpm/setCurrentActivePageListItem',
 				payload: key
 			});
 		},
 		visibleChange(){
+			// setTimeout(function(){
+			// 	console.log('key' + localStorage.popoverKey);
+			// 	if(localStorage.popoverKay == props.vdpm.currentActivePageListItem && !props.vdpm.pageManager.updatePopoverVisible){
+			// 		props.dispatch({
+			// 			type: 'vdpm/handleUpdatePopoverVisible',
+			// 		});
+			// 	}
+			// }, 200)
 			props.dispatch({
 				type: 'vdpm/handleUpdatePopoverVisible',
 			});
