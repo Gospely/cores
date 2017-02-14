@@ -204,7 +204,6 @@ $(function() {
                         var currentCtrlClassList = currentCtrlClass.split(' ');
                         for (var i = 0; i < currentCtrlClassList.length; i++) {
                             var cls = currentCtrlClassList[i];
-                            console.log(cls, attr.children);
                             for (var j = 0; j < attr.children.length; j++) {
                                 var val = attr.children[j];
                                 if(val.value == cls) {
@@ -213,8 +212,6 @@ $(function() {
                             };
                         };
                     }
-
-                    console.log(attr);
 
                     for (var i = 0; i < className.length; i++) {
                         var cls = className[i];
