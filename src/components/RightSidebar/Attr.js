@@ -245,7 +245,6 @@ const Attr = (props) => {
 					parentAtt: parentAtt
 				}
 			});
-    			
 
     		if(attr.isComponentAttr) {
     			handleLinkedComponent(attr, selectedVal, attrFormProps.handleAttrFormSelectChange);

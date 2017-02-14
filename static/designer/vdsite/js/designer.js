@@ -67,6 +67,10 @@ $(function() {
                         var elemToAdd = jq(elem.createElement());
                         dndData.elemToAdd = elemToAdd;
                         dndData.ctrlToAddData = data.controller;
+                    },
+
+                    VDAttrRefreshed: function() {
+                        controllerOperations.refreshCtrl(data.activeCtrl, data.attr);
                     }
                 };
 
@@ -97,7 +101,13 @@ $(function() {
 			selected: function (data) {
 				controllerOperations.showDesignerDraggerBorder(jq('[vdid=' + data.vdid + ']'))
 				postMessageToFather.ctrlSelected(data);
-			}
+			},
+
+            refreshCtrl: function(activeCtrl, attr) {
+                var activeController = jq('[vdid=' + activeCtrl.vdid + ']');
+                new ElemGenerator(activeCtrl).setAttribute();
+                console.log(activeCtrl);
+            }
 		};
 
 		//点击其他区域隐藏border和i
@@ -164,7 +174,7 @@ $(function() {
 
         	initElem: function () {
         		if (!this.elemLoaded) {
-                    var docCtrl = jq('#' + this.controller.key);
+                    var docCtrl = jq('[vdid='+ this.controller.vdid + ']');
                     this.elem = docCtrl.length > 0 ? docCtrl : jq(document.createElement(this.tag));
                     this.elemLoaded = true;
                     // this.refresh = docCtrl.length > 0;
@@ -183,7 +193,7 @@ $(function() {
             },
 
             setAttr: function(attr) {
-                console.log('setAttr', attr);
+                console.log('setAttr', attr, this.elem);
                 if(attr.isHTML) {
                     this.elem.html(attr.value);
                 }
