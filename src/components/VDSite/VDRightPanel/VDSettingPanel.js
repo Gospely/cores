@@ -33,7 +33,7 @@ const Component = (props) => {
     };
 
 	const formProps = {
-		handleAttrFormInputChange (item, dom) {
+		handleAttrFormInputChange (item, attType, dom) {
 			var newVal = dom.target.value;
 			var attrName = item.name;
 
@@ -49,16 +49,34 @@ const Component = (props) => {
 				type: 'vdCtrlTree/handleAttrRefreshed',
 				payload: {
 					activeCtrl: props.vdCtrlTree.activeCtrl,
-					attr: item
+					attr: item,
+					attrType: attType
 				}
 			});
 		},
 
-		handleAttrFormSwitchChange (item, checked) {
+		handleAttrFormSwitchChange (item, attType, checked) {
+			var attrName = item.name;
+			props.dispatch({
+				type: 'vdCtrlTree/handleAttrFormChange',
+				payload: {
+					newVal: selectedVal,
+					attrName: attrName,
+					attrType: attType
+				}
+			});
 
+			props.dispatch({
+				type: 'vdCtrlTree/handleAttrRefreshed',
+				payload: {
+					activeCtrl: props.vdCtrlTree.activeCtrl,
+					attr: item,
+					attrType: attType
+				}
+			});
 		},
 
-		handleAttrFormSelectChange (item, selectedVal) {
+		handleAttrFormSelectChange (item, attType, selectedVal) {
 			var attrName = item.name;
 			props.dispatch({
 				type: 'vdCtrlTree/handleAttrFormChange',
@@ -72,9 +90,10 @@ const Component = (props) => {
 				type: 'vdCtrlTree/handleAttrRefreshed',
 				payload: {
 					activeCtrl: props.vdCtrlTree.activeCtrl,
-					attr: item
+					attr: item,
+					attrType: attType
 				}
-			});			
+			});
 		}
 
 	}
@@ -86,6 +105,8 @@ const Component = (props) => {
     	let attrs = props.vdCtrlTree.activeCtrl.attrs;
 
     	return attrs.map((item, index) => {
+
+    		var attrType = item;
 
     		//针对比如自定义属性这种拥有复杂交互的表单，不适合在控件属性中写form结构
 
@@ -678,9 +699,9 @@ const Component = (props) => {
     				input (item) {
 
     					var inputTpl = item.props ? (
-							<Input onChange={formProps.handleAttrFormInputChange.bind(this, item)} {...item.props} value={item.value} size="small" />
+							<Input onChange={formProps.handleAttrFormInputChange.bind(this, item, attrType)} {...item.props} value={item.value} size="small" />
     					) : (
-							<Input onChange={formProps.handleAttrFormInputChange.bind(this, item)} value={item.value} size="small" />
+							<Input onChange={formProps.handleAttrFormInputChange.bind(this, item, attrType)} value={item.value} size="small" />
     					);
 
 		    			return (
@@ -698,7 +719,7 @@ const Component = (props) => {
 								    style={{ width: '100%' }}
 								    value={item.value}
 								    size="small"
-								    onChange={formProps.handleAttrFormSelectChange.bind(this, item)}
+								    onChange={formProps.handleAttrFormSelectChange.bind(this, item, attrType)}
 								 >
 								    {	
 								    	item.children.map((val, key) => {
@@ -719,7 +740,7 @@ const Component = (props) => {
 								    style={{ width: '100%' }}
 								    value={item.value}
 								    size="small"
-							     	onChange={formProps.handleAttrFormSelectChange.bind(this, item)}
+							     	onChange={formProps.handleAttrFormSelectChange.bind(this, item, attrType)}
 								 >
 								    {	
 								    	item.children.map((val, key) => {
@@ -735,7 +756,7 @@ const Component = (props) => {
 
     				toggle (item) {
 						return (
-							<FormItem key={item.id} {...formItemLayout}	onChange={formProps.handleAttrFormSwitchChange.bind(this, item)} label={item.desc}>
+							<FormItem key={item.id} {...formItemLayout}	onChange={formProps.handleAttrFormSwitchChange.bind(this, item, attrType)} label={item.desc}>
 								<Switch size="small" checked={item.value} />
 							</FormItem>
 						);
