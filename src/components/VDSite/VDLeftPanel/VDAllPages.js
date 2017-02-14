@@ -30,9 +30,14 @@ const Component = (props) => {
 				payload: key
 			});
 		},
+		visibleChange(){
+			props.dispatch({
+				type: 'vdpm/handleUpdatePopoverVisible',
+			});
+		}
 	}
 	const formItemProps = {
-	
+
 		handlePageTitleChange(value){
 			props.dispatch({
 				type: 'vdpm/handNewPageFormChange',
@@ -164,9 +169,7 @@ const Component = (props) => {
                     </Col>
                     <Col span={4}>
                       <Tooltip placement="top" title="设置页面的详细信息">
-                        <Popover placement="right" title="设置页面的详细信息" content={generatePageDetailSettings(item)} trigger="click" onClick={allPagesProps.initPageInfo}>
-                          <Icon type="setting" />
-                        </Popover>
+                          <Icon type="setting" onClick={allPagesProps.visibleChange}/>
                       </Tooltip>
                     </Col>
                   </Row>
@@ -183,14 +186,18 @@ const Component = (props) => {
 
 	return (
     <div className="vd-allpages-list">
-      <Menu onClick={allPagesProps.handlePageListItemClick}
-      	style={{ width: '100%' }}
-      	defaultOpenKeys={['index.html']}
-      	selectedKeys={[props.vdpm.currentActivePageListItem]}
-      	mode="inline"
-      >
-        {pageTreeTpl}
-      </Menu>
+		<Popover placement="right" title="设置页面的详细信息" content={generatePageDetailSettings()} onClick={allPagesProps.handlePageListItemClick}  visible={props.vdpm.pageManager.upadtePopoverVisible}>
+
+			<Menu
+				style={{ width: '100%' }}
+				defaultOpenKeys={['index.html']}
+				selectedKeys={[props.vdpm.currentActivePageListItem]}
+				mode="inline"
+			>
+			{pageTreeTpl}
+			</Menu>
+  		</Popover>
+
     </div>
 	);
 

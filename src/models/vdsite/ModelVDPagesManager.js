@@ -21,7 +21,8 @@ export default {
 				value: ''
 			},
 			newPageVisible: false,
-			newFolderVisible: false
+			newFolderVisible: false,
+			upadtePopoverVisible: false
 		},
 		newPageFrom: {
 			key: '',
@@ -91,7 +92,7 @@ export default {
 		setCurrentActivePageListItem(state, { payload: key }) {
 
 			state.currentActivePageListItem = key;
-			state.pageManager.treeSelect.value = 'root';
+			state.pageManager.treeSelect.value = 'root'
 			console.log(key);
 			let getPageInfoByKey = function(pages){
 
@@ -121,6 +122,10 @@ export default {
 		handleNewFolderVisible(state, { payload: params }){
 			state.pageManager.newFolderVisible = params.value;
 			return {...state};
+		},
+		handleUpdatePopoverVisible(state){
+			state.pageManager.upadtePopoverVisible = !state.pageManager.upadtePopoverVisible;
+			return { ...state};
 		},
 		handleRreeSelect(state, { payload: params }){
 
