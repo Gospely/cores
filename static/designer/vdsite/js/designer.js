@@ -22,8 +22,10 @@ $(function() {
 		//点击组件
 		jq(document).on("click", function (e) {
 			e.stopPropagation();
-			var data = jq(e.target).data('controller');
-			controllerOperations.selected(data);
+			var targetData = jq(e.target).data('controller');
+            if(targetData) {
+                controllerOperations.selected(targetData);                
+            }
 		})
 
 		//给父级发送消息
@@ -278,5 +280,4 @@ $(function() {
 		
 	})
 
-	
 })
