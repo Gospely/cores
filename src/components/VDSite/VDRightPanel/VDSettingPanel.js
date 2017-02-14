@@ -59,12 +59,27 @@ const Component = (props) => {
 		},
 
 		handleAttrFormSelectChange (item, selectedVal) {
+			var attrName = item.name;
+			props.dispatch({
+				type: 'vdCtrlTree/handleAttrFormChange',
+				payload: {
+					newVal: selectedVal,
+					attrName: attrName
+				}
+			});
 
+			props.dispatch({
+				type: 'vdCtrlTree/handleAttrRefreshed',
+				payload: {
+					activeCtrl: props.vdCtrlTree.activeCtrl,
+					attr: item
+				}
+			});			
 		}
 
 	}
 
-   	const specialAttrList = ['custom-attr', 'link-setting', 'list-setting', 'heading-type', 'image-setting', 'select-setting', 'tabs-setting', 'slider-settings'];
+   	const specialAttrList = props.vdctrl.specialAttrList;
 
     const attrsPanels = () => {
 

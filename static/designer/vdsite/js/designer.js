@@ -188,6 +188,18 @@ $(function() {
             },
 
             setBasic: function(attr) {
+
+                if(attr.isAttr) {
+                    this.elem.attr(attr.attrName, attr.value);
+                }
+
+                if(attr.isScreenSetting) {
+                    var className = attr.value;
+                    for (var i = 0; i < className.length; i++) {
+                        var cls = className[i];
+                        this.elem.toggleClass('cls');                        
+                    };
+                }
             },
 
             setAttr: function(attr) {
