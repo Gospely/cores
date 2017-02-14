@@ -1,5 +1,6 @@
 import React , {PropTypes} from 'react';
 import dva from 'dva';
+import { message } from 'antd';
 
 import request from '../../utils/request.js';
 
@@ -127,9 +128,9 @@ export default {
 					if(pages[i].children != null && pages[i].key == tree){
 
 						//检查是否同名
-						for (var j = 0; j < pages[i].children.length; i++) {
-							if(pages[j].children.name == state.newPageFrom.name){
-								message.error('文件不同同名,请重命名');
+						for (var j = 0; j < pages[i].children.length; j++) {
+							if(pages[i].children[j].name == state.newPageFrom.name){
+								message.error('文件同名,请重命名');
 								return {...state};
 							}
 						}
@@ -162,8 +163,8 @@ export default {
 		handleCreateFolder(state, { payload: params}){
 
 			console.log(state.newFolderForm);
+			var bool = false;
 			var tree = state.pageManager.treeSelect.value;
-			console.log(tree);
 			state.newFolderForm.key = tree + state.newFolderForm.name
 			state.newFolderForm.children = [];
 			let pushPage = function(pages){
@@ -173,10 +174,12 @@ export default {
 					console.log(pages[i].key);
 					if(pages[i].children != null && pages[i].key == tree){
 						//检查是否同名
-						for (var j = 0; j < pages[i].children.length; i++) {
-							if(pages[j].children.name == state.newFolderForm.name){
-								message.error('文件不同同名,请重命名');
-								return {...state};
+						for (var j = 0; j < pages[i].children.length; j++) {
+							console.log(pages[i].children[j].name);
+							if(pages[i].children[j].name == state.newFolderForm.name){
+								message.error('文件同名,请重命名');
+								bool = true;
+								return pages;
 							}
 						}
 						pages.children = pages[i].children.push(state.newFolderForm);
@@ -190,7 +193,9 @@ export default {
 				}
 				return pages;
 			}
+
 			state.pageList = pushPage(state.pageList);
+			state.pageManager.newFolderVisible = bool;
 			state.newPageFrom = {
 				key: '',
 				name: '',

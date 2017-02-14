@@ -78,11 +78,6 @@ const Component = (props) => {
 			});
 		},
 		handleCreate(){
-			localStorage.create = 'false'
-			props.dispatch({
-				type: 'vdpm/handleNewFolderVisible',
-				payload: { value: false}
-			});
 			props.dispatch({
 				type: 'vdpm/handleCreateFolder',
 			});
