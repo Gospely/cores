@@ -67,7 +67,7 @@ export default {
 		}, {
 			title: '自定义属性',
 			key: 'custom-attr',
-			children: []			
+			children: []		
 		}],
 
 		controllers: [{

@@ -78,7 +78,10 @@ export default {
 			}, {
 				title: '自定义属性',
 				key: 'custom-attr',
-				children: []
+				children: [{
+					key: '123',
+					value: '34'
+				}]
 			}],
 			children: [{
 				tag: 'h1',

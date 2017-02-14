@@ -148,6 +148,8 @@ const Component = (props) => {
 					    	}
 					    }
 
+
+
 	    				return (
 						    <Panel header={item.title} key={item.key}>
 						    	<Form>
@@ -162,53 +164,40 @@ const Component = (props) => {
 									</FormItem>
 
 								    <ul style={{marginTop: '-15px'}} className="ant-dropdown-menu ant-dropdown-menu-vertical ant-dropdown-menu-light ant-dropdown-menu-root symbol-list" role="menu">
-								      <li className="ant-dropdown-menu-item" role="menuitem">
-								        <Row>
-								          <Col span={18}>
-								            <p>key1="val2"</p>
-								          </Col>
-								          <Col span={3}>
+								    	{
+								    		item.children.map((val, index) => {
+								    			return (
+									    			<li>
+												      <li className="ant-dropdown-menu-item" role="menuitem">
+												        <Row>
+												          <Col span={18}>
+												            <p>{val.key}={val.value}</p>
+												          </Col>
+												          <Col span={3}>
 
-											<Popover
-									        	content={customAttrProps.modifyContent}
-									        	title="修改 自定义属性"
-									        	trigger="click"
-									      	>
-								            	<Icon type="edit" />
-									      	</Popover>
+															<Popover
+													        	content={customAttrProps.modifyContent}
+													        	title="修改 自定义属性"
+													        	trigger="click"
+													      	>
+												            	<Icon type="edit" />
+													      	</Popover>
 
-								          </Col>
-								          <Col span={3}>
-								            <Popconfirm title="确认删除吗？" okText="确定" cancelText="取消">
-												<Icon type="delete" />
-			  								</Popconfirm>
-								          </Col>
-								        </Row>
-								      </li>
-								      <li className="ant-dropdown-menu-item-divider"></li>
+												          </Col>
+												          <Col span={3}>
+												            <Popconfirm title="确认删除吗？" okText="确定" cancelText="取消">
+																<Icon type="delete" />
+							  								</Popconfirm>
+												          </Col>
+												        </Row>
+												      </li>
+												      <li className="ant-dropdown-menu-item-divider"></li>
+												    </li>
+								    			);
+								    		})
 
-								      <li className="ant-dropdown-menu-item" role="menuitem">
-								        <Row>
-								          <Col span={18}>
-								            <p>key="val"</p>
-								          </Col>
-								          <Col span={3}>
-											<Popover
-									        	content={customAttrProps.modifyContent}
-									        	title="修改 自定义属性"
-									        	trigger="click"
-									      	>
-								            	<Icon type="edit" />
-									      	</Popover>
-								          </Col>
-								          <Col span={3}>
-								            <Popconfirm title="确认删除吗？" okText="确定" cancelText="取消">
-												<Icon type="delete" />
-			  								</Popconfirm>
-								          </Col>
-								        </Row>
-								      </li>
-								      <li className=" ant-dropdown-menu-item-divider"></li>
+								    	}
+
 								    </ul>
 
 								</Form>
