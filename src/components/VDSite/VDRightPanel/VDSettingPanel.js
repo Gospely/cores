@@ -288,6 +288,25 @@ const Component = (props) => {
 
 	    			'link-setting' (item, attrTypeIndex) {
 
+	    				const handleLinkSettingValueChange = (item, attType, dom) => {
+				    		console.log(dom.target.value);
+
+				    		props.dispatch({
+				    			type: 'vdcore/handleLinkSettingValueChange',
+				    			payload: dom.target.value
+				    		});
+
+				    		props.dispatch({
+		    					type: 'vdCtrlTree/saveCustomAttr',
+		    					payload: {
+		    						key: 'href',
+		    						value: dom.target.value,
+		    						attrTypeIndex: attrTypeIndex,
+		    						attrType: attrType
+		    					}
+			    			});
+				    	};
+
 					    const linkSettingProps = {
 							
 					    	linkSettingTemplate: props.vdcore.linkSetting.list.map( (item, index) => {
@@ -303,7 +322,7 @@ const Component = (props) => {
 					    	tpl: [(
 						      	<Form className="form-no-margin-bottom">
 									<FormItem {...formItemLayout} label="链接地址">
-										<Input size="small" />
+										<Input size="small" onChange={handleLinkSettingValueChange.bind(this, item, attrType)}/>
 									</FormItem>
 
 									<FormItem {...formItemLayout} label="新窗口">
@@ -313,13 +332,13 @@ const Component = (props) => {
 					    	), (
 						      	<Form className="form-no-margin-bottom">
 									<FormItem {...formItemLayout} label="邮箱地址">
-										<Input size="small" />
+										<Input size="small" onChange={handleLinkSettingValueChange.bind(this, item, attrType)}/>
 									</FormItem>
 						      	</Form>
 					    	), (
 						      	<Form className="form-no-margin-bottom">
 									<FormItem {...formItemLayout} label="手机号码">
-										<Input size="small" />
+										<Input size="small" onChange={handleLinkSettingValueChange.bind(this, item, attrType)}/>
 									</FormItem>
 						      	</Form>
 					    	), (
@@ -345,7 +364,7 @@ const Component = (props) => {
 
 					    	onChange (e) {
 					    		props.dispatch({
-					    			type: 'vdcore/handleLinkSettingValueChange',
+					    			type: 'vdcore/handleLinkSettingTypeChange',
 					    			payload: e.target.value
 					    		});
 					    	}

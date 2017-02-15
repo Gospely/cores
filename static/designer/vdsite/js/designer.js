@@ -347,18 +347,22 @@ $(function() {
                 var self = this;
                 this.elem.hover(function(e) {
                     var target = jq(e.target);
+                    var targetHeight = 0;
 
-                    console.log(target.width(), target.height(), target);
+                    targetHeight = target.height();
+
+                    console.log(self.elem, target.offsetHeight);
 
                     jq('.vd-OutlineSelectedNode').css({
                         top: target.offset().top,
                         left: target.offset().left,
-                        width: target.width(),
-                        height: target.height()
+                        width: target.outerWidth(),
+                        height: target.outerHeight(),
+                        display: 'block'
                         // transform: 'translate(' + target.offset().left + 'px, ' + target.offset().top + 'px)'
                     })
                 }, function(e) {
-
+                    jq('.vd-OutlineSelectedNode').hide();
                 });
             },
 

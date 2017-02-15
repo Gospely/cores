@@ -473,7 +473,28 @@ export default {
 
             //请求后台文件文件写入
 
-        }
+
+            var result = yield request('vd', {
+                method: 'POST',
+                body: JSON.stringify({
+                    page: page,
+                    project: localStorage.dir + page.key
+                })
+            });
+            console.log(result);
+
+        },
+        *removeFile({payload: fileName}, {call, put, select}) {
+
+            var key = yield select(state=> state.vdpm.currentActivePageListItem);
+			var result = yield request('fs/remove', {
+				method: 'POST',
+				body: JSON.stringify({
+					fileName: localStorage.dir + key
+				})
+			});
+      		yield put({type: 'deletePage'});
+      	},
 	}
 
 }
