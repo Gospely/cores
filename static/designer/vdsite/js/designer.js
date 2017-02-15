@@ -223,8 +223,8 @@ $(function() {
                         var currentCtrlClassList = currentCtrlClass.split(' ');
                         for (var i = 0; i < currentCtrlClassList.length; i++) {
                             var cls = currentCtrlClassList[i];
-                            for (var j = 0; j < attr.children.length; j++) {
-                                var val = attr.children[j];
+                            for (var j = 0; j < attr.valueList.length; j++) {
+                                var val = attr.valueList[j];
                                 if(val.value == cls) {
                                     this.elem.removeClass(cls);
                                 }

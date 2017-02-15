@@ -38,6 +38,13 @@ export default {
 
 			activeLinkType: 0,
 			actvieValue: 'link'
+		},
+
+		customAttr: {
+			creator: {
+				key: '',
+				value: ''
+			}
 		}
 	},
 
@@ -71,6 +78,11 @@ export default {
 
 			return {...state};
 		},
+
+		handleCustomAttrCreatorInputChange(state, { payload: params }) {
+			state.customAttr.creator[params.attrName] = params.value;
+			return {...state};
+		}
 	}
 
 }

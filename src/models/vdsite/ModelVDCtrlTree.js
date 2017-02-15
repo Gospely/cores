@@ -64,7 +64,7 @@ export default {
 					desc: '可见屏幕',
 					type: 'multipleSelect',
 					value: ['visible-lg-block', 'visible-md-block', 'visible-sm-block', 'visible-xs-block'],
-					children: [{
+					valueList: [{
 						name: '大屏幕(桌面 (≥1200px))',
 						value: 'visible-lg-block'
 					}, {
@@ -107,7 +107,7 @@ export default {
 						desc: '可见屏幕',
 						type: 'multipleSelect',
 						value: ['visible-lg-block', 'visible-md-block', 'visible-sm-block', 'visible-xs-block'],
-						children: [{
+						valueList: [{
 							name: '大屏幕(桌面 (≥1200px))',
 							value: 'visible-lg-block'
 						}, {
@@ -160,9 +160,11 @@ export default {
 					ctrl = {};
 
 				tmpAttr = controller.attrs;
+				console.log(tmpAttr);
 				for(let i = 0, len = tmpAttr.length; i < len; i ++) {
 					for (var j = 0; j < tmpAttr[i].children.length; j++) {
 						var attr = tmpAttr[i].children[j];
+						console.log(attr);
 						attr['id'] = randomString(8, 10);
 					};
 				}
@@ -264,6 +266,8 @@ export default {
 		},
 
 		handleCustomAttrInputChange(state, { payload: params }) {
+
+			console.log('handleCustomAttrInputChange', params);
 
 			state.activeCtrl.attrs[params.attrTypeIndex].children[params.customAttrIndex][params.attrName] = params.value
 

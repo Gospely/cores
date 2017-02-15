@@ -121,19 +121,20 @@ const Component = (props) => {
 		    					type: 'vdCtrlTree/handleCustomAttrInputChange',
 		    					payload: {
 		    						attrName: attrName,
-		    						value: self.value,
+		    						value: valChanged,
 		    						attrTypeIndex: attrTypeIndex,
 		    						customAttrIndex: customAttrIndex,
 		    						attrType: attrType
 		    					}
 		    				});
+
 			    		}
 
 			    		const customAttrCreator = {
 
-			    			key: '',
+			    			key: props.vdcore.customAttr.creator.key,
 
-			    			value: '',
+			    			value: props.vdcore.customAttr.creator.value,
 
 			    			save () {
 			    				var self = this;
@@ -145,12 +146,34 @@ const Component = (props) => {
 			    						attrTypeIndex: attrTypeIndex,
 			    						attrType: attrType
 			    					}
-			    				})
+			    				});
+			    				props.dispatch({
+			    					type: 'vdcore/handleCustomAttrCreatorInputChange',
+			    					payload: {
+			    						attrName: 'key',
+			    						value: ''
+			    					}
+			    				});
+
+			    				props.dispatch({
+			    					type: 'vdcore/handleCustomAttrCreatorInputChange',
+			    					payload: {
+			    						attrName: 'value',
+			    						value: ''
+			    					}
+			    				});
 			    			},
 
 			    			onChange (attr, proxy) {
 			    				var valChanged = proxy.target.value;
 			    				this[attr] = valChanged;
+			    				props.dispatch({
+			    					type: 'vdcore/handleCustomAttrCreatorInputChange',
+			    					payload: {
+			    						attrName: attr,
+			    						value: valChanged
+			    					}
+			    				});
 			    			},
 
 			    			modify (index) {
@@ -162,10 +185,10 @@ const Component = (props) => {
 					    	creatorContent: (
 						      	<Form className="form-no-margin-bottom">
 									<FormItem {...formItemLayout} label="key">
-										<Input onChange={customAttrCreator.onChange.bind(customAttrCreator, 'key')} size="small" />
+										<Input value={customAttrCreator.key} onChange={customAttrCreator.onChange.bind(customAttrCreator, 'key')} size="small" />
 									</FormItem>
 									<FormItem {...formItemLayout} label="value">
-										<Input onChange={customAttrCreator.onChange.bind(customAttrCreator, 'value')} size="small" />
+										<Input value={customAttrCreator.value} onChange={customAttrCreator.onChange.bind(customAttrCreator, 'value')} size="small" />
 									</FormItem>
 									<FormItem>
 										<Button onClick={customAttrCreator.save.bind(customAttrCreator)} size="small">保存</Button>
@@ -174,6 +197,8 @@ const Component = (props) => {
 					    	),
 
 					    	modifyContent (val, index) {
+
+					    		console.log('modifyContent', val, index);
 
 					    		return (
 							      	<Form className="form-no-margin-bottom">
@@ -757,6 +782,7 @@ const Component = (props) => {
     				},
 
     				multipleSelect (item) {
+    					console.log('multipleSelect', item);
     					return (
 							<FormItem key={item.id} {...formItemLayout} label={item.desc}>
 								<Select
@@ -767,7 +793,7 @@ const Component = (props) => {
 								    onChange={formProps.handleAttrFormSelectChange.bind(this, item, attrType)}
 								 >
 								    {	
-								    	item.children.map((val, key) => {
+								    	item.valueList.map((val, key) => {
 								    		return (
 									    	  <Option key={key} value={val.value}>{val.name}</Option>
 								    		);
@@ -788,7 +814,7 @@ const Component = (props) => {
 							     	onChange={formProps.handleAttrFormSelectChange.bind(this, item, attrType)}
 								 >
 								    {	
-								    	item.children.map((val, key) => {
+								    	item.valueList.map((val, key) => {
 								    		return (
 									    	  <Option key={key} value={val}>{val}</Option>
 								    		);
@@ -824,6 +850,7 @@ const Component = (props) => {
     		}
 
 			const panelGenerator = (attrItem) => {
+				console.log(attrItem);
 				return (
 			    	<Panel header={item.title} key={item.key}>
 			    		{formGenerator(attrItem.children)}
