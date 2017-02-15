@@ -297,13 +297,14 @@ const Component = (props) => {
 				    		});
 
 				    		props.dispatch({
-								type: 'vdCtrlTree/handleAttrRefreshed',
-								payload: {
-									activeCtrl: props.vdCtrlTree.activeCtrl,
-									attr: item,
-									attrType: attType
-								}
-							});
+		    					type: 'vdCtrlTree/saveCustomAttr',
+		    					payload: {
+		    						key: 'href',
+		    						value: dom.target.value,
+		    						attrTypeIndex: attrTypeIndex,
+		    						attrType: attrType
+		    					}
+			    			});
 				    	};
 
 					    const linkSettingProps = {

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="vd-design-mode">
 <head>
 	<meta charset="utf-8">
 	<title>vdsite-designer</title>
@@ -11,18 +11,40 @@
 	<script type="text/javascript" src="../jq/jquery.min.js"></script>
 	<script type="text/javascript" src="js/modernizr.js"></script>
 	<script type="text/javascript" src="js/designer.js"></script>
-	<!-- <link rel="shortcut icon" type="image/x-icon" href="images/favicon.jpg"> -->
-	<!-- <link rel="apple-touch-icon" href="images/webclip.jpg"> -->
 </head>
 <body>
+
+	<div class="vd-OutlineSelectedNode selected-outline vd-outline active" style="display:none">
+		<div class="breadcrumbs">
+			<div class="inner">
+				<div class="crumbs clearfix" title="Show More">
+					<div class="crumb">
+						<div class="inner has-mini-settings">
+							<span class="icon"><i class="el-icon n-form"></i></span><span class="label">Form Wrapper</span>
+						</div>
+					</div>
+					<div class="crumb">
+						<div class="inner has-mini-settings">
+							<span class="icon"><i class="el-icon n-form"></i></span><span class="label">Form</span>
+						</div>
+					</div>
+					<div class="crumb current">
+						<div class="inner has-mini-settings">
+							<span class="icon"><i class="el-icon n-input"></i></span><span class="label">Text Field</span><span class="icon open-mini-settings" title="Show Settings"><i class="icon-main"></i></span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="VDDesignerContainer" class="VDDesignerContainer"></div>
 
 	<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<!--[if lte IE 9]>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script>
 	<![endif]-->
-	
-	<div id="VDDesignerContainer" class="VDDesignerContainer"></div>
 
 </body>
 </html>

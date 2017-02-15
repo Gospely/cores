@@ -15,11 +15,13 @@ const VDDesignerPanel = (props) => {
 
     handleDesPanelLoaded() {
       window.VDDesignerFrame = window.frames["vdsite-designer"];
-      VDDesignerFrame.postMessage({
-          VDDesignerLoaded: {
-              load: true
-          }
-      }, '*');
+      setTimeout(function() {
+        VDDesignerFrame.postMessage({
+            VDDesignerLoaded: {
+                load: true
+            }
+        }, '*');
+      }, 500);
     }
 
   };

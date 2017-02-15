@@ -2,6 +2,22 @@ html, body, .VDDesignerContainer {
 	height: 100%;
 }
 
+html {
+  overflow: auto;
+}
+
+html.vd-design-mode {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+html.vd-design-mode * {
+  cursor: default;
+  -webkit-user-drag: none;
+}
+
 .designerBorder {
 	border: 1px red solid;
 }
@@ -15,4 +31,130 @@ html, body, .VDDesignerContainer {
     font-size: 0;
     line-height: 0;
     vertical-align: middle;
+}
+
+.vd-container {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 940px;
+}
+
+.vd-selected:focus {
+  outline: 0;
+}
+
+.vd-OutlineSelectedNode {
+    border: 1px solid rgba(23, 141, 247, 0.93);
+    z-index: 8;
+}
+
+.vd-outline {
+    position: absolute;
+    color: #178df7;
+    pointer-events: none;
+    opacity: 0.00;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.vd-outline.active {
+    opacity: 0.99;
+}
+
+.vd-outline > .breadcrumbs {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 25px;
+    margin-top: -19px;
+    margin-left: -1px;
+}
+
+.vd-outline > .breadcrumbs > .inner {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.vd-outline > .breadcrumbs > .inner > .show-more {
+  position: absolute;
+  left: 0;
+  bottom: 9px;
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+  background-color: rgba(0, 0, 0, 0.5);
+  -webkit-transition: background-color 0.25s ease;
+  transition: background-color 0.25s ease;
+}
+
+.vd-outline > .breadcrumbs > .inner > .show-more > i {
+  background-position: -400px -460px;
+  width: 9px;
+  height: 9px;
+  float: left;
+  margin: 2px 0 0 2px;
+  pointer-events: none;
+}
+.vd-outline > .breadcrumbs > .inner > .show-more:hover {
+  background-color: #000000;
+}
+.vd-outline > .breadcrumbs > .inner > .crumbs {
+  margin-bottom: 5px;
+}
+.vd-outline > .breadcrumbs > .inner > .crumbs > .crumb {
+  cursor: pointer;
+  zoom: 1;
+}
+.vd-outline > .breadcrumbs > .inner > .crumbs > .crumb:before,
+.vd-outline > .breadcrumbs > .inner > .crumbs > .crumb:after {
+  content: " ";
+  display: table;
+}
+
+.vd-outline > .breadcrumbs > .inner > .crumbs > .crumb:after {
+  clear: both;
+}
+
+.vd-outline > .breadcrumbs > .inner > .crumbs > .crumb > .inner {
+  height: 14px;
+  display: none;
+  float: left;
+  clear: both;
+  background-color: rgba(23, 141, 247, 0.93);
+  color: #fff;
+  padding: 1px 0 0 3px;
+  border-radius: 2px;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.vd-OutlineSelectedNode.active > .breadcrumbs > .inner .crumbs .crumb {
+    pointer-events: auto;
+}
+
+.vd-outline > .breadcrumbs > .inner > .crumbs > .crumb.current {
+    padding-bottom: 2px;
+}
+
+.vd-outline > .breadcrumbs > .inner > .crumbs > .crumb.current > .inner {
+    display: block;
+    border-radius: 2px 0 0 0;
+}
+
+.clearfix:before, .clearfix:after {
+    content: "";
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+.clearfix:before, .clearfix:after {
+    content: "";
+    display: table;
 }
