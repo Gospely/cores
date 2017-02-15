@@ -23,8 +23,8 @@ $(function() {
 		jq(document).on("click", function (e) {
 			e.stopPropagation();
 			var targetData = jq(e.target).data('controller');
-            if(targetData) {
-                controllerOperations.selected(targetData);                
+            if(!targetData) {
+                controllerOperations.desSelect(targetData);                
             }
 		})
 
@@ -91,18 +91,26 @@ $(function() {
 		//对控件的一些操作
 		var controllerOperations = {
 			hideDesignerDraggerBorder: function () {
-				
+                jq('#vd-OutlineSelectedActiveNode').hide();
 			},
 
-			showDesignerDraggerBorder: function (elem) {
-				// jq(".designerBorder").removeClass('designerBorder');
-				// elem.addClass('designerBorder')
+			showDesignerDraggerBorder: function (target) {
+                jq('#vd-OutlineSelectedActiveNode').css({
+                    top: target.offset().top,
+                    left: target.offset().left,
+                    width: target.outerWidth(),
+                    height: target.outerHeight(),
+                    display: 'block'
+                });
 			},
 
-			selected: function (data) {
-				controllerOperations.showDesignerDraggerBorder(jq('[vdid=' + data.vdid + ']'))
-				postMessageToFather.ctrlSelected(data);
+			desSelect: function (data) {
 			},
+
+            select: function(data) {
+                controllerOperations.showDesignerDraggerBorder(jq('[vdid=' + data.vdid + ']'))
+                postMessageToFather.ctrlSelected(data);
+            },
 
             refreshCtrl: function(activeCtrl, attr, attrType) {
                 new ElemGenerator(activeCtrl).setAttributeByAttr(attr, attrType);
@@ -337,6 +345,7 @@ $(function() {
                 }
 
                 this.listenHover();
+                this.listenClick();
 
                 this.makeElemAddedDraggable();
 
@@ -351,18 +360,24 @@ $(function() {
 
                     targetHeight = target.height();
 
-                    console.log(self.elem, target.offsetHeight);
-
-                    jq('.vd-OutlineSelectedNode').css({
+                    jq('#vd-OutlineSelectedHoverNode').css({
                         top: target.offset().top,
                         left: target.offset().left,
                         width: target.outerWidth(),
                         height: target.outerHeight(),
                         display: 'block'
-                        // transform: 'translate(' + target.offset().left + 'px, ' + target.offset().top + 'px)'
-                    })
+                    });
                 }, function(e) {
-                    jq('.vd-OutlineSelectedNode').hide();
+                    jq('#vd-OutlineSelectedHoverNode').hide();
+                });
+            },
+
+            listenClick: function() {
+                var self = this;
+                this.elem.click(function(e) {
+                    e.stopPropagation();
+                    var target = jq(e.target);
+                    controllerOperations.select(self.controller);
                 });
             },
 
