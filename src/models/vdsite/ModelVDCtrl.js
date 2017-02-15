@@ -319,15 +319,31 @@ export default {
 							name: 'tag',
 							desc: '标签',
 							type: 'select',
-							value: ['div'],
-							valueList: ['div', 'header', 'footer', 'nav', 'main', 'section', 'article', 'aside', 'address', 'figure'],
+							value: 'h1',
+							isTag: true,
+							valueList: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
 							id: ''
 						}]
 					}],
 					children: [{
 						tag: 'p',
 						className: ['text-muted'],
-						attrs: []
+						attrs: [{
+							title: '属性设置',
+							key: 'p-attr',
+							isAttrSetting: true,
+							children: [{
+								name: 'innerHTML',
+								desc: '文本内容',
+								type: 'input',
+								props: {
+									type: 'textarea'
+								},
+								value: '这是一个文本块',
+								isHTML: true,
+								id: ''
+							}]
+						}]
 					}]
 				}
 			}, {
@@ -336,8 +352,23 @@ export default {
 				key: 'block-quote',
 				details: {
 					tag: 'blockquote',
-					className: [],
-					attrs: []
+					className: ['highlight'],
+					attrs: [{
+						title: '属性设置',
+						key: 'block-quote-attr',
+						isAttrSetting: true,
+						children: [{
+							name: 'innerHTML',
+							desc: '文本内容',
+							type: 'input',
+							props: {
+								type: 'textarea'
+							},
+							value: '这是一个引用块',
+							isHTML: true,
+							id: ''
+						}]
+					}]
 				}
 			}, {
 				icon: <svg width="55" height="33" viewBox="0 0 55 33" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".4" d="M45 1H25v6h20V1zm-1 1H26v4h18-18V2h18zM20 19c1.7 0 3-1.3 3-3V3c0-1.7-1.3-3-3-3H3C1.3 0 0 1.3 0 3v13c0 1.7 1.3 3 3 3h17zm2-16c0-.5-.2-.9-.5-1.3.3.4.5.8.5 1.3zm-7.5 4.7l-4.1 4.5 4.1-4.5zm-4 5.9l3.9-4.3L18 14h-7.9l.4-.4zm-3.2-1.9L9 13.6l.4.4H5.2l2.1-2.3zm-1.2-.2l1.1-1.3-1.1 1.3zm2.4.1l1.2 1.3-1.2-1.3zM9 6c0-.7-.4-1.3-.9-1.7.5.4.9 1 .9 1.7zM7 5c.6 0 1 .4 1 1s-.4 1-1 1-1-.4-1-1 .4-1 1-1zm-1-.7c-.6.3-1 1-1 1.7 0 1.1.9 2 2 2 .7 0 1.2-.3 1.6-.8-.4.5-.9.8-1.6.8-1.1 0-2-.9-2-2 0-.7.4-1.4 1-1.7zM3 15h17l-4.5-6 4.5 6H3zm-2 1V3c0-.5.2-.9.5-1.3-.3.4-.5.8-.5 1.3v13c0 .6.2 1.1.6 1.4-.4-.4-.6-.9-.6-1.4zm2 2h17c.4 0 .8-.1 1.1-.3-.3.2-.7.3-1.1.3H3zm22-9v12H1v12h34v-4h17v-4h2v-4h-2v-4h2v-4h1V9H25zm1 9v2h25-25v-2zM2 26v2-2zm32 6H2v-2 2h32zm19-10H2v2h51H2v-2h51zm0-8H26v2-2h27zm1-2H26v-2h28v2zm0-2H26v2h28v-2z"></path><path fill="currentColor" d="M26 10v2h28v-2H26zm0 6h27v-2H26v2zM44 2H26v4h18V2zm7 16H26v2h25v-2zM2 28h49v-2H2v2zm0-4h51v-2H2v2zm0 8h32v-2H2v2zm18-14c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2H3c-1.1 0-2 .9-2 2v13c0 1.1.9 2 2 2h17zM7 4c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm.3 6.3L9.8 13l4.7-5.2L20 15H3l4.3-4.7z"></path></svg>,
