@@ -114,44 +114,86 @@ const Component = (props) => {
 	    		const specialAttrHandler = {
 	    			'custom-attr' (item, attrTypeIndex) {
 
+			    		const handleInputChange = (index, attrName, proxy) => {
+			    			var valChanged = proxy.target.value,
+			    				self = this;
+		    				props.dispatch({
+		    					type: 'vdCtrlTree/handleCustomAttrInputChange',
+		    					payload: {
+		    						attrName: attrName,
+		    						value: self.value,
+		    						attrTypeIndex: attrTypeIndex,
+		    						customAttrIndex: index
+		    					}
+		    				});
+			    		}
+
+			    		const customAttrCreator = {
+
+			    			key: '',
+
+			    			value: '',
+
+			    			save () {
+			    				var self = this;
+			    				props.dispatch({
+			    					type: 'vdCtrlTree/saveCustomAttr',
+			    					payload: {
+			    						key: self.key,
+			    						value: self.value,
+			    						index: attrTypeIndex
+			    					}
+			    				})
+			    			},
+
+			    			onChange (attr, proxy) {
+			    				var valChanged = proxy.target.value;
+			    				this[attr] = valChanged;
+			    			},
+
+			    			modify (index) {
+
+			    			}
+			    		}
+
 					    const customAttrProps = {
 					    	creatorContent: (
 						      	<Form className="form-no-margin-bottom">
 									<FormItem {...formItemLayout} label="key">
-										<Input size="small" />
+										<Input onChange={customAttrCreator.onChange.bind(customAttrCreator, 'key')} size="small" />
 									</FormItem>
 									<FormItem {...formItemLayout} label="value">
-										<Input size="small" />
+										<Input onChange={customAttrCreator.onChange.bind(customAttrCreator, 'value')} size="small" />
 									</FormItem>
 									<FormItem>
-										<Button size="small">保存</Button>
+										<Button onClick={customAttrCreator.save.bind(customAttrCreator)} size="small">保存</Button>
 									</FormItem>
 								</Form>
 					    	),
 
-					    	modifyContent: (
-						      	<Form className="form-no-margin-bottom">
-									<FormItem {...formItemLayout} label="key">
-										<Input size="small" />
-									</FormItem>
-									<FormItem {...formItemLayout} label="value">
-										<Input size="small" />
-									</FormItem>
-									<FormItem>
-										<Button size="small">保存</Button>
-									</FormItem>
-								</Form>
-					    	),
+					    	modifyContent () {
+
+					    		return (
+							      	<Form className="form-no-margin-bottom">
+										<FormItem {...formItemLayout} label="key">
+											<Input onChange={handleInputChange.bind(this, index, 'key')} value={val.key} size="small" />
+										</FormItem>
+										<FormItem {...formItemLayout} label="value">
+											<Input onChange={handleInputChange.bind(this, index, 'value')} value={val.value} size="small" />
+										</FormItem>
+										<FormItem>
+											<Button onClick={customAttrCreator.modify} size="small">保存</Button>
+										</FormItem>
+									</Form>
+					    		);
+					    	},
 
 					    	onVisibleChange () {
 
 					    	},
 
 					    	onConfirmDelete (index) {
-					    		console.log(index, item.children[index])
 					    		item.children.splice(index, 1);
-					    		console.log(item.children);
-
 					    		props.dispatch({
 					    			type: 'vdCtrlTree/handleCustomAttrRemoved',
 					    			payload: {
@@ -189,7 +231,7 @@ const Component = (props) => {
 												          <Col span={3}>
 
 															<Popover
-													        	content={customAttrProps.modifyContent}
+													        	content={customAttrProps.modifyContent()}
 													        	title="修改 自定义属性"
 													        	trigger="click"
 													      	>

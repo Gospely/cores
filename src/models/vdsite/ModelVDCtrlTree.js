@@ -18,6 +18,10 @@ const VDTreeActions = {
 
 	getActiveCtrl(state) {
 		return state.activeCtrl;
+	},
+
+	setActiveCtrl() {
+
 	}
 }
 
@@ -236,11 +240,9 @@ export default {
 		},
 
 		handleAttrRefreshed(state, { payload: params }) {
-
 			window.VDDesignerFrame.postMessage({
 				VDAttrRefreshed: params
 			}, '*');
-
 			return {...state};
 		},
 
@@ -257,7 +259,62 @@ export default {
 				}
 			}, '*');			
 			return {...state};
+		},
+
+		handleCustomAttrInputChange(state, { payload: params }) {
+
+			state.activeCtrl.attrs[params.attrTypeIndex].children[params.customAttrIndex][params.attrName] = params.value
+
+			window.VDDesignerFrame.postMessage({
+				VDAttrRefreshed: {
+					activeCtrl: state.activeCtrl,
+					attr: {
+						value: params.value,
+						index: params.index,
+						attrName: params.attrName,
+						attrTypeIndex: params.attrTypeIndex,
+						action: 'modify'
+					},
+					attrType: params.attrType
+				}
+			}, '*');
+
+			return {...state};
+		},
+
+		handleCustomAttrAddInputChange(state, { payload: value }) {
+
+			
+			
+			return {...state};
+		},
+
+		saveCustomAttr(state, { payload: params }) {
+
+			state.activeCtrl.attrs[params.index].children = {
+				key: params.key,
+				value: params.value
+			};
+
+			window.VDDesignerFrame.postMessage({
+				VDAttrRefreshed: {
+					activeCtrl: state.activeCtrl,
+					attr: {
+						value: params.index,
+						action: 'add'
+					},
+					attrType: params.attrType
+				}
+			}, '*');
+
+			return {...state};
+		},
+
+		modifyCustomAttr(state, { payload: params }) {
+
+			return {...state};
 		}
+
 	},
 
 	effects: {
