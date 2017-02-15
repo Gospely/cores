@@ -61,6 +61,17 @@ export default {
 		setCurrentActivePageListItem(state, { payload: key }) {
 			state.currentActivePageListItem = key;
 			return {...state};
+		},
+
+		handleStylesChange(state, { payload: params }) {
+
+			var keys = params.target.split(' ');
+			if(keys.length == 2){
+				state.stylesList[keys[0]][keys[1]] = params.value;
+			}else{
+				state.stylesList[params.target] = params.value;
+			}
+			return {...state}
 		}
 
 	}
