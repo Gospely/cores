@@ -87,7 +87,7 @@ const Component = (props) => {
 		},
 		deletePage(){
 			props.dispatch({
-				type: 'vdpm/deletePage',
+				type: 'vdpm/removeFile',
 			});
 		}
 	}

@@ -483,7 +483,18 @@ export default {
             });
             console.log(result);
 
-        }
+        },
+        *removeFile({payload: fileName}, {call, put, select}) {
+
+            var key = yield select(state=> state.vdpm.currentActivePageListItem);
+			var result = yield request('fs/remove', {
+				method: 'POST',
+				body: JSON.stringify({
+					fileName: localStorage.dir + key
+				})
+			});
+      		yield put({type: 'deletePage'});
+      	},
 	}
 
 }
