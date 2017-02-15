@@ -81,13 +81,17 @@ export default {
 					tag: 'section',
 					className: [],
 					attrs: [{
-						name: 'tag',
-						desc: '标签',
-						type: 'select',
-						value: ['section'],
-						children: ['div', 'header', 'footer', 'nav', 'main', 'section', 'article', 'aside', 'address', 'figure'],
-						id: '',
-						isTag: true
+						title: '属性设置',
+						key: 'section-attr',
+						children: [{
+							name: 'tag',
+							desc: '标签',
+							type: 'select',
+							value: ['section'],
+							children: ['div', 'header', 'footer', 'nav', 'main', 'section', 'article', 'aside', 'address', 'figure'],
+							id: '',
+							isTag: true
+						}]
 					}]
 				}
 			}, {
@@ -98,12 +102,16 @@ export default {
 					tag: 'div',
 					className: [],
 					attrs: [{
-						name: 'tag',
-						desc: '标签',
-						type: 'select',
-						value: ['section'],
-						children: ['div', 'header', 'footer', 'nav', 'main', 'section', 'article', 'aside', 'address', 'figure'],
-						id: ''
+						title: '属性设置',
+						key: 'container-attr',
+						children: [{
+							name: 'tag',
+							desc: '标签',
+							type: 'select',
+							value: ['section'],
+							children: ['div', 'header', 'footer', 'nav', 'main', 'section', 'article', 'aside', 'address', 'figure'],
+							id: ''
+						}]
 					}]
 				}
 			}, {
@@ -127,12 +135,16 @@ export default {
 				details: {
 					tag: 'div',
 					attrs: [{
-						name: 'tag',
-						desc: '标签',
-						type: 'select',
-						value: ['div'],
-						children: ['div', 'header', 'footer', 'nav', 'main', 'section', 'article', 'aside', 'address', 'figure'],
-						id: ''
+						title: '属性设置',
+						key: 'div-block-attr',
+						children: [{
+							name: 'tag',
+							desc: '标签',
+							type: 'select',
+							value: ['div'],
+							children: ['div', 'header', 'footer', 'nav', 'main', 'section', 'article', 'aside', 'address', 'figure'],
+							id: ''
+						}]
 					}]
 				}
 			}, {
@@ -181,6 +193,10 @@ export default {
 					tag: 'ul',
 					className: ['list-group'],
 					attrs: [{
+						title: '属性设置',
+						key: 'list-attr',
+						children: []
+					}, {
 						title: '列表设置',
 						key: 'list-setting'
 					}],
@@ -255,12 +271,16 @@ export default {
 					tag: 'div',
 					className: [],
 					attrs: [{
-						name: 'tag',
-						desc: '标签',
-						type: 'select',
-						value: ['div'],
-						children: ['div', 'header', 'footer', 'nav', 'main', 'section', 'article', 'aside', 'address', 'figure'],
-						id: ''
+						title: '属性设置',
+						key: 'text-block-attr',
+						children: [{
+							name: 'tag',
+							desc: '标签',
+							type: 'select',
+							value: ['div'],
+							children: ['div', 'header', 'footer', 'nav', 'main', 'section', 'article', 'aside', 'address', 'figure'],
+							id: ''
+						}]
 					}],
 					children: [{
 						tag: 'p',
@@ -420,36 +440,41 @@ export default {
 						tag: 'input',
 						className: [],
 						attrs: [{
-							name: 'name',
-							desc: '名称',
-							type: 'input',
-							value: '',
-							props: {
-								placeholder: '输入名称'
-							},
-							id: ''
-						}, {
-							name: 'placeholder',
-							desc: '占位字符',
-							type: 'input',
-							value: '',
-							props: {
-								placeholder: '输入占位字符'
-							},
-							id: ''
-						}, {
-							name: 'input-type',
-							desc: '类型',
-							type: 'select',
-							value: 'input',
-							children: ['input', 'email', 'password', 'number', 'tel'],
-							id: ''
-						}, {
-							name: 'autofocus',
-							desc: '自动聚焦',
-							type: 'toggle',
-							value: false,
-							id: ''
+							title: '属性设置',
+							key: 'input-attr',
+							isAttrSetting: true,
+							children: [{
+								name: 'name',
+								desc: '名称',
+								type: 'input',
+								value: '',
+								props: {
+									placeholder: '输入名称'
+								},
+								id: ''
+							}, {
+								name: 'placeholder',
+								desc: '占位字符',
+								type: 'input',
+								value: '',
+								props: {
+									placeholder: '输入占位字符'
+								},
+								id: ''
+							}, {
+								name: 'input-type',
+								desc: '类型',
+								type: 'select',
+								value: 'input',
+								children: ['input', 'email', 'password', 'number', 'tel'],
+								id: ''
+							}, {
+								name: 'autofocus',
+								desc: '自动聚焦',
+								type: 'toggle',
+								value: false,
+								id: ''
+							}]
 						}]
 					}, {
 						tag: 'label',
@@ -459,36 +484,41 @@ export default {
 						tag: 'input',
 						className: [],
 						attrs: [{
-							name: 'name',
-							desc: '名称',
-							type: 'input',
-							value: '',
-							props: {
-								placeholder: '输入名称'
-							},
-							id: ''
-						}, {
-							name: 'placeholder',
-							desc: '占位字符',
-							type: 'input',
-							value: '',
-							props: {
-								placeholder: '输入占位字符'
-							},
-							id: ''
-						}, {
-							name: 'input-type',
-							desc: '类型',
-							type: 'select',
-							value: 'input',
-							children: ['input', 'email', 'password', 'number', 'tel'],
-							id: ''
-						}, {
-							name: 'autofocus',
-							desc: '自动聚焦',
-							type: 'toggle',
-							value: false,
-							id: ''
+							title: '属性设置',
+							key: 'input-attr',
+							isAttrSetting: true,
+							children: [{
+								name: 'name',
+								desc: '名称',
+								type: 'input',
+								value: '',
+								props: {
+									placeholder: '输入名称'
+								},
+								id: ''
+							}, {
+								name: 'placeholder',
+								desc: '占位字符',
+								type: 'input',
+								value: '',
+								props: {
+									placeholder: '输入占位字符'
+								},
+								id: ''
+							}, {
+								name: 'input-type',
+								desc: '类型',
+								type: 'select',
+								value: 'input',
+								children: ['input', 'email', 'password', 'number', 'tel'],
+								id: ''
+							}, {
+								name: 'autofocus',
+								desc: '自动聚焦',
+								type: 'toggle',
+								value: false,
+								id: ''
+							}]
 						}]
 					}]
 				}
@@ -554,29 +584,34 @@ export default {
 					tag: 'ul',
 					className: ['list-group'],
 					attrs: [{
-						name: 'name',
-						desc: '名称',
-						type: 'input',
-						value: '',
-						props: {
-							placeholder: '输入名称'
-						},
-						id: ''
-					}, {
-						name: 'placeholder',
-						desc: '占位字符',
-						type: 'input',
-						value: '',
-						props: {
-							placeholder: '输入占位字符'
-						},
-						id: ''
-					}, {
-						name: 'autofocus',
-						desc: '自动聚焦',
-						type: 'toggle',
-						value: false,
-						id: ''
+						title: '属性设置',
+						key: 'textarea-attr',
+						isAttrSetting: true,
+						children: [{
+							name: 'name',
+							desc: '名称',
+							type: 'input',
+							value: '',
+							props: {
+								placeholder: '输入名称'
+							},
+							id: ''
+						}, {
+							name: 'placeholder',
+							desc: '占位字符',
+							type: 'input',
+							value: '',
+							props: {
+								placeholder: '输入占位字符'
+							},
+							id: ''
+						}, {
+							name: 'autofocus',
+							desc: '自动聚焦',
+							type: 'toggle',
+							value: false,
+							id: ''
+						}]
 					}]
 				}
 			}, {
@@ -587,20 +622,25 @@ export default {
 					tag: 'checkbox',
 					className: ['checkbox'],
 					attrs: [{
-						name: 'name',
-						desc: '名称',
-						type: 'input',
-						value: '',
-						props: {
-							placeholder: '输入名称'
-						},
-						id: ''
-					}, {
-						name: 'checked',
-						desc: '选中',
-						type: 'toggle',
-						value: false,
-						id: ''
+						title: '属性设置',
+						key: 'textarea-attr',
+						isAttrSetting: true,
+						children: [{
+							name: 'name',
+							desc: '名称',
+							type: 'input',
+							value: '',
+							props: {
+								placeholder: '输入名称'
+							},
+							id: ''
+						}, {
+							name: 'checked',
+							desc: '选中',
+							type: 'toggle',
+							value: false,
+							id: ''
+						}]
 					}]
 				}
 			}, {
@@ -611,23 +651,28 @@ export default {
 					tag: 'radio',
 					className: ['radio'],
 					attrs: [{
-						name: 'group-name',
-						desc: '组名称',
-						type: 'input',
-						value: '',
-						props: {
-							placeholder: '输入名称'
-						},
-						id: ''
-					}, {
-						name: 'choice-value',
-						desc: '选项值',
-						type: 'input',
-						value: '',
-						props: {
-							placeholder: '输入值'
-						},
-						id: ''
+						title: '属性设置',
+						key: 'textarea-attr',
+						isAttrSetting: true,
+						children: [{
+							name: 'group-name',
+							desc: '组名称',
+							type: 'input',
+							value: '',
+							props: {
+								placeholder: '输入名称'
+							},
+							id: ''
+						}, {
+							name: 'choice-value',
+							desc: '选项值',
+							type: 'input',
+							value: '',
+							props: {
+								placeholder: '输入值'
+							},
+							id: ''
+						}]
 					}]
 				}
 			}, {
@@ -651,14 +696,19 @@ export default {
 					tag: 'ul',
 					className: ['btn', 'btn-default'],
 					attrs: [{
-						name: 'button-text',
-						desc: '文本名称',
-						type: 'input',
-						value: '',
-						props: {
-							placeholder: '输入名称'
-						},
-						id: ''
+						title: '属性设置',
+						key: 'textarea-attr',
+						isAttrSetting: true,
+						children: [{
+							name: 'button-text',
+							desc: '文本名称',
+							type: 'input',
+							value: '',
+							props: {
+								placeholder: '输入名称'
+							},
+							id: ''
+						}]
 					}]
 				}
 			}]
