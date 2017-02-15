@@ -262,7 +262,7 @@ export default {
 					className: ['text-muted'],
 					attrs: [{
 						title: '属性设置',
-						key: 'h1-attr',
+						key: 'paragraph-attr',
 						isAttrSetting: true,
 						children: [{
 							name: 'innerHTML',
@@ -288,6 +288,18 @@ export default {
 						title: '链接设置',
 						key: 'link-setting',
 						children: []
+					}, {
+						title: '属性设置',
+						key: 'text-link-attr',
+						isAttrSetting: true,
+						children: [{
+							name: 'innerHTML',
+							desc: '文本内容',
+							type: 'input',
+							value: '这是一个链接',
+							isHTML: true,
+							id: ''
+						}]
 					}]
 				}
 			}, {
