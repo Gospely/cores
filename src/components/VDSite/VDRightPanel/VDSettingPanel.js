@@ -121,7 +121,7 @@ const Component = (props) => {
 		    					type: 'vdCtrlTree/handleCustomAttrInputChange',
 		    					payload: {
 		    						attrName: attrName,
-		    						value: self.value,
+		    						value: valChanged,
 		    						attrTypeIndex: attrTypeIndex,
 		    						customAttrIndex: customAttrIndex,
 		    						attrType: attrType
