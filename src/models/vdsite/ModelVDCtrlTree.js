@@ -226,6 +226,7 @@ export default {
   			var ctrlAttrs = currentActiveCtrl.attrs;
 
   			for (var i = 0; i < ctrlAttrs.length; i++) {
+  				console.log(ctrlAttrs[i])
   				for (var j = 0; j < ctrlAttrs[i].children.length; j++) {
   					var attr = ctrlAttrs[i].children[j];
   					var flag = false;

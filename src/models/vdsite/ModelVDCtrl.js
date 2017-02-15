@@ -235,11 +235,6 @@ export default {
 					tag: 'h1',
 					className: [],
 					attrs: [{
-						title: '标题大小',
-						key: 'heading-type',
-						value: 'h1',
-						valueList: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']
-					}, {
 						title: '属性设置',
 						key: 'h1-attr',
 						isAttrSetting: true,
@@ -249,6 +244,14 @@ export default {
 							type: 'input',
 							value: '标题',
 							isHTML: true,
+							id: ''
+						}, {
+							name: 'tag',
+							desc: '标签',
+							type: 'select',
+							value: 'h1',
+							isTag: true,
+							valueList: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
 							id: ''
 						}]
 					}]
@@ -348,11 +351,6 @@ export default {
 						tag: 'h1',
 						className: [],
 						attrs: [{
-							title: '标题大小',
-							key: 'heading-type',
-							value: 'h1',
-							valueList: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']
-						}, {
 							title: '属性设置',
 							key: 'h1-attr',
 							isAttrSetting: true,
@@ -362,6 +360,14 @@ export default {
 								type: 'input',
 								value: '标题',
 								isHTML: true,
+								id: ''
+							}, {
+								name: 'tag',
+								desc: '标签',
+								type: 'select',
+								value: 'h1',
+								isTag: true,
+								valueList: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
 								id: ''
 							}]
 						}]

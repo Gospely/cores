@@ -385,26 +385,6 @@ const Component = (props) => {
 	    				);
 	    			},
 
-	    			'heading-type' (item, attrTypeIndex) {
-	    				return (
-						    <Panel header={item.title} key={item.key}>
-						      	<Form className="form-no-margin-bottom">
-									<FormItem {...formItemLayout} label="标题大小">
-									    <Select size="small" value={item.value}>
-									    {
-									    	item.children.map((headingType, index) => {
-									    		return (
-											      	<Option key={index} value={headingType}>{headingType}</Option>
-									    		);
-									    	})
-									    }
-									    </Select>
-									</FormItem>
-						      	</Form>
-						    </Panel>
-	    				);
-	    			},
-
 	    			'image-setting' (item, attrTypeIndex) {
 
 					    const bgUploaderProps = {
@@ -811,7 +791,7 @@ const Component = (props) => {
 								    style={{ width: '100%' }}
 								    value={item.value}
 								    size="small"
-							     	onChange={formProps.handleAttrFormTextareaChange.bind(this, item, attrType)}
+							     	onChange={formProps.handleAttrFormSelectChange.bind(this, item, attrType)}
 								 >
 								    {	
 								    	item.valueList.map((val, key) => {
