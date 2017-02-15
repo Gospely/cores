@@ -841,10 +841,7 @@ const Component = (props) => {
 			      	<Form className="form-no-margin-bottom">
 			      		{
 			    			items.map((item, index) => {
-			    				console.log('formGenerator', item);
-			    				// if(!item.backend) {
-				    				return formTypeGenerator(item);			    					
-			    				// }
+			    				return formTypeGenerator(item);			    					
     						})
 			      		}
 			      	</Form>
