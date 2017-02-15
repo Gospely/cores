@@ -80,7 +80,6 @@ export default {
 		},
 
 		handleLinkSettingValueChange(state, { payload: value}) {
-
 			state.linkSetting.list[state.linkSetting.activeLinkType].value = value;
 
 			return {...state};
