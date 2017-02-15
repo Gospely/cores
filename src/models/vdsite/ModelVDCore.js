@@ -66,7 +66,7 @@ export default {
 			return {...state};
 		},
 
-		handleLinkSettingValueChange(state, { payload: value }) {
+		handleLinkSettingTypeChange(state, { payload: value }) {
 			state.linkSetting.actvieValue = value;
 
 			for (var i = 0; i < state.linkSetting.list.length; i++) {
@@ -77,6 +77,10 @@ export default {
 			};
 
 			return {...state};
+		},
+
+		handleLinkSettingValueChange(state, { payload: value}) {
+			state.linkSetting.list[i].value = value;
 		},
 
 		handleCustomAttrCreatorInputChange(state, { payload: params }) {

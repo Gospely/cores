@@ -288,6 +288,15 @@ const Component = (props) => {
 
 	    			'link-setting' (item, attrTypeIndex) {
 
+	    				const handleLinkSettingValueChange = (e) => {
+				    		console.log(e);
+
+				    		props.dispatch({
+				    			type: 'vdcore/handleLinkSettingValueChange',
+				    			payload: e.target.value
+				    		});
+				    	};
+
 					    const linkSettingProps = {
 							
 					    	linkSettingTemplate: props.vdcore.linkSetting.list.map( (item, index) => {
@@ -303,7 +312,7 @@ const Component = (props) => {
 					    	tpl: [(
 						      	<Form className="form-no-margin-bottom">
 									<FormItem {...formItemLayout} label="链接地址">
-										<Input size="small" />
+										<Input size="small" onChange={handleLinkSettingValueChange.bind(this)}/>
 									</FormItem>
 
 									<FormItem {...formItemLayout} label="新窗口">
@@ -313,13 +322,13 @@ const Component = (props) => {
 					    	), (
 						      	<Form className="form-no-margin-bottom">
 									<FormItem {...formItemLayout} label="邮箱地址">
-										<Input size="small" />
+										<Input size="small" onChange={handleLinkSettingValueChange.bind(this)}/>
 									</FormItem>
 						      	</Form>
 					    	), (
 						      	<Form className="form-no-margin-bottom">
 									<FormItem {...formItemLayout} label="手机号码">
-										<Input size="small" />
+										<Input size="small" onChange={handleLinkSettingValueChange.bind(this)}/>
 									</FormItem>
 						      	</Form>
 					    	), (
@@ -345,7 +354,7 @@ const Component = (props) => {
 
 					    	onChange (e) {
 					    		props.dispatch({
-					    			type: 'vdcore/handleLinkSettingValueChange',
+					    			type: 'vdcore/handleLinkSettingTypeChange',
 					    			payload: e.target.value
 					    		});
 					    	}
