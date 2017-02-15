@@ -160,11 +160,14 @@ export default {
 					ctrl = {};
 
 				tmpAttr = controller.attrs;
-				console.log(tmpAttr);
 				for(let i = 0, len = tmpAttr.length; i < len; i ++) {
-					for (var j = 0; j < tmpAttr[i].children.length; j++) {
-						var attr = tmpAttr[i].children[j];
-						console.log(attr);
+					console.log(tmpAttr[i]);
+					var currentAttrWithHeader = tmpAttr[i];
+					if(specialAttrList.indexOf(currentAttrWithHeader.key) != -1) {
+						continue;
+					}
+					for (var j = 0; j < currentAttrWithHeader.children.length; j++) {
+						var attr = currentAttrWithHeader.children[j];
 						attr['id'] = randomString(8, 10);
 					};
 				}
