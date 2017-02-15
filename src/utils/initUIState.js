@@ -1,7 +1,6 @@
 
 const initState = function (props, applicationId) {
 
-    console.log(localStorage.UIState);
     var UIState = JSON.parse(localStorage.UIState);
     props.dispatch({
         type: 'sidebar/initState',

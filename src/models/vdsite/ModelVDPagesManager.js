@@ -64,15 +64,11 @@ export default {
 			state.currentActivePageListItem = key;
 			state.pageManager.treeSelect.value = 'root'
 			let getPageInfoByKey = function(pages){
-
-                var page;
 				for (var i = 0; i < pages.length; i++) {
-
 					if(pages[i].key == key){
 						state.newPageFrom = pages[i];
                         break;
 					}
-
 				}
 				for (var i = 0; i < pages.length; i++) {
 					if(pages[i].children != null && pages[i].children != undefined){
@@ -86,6 +82,7 @@ export default {
 			return {...state};
 		},
 		handleNewPageVisible(state, { payload: params }){
+
 			state.pageManager.newPageVisible = params.value;
             state.pageManager.treeSelect.value = 'root'
             state.newPageFrom = {
@@ -103,6 +100,7 @@ export default {
 			return {...state};
 		},
 		handleNewFolderVisible(state, { payload: params }){
+
 			state.pageManager.newFolderVisible = params.value;
             state.pageManager.treeSelect.value = 'root'
             state.newFolderForm = {
@@ -112,21 +110,30 @@ export default {
 			return {...state};
 		},
 		handleUpdatePopoverVisible(state){
+
 			state.pageManager.updatePopoverVisible = !state.pageManager.updatePopoverVisible;
 			return { ...state};
 		},
         visibleChange(state){
+
             state.pageManager.updatePopoverVisible = true;
             return { ...state};
         },
 		handleRreeSelect(state, { payload: params }){
 
-			state.pageManager.treeSelect.value = params.value;
+            state.pageManager.treeSelect.value = params.value;
+            if(params.value == undefined || params.value == null){
+                state.pageManager.treeSelect.value = 'root';
+            }
 			state.pageManager.newFolderVisible = true;
 			return {...state};
 		},
 		handleNewPageRreeSelect(state, { payload: params }){
+
 			state.pageManager.treeSelect.value = params.value;
+            if(params.value == undefined || params.value == null){
+                state.pageManager.treeSelect.value = 'root';
+            }
 			state.pageManager.newPageVisible = true;
 			return {...state};
 		},
@@ -143,11 +150,8 @@ export default {
 		handleCreatePage(state, { payload: params}){
 
 			let pushPage = function(pages){
-
 				for (var i = 0; i < pages.length; i++) {
-
 					if(pages[i].children != null && pages[i].children != undefined && pages[i].key == tree){
-
 						//检查是否同名
 						for (var j = 0; j < pages[i].children.length; j++) {
 							if(pages[i].children[j].name == state.newPageFrom.name && pages[i].children[j].children == null){
@@ -157,7 +161,6 @@ export default {
 							}
 						}
 						pages.children = pages[i].children.push(state.newPageFrom)
-
 						return pages;
 					}else {
 						if(pages[i].children != null && pages[i].children != undefined){
@@ -171,14 +174,12 @@ export default {
 			var tree = state.pageManager.treeSelect.value;
 			var bool = false;
 
-
 			if(tree != 'root') {
 				state.newPageFrom.key = tree + '/' + state.newPageFrom.name + '.html'
 				state.pageList = pushPage(state.pageList);
 			}else {
 				state.newPageFrom.key = state.newPageFrom.name + '.html'
 				for (var j = 0; j < state.pageList.length; j++) {
-
 					if(state.pageList[j].name == state.newPageFrom.name && state.pageList[j].children == null){
 						openNotificationWithIcon('error', '文件同名,请重命名');
 						bool = true;
@@ -225,14 +226,11 @@ export default {
             let updatePageInfoByKey = function(pages){
 
 				for (var i = 0; i < pages.length; i++) {
-
 					if(pages[i].key == state.currentActivePageListItem && pages[i].children == null){
-
                         pages[i].seo = state.newPageFrom.seo;
                         pages[i].script = state.newPageFrom.script;
 						break;
 					}else {
-
                         if(pages[i].children != null && pages[i].children != undefined){
                             pages[i].children = updatePageInfoByKey(pages[i].children)
                         }
@@ -240,6 +238,7 @@ export default {
 				}
                 return pages;
 			}
+
             state.pageList = updatePageInfoByKey(state.pageList);
             delete state.pageList['children'];
             state.pageManager.updatePopoverVisible = false;
@@ -263,7 +262,6 @@ export default {
 
 				for (var i = 0; i < pages.length; i++) {
 					if(pages[i].key == state.currentActivePageListItem ){
-
                         pages.splice(i,1);
                         break;
 					}else {
@@ -301,7 +299,6 @@ export default {
 			let pushPage = function(pages){
 
 				for (var i = 0; i < pages.length; i++) {
-
 					if(pages[i].children != null && pages[i].children != undefined && pages[i].key == tree){
 						//检查是否同名
 						for (var j = 0; j < pages[i].children.length; j++) {
@@ -315,7 +312,6 @@ export default {
 						return pages;
 					}else {
 						if(pages[i].children != null && pages[i].children != undefined){
-
 							pages.children = pushPage(pages[i].children) || null;
 						}
 					}
@@ -354,6 +350,7 @@ export default {
 			return {...state};
 		},
 		handleFolderName(state, { payload: params}){
+
 			state.newFolderForm.name = params.value;
 			return { ...state};
 		},
