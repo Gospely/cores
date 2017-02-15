@@ -405,11 +405,41 @@ export default {
 					}, {
 						tag: 'p',
 						className: ['text-muted'],
-						attrs: []
+						attrs: [{
+							title: '属性设置',
+							key: 'p-attr',
+							isAttrSetting: true,
+							children: [{
+								name: 'innerHTML',
+								desc: '文本内容',
+								type: 'input',
+								props: {
+									type: 'textarea'
+								},
+								value: '这是一个文本块',
+								isHTML: true,
+								id: ''
+							}]
+						}]
 					}, {
 						tag: 'p',
 						className: ['text-muted'],
-						attrs: []
+						attrs: [{
+							title: '属性设置',
+							key: 'p-attr',
+							isAttrSetting: true,
+							children: [{
+								name: 'innerHTML',
+								desc: '文本内容',
+								type: 'input',
+								props: {
+									type: 'textarea'
+								},
+								value: '这是另一个文本块',
+								isHTML: true,
+								id: ''
+							}]
+						}]
 					}]
 				}
 			}]
