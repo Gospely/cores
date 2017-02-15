@@ -782,6 +782,7 @@ const Component = (props) => {
     				},
 
     				multipleSelect (item) {
+    					console.log('multipleSelect', item);
     					return (
 							<FormItem key={item.id} {...formItemLayout} label={item.desc}>
 								<Select
@@ -792,7 +793,7 @@ const Component = (props) => {
 								    onChange={formProps.handleAttrFormSelectChange.bind(this, item, attrType)}
 								 >
 								    {	
-								    	item.children.map((val, key) => {
+								    	item.valueList.map((val, key) => {
 								    		return (
 									    	  <Option key={key} value={val.value}>{val.name}</Option>
 								    		);
@@ -813,7 +814,7 @@ const Component = (props) => {
 							     	onChange={formProps.handleAttrFormSelectChange.bind(this, item, attrType)}
 								 >
 								    {	
-								    	item.children.map((val, key) => {
+								    	item.valueList.map((val, key) => {
 								    		return (
 									    	  <Option key={key} value={val}>{val}</Option>
 								    		);
@@ -849,6 +850,7 @@ const Component = (props) => {
     		}
 
 			const panelGenerator = (attrItem) => {
+				console.log(attrItem);
 				return (
 			    	<Panel header={item.title} key={item.key}>
 			    		{formGenerator(attrItem.children)}

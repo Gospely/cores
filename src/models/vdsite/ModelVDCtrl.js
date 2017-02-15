@@ -25,7 +25,7 @@ export default {
 				isScreenSetting: true,
 				type: 'multipleSelect',
 				value: [],
-				children: [{
+				valueList: [{
 					name: 'block (≥1200px)',
 					value: 'visible-lg-block'
 				}, {
@@ -88,7 +88,7 @@ export default {
 							desc: '标签',
 							type: 'select',
 							value: ['section'],
-							children: ['div', 'header', 'footer', 'nav', 'main', 'section', 'article', 'aside', 'address', 'figure'],
+							valueList: ['div', 'header', 'footer', 'nav', 'main', 'section', 'article', 'aside', 'address', 'figure'],
 							id: '',
 							isTag: true
 						}]
@@ -109,7 +109,7 @@ export default {
 							desc: '标签',
 							type: 'select',
 							value: ['section'],
-							children: ['div', 'header', 'footer', 'nav', 'main', 'section', 'article', 'aside', 'address', 'figure'],
+							valueList: ['div', 'header', 'footer', 'nav', 'main', 'section', 'article', 'aside', 'address', 'figure'],
 							id: ''
 						}]
 					}]
@@ -142,7 +142,7 @@ export default {
 							desc: '标签',
 							type: 'select',
 							value: ['div'],
-							children: ['div', 'header', 'footer', 'nav', 'main', 'section', 'article', 'aside', 'address', 'figure'],
+							valueList: ['div', 'header', 'footer', 'nav', 'main', 'section', 'article', 'aside', 'address', 'figure'],
 							id: ''
 						}]
 					}]
@@ -238,7 +238,7 @@ export default {
 						title: '标题大小',
 						key: 'heading-type',
 						value: 'h1',
-						children: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']
+						valueList: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']
 					}]
 				}
 			}, {
@@ -278,7 +278,7 @@ export default {
 							desc: '标签',
 							type: 'select',
 							value: ['div'],
-							children: ['div', 'header', 'footer', 'nav', 'main', 'section', 'article', 'aside', 'address', 'figure'],
+							valueList: ['div', 'header', 'footer', 'nav', 'main', 'section', 'article', 'aside', 'address', 'figure'],
 							id: ''
 						}]
 					}],
@@ -312,7 +312,7 @@ export default {
 							title: '标题大小',
 							key: 'heading-type',
 							value: 'h1',
-							children: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']
+							valueList: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']
 						}]
 					}, {
 						tag: 'p',
@@ -466,7 +466,7 @@ export default {
 								desc: '类型',
 								type: 'select',
 								value: 'input',
-								children: ['input', 'email', 'password', 'number', 'tel'],
+								valueList: ['input', 'email', 'password', 'number', 'tel'],
 								id: ''
 							}, {
 								name: 'autofocus',
@@ -510,7 +510,7 @@ export default {
 								desc: '类型',
 								type: 'select',
 								value: 'input',
-								children: ['input', 'email', 'password', 'number', 'tel'],
+								valueList: ['input', 'email', 'password', 'number', 'tel'],
 								id: ''
 							}, {
 								name: 'autofocus',
@@ -565,7 +565,7 @@ export default {
 							desc: '类型',
 							type: 'select',
 							value: 'input',
-							children: ['input', 'email', 'password', 'number', 'tel'],
+							valueList: ['input', 'email', 'password', 'number', 'tel'],
 							id: ''
 						}, {
 							name: 'autofocus',
