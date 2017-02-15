@@ -64,7 +64,7 @@ export default {
 					desc: '可见屏幕',
 					type: 'multipleSelect',
 					value: ['visible-lg-block', 'visible-md-block', 'visible-sm-block', 'visible-xs-block'],
-					children: [{
+					valueList: [{
 						name: '大屏幕(桌面 (≥1200px))',
 						value: 'visible-lg-block'
 					}, {
@@ -107,7 +107,7 @@ export default {
 						desc: '可见屏幕',
 						type: 'multipleSelect',
 						value: ['visible-lg-block', 'visible-md-block', 'visible-sm-block', 'visible-xs-block'],
-						children: [{
+						valueList: [{
 							name: '大屏幕(桌面 (≥1200px))',
 							value: 'visible-lg-block'
 						}, {
