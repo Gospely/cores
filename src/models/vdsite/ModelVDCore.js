@@ -81,8 +81,10 @@ export default {
 
 		handleLinkSettingValueChange(state, { payload: value}) {
 			console.log(state.linkSetting.activeLinkType);
-			
+
 			state.linkSetting.list[state.linkSetting.activeLinkType].value = value;
+			
+			return {...state};
 		},
 
 		handleCustomAttrCreatorInputChange(state, { payload: params }) {
