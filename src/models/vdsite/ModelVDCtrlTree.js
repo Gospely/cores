@@ -20,8 +20,40 @@ const VDTreeActions = {
 		return state.activeCtrl;
 	},
 
-	setActiveCtrl() {
+	getActiveCtrlByKey(state, key) {
 
+	},
+
+	getActiveControllerIndexAndLvlByKey(state, key, activePage) {
+
+		let obj = {
+			index: '',
+			level: 3
+		};
+		let controllers = activePage.children;
+		const loopControllers = function (controllers, level) {
+			level = level || 3;
+			for(let i = 0; i < controllers.length; i ++) {
+				let currentControl = controllers[i];
+				if (currentControl.children) {
+					loopControllers(currentControl.children, level ++);
+				}
+				if (currentControl.key == key) {
+					obj.index = i;
+					obj.level = level;
+					break;
+				}
+			}
+			return obj;
+		}
+		return loopControllers(controllers, 3);
+
+	},
+
+	setActiveCtrl(state, controllerIndex, controllerKey, level) {
+		state.layoutState.activeController.index = controllerIndex;
+		state.layoutState.activeController.key = controllerKey;
+		state.layoutState.activeController.level = level;
 	}
 }
 
@@ -42,7 +74,23 @@ export default {
 	    	}],
 	    },
 
+	    layoutState: {
+	    	activePage: 'index.html',
+
+	    	activeController: {
+	    		index: 0,
+	    		key: '',
+	    		level: 3
+	    	}
+	    },
+
 	    activeCtrlIndex: 0,
+	    activeCtrlLvl: 1,
+	    activeController: {
+	    	index: 0,
+	    	key: '',
+	    	level: 3
+	    },
 
 	    activeCtrl: {
 			tag: 'div',

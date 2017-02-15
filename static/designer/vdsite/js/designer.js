@@ -63,7 +63,6 @@ $(function() {
 
                 var evtAction = {
                     ctrlTreeGenerated: function() {
-                        console.log('ctrlTreeGenerated', data);
                         var elem = new ElemGenerator(data.controller);
                         var elemToAdd = jq(elem.createElement());
                         dndData.elemToAdd = elemToAdd;
@@ -198,7 +197,6 @@ $(function() {
         	},
 
             setCustomAttr: function(attr) {
-                console.log('custom', attr);
                 var self = this;
                 var attrAction = {
                     add: function() {
@@ -222,7 +220,6 @@ $(function() {
             setBasic: function(attr) {
 
                 if(attr.isAttr) {
-                    console.log('isAttr');
                     if(attr.value) {
                         this.elem.attr(attr.attrName, attr.value);
                     }
@@ -250,11 +247,17 @@ $(function() {
                         this.elem.addClass(cls);
                     };
                 }
+
             },
 
             setAttr: function(attr) {
                 if(attr.isHTML) {
                     this.elem.html(attr.value);
+                }
+
+                if(attr.isTag) {
+                    this.elem.
+                    console.log('sss');
                 }
             },
 
