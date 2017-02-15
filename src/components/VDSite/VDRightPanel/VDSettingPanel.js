@@ -114,7 +114,7 @@ const Component = (props) => {
 	    		const specialAttrHandler = {
 	    			'custom-attr' (item, attrTypeIndex) {
 
-			    		const handleInputChange = (index, attrName, proxy) => {
+			    		const handleInputChange = (customAttrIndex, attrName, proxy) => {
 			    			var valChanged = proxy.target.value,
 			    				self = this;
 		    				props.dispatch({
@@ -123,7 +123,8 @@ const Component = (props) => {
 		    						attrName: attrName,
 		    						value: self.value,
 		    						attrTypeIndex: attrTypeIndex,
-		    						customAttrIndex: index
+		    						customAttrIndex: customAttrIndex,
+		    						attrType: attrType
 		    					}
 		    				});
 			    		}
@@ -141,7 +142,8 @@ const Component = (props) => {
 			    					payload: {
 			    						key: self.key,
 			    						value: self.value,
-			    						index: attrTypeIndex
+			    						attrTypeIndex: attrTypeIndex,
+			    						attrType: attrType
 			    					}
 			    				})
 			    			},
@@ -171,7 +173,7 @@ const Component = (props) => {
 								</Form>
 					    	),
 
-					    	modifyContent () {
+					    	modifyContent (val, index) {
 
 					    		return (
 							      	<Form className="form-no-margin-bottom">
@@ -231,7 +233,7 @@ const Component = (props) => {
 												          <Col span={3}>
 
 															<Popover
-													        	content={customAttrProps.modifyContent()}
+													        	content={customAttrProps.modifyContent(val, index)}
 													        	title="修改 自定义属性"
 													        	trigger="click"
 													      	>

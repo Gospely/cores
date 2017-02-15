@@ -282,25 +282,20 @@ export default {
 			return {...state};
 		},
 
-		handleCustomAttrAddInputChange(state, { payload: value }) {
-
-			
-			
-			return {...state};
-		},
-
 		saveCustomAttr(state, { payload: params }) {
 
-			state.activeCtrl.attrs[params.index].children = {
+			console.log(params);
+
+			state.activeCtrl.attrs[params.attrTypeIndex].children.push({
 				key: params.key,
 				value: params.value
-			};
+			});
 
 			window.VDDesignerFrame.postMessage({
 				VDAttrRefreshed: {
 					activeCtrl: state.activeCtrl,
 					attr: {
-						value: params.index,
+						value: params.attrTypeIndex,
 						action: 'add'
 					},
 					attrType: params.attrType
