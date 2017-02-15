@@ -265,6 +265,8 @@ export default {
 
 		handleCustomAttrInputChange(state, { payload: params }) {
 
+			console.log('handleCustomAttrInputChange', params);
+
 			state.activeCtrl.attrs[params.attrTypeIndex].children[params.customAttrIndex][params.attrName] = params.value
 
 			window.VDDesignerFrame.postMessage({

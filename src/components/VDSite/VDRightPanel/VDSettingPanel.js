@@ -145,7 +145,9 @@ const Component = (props) => {
 			    						attrTypeIndex: attrTypeIndex,
 			    						attrType: attrType
 			    					}
-			    				})
+			    				});
+			    				this.key = '';
+			    				this.value = '';
 			    			},
 
 			    			onChange (attr, proxy) {
@@ -174,6 +176,8 @@ const Component = (props) => {
 					    	),
 
 					    	modifyContent (val, index) {
+
+					    		console.log('modifyContent', val, index);
 
 					    		return (
 							      	<Form className="form-no-margin-bottom">
