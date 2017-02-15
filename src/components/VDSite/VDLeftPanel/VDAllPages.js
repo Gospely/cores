@@ -26,6 +26,14 @@ const Component = (props) => {
 		handlePageListItemClick (e) {
 			var key = e.key;
 			localStorage.popoverKey = key;
+
+			//保存页面
+			if(props.vdpm.currentActivePageListItem != key){
+				props.dispatch({
+					type: 'vdpm/savePage',
+					payload: props.vdpm.currentActivePageListItem
+				});
+			}
 			props.dispatch({
 				type: 'vdpm/setCurrentActivePageListItem',
 				payload: key

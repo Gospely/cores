@@ -445,7 +445,35 @@ export default {
   					activePage
   				}
   			});
-  		}
+  		},
+        *savePage({payload: key}, {call, put, select}){
+
+            console.log(key);
+            var pages = yield select(state=> state.vdpm.pageList),
+                page;
+            let getPageInfoByKey = function(pages){
+				for (var i = 0; i < pages.length; i++) {
+					if(pages[i].key == key){
+						page = pages[i];
+                        break;
+					}
+				}
+				for (var i = 0; i < pages.length; i++) {
+					if(pages[i].children != null && pages[i].children != undefined){
+						getPageInfoByKey(pages[i].children);
+					}
+				}
+			}
+
+            //根据当前key 遍历获取编辑页面的数据
+			getPageInfoByKey(pages);
+
+            console.log(page);
+            //获取元素数据
+
+            //请求后台文件文件写入
+
+        }
 	}
 
 }
