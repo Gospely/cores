@@ -46,7 +46,7 @@ export default {
 
 	    activeCtrl: {
 			tag: 'div',
-			className: ['designer-wrapper', 'designer-header', 'vd-right-panel'],
+			className: [],
     		vdid: '456',
 			id: '',
     		ctrlName: 'div-block',
@@ -161,6 +161,10 @@ export default {
 
 				tmpAttr = controller.attrs;
 				for(let i = 0, len = tmpAttr.length; i < len; i ++) {
+					console.log(tmpAttr[i]);
+					if(specialAttrList.indexOf(tmpAttr[i].key) != -1) {
+						continue;
+					}
 					for (var j = 0; j < tmpAttr[i].children.length; j++) {
 						var attr = tmpAttr[i].children[j];
 						attr['id'] = randomString(8, 10);
