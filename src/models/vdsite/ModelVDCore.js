@@ -66,7 +66,7 @@ export default {
 			return {...state};
 		},
 
-		handleLinkSettingValueChange(state, { payload: value }) {
+		handleLinkSettingTypeChange(state, { payload: value }) {
 			state.linkSetting.actvieValue = value;
 
 			for (var i = 0; i < state.linkSetting.list.length; i++) {
@@ -76,6 +76,14 @@ export default {
 				}
 			};
 
+			return {...state};
+		},
+
+		handleLinkSettingValueChange(state, { payload: value}) {
+			console.log(state.linkSetting.activeLinkType);
+
+			state.linkSetting.list[state.linkSetting.activeLinkType].value = value;
+			
 			return {...state};
 		},
 
