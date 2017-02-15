@@ -161,7 +161,6 @@ export default {
 
 				tmpAttr = controller.attrs;
 				for(let i = 0, len = tmpAttr.length; i < len; i ++) {
-					console.log(tmpAttr[i]);
 					var currentAttrWithHeader = tmpAttr[i];
 					if(specialAttrList.indexOf(currentAttrWithHeader.key) != -1) {
 						continue;
@@ -252,7 +251,6 @@ export default {
 		},
 
 		handleCustomAttrRemoved(state, { payload: params }) {
-			console.log(state.activeCtrl, state.activeCtrl.attrs[params.attrTypeIndex].children, params.index)
 			var attrName = state.activeCtrl.attrs[params.attrTypeIndex].children[params.index].key;
 			state.activeCtrl.attrs[params.attrTypeIndex].children.splice(params.index, 1);
 			window.VDDesignerFrame.postMessage({
@@ -269,8 +267,6 @@ export default {
 		},
 
 		handleCustomAttrInputChange(state, { payload: params }) {
-
-			console.log('handleCustomAttrInputChange', params);
 
 			state.activeCtrl.attrs[params.attrTypeIndex].children[params.customAttrIndex][params.attrName] = params.value
 
@@ -293,14 +289,10 @@ export default {
 
 		saveCustomAttr(state, { payload: params }) {
 
-			console.log(params);
-
 			state.activeCtrl.attrs[params.attrTypeIndex].children.push({
 				key: params.key,
 				value: params.value
 			});
-
-			console.log(state.activeCtrl, state.activeCtrl.attrs[params.attrTypeIndex].children);
 
 			window.VDDesignerFrame.postMessage({
 				VDAttrRefreshed: {

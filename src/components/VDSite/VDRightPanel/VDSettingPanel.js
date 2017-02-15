@@ -811,7 +811,7 @@ const Component = (props) => {
 								    style={{ width: '100%' }}
 								    value={item.value}
 								    size="small"
-							     	onChange={formProps.handleAttrFormSelectChange.bind(this, item, attrType)}
+							     	onChange={formProps.handleAttrFormTextareaChange.bind(this, item, attrType)}
 								 >
 								    {	
 								    	item.valueList.map((val, key) => {
