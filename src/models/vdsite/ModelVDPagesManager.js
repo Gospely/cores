@@ -54,36 +54,6 @@ export default {
 				head: '',
 				body: ''
 			}
-		}, {
-			key: 'folder1',
-			name: '文件夹1',
-			children: [{
-				key: 'folder1/account.html',
-				name: '账户',
-				seo: {
-					title: '账户',
-					description: '介绍'
-				},
-				script: {
-					head: '',
-					body: ''
-				}
-			}, {
-				key: 'folder1/folder2',
-				name: '文件夹2',
-				children: [{
-					key: 'folder1/folder2/pw.html',
-					name: '忘记密码',
-					seo: {
-						title: '忘记密码',
-						description: '介绍'
-					},
-					script: {
-						head: '',
-						body: ''
-					}
-				}]
-			}]
 		}]
 	},
 
@@ -95,28 +65,50 @@ export default {
 			state.pageManager.treeSelect.value = 'root'
 			let getPageInfoByKey = function(pages){
 
+                var page;
 				for (var i = 0; i < pages.length; i++) {
+
 					if(pages[i].key == key){
-						return pages[i];
+						state.newPageFrom = pages[i];
+                        break;
 					}
 
 				}
 				for (var i = 0; i < pages.length; i++) {
-					if(pages[i].children != null){
+					if(pages[i].children != null && pages[i].children != undefined){
 						state.pageManager.treeSelect.value = pages[i].key;
-						return pages.children = getPageInfoByKey(pages[i].children);
+						getPageInfoByKey(pages[i].children) || null;
 					}
 				}
 			}
-			state.newPageFrom = getPageInfoByKey(state.pageList);
+			getPageInfoByKey(state.pageList);
+            delete state.pageList['children'];
 			return {...state};
 		},
 		handleNewPageVisible(state, { payload: params }){
 			state.pageManager.newPageVisible = params.value;
+            state.pageManager.treeSelect.value = 'root'
+            state.newPageFrom = {
+                key: '',
+                name: '',
+                seo: {
+                    title: '',
+                    description: ''
+                },
+                script: {
+                    head: '',
+                    script: ''
+                },
+            };
 			return {...state};
 		},
 		handleNewFolderVisible(state, { payload: params }){
 			state.pageManager.newFolderVisible = params.value;
+            state.pageManager.treeSelect.value = 'root'
+            state.newFolderForm = {
+                key: '',
+                name: '',
+            };
 			return {...state};
 		},
 		handleUpdatePopoverVisible(state){
@@ -154,7 +146,7 @@ export default {
 
 				for (var i = 0; i < pages.length; i++) {
 
-					if(pages[i].children != null && pages[i].key == tree){
+					if(pages[i].children != null && pages[i].children != undefined && pages[i].key == tree){
 
 						//检查是否同名
 						for (var j = 0; j < pages[i].children.length; j++) {
@@ -164,12 +156,12 @@ export default {
 								return pages;
 							}
 						}
-						pages.children = pages[i].children.push(state.newPageFrom);
+						pages.children = pages[i].children.push(state.newPageFrom)
 
 						return pages;
 					}else {
-						if(pages[i].children != null){
-							pages.children = pushPage(pages[i].children);
+						if(pages[i].children != null && pages[i].children != undefined){
+							pages.children = pushPage(pages[i].children)  || null;
 						}
 					}
 				}
@@ -181,7 +173,7 @@ export default {
 
 
 			if(tree != 'root') {
-				state.newPageFrom.key = tree + state.newPageFrom.name + '.html'
+				state.newPageFrom.key = tree + '/' + state.newPageFrom.name + '.html'
 				state.pageList = pushPage(state.pageList);
 			}else {
 				state.newPageFrom.key = state.newPageFrom.name + '.html'
@@ -210,6 +202,7 @@ export default {
 				}
 				state.pageList.push(state.newPageFrom);
 			}
+            delete state.pageList['children'];
 			state.pageManager.newPageVisible = bool;
 			if(!bool){
 				state.newPageFrom = {
@@ -248,6 +241,7 @@ export default {
                 return pages;
 			}
             state.pageList = updatePageInfoByKey(state.pageList);
+            delete state.pageList['children'];
             state.pageManager.updatePopoverVisible = false;
             state.newPageFrom = {
                 key: '',
@@ -263,7 +257,7 @@ export default {
             };
             return {...state};
         },
-        deletPage(state){
+        deletePage(state){
 
             let deletPageInfoByKey = function(pages){
 
@@ -273,7 +267,7 @@ export default {
                         pages.splice(i,1);
                         break;
 					}else {
-                        if(pages[i].children != null){
+                        if(pages[i].children != null && pages[i].children != undefined){
     					    pages[i].children = deletPageInfoByKey(pages[i].children);
     					}
 					}
@@ -282,6 +276,7 @@ export default {
 
 			}
             state.pageList = deletPageInfoByKey(state.pageList);
+            delete state.pageList['children'];
             state.pageManager.updatePopoverVisible = false;
             state.newPageFrom = {
                 key: '',
@@ -307,7 +302,7 @@ export default {
 
 				for (var i = 0; i < pages.length; i++) {
 
-					if(pages[i].children != null && pages[i].key == tree){
+					if(pages[i].children != null && pages[i].children != undefined && pages[i].key == tree){
 						//检查是否同名
 						for (var j = 0; j < pages[i].children.length; j++) {
 							if(pages[i].children[j].name == state.newFolderForm.name && pages[i].children[j].children != null){
@@ -319,9 +314,9 @@ export default {
 						pages.children = pages[i].children.push(state.newFolderForm);
 						return pages;
 					}else {
-						if(pages[i].children != null){
+						if(pages[i].children != null && pages[i].children != undefined){
 
-							pages.children = pushPage(pages[i].children);
+							pages.children = pushPage(pages[i].children) || null;
 						}
 					}
 				}
@@ -348,6 +343,7 @@ export default {
 				}
 				state.pageList.push(state.newFolderForm);
 			}
+            delete state.pageList['children'];
 			state.pageManager.newFolderVisible = bool;
 			if(!bool){
 				state.newFolderForm = {
@@ -405,9 +401,10 @@ export default {
 		},
 		initState(state, {payload: params}){
 
-			if(params.pageList != undefined){
-				state.pageList = params.UIState.pageList;
-			}
+            state.pageList = params.UIState.pageList;
+            state.currentActivePageListItem = params.UIState.currentActivePageListItem;
+            state.activePage = params.UIState.activePage;
+            console.log(state.pageList);
 			return { ...state};
 		}
 	},

@@ -49,7 +49,7 @@ const Component = (props) => {
   	};
 	const loopData = data => data.map((item) => {
 
-		if (item !=null && item.children != null) {
+		if (item !=null && item.children != null && item.children != undefined) {
 			return <TreeNode title={item.name} value={item.key} key={item.key} >{loopData(item.children)}</TreeNode>;
 		}
         if(item != null){
