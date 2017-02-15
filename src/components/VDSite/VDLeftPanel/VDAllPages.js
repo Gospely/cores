@@ -29,10 +29,10 @@ const Component = (props) => {
 
 			//保存页面
 			if(props.vdpm.currentActivePageListItem != key){
-				props.dispatch({
-					type: 'vdpm/savePage',
-					payload: props.vdpm.currentActivePageListItem
-				});
+				// props.dispatch({
+				// 	type: 'vdpm/savePage',
+				// 	payload: props.vdpm.currentActivePageListItem
+				// });
 			}
 			props.dispatch({
 				type: 'vdpm/setCurrentActivePageListItem',
