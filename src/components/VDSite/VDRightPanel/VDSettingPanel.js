@@ -291,10 +291,10 @@ const Component = (props) => {
 	    				const handleLinkSettingValueChange = (item, attType, dom) => {
 				    		console.log(dom.target.value);
 
-				    		props.dispatch({
-				    			type: 'vdcore/handleLinkSettingValueChange',
-				    			payload: dom.target.value
-				    		});
+				    		// props.dispatch({
+				    		// 	type: 'vdcore/handleLinkSettingValueChange',
+				    		// 	payload: dom.target.value
+				    		// });
 
 				    		props.dispatch({
 		    					type: 'vdCtrlTree/saveCustomAttr',
@@ -305,6 +305,15 @@ const Component = (props) => {
 		    						attrType: attrType
 		    					}
 			    			});
+
+							props.dispatch({
+								type: 'vdCtrlTree/handleAttrRefreshed',
+								payload: {
+									activeCtrl: props.vdCtrlTree.activeCtrl,
+									attr: item,
+									attrType: attType
+								}
+							});
 				    	};
 
 					    const linkSettingProps = {
