@@ -195,7 +195,6 @@ const Component = (props) => {
 					    	},
 
 					    	onConfirmDelete (index) {
-					    		item.children.splice(index, 1);
 					    		props.dispatch({
 					    			type: 'vdCtrlTree/handleCustomAttrRemoved',
 					    			payload: {

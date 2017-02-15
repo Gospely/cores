@@ -185,7 +185,25 @@ $(function() {
         	},
 
             setCustomAttr: function(attr) {
-                console.log(attr);
+                console.log('custom', attr);
+                var self = this;
+                var attrAction = {
+                    add: function() {
+                        self.elem.attr(attr.value.key, attr.value.value);
+                    },
+
+                    modify: function() {
+                        self.elem.attr(attr.attrName, attr.value);
+                    },
+
+                    remove: function() {
+                        self.elem.attr(attr.attrName, '');
+                    }
+                }
+
+                if(attrAction[attr.action]) {
+                    attrAction[attr.action]();
+                }
             },
 
             setBasic: function(attr) {

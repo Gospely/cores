@@ -247,17 +247,19 @@ export default {
 		},
 
 		handleCustomAttrRemoved(state, { payload: params }) {
+			console.log(state.activeCtrl, state.activeCtrl.attrs[params.attrTypeIndex].children, params.index)
+			var attrName = state.activeCtrl.attrs[params.attrTypeIndex].children[params.index].key;
 			state.activeCtrl.attrs[params.attrTypeIndex].children.splice(params.index, 1);
 			window.VDDesignerFrame.postMessage({
 				VDAttrRefreshed: {
 					activeCtrl: state.activeCtrl,
 					attr: {
-						value: params.index,
+						attrName: attrName,
 						action: 'remove'
 					},
 					attrType: params.attrType
 				}
-			}, '*');			
+			}, '*');
 			return {...state};
 		},
 
@@ -291,11 +293,16 @@ export default {
 				value: params.value
 			});
 
+			console.log(state.activeCtrl, state.activeCtrl.attrs[params.attrTypeIndex].children);
+
 			window.VDDesignerFrame.postMessage({
 				VDAttrRefreshed: {
 					activeCtrl: state.activeCtrl,
 					attr: {
-						value: params.attrTypeIndex,
+						value: {
+							key: params.key,
+							value: params.value
+						},
 						action: 'add'
 					},
 					attrType: params.attrType
