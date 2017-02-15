@@ -61,11 +61,10 @@ const initApplication = function (application, props, flag){
             });
         }
 
-        localStorage.UIState = null;
         props.dispatch({
             type: 'UIState/readConfig',
             payload: {
-                id: application.id
+                id: application.id,
             }
         });
         if(localStorage.UIState != '' && localStorage.UIState != null && localStorage.UIState != undefined && window.reload == false){
