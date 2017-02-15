@@ -79,11 +79,11 @@ export default {
 			return {...state};
 		},
 
-		handleLinkSettingValueChange(state, { payload: value}) {
-			state.linkSetting.list[state.linkSetting.activeLinkType].value = value;
+		// handleLinkSettingValueChange(state, { payload: value}) {
+		// 	state.linkSetting.list[state.linkSetting.activeLinkType].value = value;
 
-			return {...state};
-		},
+		// 	return {...state};
+		// },
 
 		handleCustomAttrCreatorInputChange(state, { payload: params }) {
 			state.customAttr.creator[params.attrName] = params.value;

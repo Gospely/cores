@@ -291,10 +291,10 @@ const Component = (props) => {
 	    				const handleLinkSettingValueChange = (item, attType, dom) => {
 				    		console.log(dom.target.value);
 
-				    		props.dispatch({
-				    			type: 'vdcore/handleLinkSettingValueChange',
-				    			payload: dom.target.value
-				    		});
+				    		// props.dispatch({
+				    		// 	type: 'vdcore/handleLinkSettingValueChange',
+				    		// 	payload: dom.target.value
+				    		// });
 
 				    		props.dispatch({
 		    					type: 'vdCtrlTree/saveCustomAttr',
@@ -305,10 +305,19 @@ const Component = (props) => {
 		    						attrType: attrType
 		    					}
 			    			});
+
+							props.dispatch({
+								type: 'vdCtrlTree/handleAttrRefreshed',
+								payload: {
+									activeCtrl: props.vdCtrlTree.activeCtrl,
+									attr: item,
+									attrType: attType
+								}
+							});
 				    	};
 
 					    const linkSettingProps = {
-							
+
 					    	linkSettingTemplate: props.vdcore.linkSetting.list.map( (item, index) => {
 								return (
 									<RadioButton key={item.value} value={item.value}>
@@ -432,10 +441,10 @@ const Component = (props) => {
 											</div>
 											<div className="bem-Frame_Body">
 												<Upload {...bgUploaderProps}>
-													<Button><i className="fa fa-cloud-upload"></i>&nbsp;上传图片</Button>								
+													<Button><i className="fa fa-cloud-upload"></i>&nbsp;上传图片</Button>
 											  	</Upload>
 
-												<Button style={{position: 'absolute', right: '30px', top: '60px'}}><i className="fa fa-picture-o"></i>&nbsp;图片资源</Button>							
+												<Button style={{position: 'absolute', right: '30px', top: '60px'}}><i className="fa fa-picture-o"></i>&nbsp;图片资源</Button>
 											</div>
 										</div>
 
@@ -790,7 +799,7 @@ const Component = (props) => {
 								    size="small"
 								    onChange={formProps.handleAttrFormSelectChange.bind(this, item, attrType)}
 								 >
-								    {	
+								    {
 								    	item.valueList.map((val, key) => {
 								    		return (
 									    	  <Option key={key} value={val.value}>{val.name}</Option>
@@ -811,7 +820,7 @@ const Component = (props) => {
 								    size="small"
 							     	onChange={formProps.handleAttrFormSelectChange.bind(this, item, attrType)}
 								 >
-								    {	
+								    {
 								    	item.valueList.map((val, key) => {
 								    		return (
 									    	  <Option key={key} value={val}>{val}</Option>
@@ -819,7 +828,7 @@ const Component = (props) => {
 								    	})
 								    }
 							  	</Select>
-							</FormItem>    						
+							</FormItem>
     					);
     				},
 
@@ -840,7 +849,7 @@ const Component = (props) => {
 			      	<Form className="form-no-margin-bottom">
 			      		{
 			    			items.map((item, index) => {
-			    				return formTypeGenerator(item);			    					
+			    				return formTypeGenerator(item);
     						})
 			      		}
 			      	</Form>
@@ -857,7 +866,7 @@ const Component = (props) => {
 
 			let panel = panelGenerator(item);
 			return panel;
-    		
+
     	});
     }
 

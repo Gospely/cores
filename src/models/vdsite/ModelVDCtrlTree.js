@@ -117,7 +117,7 @@ export default {
 						value: 'visible-lg-block'
 					}, {
 						name: '中等屏幕(桌面 (≥992px))',
-						value: 'visible-md-block'					
+						value: 'visible-md-block'
 					}, {
 						name: '小屏幕(平板 (≥768px))',
 						value: 'visible-sm-block'
@@ -160,7 +160,7 @@ export default {
 							value: 'visible-lg-block'
 						}, {
 							name: '中等屏幕(桌面 (≥992px))',
-							value: 'visible-md-block'					
+							value: 'visible-md-block'
 						}, {
 							name: '小屏幕(平板 (≥768px))',
 							value: 'visible-sm-block'
@@ -194,7 +194,7 @@ export default {
 		},
 
 		generateCtrlTree(state, { payload: ctrl }) {
-			
+
 			let controller = ctrl.details;
 
 			const specialAttrList = ['custom-attr', 'link-setting', 'list-setting', 'heading-type', 'image-setting', 'select-setting'];
@@ -253,7 +253,7 @@ export default {
     			}
 			}, '*');
 
-			return {...state};	
+			return {...state};
 		},
 
 		handleElemAdded(state, { payload: params }) {
