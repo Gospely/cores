@@ -21,10 +21,10 @@ export default {
 				id: ''
 			}, {
 				name: 'class',
-				desc: '可见屏幕',
+				desc: '可见性',
 				isScreenSetting: true,
 				type: 'multipleSelect',
-				value: ['visible-lg-block', 'visible-md-block', 'visible-sm-block', 'visible-xs-block'],
+				value: [],
 				children: [{
 					name: 'block (≥1200px)',
 					value: 'visible-lg-block'

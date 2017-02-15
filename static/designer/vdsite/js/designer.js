@@ -193,7 +193,7 @@ $(function() {
                 if(attr.isAttr) {
                     console.log('isAttr');
                     if(attr.value) {
-                        this.elem.attr(attr.attrName, attr.value);                        
+                        this.elem.attr(attr.attrName, attr.value);
                     }
                 }
 
