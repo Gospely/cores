@@ -248,6 +248,11 @@ $(function() {
             },
 
             setLinkSetting: function(attr) {
+                console.log('attr');
+
+                if(attr.isHTML) {
+                    this.elem.attr(attr.attrName, attr.value);
+                }
             },
 
             transformTypeToUpper: function(type) {
