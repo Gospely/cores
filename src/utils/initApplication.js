@@ -8,129 +8,130 @@ import initState from './initUIState'
 const initApplication = function (application, props, flag){
 
     //清除定时器
-        window.clearInterval(window.uistateSave)
-        //断开上一个socket
-        if(window.fileSocket != null && !flag) {
-            window.fileSocket.emit('leave', localStorage.applicationId + localStorage.userName);
-            window.fileSocket.disconnect();
-        }
-        window.socket = null;
-        if(localStorage.applicationId == application.id){
-            window.reload = false;
-        }else{
-            window.reload = true;
-        }
-        if(application.creator != localStorage.user){
-            window.location.href = window.location.origin;
-            return false;
-        }
-        if(location.hash.indexOf('project') == -1) {
-            return false;
-        }
+    window.clearInterval(window.uistateSave)
+    //断开上一个socket
+    if(window.fileSocket != null && !flag) {
+        window.fileSocket.emit('leave', localStorage.applicationId + localStorage.userName);
+        window.fileSocket.disconnect();
+    }
+    window.socket = null;
+    if(localStorage.applicationId == application.id){
+        window.reload = false;
+    }else{
+        window.reload = true;
+    }
+    if(application.creator != localStorage.user){
+        window.location.href = window.location.origin;
+        return false;
+    }
+    if(location.hash.indexOf('project') == -1) {
+        return false;
+    }
 
-        window.isWeapp = true;
+    window.isWeapp = true;
 
-        if(application.image == 'wechat:latest'){
+    if(application.image == 'wechat:latest'){
 
-            localStorage.image = application.image;
-            localStorage.currentProject = application.name;
-            localStorage.applicationId = application.id;
+        localStorage.image = application.image;
+        localStorage.currentProject = application.name;
+        localStorage.applicationId = application.id;
+
+        props.dispatch({
+          type: 'sidebar/hideModalSwitchApp'
+        });
+        props.dispatch({
+          type: 'sidebar/setActiveMenu',
+          payload: 'controllers'
+        });
+
+        localStorage.activeMenu = 'attr';
+
+        if(!flag){
+            var title = (
+                    <span>
+                        <i className="fa fa-weixin"></i> Gospel 小程序 UI 设计器
+                    </span>
+                ),
+
+                type = 'designer';
 
             props.dispatch({
-              type: 'sidebar/hideModalSwitchApp'
+                type: 'devpanel/add',
+                payload: {title, type}
             });
-            props.dispatch({
-              type: 'sidebar/setActiveMenu',
-              payload: 'controllers'
-            });
-
-            localStorage.activeMenu = 'attr';
-
-            if(!flag){
-                var title = (
-                        <span>
-                            <i className="fa fa-weixin"></i> Gospel 小程序 UI 设计器
-                        </span>
-                    ),
-
-                    type = 'designer';
-
-                props.dispatch({
-                    type: 'devpanel/add',
-                    payload: {title, type}
-                });
+        }
+        props.dispatch({
+            type: 'UIState/readConfig',
+            payload: {
+                id: application.id
             }
+        });
 
+        if(localStorage.UIState != '' && localStorage.UIState != null && localStorage.UIState != undefined && window.reload == false){
+
+            var UIState = JSON.parse(localStorage.UIState);
             props.dispatch({
-                type: 'UIState/readConfig',
-                payload: {
-                    id: application.id,
-                }
+                type: 'designer/initState',
+                payload: { UIState: UIState.UIState.designer }
             });
-            if(localStorage.UIState != '' && localStorage.UIState != null && localStorage.UIState != undefined && window.reload == false){
+            props.dispatch({
+                type: 'cpre/initState',
+                payload: { UIState: UIState.UIState.previewer }
+            });
+            var key = 'single'
+            props.dispatch({
+              type: 'layout/handleClick',
+              payload: key
+            });
+        }else {
+            props.dispatch({
+                type: 'devpanel/wechatInit',
+            });
 
-                var UIState = JSON.parse(localStorage.UIState);
+            setTimeout(function(){
                 props.dispatch({
-                    type: 'designer/initState',
-                    payload: { UIState: UIState.UIState.designer }
-                });
-                props.dispatch({
-                    type: 'cpre/initState',
-                    payload: { UIState: UIState.UIState.previewer }
-                });
-                var key = 'single'
-                props.dispatch({
-                  type: 'layout/handleClick',
-                  payload: key
-                });
-            }else {
-                props.dispatch({
-                    type: 'devpanel/wechatInit',
-                });
-
-                setTimeout(function(){
-                    props.dispatch({
-                      type: 'designer/getConfig',
-                      payload: { id : application.id}
-                    });
-                }, 200);
-
-                var key = 'single'
-                props.dispatch({
-                  type: 'layout/handleClick',
-                  payload: key
-                });
-            }
-            setTimeout(function() {
-                props.dispatch({
-                  type: 'rightbar/setActiveMenu',
-                  payload: 'attr'
+                  type: 'designer/getConfig',
+                  payload: { id : application.id}
                 });
             }, 200);
 
-            var inter = setInterval(function() {
+            var key = 'single'
+            props.dispatch({
+              type: 'layout/handleClick',
+              payload: key
+            });
+        }
+        setTimeout(function() {
+            props.dispatch({
+              type: 'rightbar/setActiveMenu',
+              payload: 'attr'
+            });
+        }, 200);
 
-                if(window.gospelDesigner) {
-                    clearInterval(inter);
+        var inter = setInterval(function() {
 
-                    props.dispatch({
-                        type: 'attr/setFormItemsByDefault'
-                    });
+            if(window.gospelDesigner) {
+                clearInterval(inter);
 
-                    props.dispatch({
-                        type: 'designer/handleCtrlSelected'
-                    });
+                props.dispatch({
+                    type: 'attr/setFormItemsByDefault'
+                });
 
-                }
-
-            }, 200);
-            if(window.reload && ! flag){
-                setTimeout(function(){
-                    window.location.reload();
-                }, 2000);
+                props.dispatch({
+                    type: 'designer/handleCtrlSelected'
+                });
 
             }
-        }else{
+
+        }, 200);
+        if(window.reload && ! flag){
+            setTimeout(function(){
+                window.location.reload();
+            }, 2000);
+
+        }
+        localStorage.flashState = 'true'
+    }else{
         props.dispatch({
             type: 'devpanel/showLoading',
             payload: {
