@@ -156,7 +156,7 @@ export default {
 					className: ['vd-empty'],
 					attrs: [{
 						title: '链接设置',
-						key: 'link',
+						key: 'link-setting',
 						children: []
 					}]
 				}
