@@ -53,11 +53,11 @@ const VDStylePanel = (props) => {
 	var handleStylesChange = function(key, value) {
 		console.log(key);
 		console.log(value.target.value);
-
-		props.dispatch({
-			type: 'vdstyles/handleStylesChange',
-			payload: { target: '.body height', value: value.target.value }
-		});
+		console.log(props.vdCtrlTree.activeCtrl)
+		// props.dispatch({
+		// 	type: 'vdstyles/handleStylesChange',
+		// 	payload: { target: '.body height', value: value.target.value }
+		// });
 	}
 
 	const cssSelector = {
@@ -857,7 +857,7 @@ const VDStylePanel = (props) => {
 								</div>
 								<div className="bem-Frame_Body">
 						
-							        <RadioGroup defaultValue="block" size="small">
+							        <RadioGroup defaultValue="block" size="small" onChange={handleStylesChange.bind(this, 'display')}>
 								      	<RadioButton value="block">
 					  		              	<Tooltip placement="top" title="block">
 								      			<svg width="18" height="14" viewBox="0 0 22 14" className="bem-Svg " style={{marginTop:'3px', display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".15" fill="currentColor" d="M19 3v8H3V3h16m1-1H2v10h18V2z"></path><path fill="currentColor" d="M19.8 1H2.2A1.2 1.2 0 0 0 1 2.2v9.6A1.2 1.2 0 0 0 2.2 13h17.6a1.2 1.2 0 0 0 1.2-1.2V2.2A1.2 1.2 0 0 0 19.8 1zm.2 11H2V2h18v10z"></path><path opacity=".35" fill="currentColor" d="M3 3h16v8H3z"></path></svg>
@@ -904,7 +904,7 @@ const VDStylePanel = (props) => {
 					  	<Col span={12} style={{paddingLeft: '5px'}}>
 					      	<Form className="form-no-margin-bottom">
 								<FormItem {...formItemLayout} label="高度">
-									<Input size="small" />
+									<Input size="small" onChange={handleStylesChange.bind(this, 'height')}/>
 								</FormItem>
 					      	</Form>
 					  	</Col>
@@ -916,14 +916,14 @@ const VDStylePanel = (props) => {
 					  	<Col span={12} style={{paddingRight: '5px'}}>
 					      	<Form className="form-no-margin-bottom">
 								<FormItem {...formItemLayout} label="最大">
-									<Input size="small" />
+									<Input size="small" onChange={handleStylesChange.bind(this, 'max-width')}/>
 								</FormItem>
 					      	</Form>
 					  	</Col>
 					  	<Col span={12} style={{paddingLeft: '5px'}}>
 					      	<Form className="form-no-margin-bottom">
 								<FormItem {...formItemLayout} label="最大">
-									<Input size="small" />
+									<Input size="small" onChange={handleStylesChange.bind(this, 'min-width')}/>
 								</FormItem>
 					      	</Form>
 					  	</Col>
@@ -935,14 +935,14 @@ const VDStylePanel = (props) => {
 					  	<Col span={12} style={{paddingRight: '5px'}}>
 					      	<Form className="form-no-margin-bottom">
 								<FormItem {...formItemLayout} label="最小">
-									<Input size="small" />
+									<Input size="small" onChange={handleStylesChange.bind(this, 'min-height')}/>
 								</FormItem>
 					      	</Form>
 					  	</Col>
 					  	<Col span={12} style={{paddingLeft: '5px'}}>
 					      	<Form className="form-no-margin-bottom">
 								<FormItem {...formItemLayout} label="最小">
-									<Input size="small" />
+									<Input size="small" onChange={handleStylesChange.bind(this, 'min-height')}/>
 								</FormItem>
 					      	</Form>
 					  	</Col>
@@ -953,7 +953,7 @@ const VDStylePanel = (props) => {
 
 			      	<Form className="form-no-margin-bottom">
 						<FormItem {...formItemLayout} label="浮动">
-					        <RadioGroup defaultValue="block" size="small">
+					        <RadioGroup defaultValue="block" size="small" onChange={handleStylesChange.bind(this, 'float')}>
 						      	<RadioButton value="none">
 			  		              	<Tooltip placement="top" title="none">
 										<Icon type="close" />
@@ -975,7 +975,7 @@ const VDStylePanel = (props) => {
 
 			      	<Form className="form-no-margin-bottom">
 						<FormItem {...formItemLayout} label="清除">
-					        <RadioGroup defaultValue="block" size="small">
+					        <RadioGroup defaultValue="block" size="small" onChange={handleStylesChange.bind(this, 'clear')}>
 						      	<RadioButton value="none">
 			  		              	<Tooltip placement="top" title="none">
 										<Icon type="close" />
@@ -1004,7 +1004,7 @@ const VDStylePanel = (props) => {
 
 			      	<Form className="form-no-margin-bottom">
 						<FormItem {...formItemLayout} label="溢出">
-					        <RadioGroup defaultValue="block" size="small">
+					        <RadioGroup defaultValue="block" size="small" onChange={handleStylesChange.bind(this, 'overflow')}>
 						      	<RadioButton value="visible">
 			  		              	<Tooltip placement="top" title="visible">
 										<Icon type="smile-o" />
@@ -1033,7 +1033,7 @@ const VDStylePanel = (props) => {
 
 			      	<Form className="form-no-margin-bottom">
 						<FormItem {...formItemLayout} label="位置">
-					        <RadioGroup defaultValue="block" size="small">
+					        <RadioGroup defaultValue="block" size="small" onChange={handleStylesChange.bind(this, 'position')}>
 						      	<RadioButton value="auto">
 			  		              	<Tooltip placement="top" title="auto">
 										<Icon type="check" />
@@ -1065,7 +1065,7 @@ const VDStylePanel = (props) => {
 					  	<Col span={12} style={{paddingRight: '5px'}}>
 					      	<Form className="form-no-margin-bottom">
 								<FormItem {...formItemLayout} label="字体">
-		        				    <Select size="small" value="选择字体">
+		        				    <Select size="small" value="选择字体" onChange={handleStylesChange.bind(this, 'font-family')}>
 						      			<Option key="sss" value="h1">h1</Option>
 						    		</Select>
 								</FormItem>
@@ -1074,7 +1074,7 @@ const VDStylePanel = (props) => {
 					  	<Col span={12} style={{paddingLeft: '5px'}}>
 					      	<Form className="form-no-margin-bottom">
 								<FormItem {...formItemLayout} label="颜色">
-									<Input type="color" size="small" />
+									<Input type="color" size="small" onChange={handleStylesChange.bind(this, 'color')}/>
 								</FormItem>
 							</Form>
 					  	</Col>
@@ -1086,7 +1086,7 @@ const VDStylePanel = (props) => {
 					  	<Col span={12} style={{paddingRight: '5px'}}>
 					      	<Form className="form-no-margin-bottom">
 								<FormItem {...formItemLayout} label="粗细">
-		        				    <Select size="small" value="选择">
+		        				    <Select size="small" value="选择" onChange={handleStylesChange.bind(this, 'font-weight')}>
 						      			<Option key="sss" value="h1">h1</Option>
 						    		</Select>
 								</FormItem>
@@ -1096,7 +1096,7 @@ const VDStylePanel = (props) => {
 					      	<Form className="form-no-margin-bottom">
 								<FormItem {...formItemLayout} label="样式">
 
-									<RadioGroup defaultValue="normal" size="small">
+									<RadioGroup defaultValue="normal" size="small" onChange={handleStylesChange.bind(this, 'font-style')}>
 								      	<RadioButton value="normal">
 					  		              	<Tooltip placement="top" title="normal">
 												<i className="fa fa-font"></i>
@@ -1120,14 +1120,14 @@ const VDStylePanel = (props) => {
 					  	<Col span={12} style={{paddingRight: '5px'}}>
 						  	<Form className="form-no-margin-bottom">
 								<FormItem {...formItemLayout} label="缩进">
-									<Input type="number" size="small" />
+									<Input type="number" size="small" onChange={handleStylesChange.bind(this, 'text-indent')}/>
 								</FormItem>
 						  	</Form>				  	
 					  	</Col>
 					  	<Col span={12} style={{paddingLeft: '5px'}}>
 					      	<Form className="form-no-margin-bottom">
 								<FormItem {...formItemLayout} label="大小">
-									<Input type="number" size="small" />
+									<Input type="number" size="small" onChange={handleStylesChange.bind(this, 'font-size')}/>
 								</FormItem>
 					      	</Form>
 					  	</Col>
@@ -1139,14 +1139,14 @@ const VDStylePanel = (props) => {
 					  	<Col span={12} style={{paddingRight: '5px'}}>
 					      	<Form className="form-no-margin-bottom">
 								<FormItem {...formItemLayout} label="行间距">
-									<Input type="number" size="small" />
+									<Input type="number" size="small" onChange={handleStylesChange.bind(this, 'line-height')}/>
 								</FormItem>
 							</Form>
 					  	</Col>
 					  	<Col span={12} style={{paddingLeft: '5px'}}>
 					      	<Form className="form-no-margin-bottom">
 								<FormItem {...formItemLayout} label="词间距">
-									<Input type="number" size="small" />
+									<Input type="number" size="small" onChange={handleStylesChange.bind(this, 'letter-spacing')}/>
 								</FormItem>
 					      	</Form>
 					  	</Col>
@@ -1159,7 +1159,7 @@ const VDStylePanel = (props) => {
 
 						<FormItem {...formItemLayout} label="排列方式">
 
-							<RadioGroup defaultValue="left" size="small">
+							<RadioGroup defaultValue="left" size="small" onChange={handleStylesChange.bind(this, 'text-align')}>
 						      	<RadioButton value="normal">
 			  		              	<Tooltip placement="top" title="left">
 										<i className="fa fa-align-left"></i>
@@ -1186,13 +1186,13 @@ const VDStylePanel = (props) => {
 
 						<FormItem {...formItemLayout} label="阅读顺序">
 
-							<RadioGroup defaultValue="left" size="small">
-						      	<RadioButton value="从左到右">
+							<RadioGroup defaultValue="left" size="small" onChange={handleStylesChange.bind(this, 'write-mode')}>
+						      	<RadioButton value="lr-tb">
 			  		              	<Tooltip placement="top" title="从左到右">
 										<i className="fa fa-indent"></i>
 						      		</Tooltip>
 					      		</RadioButton>
-						      	<RadioButton value="从右到左">
+						      	<RadioButton value="tb-rl">
 			  		              	<Tooltip placement="top" title="从右到左">
 										<i style={{transform:'rotate(180deg)'}} className="fa fa-indent"></i>
 						      		</Tooltip>
@@ -1203,7 +1203,7 @@ const VDStylePanel = (props) => {
 
 						<FormItem {...formItemLayout} label="渲染">
 
-							<RadioGroup defaultValue="none" size="small">
+							<RadioGroup defaultValue="none" size="small" onChange={handleStylesChange.bind(this, 'text-decoration')}>
 						      	<RadioButton value="none">
 			  		              	<Tooltip placement="top" title="none">
 										<Icon type="close" />
@@ -1225,23 +1225,23 @@ const VDStylePanel = (props) => {
 
 						<FormItem {...formItemLayout} label="大小写">
 
-							<RadioGroup defaultValue="none" size="small">
+							<RadioGroup defaultValue="none" size="small" onChange={handleStylesChange.bind(this, 'text-transform')}>
 						      	<RadioButton value="none">
 			  		              	<Tooltip placement="top" title="none">
 										<Icon type="close" />
 						      		</Tooltip>
 					      		</RadioButton>
-						      	<RadioButton value="大写">
+						      	<RadioButton value="uppercase">
 			  		              	<Tooltip placement="top" title="大写">
 			  		              		<span>TT</span>
 						      		</Tooltip>
 						      	</RadioButton>
-						      	<RadioButton value="首字母大写">
+						      	<RadioButton value="capitalize">
 			  		              	<Tooltip placement="top" title="首字母大写">
 			  		              		<span>Tt</span>
 						      		</Tooltip>
 						      	</RadioButton>
-						      	<RadioButton value="小写">
+						      	<RadioButton value="lowercase">
 			  		              	<Tooltip placement="top" title="小写">
 			  		              		<span>tt</span>
 						      		</Tooltip>
@@ -1342,7 +1342,7 @@ const VDStylePanel = (props) => {
 
 			    	<Form className="form-no-margin-bottom">
 						<FormItem {...formItemLayout} label="背景色">
-							<Input type="color" size="small" />
+							<Input type="color" size="small" onChange={handleStylesChange.bind(this, 'background-color')}/>
 						</FormItem>
 			    	</Form>
 
@@ -1381,11 +1381,11 @@ const VDStylePanel = (props) => {
 						<Col span={16} style={{paddingLeft: '15px'}}>
 					    	<Form className="form-no-margin-bottom">
 								<FormItem {...formItemLayout} label="宽度">
-									<Input size="small" />
+									<Input size="small" onChange={handleStylesChange.bind(this, 'border-width')}/>
 								</FormItem>
 
 								<FormItem {...formItemLayout} label="颜色">
-									<Input size="small" type="color" />
+									<Input size="small" type="color" onChange={handleStylesChange.bind(this, 'border-color')}/>
 								</FormItem>
 					    	</Form>
 						</Col>
@@ -1395,7 +1395,7 @@ const VDStylePanel = (props) => {
 
 						<FormItem {...formItemLayout} label="样式">
 
-							<RadioGroup defaultValue="none" size="small">
+							<RadioGroup defaultValue="none" size="small" onChange={handleStylesChange.bind(this, 'border-style')}>
 						      	<RadioButton value="none">
 			  		              	<Tooltip placement="top" title="无">
 										<Icon type="close" />
