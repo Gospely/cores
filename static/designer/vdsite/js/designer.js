@@ -63,6 +63,7 @@ $(function() {
 
                 var evtAction = {
                     ctrlTreeGenerated: function() {
+                        console.log('ctrlTreeGenerated', data);
                         var elem = new ElemGenerator(data.controller);
                         var elemToAdd = jq(elem.createElement());
                         dndData.elemToAdd = elemToAdd;
@@ -322,9 +323,7 @@ $(function() {
                     for (var i = 0; i < this.controller.children.length; i++) {
                         var currentCtrl = this.controller.children[i],
 
-                            reComGenerator = new ElemGenerator({
-                                controller: currentCtrl
-                            }),
+                            reComGenerator = new ElemGenerator(currentCtrl),
 
                             loopComponent = reComGenerator.createElement(),
 
