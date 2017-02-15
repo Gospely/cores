@@ -77,9 +77,9 @@ const Component = (props) => {
 				type: 'vdpm/updatePage',
 			});
 		},
-		deletPage(){
+		deletePage(){
 			props.dispatch({
-				type: 'vdpm/deletPage',
+				type: 'vdpm/deletePage',
 			});
 		}
 	}
@@ -161,7 +161,7 @@ const Component = (props) => {
 
           <FormItem {...tailFormItemLayout}>
             <Button type="primary" htmlType="submit" onClick={formItemProps.updatePage}>保存</Button>
-            <Button type="danger" style={{marginLeft: '10px'}} onClick={formItemProps.deletPage}>删除页面</Button>
+            <Button type="danger" style={{marginLeft: '10px'}} onClick={formItemProps.deletePage}>删除页面</Button>
           </FormItem>
         </Form>
       </div>
@@ -173,7 +173,7 @@ const Component = (props) => {
 
           for (var i = 0; i < tree.length; i++) {
             var item = tree[i];
-            if(item != null && item.children) {
+            if(item != null && item.children && item.children != undefined) {
               tpl.push((
                 <SubMenu key={item.key} title={<span><Icon type="folder" />{item.name}</span>}>
                   {pageTreeGenerator(item.children, true)}

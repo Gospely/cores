@@ -1,4 +1,20 @@
 const packUIStage = function (params) {
+
+	const packByType = {
+		'ha': function(){
+
+		},
+		wechat: function(){
+
+		},
+		vd: function(){
+			return {vdpm: params.vdpm};
+		},
+		common: function(){
+
+		},
+
+	}
 	var uiState = {
       	rightbar: {
                   activeMenu: params.rightbar.activeMenu

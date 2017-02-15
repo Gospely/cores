@@ -3,6 +3,7 @@ import { message, notification } from 'antd';
 import request from './request';
 import config from '../configs'
 import fileListen from './fileListen';
+import initState from './initUIState'
 
 const initApplication = function (application, props, flag){
 
@@ -59,13 +60,14 @@ const initApplication = function (application, props, flag){
                 payload: {title, type}
             });
         }
+
+        localStorage.UIState = null;
         props.dispatch({
             type: 'UIState/readConfig',
             payload: {
                 id: application.id
             }
         });
-
         if(localStorage.UIState != '' && localStorage.UIState != null && localStorage.UIState != undefined && window.reload == false){
 
             var UIState = JSON.parse(localStorage.UIState);
@@ -129,7 +131,6 @@ const initApplication = function (application, props, flag){
             }, 2000);
 
         }
-        localStorage.flashState = 'true'
     }else{
         props.dispatch({
             type: 'devpanel/showLoading',
@@ -173,12 +174,7 @@ const initApplication = function (application, props, flag){
         props.dispatch({
             type: 'file/initFiles',
         });
-        props.dispatch({
-            type: 'UIState/readConfig',
-        payload: {
-          id: application.id
-        }
-        });
+
         props.dispatch({
           type: 'sidebar/hideModalSwitchApp'
         });
@@ -211,59 +207,33 @@ const initApplication = function (application, props, flag){
             type: 'devpanel/handleImages',
             payload: { id: application.image}
         });
+
         if(localStorage.UIState != null && localStorage.UIState != undefined){
 
             var UIState = JSON.parse(localStorage.UIState);
-            props.dispatch({
-                type: 'sidebar/initState',
-                payload: { UIState: UIState.UIState.sidebar }
-            });
-            // props.dispatch({
-            //     type: 'vdpm/initState',
-            //     payload: { UIState: UIState.UIState.vdpm }
-            // });
-            localStorage.create = 'false';
-            localStorage.createPage = 'false';
-            props.dispatch({
-              type: 'devpanel/getConfig',
-              payload: { id : application.id, UIState: UIState.UIState.devpanel}
-            });
-            if(UIState.UIState.previewer.loaded){
-                props.dispatch({
-                    type: 'rightbar/setActiveMenu',
-                    payload: 'common-previewer'
-                });
-                props.dispatch({
-                    type: 'index/toggleCommonPreviewer'
-                });
-            }
-            props.dispatch({
-                type: 'cpre/initState',
-                payload: { UIState: UIState.UIState.previewer }
-            });
+            if(UIState.applicationId != application.id){
 
-            if(localStorage.image != 'vd:site') {
                 props.dispatch({
-                    type: 'sidebar/setActiveMenu',
-                    payload: 'file'
+                    type: 'UIState/readConfig',
+                    payload: {
+                        id: application.id,
+                        ctx: props
+                    }
                 });
-            }else {
-                props.dispatch({
-                    type: 'sidebar/setActiveMenu',
-                    payload: 'vdsite-controllers'
-                });
-            }
 
+            }else{
+                initState(props, application.id);
+            }
+        }else {
             props.dispatch({
-                type: 'rightbar/initState',
-                payload: { UIState: UIState.UIState.rightbar }
-            });
-        }else{
-            props.dispatch({
-              type: 'devpanel/getConfig',
-              payload: { id : application.id}
+                type: 'UIState/readConfig',
+                payload: {
+                    id: application.id,
+                    ctx: props
+                }
             });
         }
+
 
         localStorage.currentProject = application.name;
         localStorage.port = application.port;
@@ -293,9 +263,11 @@ const initApplication = function (application, props, flag){
         props.dispatch({
             type: 'devpanel/hideLoading'
         });
-
     }
 
+    setTimeout(function(){
+        localStorage.flashState = 'true';
+    }, 10000);
 
 }
 

@@ -2,6 +2,7 @@ import dva from 'dva';
 import request from '../utils/request.js';
 import fetch from 'dva/fetch';
 import baseUrl from '../configs.js';
+import initState from '../utils/initUIState'
 
 import { message, notification } from 'antd';
 
@@ -18,15 +19,6 @@ export default {
 	subscriptions: {
 		setup({ dispatch, history }) {
 	      	history.listen(({ pathname }) => {
-				var splits = pathname.split("/");
-				if(splits[1] == 'project' && splits[2] != null && splits[2] != undefined){
-
-					var id = splits[2];
-		      		dispatch({
-		      			type: 'readConfig',
-						payload:{id}
-		      		});
-				}
 				return true;
 	      	});
 		}
@@ -45,6 +37,11 @@ export default {
   			}
 			var config = configs.data.fields[0];
 			localStorage.uistateId = config.id;
+			localStorage.UIState = config.configs;
+
+			if(params.ctx !=null && params.ctx != undefined){
+				initState(params.ctx, params.id);
+			}
 			if(!config) {
 				config = {};
 			}

@@ -217,31 +217,16 @@ export default {
 		//获取界面初始化配置
 		*getConfig({ payload: params}, {call, put, select}){
 
+			console.log(params);
 			var configs = '',
 				config = '',
-				UIState = '';
-			localStorage.flashState = 'true';
-
-			if(window.reload || params.UIState == null || params.UIState == undefined){
-
-				window.reload = false;
-				configs = yield request('uistates?application=' + params.id, {
- 					method: 'get'
- 				});
-				config = configs.data.fields[0];
-				localStorage.UIState = config.configs;
-				UIState = JSON.parse(config.configs);
-
-				UIState = UIState.UIState.devpanel;
-			}else{
 				UIState = params.UIState;
-			}
+
 			for(var i = 0; i < UIState.panels.panes.length; i++) {
 				var pane =  UIState.panels.panes[i];
 				for(var j= 0; j< pane.tabs.length; j++){
 					var activeTab = pane.tabs[j];
 					if(activeTab.type == 'editor') {
-
 
 						var fileName = activeTab.file;
 
