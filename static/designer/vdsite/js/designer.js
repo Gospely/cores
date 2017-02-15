@@ -185,7 +185,25 @@ $(function() {
         	},
 
             setCustomAttr: function(attr) {
-                console.log(attr);
+                console.log('custom', attr);
+                var self = this;
+                var attrAction = {
+                    add: function() {
+                        self.elem.attr(attr.value.key, attr.value.value);
+                    },
+
+                    modify: function() {
+                        self.elem.attr(attr.attrName, attr.value);
+                    },
+
+                    remove: function() {
+                        self.elem.attr(attr.attrName, '');
+                    }
+                }
+
+                if(attrAction[attr.action]) {
+                    attrAction[attr.action]();
+                }
             },
 
             setBasic: function(attr) {
@@ -193,7 +211,7 @@ $(function() {
                 if(attr.isAttr) {
                     console.log('isAttr');
                     if(attr.value) {
-                        this.elem.attr(attr.attrName, attr.value);                        
+                        this.elem.attr(attr.attrName, attr.value);
                     }
                 }
 
@@ -208,7 +226,7 @@ $(function() {
                             for (var j = 0; j < attr.children.length; j++) {
                                 var val = attr.children[j];
                                 if(val.value == cls) {
-                                    this.elem.removeClass(cls);                                    
+                                    this.elem.removeClass(cls);
                                 }
                             };
                         };
@@ -216,13 +234,12 @@ $(function() {
 
                     for (var i = 0; i < className.length; i++) {
                         var cls = className[i];
-                        this.elem.addClass(cls);                        
+                        this.elem.addClass(cls);
                     };
                 }
             },
 
             setAttr: function(attr) {
-                console.log('setAttr', attr, this.elem);
                 if(attr.isHTML) {
                     this.elem.html(attr.value);
                 }

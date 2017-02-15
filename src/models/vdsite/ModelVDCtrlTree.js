@@ -18,6 +18,10 @@ const VDTreeActions = {
 
 	getActiveCtrl(state) {
 		return state.activeCtrl;
+	},
+
+	setActiveCtrl() {
+
 	}
 }
 
@@ -236,28 +240,83 @@ export default {
 		},
 
 		handleAttrRefreshed(state, { payload: params }) {
-
 			window.VDDesignerFrame.postMessage({
 				VDAttrRefreshed: params
 			}, '*');
-
 			return {...state};
 		},
 
 		handleCustomAttrRemoved(state, { payload: params }) {
+			console.log(state.activeCtrl, state.activeCtrl.attrs[params.attrTypeIndex].children, params.index)
+			var attrName = state.activeCtrl.attrs[params.attrTypeIndex].children[params.index].key;
 			state.activeCtrl.attrs[params.attrTypeIndex].children.splice(params.index, 1);
 			window.VDDesignerFrame.postMessage({
 				VDAttrRefreshed: {
 					activeCtrl: state.activeCtrl,
 					attr: {
-						value: params.index,
+						attrName: attrName,
 						action: 'remove'
 					},
 					attrType: params.attrType
 				}
-			}, '*');			
+			}, '*');
+			return {...state};
+		},
+
+		handleCustomAttrInputChange(state, { payload: params }) {
+
+			state.activeCtrl.attrs[params.attrTypeIndex].children[params.customAttrIndex][params.attrName] = params.value
+
+			window.VDDesignerFrame.postMessage({
+				VDAttrRefreshed: {
+					activeCtrl: state.activeCtrl,
+					attr: {
+						value: params.value,
+						index: params.index,
+						attrName: params.attrName,
+						attrTypeIndex: params.attrTypeIndex,
+						action: 'modify'
+					},
+					attrType: params.attrType
+				}
+			}, '*');
+
+			return {...state};
+		},
+
+		saveCustomAttr(state, { payload: params }) {
+
+			console.log(params);
+
+			state.activeCtrl.attrs[params.attrTypeIndex].children.push({
+				key: params.key,
+				value: params.value
+			});
+
+			console.log(state.activeCtrl, state.activeCtrl.attrs[params.attrTypeIndex].children);
+
+			window.VDDesignerFrame.postMessage({
+				VDAttrRefreshed: {
+					activeCtrl: state.activeCtrl,
+					attr: {
+						value: {
+							key: params.key,
+							value: params.value
+						},
+						action: 'add'
+					},
+					attrType: params.attrType
+				}
+			}, '*');
+
+			return {...state};
+		},
+
+		modifyCustomAttr(state, { payload: params }) {
+
 			return {...state};
 		}
+
 	},
 
 	effects: {
