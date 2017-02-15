@@ -781,7 +781,6 @@ const Component = (props) => {
     				},
 
     				multipleSelect (item) {
-    					console.log('multipleSelect', item);
     					return (
 							<FormItem key={item.id} {...formItemLayout} label={item.desc}>
 								<Select

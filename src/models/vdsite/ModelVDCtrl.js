@@ -7,6 +7,7 @@ export default {
 	state: {
 
    		specialAttrList: ['custom-attr', 'link-setting', 'list-setting', 'heading-type', 'image-setting', 'select-setting', 'tabs-setting', 'slider-settings'],
+   		commonAttrList: [],
 
 		publicAttrs: [{
 			title: '基础设置',
@@ -1225,33 +1226,43 @@ export default {
 
 		appendPublicAttrsToCtrlList(state) {
 
-			const push = () => {
-				state.controllers.map((item, index) => {
-					const content = item.content;
-					content.map((ctrl, j) => {
-						for (var i = 0; i < state.publicAttrs.length; i++) {
-							const attrs = state.publicAttrs[i];
-							ctrl.details.attrs.push(attrs);
-						};
-					});
+			const push = (controllersList) => {
+				controllersList.map((item, index) => {
+					const controllers = item.content;
+
+					const rec = (controllers) => {
+						controllers.map((ctrl, j) => {
+							ctrl = ctrl.details || ctrl;
+							if(ctrl.children) {
+								rec(ctrl.children);
+							}
+							for (var i = 0; i < state.publicAttrs.length; i++) {
+								const attrs = state.publicAttrs[i];
+								ctrl.attrs.push(attrs);
+							};
+						});
+					}
+
+					rec(controllers);
+
 				});
 			}
 
-			push();
+			push(state.controllers);
 
 			return {...state};
 		},
-		handleCurrentSymbolKey(state, { payload: key}) {
 
+		handleCurrentSymbolKey(state, { payload: key}) {
 			state.currentSymbolKey = key;
 			return { ...state};
 		},
-		handleSymbolNameChange(state, { payload: value}) {
 
-			console.log(value);
+		handleSymbolNameChange(state, { payload: value}) {
 			state.symbolName = value;
 			return { ...state};
 		},
+
 		addSymbol(state, { payload: value}){
 
 			for (var i = 0; i < state.symbols.length; i++) {

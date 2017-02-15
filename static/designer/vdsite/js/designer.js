@@ -72,6 +72,7 @@ $(function() {
 
                     VDAttrRefreshed: function() {
                         controllerOperations.refreshCtrl(data.activeCtrl, data.attr, data.attrType);
+                        controllerOperations.select(data.activeCtrl, true);
                     }
                 };
 
@@ -107,9 +108,12 @@ $(function() {
 			desSelect: function (data) {
 			},
 
-            select: function(data) {
+            select: function(data, notPostMessage) {
+                notPostMessage = notPostMessage || false;
                 controllerOperations.showDesignerDraggerBorder(jq('[vdid=' + data.vdid + ']'))
-                postMessageToFather.ctrlSelected(data);
+                if(!notPostMessage) {
+                    postMessageToFather.ctrlSelected(data);                    
+                }
             },
 
             refreshCtrl: function(activeCtrl, attr, attrType) {
@@ -140,7 +144,6 @@ $(function() {
         		e.preventDefault();
         		e.stopPropagation();
         		var elemAdded = jq(self.containerSelector).append(dndData.elemToAdd);
-                console.log(elemAdded, dndData.elemToAdd);
         		postMessageToFather.elemAdded(dndData.ctrlToAddData);
         		controllerOperations.showDesignerDraggerBorder(dndData.elemToAdd);
         	})
@@ -378,6 +381,7 @@ $(function() {
                     e.stopPropagation();
                     var target = jq(e.target);
                     controllerOperations.select(self.controller);
+                    return false;
                 });
             },
 
@@ -386,7 +390,7 @@ $(function() {
         	}
         }
 
-        var test = new DndInitialization();
+        new DndInitialization();
 	};
 
 	//iframe加载完再执行
