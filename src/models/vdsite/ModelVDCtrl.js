@@ -79,7 +79,7 @@ export default {
 				key: 'section',
 				details: {
 					tag: 'section',
-					className: [],
+					className: ['vd-empty'],
 					attrs: [{
 						title: '属性设置',
 						key: 'section-attr',
@@ -100,7 +100,7 @@ export default {
 				key: 'container',
 				details: {
 					tag: 'div',
-					className: [],
+					className: ['vd-container', 'vd-empty'],
 					attrs: [{
 						title: '属性设置',
 						key: 'container-attr',
@@ -120,7 +120,7 @@ export default {
 				key: 'columns',
 				details: {
 					tag: 'div',
-					className: [],
+					className: ['vd-empty'],
 					attrs: []
 				}
 			}]

@@ -131,7 +131,8 @@ $(function() {
         	jq(self.containerSelector).on("drop", function (e) {
         		e.preventDefault();
         		e.stopPropagation();
-        		jq(self.containerSelector).append(dndData.elemToAdd);
+        		var elemAdded = jq(self.containerSelector).append(dndData.elemToAdd);
+                console.log(elemAdded, dndData.elemToAdd);
         		postMessageToFather.elemAdded(dndData.ctrlToAddData);
         		controllerOperations.showDesignerDraggerBorder(dndData.elemToAdd);
         	})
@@ -335,20 +336,38 @@ $(function() {
 
                 }
 
+                this.listenHover();
+
                 this.makeElemAddedDraggable();
 
                 return component;
         	},
+
+            listenHover: function() {
+                var self = this;
+                this.elem.hover(function(e) {
+                    var target = jq(e.target);
+
+                    console.log(target.width(), target.height(), target);
+
+                    jq('.vd-OutlineSelectedNode').css({
+                        top: target.offset().top,
+                        left: target.offset().left,
+                        width: target.width(),
+                        height: target.height()
+                        // transform: 'translate(' + target.offset().left + 'px, ' + target.offset().top + 'px)'
+                    })
+                }, function(e) {
+
+                });
+            },
 
         	makeElemAddedDraggable: function () {
         		console.log('要拖了吗？')
         	}
         }
 
-        setTimeout(function() {
-            var test = new DndInitialization();
-        }, 1000);
-
+        var test = new DndInitialization();
 	};
 
 	//iframe加载完再执行
