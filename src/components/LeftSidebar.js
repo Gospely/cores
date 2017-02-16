@@ -27,6 +27,15 @@ const leftSidebar = (props) => {
 			type: 'sidebar/handleTabChanged',
 			payload: key
 		});
+
+		props.dispatch({
+			type: 'vdpm/handleNewPageVisible',
+			payload: { value: false}
+		});
+		props.dispatch({
+			type: 'vdpm/handleNewFolderVisible',
+			payload: { value: false}
+		});
 	}
 
 	var styles = {
@@ -56,13 +65,13 @@ const leftSidebar = (props) => {
 			if(localStorage.image != 'vd:site') {
 				return (
 		    		<TabPane style={styles.tab} tab={<span style={styles.span}>
-			    		<Icon style={styles.icon} type="file-text" />文件</span>} 
+			    		<Icon style={styles.icon} type="file-text" />文件</span>}
 			    		key="file"
 			    		disabled={window.disabled}
 			    	>
 			    		<FileTree></FileTree>
 			    	</TabPane>
-				);			
+				);
 			}
 		}
 
@@ -71,14 +80,14 @@ const leftSidebar = (props) => {
 
 	let constructionTreeComponent = () => {
 		return window.isWeapp ? (
-		    	<TabPane style={styles.tab} 
+		    	<TabPane style={styles.tab}
 		    		tab={<span style={styles.span}>
 		    			<Icon style={styles.icon} type="bars" />结构
 		    			</span>}
 		    		key="controllers"
 		    		disabled={window.disabled}
 		    	>
-					<Collapse className="noborder attrCollapse" bordered={false} 
+					<Collapse className="noborder attrCollapse" bordered={false}
 						defaultActiveKey={['controllers', 'construction']}
 						onChange={collapseOnChange}
 					>
@@ -100,7 +109,7 @@ const leftSidebar = (props) => {
 			if(localStorage.image != 'vd:site') {
 				return (
 					<TabPane style={styles.tab} tab={<span style={styles.span}>
-			    		<Icon style={styles.icon} type="eye-o" />布局</span>} 
+			    		<Icon style={styles.icon} type="eye-o" />布局</span>}
 			    		key="4"
 			    		disabled={window.disabled}
 			    	>
@@ -117,7 +126,7 @@ const leftSidebar = (props) => {
 
 		if(localStorage.image != 'vd:site') {
 			return (
-		    	<TabPane style={styles.tab} 
+		    	<TabPane style={styles.tab}
 		    		tab={<span style={styles.span}>
 		    			<Icon style={styles.icon} type="setting" />设置
 		    		</span>} key="setting"
@@ -138,7 +147,7 @@ const leftSidebar = (props) => {
 
 		if(localStorage.image == 'vd:site') {
 	    	sidebarMenu = (
-	    		<TabPane style={styles.tab} 
+	    		<TabPane style={styles.tab}
 	    			tab={<span style={styles.span}>
 	    				<Icon style={styles.icon} type="plus" />控件
 	    			</span>} key="vdsite-controllers"
@@ -158,7 +167,7 @@ const leftSidebar = (props) => {
 
 		if(localStorage.image == 'vd:site') {
 	    	sidebarMenu = (
-				<TabPane style={styles.tab} 
+				<TabPane style={styles.tab}
 	    			tab={<span style={styles.span}>
 	    				<Icon style={styles.icon} type="copy" />页面
 	    			</span>} key="vdsite-pages"
@@ -185,8 +194,8 @@ const leftSidebar = (props) => {
 
 }
 
-function mapStateToProps({ sidebar, devpanel}) {
-  return { sidebar, devpanel};
+function mapStateToProps({ sidebar, devpanel, vdpm}) {
+  return { sidebar, devpanel, vdpm};
 }
 
 export default connect(mapStateToProps)(leftSidebar);

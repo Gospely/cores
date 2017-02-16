@@ -1201,7 +1201,8 @@ export default {
 
 		symbols: [],
 		currentSymbolKey: '',
-		symbolName: ''
+		symbolName: '',
+		popoverVisible: false
 	},
 
 	subscriptions: {
@@ -1248,14 +1249,16 @@ export default {
 		},
 
 		handleCurrentSymbolKey(state, { payload: key}) {
+
 			state.currentSymbolKey = key;
 			return { ...state};
 		},
 		handleSymbolNameChange(state, { payload: value}) {
+
 			state.symbolName = value;
 			return { ...state};
 		},
-		handleAddSymbol(state, { payload: activeCtrl}){
+		handleAddSymbol(state, { payload: activeCtrl}) {
 
 			var addController = {
 				name: localStorage.symbolName,
@@ -1263,6 +1266,12 @@ export default {
 				controllers: activeCtrl
 			}
 			state.symbols.push(addController);
+			state.popoverVisible = false;
+			return { ...state};
+		},
+		handlePopoverVisbile(state, { payload: value}) {
+
+			state.popoverVisible = value;
 			return { ...state};
 		}
 	},
@@ -1270,7 +1279,6 @@ export default {
 		*addSymbol(payload, {call, put, select}){
 
 			var activeCtrl = yield select(state=> state.vdCtrlTree.activeCtrl);
-			console.log(activeCtrl);
 			yield put({
 				type:"handleAddSymbol",
 				payload: {

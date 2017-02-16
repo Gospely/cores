@@ -32,11 +32,15 @@ const Component = (props) => {
              payload: e.key
          });
      },
-     checkSymbol(){
-         if(props.vdctrl.currentSymbolKey == '' || props.vdctrl.currentSymbolKey == null ){
-             openNotificationWithIcon('info', '请选择要填加到的部分');
-             return;
-         }
+     showPopover(){
+        //  if(props.vdctrl.currentSymbolKey == '' || props.vdctrl.currentSymbolKey == null ){
+        //      openNotificationWithIcon('info', '请选择要填加到的部分');
+        //      return;
+        //  }
+         props.dispatch({
+             type: 'vdctrl/handlePopoverVisbile',
+             payload: !props.vdctrl.popoverVisible
+         });
      },
      addSymbol(){
          if(props.vdctrl.symbolName == '' || props.vdctrl.symbolName == null ){
@@ -53,6 +57,14 @@ const Component = (props) => {
          props.dispatch({
              type: 'vdctrl/handleSymbolNameChange',
              payload: e.target.value
+         });
+     },
+     visibleChange(value){
+
+         console.log(value);
+         props.dispatch({
+             type: 'vdctrl/handlePopoverVisbile',
+             payload: value
          });
      }
   }
@@ -92,9 +104,9 @@ const Component = (props) => {
 
       <Row>
         <Col span={4} offset={20}>
-          <Popover placement="right" trigger={['click']} content={newSymbolsPopover.content}>
+          <Popover placement="right" trigger={['click']} content={newSymbolsPopover.content} visible={props.vdctrl.popoverVisible} onVisibleChange={formItemProps.visibleChange}>
               <Tooltip placement="bottom" title="选择一个块然后点击此按钮添加一个Symbol">
-                <Button style={{marginTop: '10px'}} shape="circle"><Icon type="plus" onClick={formItemProps.checkSymbol}/></Button>
+                <Button style={{marginTop: '10px'}} shape="circle"><Icon type="plus"/></Button>
               </Tooltip>
           </Popover>
         </Col>
