@@ -1334,7 +1334,7 @@ export default {
 				var addController = {
 					name: localStorage.symbolName,
 					key: randomString(8, 10),
-					controllers: activeCtrl
+					controllers: [activeCtrl]
 				}
 				state.popoverVisible = false;
 				state.symbolName = '';
@@ -1358,8 +1358,9 @@ export default {
 				 openNotificationWithIcon('info', '控件名已被占用');
 			}else{
 				var index = methods.getSymbolIndexByKey(state.symbols, state.currentSymbolKey);
+
 				if(index == undefined){
-					openNotificationWithIcon('info', '修改错误,请重试');
+					openNotificationWithIcon('error', '修改错误,请重试');
 				}else {
 					state.symbols[index].name = state.symbolName;
 				}
@@ -1367,6 +1368,16 @@ export default {
 			state.symbolName = '';
 			state.currentSymbolKey = '';
 			state.editPopoverVisible = false;
+			return { ...state};
+		},
+		deleteSymbol(state, { payload: key}){
+
+			var index = methods.getSymbolIndexByKey(state.symbols, key);
+			if(index == undefined){
+				openNotificationWithIcon('error', '删除失败,请重试');
+			}else {
+				state.symbols.splice(index,1);
+			}
 			return { ...state};
 		}
 	},
