@@ -283,13 +283,11 @@ export default {
 			// state.activeCtrlIndex = state.layout[params.activePage][0].children.length - 1;
 			state.activeCtrlIndex = ctrlInfo.index;
 			state.activeCtrlLvl = ctrlInfo.level;
-			console.log(state.activeCtrlIndex, state.activeCtrlLvl, ctrlInfo);
 			return {...state};
 		},
 
 		ctrlSelected(state, { payload: data }) {
 			var ctrlInfo = VDTreeActions.getActiveControllerIndexAndLvlByKey(state, data.vdid, state.activePage);
-			console.log(ctrlInfo);
 			state.activeCtrl = data;
 			state.activeCtrlIndex = ctrlInfo.index;
 			state.activeCtrlLvl = ctrlInfo.level;
