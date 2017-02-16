@@ -37,6 +37,8 @@ const Component = (props) => {
 			var newVal = dom.target.value;
 			var attrName = item.name;
 
+			console.log(newVal, attrName, item);
+
 			props.dispatch({
 				type: 'vdCtrlTree/handleAttrFormChange',
 				payload: {
@@ -411,8 +413,6 @@ const Component = (props) => {
 
 	    			'image-setting' (item, attrTypeIndex) {
 
-	    				console.log(item);
-
 					    const bgUploaderProps = {
 					 		listType: 'picture',
 						  	defaultFileList: item.children[0].fileInfo
@@ -458,14 +458,14 @@ const Component = (props) => {
 												  	<Col span={11} style={{paddingRight: '5px'}}>
 												      	<Form className="form-no-margin-bottom">
 															<FormItem {...formItemLayout} label="宽度">
-																<Input onChange={formProps.handleAttrFormInputChange.bind(this, item, attrType)} value={item.children[2].value} size="small" />
+																<Input onChange={formProps.handleAttrFormInputChange.bind(this, item.children[2], attrType)} value={item.children[2].value} size="small" />
 															</FormItem>
 												      	</Form>
 												  	</Col>
 												  	<Col span={13} style={{paddingLeft: '5px'}}>
 												      	<Form className="form-no-margin-bottom">
 															<FormItem {...formItemLayout} label="高度">
-																<Input onChange={formProps.handleAttrFormInputChange.bind(this, item, attrType)} value={item.children[3].value} size="small" />
+																<Input onChange={formProps.handleAttrFormInputChange.bind(this, item.children[3], attrType)} value={item.children[3].value} size="small" />
 															</FormItem>
 												      	</Form>
 												  	</Col>
@@ -484,7 +484,7 @@ const Component = (props) => {
 								                </Tooltip>
 								              </span>
 								            )}>
-												<Input onChange={formProps.handleAttrFormInputChange.bind(this, item, attrType)} value={item.children[1].value} size="small" />
+												<Input onChange={formProps.handleAttrFormInputChange.bind(this, item.children[1], attrType)} value={item.children[1].value} size="small" />
 											</FormItem>
 								      	</Form>
 

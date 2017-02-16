@@ -480,7 +480,7 @@ export default {
 							type: 'input',
 							value: '',
 							isAttr: true,
-							attrName: 'src'
+							attrName: 'alt'
 						}, {
 							name: 'width',
 							desc: '宽度',
@@ -500,8 +500,7 @@ export default {
 							desc: '占位图片',
 							type: 'input',
 							value: '',
-							isImagePlaceholder: true,
-							attrName: 'height'
+							isImagePlaceholder: true
 						}]
 					}]
 				}
