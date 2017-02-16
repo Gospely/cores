@@ -78,15 +78,17 @@ export default {
 			var activeCtrl = yield select(state=> state.vdCtrlTree.activeCtrl),
 				activeCtrlCustomClass = activeCtrl.customClassName;
 
-				console.log(params);
-
 			yield put({
-				type:"vdCtrlTree/changeCustomClass",
+				type: "vdCtrlTree/changeCustomClass",
 				payload: params.value
 			});
 
-		}
+			yield put({
+				type: 'setActiveStyle',
+				payload: params.value[params.value.length - 1]
+			})
 
+		}
 
 	},
 
@@ -99,6 +101,11 @@ export default {
 
 		changeStyle(state, { payload: params }) {
 			state.stylesList[params.className][params.property] = params.value;
+			return {...state};
+		},
+
+		setActiveStyle(state, { payload: activeStyle }) {
+			state.activeStyle = activeStyle;
 			return {...state};
 		},
 

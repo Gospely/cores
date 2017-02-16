@@ -68,15 +68,25 @@ const VDStylePanel = (props) => {
   			});
 		},
 
-		cssClassListForDropdown: (
-		  	<Menu>
-		  		{
-		  			cssAction.getAllClasses().map((item, key) => {
-				    	return <Menu.Item key={key}>{item}</Menu.Item>
-		  			})
-		  		}
-		  	</Menu>
-		),
+		cssClassListForDropdown () {
+
+			const onSelect = (e) => {
+				props.dispatch({
+					type: 'vdstyles/setActiveStyle',
+					payload: e.selectedKeys[0]
+				});
+			}
+
+			return (
+			  	<Menu selectedKeys={[props.vdstyles.activeStyle]} onSelect={onSelect}>
+			  		{
+			  			props.vdCtrlTree.activeCtrl.customClassName.map((item, key) => {
+					    	return <Menu.Item key={item}>{item}</Menu.Item>
+			  			})
+			  		}
+			  	</Menu>
+			)
+		},
 
 		newStylePopover: {
 			content: (
@@ -822,13 +832,13 @@ const VDStylePanel = (props) => {
   		<div className="vdctrl-pane-wrapper">
 			<Collapse bordered={false} defaultActiveKey={['css', 'layout', 'typo', 'background', 'borders', 'shadows', 'tt', 'effects']}>
 			    <Panel header={<span><i className="fa fa-css3"></i>&nbsp;CSS类选择器</span>} key="css">
-				  	<p style={{marginBottom: '10px'}}>选择类名：</p>
+				  	<p style={{marginBottom: '10px'}}>当前类名：<Tag color="#87d068"><span style={{color: 'rgb(255, 255, 255)'}}>{props.vdstyles.activeStyle || '无活跃类名'}</span></Tag></p>
 			    	<Row>
 					  	<Col span={18} className="css-selector">
 					      	<Select
 						    	multiple
 						    	style={{ width: '100%' }}
-						    	placeholder="请选择CSS类"
+						    	placeholder="选择CSS类名应用到控件上"
 						    	onChange={cssClassProps.onClassNameSelectChange.bind(this)}
 						    	value={
 						    		props.vdCtrlTree.activeCtrl.customClassName
@@ -839,7 +849,7 @@ const VDStylePanel = (props) => {
 						  	</Select>
 					  	</Col>
 	      				<Col span={3}>
-	      				    <Dropdown overlay={cssSelector.cssClassListForDropdown}>
+	      				    <Dropdown overlay={cssSelector.cssClassListForDropdown()}>
 							  	<Button style={{marginBottom: '10px', borderTopLeftRadius: '0px', borderBottomLeftRadius: '0px', marginLeft: '-1px'}} size="small">
 			  		              	<Tooltip placement="left" title="选择CSS类进行编辑">
 								  		<i className="fa fa-pencil"></i>
