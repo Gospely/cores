@@ -29,8 +29,32 @@ const Component = (props) => {
       chooseSymbol(e){
 
          props.dispatch({
+             type: 'vdctrl/handleSymbolNameChange',
+             payload: e.name
+         });
+         props.dispatch({
+             type: 'vdctrl/handleEditPopoverVisbile',
+             payload: !props.vdctrl.editPopoverVisible
+         });
+         props.dispatch({
              type: 'vdctrl/handleCurrentSymbolKey',
              payload: e.key
+         });
+     },
+     addSymbol(){
+         if(props.vdctrl.symbolName == '' || props.vdctrl.symbolName == null ){
+             openNotificationWithIcon('info', '控件名为空');
+             return;
+         }
+         props.dispatch({
+             type: 'vdctrl/addSymbol',
+         });
+     },
+     editSymbol(){
+
+         console.log('edit');
+         props.dispatch({
+             type: 'vdctrl/editSymbol',
          });
      },
      showPopover(){
@@ -41,15 +65,6 @@ const Component = (props) => {
          props.dispatch({
              type: 'vdctrl/handlePopoverVisbile',
              payload: !props.vdctrl.popoverVisible
-         });
-     },
-     addSymbol(){
-         if(props.vdctrl.symbolName == '' || props.vdctrl.symbolName == null ){
-             openNotificationWithIcon('info', '控件名为空');
-             return;
-         }
-         props.dispatch({
-             type: 'vdctrl/addSymbol',
          });
      },
      onChange(e){
@@ -65,6 +80,13 @@ const Component = (props) => {
              type: 'vdctrl/handlePopoverVisbile',
              payload: value
          });
+     },
+     editPopoverVisibleChange(value) {
+
+         props.dispatch({
+             type: 'vdctrl/handleEditPopoverVisbile',
+             payload: value
+         });
      }
   }
   const newSymbolsPopover = {
@@ -78,12 +100,24 @@ const Component = (props) => {
     )
   };
 
+  const editSymbolsPopover = {
+    content: (
+      <Form className="form-no-margin-bottom">
+        <FormItem {...formItemLayout} label="名称">
+          <Input size="small"  value={props.vdctrl.symbolName} onChange={formItemProps.onChange}/>
+        </FormItem>
+        <Button size="small" onClick={formItemProps.editSymbol} >确定</Button>
+      </Form>
+    )
+  };
+
+
   const symbols = () => {
 
     var sys = props.vdctrl.symbols.map((item, index) => {
       return (
         <Menu.Item key={index}>
-          <Row onClick={formItemProps.chooseSymbol.bind(this, item)} >
+          <Row>
             <Col span={4}>
               <svg width="26" height="26" viewBox="0 0 26 26" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)', color: 'rgba(0, 0, 0, 0.521569)', flexShrink: '0'}}><path fill="currentColor" d="M13-.08l-.37.14L0,5V20.66l13,5.47,13-5.47V5ZM24,6.46l0-.06h0ZM13,10.29,2.64,6.15,13,2.07,23.32,6.15ZM2,6.4l0,.06V6.41ZM2,8.05l10,4v11.5L2,19.34ZM14,23.54V12l10-4V19.34Z"></path><polygon fill="currentColor" opacity=".3" points="1.71 19.59 12.8 24.16 12.98 11.34 1.62 6.76 1.71 19.59"></polygon></svg>
             </Col>
@@ -91,7 +125,7 @@ const Component = (props) => {
               <p>{item.name} - {item.controllers.length} 个控件</p>
             </Col>
             <Col span={2}>
-              <Icon type="edit" />
+              <Icon type="edit" onClick={formItemProps.chooseSymbol.bind(this, item)} />
             </Col>
           </Row>
         </Menu.Item>
@@ -99,9 +133,12 @@ const Component = (props) => {
     });
 
     return(
-      <Menu>
-        {sys}
-      </Menu>
+    <Popover placement="right" content={editSymbolsPopover.content} visible={props.vdctrl.editPopoverVisible} onVisibleChange={formItemProps.editPopoverVisibleChange}>
+        <Menu>
+            {sys}
+        </Menu>
+    </Popover>
+
     )
 
   }

@@ -1,8 +1,35 @@
 import React , {PropTypes} from 'react';
 import dva from 'dva';
-import { Icon } from 'antd';
+import { Icon, notification } from 'antd';
 import randomString from '../../utils/randomString.js';
 
+const openNotificationWithIcon = (type, title, description) => (
+  notification[type]({
+    message: title,
+    description: description,
+  })
+)
+
+const methods = {
+	checkName(symbols, name){
+
+		for (var i = 0; i < symbols.length; i++) {
+			if(symbols[i].name == name){
+				return false;
+			}
+		}
+		return true;
+	},
+	getSymbolIndexByKey(symbols, key){
+
+		for (var i = 0; i < symbols.length; i++) {
+			if(symbols[i].key == key){
+				return i;
+			}
+		}
+		return undefined;
+	}
+}
 
 export default {
 	namespace: 'vdctrl',
@@ -1244,7 +1271,8 @@ export default {
 		symbols: [],
 		currentSymbolKey: '',
 		symbolName: '',
-		popoverVisible: false
+		popoverVisible: false,
+		editPopoverVisible: false
 	},
 
 	subscriptions: {
@@ -1312,6 +1340,28 @@ export default {
 		handlePopoverVisbile(state, { payload: value}) {
 
 			state.popoverVisible = value;
+			return { ...state};
+		},
+		handleEditPopoverVisbile(state, { payload: value}) {
+
+			state.editPopoverVisible = value;
+			return { ...state};
+		},
+		editSymbol(state){
+
+			if(!methods.checkName(state.symbols, state.symbolName)){
+				 openNotificationWithIcon('info', '控件名已被占用');
+			}else{
+				var index = methods.getSymbolIndexByKey(state.symbols, state.currentSymbolKey);
+				if(index == undefined){
+					openNotificationWithIcon('info', '修改错误,请重试');
+				}else {
+					state.symbols[index].name = state.symbolName;
+				}
+			}
+			state.symbolName = '';
+			state.currentSymbolKey = '';
+			state.editPopoverVisible = false;
 			return { ...state};
 		}
 	},
