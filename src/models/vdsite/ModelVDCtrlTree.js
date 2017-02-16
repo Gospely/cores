@@ -280,7 +280,6 @@ export default {
 			state.layout[params.activePage][0].children.push(params.ctrl);
 			state.activeCtrl = params.ctrl;
 			var ctrlInfo = VDTreeActions.getActiveControllerIndexAndLvlByKey(state, params.ctrl.vdid, state.activePage);
-			// state.activeCtrlIndex = state.layout[params.activePage][0].children.length - 1;
 			state.activeCtrlIndex = ctrlInfo.index;
 			state.activeCtrlLvl = ctrlInfo.level;
 			return {...state};
@@ -288,6 +287,7 @@ export default {
 
 		ctrlSelected(state, { payload: data }) {
 			var ctrlInfo = VDTreeActions.getActiveControllerIndexAndLvlByKey(state, data.vdid, state.activePage);
+			console.log('ctrlSelected', data);
 			state.activeCtrl = data;
 			state.activeCtrlIndex = ctrlInfo.index;
 			state.activeCtrlLvl = ctrlInfo.level;
@@ -296,7 +296,6 @@ export default {
 
 		handleAttrFormChangeA(state, { payload: params }) {
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
-			// var currentActiveCtrl = state.layout[params.activePage][0].children[state.activeCtrlIndex];
   			var ctrlAttrs = currentActiveCtrl.controller.attrs;
 
   			for (var i = 0; i < ctrlAttrs.length; i++) {
@@ -313,6 +312,8 @@ export default {
 	  				}
   				};
   			};
+
+  			console.log(state.activeCtrl, state);
 
   			state.activeCtrl = currentActiveCtrl.controller;
 

@@ -311,6 +311,7 @@ $(function() {
 
             setAttributeByAttr: function(attr, attrType) {
                 this.initElem();
+                this.bindData();
                 var upperTypeName = this.transformTypeToUpper(attrType.key);
                 if(attrType.isAttrSetting) {
                     this.setAttr(attr);
@@ -387,7 +388,7 @@ $(function() {
                 this.elem.click(function(e) {
                     e.stopPropagation();
                     var target = jq(e.target);
-                    controllerOperations.select(self.controller);
+                    controllerOperations.select(target.data('controller'));
                     return false;
                 });
             },

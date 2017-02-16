@@ -104,6 +104,8 @@ const Component = (props) => {
 
     	let attrs = props.vdCtrlTree.activeCtrl.attrs;
 
+    	console.log('+++++++++++++++++++++++++++', props.vdCtrlTree.activeCtrl);
+
     	return attrs.map((item, index) => {
 
     		var attrType = item;
@@ -775,6 +777,8 @@ const Component = (props) => {
 
     			const formTypeList = {
     				input (item) {
+
+    					console.log('=====================', item);
 
     					var inputTpl = item.props ? (
 							<Input onChange={formProps.handleAttrFormInputChange.bind(this, item, attrType)} {...item.props} value={item.value} size="small" />
