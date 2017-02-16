@@ -415,7 +415,22 @@ const Component = (props) => {
 
 					    const bgUploaderProps = {
 					 		listType: 'picture',
-						  	defaultFileList: item.children[0].fileInfo
+						  	defaultFileList: item.children[0].fileInfo,
+
+						  	beforeUpload () {
+						  		props.dispatch({
+						  			type: 'vdCtrlTree/handleImageSettingBeforeUpload',
+						  			payload: item.children[0].fileInfo
+						  		});
+						  	},
+
+						  	onChange (object) {
+						  		formProps.handleAttrFormInputChange(item.children[0], attrType, {
+						  			target: {
+						  				value: object.file.thumbUrl
+						  			}
+						  		});
+						  	}
 					    }
 
 					    const imageSettingProps = {

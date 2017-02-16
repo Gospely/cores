@@ -389,7 +389,11 @@ export default {
 		},
 
 		modifyCustomAttr(state, { payload: params }) {
+			return {...state};
+		},
 
+		handleImageSettingBeforeUpload(state, { payload: params }) {
+			params = params.splice(0, 1);
 			return {...state};
 		}
 
