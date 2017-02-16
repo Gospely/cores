@@ -77,11 +77,17 @@ const VDStylePanel = (props) => {
 				});
 			}
 
+			console.log([props.vdstyles.activeStyle]);
+
 			return (
 			  	<Menu selectedKeys={[props.vdstyles.activeStyle]} onSelect={onSelect}>
 			  		{
 			  			props.vdCtrlTree.activeCtrl.customClassName.map((item, key) => {
-					    	return <Menu.Item key={item}>{item}</Menu.Item>
+					    	return <Menu.Item key={item}>{
+					    		props.vdstyles.activeStyle == item ? (
+					    			<Tag color="#87d068"><span style={{color: 'rgb(255, 255, 255)'}}>{item}</span></Tag>
+					    		) : (item)
+					    	}</Menu.Item>
 			  			})
 			  		}
 			  	</Menu>
