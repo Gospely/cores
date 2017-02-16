@@ -595,7 +595,22 @@ export default {
 							desc: '链接',
 							type: 'input',
 							value: '',
-							id: ''
+							id: '',
+                            isAttr: true
+						}, {
+							name: 'width',
+							desc: '宽度',
+							type: 'input',
+							value: 150,
+							isAttr: true,
+							attrName: 'width'
+						}, {
+							name: 'height',
+							desc: '高度',
+							type: 'input',
+							value: 150,
+							isAttr: true,
+							attrName: 'height'
 						}]
 					}]
 				}
