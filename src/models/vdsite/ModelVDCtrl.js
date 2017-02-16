@@ -187,7 +187,23 @@ export default {
 					attrs: [{
 						title: '链接设置',
 						key: 'link-setting',
-						children: []
+						children: [{
+							name: 'src',
+							desc: '跳转链接',
+							type: 'input',
+							value: '',
+							isAttr: true,
+							attrName: 'src',
+							id: ''
+						}, {
+							name: 'target',
+							desc: '新窗口打开',
+							type: 'toggle',
+							value: false,
+							isAttr: true,
+							attrName: 'target',
+							id: ''
+						}]
 					}]
 				}
 			}, {
@@ -200,7 +216,23 @@ export default {
 					attrs: [{
 						title: '链接设置',
 						key: 'link-setting',
-						children: []
+						children: [{
+							name: 'src',
+							desc: '跳转链接',
+							type: 'input',
+							value: '',
+							isAttr: true,
+							attrName: 'src',
+							id: ''
+						}, {
+							name: 'target',
+							desc: '新窗口打开',
+							type: 'toggle',
+							value: false,
+							isAttr: true,
+							attrName: 'target',
+							id: ''
+						}]
 					}, {
 						title: '属性设置',
 						key: 'button-attr',
@@ -320,7 +352,24 @@ export default {
 					attrs: [{
 						title: '链接设置',
 						key: 'link-setting',
-						children: []
+						children: [{
+							name: 'src',
+							desc: '跳转链接',
+							type: 'input',
+							value: '',
+							isAttr: true,
+							attrName: 'src',
+							id: ''
+						}, {
+							name: 'target',
+							desc: '新窗口打开',
+							type: 'toggle',
+							value: false,
+							isAttr: true,
+							isTarget: true,
+							attrName: 'target',
+							id: ''
+						}]
 					}, {
 						title: '属性设置',
 						key: 'text-link-attr',

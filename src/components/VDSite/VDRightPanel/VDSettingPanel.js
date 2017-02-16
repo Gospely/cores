@@ -37,7 +37,7 @@ const Component = (props) => {
 			var newVal = dom.target.value;
 			var attrName = item.name;
 
-			console.log(newVal, attrName, item);
+			console.log('============', newVal, attrName, item);
 
 			props.dispatch({
 				type: 'vdCtrlTree/handleAttrFormChange',
@@ -62,7 +62,7 @@ const Component = (props) => {
 			props.dispatch({
 				type: 'vdCtrlTree/handleAttrFormChange',
 				payload: {
-					newVal: selectedVal,
+					newVal: checked,
 					attrName: attrName,
 					attrType: attType
 				}
@@ -329,23 +329,23 @@ const Component = (props) => {
 					    	tpl: [(
 						      	<Form className="form-no-margin-bottom">
 									<FormItem {...formItemLayout} label="链接地址">
-										<Input size="small" onChange={handleLinkSettingValueChange.bind(this, item, attrType)}/>
+										<Input size="small" value={item.children[0].value} onChange={formProps.handleAttrFormInputChange.bind(this, item.children[0], attrType)}/>
 									</FormItem>
 
 									<FormItem {...formItemLayout} label="新窗口">
-										<Switch size="small" />
+										<Switch value={item.children[1].value} onChange={formProps.handleAttrFormSwitchChange.bind(this, item.children[1], attrType)} size="small" />
 									</FormItem>
 						      	</Form>
 					    	), (
 						      	<Form className="form-no-margin-bottom">
 									<FormItem {...formItemLayout} label="邮箱地址">
-										<Input size="small" onChange={handleLinkSettingValueChange.bind(this, item, attrType)}/>
+										<Input value={item.children[0].value} size="small" onChange={formProps.handleAttrFormInputChange.bind(this, item.children[0], attrType)}/>
 									</FormItem>
 						      	</Form>
 					    	), (
 						      	<Form className="form-no-margin-bottom">
 									<FormItem {...formItemLayout} label="手机号码">
-										<Input size="small" onChange={handleLinkSettingValueChange.bind(this, item, attrType)}/>
+										<Input value={item.children[0].value} size="small" onChange={formProps.handleAttrFormInputChange.bind(this, item.children[0], attrType)}/>
 									</FormItem>
 						      	</Form>
 					    	), (
@@ -437,10 +437,6 @@ const Component = (props) => {
 						  			}
 						  		});
 						  	}
-					    }
-
-					    const imageSettingProps = {
-
 					    }
 
 	    				return (
