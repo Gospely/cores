@@ -48,6 +48,8 @@ const Component = (props) => {
          });
      },
      onChange(e){
+
+         localStorage.symbolName = e.target.value;
          props.dispatch({
              type: 'vdctrl/handleSymbolNameChange',
              payload: e.target.value

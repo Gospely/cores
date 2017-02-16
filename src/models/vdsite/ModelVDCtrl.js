@@ -1,6 +1,8 @@
 import React , {PropTypes} from 'react';
 import dva from 'dva';
 import { Icon } from 'antd';
+import randomString from '../../utils/randomString.js';
+
 
 export default {
 	namespace: 'vdctrl',
@@ -1196,15 +1198,7 @@ export default {
 			}]
 		}],
 
-		symbols: [{
-			name: '底部',
-			controllers: [],
-			key: 'bottom'
-		}, {
-			name: '头部',
-			controllers: [],
-			key: 'head'
-		}],
+		symbols: [],
 		currentSymbolKey: '',
 		symbolName: ''
 	},
@@ -1248,24 +1242,32 @@ export default {
 		},
 		handleSymbolNameChange(state, { payload: value}) {
 
-			console.log(value);
 			state.symbolName = value;
 			return { ...state};
 		},
-		addSymbol(state, { payload: value}){
+		handleAddSymbol(state, { payload: activeCtrl}){
 
-			for (var i = 0; i < state.symbols.length; i++) {
-				if(state.symbols[i].key == state.currentSymbolKey){
-					state.symbols[i].controllers.push({
-						name: state.symbolName,
-						key: state.symbolName,
-					})
-				}
+			var addController = {
+				name: localStorage.symbolName,
+				key: randomString(8, 10),
+				controllers: activeCtrl
 			}
-			state.symbolName = '';
+			state.symbols.push(addController);
 			return { ...state};
 		}
+	},
+	effects: {
+		*addSymbol(payload, {call, put, select}){
 
+			var activeCtrl = yield select(state=> state.vdCtrlTree.activeCtrl);
+			console.log(activeCtrl);
+			yield put({
+				type:"handleAddSymbol",
+				payload: {
+					activeCtrl
+				}
+			});
+		}
 	}
 
 }

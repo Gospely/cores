@@ -216,6 +216,7 @@ export default {
 		},
 
 		ctrlSelected(state, { payload: data }) {
+
 			state.activeCtrl = data;
 			state.activeCtrlIndex = 0;
 			return {...state};
