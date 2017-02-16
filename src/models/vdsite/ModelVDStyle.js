@@ -60,14 +60,31 @@ export default {
 
 	effects: {
 
-		*handleStylesChange(payload, {call, put, select}){
-			var activeCtrl = yield select(state=> state.vdCtrlTree.activeCtrl);
+		*handleStylesChange(params, { call, put, select }) {
+			var activeCtrl = yield select(state=> state.vdCtrlTree.activeCtrl),
+				activeCtrlCustomClass = activeCtrl.customClassName;
+
 			yield put({
-				type:"handleAddSymbol",
+				type:"changeStyle",
 				payload: {
-					activeCtrl
+					className: params.className,
+					value: params.value,
+					property: params.property
 				}
 			});
+		},
+
+		*handleClassChange({ payload: params }, { call, put, select }) {
+			var activeCtrl = yield select(state=> state.vdCtrlTree.activeCtrl),
+				activeCtrlCustomClass = activeCtrl.customClassName;
+
+				console.log(params);
+
+			yield put({
+				type:"vdCtrlTree/changeCustomClass",
+				payload: params.value
+			});
+
 		}
 
 
@@ -77,6 +94,11 @@ export default {
 
 		setCurrentActivePageListItem(state, { payload: key }) {
 			state.currentActivePageListItem = key;
+			return {...state};
+		},
+
+		changeStyle(state, { payload: params }) {
+			state.stylesList[params.className][params.property] = params.value;
 			return {...state};
 		},
 

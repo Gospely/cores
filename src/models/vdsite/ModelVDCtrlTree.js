@@ -395,6 +395,20 @@ export default {
 		handleImageSettingBeforeUpload(state, { payload: params }) {
 			params = params.splice(0, params.length);
 			return {...state};
+		},
+
+		changeCustomClass(state, { payload: value }) {
+			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
+			
+			if(!currentActiveCtrl.controller) {
+				alert('非法，无活跃控件');
+				return {...state};
+			}
+
+			currentActiveCtrl.controller.customClassName = value;
+			state.activeCtrl = currentActiveCtrl.controller;
+			console.log(value);
+			return {...state};
 		}
 
 	},

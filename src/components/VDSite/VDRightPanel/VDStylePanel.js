@@ -809,7 +809,7 @@ const VDStylePanel = (props) => {
     	onClassNameSelectChange (selected) {
     		console.log(selected);
     		props.dispatch({
-    			typo: '',
+    			type: 'vdstyles/handleClassChange',
     			payload: {
     				value: selected
     			}

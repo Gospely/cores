@@ -1442,9 +1442,10 @@ export default {
 			}else {
 				state.symbols.splice(index,1);
 			}
-			return { ...state};
+			return {...state};
 		}
 	},
+
 	effects: {
 
 		*addSymbol(payload, {call, put, select}){
