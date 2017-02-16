@@ -271,7 +271,23 @@ $(function() {
                             this.elem.attr(attr.attrName, '');                            
                         }
                     }else {
-                        this.elem.attr(attr.attrName, attr.value);                        
+
+                        var attrValue = attr.value,
+
+                            getAttrValue = function (val, type) {
+                                var typeList = {
+                                    'link': '',
+                                    'mail': 'mailto:',
+                                    'phone': '',
+                                    'page': '',
+                                    'section': '#'
+                                }
+                                return typeList[type] + val;
+                            }
+
+                        attrValue = getAttrValue(attrValue, sessionStorage.currentActiveLinkType);
+
+                        this.elem.attr(attr.attrName, attrValue);                        
                     }
                 }
             },
