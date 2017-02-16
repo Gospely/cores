@@ -286,6 +286,7 @@ export default {
 		},
 
 		ctrlSelected(state, { payload: data }) {
+			
 			var ctrlInfo = VDTreeActions.getActiveControllerIndexAndLvlByKey(state, data.vdid, state.activePage);
 			console.log('ctrlSelected', data);
 			state.activeCtrl = data;

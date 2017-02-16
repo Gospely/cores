@@ -156,7 +156,7 @@ export default {
       	},
 
       	//上传文件
-      	*fetchUploadFile({payload:info},{call, put, select}){
+      	*fetchUploadFile({ payload:info }, { call, put, select} ){
 			var folder = yield select(state => state.file.uploadModal.folderValue);
 			var isOverSameFile = yield select(state => state.file.uploadModal.isOverSameFile);
       		var formdata = new FormData();

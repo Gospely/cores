@@ -1,6 +1,8 @@
 import React , {PropTypes} from 'react';
 import dva from 'dva';
 import { Icon } from 'antd';
+import randomString from '../../utils/randomString.js';
+
 
 export default {
 	namespace: 'vdctrl',
@@ -1197,17 +1199,10 @@ export default {
 			}]
 		}],
 
-		symbols: [{
-			name: '底部',
-			controllers: [],
-			key: 'bottom'
-		}, {
-			name: '头部',
-			controllers: [],
-			key: 'head'
-		}],
+		symbols: [],
 		currentSymbolKey: '',
-		symbolName: ''
+		symbolName: '',
+		popoverVisible: false
 	},
 
 	subscriptions: {
@@ -1254,29 +1249,43 @@ export default {
 		},
 
 		handleCurrentSymbolKey(state, { payload: key}) {
+
 			state.currentSymbolKey = key;
 			return { ...state};
 		},
-
 		handleSymbolNameChange(state, { payload: value}) {
+
 			state.symbolName = value;
 			return { ...state};
 		},
+		handleAddSymbol(state, { payload: activeCtrl}) {
 
-		addSymbol(state, { payload: value}){
-
-			for (var i = 0; i < state.symbols.length; i++) {
-				if(state.symbols[i].key == state.currentSymbolKey){
-					state.symbols[i].controllers.push({
-						name: state.symbolName,
-						key: state.symbolName,
-					})
-				}
+			var addController = {
+				name: localStorage.symbolName,
+				key: randomString(8, 10),
+				controllers: activeCtrl
 			}
-			state.symbolName = '';
+			state.symbols.push(addController);
+			state.popoverVisible = false;
+			return { ...state};
+		},
+		handlePopoverVisbile(state, { payload: value}) {
+
+			state.popoverVisible = value;
 			return { ...state};
 		}
+	},
+	effects: {
+		*addSymbol(payload, {call, put, select}){
 
+			var activeCtrl = yield select(state=> state.vdCtrlTree.activeCtrl);
+			yield put({
+				type:"handleAddSymbol",
+				payload: {
+					activeCtrl
+				}
+			});
+		}
 	}
 
 }
