@@ -1328,13 +1328,18 @@ export default {
 		},
 		handleAddSymbol(state, { payload: activeCtrl}) {
 
-			var addController = {
-				name: localStorage.symbolName,
-				key: randomString(8, 10),
-				controllers: activeCtrl
+			if(!methods.checkName(state.symbols, state.symbolName)){
+				 openNotificationWithIcon('info', '控件名已被占用');
+			}else{
+				var addController = {
+					name: localStorage.symbolName,
+					key: randomString(8, 10),
+					controllers: [activeCtrl]
+				}
+				state.popoverVisible = false;
+				state.symbolName = '';
+				state.symbols.push(addController);
 			}
-			state.symbols.push(addController);
-			state.popoverVisible = false;
 			return { ...state};
 		},
 		handlePopoverVisbile(state, { payload: value}) {
@@ -1353,8 +1358,9 @@ export default {
 				 openNotificationWithIcon('info', '控件名已被占用');
 			}else{
 				var index = methods.getSymbolIndexByKey(state.symbols, state.currentSymbolKey);
+
 				if(index == undefined){
-					openNotificationWithIcon('info', '修改错误,请重试');
+					openNotificationWithIcon('error', '修改错误,请重试');
 				}else {
 					state.symbols[index].name = state.symbolName;
 				}
@@ -1362,6 +1368,16 @@ export default {
 			state.symbolName = '';
 			state.currentSymbolKey = '';
 			state.editPopoverVisible = false;
+			return { ...state};
+		},
+		deleteSymbol(state, { payload: key}){
+
+			var index = methods.getSymbolIndexByKey(state.symbols, key);
+			if(index == undefined){
+				openNotificationWithIcon('error', '删除失败,请重试');
+			}else {
+				state.symbols.splice(index,1);
+			}
 			return { ...state};
 		}
 	},

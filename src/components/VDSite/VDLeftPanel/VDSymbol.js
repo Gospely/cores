@@ -11,6 +11,7 @@ const FormItem = Form.Item;
 const SubMenu = Menu.SubMenu;
 
 const TabPane = Tabs.TabPane;
+const confirm = Modal.confirm;
 
 const openNotificationWithIcon = (type, title, description) => (
   notification[type]({
@@ -52,9 +53,23 @@ const Component = (props) => {
      },
      editSymbol(){
 
-         console.log('edit');
          props.dispatch({
              type: 'vdctrl/editSymbol',
+         });
+     },
+     deleteSymbol(e){
+
+         confirm({
+             title: '提示',
+             content: '确认删除 ' + e.name + '控件',
+             onOk() {
+                 props.dispatch({
+                     type: 'vdctrl/deleteSymbol',
+                     payload: e.key
+                 });
+             },
+             onCancel() {
+             },
          });
      },
      showPopover(){
@@ -121,8 +136,11 @@ const Component = (props) => {
             <Col span={4}>
               <svg width="26" height="26" viewBox="0 0 26 26" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)', color: 'rgba(0, 0, 0, 0.521569)', flexShrink: '0'}}><path fill="currentColor" d="M13-.08l-.37.14L0,5V20.66l13,5.47,13-5.47V5ZM24,6.46l0-.06h0ZM13,10.29,2.64,6.15,13,2.07,23.32,6.15ZM2,6.4l0,.06V6.41ZM2,8.05l10,4v11.5L2,19.34ZM14,23.54V12l10-4V19.34Z"></path><polygon fill="currentColor" opacity=".3" points="1.71 19.59 12.8 24.16 12.98 11.34 1.62 6.76 1.71 19.59"></polygon></svg>
             </Col>
-            <Col span={18} style={{paddingLeft: '10px'}} >
+            <Col span={16} style={{paddingLeft: '10px'}} >
               <p>{item.name} - {item.controllers.length} 个控件</p>
+            </Col>
+            <Col span={2}>
+              <Icon type="delete" onClick={formItemProps.deleteSymbol.bind(this, item)} />
             </Col>
             <Col span={2}>
               <Icon type="edit" onClick={formItemProps.chooseSymbol.bind(this, item)} />
