@@ -77,8 +77,6 @@ const VDStylePanel = (props) => {
 				});
 			}
 
-			console.log([props.vdstyles.activeStyle]);
-
 			return (
 			  	<Menu selectedKeys={[props.vdstyles.activeStyle]} onSelect={onSelect}>
 			  		{
@@ -95,17 +93,49 @@ const VDStylePanel = (props) => {
 		},
 
 		newStylePopover: {
-			content: (
-		      	<Form className="form-no-margin-bottom">
-					<FormItem {...formItemLayout} label="类名">
-						<Input size="small" />
-					</FormItem>
+			content () {
 
-					<FormItem {...formItemLayout} label="">
-						<Button style={{float: 'right'}} size="small">增加</Button>
-					</FormItem>
-		      	</Form>
-			)
+				const newStyleName = props.vdstyles.newStyleName;
+
+				const onClick = () => {
+
+					if(newStyleName == '') {
+						message.error('请输入类名!');
+						return false;
+					}
+
+					props.dispatch({
+						type: 'vdstyles/addStyle'
+					});
+
+					props.dispatch({
+						type: 'vdstyles/handleClassChange',
+						payload: {
+		    				value: [newStyleName],
+		    				push: true
+		    			}
+					});
+				}
+
+				const handleNewStyleNameChange = (e) => {
+					props.dispatch({
+						type: 'vdstyles/handleNewStyleNameChange',
+						payload: e.target.value
+					});
+				}
+
+				return (
+			      	<Form className="form-no-margin-bottom">
+						<FormItem {...formItemLayout} label="类名">
+							<Input onChange={handleNewStyleNameChange} value={newStyleName} size="small" />
+						</FormItem>
+
+						<FormItem {...formItemLayout} label="">
+							<Button onClick={onClick.bind(this)} style={{float: 'right'}} size="small">增加</Button>
+						</FormItem>
+			      	</Form>
+				);
+			}
 		}
 
 	}
@@ -823,7 +853,6 @@ const VDStylePanel = (props) => {
     const cssClassProps = {
 
     	onClassNameSelectChange (selected) {
-    		console.log(selected);
     		props.dispatch({
     			type: 'vdstyles/handleClassChange',
     			payload: {
@@ -864,9 +893,9 @@ const VDStylePanel = (props) => {
 					  	    </Dropdown>
 	      				</Col>
 	      				<Col span={3}>
-	      				    <Popover placement="left" content={cssSelector.newStylePopover.content} trigger={['click']}>
+	      				    <Popover placement="left" content={cssSelector.newStylePopover.content()} trigger={['click']}>
 							  	<Button style={{marginBottom: '10px', borderTopLeftRadius: '0px', borderBottomLeftRadius: '0px', marginLeft: '-1px'}} size="small">
-			  		              	<Tooltip placement="left" title="新增一个样式">
+			  		              	<Tooltip placement="left" title="新增一个样式并应用">
 								  		<i className="fa fa-plus"></i>
 			      					</Tooltip>
 							  	</Button>

@@ -398,7 +398,7 @@ export default {
 			return {...state};
 		},
 
-		changeCustomClass(state, { payload: value }) {
+		changeCustomClass(state, { payload: params }) {
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
 
 			if(!currentActiveCtrl.controller) {
@@ -406,7 +406,12 @@ export default {
 				return {...state};
 			}
 
-			currentActiveCtrl.controller.customClassName = value;
+			if(params.push) {
+				currentActiveCtrl.controller.customClassName.push(params.value);
+			}else {
+				currentActiveCtrl.controller.customClassName = params.value;				
+			}
+
 			state.activeCtrl = currentActiveCtrl.controller;
 			return {...state};
 		}

@@ -55,7 +55,9 @@ export default {
 
 		typoSetting: {
 			
-		}
+		},
+
+		newStyleName: ''
 	},
 
 	effects: {
@@ -80,7 +82,7 @@ export default {
 
 			yield put({
 				type: "vdCtrlTree/changeCustomClass",
-				payload: params.value
+				payload: params
 			});
 
 			yield put({
@@ -109,8 +111,14 @@ export default {
 			return {...state};
 		},
 
-		handleStylesChanges(state, { payload: params }) {
+		addStyle(state) {
+			state.stylesList[state.newStyleName] = {};
+			state.activeStyle = state.newStyleName;
+			state.newStyleName = '';
+			return {...state};
+		},
 
+		handleStylesChanges(state, { payload: params }) {
 			var keys = params.target.split(' ');
 			if(keys.length == 2){
 				state.stylesList[keys[0]][keys[1]] = params.value;
@@ -118,6 +126,11 @@ export default {
 				state.stylesList[params.target] = params.value;
 			}
 			return {...state}
+		},
+
+		handleNewStyleNameChange(state, { payload: value }) {
+			state.newStyleName = value;
+			return {...state};
 		}
 
 	}
