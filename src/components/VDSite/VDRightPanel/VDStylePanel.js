@@ -804,6 +804,20 @@ const VDStylePanel = (props) => {
     	)
     }
 
+    const cssClassProps = {
+
+    	onClassNameSelectChange (selected) {
+    		console.log(selected);
+    		props.dispatch({
+    			typo: '',
+    			payload: {
+    				value: selected
+    			}
+    		})
+    	}
+
+    }
+
   	return (
   		<div className="vdctrl-pane-wrapper">
 			<Collapse bordered={false} defaultActiveKey={['css', 'layout', 'typo', 'background', 'borders', 'shadows', 'tt', 'effects']}>
@@ -815,6 +829,7 @@ const VDStylePanel = (props) => {
 						    	multiple
 						    	style={{ width: '100%' }}
 						    	placeholder="请选择CSS类"
+						    	onChange={cssClassProps.onClassNameSelectChange.bind(this)}
 						    	value={
 						    		props.vdCtrlTree.activeCtrl.customClassName
 						    	}

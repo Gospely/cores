@@ -1431,8 +1431,8 @@ export default {
 		}
 	},
 	effects: {
-		*addSymbol(payload, {call, put, select}){
 
+		*addSymbol(payload, {call, put, select}){
 			var activeCtrl = yield select(state=> state.vdCtrlTree.activeCtrl);
 			yield put({
 				type:"handleAddSymbol",
@@ -1441,6 +1441,7 @@ export default {
 				}
 			});
 		}
+		
 	}
 
 }

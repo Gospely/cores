@@ -5,45 +5,47 @@ export default {
 	namespace: 'vdstyles',
 	state: {
 
+		activeStyle: '',
+
 		stylesList: {
 		    ".body":{
-		        "height":"100%"
+		        "height": "100%"
 		    },
-		    ".designer-wrapper":{
-		        "width":"100%",
-		        "background":"url(./assets/preview_device_bg.png)",
-		        "overflow":"auto"
+		    ".designer-wrapper": {
+		        "width": "100%",
+		        "background": "url(./assets/preview_device_bg.png)",
+		        "overflow": "auto"
 		    },
-		    ".designer-header":{
-		        "padding-right":"10px",
-		        "padding-left":"10px",
-		        "padding-top":"5px",
-		        "padding-bottom":"5px",
-		        "background":"#fff"
+		    ".designer-header": {
+		        "padding-right": "10px",
+		        "padding-left": "10px",
+		        "padding-top": "5px",
+		        "padding-bottom": "5px",
+		        "background": "#fff"
 		    },
-		    ".dynamic-delete-button":{
-		        "cursor":"pointer",
-		        "position":"relative",
-		        "top":"4px",
-		        "font-size":"24px",
-		        "color":"#999",
-		        "transition":"all .3s"
+		    ".dynamic-delete-button": {
+		        "cursor": "pointer",
+		        "position": "relative",
+		        "top": "4px",
+		        "font-size": "24px",
+		        "color": "#999",
+		        "transition": "all .3s"
 		    },
-		    ".vd-right-panel":{
-		        "height":"100vh"
+		    ".vd-right-panel": {
+		        "height": "100vh"
 		    },
-		    ".vd-right-panel .ant-tabs":{
-		        "height":"100%"
+		    ".vd-right-panel .ant-tabs": {
+		        "height": "100%"
 		    },
-		    ".vd-right-panel .ant-tabs-content":{
-		        "height":"e(\"calc(100vh - 39px)\")"
+		    ".vd-right-panel .ant-tabs-content": {
+		        "height": "e(\"calc(100vh - 39px)\")"
 		    },
-		    ".vd-right-panel .ant-tabs-tab":{
-		        "margin-right":"0!important",
-		        "padding-left":"16px!important",
-		        "padding-right":"16px!important",
-		        "padding-top":"10px!important",
-		        "padding-bottom":"9px!important"
+		    ".vd-right-panel .ant-tabs-tab": {
+		        "margin-right": "0!important",
+		        "padding-left": "16px!important",
+		        "padding-right": "16px!important",
+		        "padding-top": "10px!important",
+		        "padding-bottom": "9px!important"
 		    }
 		},
 
@@ -56,6 +58,21 @@ export default {
 		}
 	},
 
+	effects: {
+
+		*handleStylesChange(payload, {call, put, select}){
+			var activeCtrl = yield select(state=> state.vdCtrlTree.activeCtrl);
+			yield put({
+				type:"handleAddSymbol",
+				payload: {
+					activeCtrl
+				}
+			});
+		}
+
+
+	},
+
 	reducers: {
 
 		setCurrentActivePageListItem(state, { payload: key }) {
@@ -63,7 +80,7 @@ export default {
 			return {...state};
 		},
 
-		handleStylesChange(state, { payload: params }) {
+		handleStylesChanges(state, { payload: params }) {
 
 			var keys = params.target.split(' ');
 			if(keys.length == 2){
