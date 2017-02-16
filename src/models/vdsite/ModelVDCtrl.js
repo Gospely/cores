@@ -1303,13 +1303,18 @@ export default {
 		},
 		handleAddSymbol(state, { payload: activeCtrl}) {
 
-			var addController = {
-				name: localStorage.symbolName,
-				key: randomString(8, 10),
-				controllers: activeCtrl
+			if(!methods.checkName(state.symbols, state.symbolName)){
+				 openNotificationWithIcon('info', '控件名已被占用');
+			}else{
+				var addController = {
+					name: localStorage.symbolName,
+					key: randomString(8, 10),
+					controllers: activeCtrl
+				}
+				state.popoverVisible = false;
+				state.symbolName = '';
+				state.symbols.push(addController);
 			}
-			state.symbols.push(addController);
-			state.popoverVisible = false;
 			return { ...state};
 		},
 		handlePopoverVisbile(state, { payload: value}) {
