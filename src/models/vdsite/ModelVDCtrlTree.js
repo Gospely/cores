@@ -393,7 +393,7 @@ export default {
 		},
 
 		handleImageSettingBeforeUpload(state, { payload: params }) {
-			params = params.splice(0, 1);
+			params = [];
 			return {...state};
 		}
 
