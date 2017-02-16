@@ -256,8 +256,7 @@ $(function() {
                 }
 
                 if(attr.isTag) {
-                    this.elem.
-                    console.log('sss');
+                    // this.elem.
                 }
             },
 
