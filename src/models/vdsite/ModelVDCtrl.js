@@ -460,6 +460,23 @@ export default {
 						title: '图片设置',
 						key: 'image-setting',
 						children: []
+
+						/*
+
+{
+							name: 'src',
+							desc: '图片地址',
+							type: 'input',
+							props: {
+								type: 'textarea'
+							},
+							value: '这是另一个文本块',
+							isHTML: true,
+							id: ''
+						}
+
+
+						*/
 					}]
 				}
 			}, {
@@ -1249,12 +1266,10 @@ export default {
 		},
 
 		handleCurrentSymbolKey(state, { payload: key}) {
-
 			state.currentSymbolKey = key;
 			return { ...state};
 		},
 		handleSymbolNameChange(state, { payload: value}) {
-
 			state.symbolName = value;
 			return { ...state};
 		},

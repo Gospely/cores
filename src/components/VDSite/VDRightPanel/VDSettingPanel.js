@@ -5,7 +5,7 @@ import { Button, Modal } from 'antd';
 import { Tabs, Icon } from 'antd';
 import { Tooltip } from 'antd';
 import { Collapse } from 'antd';
-import { Radio, Popover } from 'antd';
+import { Radio, Popover, Upload } from 'antd';
 
 import randomString from '../../../utils/randomString.js';
 
@@ -104,14 +104,11 @@ const Component = (props) => {
 
     	let attrs = props.vdCtrlTree.activeCtrl.attrs;
 
-    	console.log('+++++++++++++++++++++++++++', props.vdCtrlTree.activeCtrl);
-
     	return attrs.map((item, index) => {
 
     		var attrType = item;
 
     		//针对比如自定义属性这种拥有复杂交互的表单，不适合在控件属性中写form结构
-
 			if(specialAttrList.indexOf(item.key) != -1) {
 	    		const specialAttrHandler = {
 	    			'custom-attr' (item, attrTypeIndex) {
@@ -199,8 +196,6 @@ const Component = (props) => {
 					    	),
 
 					    	modifyContent (val, index) {
-
-					    		console.log('modifyContent', val, index);
 
 					    		return (
 							      	<Form className="form-no-margin-bottom">
@@ -291,7 +286,6 @@ const Component = (props) => {
 	    			'link-setting' (item, attrTypeIndex) {
 
 	    				const handleLinkSettingValueChange = (item, attType, dom) => {
-				    		console.log(dom.target.value);
 
 				    		// props.dispatch({
 				    		// 	type: 'vdcore/handleLinkSettingValueChange',
@@ -446,7 +440,7 @@ const Component = (props) => {
 													<Button><i className="fa fa-cloud-upload"></i>&nbsp;上传图片</Button>
 											  	</Upload>
 
-												<Button style={{position: 'absolute', right: '30px', top: '60px'}}><i className="fa fa-picture-o"></i>&nbsp;图片资源</Button>
+												<Button style={{float: 'right', bottom: '102px'}}><i className="fa fa-picture-o"></i>&nbsp;图片资源</Button>
 											</div>
 										</div>
 
@@ -480,6 +474,19 @@ const Component = (props) => {
 
 											</div>
 										</div>
+
+								      	<Form className="form-no-margin-bottom">
+											<FormItem {...formItemLayout} label={(
+								              <span>
+								                替换文本&nbsp;
+								                <Tooltip title="当图片无法加载时显示此文字">
+								                  <Icon type="question-circle-o" />
+								                </Tooltip>
+								              </span>
+								            )}>
+												<Input size="small" />
+											</FormItem>
+								      	</Form>
 
 									</div>
 								</div>
@@ -777,8 +784,6 @@ const Component = (props) => {
 
     			const formTypeList = {
     				input (item) {
-
-    					console.log('=====================', item);
 
     					var inputTpl = item.props ? (
 							<Input onChange={formProps.handleAttrFormInputChange.bind(this, item, attrType)} {...item.props} value={item.value} size="small" />

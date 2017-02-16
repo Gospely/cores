@@ -59,7 +59,7 @@ const Welcome = (props) => {
 
   	return (
 		<div style={styles.wrapper} className="welcome-wrapper">
-			<img src={gospel} style={{marginBottom: 50}} height="60" width="200" />
+			<img src={gospel} style={{marginBottom: 50}} height="256" width="256" />
 			{welcomeTip}
 			<div style={styles.welcomeFooter} className="welcome-footer">
 				<p>Gospel Alpha</p>

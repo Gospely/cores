@@ -61,8 +61,6 @@ const Component = (props) => {
          });
      },
      visibleChange(value){
-
-         console.log(value);
          props.dispatch({
              type: 'vdctrl/handlePopoverVisbile',
              payload: value
@@ -99,8 +97,6 @@ const Component = (props) => {
         </Menu.Item>
       );
     });
-
-    console.log(sys);
 
     return(
       <Menu>
