@@ -486,24 +486,49 @@ export default {
 					attrs: [{
 						title: '图片设置',
 						key: 'image-setting',
-						children: []
-
-						/*
-
-{
+						children: [{
 							name: 'src',
 							desc: '图片地址',
 							type: 'input',
-							props: {
-								type: 'textarea'
-							},
-							value: '这是另一个文本块',
-							isHTML: true,
-							id: ''
-						}
-
-
-						*/
+							value: '',
+							isAttr: true,
+							attrName: 'src',
+							id: '',
+							fileInfo: [{
+								uid: -1,
+								name: 'image-placeholder.svg',
+								states: 'done',
+								url: 'https://d3e54v103j8qbb.cloudfront.net/img/image-placeholder.svg',
+								thumbUrl: 'https://d3e54v103j8qbb.cloudfront.net/img/image-placeholder.svg'
+							}]
+						}, {
+							name: 'alt',
+							desc: '替换文本',
+							type: 'input',
+							value: '',
+							isAttr: true,
+							attrName: 'alt'
+						}, {
+							name: 'width',
+							desc: '宽度',
+							type: 'input',
+							value: 150,
+							isAttr: true,
+							attrName: 'width'
+						}, {
+							name: 'height',
+							desc: '高度',
+							type: 'input',
+							value: 150,
+							isAttr: true,
+							attrName: 'height'
+						}, {
+							name: 'image_placeholder',
+							desc: '占位图片',
+							type: 'input',
+							value: '',
+							isImagePlaceholder: true
+						}]
 					}]
 				}
 			}, {

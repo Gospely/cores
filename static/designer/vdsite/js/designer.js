@@ -268,6 +268,24 @@ $(function() {
                 }
             },
 
+            setImageSetting: function(attr) {
+                if(attr.attrName == 'src') {
+                    if(attr.value != '') {
+                        this.withImage = true;
+                    }
+                }
+
+                if(attr.isAttr) {
+                    this.elem.attr(attr.attrName, attr.value);
+                }
+
+                if(attr.isImagePlaceholder) {
+                    if(!this.withImage) {
+                        this.elem.attr('src', 'https://d3e54v103j8qbb.cloudfront.net/img/image-placeholder.svg');
+                    }
+                }
+            },
+
             transformTypeToUpper: function(type) {
                 var settingTypeSplit = type.split('-'),
                     upperTypeName = '';

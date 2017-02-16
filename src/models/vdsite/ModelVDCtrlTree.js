@@ -298,6 +298,8 @@ export default {
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
   			var ctrlAttrs = currentActiveCtrl.controller.attrs;
 
+  			console.log(currentActiveCtrl, params);
+
   			for (var i = 0; i < ctrlAttrs.length; i++) {
   				for (var j = 0; j < ctrlAttrs[i].children.length; j++) {
   					var attr = ctrlAttrs[i].children[j];
@@ -312,8 +314,6 @@ export default {
 	  				}
   				};
   			};
-
-  			console.log(state.activeCtrl, state);
 
   			state.activeCtrl = currentActiveCtrl.controller;
 
