@@ -390,11 +390,17 @@ const Component = (props) => {
 	    			},
 
 	    			'list-setting' (item, attrTypeIndex) {
+
+                        const listSettingProps = {
+                            listTypeChoose(){
+                                //列表类型选择
+                            }
+                        }
 	    				return (
 						    <Panel header={item.title} key={item.key}>
 						      	<Form className="form-no-margin-bottom">
 									<FormItem {...formItemLayout} label="列表类型">
-								        <RadioGroup defaultValue="ul" size="small">
+								        <RadioGroup defaultValue="ul" size="small" onChange={listSettingProps.listTypeChoose}>
 									      	<RadioButton value="ul">
 									      		无序列表
 								      		</RadioButton>
@@ -789,7 +795,13 @@ const Component = (props) => {
 
 						    </Panel>
 	    				);
-	    			}
+	    			},
+                    'video-setting' (item, attrTypeIndex){
+
+                        return (
+                            <div></div>
+                        )
+                    }
 				};
 
 				return specialAttrHandler[item.key](item, index);
