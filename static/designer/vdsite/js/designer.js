@@ -23,8 +23,8 @@ $(function() {
 		jq(document).on("click", function (e) {
 			e.stopPropagation();
 			var targetData = jq(e.target).data('controller');
-            if(targetData) {
-                controllerOperations.selected(targetData);                
+            if(!targetData) {
+                controllerOperations.desSelect(targetData);                
             }
 		})
 
@@ -63,7 +63,6 @@ $(function() {
 
                 var evtAction = {
                     ctrlTreeGenerated: function() {
-                        console.log('ctrlTreeGenerated', data);
                         var elem = new ElemGenerator(data.controller);
                         var elemToAdd = jq(elem.createElement());
                         dndData.elemToAdd = elemToAdd;
@@ -72,6 +71,7 @@ $(function() {
 
                     VDAttrRefreshed: function() {
                         controllerOperations.refreshCtrl(data.activeCtrl, data.attr, data.attrType);
+                        controllerOperations.select(data.activeCtrl, true);
                     }
                 };
 
@@ -91,18 +91,29 @@ $(function() {
 		//对控件的一些操作
 		var controllerOperations = {
 			hideDesignerDraggerBorder: function () {
-				
+                jq('#vd-OutlineSelectedActiveNode').hide();
 			},
 
-			showDesignerDraggerBorder: function (elem) {
-				// jq(".designerBorder").removeClass('designerBorder');
-				// elem.addClass('designerBorder')
+			showDesignerDraggerBorder: function (target) {
+                jq('#vd-OutlineSelectedActiveNode').css({
+                    top: target.offset().top,
+                    left: target.offset().left,
+                    width: target.outerWidth(),
+                    height: target.outerHeight(),
+                    display: 'block'
+                });
 			},
 
-			selected: function (data) {
-				controllerOperations.showDesignerDraggerBorder(jq('[vdid=' + data.vdid + ']'))
-				postMessageToFather.ctrlSelected(data);
+			desSelect: function (data) {
 			},
+
+            select: function(data, notPostMessage) {
+                notPostMessage = notPostMessage || false;
+                controllerOperations.showDesignerDraggerBorder(jq('[vdid=' + data.vdid + ']'))
+                if(!notPostMessage) {
+                    postMessageToFather.ctrlSelected(data);                    
+                }
+            },
 
             refreshCtrl: function(activeCtrl, attr, attrType) {
                 new ElemGenerator(activeCtrl).setAttributeByAttr(attr, attrType);
@@ -132,7 +143,6 @@ $(function() {
         		e.preventDefault();
         		e.stopPropagation();
         		var elemAdded = jq(self.containerSelector).append(dndData.elemToAdd);
-                console.log(elemAdded, dndData.elemToAdd);
         		postMessageToFather.elemAdded(dndData.ctrlToAddData);
         		controllerOperations.showDesignerDraggerBorder(dndData.elemToAdd);
         	})
@@ -187,7 +197,6 @@ $(function() {
         	},
 
             setCustomAttr: function(attr) {
-                console.log('custom', attr);
                 var self = this;
                 var attrAction = {
                     add: function() {
@@ -211,7 +220,6 @@ $(function() {
             setBasic: function(attr) {
 
                 if(attr.isAttr) {
-                    console.log('isAttr');
                     if(attr.value) {
                         this.elem.attr(attr.attrName, attr.value);
                     }
@@ -239,11 +247,16 @@ $(function() {
                         this.elem.addClass(cls);
                     };
                 }
+
             },
 
             setAttr: function(attr) {
                 if(attr.isHTML) {
                     this.elem.html(attr.value);
+                }
+
+                if(attr.isTag) {
+                    // this.elem.
                 }
             },
 
@@ -342,6 +355,7 @@ $(function() {
                 }
 
                 this.listenHover();
+                this.listenClick();
 
                 this.makeElemAddedDraggable();
 
@@ -356,18 +370,25 @@ $(function() {
 
                     targetHeight = target.height();
 
-                    console.log(self.elem, target.offsetHeight);
-
-                    jq('.vd-OutlineSelectedNode').css({
+                    jq('#vd-OutlineSelectedHoverNode').css({
                         top: target.offset().top,
                         left: target.offset().left,
                         width: target.outerWidth(),
                         height: target.outerHeight(),
                         display: 'block'
-                        // transform: 'translate(' + target.offset().left + 'px, ' + target.offset().top + 'px)'
-                    })
+                    });
                 }, function(e) {
-                    jq('.vd-OutlineSelectedNode').hide();
+                    jq('#vd-OutlineSelectedHoverNode').hide();
+                });
+            },
+
+            listenClick: function() {
+                var self = this;
+                this.elem.click(function(e) {
+                    e.stopPropagation();
+                    var target = jq(e.target);
+                    controllerOperations.select(self.controller);
+                    return false;
                 });
             },
 
@@ -376,7 +397,7 @@ $(function() {
         	}
         }
 
-        var test = new DndInitialization();
+        new DndInitialization();
 	};
 
 	//iframe加载完再执行

@@ -20,9 +20,63 @@ const VDTreeActions = {
 		return state.activeCtrl;
 	},
 
-	setActiveCtrl() {
+	getCtrlByKey(state, key, activePage) {
+		let obj = {
+				index: 0,
+				level: 1
+			},
 
-	}
+			controllers = state.layout[activePage.key];
+
+		const loopControllers = function (controllers, level) {
+			level = level || 1;
+			for(let i = 0; i < controllers.length; i ++) {
+				let currentControl = controllers[i];
+				if (currentControl.children) {
+					loopControllers(currentControl.children, level ++);
+				}
+				if (currentControl.vdid == key) {
+					obj.index = i;
+					obj.level = level;
+					obj.controller = currentControl;
+					break;
+				}
+			}
+			return obj;
+		}
+
+		return loopControllers(controllers, 1);
+	},
+
+	getActiveControllerIndexAndLvlByKey(state, key, activePage) {
+		let obj = {
+			index: '',
+			level: 1
+		};
+		let controllers = state.layout[activePage.key];
+		const loopControllers = function (controllers, level) {
+			level = level || 1;
+			console.log(controllers);
+			for(let i = 0; i < controllers.length; i ++) {
+				let currentControl = controllers[i];
+				if (currentControl.children) {
+					loopControllers(currentControl.children, level ++);
+				}
+				if (currentControl.vdid == key) {
+					obj.index = i;
+					obj.level = level;
+					break;
+				}
+			}
+			return obj;
+		}
+		return loopControllers(controllers, 1);
+
+	},
+
+	setActiveCtrl(state, controllerIndex, controllerKey, level) {
+	},
+
 }
 
 export default {
@@ -42,7 +96,21 @@ export default {
 	    	}],
 	    },
 
+	    layoutState: {
+
+	    	activeController: {
+	    		index: 0,
+	    		key: '',
+	    		level: 3
+	    	}
+	    },
+
 	    activeCtrlIndex: 0,
+	    activeCtrlLvl: 1,
+
+    	activePage: {
+    		key: 'index.html'
+    	},
 
 	    activeCtrl: {
 			tag: 'div',
@@ -211,20 +279,28 @@ export default {
 		handleElemAdded(state, { payload: params }) {
 			state.layout[params.activePage][0].children.push(params.ctrl);
 			state.activeCtrl = params.ctrl;
-			state.activeCtrlIndex = state.layout[params.activePage][0].children.length - 1;
+			var ctrlInfo = VDTreeActions.getActiveControllerIndexAndLvlByKey(state, params.ctrl.vdid, state.activePage);
+			// state.activeCtrlIndex = state.layout[params.activePage][0].children.length - 1;
+			state.activeCtrlIndex = ctrlInfo.index;
+			state.activeCtrlLvl = ctrlInfo.level;
+			console.log(state.activeCtrlIndex, state.activeCtrlLvl, ctrlInfo);
 			return {...state};
 		},
 
 		ctrlSelected(state, { payload: data }) {
-
+			
+			var ctrlInfo = VDTreeActions.getActiveControllerIndexAndLvlByKey(state, data.vdid, state.activePage);
+			console.log(ctrlInfo);
 			state.activeCtrl = data;
-			state.activeCtrlIndex = 0;
+			state.activeCtrlIndex = ctrlInfo.index;
+			state.activeCtrlLvl = ctrlInfo.level;
 			return {...state};
 		},
 
 		handleAttrFormChangeA(state, { payload: params }) {
-			var currentActiveCtrl = state.layout[params.activePage][0].children[state.activeCtrlIndex];
-  			var ctrlAttrs = currentActiveCtrl.attrs;
+			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
+			// var currentActiveCtrl = state.layout[params.activePage][0].children[state.activeCtrlIndex];
+  			var ctrlAttrs = currentActiveCtrl.controller.attrs;
 
   			for (var i = 0; i < ctrlAttrs.length; i++) {
   				for (var j = 0; j < ctrlAttrs[i].children.length; j++) {
@@ -241,6 +317,8 @@ export default {
   				};
   			};
 
+  			state.activeCtrl = currentActiveCtrl.controller;
+
 			return {...state};
 		},
 
@@ -252,7 +330,6 @@ export default {
 		},
 
 		handleCustomAttrRemoved(state, { payload: params }) {
-			console.log(state.activeCtrl, state.activeCtrl.attrs[params.attrTypeIndex].children, params.index)
 			var attrName = state.activeCtrl.attrs[params.attrTypeIndex].children[params.index].key;
 			state.activeCtrl.attrs[params.attrTypeIndex].children.splice(params.index, 1);
 			window.VDDesignerFrame.postMessage({
@@ -291,14 +368,10 @@ export default {
 
 		saveCustomAttr(state, { payload: params }) {
 
-			console.log(params);
-
 			state.activeCtrl.attrs[params.attrTypeIndex].children.push({
 				key: params.key,
 				value: params.value
 			});
-
-			console.log(state.activeCtrl, state.activeCtrl.attrs[params.attrTypeIndex].children);
 
 			window.VDDesignerFrame.postMessage({
 				VDAttrRefreshed: {
