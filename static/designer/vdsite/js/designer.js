@@ -261,10 +261,18 @@ $(function() {
             },
 
             setLinkSetting: function(attr) {
-                console.log('attr');
+                console.log('setLinkSetting', attr);
 
-                if(attr.isHTML) {
-                    this.elem.attr(attr.attrName, attr.value);
+                if(attr.isAttr) {
+                    if(attr.attrName == 'target') {
+                        if(attr.value) {
+                            this.elem.attr(attr.attrName, '_blank');
+                        }else {
+                            this.elem.attr(attr.attrName, '');                            
+                        }
+                    }else {
+                        this.elem.attr(attr.attrName, attr.value);                        
+                    }
                 }
             },
 
