@@ -433,10 +433,6 @@ const Component = (props) => {
 						  	}
 					    }
 
-					    const imageSettingProps = {
-
-					    }
-
 	    				return (
 						    <Panel header={item.title} key={item.key}>
 
