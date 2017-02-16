@@ -411,15 +411,15 @@ const Component = (props) => {
 
 	    			'image-setting' (item, attrTypeIndex) {
 
+	    				console.log(item);
+
 					    const bgUploaderProps = {
 					 		listType: 'picture',
-						  	defaultFileList: [{
-						    	uid: -1,
-						    	name: 'xxx.png',
-						    	status: 'done',
-						    	url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-						    	thumbUrl: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-						  	}]
+						  	defaultFileList: item.children[0].fileInfo
+					    }
+
+					    const imageSettingProps = {
+
 					    }
 
 	    				return (
@@ -458,14 +458,14 @@ const Component = (props) => {
 												  	<Col span={11} style={{paddingRight: '5px'}}>
 												      	<Form className="form-no-margin-bottom">
 															<FormItem {...formItemLayout} label="宽度">
-																<Input size="small" />
+																<Input onChange={formProps.handleAttrFormInputChange.bind(this, item, attrType)} value={item.children[2].value} size="small" />
 															</FormItem>
 												      	</Form>
 												  	</Col>
 												  	<Col span={13} style={{paddingLeft: '5px'}}>
 												      	<Form className="form-no-margin-bottom">
 															<FormItem {...formItemLayout} label="高度">
-																<Input size="small" />
+																<Input onChange={formProps.handleAttrFormInputChange.bind(this, item, attrType)} value={item.children[3].value} size="small" />
 															</FormItem>
 												      	</Form>
 												  	</Col>
@@ -484,7 +484,7 @@ const Component = (props) => {
 								                </Tooltip>
 								              </span>
 								            )}>
-												<Input size="small" />
+												<Input onChange={formProps.handleAttrFormInputChange.bind(this, item, attrType)} value={item.children[1].value} size="small" />
 											</FormItem>
 								      	</Form>
 
