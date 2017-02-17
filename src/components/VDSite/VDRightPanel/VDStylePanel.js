@@ -34,6 +34,8 @@ const Panel = Collapse.Panel;
 import { SketchPicker } from 'react-color';
 import css2json from 'css2json';
 
+import ColorPicker from '../../Panel/ColorPicker.js';
+
 // <SketchPicker style={{display: 'block'}} defaultValue="#345678" />
 
 const VDStylePanel = (props) => {
@@ -1800,6 +1802,7 @@ const VDStylePanel = (props) => {
     				</Form>
 			    </Panel>
 			</Collapse>
+			// <ColorPicker/>
   		</div>
   	);
 
