@@ -72,6 +72,11 @@ $(function() {
                     VDAttrRefreshed: function() {
                         controllerOperations.refreshCtrl(data.activeCtrl, data.attr, data.attrType);
                         controllerOperations.select(data.activeCtrl, true);
+                    },
+
+                    applyCSSIntoPage: function() {
+                        console.log('applyCSSIntoPage');
+                        pageOperations.applyCSS(data);
                     }
                 };
 
@@ -119,6 +124,14 @@ $(function() {
                 new ElemGenerator(activeCtrl).setAttributeByAttr(attr, attrType);
             }
 		};
+
+        var pageOperations = {
+            applyCSS: function(cssText) {
+                console.log(cssText);
+                var css = jq('<style sid="global-css">' + cssText + '</style>');
+                jq('head').append(css);
+            }
+        };
 
 		//点击其他区域隐藏border和i
         jq("body").on("click", function(e) {

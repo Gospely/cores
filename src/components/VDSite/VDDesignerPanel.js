@@ -21,6 +21,12 @@ const VDDesignerPanel = (props) => {
                 load: true
             }
         }, '*');
+
+        //加载全局CSS
+        props.dispatch({
+          type: 'vdstyles/applyStyleIntoPage'
+        });
+
       }, 500);
     }
 

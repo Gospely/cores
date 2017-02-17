@@ -58,6 +58,13 @@ export default {
 		newStyleName: ''
 	},
 
+	subscriptions: {
+		setup({ dispatch, history }) {
+	      	history.listen(({ pathname }) => {
+	      	});
+		}
+	},
+
 	effects: {
 
 		*handleStylesChange(params, { call, put, select }) {
@@ -118,6 +125,35 @@ export default {
 
 		handleNewStyleNameChange(state, { payload: value }) {
 			state.newStyleName = value;
+			return {...state};
+		},
+
+		applyStyleIntoPage(state) {
+
+			const generateCSSText = (stylesList) => {
+				var cssText = '';
+				for(var styleName in stylesList) {
+					var currentStyle = stylesList[styleName];
+					var cssClass = styleName + '{';
+					for(var property in currentStyle) {
+						var currentTableStyle = currentStyle[property];
+						cssClass += property + ':' + currentTableStyle + ';'
+					}
+					cssClass += '}';
+					cssText += cssClass;
+				}
+
+				console.log(cssText);
+
+				return cssText;
+			}
+
+			const cssText = generateCSSText(state.stylesList);
+
+			window.VDDesignerFrame.postMessage({
+				applyCSSIntoPage: cssText
+			}, '*');
+
 			return {...state};
 		}
 
