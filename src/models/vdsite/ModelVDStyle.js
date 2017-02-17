@@ -5,8 +5,6 @@ export default {
 	namespace: 'vdstyles',
 	state: {
 
-		activeStyle: '',
-
 		stylesList: {
 		    ".body":{
 		        "height": "100%"
@@ -85,11 +83,6 @@ export default {
 				payload: params
 			});
 
-			yield put({
-				type: 'setActiveStyle',
-				payload: params.value[params.value.length - 1]
-			})
-
 		}
 
 	},
@@ -103,11 +96,6 @@ export default {
 
 		changeStyle(state, { payload: params }) {
 			state.stylesList[params.className][params.property] = params.value;
-			return {...state};
-		},
-
-		setActiveStyle(state, { payload: activeStyle }) {
-			state.activeStyle = activeStyle;
 			return {...state};
 		},
 
