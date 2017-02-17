@@ -68,6 +68,15 @@ export default {
 			}
 		},
 
+		backgroundSetting: {
+			backgroundSize: {
+				width: '',
+				height: '',
+				cover: false,
+				contain: false
+			}
+		},
+
 		newStyleName: ''
 	},
 
@@ -157,6 +166,12 @@ export default {
 
 		handleBorderRadiusInputChange(state, { payload: params }) {
 			state.borderSetting.borderRadius[params.propertyName] = params.value;
+			return {...state};
+		},
+
+		handleBackgroundSizeInputChange(state, { payload: params }) {
+			state.backgroundSetting.backgroundSize[params.cssProperty] = params.value;
+			console.log(state.backgroundSetting.backgroundSize);
 			return {...state};
 		},
 

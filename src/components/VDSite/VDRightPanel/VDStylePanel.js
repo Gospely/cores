@@ -208,8 +208,53 @@ const VDStylePanel = (props) => {
     const backgroundImageAndGradient = {
     	modifyContent: <div>222</div>,
 
-    	imageSetter: (
+    	imageSetter () {
 
+    		var backgroundSizeParams = props.vdstyles.backgroundSetting.backgroundSize;
+
+    		const handleBackgroundSizeInputChange = (cssProperty, addon, e) => {
+
+    			var val = e.target ? e.target.value : e;
+
+    			props.dispatch({
+    				type: 'vdstyles/handleBackgroundSizeInputChange',
+    				payload: {
+    					cssProperty: addon.cssProperty,
+    					value: val
+    				}
+    			});
+
+    			const packBGSizeParams = () => {
+
+    				var result = '';
+
+    				if(backgroundSizeParams.width != '') {
+    					result += backgroundSizeParams.width + ' ';
+    				}
+
+    				if(backgroundSizeParams.height != '') {
+    					result += backgroundSizeParams.height + ' ';    					
+    				}
+
+    				if(backgroundSizeParams.cover) {
+    					result = 'cover';
+    				}
+
+    				if(backgroundSizeParams.contain) {
+    					result = 'contain';
+    				}
+
+    				return result;
+    			}
+
+    			handleStylesChange(cssProperty, {
+    				target: {
+    					value: packBGSizeParams()
+    				}
+    			});
+    		}
+
+    		return (
 			<div className="guidance-panel-wrapper">
 				<div className="guidance-panel-child">
 					<div className="bem-Frame">
@@ -244,14 +289,18 @@ const VDStylePanel = (props) => {
 							  	<Col span={11} style={{paddingRight: '5px'}}>
 							      	<Form className="form-no-margin-bottom">
 										<FormItem {...formItemLayout} label="宽度">
-											<Input onChange={handleStylesChange.bind(this, 'background-size')} size="small" />
+											<Input onChange={handleBackgroundSizeInputChange.bind(this, 'background-size', {
+												cssProperty: 'width'
+											})} size="small" />
 										</FormItem>
 							      	</Form>
 							  	</Col>
 							  	<Col span={13} style={{paddingLeft: '5px'}}>
 							      	<Form className="form-no-margin-bottom">
 										<FormItem {...formItemLayout} label="填充">
-											<Switch onChange={handleStylesChange.bind(this, 'background-size')} size="small" />
+											<Switch onChange={handleBackgroundSizeInputChange.bind(this, 'background-size', {
+												cssProperty: 'cover'
+											})} size="small" />
 										</FormItem>
 							      	</Form>
 							  	</Col>
@@ -263,14 +312,18 @@ const VDStylePanel = (props) => {
 							  	<Col span={11} style={{paddingRight: '5px'}}>
 							      	<Form className="form-no-margin-bottom">
 										<FormItem {...formItemLayout} label="高度">
-											<Input onChange={handleStylesChange.bind(this, 'background-size')} size="small" />
+											<Input onChange={handleBackgroundSizeInputChange.bind(this, 'background-size', {
+												cssProperty: 'height'
+											})} size="small" />
 										</FormItem>
 							      	</Form>
 							  	</Col>
 							  	<Col span={13} style={{paddingLeft: '5px'}}>
 							      	<Form className="form-no-margin-bottom">
 										<FormItem {...formItemLayout} label="适应">
-											<Switch onChange={handleStylesChange.bind(this, 'background-size')} size="small" />
+											<Switch onChange={handleBackgroundSizeInputChange.bind(this, 'background-size', {
+												cssProperty: 'contain'
+											})} size="small" />
 										</FormItem>
 							      	</Form>
 							  	</Col>
@@ -387,7 +440,8 @@ const VDStylePanel = (props) => {
 				</div>
 			</div>
 
-    	),
+    	);
+		},
 
 		gradientSetter: (
 
@@ -1373,7 +1427,7 @@ const VDStylePanel = (props) => {
 						<RadioGroup defaultValue="图片" size="small">
 					      	<RadioButton value="图片">
 								<Popover
-						        	content={backgroundImageAndGradient.imageSetter}
+						        	content={backgroundImageAndGradient.imageSetter()}
 						        	title="图片处理"
 						        	trigger="click"
 						        	placement="left"
