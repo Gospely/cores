@@ -1,99 +1,58 @@
 import React , {PropTypes} from 'react';
 import { connect } from 'dva';
 import { SketchPicker } from 'react-color';
+import { Popover } from 'antd';
 
+//使用方法
+// let colorTest = {
+//       r: '241',
+//       g: '112',
+//       b: '19',
+//       a: '1',
+//     };
 
-class Color extends React.Component {
+// const handleChangeComplete = function (color) {
+// 	colorTest = color.rgb;
+// 	console.log(colorTest)
+// }
+//<ColorPicker onChangeComplete={handleChangeComplete} color={colorTest} placement='left' />
+
+class ColorPicker extends React.Component {
 
 	state = {
 		styles: {
-			colorPicker: {
-				display: 'none'
-			},
-
 			displayBlock: {
-				width: 100,
-				height: 100,
+				height: '100%',
 				cursor: 'pointer',
 				backgroundColor: '#123456'
 			}
 		},
 
-		color: 'red'
+		color: this.props.color,
 	}
 
-	componentDidMount() {
+	onChangeComplete = (color) => {
 		this.setState({
-			styles: {
-				colorPicker: {
-					display: 'none'
-				},
-
-				displayBlock: {
-					width: 100,
-					height: 100,
-					cursor: 'pointer',
-					backgroundColor: 'red'
-				}
-			}
+			color: color.rgb
 		})
-	}
-
-	handleClick = (e) => {
-		this.setState({
-			styles: {
-				colorPicker: {
-					display: 'block'
-				},
-
-				displayBlock: {
-					width: 100,
-					height: 100,
-					cursor: 'pointer',
-					backgroundColor: '#123456'
-				}
-			},
-		})
-	}
-
-	handleChangeComplete = (color) => {
-		this.setState({ 
-			color: color.hex,
-			styles: {
-			colorPicker: {
-				display: 'none'
-			},
-
-			displayBlock: {
-				width: 100,
-				height: 100,
-				cursor: 'pointer',
-				backgroundColor: color.hex
-			}
-		},
-		});
+		this.props.onChangeComplete(color)
 	}
 
 	render() {
 		const styles = this.state.styles;
-		return (
-				<div>
-					<div onClick={this.handleClick} style={styles.displayBlock}></div>
-					<div style={styles.colorPicker}>
-						<SketchPicker color={ this.state.color } onChangeComplete={ this.handleChangeComplete } />
+		const color = this.state.color;
+		return (<Popover
+			        content={<SketchPicker color={ color } onChangeComplete={ this.onChangeComplete } />}
+			        title="颜色面板"
+			        trigger="click"
+			        placement={this.props.placement || 'left'}
+			      >
+			        <div style={{width: '100%', padding: 5, height: 22, border: '1px solid #e9e9e9', marginTop: '6px'}}>
+						<div style={{...styles.displayBlock, backgroundColor: 'rgba('+color.r+','+color.g+','+color.b+','+color.a+')'}}></div>
 					</div>
-				</div>
-			)
+			    </Popover>)
 	}
 	
 }
 
-const ColorPicker = (props) => {
-	return <Color/>
-}
-
-function mapStateToProps({}) {
-  return {};
-}
-
-export default connect(mapStateToProps)(ColorPicker);
+export default ColorPicker
