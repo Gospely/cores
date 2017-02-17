@@ -63,7 +63,8 @@ export default {
 			},
 
 			borderRadius: {
-				propertyName: 'border-radius'
+				propertyName: 'border-radius',
+				borderRadius: ''
 			}
 		},
 
@@ -117,11 +118,9 @@ export default {
 
 			for(var property in activeStyle) {
 				if(property.indexOf(prevBorderPosition) != -1) {
-					console.log('indexOf', property, activeStyle, activeStyle[property]);
 					activeStyle[property] = '';
 					delete state.stylesList['.' + params.activeStyleName][property];
 					delete activeStyle[property];
-					console.log(activeStyle);
 				}
 				activeStyle[params.position + '-width'] = state.borderSetting.border.width;
 				activeStyle[params.position + '-color'] = state.borderSetting.border.color;
@@ -130,8 +129,34 @@ export default {
 			return {...state};
 		},
 
+		changeBorderRadiusPosition(state, { payload: params }) {
+			const prevBorderPosition = state.borderSetting.borderRadius.propertyName;
+			state.borderSetting.borderRadius.propertyName = params.position;
+			var activeStyle = state.stylesList['.' + params.activeStyleName];
+
+			//清除其它border类型，并根据现有propertyName重新生成样式
+
+			for(var property in activeStyle) {
+				if(property.indexOf(prevBorderPosition) != -1) {
+					console.log('indexOf', property, activeStyle, activeStyle[property]);
+					activeStyle[property] = '';
+					delete state.stylesList['.' + params.activeStyleName][property];
+					delete activeStyle[property];
+					console.log(activeStyle);
+				}
+				activeStyle[params.position + '-radius'] = state.borderSetting.borderRadius.borderRadius;
+			}
+
+			return {...state};
+		},
+
 		handleBorderInputChange(state, { payload: params }) {
 			state.borderSetting.border[params.propertyName] = params.value;
+			return {...state};
+		},
+
+		handleBorderRadiusInputChange(state, { payload: params }) {
+			state.borderSetting.borderRadius[params.propertyName] = params.value;
 			return {...state};
 		},
 

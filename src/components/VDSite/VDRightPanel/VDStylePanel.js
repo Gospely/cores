@@ -1470,6 +1470,7 @@ const VDStylePanel = (props) => {
 						position: position
 					}
 				});
+
 				handleStylesChange(props.vdstyles.borderSetting.border.propertyName + '-width', {
 					target: {
 						value: props.vdstyles.borderSetting.border.width
@@ -1480,6 +1481,7 @@ const VDStylePanel = (props) => {
 						value: props.vdstyles.borderSetting.border.color
 					}
 				});
+
 			};
 
 			const handleBorderInputChange = (propertyName, e) => {
@@ -1496,6 +1498,37 @@ const VDStylePanel = (props) => {
 					}
 				});
 			};
+
+			const handleBorderRadiusPositionChange = (position) => {
+				props.dispatch({
+					type: 'vdstyles/changeBorderRadiusPosition',
+					payload: {
+						activeStyleName: props.vdCtrlTree.activeCtrl.activeStyle,
+						position: position
+					}
+				});
+
+				handleStylesChange(props.vdstyles.borderSetting.borderRadius.propertyName + '-radius', {
+					target: {
+						value: props.vdstyles.borderSetting.borderRadius.borderRadius
+					}
+				});
+			};
+
+			const handleBorderRadiusInputChange = (propertyName, e) => {
+				props.dispatch({
+					type: 'vdstyles/handleBorderRadiusInputChange',
+					payload: {
+						propertyName,
+						value: e.target.value
+					}
+				});
+				handleStylesChange(props.vdstyles.borderSetting.borderRadius.propertyName + '-radius', {
+					target: {
+						value: e.target.value
+					}
+				});
+			}
 
 			return (
 		    <Panel header="边框" key="borders">
@@ -1590,21 +1623,21 @@ const VDStylePanel = (props) => {
 						<Row style={{marginBottom: '5px'}}>
 							<Col span={8}>
 								<Tooltip placement="top" title="弧 - 左上">
-									<Button style={{borderTopLeftRadius: '28px', width: '28px', height: '28px'}} size="small"><i className="fa fa-window-maximize"></i></Button>									
+									<Button onClick={handleBorderRadiusPositionChange.bind(this, 'border-top-left')} style={{borderTopLeftRadius: '28px', width: '28px', height: '28px'}} size="small"><i className="fa fa-window-maximize"></i></Button>									
 								</Tooltip>
 								<Tooltip placement="bottom" title="弧 - 左下">
-									<Button style={{borderBottomLeftRadius: '28px', width: '28px', height: '28px', marginTop: '3px'}} size="small"><i className="fa fa-window-maximize"></i></Button>									
+									<Button onClick={handleBorderRadiusPositionChange.bind(this, 'border-bottom-left')} style={{borderBottomLeftRadius: '28px', width: '28px', height: '28px', marginTop: '3px'}} size="small"><i className="fa fa-window-maximize"></i></Button>									
 								</Tooltip>
 							</Col>
 							<Col span={8}>
-								<Button style={{marginTop: '16px', marginRight: '1px'}} size="small"><i className="fa fa-window-maximize"></i></Button>
+								<Button onClick={handleBorderRadiusPositionChange.bind(this, 'border')} style={{marginTop: '16px', marginRight: '1px'}} size="small"><i className="fa fa-window-maximize"></i></Button>
 							</Col>
 							<Col span={8}>
 								<Tooltip placement="top" title="弧 - 右上">
-									<Button style={{borderTopRightRadius: '28px', width: '28px', height: '28px'}} size="small"><i className="fa fa-window-maximize"></i></Button>
+									<Button onClick={handleBorderRadiusPositionChange.bind(this, 'border-top-right')} style={{borderTopRightRadius: '28px', width: '28px', height: '28px'}} size="small"><i className="fa fa-window-maximize"></i></Button>
 								</Tooltip>
 								<Tooltip placement="bottom" title="弧 - 右下">
-									<Button style={{borderBottomRightRadius: '28px', width: '28px', height: '28px', marginTop: '3px'}} size="small"><i className="fa fa-window-maximize"></i></Button>
+									<Button onClick={handleBorderRadiusPositionChange.bind(this, 'border-bottom-right')} style={{borderBottomRightRadius: '28px', width: '28px', height: '28px', marginTop: '3px'}} size="small"><i className="fa fa-window-maximize"></i></Button>
 								</Tooltip>
 							</Col>
 						</Row>
@@ -1613,7 +1646,7 @@ const VDStylePanel = (props) => {
 					<Col span={16} style={{paddingLeft: '15px'}}>
 				    	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label="弧度">
-								<Input size="small" onChange={handleStylesChange.bind(this, 'border-radius')} />
+								<Input value={props.vdstyles.borderSetting.borderRadius.borderRadius} size="small" onChange={handleBorderRadiusInputChange.bind(this, 'borderRadius')} />
 							</FormItem>
 				    	</Form>
 					</Col>
