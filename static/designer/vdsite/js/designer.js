@@ -75,7 +75,6 @@ $(function() {
                     },
 
                     applyCSSIntoPage: function() {
-                        console.log('applyCSSIntoPage');
                         pageOperations.applyCSS(data);
                     }
                 };
@@ -127,7 +126,7 @@ $(function() {
 
         var pageOperations = {
             applyCSS: function(cssText) {
-                console.log(cssText);
+                var oldStyle = jq('[sid="global-css"]').remove();
                 var css = jq('<style sid="global-css">' + cssText + '</style>');
                 jq('head').append(css);
             }

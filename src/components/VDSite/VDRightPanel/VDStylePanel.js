@@ -109,6 +109,10 @@ const VDStylePanel = (props) => {
 					});
 
 					props.dispatch({
+						type: 'vdstyles/applyStyleIntoPage'
+					})
+
+					props.dispatch({
 						type: 'vdstyles/handleClassChange',
 						payload: {
 		    				value: [newStyleName],

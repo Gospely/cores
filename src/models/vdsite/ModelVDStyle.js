@@ -133,8 +133,8 @@ export default {
 			const generateCSSText = (stylesList) => {
 				var cssText = '';
 				for(var styleName in stylesList) {
-					var currentStyle = stylesList[styleName];
-					var cssClass = styleName + '{';
+					var currentStyle = stylesList[styleName],
+						cssClass = styleName + '{';
 					for(var property in currentStyle) {
 						var currentTableStyle = currentStyle[property];
 						cssClass += property + ':' + currentTableStyle + ';'
@@ -142,8 +142,6 @@ export default {
 					cssClass += '}';
 					cssText += cssClass;
 				}
-
-				console.log(cssText);
 
 				return cssText;
 			}
