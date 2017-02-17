@@ -128,6 +128,16 @@ export default {
 			return {...state};
 		},
 
+		handleClassValueChange(state, { payload: params }) {
+			var property = params.stylePropertyName,
+				value = params.stylePropertyValue,
+				activeStyleName = params.activeStyleName;
+
+			state.stylesList['.' + activeStyleName][property] = value;
+
+			return {...state};
+		},		
+
 		applyStyleIntoPage(state) {
 
 			const generateCSSText = (stylesList) => {

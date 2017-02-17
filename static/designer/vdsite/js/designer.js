@@ -274,7 +274,6 @@ $(function() {
                 }
 
 				if(attr.isToggleAttr){
-					console.log(attr);
 					if(!attr.value)
 						this.elem.removeAttr(attr.attrName);
 					this.elem.attr(attr.attrName, attr.value);

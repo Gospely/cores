@@ -405,7 +405,7 @@ export default {
 			state.activeCtrl = currentActiveCtrl.controller;
 			return {...state};
 		},
-
+		
 		changeCustomClass(state, { payload: params }) {
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
 
