@@ -138,7 +138,7 @@ export default {
 			return {...state};
 		},		
 
-		applyStyleIntoPage(state) {
+		applyStyleIntoPage(state, { payload: params }) {
 
 			const generateCSSText = (stylesList) => {
 				var cssText = '';
@@ -156,10 +156,15 @@ export default {
 				return cssText;
 			}
 
+			console.log(params);
+
 			const cssText = generateCSSText(state.stylesList);
 
 			window.VDDesignerFrame.postMessage({
-				applyCSSIntoPage: cssText
+				applyCSSIntoPage: {
+					cssText: cssText,
+					activeCtrl: params.activeCtrl
+				}
 			}, '*');
 
 			return {...state};

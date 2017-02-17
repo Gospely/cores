@@ -79,7 +79,10 @@ const VDStylePanel = (props) => {
 		});
 
 		props.dispatch({
-			type: 'vdstyles/applyStyleIntoPage'
+			type: 'vdstyles/applyStyleIntoPage',
+			payload: {
+				activeCtrl: props.vdCtrlTree.activeCtrl
+			}
 		});
 	}
 
@@ -132,7 +135,10 @@ const VDStylePanel = (props) => {
 					});
 
 					props.dispatch({
-						type: 'vdstyles/applyStyleIntoPage'
+						type: 'vdstyles/applyStyleIntoPage',
+						payload: {
+							activeCtrl: props.vdCtrlTree.activeCtrl
+						}
 					})
 
 					props.dispatch({

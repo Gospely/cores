@@ -70,13 +70,13 @@ $(function() {
                     },
 
                     VDAttrRefreshed: function() {
-						console.log(data);
                         controllerOperations.refreshCtrl(data.activeCtrl, data.attr, data.attrType);
                         controllerOperations.select(data.activeCtrl, true);
                     },
 
                     applyCSSIntoPage: function() {
-                        pageOperations.applyCSS(data);
+                        pageOperations.applyCSS(data.cssText);
+                        controllerOperations.select(data.activeCtrl, true);
                     }
                 };
 
