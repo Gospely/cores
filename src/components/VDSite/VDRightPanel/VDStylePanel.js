@@ -233,8 +233,8 @@ const VDStylePanel = (props) => {
     				}
 
     				if(backgroundSizeParams.height != '') {
-    					result += backgroundSizeParams.height + ' ';    					
-    				}
+    					result += backgroundSizeParams.height + ' ';
+       				}
 
     				if(backgroundSizeParams.cover) {
     					result = 'cover';
@@ -254,6 +254,35 @@ const VDStylePanel = (props) => {
     			});
     		}
 
+    		const cssBGUploadProps = {
+		 		listType: 'picture',
+			  	defaultFileList: props.vdstyles.backgroundSetting.backgroundImage.fileInfo,
+
+			  	beforeUpload () {
+			  		props.dispatch({
+			  			type: 'vdstyles/handleBGSettingBeforeUpload',
+			  			payload: props.vdstyles.backgroundSetting.backgroundImage.fileInfo
+			  		});
+			  	},
+
+			  	onChange (object) {
+			  		handleStylesChange('background-image', {
+			  			target: {
+			  				value: object.file.thumbUrl
+			  			}
+			  		});
+			  	}
+
+    		}
+
+    		const handleBGPosChange = (pos) => {
+    			handleStylesChange('background-position', {
+    				target: {
+    					value: pos
+    				}
+    			});
+    		}
+
     		return (
 			<div className="guidance-panel-wrapper">
 				<div className="guidance-panel-child">
@@ -266,7 +295,7 @@ const VDStylePanel = (props) => {
 							</div>
 						</div>
 						<div className="bem-Frame_Body">
-							<Upload {...bgUploaderProps}>
+							<Upload {...cssBGUploadProps}>
 								<Button><i className="fa fa-cloud-upload"></i>&nbsp;上传图片</Button>								
 						  	</Upload>
 
@@ -348,35 +377,35 @@ const VDStylePanel = (props) => {
 								<Col span={10}>
 									<Row style={{marginBottom: '5px'}}>
 										<Col span={8}>
-											<Button size="small"><Icon type="arrow-up" style={{transform: 'rotate(-45deg)'}} /></Button>
+											<Button onClick={handleBGPosChange.bind(this, 'top left')} size="small"><Icon type="arrow-up" style={{transform: 'rotate(-45deg)'}} /></Button>
 										</Col>
 										<Col span={8}>
-											<Button size="small"><Icon type="arrow-up" /></Button>
+											<Button onClick={handleBGPosChange.bind(this, 'top center')} size="small"><Icon type="arrow-up" /></Button>
 										</Col>
 										<Col span={8}>
-											<Button size="small"><Icon type="arrow-up" style={{transform: 'rotate(45deg)'}} /></Button>
+											<Button onClick={handleBGPosChange.bind(this, 'top right')} size="small"><Icon type="arrow-up" style={{transform: 'rotate(45deg)'}} /></Button>
 										</Col>
 									</Row>
 									<Row style={{marginBottom: '5px'}}>
 										<Col span={8}>
-											<Button size="small"><Icon type="arrow-left" /></Button>
+											<Button onClick={handleBGPosChange.bind(this, 'center left')} size="small"><Icon type="arrow-left" /></Button>
 										</Col>
 										<Col span={8}>
-											<Button size="small"><Icon type="plus" /></Button>
+											<Button onClick={handleBGPosChange.bind(this, 'center center')} size="small"><Icon type="plus" /></Button>
 										</Col>
 										<Col span={8}>
-											<Button size="small"><Icon type="arrow-right" /></Button>
+											<Button onClick={handleBGPosChange.bind(this, 'center right')} size="small"><Icon type="arrow-right" /></Button>
 										</Col>
 									</Row>
 									<Row>
 										<Col span={8}>
-											<Button size="small"><Icon type="arrow-down" style={{transform: 'rotate(45deg)'}} /></Button>
+											<Button onClick={handleBGPosChange.bind(this, 'bottom left')} size="small"><Icon type="arrow-down" style={{transform: 'rotate(45deg)'}} /></Button>
 										</Col>
 										<Col span={8}>
-											<Button size="small"><Icon type="arrow-down" /></Button>
+											<Button onClick={handleBGPosChange.bind(this, 'bottom center')} size="small"><Icon type="arrow-down" /></Button>
 										</Col>
 										<Col span={8}>
-											<Button size="small"><Icon type="arrow-down" style={{transform: 'rotate(-45deg)'}} /></Button>
+											<Button onClick={handleBGPosChange.bind(this, 'bottom right')} size="small"><Icon type="arrow-down" style={{transform: 'rotate(-45deg)'}} /></Button>
 										</Col>
 									</Row>
 								</Col>
