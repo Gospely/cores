@@ -407,7 +407,7 @@ export default {
 			}
 
 			if(params.push) {
-				currentActiveCtrl.controller.customClassName.push(params.value);
+				currentActiveCtrl.controller.customClassName.push(params.value[0]);
 			}else {
 				currentActiveCtrl.controller.customClassName = params.value;				
 			}
