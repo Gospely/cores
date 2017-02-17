@@ -270,6 +270,10 @@ $(function() {
                 if(attr.isTag) {
                     // this.elem.
                 }
+
+                if(attr.isAttr) {
+                    this.elem.attr(attr.attrName, attr.value);
+                }
             },
 
             setLinkSetting: function(attr) {
@@ -345,6 +349,7 @@ $(function() {
         		for(var i = 0, len = this.controller.attrs.length; i < len; i ++) {
         			var attr = this.controller.attrs[i];
 
+                    console.log(attr);
                     if(attr.isAttrSetting) {
                         //基础属性设置（无复杂交互）统一处理
                         for (var j = 0; j < attr.children.length; j++) {

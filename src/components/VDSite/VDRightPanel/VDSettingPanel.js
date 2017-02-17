@@ -792,12 +792,6 @@ const Component = (props) => {
 						    </Panel>
 	    				);
 	    			},
-                    'video-setting' (item, attrTypeIndex){
-
-                        return (
-                            <div></div>
-                        )
-                    }
 				};
 
 				return specialAttrHandler[item.key](item, index);

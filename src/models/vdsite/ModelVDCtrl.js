@@ -588,15 +588,17 @@ export default {
 					tag: 'video',
 					className: [],
 					attrs: [{
-						title: '视频设置',
-						key: 'video-setting',
+						title: '属性设置',
+						key: 'video-attr',
+						isAttrSetting: true,
 						children: [{
 							name: 'link',
 							desc: '链接',
 							type: 'input',
 							value: '',
 							id: '',
-                            isAttr: true
+                            isAttr: true,
+                            attrName: 'src'
 						}, {
 							name: 'width',
 							desc: '宽度',

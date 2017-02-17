@@ -50,9 +50,10 @@ const VDStylePanel = (props) => {
 
 	}
 
-	var handleStylesChange = function(key, value) {
-		console.log(key);
-		console.log(value.target.value);
+	const handleStylesChange = (stylePropertyName, proxy) =>  {
+		console.log(stylePropertyName);
+		var stylePropertyValue = proxy.target.value;
+		
 		console.log(props.vdCtrlTree.activeCtrl)
 		// props.dispatch({
 		// 	type: 'vdstyles/handleStylesChange',
