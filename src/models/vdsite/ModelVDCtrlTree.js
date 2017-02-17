@@ -48,24 +48,6 @@ const VDTreeActions = {
 
 		return loopControllers(controllers, 1);
 	},
-	checkIsChangeTag(controllers) {
-
-		var bool = false;
-
-		for (var i = 0; i < controllers.length; i++) {
-
-			for (var j = 0; j < controllers[i].content.length; j++) {
-
-				for (var k = 0; k < controllers[i].content[j].details.attrs[0].children.length; k++) {
-					console.log(controllers[i].content[j].details.attrs[0].children[k]);
-					if(controllers[i].content[j].details.attrs[0].children[k].name == 'tag'){
-						bool = true;
-					}
-				}
-			}
-		}
-		return true;
-	},
 
 	getActiveControllerIndexAndLvlByKey(state, key, activePage) {
 		let obj = {
@@ -352,7 +334,6 @@ export default {
 				state.activeCtrl = currentActiveCtrl.controller;
 				params.activeCtrl.tag = params.attr.value;
 			}
-			console.log(state.activeCtrl);
 			window.VDDesignerFrame.postMessage({
 				VDAttrRefreshed: params
 			}, '*');
