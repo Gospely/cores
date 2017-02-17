@@ -136,11 +136,13 @@ export default {
 					attrs: [{
 						title: '属性设置',
 						key: 'container-attr',
+                        isChangeTag: true,
 						children: [{
 							name: 'tag',
 							desc: '标签',
 							type: 'select',
 							value: ['section'],
+                            isTag: true,
 							valueList: ['div', 'header', 'footer', 'nav', 'main', 'section', 'article', 'aside', 'address', 'figure'],
 							id: ''
 						}]
@@ -169,6 +171,7 @@ export default {
 					attrs: [{
 						title: '属性设置',
 						key: 'div-block-attr',
+                        isChangeTag: true,
 						children: [{
 							name: 'tag',
 							desc: '标签',
@@ -259,10 +262,18 @@ export default {
 					attrs: [{
 						title: '属性设置',
 						key: 'list-attr',
-						children: []
+						children: [
+                            {
+    							name: 'tag',
+    							desc: '标签',
+    							value: 'ul',
+    							isTag: true,
+    						}
+                        ]
 					}, {
 						title: '列表设置',
-						key: 'list-setting'
+						key: 'list-setting',
+                        isChangeTag: true,
 					}],
 					children: [{
 						tag: 'li',
@@ -302,6 +313,7 @@ export default {
 						title: '属性设置',
 						key: 'h1-attr',
 						isAttrSetting: true,
+                        isChangeTag: true,
 						children: [{
 							name: 'innerHTML',
 							desc: '文本内容',
@@ -396,6 +408,7 @@ export default {
 					attrs: [{
 						title: '属性设置',
 						key: 'text-block-attr',
+                        isChangeTag: true,
 						children: [{
 							name: 'tag',
 							desc: '标签',

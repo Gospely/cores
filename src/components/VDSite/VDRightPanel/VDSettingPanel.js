@@ -392,9 +392,25 @@ const Component = (props) => {
 	    			'list-setting' (item, attrTypeIndex) {
 
                         const listSettingProps = {
+
                             listTypeChoose(e){
-                                //列表类型选择
-                                console.log(e.target.value);
+
+                                console.log(attrType);
+                                var attr = {
+        							name: 'tag',
+        							desc: '标签',
+        							type: 'select',
+        							value: e.target.value,
+        							isTag: true,
+        						}
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleAttrRefreshed',
+                                    payload: {
+                                        activeCtrl: props.vdCtrlTree.activeCtrl,
+                                        attr: attr,
+                                        attrType: attrType
+                                    }
+                                });
                             }
                         }
 	    				return (
@@ -867,7 +883,11 @@ const Component = (props) => {
     				}
     			}
 
-    			return formTypeList[item.type](item);
+                if(item.type != null && item.type != undefined){
+                    return formTypeList[item.type](item);
+                }else {
+                    return;
+                }
     		}
 
     		const formGenerator = (items) => {

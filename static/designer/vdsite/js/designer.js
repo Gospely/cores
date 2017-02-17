@@ -208,7 +208,6 @@ $(function() {
 			console.log(params);
         	this.controller = params;
         	this.tag = typeof this.controller.tag == 'object' ? this.controller.tag[0] : this.controller.tag;
-			console.log(this.tag);
         	this.elemLoaded = false;
         	return this;
         }
