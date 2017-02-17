@@ -54,7 +54,7 @@ const VDStylePanel = (props) => {
 
 	const handleStylesChange = (stylePropertyName, proxy) =>  {
 
-		console.log(proxy);
+		console.log('================proxy==============', proxy);
 
 		var stylePropertyValue = '';
 
@@ -1465,9 +1465,37 @@ const VDStylePanel = (props) => {
 			const handleBorderTypeChange = (position) => {
 				props.dispatch({
 					type: 'vdstyles/changeBorderPosition',
-					payload: position
+					payload: {
+						activeStyleName: props.vdCtrlTree.activeCtrl.activeStyle,
+						position: position
+					}
 				});
-			}
+				handleStylesChange(props.vdstyles.borderSetting.border.propertyName + '-width', {
+					target: {
+						value: props.vdstyles.borderSetting.border.width
+					}
+				});
+				handleStylesChange(props.vdstyles.borderSetting.border.propertyName + '-color', {
+					target: {
+						value: props.vdstyles.borderSetting.border.color
+					}
+				});
+			};
+
+			const handleBorderInputChange = (propertyName, e) => {
+				props.dispatch({
+					type: 'vdstyles/handleBorderInputChange',
+					payload: {
+						propertyName,
+						value: e.target.value
+					}
+				});
+				handleStylesChange(props.vdstyles.borderSetting.border.propertyName + '-' + propertyName, {
+					target: {
+						value: e.target.value
+					}
+				});
+			};
 
 			return (
 		    <Panel header="边框" key="borders">
@@ -1478,7 +1506,7 @@ const VDStylePanel = (props) => {
 							<Col span={8}></Col>
 							<Col span={8}>
 								<Tooltip title="上边框">
-									<Button onChange={handleBorderTypeChange.bind(this, 'border-top')} size="small"><i className="fa fa-window-maximize"></i></Button>
+									<Button onClick={handleBorderTypeChange.bind(this, 'border-top')} size="small"><i className="fa fa-window-maximize"></i></Button>
 								</Tooltip>
 							</Col>
 							<Col span={8}></Col>
@@ -1486,17 +1514,17 @@ const VDStylePanel = (props) => {
 						<Row style={{marginBottom: '5px'}}>
 							<Col span={8}>
 								<Tooltip placement="left" title="左边框">
-									<Button onChange={handleBorderTypeChange.bind(this, 'border-left')} size="small"><i className="fa fa-window-maximize" style={{transform: 'rotate(-90deg)'}}></i></Button>
+									<Button onClick={handleBorderTypeChange.bind(this, 'border-left')} size="small"><i className="fa fa-window-maximize" style={{transform: 'rotate(-90deg)'}}></i></Button>
 								</Tooltip>
 							</Col>
 							<Col span={8}>
 								<Tooltip title="全边框">
-									<Button onChange={handleBorderTypeChange.bind(this, 'border')} style={{width: '27px'}} size="small"><i className="fa fa-square-o"></i></Button>
+									<Button onClick={handleBorderTypeChange.bind(this, 'border')} style={{width: '27px'}} size="small"><i className="fa fa-square-o"></i></Button>
 								</Tooltip>
 							</Col>
 							<Col span={8}>
 								<Tooltip placement="right" title="右边框">
-									<Button onChange={handleBorderTypeChange.bind(this, 'border-right')} size="small"><i className="fa fa-window-maximize" style={{transform: 'rotate(90deg)'}}></i></Button>
+									<Button onClick={handleBorderTypeChange.bind(this, 'border-right')} size="small"><i className="fa fa-window-maximize" style={{transform: 'rotate(90deg)'}}></i></Button>
 								</Tooltip>
 							</Col>
 						</Row>
@@ -1504,7 +1532,7 @@ const VDStylePanel = (props) => {
 							<Col span={8}></Col>
 							<Col span={8}>
 								<Tooltip placement="bottom" title="下边框">
-									<Button onChange={handleBorderTypeChange.bind(this, 'border-bottom')} size="small"><i className="fa fa-window-maximize" style={{transform: 'rotate(180deg)'}}></i></Button>
+									<Button onClick={handleBorderTypeChange.bind(this, 'border-bottom')} size="small"><i className="fa fa-window-maximize" style={{transform: 'rotate(180deg)'}}></i></Button>
 								</Tooltip>
 							</Col>
 							<Col span={8}></Col>
@@ -1514,11 +1542,11 @@ const VDStylePanel = (props) => {
 					<Col span={16} style={{paddingLeft: '15px'}}>
 				    	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label="宽度">
-								<Input size="small" onChange={handleStylesChange.bind(this, props.vdstyles.borderSetting.border.propertyName + '-width')}/>
+								<Input size="small" value={props.vdstyles.borderSetting.border.width} onChange={handleBorderInputChange.bind(this, 'width')}/>
 							</FormItem>
 
 							<FormItem {...formItemLayout} label="颜色">
-								<Input size="small" type="color" onChange={handleStylesChange.bind(this, props.vdstyles.borderSetting.border.propertyName + '-color')}/>
+								<Input size="small" value={props.vdstyles.borderSetting.border.color} onChange={handleBorderInputChange.bind(this, 'color')} type="color"/>
 							</FormItem>
 				    	</Form>
 					</Col>

@@ -58,6 +58,8 @@ export default {
 		borderSetting: {
 			border: {
 				propertyName: 'border',
+				width: '',
+				color: ''
 			},
 
 			borderRadius: {
@@ -106,8 +108,30 @@ export default {
 
 	reducers: {
 
-		changeBorderPosition(state, { payload: position }) {
-			state.borderSetting.body.propertyName = position;
+		changeBorderPosition(state, { payload: params }) {
+			const prevBorderPosition = state.borderSetting.border.propertyName;
+			state.borderSetting.border.propertyName = params.position;
+			var activeStyle = state.stylesList['.' + params.activeStyleName];
+
+			//清除其它border类型，并根据现有propertyName重新生成样式
+
+			for(var property in activeStyle) {
+				if(property.indexOf(prevBorderPosition) != -1) {
+					console.log('indexOf', property, activeStyle, activeStyle[property]);
+					activeStyle[property] = '';
+					delete state.stylesList['.' + params.activeStyleName][property];
+					delete activeStyle[property];
+					console.log(activeStyle);
+				}
+				activeStyle[params.position + '-width'] = state.borderSetting.border.width;
+				activeStyle[params.position + '-color'] = state.borderSetting.border.color;
+			}
+
+			return {...state};
+		},
+
+		handleBorderInputChange(state, { payload: params }) {
+			state.borderSetting.border[params.propertyName] = params.value;
 			return {...state};
 		},
 
