@@ -406,13 +406,32 @@ export default {
 				return {...state};
 			}
 
+			var className = '';
+
 			if(params.push) {
 				currentActiveCtrl.controller.customClassName.push(params.value[0]);
+				className = params.value[0];
 			}else {
 				currentActiveCtrl.controller.customClassName = params.value;				
+				className = params.value;
 			}
 
 			state.activeCtrl = currentActiveCtrl.controller;
+
+			window.VDDesignerFrame.postMessage({
+				VDAttrRefreshed: {
+					activeCtrl: state.activeCtrl,
+					attr: {
+						attrName: 'class',
+						action: 'remove',
+						value: className
+					},
+					attrType: {
+						key: 'className'
+					}
+				}
+			}, '*');
+
 			return {...state};
 		}
 

@@ -310,6 +310,12 @@ $(function() {
                 }
             },
 
+            setClassName: function(attr) {
+                console.log('setClassName', attr);
+                var classList = this.controller.className.concat(this.controller.customClassName);
+                this.elem.attr('class', classList.join(' '));
+            },
+
             transformTypeToUpper: function(type) {
                 var settingTypeSplit = type.split('-'),
                     upperTypeName = '';
