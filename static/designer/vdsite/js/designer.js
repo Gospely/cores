@@ -325,6 +325,8 @@ $(function() {
 
                         attrValue = getAttrValue(attrValue, sessionStorage.currentActiveLinkType);
 
+                        console.log('+++++++++', attrValue);
+
                         this.elem.attr(attr.attrName, attrValue);
                     }
                 }
