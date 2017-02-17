@@ -24,7 +24,10 @@ const VDDesignerPanel = (props) => {
 
         //加载全局CSS
         props.dispatch({
-          type: 'vdstyles/applyStyleIntoPage'
+          type: 'vdstyles/applyStyleIntoPage',
+          payload: {
+            activeCtrl: props.vdCtrlTree.activeCtrl
+          }
         });
 
       }, 500);
@@ -48,8 +51,8 @@ const VDDesignerPanel = (props) => {
 
 };
 
-function mapSateToProps({ dashboard }) {
-  return { dashboard };
+function mapSateToProps({ vdCtrlTree }) {
+  return { vdCtrlTree };
 }
 
 export default connect(mapSateToProps)(VDDesignerPanel);

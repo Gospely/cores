@@ -70,13 +70,13 @@ $(function() {
                     },
 
                     VDAttrRefreshed: function() {
-						console.log(data);
                         controllerOperations.refreshCtrl(data.activeCtrl, data.attr, data.attrType);
                         controllerOperations.select(data.activeCtrl, true);
                     },
 
                     applyCSSIntoPage: function() {
-                        pageOperations.applyCSS(data);
+                        pageOperations.applyCSS(data.cssText);
+                        controllerOperations.select(data.activeCtrl, true);
                     }
                 };
 
@@ -100,6 +100,11 @@ $(function() {
 			},
 
 			showDesignerDraggerBorder: function (target) {
+
+                if(target.length === 0) {
+                    return false;
+                }
+
                 jq('#vd-OutlineSelectedActiveNode').css({
                     top: target.offset().top,
                     left: target.offset().left,
@@ -274,7 +279,6 @@ $(function() {
                 }
 
 				if(attr.isToggleAttr){
-					console.log(attr);
 					if(!attr.value)
 						this.elem.removeAttr(attr.attrName);
 					this.elem.attr(attr.attrName, attr.value);

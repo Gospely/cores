@@ -55,6 +55,16 @@ export default {
 			
 		},
 
+		borderSetting: {
+			border: {
+				propertyName: 'border',
+			},
+
+			borderRadius: {
+				propertyName: 'border-radius'
+			}
+		},
+
 		newStyleName: ''
 	},
 
@@ -96,6 +106,11 @@ export default {
 
 	reducers: {
 
+		changeBorderPosition(state, { payload: position }) {
+			state.borderSetting.body.propertyName = position;
+			return {...state};
+		},
+
 		setCurrentActivePageListItem(state, { payload: key }) {
 			state.currentActivePageListItem = key;
 			return {...state};
@@ -128,7 +143,17 @@ export default {
 			return {...state};
 		},
 
-		applyStyleIntoPage(state) {
+		handleClassValueChange(state, { payload: params }) {
+			var property = params.stylePropertyName,
+				value = params.stylePropertyValue,
+				activeStyleName = params.activeStyleName;
+
+			state.stylesList['.' + activeStyleName][property] = value;
+
+			return {...state};
+		},		
+
+		applyStyleIntoPage(state, { payload: params }) {
 
 			const generateCSSText = (stylesList) => {
 				var cssText = '';
@@ -146,10 +171,15 @@ export default {
 				return cssText;
 			}
 
+			console.log(params);
+
 			const cssText = generateCSSText(state.stylesList);
 
 			window.VDDesignerFrame.postMessage({
-				applyCSSIntoPage: cssText
+				applyCSSIntoPage: {
+					cssText: cssText,
+					activeCtrl: params.activeCtrl
+				}
 			}, '*');
 
 			return {...state};

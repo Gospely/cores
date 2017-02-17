@@ -1,6 +1,7 @@
 import React , {PropTypes} from 'react';
 import dva from 'dva';
 import randomString from '../../utils/randomString.js';
+import { message } from 'antd';
 
 const VDTreeActions = {
 	deepCopyObj(obj, result) {
@@ -410,7 +411,7 @@ export default {
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
 
 			if(!currentActiveCtrl.controller) {
-				alert('非法，无活跃控件');
+				message.error('请先添加控件再进行操作哦！');
 				return {...state};
 			}
 
