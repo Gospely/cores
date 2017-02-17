@@ -273,8 +273,15 @@ $(function() {
                     // this.elem.
                 }
 
+				if(attr.isToggleAttr){
+					console.log(attr);
+					if(!attr.value)
+						this.elem.removeAttr(attr.attrName);
+					this.elem.attr(attr.attrName, attr.value);
+				}
                 if(attr.isAttr) {
-                    this.elem.attr(attr.attrName, attr.value);
+
+					this.elem.attr(attr.attrName, attr.value);
                 }
             },
 
@@ -376,7 +383,7 @@ $(function() {
         	},
 
             setAttributeByAttr: function(attr, attrType) {
-				lo
+
                 this.initElem();
                 this.bindData();
                 var upperTypeName = this.transformTypeToUpper(attrType.key);

@@ -861,8 +861,8 @@ const Component = (props) => {
 
     				toggle (item) {
 						return (
-							<FormItem key={item.id} {...formItemLayout}	onChange={formProps.handleAttrFormSwitchChange.bind(this, item, attrType)} label={item.desc}>
-								<Switch size="small" checked={item.value} />
+							<FormItem key={item.id} {...formItemLayout}	label={item.desc}>
+								<Switch size="small" onChange={formProps.handleAttrFormSwitchChange.bind(this, item, attrType)}  checked={item.value} />
 							</FormItem>
 						);
     				}
