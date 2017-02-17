@@ -1807,7 +1807,6 @@ const VDStylePanel = (props) => {
     				</Form>
 			    </Panel>
 			</Collapse>
-			// <ColorPicker/>
   		</div>
   	);
 
