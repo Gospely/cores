@@ -588,16 +588,17 @@ export default {
 					tag: 'video',
 					className: [],
 					attrs: [{
-						title: '视频设置',
-						key: 'video-setting',
-                        isAttrSetting: true,
+						title: '属性设置',
+						key: 'video-attr',
+						isAttrSetting: true,
 						children: [{
 							name: 'src',
 							desc: '链接',
 							type: 'input',
 							value: '',
 							id: '',
-                            isAttr: true
+                            isAttr: true,
+                            attrName: 'src'
 						}, {
 							name: 'width',
 							desc: '宽度',
@@ -1466,12 +1467,13 @@ export default {
 			}else {
 				state.symbols.splice(index,1);
 			}
-			return { ...state};
+			return {...state};
 		}
 	},
-	effects: {
-		*addSymbol(payload, {call, put, select}){
 
+	effects: {
+
+		*addSymbol(payload, {call, put, select}){
 			var activeCtrl = yield select(state=> state.vdCtrlTree.activeCtrl);
 			yield put({
 				type:"handleAddSymbol",
@@ -1480,6 +1482,7 @@ export default {
 				}
 			});
 		}
+
 	}
 
 }

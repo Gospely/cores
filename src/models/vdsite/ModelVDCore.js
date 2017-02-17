@@ -48,6 +48,18 @@ export default {
 		}
 	},
 
+	subscriptions: {
+
+		setup({ dispatch, history }) {
+	      	history.listen(({ pathname }) => {
+	      		dispatch({
+	      			type: 'initSessionActiveLinkType'
+	      		})
+	      	});
+		}
+
+	},
+
 	reducers: {
 
 		handlePreview(state, { payload: params }) {
@@ -66,8 +78,14 @@ export default {
 			return {...state};
 		},
 
+		initSessionActiveLinkType(state, { payload: value }) {
+			sessionStorage.currentActiveLinkType = value;
+			return {...state};
+		},
+
 		handleLinkSettingTypeChange(state, { payload: value }) {
 			state.linkSetting.actvieValue = value;
+			sessionStorage.currentActiveLinkType = value;
 
 			for (var i = 0; i < state.linkSetting.list.length; i++) {
 				var list = state.linkSetting.list[i];
@@ -78,12 +96,6 @@ export default {
 
 			return {...state};
 		},
-
-		// handleLinkSettingValueChange(state, { payload: value}) {
-		// 	state.linkSetting.list[state.linkSetting.activeLinkType].value = value;
-
-		// 	return {...state};
-		// },
 
 		handleCustomAttrCreatorInputChange(state, { payload: params }) {
 			state.customAttr.creator[params.attrName] = params.value;

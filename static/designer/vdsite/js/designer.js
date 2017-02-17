@@ -73,6 +73,10 @@ $(function() {
 						console.log(data);
                         controllerOperations.refreshCtrl(data.activeCtrl, data.attr, data.attrType);
                         controllerOperations.select(data.activeCtrl, true);
+                    },
+
+                    applyCSSIntoPage: function() {
+                        pageOperations.applyCSS(data);
                     }
                 };
 
@@ -121,6 +125,14 @@ $(function() {
                 new ElemGenerator(activeCtrl).setAttributeByAttr(attr, attrType);
             }
 		};
+
+        var pageOperations = {
+            applyCSS: function(cssText) {
+                var oldStyle = jq('[sid="global-css"]').remove();
+                var css = jq('<style sid="global-css">' + cssText + '</style>');
+                jq('head').append(css);
+            }
+        };
 
 		//点击其他区域隐藏border和i
         jq("body").on("click", function(e) {
@@ -260,6 +272,10 @@ $(function() {
                 if(attr.isTag) {
                     // this.elem.
                 }
+
+                if(attr.isAttr) {
+                    this.elem.attr(attr.attrName, attr.value);
+                }
             },
 
             setLinkSetting: function(attr) {
@@ -273,7 +289,22 @@ $(function() {
                             this.elem.attr(attr.attrName, '');
                         }
                     }else {
-                        this.elem.attr(attr.attrName, attr.value);
+                        var attrValue = attr.value,
+
+                            getAttrValue = function (val, type) {
+                                var typeList = {
+                                    'link': '',
+                                    'mail': 'mailto:',
+                                    'phone': '',
+                                    'page': '',
+                                    'section': '#'
+                                }
+                                return typeList[type] + val;
+                            }
+
+                        attrValue = getAttrValue(attrValue, sessionStorage.currentActiveLinkType);
+
+                        this.elem.attr(attr.attrName, attrValue);
                     }
                 }
             },
@@ -296,6 +327,12 @@ $(function() {
                 }
             },
 
+            setClassName: function(attr) {
+                console.log('setClassName', attr);
+                var classList = this.controller.className.concat(this.controller.customClassName);
+                this.elem.attr('class', classList.join(' '));
+            },
+
             transformTypeToUpper: function(type) {
                 var settingTypeSplit = type.split('-'),
                     upperTypeName = '';
@@ -313,6 +350,7 @@ $(function() {
         		for(var i = 0, len = this.controller.attrs.length; i < len; i ++) {
         			var attr = this.controller.attrs[i];
 
+                    console.log(attr);
                     if(attr.isAttrSetting) {
                         //基础属性设置（无复杂交互）统一处理
                         for (var j = 0; j < attr.children.length; j++) {

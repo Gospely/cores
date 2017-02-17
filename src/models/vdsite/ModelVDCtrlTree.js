@@ -115,6 +115,7 @@ export default {
 	    activeCtrl: {
 			tag: 'div',
 			className: [],
+			customClassName: [],
     		vdid: '456',
 			id: '',
     		ctrlName: 'div-block',
@@ -245,6 +246,7 @@ export default {
 					tag: controller.tag,
 					className: controller.className,
 					customClassName: [],
+					activeStyle: '',
 					children: [],
 					isRander: controller.isRander || '',
 					ignore: controller.ignore || false
@@ -394,6 +396,54 @@ export default {
 
 		handleImageSettingBeforeUpload(state, { payload: params }) {
 			params = params.splice(0, params.length);
+			return {...state};
+		},
+
+		setActiveStyle(state, { payload: activeStyle }) {
+			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
+			currentActiveCtrl.controller.activeStyle = activeStyle;
+			state.activeCtrl = currentActiveCtrl.controller;
+			return {...state};
+		},
+
+		changeCustomClass(state, { payload: params }) {
+			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
+
+			if(!currentActiveCtrl.controller) {
+				alert('非法，无活跃控件');
+				return {...state};
+			}
+
+			var className = '';
+
+			if(params.push) {
+				currentActiveCtrl.controller.customClassName.push(params.value[0]);
+				currentActiveCtrl.controller.activeStyle = params.value[params.value.length - 1];
+				className = params.value[0];
+			}else {
+				currentActiveCtrl.controller.customClassName = params.value;
+				currentActiveCtrl.controller.activeStyle  = params.value[params.value.length - 1];
+				className = params.value;
+			}
+
+			console.log(currentActiveCtrl.controller.activeStyle);
+
+			state.activeCtrl = currentActiveCtrl.controller;
+
+			window.VDDesignerFrame.postMessage({
+				VDAttrRefreshed: {
+					activeCtrl: state.activeCtrl,
+					attr: {
+						attrName: 'class',
+						action: 'remove',
+						value: className
+					},
+					attrType: {
+						key: 'className'
+					}
+				}
+			}, '*');
+
 			return {...state};
 		}
 

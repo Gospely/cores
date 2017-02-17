@@ -792,53 +792,6 @@ const Component = (props) => {
 						    </Panel>
 	    				);
 	    			},
-                    'video-setting' (item, attrTypeIndex){
-
-                        return (
-                            <Panel header={item.title} key={item.key}>
-                                <Form className="form-no-margin-bottom">
-                                  <FormItem {...formItemLayout} label={(
-                                    <span>
-                                      链接&nbsp;
-                                    </span>
-                                  )}>
-                                      <Input onChange={formProps.handleAttrFormInputChange.bind(this, item.children[0], attrType)} value={item.children[0].value} size="small" />
-                                  </FormItem>
-                              </Form>
-                                <div className="bem-Frame">
-                                        <div className="bem-Frame_Head">
-                                            <div className="bem-Frame_Legend">
-                                                <div className="bem-SpecificityLabel bem-SpecificityLabel-local bem-SpecificityLabel-text">
-                                                    大小
-                                                </div>
-                                            </div>
-                                        </div>
-                                    <div>
-                                        <div className="bem-Frame_Body">
-                                            <Row>
-                                                <Col span={11} style={{paddingRight: '5px'}}>
-                                                    <Form className="form-no-margin-bottom">
-                                                        <FormItem {...formItemLayout} label="宽度">
-                                                            <Input onChange={formProps.handleAttrFormInputChange.bind(this, item.children[1], attrType)} value={item.children[1].value} size="small" />
-                                                        </FormItem>
-                                                    </Form>
-                                                </Col>
-                                                <Col span={13} style={{paddingLeft: '5px'}}>
-                                                    <Form className="form-no-margin-bottom">
-                                                        <FormItem {...formItemLayout} label="高度">
-                                                            <Input onChange={formProps.handleAttrFormInputChange.bind(this, item.children[2], attrType)} value={item.children[2].value} size="small" />
-                                                        </FormItem>
-                                                    </Form>
-                                                </Col>
-
-                                            </Row>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </Panel>
-                        )
-                    }
 				};
                 console.log('item');
                 console.log(item);

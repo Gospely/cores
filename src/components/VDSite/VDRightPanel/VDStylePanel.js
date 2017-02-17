@@ -50,9 +50,10 @@ const VDStylePanel = (props) => {
 
 	}
 
-	var handleStylesChange = function(key, value) {
-		console.log(key);
-		console.log(value.target.value);
+	const handleStylesChange = (stylePropertyName, proxy) =>  {
+		console.log(stylePropertyName);
+		var stylePropertyValue = proxy.target.value;
+		
 		console.log(props.vdCtrlTree.activeCtrl)
 		// props.dispatch({
 		// 	type: 'vdstyles/handleStylesChange',
@@ -68,28 +69,78 @@ const VDStylePanel = (props) => {
   			});
 		},
 
-		cssClassListForDropdown: (
-		  	<Menu>
-		  		{
-		  			cssAction.getAllClasses().map((item, key) => {
-				    	return <Menu.Item key={key}>{item}</Menu.Item>
-		  			})
-		  		}
-		  	</Menu>
-		),
+		cssClassListForDropdown () {
+
+			const onSelect = (e) => {
+				props.dispatch({
+					type: 'vdCtrlTree/setActiveStyle',
+					payload: e.selectedKeys[0]
+				});
+			}
+
+			return (
+			  	<Menu selectedKeys={[props.vdCtrlTree.activeCtrl.activeStyle]} onSelect={onSelect}>
+			  		{
+			  			props.vdCtrlTree.activeCtrl.customClassName.map((item, key) => {
+					    	return <Menu.Item key={item}>{
+					    		props.vdCtrlTree.activeCtrl.activeStyle == item ? (
+					    			<Tag color="#87d068"><span style={{color: 'rgb(255, 255, 255)'}}>{item}</span></Tag>
+					    		) : (item)
+					    	}</Menu.Item>
+			  			})
+			  		}
+			  	</Menu>
+			)
+		},
 
 		newStylePopover: {
-			content: (
-		      	<Form className="form-no-margin-bottom">
-					<FormItem {...formItemLayout} label="类名">
-						<Input size="small" />
-					</FormItem>
+			content () {
 
-					<FormItem {...formItemLayout} label="">
-						<Button style={{float: 'right'}} size="small">增加</Button>
-					</FormItem>
-		      	</Form>
-			)
+				const newStyleName = props.vdstyles.newStyleName;
+
+				const onClick = () => {
+
+					if(newStyleName == '') {
+						message.error('请输入类名!');
+						return false;
+					}
+
+					props.dispatch({
+						type: 'vdstyles/addStyle'
+					});
+
+					props.dispatch({
+						type: 'vdstyles/applyStyleIntoPage'
+					})
+
+					props.dispatch({
+						type: 'vdstyles/handleClassChange',
+						payload: {
+		    				value: [newStyleName],
+		    				push: true
+		    			}
+					});
+				}
+
+				const handleNewStyleNameChange = (e) => {
+					props.dispatch({
+						type: 'vdstyles/handleNewStyleNameChange',
+						payload: e.target.value
+					});
+				}
+
+				return (
+			      	<Form className="form-no-margin-bottom">
+						<FormItem {...formItemLayout} label="类名">
+							<Input onChange={handleNewStyleNameChange} value={newStyleName} size="small" />
+						</FormItem>
+
+						<FormItem {...formItemLayout} label="">
+							<Button onClick={onClick.bind(this)} style={{float: 'right'}} size="small">增加</Button>
+						</FormItem>
+			      	</Form>
+				);
+			}
 		}
 
 	}
@@ -804,17 +855,31 @@ const VDStylePanel = (props) => {
     	)
     }
 
+    const cssClassProps = {
+
+    	onClassNameSelectChange (selected) {
+    		props.dispatch({
+    			type: 'vdstyles/handleClassChange',
+    			payload: {
+    				value: selected
+    			}
+    		})
+    	}
+
+    }
+
   	return (
   		<div className="vdctrl-pane-wrapper">
 			<Collapse bordered={false} defaultActiveKey={['css', 'layout', 'typo', 'background', 'borders', 'shadows', 'tt', 'effects']}>
 			    <Panel header={<span><i className="fa fa-css3"></i>&nbsp;CSS类选择器</span>} key="css">
-				  	<p style={{marginBottom: '10px'}}>选择类名：</p>
+				  	<p style={{marginBottom: '10px'}}>当前类名：<Tag color="#87d068"><span style={{color: 'rgb(255, 255, 255)'}}>{props.vdCtrlTree.activeCtrl.activeStyle || '无活跃类名'}</span></Tag></p>
 			    	<Row>
 					  	<Col span={18} className="css-selector">
 					      	<Select
 						    	multiple
 						    	style={{ width: '100%' }}
-						    	placeholder="请选择CSS类"
+						    	placeholder="选择CSS类名应用到控件上"
+						    	onChange={cssClassProps.onClassNameSelectChange.bind(this)}
 						    	value={
 						    		props.vdCtrlTree.activeCtrl.customClassName
 						    	}
@@ -824,7 +889,7 @@ const VDStylePanel = (props) => {
 						  	</Select>
 					  	</Col>
 	      				<Col span={3}>
-	      				    <Dropdown overlay={cssSelector.cssClassListForDropdown}>
+	      				    <Dropdown overlay={cssSelector.cssClassListForDropdown()}>
 							  	<Button style={{marginBottom: '10px', borderTopLeftRadius: '0px', borderBottomLeftRadius: '0px', marginLeft: '-1px'}} size="small">
 			  		              	<Tooltip placement="left" title="选择CSS类进行编辑">
 								  		<i className="fa fa-pencil"></i>
@@ -833,9 +898,9 @@ const VDStylePanel = (props) => {
 					  	    </Dropdown>
 	      				</Col>
 	      				<Col span={3}>
-	      				    <Popover placement="left" content={cssSelector.newStylePopover.content} trigger={['click']}>
+	      				    <Popover placement="left" content={cssSelector.newStylePopover.content()} trigger={['click']}>
 							  	<Button style={{marginBottom: '10px', borderTopLeftRadius: '0px', borderBottomLeftRadius: '0px', marginLeft: '-1px'}} size="small">
-			  		              	<Tooltip placement="left" title="新增一个样式">
+			  		              	<Tooltip placement="left" title="新增一个样式并应用">
 								  		<i className="fa fa-plus"></i>
 			      					</Tooltip>
 							  	</Button>
