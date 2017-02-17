@@ -479,6 +479,7 @@ export default {
 							title: '属性设置',
 							key: 'h1-attr',
 							isAttrSetting: true,
+                            isChangeTag: true,
 							children: [{
 								name: 'innerHTML',
 								desc: '文本内容',
@@ -850,7 +851,9 @@ export default {
 							props: {
 								placeholder: '输入名称'
 							},
-							id: ''
+							id: '',
+                            isAttr: true,
+                            attrName: 'value'
 						}, {
 							name: 'placeholder',
 							desc: '占位字符',
@@ -859,14 +862,18 @@ export default {
 							props: {
 								placeholder: '输入占位字符'
 							},
-							id: ''
+							id: '',
+                            isAttr: true,
+                            attrName: 'placeholder'
 						}, {
 							name: 'input-type',
 							desc: '类型',
 							type: 'select',
 							value: 'input',
 							valueList: ['input', 'email', 'password', 'number', 'tel'],
-							id: ''
+							id: '',
+                            isAttr: true,
+                            attrName: 'type'
 						}, {
 							name: 'autofocus',
 							desc: '自动聚焦',
