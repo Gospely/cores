@@ -58,10 +58,26 @@ export default {
 		borderSetting: {
 			border: {
 				propertyName: 'border',
+				width: '',
+				color: ''
 			},
 
 			borderRadius: {
-				propertyName: 'border-radius'
+				propertyName: 'border-radius',
+				borderRadius: ''
+			}
+		},
+
+		backgroundSetting: {
+			backgroundSize: {
+				width: '',
+				height: '',
+				cover: false,
+				contain: false
+			},
+
+			backgroundImage: {
+				fileInfo: []
 			}
 		},
 
@@ -78,7 +94,7 @@ export default {
 	effects: {
 
 		*handleStylesChange(params, { call, put, select }) {
-			var activeCtrl = yield select(state=> state.vdCtrlTree.activeCtrl),
+			var activeCtrl = yield select(state => state.vdCtrlTree.activeCtrl),
 				activeCtrlCustomClass = activeCtrl.customClassName;
 
 			yield put({
@@ -92,7 +108,7 @@ export default {
 		},
 
 		*handleClassChange({ payload: params }, { call, put, select }) {
-			var activeCtrl = yield select(state=> state.vdCtrlTree.activeCtrl),
+			var activeCtrl = yield select(state => state.vdCtrlTree.activeCtrl),
 				activeCtrlCustomClass = activeCtrl.customClassName;
 
 			yield put({
@@ -106,8 +122,62 @@ export default {
 
 	reducers: {
 
-		changeBorderPosition(state, { payload: position }) {
-			state.borderSetting.body.propertyName = position;
+		changeBorderPosition(state, { payload: params }) {
+			const prevBorderPosition = state.borderSetting.border.propertyName;
+			state.borderSetting.border.propertyName = params.position;
+			var activeStyle = state.stylesList['.' + params.activeStyleName];
+
+			//清除其它border类型，并根据现有propertyName重新生成样式
+
+			for(var property in activeStyle) {
+				if(property.indexOf(prevBorderPosition) != -1) {
+					activeStyle[property] = '';
+					delete state.stylesList['.' + params.activeStyleName][property];
+					delete activeStyle[property];
+				}
+				activeStyle[params.position + '-width'] = state.borderSetting.border.width;
+				activeStyle[params.position + '-color'] = state.borderSetting.border.color;
+			}
+
+			return {...state};
+		},
+
+		changeBorderRadiusPosition(state, { payload: params }) {
+			const prevBorderPosition = state.borderSetting.borderRadius.propertyName;
+			state.borderSetting.borderRadius.propertyName = params.position;
+			var activeStyle = state.stylesList['.' + params.activeStyleName];
+
+			//清除其它border类型，并根据现有propertyName重新生成样式
+
+			for(var property in activeStyle) {
+				if(property.indexOf(prevBorderPosition) != -1) {
+					activeStyle[property] = '';
+					delete state.stylesList['.' + params.activeStyleName][property];
+					delete activeStyle[property];
+				}
+				activeStyle[params.position + '-radius'] = state.borderSetting.borderRadius.borderRadius;
+			}
+
+			return {...state};
+		},
+
+		handleBorderInputChange(state, { payload: params }) {
+			state.borderSetting.border[params.propertyName] = params.value;
+			return {...state};
+		},
+
+		handleBorderRadiusInputChange(state, { payload: params }) {
+			state.borderSetting.borderRadius[params.propertyName] = params.value;
+			return {...state};
+		},
+
+		handleBackgroundSizeInputChange(state, { payload: params }) {
+			state.backgroundSetting.backgroundSize[params.cssProperty] = params.value;
+			return {...state};
+		},
+
+		handleBGSettingBeforeUpload(state, { payload: params }) {
+			state.backgroundSetting.backgroundImage.fileInfo.splice(0, params.length);
 			return {...state};
 		},
 
@@ -148,6 +218,10 @@ export default {
 				value = params.stylePropertyValue,
 				activeStyleName = params.activeStyleName;
 
+				if(property == 'background-image') {
+					value = 'url("' + value + '")';
+				}
+
 			state.stylesList['.' + activeStyleName][property] = value;
 
 			return {...state};
@@ -170,8 +244,6 @@ export default {
 
 				return cssText;
 			}
-
-			console.log(params);
 
 			const cssText = generateCSSText(state.stylesList);
 

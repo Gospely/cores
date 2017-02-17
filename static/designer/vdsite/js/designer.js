@@ -127,7 +127,18 @@ $(function() {
 
             refreshCtrl: function(activeCtrl, attr, attrType) {
 
-                new ElemGenerator(activeCtrl).setAttributeByAttr(attr, attrType);
+				if(attr.isTag) {
+
+					let vdid  = activeCtrl.vdid;
+					var elem = jq('[vdid='+ activeCtrl.vdid + ']');
+					activeCtrl.vdid = activeCtrl.vdid + 'c';
+					var elemGen = new ElemGenerator(activeCtrl);
+					var tempElem = elemGen.createElement();
+					tempElem.attr('vdid', vdid);
+					elem = elem.replaceWith(tempElem[0].outerHTML);
+					activeCtrl.vdid = vdid;
+				}
+				new ElemGenerator(activeCtrl).setAttributeByAttr(attr, attrType);
             }
 		};
 
@@ -193,6 +204,8 @@ $(function() {
 
         //生成dom类
         function ElemGenerator(params) {
+
+			console.log(params);
         	this.controller = params;
         	this.tag = typeof this.controller.tag == 'object' ? this.controller.tag[0] : this.controller.tag;
         	this.elemLoaded = false;
@@ -270,12 +283,9 @@ $(function() {
             },
 
             setAttr: function(attr) {
+
                 if(attr.isHTML) {
                     this.elem.html(attr.value);
-                }
-
-                if(attr.isTag) {
-                    // this.elem.
                 }
 
 				if(attr.isToggleAttr){
@@ -314,6 +324,8 @@ $(function() {
                             }
 
                         attrValue = getAttrValue(attrValue, sessionStorage.currentActiveLinkType);
+
+                        console.log('+++++++++', attrValue);
 
                         this.elem.attr(attr.attrName, attrValue);
                     }

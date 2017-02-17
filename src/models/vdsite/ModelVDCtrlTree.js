@@ -296,8 +296,10 @@ export default {
 			state.activeCtrlLvl = ctrlInfo.level;
 			return {...state};
 		},
-
 		handleAttrFormChangeA(state, { payload: params }) {
+
+			console.log(params);
+			console.log(state.activeCtrl);
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
   			var ctrlAttrs = currentActiveCtrl.controller.attrs;
 
@@ -319,11 +321,19 @@ export default {
   			};
 
   			state.activeCtrl = currentActiveCtrl.controller;
-
 			return {...state};
 		},
 
 		handleAttrRefreshed(state, { payload: params }) {
+
+			//判断是否需要切换标签
+			if(params.attrType.isChangeTag && params.attr.name == 'tag'){
+				console.log('changeTag');
+				var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
+				currentActiveCtrl.controller.attrs.tag = params.attr.value;
+				state.activeCtrl = currentActiveCtrl.controller;
+				params.activeCtrl.tag = params.attr.value;
+			}
 			window.VDDesignerFrame.postMessage({
 				VDAttrRefreshed: params
 			}, '*');
@@ -453,8 +463,9 @@ export default {
 	effects: {
 
 		*handleAttrFormChange({payload: params}, {call, put, select}) {
-  			var activePage = yield select(state => state.vdpm.activePage);
 
+			console.log(params);
+  			var activePage = yield select(state => state.vdpm.activePage);
   			yield put({
   				type: 'handleAttrFormChangeA',
   				payload: {

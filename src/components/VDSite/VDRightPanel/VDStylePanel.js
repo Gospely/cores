@@ -54,7 +54,7 @@ const VDStylePanel = (props) => {
 
 	const handleStylesChange = (stylePropertyName, proxy) =>  {
 
-		console.log(proxy);
+		console.log('================proxy==============', proxy);
 
 		var stylePropertyValue = '';
 
@@ -208,8 +208,82 @@ const VDStylePanel = (props) => {
     const backgroundImageAndGradient = {
     	modifyContent: <div>222</div>,
 
-    	imageSetter: (
+    	imageSetter () {
 
+    		var backgroundSizeParams = props.vdstyles.backgroundSetting.backgroundSize;
+
+    		const handleBackgroundSizeInputChange = (cssProperty, addon, e) => {
+
+    			var val = e.target ? e.target.value : e;
+
+    			props.dispatch({
+    				type: 'vdstyles/handleBackgroundSizeInputChange',
+    				payload: {
+    					cssProperty: addon.cssProperty,
+    					value: val
+    				}
+    			});
+
+    			const packBGSizeParams = () => {
+
+    				var result = '';
+
+    				if(backgroundSizeParams.width != '') {
+    					result += backgroundSizeParams.width + ' ';
+    				}
+
+    				if(backgroundSizeParams.height != '') {
+    					result += backgroundSizeParams.height + ' ';
+       				}
+
+    				if(backgroundSizeParams.cover) {
+    					result = 'cover';
+    				}
+
+    				if(backgroundSizeParams.contain) {
+    					result = 'contain';
+    				}
+
+    				return result;
+    			}
+
+    			handleStylesChange(cssProperty, {
+    				target: {
+    					value: packBGSizeParams()
+    				}
+    			});
+    		}
+
+    		const cssBGUploadProps = {
+		 		listType: 'picture',
+			  	defaultFileList: props.vdstyles.backgroundSetting.backgroundImage.fileInfo,
+
+			  	beforeUpload () {
+			  		props.dispatch({
+			  			type: 'vdstyles/handleBGSettingBeforeUpload',
+			  			payload: props.vdstyles.backgroundSetting.backgroundImage.fileInfo
+			  		});
+			  	},
+
+			  	onChange (object) {
+			  		handleStylesChange('background-image', {
+			  			target: {
+			  				value: object.file.thumbUrl
+			  			}
+			  		});
+			  	}
+
+    		}
+
+    		const handleBGPosChange = (pos) => {
+    			handleStylesChange('background-position', {
+    				target: {
+    					value: pos
+    				}
+    			});
+    		}
+
+    		return (
 			<div className="guidance-panel-wrapper">
 				<div className="guidance-panel-child">
 					<div className="bem-Frame">
@@ -221,7 +295,7 @@ const VDStylePanel = (props) => {
 							</div>
 						</div>
 						<div className="bem-Frame_Body">
-							<Upload {...bgUploaderProps}>
+							<Upload {...cssBGUploadProps}>
 								<Button><i className="fa fa-cloud-upload"></i>&nbsp;上传图片</Button>								
 						  	</Upload>
 
@@ -244,14 +318,18 @@ const VDStylePanel = (props) => {
 							  	<Col span={11} style={{paddingRight: '5px'}}>
 							      	<Form className="form-no-margin-bottom">
 										<FormItem {...formItemLayout} label="宽度">
-											<Input size="small" />
+											<Input onChange={handleBackgroundSizeInputChange.bind(this, 'background-size', {
+												cssProperty: 'width'
+											})} size="small" />
 										</FormItem>
 							      	</Form>
 							  	</Col>
 							  	<Col span={13} style={{paddingLeft: '5px'}}>
 							      	<Form className="form-no-margin-bottom">
-										<FormItem {...formItemLayout} label="Cover">
-											<Switch size="small" />
+										<FormItem {...formItemLayout} label="填充">
+											<Switch onChange={handleBackgroundSizeInputChange.bind(this, 'background-size', {
+												cssProperty: 'cover'
+											})} size="small" />
 										</FormItem>
 							      	</Form>
 							  	</Col>
@@ -263,14 +341,18 @@ const VDStylePanel = (props) => {
 							  	<Col span={11} style={{paddingRight: '5px'}}>
 							      	<Form className="form-no-margin-bottom">
 										<FormItem {...formItemLayout} label="高度">
-											<Input size="small" />
+											<Input onChange={handleBackgroundSizeInputChange.bind(this, 'background-size', {
+												cssProperty: 'height'
+											})} size="small" />
 										</FormItem>
 							      	</Form>
 							  	</Col>
 							  	<Col span={13} style={{paddingLeft: '5px'}}>
 							      	<Form className="form-no-margin-bottom">
-										<FormItem {...formItemLayout} label="Contain">
-											<Switch size="small" />
+										<FormItem {...formItemLayout} label="适应">
+											<Switch onChange={handleBackgroundSizeInputChange.bind(this, 'background-size', {
+												cssProperty: 'contain'
+											})} size="small" />
 										</FormItem>
 							      	</Form>
 							  	</Col>
@@ -295,35 +377,35 @@ const VDStylePanel = (props) => {
 								<Col span={10}>
 									<Row style={{marginBottom: '5px'}}>
 										<Col span={8}>
-											<Button size="small"><Icon type="arrow-up" style={{transform: 'rotate(-45deg)'}} /></Button>
+											<Button onClick={handleBGPosChange.bind(this, 'top left')} size="small"><Icon type="arrow-up" style={{transform: 'rotate(-45deg)'}} /></Button>
 										</Col>
 										<Col span={8}>
-											<Button size="small"><Icon type="arrow-up" /></Button>
+											<Button onClick={handleBGPosChange.bind(this, 'top center')} size="small"><Icon type="arrow-up" /></Button>
 										</Col>
 										<Col span={8}>
-											<Button size="small"><Icon type="arrow-up" style={{transform: 'rotate(45deg)'}} /></Button>
+											<Button onClick={handleBGPosChange.bind(this, 'top right')} size="small"><Icon type="arrow-up" style={{transform: 'rotate(45deg)'}} /></Button>
 										</Col>
 									</Row>
 									<Row style={{marginBottom: '5px'}}>
 										<Col span={8}>
-											<Button size="small"><Icon type="arrow-left" /></Button>
+											<Button onClick={handleBGPosChange.bind(this, 'center left')} size="small"><Icon type="arrow-left" /></Button>
 										</Col>
 										<Col span={8}>
-											<Button size="small"><Icon type="plus" /></Button>
+											<Button onClick={handleBGPosChange.bind(this, 'center center')} size="small"><Icon type="plus" /></Button>
 										</Col>
 										<Col span={8}>
-											<Button size="small"><Icon type="arrow-right" /></Button>
+											<Button onClick={handleBGPosChange.bind(this, 'center right')} size="small"><Icon type="arrow-right" /></Button>
 										</Col>
 									</Row>
 									<Row>
 										<Col span={8}>
-											<Button size="small"><Icon type="arrow-down" style={{transform: 'rotate(45deg)'}} /></Button>
+											<Button onClick={handleBGPosChange.bind(this, 'bottom left')} size="small"><Icon type="arrow-down" style={{transform: 'rotate(45deg)'}} /></Button>
 										</Col>
 										<Col span={8}>
-											<Button size="small"><Icon type="arrow-down" /></Button>
+											<Button onClick={handleBGPosChange.bind(this, 'bottom center')} size="small"><Icon type="arrow-down" /></Button>
 										</Col>
 										<Col span={8}>
-											<Button size="small"><Icon type="arrow-down" style={{transform: 'rotate(-45deg)'}} /></Button>
+											<Button onClick={handleBGPosChange.bind(this, 'bottom right')} size="small"><Icon type="arrow-down" style={{transform: 'rotate(-45deg)'}} /></Button>
 										</Col>
 									</Row>
 								</Col>
@@ -339,7 +421,7 @@ const VDStylePanel = (props) => {
 			      	<Form className="form-no-margin-bottom">
 						<FormItem {...formItemLayout} label="重复">
 
-					        <RadioGroup defaultValue="repeat" size="small">
+					        <RadioGroup defaultValue="repeat" size="small" onChange={handleStylesChange.bind(this, 'background-repeat')}>
 						      	<RadioButton value="repeat">
 			  		              	<Tooltip placement="top" title="repeat">
 										<Icon type="appstore-o" />
@@ -368,7 +450,7 @@ const VDStylePanel = (props) => {
 			      	<Form className="form-no-margin-bottom">
 						<FormItem {...formItemLayout} label="固定">
 
-					        <RadioGroup defaultValue="scroll" size="small">
+					        <RadioGroup defaultValue="scroll" size="small" onChange={handleStylesChange.bind(this, 'background-attachment')}>
 						      	<RadioButton value="fixed">
 			  		              	<Tooltip placement="top" title="fixed">
 										<Icon type="check" />
@@ -387,7 +469,8 @@ const VDStylePanel = (props) => {
 				</div>
 			</div>
 
-    	),
+    	);
+		},
 
 		gradientSetter: (
 
@@ -1373,7 +1456,7 @@ const VDStylePanel = (props) => {
 						<RadioGroup defaultValue="图片" size="small">
 					      	<RadioButton value="图片">
 								<Popover
-						        	content={backgroundImageAndGradient.imageSetter}
+						        	content={backgroundImageAndGradient.imageSetter()}
 						        	title="图片处理"
 						        	trigger="click"
 						        	placement="left"
@@ -1401,56 +1484,6 @@ const VDStylePanel = (props) => {
 
 		    	</Form>
 
-			    <ul style={{marginBottom: '10px'}} className="ant-dropdown-menu ant-dropdown-menu-vertical ant-dropdown-menu-light ant-dropdown-menu-root symbol-list" role="menu">
-			      <li className="ant-dropdown-menu-item" role="menuitem">
-			        <Row>
-			          <Col span={18}>
-			            <p>key1="val2"</p>
-			          </Col>
-			          <Col span={3}>
-
-						<Popover
-				        	content={backgroundImageAndGradient.modifyContent}
-				        	title="修改 自定义属性"
-				        	trigger="click"
-				      	>
-			            	<Icon type="edit" />
-				      	</Popover>
-
-			          </Col>
-			          <Col span={3}>
-			            <Popconfirm title="确认删除吗？" okText="确定" cancelText="取消">
-							<Icon type="delete" />
-						</Popconfirm>
-			          </Col>
-			        </Row>
-			      </li>
-			      <li className="ant-dropdown-menu-item-divider"></li>
-
-			      <li className="ant-dropdown-menu-item" role="menuitem">
-			        <Row>
-			          <Col span={18}>
-			            <p>key="val"</p>
-			          </Col>
-			          <Col span={3}>
-						<Popover
-				        	content={backgroundImageAndGradient.modifyContent}
-				        	title="修改 自定义属性"
-				        	trigger="click"
-				      	>
-			            	<Icon type="edit" />
-				      	</Popover>
-			          </Col>
-			          <Col span={3}>
-			            <Popconfirm title="确认删除吗？" okText="确定" cancelText="取消">
-							<Icon type="delete" />
-							</Popconfirm>
-			          </Col>
-			        </Row>
-			      </li>
-			      <li className=" ant-dropdown-menu-item-divider"></li>
-			    </ul>
-
 		    	<Form className="form-no-margin-bottom">
 					<FormItem {...formItemLayout} label="背景色">
 						<Input type="color" size="small" onChange={handleStylesChange.bind(this, 'background-color')}/>
@@ -1465,7 +1498,68 @@ const VDStylePanel = (props) => {
 			const handleBorderTypeChange = (position) => {
 				props.dispatch({
 					type: 'vdstyles/changeBorderPosition',
-					payload: position
+					payload: {
+						activeStyleName: props.vdCtrlTree.activeCtrl.activeStyle,
+						position: position
+					}
+				});
+
+				handleStylesChange(props.vdstyles.borderSetting.border.propertyName + '-width', {
+					target: {
+						value: props.vdstyles.borderSetting.border.width
+					}
+				});
+				handleStylesChange(props.vdstyles.borderSetting.border.propertyName + '-color', {
+					target: {
+						value: props.vdstyles.borderSetting.border.color
+					}
+				});
+
+			};
+
+			const handleBorderInputChange = (propertyName, e) => {
+				props.dispatch({
+					type: 'vdstyles/handleBorderInputChange',
+					payload: {
+						propertyName,
+						value: e.target.value
+					}
+				});
+				handleStylesChange(props.vdstyles.borderSetting.border.propertyName + '-' + propertyName, {
+					target: {
+						value: e.target.value
+					}
+				});
+			};
+
+			const handleBorderRadiusPositionChange = (position) => {
+				props.dispatch({
+					type: 'vdstyles/changeBorderRadiusPosition',
+					payload: {
+						activeStyleName: props.vdCtrlTree.activeCtrl.activeStyle,
+						position: position
+					}
+				});
+
+				handleStylesChange(props.vdstyles.borderSetting.borderRadius.propertyName + '-radius', {
+					target: {
+						value: props.vdstyles.borderSetting.borderRadius.borderRadius
+					}
+				});
+			};
+
+			const handleBorderRadiusInputChange = (propertyName, e) => {
+				props.dispatch({
+					type: 'vdstyles/handleBorderRadiusInputChange',
+					payload: {
+						propertyName,
+						value: e.target.value
+					}
+				});
+				handleStylesChange(props.vdstyles.borderSetting.borderRadius.propertyName + '-radius', {
+					target: {
+						value: e.target.value
+					}
 				});
 			}
 
@@ -1478,7 +1572,7 @@ const VDStylePanel = (props) => {
 							<Col span={8}></Col>
 							<Col span={8}>
 								<Tooltip title="上边框">
-									<Button onChange={handleBorderTypeChange.bind(this, 'border-top')} size="small"><i className="fa fa-window-maximize"></i></Button>
+									<Button onClick={handleBorderTypeChange.bind(this, 'border-top')} size="small"><i className="fa fa-window-maximize"></i></Button>
 								</Tooltip>
 							</Col>
 							<Col span={8}></Col>
@@ -1486,17 +1580,17 @@ const VDStylePanel = (props) => {
 						<Row style={{marginBottom: '5px'}}>
 							<Col span={8}>
 								<Tooltip placement="left" title="左边框">
-									<Button onChange={handleBorderTypeChange.bind(this, 'border-left')} size="small"><i className="fa fa-window-maximize" style={{transform: 'rotate(-90deg)'}}></i></Button>
+									<Button onClick={handleBorderTypeChange.bind(this, 'border-left')} size="small"><i className="fa fa-window-maximize" style={{transform: 'rotate(-90deg)'}}></i></Button>
 								</Tooltip>
 							</Col>
 							<Col span={8}>
 								<Tooltip title="全边框">
-									<Button onChange={handleBorderTypeChange.bind(this, 'border')} style={{width: '27px'}} size="small"><i className="fa fa-square-o"></i></Button>
+									<Button onClick={handleBorderTypeChange.bind(this, 'border')} style={{width: '27px'}} size="small"><i className="fa fa-square-o"></i></Button>
 								</Tooltip>
 							</Col>
 							<Col span={8}>
 								<Tooltip placement="right" title="右边框">
-									<Button onChange={handleBorderTypeChange.bind(this, 'border-right')} size="small"><i className="fa fa-window-maximize" style={{transform: 'rotate(90deg)'}}></i></Button>
+									<Button onClick={handleBorderTypeChange.bind(this, 'border-right')} size="small"><i className="fa fa-window-maximize" style={{transform: 'rotate(90deg)'}}></i></Button>
 								</Tooltip>
 							</Col>
 						</Row>
@@ -1504,7 +1598,7 @@ const VDStylePanel = (props) => {
 							<Col span={8}></Col>
 							<Col span={8}>
 								<Tooltip placement="bottom" title="下边框">
-									<Button onChange={handleBorderTypeChange.bind(this, 'border-bottom')} size="small"><i className="fa fa-window-maximize" style={{transform: 'rotate(180deg)'}}></i></Button>
+									<Button onClick={handleBorderTypeChange.bind(this, 'border-bottom')} size="small"><i className="fa fa-window-maximize" style={{transform: 'rotate(180deg)'}}></i></Button>
 								</Tooltip>
 							</Col>
 							<Col span={8}></Col>
@@ -1514,11 +1608,11 @@ const VDStylePanel = (props) => {
 					<Col span={16} style={{paddingLeft: '15px'}}>
 				    	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label="宽度">
-								<Input size="small" onChange={handleStylesChange.bind(this, props.vdstyles.borderSetting.border.propertyName + '-width')}/>
+								<Input size="small" value={props.vdstyles.borderSetting.border.width} onChange={handleBorderInputChange.bind(this, 'width')}/>
 							</FormItem>
 
 							<FormItem {...formItemLayout} label="颜色">
-								<Input size="small" type="color" onChange={handleStylesChange.bind(this, props.vdstyles.borderSetting.border.propertyName + '-color')}/>
+								<Input size="small" value={props.vdstyles.borderSetting.border.color} onChange={handleBorderInputChange.bind(this, 'color')} type="color"/>
 							</FormItem>
 				    	</Form>
 					</Col>
@@ -1562,21 +1656,21 @@ const VDStylePanel = (props) => {
 						<Row style={{marginBottom: '5px'}}>
 							<Col span={8}>
 								<Tooltip placement="top" title="弧 - 左上">
-									<Button style={{borderTopLeftRadius: '28px', width: '28px', height: '28px'}} size="small"><i className="fa fa-window-maximize"></i></Button>									
+									<Button onClick={handleBorderRadiusPositionChange.bind(this, 'border-top-left')} style={{borderTopLeftRadius: '28px', width: '28px', height: '28px'}} size="small"><i className="fa fa-window-maximize"></i></Button>									
 								</Tooltip>
 								<Tooltip placement="bottom" title="弧 - 左下">
-									<Button style={{borderBottomLeftRadius: '28px', width: '28px', height: '28px', marginTop: '3px'}} size="small"><i className="fa fa-window-maximize"></i></Button>									
+									<Button onClick={handleBorderRadiusPositionChange.bind(this, 'border-bottom-left')} style={{borderBottomLeftRadius: '28px', width: '28px', height: '28px', marginTop: '3px'}} size="small"><i className="fa fa-window-maximize"></i></Button>									
 								</Tooltip>
 							</Col>
 							<Col span={8}>
-								<Button style={{marginTop: '16px', marginRight: '1px'}} size="small"><i className="fa fa-window-maximize"></i></Button>
+								<Button onClick={handleBorderRadiusPositionChange.bind(this, 'border')} style={{marginTop: '16px', marginRight: '1px'}} size="small"><i className="fa fa-window-maximize"></i></Button>
 							</Col>
 							<Col span={8}>
 								<Tooltip placement="top" title="弧 - 右上">
-									<Button style={{borderTopRightRadius: '28px', width: '28px', height: '28px'}} size="small"><i className="fa fa-window-maximize"></i></Button>
+									<Button onClick={handleBorderRadiusPositionChange.bind(this, 'border-top-right')} style={{borderTopRightRadius: '28px', width: '28px', height: '28px'}} size="small"><i className="fa fa-window-maximize"></i></Button>
 								</Tooltip>
 								<Tooltip placement="bottom" title="弧 - 右下">
-									<Button style={{borderBottomRightRadius: '28px', width: '28px', height: '28px', marginTop: '3px'}} size="small"><i className="fa fa-window-maximize"></i></Button>
+									<Button onClick={handleBorderRadiusPositionChange.bind(this, 'border-bottom-right')} style={{borderBottomRightRadius: '28px', width: '28px', height: '28px', marginTop: '3px'}} size="small"><i className="fa fa-window-maximize"></i></Button>
 								</Tooltip>
 							</Col>
 						</Row>
@@ -1585,7 +1679,7 @@ const VDStylePanel = (props) => {
 					<Col span={16} style={{paddingLeft: '15px'}}>
 				    	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label="弧度">
-								<Input size="small" onChange={handleStylesChange.bind(this, 'border-radius')} />
+								<Input value={props.vdstyles.borderSetting.borderRadius.borderRadius} size="small" onChange={handleBorderRadiusInputChange.bind(this, 'borderRadius')} />
 							</FormItem>
 				    	</Form>
 					</Col>
