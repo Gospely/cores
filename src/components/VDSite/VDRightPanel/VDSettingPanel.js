@@ -36,7 +36,7 @@ const Component = (props) => {
 		handleAttrFormInputChange (item, attType, dom) {
 			var newVal = dom.target.value;
 			var attrName = item.name;
-
+            //
 			console.log('============', newVal, attrName, item);
 
 			props.dispatch({
@@ -392,8 +392,9 @@ const Component = (props) => {
 	    			'list-setting' (item, attrTypeIndex) {
 
                         const listSettingProps = {
-                            listTypeChoose(){
+                            listTypeChoose(e){
                                 //列表类型选择
+                                console.log(e.target.value);
                             }
                         }
 	    				return (
@@ -793,8 +794,6 @@ const Component = (props) => {
 	    				);
 	    			},
 				};
-                console.log('item');
-                console.log(item);
 				return specialAttrHandler[item.key](item, index);
 			}
 

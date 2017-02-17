@@ -113,6 +113,8 @@ export default {
 					attrs: [{
 						title: '属性设置',
 						key: 'section-attr',
+                        isAttrSetting: true,
+                        isChangeTag: true,
 						children: [{
 							name: 'tag',
 							desc: '标签',
