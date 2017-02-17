@@ -24,7 +24,7 @@ $(function() {
 			e.stopPropagation();
 			var targetData = jq(e.target).data('controller');
             if(!targetData) {
-                controllerOperations.desSelect(targetData);                
+                controllerOperations.desSelect(targetData);
             }
 		})
 
@@ -70,8 +70,13 @@ $(function() {
                     },
 
                     VDAttrRefreshed: function() {
+						console.log(data);
                         controllerOperations.refreshCtrl(data.activeCtrl, data.attr, data.attrType);
                         controllerOperations.select(data.activeCtrl, true);
+                    },
+
+                    applyCSSIntoPage: function() {
+                        pageOperations.applyCSS(data);
                     }
                 };
 
@@ -111,14 +116,23 @@ $(function() {
                 notPostMessage = notPostMessage || false;
                 controllerOperations.showDesignerDraggerBorder(jq('[vdid=' + data.vdid + ']'))
                 if(!notPostMessage) {
-                    postMessageToFather.ctrlSelected(data);                    
+                    postMessageToFather.ctrlSelected(data);
                 }
             },
 
             refreshCtrl: function(activeCtrl, attr, attrType) {
+
                 new ElemGenerator(activeCtrl).setAttributeByAttr(attr, attrType);
             }
 		};
+
+        var pageOperations = {
+            applyCSS: function(cssText) {
+                var oldStyle = jq('[sid="global-css"]').remove();
+                var css = jq('<style sid="global-css">' + cssText + '</style>');
+                jq('head').append(css);
+            }
+        };
 
 		//点击其他区域隐藏border和i
         jq("body").on("click", function(e) {
@@ -126,7 +140,7 @@ $(function() {
             // postMessageToFather.pageSelected({
             //     key: ''
             // });
-            
+
         });
 
         //拖拽初始化类
@@ -157,7 +171,7 @@ $(function() {
         	makeComponentsDraggable: function(cb) {
         		var self = this;
         		var components = jq(parentWindow.document, parentWindow.document).find('.anticons-list-item');
-        		
+
         		components.each(function(n) {
         			jq(this).attr("draggable", true);
         			jq(this).on("dragstart", function (e) {
@@ -258,6 +272,17 @@ $(function() {
                 if(attr.isTag) {
                     // this.elem.
                 }
+
+				if(attr.isToggleAttr){
+					console.log(attr);
+					if(!attr.value)
+						this.elem.removeAttr(attr.attrName);
+					this.elem.attr(attr.attrName, attr.value);
+				}
+                if(attr.isAttr) {
+
+					this.elem.attr(attr.attrName, attr.value);
+                }
             },
 
             setLinkSetting: function(attr) {
@@ -268,10 +293,9 @@ $(function() {
                         if(attr.value) {
                             this.elem.attr(attr.attrName, '_blank');
                         }else {
-                            this.elem.attr(attr.attrName, '');                            
+                            this.elem.attr(attr.attrName, '');
                         }
                     }else {
-
                         var attrValue = attr.value,
 
                             getAttrValue = function (val, type) {
@@ -287,7 +311,7 @@ $(function() {
 
                         attrValue = getAttrValue(attrValue, sessionStorage.currentActiveLinkType);
 
-                        this.elem.attr(attr.attrName, attrValue);                        
+                        this.elem.attr(attr.attrName, attrValue);
                     }
                 }
             },
@@ -310,6 +334,12 @@ $(function() {
                 }
             },
 
+            setClassName: function(attr) {
+                console.log('setClassName', attr);
+                var classList = this.controller.className.concat(this.controller.customClassName);
+                this.elem.attr('class', classList.join(' '));
+            },
+
             transformTypeToUpper: function(type) {
                 var settingTypeSplit = type.split('-'),
                     upperTypeName = '';
@@ -327,6 +357,7 @@ $(function() {
         		for(var i = 0, len = this.controller.attrs.length; i < len; i ++) {
         			var attr = this.controller.attrs[i];
 
+                    console.log(attr);
                     if(attr.isAttrSetting) {
                         //基础属性设置（无复杂交互）统一处理
                         for (var j = 0; j < attr.children.length; j++) {
@@ -352,6 +383,7 @@ $(function() {
         	},
 
             setAttributeByAttr: function(attr, attrType) {
+
                 this.initElem();
                 this.bindData();
                 var upperTypeName = this.transformTypeToUpper(attrType.key);
@@ -360,7 +392,7 @@ $(function() {
                 }else {
                     if(this['set' + upperTypeName]) {
                         this['set' + upperTypeName](attr);
-                    }                    
+                    }
                 }
             },
 
@@ -455,7 +487,7 @@ $(function() {
 		if(eventName == 'VDDesignerLoaded') {
 			dndHandlder();
 		}
-		
+
 	})
 
 })

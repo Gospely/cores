@@ -5,8 +5,6 @@ export default {
 	namespace: 'vdstyles',
 	state: {
 
-		activeStyle: '',
-
 		stylesList: {
 		    ".body":{
 		        "height": "100%"
@@ -60,6 +58,13 @@ export default {
 		newStyleName: ''
 	},
 
+	subscriptions: {
+		setup({ dispatch, history }) {
+	      	history.listen(({ pathname }) => {
+	      	});
+		}
+	},
+
 	effects: {
 
 		*handleStylesChange(params, { call, put, select }) {
@@ -85,11 +90,6 @@ export default {
 				payload: params
 			});
 
-			yield put({
-				type: 'setActiveStyle',
-				payload: params.value[params.value.length - 1]
-			})
-
 		}
 
 	},
@@ -103,11 +103,6 @@ export default {
 
 		changeStyle(state, { payload: params }) {
 			state.stylesList[params.className][params.property] = params.value;
-			return {...state};
-		},
-
-		setActiveStyle(state, { payload: activeStyle }) {
-			state.activeStyle = activeStyle;
 			return {...state};
 		},
 
@@ -130,6 +125,33 @@ export default {
 
 		handleNewStyleNameChange(state, { payload: value }) {
 			state.newStyleName = value;
+			return {...state};
+		},
+
+		applyStyleIntoPage(state) {
+
+			const generateCSSText = (stylesList) => {
+				var cssText = '';
+				for(var styleName in stylesList) {
+					var currentStyle = stylesList[styleName],
+						cssClass = styleName + '{';
+					for(var property in currentStyle) {
+						var currentTableStyle = currentStyle[property];
+						cssClass += property + ':' + currentTableStyle + ';'
+					}
+					cssClass += '}';
+					cssText += cssClass;
+				}
+
+				return cssText;
+			}
+
+			const cssText = generateCSSText(state.stylesList);
+
+			window.VDDesignerFrame.postMessage({
+				applyCSSIntoPage: cssText
+			}, '*');
+
 			return {...state};
 		}
 

@@ -588,15 +588,17 @@ export default {
 					tag: 'video',
 					className: [],
 					attrs: [{
-						title: '视频设置',
-						key: 'video-setting',
+						title: '属性设置',
+						key: 'video-attr',
+						isAttrSetting: true,
 						children: [{
-							name: 'link',
+							name: 'src',
 							desc: '链接',
 							type: 'input',
 							value: '',
 							id: '',
-                            isAttr: true
+                            isAttr: true,
+                            attrName: 'src'
 						}, {
 							name: 'width',
 							desc: '宽度',
@@ -610,8 +612,37 @@ export default {
 							type: 'input',
 							value: 150,
 							isAttr: true,
-							attrName: 'height'
-						}]
+							attrName: 'height',
+						},{
+                            name: 'controls',
+                            desc: '显示控件',
+                            value: true,
+                            type: 'toggle',
+                            attrName: 'controls',
+                            isToggleAttr: true
+                        },{
+                            name: 'loop',
+                            desc: '循环播放',
+                            value: true,
+                            type: 'toggle',
+                            attrName: 'loop',
+                            isToggleAttr: true
+                        },{
+                            name: 'autoplay',
+                            desc: '自动播放',
+                            value: true,
+                            type: 'toggle',
+                            attrName: 'autoplay',
+                            isToggleAttr: true
+                        },{
+                            name: 'poster',
+                            desc: '播放前的显示图片',
+                            type: 'input',
+                            value: 'https://d3e54v103j8qbb.cloudfront.net/static/video-placeholder.v1.svg',
+                            attrName: 'poster',
+                            isAttr: true,
+                        }
+                    ]
 					}]
 				}
 			}]
@@ -1457,7 +1488,7 @@ export default {
 				}
 			});
 		}
-		
+
 	}
 
 }

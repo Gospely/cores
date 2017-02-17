@@ -52,9 +52,10 @@ const VDStylePanel = (props) => {
 
 	}
 
-	var handleStylesChange = function(key, value) {
-		console.log(key);
-		console.log(value.target.value);
+	const handleStylesChange = (stylePropertyName, proxy) =>  {
+		console.log(stylePropertyName);
+		var stylePropertyValue = proxy.target.value;
+		
 		console.log(props.vdCtrlTree.activeCtrl)
 		// props.dispatch({
 		// 	type: 'vdstyles/handleStylesChange',
@@ -74,17 +75,17 @@ const VDStylePanel = (props) => {
 
 			const onSelect = (e) => {
 				props.dispatch({
-					type: 'vdstyles/setActiveStyle',
+					type: 'vdCtrlTree/setActiveStyle',
 					payload: e.selectedKeys[0]
 				});
 			}
 
 			return (
-			  	<Menu selectedKeys={[props.vdstyles.activeStyle]} onSelect={onSelect}>
+			  	<Menu selectedKeys={[props.vdCtrlTree.activeCtrl.activeStyle]} onSelect={onSelect}>
 			  		{
 			  			props.vdCtrlTree.activeCtrl.customClassName.map((item, key) => {
 					    	return <Menu.Item key={item}>{
-					    		props.vdstyles.activeStyle == item ? (
+					    		props.vdCtrlTree.activeCtrl.activeStyle == item ? (
 					    			<Tag color="#87d068"><span style={{color: 'rgb(255, 255, 255)'}}>{item}</span></Tag>
 					    		) : (item)
 					    	}</Menu.Item>
@@ -109,6 +110,10 @@ const VDStylePanel = (props) => {
 					props.dispatch({
 						type: 'vdstyles/addStyle'
 					});
+
+					props.dispatch({
+						type: 'vdstyles/applyStyleIntoPage'
+					})
 
 					props.dispatch({
 						type: 'vdstyles/handleClassChange',
@@ -869,7 +874,7 @@ const VDStylePanel = (props) => {
   		<div className="vdctrl-pane-wrapper">
 			<Collapse bordered={false} defaultActiveKey={['css', 'layout', 'typo', 'background', 'borders', 'shadows', 'tt', 'effects']}>
 			    <Panel header={<span><i className="fa fa-css3"></i>&nbsp;CSS类选择器</span>} key="css">
-				  	<p style={{marginBottom: '10px'}}>当前类名：<Tag color="#87d068"><span style={{color: 'rgb(255, 255, 255)'}}>{props.vdstyles.activeStyle || '无活跃类名'}</span></Tag></p>
+				  	<p style={{marginBottom: '10px'}}>当前类名：<Tag color="#87d068"><span style={{color: 'rgb(255, 255, 255)'}}>{props.vdCtrlTree.activeCtrl.activeStyle || '无活跃类名'}</span></Tag></p>
 			    	<Row>
 					  	<Col span={18} className="css-selector">
 					      	<Select
