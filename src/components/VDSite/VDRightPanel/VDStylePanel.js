@@ -1460,7 +1460,16 @@ const VDStylePanel = (props) => {
 		    </Panel>
 		);
 
-		const bordersPanel = (
+		const bordersPanel = () => {
+
+			const handleBorderTypeChange = (position) => {
+				props.dispatch({
+					type: 'vdstyles/changeBorderPosition',
+					payload: position
+				});
+			}
+
+			return (
 		    <Panel header="边框" key="borders">
 
 				<Row>
@@ -1468,25 +1477,35 @@ const VDStylePanel = (props) => {
 						<Row style={{marginBottom: '5px'}}>
 							<Col span={8}></Col>
 							<Col span={8}>
-								<Button size="small"><i className="fa fa-window-maximize"></i></Button>
+								<Tooltip title="上边框">
+									<Button onChange={handleBorderTypeChange.bind(this, 'border-top')} size="small"><i className="fa fa-window-maximize"></i></Button>
+								</Tooltip>
 							</Col>
 							<Col span={8}></Col>
 						</Row>
 						<Row style={{marginBottom: '5px'}}>
 							<Col span={8}>
-								<Button size="small"><i className="fa fa-window-maximize" style={{transform: 'rotate(-90deg)'}}></i></Button>
+								<Tooltip placement="left" title="左边框">
+									<Button onChange={handleBorderTypeChange.bind(this, 'border-left')} size="small"><i className="fa fa-window-maximize" style={{transform: 'rotate(-90deg)'}}></i></Button>
+								</Tooltip>
 							</Col>
 							<Col span={8}>
-								<Button style={{width: '27px'}} size="small"><i className="fa fa-square-o"></i></Button>
+								<Tooltip title="全边框">
+									<Button onChange={handleBorderTypeChange.bind(this, 'border')} style={{width: '27px'}} size="small"><i className="fa fa-square-o"></i></Button>
+								</Tooltip>
 							</Col>
 							<Col span={8}>
-								<Button size="small"><i className="fa fa-window-maximize" style={{transform: 'rotate(90deg)'}}></i></Button>
+								<Tooltip placement="right" title="右边框">
+									<Button onChange={handleBorderTypeChange.bind(this, 'border-right')} size="small"><i className="fa fa-window-maximize" style={{transform: 'rotate(90deg)'}}></i></Button>
+								</Tooltip>
 							</Col>
 						</Row>
 						<Row>
 							<Col span={8}></Col>
 							<Col span={8}>
-								<Button size="small"><i className="fa fa-window-maximize" style={{transform: 'rotate(180deg)'}}></i></Button>
+								<Tooltip placement="bottom" title="下边框">
+									<Button onChange={handleBorderTypeChange.bind(this, 'border-bottom')} size="small"><i className="fa fa-window-maximize" style={{transform: 'rotate(180deg)'}}></i></Button>
+								</Tooltip>
 							</Col>
 							<Col span={8}></Col>
 						</Row>
@@ -1495,11 +1514,11 @@ const VDStylePanel = (props) => {
 					<Col span={16} style={{paddingLeft: '15px'}}>
 				    	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label="宽度">
-								<Input size="small" onChange={handleStylesChange.bind(this, 'border-width')}/>
+								<Input size="small" onChange={handleStylesChange.bind(this, props.vdstyles.borderSetting.border.propertyName + '-width')}/>
 							</FormItem>
 
 							<FormItem {...formItemLayout} label="颜色">
-								<Input size="small" type="color" onChange={handleStylesChange.bind(this, 'border-color')}/>
+								<Input size="small" type="color" onChange={handleStylesChange.bind(this, props.vdstyles.borderSetting.border.propertyName + '-color')}/>
 							</FormItem>
 				    	</Form>
 					</Col>
@@ -1509,7 +1528,7 @@ const VDStylePanel = (props) => {
 
 					<FormItem {...formItemLayout} label="样式">
 
-						<RadioGroup defaultValue="none" size="small" onChange={handleStylesChange.bind(this, 'border-style')}>
+						<RadioGroup defaultValue="none" size="small" onChange={handleStylesChange.bind(this, props.vdstyles.borderSetting.border.propertyName + '-style')}>
 					      	<RadioButton value="none">
 		  		              	<Tooltip placement="top" title="无">
 									<Icon type="close" />
@@ -1542,17 +1561,23 @@ const VDStylePanel = (props) => {
 					<Col span={8}>
 						<Row style={{marginBottom: '5px'}}>
 							<Col span={8}>
-
-								<Button style={{borderTopLeftRadius: '28px', width: '28px', height: '28px'}} size="small"><i className="fa fa-window-maximize"></i></Button>									
-								<Button style={{borderBottomLeftRadius: '28px', width: '28px', height: '28px', marginTop: '3px'}} size="small"><i className="fa fa-window-maximize"></i></Button>									
-
+								<Tooltip placement="top" title="弧 - 左上">
+									<Button style={{borderTopLeftRadius: '28px', width: '28px', height: '28px'}} size="small"><i className="fa fa-window-maximize"></i></Button>									
+								</Tooltip>
+								<Tooltip placement="bottom" title="弧 - 左下">
+									<Button style={{borderBottomLeftRadius: '28px', width: '28px', height: '28px', marginTop: '3px'}} size="small"><i className="fa fa-window-maximize"></i></Button>									
+								</Tooltip>
 							</Col>
 							<Col span={8}>
 								<Button style={{marginTop: '16px', marginRight: '1px'}} size="small"><i className="fa fa-window-maximize"></i></Button>
 							</Col>
 							<Col span={8}>
-								<Button style={{borderTopRightRadius: '28px', width: '28px', height: '28px'}} size="small"><i className="fa fa-window-maximize"></i></Button>
-								<Button style={{borderBottomRightRadius: '28px', width: '28px', height: '28px', marginTop: '3px'}} size="small"><i className="fa fa-window-maximize"></i></Button>
+								<Tooltip placement="top" title="弧 - 右上">
+									<Button style={{borderTopRightRadius: '28px', width: '28px', height: '28px'}} size="small"><i className="fa fa-window-maximize"></i></Button>
+								</Tooltip>
+								<Tooltip placement="bottom" title="弧 - 右下">
+									<Button style={{borderBottomRightRadius: '28px', width: '28px', height: '28px', marginTop: '3px'}} size="small"><i className="fa fa-window-maximize"></i></Button>
+								</Tooltip>
 							</Col>
 						</Row>
 					</Col>
@@ -1560,14 +1585,14 @@ const VDStylePanel = (props) => {
 					<Col span={16} style={{paddingLeft: '15px'}}>
 				    	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label="弧度">
-								<Input size="small" />
+								<Input size="small" onChange={handleStylesChange.bind(this, 'border-radius')} />
 							</FormItem>
 				    	</Form>
 					</Col>
 				</Row>
 
-		    </Panel>
-		);
+		    </Panel>);
+		}
 
 		const shadowsPanel = (
 		    <Panel header="阴影" key="shadows">
@@ -1874,6 +1899,7 @@ const VDStylePanel = (props) => {
 					{layoutPanel}
 					{typoPanel}
 					{backgroundPanel}
+					{bordersPanel()}
 					{shadowsPanel}
 					{transitionsTransformsPanel}
 					{effectsPanel}

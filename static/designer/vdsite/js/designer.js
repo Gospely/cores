@@ -100,6 +100,11 @@ $(function() {
 			},
 
 			showDesignerDraggerBorder: function (target) {
+
+                if(target.length === 0) {
+                    return false;
+                }
+
                 jq('#vd-OutlineSelectedActiveNode').css({
                     top: target.offset().top,
                     left: target.offset().left,

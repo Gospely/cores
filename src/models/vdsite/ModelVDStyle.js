@@ -55,6 +55,16 @@ export default {
 			
 		},
 
+		borderSetting: {
+			border: {
+				propertyName: 'border',
+			},
+
+			borderRadius: {
+				propertyName: 'border-radius'
+			}
+		},
+
 		newStyleName: ''
 	},
 
@@ -95,6 +105,11 @@ export default {
 	},
 
 	reducers: {
+
+		changeBorderPosition(state, { payload: position }) {
+			state.borderSetting.body.propertyName = position;
+			return {...state};
+		},
 
 		setCurrentActivePageListItem(state, { payload: key }) {
 			state.currentActivePageListItem = key;
