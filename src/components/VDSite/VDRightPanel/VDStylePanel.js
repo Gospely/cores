@@ -244,14 +244,14 @@ const VDStylePanel = (props) => {
 							  	<Col span={11} style={{paddingRight: '5px'}}>
 							      	<Form className="form-no-margin-bottom">
 										<FormItem {...formItemLayout} label="宽度">
-											<Input size="small" />
+											<Input onChange={handleStylesChange.bind(this, 'background-size')} size="small" />
 										</FormItem>
 							      	</Form>
 							  	</Col>
 							  	<Col span={13} style={{paddingLeft: '5px'}}>
 							      	<Form className="form-no-margin-bottom">
-										<FormItem {...formItemLayout} label="Cover">
-											<Switch size="small" />
+										<FormItem {...formItemLayout} label="填充">
+											<Switch onChange={handleStylesChange.bind(this, 'background-size')} size="small" />
 										</FormItem>
 							      	</Form>
 							  	</Col>
@@ -263,14 +263,14 @@ const VDStylePanel = (props) => {
 							  	<Col span={11} style={{paddingRight: '5px'}}>
 							      	<Form className="form-no-margin-bottom">
 										<FormItem {...formItemLayout} label="高度">
-											<Input size="small" />
+											<Input onChange={handleStylesChange.bind(this, 'background-size')} size="small" />
 										</FormItem>
 							      	</Form>
 							  	</Col>
 							  	<Col span={13} style={{paddingLeft: '5px'}}>
 							      	<Form className="form-no-margin-bottom">
-										<FormItem {...formItemLayout} label="Contain">
-											<Switch size="small" />
+										<FormItem {...formItemLayout} label="适应">
+											<Switch onChange={handleStylesChange.bind(this, 'background-size')} size="small" />
 										</FormItem>
 							      	</Form>
 							  	</Col>
@@ -339,7 +339,7 @@ const VDStylePanel = (props) => {
 			      	<Form className="form-no-margin-bottom">
 						<FormItem {...formItemLayout} label="重复">
 
-					        <RadioGroup defaultValue="repeat" size="small">
+					        <RadioGroup defaultValue="repeat" size="small" onChange={handleStylesChange.bind(this, 'background-repeat')}>
 						      	<RadioButton value="repeat">
 			  		              	<Tooltip placement="top" title="repeat">
 										<Icon type="appstore-o" />
@@ -368,7 +368,7 @@ const VDStylePanel = (props) => {
 			      	<Form className="form-no-margin-bottom">
 						<FormItem {...formItemLayout} label="固定">
 
-					        <RadioGroup defaultValue="scroll" size="small">
+					        <RadioGroup defaultValue="scroll" size="small" onChange={handleStylesChange.bind(this, 'background-attachment')}>
 						      	<RadioButton value="fixed">
 			  		              	<Tooltip placement="top" title="fixed">
 										<Icon type="check" />
@@ -1400,56 +1400,6 @@ const VDStylePanel = (props) => {
 					</FormItem>
 
 		    	</Form>
-
-			    <ul style={{marginBottom: '10px'}} className="ant-dropdown-menu ant-dropdown-menu-vertical ant-dropdown-menu-light ant-dropdown-menu-root symbol-list" role="menu">
-			      <li className="ant-dropdown-menu-item" role="menuitem">
-			        <Row>
-			          <Col span={18}>
-			            <p>key1="val2"</p>
-			          </Col>
-			          <Col span={3}>
-
-						<Popover
-				        	content={backgroundImageAndGradient.modifyContent}
-				        	title="修改 自定义属性"
-				        	trigger="click"
-				      	>
-			            	<Icon type="edit" />
-				      	</Popover>
-
-			          </Col>
-			          <Col span={3}>
-			            <Popconfirm title="确认删除吗？" okText="确定" cancelText="取消">
-							<Icon type="delete" />
-						</Popconfirm>
-			          </Col>
-			        </Row>
-			      </li>
-			      <li className="ant-dropdown-menu-item-divider"></li>
-
-			      <li className="ant-dropdown-menu-item" role="menuitem">
-			        <Row>
-			          <Col span={18}>
-			            <p>key="val"</p>
-			          </Col>
-			          <Col span={3}>
-						<Popover
-				        	content={backgroundImageAndGradient.modifyContent}
-				        	title="修改 自定义属性"
-				        	trigger="click"
-				      	>
-			            	<Icon type="edit" />
-				      	</Popover>
-			          </Col>
-			          <Col span={3}>
-			            <Popconfirm title="确认删除吗？" okText="确定" cancelText="取消">
-							<Icon type="delete" />
-							</Popconfirm>
-			          </Col>
-			        </Row>
-			      </li>
-			      <li className=" ant-dropdown-menu-item-divider"></li>
-			    </ul>
 
 		    	<Form className="form-no-margin-bottom">
 					<FormItem {...formItemLayout} label="背景色">
