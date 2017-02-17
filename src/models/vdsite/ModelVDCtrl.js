@@ -590,8 +590,9 @@ export default {
 					attrs: [{
 						title: '视频设置',
 						key: 'video-setting',
+                        isAttrSetting: true,
 						children: [{
-							name: 'link',
+							name: 'src',
 							desc: '链接',
 							type: 'input',
 							value: '',
@@ -611,7 +612,30 @@ export default {
 							value: 150,
 							isAttr: true,
 							attrName: 'height'
-						}]
+						},{
+                            name: 'controls',
+                            desc: '显示控件',
+                            value: 'controls',
+                        },{
+                            name: 'controls',
+                            desc: '显示控件',
+                            type: 'input',
+                            value: '',
+                        },{
+                            name: 'loop',
+                            desc: '循环播放',
+                            value: 'loop',
+                        },{
+                            name: 'autoplay',
+                            desc: '自动播放',
+                            value: 'autoplay',
+                        },{
+                            name: 'poster',
+                            desc: '播放前的显示图片',
+                            type: 'input',
+                            value: 'https://d3e54v103j8qbb.cloudfront.net/static/video-placeholder.v1.svg',
+                        }
+                    ]
 					}]
 				}
 			}]

@@ -286,7 +286,7 @@ export default {
 		},
 
 		ctrlSelected(state, { payload: data }) {
-			
+
 			var ctrlInfo = VDTreeActions.getActiveControllerIndexAndLvlByKey(state, data.vdid, state.activePage);
 			state.activeCtrl = data;
 			state.activeCtrlIndex = ctrlInfo.index;
@@ -346,7 +346,7 @@ export default {
 		handleCustomAttrInputChange(state, { payload: params }) {
 
 			state.activeCtrl.attrs[params.attrTypeIndex].children[params.customAttrIndex][params.attrName] = params.value
-
+			console.log(params);
 			window.VDDesignerFrame.postMessage({
 				VDAttrRefreshed: {
 					activeCtrl: state.activeCtrl,

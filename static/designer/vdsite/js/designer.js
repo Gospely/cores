@@ -24,7 +24,7 @@ $(function() {
 			e.stopPropagation();
 			var targetData = jq(e.target).data('controller');
             if(!targetData) {
-                controllerOperations.desSelect(targetData);                
+                controllerOperations.desSelect(targetData);
             }
 		})
 
@@ -70,6 +70,7 @@ $(function() {
                     },
 
                     VDAttrRefreshed: function() {
+						console.log(data);
                         controllerOperations.refreshCtrl(data.activeCtrl, data.attr, data.attrType);
                         controllerOperations.select(data.activeCtrl, true);
                     }
@@ -111,11 +112,12 @@ $(function() {
                 notPostMessage = notPostMessage || false;
                 controllerOperations.showDesignerDraggerBorder(jq('[vdid=' + data.vdid + ']'))
                 if(!notPostMessage) {
-                    postMessageToFather.ctrlSelected(data);                    
+                    postMessageToFather.ctrlSelected(data);
                 }
             },
 
             refreshCtrl: function(activeCtrl, attr, attrType) {
+
                 new ElemGenerator(activeCtrl).setAttributeByAttr(attr, attrType);
             }
 		};
@@ -126,7 +128,7 @@ $(function() {
             // postMessageToFather.pageSelected({
             //     key: ''
             // });
-            
+
         });
 
         //拖拽初始化类
@@ -157,7 +159,7 @@ $(function() {
         	makeComponentsDraggable: function(cb) {
         		var self = this;
         		var components = jq(parentWindow.document, parentWindow.document).find('.anticons-list-item');
-        		
+
         		components.each(function(n) {
         			jq(this).attr("draggable", true);
         			jq(this).on("dragstart", function (e) {
@@ -268,10 +270,10 @@ $(function() {
                         if(attr.value) {
                             this.elem.attr(attr.attrName, '_blank');
                         }else {
-                            this.elem.attr(attr.attrName, '');                            
+                            this.elem.attr(attr.attrName, '');
                         }
                     }else {
-                        this.elem.attr(attr.attrName, attr.value);                        
+                        this.elem.attr(attr.attrName, attr.value);
                     }
                 }
             },
@@ -336,6 +338,7 @@ $(function() {
         	},
 
             setAttributeByAttr: function(attr, attrType) {
+				lo
                 this.initElem();
                 this.bindData();
                 var upperTypeName = this.transformTypeToUpper(attrType.key);
@@ -344,7 +347,7 @@ $(function() {
                 }else {
                     if(this['set' + upperTypeName]) {
                         this['set' + upperTypeName](attr);
-                    }                    
+                    }
                 }
             },
 
@@ -439,7 +442,7 @@ $(function() {
 		if(eventName == 'VDDesignerLoaded') {
 			dndHandlder();
 		}
-		
+
 	})
 
 })
