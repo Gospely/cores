@@ -55,6 +55,19 @@ export default {
 			
 		},
 
+		borderSetting: {
+			border: {
+				propertyName: 'border',
+				width: '',
+				color: ''
+			},
+
+			borderRadius: {
+				propertyName: 'border-radius',
+				borderRadius: ''
+			}
+		},
+
 		newStyleName: ''
 	},
 
@@ -96,6 +109,57 @@ export default {
 
 	reducers: {
 
+		changeBorderPosition(state, { payload: params }) {
+			const prevBorderPosition = state.borderSetting.border.propertyName;
+			state.borderSetting.border.propertyName = params.position;
+			var activeStyle = state.stylesList['.' + params.activeStyleName];
+
+			//清除其它border类型，并根据现有propertyName重新生成样式
+
+			for(var property in activeStyle) {
+				if(property.indexOf(prevBorderPosition) != -1) {
+					activeStyle[property] = '';
+					delete state.stylesList['.' + params.activeStyleName][property];
+					delete activeStyle[property];
+				}
+				activeStyle[params.position + '-width'] = state.borderSetting.border.width;
+				activeStyle[params.position + '-color'] = state.borderSetting.border.color;
+			}
+
+			return {...state};
+		},
+
+		changeBorderRadiusPosition(state, { payload: params }) {
+			const prevBorderPosition = state.borderSetting.borderRadius.propertyName;
+			state.borderSetting.borderRadius.propertyName = params.position;
+			var activeStyle = state.stylesList['.' + params.activeStyleName];
+
+			//清除其它border类型，并根据现有propertyName重新生成样式
+
+			for(var property in activeStyle) {
+				if(property.indexOf(prevBorderPosition) != -1) {
+					console.log('indexOf', property, activeStyle, activeStyle[property]);
+					activeStyle[property] = '';
+					delete state.stylesList['.' + params.activeStyleName][property];
+					delete activeStyle[property];
+					console.log(activeStyle);
+				}
+				activeStyle[params.position + '-radius'] = state.borderSetting.borderRadius.borderRadius;
+			}
+
+			return {...state};
+		},
+
+		handleBorderInputChange(state, { payload: params }) {
+			state.borderSetting.border[params.propertyName] = params.value;
+			return {...state};
+		},
+
+		handleBorderRadiusInputChange(state, { payload: params }) {
+			state.borderSetting.borderRadius[params.propertyName] = params.value;
+			return {...state};
+		},
+
 		setCurrentActivePageListItem(state, { payload: key }) {
 			state.currentActivePageListItem = key;
 			return {...state};
@@ -128,7 +192,17 @@ export default {
 			return {...state};
 		},
 
-		applyStyleIntoPage(state) {
+		handleClassValueChange(state, { payload: params }) {
+			var property = params.stylePropertyName,
+				value = params.stylePropertyValue,
+				activeStyleName = params.activeStyleName;
+
+			state.stylesList['.' + activeStyleName][property] = value;
+
+			return {...state};
+		},		
+
+		applyStyleIntoPage(state, { payload: params }) {
 
 			const generateCSSText = (stylesList) => {
 				var cssText = '';
@@ -146,10 +220,15 @@ export default {
 				return cssText;
 			}
 
+			console.log(params);
+
 			const cssText = generateCSSText(state.stylesList);
 
 			window.VDDesignerFrame.postMessage({
-				applyCSSIntoPage: cssText
+				applyCSSIntoPage: {
+					cssText: cssText,
+					activeCtrl: params.activeCtrl
+				}
 			}, '*');
 
 			return {...state};
