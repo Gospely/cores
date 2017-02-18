@@ -598,7 +598,7 @@ const Component = (props) => {
 									<Button type="circle" size="small"><Icon type="plus" /></Button>
 						      	</Form>
 
-							    <ul style={{marginTop: '-15px'}} className="ant-dropdown-menu ant-dropdown-menu-vertical ant-dropdown-menu-light ant-dropdown-menu-root symbol-list" role="menu">
+							    <ul  className="ant-dropdown-menu ant-dropdown-menu-vertical ant-dropdown-menu-light ant-dropdown-menu-root symbol-list" role="menu">
 							      <li className="ant-dropdown-menu-item" role="menuitem">
 							        <Row>
 							          <Col span={18}>
