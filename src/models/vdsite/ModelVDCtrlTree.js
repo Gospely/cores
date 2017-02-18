@@ -334,6 +334,11 @@ export default {
 				state.activeCtrl = currentActiveCtrl.controller;
 				params.activeCtrl.tag = params.attr.value;
 			}
+			if(params.attr.isStyle){
+				var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
+				state.activeCtrl.attrs[currentActiveCtrl.index].children[currentActiveCtrl.level-1].value = params.attr.value;
+				params.activeCtrl.attrs[currentActiveCtrl.index].children[currentActiveCtrl.level-1].value = params.attr.value;
+			}
 			window.VDDesignerFrame.postMessage({
 				VDAttrRefreshed: params
 			}, '*');

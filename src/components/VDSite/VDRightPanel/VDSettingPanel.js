@@ -411,6 +411,27 @@ const Component = (props) => {
                                         attrType: attrType
                                     }
                                 });
+                            },
+                            onChange(e){
+
+                                console.log(attrType);
+                                console.log(e);
+                                var value = e? 'decimal inside': 'circle inside'
+                                console.log(value);
+                                var attr = {
+                                    name: 'list-style',
+                                    desc: '有无序号',
+                                    value: value,
+                                    isStyle: true
+                                };
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleAttrRefreshed',
+                                    payload: {
+                                        activeCtrl: props.vdCtrlTree.activeCtrl,
+                                        attr: attr,
+                                        attrType: attrType
+                                    }
+                                });
                             }
                         }
 	    				return (
@@ -427,7 +448,7 @@ const Component = (props) => {
 									    </RadioGroup>
 									</FormItem>
 									<FormItem {...formItemLayout} label="无序号">
-										<Switch size="small" />
+										<Switch size="small" onChange={listSettingProps.onChange}/>
 									</FormItem>
 						      	</Form>
 						    </Panel>

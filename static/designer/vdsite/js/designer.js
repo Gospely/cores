@@ -297,6 +297,11 @@ $(function() {
 
 					this.elem.attr(attr.attrName, attr.value);
                 }
+				console.log('attr');
+				console.log(attr);
+				if(attr.isStyle){
+					this.elem.css(attr.name, attr.value);
+				}
             },
 
             setLinkSetting: function(attr) {
@@ -403,7 +408,7 @@ $(function() {
                 this.initElem();
                 this.bindData();
                 var upperTypeName = this.transformTypeToUpper(attrType.key);
-                if(attrType.isAttrSetting) {
+                if(attrType.isAttrSetting || attr.isStyle) {
                     this.setAttr(attr);
                 }else {
                     if(this['set' + upperTypeName]) {
