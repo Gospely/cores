@@ -158,3 +158,63 @@ html.vd-design-mode * {
     content: "";
     display: table;
 }
+
+.vd-insert-guide {
+	position: absolute;
+	z-index: 12;
+	pointer-events: none !important;
+	height: 2px;
+	display: none;
+	background-color: #2F9FFC;
+	line-height: 0;
+	font-size: 0;
+	-webkit-transition: background-color 0.3s ease;
+	transition: background-color 0.3s ease;
+}
+
+.vd-insert-guide:before,
+.vd-insert-guide:after {
+  	position: absolute;
+  	content: '';
+  	left: 0;
+  	top: -2px;
+  	width: 0px;
+  	height: 2px;
+  	border-style: solid;
+  	border-width: 3px 0 3px 5px;
+  	border-color: transparent transparent transparent #2F9FFC;
+  	-webkit-transition: border-color 0.3s ease;
+  	transition: border-color 0.3s ease;
+}
+
+.vd-insert-guide:after {
+  	left: auto;
+  	right: 0;
+  	border-width: 3px 5px 3px 0;
+  	border-color: transparent #2F9FFC transparent transparent;
+}
+
+.vd-insert-guide.vertical:before,
+.vd-insert-guide.vertical:after {
+  top: -3px;
+  left: -2px;
+  right: auto;
+}
+.vd-insert-guide.vertical:before {
+  border-width: 5px 3px 0 3px;
+  border-color: #2F9FFC transparent transparent transparent;
+}
+.vd-insert-guide.vertical:after {
+  top: auto;
+  bottom: -3px;
+  border-width: 0 3px 5px 3px;
+  border-color: transparent transparent #2F9FFC transparent;
+}
+
+.vd-OutlineDropParentNode {
+  border: 2px solid #FF7000;
+  z-index: 10;
+  position: fixed;
+  pointer-events: none !important;
+  display: none;
+}
