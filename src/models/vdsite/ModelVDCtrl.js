@@ -739,7 +739,7 @@ export default {
 					}],
 
 					children: [{
-    					tag: 'span',
+    					tag: 'label',
     					className: ['label label-default'],
     					attrs: [{
                             title: '属性设置',
@@ -749,15 +749,14 @@ export default {
                                 name: 'innerHTML',
                                 desc: '名称',
                                 type: 'input',
-                                value: '标签',
+                                value: '姓名',
                                 id: '',
                                 isHTML: true,
                             }]
-                        }
-                        ]
+                        }]
     				}, {
 						tag: 'input',
-						className: [],
+						className: ['input-group'],
 						attrs: [{
 							title: '属性设置',
 							key: 'input-attr',
@@ -777,7 +776,7 @@ export default {
 								name: 'placeholder',
 								desc: '占位字符',
 								type: 'input',
-								value: '输入占位字符',
+								value: '输入姓名',
                                 isAttr: true,
                                 attrName: 'placeholder',
 								props: {
@@ -804,12 +803,24 @@ export default {
 							}]
 						}]
 					}, {
-						tag: 'label',
-						className: ['labe', 'label-default'],
-						attrs: []
-					}, {
+    					tag: 'label',
+    					className: ['label label-default'],
+    					attrs: [{
+                            title: '属性设置',
+                            key: 'label-attr',
+                            isAttrSetting: true,
+                            children: [{
+                                name: 'innerHTML',
+                                desc: '名称',
+                                type: 'input',
+                                value: '邮箱',
+                                id: '',
+                                isHTML: true,
+                            }]
+                        }]
+    				},{
 						tag: 'input',
-						className: [],
+						className: ['input-group'],
 						attrs: [{
 							title: '属性设置',
 							key: 'input-attr',
@@ -819,6 +830,8 @@ export default {
 								desc: '名称',
 								type: 'input',
 								value: '',
+                                isAttr: true,
+                                attrName: 'value',
 								props: {
 									placeholder: '输入名称'
 								},
@@ -827,7 +840,9 @@ export default {
 								name: 'placeholder',
 								desc: '占位字符',
 								type: 'input',
-								value: '',
+								value: '输入邮箱',
+                                isAttr: true,
+                                attrName: 'placeholder',
 								props: {
 									placeholder: '输入占位字符'
 								},
@@ -837,17 +852,51 @@ export default {
 								desc: '类型',
 								type: 'select',
 								value: 'input',
+                                isAttr: true,
+                                attrName: 'type',
 								valueList: ['input', 'email', 'password', 'number', 'tel'],
 								id: ''
 							}, {
 								name: 'autofocus',
 								desc: '自动聚焦',
 								type: 'toggle',
-								value: false,
-								id: ''
+                                isToggleAttr: true,
+								value: 'autofocus',
+								id: '',
+                                attrName: 'autofocus'
 							}]
 						}]
-					}]
+					},{
+    					tag: 'input',
+    					className: ['btn', 'btn-default'],
+    					attrs: [{
+    						title: '属性设置',
+    						key: 'textarea-attr',
+    						isAttrSetting: true,
+    						children: [{
+    							name: 'button-text',
+    							desc: '文本名称',
+    							type: 'input',
+    							value: '提交',
+    							props: {
+    								placeholder: '输入名称'
+    							},
+    							id: '',
+                                isAttr: true,
+                                attrName: 'value'
+    						},{
+    							name: 'type',
+    							desc: '类型',
+    							value: 'submit',
+    							props: {
+    								placeholder: '输入名称'
+    							},
+    							id: '',
+                                isAttr: true,
+                                attrName: 'type'
+    						}]
+    					}]
+    				}]
 				}
 			}, {
 				icon: <svg width="38" height="14" viewBox="0 0 38 14" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".4" d="M12.1 3.4c-1.4 0-2.6.4-3.7 1.3l-.7.6.6.8.7 1-.2.1c-.8.5-1.2 1.3-1.3 2.2H4V1.2H.4V13h8.1v-.9c-.1-.1-.1-.2-.2-.2l.3.3c.7.6 1.6.9 2.6.9.5 0 1-.1 1.5-.2v.1h3.4V7.2c0-1.3-.4-2.2-1.2-2.9-.8-.6-1.7-.9-2.8-.9zm-.4 6.4c-.3 0-.5-.1-.6-.1.1 0 .3-.1.7-.1h.6c-.3.1-.5.2-.7.2zM34.3.6v5.6c-.2-.6-.6-1.2-1.1-1.6-.9-.8-2-1.2-3.2-1.2-1.3 0-2.4.4-3.3 1.3-.5.4-.9 1-1.1 1.6-.2-.6-.6-1.1-1-1.6-.9-.9-2-1.3-3.3-1.3-.5 0-1 .1-1.4.3V.6h-3.6V13h3.6v-.2c.5.2 1 .3 1.5.3 1.2 0 2.3-.5 3.2-1.4.4-.4.8-1 1-1.5-.1-.2-.1-.4-.2-.6.2.9.6 1.6 1.2 2.2.9.9 2.1 1.3 3.4 1.3 1.6 0 2.9-.5 3.9-1.6l.5-.5v2H38V.6h-3.7zM21.9 9.3c-.3.3-.6.4-.9.4-.3 0-.6-.1-.8-.4-.3-.3-.4-.6-.4-1.1 0-.5.1-.8.4-1.1.2-.3.5-.4.8-.4.4 0 .6.1.9.4.3.3.4.6.4 1.1 0 .5-.1.9-.4 1.1zm12.4 1.4l-.5-.5-.2-.2h.7v.7z"></path><path d="M1.4 12V2.2H3v8.2h4.5V12H1.4zm13.7 0h-1.4v-1c-.6.7-1.4 1.1-2.5 1.1-.8 0-1.4-.2-1.9-.7s-.8-1-.8-1.8.3-1.3.8-1.6c.5-.4 1.3-.5 2.2-.5h2v-.3c0-1-.6-1.5-1.7-1.5-.7 0-1.4.3-2.2.8l-.6-1c.9-.7 1.9-1.1 3.1-1.1.9 0 1.6.2 2.1.7s.8 1.1.8 2.1V12zm-1.6-2.8v-.6h-1.8c-1.1 0-1.7.4-1.7 1.1 0 .4.1.6.4.8.3.2.7.3 1.2.3s.9-.1 1.3-.4c.4-.3.6-.7.6-1.2zm7.8-4.8c1 0 1.9.3 2.6 1 .7.7 1.1 1.6 1.1 2.8 0 1.1-.4 2.1-1.1 2.8-.7.7-1.5 1.1-2.5 1.1-.9 0-1.8-.4-2.5-1.2V12h-1.6V1.6h1.6v4.2c.6-.9 1.4-1.4 2.4-1.4zm-2.5 3.9c0 .7.2 1.3.6 1.7.4.5 1 .7 1.6.7s1.2-.2 1.6-.7.7-1 .7-1.7-.2-1.3-.6-1.8c-.4-.5-1-.7-1.6-.7-.6 0-1.2.2-1.6.7-.5.5-.7 1.1-.7 1.8zm14.8.7h-5.8c0 .5.3 1 .7 1.3.5.3 1 .5 1.6.5.9 0 1.6-.3 2.1-.9l.9 1c-.8.8-1.8 1.2-3.1 1.2-1 0-1.9-.3-2.7-1s-1.1-1.6-1.1-2.8c0-1.2.4-2.1 1.1-2.8.7-.7 1.6-1 2.6-1s1.9.3 2.6.9 1.1 1.5 1.1 2.5V9zm-5.8-1.3H32c0-.6-.2-1.1-.6-1.4-.3-.3-.8-.5-1.4-.5s-1.1.2-1.5.5c-.5.4-.7.8-.7 1.4zm9.1 4.3h-1.6V1.6h1.6V12z" fill="currentColor"></path></svg>,
@@ -855,7 +904,7 @@ export default {
 				key: 'label',
 				details: {
 					tag: 'label',
-					className: ['labe', 'label-default'],
+					className: ['labe label-default'],
 					attrs: [{
                         title: '属性设置',
                         key: 'label-attr',
@@ -892,18 +941,18 @@ export default {
 							},
 							id: '',
                             isAttr: true,
-                            attrName: 'value'
+                            attrName: 'namw'
 						}, {
 							name: 'placeholder',
 							desc: '占位字符',
 							type: 'input',
-							value: '',
+							value: '占位字符',
 							props: {
 								placeholder: '输入占位字符'
 							},
 							id: '',
                             isAttr: true,
-                            attrName: 'value'
+                            attrName: 'placeholder'
 						}, {
 							name: 'input-type',
 							desc: '类型',
@@ -913,7 +962,15 @@ export default {
 							id: '',
                             isAttr: true,
                             attrName: 'type'
-						}, {
+						},{
+							name: 'readonly',
+							desc: '只读',
+							type: 'toggle',
+							value: false,
+							id: '',
+                            isToggleAttr: true,
+                            attrName: 'readonly'
+						},{
                             name: 'autofocus',
                             desc: '自动聚焦',
                             type: 'toggle',
@@ -928,8 +985,9 @@ export default {
 				icon: <svg width="50" height="32" viewBox="0 0 50 32" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path fill="currentColor" d="M47 3v26H3V3h44m2-2H1v30h48V1z"></path><path opacity=".2" fill="currentColor" d="M3 3h44v26H3z"></path><path opacity=".4" d="M49 1v30H1V1h48m1-1H0v32h50V0z"></path><path opacity=".5" fill="currentColor" d="M7 6h2v9H7zm29.3 20h1.4l6.3-6.3v-1.4L36.3 26zm4.4 0l3.3-3.3v-1.4L39.3 26h1.4zm3 0l.3-.3v-1.4L42.3 26h1.4z"></path></svg>,
 				name: '文本域',
 				key: 'textarea',
+                setAttribute: true,
 				details: {
-					tag: 'ul',
+					tag: 'textarea',
 					className: ['list-group'],
 					attrs: [{
 						title: '属性设置',
@@ -943,22 +1001,52 @@ export default {
 							props: {
 								placeholder: '输入名称'
 							},
-							id: ''
+							id: '',
+                            isAttr: true,
+                            attrName: 'value'
 						}, {
 							name: 'placeholder',
 							desc: '占位字符',
 							type: 'input',
-							value: '',
+							value: '请输入文本',
 							props: {
 								placeholder: '输入占位字符'
 							},
-							id: ''
-						}, {
-							name: 'autofocus',
-							desc: '自动聚焦',
+							id: '',
+                            isAttr: true,
+                            attrName: 'placeholder'
+						},{
+							name: 'readonly',
+							desc: '只读',
 							type: 'toggle',
 							value: false,
-							id: ''
+							id: '',
+                            isToggleAttr: true,
+                            attrName: 'readonly'
+						},{
+                            name: 'autofocus',
+                            desc: '自动聚焦',
+                            type: 'toggle',
+                            isToggleAttr: true,
+                            value: 'autofocus',
+                            id: '',
+                            attrName: 'autofocus'
+						} ,{
+                            name: 'cols',
+                            desc: '列',
+                            type: 'input',
+                            isAttr: true,
+                            value: '80',
+                            id: '',
+                            attrName: 'cols'
+						},{
+                            name: 'rows',
+                            desc: '行',
+                            type: 'input',
+                            isAttr: true,
+                            value: '5',
+                            id: '',
+                            attrName: 'rows'
 						}]
 					}]
 				}
@@ -967,68 +1055,120 @@ export default {
 				name: '多选框',
 				key: 'checkbox',
 				details: {
-					tag: 'checkbox',
-					className: ['checkbox'],
-					attrs: [{
-						title: '属性设置',
-						key: 'textarea-attr',
-						isAttrSetting: true,
-						children: [{
-							name: 'name',
-							desc: '名称',
-							type: 'input',
-							value: '',
-							props: {
-								placeholder: '输入名称'
-							},
-							id: ''
-						}, {
-							name: 'checked',
-							desc: '选中',
-							type: 'toggle',
-							value: false,
-							id: ''
-						}]
-					}]
+					tag: 'div',
+					className: [],
+					attrs: [],
+                    children:[{
+        					tag: 'input',
+        					className: ['vd-check'],
+        					attrs: [{
+        						title: '属性设置',
+        						key: 'checkbox-attr',
+        						isAttrSetting: true,
+        						children: [{
+        							name: 'checked',
+        							desc: '默认选中',
+        							type: 'toggle',
+        							value: true,
+        							props: {
+        								placeholder: '输入名称'
+        							},
+        							id: '',
+                                    isToggleAttr: true,
+                                    attrName: 'checked'
+        						},{
+        							name: 'type',
+        							desc: '类型',
+        							value: 'checkbox',
+        							props: {
+        								placeholder: '输入名称'
+        							},
+        							id: '',
+                                    isAttr: true,
+                                    attrName: 'type'
+        						}]
+        					}]
+                        },{
+        					tag: 'label',
+        					className: ['vd-label'],
+        					attrs: [{
+                                title: '属性设置',
+                                key: 'label-attr',
+                                isAttrSetting: true,
+                                children: [{
+                                    name: 'innerHTML',
+                                    desc: '名称',
+                                    type: 'input',
+                                    value: '多选框',
+                                    id: '',
+                                    isHTML: true,
+                                }]
+                            }]
+        				},
+                    ]
 				}
 			}, {
 				icon: <svg width="26" height="26" viewBox="0 0 26 26" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><circle opacity=".2" fill="currentColor" cx="13" cy="13" r="10.6"></circle><path d="M13 0c7.2 0 13 5.8 13 13s-5.8 13-13 13S0 20.2 0 13 5.8 0 13 0m0 1C6.4 1 1 6.4 1 13s5.4 12 12 12 12-5.4 12-12S19.6 1 13 1z" opacity=".4"></path><path fill="currentColor" d="M13 3.5c5.2 0 9.5 4.3 9.5 9.5s-4.3 9.5-9.5 9.5-9.5-4.3-9.5-9.5S7.8 3.5 13 3.5M13 1C6.4 1 1 6.4 1 13s5.4 12 12 12 12-5.4 12-12S19.6 1 13 1z"></path><circle fill="currentColor" cx="13" cy="13" r="5"></circle></svg>,
 				name: '单选框',
 				key: 'radio-button',
 				details: {
-					tag: 'radio',
-					className: ['radio'],
-					attrs: [{
-						title: '属性设置',
-						key: 'textarea-attr',
-						isAttrSetting: true,
-						children: [{
-							name: 'group-name',
-							desc: '组名称',
-							type: 'input',
-							value: '',
-							props: {
-								placeholder: '输入名称'
-							},
-							id: ''
-						}, {
-							name: 'choice-value',
-							desc: '选项值',
-							type: 'input',
-							value: '',
-							props: {
-								placeholder: '输入值'
-							},
-							id: ''
-						}]
-					}]
+					tag: 'div',
+					attrs: [],
+                    children: [{
+                            tag: 'input',
+                            className: ['vd-radio'],
+                            attrs: [{
+                                title: '属性设置',
+                                key: 'radio-attr',
+                                isAttrSetting: true,
+                                children: [{
+                                    name: 'radio-value',
+                                    desc: '默认值',
+                                    type: 'input',
+                                    value: '默认值',
+                                    props: {
+                                        placeholder: '输入名称'
+                                    },
+                                    id: '',
+                                    isAttr: true,
+                                    attrName: 'value'
+                                },{
+                                    name: 'type',
+                                    desc: '类型',
+                                    value: 'radio',
+                                    props: {
+                                        placeholder: '输入名称'
+                                    },
+                                    id: '',
+                                    isAttr: true,
+                                    attrName: 'type'
+                                }]
+                            }]
+                        },{
+                            tag: 'label',
+                            className: ['vd-label'],
+                            attrs: [{
+                                title: '属性设置',
+                                key: 'label-attr',
+                                isAttrSetting: true,
+                                children: [{
+                                    name: 'innerHTML',
+                                    desc: '名称',
+                                    type: 'input',
+                                    value: '多选框',
+                                    id: '',
+                                    isHTML: true,
+                                }]
+                            }]
+                        },
+                    ]
 				}
 			}, {
 				icon: <svg width="60" height="23" viewBox="0 0 60 23" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".4" d="M57 0H3C1.3 0 0 1.3 0 3v17c0 1.7 1.3 3 3 3h54c1.7 0 3-1.3 3-3V3c0-1.7-1.3-3-3-3zM32 13H8v-2h24v2z"></path><path fill="currentColor" d="M57 1H3c-1.1 0-2 .9-2 2v17c0 1.1.9 2 2 2h54c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zM32 13H8v-2h24v2zm17 1l-4-4h8l-4 4z"></path><path opacity=".75" fill="currentColor" d="M8 11h24v2H8z"></path></svg>,
 				name: '选择框',
 				key: 'select',
 				details: {
-					tag: 'ul',
+					tag: 'input',
 					className: ['dropdown-menu'],
 					attrs: [{
 						title: '选择框设置',
@@ -1041,7 +1181,7 @@ export default {
 				name: '提交按钮',
 				key: 'form-button',
 				details: {
-					tag: 'ul',
+					tag: 'input',
 					className: ['btn', 'btn-default'],
 					attrs: [{
 						title: '属性设置',
@@ -1051,11 +1191,23 @@ export default {
 							name: 'button-text',
 							desc: '文本名称',
 							type: 'input',
-							value: '',
+							value: '提交',
 							props: {
 								placeholder: '输入名称'
 							},
-							id: ''
+							id: '',
+                            isAttr: true,
+                            attrName: 'value'
+						},{
+							name: 'type',
+							desc: '类型',
+							value: 'submit',
+							props: {
+								placeholder: '输入名称'
+							},
+							id: '',
+                            isAttr: true,
+                            attrName: 'type'
 						}]
 					}]
 				}
