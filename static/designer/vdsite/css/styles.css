@@ -217,4 +217,27 @@ html.vd-design-mode * {
   position: fixed;
   pointer-events: none !important;
   display: none;
+.vd-label {
+    display: inline-block;
+    cursor: pointer;
+    font-weight: normal;
+    margin-bottom: 0px;
+}
+.vd-check {
+   margin: 4px 0 0;
+   margin-top: 1px;
+   line-height: normal;
+   float: left;
+   margin-left: -20px;
+}
+.vd-radio {
+   margin: 4px 0 0;
+   margin-top: 1px;
+   line-height: normal;
+   float: left;
+   margin-left: -20px;
+}
+.vd-select {
+    background-image: -webkit-linear-gradient(white 0%, #f3f3f3 100%);
+    background-image: linear-gradient(white 0%, #f3f3f3 100%);
 }

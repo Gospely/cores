@@ -528,7 +528,13 @@ $(function() {
             setAttr: function(attr) {
 
                 if(attr.isHTML) {
-                    this.elem.html(attr.value);
+
+					if(attr.html != null && attr.html != undefined){
+						this.elem.html(attr.html);
+					}else{
+						this.elem.html(attr.value);
+					}
+
                 }
 
 				if(attr.isToggleAttr){
@@ -539,6 +545,7 @@ $(function() {
                 if(attr.isAttr) {
 					this.elem.attr(attr.attrName, attr.value);
                 }
+// <<<<<<< HEAD
                 if (attr.isContainer) {
                 	this.elem.data(attr.name, attr.value);
                 }
@@ -546,6 +553,11 @@ $(function() {
                 if (attr.isSpecifyChild) {
                 	this.elem.data(attr.name, attr.value);
                 }
+// =======
+				if(attr.isStyle){
+					this.elem.css(attr.name, attr.value);
+				}
+// >>>>>>> cf28a3797ecd45a019091893bf22f92b41cadd25
             },
 
             setLinkSetting: function(attr) {
@@ -648,7 +660,7 @@ $(function() {
                 this.initElem();
                 this.bindData();
                 var upperTypeName = this.transformTypeToUpper(attrType.key);
-                if(attrType.isAttrSetting) {
+                if(attrType.isAttrSetting || attr.isStyle) {
                     this.setAttr(attr);
                 }else {
                     if(this['set' + upperTypeName]) {
