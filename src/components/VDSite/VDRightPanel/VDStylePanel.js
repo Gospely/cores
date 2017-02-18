@@ -2141,8 +2141,469 @@ const VDStylePanel = (props) => {
     				}
     			}
 
+				const shadowsPanel = () => {
+
+					return (
+						<div>
+				    	<Form className="form-no-margin-bottom">
+							<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right'}} label="盒子阴影">
+
+				      			<Tooltip placement="top" title="添加过渡">
+				      				<Popover title='添加过渡' placement="leftTop" trigger="click" content={shadowProps.settingPopover}>
+										<Button size="small"><Icon type="plus" /></Button>
+						      		</Popover>
+					      		</Tooltip>
+
+							</FormItem>
+							<FormItem wrapperCol={{ span: 24 }} style={{position: 'relative', top: -5}}>
+								<div style={{border: '1px solid #d9d9d9', minHeight: 10, marginTop: '10px'}}>
+									<Row>
+										<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
+											<i className="fa fa-eye"></i>
+										</Col>
+										<Col span={2} style={{textAlign: 'center', cursor: 'ns-resize'}}>
+											<i className="fa fa-chain"></i>
+										</Col>
+										<Col span={12} style={{textAlign: 'center', cursor: 'pointer'}}>
+											暂无
+										</Col>
+										<Col span={2} style={{textAlign: 'center'}}>
+											<i className="fa fa-circle"></i>
+										</Col>
+										<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
+											<i className="fa fa-trash-o"></i>
+										</Col>
+									</Row>
+								</div>
+							</FormItem>
+
+				    	</Form>
+
+				    	<li style={{marginTop: '15px', marginBottom: '15px'}} className="ant-dropdown-menu-item-divider"></li>
+
+				    	<Form className="form-no-margin-bottom">
+							<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right'}} label="文字阴影">
+
+
+							</FormItem>
+							<FormItem wrapperCol={{ span: 24 }} style={{position: 'relative', top: -5}}>
+								<div style={{border: '1px solid #d9d9d9', minHeight: 10}}>
+									<Row>
+										<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
+											<i className="fa fa-eye"></i>
+										</Col>
+										<Col span={2} style={{textAlign: 'center', cursor: 'ns-resize'}}>
+											<i className="fa fa-chain"></i>
+										</Col>
+										<Col span={12} style={{textAlign: 'center', cursor: 'pointer'}}>
+											暂无
+										</Col>
+										<Col span={2} style={{textAlign: 'center'}}>
+											<i className="fa fa-circle"></i>
+										</Col>
+										<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
+											<i className="fa fa-trash-o"></i>
+										</Col>
+									</Row>
+								</div>
+							</FormItem>
+
+				    	</Form>
+				    </div>
+					);
+				}
+
+    			const complexInteractionWrapperTypeHandler = {
+    				'border-advance' () {
+
+						const handleBorderTypeChange = (position) => {
+							props.dispatch({
+								type: 'vdstyles/changeBorderPosition',
+								payload: {
+									activeStyleName: props.vdCtrlTree.activeCtrl.activeStyle,
+									position: position
+								}
+							});
+
+							handleStylesChange(props.vdstyles.borderSetting.border.propertyName + '-width', {
+								target: {
+									value: props.vdstyles.borderSetting.border.width
+								}
+							});
+							handleStylesChange(props.vdstyles.borderSetting.border.propertyName + '-color', {
+								target: {
+									value: props.vdstyles.borderSetting.border.color
+								}
+							});
+
+						};
+
+						const handleBorderInputChange = (propertyName, e) => {
+							props.dispatch({
+								type: 'vdstyles/handleBorderInputChange',
+								payload: {
+									propertyName,
+									value: e.target.value
+								}
+							});
+							handleStylesChange(props.vdstyles.borderSetting.border.propertyName + '-' + propertyName, {
+								target: {
+									value: e.target.value
+								}
+							});
+						};
+
+						const handleBorderRadiusPositionChange = (position) => {
+							props.dispatch({
+								type: 'vdstyles/changeBorderRadiusPosition',
+								payload: {
+									activeStyleName: props.vdCtrlTree.activeCtrl.activeStyle,
+									position: position
+								}
+							});
+
+							handleStylesChange(props.vdstyles.borderSetting.borderRadius.propertyName + '-radius', {
+								target: {
+									value: props.vdstyles.borderSetting.borderRadius.borderRadius
+								}
+							});
+						};
+
+						const handleBorderRadiusInputChange = (propertyName, e) => {
+							props.dispatch({
+								type: 'vdstyles/handleBorderRadiusInputChange',
+								payload: {
+									propertyName,
+									value: e.target.value
+								}
+							});
+							handleStylesChange(props.vdstyles.borderSetting.borderRadius.propertyName + '-radius', {
+								target: {
+									value: e.target.value
+								}
+							});
+						}
+
+    					return (
+    						<div>
+								<Row>
+									<Col span={8}>
+										<Row style={{marginBottom: '5px'}}>
+											<Col span={8}></Col>
+											<Col span={8}>
+												<Tooltip title="上边框">
+													<Button onClick={handleBorderTypeChange.bind(this, 'border-top')} size="small"><i className="fa fa-window-maximize"></i></Button>
+												</Tooltip>
+											</Col>
+											<Col span={8}></Col>
+										</Row>
+										<Row style={{marginBottom: '5px'}}>
+											<Col span={8}>
+												<Tooltip placement="left" title="左边框">
+													<Button onClick={handleBorderTypeChange.bind(this, 'border-left')} size="small"><i className="fa fa-window-maximize" style={{transform: 'rotate(-90deg)'}}></i></Button>
+												</Tooltip>
+											</Col>
+											<Col span={8}>
+												<Tooltip title="全边框">
+													<Button onClick={handleBorderTypeChange.bind(this, 'border')} style={{width: '27px'}} size="small"><i className="fa fa-square-o"></i></Button>
+												</Tooltip>
+											</Col>
+											<Col span={8}>
+												<Tooltip placement="right" title="右边框">
+													<Button onClick={handleBorderTypeChange.bind(this, 'border-right')} size="small"><i className="fa fa-window-maximize" style={{transform: 'rotate(90deg)'}}></i></Button>
+												</Tooltip>
+											</Col>
+										</Row>
+										<Row>
+											<Col span={8}></Col>
+											<Col span={8}>
+												<Tooltip placement="bottom" title="下边框">
+													<Button onClick={handleBorderTypeChange.bind(this, 'border-bottom')} size="small"><i className="fa fa-window-maximize" style={{transform: 'rotate(180deg)'}}></i></Button>
+												</Tooltip>
+											</Col>
+											<Col span={8}></Col>
+										</Row>
+									</Col>
+
+									<Col span={16} style={{paddingLeft: '15px'}}>
+								    	<Form className="form-no-margin-bottom">
+											<FormItem {...formItemLayout} label="宽度">
+												<Input size="small" value={props.vdstyles.borderSetting.border.width} onChange={handleBorderInputChange.bind(this, 'width')}/>
+											</FormItem>
+
+											<FormItem {...formItemLayout} label="颜色">
+												<Input size="small" value={props.vdstyles.borderSetting.border.color} onChange={handleBorderInputChange.bind(this, 'color')} type="color"/>
+											</FormItem>
+								    	</Form>
+									</Col>
+								</Row>
+
+			     			 	<li style={{marginTop: '15px', marginBottom: '15px'}} className="ant-dropdown-menu-item-divider"></li>
+
+								<Row>
+									<Col span={8}>
+										<Row style={{marginBottom: '5px'}}>
+											<Col span={8}>
+												<Tooltip placement="top" title="弧 - 左上">
+													<Button onClick={handleBorderRadiusPositionChange.bind(this, 'border-top-left')} style={{borderTopLeftRadius: '28px', width: '28px', height: '28px'}} size="small"><i className="fa fa-window-maximize"></i></Button>									
+												</Tooltip>
+												<Tooltip placement="bottom" title="弧 - 左下">
+													<Button onClick={handleBorderRadiusPositionChange.bind(this, 'border-bottom-left')} style={{borderBottomLeftRadius: '28px', width: '28px', height: '28px', marginTop: '3px'}} size="small"><i className="fa fa-window-maximize"></i></Button>									
+												</Tooltip>
+											</Col>
+											<Col span={8}>
+												<Button onClick={handleBorderRadiusPositionChange.bind(this, 'border')} style={{marginTop: '16px', marginRight: '1px'}} size="small"><i className="fa fa-window-maximize"></i></Button>
+											</Col>
+											<Col span={8}>
+												<Tooltip placement="top" title="弧 - 右上">
+													<Button onClick={handleBorderRadiusPositionChange.bind(this, 'border-top-right')} style={{borderTopRightRadius: '28px', width: '28px', height: '28px'}} size="small"><i className="fa fa-window-maximize"></i></Button>
+												</Tooltip>
+												<Tooltip placement="bottom" title="弧 - 右下">
+													<Button onClick={handleBorderRadiusPositionChange.bind(this, 'border-bottom-right')} style={{borderBottomRightRadius: '28px', width: '28px', height: '28px', marginTop: '3px'}} size="small"><i className="fa fa-window-maximize"></i></Button>
+												</Tooltip>
+											</Col>
+										</Row>
+									</Col>
+
+									<Col span={16} style={{paddingLeft: '15px'}}>
+								    	<Form className="form-no-margin-bottom">
+											<FormItem {...formItemLayout} label="弧度">
+												<Input value={props.vdstyles.borderSetting.borderRadius.borderRadius} size="small" onChange={handleBorderRadiusInputChange.bind(this, 'borderRadius')} />
+											</FormItem>
+								    	</Form>
+									</Col>
+								</Row>
+							</div>
+    					);
+    				},
+
+    				'tt-advance' () {
+    					return (
+    						<div>
+						      	<Form className="form-no-margin-bottom">
+						      		<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right', marginTop: 5}} label="过渡">
+						      			<Tooltip placement="top" title="添加过渡">
+						      				<Popover title='添加过渡' placement="leftTop" trigger="click" content={transformAndTransitionProps.transformSettingPopover}>
+								      			<Button style={{borderBottom: 'none'}}>
+								      				<i className="fa fa-clock-o"></i>
+								      			</Button>
+								      		</Popover>
+							      		</Tooltip>
+						      		</FormItem>
+
+						      		<FormItem wrapperCol={{ span: 24 }} style={{position: 'relative', top: -5}}>
+										<div style={{border: '1px solid #d9d9d9', minHeight: 10}}>
+											<Row>
+												<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
+													<i className="fa fa-eye"></i>
+												</Col>
+												<Col span={2} style={{textAlign: 'center', cursor: 'ns-resize'}}>
+													<i className="fa fa-chain"></i>
+												</Col>
+												<Col span={14} style={{textAlign: 'center', cursor: 'pointer'}}>
+													暂无
+												</Col>
+												<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
+													<i className="fa fa-trash-o"></i>
+												</Col>
+											</Row>
+										</div>
+									</FormItem>
+
+									<li className="ant-dropdown-menu-item-divider"></li>
+
+									<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right', marginTop: 5}} label="变换">
+										<ButtonGroup>
+				    						<Tooltip placement="top" title="变换设置">
+							      				<Popover title='变换设置' placement="leftTop" trigger="click" content={transformAndTransitionProps.transitionSttingPopover}>
+									      			<Button style={{textAlign: 'center'}}>
+									      				<i className="fa fa-cog"></i>
+									      			</Button>
+									      		</Popover>
+								      		</Tooltip>
+							      			<Tooltip placement="top" title="添加变换">
+							      				<Popover title='添加变换' placement="leftTop" trigger="click" content={transformAndTransitionProps.transitionAddPopover}>
+									      			<Button style={{textAlign: 'center'}}>
+									      				<i className="fa fa-plus"></i>
+									      			</Button>
+									      		</Popover>
+								      		</Tooltip>
+										</ButtonGroup>
+						      		</FormItem>
+
+						      		<FormItem wrapperCol={{ span: 24 }} style={{position: 'relative', top: -3}}>
+										<div style={{border: '1px solid #d9d9d9', minHeight: 10}}>
+											<Row>
+												<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
+													<i className="fa fa-eye"></i>
+												</Col>
+												<Col span={2} style={{textAlign: 'center', cursor: 'ns-resize'}}>
+													<i className="fa fa-chain"></i>
+												</Col>
+												<Col span={14} style={{textAlign: 'center', cursor: 'pointer'}}>
+													暂无
+												</Col>
+												<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
+													<i className="fa fa-trash-o"></i>
+												</Col>
+											</Row>
+										</div>
+									</FormItem>
+
+						      	</Form>
+    						</div>
+    					);
+    				},
+
+    				'effects-advance' () {
+    					return (
+    						<div>
+						    	<Form className="form-no-margin-bottom">
+				  	    			<FormItem labelCol={{span: 6}} wrapperCol={{span: 16}} label="透明度">
+				  						<Row>
+				  					        <Col span={15}>
+				  					          	<Slider min={0} max={100}/>
+				  					        </Col>
+				  					        <Col span={4}>
+				  					          	<InputNumber/>
+				  					        </Col>
+				  					        <Col span={1}>%</Col>
+				  					    </Row>
+				  					</FormItem>
+
+				  					<li className="ant-dropdown-menu-item-divider"></li>
+
+				  					<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right', marginTop: 5}} label="过渡">
+						      			<Tooltip placement="top" title="添加过滤器">
+						      				<Popover title='添加过滤器' placement="leftTop" trigger="click" content={transformAndTransitionProps.transformSettingPopover}>
+								      			<Button style={{borderBottom: 'none'}}>
+								      				<i className="fa fa-plus"></i>
+								      			</Button>
+								      		</Popover>
+							      		</Tooltip>
+						      		</FormItem>
+
+						      		<FormItem wrapperCol={{ span: 24 }} style={{position: 'relative', top: -5}}>
+										<div style={{border: '1px solid #d9d9d9', minHeight: 10}}>
+											<Row>
+												<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
+													<i className="fa fa-eye"></i>
+												</Col>
+												<Col span={2} style={{textAlign: 'center', cursor: 'ns-resize'}}>
+													<i className="fa fa-chain"></i>
+												</Col>
+												<Col span={14} style={{textAlign: 'center', cursor: 'pointer'}}>
+													暂无
+												</Col>
+												<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
+													<i className="fa fa-trash-o"></i>
+												</Col>
+											</Row>
+										</div>
+									</FormItem>
+
+									<li className="ant-dropdown-menu-item-divider"></li>
+
+									<FormItem style={{marginTop: 20}} labelCol={{span: 8}} wrapperCol={{span: 16}} label="鼠标样式">
+										<Input addonBefore={<Popover 
+				    											content={effectProps.cursorPopover}
+													        	title="鼠标样式"
+													        	trigger="click"
+													        	placement="leftTop"
+													        >
+				    											<Icon type="setting"/>
+				    										</Popover>} 
+				    							size='small' 
+				    							defaultValue='auto' 
+										/>
+									</FormItem>
+
+								</Form>
+    						</div>
+    					);
+    				},
+
+    				'shadows-advance' () {
+    					return (
+							<div>
+						    	<Form className="form-no-margin-bottom">
+									<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right'}} label="盒子阴影">
+
+						      			<Tooltip placement="top" title="添加过渡">
+						      				<Popover title='添加过渡' placement="leftTop" trigger="click" content={shadowProps.settingPopover}>
+												<Button size="small"><Icon type="plus" /></Button>
+								      		</Popover>
+							      		</Tooltip>
+
+									</FormItem>
+									<FormItem wrapperCol={{ span: 24 }} style={{position: 'relative', top: -5}}>
+										<div style={{border: '1px solid #d9d9d9', minHeight: 10, marginTop: '10px'}}>
+											<Row>
+												<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
+													<i className="fa fa-eye"></i>
+												</Col>
+												<Col span={2} style={{textAlign: 'center', cursor: 'ns-resize'}}>
+													<i className="fa fa-chain"></i>
+												</Col>
+												<Col span={12} style={{textAlign: 'center', cursor: 'pointer'}}>
+													暂无
+												</Col>
+												<Col span={2} style={{textAlign: 'center'}}>
+													<i className="fa fa-circle"></i>
+												</Col>
+												<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
+													<i className="fa fa-trash-o"></i>
+												</Col>
+											</Row>
+										</div>
+									</FormItem>
+
+						    	</Form>
+
+						    	<li style={{marginTop: '15px', marginBottom: '15px'}} className="ant-dropdown-menu-item-divider"></li>
+
+						    	<Form className="form-no-margin-bottom">
+									<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right'}} label="文字阴影">
+
+
+									</FormItem>
+									<FormItem wrapperCol={{ span: 24 }} style={{position: 'relative', top: -5}}>
+										<div style={{border: '1px solid #d9d9d9', minHeight: 10}}>
+											<Row>
+												<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
+													<i className="fa fa-eye"></i>
+												</Col>
+												<Col span={2} style={{textAlign: 'center', cursor: 'ns-resize'}}>
+													<i className="fa fa-chain"></i>
+												</Col>
+												<Col span={12} style={{textAlign: 'center', cursor: 'pointer'}}>
+													暂无
+												</Col>
+												<Col span={2} style={{textAlign: 'center'}}>
+													<i className="fa fa-circle"></i>
+												</Col>
+												<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
+													<i className="fa fa-trash-o"></i>
+												</Col>
+											</Row>
+										</div>
+									</FormItem>
+
+						    	</Form>
+						    </div>
+    					);
+    				}
+    			}
+
     			if(wrapperTypeGenerator[styleProperty.wrapperType]) {
     				return wrapperTypeGenerator[styleProperty.wrapperType]();
+    			}else {
+    				if(props.vdstyles.specialStyleProperty.indexOf(styleProperty.wrapperType) != -1) {
+    					if(complexInteractionWrapperTypeHandler[styleProperty.wrapperType]) {
+    						console.log(styleProperty.wrapperType);
+	    					return complexInteractionWrapperTypeHandler[styleProperty.wrapperType]();    						
+    					}
+    				}
     			}
 
     		}

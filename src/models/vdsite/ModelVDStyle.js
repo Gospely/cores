@@ -6,6 +6,8 @@ export default {
 	namespace: 'vdstyles',
 	state: {
 
+		specialStyleProperty: ['border-advance', 'shadows-advance', 'effects-advance', 'tt-advance', 'border-radius-advance'],
+
 		stylesList: {
 		    ".body":{
 		        "height": "100%"
@@ -759,6 +761,41 @@ export default {
 			key: 'borders',
 			title: '边框',
 			properties: [{
+				key: 'border-advance',
+				title: 'border高级设置',
+				type: '',
+				wrapperType: 'border-advance',
+				props: {
+					value: '',
+					size: 'small'
+				},
+				valueList: [{
+					key: 'border-width',
+					title: '宽度',
+					type: 'formInput',
+					props: {
+						value: '',
+						size: 'small'
+					}
+				}, {
+					key: 'border-color',
+					title: '颜色',
+					type: 'formInput',
+					props: {
+						value: '#000000',
+						size: 'small',
+						type: 'color'
+					}
+				}, {
+					key: 'border-radius',
+					title: '宽度',
+					type: 'formInput',
+					props: {
+						value: '',
+						size: 'small'
+					}
+				}]
+			}, {
 				key: 'border-style',
 				title: '样式',
 				type: 'radio',
@@ -800,15 +837,102 @@ export default {
 		}, {
 			key: 'shadows',
 			title: '阴影',
-			properties: []
+			properties: [{
+				key: 'shadows-advance',
+				title: 'shadows高级设置',
+				type: '',
+				wrapperType: 'shadows-advance',
+				props: {
+					value: '',
+					size: 'small'
+				},
+				valueList: [{
+					key: 'border-width',
+					title: '宽度',
+					type: 'formInput',
+					props: {
+						value: '',
+						size: 'small'
+					}
+				}, {
+					key: 'border-color',
+					title: '颜色',
+					type: 'formInput',
+					props: {
+						value: '#000000',
+						size: 'small',
+						type: 'color'
+					}
+				}, {
+
+				}]
+			}]
 		}, {
 			key: 'tt',
 			title: '过度和变换',
-			properties: []
+			properties: [{
+				key: 'tt-advance',
+				title: 'tt高级设置',
+				type: '',
+				wrapperType: 'tt-advance',
+				props: {
+					value: '',
+					size: 'small'
+				},
+				valueList: [{
+					key: 'border-width',
+					title: '宽度',
+					type: 'formInput',
+					props: {
+						value: '',
+						size: 'small'
+					}
+				}, {
+					key: 'border-color',
+					title: '颜色',
+					type: 'formInput',
+					props: {
+						value: '#000000',
+						size: 'small',
+						type: 'color'
+					}
+				}, {
+
+				}]
+			}]
 		}, {
 			key: 'effects',
 			title: '效果',
-			properties: []
+			properties: [{
+				key: 'effects-advance',
+				title: 'effects高级设置',
+				type: '',
+				wrapperType: 'effects-advance',
+				props: {
+					value: '',
+					size: 'small'
+				},
+				valueList: [{
+					key: 'border-width',
+					title: '宽度',
+					type: 'formInput',
+					props: {
+						value: '',
+						size: 'small'
+					}
+				}, {
+					key: 'border-color',
+					title: '颜色',
+					type: 'formInput',
+					props: {
+						value: '#000000',
+						size: 'small',
+						type: 'color'
+					}
+				}, {
+
+				}]
+			}]
 		}]
 	},
 
