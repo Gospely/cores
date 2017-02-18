@@ -734,10 +734,23 @@ export default {
 					}],
 
 					children: [{
-						tag: 'label',
-						className: [],
-						attrs: []
-					}, {
+    					tag: 'span',
+    					className: ['label label-default'],
+    					attrs: [{
+                            title: '属性设置',
+                            key: 'label-attr',
+                            isAttrSetting: true,
+                            children: [{
+                                name: 'innerHTML',
+                                desc: '名称',
+                                type: 'input',
+                                value: '标签',
+                                id: '',
+                                isHTML: true,
+                            }]
+                        }
+                        ]
+    				}, {
 						tag: 'input',
 						className: [],
 						attrs: [{
@@ -830,7 +843,20 @@ export default {
 				details: {
 					tag: 'label',
 					className: ['labe', 'label-default'],
-					attrs: []
+					attrs: [{
+                        title: '属性设置',
+                        key: 'label-attr',
+                        isAttrSetting: true,
+                        children: [{
+                            name: 'innerHTML',
+                            desc: '名称',
+                            type: 'input',
+                            value: '标签',
+                            id: '',
+                            isHTML: true,
+                        }]
+                    }
+                    ]
 				}
 			}, {
 				icon: <svg width="48" height="21" viewBox="0 0 48 21" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path fill="currentColor" d="M45 3v15H3V3h42m2-2H1v19h46V1z"></path><path opacity=".2" fill="currentColor" d="M3 3h42v15H3z"></path><path opacity=".4" d="M47 1v19H1V1h46m1-1H0v21h48V0z"></path><path opacity=".5" fill="currentColor" d="M7 6h2v9H7z"></path></svg>,
@@ -864,7 +890,7 @@ export default {
 							},
 							id: '',
                             isAttr: true,
-                            attrName: 'placeholder'
+                            attrName: 'value'
 						}, {
 							name: 'input-type',
 							desc: '类型',
