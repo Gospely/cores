@@ -705,6 +705,110 @@ export default {
 					}
 				}]
 			}]
+		}, {
+			key: 'background',
+			title: '背景',
+			properties: [{
+				key: 'background-color',
+				title: '背景色',
+				type: 'input',
+				wrapperType: 'form',
+				props: {
+					value: '#000000',
+					size: 'small',
+					type: 'color'
+				}
+			}, {
+				key: 'bgimg-bgradius',
+				title: '图片和渐变',
+				type: 'radioPopover',
+				wrapperType: 'form',
+				props: {
+					size: 'small',
+					type: 'color'
+				},
+				valueList: [{
+					key: '图片',
+					icon: <i className="fa fa-picture-o"></i>,
+					tooltip: {
+						title: '图片',
+						placement: 'top'
+					},
+					popover: {
+						title: '图片处理',
+						trigger: 'click',
+						placement: 'left',
+						contentKey: 'bgImageSetter'
+					}
+				}, {
+					key: '渐变',
+					icon: <i className="fa fa-barcode"></i>,
+					tooltip: {
+						title: '渐变',
+						placement: 'top'
+					},
+					popover: {
+						title: '渐变处理',
+						trigger: 'click',
+						placement: 'left',
+						contentKey: 'bgGradientSetter'
+					}
+				}]
+			}]
+		}, {
+			key: 'borders',
+			title: '边框',
+			properties: [{
+				key: 'border-style',
+				title: '样式',
+				type: 'radio',
+				wrapperType: 'form',
+				props: {
+					value: '',
+					size: 'small'
+				},
+				valueList: [{
+					key: 'none',
+					icon: <Icon type="close" />,
+					tooltip: {
+						title: '无',
+						placement: 'top'
+					}
+				}, {
+					key: 'solid',
+					icon: <Icon type="minus" />,
+					tooltip: {
+						title: '直线',
+						placement: 'top'
+					}
+				}, {
+					key: 'dashed',
+					icon: <i className="fa fa-ellipsis-h"></i>,
+					tooltip: {
+						title: '虚线',
+						placement: 'top'
+					}
+				}, {
+					key: 'ellipsis',
+					icon: <Icon type="ellipsis" />,
+					tooltip: {
+						title: '点线',
+						placement: 'top'
+					}
+				}]
+			}]
+		}, {
+			key: 'shadows',
+			title: '阴影',
+			properties: []
+		}, {
+			key: 'tt',
+			title: '过度和变换',
+			properties: []
+		}, {
+			key: 'effects',
+			title: '效果',
+			properties: []
 		}]
 	},
 

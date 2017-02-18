@@ -2012,9 +2012,47 @@ const VDStylePanel = (props) => {
     						return (
 						      	<Form className="form-no-margin-bottom">
 									<FormItem {...formItemLayout} label={styleProperty.title}>
-										<Input size="small" {...styleProperty.props} onChange={handleStylesChange.bind(this, styleProperty.key)}/>
+										{controllerPipe.input()}
 									</FormItem>
 						      	</Form>
+    						);
+    					},
+
+    					input () {
+    						return <Input size="small" {...styleProperty.props} onChange={handleStylesChange.bind(this, styleProperty.key)}/>;
+    					},
+
+    					radioPopover () {
+    						return (
+								<RadioGroup key={styleProperty.key} {...styleProperty.props}>
+									{
+										styleProperty.valueList.map((stylePropertyValue, stylePropertyValueIndex) => {
+
+											var popoverContent = {
+												bgImageSetter () {
+													return backgroundImageAndGradient.imageSetter();
+												},
+
+												bgGradientSetter () {
+													return backgroundImageAndGradient.gradientSetter;
+												}
+											}
+
+											return (
+										      	<RadioButton value={stylePropertyValue.key}>
+													<Popover
+											        	{...stylePropertyValue.popover}
+											        	content={popoverContent[stylePropertyValue.popover.contentKey]()}
+											      	>
+								  		              	<Tooltip {...stylePropertyValue.tooltip}>
+															{stylePropertyValue.icon}
+											      		</Tooltip>
+											      	</Popover>
+									      		</RadioButton>
+											);
+										})
+									}
+							    </RadioGroup>
     						);
     					},
 
