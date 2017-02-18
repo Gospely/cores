@@ -285,7 +285,13 @@ $(function() {
             setAttr: function(attr) {
 
                 if(attr.isHTML) {
-                    this.elem.html(attr.value);
+
+					if(attr.html != null && attr.html != undefined){
+						this.elem.html(attr.html);
+					}else{
+						this.elem.html(attr.value);
+					}
+
                 }
 
 				if(attr.isToggleAttr){

@@ -178,3 +178,7 @@ html.vd-design-mode * {
    float: left;
    margin-left: -20px;
 }
+.vd-select {
+    background-image: -webkit-linear-gradient(white 0%, #f3f3f3 100%);
+    background-image: linear-gradient(white 0%, #f3f3f3 100%);
+}
