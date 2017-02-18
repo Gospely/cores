@@ -815,6 +815,10 @@ const Component = (props) => {
 
     		const formTypeGenerator = (item) => {
 
+    			if (item.backend) {
+    				return false;
+    			}
+
     			const formTypeList = {
     				input (item) {
 
