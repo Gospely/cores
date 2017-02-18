@@ -262,12 +262,19 @@ export default {
 					attrs: [{
 						title: '属性设置',
 						key: 'list-attr',
+                        isAttrSetting: true,
 						children: [{
-							name: 'tag',
-							desc: '标签',
-							value: 'ul',
-							isTag: true,
-						}]
+    							name: 'tag',
+    							desc: '标签',
+    							value: 'ul',
+    							isTag: true,
+    						},{
+                                name: 'list-style',
+                                desc: '有无序号',
+                                value: 'circle inside',
+                                isStyle: true
+                            },
+                        ]
 					}, {
 						title: '列表设置',
 						key: 'list-setting',
@@ -276,42 +283,15 @@ export default {
 					children: [{
 						tag: 'li',
 						className: ['list-group-item'],
-						attrs: [{
-							title: '属性设置',
-							key: 'list-item-attr',
-							children: [{
-								name: 'belongTo',
-								desc: '必需放入list容器内',
-								value: 'list-group',
-								backend: true
-							}]
-						}]
+						attrs: []
 					}, {
 						tag: 'li',
 						className: ['list-group-item'],
-						attrs: [{
-							title: '属性设置',
-							key: 'list-item-attr',
-							children: [{
-								name: 'belongTo',
-								desc: '必需放入list容器内',
-								value: 'list-group',
-								backend: true
-							}]
-						}]
+						attrs: []
 					}, {
 						tag: 'li',
 						className: ['list-group-item'],
-						attrs: [{
-							title: '属性设置',
-							key: 'list-item-attr',
-							children: [{
-								name: 'belongTo',
-								desc: '必需放入list容器内',
-								value: 'list-group',
-								backend: true
-							}]
-						}]
+						attrs: []
 					}]
 				}
 			}, {
@@ -321,16 +301,7 @@ export default {
 				details: {
 					tag: 'li',
 					className: ['list-group-item'],
-					attrs: [{
-							title: '属性设置',
-							key: 'list-item-attr',
-							children: [{
-								name: 'belongTo',
-								desc: '必需放入list容器内',
-								value: 'list-group',
-								backend: true
-							}]
-						}]
+					attrs: []
 				}
 			}]
 		}, {
@@ -796,6 +767,8 @@ export default {
 								desc: '名称',
 								type: 'input',
 								value: '',
+                                isAttr: true,
+                                attrName: 'value',
 								props: {
 									placeholder: '输入名称'
 								},
@@ -804,7 +777,9 @@ export default {
 								name: 'placeholder',
 								desc: '占位字符',
 								type: 'input',
-								value: '',
+								value: '输入占位字符',
+                                isAttr: true,
+                                attrName: 'placeholder',
 								props: {
 									placeholder: '输入占位字符'
 								},
@@ -814,14 +789,18 @@ export default {
 								desc: '类型',
 								type: 'select',
 								value: 'input',
+                                isAttr: true,
+                                attrName: 'type',
 								valueList: ['input', 'email', 'password', 'number', 'tel'],
 								id: ''
 							}, {
 								name: 'autofocus',
 								desc: '自动聚焦',
 								type: 'toggle',
-								value: false,
-								id: ''
+                                isToggleAttr: true,
+								value: 'autofocus',
+								id: '',
+                                attrName: 'autofocus'
 							}]
 						}]
 					}, {
@@ -935,11 +914,13 @@ export default {
                             isAttr: true,
                             attrName: 'type'
 						}, {
-							name: 'autofocus',
-							desc: '自动聚焦',
-							type: 'toggle',
-							value: false,
-							id: ''
+                            name: 'autofocus',
+                            desc: '自动聚焦',
+                            type: 'toggle',
+                            isToggleAttr: true,
+                            value: 'autofocus',
+                            id: '',
+                            attrName: 'autofocus'
 						}]
 					}]
 				}
