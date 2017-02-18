@@ -528,64 +528,83 @@ const VDStylePanel = (props) => {
     	settingPopover: (
     		<div style={{width: 300}}>
 		      	<Form className="form-no-margin-bottom">
-					<FormItem {...formItemLayout} label="类型">
-				        <RadioGroup defaultValue="Outside" size="small">
-					      	<RadioButton value="Outside">
-		  		              	<Tooltip placement="top" title="Outside">
-									Outside
-					      		</Tooltip>
-				      		</RadioButton>
-					      	<RadioButton value="Inside">
-		  		              	<Tooltip placement="top" title="Inside">
-									Inside
-					      		</Tooltip>
-					      	</RadioButton>
-					    </RadioGroup>
+
+					<FormItem {...formItemLayout} label="水平阴影">
+						<Row>
+					        <Col span={14}>
+					          	<Slider min={1} max={20}/>
+					        </Col>
+					        <Col span={4}>
+					          	<InputNumber size="small"/>
+					        </Col>
+					        <Col span={1}>
+
+								<Dropdown size="small" overlay={(
+								  <Menu>
+								    <Menu.Item>
+								    	px
+								    </Menu.Item>
+								  </Menu>
+								)} placement="bottomLeft">
+								    <Button size="small">px</Button>
+								</Dropdown>
+
+					        </Col>
+					    </Row>
+					</FormItem>
+
+					<FormItem {...formItemLayout} label="垂直阴影">
+						<Row>
+					        <Col span={14}>
+					          	<Slider min={1} max={20}/>
+					        </Col>
+					        <Col span={4}>
+					          	<InputNumber size="small"/>
+					        </Col>
+					        <Col span={1}>PX</Col>
+					    </Row>
+					</FormItem>
+
+					<FormItem {...formItemLayout} label="模糊距离">
+						<Row>
+					        <Col span={14}>
+					          	<Slider min={1} max={20}/>
+					        </Col>
+					        <Col span={4}>
+					          	<InputNumber size="small"/>
+					        </Col>
+					        <Col span={1}>PX</Col>
+					    </Row>
+					</FormItem>
+
+					<FormItem {...formItemLayout} label="阴影尺寸">
+						<Row>
+					        <Col span={14}>
+					          	<Slider min={1} max={20}/>
+					        </Col>
+					        <Col span={4}>
+					          	<InputNumber size="small"/>
+					        </Col>
+					        <Col span={1}>PX</Col>
+					    </Row>
 					</FormItem>
 
 					<FormItem {...formItemLayout} label="颜色">
 						<Input type="color" size="small" />
 					</FormItem>
 
-					<FormItem {...formItemLayout} label="角度">
-						<Slider min={0} max={360} marks={bgGradientLinearAngelMarks} defaultValue={0} />
+					<FormItem {...formItemLayout} label="类型">
+				        <RadioGroup defaultValue="Outside" size="small">
+					      	<RadioButton value="Outside">
+								外阴影
+				      		</RadioButton>
+					      	<RadioButton value="Inside">
+								内阴影
+					      	</RadioButton>
+					    </RadioGroup>
 					</FormItem>
 
-					<FormItem {...formItemLayout} label="距离">
-						<Row>
-					        <Col span={14}>
-					          	<Slider min={1} max={20}/>
-					        </Col>
-					        <Col span={4}>
-					          	<InputNumber/>
-					        </Col>
-					        <Col span={1}>PX</Col>
-					    </Row>
-					</FormItem>
-
-					<FormItem {...formItemLayout} label="模糊">
-						<Row>
-					        <Col span={14}>
-					          	<Slider min={1} max={20}/>
-					        </Col>
-					        <Col span={4}>
-					          	<InputNumber/>
-					        </Col>
-					        <Col span={1}>PX</Col>
-					    </Row>
-					</FormItem>
-
-					<FormItem {...formItemLayout} label="大小">
-						<Row>
-					        <Col span={14}>
-					          	<Slider min={1} max={20}/>
-					        </Col>
-					        <Col span={4}>
-					          	<InputNumber/>
-					        </Col>
-					        <Col span={1}>PX</Col>
-					    </Row>
-					</FormItem>
+					<Button size="small">保存</Button>
 
 		      	</Form>
     		</div>
@@ -1351,7 +1370,7 @@ const VDStylePanel = (props) => {
 					<FormItem {...formItemLayout} label="排列方式">
 
 						<RadioGroup defaultValue="left" size="small" onChange={handleStylesChange.bind(this, 'text-align')}>
-					      	<RadioButton value="normal">
+					      	<RadioButton value="left">
 		  		              	<Tooltip placement="top" title="left">
 									<i className="fa fa-align-left"></i>
 					      		</Tooltip>
@@ -1688,65 +1707,21 @@ const VDStylePanel = (props) => {
 		    </Panel>);
 		}
 
-		const shadowsPanel = (
-		    <Panel header="阴影" key="shadows">
+		const shadowsPanel = () => {
+
+			return (<Panel header="阴影" key="shadows">
 		    	<Form className="form-no-margin-bottom">
 					<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right'}} label="盒子阴影">
 
-						<RadioGroup defaultValue="none" size="small">
-					      	<RadioButton style={{borderBottom: 'none'}} value="outerRightBottom">
-			      				<Popover
-			      		        	content={shadowProps.settingPopover}
-			      		        	title="阴影设置"
-			      		        	trigger="click"
-			      		        	placement="left"
-			      		      	>
-			  		              	<Tooltip placement="top" title="外面右下">
-										<Icon type="close" />
-						      		</Tooltip>
-						      	</Popover>
-				      		</RadioButton>
-					      	<RadioButton style={{borderBottom: 'none'}} value="outerWrapper">
-						      	<Popover
-				      		        	content={shadowProps.settingPopover}
-				      		        	title="阴影设置"
-				      		        	trigger="click"
-				      		        	placement="left"
-				      		      	>
-			  		              	<Tooltip placement="top" title="外面四周">
-										<Icon type="minus" />
-						      		</Tooltip>
-						      	</Popover>
-					      	</RadioButton>
-					      	<RadioButton style={{borderBottom: 'none'}} value="insideWrapper">
-					      		<Popover
-			      		        	content={shadowProps.settingPopover}
-			      		        	title="阴影设置"
-			      		        	trigger="click"
-			      		        	placement="left"
-			      		      	>
-			  		              	<Tooltip placement="top" title="里面四周">
-										<i className="fa fa-ellipsis-h"></i>
-						      		</Tooltip>
-						      	</Popover>
-					      	</RadioButton>
-					      	<RadioButton style={{borderBottom: 'none'}} value="insideTop">
-					      		<Popover
-			      		        	content={shadowProps.settingPopover}
-			      		        	title="阴影设置"
-			      		        	trigger="click"
-			      		        	placement="left"
-			      		      	>
-			  		              	<Tooltip placement="top" title="里面上方">
-										<Icon type="ellipsis" />
-						      		</Tooltip>
-						      	</Popover>
-					      	</RadioButton>
-					    </RadioGroup>
+		      			<Tooltip placement="top" title="添加过渡">
+		      				<Popover title='添加过渡' placement="leftTop" trigger="click" content={shadowProps.settingPopover}>
+								<Button size="small"><Icon type="plus" /></Button>
+				      		</Popover>
+			      		</Tooltip>
 
 					</FormItem>
 					<FormItem wrapperCol={{ span: 24 }} style={{position: 'relative', top: -5}}>
-						<div style={{border: '1px solid #d9d9d9', minHeight: 10}}>
+						<div style={{border: '1px solid #d9d9d9', minHeight: 10, marginTop: '10px'}}>
 							<Row>
 								<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
 									<i className="fa fa-eye"></i>
@@ -1774,44 +1749,6 @@ const VDStylePanel = (props) => {
 		    	<Form className="form-no-margin-bottom">
 					<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right'}} label="文字阴影">
 
-						<RadioGroup defaultValue="none" size="small">
-					      	<RadioButton style={{borderBottom: 'none'}} value="outerRightBottom">
-			      				<Popover
-			      		        	content={shadowProps.settingPopover}
-			      		        	title="阴影设置"
-			      		        	trigger="click"
-			      		        	placement="left"
-			      		      	>
-			  		              	<Tooltip placement="top" title="右下">
-										<Icon type="close" />
-						      		</Tooltip>
-						      	</Popover>
-				      		</RadioButton>
-					      	<RadioButton style={{borderBottom: 'none'}} value="outerWrapper">
-						      	<Popover
-				      		        	content={shadowProps.settingPopover}
-				      		        	title="阴影设置"
-				      		        	trigger="click"
-				      		        	placement="left"
-				      		      	>
-			  		              	<Tooltip placement="top" title="正下">
-										<Icon type="minus" />
-						      		</Tooltip>
-						      	</Popover>
-					      	</RadioButton>
-					      	<RadioButton style={{borderBottom: 'none'}} value="insideWrapper">
-					      		<Popover
-			      		        	content={shadowProps.settingPopover}
-			      		        	title="阴影设置"
-			      		        	trigger="click"
-			      		        	placement="left"
-			      		      	>
-			  		              	<Tooltip placement="top" title="正上">
-										<i className="fa fa-ellipsis-h"></i>
-						      		</Tooltip>
-						      	</Popover>
-					      	</RadioButton>
-					    </RadioGroup>
 
 					</FormItem>
 					<FormItem wrapperCol={{ span: 24 }} style={{position: 'relative', top: -5}}>
@@ -1840,6 +1777,7 @@ const VDStylePanel = (props) => {
 
 		    </Panel>
 		);
+		}
 
 		const transitionsTransformsPanel = (
 		    <Panel header="过渡和变换" key="transitions-transforms">
@@ -1994,7 +1932,7 @@ const VDStylePanel = (props) => {
 					{typoPanel}
 					{backgroundPanel}
 					{bordersPanel()}
-					{shadowsPanel}
+					{shadowsPanel()}
 					{transitionsTransformsPanel}
 					{effectsPanel}
 				</Collapse>
@@ -2031,9 +1969,203 @@ const VDStylePanel = (props) => {
 
     }
 
+    const generatrCSSStyleConstructions = () => {
+    	return props.vdstyles.cssPropertyList.map((panel, panelIndex) => {
+
+    		const generateWrapperType = (styleProperty, stylePropertyIndex) => {
+
+    			const controllersGenerator = (styleProperty) => {
+
+    				var controllerPipe = {
+
+    					radio () {
+    						return (
+								<RadioGroup key={styleProperty.key} {...styleProperty.props} onChange={handleStylesChange.bind(this, 'display')}>
+									{
+										styleProperty.valueList.map((stylePropertyValue, stylePropertyValueIndex) => {
+
+											if(stylePropertyValue.tooltip) {
+
+												return (
+											      	<RadioButton key={stylePropertyValue.key} value={stylePropertyValue.key}>
+								  		              	<Tooltip {...stylePropertyValue.tooltip}>
+								  		              		{stylePropertyValue.icon}
+											      		</Tooltip>
+										      		</RadioButton>
+												);
+
+											}else {
+												return (
+											      	<RadioButton key={stylePropertyValue.key} value={stylePropertyValue.key}>
+							  		              		{stylePropertyValue.icon}
+										      		</RadioButton>
+												);
+											}
+
+										})
+									}
+							    </RadioGroup>
+    						);
+    					},
+
+    					formInput () {
+    						return (
+						      	<Form className="form-no-margin-bottom">
+									<FormItem {...formItemLayout} label={styleProperty.title}>
+										{controllerPipe.input()}
+									</FormItem>
+						      	</Form>
+    						);
+    					},
+
+    					input () {
+    						return <Input size="small" {...styleProperty.props} onChange={handleStylesChange.bind(this, styleProperty.key)}/>;
+    					},
+
+    					radioPopover () {
+    						return (
+								<RadioGroup key={styleProperty.key} {...styleProperty.props}>
+									{
+										styleProperty.valueList.map((stylePropertyValue, stylePropertyValueIndex) => {
+
+											var popoverContent = {
+												bgImageSetter () {
+													return backgroundImageAndGradient.imageSetter();
+												},
+
+												bgGradientSetter () {
+													return backgroundImageAndGradient.gradientSetter;
+												}
+											}
+
+											return (
+										      	<RadioButton value={stylePropertyValue.key}>
+													<Popover
+											        	{...stylePropertyValue.popover}
+											        	content={popoverContent[stylePropertyValue.popover.contentKey]()}
+											      	>
+								  		              	<Tooltip {...stylePropertyValue.tooltip}>
+															{stylePropertyValue.icon}
+											      		</Tooltip>
+											      	</Popover>
+									      		</RadioButton>
+											);
+										})
+									}
+							    </RadioGroup>
+    						);
+    					},
+
+    					formRadio () {
+    						return (
+						      	<Form className="form-no-margin-bottom">
+									<FormItem {...formItemLayout} label={styleProperty.title}>
+										{controllerPipe.radio()}
+									</FormItem>
+						      	</Form>
+    						);
+    					},
+
+    					formSelect () {
+    						return (
+
+						      	<Form className="form-no-margin-bottom">
+									<FormItem {...formItemLayout} label={styleProperty.title}>
+			        				    <Select key={styleProperty.key} {...styleProperty.props} onChange={handleStylesChange.bind(this, styleProperty.key)}>
+			        				    {
+			        				    	styleProperty.valueList.map((option, optionIndex) => {
+			        				    		return (
+									      			<Option key={option.key} value={option.key}>{option.value}</Option>
+			        				    		);
+			        				    	})
+			        				    }
+							    		</Select>
+							    	</FormItem>
+						      	</Form>
+    						);
+    					}
+
+    				}
+
+    				if(controllerPipe[styleProperty.type]) {
+	    				return controllerPipe[styleProperty.type](styleProperty);
+    				}
+    			}
+
+    			const wrapperTypeGenerator = {
+    				box () {
+    					return (
+							<div key={stylePropertyIndex} className="guidance-panel-wrapper">
+								<div className="guidance-panel-child">
+									<div className="bem-Frame">
+										<div className="bem-Frame_Head">
+											<div className="bem-Frame_Legend">
+												<div className="bem-SpecificityLabel bem-SpecificityLabel-local bem-SpecificityLabel-text">
+													{styleProperty.title}
+												</div>
+											</div>
+										</div>
+										<div className="bem-Frame_Body">
+											{controllersGenerator(styleProperty)}
+										</div>
+									</div>
+								</div>
+							</div>
+    					);
+    				},
+
+    				form () {
+    					return (
+							<Form className="form-no-margin-bottom">
+								<FormItem {...formItemLayout} label={styleProperty.title}>
+									{controllersGenerator(styleProperty)}
+								</FormItem>
+					      	</Form>
+    					);
+    				},
+
+    				columnForm () {
+    					return (
+					    	<Row>
+					    		{
+					    			styleProperty.valueList.map((column, columnIndex) => {
+					    				return (
+										  	<Col {...column.props}>
+										  		{controllersGenerator(column.properties)}
+										  	</Col>
+					    				);
+					    			})
+					    		}
+						  	</Row>
+    					);
+    				}
+    			}
+
+    			if(wrapperTypeGenerator[styleProperty.wrapperType]) {
+    				return wrapperTypeGenerator[styleProperty.wrapperType]();
+    			}
+
+    		}
+
+    		return (
+		    	<Panel header={panel.title} key={panel.key}>
+		    		{
+			    		panel.properties.map((styleProperty, stylePropertyIndex) => {
+				    		return generateWrapperType(styleProperty, stylePropertyIndex);
+			    		})
+		    		}
+			    </Panel>
+    		);
+
+    	});
+    }
+
   	return (
   		<div className="vdctrl-pane-wrapper">
   			{vdctrlCollapse()}
+			<Collapse bordered={false} defaultActiveKey={['css', 'layout', 'typo', 'background', 'borders', 'shadows', 'tt', 'effects']}>
+	  			{generatrCSSStyleConstructions()}
+			</Collapse>
   		</div>
   	);
 
