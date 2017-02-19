@@ -1179,8 +1179,6 @@ export default {
 
 			const cssText = generateCSSText(generateStylesList(state.cssPropertyState));
 
-			console.log(cssText);
-
 			window.VDDesignerFrame.postMessage({
 				applyCSSIntoPage: {
 					cssText: cssText,
