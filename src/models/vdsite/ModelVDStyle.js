@@ -1,12 +1,13 @@
 import React , {PropTypes} from 'react';
 import dva from 'dva';
-import { Icon } from 'antd';
+import { Icon, message } from 'antd';
 
 export default {
 	namespace: 'vdstyles',
 	state: {
 
 		specialStyleProperty: ['border-advance', 'shadows-advance', 'effects-advance', 'tt-advance', 'border-radius-advance'],
+		propertiesNeedRec: ['border-advance', 'shadows-advance', 'effects-advance', 'tt-advance', 'border-radius-advance', 'width-height', 'font-more'],
 
 		stylesList: {
 		    ".body":{
@@ -116,6 +117,11 @@ export default {
 
 		newStyleName: '',
 
+		cssPropertyState: [{
+			name: 'body',
+			cssProperty: []
+		}],
+
 		cssPropertyList: [{
 			key: 'layout',
 			title: '布局',
@@ -125,7 +131,7 @@ export default {
 				type: 'radio',
 				wrapperType: 'box',
 				props: {
-					value: 'block',
+					value: '',
 					size: 'small'
 				},
 				valueList: [{
@@ -445,7 +451,7 @@ export default {
 								value: 'fck'
 							}],
 							props: {
-								value: 'ss',
+								value: '',
 								size: 'small'
 							}
 						}
@@ -716,7 +722,7 @@ export default {
 				type: 'input',
 				wrapperType: 'form',
 				props: {
-					value: '#000000',
+					value: '',
 					size: 'small',
 					type: 'color'
 				}
@@ -782,7 +788,7 @@ export default {
 					title: '颜色',
 					type: 'formInput',
 					props: {
-						value: '#000000',
+						value: '',
 						size: 'small',
 						type: 'color'
 					}
@@ -859,7 +865,7 @@ export default {
 					title: '颜色',
 					type: 'formInput',
 					props: {
-						value: '#000000',
+						value: '',
 						size: 'small',
 						type: 'color'
 					}
@@ -892,7 +898,7 @@ export default {
 					title: '颜色',
 					type: 'formInput',
 					props: {
-						value: '#000000',
+						value: '',
 						size: 'small',
 						type: 'color'
 					}
@@ -925,7 +931,7 @@ export default {
 					title: '颜色',
 					type: 'formInput',
 					props: {
-						value: '#000000',
+						value: '',
 						size: 'small',
 						type: 'color'
 					}
@@ -939,6 +945,9 @@ export default {
 	subscriptions: {
 		setup({ dispatch, history }) {
 	      	history.listen(({ pathname }) => {
+	      		dispatch({
+	      			type: 'appendStyleIntoOfficialStyle'
+	      		});
 	      	});
 		}
 	},
@@ -973,6 +982,18 @@ export default {
 	},
 
 	reducers: {
+
+		appendStyleIntoOfficialStyle(state) {
+
+			for (var i = 0; i < state.cssPropertyState.length; i++) {
+				var cssProperty = state.cssPropertyState[i];
+				cssProperty.cssProperty = state.cssPropertyList;
+			};
+
+			console.log('appendStyleIntoOfficialStyle', state.cssPropertyState);
+
+			return {...state};
+		},
 
 		changeBorderPosition(state, { payload: params }) {
 			const prevBorderPosition = state.borderSetting.border.propertyName;
@@ -1044,9 +1065,22 @@ export default {
 		},
 
 		addStyle(state) {
-			state.stylesList[state.newStyleName] = {};
+			state.stylesList['.' + state.newStyleName] = {};
 			state.activeStyle = state.newStyleName;
 			state.newStyleName = '';
+
+			for (var i = 0; i < state.cssPropertyState.length; i++) {
+				var cssProperty = state.cssPropertyState[i];
+				if(cssProperty == state.newStyleName) {
+					message.error('所加类名与已有类名冲突，请重新填写');
+					return {...state};
+				}
+			};
+
+			state.cssPropertyState.push({
+				name: state.newStyleName,
+				cssProperty: state.cssPropertyList
+			});
 			return {...state};
 		},
 
@@ -1081,6 +1115,52 @@ export default {
 
 		applyStyleIntoPage(state, { payload: params }) {
 
+			const generateStylesList = (cssPropertyState) => {
+
+				var styles = {};
+
+				const recCSSProperty = (currentCSSStyle, cssProperties) => {
+					for (var k = 0; k < cssProperties.length; k++) {
+						var cssProperty = cssProperties[k];
+						if(cssProperty.key == 'bgimg-bgradius'){
+							continue;
+						}
+						if(state.propertiesNeedRec.indexOf(cssProperty.key) != -1) {
+							//某些拥有复杂交互的CSS属性需要递归查询属性
+							recCSSProperty(currentCSSStyle, cssProperty.valueList);
+						}else {
+							if(!cssProperty.props) {
+								continue;
+							}
+							if(cssProperty.properties) {
+								if(cssProperty.properties.props.value != '' && cssProperty.properties.key) {
+									styles['.' + currentCSSStyle.name][cssProperty.properties.key] = cssProperty.properties.props.value;									
+								}
+							}else {
+								if(cssProperty.props.value != '' && cssProperty.key) {
+									styles['.' + currentCSSStyle.name][cssProperty.key] = cssProperty.props.value;
+								}
+							}
+						}
+					};
+				}
+
+				for (var i = 0; i < cssPropertyState.length; i++) {
+					var currentCSSStyle = cssPropertyState[i],
+						currentCSSStyleProperty = currentCSSStyle.cssProperty;
+						styles['.' + currentCSSStyle.name] = {};
+					for (var j = 0; j < currentCSSStyleProperty.length; j++) {
+						var cssProperties = currentCSSStyleProperty[j].properties;
+						recCSSProperty(currentCSSStyle, cssProperties);
+					};
+
+				};
+
+				console.log(styles, state.stylesList);
+
+				return styles;
+			}
+
 			const generateCSSText = (stylesList) => {
 				var cssText = '';
 				for(var styleName in stylesList) {
@@ -1094,10 +1174,12 @@ export default {
 					cssText += cssClass;
 				}
 
-				return cssText;
+				return cssText.toString();
 			}
 
-			const cssText = generateCSSText(state.stylesList);
+			const cssText = generateCSSText(generateStylesList(state.cssPropertyState));
+
+			console.log(cssText);
 
 			window.VDDesignerFrame.postMessage({
 				applyCSSIntoPage: {
@@ -1105,6 +1187,17 @@ export default {
 					activeCtrl: params.activeCtrl
 				}
 			}, '*');
+
+			return {...state};
+		},
+
+		handleCSSPropertyChange(state, { payload: params }) {
+
+			var property = params.styleProperty,
+				value = params.stylePropertyValue,
+				activeStyleName = params.activeStyleName;
+
+			property.props.value = value;
 
 			return {...state};
 		}

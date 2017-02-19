@@ -43,11 +43,12 @@ const VDStylePanel = (props) => {
 	const cssAction = {
 
 		getAllClasses () {
-			var classes = [];
-			for(var key in props.vdstyles.stylesList) {
-				classes.push(key);
-			}
-			return classes;
+			// var classes = [];
+			// for(var key in props.vdstyles.cssPropertyState) {
+			// 	classes.push(key);
+			// }
+			// return classes;
+			return props.vdstyles.cssPropertyState;
 		}
 
 	}
@@ -90,7 +91,7 @@ const VDStylePanel = (props) => {
 
 		cssClassNameList () {
   			return cssAction.getAllClasses().map((item, key) => {
-		    	return <Option key={key} value={item.replace('.', '')}>{item.replace('.', '')}</Option>
+		    	return <Option key={key.name} value={item.name}>{item.name}</Option>
   			});
 		},
 
@@ -1970,7 +1971,47 @@ const VDStylePanel = (props) => {
     }
 
     const generatrCSSStyleConstructions = () => {
-    	return props.vdstyles.cssPropertyList.map((panel, panelIndex) => {
+
+    	const handleCSSPropertyChange = (styleProperty, proxy) => {
+			var stylePropertyValue = typeof proxy == 'string' ? proxy : proxy.target.value;
+
+			if(!props.vdCtrlTree.activeCtrl.activeStyle) {
+				message.error('执行错误，当前无活跃类名');
+				return false;
+			}
+
+			props.dispatch({
+				type: 'vdstyles/handleCSSPropertyChange',
+				payload: {
+					styleProperty,
+					stylePropertyValue,
+					activeStyleName: props.vdCtrlTree.activeCtrl.activeStyle
+				}
+			});
+
+			props.dispatch({
+				type: 'vdstyles/applyStyleIntoPage',
+				payload: {
+					activeCtrl: props.vdCtrlTree.activeCtrl
+				}
+			});
+    	}
+
+    	// if(!props.vdstyles.cssPropertyState[props.vdCtrlTree.activeCtrl.activeStyle]) {
+    	// 	message.error('数据模型错误');
+    	// 	return false;
+    	// }
+
+    	const getActiveCSSPropertyState = () => {
+    		for (var i = 0; i < props.vdstyles.cssPropertyState.length; i++) {
+    			var cssProperty = props.vdstyles.cssPropertyState[i];
+    			if(cssProperty.name == props.vdCtrlTree.activeCtrl.activeStyle) {
+    				return cssProperty;
+    			}
+    		};
+    	}
+
+    	return getActiveCSSPropertyState().cssProperty.map((panel, panelIndex) => {
 
     		const generateWrapperType = (styleProperty, stylePropertyIndex) => {
 
@@ -2019,7 +2060,7 @@ const VDStylePanel = (props) => {
     					},
 
     					input () {
-    						return <Input size="small" {...styleProperty.props} onChange={handleStylesChange.bind(this, styleProperty.key)}/>;
+    						return <Input size="small" {...styleProperty.props} onChange={handleCSSPropertyChange.bind(this, styleProperty)}/>;
     					},
 
     					radioPopover () {
@@ -2140,78 +2181,6 @@ const VDStylePanel = (props) => {
     					);
     				}
     			}
-
-				const shadowsPanel = () => {
-
-					return (
-						<div>
-				    	<Form className="form-no-margin-bottom">
-							<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right'}} label="盒子阴影">
-
-				      			<Tooltip placement="top" title="添加过渡">
-				      				<Popover title='添加过渡' placement="leftTop" trigger="click" content={shadowProps.settingPopover}>
-										<Button size="small"><Icon type="plus" /></Button>
-						      		</Popover>
-					      		</Tooltip>
-
-							</FormItem>
-							<FormItem wrapperCol={{ span: 24 }} style={{position: 'relative', top: -5}}>
-								<div style={{border: '1px solid #d9d9d9', minHeight: 10, marginTop: '10px'}}>
-									<Row>
-										<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
-											<i className="fa fa-eye"></i>
-										</Col>
-										<Col span={2} style={{textAlign: 'center', cursor: 'ns-resize'}}>
-											<i className="fa fa-chain"></i>
-										</Col>
-										<Col span={12} style={{textAlign: 'center', cursor: 'pointer'}}>
-											暂无
-										</Col>
-										<Col span={2} style={{textAlign: 'center'}}>
-											<i className="fa fa-circle"></i>
-										</Col>
-										<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
-											<i className="fa fa-trash-o"></i>
-										</Col>
-									</Row>
-								</div>
-							</FormItem>
-
-				    	</Form>
-
-				    	<li style={{marginTop: '15px', marginBottom: '15px'}} className="ant-dropdown-menu-item-divider"></li>
-
-				    	<Form className="form-no-margin-bottom">
-							<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right'}} label="文字阴影">
-
-
-							</FormItem>
-							<FormItem wrapperCol={{ span: 24 }} style={{position: 'relative', top: -5}}>
-								<div style={{border: '1px solid #d9d9d9', minHeight: 10}}>
-									<Row>
-										<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
-											<i className="fa fa-eye"></i>
-										</Col>
-										<Col span={2} style={{textAlign: 'center', cursor: 'ns-resize'}}>
-											<i className="fa fa-chain"></i>
-										</Col>
-										<Col span={12} style={{textAlign: 'center', cursor: 'pointer'}}>
-											暂无
-										</Col>
-										<Col span={2} style={{textAlign: 'center'}}>
-											<i className="fa fa-circle"></i>
-										</Col>
-										<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
-											<i className="fa fa-trash-o"></i>
-										</Col>
-									</Row>
-								</div>
-							</FormItem>
-
-				    	</Form>
-				    </div>
-					);
-				}
 
     			const complexInteractionWrapperTypeHandler = {
     				'border-advance' () {
@@ -2600,7 +2569,6 @@ const VDStylePanel = (props) => {
     			}else {
     				if(props.vdstyles.specialStyleProperty.indexOf(styleProperty.wrapperType) != -1) {
     					if(complexInteractionWrapperTypeHandler[styleProperty.wrapperType]) {
-    						console.log(styleProperty.wrapperType);
 	    					return complexInteractionWrapperTypeHandler[styleProperty.wrapperType]();    						
     					}
     				}
@@ -2624,9 +2592,28 @@ const VDStylePanel = (props) => {
   	return (
   		<div className="vdctrl-pane-wrapper">
   			{vdctrlCollapse()}
-			<Collapse bordered={false} defaultActiveKey={['css', 'layout', 'typo', 'background', 'borders', 'shadows', 'tt', 'effects']}>
-	  			{generatrCSSStyleConstructions()}
-			</Collapse>
+  			{
+				props.vdCtrlTree.activeCtrl.activeStyle ? (
+
+					<Collapse bordered={false} defaultActiveKey={['css', 'layout', 'typo', 'background', 'borders', 'shadows', 'tt', 'effects']}>
+						{generatrCSSStyleConstructions()}
+					</Collapse>
+
+					) : (
+
+					<Card style={{ width: 'auto', margin: '15px', background: '#f7f7f7' }}>
+					    <p>添加<Tag color="#87d068"><span style={{color: 'rgb(255, 255, 255)'}}>类名</span></Tag>后可以调整以下属性：</p>
+					    <ol>
+					    	<li>1、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>元素位置</span></Tag>和<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>大小</span></Tag></li>
+					    	<li>2、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>字体</span></Tag>属性</li>
+					    	<li>3、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>背景</span></Tag>属性</li>
+					    	<li>4、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>边框</span></Tag>属性</li>
+					    	<li>5、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>阴影</span></Tag>属性</li>
+					    	<li>6、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>交互动画</span></Tag></li>
+					    </ol>
+					</Card>
+				)
+			}
   		</div>
   	);
 
