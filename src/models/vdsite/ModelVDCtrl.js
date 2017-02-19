@@ -280,14 +280,14 @@ export default {
 							backend: true,
 							isContainer: true
 						}, {
-							name: 'spcifyChild',
+							name: 'specialChild',
 							desc: '指定的子元素',
 							value: {
 								tag: ['LI'],
 								className: 'list-group-item'
 							},
 							backend: true,
-							isSpecifyChild: true
+							isSpecialChild: true
 						}]
 					}, {
 						title: '列表设置',
@@ -302,13 +302,13 @@ export default {
 							title: '属性设置',
 							key: 'list-item-attr',
 							children: [{
-								name: 'spcifyParent',
+								name: 'specialParent',
 								desc: '必需放入list容器内',
 								value: {
 									tag: ['UL', 'OL'],
 									className: 'list-group'
 								},
-								isSpecifyParent: true,
+								isSpecialParent: true,
 								backend: true
 							}, {
 								name: 'container',
@@ -326,13 +326,13 @@ export default {
 							key: 'list-item-attr',
 							isAttrSetting: true,
 							children: [{
-								name: 'spcifyParent',
+								name: 'specialParent',
 								desc: '必需放入list容器内',
 								value: {
 									tag: ['UL', 'OL'],
 									className: 'list-group'
 								},
-								isSpecifyParent: true,
+								isSpecialParent: true,
 								backend: true
 							}, {
 								name: 'container',
@@ -350,13 +350,13 @@ export default {
 							key: 'list-item-attr',
 							isAttrSetting: true,
 							children: [{
-								name: 'spcifyParent',
+								name: 'specialParent',
 								desc: '必需放入list容器内',
 								value: {
 									tag: ['UL', 'OL'],
 									className: 'list-group'
 								},
-								isSpecifyParent: true,
+								isSpecialParent: true,
 								backend: true
 							}, {
 								name: 'container',
@@ -380,13 +380,13 @@ export default {
 						key: 'list-item-attr',
 						isSetAttribute: true,
 						children: [{
-							name: 'spcifyParent',
+							name: 'specialParent',
 							desc: '必需放入list容器内',
 							value: {
 								tag: ['UL', 'OL'],
 								className: 'list-group'
 							},
-							isSpecifyParent: true,
+							isSpecialParent: true,
 							backend: true
 						}]
 					}]

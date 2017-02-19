@@ -41,13 +41,13 @@ $(function() {
 		//判断是否是合格子元素的方法
 		isLegalChild: function (e, target) {
 
-			if (guide.parent().data("spcifyChild")) {
+			if (guide.parent().data("specialChild")) {
 
-				var spcifyChild = guide.parent().data("spcifyChild");
+				var specialChild = guide.parent().data("specialChild");
 				var dragClass = dndData.dragElem[0].className;
 				var dragTag = dndData.dragElem[0].tagName;
 
-				if (dragClass.indexOf(spcifyChild.className) === -1 || spcifyChild.tag.indexOf(dragTag) === -1) {
+				if (dragClass.indexOf(specialChild.className) === -1 || specialChild.tag.indexOf(dragTag) === -1) {
 					return false;
 				}
 
@@ -60,13 +60,15 @@ $(function() {
 
 		//是否是合格父元素
 		isLegalParent: function (e, target) {
-			if (guide.parent().data("specifyParent")) {
+			if (dndData.dragElem.data("specialParent")) {
 
-				var specifyParent = guide.parent().data("specifyParent");
+				var specialParent = dndData.dragElem.data("specialParent");
 				var parentClass = guide.parent()[0].className;
 				var parentTag = guide.parent()[0].tagName;
 
-				if (specifyParent.className.indexOf(parentClass) === -1 || specifyParent.tag.indexOf(parentTag) === -1) {
+				console.log(specialParent, parentClass, parentTag)
+
+				if (parentClass.indexOf(specialParent.className) === -1 || specialParent.tag.indexOf(parentTag) === -1) {
 					return false;
 				}
 
@@ -347,9 +349,14 @@ $(function() {
 			let first = firAndLas[0],
 				last = firAndLas[firAndLas.length - 1];
 
-			if (first && last) {
-				let higher = first.outerHeight() ? first.outerHeight() > last.outerHeight() : last.outerHeight();
-				let ref = (e.pageY - first.offset().top) / higher;
+			if (first && last && first[0].id !== "vdInsertGuide") {
+				let heigher = first.outerHeight();
+
+				if (heigher < last.outerHeight()) {
+					heigher = last.outerHeight()
+				}
+
+				let ref = (e.pageY - first.offset().top) / heigher;
 
 				parentGuide.css({
 					left: target.parent().offset().left,
@@ -358,13 +365,14 @@ $(function() {
 					height: target.parent().outerHeight(),
 					display: 'block'
 				})
-
+				
 				if (ref > 0.5) {
 					dndData.verticalAfter(e, last, true);
 				}else if (ref <= 0.5) {
 					dndData.verticalBefore(e, first, true);
 				}
 			}else {
+				
 				dndData.verticalAppend(e, target);	
 			}
 			
@@ -600,7 +608,11 @@ $(function() {
         			
         			}else {
 
-	        			if (ref < 1/2) {
+	        			 if (target.attr("id") === 'VDDesignerContainer') {
+
+		        			dndData.containerSpecialHandle(e, target);
+
+		        		} else if (ref < 1/2) {
 
 		        			dndData.horizontalBefore(e, target);
 
@@ -608,10 +620,6 @@ $(function() {
 
 		        			dndData.horizontalAfter(e, target);
 		        		
-		        		} else if (target.attr("id") === 'VDDesignerContainer') {
-
-		        			dndData.containerSpecialHandle(e, target);
-
 		        		}
 		        	}
         		}else {
@@ -660,6 +668,26 @@ $(function() {
         		e.preventDefault();
         		e.stopPropagation();
 
+        		let handler = function () {
+        			var needChangeClass = dndData.needChangeClass;
+        		
+	        		for(var i = 0; i < needChangeClass.length; i++) {
+	        			var ncc = needChangeClass[i];
+	        			if (ncc.type === 'remove') {
+	        				ncc.target.removeClass(ncc.className);	
+	        			}else {
+	        				if (!ncc.target.hasClass(ncc.className)) {
+		        				ncc.target.addClass(ncc.className)
+		        			}
+	        			}
+	        			
+	        		}
+
+	        		dndData.needChangeClass = [];
+        			dndData.isMouseDown = false;
+        			controllerOperations.showDesignerDraggerBorder(dndData.dragElem);
+        		}
+
         		if(guide.css("display") === 'none') {
         			dndData.isMouseDown = false;
 					return false;
@@ -669,9 +697,7 @@ $(function() {
 
         		if (guide.hasClass("error")) {
         			alert('非法位置');
-        			dndData.isMouseDown = false;
-        			dndData.needChangeClass = [];
-        			controllerOperations.showDesignerDraggerBorder(dndData.dragElem);
+        			handler();
 					return false;
         		}
 
@@ -679,24 +705,8 @@ $(function() {
         		if (!dndData.isMouseDown) {
         			postMessageToFather.elemAdded(dndData.ctrlToAddData);	
         		}
+        		handler();
 
-        		var needChangeClass = dndData.needChangeClass;
-        		
-        		for(var i = 0; i < needChangeClass.length; i++) {
-        			var ncc = needChangeClass[i];
-        			if (ncc.type === 'remove') {
-        				ncc.target.removeClass(ncc.className);	
-        			}else {
-        				if (!ncc.target.hasClass(ncc.className)) {
-	        				ncc.target.addClass(ncc.className)
-	        			}
-        			}
-        			
-        		}
-
-        		controllerOperations.showDesignerDraggerBorder(dndData.dragElem);
-        		dndData.needChangeClass = [];
-        		dndData.isMouseDown = false;
         	}
         }
 
@@ -803,11 +813,11 @@ $(function() {
                 	this.elem.data(attr.name, attr.value);
                 }
 
-                if (attr.isSpecifyChild) {
+                if (attr.isSpecialParent) {
                 	this.elem.data(attr.name, attr.value);
                 }
 
-                if (attr.isSpecifyParent) {
+                if (attr.isSpecialChild) {
                 	this.elem.data(attr.name, attr.value);
                 }
 
@@ -999,27 +1009,34 @@ $(function() {
         	makeElemAddedDraggable: function () {
 
         		var self = this;
+
+        		var designerContainer = jq("#VDDesignerContainer");
         		
-        		this.elem.on("mousedown", function (e) {
+        		designerContainer.on("mousedown", function (e) {
         			self.onDown(e);
         		});
 
-        		this.elem.on("mouseenter", function (e) {
+        		designerContainer.on("mouseenter", function (e) {
         			self.onEnter(e);	
         			
         		});
 
-        		this.elem.on("mousemove", function (e) {
+        		designerContainer.on("mousemove", function (e) {
         			self.onMove(e);
         		});
 
-        		this.elem.on("mouseup", function (e) {
+        		designerContainer.on("mousemove", function (e) {
+        			self.onMove(e);
+        		})
+
+        		designerContainer.on("mouseup", function (e) {
         			self.onUp(e);
         		});
 
         	},
 
         	onMove: function (e) {
+        		
         		if (dndData.isMouseDown) {
         			jq(e.target).css({
         				cursor: 'pointer'
