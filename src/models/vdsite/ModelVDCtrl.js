@@ -1758,12 +1758,10 @@ export default {
 			return { ...state};
 		},
 		handlePopoverVisbile(state, { payload: value}) {
-
 			state.popoverVisible = value;
 			return { ...state};
 		},
 		handleEditPopoverVisbile(state, { payload: value}) {
-
 			state.editPopoverVisible = value;
 			return { ...state};
 		},

@@ -397,28 +397,28 @@ export default {
 					key: 'auto',
 					icon: <Icon type="check" />,
 					tooltip: {
-						title: '可视',
+						title: '自动',
 						placement: 'top'
 					}
 				}, {
 					key: 'relative',
 					icon: <Icon type="shrink" />,
 					tooltip: {
-						title: '隐藏',
+						title: '相对定位',
 						placement: 'top'
 					}
 				}, {
 					key: 'absoulte',
-					icon: <span>据对</span>,
+					icon: <span>绝对</span>,
 					tooltip: {
-						title: '滚动',
+						title: '绝对定位',
 						placement: 'top'
 					}
 				}, {
 					key: 'fixed',
 					icon: <span>固定</span>,
 					tooltip: {
-						title: '自动',
+						title: '固定定位',
 						placement: 'top'
 					}
 				}]
@@ -1115,76 +1115,27 @@ export default {
 
 		applyStyleIntoPage(state, { payload: params }) {
 
-			const generateStylesList = (cssPropertyState) => {
+			var cssGeneratorWorker = new Worker('./static/designer/vdsite/js/webworker/cssRecWorker.js');
 
-				var styles = {};
+			cssGeneratorWorker.postMessage(JSON.stringify({
+				cssPropertyState: state.cssPropertyState,
+				propertiesNeedRec: state.propertiesNeedRec
+			}));
 
-				const recCSSProperty = (currentCSSStyle, cssProperties) => {
-					for (var k = 0; k < cssProperties.length; k++) {
-						var cssProperty = cssProperties[k];
-						if(cssProperty.key == 'bgimg-bgradius'){
-							continue;
-						}
-						if(state.propertiesNeedRec.indexOf(cssProperty.key) != -1) {
-							//某些拥有复杂交互的CSS属性需要递归查询属性
-							recCSSProperty(currentCSSStyle, cssProperty.valueList);
-						}else {
-							if(!cssProperty.props) {
-								continue;
-							}
-							if(cssProperty.properties) {
-								if(cssProperty.properties.props.value != '' && cssProperty.properties.key) {
-									styles['.' + currentCSSStyle.name][cssProperty.properties.key] = cssProperty.properties.props.value;									
-								}
-							}else {
-								if(cssProperty.props.value != '' && cssProperty.key) {
-									styles['.' + currentCSSStyle.name][cssProperty.key] = cssProperty.props.value;
-								}
-							}
-						}
-					};
-				}
-
-				for (var i = 0; i < cssPropertyState.length; i++) {
-					var currentCSSStyle = cssPropertyState[i],
-						currentCSSStyleProperty = currentCSSStyle.cssProperty;
-						styles['.' + currentCSSStyle.name] = {};
-					for (var j = 0; j < currentCSSStyleProperty.length; j++) {
-						var cssProperties = currentCSSStyleProperty[j].properties;
-						recCSSProperty(currentCSSStyle, cssProperties);
-					};
-
-				};
-
-				console.log(styles, state.stylesList);
-
-				return styles;
-			}
-
-			const generateCSSText = (stylesList) => {
-				var cssText = '';
-				for(var styleName in stylesList) {
-					var currentStyle = stylesList[styleName],
-						cssClass = styleName + '{';
-					for(var property in currentStyle) {
-						var currentTableStyle = currentStyle[property];
-						cssClass += property + ':' + currentTableStyle + ';'
+			cssGeneratorWorker.onmessage = (event) => {
+				console.log(event);
+				var cssText = event.data;
+				window.VDDesignerFrame.postMessage({
+					applyCSSIntoPage: {
+						cssText: cssText,
+						activeCtrl: params.activeCtrl
 					}
-					cssClass += '}';
-					cssText += cssClass;
-				}
-
-				return cssText.toString();
+				}, '*');
 			}
 
-			const cssText = generateCSSText(generateStylesList(state.cssPropertyState));
-
-			window.VDDesignerFrame.postMessage({
-				applyCSSIntoPage: {
-					cssText: cssText,
-					activeCtrl: params.activeCtrl
-				}
-			}, '*');
+			cssGeneratorWorker.onerror = (event) => {
+				message.error('css样式生成器执行失败');
+			}
 
 			return {...state};
 		},
