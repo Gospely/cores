@@ -273,8 +273,22 @@ export default {
                                 desc: '有无序号',
                                 value: 'circle inside',
                                 isStyle: true
-                            },
-                        ]
+                            },{
+							name: 'container',
+							desc: '是否是容器',
+							value: true,
+							backend: true,
+							isContainer: true
+						}, {
+							name: 'spcifyChild',
+							desc: '指定的子元素',
+							value: {
+								tag: 'LI',
+								className: 'list-group-item'
+							},
+							backend: true,
+							isSpecifyChild: true
+						}]
 					}, {
 						title: '列表设置',
 						key: 'list-setting',
@@ -282,16 +296,67 @@ export default {
 					}],
 					children: [{
 						tag: 'li',
-						className: ['list-group-item'],
-						attrs: []
+						className: ['list-group-item', 'vd-empty'],
+						attrs: [{
+							isAttrSetting: true,
+							title: '属性设置',
+							key: 'list-item-attr',
+							children: [{
+								name: 'belongTo',
+								desc: '必需放入list容器内',
+								value: 'list-group',
+								isBelongTo: true,
+								backend: true
+							}, {
+								name: 'container',
+								desc: '是否是容器',
+								value: true,
+								backend: true,
+								isContainer: true
+							}]
+						}]
 					}, {
 						tag: 'li',
-						className: ['list-group-item'],
-						attrs: []
+						className: ['list-group-item', 'vd-empty'],
+						attrs: [{
+							title: '属性设置',
+							key: 'list-item-attr',
+							isAttrSetting: true,
+							children: [{
+								name: 'belongTo',
+								desc: '必需放入list容器内',
+								value: 'list-group',
+								isBelongTo: true,
+								backend: true
+							}, {
+								name: 'container',
+								desc: '是否是容器',
+								value: true,
+								backend: true,
+								isContainer: true
+							}]
+						}]
 					}, {
 						tag: 'li',
-						className: ['list-group-item'],
-						attrs: []
+						className: ['list-group-item', 'vd-empty'],
+						attrs: [{
+							title: '属性设置',
+							key: 'list-item-attr',
+							isAttrSetting: true,
+							children: [{
+								name: 'belongTo',
+								desc: '必需放入list容器内',
+								value: 'list-group',
+								isBelongTo: true,
+								backend: true
+							}, {
+								name: 'container',
+								desc: '是否是容器',
+								value: true,
+								backend: true,
+								isContainer: true
+							}]
+						}]
 					}]
 				}
 			}, {
@@ -301,7 +366,18 @@ export default {
 				details: {
 					tag: 'li',
 					className: ['list-group-item'],
-					attrs: []
+					attrs: [{
+						title: '属性设置',
+						key: 'list-item-attr',
+						children: [{
+							name: 'belongTo',
+							desc: '必需放入list容器内',
+							value: 'list-group',
+							isBelongTo: true,
+							backend: true
+						}]
+					}]
+
 				}
 			}]
 		}, {
