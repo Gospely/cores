@@ -256,26 +256,33 @@ export default {
             };
             return {...state};
         },
-        deletePage(state){
+        deletePage(state, {payload: key}){
 
-            let deletPageInfoByKey = function(pages){
+
+            let deletPageInfoByKey = function(pages, key){
 
 				for (var i = 0; i < pages.length; i++) {
-					if(pages[i].key == state.currentActivePageListItem ){
+                    console.log(pages[i].key);
+					if(pages[i].key == key ){
                         pages.splice(i,1);
                         break;
 					}else {
                         if(pages[i].children != null && pages[i].children != undefined){
-    					    pages[i].children = deletPageInfoByKey(pages[i].children);
+    					    pages[i].children = deletPageInfoByKey(pages[i].children, key);
     					}
 					}
 				}
                 return pages;
 
 			}
-            state.pageList = deletPageInfoByKey(state.pageList);
+            if(key == null || key == undefined){
+                state.pageList = deletPageInfoByKey(state.pageList,state.currentActivePageListItem);
+                state.pageManager.updatePopoverVisible = false;
+            }else {
+                state.pageList = deletPageInfoByKey(state.pageList, key);
+            }
+
             delete state.pageList['children'];
-            state.pageManager.updatePopoverVisible = false;
             state.newPageFrom = {
                 key: '',
                 name: '',

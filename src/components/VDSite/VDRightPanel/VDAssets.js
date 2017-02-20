@@ -1,13 +1,14 @@
 import React , {PropTypes} from 'react';
 import { connect } from 'dva';
 
-import { Button, Modal } from 'antd';
+import { Button, Modal, Spin } from 'antd';
 import { Tabs, Icon } from 'antd';
 import { Tooltip } from 'antd';
 
 import { Upload } from 'antd';
 
 const TabPane = Tabs.TabPane;
+const confirm = Modal.confirm;
 
 const Component = (props) => {
 
@@ -22,14 +23,33 @@ const Component = (props) => {
 			});
 		},
 
-		handleChange (fileList) {
-			props.dispatch({
-				type: 'vdassets/handleChange',
-				payload: fileList
-			});
-		},
+		handleChange (image) {
 
+			if(image.file.status == 'removed'){
+
+				confirm({
+					title: '即将删除图片',
+					content: '确认删除图片? ',
+					onOk() {
+						props.dispatch({
+							type: 'vdassets/deletImage',
+							payload: image.file.name,
+						});
+					},
+					onCancel() {
+
+					},
+				});
+			}
+		},
+		customRequest(image){
+			props.dispatch({
+				type: 'vdassets/uploadImage',
+				payload: image,
+			});
+	   },
 		handleCancel () {
+
 			props.dispatch({
 				type: 'vdassets/handleCancel'
 			});
@@ -41,16 +61,18 @@ const Component = (props) => {
         <Icon type="plus" style={{lineHeight: '2.2'}} />
         <div className="ant-upload-text">上传</div>
       </div>
-    );	
+    );
 
   	return (
+		<Spin spinning={props.vdassets.isUploading}>
 		<div className="clearfix" style={{textAlign: 'center', marginTop: '10px'}}>
         	<Upload
-          		action="/upload.do"
+				name='fileUp'
           		listType="picture-card"
           		fileList={props.vdassets.fileList}
           		onPreview={assetsProps.handlePreview}
           		onChange={assetsProps.handleChange}
+				customRequest={assetsProps.customRequest}
         	>
         		     	{uploadButton}
         	</Upload>
@@ -58,6 +80,7 @@ const Component = (props) => {
           		<img alt="assets" style={{ width: '100%' }} src={props.vdassets.previewImage} />
         	</Modal>
       </div>
+	  </Spin>
   	);
 
 };

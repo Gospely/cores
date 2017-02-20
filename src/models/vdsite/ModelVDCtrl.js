@@ -886,10 +886,19 @@ export default {
 								desc: '自动聚焦',
 								type: 'toggle',
                                 isToggleAttr: true,
-								value: 'autofocus',
+								value: true,
 								id: '',
                                 attrName: 'autofocus'
-							}]
+							}, {
+								name: 'required',
+								desc: '是否必填',
+								type: 'toggle',
+                                isToggleAttr: true,
+								value: false,
+								id: '',
+                                attrName: 'required'
+							}
+                        ]
 						}]
 					}, {
     					tag: 'label',
@@ -950,10 +959,19 @@ export default {
 								desc: '自动聚焦',
 								type: 'toggle',
                                 isToggleAttr: true,
-								value: 'autofocus',
+								value: true,
 								id: '',
                                 attrName: 'autofocus'
-							}]
+							},{
+								name: 'required',
+								desc: '是否必填',
+								type: 'toggle',
+                                isToggleAttr: true,
+								value: false,
+								id: '',
+                                attrName: 'required'
+							}
+                        ]
 						}]
 					},{
     					tag: 'input',
@@ -1064,10 +1082,18 @@ export default {
                             desc: '自动聚焦',
                             type: 'toggle',
                             isToggleAttr: true,
-                            value: 'autofocus',
+                            value: true,
                             id: '',
                             attrName: 'autofocus'
-						}]
+						},{
+                            name: 'required',
+                            desc: '是否必填',
+                            type: 'toggle',
+                            isToggleAttr: true,
+                            value: false,
+                            id: '',
+                            attrName: 'required'
+                        }]
 					}]
 				}
 			}, {
@@ -1113,11 +1139,19 @@ export default {
                             isToggleAttr: true,
                             attrName: 'readonly'
 						},{
+                            name: 'required',
+                            desc: '是否必填',
+                            type: 'toggle',
+                            isToggleAttr: true,
+                            value: false,
+                            id: '',
+                            attrName: 'required'
+                        },{
                             name: 'autofocus',
                             desc: '自动聚焦',
                             type: 'toggle',
                             isToggleAttr: true,
-                            value: 'autofocus',
+                            value: true,
                             id: '',
                             attrName: 'autofocus'
 						} ,{
