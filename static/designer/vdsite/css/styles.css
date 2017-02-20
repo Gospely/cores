@@ -182,3 +182,14 @@ html.vd-design-mode * {
     background-image: -webkit-linear-gradient(white 0%, #f3f3f3 100%);
     background-image: linear-gradient(white 0%, #f3f3f3 100%);
 }
+.vd-link {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    text-decoration: none;
+    color: #222222;
+    padding: 20px;
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+}
