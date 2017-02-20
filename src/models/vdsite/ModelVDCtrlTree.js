@@ -426,7 +426,12 @@ export default {
 
 			var className = '';
 
+			console.log('changeCustomClass', params);
+
 			if(params.push) {
+				if(typeof params.value == 'string') {
+					params.value = [params.value];
+				}
 				currentActiveCtrl.controller.customClassName.push(params.value[0]);
 				currentActiveCtrl.controller.activeStyle = params.value[params.value.length - 1];
 				className = params.value[0];
@@ -436,23 +441,23 @@ export default {
 				className = params.value;
 			}
 
-			console.log(currentActiveCtrl.controller.activeStyle);
-
 			state.activeCtrl = currentActiveCtrl.controller;
 
-			window.VDDesignerFrame.postMessage({
-				VDAttrRefreshed: {
-					activeCtrl: state.activeCtrl,
-					attr: {
-						attrName: 'class',
-						action: 'remove',
-						value: className
-					},
-					attrType: {
-						key: 'className'
+			if(!params.dontChangeAttr) {
+				window.VDDesignerFrame.postMessage({
+					VDAttrRefreshed: {
+						activeCtrl: state.activeCtrl,
+						attr: {
+							attrName: 'class',
+							action: 'remove',
+							value: className
+						},
+						attrType: {
+							key: 'className'
+						}
 					}
-				}
-			}, '*');
+				}, '*');
+			}
 
 			return {...state};
 		}

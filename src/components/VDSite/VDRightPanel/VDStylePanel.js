@@ -75,7 +75,7 @@ const VDStylePanel = (props) => {
 			payload: {
 				stylePropertyName,
 				stylePropertyValue,
-				activeStyleName: 'body'
+				activeStyleName: props.vdCtrlTree.activeCtrl.activeStyle
 			}
 		});
 
@@ -131,16 +131,24 @@ const VDStylePanel = (props) => {
 						return false;
 					}
 
+					if(!props.vdCtrlTree.activeCtrl.activeStyle) {
+						message.error('请先添加一个控件再添加类名！');
+						return false;
+					}
+
 					props.dispatch({
-						type: 'vdstyles/addStyle'
+						type: 'vdstyles/addStyle',
+						payload: {
+							activeStyle: props.vdCtrlTree.activeCtrl.activeStyle
+						}
 					});
 
 					props.dispatch({
-						type: 'vdstyles/applyStyleIntoPage',
+						type: 'vdstyles/applyCSSStyleIntoPage',
 						payload: {
 							activeCtrl: props.vdCtrlTree.activeCtrl
 						}
-					})
+					});
 
 					props.dispatch({
 						type: 'vdstyles/handleClassChange',
@@ -161,7 +169,7 @@ const VDStylePanel = (props) => {
 				return (
 			      	<Form className="form-no-margin-bottom">
 						<FormItem {...formItemLayout} label="类名">
-							<Input onChange={handleNewStyleNameChange} value={newStyleName} size="small" />
+							<Input onPressEnter={onClick} onChange={handleNewStyleNameChange} value={newStyleName} size="small" />
 						</FormItem>
 
 						<FormItem {...formItemLayout} label="">
@@ -1001,10 +1009,71 @@ const VDStylePanel = (props) => {
 
     const vdctrlCollapse = () => {
 
+    	const cssStateMenu = () => {
+
+    		const onSelect = ({ item, key, selectedKeys }) => {
+    			props.dispatch({
+    				type: 'vdstyles/handleCSSStateChange',
+    				payload: {
+    					selectedKeys: selectedKeys[0],
+    					stateName: item.props.children
+    				}
+    			});
+
+    			props.dispatch({
+    				type: 'vdstyles/addStyle',
+    				payload: {
+						activeStyle: props.vdCtrlTree.activeCtrl.activeStyle,
+						cssState: selectedKeys[0]
+    				}
+    			});
+
+				props.dispatch({
+					type: 'vdstyles/applyCSSStyleIntoPage',
+					payload: {
+						activeCtrl: props.vdCtrlTree.activeCtrl
+					}
+				})
+
+				props.dispatch({
+					type: 'vdstyles/handleClassChange',
+					payload: {
+	    				value: props.vdCtrlTree.activeCtrl.activeStyle + ':' + selectedKeys[0],
+	    				push: true,
+	    				dontChangeAttr: true
+	    			}
+				});
+
+    		}
+
+	    	return (
+			  	<Menu onSelect={onSelect} selectedKeys={[props.vdstyles.activeCSSState]}>
+			  		{
+			    		props.vdstyles.cssStates.map( (state, index) => {
+			    			return(
+			    				<Menu.Item key={state.key}>{state.name}</Menu.Item>
+			    			);
+			    		})
+			  		}
+			  	</Menu>
+	    	);
+    	}
+
     	const cssPanel = (
 
 			<Panel header={<span><i className="fa fa-css3"></i>&nbsp;CSS类选择器</span>} key="css">
-			  	<p style={{marginBottom: '10px'}}>当前类名：<Tag color="#87d068"><span style={{color: 'rgb(255, 255, 255)'}}>{props.vdCtrlTree.activeCtrl.activeStyle || '无活跃类名'}</span></Tag></p>
+				<Row>
+					<Col span={18}>
+					  	<p style={{marginBottom: '10px'}}>当前类名：<Tag color="#87d068"><span style={{color: 'rgb(255, 255, 255)'}}>{props.vdCtrlTree.activeCtrl.activeStyle || '无活跃类名'}</span></Tag></p>
+					</Col>
+					<Col span={6} style={{textAlign: 'right'}}>
+					  	<Dropdown overlay={cssStateMenu()}>
+					    	<p hidden={!props.vdCtrlTree.activeCtrl.activeStyle} style={{cursor: 'pointer'}}>
+					      		{props.vdstyles.activeCSSStateName} <Icon type="down" />
+					    	</p>
+					  	</Dropdown>
+					</Col>
+				</Row>
 		    	<Row>
 				  	<Col span={18} className="css-selector">
 				      	<Select
