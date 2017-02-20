@@ -7,7 +7,7 @@ import { Tooltip } from 'antd';
 
 import { Popover } from 'antd';
 
-import { Menu } from 'antd';
+import { Menu,Modal } from 'antd';
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 
@@ -18,6 +18,7 @@ const TabPane = Tabs.TabPane;
 import { Form, Input, Cascader, Select, Checkbox } from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
+const confirm = Modal.confirm;
 
 const Component = (props) => {
 
@@ -86,10 +87,41 @@ const Component = (props) => {
 			});
 		},
 		deletePage(){
-			props.dispatch({
-				type: 'vdpm/removeFile',
+
+			confirm({
+				title: '即将删除',
+				content: '确认删除',
+				onOk() {
+
+					props.dispatch({
+						type: 'vdpm/deletePage',
+					});
+				},
+				onCancel() {
+
+				},
 			});
-		}
+
+		},
+		delete(item){
+
+			console.log(item);
+			confirm({
+				title: '即将删除' + item.name,
+				content: '确认删除' + item.name + '? ',
+				onOk() {
+
+					props.dispatch({
+						type: 'vdpm/deletePage',
+						payload: item.key
+					});
+				},
+				onCancel() {
+
+				},
+			});
+
+		},
 	}
   const formItemLayout = {
     labelCol: { span: 8 },
@@ -183,7 +215,16 @@ const Component = (props) => {
             var item = tree[i];
             if(item != null && item.children && item.children != undefined) {
               tpl.push((
-                <SubMenu key={item.key} title={<span><Icon type="folder" />{item.name}</span>}>
+                <SubMenu key={item.key} title={<Row>
+				  <Col span={18}>
+					  <Icon type="folder" />{item.name}
+				  </Col>
+				  <Col span={4}>
+					<Tooltip placement="top" title="删除文件夹">
+						<Icon type="delete" onClick={formItemProps.delete.bind(this, item)} />
+					</Tooltip>
+				  </Col>
+				</Row>}>
                   {pageTreeGenerator(item.children, true)}
                 </SubMenu>
               ))
@@ -192,10 +233,15 @@ const Component = (props) => {
 				tpl.push((
 				  <Menu.Item key={item.key}>
 					<Row>
-					  <Col span={20}>
-						{item.name}
+					  <Col span={18}>
+						<Icon type="file" />{item.name}
 					  </Col>
-					  <Col span={4}>
+					  <Col span={2}>
+						<Tooltip placement="top" title="删除文件">
+							<Icon type="delete" onClick={formItemProps.delete.bind(this, item)} />
+						</Tooltip>
+					  </Col>
+					  <Col span={2}>
 						<Tooltip placement="top" title="设置页面的详细信息">
 							<Icon type="setting" onClick={allPagesProps.visibleChange}/>
 						</Tooltip>
