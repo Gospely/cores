@@ -269,6 +269,8 @@ const VDStylePanel = (props) => {
 
 			  	onChange (object) {
 			  		handleStylesChange('background-image', {
+			  			parent: 'background'
+			  		}, {
 			  			target: {
 			  				value: object.file.thumbUrl
 			  			}
