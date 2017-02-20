@@ -43,12 +43,12 @@ const VDStylePanel = (props) => {
 	const cssAction = {
 
 		getAllClasses () {
-			// var classes = [];
-			// for(var key in props.vdstyles.cssPropertyState) {
-			// 	classes.push(key);
-			// }
-			// return classes;
-			return props.vdstyles.cssPropertyState;
+			var classes = [];
+			for(var key in props.vdstyles.cssStyleLayout) {
+				classes.push(key);
+			}
+			return classes;
+			// return props.vdstyles.cssPropertyState;
 		}
 
 	}
@@ -71,7 +71,7 @@ const VDStylePanel = (props) => {
 		}
 
 		props.dispatch({
-			type: 'vdstyles/handleClassValueChange',
+			type: 'vdstyles/handleCSSStyleLayoutChange',
 			payload: {
 				stylePropertyName,
 				stylePropertyValue,
@@ -80,7 +80,7 @@ const VDStylePanel = (props) => {
 		});
 
 		props.dispatch({
-			type: 'vdstyles/applyStyleIntoPage',
+			type: 'vdstyles/applyCSSStyleIntoPage',
 			payload: {
 				activeCtrl: props.vdCtrlTree.activeCtrl
 			}
@@ -91,7 +91,7 @@ const VDStylePanel = (props) => {
 
 		cssClassNameList () {
   			return cssAction.getAllClasses().map((item, key) => {
-		    	return <Option key={key.name} value={item.name}>{item.name}</Option>
+		    	return <Option key={key} value={item}>{item}</Option>
   			});
 		},
 
@@ -131,16 +131,24 @@ const VDStylePanel = (props) => {
 						return false;
 					}
 
+					if(!props.vdCtrlTree.activeCtrl.activeStyle) {
+						message.error('请先添加一个控件再添加类名！');
+						return false;
+					}
+
 					props.dispatch({
-						type: 'vdstyles/addStyle'
+						type: 'vdstyles/addStyle',
+						payload: {
+							activeStyle: props.vdCtrlTree.activeCtrl.activeStyle
+						}
 					});
 
 					props.dispatch({
-						type: 'vdstyles/applyStyleIntoPage',
+						type: 'vdstyles/applyCSSStyleIntoPage',
 						payload: {
 							activeCtrl: props.vdCtrlTree.activeCtrl
 						}
-					})
+					});
 
 					props.dispatch({
 						type: 'vdstyles/handleClassChange',
@@ -161,7 +169,7 @@ const VDStylePanel = (props) => {
 				return (
 			      	<Form className="form-no-margin-bottom">
 						<FormItem {...formItemLayout} label="类名">
-							<Input onChange={handleNewStyleNameChange} value={newStyleName} size="small" />
+							<Input onPressEnter={onClick} onChange={handleNewStyleNameChange} value={newStyleName} size="small" />
 						</FormItem>
 
 						<FormItem {...formItemLayout} label="">
@@ -1001,10 +1009,71 @@ const VDStylePanel = (props) => {
 
     const vdctrlCollapse = () => {
 
+    	const cssStateMenu = () => {
+
+    		const onSelect = ({ item, key, selectedKeys }) => {
+    			props.dispatch({
+    				type: 'vdstyles/handleCSSStateChange',
+    				payload: {
+    					selectedKeys: selectedKeys[0],
+    					stateName: item.props.children
+    				}
+    			});
+
+    			props.dispatch({
+    				type: 'vdstyles/addStyle',
+    				payload: {
+						activeStyle: props.vdCtrlTree.activeCtrl.activeStyle,
+						cssState: selectedKeys[0]
+    				}
+    			});
+
+				props.dispatch({
+					type: 'vdstyles/applyCSSStyleIntoPage',
+					payload: {
+						activeCtrl: props.vdCtrlTree.activeCtrl
+					}
+				})
+
+				props.dispatch({
+					type: 'vdstyles/handleClassChange',
+					payload: {
+	    				value: props.vdCtrlTree.activeCtrl.activeStyle + ':' + selectedKeys[0],
+	    				push: true,
+	    				dontChangeAttr: true
+	    			}
+				});
+
+    		}
+
+	    	return (
+			  	<Menu onSelect={onSelect} selectedKeys={[props.vdstyles.activeCSSState]}>
+			  		{
+			    		props.vdstyles.cssStates.map( (state, index) => {
+			    			return(
+			    				<Menu.Item key={state.key}>{state.name}</Menu.Item>
+			    			);
+			    		})
+			  		}
+			  	</Menu>
+	    	);
+    	}
+
     	const cssPanel = (
 
 			<Panel header={<span><i className="fa fa-css3"></i>&nbsp;CSS类选择器</span>} key="css">
-			  	<p style={{marginBottom: '10px'}}>当前类名：<Tag color="#87d068"><span style={{color: 'rgb(255, 255, 255)'}}>{props.vdCtrlTree.activeCtrl.activeStyle || '无活跃类名'}</span></Tag></p>
+				<Row>
+					<Col span={18}>
+					  	<p style={{marginBottom: '10px'}}>当前类名：<Tag color="#87d068"><span style={{color: 'rgb(255, 255, 255)'}}>{props.vdCtrlTree.activeCtrl.activeStyle || '无活跃类名'}</span></Tag></p>
+					</Col>
+					<Col span={6} style={{textAlign: 'right'}}>
+					  	<Dropdown overlay={cssStateMenu()}>
+					    	<p hidden={!props.vdCtrlTree.activeCtrl.activeStyle} style={{cursor: 'pointer'}}>
+					      		{props.vdstyles.activeCSSStateName} <Icon type="down" />
+					    	</p>
+					  	</Dropdown>
+					</Col>
+				</Row>
 		    	<Row>
 				  	<Col span={18} className="css-selector">
 				      	<Select
@@ -1043,7 +1112,8 @@ const VDStylePanel = (props) => {
 
     	);
 
-		const layoutPanel = (
+		const layoutPanel = () => {
+			return (
 		    <Panel header="布局" key="layout">
 
 				<div className="guidance-panel-wrapper">
@@ -1058,7 +1128,7 @@ const VDStylePanel = (props) => {
 							</div>
 							<div className="bem-Frame_Body">
 					
-						        <RadioGroup defaultValue="block" size="small" onChange={handleStylesChange.bind(this, 'display')}>
+						        <RadioGroup defaultValue="block" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['display']} size="small" onChange={handleStylesChange.bind(this, 'display')}>
 							      	<RadioButton value="block">
 				  		              	<Tooltip placement="top" title="block">
 							      			<svg width="18" height="14" viewBox="0 0 22 14" className="bem-Svg " style={{marginTop:'3px', display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".15" fill="currentColor" d="M19 3v8H3V3h16m1-1H2v10h18V2z"></path><path fill="currentColor" d="M19.8 1H2.2A1.2 1.2 0 0 0 1 2.2v9.6A1.2 1.2 0 0 0 2.2 13h17.6a1.2 1.2 0 0 0 1.2-1.2V2.2A1.2 1.2 0 0 0 19.8 1zm.2 11H2V2h18v10z"></path><path opacity=".35" fill="currentColor" d="M3 3h16v8H3z"></path></svg>
@@ -1098,14 +1168,14 @@ const VDStylePanel = (props) => {
 				  	<Col span={12} style={{paddingRight: '5px'}}>
 				      	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label="宽度">
-								<Input size="small" onChange={handleStylesChange.bind(this, 'width')}/>
+								<Input size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['width']} onChange={handleStylesChange.bind(this, 'width')}/>
 							</FormItem>
 				      	</Form>
 				  	</Col>
 				  	<Col span={12} style={{paddingLeft: '5px'}}>
 				      	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label="高度">
-								<Input size="small" onChange={handleStylesChange.bind(this, 'height')}/>
+								<Input size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['height']} onChange={handleStylesChange.bind(this, 'height')}/>
 							</FormItem>
 				      	</Form>
 				  	</Col>
@@ -1117,14 +1187,14 @@ const VDStylePanel = (props) => {
 				  	<Col span={12} style={{paddingRight: '5px'}}>
 				      	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label="最大">
-								<Input size="small" onChange={handleStylesChange.bind(this, 'max-width')}/>
+								<Input size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['max-width']} onChange={handleStylesChange.bind(this, 'max-width')}/>
 							</FormItem>
 				      	</Form>
 				  	</Col>
 				  	<Col span={12} style={{paddingLeft: '5px'}}>
 				      	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label="最大">
-								<Input size="small" onChange={handleStylesChange.bind(this, 'min-width')}/>
+								<Input size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['min-width']} onChange={handleStylesChange.bind(this, 'min-width')}/>
 							</FormItem>
 				      	</Form>
 				  	</Col>
@@ -1136,14 +1206,14 @@ const VDStylePanel = (props) => {
 				  	<Col span={12} style={{paddingRight: '5px'}}>
 				      	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label="最小">
-								<Input size="small" onChange={handleStylesChange.bind(this, 'min-height')}/>
+								<Input size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['max-height']} onChange={handleStylesChange.bind(this, 'max-height')}/>
 							</FormItem>
 				      	</Form>
 				  	</Col>
 				  	<Col span={12} style={{paddingLeft: '5px'}}>
 				      	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label="最小">
-								<Input size="small" onChange={handleStylesChange.bind(this, 'min-height')}/>
+								<Input size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['min-height']} onChange={handleStylesChange.bind(this, 'min-height')}/>
 							</FormItem>
 				      	</Form>
 				  	</Col>
@@ -1154,7 +1224,7 @@ const VDStylePanel = (props) => {
 
 		      	<Form className="form-no-margin-bottom">
 					<FormItem {...formItemLayout} label="浮动">
-				        <RadioGroup defaultValue="block" size="small" onChange={handleStylesChange.bind(this, 'float')}>
+				        <RadioGroup defaultValue="block" size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['float']} onChange={handleStylesChange.bind(this, 'float')}>
 					      	<RadioButton value="none">
 		  		              	<Tooltip placement="top" title="none">
 									<Icon type="close" />
@@ -1176,7 +1246,7 @@ const VDStylePanel = (props) => {
 
 		      	<Form className="form-no-margin-bottom">
 					<FormItem {...formItemLayout} label="清除">
-				        <RadioGroup defaultValue="block" size="small" onChange={handleStylesChange.bind(this, 'clear')}>
+				        <RadioGroup defaultValue="block" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['clear']} size="small" onChange={handleStylesChange.bind(this, 'clear')}>
 					      	<RadioButton value="none">
 		  		              	<Tooltip placement="top" title="none">
 									<Icon type="close" />
@@ -1205,7 +1275,7 @@ const VDStylePanel = (props) => {
 
 		      	<Form className="form-no-margin-bottom">
 					<FormItem {...formItemLayout} label="溢出">
-				        <RadioGroup defaultValue="block" size="small" onChange={handleStylesChange.bind(this, 'overflow')}>
+				        <RadioGroup defaultValue="block" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['overflow']} size="small" onChange={handleStylesChange.bind(this, 'overflow')}>
 					      	<RadioButton value="visible">
 		  		              	<Tooltip placement="top" title="visible">
 									<Icon type="smile-o" />
@@ -1234,7 +1304,7 @@ const VDStylePanel = (props) => {
 
 		      	<Form className="form-no-margin-bottom">
 					<FormItem {...formItemLayout} label="位置">
-				        <RadioGroup defaultValue="block" size="small" onChange={handleStylesChange.bind(this, 'position')}>
+				        <RadioGroup defaultValue="block" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['position']} size="small" onChange={handleStylesChange.bind(this, 'position')}>
 					      	<RadioButton value="auto">
 		  		              	<Tooltip placement="top" title="auto">
 									<Icon type="check" />
@@ -1261,15 +1331,17 @@ const VDStylePanel = (props) => {
 
 		    </Panel>
 		);
+		}
 
-		const typoPanel = (
+		const typoPanel = () => {
+			return (
 		    <Panel header="字体" key="typo">
 		    	<Row>
 
 				  	<Col span={12} style={{paddingRight: '5px'}}>
 				      	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label="字体">
-	        				    <Select size="small" value="选择字体" onChange={handleStylesChange.bind(this, 'font-family')}>
+	        				    <Select size="small" value="选择字体" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['font-family']} onChange={handleStylesChange.bind(this, 'font-family')}>
 					      			<Option key="sss" value="h1">h1</Option>
 					    		</Select>
 							</FormItem>
@@ -1278,7 +1350,7 @@ const VDStylePanel = (props) => {
 				  	<Col span={12} style={{paddingLeft: '5px'}}>
 				      	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label="颜色">
-								<Input type="color" size="small" onChange={handleStylesChange.bind(this, 'color')}/>
+								<Input type="color" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['color']} size="small" onChange={handleStylesChange.bind(this, 'color')}/>
 							</FormItem>
 						</Form>
 				  	</Col>
@@ -1290,7 +1362,7 @@ const VDStylePanel = (props) => {
 				  	<Col span={12} style={{paddingRight: '5px'}}> 
 				      	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label="粗细">
-	        				    <Select size="small" value="选择" onChange={handleStylesChange.bind(this, 'font-weight')}>
+	        				    <Select size="small" value="选择" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['font-weight']} onChange={handleStylesChange.bind(this, 'font-weight')}>
 					      			<Option key="100" value="100">100 - 极细</Option>
 					      			<Option key="200" value="200">200 - 稍细</Option>
 					      			<Option key="300" value="300">300 - 细</Option>
@@ -1307,7 +1379,7 @@ const VDStylePanel = (props) => {
 				      	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label="样式">
 
-								<RadioGroup defaultValue="normal" size="small" onChange={handleStylesChange.bind(this, 'font-style')}>
+								<RadioGroup defaultValue="normal" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['font-style']} size="small" onChange={handleStylesChange.bind(this, 'font-style')}>
 							      	<RadioButton value="normal">
 				  		              	<Tooltip placement="top" title="normal">
 											<i className="fa fa-font"></i>
@@ -1331,14 +1403,14 @@ const VDStylePanel = (props) => {
 				  	<Col span={12} style={{paddingRight: '5px'}}>
 					  	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label="缩进">
-								<Input type="number" size="small" onChange={handleStylesChange.bind(this, 'text-indent')}/>
+								<Input type="number" size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['text-indent']} onChange={handleStylesChange.bind(this, 'text-indent')}/>
 							</FormItem>
 					  	</Form>				  	
 				  	</Col>
 				  	<Col span={12} style={{paddingLeft: '5px'}}>
 				      	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label="大小">
-								<Input type="number" size="small" onChange={handleStylesChange.bind(this, 'font-size')}/>
+								<Input type="number" size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['font-size']} onChange={handleStylesChange.bind(this, 'font-size')}/>
 							</FormItem>
 				      	</Form>
 				  	</Col>
@@ -1350,14 +1422,14 @@ const VDStylePanel = (props) => {
 				  	<Col span={12} style={{paddingRight: '5px'}}>
 				      	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label="行间距">
-								<Input type="number" size="small" onChange={handleStylesChange.bind(this, 'line-height')}/>
+								<Input type="number" size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['line-height']} onChange={handleStylesChange.bind(this, 'line-height')}/>
 							</FormItem>
 						</Form>
 				  	</Col>
 				  	<Col span={12} style={{paddingLeft: '5px'}}>
 				      	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label="词间距">
-								<Input type="number" size="small" onChange={handleStylesChange.bind(this, 'letter-spacing')}/>
+								<Input type="number" size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['letter-spacing']} onChange={handleStylesChange.bind(this, 'letter-spacing')}/>
 							</FormItem>
 				      	</Form>
 				  	</Col>
@@ -1370,7 +1442,7 @@ const VDStylePanel = (props) => {
 
 					<FormItem {...formItemLayout} label="排列方式">
 
-						<RadioGroup defaultValue="left" size="small" onChange={handleStylesChange.bind(this, 'text-align')}>
+						<RadioGroup defaultValue="left" size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['text-align']} onChange={handleStylesChange.bind(this, 'text-align')}>
 					      	<RadioButton value="left">
 		  		              	<Tooltip placement="top" title="left">
 									<i className="fa fa-align-left"></i>
@@ -1465,6 +1537,7 @@ const VDStylePanel = (props) => {
 
 		    </Panel>
 		);
+		}
 
 		const backgroundPanel = (
 		    <Panel header="背景" key="background">
@@ -1929,8 +2002,8 @@ const VDStylePanel = (props) => {
 
 				<Collapse bordered={false} defaultActiveKey={['css', 'layout', 'typo', 'background', 'borders', 'shadows', 'tt', 'effects']}>
 					{cssPanel}
-					{layoutPanel}
-					{typoPanel}
+					{layoutPanel()}
+					{typoPanel()}
 					{backgroundPanel}
 					{bordersPanel()}
 					{shadowsPanel()}
@@ -1970,650 +2043,9 @@ const VDStylePanel = (props) => {
 
     }
 
-    const generatrCSSStyleConstructions = () => {
-
-    	const handleCSSPropertyChange = (styleProperty, proxy) => {
-			var stylePropertyValue = typeof proxy == 'string' ? proxy : proxy.target.value;
-
-			if(!props.vdCtrlTree.activeCtrl.activeStyle) {
-				message.error('执行错误，当前无活跃类名');
-				return false;
-			}
-
-			props.dispatch({
-				type: 'vdstyles/handleCSSPropertyChange',
-				payload: {
-					styleProperty,
-					stylePropertyValue,
-					activeStyleName: props.vdCtrlTree.activeCtrl.activeStyle
-				}
-			});
-
-			props.dispatch({
-				type: 'vdstyles/applyStyleIntoPage',
-				payload: {
-					activeCtrl: props.vdCtrlTree.activeCtrl
-				}
-			});
-    	}
-
-    	// if(!props.vdstyles.cssPropertyState[props.vdCtrlTree.activeCtrl.activeStyle]) {
-    	// 	message.error('数据模型错误');
-    	// 	return false;
-    	// }
-
-    	const getActiveCSSPropertyState = () => {
-    		for (var i = 0; i < props.vdstyles.cssPropertyState.length; i++) {
-    			var cssProperty = props.vdstyles.cssPropertyState[i];
-    			if(cssProperty.name == props.vdCtrlTree.activeCtrl.activeStyle) {
-    				return cssProperty;
-    			}
-    		};
-    	}
-
-    	return getActiveCSSPropertyState().cssProperty.map((panel, panelIndex) => {
-
-    		const generateWrapperType = (styleProperty, stylePropertyIndex) => {
-
-    			const controllersGenerator = (styleProperty) => {
-
-    				var controllerPipe = {
-
-    					radio () {
-    						return (
-								<RadioGroup key={styleProperty.key} {...styleProperty.props} onChange={handleStylesChange.bind(this, 'display')}>
-									{
-										styleProperty.valueList.map((stylePropertyValue, stylePropertyValueIndex) => {
-
-											if(stylePropertyValue.tooltip) {
-
-												return (
-											      	<RadioButton key={stylePropertyValue.key} value={stylePropertyValue.key}>
-								  		              	<Tooltip {...stylePropertyValue.tooltip}>
-								  		              		{stylePropertyValue.icon}
-											      		</Tooltip>
-										      		</RadioButton>
-												);
-
-											}else {
-												return (
-											      	<RadioButton key={stylePropertyValue.key} value={stylePropertyValue.key}>
-							  		              		{stylePropertyValue.icon}
-										      		</RadioButton>
-												);
-											}
-
-										})
-									}
-							    </RadioGroup>
-    						);
-    					},
-
-    					formInput () {
-    						return (
-						      	<Form className="form-no-margin-bottom">
-									<FormItem {...formItemLayout} label={styleProperty.title}>
-										{controllerPipe.input()}
-									</FormItem>
-						      	</Form>
-    						);
-    					},
-
-    					input () {
-    						return <Input size="small" {...styleProperty.props} onChange={handleCSSPropertyChange.bind(this, styleProperty)}/>;
-    					},
-
-    					radioPopover () {
-    						return (
-								<RadioGroup key={styleProperty.key} {...styleProperty.props}>
-									{
-										styleProperty.valueList.map((stylePropertyValue, stylePropertyValueIndex) => {
-
-											var popoverContent = {
-												bgImageSetter () {
-													return backgroundImageAndGradient.imageSetter();
-												},
-
-												bgGradientSetter () {
-													return backgroundImageAndGradient.gradientSetter;
-												}
-											}
-
-											return (
-										      	<RadioButton value={stylePropertyValue.key}>
-													<Popover
-											        	{...stylePropertyValue.popover}
-											        	content={popoverContent[stylePropertyValue.popover.contentKey]()}
-											      	>
-								  		              	<Tooltip {...stylePropertyValue.tooltip}>
-															{stylePropertyValue.icon}
-											      		</Tooltip>
-											      	</Popover>
-									      		</RadioButton>
-											);
-										})
-									}
-							    </RadioGroup>
-    						);
-    					},
-
-    					formRadio () {
-    						return (
-						      	<Form className="form-no-margin-bottom">
-									<FormItem {...formItemLayout} label={styleProperty.title}>
-										{controllerPipe.radio()}
-									</FormItem>
-						      	</Form>
-    						);
-    					},
-
-    					formSelect () {
-    						return (
-
-						      	<Form className="form-no-margin-bottom">
-									<FormItem {...formItemLayout} label={styleProperty.title}>
-			        				    <Select key={styleProperty.key} {...styleProperty.props} onChange={handleStylesChange.bind(this, styleProperty.key)}>
-			        				    {
-			        				    	styleProperty.valueList.map((option, optionIndex) => {
-			        				    		return (
-									      			<Option key={option.key} value={option.key}>{option.value}</Option>
-			        				    		);
-			        				    	})
-			        				    }
-							    		</Select>
-							    	</FormItem>
-						      	</Form>
-    						);
-    					}
-
-    				}
-
-    				if(controllerPipe[styleProperty.type]) {
-	    				return controllerPipe[styleProperty.type](styleProperty);
-    				}
-    			}
-
-    			const wrapperTypeGenerator = {
-    				box () {
-    					return (
-							<div key={stylePropertyIndex} className="guidance-panel-wrapper">
-								<div className="guidance-panel-child">
-									<div className="bem-Frame">
-										<div className="bem-Frame_Head">
-											<div className="bem-Frame_Legend">
-												<div className="bem-SpecificityLabel bem-SpecificityLabel-local bem-SpecificityLabel-text">
-													{styleProperty.title}
-												</div>
-											</div>
-										</div>
-										<div className="bem-Frame_Body">
-											{controllersGenerator(styleProperty)}
-										</div>
-									</div>
-								</div>
-							</div>
-    					);
-    				},
-
-    				form () {
-    					return (
-							<Form className="form-no-margin-bottom">
-								<FormItem {...formItemLayout} label={styleProperty.title}>
-									{controllersGenerator(styleProperty)}
-								</FormItem>
-					      	</Form>
-    					);
-    				},
-
-    				columnForm () {
-    					return (
-					    	<Row>
-					    		{
-					    			styleProperty.valueList.map((column, columnIndex) => {
-					    				return (
-										  	<Col {...column.props}>
-										  		{controllersGenerator(column.properties)}
-										  	</Col>
-					    				);
-					    			})
-					    		}
-						  	</Row>
-    					);
-    				}
-    			}
-
-    			const complexInteractionWrapperTypeHandler = {
-    				'border-advance' () {
-
-						const handleBorderTypeChange = (position) => {
-							props.dispatch({
-								type: 'vdstyles/changeBorderPosition',
-								payload: {
-									activeStyleName: props.vdCtrlTree.activeCtrl.activeStyle,
-									position: position
-								}
-							});
-
-							handleStylesChange(props.vdstyles.borderSetting.border.propertyName + '-width', {
-								target: {
-									value: props.vdstyles.borderSetting.border.width
-								}
-							});
-							handleStylesChange(props.vdstyles.borderSetting.border.propertyName + '-color', {
-								target: {
-									value: props.vdstyles.borderSetting.border.color
-								}
-							});
-
-						};
-
-						const handleBorderInputChange = (propertyName, e) => {
-							props.dispatch({
-								type: 'vdstyles/handleBorderInputChange',
-								payload: {
-									propertyName,
-									value: e.target.value
-								}
-							});
-							handleStylesChange(props.vdstyles.borderSetting.border.propertyName + '-' + propertyName, {
-								target: {
-									value: e.target.value
-								}
-							});
-						};
-
-						const handleBorderRadiusPositionChange = (position) => {
-							props.dispatch({
-								type: 'vdstyles/changeBorderRadiusPosition',
-								payload: {
-									activeStyleName: props.vdCtrlTree.activeCtrl.activeStyle,
-									position: position
-								}
-							});
-
-							handleStylesChange(props.vdstyles.borderSetting.borderRadius.propertyName + '-radius', {
-								target: {
-									value: props.vdstyles.borderSetting.borderRadius.borderRadius
-								}
-							});
-						};
-
-						const handleBorderRadiusInputChange = (propertyName, e) => {
-							props.dispatch({
-								type: 'vdstyles/handleBorderRadiusInputChange',
-								payload: {
-									propertyName,
-									value: e.target.value
-								}
-							});
-							handleStylesChange(props.vdstyles.borderSetting.borderRadius.propertyName + '-radius', {
-								target: {
-									value: e.target.value
-								}
-							});
-						}
-
-    					return (
-    						<div>
-								<Row>
-									<Col span={8}>
-										<Row style={{marginBottom: '5px'}}>
-											<Col span={8}></Col>
-											<Col span={8}>
-												<Tooltip title="上边框">
-													<Button onClick={handleBorderTypeChange.bind(this, 'border-top')} size="small"><i className="fa fa-window-maximize"></i></Button>
-												</Tooltip>
-											</Col>
-											<Col span={8}></Col>
-										</Row>
-										<Row style={{marginBottom: '5px'}}>
-											<Col span={8}>
-												<Tooltip placement="left" title="左边框">
-													<Button onClick={handleBorderTypeChange.bind(this, 'border-left')} size="small"><i className="fa fa-window-maximize" style={{transform: 'rotate(-90deg)'}}></i></Button>
-												</Tooltip>
-											</Col>
-											<Col span={8}>
-												<Tooltip title="全边框">
-													<Button onClick={handleBorderTypeChange.bind(this, 'border')} style={{width: '27px'}} size="small"><i className="fa fa-square-o"></i></Button>
-												</Tooltip>
-											</Col>
-											<Col span={8}>
-												<Tooltip placement="right" title="右边框">
-													<Button onClick={handleBorderTypeChange.bind(this, 'border-right')} size="small"><i className="fa fa-window-maximize" style={{transform: 'rotate(90deg)'}}></i></Button>
-												</Tooltip>
-											</Col>
-										</Row>
-										<Row>
-											<Col span={8}></Col>
-											<Col span={8}>
-												<Tooltip placement="bottom" title="下边框">
-													<Button onClick={handleBorderTypeChange.bind(this, 'border-bottom')} size="small"><i className="fa fa-window-maximize" style={{transform: 'rotate(180deg)'}}></i></Button>
-												</Tooltip>
-											</Col>
-											<Col span={8}></Col>
-										</Row>
-									</Col>
-
-									<Col span={16} style={{paddingLeft: '15px'}}>
-								    	<Form className="form-no-margin-bottom">
-											<FormItem {...formItemLayout} label="宽度">
-												<Input size="small" value={props.vdstyles.borderSetting.border.width} onChange={handleBorderInputChange.bind(this, 'width')}/>
-											</FormItem>
-
-											<FormItem {...formItemLayout} label="颜色">
-												<Input size="small" value={props.vdstyles.borderSetting.border.color} onChange={handleBorderInputChange.bind(this, 'color')} type="color"/>
-											</FormItem>
-								    	</Form>
-									</Col>
-								</Row>
-
-			     			 	<li style={{marginTop: '15px', marginBottom: '15px'}} className="ant-dropdown-menu-item-divider"></li>
-
-								<Row>
-									<Col span={8}>
-										<Row style={{marginBottom: '5px'}}>
-											<Col span={8}>
-												<Tooltip placement="top" title="弧 - 左上">
-													<Button onClick={handleBorderRadiusPositionChange.bind(this, 'border-top-left')} style={{borderTopLeftRadius: '28px', width: '28px', height: '28px'}} size="small"><i className="fa fa-window-maximize"></i></Button>									
-												</Tooltip>
-												<Tooltip placement="bottom" title="弧 - 左下">
-													<Button onClick={handleBorderRadiusPositionChange.bind(this, 'border-bottom-left')} style={{borderBottomLeftRadius: '28px', width: '28px', height: '28px', marginTop: '3px'}} size="small"><i className="fa fa-window-maximize"></i></Button>									
-												</Tooltip>
-											</Col>
-											<Col span={8}>
-												<Button onClick={handleBorderRadiusPositionChange.bind(this, 'border')} style={{marginTop: '16px', marginRight: '1px'}} size="small"><i className="fa fa-window-maximize"></i></Button>
-											</Col>
-											<Col span={8}>
-												<Tooltip placement="top" title="弧 - 右上">
-													<Button onClick={handleBorderRadiusPositionChange.bind(this, 'border-top-right')} style={{borderTopRightRadius: '28px', width: '28px', height: '28px'}} size="small"><i className="fa fa-window-maximize"></i></Button>
-												</Tooltip>
-												<Tooltip placement="bottom" title="弧 - 右下">
-													<Button onClick={handleBorderRadiusPositionChange.bind(this, 'border-bottom-right')} style={{borderBottomRightRadius: '28px', width: '28px', height: '28px', marginTop: '3px'}} size="small"><i className="fa fa-window-maximize"></i></Button>
-												</Tooltip>
-											</Col>
-										</Row>
-									</Col>
-
-									<Col span={16} style={{paddingLeft: '15px'}}>
-								    	<Form className="form-no-margin-bottom">
-											<FormItem {...formItemLayout} label="弧度">
-												<Input value={props.vdstyles.borderSetting.borderRadius.borderRadius} size="small" onChange={handleBorderRadiusInputChange.bind(this, 'borderRadius')} />
-											</FormItem>
-								    	</Form>
-									</Col>
-								</Row>
-							</div>
-    					);
-    				},
-
-    				'tt-advance' () {
-    					return (
-    						<div>
-						      	<Form className="form-no-margin-bottom">
-						      		<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right', marginTop: 5}} label="过渡">
-						      			<Tooltip placement="top" title="添加过渡">
-						      				<Popover title='添加过渡' placement="leftTop" trigger="click" content={transformAndTransitionProps.transformSettingPopover}>
-								      			<Button style={{borderBottom: 'none'}}>
-								      				<i className="fa fa-clock-o"></i>
-								      			</Button>
-								      		</Popover>
-							      		</Tooltip>
-						      		</FormItem>
-
-						      		<FormItem wrapperCol={{ span: 24 }} style={{position: 'relative', top: -5}}>
-										<div style={{border: '1px solid #d9d9d9', minHeight: 10}}>
-											<Row>
-												<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
-													<i className="fa fa-eye"></i>
-												</Col>
-												<Col span={2} style={{textAlign: 'center', cursor: 'ns-resize'}}>
-													<i className="fa fa-chain"></i>
-												</Col>
-												<Col span={14} style={{textAlign: 'center', cursor: 'pointer'}}>
-													暂无
-												</Col>
-												<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
-													<i className="fa fa-trash-o"></i>
-												</Col>
-											</Row>
-										</div>
-									</FormItem>
-
-									<li className="ant-dropdown-menu-item-divider"></li>
-
-									<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right', marginTop: 5}} label="变换">
-										<ButtonGroup>
-				    						<Tooltip placement="top" title="变换设置">
-							      				<Popover title='变换设置' placement="leftTop" trigger="click" content={transformAndTransitionProps.transitionSttingPopover}>
-									      			<Button style={{textAlign: 'center'}}>
-									      				<i className="fa fa-cog"></i>
-									      			</Button>
-									      		</Popover>
-								      		</Tooltip>
-							      			<Tooltip placement="top" title="添加变换">
-							      				<Popover title='添加变换' placement="leftTop" trigger="click" content={transformAndTransitionProps.transitionAddPopover}>
-									      			<Button style={{textAlign: 'center'}}>
-									      				<i className="fa fa-plus"></i>
-									      			</Button>
-									      		</Popover>
-								      		</Tooltip>
-										</ButtonGroup>
-						      		</FormItem>
-
-						      		<FormItem wrapperCol={{ span: 24 }} style={{position: 'relative', top: -3}}>
-										<div style={{border: '1px solid #d9d9d9', minHeight: 10}}>
-											<Row>
-												<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
-													<i className="fa fa-eye"></i>
-												</Col>
-												<Col span={2} style={{textAlign: 'center', cursor: 'ns-resize'}}>
-													<i className="fa fa-chain"></i>
-												</Col>
-												<Col span={14} style={{textAlign: 'center', cursor: 'pointer'}}>
-													暂无
-												</Col>
-												<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
-													<i className="fa fa-trash-o"></i>
-												</Col>
-											</Row>
-										</div>
-									</FormItem>
-
-						      	</Form>
-    						</div>
-    					);
-    				},
-
-    				'effects-advance' () {
-    					return (
-    						<div>
-						    	<Form className="form-no-margin-bottom">
-				  	    			<FormItem labelCol={{span: 6}} wrapperCol={{span: 16}} label="透明度">
-				  						<Row>
-				  					        <Col span={15}>
-				  					          	<Slider min={0} max={100}/>
-				  					        </Col>
-				  					        <Col span={4}>
-				  					          	<InputNumber/>
-				  					        </Col>
-				  					        <Col span={1}>%</Col>
-				  					    </Row>
-				  					</FormItem>
-
-				  					<li className="ant-dropdown-menu-item-divider"></li>
-
-				  					<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right', marginTop: 5}} label="过渡">
-						      			<Tooltip placement="top" title="添加过滤器">
-						      				<Popover title='添加过滤器' placement="leftTop" trigger="click" content={transformAndTransitionProps.transformSettingPopover}>
-								      			<Button style={{borderBottom: 'none'}}>
-								      				<i className="fa fa-plus"></i>
-								      			</Button>
-								      		</Popover>
-							      		</Tooltip>
-						      		</FormItem>
-
-						      		<FormItem wrapperCol={{ span: 24 }} style={{position: 'relative', top: -5}}>
-										<div style={{border: '1px solid #d9d9d9', minHeight: 10}}>
-											<Row>
-												<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
-													<i className="fa fa-eye"></i>
-												</Col>
-												<Col span={2} style={{textAlign: 'center', cursor: 'ns-resize'}}>
-													<i className="fa fa-chain"></i>
-												</Col>
-												<Col span={14} style={{textAlign: 'center', cursor: 'pointer'}}>
-													暂无
-												</Col>
-												<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
-													<i className="fa fa-trash-o"></i>
-												</Col>
-											</Row>
-										</div>
-									</FormItem>
-
-									<li className="ant-dropdown-menu-item-divider"></li>
-
-									<FormItem style={{marginTop: 20}} labelCol={{span: 8}} wrapperCol={{span: 16}} label="鼠标样式">
-										<Input addonBefore={<Popover 
-				    											content={effectProps.cursorPopover}
-													        	title="鼠标样式"
-													        	trigger="click"
-													        	placement="leftTop"
-													        >
-				    											<Icon type="setting"/>
-				    										</Popover>} 
-				    							size='small' 
-				    							defaultValue='auto' 
-										/>
-									</FormItem>
-
-								</Form>
-    						</div>
-    					);
-    				},
-
-    				'shadows-advance' () {
-    					return (
-							<div>
-						    	<Form className="form-no-margin-bottom">
-									<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right'}} label="盒子阴影">
-
-						      			<Tooltip placement="top" title="添加过渡">
-						      				<Popover title='添加过渡' placement="leftTop" trigger="click" content={shadowProps.settingPopover}>
-												<Button size="small"><Icon type="plus" /></Button>
-								      		</Popover>
-							      		</Tooltip>
-
-									</FormItem>
-									<FormItem wrapperCol={{ span: 24 }} style={{position: 'relative', top: -5}}>
-										<div style={{border: '1px solid #d9d9d9', minHeight: 10, marginTop: '10px'}}>
-											<Row>
-												<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
-													<i className="fa fa-eye"></i>
-												</Col>
-												<Col span={2} style={{textAlign: 'center', cursor: 'ns-resize'}}>
-													<i className="fa fa-chain"></i>
-												</Col>
-												<Col span={12} style={{textAlign: 'center', cursor: 'pointer'}}>
-													暂无
-												</Col>
-												<Col span={2} style={{textAlign: 'center'}}>
-													<i className="fa fa-circle"></i>
-												</Col>
-												<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
-													<i className="fa fa-trash-o"></i>
-												</Col>
-											</Row>
-										</div>
-									</FormItem>
-
-						    	</Form>
-
-						    	<li style={{marginTop: '15px', marginBottom: '15px'}} className="ant-dropdown-menu-item-divider"></li>
-
-						    	<Form className="form-no-margin-bottom">
-									<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right'}} label="文字阴影">
-
-
-									</FormItem>
-									<FormItem wrapperCol={{ span: 24 }} style={{position: 'relative', top: -5}}>
-										<div style={{border: '1px solid #d9d9d9', minHeight: 10}}>
-											<Row>
-												<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
-													<i className="fa fa-eye"></i>
-												</Col>
-												<Col span={2} style={{textAlign: 'center', cursor: 'ns-resize'}}>
-													<i className="fa fa-chain"></i>
-												</Col>
-												<Col span={12} style={{textAlign: 'center', cursor: 'pointer'}}>
-													暂无
-												</Col>
-												<Col span={2} style={{textAlign: 'center'}}>
-													<i className="fa fa-circle"></i>
-												</Col>
-												<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
-													<i className="fa fa-trash-o"></i>
-												</Col>
-											</Row>
-										</div>
-									</FormItem>
-
-						    	</Form>
-						    </div>
-    					);
-    				}
-    			}
-
-    			if(wrapperTypeGenerator[styleProperty.wrapperType]) {
-    				return wrapperTypeGenerator[styleProperty.wrapperType]();
-    			}else {
-    				if(props.vdstyles.specialStyleProperty.indexOf(styleProperty.wrapperType) != -1) {
-    					if(complexInteractionWrapperTypeHandler[styleProperty.wrapperType]) {
-	    					return complexInteractionWrapperTypeHandler[styleProperty.wrapperType]();    						
-    					}
-    				}
-    			}
-
-    		}
-
-    		return (
-		    	<Panel header={panel.title} key={panel.key}>
-		    		{
-			    		panel.properties.map((styleProperty, stylePropertyIndex) => {
-				    		return generateWrapperType(styleProperty, stylePropertyIndex);
-			    		})
-		    		}
-			    </Panel>
-    		);
-
-    	});
-    }
-
   	return (
   		<div className="vdctrl-pane-wrapper">
   			{vdctrlCollapse()}
-  			{
-				props.vdCtrlTree.activeCtrl.activeStyle ? (
-
-					<Collapse bordered={false} defaultActiveKey={['css', 'layout', 'typo', 'background', 'borders', 'shadows', 'tt', 'effects']}>
-						{generatrCSSStyleConstructions()}
-					</Collapse>
-
-					) : (
-
-					<Card style={{ width: 'auto', margin: '15px', background: '#f7f7f7' }}>
-					    <p>添加<Tag color="#87d068"><span style={{color: 'rgb(255, 255, 255)'}}>类名</span></Tag>后可以调整以下属性：</p>
-					    <ol>
-					    	<li>1、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>元素位置</span></Tag>和<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>大小</span></Tag></li>
-					    	<li>2、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>字体</span></Tag>属性</li>
-					    	<li>3、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>背景</span></Tag>属性</li>
-					    	<li>4、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>边框</span></Tag>属性</li>
-					    	<li>5、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>阴影</span></Tag>属性</li>
-					    	<li>6、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>交互动画</span></Tag></li>
-					    </ol>
-					</Card>
-				)
-			}
   		</div>
   	);
 
