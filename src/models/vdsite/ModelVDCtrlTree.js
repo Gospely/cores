@@ -3,6 +3,26 @@ import dva from 'dva';
 import randomString from '../../utils/randomString.js';
 import { message } from 'antd';
 
+const methods = {
+	checkName(symbols, name){
+
+		for (var i = 0; i < symbols.length; i++) {
+			if(symbols[i].name == name){
+				return false;
+			}
+		}
+		return true;
+	},
+	getSymbolIndexByKey(symbols, key){
+
+		for (var i = 0; i < symbols.length; i++) {
+			if(symbols[i].key == key){
+				return i;
+			}
+		}
+		return undefined;
+	}
+}
 const VDTreeActions = {
 	deepCopyObj(obj, result) {
 		result = result || {};
@@ -74,7 +94,6 @@ const VDTreeActions = {
 		return loopControllers(controllers, 1);
 
 	},
-
 	setActiveCtrl(state, controllerIndex, controllerKey, level) {
 	},
 
@@ -85,6 +104,13 @@ export default {
 	state: {
 	    defaultExpandedKeys: ["body-main", '456', '789'],
 	    defaultSelectedKeys: [""],
+		symbols: [],
+		currentSymbolKey: '',
+		symbolName: '',
+		popoverVisible: false,
+		editPopoverVisible: false,
+		keyValeUpdateVisible: false,
+		keyValeCreateVisible: false,
 
 	    layout: {
 	    	'index.html': [{
@@ -199,6 +225,78 @@ export default {
 
 	reducers: {
 
+		handleCurrentSymbolKey(state, { payload: key}) {
+			state.currentSymbolKey = key;
+			return { ...state};
+		},
+		handleSymbolNameChange(state, { payload: value}) {
+			state.symbolName = value;
+			return { ...state};
+		},
+		handleAddSymbol(state) {
+
+			if(!methods.checkName(state.symbols, state.symbolName)){
+				 openNotificationWithIcon('info', '控件名已被占用');
+			}else{
+				var addController = {
+					name: localStorage.symbolName,
+					key: randomString(8, 10),
+					controllers: [state.activeCtrl]
+				}
+				state.popoverVisible = false;
+				state.symbolName = '';
+				state.symbols.push(addController);
+			}
+			return { ...state};
+		},
+		handlePopoverVisbile(state, { payload: value}) {
+
+			state.popoverVisible = value;
+			return { ...state};
+		},
+		handleEditPopoverVisbile(state, { payload: value}) {
+
+			state.editPopoverVisible = value;
+			return { ...state};
+		},
+        handleUpdateVisible(state, { payload: value}){
+
+            state.keyValeUpdateVisible = value;
+			return { ...state};
+        },
+        handleCreateVisible(state, { payload: value}){
+
+            state.keyValeCreateVisible = value;
+			return { ...state};
+        },
+		editSymbol(state){
+
+			if(!methods.checkName(state.symbols, state.symbolName)){
+				 openNotificationWithIcon('info', '控件名已被占用');
+			}else{
+				var index = methods.getSymbolIndexByKey(state.symbols, state.currentSymbolKey);
+
+				if(index == undefined){
+					openNotificationWithIcon('error', '修改错误,请重试');
+				}else {
+					state.symbols[index].name = state.symbolName;
+				}
+			}
+			state.symbolName = '';
+			state.currentSymbolKey = '';
+			state.editPopoverVisible = false;
+			return { ...state};
+		},
+		deleteSymbol(state, { payload: key}){
+
+			var index = methods.getSymbolIndexByKey(state.symbols, key);
+			if(index == undefined){
+				openNotificationWithIcon('error', '删除失败,请重试');
+			}else {
+				state.symbols.splice(index,1);
+			}
+			return {...state};
+		},
 		handlePreview(state, { payload: params }) {
 			state.previewImage = params.previewImage;
 			state.previewVisible = params.previewVisible;
@@ -317,7 +415,51 @@ export default {
   			state.activeCtrl = currentActiveCtrl.controller;
 			return {...state};
 		},
+		//当前活跃控件子控件更新
+		handleChildrenUpdate(state, {payload: params}){
 
+			return {...state};
+			window.VDDesignerFrame.postMessage({
+				VDAttrRefreshed: {
+					activeCtrl: state.activeCtrl,
+					attr: {
+						attrName: attrName,
+						action: 'remove'
+					},
+					attrType: params.attrType
+				}
+			}, '*');
+		},
+		//当前活跃控件子删除
+		handleChildreDelete(state, {payload: params}){
+
+			return {...state};
+			window.VDDesignerFrame.postMessage({
+				VDAttrRefreshed: {
+					activeCtrl: state.activeCtrl,
+					attr: {
+						attrName: attrName,
+						action: 'remove'
+					},
+					attrType: params.attrType
+				}
+			}, '*');
+		},
+		//当前活跃控件 添加一个子控件
+		handleChildreAdd(state, {payload: params}){
+
+			return {...state};
+			window.VDDesignerFrame.postMessage({
+				VDAttrRefreshed: {
+					activeCtrl: state.activeCtrl,
+					attr: {
+						attrName: attrName,
+						action: 'remove'
+					},
+					attrType: params.attrType
+				}
+			}, '*');
+		},
 		handleAttrRefreshed(state, { payload: params }) {
 
 			//判断是否需要切换标签
