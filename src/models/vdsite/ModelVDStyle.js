@@ -168,7 +168,10 @@ export default {
 					'border-style': '',
 					'border-color': '',
 				},
-
+				'border-radius': {
+					'border-radius-position': 'border',
+					'border-radius': ''
+				}
 			}
 		},
 
@@ -277,35 +280,6 @@ export default {
 			return {...state};
 		},
 
-		changeBorderRadiusPosition(state, { payload: params }) {
-			const prevBorderPosition = state.borderSetting.borderRadius.propertyName;
-			state.borderSetting.borderRadius.propertyName = params.position;
-			var activeStyle = state.stylesList['.' + params.activeStyleName];
-
-			//清除其它border类型，并根据现有propertyName重新生成样式
-
-			for(var property in activeStyle) {
-				if(property.indexOf(prevBorderPosition) != -1) {
-					activeStyle[property] = '';
-					delete state.stylesList['.' + params.activeStyleName][property];
-					delete activeStyle[property];
-				}
-				activeStyle[params.position + '-radius'] = state.borderSetting.borderRadius.borderRadius;
-			}
-
-			return {...state};
-		},
-
-		// handleBorderInputChange(state, { payload: params }) {
-		// 	state.borderSetting.border[params.propertyName] = params.value;
-		// 	return {...state};
-		// },
-
-		handleBorderRadiusInputChange(state, { payload: params }) {
-			state.borderSetting.borderRadius[params.propertyName] = params.value;
-			return {...state};
-		},
-
 		handleBGSettingBeforeUpload(state, { payload: params }) {
 			state.backgroundSetting.backgroundImage.fileInfo.splice(0, params.length);
 			return {...state};
@@ -408,26 +382,26 @@ export default {
 
 				console.log(params);
 
-				if(property == 'border-position') {
+				if(property == 'border-position' || property == 'border-radius-position') {
 
-					const prevBorderPosition = state.cssStyleLayout[activeStyleName]['border']['border-position'];
-					var activeBorderStyle = state.cssStyleLayout[activeStyleName]['border'];
+					var parentType = property.split('-');
+					parentType.pop();
+					parentType = parentType.join('-');
+
+					const prevBorderPosition = state.cssStyleLayout[activeStyleName][parentType][property];
+					var activeBorderStyle = state.cssStyleLayout[activeStyleName][parentType];
 
 					//清除其它border类型，并根据现有propertyName重新生成样式
 
 					for(var props in activeBorderStyle) {
 						if(props.indexOf(prevBorderPosition) != -1) {
-							if(props != 'border-position') {
+							if(props != property) {
 								var propsSplit = props.split('-');
 								activeBorderStyle[value + '-' + propsSplit[propsSplit.length - 1]] = activeBorderStyle[props];
 								activeBorderStyle[props] = '';
 								delete activeBorderStyle[props];
 							}
 						}
-						// console.log(activeBorderStyle[prevBorderPosition + '-width']);
-						// activeBorderStyle[value + '-width'] = activeBorderStyle[prevBorderPosition + '-width'];
-						// activeBorderStyle[value + '-color'] = activeBorderStyle[prevBorderPosition + '-color'];
-						// activeBorderStyle[value + '-style'] = activeBorderStyle[prevBorderPosition + '-style'];
 					}
 
 				}
