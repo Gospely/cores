@@ -5,13 +5,378 @@ $(function() {
 
 	var jq = jQuery.noConflict();
 
-	//拖拽过程中的一些数据
+	//是否是最后一个子元素
+	jQuery.fn.isLastChild = function() {
+		var next = this.next();
+		
+		// if (!next) {
+		// 	return true;
+		// }
+		// if (next.attr("id") === "vdInsertGuide") {
+		// 	return !next.next().attr("vdid");
+		// }else {
+			return !next.attr("vdid") && next.attr("id") !== "vdInsertGuide";
+		// }
+        
+    };
+
+    var guide = jq("#vdInsertGuide");
+    var parentGuide = jq("#vdOutlineDropParentNode");
+
+	//拖拽过程中的一些数据及函数
 	var dndData = {
 		//开始拖拽时生成的dom
 		elemToAdd: '',
 
 		//拖拽增加控件时生成的控件的数据
-		ctrlToAddData: ''
+		ctrlToAddData: '',
+
+		dragOverElem: '',
+		dragElem: '',
+		originalY: '',
+		originalX: '',
+		dragElemParent: '',
+
+
+		//判断是否是合格子元素的方法
+		isLegalChild: function (e, target) {
+
+			if (guide.parent().data("specialChild")) {
+
+				var specialChild = guide.parent().data("specialChild");
+				var dragClass = dndData.dragElem[0].className;
+				var dragTag = dndData.dragElem[0].tagName;
+
+				if (dragClass.indexOf(specialChild.className) === -1 || specialChild.tag.indexOf(dragTag) === -1) {
+					return false;
+				}
+
+				return true;
+			}
+
+			return true;
+
+		},
+
+		//是否是合格父元素
+		isLegalParent: function (e, target) {
+			if (dndData.dragElem.data("specialParent")) {
+
+				var specialParent = dndData.dragElem.data("specialParent");
+				var parentClass = guide.parent()[0].className;
+				var parentTag = guide.parent()[0].tagName;
+
+				console.log(specialParent, parentClass, parentTag)
+
+				if (parentClass.indexOf(specialParent.className) === -1 || specialParent.tag.indexOf(parentTag) === -1) {
+					return false;
+				}
+
+				return true;
+			}
+
+			return true;
+		},
+
+		//每次位置变动前的处理
+		actionBeforeMove: function (e, target) {
+
+			if (!(dndData.isMouseDown && guide.css("display") === 'none')) {
+				dndData.dragElemParent = guide.parent();
+			}
+			
+		},
+
+		needShowParentGuide: function (e, target) {
+			var parent = target.parent();
+			if (parent.data("container")) {
+				parentGuide.css({
+					left: parent.offset().left,
+					top: parent.offset().top,
+					width: parent.outerWidth(),
+					height: parent.outerHeight(),
+					display: 'block'
+				})
+			}
+		},
+
+		//每次位置变动后的处理
+		actionAfterMove: function (e, target) {
+			
+			if (dndData.dragElemParent.children() && dndData.dragElemParent.children().length === 0 || 
+				dndData.isMouseDown && dndData.dragElemParent.children().length === 1) {
+				dndData.needChangeClass.push({
+					target: dndData.dragElemParent,
+					className: 'vd-empty',
+					type: 'add'
+				})
+			}
+
+			if (guide.parent().children().length >= 2) {
+				dndData.needChangeClass.push({
+					target: guide.parent(),
+					className: 'vd-empty',
+					type: 'remove'
+				})
+			}
+
+			if (dndData.dragElem.children().length >= 1) {
+				dndData.needChangeClass.push({
+					target: dndData.dragElem,
+					className: 'vd-empty',
+					type: 'remove'
+				})
+			}
+
+			if (dndData.isLegalChild(e, target) && dndData.isLegalParent(e, target)) {
+				guide.removeClass("error");
+				parentGuide.removeClass("error");
+			}else {
+				guide.addClass("error");
+				parentGuide.addClass("error");
+			}
+			
+			dndData.originalX = e.pageX;
+			dndData.originalY = e.pageY;
+	        
+		},
+
+		needChangeClass: [],
+
+		isMouseDown: false,
+
+		verticalBefore: function (e, target, isContainerSpecial) {
+
+			if (target.prev().attr("id") === "vdInsertGuide" && guide.css("display") !== "none") {
+				return false;
+			}
+
+			dndData.actionBeforeMove(e, target);
+
+			target.before(guide);
+
+			dndData.needShowParentGuide(e, target);
+
+			if (isContainerSpecial) {
+				guide.css({
+					width: target.parent().innerWidth(),
+					height: 2,
+					display: 'block',
+					top: target.offset().top,
+					position: 'fixed',
+					left: 0
+				})
+			}else {
+				guide.css({
+					width: target.outerWidth(),
+					height: 2,
+					display: 'block',
+					top: target.offset().top,
+					position: 'fixed',
+					left: 0
+				})
+			}
+			
+			dndData.actionAfterMove(e, target);
+		},
+
+		verticalAfter: function (e, target, isContainerSpecial) {
+
+			if (target.next().attr("id") === "vdInsertGuide" && guide.css("display") !== "none") {
+				return false;
+			}
+
+			dndData.actionBeforeMove(e, target);
+
+			target.after(guide);
+			dndData.needShowParentGuide(e, target);
+
+			if (isContainerSpecial) {
+				guide.css({
+					width: target.parent().innerWidth(),
+					display: 'block',
+					height: 2,
+					top: target.offset().top + target.outerHeight(),
+					position: 'fixed',
+					left: 0
+				})
+			}else {
+				guide.css({
+					width: target.outerWidth(),
+					display: 'block',
+					height: 2,
+					top: target.offset().top + target.outerHeight(),
+					position: 'fixed',
+					left: 0
+				})
+			}
+
+			
+			dndData.actionAfterMove(e, target);
+		},
+
+		verticalAppend: function (e, target) {
+
+			if (target.children().length) {
+				if(target.children()[target.children().length - 1].id === 'vdInsertGuide' && guide.css("display") !== "none") {
+					return false;
+				}
+			}
+
+			dndData.actionBeforeMove(e, target);
+
+			target.append(guide);
+
+			guide.css({
+				width: target.innerWidth(),
+				display: 'block',
+				height: 2,
+				position: 'relative',
+				top: 0,
+				left: 0
+			})
+
+			parentGuide.css({
+				left: target.offset().left,
+				top: target.offset().top,
+				width: target.outerWidth(),
+				height: target.outerHeight(),
+				display: 'block'
+			})
+
+			dndData.needChangeClass.push({
+				className: 'vd-empty',
+				target: target,
+				type: 'remove'
+			})
+
+			dndData.actionAfterMove(e, target, 'append');
+		},
+
+        horizontalBefore: function (e, target) {
+
+        	if (target.prev().attr("id") === "vdInsertGuide" && guide.css("display") !== "none") {
+				return false;
+			}
+
+        	dndData.actionBeforeMove(e, target);
+
+        	dndData.needShowParentGuide(e, target);
+			target.before(guide);
+
+			guide.css({
+				width: 2,
+				height: target.outerHeight(),
+				display: 'block',
+				top: target.offset().top,
+				left: target.offset().left,
+				position: 'fixed'
+			})
+			dndData.actionAfterMove(e, target);
+        },
+
+        horizontalAfter: function (e, target) {
+
+        	if (target.next().attr("id") === "vdInsertGuide" && guide.css("display") !== "none") {
+				return false;
+			}
+
+        	dndData.actionBeforeMove(e, target);
+
+        	dndData.needShowParentGuide(e, target);
+			target.after(guide);
+			guide.css({
+				width: 2,
+				display: 'block',
+				top: target.offset().top,
+				left: target.offset().left + target.outerWidth(),
+				position: 'fixed'
+			})
+			dndData.actionAfterMove(e, target);
+        },
+
+        horizontalAppend: function (e, target) {
+
+        	if (target.children().length) {
+				if(target.children()[target.children().length - 1].id === 'vdInsertGuide' && guide.css("display") !== "none") {
+					return false;
+				}
+			}
+
+        	dndData.actionBeforeMove(e, target);
+
+			target.append(guide);
+			guide.css({
+				width: target.innerWidth(),
+				display: 'block',
+				height: 2,
+				position: 'relative',
+				top: 0,
+				left: 0
+			})
+
+			parentGuide.css({
+				left: target.offset().left,
+				top: target.offset().top,
+				width: target.outerWidth(),
+				height: target.outerHeight(),
+				display: 'block'
+			})
+			dndData.needChangeClass.push({
+				className: 'vd-empty',
+				target: target,
+				type: 'remove'
+			})
+
+			dndData.actionAfterMove(e, target, 'append');
+        },
+
+        containerSpecialHandle: function (e, target) {
+        	
+        	if (dndData.dragElem.attr("vdid") === target.attr("vdid")) {
+        		return false;
+        	}
+
+			let firAndLas = [];
+			target.children().each(function () {
+					
+				if (e.pageY >= jq(this).offset().top && e.pageY <= jq(this).offset().top + jq(this).outerHeight()) {
+					firAndLas.push(jq(this))
+				}
+
+			})
+			
+			let first = firAndLas[0],
+				last = firAndLas[firAndLas.length - 1];
+
+			if (first && last && first[0].id !== "vdInsertGuide") {
+				let heigher = first.outerHeight();
+
+				if (heigher < last.outerHeight()) {
+					heigher = last.outerHeight()
+				}
+
+				let ref = (e.pageY - first.offset().top) / heigher;
+
+				parentGuide.css({
+					left: target.parent().offset().left,
+					top: target.parent().offset().top,
+					width: target.parent().outerWidth(),
+					height: target.parent().outerHeight(),
+					display: 'block'
+				})
+				
+				if (ref > 0.5) {
+					dndData.verticalAfter(e, last, true);
+				}else if (ref <= 0.5) {
+					dndData.verticalBefore(e, first, true);
+				}
+			}else {
+				
+				dndData.verticalAppend(e, target);	
+			}
+			
+        }
 
 	};
 
@@ -66,6 +431,7 @@ $(function() {
                         var elem = new ElemGenerator(data.controller);
                         var elemToAdd = jq(elem.createElement());
                         dndData.elemToAdd = elemToAdd;
+                        dndData.dragElem = elemToAdd;
                         dndData.ctrlToAddData = data.controller;
                     },
 
@@ -97,6 +463,8 @@ $(function() {
 		var controllerOperations = {
 			hideDesignerDraggerBorder: function () {
                 jq('#vd-OutlineSelectedActiveNode').hide();
+                jq('#vdInsertGuide').hide();
+                jq('#vdOutlineDropParentNode').hide();
 			},
 
 			showDesignerDraggerBorder: function (target) {
@@ -170,15 +538,15 @@ $(function() {
             this.makeComponentsDraggable();
 
         	jq(self.containerSelector).on("drop", function (e) {
-        		e.preventDefault();
-        		e.stopPropagation();
-        		var elemAdded = jq(self.containerSelector).append(dndData.elemToAdd);
-        		postMessageToFather.elemAdded(dndData.ctrlToAddData);
-        		controllerOperations.showDesignerDraggerBorder(dndData.elemToAdd);
+        		self.onDrop(e);
         	})
 
         	jq(self.containerSelector).on("dragover", function (e) {
-        		e.preventDefault();
+        		self.onOver(e);
+        	})
+
+        	jq(self.containerSelector).on("dragenter", function (e) {
+        		self.onEnter(e);
         	})
 
         }
@@ -199,13 +567,152 @@ $(function() {
 		        		e.preventDefault();
 		        	});
         		})
+        	},
+
+        	onEnter: function (e) {
+        		e.stopPropagation();
+        		e.preventDefault();
+        		dndData.originalY = e.pageY;
+        		dndData.originalX = e.pageY;
+        	},
+
+        	onOver: function (e) {
+        		e.preventDefault();
+        		e.stopPropagation();
+
+        		var target = jq(e.target);
+
+        		dndData.dragOverElem = target;
+
+        		//是否是行级元素
+        		if (target.outerWidth() < target.parent().innerWidth()) {
+        			
+        			var ref = (e.pageX - target.offset().left) / target.outerWidth();
+        			var moveX = e.pageX - dndData.originalX;
+        			
+	        		if (target.data("container")) {
+
+        				if (ref <= 1/3) {
+
+		        			dndData.horizontalBefore(e, target);
+
+		        		} else if (ref > 1/3 && ref < 2/3) {
+		        			
+		        			dndData.containerSpecialHandle(e, target);
+
+		        		} else if (ref >= 2/3) {
+
+		        			dndData.horizontalAfter(e, target);
+		        		
+		        		}
+        			
+        			}else {
+
+	        			 if (target.attr("id") === 'VDDesignerContainer') {
+
+		        			dndData.containerSpecialHandle(e, target);
+
+		        		} else if (ref < 1/2) {
+
+		        			dndData.horizontalBefore(e, target);
+
+		        		} else if (ref >= 1/2) {
+
+		        			dndData.horizontalAfter(e, target);
+		        		
+		        		}
+		        	}
+        		}else {
+        			
+        			var ref = (e.pageY - target.offset().top) / target.outerHeight();
+        			var moveY = e.pageY - dndData.originalY;
+
+        			if (target.data("container")) {
+
+        				if (ref <= 1/3) {
+
+		        			dndData.verticalBefore(e, target);
+
+		        		} else if (ref > 1/3 && ref < 2/3) {
+		        			
+		        			dndData.containerSpecialHandle(e, target);
+
+		        		} else if (ref >= 2/3) {
+
+		        			dndData.verticalAfter(e, target);
+		        		
+		        		}
+        				
+        			}else {
+
+	        			if (target.attr("id") === 'VDDesignerContainer') {
+
+		        			dndData.containerSpecialHandle(e, target);
+
+		        		}else if (ref < 1/2) {
+
+		        			dndData.verticalBefore(e, target);
+
+		        		} else if (ref >= 1/2) {
+
+		        			dndData.verticalAfter(e, target);
+		        		
+		        		}
+		        	}
+        			
+        		}
+
+        	},
+
+        	onDrop: function (e) {
+        		e.preventDefault();
+        		e.stopPropagation();
+
+        		let handler = function () {
+        			var needChangeClass = dndData.needChangeClass;
+        		
+	        		for(var i = 0; i < needChangeClass.length; i++) {
+	        			var ncc = needChangeClass[i];
+	        			if (ncc.type === 'remove') {
+	        				ncc.target.removeClass(ncc.className);	
+	        			}else {
+	        				if (!ncc.target.hasClass(ncc.className)) {
+		        				ncc.target.addClass(ncc.className)
+		        			}
+	        			}
+	        			
+	        		}
+
+	        		dndData.needChangeClass = [];
+        			dndData.isMouseDown = false;
+        			controllerOperations.showDesignerDraggerBorder(dndData.dragElem);
+        		}
+
+        		if(guide.css("display") === 'none') {
+        			dndData.isMouseDown = false;
+					return false;
+				}
+
+        		controllerOperations.hideDesignerDraggerBorder();
+
+        		if (guide.hasClass("error")) {
+        			alert('非法位置');
+        			handler();
+					return false;
+        		}
+
+        		jq("#vdInsertGuide").after(dndData.dragElem);
+        		if (!dndData.isMouseDown) {
+        			postMessageToFather.elemAdded(dndData.ctrlToAddData);	
+        		}
+        		handler();
+
         	}
         }
 
         //生成dom类
         function ElemGenerator(params) {
 
-			console.log(params);
         	this.controller = params;
         	this.tag = typeof this.controller.tag == 'object' ? this.controller.tag[0] : this.controller.tag;
         	this.elemLoaded = false;
@@ -300,18 +807,26 @@ $(function() {
 					this.elem.attr(attr.attrName, attr.value);
 				}
                 if(attr.isAttr) {
-
 					this.elem.attr(attr.attrName, attr.value);
                 }
-				console.log('attr');
-				console.log(attr);
+                if (attr.isContainer) {
+                	this.elem.data(attr.name, attr.value);
+                }
+
+                if (attr.isSpecialParent) {
+                	this.elem.data(attr.name, attr.value);
+                }
+
+                if (attr.isSpecialChild) {
+                	this.elem.data(attr.name, attr.value);
+                }
+
 				if(attr.isStyle){
 					this.elem.css(attr.name, attr.value);
 				}
             },
 
             setLinkSetting: function(attr) {
-                console.log('setLinkSetting', attr);
 
                 if(attr.isAttr) {
                     if(attr.attrName == 'target') {
@@ -336,7 +851,6 @@ $(function() {
 
                         attrValue = getAttrValue(attrValue, sessionStorage.currentActiveLinkType);
 
-                        console.log('+++++++++', attrValue);
 
                         this.elem.attr(attr.attrName, attrValue);
                     }
@@ -362,7 +876,6 @@ $(function() {
             },
 
             setClassName: function(attr) {
-                console.log('setClassName', attr);
                 var classList = this.controller.className.concat(this.controller.customClassName);
                 this.elem.attr('class', classList.join(' '));
             },
@@ -384,7 +897,6 @@ $(function() {
         		for(var i = 0, len = this.controller.attrs.length; i < len; i ++) {
         			var attr = this.controller.attrs[i];
 
-                    console.log(attr);
                     if(attr.isAttrSetting) {
                         //基础属性设置（无复杂交互）统一处理
                         for (var j = 0; j < attr.children.length; j++) {
@@ -495,11 +1007,64 @@ $(function() {
             },
 
         	makeElemAddedDraggable: function () {
-        		console.log('要拖了吗？')
+
+        		var self = this;
+
+        		var designerContainer = jq("#VDDesignerContainer");
+        		
+        		designerContainer.on("mousedown", function (e) {
+        			self.onDown(e);
+        		});
+
+        		designerContainer.on("mouseenter", function (e) {
+        			self.onEnter(e);	
+        			
+        		});
+
+        		designerContainer.on("mousemove", function (e) {
+        			self.onMove(e);
+        		});
+
+        		designerContainer.on("mousemove", function (e) {
+        			self.onMove(e);
+        		})
+
+        		designerContainer.on("mouseup", function (e) {
+        			self.onUp(e);
+        		});
+
+        	},
+
+        	onMove: function (e) {
+        		
+        		if (dndData.isMouseDown) {
+        			jq(e.target).css({
+        				cursor: 'pointer'
+        			})
+        			DndInitialization.prototype.onOver(e);
+        		}
+        	},
+        	onEnter: function (e) {
+        		if (dndData.isMouseDown) {
+        			DndInitialization.prototype.onEnter(e);	
+        		}
+        	},
+        	onDown: function (e) {
+        		e.stopPropagation();
+        		e.preventDefault();
+        		
+        		dndData.dragElemParent = jq(e.target).parent();
+        		dndData.dragElem = jq(e.target);
+        		dndData.isMouseDown = true;
+
+        	},
+        	onUp: function (e) {
+    			DndInitialization.prototype.onDrop(e);
         	}
         }
 
         new DndInitialization();
+
 	};
 
 	//iframe加载完再执行

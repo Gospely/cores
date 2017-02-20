@@ -289,7 +289,6 @@ export default {
 		},
 
 		ctrlSelected(state, { payload: data }) {
-
 			var ctrlInfo = VDTreeActions.getActiveControllerIndexAndLvlByKey(state, data.vdid, state.activePage);
 			state.activeCtrl = data;
 			state.activeCtrlIndex = ctrlInfo.index;
@@ -297,13 +296,8 @@ export default {
 			return {...state};
 		},
 		handleAttrFormChangeA(state, { payload: params }) {
-
-			console.log(params);
-			console.log(state.activeCtrl);
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
   			var ctrlAttrs = currentActiveCtrl.controller.attrs;
-
-  			console.log(currentActiveCtrl, params);
 
   			for (var i = 0; i < ctrlAttrs.length; i++) {
   				for (var j = 0; j < ctrlAttrs[i].children.length; j++) {
@@ -426,7 +420,7 @@ export default {
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
 
 			if(!currentActiveCtrl.controller) {
-				message.error('请先添加控件再进行操作哦！');
+				message.error('请先添加控件再进行操作！');
 				return {...state};
 			}
 
@@ -468,8 +462,6 @@ export default {
 	effects: {
 
 		*handleAttrFormChange({payload: params}, {call, put, select}) {
-
-			console.log(params);
   			var activePage = yield select(state => state.vdpm.activePage);
   			yield put({
   				type: 'handleAttrFormChangeA',

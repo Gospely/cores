@@ -273,8 +273,22 @@ export default {
                                 desc: '有无序号',
                                 value: 'circle inside',
                                 isStyle: true
-                            },
-                        ]
+                            },{
+							name: 'container',
+							desc: '是否是容器',
+							value: true,
+							backend: true,
+							isContainer: true
+						}, {
+							name: 'specialChild',
+							desc: '指定的子元素',
+							value: {
+								tag: ['LI'],
+								className: 'list-group-item'
+							},
+							backend: true,
+							isSpecialChild: true
+						}]
 					}, {
 						title: '列表设置',
 						key: 'list-setting',
@@ -282,16 +296,76 @@ export default {
 					}],
 					children: [{
 						tag: 'li',
-						className: ['list-group-item'],
-						attrs: []
+						className: ['list-group-item', 'vd-empty'],
+						attrs: [{
+							isAttrSetting: true,
+							title: '属性设置',
+							key: 'list-item-attr',
+							children: [{
+								name: 'specialParent',
+								desc: '必需放入list容器内',
+								value: {
+									tag: ['UL', 'OL'],
+									className: 'list-group'
+								},
+								isSpecialParent: true,
+								backend: true
+							}, {
+								name: 'container',
+								desc: '是否是容器',
+								value: true,
+								backend: true,
+								isContainer: true
+							}]
+						}]
 					}, {
 						tag: 'li',
-						className: ['list-group-item'],
-						attrs: []
+						className: ['list-group-item', 'vd-empty'],
+						attrs: [{
+							title: '属性设置',
+							key: 'list-item-attr',
+							isAttrSetting: true,
+							children: [{
+								name: 'specialParent',
+								desc: '必需放入list容器内',
+								value: {
+									tag: ['UL', 'OL'],
+									className: 'list-group'
+								},
+								isSpecialParent: true,
+								backend: true
+							}, {
+								name: 'container',
+								desc: '是否是容器',
+								value: true,
+								backend: true,
+								isContainer: true
+							}]
+						}]
 					}, {
 						tag: 'li',
-						className: ['list-group-item'],
-						attrs: []
+						className: ['list-group-item', 'vd-empty'],
+						attrs: [{
+							title: '属性设置',
+							key: 'list-item-attr',
+							isAttrSetting: true,
+							children: [{
+								name: 'specialParent',
+								desc: '必需放入list容器内',
+								value: {
+									tag: ['UL', 'OL'],
+									className: 'list-group'
+								},
+								isSpecialParent: true,
+								backend: true
+							}, {
+								name: 'container',
+								desc: '是否是容器',
+								value: true,
+								backend: true,
+								isContainer: true
+							}]
+						}]
 					}]
 				}
 			}, {
@@ -301,7 +375,22 @@ export default {
 				details: {
 					tag: 'li',
 					className: ['list-group-item'],
-					attrs: []
+					attrs: [{
+						title: '属性设置',
+						key: 'list-item-attr',
+						isSetAttribute: true,
+						children: [{
+							name: 'specialParent',
+							desc: '必需放入list容器内',
+							value: {
+								tag: ['UL', 'OL'],
+								className: 'list-group'
+							},
+							isSpecialParent: true,
+							backend: true
+						}]
+					}]
+
 				}
 			}]
 		}, {
@@ -1716,12 +1805,10 @@ export default {
 			return { ...state};
 		},
 		handlePopoverVisbile(state, { payload: value}) {
-
 			state.popoverVisible = value;
 			return { ...state};
 		},
 		handleEditPopoverVisbile(state, { payload: value}) {
-
 			state.editPopoverVisible = value;
 			return { ...state};
 		},

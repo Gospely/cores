@@ -1,10 +1,13 @@
 import React , {PropTypes} from 'react';
 import dva from 'dva';
-import { Icon } from 'antd';
+import { Icon, message } from 'antd';
 
 export default {
 	namespace: 'vdstyles',
 	state: {
+
+		specialStyleProperty: ['border-advance', 'shadows-advance', 'effects-advance', 'tt-advance', 'border-radius-advance'],
+		propertiesNeedRec: ['border-advance', 'shadows-advance', 'effects-advance', 'tt-advance', 'border-radius-advance', 'width-height', 'font-more'],
 
 		stylesList: {
 		    ".body":{
@@ -114,6 +117,11 @@ export default {
 
 		newStyleName: '',
 
+		cssPropertyState: [{
+			name: 'body',
+			cssProperty: []
+		}],
+
 		cssPropertyList: [{
 			key: 'layout',
 			title: '布局',
@@ -123,7 +131,7 @@ export default {
 				type: 'radio',
 				wrapperType: 'box',
 				props: {
-					value: 'block',
+					value: '',
 					size: 'small'
 				},
 				valueList: [{
@@ -389,28 +397,28 @@ export default {
 					key: 'auto',
 					icon: <Icon type="check" />,
 					tooltip: {
-						title: '可视',
+						title: '自动',
 						placement: 'top'
 					}
 				}, {
 					key: 'relative',
 					icon: <Icon type="shrink" />,
 					tooltip: {
-						title: '隐藏',
+						title: '相对定位',
 						placement: 'top'
 					}
 				}, {
 					key: 'absoulte',
-					icon: <span>据对</span>,
+					icon: <span>绝对</span>,
 					tooltip: {
-						title: '滚动',
+						title: '绝对定位',
 						placement: 'top'
 					}
 				}, {
 					key: 'fixed',
 					icon: <span>固定</span>,
 					tooltip: {
-						title: '自动',
+						title: '固定定位',
 						placement: 'top'
 					}
 				}]
@@ -443,7 +451,7 @@ export default {
 								value: 'fck'
 							}],
 							props: {
-								value: 'ss',
+								value: '',
 								size: 'small'
 							}
 						}
@@ -714,7 +722,7 @@ export default {
 				type: 'input',
 				wrapperType: 'form',
 				props: {
-					value: '#000000',
+					value: '',
 					size: 'small',
 					type: 'color'
 				}
@@ -759,6 +767,41 @@ export default {
 			key: 'borders',
 			title: '边框',
 			properties: [{
+				key: 'border-advance',
+				title: 'border高级设置',
+				type: '',
+				wrapperType: 'border-advance',
+				props: {
+					value: '',
+					size: 'small'
+				},
+				valueList: [{
+					key: 'border-width',
+					title: '宽度',
+					type: 'formInput',
+					props: {
+						value: '',
+						size: 'small'
+					}
+				}, {
+					key: 'border-color',
+					title: '颜色',
+					type: 'formInput',
+					props: {
+						value: '',
+						size: 'small',
+						type: 'color'
+					}
+				}, {
+					key: 'border-radius',
+					title: '宽度',
+					type: 'formInput',
+					props: {
+						value: '',
+						size: 'small'
+					}
+				}]
+			}, {
 				key: 'border-style',
 				title: '样式',
 				type: 'radio',
@@ -800,21 +843,111 @@ export default {
 		}, {
 			key: 'shadows',
 			title: '阴影',
-			properties: []
+			properties: [{
+				key: 'shadows-advance',
+				title: 'shadows高级设置',
+				type: '',
+				wrapperType: 'shadows-advance',
+				props: {
+					value: '',
+					size: 'small'
+				},
+				valueList: [{
+					key: 'border-width',
+					title: '宽度',
+					type: 'formInput',
+					props: {
+						value: '',
+						size: 'small'
+					}
+				}, {
+					key: 'border-color',
+					title: '颜色',
+					type: 'formInput',
+					props: {
+						value: '',
+						size: 'small',
+						type: 'color'
+					}
+				}, {
+
+				}]
+			}]
 		}, {
 			key: 'tt',
 			title: '过度和变换',
-			properties: []
+			properties: [{
+				key: 'tt-advance',
+				title: 'tt高级设置',
+				type: '',
+				wrapperType: 'tt-advance',
+				props: {
+					value: '',
+					size: 'small'
+				},
+				valueList: [{
+					key: 'border-width',
+					title: '宽度',
+					type: 'formInput',
+					props: {
+						value: '',
+						size: 'small'
+					}
+				}, {
+					key: 'border-color',
+					title: '颜色',
+					type: 'formInput',
+					props: {
+						value: '',
+						size: 'small',
+						type: 'color'
+					}
+				}, {
+
+				}]
+			}]
 		}, {
 			key: 'effects',
 			title: '效果',
-			properties: []
+			properties: [{
+				key: 'effects-advance',
+				title: 'effects高级设置',
+				type: '',
+				wrapperType: 'effects-advance',
+				props: {
+					value: '',
+					size: 'small'
+				},
+				valueList: [{
+					key: 'border-width',
+					title: '宽度',
+					type: 'formInput',
+					props: {
+						value: '',
+						size: 'small'
+					}
+				}, {
+					key: 'border-color',
+					title: '颜色',
+					type: 'formInput',
+					props: {
+						value: '',
+						size: 'small',
+						type: 'color'
+					}
+				}, {
+
+				}]
+			}]
 		}]
 	},
 
 	subscriptions: {
 		setup({ dispatch, history }) {
 	      	history.listen(({ pathname }) => {
+	      		dispatch({
+	      			type: 'appendStyleIntoOfficialStyle'
+	      		});
 	      	});
 		}
 	},
@@ -849,6 +982,18 @@ export default {
 	},
 
 	reducers: {
+
+		appendStyleIntoOfficialStyle(state) {
+
+			for (var i = 0; i < state.cssPropertyState.length; i++) {
+				var cssProperty = state.cssPropertyState[i];
+				cssProperty.cssProperty = state.cssPropertyList;
+			};
+
+			console.log('appendStyleIntoOfficialStyle', state.cssPropertyState);
+
+			return {...state};
+		},
 
 		changeBorderPosition(state, { payload: params }) {
 			const prevBorderPosition = state.borderSetting.border.propertyName;
@@ -920,9 +1065,22 @@ export default {
 		},
 
 		addStyle(state) {
-			state.stylesList[state.newStyleName] = {};
+			state.stylesList['.' + state.newStyleName] = {};
 			state.activeStyle = state.newStyleName;
 			state.newStyleName = '';
+
+			for (var i = 0; i < state.cssPropertyState.length; i++) {
+				var cssProperty = state.cssPropertyState[i];
+				if(cssProperty == state.newStyleName) {
+					message.error('所加类名与已有类名冲突，请重新填写');
+					return {...state};
+				}
+			};
+
+			state.cssPropertyState.push({
+				name: state.newStyleName,
+				cssProperty: state.cssPropertyList
+			});
 			return {...state};
 		},
 
@@ -957,30 +1115,38 @@ export default {
 
 		applyStyleIntoPage(state, { payload: params }) {
 
-			const generateCSSText = (stylesList) => {
-				var cssText = '';
-				for(var styleName in stylesList) {
-					var currentStyle = stylesList[styleName],
-						cssClass = styleName + '{';
-					for(var property in currentStyle) {
-						var currentTableStyle = currentStyle[property];
-						cssClass += property + ':' + currentTableStyle + ';'
-					}
-					cssClass += '}';
-					cssText += cssClass;
-				}
+			var cssGeneratorWorker = new Worker('./static/designer/vdsite/js/webworker/cssRecWorker.js');
 
-				return cssText;
+			cssGeneratorWorker.postMessage(JSON.stringify({
+				cssPropertyState: state.cssPropertyState,
+				propertiesNeedRec: state.propertiesNeedRec
+			}));
+
+			cssGeneratorWorker.onmessage = (event) => {
+				console.log(event);
+				var cssText = event.data;
+				window.VDDesignerFrame.postMessage({
+					applyCSSIntoPage: {
+						cssText: cssText,
+						activeCtrl: params.activeCtrl
+					}
+				}, '*');
 			}
 
-			const cssText = generateCSSText(state.stylesList);
+			cssGeneratorWorker.onerror = (event) => {
+				message.error('css样式生成器执行失败');
+			}
 
-			window.VDDesignerFrame.postMessage({
-				applyCSSIntoPage: {
-					cssText: cssText,
-					activeCtrl: params.activeCtrl
-				}
-			}, '*');
+			return {...state};
+		},
+
+		handleCSSPropertyChange(state, { payload: params }) {
+
+			var property = params.styleProperty,
+				value = params.stylePropertyValue,
+				activeStyleName = params.activeStyleName;
+
+			property.props.value = value;
 
 			return {...state};
 		}
