@@ -2,6 +2,23 @@ import React , {PropTypes} from 'react';
 import dva from 'dva';
 import { Icon, message } from 'antd';
 
+var styleAction = {
+
+	findCSSPropertyByProperty: function(stylesList, property) {
+		for(var prop in stylesList) {
+			var currrentStyleProperty = stylesList[prop];
+			if(typeof currrentStyleProperty == 'string') {
+				if(prop == property) {
+					return stylesList;
+				}
+			}else {
+				return styleAction.findCSSPropertyByProperty(currrentStyleProperty, property);
+			}
+		}
+	}
+
+}
+
 export default {
 	namespace: 'vdstyles',
 	state: {
@@ -49,14 +66,6 @@ export default {
 		        "padding-top": "10px!important",
 		        "padding-bottom": "9px!important"
 		    }
-		},
-
-		cssSelector: {
-			
-		},
-
-		typoSetting: {
-			
 		},
 
 		borderSetting: {
@@ -138,8 +147,21 @@ export default {
 				'text-align': '',
 				'write-mode': '',
 				'text-decoration': '',
-				capitalize: '',
-				'background-color': ''
+				'text-transform': '',
+				background: {
+					'background-width': '',
+					'background-color': '',
+					'background-size': ['', '', false, true],
+					'background-position': '',
+					'background-image': '',
+					'background-color': '',
+					'background-repeat': '',
+					'background-attachment': ''
+				},
+				border: {
+
+				},
+
 			}
 		},
 
@@ -403,7 +425,12 @@ export default {
 					value = 'url("' + value + '")';
 				}
 
-			state.cssStyleLayout[activeStyleName][property] = value;
+				if(params.parent) {
+					var propertyParent = styleAction.findCSSPropertyByProperty(state.cssStyleLayout[activeStyleName], property);
+					propertyParent[property] = value;
+				}else {
+					state.cssStyleLayout[activeStyleName][property] = value;
+				}
 
 			return {...state};
 		}
