@@ -5,6 +5,9 @@ var generateStylesList = function(cssPropertyState) {
 	var styles = {};
 
 	var recCSSProperty = function(currentCSSStyle, cssProperties) {
+
+		var cssPropertiesIndex = 0;
+
 		for (var k = 0; k < cssProperties.length; k++) {
 			var cssProperty = cssProperties[k];
 			if(cssProperty.key == 'bgimg-bgradius'){
@@ -19,7 +22,7 @@ var generateStylesList = function(cssPropertyState) {
 				}
 				if(cssProperty.properties) {
 					if(cssProperty.properties.props.value != '' && cssProperty.properties.key) {
-						styles['.' + currentCSSStyle.name][cssProperty.properties.key] = cssProperty.properties.props.value;									
+						styles['.' + currentCSSStyle.name][cssProperty.properties.key] = cssProperty.properties.props.value;
 					}
 				}else {
 					if(cssProperty.props.value != '' && cssProperty.key) {
@@ -30,16 +33,24 @@ var generateStylesList = function(cssPropertyState) {
 		};
 	}
 
-	for (var i = 0; i < cssPropertyState.length; i++) {
-		var currentCSSStyle = cssPropertyState[i],
+	var cssPropertyStateIndex = 0;
+
+	while(cssPropertyStateIndex < cssPropertyState.length){
+
+		var currentCSSStyle = cssPropertyState[cssPropertyStateIndex],
 			currentCSSStyleProperty = currentCSSStyle.cssProperty;
 		styles['.' + currentCSSStyle.name] = {};
-		console.log(currentCSSStyle);
-		for (var j = 0; j < currentCSSStyleProperty.length; j++) {
-			var cssProperties = currentCSSStyleProperty[j].properties;
-			recCSSProperty(currentCSSStyle, cssProperties);
-		};
-	};
+
+		var currentCSSStylePropertyIndex = 0;
+
+		while(currentCSSStylePropertyIndex < currentCSSStyleProperty.length) {
+			var cssProperties = currentCSSStyleProperty[currentCSSStylePropertyIndex].properties;
+			recCSSProperty(currentCSSStyle, cssProperties);			
+			currentCSSStylePropertyIndex++;
+		}
+
+		cssPropertyStateIndex++;
+	}
 
 	return styles;
 }
