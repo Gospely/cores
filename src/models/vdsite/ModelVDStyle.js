@@ -115,6 +115,62 @@ export default {
 			}
 		},
 
+		cssStyleLayout: {
+			body: {
+				display: '',
+				width: '',
+				height: '',
+				'max-width': '',
+				'min-width': '',
+				'max-height': '',
+				'min-height': '',
+				float: '',
+				overflow: '',
+				clear: '',
+				position: '',
+				'font-family': '',
+				color: '',
+				'font-weight': '',
+				'font-style': '',
+				'text-indent': '',
+				'font-size': '',
+				'line-height': '',
+				'text-align': '',
+				'write-mode': '',
+				'text-decoration': '',
+				capitalize: '',
+				'background-color': ''
+			}
+		},
+
+		cssStyleList: [{
+			display: '',
+			width: '',
+			height: '',
+			'max-width': '',
+			'min-width': '',
+			'max-height': '',
+			'min-height': '',
+			float: '',
+			overflow: '',
+			clear: '',
+			position: '',
+			'font-family': '',
+			color: '',
+			'font-weight': '',
+			'font-style': '',
+			'text-indent': '',
+			'font-size': '',
+			'line-height': '',
+			'text-align': '',
+			'write-mode': '',
+			'text-decoration': '',
+			capitalize: '',
+			'background-color': ''
+		}],
+
+		activeCSSStyle: '',
+
 		newStyleName: '',
 
 		cssPropertyState: [{
@@ -1099,7 +1155,80 @@ export default {
 			return {...state};
 		},
 
-		handleClassValueChange(state, { payload: params }) {
+		// applyStyleIntoPage(state, { payload: params }) {
+
+		// 	var cssGeneratorWorker = new Worker('./static/designer/vdsite/js/webworker/cssRecWorker.js');
+
+		// 	cssGeneratorWorker.postMessage(JSON.stringify({
+		// 		cssPropertyState: state.cssPropertyState,
+		// 		propertiesNeedRec: state.propertiesNeedRec
+		// 	}));
+
+		// 	cssGeneratorWorker.onmessage = (event) => {
+		// 		console.log(event);
+		// 		var cssText = event.data;
+		// 		window.VDDesignerFrame.postMessage({
+		// 			applyCSSIntoPage: {
+		// 				cssText: cssText,
+		// 				activeCtrl: params.activeCtrl
+		// 			}
+		// 		}, '*');
+		// 	}
+
+		// 	cssGeneratorWorker.onerror = (event) => {
+		// 		message.error('css样式生成器执行失败');
+		// 	}
+
+		// 	return {...state};
+		// },
+
+		applyCSSStyleIntoPage(state, { payload: params }) {
+
+			const stylesGenerator = (cssStyleLayout) => {
+				var cssText = '';
+				for(var styleName in cssStyleLayout) {
+					var currentStyle = cssStyleLayout[styleName],
+						cssClass = '.' + styleName + '{';
+					for(var property in currentStyle) {
+						var currentTableStyle = currentStyle[property];
+						if(currentTableStyle != '') {
+							cssClass += property + ':' + currentTableStyle + ';'							
+						}
+					}
+					cssClass += '}';
+					cssText += cssClass;
+				}
+
+				return cssText.toString();				
+			}
+
+			var cssText = stylesGenerator(state.cssStyleLayout);
+
+			console.log(cssText);
+
+			window.VDDesignerFrame.postMessage({
+				applyCSSIntoPage: {
+					cssText: cssText,
+					activeCtrl: params.activeCtrl
+				}
+			}, '*');
+
+			return {...state};
+		},
+
+		// handleCSSPropertyChange(state, { payload: params }) {
+
+		// 	var property = params.styleProperty,
+		// 		value = params.stylePropertyValue,
+		// 		activeStyleName = params.activeStyleName;
+
+		// 	property.props.value = value;
+
+		// 	return {...state};
+		// },
+
+		handleCSSStyleLayoutChange(state, { payload: params }) {
+
 			var property = params.stylePropertyName,
 				value = params.stylePropertyValue,
 				activeStyleName = params.activeStyleName;
@@ -1108,45 +1237,7 @@ export default {
 					value = 'url("' + value + '")';
 				}
 
-			state.stylesList['.' + activeStyleName][property] = value;
-
-			return {...state};
-		},		
-
-		applyStyleIntoPage(state, { payload: params }) {
-
-			var cssGeneratorWorker = new Worker('./static/designer/vdsite/js/webworker/cssRecWorker.js');
-
-			cssGeneratorWorker.postMessage(JSON.stringify({
-				cssPropertyState: state.cssPropertyState,
-				propertiesNeedRec: state.propertiesNeedRec
-			}));
-
-			cssGeneratorWorker.onmessage = (event) => {
-				console.log(event);
-				var cssText = event.data;
-				window.VDDesignerFrame.postMessage({
-					applyCSSIntoPage: {
-						cssText: cssText,
-						activeCtrl: params.activeCtrl
-					}
-				}, '*');
-			}
-
-			cssGeneratorWorker.onerror = (event) => {
-				message.error('css样式生成器执行失败');
-			}
-
-			return {...state};
-		},
-
-		handleCSSPropertyChange(state, { payload: params }) {
-
-			var property = params.styleProperty,
-				value = params.stylePropertyValue,
-				activeStyleName = params.activeStyleName;
-
-			property.props.value = value;
+			state.cssStyleLayout[activeStyleName][property] = value;
 
 			return {...state};
 		}
