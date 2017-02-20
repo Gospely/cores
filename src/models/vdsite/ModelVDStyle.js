@@ -424,8 +424,7 @@ export default {
 					if(typeof params.parent.BGSizeIndex == 'undefined') {
 						propertyParent[property] = value;
 					}else {
-						console.log(propertyParent);
-						propertyParent[property][params.BGSizeIndex] = value;
+						propertyParent[property][params.parent.BGSizeIndex] = value;
 					}
 
 				}else {
