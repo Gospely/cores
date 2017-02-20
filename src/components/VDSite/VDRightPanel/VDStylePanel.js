@@ -226,8 +226,6 @@ const VDStylePanel = (props) => {
 
     			var val = e.target ? e.target.value : e;
 
-    			console.log(val);
-
     			const packBGSizeParams = () => {
 
     				var result = '';
@@ -281,6 +279,8 @@ const VDStylePanel = (props) => {
 
     		const handleBGPosChange = (pos) => {
     			handleStylesChange('background-position', {
+    				parent: 'background'
+    			} ,{
     				target: {
     					value: pos
     				}
