@@ -9,6 +9,7 @@ export default {
 	state: {
 	    previewVisible: false,
 	    previewImage: '',
+		isUploading: false,
 	    fileList: [{
 	      	uid: -1,
 	      	name: 'xxx.png',
@@ -60,6 +61,15 @@ export default {
 			state.fileList = images;
 			console.log(images);
 			return {...state};
+		},
+		setUploading(state){
+
+			state.isUploading = true;
+			return {...state};
+		},
+		setUploadComplete(state){
+			state.isUploading = false;
+			return {...state};
 		}
 
 	},
@@ -93,38 +103,33 @@ export default {
 				});
 			}
 			yield put({ type: 'list', payload: images });
-			// yield put({
-			// 	type: 'setTreeLoadingStatus',
-			// 	payload: false
-			// });
 		},
 		*uploadImage({payload: image}, {select, put}){
 
+			yield put({type: 'setUploading'});
 			var formdata = new FormData();
       		formdata.append('folder',localStorage.dir);
       		formdata.append('fileUp',image.file);
 			formdata.append('remoteIp',localStorage.host);
-			var result = yield upload(formdata);
 
+			var result = yield upload(formdata);
 			if(result.status == 200){
 				// yield put({type: 'fetchFileList'});
-				// yield put({type: 'hideUploading'});
 				message.success('文件上传成功')
 			}
 			function upload(formdata){
-				console.log(formdata);
 				return fetch('http://api.gospely.com/fs/image/upload',{
 	      			method:'POST',
 	      			//mode: "no-cors",
 	      			body:formdata,
 	      		})
 			}
-
 			yield put({ type: 'fetchFileList'});
-
+			yield put({type: 'setUploadComplete'});
 		},
 		*deletImage({payload: fileName}, {select , put}){
 
+			yield put({type: 'setUploading'});
 			var mkResult = yield request('fs/remove', {
 				method: 'POST',
 				body: JSON.stringify({
@@ -132,6 +137,7 @@ export default {
 				})
 			});
       		yield put({type: 'fetchFileList'});
+			yield put({type: 'setUploadComplete'});
 		}
 	}
 

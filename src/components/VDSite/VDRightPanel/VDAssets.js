@@ -1,7 +1,7 @@
 import React , {PropTypes} from 'react';
 import { connect } from 'dva';
 
-import { Button, Modal } from 'antd';
+import { Button, Modal, Spin } from 'antd';
 import { Tabs, Icon } from 'antd';
 import { Tooltip } from 'antd';
 
@@ -64,6 +64,7 @@ const Component = (props) => {
     );
 
   	return (
+		<Spin spinning={props.vdassets.isUploading}>
 		<div className="clearfix" style={{textAlign: 'center', marginTop: '10px'}}>
         	<Upload
 				name='fileUp'
@@ -79,6 +80,7 @@ const Component = (props) => {
           		<img alt="assets" style={{ width: '100%' }} src={props.vdassets.previewImage} />
         	</Modal>
       </div>
+	  </Spin>
   	);
 
 };
