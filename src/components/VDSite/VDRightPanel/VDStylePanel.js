@@ -1591,37 +1591,39 @@ const VDStylePanel = (props) => {
 
 		const bordersPanel = () => {
 
+			var borderPosition = props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['border']['border-position'];
+
 			const handleBorderTypeChange = (position) => {
-				props.dispatch({
-					type: 'vdstyles/changeBorderPosition',
-					payload: {
-						activeStyleName: props.vdCtrlTree.activeCtrl.activeStyle,
-						position: position
+
+				handleStylesChange('border-position', {
+					target: {
+						value: position
 					}
 				});
 
-				handleStylesChange(props.vdstyles.borderSetting.border.propertyName + '-width', {
-					target: {
-						value: props.vdstyles.borderSetting.border.width
-					}
-				});
-				handleStylesChange(props.vdstyles.borderSetting.border.propertyName + '-color', {
-					target: {
-						value: props.vdstyles.borderSetting.border.color
-					}
-				});
+				// handleStylesChange(borderPosition + '-width', {
+				// 	target: {
+				// 		value: props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['border'][position + '-width']
+				// 	}
+				// });
+
+				// handleStylesChange(borderPosition + '-color', {
+				// 	target: {
+				// 		value: props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['border'][position + '-color']
+				// 	}
+				// });
 
 			};
 
 			const handleBorderInputChange = (propertyName, e) => {
-				props.dispatch({
-					type: 'vdstyles/handleBorderInputChange',
-					payload: {
-						propertyName,
-						value: e.target.value
-					}
-				});
-				handleStylesChange(props.vdstyles.borderSetting.border.propertyName + '-' + propertyName, {
+				// props.dispatch({
+				// 	type: 'vdstyles/handleBorderInputChange',
+				// 	payload: {
+				// 		propertyName,
+				// 		value: e.target.value
+				// 	}
+				// });
+				handleStylesChange(borderPosition + '-' + propertyName, {
 					target: {
 						value: e.target.value
 					}
@@ -1652,7 +1654,7 @@ const VDStylePanel = (props) => {
 						value: e.target.value
 					}
 				});
-				handleStylesChange(props.vdstyles.borderSetting.borderRadius.propertyName + '-radius', {
+				handleStylesChange(borderPosition + '-radius', {
 					target: {
 						value: e.target.value
 					}
@@ -1704,11 +1706,11 @@ const VDStylePanel = (props) => {
 					<Col span={16} style={{paddingLeft: '15px'}}>
 				    	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label="宽度">
-								<Input size="small" value={props.vdstyles.borderSetting.border.width} onChange={handleBorderInputChange.bind(this, 'width')}/>
+								<Input size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['border'][borderPosition + '-width']} onChange={handleBorderInputChange.bind(this, 'width')}/>
 							</FormItem>
 
 							<FormItem {...formItemLayout} label="颜色">
-								<Input size="small" value={props.vdstyles.borderSetting.border.color} onChange={handleBorderInputChange.bind(this, 'color')} type="color"/>
+								<Input size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['border'][borderPosition + '-color']} onChange={handleBorderInputChange.bind(this, 'color')} type="color"/>
 							</FormItem>
 				    	</Form>
 					</Col>
@@ -1718,7 +1720,7 @@ const VDStylePanel = (props) => {
 
 					<FormItem {...formItemLayout} label="样式">
 
-						<RadioGroup defaultValue="none" size="small" onChange={handleStylesChange.bind(this, props.vdstyles.borderSetting.border.propertyName + '-style')}>
+						<RadioGroup defaultValue="none" size="small" onChange={handleStylesChange.bind(this, borderPosition + '-style')}>
 					      	<RadioButton value="none">
 		  		              	<Tooltip placement="top" title="无">
 									<Icon type="close" />
