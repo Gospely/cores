@@ -57,6 +57,10 @@ const VDStylePanel = (props) => {
 
 		console.log('================proxy==============', proxy, parent);
 
+		if(proxy == undefined) {
+			proxy = parent;
+		}
+
 		var stylePropertyValue = '';
 
 		if(typeof proxy == 'string') {
