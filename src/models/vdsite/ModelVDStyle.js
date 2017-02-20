@@ -7,7 +7,7 @@ var styleAction = {
 	findCSSPropertyByProperty: function(stylesList, property) {
 		for(var prop in stylesList) {
 			var currrentStyleProperty = stylesList[prop];
-			if(typeof currrentStyleProperty == 'string') {
+			if(typeof currrentStyleProperty == 'string' || typeof currrentStyleProperty.length != 'undefined') {
 				if(prop == property) {
 					return stylesList;
 				}
@@ -151,7 +151,7 @@ export default {
 				background: {
 					'background-width': '',
 					'background-color': '',
-					'background-size': ['', '', false, true],
+					'background-size': ['', '', false, false],
 					'background-position': '',
 					'background-image': '',
 					'background-color': '',
@@ -319,11 +319,6 @@ export default {
 			return {...state};
 		},
 
-		handleBackgroundSizeInputChange(state, { payload: params }) {
-			state.backgroundSetting.backgroundSize[params.cssProperty] = params.value;
-			return {...state};
-		},
-
 		handleBGSettingBeforeUpload(state, { payload: params }) {
 			state.backgroundSetting.backgroundImage.fileInfo.splice(0, params.length);
 			return {...state};
@@ -414,7 +409,6 @@ export default {
 			return {...state};
 		},
 
-
 		handleCSSStyleLayoutChange(state, { payload: params }) {
 
 			var property = params.stylePropertyName,
@@ -427,10 +421,18 @@ export default {
 
 				if(params.parent) {
 					var propertyParent = styleAction.findCSSPropertyByProperty(state.cssStyleLayout[activeStyleName], property);
-					propertyParent[property] = value;
+					if(typeof params.parent.BGSizeIndex == 'undefined') {
+						propertyParent[property] = value;
+					}else {
+						console.log(propertyParent);
+						propertyParent[property][params.BGSizeIndex] = value;
+					}
+
 				}else {
 					state.cssStyleLayout[activeStyleName][property] = value;
 				}
+
+				console.log(state.cssStyleLayout);
 
 			return {...state};
 		}

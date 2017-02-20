@@ -55,7 +55,7 @@ const VDStylePanel = (props) => {
 
 	const handleStylesChange = (stylePropertyName, parent, proxy) =>  {
 
-		console.log('================proxy==============', proxy);
+		console.log('================proxy==============', proxy, parent);
 
 		var stylePropertyValue = '';
 
@@ -76,7 +76,7 @@ const VDStylePanel = (props) => {
 				stylePropertyName,
 				stylePropertyValue,
 				activeStyleName: props.vdCtrlTree.activeCtrl.activeStyle,
-				parent
+				parent,
 			}
 		});
 
@@ -222,17 +222,11 @@ const VDStylePanel = (props) => {
 
     		var backgroundSizeParams = props.vdstyles.backgroundSetting.backgroundSize;
 
-    		const handleBackgroundSizeInputChange = (cssProperty, addon, e) => {
+    		const handleBackgroundSizeInputChange = (cssProperty, parent, e) => {
 
     			var val = e.target ? e.target.value : e;
 
-    			// props.dispatch({
-    			// 	type: 'vdstyles/handleBackgroundSizeInputChange',
-    			// 	payload: {
-    			// 		cssProperty: addon.cssProperty,
-    			// 		value: val
-    			// 	}
-    			// });
+    			console.log(val);
 
     			const packBGSizeParams = () => {
 
@@ -257,9 +251,9 @@ const VDStylePanel = (props) => {
     				return result;
     			}
 
-    			handleStylesChange(cssProperty, parent ,{
+    			handleStylesChange(cssProperty, parent, {
     				target: {
-    					value: packBGSizeParams()
+    					value: val
     				}
     			});
     		}
@@ -330,10 +324,7 @@ const VDStylePanel = (props) => {
 										<FormItem {...formItemLayout} label="宽度">
 											<Input
 												value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['background']['background-size'][0]}
-												onChange={handleBackgroundSizeInputChange.bind(this, 'background-size', {
-													parent: props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['background'],
-													index: 0
-												})} size="small" />
+												onChange={handleBackgroundSizeInputChange.bind(this, 'background-size', {parent: 'background', BGSizeIndex: 0})} size="small" />
 										</FormItem>
 							      	</Form>
 							  	</Col>
@@ -341,12 +332,8 @@ const VDStylePanel = (props) => {
 							      	<Form className="form-no-margin-bottom">
 										<FormItem {...formItemLayout} label="填充">
 											<Switch 
-												value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['background']['background-size'][2]}
-												onChange={handleBackgroundSizeInputChange.bind(this, 'background-size', {
-													parent: props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['background'],
-													index: 2,
-													cssPropertyValue: 'cover'
-												})} size="small" />
+												checked={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['background']['background-size'][2]}
+												onChange={handleBackgroundSizeInputChange.bind(this, 'background-size', {parent: 'background', BGSizeIndex: 2})} size="small" />
 										</FormItem>
 							      	</Form>
 							  	</Col>
@@ -360,10 +347,7 @@ const VDStylePanel = (props) => {
 										<FormItem {...formItemLayout} label="高度">
 											<Input 
 												value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['background']['background-size'][1]}
-												onChange={handleBackgroundSizeInputChange.bind(this, 'background-size', {
-													parent: props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['background'],
-													index: 1
-												})} size="small" />
+												onChange={handleBackgroundSizeInputChange.bind(this, 'background-size', {parent: 'background', BGSizeIndex: 1})} size="small" />
 										</FormItem>
 							      	</Form>
 							  	</Col>
@@ -371,12 +355,8 @@ const VDStylePanel = (props) => {
 							      	<Form className="form-no-margin-bottom">
 										<FormItem {...formItemLayout} label="适应">
 											<Switch 
-												value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['background']['background-size'][3]}
-												onChange={handleBackgroundSizeInputChange.bind(this, 'background-size', {
-													parent: props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['background'],
-													index: 3,
-													cssPropertyValue: 'contain'
-												})} size="small" />
+												checked={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['background']['background-size'][3]}
+												onChange={handleBackgroundSizeInputChange.bind(this, 'background-size', {parent: 'background', BGSizeIndex: 3})} size="small" />
 										</FormItem>
 							      	</Form>
 							  	</Col>
@@ -445,7 +425,7 @@ const VDStylePanel = (props) => {
 			      	<Form className="form-no-margin-bottom">
 						<FormItem {...formItemLayout} label="重复">
 
-					        <RadioGroup defaultValue="repeat" size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['background']['background-repeat']} onChange={handleStylesChange.bind(this, 'background-repeat', props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['background'])}>
+					        <RadioGroup defaultValue="repeat" size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['background']['background-repeat']} onChange={handleStylesChange.bind(this, 'background-repeat', 'background')}>
 						      	<RadioButton value="repeat">
 			  		              	<Tooltip placement="top" title="repeat">
 										<Icon type="appstore-o" />
@@ -474,7 +454,7 @@ const VDStylePanel = (props) => {
 			      	<Form className="form-no-margin-bottom">
 						<FormItem {...formItemLayout} label="固定">
 
-					        <RadioGroup defaultValue="scroll" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['background']['background-attachment']} size="small" onChange={handleStylesChange.bind(this, 'background-attachment', props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['background'])}>
+					        <RadioGroup defaultValue="scroll" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['background']['background-attachment']} size="small" onChange={handleStylesChange.bind(this, 'background-attachment', 'background')}>
 						      	<RadioButton value="fixed">
 			  		              	<Tooltip placement="top" title="fixed">
 										<Icon type="check" />
