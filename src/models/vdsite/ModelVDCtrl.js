@@ -280,14 +280,14 @@ export default {
 							backend: true,
 							isContainer: true
 						}, {
-							name: 'spcifyChild',
+							name: 'specialChild',
 							desc: '指定的子元素',
 							value: {
-								tag: 'LI',
+								tag: ['LI'],
 								className: 'list-group-item'
 							},
 							backend: true,
-							isSpecifyChild: true
+							isSpecialChild: true
 						}]
 					}, {
 						title: '列表设置',
@@ -302,10 +302,13 @@ export default {
 							title: '属性设置',
 							key: 'list-item-attr',
 							children: [{
-								name: 'belongTo',
+								name: 'specialParent',
 								desc: '必需放入list容器内',
-								value: 'list-group',
-								isBelongTo: true,
+								value: {
+									tag: ['UL', 'OL'],
+									className: 'list-group'
+								},
+								isSpecialParent: true,
 								backend: true
 							}, {
 								name: 'container',
@@ -323,10 +326,13 @@ export default {
 							key: 'list-item-attr',
 							isAttrSetting: true,
 							children: [{
-								name: 'belongTo',
+								name: 'specialParent',
 								desc: '必需放入list容器内',
-								value: 'list-group',
-								isBelongTo: true,
+								value: {
+									tag: ['UL', 'OL'],
+									className: 'list-group'
+								},
+								isSpecialParent: true,
 								backend: true
 							}, {
 								name: 'container',
@@ -344,10 +350,13 @@ export default {
 							key: 'list-item-attr',
 							isAttrSetting: true,
 							children: [{
-								name: 'belongTo',
+								name: 'specialParent',
 								desc: '必需放入list容器内',
-								value: 'list-group',
-								isBelongTo: true,
+								value: {
+									tag: ['UL', 'OL'],
+									className: 'list-group'
+								},
+								isSpecialParent: true,
 								backend: true
 							}, {
 								name: 'container',
@@ -369,11 +378,15 @@ export default {
 					attrs: [{
 						title: '属性设置',
 						key: 'list-item-attr',
+						isSetAttribute: true,
 						children: [{
-							name: 'belongTo',
+							name: 'specialParent',
 							desc: '必需放入list容器内',
-							value: 'list-group',
-							isBelongTo: true,
+							value: {
+								tag: ['UL', 'OL'],
+								className: 'list-group'
+							},
+							isSpecialParent: true,
 							backend: true
 						}]
 					}]
