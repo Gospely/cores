@@ -37,7 +37,13 @@ export default {
 
    		specialAttrList: ['custom-attr', 'link-setting', 'list-setting', 'heading-type', 'image-setting', 'select-setting', 'tabs-setting', 'slider-settings'],
    		commonAttrList: [],
-
+		symbols: [],
+		currentSymbolKey: '',
+		symbolName: '',
+		popoverVisible: false,
+		editPopoverVisible: false,
+        keyValeUpdateVisible: false,
+        keyValeCreateVisible: false,
 		publicAttrs: [{
 			title: '基础设置',
 			key: 'basic',
@@ -713,14 +719,14 @@ export default {
 							name: 'width',
 							desc: '宽度',
 							type: 'input',
-							value: 150,
+							value: 400,
 							isAttr: true,
 							attrName: 'width'
 						}, {
 							name: 'height',
 							desc: '高度',
 							type: 'input',
-							value: 150,
+							value: 200,
 							isAttr: true,
 							attrName: 'height',
 						},{
@@ -1300,11 +1306,10 @@ export default {
                             name: 'multiple',
                             desc: '允许多选',
                             type: 'toggle',
-                            value: false,
+                            value: true,
                             isAttr: true,
                             attrName: 'multiple',
                             id: '',
-                            isHTML: true,
                         }]
 					}],
                     children: [{
@@ -1315,13 +1320,32 @@ export default {
     						key: 'options-setting',
                             isAttrSetting: true,
     						children: [{
-                                name: 'multiple',
-                                desc: '可多选',
+                                name: 'option',
+                                desc: '选项',
                                 type: 'toggle',
                                 value: '1',
                                 isAttr: true,
                                 isHTML: true,
                                 html: '选项一',
+                                attrName: 'value',
+                                id: '',
+                            }]
+    					}],
+                    },{
+                        tag: 'option',
+    					className: [],
+    					attrs: [{
+    						title: '选项设置',
+    						key: 'options-setting',
+                            isAttrSetting: true,
+    						children: [{
+                                name: 'option',
+                                desc: '选项',
+                                type: 'toggle',
+                                value: '2',
+                                isAttr: true,
+                                isHTML: true,
+                                html: '选项二',
                                 attrName: 'value',
                                 id: '',
                             }]
@@ -1728,13 +1752,7 @@ export default {
 					}]
 				}
 			}]
-		}],
-
-		symbols: [],
-		currentSymbolKey: '',
-		symbolName: '',
-		popoverVisible: false,
-		editPopoverVisible: false
+		}]
 	},
 
 	subscriptions: {
@@ -1805,13 +1823,25 @@ export default {
 			return { ...state};
 		},
 		handlePopoverVisbile(state, { payload: value}) {
+
 			state.popoverVisible = value;
 			return { ...state};
 		},
 		handleEditPopoverVisbile(state, { payload: value}) {
+
 			state.editPopoverVisible = value;
 			return { ...state};
 		},
+        handleUpdateVisible(state, { payload: value}){
+
+            state.keyValeUpdateVisible = value;
+			return { ...state};
+        },
+        handleCreateVisible(state, { payload: value}){
+
+            state.keyValeCreateVisible = value;
+			return { ...state};
+        },
 		editSymbol(state){
 
 			if(!methods.checkName(state.symbols, state.symbolName)){

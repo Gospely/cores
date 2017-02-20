@@ -30,31 +30,32 @@ const Component = (props) => {
       chooseSymbol(e){
 
          props.dispatch({
-             type: 'vdctrl/handleSymbolNameChange',
+             type: 'vdCtrlTree/handleSymbolNameChange',
              payload: e.name
          });
          props.dispatch({
-             type: 'vdctrl/handleEditPopoverVisbile',
-             payload: !props.vdctrl.editPopoverVisible
+             type: 'vdCtrlTree/handleEditPopoverVisbile',
+             payload: !props.vdCtrlTree.editPopoverVisible
          });
          props.dispatch({
-             type: 'vdctrl/handleCurrentSymbolKey',
+             type: 'vdCtrlTree/handleCurrentSymbolKey',
              payload: e.key
          });
      },
      addSymbol(){
-         if(props.vdctrl.symbolName == '' || props.vdctrl.symbolName == null ){
+         console.log('add');
+         if(props.vdCtrlTree.symbolName == '' || props.vdCtrlTree.symbolName == null ){
              openNotificationWithIcon('info', '控件名为空');
              return;
          }
          props.dispatch({
-             type: 'vdctrl/addSymbol',
+             type: 'vdCtrlTree/handleAddSymbol',
          });
      },
      editSymbol(){
 
          props.dispatch({
-             type: 'vdctrl/editSymbol',
+             type: 'vdCtrlTree/editSymbol',
          });
      },
      deleteSymbol(e){
@@ -64,7 +65,7 @@ const Component = (props) => {
              content: '确认删除 ' + e.name + '控件',
              onOk() {
                  props.dispatch({
-                     type: 'vdctrl/deleteSymbol',
+                     type: 'vdCtrlTree/deleteSymbol',
                      payload: e.key
                  });
              },
@@ -78,28 +79,28 @@ const Component = (props) => {
         //      return;
         //  }
          props.dispatch({
-             type: 'vdctrl/handlePopoverVisbile',
-             payload: !props.vdctrl.popoverVisible
+             type: 'vdCtrlTree/handlePopoverVisbile',
+             payload: !props.vdCtrlTree.popoverVisible
          });
      },
      onChange(e){
 
          localStorage.symbolName = e.target.value;
          props.dispatch({
-             type: 'vdctrl/handleSymbolNameChange',
+             type: 'vdCtrlTree/handleSymbolNameChange',
              payload: e.target.value
          });
      },
      visibleChange(value){
          props.dispatch({
-             type: 'vdctrl/handlePopoverVisbile',
+             type: 'vdCtrlTree/handlePopoverVisbile',
              payload: value
          });
      },
      editPopoverVisibleChange(value) {
 
          props.dispatch({
-             type: 'vdctrl/handleEditPopoverVisbile',
+             type: 'vdCtrlTree/handleEditPopoverVisbile',
              payload: value
          });
      }
@@ -108,7 +109,7 @@ const Component = (props) => {
     content: (
       <Form className="form-no-margin-bottom">
         <FormItem {...formItemLayout} label="名称">
-          <Input size="small"  value={props.vdctrl.symbolName} onChange={formItemProps.onChange}/>
+          <Input size="small"  value={props.vdCtrlTree.symbolName} onChange={formItemProps.onChange}/>
         </FormItem>
         <Button size="small" onClick={formItemProps.addSymbol} >添加</Button>
       </Form>
@@ -119,7 +120,7 @@ const Component = (props) => {
     content: (
       <Form className="form-no-margin-bottom">
         <FormItem {...formItemLayout} label="名称">
-          <Input size="small"  value={props.vdctrl.symbolName} onChange={formItemProps.onChange}/>
+          <Input size="small"  value={props.vdCtrlTree.symbolName} onChange={formItemProps.onChange}/>
         </FormItem>
         <Button size="small" onClick={formItemProps.editSymbol} >确定</Button>
       </Form>
@@ -129,7 +130,8 @@ const Component = (props) => {
 
   const symbols = () => {
 
-    var sys = props.vdctrl.symbols.map((item, index) => {
+    var sys = props.vdCtrlTree.symbols.map((item, index) => {
+        console.log(props.vdCtrlTree.symbols);
       return (
         <Menu.Item key={index}>
           <Row>
@@ -151,7 +153,7 @@ const Component = (props) => {
     });
 
     return(
-    <Popover placement="right" content={editSymbolsPopover.content} visible={props.vdctrl.editPopoverVisible} onVisibleChange={formItemProps.editPopoverVisibleChange}>
+    <Popover placement="right" content={editSymbolsPopover.content} visible={props.vdCtrlTree.editPopoverVisible} onVisibleChange={formItemProps.editPopoverVisibleChange}>
         <Menu>
             {sys}
         </Menu>
@@ -166,7 +168,7 @@ const Component = (props) => {
 
       <Row>
         <Col span={4} offset={20}>
-          <Popover placement="right" trigger={['click']} content={newSymbolsPopover.content} visible={props.vdctrl.popoverVisible} onVisibleChange={formItemProps.visibleChange}>
+          <Popover placement="right" trigger={['click']} content={newSymbolsPopover.content} visible={props.vdCtrlTree.popoverVisible} onVisibleChange={formItemProps.visibleChange}>
               <Tooltip placement="bottom" title="选择一个块然后点击此按钮添加一个Symbol">
                 <Button style={{marginTop: '10px'}} shape="circle"><Icon type="plus"/></Button>
               </Tooltip>
@@ -183,8 +185,8 @@ const Component = (props) => {
 
 };
 
-function mapSateToProps({ vdctrl }) {
-  return { vdctrl };
+function mapSateToProps({ vdctrl,vdCtrlTree }) {
+  return { vdctrl, vdCtrlTree };
 }
 
 export default connect(mapSateToProps)(Component);
