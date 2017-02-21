@@ -1854,12 +1854,22 @@ const VDStylePanel = (props) => {
 				}
 			}
 
+			const removeThisBoxShadow = (cssPropertyIndex) => {
+				props.dispatch({
+					type: 'vdstyles/removeThisBoxShadow',
+					payload: {
+						cssPropertyIndex,
+						activeStyle: props.vdCtrlTree.activeCtrl.activeStyle						
+					}
+				});
+			}
+
 			return (<Panel header="阴影" key="shadows">
 		    	<Form className="form-no-margin-bottom">
 					<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right'}} label="盒子阴影">
 
 		      			<Tooltip placement="top" title="添加盒子阴影">
-		      				<Popover title='添加盒子阴影' placement="leftTop" trigger="click" content={shadowProps.settingPopover()}>
+		      				<Popover title='添加盒子阴影' placement="leftTop" trigger="click" content={shadowProps.settingPopover(this)}>
 								<Button size="small"><Icon type="plus" /></Button>
 				      		</Popover>
 			      		</Tooltip>
@@ -1880,7 +1890,7 @@ const VDStylePanel = (props) => {
 													<span>{cssProperty['inset']}</span>
 												</Col>
 												<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
-													<i className="fa fa-trash-o"></i>
+													<i onClick={removeThisBoxShadow.bind(this, cssPropertyIndex)} className="fa fa-trash-o"></i>
 												</Col>
 											</Row>
 										</div>

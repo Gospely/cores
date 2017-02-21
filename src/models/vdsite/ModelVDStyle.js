@@ -429,12 +429,16 @@ export default {
 
 		setActiveBoxShadow(state, { payload: params }) {
 			var activeCSSLayout = state.cssStyleLayout[params.activeStyle];
-			// console.log(activeCSSLayout);
 			if(activeCSSLayout) {
 				activeCSSLayout['box-shadow'].state.activeProp = params.cssPropertyIndex;				
 			}
+			return {...state};
+		},
 
-			console.log(activeCSSLayout);
+		removeThisBoxShadow(state, { payload: params }) {
+			var activeCSSLayout = state.cssStyleLayout[params.activeStyle];
+			activeCSSLayout['box-shadow'].childrenProps.splice(params.cssPropertyIndex, 1);
+			message.success('删除成功');
 			return {...state};
 		},
 
