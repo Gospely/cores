@@ -1902,7 +1902,7 @@ const VDStylePanel = (props) => {
 						{
 							props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].childrenProps.map((cssProperty, cssPropertyIndex) => {
 								return (
-							      	<Popover onVisibleChange={onVisibleChange.bind(this, cssPropertyIndex)} key={cssPropertyIndex} placement="left" title="编辑盒子阴影" content={shadowProps.modifyPopover()} trigger="click">
+							      	<Popover onVisibleChange={onVisibleChange.bind(this, cssPropertyIndex, 'box-shadow')} key={cssPropertyIndex} placement="left" title="编辑盒子阴影" content={shadowProps.modifyPopover()} trigger="click">
 
 										<div key={cssPropertyIndex} style={{border: '1px solid #d9d9d9', minHeight: 10, marginTop: '10px'}}>
 											<Row>
