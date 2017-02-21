@@ -427,12 +427,14 @@ export default {
 			return {...state};
 		},
 
-		setActiveBoxShadow(state, { payload: cssPropertyIndex }) {
-			var activeCSSLayout = state.cssStyleLayout[state.activeStyle];
+		setActiveBoxShadow(state, { payload: params }) {
+			var activeCSSLayout = state.cssStyleLayout[params.activeStyle];
 			// console.log(activeCSSLayout);
 			if(activeCSSLayout) {
-				activeCSSLayout['box-shadow'].state.activeProp = cssPropertyIndex;				
+				activeCSSLayout['box-shadow'].state.activeProp = params.cssPropertyIndex;				
 			}
+
+			console.log(activeCSSLayout);
 			return {...state};
 		},
 

@@ -1841,19 +1841,15 @@ const VDStylePanel = (props) => {
 
 		const shadowsPanel = () => {
 
-			const setActiveBoxShadow = (cssPropertyIndex) => {
-				props.dispatch({
-					type: 'vdstyles/setActiveBoxShadow',
-					payload: cssPropertyIndex
-				});
-			}
-
 			const onVisibleChange = (cssPropertyIndex, e) => {
-				console.log(e);
+				console.log(e, cssPropertyIndex);
 				if(e) {
 					props.dispatch({
 						type: 'vdstyles/setActiveBoxShadow',
-						payload: cssPropertyIndex
+						payload: {
+							cssPropertyIndex,
+							activeStyle: props.vdCtrlTree.activeCtrl.activeStyle
+						}
 					});
 				}
 			}
