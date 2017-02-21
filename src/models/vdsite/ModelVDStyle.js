@@ -131,6 +131,21 @@ export default {
 			}
 		},
 
+		textShadow: {
+			'h-shadow': {
+				value: ''
+			},
+			'v-shadow': {
+				value: ''
+			},
+			blur: {
+				value: ''
+			},
+			color: {
+				value: ''
+			}
+		},
+
 		cssStyleLayout: {
 			body: {
 				display: '',
@@ -200,8 +215,8 @@ export default {
 						activeProp: 0
 					},
 					childrenProps: [{
-						'h-shadow': '',
-						'v-shadow': '',
+						'h-shadow': '20px',
+						'v-shadow': '-20px',
 						blur: '',
 						color: ''
 					}]
@@ -211,7 +226,9 @@ export default {
 				},
 				transform: {
 
-				}
+				},
+				opacity: '',
+				cursor: ''
 			}
 		},
 
@@ -379,7 +396,7 @@ export default {
 		},
 
 		handleBoxShadowInputChange(state, { payload: params }) {
-			state.boxShadow[params.name]['value'] = params.value;
+			state[params.shadowType][params.name]['value'] = params.value;
 			return {...state};
 		},
 
@@ -392,37 +409,59 @@ export default {
 				tmp[key] = state.boxShadow[key].value;
 			}
 
-			state.boxShadow = {
-				'h-shadow': {
-					value: '',
-					attrName: 'hShadow',
-					units: ['px'],
-					activeUnit: 'px',
-					type: 'sliderInput'
-				},
+			if(params.shadowType == 'box-shadow') {
 
-				'v-shadow': {
-					value: ''
-				},
+				state.boxShadow = {
+					'h-shadow': {
+						value: '',
+						attrName: 'hShadow',
+						units: ['px'],
+						activeUnit: 'px',
+						type: 'sliderInput'
+					},
 
-				blur: {
-					value: ''
-				},
+					'v-shadow': {
+						value: ''
+					},
 
-				spread: {
-					value: ''
-				},
+					blur: {
+						value: ''
+					},
 
-				color: {
-					value: ''
-				},
+					spread: {
+						value: ''
+					},
 
-				inset: {
-					value: 'outset'
-				}				
+					color: {
+						value: ''
+					},
+
+					inset: {
+						value: 'outset'
+					}				
+				}
+
+			}else {
+				state.textShadow = {
+					'h-shadow': {
+						value: ''
+					},
+
+					'v-shadow': {
+						value: ''
+					},
+
+					blur: {
+						value: ''
+					},
+					
+					color: {
+						value: ''
+					}
+				}
 			}
 
-			activeCSSStyleLayout['box-shadow'].childrenProps.push(tmp);
+			activeCSSStyleLayout[params.shadowType].childrenProps.push(tmp);
 			return {...state};
 		},
 
@@ -461,14 +500,14 @@ export default {
 		setActiveBoxShadow(state, { payload: params }) {
 			var activeCSSLayout = state.cssStyleLayout[params.activeStyle];
 			if(activeCSSLayout) {
-				activeCSSLayout['box-shadow'].state.activeProp = params.cssPropertyIndex;				
+				activeCSSLayout[params.shadowType].state.activeProp = params.cssPropertyIndex;				
 			}
 			return {...state};
 		},
 
-		removeThisBoxShadow(state, { payload: params }) {
+		removeThisShadow(state, { payload: params }) {
 			var activeCSSLayout = state.cssStyleLayout[params.activeStyle];
-			activeCSSLayout['box-shadow'].childrenProps.splice(params.cssPropertyIndex, 1);
+			activeCSSLayout[params.shadowType].childrenProps.splice(params.cssPropertyIndex, 1);
 			message.success('删除成功');
 			return {...state};
 		},
@@ -529,15 +568,11 @@ export default {
 
 		handleBoxShadowStylesChange(state, { payload: params }) {
 
-			console.log('childrenProps====', state.cssStyleLayout[params.activeStyleName][params.parent].childrenProps);
-
 			var cssProperty = state.cssStyleLayout[params.activeStyleName][params.parent];
 			var activeProp = cssProperty.state.activeProp;
 			var childrenProps = cssProperty.childrenProps[activeProp];
 
 			childrenProps[params.property] = params.value
-
-			console.log(cssProperty);
 
 			return {...state};
 		}
