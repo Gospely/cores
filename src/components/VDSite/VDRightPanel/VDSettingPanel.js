@@ -19,7 +19,7 @@ const Panel = Collapse.Panel;
 const TabPane = Tabs.TabPane;
 
 const Option = Select.Option;
-
+const confirm = Modal.confirm;
 const children = [];
 for (let i = 10; i < 36; i++) {
   children.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>);
@@ -31,7 +31,53 @@ const Component = (props) => {
       	labelCol: { span: 8 },
       	wrapperCol: { span: 16 }
     };
+    const vdCtrlOperate = {
+        /**
+         * 查找当前活跃控件的配置数据
+         */
+        findCtrlOriginConfig(fatherKey, key){
 
+            for (var i = 0; i < props.vdctrl.controllers.length; i++) {
+                console.log(props.vdctrl.controllers[i].key);
+                console.log(key);
+                if(props.vdctrl.controllers[i].key = fatherKey){
+
+                    for (var j = 0; j < props.vdctrl.controllers[i].content.length; j++) {
+                        if(props.vdctrl.controllers[i].content[j].key == key){
+                            return props.vdctrl.controllers[i].content[j];
+                        }
+                    }
+                }
+            }
+            return null;
+        },
+        /**
+         * 深度克隆对象
+         */
+        deepCopyObj(obj, result) {
+            result = result || {};
+            for(let key in obj) {
+                if (typeof obj[key] === 'object') {
+                    result[key] = (obj[key].constructor === Array)? []: {};
+                    vdCtrlOperate.deepCopyObj(obj[key], result[key]);
+                }else {
+                    result[key] = obj[key];
+                }
+            }
+            return result;
+        },
+    }
+    const copyOperate = {
+
+        /**
+         *从原始配置里面复制一个chidren, index 指定以第几个children 作为模板复制
+         */
+        copyChildren(index, fatherKey, key){
+            var result,
+                ctrlConfig = vdCtrlOperate.findCtrlOriginConfig(fatherKey,key);
+            return vdCtrlOperate.deepCopyObj(ctrlConfig.details.children[index], result)
+        }
+    }
 	const formProps = {
 		handleAttrFormInputChange (item, attType, dom) {
 			var newVal = dom.target.value;
@@ -97,14 +143,43 @@ const Component = (props) => {
 				}
 			});
 		},
-        childrenDelete(item, index, level, attType){
+        childrenDelete(message,index, attType, level){
+
+            props.dispatch({
+                type: 'vdCtrlTree/handleUpdateVisible',
+                payload: false
+            });
+            props.dispatch({
+                type: 'vdCtrlTree/handleChildrenDelete',
+                payload: {
+                    activeCtrl: props.vdCtrlTree.activeCtrl,
+                    attrType: attType,
+                    index: index
+                }
+            });
 
         },
-        childrenUpdate(item, index, level, attType){
+        childrenUpdate(attType){
 
+            console.log('update');
+            props.dispatch({
+                type: 'vdCtrlTree/handleChildrenUpdate',
+                payload: {
+                    activeCtrl: props.vdCtrlTree.activeCtrl.children[props.vdCtrlTree.selectIndex],
+                    attrType: attType
+                }
+            });
         },
-        childrenAdd(item, index, level, attType){
+        childrenAdd(index, fatherKey, key){
 
+            var children = copyOperate.copyChildren(index, fatherKey,key);
+            props.dispatch({
+                type: 'vdCtrlTree/handleChildrenAdd',
+                payload: {
+                    activeCtrl: props.vdCtrlTree.activeCtrl,
+                    children: children
+                }
+            });
         }
 
 	}
@@ -561,20 +636,66 @@ const Component = (props) => {
 
 	    			'select-setting' (item, attrTypeIndex) {
 
+                        console.log(props.vdCtrlTree.selectIndex);
+                        console.log(props.vdCtrlTree.activeCtrl.children[0]);
+                        const keyValueProps = {
+                            valueChange(e){
 
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleChildrenAttrChange',
+                                    payload: {
+                                        index: props.vdCtrlTree.selectIndex,
+                                        attr: {
+                                            name: 'html',
+                                            value: e.target.value,
+                                        }
+                                    }
+                                });
+                            },
+                            keyValueChange(e){
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleChildrenAttrChange',
+                                    payload: {
+                                        index: props.vdCtrlTree.selectIndex,
+                                        attr: {
+                                            name: 'value',
+                                            value: e.target.value,
+                                        }
+                                    }
+                                });
+                            },
+                            addKeyChange(e){
 
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleAddChildrenAttr',
+                                    payload: {
+                                        name: 'value',
+                                        value: e.target.value,
+                                    }
+                                });
+                            },
+                            addHtmlChange(e){
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleAddChildrenAttr',
+                                    payload: {
+                                        name: 'html',
+                                        value: e.target.value,
+                                    }
+                                });
+                            },
+                        }
 					    const selectSettingProps = {
 
 					    	creatorContent: (
 						      	<Form className="form-no-margin-bottom">
 									<FormItem {...formItemLayout} label="说明">
-										<Input size="small" />
+										<Input size="small"  value={props.vdCtrlTree.attr.html} onChange={keyValueProps.addHtmlChange}/>
 									</FormItem>
 									<FormItem {...formItemLayout} label="值">
-										<Input size="small" />
+										<Input size="small" value={props.vdCtrlTree.attr.value} onChange={keyValueProps.addKeyChange}/>
 									</FormItem>
 									<FormItem>
-										<Button size="small">保存</Button>
+										<Button size="small" onClick={formProps.childrenAdd.bind(this,0,'forms','select')}>保存</Button>
 									</FormItem>
 								</Form>
 					    	),
@@ -582,13 +703,13 @@ const Component = (props) => {
 					    	modifyContent: (
 						      	<Form className="form-no-margin-bottom">
 									<FormItem {...formItemLayout} label="说明">
-										<Input size="small" />
+										<Input size="small" value={props.vdCtrlTree.activeCtrl.children[props.vdCtrlTree.selectIndex].attrs[0].children[0].html} onChange={keyValueProps.valueChange} />
 									</FormItem>
 									<FormItem {...formItemLayout} label="值">
-										<Input size="small" />
+										<Input size="small" value={props.vdCtrlTree.activeCtrl.children[props.vdCtrlTree.selectIndex].attrs[0].children[0].value} onChange={keyValueProps.keyValueChange}/>
 									</FormItem>
 									<FormItem>
-										<Button size="small">保存</Button>
+										<Button size="small" onClick={formProps.childrenUpdate.bind(this,attrType)}>保存</Button>
 									</FormItem>
 								</Form>
 					    	),
@@ -616,6 +737,20 @@ const Component = (props) => {
                                     type: 'vdCtrlTree/handleUpdateVisible',
                                     payload: true
                                 });
+                            },
+                            editKeyValue(index) {
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleSelectIndex',
+                                    payload: index
+                                });
+                            },
+                            hidePopover(){
+                                setTimeout(function(){
+                                    props.dispatch({
+                                        type: 'vdCtrlTree/handleUpdateVisible',
+                                        payload: false
+                                    });
+                                }, 10)
                             }
 					    }
                         const keyValues = props.vdCtrlTree.activeCtrl.children.map((item, index) =>{
@@ -627,11 +762,11 @@ const Component = (props) => {
                                     <p>{item.attrs[0].children[0].value} = {item.attrs[0].children[0].html}</p>
                                   </Col>
                                   <Col span={3}>
-                                        <Icon type="edit" onClick={formProps.childrenUpdate.bind(this,index)}/>
+                                        <Icon type="edit" onClick={selectSettingProps.editKeyValue.bind(this, index)}/>
                                   </Col>
                                   <Col span={3}>
-                                    <Popconfirm title="确认删除吗？" okText="确定" cancelText="取消">
-                                        <Icon type="delete" onClick={formProps.childrenDelete.bind(this,index)}/>
+                                    <Popconfirm title="确认删除吗？" onConfirm={formProps.childrenDelete.bind(this, item.attrs[0].children[0].value + '=' + item.attrs[0].children[0].html, index, attrType)} okText="确定" cancelText="取消">
+                                        <Icon type="delete" onClick={selectSettingProps.hidePopover}/>
                                         </Popconfirm>
                                   </Col>
                                 </Row>
