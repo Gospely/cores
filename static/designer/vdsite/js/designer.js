@@ -475,7 +475,6 @@ $(function() {
 
 			'update': function(activeCtrl, children){
 
-				console.log(attrType);
 				let vdid  = activeCtrl.vdid;
 				var elem = jq('[vdid='+ activeCtrl.vdid + ']');
 				activeCtrl.vdid = activeCtrl.vdid + 'c';
