@@ -19,8 +19,11 @@ var styleAction = {
 				}
 			}
 		}
-	}
+	},
 
+	findComplexCSSPropertyByProperty: function(sty) {
+
+	}
 }
 
 export default {
@@ -389,7 +392,35 @@ export default {
 				tmp[key] = state.boxShadow[key].value;
 			}
 
-			console.log(activeCSSStyleLayout);
+			state.boxShadow = {
+				'h-shadow': {
+					value: '',
+					attrName: 'hShadow',
+					units: ['px'],
+					activeUnit: 'px',
+					type: 'sliderInput'
+				},
+
+				'v-shadow': {
+					value: ''
+				},
+
+				blur: {
+					value: ''
+				},
+
+				spread: {
+					value: ''
+				},
+
+				color: {
+					value: ''
+				},
+
+				inset: {
+					value: 'outset'
+				}				
+			}
 
 			activeCSSStyleLayout['box-shadow'].childrenProps.push(tmp);
 			return {...state};
@@ -492,6 +523,21 @@ export default {
 				}
 
 				console.log(state.cssStyleLayout);
+
+			return {...state};
+		},
+
+		handleBoxShadowStylesChange(state, { payload: params }) {
+
+			console.log('childrenProps====', state.cssStyleLayout[params.activeStyleName][params.parent].childrenProps);
+
+			var cssProperty = state.cssStyleLayout[params.activeStyleName][params.parent];
+			var activeProp = cssProperty.state.activeProp;
+			var childrenProps = cssProperty.childrenProps[activeProp];
+
+			childrenProps[params.property] = params.value
+
+			console.log(cssProperty);
 
 			return {...state};
 		}

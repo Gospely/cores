@@ -632,10 +632,30 @@ const VDStylePanel = (props) => {
 		modifyPopover () {
 
     		const saveBoxShadow = () => {
-
+    			props.dispatch({
+    				type: 'vdstyles/applyCSSStyleIntoPage',
+					payload: {
+						activeCtrl: props.vdCtrlTree.activeCtrl
+					}
+    			});
+				message.success('保存成功');
     		}
 
     		const activeProp = props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].state.activeProp;
+
+    		const handleBoxShadowEditorChange = (property, e) => {
+
+    			props.dispatch({
+    				type: 'vdstyles/handleBoxShadowStylesChange',
+    				payload: {
+    					value: e.target.value,
+    					property,
+    					parent: 'box-shadow',
+    					activeStyleName: props.vdCtrlTree.activeCtrl.activeStyle
+    				}
+    			})
+
+    		}
 
     		return (
 	    		<div style={{width: 300}}>
@@ -644,7 +664,7 @@ const VDStylePanel = (props) => {
 						<FormItem {...formItemLayout} label="水平阴影">
 							<Row>
 						        <Col span={14} style={{paddingRight: '10px'}}>
-						          	<Input value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].childrenProps[activeProp]['h-shadow']} size="small"/>						          	
+						          	<Input onChange={handleBoxShadowEditorChange.bind(this, 'h-shadow')} value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].childrenProps[activeProp]['h-shadow']} size="small"/>						          	
 						        </Col>
 						        <Col span={4}>
 						        	PX
@@ -655,7 +675,7 @@ const VDStylePanel = (props) => {
 						<FormItem {...formItemLayout} label="垂直阴影">
 							<Row>
 						        <Col span={14} style={{paddingRight: '10px'}}>
-						          	<Input value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].childrenProps[activeProp]['v-shadow']} size="small"/>
+						          	<Input onChange={handleBoxShadowEditorChange.bind(this, 'v-shadow')} value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].childrenProps[activeProp]['v-shadow']} size="small"/>
 						        </Col>
 						        <Col span={4}>
 						        	PX
@@ -666,7 +686,7 @@ const VDStylePanel = (props) => {
 						<FormItem {...formItemLayout} label="模糊距离">
 							<Row>
 						        <Col span={14} style={{paddingRight: '10px'}}>
-						          	<Input value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].childrenProps[activeProp]['blur']} size="small"/>
+						          	<Input onChange={handleBoxShadowEditorChange.bind(this, 'blur')} value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].childrenProps[activeProp]['blur']} size="small"/>
 						        </Col>
 						        <Col span={4}>
 						        	PX
@@ -677,7 +697,7 @@ const VDStylePanel = (props) => {
 						<FormItem {...formItemLayout} label="阴影尺寸">
 							<Row>
 						        <Col span={14} style={{paddingRight: '10px'}}>
-						          	<Input value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].childrenProps[activeProp]['spread']} size="small"/>
+						          	<Input onChange={handleBoxShadowEditorChange.bind(this, 'spread')} value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].childrenProps[activeProp]['spread']} size="small"/>
 						        </Col>
 						        <Col span={4}>
 						        	PX
@@ -686,11 +706,11 @@ const VDStylePanel = (props) => {
 						</FormItem>
 
 						<FormItem {...formItemLayout} label="颜色">
-							<Input value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].childrenProps[activeProp]['color']} type="color" size="small" />
+							<Input onChange={handleBoxShadowEditorChange.bind(this, 'color')} value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].childrenProps[activeProp]['color']} type="color" size="small" />
 						</FormItem>
 
 						<FormItem {...formItemLayout} label="类型">
-					        <RadioGroup value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].childrenProps[activeProp]['inset']} defaultValue="outset" size="small">
+					        <RadioGroup onChange={handleBoxShadowEditorChange.bind(this, 'inset')} value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].childrenProps[activeProp]['inset']} defaultValue="outset" size="small">
 						      	<RadioButton value="outset">
 									外阴影
 					      		</RadioButton>
@@ -1842,7 +1862,6 @@ const VDStylePanel = (props) => {
 		const shadowsPanel = () => {
 
 			const onVisibleChange = (cssPropertyIndex, e) => {
-				console.log(e, cssPropertyIndex);
 				if(e) {
 					props.dispatch({
 						type: 'vdstyles/setActiveBoxShadow',
