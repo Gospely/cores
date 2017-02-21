@@ -635,64 +635,62 @@ const VDStylePanel = (props) => {
 
     		}
 
+    		const activeProp = props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].state.activeProp;
+
     		return (
 	    		<div style={{width: 300}}>
 			      	<Form className="form-no-margin-bottom">
 
 						<FormItem {...formItemLayout} label="水平阴影">
 							<Row>
-						        <Col span={14}>
-						          	<Slider value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow']['h-shadow']} min={1} max={20}/>
+						        <Col span={14} style={{paddingRight: '10px'}}>
+						          	<Input value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].childrenProps[activeProp]['h-shadow']} size="small"/>						          	
 						        </Col>
 						        <Col span={4}>
-						          	<InputNumber value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow']['h-shadow']} size="small"/>
+						        	PX
 						        </Col>
-						        <Col span={1}>PX</Col>
 						    </Row>
 						</FormItem>
 
 						<FormItem {...formItemLayout} label="垂直阴影">
 							<Row>
-						        <Col span={14}>
-						          	<Slider value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow']['v-shadow']} min={1} max={20}/>
+						        <Col span={14} style={{paddingRight: '10px'}}>
+						          	<Input value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].childrenProps[activeProp]['v-shadow']} size="small"/>
 						        </Col>
 						        <Col span={4}>
-						          	<InputNumber value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow']['v-shadow']} size="small"/>
+						        	PX
 						        </Col>
-						        <Col span={1}>PX</Col>
 						    </Row>
 						</FormItem>
 
 						<FormItem {...formItemLayout} label="模糊距离">
 							<Row>
-						        <Col span={14}>
-						          	<Slider value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow']['blur']} min={1} max={20}/>
+						        <Col span={14} style={{paddingRight: '10px'}}>
+						          	<Input value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].childrenProps[activeProp]['blur']} size="small"/>
 						        </Col>
 						        <Col span={4}>
-						          	<InputNumber value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow']['blur']} size="small"/>
+						        	PX
 						        </Col>
-						        <Col span={1}>PX</Col>
 						    </Row>
 						</FormItem>
 
 						<FormItem {...formItemLayout} label="阴影尺寸">
 							<Row>
-						        <Col span={14}>
-						          	<Slider value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow']['spread']} min={1} max={20}/>
+						        <Col span={14} style={{paddingRight: '10px'}}>
+						          	<Input value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].childrenProps[activeProp]['spread']} size="small"/>
 						        </Col>
 						        <Col span={4}>
-						          	<InputNumber value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow']['spread']} size="small"/>
+						        	PX
 						        </Col>
-						        <Col span={1}>PX</Col>
 						    </Row>
 						</FormItem>
 
 						<FormItem {...formItemLayout} label="颜色">
-							<Input value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow']['color']} type="color" size="small" />
+							<Input value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].childrenProps[activeProp]['color']} type="color" size="small" />
 						</FormItem>
 
 						<FormItem {...formItemLayout} label="类型">
-					        <RadioGroup value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow']['inset']} defaultValue="outset" size="small">
+					        <RadioGroup value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].childrenProps[activeProp]['inset']} defaultValue="outset" size="small">
 						      	<RadioButton value="outset">
 									外阴影
 					      		</RadioButton>
@@ -1850,6 +1848,16 @@ const VDStylePanel = (props) => {
 				});
 			}
 
+			const onVisibleChange = (cssPropertyIndex, e) => {
+				console.log(e);
+				if(e) {
+					props.dispatch({
+						type: 'vdstyles/setActiveBoxShadow',
+						payload: cssPropertyIndex
+					});
+				}
+			}
+
 			return (<Panel header="阴影" key="shadows">
 		    	<Form className="form-no-margin-bottom">
 					<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right'}} label="盒子阴影">
@@ -1865,7 +1873,7 @@ const VDStylePanel = (props) => {
 						{
 							props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].childrenProps.map((cssProperty, cssPropertyIndex) => {
 								return (
-							      	<Popover key={cssPropertyIndex} placement="left" title="编辑盒子阴影" content={shadowProps.modifyPopover()} trigger="click">
+							      	<Popover onVisibleChange={onVisibleChange.bind(this, cssPropertyIndex)} key={cssPropertyIndex} placement="left" title="编辑盒子阴影" content={shadowProps.modifyPopover()} trigger="click">
 
 										<div key={cssPropertyIndex} style={{border: '1px solid #d9d9d9', minHeight: 10, marginTop: '10px'}}>
 											<Row>
