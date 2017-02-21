@@ -405,11 +405,11 @@ export default {
 
 			var tmp = {};
 
-			for(var key in state.boxShadow) {
-				tmp[key] = state.boxShadow[key].value;
-			}
-
 			if(params.shadowType == 'box-shadow') {
+
+				for(var key in state.boxShadow) {
+					tmp[key] = state.boxShadow[key].value;
+				}
 
 				state.boxShadow = {
 					'h-shadow': {
@@ -442,6 +442,11 @@ export default {
 				}
 
 			}else {
+
+				for(var key in state.textShadow) {
+					tmp[key] = state.textShadow[key].value;
+				}
+
 				state.textShadow = {
 					'h-shadow': {
 						value: ''
@@ -454,7 +459,7 @@ export default {
 					blur: {
 						value: ''
 					},
-					
+
 					color: {
 						value: ''
 					}
@@ -462,6 +467,7 @@ export default {
 			}
 
 			activeCSSStyleLayout[params.shadowType].childrenProps.push(tmp);
+			console.log(activeCSSStyleLayout[params.shadowType].childrenProps);
 			return {...state};
 		},
 
