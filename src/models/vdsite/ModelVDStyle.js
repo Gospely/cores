@@ -99,7 +99,7 @@ export default {
 		},
 
 		boxShadow: {
-			hShadow: {
+			'h-shadow': {
 				value: '',
 				attrName: 'hShadow',
 				units: ['px'],
@@ -107,24 +107,24 @@ export default {
 				type: 'sliderInput'
 			},
 
-			vShadow: {
-
+			'v-shadow': {
+				value: ''
 			},
 
 			blur: {
-
+				value: ''
 			},
 
 			spread: {
-
+				value: ''
 			},
 
 			color: {
-
+				value: ''
 			},
 
 			inset: {
-
+				value: 'outset'
 			}
 		},
 
@@ -171,6 +171,43 @@ export default {
 				'border-radius': {
 					'border-radius-position': 'border',
 					'border-radius': ''
+				},
+				'box-shadow': {
+					state: {
+						activeProp: 0
+					},
+					childrenProps: [{
+						'h-shadow': '20px',
+						'v-shadow': '20px',
+						blur: '20px',
+						spread: '30px',
+						color: '#000000',
+						inset: 'outset'
+					}, {
+						'h-shadow': '',
+						'v-shadow': '',
+						blur: '',
+						spread: '',
+						color: '',
+						inset: 'outset'
+					}]
+				},
+				'text-shadow': {
+					state: {
+						activeProp: 0
+					},
+					childrenProps: [{
+						'h-shadow': '',
+						'v-shadow': '',
+						blur: '',
+						color: ''
+					}]
+				},
+				transition: {
+
+				},
+				transform: {
+
 				}
 			}
 		},
@@ -338,6 +375,26 @@ export default {
 			return {...state};
 		},
 
+		handleBoxShadowInputChange(state, { payload: params }) {
+			state.boxShadow[params.name]['value'] = params.value;
+			return {...state};
+		},
+
+		saveBoxShadow(state, { payload: params }) {
+			var activeCSSStyleLayout = state.cssStyleLayout[params.activeStyle];
+
+			var tmp = {};
+
+			for(var key in state.boxShadow) {
+				tmp[key] = state.boxShadow[key].value;
+			}
+
+			console.log(activeCSSStyleLayout);
+
+			activeCSSStyleLayout['box-shadow'].childrenProps.push(tmp);
+			return {...state};
+		},
+
 		applyCSSStyleIntoPage(state, { payload: params }) {
 
 			const stylesGenerator = (cssStyleLayout) => {
@@ -367,6 +424,15 @@ export default {
 				}
 			}, '*');
 
+			return {...state};
+		},
+
+		setActiveBoxShadow(state, { payload: cssPropertyIndex }) {
+			var activeCSSLayout = state.cssStyleLayout[state.activeStyle];
+			// console.log(activeCSSLayout);
+			if(activeCSSLayout) {
+				activeCSSLayout['box-shadow'].state.activeProp = cssPropertyIndex;				
+			}
 			return {...state};
 		},
 
