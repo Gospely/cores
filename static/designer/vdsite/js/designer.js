@@ -8,7 +8,7 @@ $(function() {
 	//是否是最后一个子元素
 	jQuery.fn.isLastChild = function() {
 		var next = this.next();
-		
+
 		// if (!next) {
 		// 	return true;
 		// }
@@ -17,7 +17,7 @@ $(function() {
 		// }else {
 			return !next.attr("vdid") && next.attr("id") !== "vdInsertGuide";
 		// }
-        
+
     };
 
     var guide = jq("#vdInsertGuide");
@@ -84,7 +84,7 @@ $(function() {
 			if (!(dndData.isMouseDown && guide.css("display") === 'none')) {
 				dndData.dragElemParent = guide.parent();
 			}
-			
+
 		},
 
 		needShowParentGuide: function (e, target) {
@@ -102,8 +102,8 @@ $(function() {
 
 		//每次位置变动后的处理
 		actionAfterMove: function (e, target) {
-			
-			if (dndData.dragElemParent.children() && dndData.dragElemParent.children().length === 0 || 
+
+			if (dndData.dragElemParent.children() && dndData.dragElemParent.children().length === 0 ||
 				dndData.isMouseDown && dndData.dragElemParent.children().length === 1) {
 				dndData.needChangeClass.push({
 					target: dndData.dragElemParent,
@@ -135,10 +135,10 @@ $(function() {
 				guide.addClass("error");
 				parentGuide.addClass("error");
 			}
-			
+
 			dndData.originalX = e.pageX;
 			dndData.originalY = e.pageY;
-	        
+
 		},
 
 		needChangeClass: [],
@@ -176,7 +176,7 @@ $(function() {
 					left: 0
 				})
 			}
-			
+
 			dndData.actionAfterMove(e, target);
 		},
 
@@ -211,7 +211,7 @@ $(function() {
 				})
 			}
 
-			
+
 			dndData.actionAfterMove(e, target);
 		},
 
@@ -332,20 +332,20 @@ $(function() {
         },
 
         containerSpecialHandle: function (e, target) {
-        	
+
         	if (dndData.dragElem.attr("vdid") === target.attr("vdid")) {
         		return false;
         	}
 
 			let firAndLas = [];
 			target.children().each(function () {
-					
+
 				if (e.pageY >= jq(this).offset().top && e.pageY <= jq(this).offset().top + jq(this).outerHeight()) {
 					firAndLas.push(jq(this))
 				}
 
 			})
-			
+
 			let first = firAndLas[0],
 				last = firAndLas[firAndLas.length - 1];
 
@@ -365,17 +365,17 @@ $(function() {
 					height: target.parent().outerHeight(),
 					display: 'block'
 				})
-				
+
 				if (ref > 0.5) {
 					dndData.verticalAfter(e, last, true);
 				}else if (ref <= 0.5) {
 					dndData.verticalBefore(e, first, true);
 				}
 			}else {
-				
-				dndData.verticalAppend(e, target);	
+
+				dndData.verticalAppend(e, target);
 			}
-			
+
         }
 
 	};
@@ -443,7 +443,19 @@ $(function() {
                     applyCSSIntoPage: function() {
                         pageOperations.applyCSS(data.cssText);
                         controllerOperations.select(data.activeCtrl, true);
-                    }
+                    },
+					VDChildrenDelete: function(){
+						console.log('delete children');
+						controllerOperations.deleteChildren(data.activeCtrl, data.attrType);
+					},
+					VDChildrenAdd: function(){
+						console.log('add children');
+						controllerOperations.addChildren(data.activeCtrl, data.attrType);
+					},
+					VDChildrenUpdate: function(){
+						console.log('update children');
+						controllerOperations.updateChildren(data.activeCtrl, data.attrType);
+					},
                 };
 
                 for (var key in data) {
@@ -458,7 +470,31 @@ $(function() {
             });
 
         }();
+		//对子节点的操作
+		const childrenOperate = {
 
+			'update': function(activeCtrl, children){
+
+				let vdid  = activeCtrl.vdid;
+				var elem = jq('[vdid='+ activeCtrl.vdid + ']');
+				activeCtrl.vdid = activeCtrl.vdid + 'c';
+				var elemGen = new ElemGenerator(activeCtrl);
+				var tempElem = elemGen.createElement();
+				tempElem.attr('vdid', vdid);
+				elem = elem.replaceWith(tempElem[0].outerHTML);
+			},
+			'add': function(activeCtrl, children){
+
+				console.log('add children');
+				let vdid  = activeCtrl.vdid;
+				var elem = jq('[vdid='+ activeCtrl.vdid + ']');
+				activeCtrl.vdid = activeCtrl.vdid + 'c';
+				var elemGen = new ElemGenerator(children);
+				var tempElem = elemGen.createElement();
+				tempElem.attr('vdid', vdid);
+				elem = elem.append(tempElem[0].outerHTML);
+			},
+		}
 		//对控件的一些操作
 		var controllerOperations = {
 			hideDesignerDraggerBorder: function () {
@@ -495,6 +531,7 @@ $(function() {
 
             refreshCtrl: function(activeCtrl, attr, attrType) {
 
+				console.log(activeCtrl);
 				if(attr.isTag) {
 
 					let vdid  = activeCtrl.vdid;
@@ -506,8 +543,26 @@ $(function() {
 					elem = elem.replaceWith(tempElem[0].outerHTML);
 					activeCtrl.vdid = vdid;
 				}
-				new ElemGenerator(activeCtrl).setAttributeByAttr(attr, attrType);
-            }
+				console.log(attr);
+				if(attr.attrName == 'children'){
+					childrenOperate[attr.action](activeCtrl, attr.children);
+				}else {
+					new ElemGenerator(activeCtrl).setAttributeByAttr(attr, attrType);
+				}
+            },
+			deleteChildren: function(activeCtrl,attrType) {
+
+				console.log(activeCtrl, attrType);
+				let vdid  = activeCtrl.vdid;
+				var elem = jq('[vdid='+ activeCtrl.vdid + ']');
+				elem.remove();
+            },
+			addChildren: function(activeCtrl, children){
+
+			},
+			updateChildren: function(activeCtrl, children) {
+
+			}
 		};
 
         var pageOperations = {
@@ -586,10 +641,10 @@ $(function() {
 
         		//是否是行级元素
         		if (target.outerWidth() < target.parent().innerWidth()) {
-        			
+
         			var ref = (e.pageX - target.offset().left) / target.outerWidth();
         			var moveX = e.pageX - dndData.originalX;
-        			
+
 	        		if (target.data("container")) {
 
         				if (ref <= 1/3) {
@@ -597,15 +652,15 @@ $(function() {
 		        			dndData.horizontalBefore(e, target);
 
 		        		} else if (ref > 1/3 && ref < 2/3) {
-		        			
+
 		        			dndData.containerSpecialHandle(e, target);
 
 		        		} else if (ref >= 2/3) {
 
 		        			dndData.horizontalAfter(e, target);
-		        		
+
 		        		}
-        			
+
         			}else {
 
 	        			 if (target.attr("id") === 'VDDesignerContainer') {
@@ -619,11 +674,11 @@ $(function() {
 		        		} else if (ref >= 1/2) {
 
 		        			dndData.horizontalAfter(e, target);
-		        		
+
 		        		}
 		        	}
         		}else {
-        			
+
         			var ref = (e.pageY - target.offset().top) / target.outerHeight();
         			var moveY = e.pageY - dndData.originalY;
 
@@ -634,15 +689,15 @@ $(function() {
 		        			dndData.verticalBefore(e, target);
 
 		        		} else if (ref > 1/3 && ref < 2/3) {
-		        			
+
 		        			dndData.containerSpecialHandle(e, target);
 
 		        		} else if (ref >= 2/3) {
 
 		        			dndData.verticalAfter(e, target);
-		        		
+
 		        		}
-        				
+
         			}else {
 
 	        			if (target.attr("id") === 'VDDesignerContainer') {
@@ -656,10 +711,10 @@ $(function() {
 		        		} else if (ref >= 1/2) {
 
 		        			dndData.verticalAfter(e, target);
-		        		
+
 		        		}
 		        	}
-        			
+
         		}
 
         	},
@@ -670,17 +725,17 @@ $(function() {
 
         		let handler = function () {
         			var needChangeClass = dndData.needChangeClass;
-        		
+
 	        		for(var i = 0; i < needChangeClass.length; i++) {
 	        			var ncc = needChangeClass[i];
 	        			if (ncc.type === 'remove') {
-	        				ncc.target.removeClass(ncc.className);	
+	        				ncc.target.removeClass(ncc.className);
 	        			}else {
 	        				if (!ncc.target.hasClass(ncc.className)) {
 		        				ncc.target.addClass(ncc.className)
 		        			}
 	        			}
-	        			
+
 	        		}
 
 	        		dndData.needChangeClass = [];
@@ -703,7 +758,7 @@ $(function() {
 
         		jq("#vdInsertGuide").after(dndData.dragElem);
         		if (!dndData.isMouseDown) {
-        			postMessageToFather.elemAdded(dndData.ctrlToAddData);	
+        			postMessageToFather.elemAdded(dndData.ctrlToAddData);
         		}
         		handler();
 
@@ -1011,14 +1066,14 @@ $(function() {
         		var self = this;
 
         		var designerContainer = jq("#VDDesignerContainer");
-        		
+
         		designerContainer.on("mousedown", function (e) {
         			self.onDown(e);
         		});
 
         		designerContainer.on("mouseenter", function (e) {
-        			self.onEnter(e);	
-        			
+        			self.onEnter(e);
+
         		});
 
         		designerContainer.on("mousemove", function (e) {
@@ -1036,7 +1091,7 @@ $(function() {
         	},
 
         	onMove: function (e) {
-        		
+
         		if (dndData.isMouseDown) {
         			jq(e.target).css({
         				cursor: 'pointer'
@@ -1046,13 +1101,13 @@ $(function() {
         	},
         	onEnter: function (e) {
         		if (dndData.isMouseDown) {
-        			DndInitialization.prototype.onEnter(e);	
+        			DndInitialization.prototype.onEnter(e);
         		}
         	},
         	onDown: function (e) {
         		e.stopPropagation();
         		e.preventDefault();
-        		
+
         		dndData.dragElemParent = jq(e.target).parent();
         		dndData.dragElem = jq(e.target);
         		dndData.isMouseDown = true;

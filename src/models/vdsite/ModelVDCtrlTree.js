@@ -111,7 +111,12 @@ export default {
 		editPopoverVisible: false,
 		keyValeUpdateVisible: false,
 		keyValeCreateVisible: false,
-
+		selectIndex: 0,
+		attr: {
+			html: '',
+			value: ''
+		},
+		childrenCopy: '',
 	    layout: {
 	    	'index.html': [{
 	    		className: ['body'],
@@ -297,6 +302,68 @@ export default {
 			}
 			return {...state};
 		},
+		handleSelectIndex(state, { payload: index}){
+
+			state.selectIndex = index;
+			return { ...state};
+		},
+		handleChildrenAttrChange(state, { payload: params}){
+
+			console.log(params);
+			state.activeCtrl.children[state.selectIndex].attrs[0].children[0][params.attr.name] = params.attr.value;
+			return { ...state};
+		},
+		handleAddChildrenAttr(state, { payload: params}){
+
+			console.log(params);
+			state.attr[params.name] = params.value
+			return {...state};
+		},
+		//当前活跃控件子删除
+		handleChildrenDelete(state, {payload: params}){
+
+			console.log(params);
+			state.activeCtrl.children = params.activeCtrl.children.splice(params.index,1);
+			if(state.activeCtrl.children == null || state.activeCtrl.children == undefined){
+				state.activeCtrl.children = [];
+			}
+			console.log(state.activeCtrl);
+			window.VDDesignerFrame.postMessage({
+				VDChildrenDelete: {
+					activeCtrl: state.activeCtrl.children[params.index],
+					attrType: params.attrType
+				}
+			}, '*');
+			return {...state};
+		},
+		//当前活跃控件 添加一个子控件
+		handleChildrenAdd(state, {payload: params}){
+
+			console.log(params);
+			console.log(state.activeCtrl);
+			params.children.attrs[0].children[0].html = state.attr.html;
+			params.children.attrs[0].children[0].value = state.attr.value;
+			if(state.activeCtrl.children) {
+				state.activeCtrl.children.push(params.children);
+			}else {
+				var chidren = new Array();
+				chidren.push(params.children);
+				state.activeCtrl.children = children;
+			}
+			state.keyValeCreateVisible = false;
+			window.VDDesignerFrame.postMessage({
+				VDAttrRefreshed: {
+					activeCtrl: state.activeCtrl,
+					attr: {
+						attrName: 'children',
+						action: 'add',
+						children: params.children
+					},
+					attrType: params.attrType
+				}
+			}, '*');
+			return {...state};
+		},
 		handlePreview(state, { payload: params }) {
 			state.previewImage = params.previewImage;
 			state.previewVisible = params.previewVisible;
@@ -315,6 +382,8 @@ export default {
 
 		generateCtrlTree(state, { payload: ctrl }) {
 
+			console.log('generateCtrlTree');
+			console.log(state.activeCtrl);
 			let controller = ctrl.details;
 
 			const specialAttrList = ['custom-attr', 'link-setting', 'list-setting', 'heading-type', 'image-setting', 'select-setting'];
@@ -360,7 +429,6 @@ export default {
 				}else {
 					ctrl.children = undefined;
 				}
-
 				return ctrl;
 			}
 
@@ -378,11 +446,17 @@ export default {
 		},
 
 		handleElemAdded(state, { payload: params }) {
+
+			console.log('handleElemAdded');
+			console.log(params);
 			state.layout[params.activePage][0].children.push(params.ctrl);
 			state.activeCtrl = params.ctrl;
+			console.log(state.activeCtrl);
 			var ctrlInfo = VDTreeActions.getActiveControllerIndexAndLvlByKey(state, params.ctrl.vdid, state.activePage);
 			state.activeCtrlIndex = ctrlInfo.index;
 			state.activeCtrlLvl = ctrlInfo.level;
+			console.log(state.activeCtrl);
+
 			return {...state};
 		},
 
@@ -418,47 +492,19 @@ export default {
 		//当前活跃控件子控件更新
 		handleChildrenUpdate(state, {payload: params}){
 
-			return {...state};
+			state.keyValeUpdateVisible = false;
+			console.log(params);
 			window.VDDesignerFrame.postMessage({
 				VDAttrRefreshed: {
-					activeCtrl: state.activeCtrl,
+					activeCtrl: params.activeCtrl,
 					attr: {
-						attrName: attrName,
-						action: 'remove'
+						attrName: 'children',
+						action: 'update'
 					},
 					attrType: params.attrType
 				}
 			}, '*');
-		},
-		//当前活跃控件子删除
-		handleChildreDelete(state, {payload: params}){
-
 			return {...state};
-			window.VDDesignerFrame.postMessage({
-				VDAttrRefreshed: {
-					activeCtrl: state.activeCtrl,
-					attr: {
-						attrName: attrName,
-						action: 'remove'
-					},
-					attrType: params.attrType
-				}
-			}, '*');
-		},
-		//当前活跃控件 添加一个子控件
-		handleChildreAdd(state, {payload: params}){
-
-			return {...state};
-			window.VDDesignerFrame.postMessage({
-				VDAttrRefreshed: {
-					activeCtrl: state.activeCtrl,
-					attr: {
-						attrName: attrName,
-						action: 'remove'
-					},
-					attrType: params.attrType
-				}
-			}, '*');
 		},
 		handleAttrRefreshed(state, { payload: params }) {
 
