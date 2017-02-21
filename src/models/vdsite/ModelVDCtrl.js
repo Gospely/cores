@@ -1303,11 +1303,22 @@ export default {
 						title: '选择框设置',
 						key: 'select-setting',
 						children: [{
+                            name: 'name',
+							desc: '名称',
+							type: 'input',
+							value: '',
+							props: {
+								placeholder: '输入名称'
+							},
+							id: '',
+                            isAttr: true,
+                            attrName: 'name'
+                        },{
                             name: 'multiple',
                             desc: '允许多选',
                             type: 'toggle',
-                            value: true,
-                            isAttr: true,
+                            value: false,
+                            isToggleAttr: true,
                             attrName: 'multiple',
                             id: '',
                         }]

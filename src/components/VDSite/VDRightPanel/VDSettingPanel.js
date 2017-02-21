@@ -777,10 +777,10 @@ const Component = (props) => {
 						    <Panel header={item.title} key={item.key}>
 						      	<Form className="form-no-margin-bottom">
 									<FormItem {...formItemLayout} label="名称">
-										<Input size="small" />
+										<Input size="small" value={item.children[0].value} onChange={formProps.handleAttrFormInputChange.bind(this, item.children[0], attrType)}/>
 									</FormItem>
 									<FormItem {...formItemLayout} label="允许多选">
-										<Switch size="small" />
+										<Switch size="small" onChange={formProps.handleAttrFormSwitchChange.bind(this, item.children[1], attrType)}  checked={item.children[1].value}/>
 									</FormItem>
                                     <Popover
                                         content={selectSettingProps.creatorContent}

@@ -323,6 +323,7 @@ export default {
 		handleChildrenDelete(state, {payload: params}){
 
 			console.log(params);
+			var children = state.activeCtrl.children[params.index];
 			state.activeCtrl.children = params.activeCtrl.children.splice(params.index,1);
 			if(state.activeCtrl.children == null || state.activeCtrl.children == undefined){
 				state.activeCtrl.children = [];
@@ -330,7 +331,7 @@ export default {
 			console.log(state.activeCtrl);
 			window.VDDesignerFrame.postMessage({
 				VDChildrenDelete: {
-					activeCtrl: state.activeCtrl.children[params.index],
+					activeCtrl: children,
 					attrType: params.attrType
 				}
 			}, '*');

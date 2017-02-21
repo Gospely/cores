@@ -255,10 +255,6 @@ html.vd-design-mode * {
    float: left;
    margin-left: -20px;
 }
-.vd-select {
-    background-image: -webkit-linear-gradient(white 0%, #f3f3f3 100%);
-    background-image: linear-gradient(white 0%, #f3f3f3 100%);
-}
 .vd-link {
     position: relative;
     display: inline-block;
@@ -273,4 +269,19 @@ html.vd-design-mode * {
 .vd-select {
     background-image: -webkit-linear-gradient(white 0%, #f3f3f3 100%);
     background-image: linear-gradient(white 0%, #f3f3f3 100%);
+}
+.vd-tab-link {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    text-decoration: none;
+    padding: 9px 30px;
+    text-align: left;
+    cursor: pointer;
+    color: #222222;
+    background-color: #dddddd;
+}
+.vd-inline-block {
+    max-width: 100%;
+    display: inline-block;
 }

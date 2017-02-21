@@ -855,8 +855,9 @@ $(function() {
 					}
 
                 }
-
+					console.log(attr);
 				if(attr.isToggleAttr){
+					console.log(attr);
 					if(!attr.value)
 						this.elem.removeAttr(attr.attrName);
 					this.elem.attr(attr.attrName, attr.value);
@@ -934,7 +935,9 @@ $(function() {
                 var classList = this.controller.className.concat(this.controller.customClassName);
                 this.elem.attr('class', classList.join(' '));
             },
-
+			setSelectSetting: function(attr){
+				this.setAttr(attr);
+			},
             transformTypeToUpper: function(type) {
                 var settingTypeSplit = type.split('-'),
                     upperTypeName = '';
@@ -946,7 +949,6 @@ $(function() {
 
                 return upperTypeName;
             },
-
         	setAttribute: function () {
         		this.initElem();
         		for(var i = 0, len = this.controller.attrs.length; i < len; i ++) {
@@ -981,6 +983,7 @@ $(function() {
                 this.initElem();
                 this.bindData();
                 var upperTypeName = this.transformTypeToUpper(attrType.key);
+				console.log(upperTypeName);
                 if(attrType.isAttrSetting || attr.isStyle) {
                     this.setAttr(attr);
                 }else {
