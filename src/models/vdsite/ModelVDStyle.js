@@ -2,6 +2,30 @@ import React , {PropTypes} from 'react';
 import dva from 'dva';
 import { Icon, message } from 'antd';
 
+var styleAction = {
+
+	findCSSPropertyByProperty: function(stylesList, property) {
+		console.log(stylesList, property);
+		for(var prop in stylesList) {
+			var currrentStyleProperty = stylesList[prop];
+			if(typeof currrentStyleProperty == 'string' || typeof currrentStyleProperty.length != 'undefined') {
+				if(prop == property) {
+					return stylesList;
+				}
+			}else {
+				var tmp = styleAction.findCSSPropertyByProperty(currrentStyleProperty, property);
+				if(tmp) {
+					return tmp;
+				}
+			}
+		}
+	},
+
+	findComplexCSSPropertyByProperty: function(sty) {
+
+	}
+}
+
 export default {
 	namespace: 'vdstyles',
 	state: {
@@ -51,14 +75,6 @@ export default {
 		    }
 		},
 
-		cssSelector: {
-			
-		},
-
-		typoSetting: {
-			
-		},
-
 		borderSetting: {
 			border: {
 				propertyName: 'border',
@@ -86,7 +102,7 @@ export default {
 		},
 
 		boxShadow: {
-			hShadow: {
+			'h-shadow': {
 				value: '',
 				attrName: 'hShadow',
 				units: ['px'],
@@ -94,24 +110,24 @@ export default {
 				type: 'sliderInput'
 			},
 
-			vShadow: {
-
+			'v-shadow': {
+				value: ''
 			},
 
 			blur: {
-
+				value: ''
 			},
 
 			spread: {
-
+				value: ''
 			},
 
 			color: {
-
+				value: ''
 			},
 
 			inset: {
-
+				value: 'outset'
 			}
 		},
 
@@ -138,8 +154,64 @@ export default {
 				'text-align': '',
 				'write-mode': '',
 				'text-decoration': '',
-				capitalize: '',
-				'background-color': ''
+				'text-transform': '',
+				background: {
+					'background-width': '',
+					'background-color': '',
+					'background-size': ['', '', false, false],
+					'background-position': '',
+					'background-image': '',
+					'background-color': '',
+					'background-repeat': '',
+					'background-attachment': ''
+				},
+				border: {
+					'border-position': 'border',
+					'border-width': '',
+					'border-style': '',
+					'border-color': '',
+				},
+				'border-radius': {
+					'border-radius-position': 'border',
+					'border-radius': ''
+				},
+				'box-shadow': {
+					state: {
+						activeProp: 0
+					},
+					childrenProps: [{
+						'h-shadow': '20px',
+						'v-shadow': '20px',
+						blur: '20px',
+						spread: '30px',
+						color: '#000000',
+						inset: 'outset'
+					}, {
+						'h-shadow': '',
+						'v-shadow': '',
+						blur: '',
+						spread: '',
+						color: '',
+						inset: 'outset'
+					}]
+				},
+				'text-shadow': {
+					state: {
+						activeProp: 0
+					},
+					childrenProps: [{
+						'h-shadow': '',
+						'v-shadow': '',
+						blur: '',
+						color: ''
+					}]
+				},
+				transition: {
+
+				},
+				transform: {
+
+				}
 			}
 		},
 
@@ -248,60 +320,6 @@ export default {
 			return {...state};
 		},
 
-		changeBorderPosition(state, { payload: params }) {
-			const prevBorderPosition = state.borderSetting.border.propertyName;
-			state.borderSetting.border.propertyName = params.position;
-			var activeStyle = state.stylesList['.' + params.activeStyleName];
-
-			//清除其它border类型，并根据现有propertyName重新生成样式
-
-			for(var property in activeStyle) {
-				if(property.indexOf(prevBorderPosition) != -1) {
-					activeStyle[property] = '';
-					delete state.stylesList['.' + params.activeStyleName][property];
-					delete activeStyle[property];
-				}
-				activeStyle[params.position + '-width'] = state.borderSetting.border.width;
-				activeStyle[params.position + '-color'] = state.borderSetting.border.color;
-			}
-
-			return {...state};
-		},
-
-		changeBorderRadiusPosition(state, { payload: params }) {
-			const prevBorderPosition = state.borderSetting.borderRadius.propertyName;
-			state.borderSetting.borderRadius.propertyName = params.position;
-			var activeStyle = state.stylesList['.' + params.activeStyleName];
-
-			//清除其它border类型，并根据现有propertyName重新生成样式
-
-			for(var property in activeStyle) {
-				if(property.indexOf(prevBorderPosition) != -1) {
-					activeStyle[property] = '';
-					delete state.stylesList['.' + params.activeStyleName][property];
-					delete activeStyle[property];
-				}
-				activeStyle[params.position + '-radius'] = state.borderSetting.borderRadius.borderRadius;
-			}
-
-			return {...state};
-		},
-
-		handleBorderInputChange(state, { payload: params }) {
-			state.borderSetting.border[params.propertyName] = params.value;
-			return {...state};
-		},
-
-		handleBorderRadiusInputChange(state, { payload: params }) {
-			state.borderSetting.borderRadius[params.propertyName] = params.value;
-			return {...state};
-		},
-
-		handleBackgroundSizeInputChange(state, { payload: params }) {
-			state.backgroundSetting.backgroundSize[params.cssProperty] = params.value;
-			return {...state};
-		},
-
 		handleBGSettingBeforeUpload(state, { payload: params }) {
 			state.backgroundSetting.backgroundImage.fileInfo.splice(0, params.length);
 			return {...state};
@@ -360,6 +378,54 @@ export default {
 			return {...state};
 		},
 
+		handleBoxShadowInputChange(state, { payload: params }) {
+			state.boxShadow[params.name]['value'] = params.value;
+			return {...state};
+		},
+
+		saveBoxShadow(state, { payload: params }) {
+			var activeCSSStyleLayout = state.cssStyleLayout[params.activeStyle];
+
+			var tmp = {};
+
+			for(var key in state.boxShadow) {
+				tmp[key] = state.boxShadow[key].value;
+			}
+
+			state.boxShadow = {
+				'h-shadow': {
+					value: '',
+					attrName: 'hShadow',
+					units: ['px'],
+					activeUnit: 'px',
+					type: 'sliderInput'
+				},
+
+				'v-shadow': {
+					value: ''
+				},
+
+				blur: {
+					value: ''
+				},
+
+				spread: {
+					value: ''
+				},
+
+				color: {
+					value: ''
+				},
+
+				inset: {
+					value: 'outset'
+				}				
+			}
+
+			activeCSSStyleLayout['box-shadow'].childrenProps.push(tmp);
+			return {...state};
+		},
+
 		applyCSSStyleIntoPage(state, { payload: params }) {
 
 			const stylesGenerator = (cssStyleLayout) => {
@@ -392,6 +458,20 @@ export default {
 			return {...state};
 		},
 
+		setActiveBoxShadow(state, { payload: params }) {
+			var activeCSSLayout = state.cssStyleLayout[params.activeStyle];
+			if(activeCSSLayout) {
+				activeCSSLayout['box-shadow'].state.activeProp = params.cssPropertyIndex;				
+			}
+			return {...state};
+		},
+
+		removeThisBoxShadow(state, { payload: params }) {
+			var activeCSSLayout = state.cssStyleLayout[params.activeStyle];
+			activeCSSLayout['box-shadow'].childrenProps.splice(params.cssPropertyIndex, 1);
+			message.success('删除成功');
+			return {...state};
+		},
 
 		handleCSSStyleLayoutChange(state, { payload: params }) {
 
@@ -403,7 +483,61 @@ export default {
 					value = 'url("' + value + '")';
 				}
 
-			state.cssStyleLayout[activeStyleName][property] = value;
+				console.log(params);
+
+				if(property == 'border-position' || property == 'border-radius-position') {
+
+					var parentType = property.split('-');
+					parentType.pop();
+					parentType = parentType.join('-');
+
+					const prevBorderPosition = state.cssStyleLayout[activeStyleName][parentType][property];
+					var activeBorderStyle = state.cssStyleLayout[activeStyleName][parentType];
+
+					//清除其它border类型，并根据现有propertyName重新生成样式
+
+					for(var props in activeBorderStyle) {
+						if(props.indexOf(prevBorderPosition) != -1) {
+							if(props != property) {
+								var propsSplit = props.split('-');
+								activeBorderStyle[value + '-' + propsSplit[propsSplit.length - 1]] = activeBorderStyle[props];
+								activeBorderStyle[props] = '';
+								delete activeBorderStyle[props];
+							}
+						}
+					}
+
+				}
+
+				if(params.parent) {
+					var propertyParent = styleAction.findCSSPropertyByProperty(state.cssStyleLayout[activeStyleName], property);
+					console.log('propertyParent', propertyParent, property);
+					if(typeof params.parent.BGSizeIndex == 'undefined') {
+						propertyParent[property] = value;
+					}else {
+						propertyParent[property][params.parent.BGSizeIndex] = value;
+					}
+
+				}else {
+					state.cssStyleLayout[activeStyleName][property] = value;
+				}
+
+				console.log(state.cssStyleLayout);
+
+			return {...state};
+		},
+
+		handleBoxShadowStylesChange(state, { payload: params }) {
+
+			console.log('childrenProps====', state.cssStyleLayout[params.activeStyleName][params.parent].childrenProps);
+
+			var cssProperty = state.cssStyleLayout[params.activeStyleName][params.parent];
+			var activeProp = cssProperty.state.activeProp;
+			var childrenProps = cssProperty.childrenProps[activeProp];
+
+			childrenProps[params.property] = params.value
+
+			console.log(cssProperty);
 
 			return {...state};
 		}
