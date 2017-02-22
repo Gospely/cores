@@ -21,7 +21,7 @@ const Component = (props) => {
 
 			},
 
-			activePage: props.vdpm.activePage
+			activePage: props.vdCtrlTree.activePage.key
 		},
 
 		activeControllerTree = props.vdCtrlTree.layout[ctrlPros.activePage],

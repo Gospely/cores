@@ -14,7 +14,7 @@ const openNotificationWithIcon = (type, title, description) => (
 export default {
 	namespace: 'vdpm',
 	state: {
-		currentActivePageListItem: 'sub1',
+		currentActivePageListItem: 'index.html',
 		treeNodes: [],
 		pageManager: {
 			treeSelect: {
@@ -24,6 +24,7 @@ export default {
 			newFolderVisible: false,
 			updatePopoverVisible: false
 		},
+
 		newPageFrom: {
 			key: '',
 			name: '',
@@ -36,6 +37,7 @@ export default {
 				script: ''
 			},
 		},
+
 		newFolderForm: {
 			key: '',
 			name: '',
@@ -202,6 +204,7 @@ export default {
 					}
 				}
 				state.pageList.push(state.newPageFrom);
+				state.activePage = state.newFolderForm.key;
 			}
             delete state.pageList['children'];
 			state.pageManager.newPageVisible = bool;
@@ -403,11 +406,15 @@ export default {
 			}]};
 		},
 		initState(state, {payload: params}){
-
             state.pageList = params.UIState.pageList;
             state.currentActivePageListItem = params.UIState.currentActivePageListItem;
             state.activePage = params.UIState.activePage;
 			return { ...state};
+		},
+
+		setActivePage(state, { payload: params }) {
+			state.activePage = params.activePage;
+			return {...state};
 		}
 	},
 	effects: {
@@ -442,7 +449,7 @@ export default {
   		},
 
   		*elemAdded({payload: ctrl}, {call, put, select}) {
-  			var activePage = yield select(state => state.vdpm.activePage);
+  			var activePage = yield select(state => state.vdCtrlTree.activePage.key);
   			yield put({
   				type: 'vdCtrlTree/handleElemAdded',
   				payload: {
