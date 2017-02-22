@@ -228,7 +228,43 @@ export default {
 
 				},
 				opacity: '',
-				cursor: ''
+				cursor: '',
+
+				filter: {
+					filters: [{
+						cssProp: 'blur',
+						name: '高斯模糊'
+					}, {
+						cssProp: 'brightness',
+						name: '亮度'
+					}, {
+						cssProp: 'contrast',
+						name: '对比度'
+					}, {
+						cssProp: 'grayscale',
+						name: '灰度图像'
+					}, {
+						cssProp: 'hue-rotate',
+						name: '旋转'
+					}, {
+						cssProp: 'invert',
+						name: '反转'
+					}, {
+						cssProp: 'saturate',
+						name: '饱和度'
+					}, {
+						cssProp: 'sepia',
+						name: '深褐色'
+					}],
+
+					childrenProps: [{
+
+					}],
+
+					state: {
+						activeFilter: 0
+					}
+				}
 			}
 		},
 
@@ -276,6 +312,12 @@ export default {
 		activeCSSStateName: '无状态',
 
 		newStyleName: '',
+
+		popover: {
+			newFilter: {
+				visible: false
+			}
+		}
 	},
 
 	subscriptions: {
@@ -438,7 +480,7 @@ export default {
 
 					inset: {
 						value: 'outset'
-					}				
+					}
 				}
 
 			}else {
@@ -580,6 +622,17 @@ export default {
 
 			childrenProps[params.property] = params.value
 
+			return {...state};
+		},
+
+		handleFilterTypeChange(state, { payload: params }) {
+			var cssProperty = state.cssStyleLayout[params.activeStyleName]['filter'];
+			cssProperty.state.activeFilter = params.index;
+			return {...state};
+		},
+
+		togglePopover(state, { payload: params }) {
+			state.popover[params.popoverName].visible = !state.popover[params.popoverName].visible;
 			return {...state};
 		}
 
