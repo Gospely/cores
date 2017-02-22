@@ -151,6 +151,13 @@ export default {
 			unit: ''		
 		},
 
+		transitionSetting: {
+			'transition-property': 'all',
+			'transition-duration': 0,
+			'transition-timing-function': 'ease',
+			'transition-delay': 0
+		},
+
 		cssStyleLayout: {
 			body: {
 				display: '',
@@ -227,10 +234,21 @@ export default {
 					}]
 				},
 				transition: {
-
+					state: {
+						activeProp: 0
+					},
+					childrenProps: [{
+						'transition-property': 'all',
+						'transition-duration': 200,
+						'transition-timing-function': 'ease',
+						'transition-delay': 0
+					}]
 				},
 				transform: {
-
+					state: {
+						activeProp: 0
+					},
+					childrenProps: []
 				},
 				opacity: '',
 				cursor: '',
@@ -299,8 +317,81 @@ export default {
 			'text-align': '',
 			'write-mode': '',
 			'text-decoration': '',
-			capitalize: '',
-			'background-color': ''
+			'text-transform': '',
+			background: {
+				'background-width': '',
+				'background-color': '',
+				'background-size': ['', '', false, false],
+				'background-position': '',
+				'background-image': '',
+				'background-color': '',
+				'background-repeat': '',
+				'background-attachment': ''
+			},
+			border: {
+				'border-position': 'border',
+				'border-width': '',
+				'border-style': '',
+				'border-color': '',
+			},
+			'border-radius': {
+				'border-radius-position': 'border',
+				'border-radius': ''
+			},
+			'box-shadow': {
+				state: {
+					activeProp: 0
+				},
+				childrenProps: []
+			},
+			'text-shadow': {
+				state: {
+					activeProp: 0
+				},
+				childrenProps: []
+			},
+			transition: {
+
+			},
+			transform: {
+
+			},
+			opacity: '',
+			cursor: '',
+
+			filter: {
+				filters: [{
+					cssProp: 'blur',
+					name: '高斯模糊'
+				}, {
+					cssProp: 'brightness',
+					name: '亮度'
+				}, {
+					cssProp: 'contrast',
+					name: '对比度'
+				}, {
+					cssProp: 'grayscale',
+					name: '灰度图像'
+				}, {
+					cssProp: 'hue-rotate',
+					name: '旋转'
+				}, {
+					cssProp: 'invert',
+					name: '反转'
+				}, {
+					cssProp: 'saturate',
+					name: '饱和度'
+				}, {
+					cssProp: 'sepia',
+					name: '深褐色'
+				}],
+
+				childrenProps: [],
+
+				state: {
+					activeFilter: 0
+				}
+			}
 		},
 
 		cssStates: [{
@@ -332,6 +423,10 @@ export default {
 			},
 
 			cursor: {
+				visible: false
+			},
+
+			newTransition: {
 				visible: false
 			}
 		}
@@ -672,6 +767,18 @@ export default {
 			return {...state};
 		},
 
+		saveThisTransition(state,  { payload: params }) {
+			var cssProperty = state.cssStyleLayout[params.activeStyleName]['transition'];
+			cssProperty.childrenProps.push(state.transitionSetting);
+			state.transitionSetting = {
+				'transition-property': 'all',
+				'transition-duration': 0,
+				'transition-timing-function': 'ease',
+				'transition-delay': 0
+			}
+			return {...state};
+		},
+
 		handleFilterInputChange(state, { payload: params }) {
 			state.filterSetting.value = params.value;
 			state.filterSetting.unit = params.unit;
@@ -681,6 +788,17 @@ export default {
 		removeThisFilter(state, { payload: params }) {
 			var cssProperty = state.cssStyleLayout[params.activeStyleName]['filter'];
 			cssProperty.childrenProps.splice(params.filterIndex, 1);
+			return {...state};
+		},
+
+		removeThisTransition(state, { payload: params }) {
+			var cssProperty = state.cssStyleLayout[params.activeStyleName]['transition'];
+			cssProperty.childrenProps.splice(params.transitionIndex, 1);
+			return {...state};
+		},
+
+		handleTransitionInputChange(state, { payload: params }) {
+			state.transitionSetting[params.propsName] = params.value;
 			return {...state};
 		}
 
