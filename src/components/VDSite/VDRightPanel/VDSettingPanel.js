@@ -636,8 +636,6 @@ const Component = (props) => {
 
 	    			'select-setting' (item, attrTypeIndex) {
 
-                        console.log(props.vdCtrlTree.selectIndex);
-                        console.log(props.vdCtrlTree.activeCtrl.children[0]);
                         const keyValueProps = {
                             valueChange(e){
 
@@ -810,7 +808,7 @@ const Component = (props) => {
 
 	    			'tabs-setting' (item, attrTypeIndex) {
 
-					    const props = {
+					    const tabSettingProps = {
 					    	creatorContent: (
 						      	<Form className="form-no-margin-bottom">
 									<FormItem {...formItemLayout} label="名称">
@@ -835,28 +833,81 @@ const Component = (props) => {
 
 					    	onVisibleChange () {
 
-					    	}
+					    	},
+                            createVisibleChange (value) {
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleCreateVisible',
+                                    payload: value
+                                });
+                            },
+                            updateVisibleChange(value){
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleUpdateVisible',
+                                    payload: value
+                                });
+                            },
+                            keyValueCreate(){
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleCreateVisible',
+                                    payload: true
+                                });
+                            },
+                            keyValuesUpdate(){
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleUpdateVisible',
+                                    payload: true
+                                });
+                            },
+                            editKeyValue(index) {
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleSelectIndex',
+                                    payload: index
+                                });
+                            },
+                            hidePopover(){
+                                setTimeout(function(){
+                                    props.dispatch({
+                                        type: 'vdCtrlTree/handleUpdateVisible',
+                                        payload: false
+                                    });
+                                }, 10)
+                            }
 					    }
+                        console.log(props.vdCtrlTree.activeCtrl.children);
+                        const keyValues = props.vdCtrlTree.activeCtrl.children[0].children.map((item, index) =>{
+
+                            return (
+                                <li className="ant-dropdown-menu-item" role="menuitem" key={index}>
+                                <Row>
+                                  <Col span={18}>
+                                    <p>{item.children[0].attrs[0].children[0].value}</p>
+                                  </Col>
+                                  <Col span={3}>
+                                        <Icon type="edit" onClick={tabSettingProps.editKeyValue.bind(this, index)}/>
+                                  </Col>
+                                  <Col span={3}>
+                                    <Popconfirm title="确认删除吗？" onConfirm={formProps.childrenDelete.bind(this, item.children[0].attrs[0].children[0].value , index, attrType)} okText="确定" cancelText="取消">
+                                        <Icon type="delete" onClick={tabSettingProps.hidePopover}/>
+                                        </Popconfirm>
+                                  </Col>
+                                </Row>
+                              </li>
+                            )
+                        });
 
 	    				return (
 						    <Panel header={item.title} key={item.key}>
 
-						    	<Row>
-						    		<Col span={12}>
-								      	<Form className="form-no-margin-bottom">
-											<FormItem {...formItemLayout} label="淡入时间">
-												<Input size="small" />
-											</FormItem>
-								      	</Form>
-						    		</Col>
-						    		<Col span={12}>
-								      	<Form className="form-no-margin-bottom">
-											<FormItem {...formItemLayout} label="淡出时间">
-												<Switch size="small" />
-											</FormItem>
-								      	</Form>
-						    		</Col>
-						    	</Row>
+                                <Form className="form-no-margin-bottom">
+                                    <FormItem {...formItemLayout} label="淡入时间">
+                                        <Input size="small" />
+                                    </FormItem>
+                                </Form>
+                                <Form className="form-no-margin-bottom">
+                                    <FormItem {...formItemLayout} label="淡出时间">
+                                        <Input size="small" />
+                                    </FormItem>
+                                </Form>
 
 						      	<Form className="form-no-margin-bottom">
 									<FormItem {...formItemLayout} label="过渡效果">
@@ -872,55 +923,17 @@ const Component = (props) => {
 
 								<Button type="circle" size="small"><Icon type="plus" /></Button>
 
-							    <ul style={{marginTop: '-15px'}} className="ant-dropdown-menu ant-dropdown-menu-vertical ant-dropdown-menu-light ant-dropdown-menu-root symbol-list" role="menu">
-							      <li className="ant-dropdown-menu-item" role="menuitem">
-							        <Row>
-							          <Col span={18}>
-							            <p>key1="val2"</p>
-							          </Col>
-							          <Col span={3}>
-
-										<Popover
-								        	content={props.modifyContent}
-								        	title="修改 标签"
-								        	trigger="click"
-								      	>
-							            	<Icon type="edit" />
-								      	</Popover>
-
-							          </Col>
-							          <Col span={3}>
-							            <Popconfirm title="确认删除吗？" okText="确定" cancelText="取消">
-											<Icon type="delete" />
-											</Popconfirm>
-							          </Col>
-							        </Row>
-							      </li>
-							      <li className="ant-dropdown-menu-item-divider"></li>
-
-							      <li className="ant-dropdown-menu-item" role="menuitem">
-							        <Row>
-							          <Col span={18}>
-							            <p>key="val"</p>
-							          </Col>
-							          <Col span={3}>
-										<Popover
-								        	content={props.modifyContent}
-								        	title="修改 标签"
-								        	trigger="click"
-								      	>
-							            	<Icon type="edit" />
-								      	</Popover>
-							          </Col>
-							          <Col span={3}>
-							            <Popconfirm title="确认删除吗？" okText="确定" cancelText="取消">
-											<Icon type="delete" />
-											</Popconfirm>
-							          </Col>
-							        </Row>
-							      </li>
-							      <li className="ant-dropdown-menu-item-divider"></li>
-							    </ul>
+                                    <Popover
+                                        content={tabSettingProps.modifyContent}
+                                        title="修改 选项"
+                                        trigger="click"
+                                        visible={props.vdCtrlTree.keyValeUpdateVisible}
+                                        onVisibleChange = {tabSettingProps.updateVisibleChange}
+                                    >
+        							    <ul  className="ant-dropdown-menu ant-dropdown-menu-vertical ant-dropdown-menu-light ant-dropdown-menu-root symbol-list" role="menu">
+                                            {keyValues}
+        							    </ul>
+                                    </Popover>
 
 						    </Panel>
 	    				);
