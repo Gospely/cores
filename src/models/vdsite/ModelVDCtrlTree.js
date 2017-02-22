@@ -69,7 +69,34 @@ const VDTreeActions = {
 
 		return loopControllers(controllers, 1);
 	},
+	getParentCtrlByKey(state, key, activePage) {
+		let obj = {
+				index: 0,
+				level: 1
+			},
 
+			controllers = state.layout[activePage.key];
+
+		const loopControllers = function (controllers, level) {
+			level = level || 1;
+			for(let i = 0; i < controllers.length; i ++) {
+				let currentControl = controllers[i];
+				if (currentControl.children) {
+					loopControllers(currentControl.children, level ++);
+				}
+				if (currentControl.vdid == key) {
+					console.log(currentControl);
+					obj.index = i;
+					obj.level = level;
+					obj.controller = currentControl;
+					break;
+				}
+			}
+			return obj;
+		}
+
+		return loopControllers(controllers, 1);
+	},
 	getActiveControllerIndexAndLvlByKey(state, key, activePage) {
 		let obj = {
 			index: '',
@@ -314,7 +341,11 @@ export default {
 
 			console.log(params);
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
-			currentActiveCtrl.controller.children[state.selectIndex].attrs[0].children[0][params.attr.name] = params.attr.value;
+			if(params.attr.isTab){
+				currentActiveCtrl.controller.children[0].children[state.selectIndex].children[0].attrs[0].children[0][params.attr.name] = params.attr.value;
+			}else{
+				currentActiveCtrl.controller.children[state.selectIndex].attrs[0].children[0][params.attr.name] = params.attr.value;
+			}
 			state.activeCtrl = currentActiveCtrl.controller;
 			return { ...state};
 		},
@@ -457,7 +488,8 @@ export default {
 
 			let deepCopiedController = VDTreeActions.deepCopyObj(controller);
 
-			const loopAttr = (controller) => {
+
+			const loopAttr = (controller, parent) => {
 
 				let childCtrl = {},
 					tmpAttr = {},
@@ -474,32 +506,53 @@ export default {
 						attr['id'] = randomString(8, 10);
 					};
 				}
-
-				ctrl = {
-					vdid: controller.key ? (controller.key + '-' + randomString(8, 10)) : randomString(8, 10),
-					attrs: tmpAttr,
-					tag: controller.tag,
-					className: controller.className,
-					customClassName: [],
-					activeStyle: '',
-					children: [],
-					isRander: controller.isRander || '',
-					ignore: controller.ignore || false
-				};
+				console.log('config');
+				console.log(controller);
+				if(controller.vdid == null || controller.vdid == undefined){
+					ctrl = {
+						vdid: controller.key ? (controller.key + '-' + randomString(8, 10)) : randomString(8, 10),
+						attrs: tmpAttr,
+						tag: controller.tag,
+						className: controller.className,
+						customClassName: [],
+						activeStyle: '',
+						children: [],
+						isRander: controller.isRander || '',
+						ignore: controller.ignore || false,
+						parent: parent || '',
+						unActive: controller.unActive
+					};
+				}else{
+					ctrl = {
+						vdid: parent,
+						attrs: tmpAttr,
+						tag: controller.tag,
+						className: controller.className,
+						customClassName: [],
+						activeStyle: '',
+						children: [],
+						isRander: controller.isRander || '',
+						ignore: controller.ignore || false,
+						parent: parent || '',
+						unActive: false,
+					};
+				}
 
 				if(controller.children) {
 					for (var i = 0; i < controller.children.length; i++) {
 						var currentCtrl = controller.children[i];
-						childCtrl = loopAttr(currentCtrl);
+						childCtrl = loopAttr(currentCtrl, parent);
 						ctrl.children.push(childCtrl);
 					};
 				}else {
 					ctrl.children = undefined;
 				}
+
 				return ctrl;
 			}
 
-			let tmpCtrl = loopAttr(deepCopiedController);
+			deepCopiedController.vdid = deepCopiedController.key ? (deepCopiedController.key + '-' + randomString(8, 10)) : randomString(8, 10);
+			let tmpCtrl = loopAttr(deepCopiedController, deepCopiedController.vdid);
 			let activeCtrl = VDTreeActions.getActiveCtrl(state);
 
 			VDDesignerFrame.postMessage({
@@ -528,8 +581,16 @@ export default {
 		},
 
 		ctrlSelected(state, { payload: data }) {
-			var ctrlInfo = VDTreeActions.getActiveControllerIndexAndLvlByKey(state, data.vdid, state.activePage);
-			state.activeCtrl = data;
+
+			if(data.unActive){
+				console.log(data.parent);
+				var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, data.parent, state.activePage);
+				state.activeCtrl = currentActiveCtrl.controller;
+				console.log(state.activeCtrl);
+			}else {
+				state.activeCtrl = data;
+			}
+			var ctrlInfo = VDTreeActions.getActiveControllerIndexAndLvlByKey(state, state.activeCtrl.vdid, state.activePage);
 			state.activeCtrlIndex = ctrlInfo.index;
 			state.activeCtrlLvl = ctrlInfo.level;
 			return {...state};

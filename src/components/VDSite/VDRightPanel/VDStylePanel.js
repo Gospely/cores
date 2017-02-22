@@ -2,7 +2,7 @@ import React , {PropTypes} from 'react';
 import { connect } from 'dva';
 
 import { Button, Modal } from 'antd';
-	
+
 const ButtonGroup = Button.Group;
 
 import { Tabs, Icon } from 'antd';
@@ -306,10 +306,10 @@ const VDStylePanel = (props) => {
 						</div>
 						<div className="bem-Frame_Body">
 							<Upload {...cssBGUploadProps}>
-								<Button><i className="fa fa-cloud-upload"></i>&nbsp;上传图片</Button>								
+								<Button><i className="fa fa-cloud-upload"></i>&nbsp;上传图片</Button>
 						  	</Upload>
 
-							<Button style={{position: 'absolute', right: '30px', top: '60px'}}><i className="fa fa-picture-o"></i>&nbsp;图片资源</Button>							
+							<Button style={{position: 'absolute', right: '30px', top: '60px'}}><i className="fa fa-picture-o"></i>&nbsp;图片资源</Button>
 						</div>
 					</div>
 
@@ -337,7 +337,7 @@ const VDStylePanel = (props) => {
 							  	<Col span={13} style={{paddingLeft: '5px'}}>
 							      	<Form className="form-no-margin-bottom">
 										<FormItem {...formItemLayout} label="填充">
-											<Switch 
+											<Switch
 												checked={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['background']['background-size'][2]}
 												onChange={handleBackgroundSizeInputChange.bind(this, 'background-size', {parent: 'background', BGSizeIndex: 2})} size="small" />
 										</FormItem>
@@ -351,7 +351,7 @@ const VDStylePanel = (props) => {
 							  	<Col span={11} style={{paddingRight: '5px'}}>
 							      	<Form className="form-no-margin-bottom">
 										<FormItem {...formItemLayout} label="高度">
-											<Input 
+											<Input
 												value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['background']['background-size'][1]}
 												onChange={handleBackgroundSizeInputChange.bind(this, 'background-size', {parent: 'background', BGSizeIndex: 1})} size="small" />
 										</FormItem>
@@ -360,7 +360,7 @@ const VDStylePanel = (props) => {
 							  	<Col span={13} style={{paddingLeft: '5px'}}>
 							      	<Form className="form-no-margin-bottom">
 										<FormItem {...formItemLayout} label="适应">
-											<Switch 
+											<Switch
 												checked={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['background']['background-size'][3]}
 												onChange={handleBackgroundSizeInputChange.bind(this, 'background-size', {parent: 'background', BGSizeIndex: 3})} size="small" />
 										</FormItem>
@@ -444,7 +444,7 @@ const VDStylePanel = (props) => {
 						      	</RadioButton>
 						      	<RadioButton value="repeat-y">
 			  		              	<Tooltip placement="top" title="repeat-y">
-										<Icon type="ellipsis" style={{transform: 'rotate(90deg)'}} />			  		              		
+										<Icon type="ellipsis" style={{transform: 'rotate(90deg)'}} />
 									</Tooltip>
 						      	</RadioButton>
 						      	<RadioButton value="no-repeat">
@@ -474,7 +474,7 @@ const VDStylePanel = (props) => {
 						    </RadioGroup>
 
 						</FormItem>
-			      	</Form>			      	
+			      	</Form>
 
 				</div>
 			</div>
@@ -666,7 +666,7 @@ const VDStylePanel = (props) => {
 						<FormItem {...formItemLayout} label="水平阴影">
 							<Row>
 						        <Col span={14} style={{paddingRight: '10px'}}>
-						          	<Input onChange={handleBoxShadowEditorChange.bind(this, 'h-shadow')} value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].childrenProps[activeProp]['h-shadow']} size="small"/>						          	
+						          	<Input onChange={handleBoxShadowEditorChange.bind(this, 'h-shadow')} value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].childrenProps[activeProp]['h-shadow']} size="small"/>
 						        </Col>
 						        <Col span={4}>
 						        	PX
@@ -841,7 +841,7 @@ const VDStylePanel = (props) => {
 						<FormItem {...formItemLayout} label="水平阴影">
 							<Row>
 						        <Col span={14} style={{paddingRight: '10px'}}>
-						          	<Input onChange={handleBoxShadowEditorChange.bind(this, 'h-shadow')} value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['text-shadow'].childrenProps[activeProp]['h-shadow']} size="small"/>						          	
+						          	<Input onChange={handleBoxShadowEditorChange.bind(this, 'h-shadow')} value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['text-shadow'].childrenProps[activeProp]['h-shadow']} size="small"/>
 						        </Col>
 						        <Col span={4}>
 						        	PX
@@ -939,7 +939,7 @@ const VDStylePanel = (props) => {
 	    					<Option key="background-color">背景颜色</Option>
 	    					<Option key="background-position">背景位置</Option>
 	    				</OptGroup>
-    				    
+
 	    				<OptGroup key="shadows" label="阴影">
 	    					<Option key="text-shadows">文字阴影</Option>
 	    					<Option key="box-shadows">盒子阴影</Option>
@@ -1003,7 +1003,7 @@ const VDStylePanel = (props) => {
     			<FormItem labelCol={{span: 4}} wrapperCol={{span: 20}} label={(<i title="时间" className='fa fa-clock-o'></i>)}>
 					<Row>
 				        <Col span={18}>
-				          	<Input 
+				          	<Input
     				    		onChange={handleTransitionInputChange.bind(this, 'transition-duration')}
 				          		value={props.vdstyles.transitionSetting['transition-duration']} type="number" size="small" />
 				        </Col>
@@ -1048,7 +1048,7 @@ const VDStylePanel = (props) => {
     	transitionSttingPopover: (
 			<Form className="form-no-margin-bottom">
 				<FormItem label="起始位置" {...formItemLayout}></FormItem>
-				
+
 				<div style={{border: 'solid 1px #d9d9d9', padding: 5}}>
 					<InputGroup compact>
 						<div style={{width: '30%', display: 'inline-block'}}>
@@ -1288,7 +1288,7 @@ const VDStylePanel = (props) => {
 				});
 
 				props.dispatch({
-					type: 'vdstyles/togglePopover', 
+					type: 'vdstyles/togglePopover',
 					payload: { popoverName: 'cursor' }
 				});
     		}
@@ -1500,7 +1500,7 @@ const VDStylePanel = (props) => {
 								</div>
 							</div>
 							<div className="bem-Frame_Body">
-					
+
 						        <RadioGroup defaultValue="block" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['display']} size="small" onChange={handleStylesChange.bind(this, 'display')}>
 							      	<RadioButton value="block">
 				  		              	<Tooltip placement="top" title="block">
@@ -1732,7 +1732,7 @@ const VDStylePanel = (props) => {
 
 		    	<Row>
 
-				  	<Col span={12} style={{paddingRight: '5px'}}> 
+				  	<Col span={12} style={{paddingRight: '5px'}}>
 				      	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label="粗细">
 	        				    <Select size="small" value="选择" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['font-weight']} onChange={handleStylesChange.bind(this, 'font-weight')}>
@@ -1778,7 +1778,7 @@ const VDStylePanel = (props) => {
 							<FormItem {...formItemLayout} label="缩进">
 								<Input type="text" size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['text-indent']} onChange={handleStylesChange.bind(this, 'text-indent')}/>
 							</FormItem>
-					  	</Form>				  	
+					  	</Form>
 				  	</Col>
 				  	<Col span={12} style={{paddingLeft: '5px'}}>
 				      	<Form className="form-no-margin-bottom">
@@ -2091,10 +2091,10 @@ const VDStylePanel = (props) => {
 						<Row style={{marginBottom: '5px'}}>
 							<Col span={8}>
 								<Tooltip placement="top" title="弧 - 左上">
-									<Button onClick={handleBorderRadiusPositionChange.bind(this, 'border-top-left')} style={{borderTopLeftRadius: '28px', width: '28px', height: '28px'}} size="small"><i className="fa fa-window-maximize"></i></Button>									
+									<Button onClick={handleBorderRadiusPositionChange.bind(this, 'border-top-left')} style={{borderTopLeftRadius: '28px', width: '28px', height: '28px'}} size="small"><i className="fa fa-window-maximize"></i></Button>
 								</Tooltip>
 								<Tooltip placement="bottom" title="弧 - 左下">
-									<Button onClick={handleBorderRadiusPositionChange.bind(this, 'border-bottom-left')} style={{borderBottomLeftRadius: '28px', width: '28px', height: '28px', marginTop: '3px'}} size="small"><i className="fa fa-window-maximize"></i></Button>									
+									<Button onClick={handleBorderRadiusPositionChange.bind(this, 'border-bottom-left')} style={{borderBottomLeftRadius: '28px', width: '28px', height: '28px', marginTop: '3px'}} size="small"><i className="fa fa-window-maximize"></i></Button>
 								</Tooltip>
 							</Col>
 							<Col span={8}>
@@ -2144,7 +2144,7 @@ const VDStylePanel = (props) => {
 					payload: {
 						cssPropertyIndex,
 						shadowType,
-						activeStyle: props.vdCtrlTree.activeCtrl.activeStyle						
+						activeStyle: props.vdCtrlTree.activeCtrl.activeStyle
 					}
 				});
 			}
@@ -2241,7 +2241,7 @@ const VDStylePanel = (props) => {
 						transitionIndex,
 						activeStyleName: props.vdCtrlTree.activeCtrl.activeStyle
 					}
-				});				
+				});
 			}
 
 		 	return (
@@ -2482,7 +2482,7 @@ const VDStylePanel = (props) => {
 								activeStyleName: props.vdCtrlTree.activeCtrl.activeStyle,
 								activeFilterName: props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['filter'].filters[activeFilter].cssProp
 							}
-						});						
+						});
 					}
 
 					return (
@@ -2583,7 +2583,7 @@ const VDStylePanel = (props) => {
 					<li className="ant-dropdown-menu-item-divider"></li>
 
 					<FormItem style={{marginTop: 20}} labelCol={{span: 8}} wrapperCol={{span: 16}} label="鼠标样式">
-						<Input addonBefore={<Popover 
+						<Input addonBefore={<Popover
     											content={effectProps.cursorPopover()}
 									        	title="鼠标样式"
 									        	trigger="click"
@@ -2591,7 +2591,7 @@ const VDStylePanel = (props) => {
 									        	visible={props.vdstyles.popover.cursor.visible}
 									        >
     											<Icon onClick={() => { props.dispatch({type: 'vdstyles/togglePopover', payload: { popoverName: 'cursor' }}) }} type="setting"/>
-    										</Popover>} 
+    										</Popover>}
     							size="small"
  								onChange={handleStylesChange.bind(this, 'cursor')}
     							value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['cursor']}
@@ -2619,7 +2619,7 @@ const VDStylePanel = (props) => {
 					{effectsPanel()}
 				</Collapse>
 
-			);			
+			);
 		}else {
 
 			var tipPanel = (

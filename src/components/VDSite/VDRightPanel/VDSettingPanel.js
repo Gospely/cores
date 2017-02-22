@@ -832,25 +832,31 @@ const Component = (props) => {
 
 	    			'tabs-setting' (item, attrTypeIndex) {
 
-					    const tabSettingProps = {
-					    	creatorContent: (
-						      	<Form className="form-no-margin-bottom">
-									<FormItem {...formItemLayout} label="名称">
-										<Input size="small" />
-									</FormItem>
-									<FormItem>
-										<Button size="small">保存</Button>
-									</FormItem>
-								</Form>
-					    	),
+                        const keyValueProps = {
 
+                            keyValueChange(e){
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleChildrenAttrChange',
+                                    payload: {
+                                        index: props.vdCtrlTree.selectIndex,
+                                        attr: {
+                                            name: 'value',
+                                            value: e.target.value,
+                                            isTab: true
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                        console.log(props.vdCtrlTree.activeCtrl.children[0].children[props.vdCtrlTree.selectIndex]);
+					    const tabSettingProps = {
 					    	modifyContent: (
 						      	<Form className="form-no-margin-bottom">
 									<FormItem {...formItemLayout} label="名称">
-										<Input size="small" />
+										<Input size="small" value={props.vdCtrlTree.activeCtrl.children[0].children[props.vdCtrlTree.selectIndex].children[0].attrs[0].children[0].value} onChange={keyValueProps.keyValueChange}/>
 									</FormItem>
 									<FormItem>
-										<Button size="small">保存</Button>
+										<Button size="small" onClick={formProps.childrenUpdate.bind(this,attrType)}>保存</Button>
 									</FormItem>
 								</Form>
 					    	),
@@ -921,7 +927,6 @@ const Component = (props) => {
                                 });
                             }
 					    }
-                        console.log(props.vdCtrlTree.activeCtrl.children);
                         const keyValues = props.vdCtrlTree.activeCtrl.children[0].children.map((item, index) =>{
 
                             console.log(item);
