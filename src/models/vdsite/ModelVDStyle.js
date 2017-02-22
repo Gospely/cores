@@ -146,6 +146,11 @@ export default {
 			}
 		},
 
+		filterSetting: {
+			value: '',
+			unit: ''		
+		},
+
 		cssStyleLayout: {
 			body: {
 				display: '',
@@ -228,7 +233,47 @@ export default {
 
 				},
 				opacity: '',
-				cursor: ''
+				cursor: '',
+
+				filter: {
+					filters: [{
+						cssProp: 'blur',
+						name: '高斯模糊'
+					}, {
+						cssProp: 'brightness',
+						name: '亮度'
+					}, {
+						cssProp: 'contrast',
+						name: '对比度'
+					}, {
+						cssProp: 'grayscale',
+						name: '灰度图像'
+					}, {
+						cssProp: 'hue-rotate',
+						name: '旋转'
+					}, {
+						cssProp: 'invert',
+						name: '反转'
+					}, {
+						cssProp: 'saturate',
+						name: '饱和度'
+					}, {
+						cssProp: 'sepia',
+						name: '深褐色'
+					}],
+
+					childrenProps: [{
+						name: 'blur',
+						value: '20px'
+					}, {
+						name: 'brightness',
+						value: '20%'
+					}],
+
+					state: {
+						activeFilter: 0
+					}
+				}
 			}
 		},
 
@@ -276,6 +321,16 @@ export default {
 		activeCSSStateName: '无状态',
 
 		newStyleName: '',
+
+		popover: {
+			newFilter: {
+				visible: false
+			},
+
+			modifyFilter: {
+				visible: false
+			}
+		}
 	},
 
 	subscriptions: {
@@ -438,7 +493,7 @@ export default {
 
 					inset: {
 						value: 'outset'
-					}				
+					}
 				}
 
 			}else {
@@ -580,6 +635,48 @@ export default {
 
 			childrenProps[params.property] = params.value
 
+			return {...state};
+		},
+
+		handleFilterTypeChange(state, { payload: params }) {
+			var cssProperty = state.cssStyleLayout[params.activeStyleName]['filter'];
+			cssProperty.state.activeFilter = params.index;
+			return {...state};
+		},
+
+		togglePopover(state, { payload: params }) {
+			state.popover[params.popoverName].visible = !state.popover[params.popoverName].visible;
+			return {...state};
+		},
+
+		saveFilter(state, { payload: params }) {
+			var cssProperty = state.cssStyleLayout[params.activeStyleName]['filter'];
+
+			if(state.filterSetting.value == '') {
+				message.error('请填写值！');
+				return {...state};
+			}
+
+			cssProperty.childrenProps.push({
+				name: params.activeFilterName,
+				value: state.filterSetting.value
+			});
+
+			state.filterSetting.value = '';
+			state.popover['newFilter'].visible = false;
+
+			return {...state};
+		},
+
+		handleFilterInputChange(state, { payload: params }) {
+			state.filterSetting.value = params.value;
+			state.filterSetting.unit = params.unit;
+			return {...state};
+		},
+
+		removeThisFilter(state, { payload: params }) {
+			var cssProperty = state.cssStyleLayout[params.activeStyleName]['filter'];
+			cssProperty.childrenProps.splice(params.filterIndex, 1);
 			return {...state};
 		}
 
