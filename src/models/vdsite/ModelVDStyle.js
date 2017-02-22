@@ -151,6 +151,13 @@ export default {
 			unit: ''		
 		},
 
+		transitionSetting: {
+			'transition-property': 'all',
+			'transition-duration': 0,
+			'transition-timing-function': 'ease',
+			'transition-delay': 0
+		},
+
 		cssStyleLayout: {
 			body: {
 				display: '',
@@ -760,6 +767,18 @@ export default {
 			return {...state};
 		},
 
+		saveThisTransition(state,  { payload: params }) {
+			var cssProperty = state.cssStyleLayout[params.activeStyleName]['transition'];
+			cssProperty.childrenProps.push(state.transitionSetting);
+			state.transitionSetting = {
+				'transition-property': 'all',
+				'transition-duration': 0,
+				'transition-timing-function': 'ease',
+				'transition-delay': 0
+			}
+			return {...state};
+		},
+
 		handleFilterInputChange(state, { payload: params }) {
 			state.filterSetting.value = params.value;
 			state.filterSetting.unit = params.unit;
@@ -776,7 +795,12 @@ export default {
 			var cssProperty = state.cssStyleLayout[params.activeStyleName]['transition'];
 			cssProperty.childrenProps.splice(params.transitionIndex, 1);
 			return {...state};
-		}		
+		},
+
+		handleTransitionInputChange(state, { payload: params }) {
+			state.transitionSetting[params.propsName] = params.value;
+			return {...state};
+		}
 
 	}
 

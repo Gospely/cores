@@ -886,16 +886,40 @@ const VDStylePanel = (props) => {
 
     const transformAndTransitionProps = {
     	transformSettingPopover () {
+
+    		const handleTransitionInputChange = (propsName, e) => {
+
+    			var val = e.target ? e.target.value : e;
+
+    			props.dispatch({
+    				type: 'vdstyles/handleTransitionInputChange',
+    				payload: {
+    					value: val,
+    					propsName
+    				}
+    			});
+    		}
+
+    		const saveThisTransition = () => {
+    			props.dispatch({
+    				type: 'vdstyles/saveThisTransition',
+					payload: {
+						activeStyleName: props.vdCtrlTree.activeCtrl.activeStyle
+					}
+    			});
+    		}
+
     		return (
-    		<Form style={{width: 400}}>
+    		<Form>
     			<FormItem labelCol={{span: 4}} wrapperCol={{span: 20}} label={(<i title="属性" className='fa fa-search'></i>)}>
     				<Select
     				    showSearch
     				    placeholder="选择变化属性"
     				    optionFilterProp="children"
     				    filterOption={(input, option) => option.props.value.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-    				    value="Opacity"
-
+    				    value={props.vdstyles.transitionSetting['transition-property']}
+    				    size="small"
+    				    onChange={handleTransitionInputChange.bind(this, 'transition-property')}
     				>
     				  	<OptGroup key="advanced" label="高级">
     				        <Option key="all">所有</Option>
@@ -931,9 +955,9 @@ const VDStylePanel = (props) => {
 	    				</OptGroup>
 
 	    				<OptGroup key="borders" label="边框">
-	    					<Option key="width">边框弧度</Option>
-	    					<Option key="height">边框颜色</Option>
-	    					<Option key="min-height">边框宽度</Option>
+	    					<Option key="border-radius">边框弧度</Option>
+	    					<Option key="border-color">边框颜色</Option>
+	    					<Option key="border-width">边框宽度</Option>
 	    				</OptGroup>
 
 	    				<OptGroup key="typo" label="字体">
@@ -943,12 +967,6 @@ const VDStylePanel = (props) => {
 	    					<Option key="letter-spacing">词间距(letter)</Option>
 	    					<Option key="word-spacing">词间距(word)</Option>
 	    					<Option key="text-indent">缩进</Option>
-	    				</OptGroup>
-
-	    				<OptGroup key="borders" label="边框">
-	    					<Option key="width">边框弧度</Option>
-	    					<Option key="height">边框颜色</Option>
-	    					<Option key="min-height">边框宽度</Option>
 	    				</OptGroup>
 
 	    				<OptGroup key="position" label="位置">
@@ -985,34 +1003,44 @@ const VDStylePanel = (props) => {
     			<FormItem labelCol={{span: 4}} wrapperCol={{span: 20}} label={(<i title="时间" className='fa fa-clock-o'></i>)}>
 					<Row>
 				        <Col span={18}>
-				          	<Slider min={1} max={20}/>
+				          	<Input 
+    				    		onChange={handleTransitionInputChange.bind(this, 'transition-duration')}
+				          		value={props.vdstyles.transitionSetting['transition-duration']} type="number" size="small" />
 				        </Col>
-				        <Col span={4}>
-				          	<InputNumber/>
+				        <Col span={6} style={{paddingLeft: '15px'}}>
+				        	MS
 				        </Col>
-				        <Col span={1}>MS</Col>
 				    </Row>
 				</FormItem>
 
 				<InputGroup compact>
-					<div style={{width: '16.7%', display: 'inline-block'}}>
-						<i className="fa fa-line-chart"></i>
-					</div>
-			      	<Select
-    				    placeholder="变化速度曲线"
-    				    defaultValue="ease"
-    				    style={{ width: '30%' }}
-    				>
-    					<Option key="ease">Ease</Option>
-    					<Option key="linear">Linear</Option>
-    					<Option key="ease-in">Ease In</Option>
-    					<Option key="ease-out">Ease Out</Option>
-    					<Option key="ease-in-out">Ease In Out</Option>
-    					<Option key="cubic-bezier">cubic Bezier</Option>
-    				</Select>
-			      	<Input style={{ width: '53.3%' }} disabled={true} defaultValue="cubic-bezier(0.25,0.1,0.25,1)" />
+					<Row>
+						<Col span={4}>
+							曲线：
+						</Col>
+						<Col span={8}>
+			      			<Input size="small" disabled={false} value="ease" />
+						</Col>
+						<Col span={12} style={{paddingLeft: '15px'}}>
+					      	<Select
+    				    		onChange={handleTransitionInputChange.bind(this, 'transition-timing-function')}
+		    				    placeholder="变化速度曲线"
+								value={props.vdstyles.transitionSetting['transition-timing-function']}
+		    				    size="small"
+		    				>
+		    					<Option key="ease">Ease</Option>
+		    					<Option key="linear">Linear</Option>
+		    					<Option key="ease-in">Ease In</Option>
+		    					<Option key="ease-out">Ease Out</Option>
+		    					<Option key="ease-in-out">Ease In Out</Option>
+		    					<Option key="cubic-bezier">cubic Bezier</Option>
+		    				</Select>
+						</Col>
+					</Row>
 			    </InputGroup>
-
+    			<FormItem labelCol={{span: 4}} wrapperCol={{span: 20}} label="">
+				    <Button onClick={saveThisTransition.bind(this)} size="small" style={{marginTop: '15px', float: 'right'}}>保存</Button>
+    			</FormItem>
     		</Form>
     	);
 		},
@@ -2222,7 +2250,7 @@ const VDStylePanel = (props) => {
 			      		<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right', marginTop: 5}} label="过渡">
 			      			<Tooltip placement="top" title="添加过渡">
 			      				<Popover title='添加过渡' placement="leftTop" trigger="click" visible={props.vdstyles.popover.newTransition.visible} content={transformAndTransitionProps.transformSettingPopover()}>
-					      			<Button onClick={() => { props.dispatch({type: 'vdstyles/togglePopover', payload: { popoverName: 'newTransition' }}) }} style={{borderBottom: 'none'}}>
+					      			<Button size="small" onClick={() => { props.dispatch({type: 'vdstyles/togglePopover', payload: { popoverName: 'newTransition' }}) }} style={{borderBottom: 'none'}}>
 					      				<i className="fa fa-plus"></i>
 					      			</Button>
 					      		</Popover>
@@ -2254,14 +2282,14 @@ const VDStylePanel = (props) => {
 							<ButtonGroup>
 	    						<Tooltip placement="top" title="变换设置">
 				      				<Popover title='变换设置' placement="leftTop" trigger="click" content={transformAndTransitionProps.transitionSttingPopover}>
-						      			<Button style={{textAlign: 'center'}}>
+						      			<Button size="small" style={{textAlign: 'center'}}>
 						      				<i className="fa fa-cog"></i>
 						      			</Button>
 						      		</Popover>
 					      		</Tooltip>
 				      			<Tooltip placement="top" title="添加变换">
 				      				<Popover title='添加变换' placement="leftTop" trigger="click" content={transformAndTransitionProps.transitionAddPopover}>
-						      			<Button style={{textAlign: 'center'}}>
+						      			<Button size="small" style={{textAlign: 'center'}}>
 						      				<i className="fa fa-plus"></i>
 						      			</Button>
 						      		</Popover>
