@@ -230,7 +230,12 @@ export default {
 					state: {
 						activeProp: 0
 					},
-					childrenProps: []
+					childrenProps: [{
+						'transition-property': 'all',
+						'transition-duration': 200,
+						'transition-timing-function': 'ease',
+						'transition-delay': 0
+					}]
 				},
 				transform: {
 					state: {
@@ -411,6 +416,10 @@ export default {
 			},
 
 			cursor: {
+				visible: false
+			},
+
+			newTransition: {
 				visible: false
 			}
 		}
@@ -761,7 +770,13 @@ export default {
 			var cssProperty = state.cssStyleLayout[params.activeStyleName]['filter'];
 			cssProperty.childrenProps.splice(params.filterIndex, 1);
 			return {...state};
-		}
+		},
+
+		removeThisTransition(state, { payload: params }) {
+			var cssProperty = state.cssStyleLayout[params.activeStyleName]['transition'];
+			cssProperty.childrenProps.splice(params.transitionIndex, 1);
+			return {...state};
+		}		
 
 	}
 

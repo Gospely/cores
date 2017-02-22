@@ -885,7 +885,8 @@ const VDStylePanel = (props) => {
     }
 
     const transformAndTransitionProps = {
-    	transformSettingPopover: (
+    	transformSettingPopover () {
+    		return (
     		<Form style={{width: 400}}>
     			<FormItem labelCol={{span: 4}} wrapperCol={{span: 20}} label={(<i title="属性" className='fa fa-search'></i>)}>
     				<Select
@@ -893,26 +894,89 @@ const VDStylePanel = (props) => {
     				    placeholder="选择变化属性"
     				    optionFilterProp="children"
     				    filterOption={(input, option) => option.props.value.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-    				    defaultValue="Opacity"
+    				    value="Opacity"
+
     				>
-    				  	<OptGroup key="Common" label="Common">
-    				        <Option key="Opacity">Opacity</Option>
-    				        <Option key="Margin">Margin</Option>
-	    				    <Option key="Padding">Padding</Option>
-	    				    <Option key="Border">Border</Option>
-	    				    <Option key="Transform">Transform</Option>
-	    				    <Option key="fllter">fllter</Option>
-	    				    <Option key="Flex">Flex</Option>
+    				  	<OptGroup key="advanced" label="高级">
+    				        <Option key="all">所有</Option>
 	    				</OptGroup>
 
-	    				<OptGroup key="Background" label="Background">
-	    					<Option key="BackgroundColor">Background Color</Option>
-	    					<Option key="BackgroundPosition">Background Position</Option>
+    				  	<OptGroup key="common" label="通用">
+    				        <Option key="opacity">透明度</Option>
+    				        <Option key="margin">外边距</Option>
+	    				    <Option key="padding">内边距</Option>
+	    				    <Option key="border">边框</Option>
+	    				    <Option key="transform">变换</Option>
+	    				    <Option key="fllter">滤镜</Option>
+	    				    <Option key="flex">Flex</Option>
+	    				</OptGroup>
+
+	    				<OptGroup key="background" label="背景">
+	    					<Option key="background-color">背景颜色</Option>
+	    					<Option key="background-position">背景位置</Option>
 	    				</OptGroup>
     				    
-	    				<OptGroup key="Shadows" label="Shadows">
-	    					<Option key="TextShadows">Text Shadows</Option>
-	    					<Option key="BoxShadows">Box Shadows</Option>
+	    				<OptGroup key="shadows" label="阴影">
+	    					<Option key="text-shadows">文字阴影</Option>
+	    					<Option key="box-shadows">盒子阴影</Option>
+	    				</OptGroup>
+
+	    				<OptGroup key="size" label="大小">
+	    					<Option key="width">宽度</Option>
+	    					<Option key="height">高度</Option>
+	    					<Option key="min-height">最小高度</Option>
+	    					<Option key="max-height">最大高度</Option>
+	    					<Option key="min-width">最小高度</Option>
+	    					<Option key="max-width">最大高度</Option>
+	    				</OptGroup>
+
+	    				<OptGroup key="borders" label="边框">
+	    					<Option key="width">边框弧度</Option>
+	    					<Option key="height">边框颜色</Option>
+	    					<Option key="min-height">边框宽度</Option>
+	    				</OptGroup>
+
+	    				<OptGroup key="typo" label="字体">
+	    					<Option key="color">颜色</Option>
+	    					<Option key="font-size">大小</Option>
+	    					<Option key="line-height">行高</Option>
+	    					<Option key="letter-spacing">词间距(letter)</Option>
+	    					<Option key="word-spacing">词间距(word)</Option>
+	    					<Option key="text-indent">缩进</Option>
+	    				</OptGroup>
+
+	    				<OptGroup key="borders" label="边框">
+	    					<Option key="width">边框弧度</Option>
+	    					<Option key="height">边框颜色</Option>
+	    					<Option key="min-height">边框宽度</Option>
+	    				</OptGroup>
+
+	    				<OptGroup key="position" label="位置">
+	    					<Option key="top">顶部</Option>
+	    					<Option key="left">左部</Option>
+	    					<Option key="right">右部</Option>
+	    					<Option key="bottom">底部</Option>
+	    					<Option key="z-index">z-index</Option>
+	    				</OptGroup>
+
+	    				<OptGroup key="margin" label="外边距">
+	    					<Option key="margin-left">左外边距</Option>
+	    					<Option key="margin-right">右外边距</Option>
+	    					<Option key="margin-top">顶外边距</Option>
+	    					<Option key="margin-bottom">底外边距</Option>
+	    				</OptGroup>
+
+	    				<OptGroup key="padding" label="内边距">
+	    					<Option key="padding-left">左内边距</Option>
+	    					<Option key="padding-right">右内边距</Option>
+	    					<Option key="padding-top">上内边距</Option>
+	    					<Option key="padding-bottom">底内边距</Option>
+	    				</OptGroup>
+
+	    				<OptGroup key="flex" label="Flex">
+	    					<Option key="flex-grow">Flex Grow</Option>
+	    					<Option key="flex-shrink">Flex Shrink</Option>
+	    					<Option key="flex-basis">Flex Basis</Option>
 	    				</OptGroup>
 
     				</Select>
@@ -950,7 +1014,8 @@ const VDStylePanel = (props) => {
 			    </InputGroup>
 
     		</Form>
-    	),
+    	);
+		},
 
     	transitionSttingPopover: (
 			<Form className="form-no-margin-bottom">
@@ -2139,81 +2204,88 @@ const VDStylePanel = (props) => {
 		);
 		}
 
-		const transitionsTransformsPanel = (
-		    <Panel header="过渡和变换" key="transitions-transforms">
-		      	<Form className="form-no-margin-bottom">
-		      		<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right', marginTop: 5}} label="过渡">
-		      			<Tooltip placement="top" title="添加过渡">
-		      				<Popover title='添加过渡' placement="leftTop" trigger="click" content={transformAndTransitionProps.transformSettingPopover}>
-				      			<Button style={{borderBottom: 'none'}}>
-				      				<i className="fa fa-clock-o"></i>
-				      			</Button>
-				      		</Popover>
-			      		</Tooltip>
-		      		</FormItem>
+		const transitionsTransformsPanel = () => {
 
-		      		<FormItem wrapperCol={{ span: 24 }} style={{position: 'relative', top: -5}}>
-						<div style={{border: '1px solid #d9d9d9', minHeight: 10}}>
-							<Row>
-								<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
-									<i className="fa fa-eye"></i>
-								</Col>
-								<Col span={2} style={{textAlign: 'center', cursor: 'ns-resize'}}>
-									<i className="fa fa-chain"></i>
-								</Col>
-								<Col span={14} style={{textAlign: 'center', cursor: 'pointer'}}>
-									暂无
-								</Col>
-								<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
-									<i className="fa fa-trash-o"></i>
-								</Col>
-							</Row>
-						</div>
-					</FormItem>
+			const removeThisTransition = (transitionIndex) => {
+				props.dispatch({
+					type: 'vdstyles/removeThisTransition',
+					payload: {
+						transitionIndex,
+						activeStyleName: props.vdCtrlTree.activeCtrl.activeStyle
+					}
+				});				
+			}
 
-					<li className="ant-dropdown-menu-item-divider"></li>
-
-					<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right', marginTop: 5}} label="变换">
-						<ButtonGroup>
-    						<Tooltip placement="top" title="变换设置">
-			      				<Popover title='变换设置' placement="leftTop" trigger="click" content={transformAndTransitionProps.transitionSttingPopover}>
-					      			<Button style={{textAlign: 'center'}}>
-					      				<i className="fa fa-cog"></i>
-					      			</Button>
-					      		</Popover>
-				      		</Tooltip>
-			      			<Tooltip placement="top" title="添加变换">
-			      				<Popover title='添加变换' placement="leftTop" trigger="click" content={transformAndTransitionProps.transitionAddPopover}>
-					      			<Button style={{textAlign: 'center'}}>
+		 	return (
+			    <Panel header="过渡和变换" key="transitions-transforms">
+			      	<Form className="form-no-margin-bottom">
+			      		<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right', marginTop: 5}} label="过渡">
+			      			<Tooltip placement="top" title="添加过渡">
+			      				<Popover title='添加过渡' placement="leftTop" trigger="click" visible={props.vdstyles.popover.newTransition.visible} content={transformAndTransitionProps.transformSettingPopover()}>
+					      			<Button onClick={() => { props.dispatch({type: 'vdstyles/togglePopover', payload: { popoverName: 'newTransition' }}) }} style={{borderBottom: 'none'}}>
 					      				<i className="fa fa-plus"></i>
 					      			</Button>
 					      		</Popover>
 				      		</Tooltip>
-						</ButtonGroup>
-		      		</FormItem>
+			      		</FormItem>
 
-		      		<FormItem wrapperCol={{ span: 24 }} style={{position: 'relative', top: -3}}>
-						<div style={{border: '1px solid #d9d9d9', minHeight: 10}}>
-							<Row>
-								<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
-									<i className="fa fa-eye"></i>
-								</Col>
-								<Col span={2} style={{textAlign: 'center', cursor: 'ns-resize'}}>
-									<i className="fa fa-chain"></i>
-								</Col>
-								<Col span={14} style={{textAlign: 'center', cursor: 'pointer'}}>
-									暂无
-								</Col>
-								<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
-									<i className="fa fa-trash-o"></i>
-								</Col>
-							</Row>
-						</div>
-					</FormItem>
+			      		<FormItem wrapperCol={{ span: 24 }} style={{position: 'relative', top: -5}}>
+			      			{
+			      				props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['transition'].childrenProps.map((cssProperty, cssPropertyIndex) => {
+			      					return (
+										<div key={cssPropertyIndex} className="filter-list">
+											<Row>
+												<Col span={20} style={{textAlign: 'left', cursor: 'pointer', paddingLeft: '15px'}}>
+													{cssProperty['transition-timing-function']}({cssProperty['transition-duration']},{cssProperty['transition-property']})
+												</Col>
+												<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
+													<i onClick={removeThisTransition.bind(this, cssPropertyIndex)} className="fa fa-trash-o"></i>
+												</Col>
+											</Row>
+										</div>
+			      					);
+			      				})
+			      			}
+						</FormItem>
 
-		      	</Form>
-		    </Panel>
-		);
+						<li className="ant-dropdown-menu-item-divider"></li>
+
+						<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right', marginTop: 5}} label="变换">
+							<ButtonGroup>
+	    						<Tooltip placement="top" title="变换设置">
+				      				<Popover title='变换设置' placement="leftTop" trigger="click" content={transformAndTransitionProps.transitionSttingPopover}>
+						      			<Button style={{textAlign: 'center'}}>
+						      				<i className="fa fa-cog"></i>
+						      			</Button>
+						      		</Popover>
+					      		</Tooltip>
+				      			<Tooltip placement="top" title="添加变换">
+				      				<Popover title='添加变换' placement="leftTop" trigger="click" content={transformAndTransitionProps.transitionAddPopover}>
+						      			<Button style={{textAlign: 'center'}}>
+						      				<i className="fa fa-plus"></i>
+						      			</Button>
+						      		</Popover>
+					      		</Tooltip>
+							</ButtonGroup>
+			      		</FormItem>
+
+			      		<FormItem wrapperCol={{ span: 24 }} style={{position: 'relative', top: -3}}>
+							<div style={{border: '1px solid #d9d9d9', minHeight: 10}}>
+								<Row>
+									<Col span={20} style={{textAlign: 'left', cursor: 'pointer', paddingLeft: '15px'}}>
+										暂无
+									</Col>
+									<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
+										<i className="fa fa-trash-o"></i>
+									</Col>
+								</Row>
+							</div>
+						</FormItem>
+
+			      	</Form>
+			    </Panel>
+			);
+		}
 
 		const effectsPanel = () => {
 
@@ -2508,14 +2580,14 @@ const VDStylePanel = (props) => {
 		if(props.vdCtrlTree.activeCtrl.activeStyle) {
 			tpl = (
 
-				<Collapse bordered={false} defaultActiveKey={['css', 'layout', 'typo', 'background', 'borders', 'shadows', 'tt', 'effects']}>
+				<Collapse bordered={false} defaultActiveKey={['css', 'layout', 'typo', 'background', 'borders', 'shadows', 'transitions-transforms', 'effects']}>
 					{cssPanel}
 					{layoutPanel()}
 					{typoPanel()}
 					{backgroundPanel()}
 					{bordersPanel()}
 					{shadowsPanel()}
-					{transitionsTransformsPanel}
+					{transitionsTransformsPanel()}
 					{effectsPanel()}
 				</Collapse>
 

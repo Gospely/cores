@@ -1408,14 +1408,14 @@ export default {
 				key: 'tabs',
 				details: {
 					tag: 'div',
-					className: ['vd-tabs', 'vd-empty'],
+					className: [],
 					attrs: [{
 						title: '标签页设置',
 						key: 'tabs-setting',
 						children: []
 					}],
 					children: [{
-						tag: 'ul',
+						tag: 'div',
 						className: ['nav', 'nav-tabs'],
 						attrs: [{
 						title: '标签页设置',
@@ -1423,37 +1423,153 @@ export default {
 							children: []
 						}],
 						children: [{
-							tag: 'li',
-							className: ['tab-content', 'active'],
-							attrs: [{
-								title: '标签页设置',
-								key: 'tabs-setting',
-								children: []
-							}],
-							children: [{
-								tag: 'a',
-								className: ['tab-pane'],
-								children: [],
-								attrs: [{
-									title: '标签页设置',
-									key: 'tabs-setting',
-									children: [{
-										name: 'href',
-										attrName: 'href',
-										value: ''
-									}]
-								}]
-							}]
-						}]
+                            tag: 'a',
+                            className: ['tab-pane', 'vd-tab-link', 'vd-inline-block'],
+                            attrs: [{
+                                title: '标签页设置',
+                                key: 'tabs-setting',
+                                children: [{
+                                    name: 'src',
+                                    desc: '跳转链接',
+                                    type: 'input',
+                                    value: '',
+                                    isAttr: true,
+                                    attrName: 'src',
+                                    id: ''
+                                }, {
+                                    name: 'target',
+                                    desc: '新窗口打开',
+                                    type: 'toggle',
+                                    value: false,
+                                    isAttr: true,
+                                    attrName: 'target',
+                                    id: ''
+                                }]
+                            }],
+                            children: [{
+                                tag: 'div',
+                                className: [],
+                                attrs: [{
+                                title: '标签页设置',
+                                    key: 'tabs-setting',
+                                    children: [{
+                                        name: 'innerHTML',
+                                        desc: '显示文本',
+                                        type: 'input',
+                                        value: 'Tab 1',
+                                        isHTML: true,
+                                        id: ''
+                                    }]
+                                }],
+                            }]
+                        },{
+                            tag: 'a',
+                            className: ['tab-pane', 'vd-tab-link', 'vd-inline-block'],
+                            attrs: [{
+                                title: '标签页设置',
+                                key: 'tabs-setting',
+                                children: [{
+                                    name: 'src',
+                                    desc: '跳转链接',
+                                    type: 'input',
+                                    value: '',
+                                    isAttr: true,
+                                    attrName: 'src',
+                                    id: ''
+                                }, {
+                                    name: 'target',
+                                    desc: '新窗口打开',
+                                    type: 'toggle',
+                                    value: false,
+                                    isAttr: true,
+                                    attrName: 'target',
+                                    id: ''
+                                }]
+                            }],
+                            children: [{
+                                tag: 'div',
+                                className: [],
+                                attrs: [{
+                                title: '标签页设置',
+                                    key: 'tabs-setting',
+                                    children: [{
+                                        name: 'innerHTML',
+                                        desc: '显示文本',
+                                        type: 'input',
+                                        value: 'Tab 2',
+                                        isHTML: true,
+                                        id: ''
+                                    }]
+                                }],
+                            }]
+                        },{
+                            tag: 'a',
+                            className: ['tab-pane', 'vd-tab-link', 'vd-inline-block'],
+                            attrs: [{
+                                title: '标签页设置',
+                                key: 'tabs-setting',
+                                children: [{
+                                    name: 'src',
+                                    desc: '跳转链接',
+                                    type: 'input',
+                                    value: '',
+                                    isAttr: true,
+                                    attrName: 'src',
+                                    id: ''
+                                }, {
+                                    name: 'target',
+                                    desc: '新窗口打开',
+                                    type: 'toggle',
+                                    value: false,
+                                    isAttr: true,
+                                    attrName: 'target',
+                                    id: ''
+                                }]
+                            }],
+                            children: [{
+                                tag: 'div',
+                                className: [],
+                                attrs: [{
+                                title: '标签页设置',
+                                    key: 'tabs-setting',
+                                    children: [{
+                                        name: 'innerHTML',
+                                        desc: '显示文本',
+                                        type: 'input',
+                                        value: 'Tab 3',
+                                        isHTML: true,
+                                        id: ''
+                                    }]
+                                }],
+                            }]
+                        }]
 					}, {
 						tag: 'div',
-						className: ['tab-content', 'vd-tab-content'],
+						className: ['tab-content', 'vd-tab-content', 'vd-empty'],
 						attrs: [{
 							title: '标签页设置',
 							key: 'tabs-setting',
 							children: []
 						}],
 						children: [{
+							tag: 'div',
+							className: ['tab-pane', 'active'],
+							children: [],
+							attrs: [{
+								title: '标签页设置',
+								key: 'tabs-setting',
+								children: []
+							}]
+						},{
+							tag: 'div',
+							className: ['tab-pane', 'active'],
+							children: [],
+							attrs: [{
+								title: '标签页设置',
+								key: 'tabs-setting',
+								children: []
+							}]
+						},{
 							tag: 'div',
 							className: ['tab-pane', 'active'],
 							children: [],
