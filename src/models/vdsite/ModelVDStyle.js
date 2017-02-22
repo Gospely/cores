@@ -147,7 +147,8 @@ export default {
 		},
 
 		filterSetting: {
-			value: ''			
+			value: '',
+			unit: ''		
 		},
 
 		cssStyleLayout: {
@@ -323,6 +324,10 @@ export default {
 
 		popover: {
 			newFilter: {
+				visible: false
+			},
+
+			modifyFilter: {
 				visible: false
 			}
 		}
@@ -647,17 +652,33 @@ export default {
 		saveFilter(state, { payload: params }) {
 			var cssProperty = state.cssStyleLayout[params.activeStyleName]['filter'];
 
-			cssProperty.childrenProps.push({
+			if(state.filterSetting.value == '') {
+				message.error('请填写值！');
+				return {...state};
+			}
 
+			cssProperty.childrenProps.push({
+				name: params.activeFilterName,
+				value: state.filterSetting.value
 			});
+
+			state.filterSetting.value = '';
+			state.popover['newFilter'].visible = false;
+
 			return {...state};
 		},
 
 		handleFilterInputChange(state, { payload: params }) {
 			state.filterSetting.value = params.value;
+			state.filterSetting.unit = params.unit;
+			return {...state};
+		},
+
+		removeThisFilter(state, { payload: params }) {
+			var cssProperty = state.cssStyleLayout[params.activeStyleName]['filter'];
+			cssProperty.childrenProps.splice(params.filterIndex, 1);
 			return {...state};
 		}
-
 
 	}
 

@@ -2222,11 +2222,12 @@ const VDStylePanel = (props) => {
 
 					var filterFormGenerator = (cssProp) => {
 
-						const handleFilterInputChange = (e) => {
+						const handleFilterInputChange = (unit, e) => {
 							props.dispatch({
 								type: 'vdstyles/handleFilterInputChange',
 								payload: {
-									value: e.target.value
+									value: e.target.value,
+									unit
 								}
 							});
 						}
@@ -2237,7 +2238,7 @@ const VDStylePanel = (props) => {
 			    					<FormItem labelCol={{span: 4}} wrapperCol={{span: 20}} label={(<i title="高斯模糊" className='fa fa-clock-o'></i>)}>
 										<Row>
 									        <Col span={18} style={{paddingRight: '10px'}}>
-									          	<Input onChange={handleFilterInputChange.bind(this)} value={props.vdstyles.filterSetting.value} size="small"/>
+									          	<Input type="number" onPressEnter={saveFilter} onChange={handleFilterInputChange.bind(this, 'px')} value={props.vdstyles.filterSetting.value} size="small"/>
 									        </Col>
 									        <Col span={4}>
 									        	px
@@ -2252,7 +2253,7 @@ const VDStylePanel = (props) => {
 					    			<FormItem labelCol={{span: 4}} wrapperCol={{span: 20}} label={(<i title="亮度" className='fa fa-clock-o'></i>)}>
 										<Row>
 									        <Col span={18} style={{paddingRight: '10px'}}>
-									          	<Input onChange={handleFilterInputChange.bind(this)} value={props.vdstyles.filterSetting.value} size="small"/>
+									          	<Input type="number" onPressEnter={saveFilter} onChange={handleFilterInputChange.bind(this, '%')} value={props.vdstyles.filterSetting.value} size="small"/>
 									        </Col>
 									        <Col span={4}>
 									        	％
@@ -2267,7 +2268,7 @@ const VDStylePanel = (props) => {
 					    			<FormItem labelCol={{span: 4}} wrapperCol={{span: 20}} label={(<i title="对比度" className='fa fa-clock-o'></i>)}>
 										<Row>
 									        <Col span={18} style={{paddingRight: '10px'}}>
-									          	<Input onChange={handleFilterInputChange.bind(this)} value={props.vdstyles.filterSetting.value} size="small"/>
+									          	<Input type="number" onPressEnter={saveFilter} onPressEnter={saveFilter} onChange={handleFilterInputChange.bind(this, '%')} value={props.vdstyles.filterSetting.value} size="small"/>
 									        </Col>
 									        <Col span={4}>
 									        	％
@@ -2282,7 +2283,7 @@ const VDStylePanel = (props) => {
 					    			<FormItem labelCol={{span: 4}} wrapperCol={{span: 20}} label={(<i title="灰度图像" className='fa fa-clock-o'></i>)}>
 										<Row>
 									        <Col span={18} style={{paddingRight: '10px'}}>
-									          	<Input onChange={handleFilterInputChange.bind(this)} value={props.vdstyles.filterSetting.value} size="small"/>
+									          	<Input type="number" onPressEnter={saveFilter} onChange={handleFilterInputChange.bind(this, '%')} value={props.vdstyles.filterSetting.value} size="small"/>
 									        </Col>
 									        <Col span={4}>
 									        	％
@@ -2297,7 +2298,7 @@ const VDStylePanel = (props) => {
 					    			<FormItem labelCol={{span: 4}} wrapperCol={{span: 20}} label={(<i title="旋转" className='fa fa-clock-o'></i>)}>
 										<Row>
 									        <Col span={18} style={{paddingRight: '10px'}}>
-									          	<Input onChange={handleFilterInputChange.bind(this)} value={props.vdstyles.filterSetting.value} size="small"/>
+									          	<Input type="number" onPressEnter={saveFilter} onChange={handleFilterInputChange.bind(this, '%')} value={props.vdstyles.filterSetting.value} size="small"/>
 									        </Col>
 									        <Col span={4}>
 									        	deg
@@ -2312,7 +2313,7 @@ const VDStylePanel = (props) => {
 		    						<FormItem labelCol={{span: 4}} wrapperCol={{span: 20}} label={(<i title="反转" className='fa fa-clock-o'></i>)}>
 										<Row>
 									        <Col span={18} style={{paddingRight: '10px'}}>
-									          	<Input onChange={handleFilterInputChange.bind(this)} value={props.vdstyles.filterSetting.value} size="small"/>
+									          	<Input type="number" onPressEnter={saveFilter} onChange={handleFilterInputChange.bind(this, '%')} value={props.vdstyles.filterSetting.value} size="small"/>
 									        </Col>
 									        <Col span={4}>
 									        	%
@@ -2327,7 +2328,7 @@ const VDStylePanel = (props) => {
 					    			<FormItem labelCol={{span: 4}} wrapperCol={{span: 20}} label={(<i title="饱和度" className='fa fa-clock-o'></i>)}>
 										<Row>
 									        <Col span={18} style={{paddingRight: '10px'}}>
-									          	<Input onChange={handleFilterInputChange.bind(this)} value={props.vdstyles.filterSetting.value} size="small"/>
+									          	<Input type="number" onPressEnter={saveFilter} onChange={handleFilterInputChange.bind(this, '%')} value={props.vdstyles.filterSetting.value} size="small"/>
 									        </Col>
 									        <Col span={4}>
 									        	%
@@ -2342,7 +2343,7 @@ const VDStylePanel = (props) => {
 									<FormItem labelCol={{span: 4}} wrapperCol={{span: 20}} label={(<i title="深褐色" className='fa fa-clock-o'></i>)}>
 										<Row>
 									        <Col span={18} style={{paddingRight: '10px'}}>
-									          	<Input onChange={handleFilterInputChange.bind(this)} value={props.vdstyles.filterSetting.value} size="small"/>
+									          	<Input type="number" onPressEnter={saveFilter} onChange={handleFilterInputChange.bind(this, '%')} value={props.vdstyles.filterSetting.value} size="small"/>
 									        </Col>
 									        <Col span={4}>
 									        	%
@@ -2402,12 +2403,30 @@ const VDStylePanel = (props) => {
 				}
 			}
 
-
 			const newFilterPopoverTrigger = () => {
 				props.dispatch({
 					type: 'vdstyles/togglePopover',
 					payload: {
 						popoverName: 'newFilter'
+					}
+				});
+			}
+
+			const modifyFilterPopoverTrigger = () => {
+				props.dispatch({
+					type: 'vdstyles/togglePopover',
+					payload: {
+						popoverName: 'modifyFilter'
+					}
+				});
+			}
+
+			const removeThisFilter = (filterIndex) => {
+				props.dispatch({
+					type: 'vdstyles/removeThisFilter',
+					payload: {
+						filterIndex,
+						activeStyleName: props.vdCtrlTree.activeCtrl.activeStyle
 					}
 				});
 			}
@@ -2439,16 +2458,18 @@ const VDStylePanel = (props) => {
 		      			{
 		      				props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['filter'].childrenProps.map((cssProperty, cssPropertyIndex) => {
 		      					return (
-									<div className="filter-list" key={cssPropertyIndex}>
-										<Row>
-											<Col span={20} style={{textAlign: 'left', cursor: 'pointer', paddingLeft: '15px'}}>
-												{cssProperty.name}, {cssProperty.value}
-											</Col>
-											<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
-												<i className="fa fa-trash-o"></i>
-											</Col>
-										</Row>
-									</div>
+		      						<Popover key={cssPropertyIndex} title="修改滤镜" placemen="leftTop" trigger="click" visible={props.vdstyles.popover.modifyFilter.visible}>
+										<div onClick={modifyFilterPopoverTrigger.bind(this)} className="filter-list" key={cssPropertyIndex}>
+											<Row>
+												<Col span={20} style={{textAlign: 'left', cursor: 'pointer', paddingLeft: '15px'}}>
+													{cssProperty.name}, {cssProperty.value}
+												</Col>
+												<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
+													<i onClick={removeThisFilter.bind(this, cssPropertyIndex)} className="fa fa-trash-o"></i>
+												</Col>
+											</Row>
+										</div>
+		      						</Popover>
 		      					);
 		      				})
 		      			}
