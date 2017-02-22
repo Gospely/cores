@@ -483,6 +483,7 @@ $(function() {
 
 			'update': function(activeCtrl, children, parent){
 
+				console.log(activeCtrl);
 				let vdid  = activeCtrl.vdid;
 				var elem = jq('[vdid='+ activeCtrl.vdid + ']');
 				activeCtrl.vdid = activeCtrl.vdid + 'c';
@@ -495,8 +496,6 @@ $(function() {
 
 				console.log('add children');
 				var elem = jq('[vdid='+ parent + ']');
-
-
 				var elemGen = new ElemGenerator(children);
 				var tempElem = elemGen.createElement();
 				elem = elem.append(tempElem[0].outerHTML);

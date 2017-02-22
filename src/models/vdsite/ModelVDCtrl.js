@@ -1416,14 +1416,16 @@ export default {
 					}],
 					children: [{
 						tag: 'div',
+                        unActive: true,
 						className: ['nav', 'nav-tabs'],
 						attrs: [{
-						title: '标签页设置',
+						    title: '标签页设置',
 							key: 'tabs-setting',
 							children: []
 						}],
 						children: [{
                             tag: 'a',
+                            unActive: true,
                             className: ['tab-pane', 'vd-tab-link', 'vd-inline-block'],
                             attrs: [{
                                 title: '标签页设置',
@@ -1448,6 +1450,7 @@ export default {
                             }],
                             children: [{
                                 tag: 'div',
+                                unActive: true,
                                 className: [],
                                 attrs: [{
                                 title: '标签页设置',
@@ -1464,6 +1467,7 @@ export default {
                             }]
                         },{
                             tag: 'a',
+                            unActive: true,
                             className: ['tab-pane', 'vd-tab-link', 'vd-inline-block'],
                             attrs: [{
                                 title: '标签页设置',
@@ -1488,6 +1492,7 @@ export default {
                             }],
                             children: [{
                                 tag: 'div',
+                                unActive: true,
                                 className: [],
                                 attrs: [{
                                 title: '标签页设置',
@@ -1504,6 +1509,7 @@ export default {
                             }]
                         },{
                             tag: 'a',
+                            unActive: true,
                             className: ['tab-pane', 'vd-tab-link', 'vd-inline-block'],
                             attrs: [{
                                 title: '标签页设置',
@@ -1528,6 +1534,7 @@ export default {
                             }],
                             children: [{
                                 tag: 'div',
+                                unActive: true,
                                 className: [],
                                 attrs: [{
                                 title: '标签页设置',
@@ -1545,6 +1552,7 @@ export default {
                         }]
 					}, {
 						tag: 'div',
+                        unActive: true,
 						className: ['tab-content', 'vd-tab-content', 'vd-empty'],
 						attrs: [{
 							title: '标签页设置',
@@ -1553,6 +1561,7 @@ export default {
 						}],
 						children: [{
 							tag: 'div',
+                            unActive: true,
 							className: ['tab-pane', 'active'],
 							children: [],
 							attrs: [{
@@ -1562,6 +1571,7 @@ export default {
 							}]
 						},{
 							tag: 'div',
+                            unActive: true,
 							className: ['tab-pane', 'active'],
 							children: [],
 							attrs: [{
@@ -1571,6 +1581,7 @@ export default {
 							}]
 						},{
 							tag: 'div',
+                            unActive: true,
 							className: ['tab-pane', 'active'],
 							children: [],
 							attrs: [{

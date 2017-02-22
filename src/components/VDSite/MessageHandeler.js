@@ -25,7 +25,7 @@ export default {
 						payload: data
 					})
 				}
-				
+
 			}
 
 			for(var key in data) {
