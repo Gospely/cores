@@ -1284,7 +1284,7 @@ export default {
                                     name: 'innerHTML',
                                     desc: '名称',
                                     type: 'input',
-                                    value: '多选框',
+                                    value: '单选框',
                                     id: '',
                                     isHTML: true,
                                 }]

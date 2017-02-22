@@ -473,7 +473,7 @@ $(function() {
 		//对子节点的操作
 		const childrenOperate = {
 
-			'update': function(activeCtrl, children){
+			'update': function(activeCtrl, children, parent){
 
 				let vdid  = activeCtrl.vdid;
 				var elem = jq('[vdid='+ activeCtrl.vdid + ']');
@@ -483,15 +483,14 @@ $(function() {
 				tempElem.attr('vdid', vdid);
 				elem = elem.replaceWith(tempElem[0].outerHTML);
 			},
-			'add': function(activeCtrl, children){
+			'add': function(parent, children, parent){
 
 				console.log('add children');
-				let vdid  = activeCtrl.vdid;
-				var elem = jq('[vdid='+ activeCtrl.vdid + ']');
-				activeCtrl.vdid = activeCtrl.vdid + 'c';
+				var elem = jq('[vdid='+ parent + ']');
+
+
 				var elemGen = new ElemGenerator(children);
 				var tempElem = elemGen.createElement();
-				tempElem.attr('vdid', vdid);
 				elem = elem.append(tempElem[0].outerHTML);
 			},
 		}
@@ -545,7 +544,7 @@ $(function() {
 				}
 				console.log(attr);
 				if(attr.attrName == 'children'){
-					childrenOperate[attr.action](activeCtrl, attr.children);
+					childrenOperate[attr.action](activeCtrl, attr.children, attr.parent);
 				}else {
 					new ElemGenerator(activeCtrl).setAttributeByAttr(attr, attrType);
 				}
