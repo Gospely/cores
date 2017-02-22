@@ -329,6 +329,10 @@ export default {
 
 			modifyFilter: {
 				visible: false
+			},
+
+			cursor: {
+				visible: false
 			}
 		}
 	},
