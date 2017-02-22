@@ -996,6 +996,8 @@ $(function() {
         	createElement: function () {
         		var self = this;
 
+				console.log('createElement');
+				console.log(this.controller);
         		this.initElem();
         		this.bindData();
         		this.setAttribute();

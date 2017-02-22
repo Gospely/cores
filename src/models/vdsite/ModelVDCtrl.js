@@ -1408,7 +1408,7 @@ export default {
 				key: 'tabs',
 				details: {
 					tag: 'div',
-					className: [],
+					className: ['vd-tabs', 'vd-empty'],
 					attrs: [{
 						title: '标签页设置',
 						key: 'tabs-setting',
@@ -1447,7 +1447,7 @@ export default {
 						}]
 					}, {
 						tag: 'div',
-						className: ['tab-content'],
+						className: ['tab-content', 'vd-tab-content'],
 						attrs: [{
 							title: '标签页设置',
 							key: 'tabs-setting',

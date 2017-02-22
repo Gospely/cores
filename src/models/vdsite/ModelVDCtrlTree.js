@@ -57,6 +57,7 @@ const VDTreeActions = {
 					loopControllers(currentControl.children, level ++);
 				}
 				if (currentControl.vdid == key) {
+					console.log(currentControl);
 					obj.index = i;
 					obj.level = level;
 					obj.controller = currentControl;
@@ -272,6 +273,8 @@ export default {
         handleCreateVisible(state, { payload: value}){
 
             state.keyValeCreateVisible = value;
+			state.attr.html = '';
+			state.attr.value = '';
 			return { ...state};
         },
 		editSymbol(state){
@@ -310,7 +313,9 @@ export default {
 		handleChildrenAttrChange(state, { payload: params}){
 
 			console.log(params);
-			state.activeCtrl.children[state.selectIndex].attrs[0].children[0][params.attr.name] = params.attr.value;
+			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
+			currentActiveCtrl.controller.children[state.selectIndex].attrs[0].children[0][params.attr.name] = params.attr.value;
+			state.activeCtrl = currentActiveCtrl.controller;
 			return { ...state};
 		},
 		handleAddChildrenAttr(state, { payload: params}){
@@ -322,12 +327,15 @@ export default {
 		//当前活跃控件子删除
 		handleChildrenDelete(state, {payload: params}){
 
-			console.log(params);
-			var children = state.activeCtrl.children[params.index];
-			state.activeCtrl.children = params.activeCtrl.children.splice(params.index,1);
-			if(state.activeCtrl.children == null || state.activeCtrl.children == undefined){
-				state.activeCtrl.children = [];
+			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
+
+			var children =  params.activeCtrl.children[params.index];
+			console.log(currentActiveCtrl.controller);
+			currentActiveCtrl.controller.children.splice(params.index,1);
+			if(currentActiveCtrl.controller.children == null || currentActiveCtrl.controller.children == undefined){
+				currentActiveCtrl.controller.children = [];
 			}
+			state.activeCtrl = currentActiveCtrl.controller;
 			console.log(state.activeCtrl);
 			window.VDDesignerFrame.postMessage({
 				VDChildrenDelete: {
@@ -340,17 +348,17 @@ export default {
 		//当前活跃控件 添加一个子控件
 		handleChildrenAdd(state, {payload: params}){
 
-			console.log(params);
-			console.log(state.activeCtrl);
 			params.children.attrs[0].children[0].html = state.attr.html;
 			params.children.attrs[0].children[0].value = state.attr.value;
-			if(state.activeCtrl.children) {
-				state.activeCtrl.children.push(params.children);
+			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
+			if(currentActiveCtrl.controller.children) {
+				currentActiveCtrl.controller.children.push(params.children);
 			}else {
 				var chidren = new Array();
 				chidren.push(params.children);
-				state.activeCtrl.children = children;
+				currentActiveCtrl.controller.children = children;
 			}
+			state.activeCtrl = currentActiveCtrl.controller;
 			state.keyValeCreateVisible = false;
 			window.VDDesignerFrame.postMessage({
 				VDAttrRefreshed: {
@@ -359,6 +367,23 @@ export default {
 						attrName: 'children',
 						action: 'add',
 						children: params.children
+					},
+					attrType: params.attrType
+				}
+			}, '*');
+			return {...state};
+		},
+		//当前活跃控件子控件更新
+		handleChildrenUpdate(state, {payload: params}){
+
+			state.keyValeUpdateVisible = false;
+			console.log(params);
+			window.VDDesignerFrame.postMessage({
+				VDAttrRefreshed: {
+					activeCtrl: params.activeCtrl,
+					attr: {
+						attrName: 'children',
+						action: 'update'
 					},
 					attrType: params.attrType
 				}
@@ -490,23 +515,6 @@ export default {
   			state.activeCtrl = currentActiveCtrl.controller;
 			return {...state};
 		},
-		//当前活跃控件子控件更新
-		handleChildrenUpdate(state, {payload: params}){
-
-			state.keyValeUpdateVisible = false;
-			console.log(params);
-			window.VDDesignerFrame.postMessage({
-				VDAttrRefreshed: {
-					activeCtrl: params.activeCtrl,
-					attr: {
-						attrName: 'children',
-						action: 'update'
-					},
-					attrType: params.attrType
-				}
-			}, '*');
-			return {...state};
-		},
 		handleAttrRefreshed(state, { payload: params }) {
 
 			//判断是否需要切换标签
@@ -521,6 +529,7 @@ export default {
 				var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
 				state.activeCtrl.attrs[currentActiveCtrl.index].children[currentActiveCtrl.level-1].value = params.attr.value;
 				params.activeCtrl.attrs[currentActiveCtrl.index].children[currentActiveCtrl.level-1].value = params.attr.value;
+				state.activeCtrl = currentActiveCtrl.controller;
 			}
 			window.VDDesignerFrame.postMessage({
 				VDAttrRefreshed: params
