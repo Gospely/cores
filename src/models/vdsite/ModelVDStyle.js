@@ -146,6 +146,10 @@ export default {
 			}
 		},
 
+		filterSetting: {
+			value: ''			
+		},
+
 		cssStyleLayout: {
 			body: {
 				display: '',
@@ -258,7 +262,11 @@ export default {
 					}],
 
 					childrenProps: [{
-
+						name: 'blur',
+						value: '20px'
+					}, {
+						name: 'brightness',
+						value: '20%'
 					}],
 
 					state: {
@@ -634,7 +642,22 @@ export default {
 		togglePopover(state, { payload: params }) {
 			state.popover[params.popoverName].visible = !state.popover[params.popoverName].visible;
 			return {...state};
+		},
+
+		saveFilter(state, { payload: params }) {
+			var cssProperty = state.cssStyleLayout[params.activeStyleName]['filter'];
+
+			cssProperty.childrenProps.push({
+
+			});
+			return {...state};
+		},
+
+		handleFilterInputChange(state, { payload: params }) {
+			state.filterSetting.value = params.value;
+			return {...state};
 		}
+
 
 	}
 

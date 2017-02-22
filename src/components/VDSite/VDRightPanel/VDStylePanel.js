@@ -2222,13 +2222,22 @@ const VDStylePanel = (props) => {
 
 					var filterFormGenerator = (cssProp) => {
 
+						const handleFilterInputChange = (e) => {
+							props.dispatch({
+								type: 'vdstyles/handleFilterInputChange',
+								payload: {
+									value: e.target.value
+								}
+							});
+						}
+
 						var filter = {
 							blur () {
 								return (
 			    					<FormItem labelCol={{span: 4}} wrapperCol={{span: 20}} label={(<i title="高斯模糊" className='fa fa-clock-o'></i>)}>
 										<Row>
 									        <Col span={18} style={{paddingRight: '10px'}}>
-									          	<Input size="small"/>
+									          	<Input onChange={handleFilterInputChange.bind(this)} value={props.vdstyles.filterSetting.value} size="small"/>
 									        </Col>
 									        <Col span={4}>
 									        	px
@@ -2243,7 +2252,7 @@ const VDStylePanel = (props) => {
 					    			<FormItem labelCol={{span: 4}} wrapperCol={{span: 20}} label={(<i title="亮度" className='fa fa-clock-o'></i>)}>
 										<Row>
 									        <Col span={18} style={{paddingRight: '10px'}}>
-									          	<Input size="small"/>
+									          	<Input onChange={handleFilterInputChange.bind(this)} value={props.vdstyles.filterSetting.value} size="small"/>
 									        </Col>
 									        <Col span={4}>
 									        	％
@@ -2258,7 +2267,7 @@ const VDStylePanel = (props) => {
 					    			<FormItem labelCol={{span: 4}} wrapperCol={{span: 20}} label={(<i title="对比度" className='fa fa-clock-o'></i>)}>
 										<Row>
 									        <Col span={18} style={{paddingRight: '10px'}}>
-									          	<Input size="small"/>
+									          	<Input onChange={handleFilterInputChange.bind(this)} value={props.vdstyles.filterSetting.value} size="small"/>
 									        </Col>
 									        <Col span={4}>
 									        	％
@@ -2273,7 +2282,7 @@ const VDStylePanel = (props) => {
 					    			<FormItem labelCol={{span: 4}} wrapperCol={{span: 20}} label={(<i title="灰度图像" className='fa fa-clock-o'></i>)}>
 										<Row>
 									        <Col span={18} style={{paddingRight: '10px'}}>
-									          	<Input size="small"/>
+									          	<Input onChange={handleFilterInputChange.bind(this)} value={props.vdstyles.filterSetting.value} size="small"/>
 									        </Col>
 									        <Col span={4}>
 									        	％
@@ -2288,7 +2297,7 @@ const VDStylePanel = (props) => {
 					    			<FormItem labelCol={{span: 4}} wrapperCol={{span: 20}} label={(<i title="旋转" className='fa fa-clock-o'></i>)}>
 										<Row>
 									        <Col span={18} style={{paddingRight: '10px'}}>
-									          	<Input size="small"/>
+									          	<Input onChange={handleFilterInputChange.bind(this)} value={props.vdstyles.filterSetting.value} size="small"/>
 									        </Col>
 									        <Col span={4}>
 									        	deg
@@ -2303,7 +2312,7 @@ const VDStylePanel = (props) => {
 		    						<FormItem labelCol={{span: 4}} wrapperCol={{span: 20}} label={(<i title="反转" className='fa fa-clock-o'></i>)}>
 										<Row>
 									        <Col span={18} style={{paddingRight: '10px'}}>
-									          	<Input size="small"/>
+									          	<Input onChange={handleFilterInputChange.bind(this)} value={props.vdstyles.filterSetting.value} size="small"/>
 									        </Col>
 									        <Col span={4}>
 									        	%
@@ -2318,7 +2327,7 @@ const VDStylePanel = (props) => {
 					    			<FormItem labelCol={{span: 4}} wrapperCol={{span: 20}} label={(<i title="饱和度" className='fa fa-clock-o'></i>)}>
 										<Row>
 									        <Col span={18} style={{paddingRight: '10px'}}>
-									          	<Input size="small"/>
+									          	<Input onChange={handleFilterInputChange.bind(this)} value={props.vdstyles.filterSetting.value} size="small"/>
 									        </Col>
 									        <Col span={4}>
 									        	%
@@ -2333,7 +2342,7 @@ const VDStylePanel = (props) => {
 									<FormItem labelCol={{span: 4}} wrapperCol={{span: 20}} label={(<i title="深褐色" className='fa fa-clock-o'></i>)}>
 										<Row>
 									        <Col span={18} style={{paddingRight: '10px'}}>
-									          	<Input size="small"/>
+									          	<Input onChange={handleFilterInputChange.bind(this)} value={props.vdstyles.filterSetting.value} size="small"/>
 									        </Col>
 									        <Col span={4}>
 									        	%
@@ -2347,6 +2356,16 @@ const VDStylePanel = (props) => {
 
 						return filter[cssProp]();
 
+					}
+
+					const saveFilter = () => {
+						props.dispatch({
+							type: 'vdstyles/saveFilter',
+							payload: {
+								activeStyleName: props.vdCtrlTree.activeCtrl.activeStyle,
+								activeFilterName: props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['filter'].filters[activeFilter].cssProp
+							}
+						});						
 					}
 
 					return (
@@ -2373,6 +2392,8 @@ const VDStylePanel = (props) => {
 			    			</FormItem>
 
 			    			{filterFormGenerator(props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['filter'].filters[activeFilter].cssProp)}
+
+			    			<Button onClick={saveFilter} size="small">保存</Button>
 
 			    		</Form>
 
@@ -2415,16 +2436,22 @@ const VDStylePanel = (props) => {
 		      		</FormItem>
 
 		      		<FormItem wrapperCol={{ span: 24 }} style={{position: 'relative', top: -5}}>
-						<div style={{border: '1px solid #d9d9d9', minHeight: 10}}>
-							<Row>
-								<Col span={20} style={{textAlign: 'center', cursor: 'pointer'}}>
-									暂无
-								</Col>
-								<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
-									<i className="fa fa-trash-o"></i>
-								</Col>
-							</Row>
-						</div>
+		      			{
+		      				props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['filter'].childrenProps.map((cssProperty, cssPropertyIndex) => {
+		      					return (
+									<div className="filter-list" key={cssPropertyIndex}>
+										<Row>
+											<Col span={20} style={{textAlign: 'left', cursor: 'pointer', paddingLeft: '15px'}}>
+												{cssProperty.name}, {cssProperty.value}
+											</Col>
+											<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
+												<i className="fa fa-trash-o"></i>
+											</Col>
+										</Row>
+									</div>
+		      					);
+		      				})
+		      			}
 					</FormItem>
 
 					<li className="ant-dropdown-menu-item-divider"></li>
