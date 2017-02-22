@@ -64,6 +64,7 @@ const Component = (props) => {
                     result[key] = obj[key];
                 }
             }
+            result.id = randomString(8,10);
             return result;
         },
     }
@@ -72,10 +73,29 @@ const Component = (props) => {
         /**
          *从原始配置里面复制一个chidren, index 指定以第几个children 作为模板复制
          */
-        copyChildren(index, fatherKey, key){
+        copyChildren(index, fatherKey, key, level){
             var result,
-                ctrlConfig = vdCtrlOperate.findCtrlOriginConfig(fatherKey,key);
-            return vdCtrlOperate.deepCopyObj(ctrlConfig.details.children[index], result)
+                ctrlConfig = vdCtrlOperate.findCtrlOriginConfig(fatherKey,key),
+                i = 0,
+                parent = ctrlConfig.details,
+                comonIndex = 0;
+
+                function copyByLevel(parent) {
+
+                    i++;
+                    if(i == level -1){
+                        comonIndex = index;
+                    }
+                    if(i < level){
+                        copyByLevel(parent.children[comonIndex]);
+                    }else{
+                        console.log('ddd');
+                        console.log(parent);
+                        result = vdCtrlOperate.deepCopyObj(parent.children[0], result)
+                    }
+                }
+            copyByLevel(parent);
+            return result;
         }
     }
 	const formProps = {
@@ -143,7 +163,7 @@ const Component = (props) => {
 				}
 			});
 		},
-        childrenDelete(message,index, attType, level){
+        childrenDelete(message,item, index, level,attType){
 
             props.dispatch({
                 type: 'vdCtrlTree/handleUpdateVisible',
@@ -154,7 +174,9 @@ const Component = (props) => {
                 payload: {
                     activeCtrl: props.vdCtrlTree.activeCtrl,
                     attrType: attType,
-                    index: index
+                    children: item,
+                    index: index,
+                    level: level
                 }
             });
 
@@ -170,14 +192,16 @@ const Component = (props) => {
                 }
             });
         },
-        childrenAdd(index, fatherKey, key){
+        childrenAdd(index, fatherKey, key, level){
 
-            var children = copyOperate.copyChildren(index, fatherKey,key);
+            var children = copyOperate.copyChildren(index, fatherKey,key,level);
             props.dispatch({
                 type: 'vdCtrlTree/handleChildrenAdd',
                 payload: {
                     activeCtrl: props.vdCtrlTree.activeCtrl,
-                    children: children
+                    children: children,
+                    level: level,
+                    parentIndex: index
                 }
             });
         }
@@ -693,7 +717,7 @@ const Component = (props) => {
 										<Input size="small" value={props.vdCtrlTree.attr.value} onChange={keyValueProps.addKeyChange}/>
 									</FormItem>
 									<FormItem>
-										<Button size="small" onClick={formProps.childrenAdd.bind(this,0,'forms','select')}>保存</Button>
+										<Button size="small" onClick={formProps.childrenAdd.bind(this,0, 'forms', 'select', 0)}>保存</Button>
 									</FormItem>
 								</Form>
 					    	),
@@ -763,7 +787,7 @@ const Component = (props) => {
                                         <Icon type="edit" onClick={selectSettingProps.editKeyValue.bind(this, index)}/>
                                   </Col>
                                   <Col span={3}>
-                                    <Popconfirm title="确认删除吗？" onConfirm={formProps.childrenDelete.bind(this, item.attrs[0].children[0].value + '=' + item.attrs[0].children[0].html, index, attrType)} okText="确定" cancelText="取消">
+                                    <Popconfirm title="确认删除吗？" onConfirm={formProps.childrenDelete.bind(this, item.attrs[0].children[0].value + '=' + item.attrs[0].children[0].html, item, index, 0, attrType)} okText="确定" cancelText="取消">
                                         <Icon type="delete" onClick={selectSettingProps.hidePopover}/>
                                         </Popconfirm>
                                   </Col>
@@ -871,11 +895,36 @@ const Component = (props) => {
                                         payload: false
                                     });
                                 }, 10)
+                            },
+                            addTabs(){
+
+                                var tab = copyOperate.copyChildren(0, 'component','tabs', 2);
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleChildrenAdd',
+                                    payload: {
+                                        activeCtrl: props.vdCtrlTree.activeCtrl,
+                                        children: tab,
+                                        level: 2,
+                                        parentIndex: 0,
+                                    }
+                                });
+
+                                var content = copyOperate.copyChildren(1, 'component','tabs', 2);
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleChildrenAdd',
+                                    payload: {
+                                        activeCtrl: props.vdCtrlTree.activeCtrl,
+                                        children: content,
+                                        parentIndex: 1,
+                                        level: 2,
+                                    }
+                                });
                             }
 					    }
                         console.log(props.vdCtrlTree.activeCtrl.children);
                         const keyValues = props.vdCtrlTree.activeCtrl.children[0].children.map((item, index) =>{
 
+                            console.log(item);
                             return (
                                 <li className="ant-dropdown-menu-item" role="menuitem" key={index}>
                                 <Row>
@@ -886,7 +935,7 @@ const Component = (props) => {
                                         <Icon type="edit" onClick={tabSettingProps.editKeyValue.bind(this, index)}/>
                                   </Col>
                                   <Col span={3}>
-                                    <Popconfirm title="确认删除吗？" onConfirm={formProps.childrenDelete.bind(this, item.children[0].attrs[0].children[0].value , index, attrType)} okText="确定" cancelText="取消">
+                                    <Popconfirm title="确认删除吗？" onConfirm={formProps.childrenDelete.bind(this, item.children[0].attrs[0].children[0].value , item, index, 2, attrType)} okText="确定" cancelText="取消">
                                         <Icon type="delete" onClick={tabSettingProps.hidePopover}/>
                                         </Popconfirm>
                                   </Col>
@@ -921,7 +970,7 @@ const Component = (props) => {
 									</FormItem>
 						      	</Form>
 
-								<Button type="circle" size="small"><Icon type="plus" /></Button>
+								<Button type="circle" size="small"><Icon type="plus"  onClick={tabSettingProps.addTabs}/></Button>
 
                                     <Popover
                                         content={tabSettingProps.modifyContent}

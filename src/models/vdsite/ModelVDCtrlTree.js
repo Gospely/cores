@@ -328,13 +328,22 @@ export default {
 		handleChildrenDelete(state, {payload: params}){
 
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
+			var children =  params.children;
+			var parentCtrl = currentActiveCtrl.controller;
 
-			var children =  params.activeCtrl.children[params.index];
-			console.log(currentActiveCtrl.controller);
-			currentActiveCtrl.controller.children.splice(params.index,1);
-			if(currentActiveCtrl.controller.children == null || currentActiveCtrl.controller.children == undefined){
-				currentActiveCtrl.controller.children = [];
+			var i = 0;
+			function childrenDeleteBylevel(parent){
+				i++;
+				if(i < params.level) {
+					childrenDeleteBylevel(parent.children[0]);
+				}else {
+					parent.children.splice(params.index,1);
+					if(parent.children == null ||parent.children == undefined){
+						parent.children = [];
+					}
+				}
 			}
+			childrenDeleteBylevel(parentCtrl)
 			state.activeCtrl = currentActiveCtrl.controller;
 			console.log(state.activeCtrl);
 			window.VDDesignerFrame.postMessage({
@@ -348,25 +357,57 @@ export default {
 		//当前活跃控件 添加一个子控件
 		handleChildrenAdd(state, {payload: params}){
 
-			params.children.attrs[0].children[0].html = state.attr.html;
-			params.children.attrs[0].children[0].value = state.attr.value;
-			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
-			if(currentActiveCtrl.controller.children) {
-				currentActiveCtrl.controller.children.push(params.children);
-			}else {
-				var chidren = new Array();
-				chidren.push(params.children);
-				currentActiveCtrl.controller.children = children;
+			console.log(params);
+			if(params.children.tag == 'option'){
+				params.children.attrs[0].children[0].html = state.attr.html;
+				params.children.attrs[0].children[0].value = state.attr.value;
 			}
+
+			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
+			var parentCtrl = currentActiveCtrl.controller;
+			var parentCtrlVdid;
+			var i = 0;
+			var parentIndex = 0;
+
+			function childrenAddBylevel(parent){
+
+				i++;
+				console.log(parent);
+				if(i == params.level -1){
+					console.log('change Index', i);
+					parentIndex = params.parentIndex;
+				}
+				if(i < params.level) {
+
+					console.log(parentIndex);
+					console.log(parent, 'tigui');
+					childrenAddBylevel(parent.children[parentIndex]);
+				}else {
+					console.log('parent');
+					console.log(parent);
+					parentCtrlVdid = parent.vdid;
+					if(parent.children) {
+						parent.children.push(params.children);
+					}else {
+						var chidren = new Array();
+						chidren.push(params.children);
+						parent.children = children;
+					}
+				}
+			}
+			childrenAddBylevel(parentCtrl)
+
 			state.activeCtrl = currentActiveCtrl.controller;
 			state.keyValeCreateVisible = false;
+			params.children.vdid = randomString(8,10);
 			window.VDDesignerFrame.postMessage({
 				VDAttrRefreshed: {
 					activeCtrl: state.activeCtrl,
 					attr: {
 						attrName: 'children',
 						action: 'add',
-						children: params.children
+						children: params.children,
+						parent: parentCtrlVdid
 					},
 					attrType: params.attrType
 				}
