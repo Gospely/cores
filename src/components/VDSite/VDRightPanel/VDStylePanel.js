@@ -1118,7 +1118,7 @@ const VDStylePanel = (props) => {
 					payload: {
 						transformType
 					}
-    			});    			
+    			});
     		}
 
     		const handleTransformInputChange = (pos, e) => {
@@ -2234,8 +2234,6 @@ const VDStylePanel = (props) => {
 						activeStyleName: props.vdCtrlTree.activeCtrl.activeStyle
 					}
 				});
-<<<<<<< HEAD
-=======
 			}
 
 			const removeThisTransform = (transformIndex) => {
@@ -2245,8 +2243,7 @@ const VDStylePanel = (props) => {
 						transformIndex,
 						activeStyleName: props.vdCtrlTree.activeCtrl.activeStyle
 					}
-				});				
->>>>>>> fc22f5356799419e05d90329aa3bd354dcace276
+				});
 			}
 
 		 	return (
