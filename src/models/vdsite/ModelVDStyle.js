@@ -663,7 +663,7 @@ export default {
 
 			cssProperty.childrenProps.push({
 				name: params.activeFilterName,
-				value: state.filterSetting.value
+				value: state.filterSetting.value + state.filterSetting.unit
 			});
 
 			state.filterSetting.value = '';

@@ -178,7 +178,7 @@ const VDStylePanel = (props) => {
 						</FormItem>
 
 						<FormItem {...formItemLayout} label="">
-							<Button onClick={onClick.bind(this)} style={{float: 'right'}} size="small">增加</Button>
+							<Button onClick={onClick.bind(this)} style={{float: 'right'}} size="small">添加并应用</Button>
 						</FormItem>
 			      	</Form>
 				);
@@ -1355,6 +1355,15 @@ const VDStylePanel = (props) => {
 					</Col>
 				</Row>
 		    	<Row>
+      				<Col span={3}>
+      				    <Popover placement="bottom" content={cssSelector.newStylePopover.content()} trigger={['click']}>
+						  	<Button style={{marginBottom: '10px', marginLeft: '-1px'}} size="small">
+		  		              	<Tooltip placement="left" title="新增一个样式并应用">
+							  		<i className="fa fa-plus"></i>
+		      					</Tooltip>
+						  	</Button>
+				  	    </Popover>
+      				</Col>
 				  	<Col span={18} className="css-selector">
 				      	<Select
 					    	multiple
@@ -1377,15 +1386,6 @@ const VDStylePanel = (props) => {
 		      					</Tooltip>
 						  	</Button>
 				  	    </Dropdown>
-      				</Col>
-      				<Col span={3}>
-      				    <Popover placement="left" content={cssSelector.newStylePopover.content()} trigger={['click']}>
-						  	<Button style={{marginBottom: '10px', borderTopLeftRadius: '0px', borderBottomLeftRadius: '0px', marginLeft: '-1px'}} size="small">
-		  		              	<Tooltip placement="left" title="新增一个样式并应用">
-							  		<i className="fa fa-plus"></i>
-		      					</Tooltip>
-						  	</Button>
-				  	    </Popover>
       				</Col>
   				</Row>
 		    </Panel>
@@ -2314,7 +2314,7 @@ const VDStylePanel = (props) => {
 					    			<FormItem labelCol={{span: 4}} wrapperCol={{span: 20}} label={(<i title="旋转" className='fa fa-clock-o'></i>)}>
 										<Row>
 									        <Col span={18} style={{paddingRight: '10px'}}>
-									          	<Input type="number" onPressEnter={saveFilter} onChange={handleFilterInputChange.bind(this, '%')} value={props.vdstyles.filterSetting.value} size="small"/>
+									          	<Input type="number" onPressEnter={saveFilter} onChange={handleFilterInputChange.bind(this, 'deg')} value={props.vdstyles.filterSetting.value} size="small"/>
 									        </Col>
 									        <Col span={4}>
 									        	deg
