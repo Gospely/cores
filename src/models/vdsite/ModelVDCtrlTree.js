@@ -432,10 +432,12 @@ export default {
 		},
 		//当前活跃控件子控件更新
 		handleChildrenUpdate(state, {payload: params}){
+
+			console.log('update ctrl', params);
 			state.keyValeUpdateVisible = false;
 			window.VDDesignerFrame.postMessage({
 				VDAttrRefreshed: {
-					activeCtrl: params.activeCtrl,
+					activeCtrl: state.activeCtrl,
 					attr: {
 						attrName: 'children',
 						action: 'update'
