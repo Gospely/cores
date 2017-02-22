@@ -259,15 +259,19 @@ const Component = (props) => {
 
         pageTreeTpl = pageTreeGenerator(props.vdpm.pageList);
 
+    const onPageSelect = (val, option) => {
+    	console.log(val);
+    }
+
 	return (
     <div className="vd-allpages-list">
 		<Popover placement="right" title="设置页面的详细信息" content={generatePageDetailSettings()} onClick={allPagesProps.handlePageListItemClick} visibleChange={allPagesProps.visibleChange}  visible={props.vdpm.pageManager.updatePopoverVisible}>
-
 			<Menu
 				style={{ width: '100%' }}
 				defaultOpenKeys={['index.html']}
 				selectedKeys={[props.vdpm.currentActivePageListItem]}
 				mode="inline"
+				onSelect={onPageSelect}
 			>
 			{pageTreeTpl}
 			</Menu>

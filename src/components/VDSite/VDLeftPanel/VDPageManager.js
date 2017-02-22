@@ -54,7 +54,7 @@ const Component = (props) => {
 		}
         if(item != null){
             return (
-    		  <TreeNode title={item.name} value={item.key} key={item.key} disabled="true"/>
+    		  <TreeNode title={item.name} value={item.key} key={item.key} disabled={true}/>
     		);
         }
     });
