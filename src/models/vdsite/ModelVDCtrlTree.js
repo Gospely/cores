@@ -556,7 +556,6 @@ export default {
 
 		setActivePage(state, { payload: params }) {
 			state.activePage.key = params.activePage;
-			alert(params.activePage)
 			return {...state};
 		},
 
@@ -751,6 +750,19 @@ export default {
 	    		children: []
 	    	}];
 	    	state.activePage.key = pageInfo.key;
+
+	    	// window.VDDesignerFrame.postMessage({
+	    	// 	pageSelected: state.layout[pageInfo.key]
+	    	// }, '*');
+
+			// VDDesignerFrame.postMessage({
+   //  			ctrlTreeGenerated: {
+   //  				controller: tmpCtrl,
+   //  				activeCtrl
+   //  			}
+			// }, '*');
+
+
 	    	console.log(state.layout);
 			return {...state};
 		}
