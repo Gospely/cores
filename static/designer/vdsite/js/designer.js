@@ -938,6 +938,9 @@ $(function() {
 			setSelectSetting: function(attr){
 				this.setAttr(attr);
 			},
+			setTabsSetting: function(attr){
+				this.setAttr(attr);
+			},
             transformTypeToUpper: function(type) {
                 var settingTypeSplit = type.split('-'),
                     upperTypeName = '';
