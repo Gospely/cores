@@ -178,7 +178,7 @@ const VDStylePanel = (props) => {
 						</FormItem>
 
 						<FormItem {...formItemLayout} label="">
-							<Button onClick={onClick.bind(this)} style={{float: 'right'}} size="small">增加</Button>
+							<Button onClick={onClick.bind(this)} style={{float: 'right'}} size="small">添加并应用</Button>
 						</FormItem>
 			      	</Form>
 				);
@@ -1185,77 +1185,93 @@ const VDStylePanel = (props) => {
     }
 
     const effectProps = {
-    	cursorPopover: (
-    		<div>
-    			<p>普通的</p>
-    			<ButtonGroup>
-    				<Button style={{cursor: 'default'}}>default</Button>
-    				<Button style={{cursor: 'none'}}>none</Button>
-    			</ButtonGroup>
+    	cursorPopover () {
 
-    			<li style={{marginBottom: 8, marginTop: 8}} className="ant-dropdown-menu-item-divider"></li>
+    		const changeCursor = (cursor) => {
+				handleStylesChange('cursor', {
+					target: {
+						value: cursor
+					}
+				});
 
-    			<p>链接 & 状态</p>
-    			<ButtonGroup>
-    				<Button style={{cursor: 'pointer'}}>pointer</Button>
-    				<Button style={{cursor: 'not-allowed'}}>not-allowed</Button>
-    				<Button style={{cursor: 'wait'}}>wait</Button>
-    				<Button style={{cursor: 'progress'}}>progress</Button>
-    				<Button style={{cursor: 'help'}}>help</Button>
-    				<Button style={{cursor: 'context-menu'}}>context-menu</Button>
-    			</ButtonGroup>
+				props.dispatch({
+					type: 'vdstyles/togglePopover', 
+					payload: { popoverName: 'cursor' }
+				});
+    		}
 
-    			<li style={{marginBottom: 8, marginTop: 8}} className="ant-dropdown-menu-item-divider"></li>
+    		return (
+	    		<div>
+	    			<p>普通的</p>
+	    			<ButtonGroup>
+	    				<Button onClick={changeCursor.bind(this, 'default')} style={{cursor: 'default'}}>default</Button>
+	    				<Button onClick={changeCursor.bind(this, 'none')} style={{cursor: 'none'}}>none</Button>
+	    			</ButtonGroup>
 
-    			<p>选择</p>
-    			<ButtonGroup>
-    				<Button style={{cursor: 'cell'}}>cell</Button>
-    				<Button style={{cursor: 'crosshair'}}>crosshair</Button>
-    				<Button style={{cursor: 'text'}}>text</Button>
-    				<Button style={{cursor: 'vertical-text'}}>vertical-text</Button>
-    			</ButtonGroup>
+	    			<li style={{marginBottom: 8, marginTop: 8}} className="ant-dropdown-menu-item-divider"></li>
 
-    			<li style={{marginBottom: 8, marginTop: 8}} className="ant-dropdown-menu-item-divider"></li>
+	    			<p>链接 & 状态</p>
+	    			<ButtonGroup>
+	    				<Button onClick={changeCursor.bind(this, 'pointer')} style={{cursor: 'pointer'}}>pointer</Button>
+	    				<Button onClick={changeCursor.bind(this, 'not-allowed')} style={{cursor: 'not-allowed'}}>not-allowed</Button>
+	    				<Button onClick={changeCursor.bind(this, 'wait')} style={{cursor: 'wait'}}>wait</Button>
+	    				<Button onClick={changeCursor.bind(this, 'progress')} style={{cursor: 'progress'}}>progress</Button>
+	    				<Button onClick={changeCursor.bind(this, 'help')} style={{cursor: 'help'}}>help</Button>
+	    				<Button onClick={changeCursor.bind(this, 'context-menu')} style={{cursor: 'context-menu'}}>context-menu</Button>
+	    			</ButtonGroup>
 
-    			<p>拖拽</p>
-    			<ButtonGroup>
-    				<Button style={{cursor: 'grab'}}>grab</Button>
-    				<Button style={{cursor: 'grabbing'}}>grabbing</Button>
-    				<Button style={{cursor: 'alias'}}>alias</Button>
-    				<Button style={{cursor: 'copy'}}>copy</Button>
-    				<Button style={{cursor: 'move'}}>move</Button>
-    			</ButtonGroup>
+	    			<li style={{marginBottom: 8, marginTop: 8}} className="ant-dropdown-menu-item-divider"></li>
 
-    			<li style={{marginBottom: 8, marginTop: 8}} className="ant-dropdown-menu-item-divider"></li>
+	    			<p>选择</p>
+	    			<ButtonGroup>
+	    				<Button onClick={changeCursor.bind(this, 'cell')} style={{cursor: 'cell'}}>cell</Button>
+	    				<Button onClick={changeCursor.bind(this, 'crosshair')} style={{cursor: 'crosshair'}}>crosshair</Button>
+	    				<Button onClick={changeCursor.bind(this, 'text')} style={{cursor: 'text'}}>text</Button>
+	    				<Button onClick={changeCursor.bind(this, 'vertical-text')} style={{cursor: 'vertical-text'}}>vertical-text</Button>
+	    			</ButtonGroup>
 
-    			<p>缩放</p>
-    			<ButtonGroup>
-    				<Button style={{cursor: 'zoom-in'}}>zoom-in</Button>
-    				<Button style={{cursor: 'zoom-out'}}>zoom-out</Button>
-    			</ButtonGroup>
+	    			<li style={{marginBottom: 8, marginTop: 8}} className="ant-dropdown-menu-item-divider"></li>
 
-    			<li style={{marginBottom: 8, marginTop: 8}} className="ant-dropdown-menu-item-divider"></li>
+	    			<p>拖拽</p>
+	    			<ButtonGroup>
+	    				<Button onClick={changeCursor.bind(this, 'grab')} style={{cursor: 'grab'}}>grab</Button>
+	    				<Button onClick={changeCursor.bind(this, 'grabbing')} style={{cursor: 'grabbing'}}>grabbing</Button>
+	    				<Button onClick={changeCursor.bind(this, 'alias')} style={{cursor: 'alias'}}>alias</Button>
+	    				<Button onClick={changeCursor.bind(this, 'copy')} style={{cursor: 'copy'}}>copy</Button>
+	    				<Button onClick={changeCursor.bind(this, 'move')} style={{cursor: 'move'}}>move</Button>
+	    			</ButtonGroup>
 
-    			<p>改变大小</p>
-    			<ButtonGroup>
-    				<Button style={{cursor: 'col-resize'}}>col-resize</Button>
-    				<Button style={{cursor: 'row-resize'}}>row-resize</Button>
-    				<Button style={{cursor: 'nesw-resize'}}>nesw-resize</Button>
-    				<Button style={{cursor: 'nwse-resize'}}>nwse-resize</Button>
-    				<Button style={{cursor: 'ew-resize'}}>ew-resize</Button>
-    				<Button style={{cursor: 'ns-resize'}}>ns-resize</Button>
-    				<Button style={{cursor: 'n-resize'}}>n-resize</Button>
-    				<Button style={{cursor: 'w-resize'}}>w-resize</Button>
-    				<Button style={{cursor: 's-resize'}}>s-resize</Button>
-    				<Button style={{cursor: 'e-resize'}}>e-resize</Button>
-    				<Button style={{cursor: 'nw-resize'}}>nw-resize</Button>
-    				<Button style={{cursor: 'ne-resize'}}>ne-resize</Button>
-    				<Button style={{cursor: 'sw-resize'}}>sw-resize</Button>
-    				<Button style={{cursor: 'se-resize'}}>se-resize</Button>
-    			</ButtonGroup>
+	    			<li style={{marginBottom: 8, marginTop: 8}} className="ant-dropdown-menu-item-divider"></li>
 
-    		</div>
-    	)
+	    			<p>缩放</p>
+	    			<ButtonGroup>
+	    				<Button onClick={changeCursor.bind(this, 'zoom-in')} style={{cursor: 'zoom-in'}}>zoom-in</Button>
+	    				<Button onClick={changeCursor.bind(this, 'zoom-out')} style={{cursor: 'zoom-out'}}>zoom-out</Button>
+	    			</ButtonGroup>
+
+	    			<li style={{marginBottom: 8, marginTop: 8}} className="ant-dropdown-menu-item-divider"></li>
+
+	    			<p>改变大小</p>
+	    			<ButtonGroup>
+	    				<Button onClick={changeCursor.bind(this, 'col-resize')} style={{cursor: 'col-resize'}}>col-resize</Button>
+	    				<Button onClick={changeCursor.bind(this, 'row-resize')} style={{cursor: 'row-resize'}}>row-resize</Button>
+	    				<Button onClick={changeCursor.bind(this, 'nesw-resize')} style={{cursor: 'nesw-resize'}}>nesw-resize</Button>
+	    				<Button onClick={changeCursor.bind(this, 'nwse-resize')} style={{cursor: 'nwse-resize'}}>nwse-resize</Button>
+	    				<Button onClick={changeCursor.bind(this, 'ew-resize')} style={{cursor: 'ew-resize'}}>ew-resize</Button>
+	    				<Button onClick={changeCursor.bind(this, 'ns-resize')} style={{cursor: 'ns-resize'}}>ns-resize</Button>
+	    				<Button onClick={changeCursor.bind(this, 'n-resize')} style={{cursor: 'n-resize'}}>n-resize</Button>
+	    				<Button onClick={changeCursor.bind(this, 'w-resize')} style={{cursor: 'w-resize'}}>w-resize</Button>
+	    				<Button onClick={changeCursor.bind(this, 's-resize')} style={{cursor: 's-resize'}}>s-resize</Button>
+	    				<Button onClick={changeCursor.bind(this, 'e-resize')} style={{cursor: 'e-resize'}}>e-resize</Button>
+	    				<Button onClick={changeCursor.bind(this, 'nw-resize')} style={{cursor: 'nw-resize'}}>nw-resize</Button>
+	    				<Button onClick={changeCursor.bind(this, 'ne-resize')} style={{cursor: 'ne-resize'}}>ne-resize</Button>
+	    				<Button onClick={changeCursor.bind(this, 'sw-resize')} style={{cursor: 'sw-resize'}}>sw-resize</Button>
+	    				<Button onClick={changeCursor.bind(this, 'se-resize')} style={{cursor: 'se-resize'}}>se-resize</Button>
+	    			</ButtonGroup>
+
+	    		</div>
+	    	);
+		}
     }
 
     const cssClassProps = {
@@ -1339,6 +1355,15 @@ const VDStylePanel = (props) => {
 					</Col>
 				</Row>
 		    	<Row>
+      				<Col span={3}>
+      				    <Popover placement="bottom" content={cssSelector.newStylePopover.content()} trigger={['click']}>
+						  	<Button style={{marginBottom: '10px', marginLeft: '-1px'}} size="small">
+		  		              	<Tooltip placement="left" title="新增一个样式并应用">
+							  		<i className="fa fa-plus"></i>
+		      					</Tooltip>
+						  	</Button>
+				  	    </Popover>
+      				</Col>
 				  	<Col span={18} className="css-selector">
 				      	<Select
 					    	multiple
@@ -1361,15 +1386,6 @@ const VDStylePanel = (props) => {
 		      					</Tooltip>
 						  	</Button>
 				  	    </Dropdown>
-      				</Col>
-      				<Col span={3}>
-      				    <Popover placement="left" content={cssSelector.newStylePopover.content()} trigger={['click']}>
-						  	<Button style={{marginBottom: '10px', borderTopLeftRadius: '0px', borderBottomLeftRadius: '0px', marginLeft: '-1px'}} size="small">
-		  		              	<Tooltip placement="left" title="新增一个样式并应用">
-							  		<i className="fa fa-plus"></i>
-		      					</Tooltip>
-						  	</Button>
-				  	    </Popover>
       				</Col>
   				</Row>
 		    </Panel>
@@ -2298,7 +2314,7 @@ const VDStylePanel = (props) => {
 					    			<FormItem labelCol={{span: 4}} wrapperCol={{span: 20}} label={(<i title="旋转" className='fa fa-clock-o'></i>)}>
 										<Row>
 									        <Col span={18} style={{paddingRight: '10px'}}>
-									          	<Input type="number" onPressEnter={saveFilter} onChange={handleFilterInputChange.bind(this, '%')} value={props.vdstyles.filterSetting.value} size="small"/>
+									          	<Input type="number" onPressEnter={saveFilter} onChange={handleFilterInputChange.bind(this, 'deg')} value={props.vdstyles.filterSetting.value} size="small"/>
 									        </Col>
 									        <Col span={4}>
 									        	deg
@@ -2411,16 +2427,7 @@ const VDStylePanel = (props) => {
 					}
 				});
 			}
-
-			const modifyFilterPopoverTrigger = () => {
-				props.dispatch({
-					type: 'vdstyles/togglePopover',
-					payload: {
-						popoverName: 'modifyFilter'
-					}
-				});
-			}
-
+1
 			const removeThisFilter = (filterIndex) => {
 				props.dispatch({
 					type: 'vdstyles/removeThisFilter',
@@ -2455,39 +2462,39 @@ const VDStylePanel = (props) => {
 		      		</FormItem>
 
 		      		<FormItem wrapperCol={{ span: 24 }} style={{position: 'relative', top: -5}}>
-		      			{
-		      				props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['filter'].childrenProps.map((cssProperty, cssPropertyIndex) => {
-		      					return (
-		      						<Popover key={cssPropertyIndex} title="修改滤镜" placemen="leftTop" trigger="click" visible={props.vdstyles.popover.modifyFilter.visible}>
-										<div onClick={modifyFilterPopoverTrigger.bind(this)} className="filter-list" key={cssPropertyIndex}>
-											<Row>
-												<Col span={20} style={{textAlign: 'left', cursor: 'pointer', paddingLeft: '15px'}}>
-													{cssProperty.name}, {cssProperty.value}
-												</Col>
-												<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
-													<i onClick={removeThisFilter.bind(this, cssPropertyIndex)} className="fa fa-trash-o"></i>
-												</Col>
-											</Row>
-										</div>
-		      						</Popover>
-		      					);
-		      				})
-		      			}
+			      			{
+			      				props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['filter'].childrenProps.map((cssProperty, cssPropertyIndex) => {
+			      					return (
+											<div className="filter-list" key={cssPropertyIndex}>
+												<Row>
+													<Col span={20} style={{textAlign: 'left', cursor: 'pointer', paddingLeft: '15px'}}>
+														{cssProperty.name}, {cssProperty.value}
+													</Col>
+													<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
+														<i onClick={removeThisFilter.bind(this, cssPropertyIndex)} className="fa fa-trash-o"></i>
+													</Col>
+												</Row>
+											</div>
+			      					);
+			      				})
+			      			}
 					</FormItem>
 
 					<li className="ant-dropdown-menu-item-divider"></li>
 
 					<FormItem style={{marginTop: 20}} labelCol={{span: 8}} wrapperCol={{span: 16}} label="鼠标样式">
 						<Input addonBefore={<Popover 
-    											content={effectProps.cursorPopover}
+    											content={effectProps.cursorPopover()}
 									        	title="鼠标样式"
 									        	trigger="click"
 									        	placement="leftTop"
+									        	visible={props.vdstyles.popover.cursor.visible}
 									        >
-    											<Icon type="setting"/>
+    											<Icon onClick={() => { props.dispatch({type: 'vdstyles/togglePopover', payload: { popoverName: 'cursor' }}) }} type="setting"/>
     										</Popover>} 
-    							size='small' 
-    							defaultValue='auto' 
+    							size="small"
+ 								onChange={handleStylesChange.bind(this, 'cursor')}
+    							value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['cursor']}
 						/>
 					</FormItem>
 
