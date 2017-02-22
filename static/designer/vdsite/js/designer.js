@@ -462,7 +462,18 @@ $(function() {
 					},
 
                     pageSelected: function() {
-                        console.log('pageSelected========', data);
+                        jq('#VDDesignerContainer').html('');
+                        controllerOperations.hideDesignerDraggerBorder();
+                        console.log('pageSelected', data);
+                        for (var i = 0; i < data.length; i++) {
+                            var currentController = data[i];
+                            var elem = new ElemGenerator(currentController);
+                            var elemToAdd = jq(elem.createElement());
+                            jq('#VDDesignerContainer').append(elemToAdd);
+                            dndData.elemToAdd = elemToAdd;
+                            dndData.dragElem = elemToAdd;
+                            dndData.ctrlToAddData = data.controller;                            
+                        };
                     }
                 };
 
@@ -777,7 +788,6 @@ $(function() {
 
         //生成dom类
         function ElemGenerator(params) {
-
         	this.controller = params;
         	this.tag = typeof this.controller.tag == 'object' ? this.controller.tag[0] : this.controller.tag;
         	this.elemLoaded = false;

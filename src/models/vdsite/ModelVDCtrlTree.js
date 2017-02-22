@@ -555,7 +555,13 @@ export default {
 		},
 
 		setActivePage(state, { payload: params }) {
-			state.activePage.key = params.activePage;
+			state.activePage.key = params.activePage.key;
+
+			console.log('setActivePage===========', state.layout, params.activePage);
+
+	    	window.VDDesignerFrame.postMessage({
+	    		pageSelected: state.layout[params.activePage.key][0].children
+	    	}, '*');
 			return {...state};
 		},
 
@@ -751,17 +757,9 @@ export default {
 	    	}];
 	    	state.activePage.key = pageInfo.key;
 
-	    	// window.VDDesignerFrame.postMessage({
-	    	// 	pageSelected: state.layout[pageInfo.key]
-	    	// }, '*');
-
-			// VDDesignerFrame.postMessage({
-   //  			ctrlTreeGenerated: {
-   //  				controller: tmpCtrl,
-   //  				activeCtrl
-   //  			}
-			// }, '*');
-
+	    	window.VDDesignerFrame.postMessage({
+	    		pageSelected: state.layout[pageInfo.key][0].children
+	    	}, '*');
 
 	    	console.log(state.layout);
 			return {...state};
