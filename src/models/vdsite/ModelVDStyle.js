@@ -543,29 +543,25 @@ export default {
 			return {...state};
 		},
 
-		changeStyle(state, { payload: params }) {
-			state.stylesList[params.className][params.property] = params.value;
-			return {...state};
-		},
-
 		addStyle(state, { payload: params }) {
 
 			if(params.cssState) {
 				//给当前CSS加伪类
 				if(params.cssState == 'none') {
-					params.cssState = '';
+					return {...state};
 				}
-				state.newStyleName = params.activeStyle + ':' + params.cssState;
+				var tmpStyleName = params.activeStyle.split(':');
+				state.newStyleName = tmpStyleName[0] + ':' + params.cssState;
 			}
 
-			state.stylesList['.' + state.newStyleName] = {};
+			// state.stylesList['.' + state.newStyleName] = {};
 			state.activeStyle = state.newStyleName;
 			state.newStyleName = '';
 
 			var activeCSSStyleLayout = state.cssStyleLayout[params.activeStyle];
 
 			for(var cssStyle in activeCSSStyleLayout) {
-				if(cssStyle == state.newStyleName) {
+				if(cssStyle == state.activeStyle) {
 					message.error('所加类名与已有类名冲突，请重新填写');
 					return {...state};
 				}
@@ -574,16 +570,6 @@ export default {
 			state.cssStyleLayout[state.activeStyle] = state.cssStyleList;
 			console.log(state.cssStyleLayout);
 			return {...state};
-		},
-
-		handleStylesChanges(state, { payload: params }) {
-			var keys = params.target.split(' ');
-			if(keys.length == 2){
-				state.stylesList[keys[0]][keys[1]] = params.value;
-			}else{
-				state.stylesList[params.target] = params.value;
-			}
-			return {...state}
 		},
 
 		handleNewStyleNameChange(state, { payload: value }) {

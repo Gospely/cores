@@ -136,11 +136,6 @@ const VDStylePanel = (props) => {
 						return false;
 					}
 
-					if(!props.vdCtrlTree.activeCtrl.activeStyle) {
-						message.error('请先添加一个控件再添加类名！');
-						return false;
-					}
-
 					props.dispatch({
 						type: 'vdstyles/addStyle',
 						payload: {
@@ -1358,6 +1353,9 @@ const VDStylePanel = (props) => {
     	const cssStateMenu = () => {
 
     		const onSelect = ({ item, key, selectedKeys }) => {
+
+    			console.log(selectedKeys);
+
     			props.dispatch({
     				type: 'vdstyles/handleCSSStateChange',
     				payload: {
@@ -1366,29 +1364,40 @@ const VDStylePanel = (props) => {
     				}
     			});
 
-    			props.dispatch({
-    				type: 'vdstyles/addStyle',
-    				payload: {
-						activeStyle: props.vdCtrlTree.activeCtrl.activeStyle,
-						cssState: selectedKeys[0]
-    				}
-    			});
+    			if(selectedKeys[0] == 'none') {
+    				var acs = props.vdCtrlTree.activeCtrl.activeStyle;
 
-				props.dispatch({
-					type: 'vdstyles/applyCSSStyleIntoPage',
-					payload: {
-						activeCtrl: props.vdCtrlTree.activeCtrl
-					}
-				})
+					props.dispatch({
+						type: 'vdCtrlTree/setActiveStyle',
+						payload: props.vdCtrlTree.activeCtrl.activeStyle.split(':')[0]
+					});
+    			}else {
 
-				props.dispatch({
-					type: 'vdstyles/handleClassChange',
-					payload: {
-	    				value: props.vdCtrlTree.activeCtrl.activeStyle + ':' + selectedKeys[0],
-	    				push: true,
-	    				dontChangeAttr: true
-	    			}
-				});
+	    			props.dispatch({
+	    				type: 'vdstyles/addStyle',
+	    				payload: {
+							activeStyle: props.vdCtrlTree.activeCtrl.activeStyle,
+							cssState: selectedKeys[0]
+	    				}
+	    			});
+
+					props.dispatch({
+						type: 'vdstyles/applyCSSStyleIntoPage',
+						payload: {
+							activeCtrl: props.vdCtrlTree.activeCtrl
+						}
+					});
+
+					props.dispatch({
+						type: 'vdstyles/handleClassChange',
+						payload: {
+		    				value: props.vdCtrlTree.activeCtrl.activeStyle.split(':')[0] + ':' + selectedKeys[0],
+		    				push: true,
+		    				dontChangeAttr: true
+		    			}
+					});
+
+    			}
 
     		}
 
