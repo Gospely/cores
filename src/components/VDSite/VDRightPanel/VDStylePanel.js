@@ -1118,7 +1118,7 @@ const VDStylePanel = (props) => {
 					payload: {
 						transformType
 					}
-    			});    			
+    			});
     		}
 
     		const handleTransformInputChange = (pos, e) => {
@@ -2243,7 +2243,7 @@ const VDStylePanel = (props) => {
 						transformIndex,
 						activeStyleName: props.vdCtrlTree.activeCtrl.activeStyle
 					}
-				});				
+				});
 			}
 
 		 	return (
