@@ -428,6 +428,7 @@ $(function() {
 
                 var evtAction = {
                     ctrlTreeGenerated: function() {
+                        console.log(data);
                         var elem = new ElemGenerator(data.controller);
                         var elemToAdd = jq(elem.createElement());
                         dndData.elemToAdd = elemToAdd;
@@ -444,18 +445,25 @@ $(function() {
                         pageOperations.applyCSS(data.cssText);
                         controllerOperations.select(data.activeCtrl, true);
                     },
+
 					VDChildrenDelete: function(){
 						console.log('delete children');
 						controllerOperations.deleteChildren(data.activeCtrl, data.attrType);
 					},
+
 					VDChildrenAdd: function(){
 						console.log('add children');
 						controllerOperations.addChildren(data.activeCtrl, data.attrType);
 					},
+
 					VDChildrenUpdate: function(){
 						console.log('update children');
 						controllerOperations.updateChildren(data.activeCtrl, data.attrType);
 					},
+
+                    pageSelected: function() {
+                        console.log('pageSelected========', data);
+                    }
                 };
 
                 for (var key in data) {
@@ -569,6 +577,10 @@ $(function() {
                 var oldStyle = jq('[sid="global-css"]').remove();
                 var css = jq('<style sid="global-css">' + cssText + '</style>');
                 jq('head').append(css);
+            },
+
+            reload: function() {
+
             }
         };
 
@@ -985,7 +997,6 @@ $(function() {
                 this.initElem();
                 this.bindData();
                 var upperTypeName = this.transformTypeToUpper(attrType.key);
-				console.log(upperTypeName);
                 if(attrType.isAttrSetting || attr.isStyle) {
                     this.setAttr(attr);
                 }else {
@@ -1080,7 +1091,6 @@ $(function() {
 
         		designerContainer.on("mouseenter", function (e) {
         			self.onEnter(e);
-
         		});
 
         		designerContainer.on("mousemove", function (e) {
@@ -1098,7 +1108,6 @@ $(function() {
         	},
 
         	onMove: function (e) {
-
         		if (dndData.isMouseDown) {
         			jq(e.target).css({
         				cursor: 'pointer'
