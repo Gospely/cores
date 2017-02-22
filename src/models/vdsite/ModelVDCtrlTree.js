@@ -323,7 +323,6 @@ export default {
 			return { ...state};
 		},
 		deleteSymbol(state, { payload: key}){
-
 			var index = methods.getSymbolIndexByKey(state.symbols, key);
 			if(index == undefined){
 				openNotificationWithIcon('error', '删除失败,请重试');
@@ -338,8 +337,6 @@ export default {
 			return { ...state};
 		},
 		handleChildrenAttrChange(state, { payload: params}){
-
-			console.log(params);
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
 			if(params.attr.isTab){
 				currentActiveCtrl.controller.children[0].children[state.selectIndex].children[0].attrs[0].children[0][params.attr.name] = params.attr.value;
@@ -350,8 +347,6 @@ export default {
 			return { ...state};
 		},
 		handleAddChildrenAttr(state, { payload: params}){
-
-			console.log(params);
 			state.attr[params.name] = params.value
 			return {...state};
 		},
@@ -376,7 +371,6 @@ export default {
 			}
 			childrenDeleteBylevel(parentCtrl)
 			state.activeCtrl = currentActiveCtrl.controller;
-			console.log(state.activeCtrl);
 			window.VDDesignerFrame.postMessage({
 				VDChildrenDelete: {
 					activeCtrl: children,
@@ -388,7 +382,6 @@ export default {
 		//当前活跃控件 添加一个子控件
 		handleChildrenAdd(state, {payload: params}){
 
-			console.log(params);
 			if(params.children.tag == 'option'){
 				params.children.attrs[0].children[0].html = state.attr.html;
 				params.children.attrs[0].children[0].value = state.attr.value;
@@ -401,21 +394,13 @@ export default {
 			var parentIndex = 0;
 
 			function childrenAddBylevel(parent){
-
 				i++;
-				console.log(parent);
 				if(i == params.level -1){
-					console.log('change Index', i);
 					parentIndex = params.parentIndex;
 				}
 				if(i < params.level) {
-
-					console.log(parentIndex);
-					console.log(parent, 'tigui');
 					childrenAddBylevel(parent.children[parentIndex]);
 				}else {
-					console.log('parent');
-					console.log(parent);
 					parentCtrlVdid = parent.vdid;
 					if(parent.children) {
 						parent.children.push(params.children);
@@ -447,9 +432,7 @@ export default {
 		},
 		//当前活跃控件子控件更新
 		handleChildrenUpdate(state, {payload: params}){
-
 			state.keyValeUpdateVisible = false;
-			console.log(params);
 			window.VDDesignerFrame.postMessage({
 				VDAttrRefreshed: {
 					activeCtrl: params.activeCtrl,
@@ -479,9 +462,6 @@ export default {
 		},
 
 		generateCtrlTree(state, { payload: ctrl }) {
-
-			console.log('generateCtrlTree');
-			console.log(state.activeCtrl);
 			let controller = ctrl.details;
 
 			const specialAttrList = ['custom-attr', 'link-setting', 'list-setting', 'heading-type', 'image-setting', 'select-setting'];
@@ -566,17 +546,17 @@ export default {
 		},
 
 		handleElemAdded(state, { payload: params }) {
-
-			console.log('handleElemAdded');
-			console.log(params);
 			state.layout[params.activePage][0].children.push(params.ctrl);
 			state.activeCtrl = params.ctrl;
-			console.log(state.activeCtrl);
 			var ctrlInfo = VDTreeActions.getActiveControllerIndexAndLvlByKey(state, params.ctrl.vdid, state.activePage);
 			state.activeCtrlIndex = ctrlInfo.index;
 			state.activeCtrlLvl = ctrlInfo.level;
-			console.log(state.activeCtrl);
+			return {...state};
+		},
 
+		setActivePage(state, { payload: params }) {
+			state.activePage.key = params.activePage;
+			alert(params.activePage)
 			return {...state};
 		},
 
@@ -621,7 +601,6 @@ export default {
 
 			//判断是否需要切换标签
 			if(params.attrType.isChangeTag && params.attr.name == 'tag'){
-				console.log('changeTag');
 				var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
 				currentActiveCtrl.controller.attrs.tag = params.attr.value;
 				state.activeCtrl = currentActiveCtrl.controller;
@@ -658,7 +637,6 @@ export default {
 		handleCustomAttrInputChange(state, { payload: params }) {
 
 			state.activeCtrl.attrs[params.attrTypeIndex].children[params.customAttrIndex][params.attrName] = params.value
-			console.log(params);
 			window.VDDesignerFrame.postMessage({
 				VDAttrRefreshed: {
 					activeCtrl: state.activeCtrl,
@@ -760,6 +738,21 @@ export default {
 			}
 
 			return {...state};
+		},
+
+		addPageToLayout(state, { payload: params }) {
+			var pageInfo = params.page;
+			state.layout[pageInfo.key] = [{
+	    		className: [],
+	    		id: '',
+	    		tag: 'body',
+	    		vdid: 'body-' + randomString(8, 10),
+	    		ctrlName: 'body',
+	    		children: []
+	    	}];
+	    	state.activePage.key = pageInfo.key;
+	    	console.log(state.layout);
+			return {...state};
 		}
 
 	},
@@ -776,7 +769,6 @@ export default {
   					activePage: activePage
   				}
   			})
-
 		}
 
 	}

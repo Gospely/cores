@@ -259,15 +259,24 @@ const Component = (props) => {
 
         pageTreeTpl = pageTreeGenerator(props.vdpm.pageList);
 
-	return (
-    <div className="vd-allpages-list">
-		<Popover placement="right" title="设置页面的详细信息" content={generatePageDetailSettings()} onClick={allPagesProps.handlePageListItemClick} visibleChange={allPagesProps.visibleChange}  visible={props.vdpm.pageManager.updatePopoverVisible}>
+    const onPageSelect = (val, option) => {
+    	props.dispatch({
+    		type: 'vdCtrlTree/setActivePage',
+    		payload: {
+    			activePage: val
+    		}
+    	});
+    }
 
+	return (
+    <div className="vd-allpages-list">	
+		<Popover placement="right" title="设置页面的详细信息" content={generatePageDetailSettings()} onClick={allPagesProps.handlePageListItemClick} visibleChange={allPagesProps.visibleChange}  visible={props.vdpm.pageManager.updatePopoverVisible}>
 			<Menu
-				style={{ width: '100%' }}
+				style={{ width: '100%' }}	
 				defaultOpenKeys={['index.html']}
 				selectedKeys={[props.vdpm.currentActivePageListItem]}
 				mode="inline"
+				onSelect={onPageSelect}
 			>
 			{pageTreeTpl}
 			</Menu>
@@ -278,8 +287,8 @@ const Component = (props) => {
 
 };
 
-function mapSateToProps({ vdpm }) {
-  return { vdpm };
+function mapSateToProps({ vdpm, vdCtrlTree }) {
+  return { vdpm, vdCtrlTree };
 }
 
 export default connect(mapSateToProps)(Component);

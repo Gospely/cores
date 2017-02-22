@@ -158,6 +158,12 @@ export default {
 			'transition-delay': 0
 		},
 
+		transformSetting: {
+			x: 0,
+			y: 0,
+			name: 'translate'
+		},
+
 		cssStyleLayout: {
 			body: {
 				display: '',
@@ -182,6 +188,7 @@ export default {
 				'write-mode': '',
 				'text-decoration': '',
 				'text-transform': '',
+
 				background: {
 					'background-width': '',
 					'background-color': '',
@@ -192,16 +199,19 @@ export default {
 					'background-repeat': '',
 					'background-attachment': ''
 				},
+
 				border: {
 					'border-position': 'border',
 					'border-width': '',
 					'border-style': '',
 					'border-color': '',
 				},
+
 				'border-radius': {
 					'border-radius-position': 'border',
 					'border-radius': ''
 				},
+
 				'box-shadow': {
 					state: {
 						activeProp: 0
@@ -222,6 +232,7 @@ export default {
 						inset: 'outset'
 					}]
 				},
+
 				'text-shadow': {
 					state: {
 						activeProp: 0
@@ -233,6 +244,7 @@ export default {
 						color: ''
 					}]
 				},
+
 				transition: {
 					state: {
 						activeProp: 0
@@ -244,12 +256,20 @@ export default {
 						'transition-delay': 0
 					}]
 				},
+
 				transform: {
 					state: {
 						activeProp: 0
 					},
-					childrenProps: []
+					childrenProps: [{
+						name: 'translate',
+						value: ['10px', '20px']
+					}, {
+						name: 'scale',
+						value: [1.5, 2.4]
+					}]
 				},
+
 				opacity: '',
 				cursor: '',
 
@@ -351,10 +371,28 @@ export default {
 				childrenProps: []
 			},
 			transition: {
-
+				state: {
+					activeProp: 0
+				},
+				childrenProps: [{
+					'transition-property': 'all',
+					'transition-duration': 200,
+					'transition-timing-function': 'ease',
+					'transition-delay': 0
+				}]
 			},
-			transform: {
 
+			transform: {
+				state: {
+					activeProp: 0
+				},
+				childrenProps: [{
+					name: 'translate',
+					value: ['10px', '20px']
+				}, {
+					name: 'scale',
+					value: [1.5, 2.4]
+				}]
 			},
 			opacity: '',
 			cursor: '',
@@ -427,6 +465,10 @@ export default {
 			},
 
 			newTransition: {
+				visible: false
+			},
+
+			newTransform: {
 				visible: false
 			}
 		}
@@ -501,29 +543,25 @@ export default {
 			return {...state};
 		},
 
-		changeStyle(state, { payload: params }) {
-			state.stylesList[params.className][params.property] = params.value;
-			return {...state};
-		},
-
 		addStyle(state, { payload: params }) {
 
 			if(params.cssState) {
 				//给当前CSS加伪类
 				if(params.cssState == 'none') {
-					params.cssState = '';
+					return {...state};
 				}
-				state.newStyleName = params.activeStyle + ':' + params.cssState;
+				var tmpStyleName = params.activeStyle.split(':');
+				state.newStyleName = tmpStyleName[0] + ':' + params.cssState;
 			}
 
-			state.stylesList['.' + state.newStyleName] = {};
+			// state.stylesList['.' + state.newStyleName] = {};
 			state.activeStyle = state.newStyleName;
 			state.newStyleName = '';
 
 			var activeCSSStyleLayout = state.cssStyleLayout[params.activeStyle];
 
 			for(var cssStyle in activeCSSStyleLayout) {
-				if(cssStyle == state.newStyleName) {
+				if(cssStyle == state.activeStyle) {
 					message.error('所加类名与已有类名冲突，请重新填写');
 					return {...state};
 				}
@@ -532,16 +570,6 @@ export default {
 			state.cssStyleLayout[state.activeStyle] = state.cssStyleList;
 			console.log(state.cssStyleLayout);
 			return {...state};
-		},
-
-		handleStylesChanges(state, { payload: params }) {
-			var keys = params.target.split(' ');
-			if(keys.length == 2){
-				state.stylesList[keys[0]][keys[1]] = params.value;
-			}else{
-				state.stylesList[params.target] = params.value;
-			}
-			return {...state}
 		},
 
 		handleNewStyleNameChange(state, { payload: value }) {
@@ -767,7 +795,7 @@ export default {
 			return {...state};
 		},
 
-		saveThisTransition(state,  { payload: params }) {
+		saveThisTransition(state, { payload: params }) {
 			var cssProperty = state.cssStyleLayout[params.activeStyleName]['transition'];
 			cssProperty.childrenProps.push(state.transitionSetting);
 			state.transitionSetting = {
@@ -776,6 +804,21 @@ export default {
 				'transition-timing-function': 'ease',
 				'transition-delay': 0
 			}
+			return {...state};
+		},
+
+		saveTransform(state, { payload: params }) {
+			var cssProperty = state.cssStyleLayout[params.activeStyleName]['transform'];
+			cssProperty.childrenProps.push({
+				name: state.transformSetting.name,
+				value: [state.transformSetting.x, state.transformSetting.y]
+			});
+			state.transformSetting = {
+				x: 0,
+				y: 0,
+				name: 'translate'
+			}
+			state.popover.newTransform.visible = false;
 			return {...state};
 		},
 
@@ -797,8 +840,24 @@ export default {
 			return {...state};
 		},
 
+		removeThisTransform(state, { payload: params }) {
+			var cssProperty = state.cssStyleLayout[params.activeStyleName]['transform'];
+			cssProperty.childrenProps.splice(params.transformIndex, 1);			
+			return {...state};
+		},
+
 		handleTransitionInputChange(state, { payload: params }) {
 			state.transitionSetting[params.propsName] = params.value;
+			return {...state};
+		},
+
+		changeTransformType(state, { payload: params }) {
+			state.transformSetting.name = params.transformType;
+			return {...state};
+		},
+
+		handleTransformInputChange(state, { payload: params }) {
+			state.transformSetting[params.pos] = params.value;
 			return {...state};
 		}
 

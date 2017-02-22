@@ -136,11 +136,6 @@ const VDStylePanel = (props) => {
 						return false;
 					}
 
-					if(!props.vdCtrlTree.activeCtrl.activeStyle) {
-						message.error('请先添加一个控件再添加类名！');
-						return false;
-					}
-
 					props.dispatch({
 						type: 'vdstyles/addStyle',
 						payload: {
@@ -1038,7 +1033,7 @@ const VDStylePanel = (props) => {
 						</Col>
 					</Row>
 			    </InputGroup>
-    			<FormItem labelCol={{span: 4}} wrapperCol={{span: 20}} label="">
+    			<FormItem wrapperCol={{span: 24}} label="">
 				    <Button onClick={saveThisTransition.bind(this)} size="small" style={{marginTop: '15px', float: 'right'}}>保存</Button>
     			</FormItem>
     		</Form>
@@ -1106,175 +1101,148 @@ const VDStylePanel = (props) => {
 			</Form>
     	),
 
-    	transitionAddPopover: (
-			<Tabs defaultActiveKey="Move" size="small" animated={false}>
-			    <TabPane tab="Move" key="Move">
-					<InputGroup compact style={{marginTop: 5}}>
-						<div style={{width: '30%', display: 'inline-block'}}>
-							X轴方向:
-						</div>
-						<Input style={{ width: '40%' }} defaultValue="0" />
-				      	<Select
-	    				    placeholder="选择单位"
-	    				    defaultValue="PX"
-	    				    style={{ width: '30%' }}
-	    				>
-	    					<Option key="PX">PX</Option>
-	    					<Option key="%">%</Option>
-	    				</Select>
-				    </InputGroup>
+    	transitionAddPopover () {
 
-    				<InputGroup compact style={{marginTop: 5}}>
-    					<div style={{width: '30%', display: 'inline-block'}}>
-    						Y轴方向:
-    					</div>
-    					<Input style={{ width: '40%' }} defaultValue="0" />
-    			      	<Select
-        				    placeholder="选择单位"
-        				    defaultValue="PX"
-        				    style={{ width: '30%' }}
-        				>
-        					<Option key="PX">PX</Option>
-        					<Option key="%">%</Option>
-        				</Select>
-    			    </InputGroup>
+    		const saveTransform = () => {
+    			props.dispatch({
+    				type: 'vdstyles/saveTransform',
+					payload: {
+						activeStyleName: props.vdCtrlTree.activeCtrl.activeStyle
+					}
+    			});
+    		}
 
-    			    <InputGroup compact style={{marginTop: 5}}>
-						<div style={{width: '30%', display: 'inline-block'}}>
-							Z轴方向:
-						</div>
-						<Input style={{ width: '40%' }} defaultValue="0" />
-				      	<Select
-	    				    placeholder="选择单位"
-	    				    defaultValue="PX"
-	    				    style={{ width: '30%' }}
-	    				>
-	    					<Option key="PX">PX</Option>
-	    					<Option key="%">%</Option>
-	    				</Select>
-				    </InputGroup>
+    		const handleTabChange = (transformType) => {
+    			props.dispatch({
+    				type: 'vdstyles/changeTransformType',
+					payload: {
+						transformType
+					}
+    			});    			
+    		}
 
+    		const handleTransformInputChange = (pos, e) => {
+    			props.dispatch({
+    				type: 'vdstyles/handleTransformInputChange',
+    				payload: {
+    					pos,
+    					value: e.target.value
+    				}
+    			});
+    		}
+
+    		return (
+			<Tabs activeKey={props.vdstyles.transformSetting.name} size="small" animated={false} onChange={handleTabChange}>
+			    <TabPane tab="移动" key="translate" style={{padding: 10}}>
+
+			      	<Form className="form-no-margin-bottom">
+						<FormItem {...formItemLayout} label="x轴">
+							<Row>
+								<Col span={18} style={{paddingRight: '15px'}}>
+									<Input onPressEnter={saveTransform} type="number" size="small" onChange={handleTransformInputChange.bind(this, 'x')} value={props.vdstyles.transformSetting.x}/>
+								</Col>
+								<Col span={6} style={{textAlign: 'right'}}>
+									px
+								</Col>
+							</Row>
+						</FormItem>
+
+						<FormItem {...formItemLayout} label="y轴">
+							<Row>
+								<Col span={18} style={{paddingRight: '15px'}}>
+									<Input onPressEnter={saveTransform} type="number" size="small" onChange={handleTransformInputChange.bind(this, 'y')} value={props.vdstyles.transformSetting.y}/>
+								</Col>
+								<Col span={6} style={{textAlign: 'right'}}>
+									px
+								</Col>
+							</Row>
+						</FormItem>
+			      	</Form>
+
+					<Button onClick={saveTransform} style={{float: 'right'}} size="small">保存</Button>
 			    </TabPane>
-			    <TabPane tab="Scale" key="Scale">
-			    	<InputGroup compact style={{marginTop: 5}}>
-						<div style={{width: '30%', display: 'inline-block'}}>
-							X轴方向:
-						</div>
-						<Input style={{ width: '40%' }} defaultValue="0" />
-				      	<Select
-	    				    placeholder="选择单位"
-	    				    defaultValue="PX"
-	    				    style={{ width: '30%' }}
-	    				>
-	    					<Option key="PX">PX</Option>
-	    					<Option key="%">%</Option>
-	    				</Select>
-				    </InputGroup>
+			    <TabPane tab="缩放" key="scale" style={{padding: 10}}>
+			      	<Form className="form-no-margin-bottom">
+						<FormItem {...formItemLayout} label="x轴">
+							<Row>
+								<Col span={18} style={{paddingRight: '15px'}}>
+									<Input onPressEnter={saveTransform} type="number" size="small" onChange={handleTransformInputChange.bind(this, 'x')} value={props.vdstyles.transformSetting.x}/>
+								</Col>
+								<Col span={6} style={{textAlign: 'right'}}>
+									px
+								</Col>
+							</Row>
+						</FormItem>
 
-    				<InputGroup compact style={{marginTop: 5}}>
-    					<div style={{width: '30%', display: 'inline-block'}}>
-    						Y轴方向:
-    					</div>
-    					<Input style={{ width: '40%' }} defaultValue="0" />
-    			      	<Select
-        				    placeholder="选择单位"
-        				    defaultValue="PX"
-        				    style={{ width: '30%' }}
-        				>
-        					<Option key="PX">PX</Option>
-        					<Option key="%">%</Option>
-        				</Select>
-    			    </InputGroup>
+						<FormItem {...formItemLayout} label="y轴">
+							<Row>
+								<Col span={18} style={{paddingRight: '15px'}}>
+									<Input onPressEnter={saveTransform} type="number" size="small" onChange={handleTransformInputChange.bind(this, 'y')} value={props.vdstyles.transformSetting.y}/>
+								</Col>
+								<Col span={6} style={{textAlign: 'right'}}>
+									px
+								</Col>
+							</Row>
+						</FormItem>
 
-    			    <InputGroup compact style={{marginTop: 5}}>
-						<div style={{width: '30%', display: 'inline-block'}}>
-							Z轴方向:
-						</div>
-						<Input style={{ width: '40%' }} defaultValue="0" />
-				      	<Select
-	    				    placeholder="选择单位"
-	    				    defaultValue="PX"
-	    				    style={{ width: '30%' }}
-	    				>
-	    					<Option key="PX">PX</Option>
-	    					<Option key="%">%</Option>
-	    				</Select>
-				    </InputGroup>
+			      	</Form>
+					<Button onClick={saveTransform} style={{float: 'right'}} size="small">保存</Button>
 			    </TabPane>
-			    <TabPane tab="Rotate" key="Rotate">
-			    	<InputGroup compact style={{marginTop: 5}}>
-						<div style={{width: '30%', display: 'inline-block'}}>
-							X轴方向:
-						</div>
-						<Input style={{ width: '40%' }} defaultValue="0" />
-				      	<Select
-	    				    placeholder="选择单位"
-	    				    defaultValue="DEG"
-	    				    style={{ width: '30%' }}
-	    				>
-	    					<Option key="DEG">DEG</Option>
-	    				</Select>
-				    </InputGroup>
+			    <TabPane tab="旋转" key="rotate" style={{padding: 10}}>
+			      	<Form className="form-no-margin-bottom">
+						<FormItem {...formItemLayout} label="x轴">
+							<Row>
+								<Col span={18} style={{paddingRight: '15px'}}>
+									<Input onPressEnter={saveTransform} type="number" size="small" onChange={handleTransformInputChange.bind(this, 'x')} value={props.vdstyles.transformSetting.x}/>
+								</Col>
+								<Col span={6} style={{textAlign: 'right'}}>
+									deg
+								</Col>
+							</Row>
+						</FormItem>
 
-    				<InputGroup compact style={{marginTop: 5}}>
-    					<div style={{width: '30%', display: 'inline-block'}}>
-    						Y轴方向:
-    					</div>
-    					<Input style={{ width: '40%' }} defaultValue="0" />
-    			      	<Select
-        				    placeholder="选择单位"
-        				    defaultValue="DEG"
-        				    style={{ width: '30%' }}
-        				>
-        					<Option key="DEG">DEG</Option>
-        				</Select>
-    			    </InputGroup>
-
-    			    <InputGroup compact style={{marginTop: 5}}>
-						<div style={{width: '30%', display: 'inline-block'}}>
-							Z轴方向:
-						</div>
-						<Input style={{ width: '40%' }} defaultValue="0" />
-				      	<Select
-	    				    placeholder="选择单位"
-	    				    defaultValue="DEBG"
-	    				    style={{ width: '30%' }}
-	    				>
-	    					<Option key="DEG">DEG</Option>
-	    				</Select>
-				    </InputGroup>
+						<FormItem {...formItemLayout} label="y轴">
+							<Row>
+								<Col span={18} style={{paddingRight: '15px'}}>
+									<Input onPressEnter={saveTransform} type="number" size="small" onChange={handleTransformInputChange.bind(this, 'y')} value={props.vdstyles.transformSetting.y}/>
+								</Col>
+								<Col span={6} style={{textAlign: 'right'}}>
+									deg
+								</Col>
+							</Row>
+						</FormItem>
+			      	</Form>
+					<Button onClick={saveTransform} style={{float: 'right'}} size="small">保存</Button>
 			    </TabPane>
-			    <TabPane tab="Skew" key="Skew">
-			    	<InputGroup compact style={{marginTop: 5}}>
-						<div style={{width: '30%', display: 'inline-block'}}>
-							X轴方向:
-						</div>
-						<Input style={{ width: '40%' }} defaultValue="0" />
-				      	<Select
-	    				    placeholder="选择单位"
-	    				    defaultValue="DEG"
-	    				    style={{ width: '30%' }}
-	    				>
-	    					<Option key="DEG">DEG</Option>
-	    				</Select>
-				    </InputGroup>
+			    <TabPane tab="倾斜" key="skew" style={{padding: 10}}>
+			      	<Form className="form-no-margin-bottom">
+						<FormItem {...formItemLayout} label="x轴">
+							<Row>
+								<Col span={18} style={{paddingRight: '15px'}}>
+									<Input onPressEnter={saveTransform} type="number" size="small" onChange={handleTransformInputChange.bind(this, 'x')} value={props.vdstyles.transformSetting.x}/>
+								</Col>
+								<Col span={6} style={{textAlign: 'right'}}>
+									px
+								</Col>
+							</Row>
+						</FormItem>
 
-    				<InputGroup compact style={{marginTop: 5}}>
-    					<div style={{width: '30%', display: 'inline-block'}}>
-    						Y轴方向:
-    					</div>
-    					<Input style={{ width: '40%' }} defaultValue="0" />
-    			      	<Select
-        				    placeholder="选择单位"
-        				    defaultValue="DEG"
-        				    style={{ width: '30%' }}
-        				>
-        					<Option key="DEG">DEG</Option>
-        				</Select>
-    			    </InputGroup>
+						<FormItem {...formItemLayout} label="y轴">
+							<Row>
+								<Col span={18} style={{paddingRight: '15px'}}>
+									<Input onPressEnter={saveTransform} type="number" size="small" onChange={handleTransformInputChange.bind(this, 'y')} value={props.vdstyles.transformSetting.y}/>
+								</Col>
+								<Col span={6} style={{textAlign: 'right'}}>
+									px
+								</Col>
+							</Row>
+						</FormItem>
+
+			      	</Form>
+					<Button onClick={saveTransform} style={{float: 'right'}} size="small">保存</Button>
 			    </TabPane>
 			</Tabs>
-    	)
+    	);}
     }
 
     const effectProps = {
@@ -1385,6 +1353,9 @@ const VDStylePanel = (props) => {
     	const cssStateMenu = () => {
 
     		const onSelect = ({ item, key, selectedKeys }) => {
+
+    			console.log(selectedKeys);
+
     			props.dispatch({
     				type: 'vdstyles/handleCSSStateChange',
     				payload: {
@@ -1393,29 +1364,40 @@ const VDStylePanel = (props) => {
     				}
     			});
 
-    			props.dispatch({
-    				type: 'vdstyles/addStyle',
-    				payload: {
-						activeStyle: props.vdCtrlTree.activeCtrl.activeStyle,
-						cssState: selectedKeys[0]
-    				}
-    			});
+    			if(selectedKeys[0] == 'none') {
+    				var acs = props.vdCtrlTree.activeCtrl.activeStyle;
 
-				props.dispatch({
-					type: 'vdstyles/applyCSSStyleIntoPage',
-					payload: {
-						activeCtrl: props.vdCtrlTree.activeCtrl
-					}
-				})
+					props.dispatch({
+						type: 'vdCtrlTree/setActiveStyle',
+						payload: props.vdCtrlTree.activeCtrl.activeStyle.split(':')[0]
+					});
+    			}else {
 
-				props.dispatch({
-					type: 'vdstyles/handleClassChange',
-					payload: {
-	    				value: props.vdCtrlTree.activeCtrl.activeStyle + ':' + selectedKeys[0],
-	    				push: true,
-	    				dontChangeAttr: true
-	    			}
-				});
+	    			props.dispatch({
+	    				type: 'vdstyles/addStyle',
+	    				payload: {
+							activeStyle: props.vdCtrlTree.activeCtrl.activeStyle,
+							cssState: selectedKeys[0]
+	    				}
+	    			});
+
+					props.dispatch({
+						type: 'vdstyles/applyCSSStyleIntoPage',
+						payload: {
+							activeCtrl: props.vdCtrlTree.activeCtrl
+						}
+					});
+
+					props.dispatch({
+						type: 'vdstyles/handleClassChange',
+						payload: {
+		    				value: props.vdCtrlTree.activeCtrl.activeStyle.split(':')[0] + ':' + selectedKeys[0],
+		    				push: true,
+		    				dontChangeAttr: true
+		    			}
+					});
+
+    			}
 
     		}
 
@@ -2232,6 +2214,16 @@ const VDStylePanel = (props) => {
 		);
 		}
 
+		/*
+			<Tooltip placement="top" title="变换设置">
+					<Popover title='变换设置' placement="leftTop" trigger="click" content={transformAndTransitionProps.transitionSttingPopover}>
+	      			<Button size="small" style={{textAlign: 'center'}}>
+	      				<i className="fa fa-cog"></i>
+	      			</Button>
+	      		</Popover>
+	  		</Tooltip>
+		*/
+
 		const transitionsTransformsPanel = () => {
 
 			const removeThisTransition = (transitionIndex) => {
@@ -2242,12 +2234,25 @@ const VDStylePanel = (props) => {
 						activeStyleName: props.vdCtrlTree.activeCtrl.activeStyle
 					}
 				});
+<<<<<<< HEAD
+=======
+			}
+
+			const removeThisTransform = (transformIndex) => {
+				props.dispatch({
+					type: 'vdstyles/removeThisTransform',
+					payload: {
+						transformIndex,
+						activeStyleName: props.vdCtrlTree.activeCtrl.activeStyle
+					}
+				});				
+>>>>>>> fc22f5356799419e05d90329aa3bd354dcace276
 			}
 
 		 	return (
 			    <Panel header="过渡和变换" key="transitions-transforms">
 			      	<Form className="form-no-margin-bottom">
-			      		<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right', marginTop: 5}} label="过渡">
+			      		<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right', marginTop: 5, marginBottom: 6}} label="过渡">
 			      			<Tooltip placement="top" title="添加过渡">
 			      				<Popover title='添加过渡' placement="leftTop" trigger="click" visible={props.vdstyles.popover.newTransition.visible} content={transformAndTransitionProps.transformSettingPopover()}>
 					      			<Button size="small" onClick={() => { props.dispatch({type: 'vdstyles/togglePopover', payload: { popoverName: 'newTransition' }}) }} style={{borderBottom: 'none'}}>
@@ -2279,17 +2284,10 @@ const VDStylePanel = (props) => {
 						<li className="ant-dropdown-menu-item-divider"></li>
 
 						<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right', marginTop: 5}} label="变换">
-							<ButtonGroup>
-	    						<Tooltip placement="top" title="变换设置">
-				      				<Popover title='变换设置' placement="leftTop" trigger="click" content={transformAndTransitionProps.transitionSttingPopover}>
-						      			<Button size="small" style={{textAlign: 'center'}}>
-						      				<i className="fa fa-cog"></i>
-						      			</Button>
-						      		</Popover>
-					      		</Tooltip>
+							<ButtonGroup size="small" style={{marginBottom: '6px'}}>
 				      			<Tooltip placement="top" title="添加变换">
-				      				<Popover title='添加变换' placement="leftTop" trigger="click" content={transformAndTransitionProps.transitionAddPopover}>
-						      			<Button size="small" style={{textAlign: 'center'}}>
+				      				<Popover visible={props.vdstyles.popover.newTransform.visible} title='添加变换' placement="left" trigger="click" content={transformAndTransitionProps.transitionAddPopover()}>
+						      			<Button onClick={() => { props.dispatch({type: 'vdstyles/togglePopover', payload: { popoverName: 'newTransform' }}) }} size="small" style={{textAlign: 'center'}}>
 						      				<i className="fa fa-plus"></i>
 						      			</Button>
 						      		</Popover>
@@ -2298,16 +2296,22 @@ const VDStylePanel = (props) => {
 			      		</FormItem>
 
 			      		<FormItem wrapperCol={{ span: 24 }} style={{position: 'relative', top: -3}}>
-							<div style={{border: '1px solid #d9d9d9', minHeight: 10}}>
-								<Row>
-									<Col span={20} style={{textAlign: 'left', cursor: 'pointer', paddingLeft: '15px'}}>
-										暂无
-									</Col>
-									<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
-										<i className="fa fa-trash-o"></i>
-									</Col>
-								</Row>
-							</div>
+			      			{
+			      				props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['transform'].childrenProps.map((cssProperty, cssPropertyIndex) => {
+			      					return (
+										<div key={cssPropertyIndex} className="filter-list">
+											<Row>
+												<Col span={20} style={{textAlign: 'left', cursor: 'pointer', paddingLeft: '15px'}}>
+													{cssProperty.name}({cssProperty.value.join(',')})
+												</Col>
+												<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
+													<i onClick={removeThisTransform.bind(this, cssPropertyIndex)} className="fa fa-trash-o"></i>
+												</Col>
+											</Row>
+										</div>
+			      					);
+			      				})
+			      			}
 						</FormItem>
 
 			      	</Form>

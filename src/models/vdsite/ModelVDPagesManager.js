@@ -14,7 +14,7 @@ const openNotificationWithIcon = (type, title, description) => (
 export default {
 	namespace: 'vdpm',
 	state: {
-		currentActivePageListItem: 'sub1',
+		currentActivePageListItem: 'index.html',
 		treeNodes: [],
 		pageManager: {
 			treeSelect: {
@@ -24,6 +24,7 @@ export default {
 			newFolderVisible: false,
 			updatePopoverVisible: false
 		},
+
 		newPageFrom: {
 			key: '',
 			name: '',
@@ -36,6 +37,7 @@ export default {
 				script: ''
 			},
 		},
+
 		newFolderForm: {
 			key: '',
 			name: '',
@@ -202,6 +204,7 @@ export default {
 					}
 				}
 				state.pageList.push(state.newPageFrom);
+				state.activePage = state.newFolderForm.key;
 			}
             delete state.pageList['children'];
 			state.pageManager.newPageVisible = bool;
@@ -256,18 +259,17 @@ export default {
             };
             return {...state};
         },
-        deletePage(state, {payload: key}){
+        deletePage(state, {payload: key}) {
 
 
-            let deletPageInfoByKey = function(pages, key){
+            let deletPageInfoByKey = function(pages, key) {
 
 				for (var i = 0; i < pages.length; i++) {
-                    console.log(pages[i].key);
-					if(pages[i].key == key ){
+					if(pages[i].key == key ) {
                         pages.splice(i,1);
                         break;
 					}else {
-                        if(pages[i].children != null && pages[i].children != undefined){
+                        if(pages[i].children != null && pages[i].children != undefined) {
     					    pages[i].children = deletPageInfoByKey(pages[i].children, key);
     					}
 					}
@@ -404,12 +406,15 @@ export default {
 			}]};
 		},
 		initState(state, {payload: params}){
-
             state.pageList = params.UIState.pageList;
             state.currentActivePageListItem = params.UIState.currentActivePageListItem;
             state.activePage = params.UIState.activePage;
-            console.log(state.pageList);
 			return { ...state};
+		},
+
+		setActivePage(state, { payload: params }) {
+			state.activePage = params.activePage;
+			return {...state};
 		}
 	},
 	effects: {
@@ -444,7 +449,7 @@ export default {
   		},
 
   		*elemAdded({payload: ctrl}, {call, put, select}) {
-  			var activePage = yield select(state => state.vdpm.activePage);
+  			var activePage = yield select(state => state.vdCtrlTree.activePage.key);
   			yield put({
   				type: 'vdCtrlTree/handleElemAdded',
   				payload: {
@@ -455,7 +460,6 @@ export default {
   		},
         *savePage({payload: key}, {call, put, select}){
 
-            console.log(key);
             var pages = yield select(state=> state.vdpm.pageList),
                 page;
             let getPageInfoByKey = function(pages){
@@ -475,7 +479,6 @@ export default {
             //根据当前key 遍历获取编辑页面的数据
 			getPageInfoByKey(pages);
 
-            console.log(page);
             //获取元素数据
 
             //请求后台文件文件写入
@@ -488,7 +491,6 @@ export default {
                     project: localStorage.dir + page.key
                 })
             });
-            console.log(result);
 
         },
         *removeFile({payload: fileName}, {call, put, select}) {

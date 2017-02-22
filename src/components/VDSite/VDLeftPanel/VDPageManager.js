@@ -54,7 +54,7 @@ const Component = (props) => {
 		}
         if(item != null){
             return (
-    		  <TreeNode title={item.name} value={item.key} key={item.key} disabled="true"/>
+    		  <TreeNode title={item.name} value={item.key} key={item.key} disabled={true}/>
     		);
         }
     });
@@ -161,9 +161,19 @@ const Component = (props) => {
 				openNotificationWithIcon('info', '请选择所属目录');
 				return;
 			}
+
+			var pageInfo = props.vdpm.newPageFrom;
+
 			props.dispatch({
 				type: 'vdpm/handleCreatePage',
 				payload: { value: false}
+			});
+
+			props.dispatch({
+				type: 'vdCtrlTree/addPageToLayout',
+				payload: {
+					page: pageInfo
+				}
 			});
 		},
 		handlePageNameChange(value){
