@@ -227,10 +227,16 @@ export default {
 					}]
 				},
 				transition: {
-
+					state: {
+						activeProp: 0
+					},
+					childrenProps: []
 				},
 				transform: {
-
+					state: {
+						activeProp: 0
+					},
+					childrenProps: []
 				},
 				opacity: '',
 				cursor: '',
@@ -299,8 +305,81 @@ export default {
 			'text-align': '',
 			'write-mode': '',
 			'text-decoration': '',
-			capitalize: '',
-			'background-color': ''
+			'text-transform': '',
+			background: {
+				'background-width': '',
+				'background-color': '',
+				'background-size': ['', '', false, false],
+				'background-position': '',
+				'background-image': '',
+				'background-color': '',
+				'background-repeat': '',
+				'background-attachment': ''
+			},
+			border: {
+				'border-position': 'border',
+				'border-width': '',
+				'border-style': '',
+				'border-color': '',
+			},
+			'border-radius': {
+				'border-radius-position': 'border',
+				'border-radius': ''
+			},
+			'box-shadow': {
+				state: {
+					activeProp: 0
+				},
+				childrenProps: []
+			},
+			'text-shadow': {
+				state: {
+					activeProp: 0
+				},
+				childrenProps: []
+			},
+			transition: {
+
+			},
+			transform: {
+
+			},
+			opacity: '',
+			cursor: '',
+
+			filter: {
+				filters: [{
+					cssProp: 'blur',
+					name: '高斯模糊'
+				}, {
+					cssProp: 'brightness',
+					name: '亮度'
+				}, {
+					cssProp: 'contrast',
+					name: '对比度'
+				}, {
+					cssProp: 'grayscale',
+					name: '灰度图像'
+				}, {
+					cssProp: 'hue-rotate',
+					name: '旋转'
+				}, {
+					cssProp: 'invert',
+					name: '反转'
+				}, {
+					cssProp: 'saturate',
+					name: '饱和度'
+				}, {
+					cssProp: 'sepia',
+					name: '深褐色'
+				}],
+
+				childrenProps: [],
+
+				state: {
+					activeFilter: 0
+				}
+			}
 		},
 
 		cssStates: [{
