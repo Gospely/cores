@@ -1581,7 +1581,7 @@ export default {
 							}]
 						},{
 							tag: 'div',
-                            unActive: true,
+
 							className: ['tab-pane', 'active'],
 							children: [],
 							attrs: [{
@@ -1626,7 +1626,7 @@ export default {
 								attrs: [{
 									title: '导航菜单设置',
 									key: 'navbar-setting',
-									children: []
+									children: [{}]
 								}],
 								children: [{
 									tag: 'span',
@@ -1667,7 +1667,14 @@ export default {
 								attrs: [{
 									title: '导航菜单设置',
 									key: 'navbar-setting',
-									children: []
+									children: [{
+            							name: 'innerHTML',
+            							desc: '商标',
+            							type: 'input',
+            							value: 'Brand',
+            							isHTML: true,
+            							id: ''
+            						}]
 								}]
 							}]
 						}, {
@@ -1680,7 +1687,7 @@ export default {
 							}],
 							children: [{
 								tag: 'ul',
-								className: ['nav', 'nav-bar', 'navbar-right'],
+								className: ['nav', 'navbar-nav', 'navbar-right'],
 								attrs: [{
 									title: '导航菜单设置',
 									key: 'navbar-setting',
@@ -1700,7 +1707,13 @@ export default {
 										attrs: [{
 											title: '导航菜单设置',
 											key: 'navbar-setting',
-											children: []
+											children: [{
+                    							name: 'innerHTML',
+                    							desc: '商标',
+                    							value: '菜单',
+                    							isHTML: true,
+                    							id: ''
+                    						}]
 										}]
 									}]
 								}, {
@@ -1717,9 +1730,160 @@ export default {
 										attrs: [{
 											title: '导航菜单设置',
 											key: 'navbar-setting',
-											children: []
+											children: [{
+                    							name: 'innerHTML',
+                    							desc: '商标',
+                    							value: '菜单',
+                    							isHTML: true,
+                    							id: ''
+                    						}]
 										}]
 									}]
+								}, {
+									tag: 'li',
+									className: ['dropdown open'],
+									attrs: [{
+										title: '导航菜单设置',
+										key: 'navbar-setting',
+										children: []
+									}],
+									children: [{
+										tag: 'a',
+										className: ['dropdown-toggle'],
+										attrs: [{
+											title: '导航菜单设置',
+											key: 'navbar-setting',
+											children: [{
+                    							name: 'innerHTML',
+                    							desc: '商标',
+                    							value: '菜单',
+                    							isHTML: true,
+                    							id: ''
+                    						},{
+                    							name: 'href',
+                    							desc: '商标',
+                    							value: '#',
+                    							isAttr: true,
+                    							id: '',
+                                                attrName: 'href'
+                    						},{
+                    							name: 'data-toggle',
+                    							desc: '商标',
+                    							value: 'dropdown',
+                    							isAttr: true,
+                    							id: '',
+                                                attrName: 'data-toggle'
+                    						},{
+                    							name: 'role',
+                    							desc: '商标',
+                    							value: 'button',
+                    							isAttr: true,
+                    							id: '',
+                                                attrName: 'role'
+                    						},{
+                    							name: 'aria-haspopup',
+                    							desc: '商标',
+                    							value: true,
+                    							isAttr: true,
+                    							id: '',
+                                                attrName: 'aria-haspopup'
+                    						},{
+                    							name: 'aria-expanded',
+                    							desc: '商标',
+                    							value: true,
+                    							isAttr: true,
+                    							id: '',
+                                                attrName: 'aria-expanded'
+                    						}]
+										}],
+                                        children: [{
+                                            tag: 'span',
+                                            className: ['caret'],
+                                            attrs: [{
+                                                title: '导航菜单设置',
+                                                key: 'navbar-setting',
+                                                children: []
+                                            }]
+                                        }]
+									},{
+        								tag: 'ul',
+        								className: ['dropdown-menu'],
+        								attrs: [{
+        									title: '导航菜单设置',
+        									key: 'navbar-setting',
+        									children: []
+        								}],
+        								children: [{
+        									tag: 'li',
+        									className: [],
+        									attrs: [{
+        										title: '导航菜单设置',
+        										key: 'navbar-setting',
+        										children: []
+        									}],
+        									children: [{
+        										tag: 'a',
+        										className: [],
+        										attrs: [{
+        											title: '导航菜单设置',
+        											key: 'navbar-setting',
+        											children: [{
+                            							name: 'innerHTML',
+                            							desc: '商标',
+                            							value: '菜单',
+                            							isHTML: true,
+                            							id: ''
+                            						}]
+        										}]
+        									}]
+        								}, {
+        									tag: 'li',
+        									className: [],
+        									attrs: [{
+        										title: '导航菜单设置',
+        										key: 'navbar-setting',
+        										children: []
+        									}],
+        									children: [{
+        										tag: 'a',
+        										className: [],
+        										attrs: [{
+        											title: '导航菜单设置',
+        											key: 'navbar-setting',
+        											children: [{
+                            							name: 'innerHTML',
+                            							desc: '商标',
+                            							value: '菜单',
+                            							isHTML: true,
+                            							id: ''
+                            						}]
+        										}]
+        									}]
+        								}, {
+        									tag: 'li',
+        									className: [],
+        									attrs: [{
+        										title: '导航菜单设置',
+        										key: 'navbar-setting',
+        										children: []
+        									}],
+        									children: [{
+        										tag: 'a',
+        										className: [],
+        										attrs: [{
+        											title: '导航菜单设置',
+        											key: 'navbar-setting',
+        											children: [{
+                            							name: 'innerHTML',
+                            							desc: '商标',
+                            							value: '菜单',
+                            							isHTML: true,
+                            							id: ''
+                            						},]
+        										}]
+        									}]
+        								}]
+        							}]
 								}]
 							}]
 						}]

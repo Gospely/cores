@@ -64,7 +64,7 @@ const Component = (props) => {
                     result[key] = obj[key];
                 }
             }
-            result.id = randomString(8,10);
+            result.vdid = randomString(8,10);
             return result;
         },
     }

@@ -386,7 +386,7 @@ export default {
 				params.children.attrs[0].children[0].html = state.attr.html;
 				params.children.attrs[0].children[0].value = state.attr.value;
 			}
-
+			params.children.parent = state.activeCtrl.vdid;
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
 			var parentCtrl = currentActiveCtrl.controller;
 			var parentCtrlVdid;
