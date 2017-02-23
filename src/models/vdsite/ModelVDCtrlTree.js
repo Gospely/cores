@@ -414,7 +414,8 @@ export default {
 					}
 				}
 			}
-			childrenAddBylevel(parentCtrl)
+			childrenAddBylevel(parentCtrl);
+			console.log('layout', state.layout);
 
 			state.activeCtrl = currentActiveCtrl.controller;
 			state.keyValeCreateVisible = false;

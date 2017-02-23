@@ -921,13 +921,13 @@ const Component = (props) => {
                                     }
                                 });
 
-                                var content = copyOperate.copyChildren(1, 'component','tabs', 2, [{ level:2, index: 1}]);
+                                var content = copyOperate.copyChildren(1, 'component','tabs', 2, [{ level:1, index: 1}]);
                                 props.dispatch({
                                     type: 'vdCtrlTree/handleChildrenAdd',
                                     payload: {
                                         activeCtrl: props.vdCtrlTree.activeCtrl,
                                         children: content,
-                                        levels: [{ level:2, index: 1}],
+                                        levelsInfo: [{ level:2, index: 1}],
                                         level: 2
                                     }
                                 });
@@ -1046,6 +1046,8 @@ const Component = (props) => {
 						    			<Button size="small"><Icon type="plus" 	onClick={formProps.childrenAdd.bind(this,1, 'components', 'navbar', 4, [{level: 1,index:1}])}/>新增菜单</Button>
 						    		</Col>
 						    	</Row>
+
+
 
 						      	<Form className="form-no-margin-bottom">
 									<FormItem {...formItemLayout} label="菜单类型">

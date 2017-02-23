@@ -501,7 +501,8 @@ $(function() {
 				var elemGen = new ElemGenerator(activeCtrl);
 				var tempElem = elemGen.createElement();
 				tempElem.attr('vdid', vdid);
-				elem = elem.replaceWith(tempElem[0].outerHTML);
+				elem = elem.replaceWith(tempElem);
+				elem.data('controller', activeCtrl);
 			},
 			'add': function(parent, children, parent){
 
@@ -509,7 +510,7 @@ $(function() {
 				var elem = jq('[vdid='+ parent + ']');
 				var elemGen = new ElemGenerator(children);
 				var tempElem = elemGen.createElement();
-				elem = elem.append(tempElem[0].outerHTML);
+				elem = elem.append(tempElem);
 			},
 		}
 		//对控件的一些操作
@@ -540,6 +541,8 @@ $(function() {
 
             select: function(data, notPostMessage) {
 
+				console.log('select');
+				console.log(data);
 				if(data) {
 					notPostMessage = notPostMessage || false;
 	                controllerOperations.showDesignerDraggerBorder(jq('[vdid=' + data.vdid + ']'))
@@ -907,7 +910,12 @@ $(function() {
 
             setLinkSetting: function(attr) {
 
+
+				if(attr.isHTML){
+					this.setAttr(attr)
+				}
                 if(attr.isAttr) {
+
                     if(attr.attrName == 'target') {
                         if(attr.value) {
                             this.elem.attr(attr.attrName, '_blank');
@@ -1088,8 +1096,11 @@ $(function() {
             },
 
             listenClick: function() {
+
                 var self = this;
                 this.elem.click(function(e) {
+					console.log('click');
+					console.log(e);
                     e.stopPropagation();
                     var target = jq(e.target);
                     controllerOperations.select(target.data('controller'));

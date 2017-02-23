@@ -1664,11 +1664,27 @@ export default {
 								tag: 'a',
 								className: ['navbar-brand'],
 								attrs: [{
-									title: '导航菜单设置',
-									key: 'navbar-setting',
+									title: '导航菜单链接设置',
+									key: 'link-setting',
 									children: [{
+                                        name: 'src',
+                                        desc: '跳转链接',
+                                        type: 'input',
+                                        value: '',
+                                        isAttr: true,
+                                        attrName: 'href',
+                                        id: ''
+                                    }, {
+                                        name: 'target',
+                                        desc: '新窗口打开',
+                                        type: 'toggle',
+                                        value: false,
+                                        isAttr: true,
+                                        attrName: 'target',
+                                        id: ''
+                                    },{
             							name: 'innerHTML',
-            							desc: '商标',
+            							desc: '显示文本',
             							type: 'input',
             							value: 'Brand',
             							isHTML: true,
@@ -1704,16 +1720,32 @@ export default {
 										tag: 'a',
 										className: [],
 										attrs: [{
-											title: '导航菜单设置',
-											key: 'navbar-setting',
-											children: [{
-                    							name: 'innerHTML',
-                    							desc: '商标',
-                    							value: '菜单',
-                    							isHTML: true,
-                    							id: ''
-                    						}]
-										}]
+                                            title: '导航菜单链接设置',
+                                            key: 'link-setting',
+                                            children: [{
+                                                name: 'src',
+                                                desc: '跳转链接',
+                                                type: 'input',
+                                                value: '',
+                                                isAttr: true,
+                                                attrName: 'href',
+                                                id: ''
+                                            }, {
+                                                name: 'target',
+                                                desc: '新窗口打开',
+                                                type: 'toggle',
+                                                value: false,
+                                                isAttr: true,
+                                                attrName: 'target',
+                                                id: ''
+                                            },{
+                                                name: 'innerHTML',
+                                                desc: '显示文本',
+                                                value: '菜单',
+                                                isHTML: true,
+                                                id: ''
+                                            }]
+                                        }]
 									}]
 								}, {
 									tag: 'li',
@@ -1727,11 +1759,27 @@ export default {
 										tag: 'a',
 										className: [],
 										attrs: [{
-											title: '导航菜单设置',
-											key: 'navbar-setting',
+											title: '导航菜单链接设置',
+											key: 'link-setting',
 											children: [{
+                                                name: 'src',
+                                                desc: '跳转链接',
+                                                type: 'input',
+                                                value: '',
+                                                isAttr: true,
+                                                attrName: 'href',
+                                                id: ''
+                                            }, {
+                                                name: 'target',
+                                                desc: '新窗口打开',
+                                                type: 'toggle',
+                                                value: false,
+                                                isAttr: true,
+                                                attrName: 'target',
+                                                id: ''
+                                            },{
                     							name: 'innerHTML',
-                    							desc: '商标',
+                    							desc: '显示文本',
                     							value: '菜单',
                     							isHTML: true,
                     							id: ''
@@ -1754,41 +1802,41 @@ export default {
 											key: 'navbar-setting',
 											children: [{
                     							name: 'innerHTML',
-                    							desc: '商标',
+                    							desc: '显示文本',
                     							value: '菜单',
                     							isHTML: true,
                     							id: ''
                     						},{
                     							name: 'href',
-                    							desc: '商标',
+                    							desc: '显示文本',
                     							value: '#',
                     							isAttr: true,
                     							id: '',
                                                 attrName: 'href'
                     						},{
                     							name: 'data-toggle',
-                    							desc: '商标',
+                    							desc: '显示文本',
                     							value: 'dropdown',
                     							isAttr: true,
                     							id: '',
                                                 attrName: 'data-toggle'
                     						},{
                     							name: 'role',
-                    							desc: '商标',
+                    							desc: '显示文本',
                     							value: 'button',
                     							isAttr: true,
                     							id: '',
                                                 attrName: 'role'
                     						},{
                     							name: 'aria-haspopup',
-                    							desc: '商标',
+                    							desc: '显示文本',
                     							value: true,
                     							isAttr: true,
                     							id: '',
                                                 attrName: 'aria-haspopup'
                     						},{
                     							name: 'aria-expanded',
-                    							desc: '商标',
+                    							desc: '显示文本',
                     							value: true,
                     							isAttr: true,
                     							id: '',
@@ -1824,11 +1872,27 @@ export default {
         										tag: 'a',
         										className: [],
         										attrs: [{
-        											title: '导航菜单设置',
-        											key: 'navbar-setting',
+        											title: '导航菜单链接设置',
+        											key: 'link-setting',
         											children: [{
+                                                        name: 'src',
+                                                        desc: '跳转链接',
+                                                        type: 'input',
+                                                        value: '',
+                                                        isAttr: true,
+                                                        attrName: 'href',
+                                                        id: ''
+                                                    }, {
+                                                        name: 'target',
+                                                        desc: '新窗口打开',
+                                                        type: 'toggle',
+                                                        value: false,
+                                                        isAttr: true,
+                                                        attrName: 'target',
+                                                        id: ''
+                                                    },{
                             							name: 'innerHTML',
-                            							desc: '商标',
+                            							desc: '显示文本',
                             							value: '菜单',
                             							isHTML: true,
                             							id: ''
@@ -1847,11 +1911,27 @@ export default {
         										tag: 'a',
         										className: [],
         										attrs: [{
-        											title: '导航菜单设置',
-        											key: 'navbar-setting',
+        											title: '导航菜单链接设置',
+        											key: 'link-setting',
         											children: [{
+                                                        name: 'src',
+                                                        desc: '跳转链接',
+                                                        type: 'input',
+                                                        value: '',
+                                                        isAttr: true,
+                                                        attrName: 'href',
+                                                        id: ''
+                                                    }, {
+                                                        name: 'target',
+                                                        desc: '新窗口打开',
+                                                        type: 'toggle',
+                                                        value: false,
+                                                        isAttr: true,
+                                                        attrName: 'target',
+                                                        id: ''
+                                                    },{
                             							name: 'innerHTML',
-                            							desc: '商标',
+                            							desc: '显示文本',
                             							value: '菜单',
                             							isHTML: true,
                             							id: ''
@@ -1870,11 +1950,27 @@ export default {
         										tag: 'a',
         										className: [],
         										attrs: [{
-        											title: '导航菜单设置',
-        											key: 'navbar-setting',
+        											title: '导航菜单链接设置',
+        											key: 'link-setting',
         											children: [{
+                                                        name: 'src',
+                                                        desc: '跳转链接',
+                                                        type: 'input',
+                                                        value: '',
+                                                        isAttr: true,
+                                                        attrName: 'href',
+                                                        id: ''
+                                                    }, {
+                                                        name: 'target',
+                                                        desc: '新窗口打开',
+                                                        type: 'toggle',
+                                                        value: false,
+                                                        isAttr: true,
+                                                        attrName: 'target',
+                                                        id: ''
+                                                    },{
                             							name: 'innerHTML',
-                            							desc: '商标',
+                            							desc: '显示文本',
                             							value: '菜单',
                             							isHTML: true,
                             							id: ''
