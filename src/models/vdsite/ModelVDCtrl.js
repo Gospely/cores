@@ -1581,7 +1581,7 @@ export default {
 							}]
 						},{
 							tag: 'div',
-                            unActive: true,
+
 							className: ['tab-pane', 'active'],
 							children: [],
 							attrs: [{
@@ -1626,7 +1626,7 @@ export default {
 								attrs: [{
 									title: '导航菜单设置',
 									key: 'navbar-setting',
-									children: []
+									children: [{}]
 								}],
 								children: [{
 									tag: 'span',
@@ -1667,7 +1667,14 @@ export default {
 								attrs: [{
 									title: '导航菜单设置',
 									key: 'navbar-setting',
-									children: []
+									children: [{
+            							name: 'innerHTML',
+            							desc: '商标',
+            							type: 'input',
+            							value: 'Brand',
+            							isHTML: true,
+            							id: ''
+            						}]
 								}]
 							}]
 						}, {

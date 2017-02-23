@@ -472,7 +472,7 @@ $(function() {
                             jq('#VDDesignerContainer').append(elemToAdd);
                             dndData.elemToAdd = elemToAdd;
                             dndData.dragElem = elemToAdd;
-                            dndData.ctrlToAddData = data.controller;                            
+                            dndData.ctrlToAddData = data.controller;
                         };
                     }
                 };
@@ -539,11 +539,14 @@ $(function() {
 			},
 
             select: function(data, notPostMessage) {
-                notPostMessage = notPostMessage || false;
-                controllerOperations.showDesignerDraggerBorder(jq('[vdid=' + data.vdid + ']'))
-                if(!notPostMessage) {
-                    postMessageToFather.ctrlSelected(data);
-                }
+
+				if(data) {
+					notPostMessage = notPostMessage || false;
+	                controllerOperations.showDesignerDraggerBorder(jq('[vdid=' + data.vdid + ']'))
+	                if(!notPostMessage) {
+	                    postMessageToFather.ctrlSelected(data);
+	                }
+				}
             },
 
             refreshCtrl: function(activeCtrl, attr, attrType) {
@@ -959,6 +962,12 @@ $(function() {
 				this.setAttr(attr);
 			},
 			setTabsSetting: function(attr){
+				this.setAttr(attr);
+			},
+			setNavbarSetting: function(attr){
+
+				console.log('setNavbarsSetting');
+				console.log(attr);
 				this.setAttr(attr);
 			},
             transformTypeToUpper: function(type) {
