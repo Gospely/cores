@@ -35,7 +35,7 @@ export default {
 	namespace: 'vdctrl',
 	state: {
 
-   		specialAttrList: ['custom-attr', 'link-setting', 'list-setting', 'heading-type', 'image-setting', 'select-setting', 'tabs-setting', 'slider-settings'],
+   		specialAttrList: ['custom-attr', 'link-setting', 'list-setting', 'heading-type', 'image-setting', 'select-setting', 'tabs-setting', 'navbar-setting', 'slider-settings'],
    		commonAttrList: [],
 		symbols: [],
 		currentSymbolKey: '',
