@@ -35,7 +35,7 @@ export default {
 	namespace: 'vdctrl',
 	state: {
 
-   		specialAttrList: ['custom-attr', 'link-setting', 'list-setting', 'heading-type', 'image-setting', 'select-setting', 'tabs-setting', 'navbar-setting', 'slider-settings'],
+   		specialAttrList: ['custom-attr', 'link-setting', 'list-setting', 'heading-type', 'image-setting', 'select-setting', 'tabs-setting', 'navbar-setting', 'slider-settings', 'columns-setting'],
    		commonAttrList: [],
 		symbols: [],
 		currentSymbolKey: '',
@@ -160,9 +160,30 @@ export default {
 				key: 'columns',
 				details: {
 					tag: 'div',
-					className: ['vd-empty'],
-					attrs: []
-				}
+					className: ['row'],
+					attrs: [{
+						title: '栅格设置',
+						key: 'columns-setting',
+						children: []
+					}],
+					children: [{
+						tag: 'div',
+						className: ['vd-empty','col-md-6'],
+						attrs: [{
+							title: '栅格设置',
+							key: 'columns-setting',
+							children: []							
+						}]
+					}, {
+						tag: 'div',
+						className: ['vd-empty', 'col-md-6'],
+						attrs: [{
+							title: '栅格设置',
+							key: 'columns-setting',
+							children: []							
+						}]
+					}]
+				},
 			}]
 		}, {
 			name: "基础组件",

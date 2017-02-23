@@ -5,7 +5,7 @@ import { Button, Modal } from 'antd';
 import { Tabs, Icon } from 'antd';
 import { Tooltip } from 'antd';
 import { Collapse } from 'antd';
-import { Radio, Popover, Upload } from 'antd';
+import { Radio, Popover, Upload, Slider } from 'antd';
 
 import randomString from '../../../utils/randomString.js';
 
@@ -1052,6 +1052,37 @@ const Component = (props) => {
 	                            </Form>
                         	</Panel>
                         );
+	    			},
+
+	    			'columns-setting' (item, attrTypeIndex) {
+
+	    				return (
+	    					<Panel header={item.title} key={item.key}>
+	                            <Form className="form-no-margin-bottom">
+	                                <FormItem {...formItemLayout} label="栅格数">
+	                                	<Input size="small" type="number" />
+	                                </FormItem>
+	                            </Form>
+	                            <div className="column-slider-box">
+	                            	<div className="grid-slider">
+	                            		<Row>
+	                            			<Col span={8}>
+			                            		<div className="column-slider-column">
+			                            			sss
+			                            		</div>
+			                            		<div className="column-slider-gutter"><div className="handle"></div></div>
+	                            			</Col>
+	                            			<Col span={8}>
+			                            		<div className="column-slider-column">
+			                            			sss
+			                            		</div>
+	                            			</Col>
+	                            		</Row>
+	                            	</div>
+	                            </div>
+	    					</Panel>
+	    				);
+
 	    			}
 				};
                 console.log(item);

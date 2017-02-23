@@ -2724,7 +2724,7 @@ const VDStylePanel = (props) => {
 		    	<Form className="form-no-margin-bottom">
   	    			<FormItem labelCol={{span: 6}} wrapperCol={{span: 16}} label={
 								activeCSSStyleState['opacity'] == '' ? <span>透明度</span> : (
-								  	<Popconfirm title="删除属性？" okText="是" cancelText="否">
+								  	<Popconfirm onConfirm={() => { setThisPropertyNull('opacity') }} title="删除属性？" okText="是" cancelText="否">
 											<a href="#">透明度</a>
 										</Popconfirm>
 								)
@@ -2771,7 +2771,7 @@ const VDStylePanel = (props) => {
 
 					<FormItem style={{marginTop: 20}} labelCol={{span: 8}} wrapperCol={{span: 16}} label={
 								activeCSSStyleState['cursor'] == '' ? <span>鼠标样式</span> : (
-								  	<Popconfirm title="删除属性？" okText="是" cancelText="否">
+								  	<Popconfirm onConfirm={() => { setThisPropertyNull('cursor') }} title="删除属性？" okText="是" cancelText="否">
 											<a href="#">鼠标样式</a>
 										</Popconfirm>
 								)
