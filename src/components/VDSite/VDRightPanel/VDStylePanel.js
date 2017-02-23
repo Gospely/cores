@@ -40,6 +40,8 @@ import ColorPicker from '../../Panel/ColorPicker.js';
 
 const VDStylePanel = (props) => {
 
+	const activeCSSStyleState = props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle];
+
 	const cssAction = {
 
 		getAllClasses () {
@@ -1477,7 +1479,13 @@ const VDStylePanel = (props) => {
 							<div className="bem-Frame_Head">
 								<div className="bem-Frame_Legend">
 									<div className="bem-SpecificityLabel bem-SpecificityLabel-local bem-SpecificityLabel-text">
-										Display 设置
+										{
+											activeCSSStyleState['display'] == '' ? <span>Display 设置</span> : (
+											  	<Popconfirm title="删除属性？" okText="是" cancelText="否">
+		 											<a href="#">Display 设置</a>
+		  										</Popconfirm>
+											)
+										}
 									</div>
 								</div>
 							</div>
@@ -1522,14 +1530,26 @@ const VDStylePanel = (props) => {
 
 				  	<Col span={12} style={{paddingRight: '5px'}}>
 				      	<Form className="form-no-margin-bottom">
-							<FormItem {...formItemLayout} label="宽度">
+							<FormItem {...formItemLayout} label={
+								activeCSSStyleState['width'] == '' ? <span>宽度</span> : (
+								  	<Popconfirm title="删除属性？" okText="是" cancelText="否">
+											<a href="#">宽度</a>
+										</Popconfirm>
+								)
+							}>
 								<Input size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['width']} onChange={handleStylesChange.bind(this, 'width')}/>
 							</FormItem>
 				      	</Form>
 				  	</Col>
 				  	<Col span={12} style={{paddingLeft: '5px'}}>
 				      	<Form className="form-no-margin-bottom">
-							<FormItem {...formItemLayout} label="高度">
+							<FormItem {...formItemLayout} label={
+								activeCSSStyleState['height'] == '' ? <span>高度</span> : (
+								  	<Popconfirm title="删除属性？" okText="是" cancelText="否">
+											<a href="#">高度</a>
+										</Popconfirm>
+								)
+							}>
 								<Input size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['height']} onChange={handleStylesChange.bind(this, 'height')}/>
 							</FormItem>
 				      	</Form>
@@ -1541,14 +1561,26 @@ const VDStylePanel = (props) => {
 
 				  	<Col span={12} style={{paddingRight: '5px'}}>
 				      	<Form className="form-no-margin-bottom">
-							<FormItem {...formItemLayout} label="最大">
+							<FormItem {...formItemLayout} label={
+								activeCSSStyleState['max-width'] == '' ? <span>最大</span> : (
+								  	<Popconfirm title="删除属性？" okText="是" cancelText="否">
+											<a href="#">最大</a>
+										</Popconfirm>
+								)
+							}>
 								<Input size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['max-width']} onChange={handleStylesChange.bind(this, 'max-width')}/>
 							</FormItem>
 				      	</Form>
 				  	</Col>
 				  	<Col span={12} style={{paddingLeft: '5px'}}>
 				      	<Form className="form-no-margin-bottom">
-							<FormItem {...formItemLayout} label="最大">
+							<FormItem {...formItemLayout} label={
+								activeCSSStyleState['min-width'] == '' ? <span>最小</span> : (
+								  	<Popconfirm title="删除属性？" okText="是" cancelText="否">
+											<a href="#">最小</a>
+										</Popconfirm>
+								)
+							}>
 								<Input size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['min-width']} onChange={handleStylesChange.bind(this, 'min-width')}/>
 							</FormItem>
 				      	</Form>
@@ -1560,14 +1592,26 @@ const VDStylePanel = (props) => {
 
 				  	<Col span={12} style={{paddingRight: '5px'}}>
 				      	<Form className="form-no-margin-bottom">
-							<FormItem {...formItemLayout} label="最小">
+							<FormItem {...formItemLayout} label={
+								activeCSSStyleState['max-height'] == '' ? <span>最大</span> : (
+								  	<Popconfirm title="删除属性？" okText="是" cancelText="否">
+											<a href="#">最大</a>
+										</Popconfirm>
+								)
+							}>
 								<Input size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['max-height']} onChange={handleStylesChange.bind(this, 'max-height')}/>
 							</FormItem>
 				      	</Form>
 				  	</Col>
 				  	<Col span={12} style={{paddingLeft: '5px'}}>
 				      	<Form className="form-no-margin-bottom">
-							<FormItem {...formItemLayout} label="最小">
+							<FormItem {...formItemLayout} label={
+								activeCSSStyleState['min-height'] == '' ? <span>最小</span> : (
+								  	<Popconfirm title="删除属性？" okText="是" cancelText="否">
+											<a href="#">最小</a>
+										</Popconfirm>
+								)
+							}>
 								<Input size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['min-height']} onChange={handleStylesChange.bind(this, 'min-height')}/>
 							</FormItem>
 				      	</Form>
@@ -1578,7 +1622,13 @@ const VDStylePanel = (props) => {
 		      	<li className="ant-dropdown-menu-item-divider"></li>
 
 		      	<Form className="form-no-margin-bottom">
-					<FormItem {...formItemLayout} label="浮动">
+					<FormItem {...formItemLayout} label={
+								activeCSSStyleState['float'] == '' ? <span>浮动</span> : (
+								  	<Popconfirm title="删除属性？" okText="是" cancelText="否">
+											<a href="#">浮动</a>
+										</Popconfirm>
+								)
+							}>
 				        <RadioGroup defaultValue="block" size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['float']} onChange={handleStylesChange.bind(this, 'float')}>
 					      	<RadioButton value="none">
 		  		              	<Tooltip placement="top" title="none">
@@ -1600,7 +1650,13 @@ const VDStylePanel = (props) => {
 		      	</Form>
 
 		      	<Form className="form-no-margin-bottom">
-					<FormItem {...formItemLayout} label="清除">
+					<FormItem {...formItemLayout} label={
+								activeCSSStyleState['clear'] == '' ? <span>清除</span> : (
+								  	<Popconfirm title="删除属性？" okText="是" cancelText="否">
+											<a href="#">清除</a>
+										</Popconfirm>
+								)
+							}>
 				        <RadioGroup defaultValue="block" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['clear']} size="small" onChange={handleStylesChange.bind(this, 'clear')}>
 					      	<RadioButton value="none">
 		  		              	<Tooltip placement="top" title="none">
@@ -1629,7 +1685,13 @@ const VDStylePanel = (props) => {
 		      	<li className="ant-dropdown-menu-item-divider"></li>
 
 		      	<Form className="form-no-margin-bottom">
-					<FormItem {...formItemLayout} label="溢出">
+					<FormItem {...formItemLayout} label={
+								activeCSSStyleState['overflow'] == '' ? <span>溢出</span> : (
+								  	<Popconfirm title="删除属性？" okText="是" cancelText="否">
+											<a href="#">溢出</a>
+										</Popconfirm>
+								)
+							}>
 				        <RadioGroup defaultValue="block" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['overflow']} size="small" onChange={handleStylesChange.bind(this, 'overflow')}>
 					      	<RadioButton value="visible">
 		  		              	<Tooltip placement="top" title="visible">
@@ -1658,7 +1720,13 @@ const VDStylePanel = (props) => {
 		      	<li className="ant-dropdown-menu-item-divider"></li>
 
 		      	<Form className="form-no-margin-bottom">
-					<FormItem {...formItemLayout} label="位置">
+					<FormItem {...formItemLayout} label={
+								activeCSSStyleState['position'] == '' ? <span>位置</span> : (
+								  	<Popconfirm title="删除属性？" okText="是" cancelText="否">
+											<a href="#">位置</a>
+										</Popconfirm>
+								)
+							}>
 				        <RadioGroup defaultValue="block" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['position']} size="small" onChange={handleStylesChange.bind(this, 'position')}>
 					      	<RadioButton value="auto">
 		  		              	<Tooltip placement="top" title="auto">
@@ -1695,7 +1763,13 @@ const VDStylePanel = (props) => {
 
 				  	<Col span={12} style={{paddingRight: '5px'}}>
 				      	<Form className="form-no-margin-bottom">
-							<FormItem {...formItemLayout} label="字体">
+							<FormItem {...formItemLayout} label={
+								activeCSSStyleState['font-family'] == '' ? <span>字体</span> : (
+								  	<Popconfirm title="删除属性？" okText="是" cancelText="否">
+											<a href="#">字体</a>
+										</Popconfirm>
+								)
+							}>
 	        				    <Select size="small" value="选择字体" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['font-family']} onChange={handleStylesChange.bind(this, 'font-family')}>
 					      			<Option key="sss" value="h1">h1</Option>
 					    		</Select>
@@ -1704,7 +1778,13 @@ const VDStylePanel = (props) => {
 				  	</Col>
 				  	<Col span={12} style={{paddingLeft: '5px'}}>
 				      	<Form className="form-no-margin-bottom">
-							<FormItem {...formItemLayout} label="颜色">
+							<FormItem {...formItemLayout} label={
+								activeCSSStyleState['color'] == '' ? <span>颜色</span> : (
+								  	<Popconfirm title="删除属性？" okText="是" cancelText="否">
+											<a href="#">颜色</a>
+										</Popconfirm>
+								)
+							}>
 								<Input type="color" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['color']} size="small" onChange={handleStylesChange.bind(this, 'color')}/>
 							</FormItem>
 						</Form>
@@ -1716,7 +1796,13 @@ const VDStylePanel = (props) => {
 
 				  	<Col span={12} style={{paddingRight: '5px'}}>
 				      	<Form className="form-no-margin-bottom">
-							<FormItem {...formItemLayout} label="粗细">
+							<FormItem {...formItemLayout} label={
+								activeCSSStyleState['font-weight'] == '' ? <span>粗细</span> : (
+								  	<Popconfirm title="删除属性？" okText="是" cancelText="否">
+											<a href="#">粗细</a>
+										</Popconfirm>
+								)
+							}>
 	        				    <Select size="small" value="选择" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['font-weight']} onChange={handleStylesChange.bind(this, 'font-weight')}>
 					      			<Option key="100" value="100">100 - 极细</Option>
 					      			<Option key="200" value="200">200 - 稍细</Option>
@@ -1732,7 +1818,13 @@ const VDStylePanel = (props) => {
 				  	</Col>
 				  	<Col span={12} style={{paddingLeft: '5px'}}>
 				      	<Form className="form-no-margin-bottom">
-							<FormItem {...formItemLayout} label="样式">
+							<FormItem {...formItemLayout} label={
+								activeCSSStyleState['font-style'] == '' ? <span>样式</span> : (
+								  	<Popconfirm title="删除属性？" okText="是" cancelText="否">
+											<a href="#">样式</a>
+										</Popconfirm>
+								)
+							}>
 
 								<RadioGroup defaultValue="normal" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['font-style']} size="small" onChange={handleStylesChange.bind(this, 'font-style')}>
 							      	<RadioButton value="normal">
@@ -1757,14 +1849,26 @@ const VDStylePanel = (props) => {
 
 				  	<Col span={12} style={{paddingRight: '5px'}}>
 					  	<Form className="form-no-margin-bottom">
-							<FormItem {...formItemLayout} label="缩进">
+							<FormItem {...formItemLayout} label={
+								activeCSSStyleState['text-indent'] == '' ? <span>缩进</span> : (
+								  	<Popconfirm title="删除属性？" okText="是" cancelText="否">
+											<a href="#">缩进</a>
+										</Popconfirm>
+								)
+							}>
 								<Input type="text" size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['text-indent']} onChange={handleStylesChange.bind(this, 'text-indent')}/>
 							</FormItem>
 					  	</Form>
 				  	</Col>
 				  	<Col span={12} style={{paddingLeft: '5px'}}>
 				      	<Form className="form-no-margin-bottom">
-							<FormItem {...formItemLayout} label="大小">
+							<FormItem {...formItemLayout} label={
+								activeCSSStyleState['font-size'] == '' ? <span>大小</span> : (
+								  	<Popconfirm title="删除属性？" okText="是" cancelText="否">
+											<a href="#">大小</a>
+										</Popconfirm>
+								)
+							}>
 								<Input type="text" size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['font-size']} onChange={handleStylesChange.bind(this, 'font-size')}/>
 							</FormItem>
 				      	</Form>
@@ -1776,14 +1880,26 @@ const VDStylePanel = (props) => {
 
 				  	<Col span={12} style={{paddingRight: '5px'}}>
 				      	<Form className="form-no-margin-bottom">
-							<FormItem {...formItemLayout} label="行间距">
+							<FormItem {...formItemLayout} label={
+								activeCSSStyleState['line-height'] == '' ? <span>行间距</span> : (
+								  	<Popconfirm title="删除属性？" okText="是" cancelText="否">
+											<a href="#">行间距</a>
+										</Popconfirm>
+								)
+							}>
 								<Input type="text" size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['line-height']} onChange={handleStylesChange.bind(this, 'line-height')}/>
 							</FormItem>
 						</Form>
 				  	</Col>
 				  	<Col span={12} style={{paddingLeft: '5px'}}>
 				      	<Form className="form-no-margin-bottom">
-							<FormItem {...formItemLayout} label="词间距">
+							<FormItem {...formItemLayout} label={
+								activeCSSStyleState['letter-spacing'] == '' ? <span>词间距</span> : (
+								  	<Popconfirm title="删除属性？" okText="是" cancelText="否">
+											<a href="#">词间距</a>
+										</Popconfirm>
+								)
+							}>
 								<Input type="text" size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['letter-spacing']} onChange={handleStylesChange.bind(this, 'letter-spacing')}/>
 							</FormItem>
 				      	</Form>
@@ -1795,7 +1911,13 @@ const VDStylePanel = (props) => {
 
 		      	<Form className="form-no-margin-bottom">
 
-					<FormItem {...formItemLayout} label="排列方式">
+					<FormItem {...formItemLayout} label={
+								activeCSSStyleState['text-align'] == '' ? <span>排列方式</span> : (
+								  	<Popconfirm title="删除属性？" okText="是" cancelText="否">
+											<a href="#">排列方式</a>
+										</Popconfirm>
+								)
+							}>
 
 						<RadioGroup defaultValue="left" size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['text-align']} onChange={handleStylesChange.bind(this, 'text-align')}>
 					      	<RadioButton value="left">
@@ -1822,7 +1944,13 @@ const VDStylePanel = (props) => {
 
 					</FormItem>
 
-					<FormItem {...formItemLayout} label="阅读顺序">
+					<FormItem {...formItemLayout} label={
+								activeCSSStyleState['write-mode'] == '' ? <span>阅读顺序</span> : (
+								  	<Popconfirm title="删除属性？" okText="是" cancelText="否">
+											<a href="#">阅读顺序</a>
+										</Popconfirm>
+								)
+							}>
 
 						<RadioGroup defaultValue="left" size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['write-mode']} onChange={handleStylesChange.bind(this, 'write-mode')}>
 					      	<RadioButton value="lr-tb">
@@ -1839,7 +1967,13 @@ const VDStylePanel = (props) => {
 
 					</FormItem>
 
-					<FormItem {...formItemLayout} label="渲染">
+					<FormItem {...formItemLayout} label={
+								activeCSSStyleState['text-decoration'] == '' ? <span>渲染</span> : (
+								  	<Popconfirm title="删除属性？" okText="是" cancelText="否">
+											<a href="#">渲染</a>
+										</Popconfirm>
+								)
+							}>
 
 						<RadioGroup defaultValue="none" size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['text-decoration']} onChange={handleStylesChange.bind(this, 'text-decoration')}>
 					      	<RadioButton value="none">
@@ -1861,7 +1995,13 @@ const VDStylePanel = (props) => {
 
 					</FormItem>
 
-					<FormItem {...formItemLayout} label="大小写">
+					<FormItem {...formItemLayout} label={
+								activeCSSStyleState['text-transform'] == '' ? <span>大小写</span> : (
+								  	<Popconfirm title="删除属性？" okText="是" cancelText="否">
+											<a href="#">大小写</a>
+										</Popconfirm>
+								)
+							}>
 
 						<RadioGroup defaultValue="none" size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['text-transform']} onChange={handleStylesChange.bind(this, 'text-transform')}>
 					      	<RadioButton value="none">
@@ -1934,7 +2074,13 @@ const VDStylePanel = (props) => {
 			    	</Form>
 
 			    	<Form className="form-no-margin-bottom">
-						<FormItem {...formItemLayout} label="背景色">
+						<FormItem {...formItemLayout} label={
+								activeCSSStyleState['background']['background-color'] == '' ? <span>背景色</span> : (
+								  	<Popconfirm title="删除属性？" okText="是" cancelText="否">
+											<a href="#">背景色</a>
+										</Popconfirm>
+								)
+							}>
 							<Input type="color" size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['background']['background-color']} onChange={handleStylesChange.bind(this, 'background-color', 'background')}/>
 						</FormItem>
 			    	</Form>
@@ -2024,11 +2170,23 @@ const VDStylePanel = (props) => {
 
 					<Col span={16} style={{paddingLeft: '15px'}}>
 				    	<Form className="form-no-margin-bottom">
-							<FormItem {...formItemLayout} label="宽度">
+							<FormItem {...formItemLayout} label={
+								activeCSSStyleState['border'][borderPosition + '-width'] == '' ? <span>宽度</span> : (
+								  	<Popconfirm title="删除属性？" okText="是" cancelText="否">
+											<a href="#">宽度</a>
+										</Popconfirm>
+								)
+							}>
 								<Input size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['border'][borderPosition + '-width']} onChange={handleBorderInputChange.bind(this, 'width')}/>
 							</FormItem>
 
-							<FormItem {...formItemLayout} label="颜色">
+							<FormItem {...formItemLayout} label={
+								activeCSSStyleState['border'][borderPosition + '-color'] == '' ? <span>颜色</span> : (
+								  	<Popconfirm title="删除属性？" okText="是" cancelText="否">
+											<a href="#">颜色</a>
+										</Popconfirm>
+								)
+							}>
 								<Input size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['border'][borderPosition + '-color']} onChange={handleBorderInputChange.bind(this, 'color')} type="color"/>
 							</FormItem>
 				    	</Form>
@@ -2037,7 +2195,13 @@ const VDStylePanel = (props) => {
 
 		    	<Form className="form-no-margin-bottom">
 
-					<FormItem {...formItemLayout} label="样式">
+					<FormItem {...formItemLayout} label={
+								activeCSSStyleState['border'][borderPosition + '-style'] == '' ? <span>样式</span> : (
+								  	<Popconfirm title="删除属性？" okText="是" cancelText="否">
+											<a href="#">样式</a>
+										</Popconfirm>
+								)
+							}>
 
 						<RadioGroup defaultValue="none" size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['border'][borderPosition + '-style']} onChange={handleBorderInputChange.bind(this, 'style')}>
 					      	<RadioButton value="none">
@@ -2095,7 +2259,13 @@ const VDStylePanel = (props) => {
 
 					<Col span={16} style={{paddingLeft: '15px'}}>
 				    	<Form className="form-no-margin-bottom">
-							<FormItem {...formItemLayout} label="弧度">
+							<FormItem {...formItemLayout} label={
+								activeCSSStyleState['border-radius'][borderRadiusPosition + '-radius'] == '' ? <span>弧度</span> : (
+								  	<Popconfirm title="删除属性？" okText="是" cancelText="否">
+											<a href="#">弧度</a>
+										</Popconfirm>
+								)
+							}>
 								<Input value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['border-radius'][borderRadiusPosition + '-radius']} size="small" onChange={handleBorderRadiusInputChange.bind(this, 'radius')} />
 							</FormItem>
 				    	</Form>
@@ -2528,7 +2698,7 @@ const VDStylePanel = (props) => {
 					}
 				});
 			}
-1
+
 			const removeThisFilter = (filterIndex) => {
 				props.dispatch({
 					type: 'vdstyles/removeThisFilter',
@@ -2542,7 +2712,13 @@ const VDStylePanel = (props) => {
 			return (
 		    <Panel header="效果" key="effects">
 		    	<Form className="form-no-margin-bottom">
-  	    			<FormItem labelCol={{span: 6}} wrapperCol={{span: 16}} label="透明度">
+  	    			<FormItem labelCol={{span: 6}} wrapperCol={{span: 16}} label={
+								activeCSSStyleState['opacity'] == '' ? <span>透明度</span> : (
+								  	<Popconfirm title="删除属性？" okText="是" cancelText="否">
+											<a href="#">透明度</a>
+										</Popconfirm>
+								)
+							}>
   						<Row>
   					        <Col span={15} style={{paddingRight: '10px'}}>
   					          	<Input size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['opacity']} onChange={handleStylesChange.bind(this, 'opacity')}/>
@@ -2583,7 +2759,13 @@ const VDStylePanel = (props) => {
 
 					<li className="ant-dropdown-menu-item-divider"></li>
 
-					<FormItem style={{marginTop: 20}} labelCol={{span: 8}} wrapperCol={{span: 16}} label="鼠标样式">
+					<FormItem style={{marginTop: 20}} labelCol={{span: 8}} wrapperCol={{span: 16}} label={
+								activeCSSStyleState['cursor'] == '' ? <span>鼠标样式</span> : (
+								  	<Popconfirm title="删除属性？" okText="是" cancelText="否">
+											<a href="#">鼠标样式</a>
+										</Popconfirm>
+								)
+							}>
 						<Input addonBefore={<Popover
     											content={effectProps.cursorPopover()}
 									        	title="鼠标样式"
