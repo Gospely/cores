@@ -95,7 +95,6 @@ const VDStylePanel = (props) => {
 	}
 
 	const setThisPropertyNull = (property) => {
-		alert(property)
 		props.dispatch({
 			type: 'vdstyles/setThisPropertyNull',
 			payload: {
@@ -1483,6 +1482,9 @@ const VDStylePanel = (props) => {
 		const layoutPanel = () => {
 			return (
 		    <Panel header="布局" key="layout">
+											  	<Popconfirm onConfirm={setThisPropertyNull.bind(this, 'display')} title="删除属性？" okText="是" cancelText="否">
+		 											<a href="#">Display 设置</a>
+		  										</Popconfirm>
 
 				<div className="guidance-panel-wrapper">
 					<div className="guidance-panel-child">

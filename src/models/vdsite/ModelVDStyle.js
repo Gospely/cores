@@ -5,7 +5,7 @@ import { Icon, message } from 'antd';
 var styleAction = {
 
 	findCSSPropertyByProperty: function(stylesList, property) {
-		console.log(stylesList, property);
+		console.log('==================findCSSPropertyByProperty==================', stylesList, property);
 		for(var prop in stylesList) {
 			var currrentStyleProperty = stylesList[prop];
 			if(typeof currrentStyleProperty == 'string' || typeof currrentStyleProperty.length != 'undefined') {
@@ -862,10 +862,8 @@ export default {
 		},
 
 		setThisPropertyNull(state, { payload: params }) {
-			var propertyParent = styleAction.findCSSPropertyByProperty(state.cssStyleLayout[state.activeStyleName], state.property);
-			
-			console.log(propertyParent);
-
+			var propertyParent = styleAction.findCSSPropertyByProperty(state.cssStyleLayout[params.activeStyleName], params.property);
+			propertyParent[params.property] = '';
 			return {...state};
 		}
 

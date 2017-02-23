@@ -1041,7 +1041,7 @@ const Component = (props) => {
 	                                </Col>
 	                            </Row>
 
-	                            <Form className="form-no-margin-bottom">s
+	                            <Form className="form-no-margin-bottom">
 	                                <FormItem {...formItemLayout} label="菜单类型">
 	                                    <Select size="small">
 	                                          <Option key="drop-down" value="drop-down">向下</Option>
