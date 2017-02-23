@@ -767,7 +767,6 @@ export default {
 	    	console.log(state.layout);
 			return {...state};
 		}
-
 	},
 
 	effects: {

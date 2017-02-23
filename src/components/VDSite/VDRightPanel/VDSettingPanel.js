@@ -1036,6 +1036,7 @@ const Component = (props) => {
 
 	    			'navbar-setting' (item, attrTypeIndex) {
 
+<<<<<<< HEAD
 
 	    				return (
 						    <Panel header={item.title} key={item.key}>
@@ -1060,6 +1061,31 @@ const Component = (props) => {
 
 						    </Panel>
 	    				);
+=======
+                        console.log(item);
+	    				return (
+	    					<Panel header={item.title} key={item.key}>
+	                            <Row>
+	                                <Col span={12}>
+	                                    <Button size="small"><Icon type="bars" />打开菜单</Button>
+	                                </Col>
+	                                <Col span={12}>
+	                                    <Button size="small"><Icon type="plus" />新增菜单</Button>
+	                                </Col>
+	                            </Row>
+
+	                            <Form className="form-no-margin-bottom">
+	                                <FormItem {...formItemLayout} label="菜单类型">
+	                                    <Select size="small">
+	                                          <Option key="drop-down" value="drop-down">向下</Option>
+	                                          <Option key="over-right" value="over-right">靠右</Option>
+	                                          <Option key="over-left" value="over-left">靠左</Option>
+	                                    </Select>
+	                                </FormItem>
+	                            </Form>
+                        	</Panel>
+                        );
+>>>>>>> e20f416769fe07be3d485b53b4e633d15429faba
 	    			}
 				};
 				return specialAttrHandler[item.key](item, index);
