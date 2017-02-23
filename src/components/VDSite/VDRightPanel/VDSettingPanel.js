@@ -1068,13 +1068,13 @@ const Component = (props) => {
 	                            		<Row>
 	                            			<Col span={8}>
 			                            		<div className="column-slider-column">
-			                            			sss
+			                            			8
 			                            		</div>
 			                            		<div className="column-slider-gutter"><div className="handle"></div></div>
 	                            			</Col>
-	                            			<Col span={8}>
+	                            			<Col span={16}>
 			                            		<div className="column-slider-column">
-			                            			sss
+			                            			16
 			                            		</div>
 	                            			</Col>
 	                            		</Row>
