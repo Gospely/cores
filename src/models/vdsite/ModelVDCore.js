@@ -58,7 +58,9 @@ export default {
 			}, {
 				span: 12,
 				value: 6
-			}]
+			}],
+
+			invalid: [5, 7, 8, 9, 10, 11]
 		}
 
 	},
@@ -118,7 +120,7 @@ export default {
 		},
 
 		handleColumnCountChange(state, { payload: params }) {
-			if([5, 7, 8, 9, 10, 11].indexOf(parseInt(params.value)) != -1) {
+			if(props.columnSlider.invalid.indexOf(parseInt(params.value)) != -1) {
 				message.error('只能输入1, 2, 3, 4, 6和12');
 				return {...state};
 			}
@@ -145,7 +147,37 @@ export default {
 
 			state.columnSlider.columns = tmpColumns;
 			return {...state};
+		},
+
+		shrinkLeftColumn(state, { payload: params }) {
+			if(state.columnSlider.columns[params.index].value > 1 && state.columnSlider.columns[params.index + 1].value < 12) {
+				if(state.columnSlider.columns[params.index].span < 1) {
+					state.columnSlider.columns[params.index].span = 1;
+					state.columnSlider.columns[params.index].value = 1;
+				}else {
+					state.columnSlider.columns[params.index].span -= 2;			
+					state.columnSlider.columns[params.index].value -= 2;					
+				}
+
+				state.columnSlider.columns[params.index + 1].span += 2;				
+				state.columnSlider.columns[params.index + 1].value += 2;
+
+			}
+			return {...state};
+		},
+
+		expandLeftColumn(state, { payload: params }) {
+			if(state.columnSlider.columns[params.index].value > 1 && state.columnSlider.columns[params.index + 1].value < 12) {
+				state.columnSlider.columns[params.index].span += 2;				
+				state.columnSlider.columns[params.index].value += 2;
+
+				state.columnSlider.columns[params.index - 1].span -= 2;				
+				state.columnSlider.columns[params.index - 1].value -= 2;
+
+			}
+			return {...state};
 		}
+
 	}
 
 }

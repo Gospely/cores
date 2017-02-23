@@ -1089,9 +1089,6 @@ const Component = (props) => {
 								}else{
 									hander = $this.find(opt.hander);
 								}
-
-								console.log(jQuery(this));
-
 								
 								//初始化
 								hander.css({"cursor":"move"});
@@ -1113,8 +1110,9 @@ const Component = (props) => {
 								var moveY ;
 								var $width,$height;
 
+								var prevX = 0;
+
 								hander.mousedown(function(e){
-									console.log($this);
 									father.children().css({"zIndex":"0"});
 									$this.css({"zIndex":"1"});
 									mDown = true;
@@ -1125,7 +1123,6 @@ const Component = (props) => {
 									if(opt.onMouseDown) {
 										opt.onMouseDown(e);		
 									}
-
 									return false;
 								});
 									
@@ -1145,6 +1142,15 @@ const Component = (props) => {
 									$this.css({"position":"absolute"});
 									function thisXMove(){ //x轴移动
 										if(mDown == true){
+											if(prevX - moveX < 0) {
+												if(opt.onMoveToRight) {
+													opt.onMoveToRight();
+												}
+											}else {
+												if(opt.onMoveToLeft) {
+													opt.onMoveToLeft();
+												}
+											}
 											$this.css({"left":moveX});
 										}else{
 											return;
@@ -1208,16 +1214,38 @@ const Component = (props) => {
 										thisAllMove();
 									}
 
+									prevX = moveX;
+
 								});
 						    }
 						});
 
-						const makeColumnSliderDraggable = (id) => {
+						const makeColumnSliderDraggable = (id, index) => {
 							var inter = setInterval(function() {
 								if($('#' + id).length !== 0) {
 									clearInterval(inter);
 									$('#' + id).dragging({
-										move: 'x'
+										move: 'x',
+
+										onMoveToLeft: function() {
+											console.log('left');
+											props.dispatch({
+												type: 'vdcore/shrinkLeftColumn',
+												payload: {
+													index
+												}
+											});
+										},
+
+										onMoveToRight: function() {
+											console.log('right');
+											props.dispatch({
+												type: 'vdcore/expandLeftColumn',
+												payload: {
+													index
+												}
+											});
+										}
 									});
 								}
 							}, 100);
@@ -1242,7 +1270,7 @@ const Component = (props) => {
 					                            		</div>
 					                            		{
 					                            			columnIndex == props.vdcore.columnSlider.columns.length - 1 ? '' : (
-							                            		<div id={'column-slider' + columnIndex} className="column-slider-gutter">{makeColumnSliderDraggable('column-slider' + columnIndex)}<div className="handle"></div></div>
+							                            		<div id={'column-slider' + columnIndex} className="column-slider-gutter">{makeColumnSliderDraggable('column-slider' + columnIndex, columnIndex)}<div className="handle"></div></div>
 					                            			)
 					                            		}
 			                            			</Col>
