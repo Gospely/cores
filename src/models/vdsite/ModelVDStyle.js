@@ -859,7 +859,16 @@ export default {
 		handleTransformInputChange(state, { payload: params }) {
 			state.transformSetting[params.pos] = params.value;
 			return {...state};
+		},
+
+		setThisPropertyNull(state, { payload: params }) {
+			var propertyParent = styleAction.findCSSPropertyByProperty(state.cssStyleLayout[state.activeStyleName], state.property);
+			
+			console.log(propertyParent);
+
+			return {...state};
 		}
+
 
 	}
 

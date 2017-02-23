@@ -1581,7 +1581,6 @@ export default {
 							}]
 						},{
 							tag: 'div',
-
 							className: ['tab-pane', 'active'],
 							children: [],
 							attrs: [{

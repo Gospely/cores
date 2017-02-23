@@ -94,6 +94,17 @@ const VDStylePanel = (props) => {
 		});
 	}
 
+	const setThisPropertyNull = (property) => {
+		alert(property)
+		props.dispatch({
+			type: 'vdstyles/setThisPropertyNull',
+			payload: {
+				property,
+				activeStyleName: props.vdCtrlTree.activeCtrl.activeStyle
+			}
+		});
+	}
+
 	const cssSelector = {
 
 		cssClassNameList () {
@@ -1481,7 +1492,7 @@ const VDStylePanel = (props) => {
 									<div className="bem-SpecificityLabel bem-SpecificityLabel-local bem-SpecificityLabel-text">
 										{
 											activeCSSStyleState['display'] == '' ? <span>Display 设置</span> : (
-											  	<Popconfirm title="删除属性？" okText="是" cancelText="否">
+											  	<Popconfirm onConfirm={setThisPropertyNull.bind(this, 'display')} title="删除属性？" okText="是" cancelText="否">
 		 											<a href="#">Display 设置</a>
 		  										</Popconfirm>
 											)
