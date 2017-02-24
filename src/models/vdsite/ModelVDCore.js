@@ -189,11 +189,11 @@ export default {
 						state.columnSlider.columns[params.index].span = 2;
 						state.columnSlider.columns[params.index].value = 1;
 					}else {
-						state.columnSlider.columns[params.index + 1].span += 2;
-						state.columnSlider.columns[params.index + 1].value += 2;
+						state.columnSlider.columns[params.index].span += 2;
+						state.columnSlider.columns[params.index].value += 2;
 
-						state.columnSlider.columns[params.index].span -= 2;
-						state.columnSlider.columns[params.index].value -= 2;
+						state.columnSlider.columns[params.index + 1].span -= 2;
+						state.columnSlider.columns[params.index + 1].value -= 2;
 					}
 				}
 			}

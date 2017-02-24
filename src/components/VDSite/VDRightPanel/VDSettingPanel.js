@@ -1117,7 +1117,7 @@ const Component = (props) => {
 								var $width,$height;
 
 								var prevX = 0,
-									prevMoveX = 0;
+									prevLeft = parseInt($this.css('left'));
 
 								hander.mousedown(function(e){
 									father.children().css({"zIndex":"0"});
@@ -1152,9 +1152,10 @@ const Component = (props) => {
 
 											if(prevX - moveX < 0) {
 
-												console.log('moveX - prevMoveX = ', moveX - prevMoveX);
+												console.log('moveX - prevMoveX = ', moveX - prevLeft);
 
-												if(moveX - prevMoveX > 20) {
+												if(moveX - prevLeft >= 25) {
+													prevLeft = moveX;
 													$this.css({"left": moveX});
 													if(opt.onMoveToRight) {
 														opt.onMoveToRight();
@@ -1163,10 +1164,12 @@ const Component = (props) => {
 
 											}else {
 
-												$this.css({"left": moveX});
-
-												if(opt.onMoveToLeft) {
-													opt.onMoveToLeft();
+												if(prevLeft - moveX >= 20 ) {
+													prevLeft = moveX
+													$this.css({"left": moveX});
+													if(opt.onMoveToLeft) {
+														opt.onMoveToLeft();
+													}
 												}
 
 											}
