@@ -1106,7 +1106,7 @@ const Component = (props) => {
 	                                    <Button size="small"><Icon type="bars" />打开菜单</Button>
 	                                </Col>
 	                                <Col span={12}>
-                                        <Button size="small"><Icon type="plus" 	onClick={formProps.childrenAdd.bind(this,1, 'components', 'navbar', 4, [{level: 1,index:1}])}/>新增菜单</Button></Col>
+                                        <Button size="small" onClick={formProps.childrenAdd.bind(this,1, 'components', 'navbar', 4, [{level: 1,index:1}])}><Icon type="plus" />新增菜单</Button></Col>
 	                            </Row>
 
 	                            <Form className="form-no-margin-bottom">
@@ -1125,9 +1125,9 @@ const Component = (props) => {
 
 	    				return (
 	    					<Panel header={item.title} key={item.key}>
-	                            <Row>
+	                            <Row style={{marginTop: '15px'}}>
 	                                <Col span={12}>
-                                        <Button size="small"><Icon type="plus" 	onClick={formProps.childrenAdd.bind(this,1, 'components', 'dropdown', 2, [{level: 0,index:1}])}/>新增菜单</Button>
+                                        <Button size="small" onClick={formProps.childrenAdd.bind(this,1, 'components', 'dropdown', 2, [{level: 0,index:1}])}><Icon type="plus" 	/>新增菜单</Button>
                                     </Col>
 	                            </Row>
                         	</Panel>

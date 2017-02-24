@@ -2023,6 +2023,7 @@ export default {
                         className: ['btn btn-default', 'dropdown-toggle'],
                         attrs: [{
                             title: '下拉菜单设置',
+                            key: 'btn-dropdown',
                             isAttrSetting: true,
                             children: [{
                                 name: 'innerHTML',
