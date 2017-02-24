@@ -575,6 +575,7 @@ export default {
 			if(data.unActive){
 				console.log(data.parent);
 				var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, data.parent, state.activePage);
+				console.log(currentActiveCtrl);
 				state.activeCtrl = currentActiveCtrl.controller;
 				console.log(state.activeCtrl);
 			}else {
@@ -605,11 +606,13 @@ export default {
   			};
 
   			state.activeCtrl = currentActiveCtrl.controller;
+			console.log(state.activeCtrl);
 			return {...state};
 		},
 		handleAttrRefreshed(state, { payload: params }) {
 
 			//判断是否需要切换标签
+			console.log(params);
 			if(params.attrType.isChangeTag && params.attr.name == 'tag'){
 				var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
 				currentActiveCtrl.controller.attrs.tag = params.attr.value;

@@ -154,8 +154,6 @@ const Component = (props) => {
                         console.log(i, comonIndex);
                         copyByLevel(parent.children[comonIndex]);
                     }else{
-                        console.log('ddd');
-                        console.log(parent);
                         result = vdCtrlOperate.deepCopyObj(parent.children[0], result)
                     }
                 }
@@ -510,6 +508,9 @@ const Component = (props) => {
 
 									<FormItem {...formItemLayout} label="新窗口">
 										<Switch value={item.children[1].value} onChange={formProps.handleAttrFormSwitchChange.bind(this, item.children[1], attrType)} size="small" />
+									</FormItem>
+                                    <FormItem {...formItemLayout} label="显示文本">
+										<Input value={item.children[2].value} onChange={formProps.handleAttrFormInputChange.bind(this, item.children[2], attrType)} size="small" />
 									</FormItem>
 						      	</Form>
 					    	), (
@@ -1105,8 +1106,7 @@ const Component = (props) => {
 	                                    <Button size="small"><Icon type="bars" />打开菜单</Button>
 	                                </Col>
 	                                <Col span={12}>
-	                                    <Button size="small"><Icon type="plus" />新增菜单</Button>
-	                                </Col>
+                                        <Button size="small"><Icon type="plus" 	onClick={formProps.childrenAdd.bind(this,1, 'components', 'navbar', 4, [{level: 1,index:1}])}/>新增菜单</Button>	                                </Col>
 	                            </Row>
 
 	                            <Form className="form-no-margin-bottom">
@@ -1136,7 +1136,7 @@ const Component = (props) => {
 	    				}
 
 						jQuery.fn.extend({
-						    dragging:function(data){   
+						    dragging:function(data){
 								var $this = jQuery(this);
 								var xPage;
 								var yPage;
@@ -1149,15 +1149,15 @@ const Component = (props) => {
 								}
 								var opt = jQuery.extend({},defaults,data);
 								var movePosition = opt.move;
-								
+
 								var hander = opt.hander;
-								
+
 								if(hander == 1){
-									hander = $this; 
+									hander = $this;
 								}else{
 									hander = $this.find(opt.hander);
 								}
-								
+
 								//初始化
 								hander.css({"cursor":"move"});
 								$width=$this.width();
@@ -1170,7 +1170,7 @@ const Component = (props) => {
 								var faHeight = father.height();
 								var thisWidth = $this.width()+parseInt($this.css('padding-left'))+parseInt($this.css('padding-right'));
 								var thisHeight = $this.height()+parseInt($this.css('padding-top'))+parseInt($this.css('padding-bottom'));
-								
+
 								var mDown = false;//
 								var positionX;
 								var positionY;
@@ -1189,22 +1189,22 @@ const Component = (props) => {
 									positionX = $this.position().left;
 									positionY = $this.position().top;
 									if(opt.onMouseDown) {
-										opt.onMouseDown(e);		
+										opt.onMouseDown(e);
 									}
 									return false;
 								});
-									
+
 								jQuery(document).mouseup(function(e){
 									mDown = false;
 									if(opt.onMouseUp) {
-										opt.onMouseUp(e);				
+										opt.onMouseUp(e);
 									}
 								});
-									
+
 								jQuery(document).mousemove(function(e){
 									xPage = e.pageX;//--
 									moveX = positionX+xPage-X;
-									
+
 									yPage = e.pageY;//--
 									moveY = positionY+yPage-Y;
 									$this.css({"position":"absolute"});
@@ -1231,7 +1231,7 @@ const Component = (props) => {
 										}
 										return moveX;
 									}
-									
+
 									function thisYMove(){ //y轴移动
 										if(mDown == true){
 											$this.css({"top":moveY});

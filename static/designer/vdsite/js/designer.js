@@ -554,7 +554,7 @@ $(function() {
 
             refreshCtrl: function(activeCtrl, attr, attrType) {
 
-				console.log(activeCtrl);
+				console.log('refreshCtrl',activeCtrl);
 				if(attr.isTag) {
 
 					let vdid  = activeCtrl.vdid;
@@ -570,6 +570,7 @@ $(function() {
 				if(attr.attrName == 'children'){
 					childrenOperate[attr.action](activeCtrl, attr.children, attr.parent);
 				}else {
+
 					new ElemGenerator(activeCtrl).setAttributeByAttr(attr, attrType);
 				}
             },
@@ -805,6 +806,8 @@ $(function() {
         	initElem: function () {
         		if (!this.elemLoaded) {
                     var docCtrl = jq('[vdid='+ this.controller.vdid + ']');
+					console.log('initElem');
+					console.log(docCtrl);
                     this.elem = docCtrl.length > 0 ? docCtrl : jq(document.createElement(this.tag));
                     this.elemLoaded = true;
                     // this.refresh = docCtrl.length > 0;
@@ -872,6 +875,7 @@ $(function() {
 
             setAttr: function(attr) {
 
+				console.log('setAttr', this.elem);
                 if(attr.isHTML) {
 
 					if(attr.html != null && attr.html != undefined){
@@ -881,12 +885,17 @@ $(function() {
 					}
 
                 }
-					console.log(attr);
 				if(attr.isToggleAttr){
 					console.log(attr);
-					if(!attr.value)
-						this.elem.removeAttr(attr.attrName);
-					this.elem.attr(attr.attrName, attr.value);
+					console.log('isToggleAttr');
+					if(attr.isSetVal){
+						console.log(attr);
+						this.elem.attr(attr.attrName, attr.value);
+					}else{
+						if(!attr.value)
+							this.elem.removeAttr(attr.attrName);
+						this.elem.attr(attr.attrName, attr.value);
+					}
 				}
                 if(attr.isAttr) {
 

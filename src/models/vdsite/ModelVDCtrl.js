@@ -172,7 +172,7 @@ export default {
 						attrs: [{
 							title: '栅格设置',
 							key: 'columns-setting',
-							children: []							
+							children: []
 						}]
 					}, {
 						tag: 'div',
@@ -180,7 +180,7 @@ export default {
 						attrs: [{
 							title: '栅格设置',
 							key: 'columns-setting',
-							children: []							
+							children: []
 						}]
 					}]
 				},
@@ -1815,7 +1815,7 @@ export default {
 									className: ['dropdown open'],
 									attrs: [{
 										title: '导航菜单设置',
-										key: 'navbar-setting',
+										key: 'navbar-dropdown-setting',
 										children: []
 									}],
 									children: [{
@@ -1823,20 +1823,15 @@ export default {
 										className: ['dropdown-toggle'],
 										attrs: [{
 											title: '导航菜单设置',
-											key: 'navbar-setting',
+                                            isAttrSetting: true,
+											key: 'navbar-dropdown-setting',
 											children: [{
                     							name: 'innerHTML',
                     							desc: '显示文本',
                     							value: '菜单',
+                                                type: 'input',
                     							isHTML: true,
                     							id: ''
-                    						},{
-                    							name: 'href',
-                    							desc: '显示文本',
-                    							value: '#',
-                    							isAttr: true,
-                    							id: '',
-                                                attrName: 'href'
                     						},{
                     							name: 'data-toggle',
                     							desc: '显示文本',
@@ -1860,9 +1855,12 @@ export default {
                                                 attrName: 'aria-haspopup'
                     						},{
                     							name: 'aria-expanded',
-                    							desc: '显示文本',
+                    							desc: '是否展开',
                     							value: true,
                     							isAttr: true,
+                                                type: 'toggle',
+                                                isToggleAttr: true,
+                                                isSetVal: true,
                     							id: '',
                                                 attrName: 'aria-expanded'
                     						}]
