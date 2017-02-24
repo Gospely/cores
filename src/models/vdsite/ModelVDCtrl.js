@@ -2313,7 +2313,7 @@ export default {
 							}],
                             children: [{
             					tag: 'img',
-            					className: ['img-rounded'],
+            					className: [''],
             					attrs: [{
             						title: '图片设置',
             						key: 'slider-setting',
@@ -2325,6 +2325,13 @@ export default {
             							isAttr: true,
             							attrName: 'src',
             							id: '',
+            						},{
+            							name: 'width',
+            							desc: '宽度',
+            							type: 'input',
+            							value: '100%',
+            							isAttr: true,
+            							attrName: 'width'
             						}, {
             							name: 'alt',
             							desc: '替换文本',
@@ -2366,7 +2373,7 @@ export default {
 							}],
                             children: [{
             					tag: 'img',
-            					className: ['img-rounded'],
+            					className: [''],
             					attrs: [{
             						title: '图片设置',
             						key: 'slider-setting',
@@ -2385,6 +2392,13 @@ export default {
             							value: '',
             							isAttr: true,
             							attrName: 'alt'
+            						}, {
+            							name: 'width',
+            							desc: '宽度',
+            							type: 'input',
+            							value: '100%',
+            							isAttr: true,
+            							attrName: 'width'
             						}, {
             							name: 'image_placeholder',
             							desc: '占位图片',
