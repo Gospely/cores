@@ -203,7 +203,7 @@ export default {
 
 			if(state.columnSlider.columns[params.index + 1].value >= 0 && state.columnSlider.columns[params.index].value < 12 ) {
 				console.log('valid shrinkRightColumn', state.columnSlider.columns[params.index].value);
-				if(state.columnSlider.columns[params.index].value >= 20) {
+				if(state.columnSlider.columns[params.index].value > 20) {
 					state.columnSlider.columns[params.index + 1].span = 12;
 					state.columnSlider.columns[params.index + 1].value = 11;
 

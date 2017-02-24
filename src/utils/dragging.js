@@ -83,7 +83,7 @@ const dragging = () => {
 
 							if(moveX - prevLeft >= 25) {
 								prevLeft = moveX;
-								$this.css({"left": moveX});
+								// $this.css({"left": moveX});
 								if(opt.onMoveToRight) {
 									opt.onMoveToRight();
 								}
@@ -93,7 +93,7 @@ const dragging = () => {
 
 							if(prevLeft - moveX >= 20 ) {
 								prevLeft = moveX
-								$this.css({"left": moveX});
+								// $this.css({"left": moveX});
 								if(opt.onMoveToLeft) {
 									opt.onMoveToLeft();
 								}
