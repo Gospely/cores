@@ -2011,50 +2011,197 @@ export default {
 				name: '下拉菜单',
 				key: 'dropdown',
 				details: {
-					tag: 'div',
-					className: ['dropdown'],
-					attrs: [{
-						title: '下拉菜单设置',
-						key: 'dropdown-setting',
-						children: []
-					}],
-					children: [{
-						tag: 'a',
-						className: ['dropdown-toggle'],
-						attrs: [{
-							title: '链接设置',
-							key: 'link',
-							children: []
-						}, {
-							title: '下拉菜单设置',
-							key: 'dropdown-setting',
-							children: []
-						}]
-					}, {
-						tag: 'ul',
-						className: ['dropdown-menu'],
-						attrs: [{
-							title: '下拉菜单设置',
-							key: 'dropdown-setting',
-							children: []
-						}],
-						children: [{
-							tag: 'a',
-							attrs: [{
-								title: '链接设置',
-								key: 'link',
-								children: []
-							}]
-						}, {
-							tag: 'a',
-							attrs: [{
-								title: '链接设置',
-								key: 'link',
-								children: []
-							}]
-						}]
-					}]
-				}
+                    tag: 'div',
+                    className: ['dropdown open'],
+                    attrs: [{
+                        title: '下拉菜单设置',
+                        key: 'dropdown-setting',
+                        children: []
+                    }],
+                    children: [{
+                        tag: 'button',
+                        className: ['btn btn-default', 'dropdown-toggle'],
+                        attrs: [{
+                            title: '下拉菜单设置',
+                            isAttrSetting: true,
+                            key: 'dropdown-setting',
+                            children: [{
+                                name: 'innerHTML',
+                                desc: '显示文本',
+                                value: '菜单',
+                                type: 'input',
+                                isHTML: true,
+                                id: ''
+                            },{
+                                name: 'data-toggle',
+                                desc: '显示文本',
+                                value: 'dropdown',
+                                isAttr: true,
+                                id: '',
+                                attrName: 'data-toggle'
+                            },{
+                                name: 'role',
+                                desc: '显示文本',
+                                value: 'button',
+                                isAttr: true,
+                                id: '',
+                                attrName: 'role'
+                            },{
+                                name: 'aria-haspopup',
+                                desc: '显示文本',
+                                value: true,
+                                isAttr: true,
+                                id: '',
+                                attrName: 'aria-haspopup'
+                            },{
+                                name: 'aria-expanded',
+                                desc: '是否展开',
+                                value: true,
+                                isAttr: true,
+                                type: 'toggle',
+                                isToggleAttr: true,
+                                isSetVal: true,
+                                id: '',
+                                attrName: 'aria-expanded'
+                            }]
+                        }],
+                        children: [{
+                            tag: 'span',
+                            className: ['caret'],
+                            attrs: [{
+                                title: '下拉菜单设置',
+                                key: 'dropdown-setting',
+                                children: []
+                            }]
+                        }]
+                    },{
+                        tag: 'ul',
+                        className: ['dropdown-menu'],
+                        attrs: [{
+                            title: '下拉菜单设置',
+                            key: 'dropdown-setting',
+                            children: []
+                        }],
+                        children: [{
+                            tag: 'li',
+                            className: [],
+                            attrs: [{
+                                title: '下拉菜单设置',
+                                key: 'dropdown-setting',
+                                children: []
+                            }],
+                            children: [{
+                                tag: 'a',
+                                className: [],
+                                attrs: [{
+                                    title: '下拉菜单链接设置',
+                                    key: 'link-setting',
+                                    children: [{
+                                        name: 'src',
+                                        desc: '跳转链接',
+                                        type: 'input',
+                                        value: '',
+                                        isAttr: true,
+                                        attrName: 'href',
+                                        id: ''
+                                    }, {
+                                        name: 'target',
+                                        desc: '新窗口打开',
+                                        type: 'toggle',
+                                        value: false,
+                                        isAttr: true,
+                                        attrName: 'target',
+                                        id: ''
+                                    },{
+                                        name: 'innerHTML',
+                                        desc: '显示文本',
+                                        value: '菜单',
+                                        isHTML: true,
+                                        id: ''
+                                    }]
+                                }]
+                            }]
+                        }, {
+                            tag: 'li',
+                            className: [],
+                            attrs: [{
+                                title: '下拉菜单设置',
+                                key: 'dropdown-setting',
+                                children: []
+                            }],
+                            children: [{
+                                tag: 'a',
+                                className: [],
+                                attrs: [{
+                                    title: '下拉菜单链接设置',
+                                    key: 'link-setting',
+                                    children: [{
+                                        name: 'src',
+                                        desc: '跳转链接',
+                                        type: 'input',
+                                        value: '',
+                                        isAttr: true,
+                                        attrName: 'href',
+                                        id: ''
+                                    }, {
+                                        name: 'target',
+                                        desc: '新窗口打开',
+                                        type: 'toggle',
+                                        value: false,
+                                        isAttr: true,
+                                        attrName: 'target',
+                                        id: ''
+                                    },{
+                                        name: 'innerHTML',
+                                        desc: '显示文本',
+                                        value: '菜单',
+                                        isHTML: true,
+                                        id: ''
+                                    }]
+                                }]
+                            }]
+                        }, {
+                            tag: 'li',
+                            className: [],
+                            attrs: [{
+                                title: '下拉菜单设置',
+                                key: 'dropdown-setting',
+                                children: []
+                            }],
+                            children: [{
+                                tag: 'a',
+                                className: [],
+                                attrs: [{
+                                    title: '下拉菜单链接设置',
+                                    key: 'link-setting',
+                                    children: [{
+                                        name: 'src',
+                                        desc: '跳转链接',
+                                        type: 'input',
+                                        value: '',
+                                        isAttr: true,
+                                        attrName: 'href',
+                                        id: ''
+                                    }, {
+                                        name: 'target',
+                                        desc: '新窗口打开',
+                                        type: 'toggle',
+                                        value: false,
+                                        isAttr: true,
+                                        attrName: 'target',
+                                        id: ''
+                                    },{
+                                        name: 'innerHTML',
+                                        desc: '显示文本',
+                                        value: '菜单',
+                                        isHTML: true,
+                                        id: ''
+                                    },]
+                                }]
+                            }]
+                        }]
+                    }]
+                }
 			}, {
 				icon: <svg width="50" height="37" viewBox="0 0 50 37" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".4" d="M47 0H3C1.3 0 0 1.3 0 3v31c0 1.7 1.3 3 3 3h44c1.7 0 3-1.3 3-3V3c0-1.7-1.3-3-3-3z"></path><path fill="currentColor" d="M47 1H3c-1.1 0-2 .9-2 2v31c0 1.1.9 2 2 2h44c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zM8.8 23.1l-4.7-4.7 4.7-4.7 1.4 1.4L7 18.5l3.2 3.2-1.4 1.4zM19 33c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm6 0c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm6 0c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm10.2-9.9l-1.4-1.4 3.2-3.2-3.2-3.2 1.4-1.4 4.7 4.7-4.7 4.5z"></path></svg>,
 				name: '幻灯片',

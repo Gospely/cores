@@ -991,6 +991,12 @@ $(function() {
 				console.log(attr);
 				this.setAttr(attr);
 			},
+			setDropdownSetting: function(attr){
+
+				console.log('setDropdownSetting');
+				console.log(attr);
+				this.setAttr(attr);
+			},
             transformTypeToUpper: function(type) {
                 var settingTypeSplit = type.split('-'),
                     upperTypeName = '';
