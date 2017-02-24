@@ -501,8 +501,8 @@ $(function() {
 				var elemGen = new ElemGenerator(activeCtrl);
 				var tempElem = elemGen.createElement();
 				tempElem.attr('vdid', vdid);
-				elem = elem.replaceWith(tempElem);
-				elem.data('controller', activeCtrl);
+				elem = elem.replaceWith(tempElem.clone());
+				// elem.data('controller', activeCtrl);
 			},
 			'add': function(parent, children, parent){
 
@@ -554,7 +554,7 @@ $(function() {
 
             refreshCtrl: function(activeCtrl, attr, attrType) {
 
-				console.log(activeCtrl);
+				console.log('refreshCtrl',activeCtrl);
 				if(attr.isTag) {
 
 					let vdid  = activeCtrl.vdid;
@@ -570,6 +570,7 @@ $(function() {
 				if(attr.attrName == 'children'){
 					childrenOperate[attr.action](activeCtrl, attr.children, attr.parent);
 				}else {
+
 					new ElemGenerator(activeCtrl).setAttributeByAttr(attr, attrType);
 				}
             },
@@ -805,6 +806,8 @@ $(function() {
         	initElem: function () {
         		if (!this.elemLoaded) {
                     var docCtrl = jq('[vdid='+ this.controller.vdid + ']');
+					console.log('initElem');
+					console.log(docCtrl);
                     this.elem = docCtrl.length > 0 ? docCtrl : jq(document.createElement(this.tag));
                     this.elemLoaded = true;
                     // this.refresh = docCtrl.length > 0;
@@ -872,6 +875,7 @@ $(function() {
 
             setAttr: function(attr) {
 
+				console.log('setAttr', this.elem);
                 if(attr.isHTML) {
 
 					if(attr.html != null && attr.html != undefined){
@@ -881,14 +885,22 @@ $(function() {
 					}
 
                 }
-					console.log(attr);
 				if(attr.isToggleAttr){
 					console.log(attr);
-					if(!attr.value)
-						this.elem.removeAttr(attr.attrName);
-					this.elem.attr(attr.attrName, attr.value);
+					console.log('isToggleAttr');
+					if(attr.isSetVal){
+						console.log(attr);
+						this.elem.attr(attr.attrName, attr.value);
+					}else{
+						if(!attr.value)
+							this.elem.removeAttr(attr.attrName);
+						this.elem.attr(attr.attrName, attr.value);
+					}
 				}
                 if(attr.isAttr) {
+
+					console.log('atr');
+					console.log(attr);
 					this.elem.attr(attr.attrName, attr.value);
                 }
                 if (attr.isContainer) {
@@ -911,37 +923,38 @@ $(function() {
             setLinkSetting: function(attr) {
 
 
-				if(attr.isHTML){
+				if(attr.isHTML || attr.attrName == 'href'){
 					this.setAttr(attr)
+				}else {
+					if(attr.isAttr) {
+
+						if(attr.attrName == 'target') {
+							if(attr.value) {
+								this.elem.attr(attr.attrName, '_blank');
+							}else {
+								this.elem.attr(attr.attrName, '');
+							}
+						}else {
+							var attrValue = attr.value,
+
+								getAttrValue = function (val, type) {
+									var typeList = {
+										'link': '',
+										'mail': 'mailto:',
+										'phone': '',
+										'page': '',
+										'section': '#'
+									}
+									return typeList[type] + val;
+								}
+
+							attrValue = getAttrValue(attrValue, sessionStorage.currentActiveLinkType);
+
+
+							this.elem.attr(attr.attrName, attrValue);
+						}
+					}
 				}
-                if(attr.isAttr) {
-
-                    if(attr.attrName == 'target') {
-                        if(attr.value) {
-                            this.elem.attr(attr.attrName, '_blank');
-                        }else {
-                            this.elem.attr(attr.attrName, '');
-                        }
-                    }else {
-                        var attrValue = attr.value,
-
-                            getAttrValue = function (val, type) {
-                                var typeList = {
-                                    'link': '',
-                                    'mail': 'mailto:',
-                                    'phone': '',
-                                    'page': '',
-                                    'section': '#'
-                                }
-                                return typeList[type] + val;
-                            }
-
-                        attrValue = getAttrValue(attrValue, sessionStorage.currentActiveLinkType);
-
-
-                        this.elem.attr(attr.attrName, attrValue);
-                    }
-                }
             },
 
             setImageSetting: function(attr) {
@@ -975,6 +988,12 @@ $(function() {
 			setNavbarSetting: function(attr){
 
 				console.log('setNavbarsSetting');
+				console.log(attr);
+				this.setAttr(attr);
+			},
+			setDropdownSetting: function(attr){
+
+				console.log('setDropdownSetting');
 				console.log(attr);
 				this.setAttr(attr);
 			},

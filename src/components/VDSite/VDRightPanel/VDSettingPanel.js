@@ -64,9 +64,67 @@ const Component = (props) => {
                     result[key] = obj[key];
                 }
             }
-            result.vdid = randomString(8,10);
             return result;
         },
+        loopAttr(controller, parent) {
+
+            let childCtrl = {},
+                tmpAttr = {},
+                ctrl = {};
+
+            tmpAttr = controller.attrs;
+            for(let i = 0, len = tmpAttr.length; i < len; i ++) {
+                // console.log(tmpAttr[i]);
+                if(specialAttrList.indexOf(tmpAttr[i].key) != -1) {
+                    continue;
+                }
+                for (var j = 0; j < tmpAttr[i].children.length; j++) {
+                    var attr = tmpAttr[i].children[j];
+                    attr['id'] = randomString(8, 10);
+                };
+            }
+            if(controller.vdid == null || controller.vdid == undefined){
+                ctrl = {
+                    vdid: controller.key ? (controller.key + '-' + randomString(8, 10)) : randomString(8, 10),
+                    attrs: tmpAttr,
+                    tag: controller.tag,
+                    className: controller.className,
+                    customClassName: [],
+                    activeStyle: '',
+                    children: [],
+                    isRander: controller.isRander || '',
+                    ignore: controller.ignore || false,
+                    parent: parent || '',
+                    unActive: controller.unActive
+                };
+            }else{
+                ctrl = {
+                    vdid: parent,
+                    attrs: tmpAttr,
+                    tag: controller.tag,
+                    className: controller.className,
+                    customClassName: [],
+                    activeStyle: '',
+                    children: [],
+                    isRander: controller.isRander || '',
+                    ignore: controller.ignore || false,
+                    parent: parent || '',
+                    unActive: false,
+                };
+            }
+
+            if(controller.children) {
+                for (var i = 0; i < controller.children.length; i++) {
+                    var currentCtrl = controller.children[i];
+                    childCtrl = vdCtrlOperate.loopAttr(currentCtrl, parent);
+                    ctrl.children.push(childCtrl);
+                };
+            }else {
+                ctrl.children = undefined;
+            }
+
+            return ctrl;
+        }
     }
     const copyOperate = {
 
@@ -83,9 +141,12 @@ const Component = (props) => {
 
                 function copyByLevel(parent) {
                     let comonIndex = 0;
-                    for (var j = 0; j < levelsInfo.length; j++) {
-                        if(i == levelsInfo[j].level){
-                            comonIndex = levelsInfo[j].index;
+
+                    if(levelsInfo) {
+                        for (var j = 0; j < levelsInfo.length; j++) {
+                            if(i == levelsInfo[j].level){
+                                comonIndex = levelsInfo[j].index;
+                            }
                         }
                     }
                     i++;
@@ -93,12 +154,11 @@ const Component = (props) => {
                         console.log(i, comonIndex);
                         copyByLevel(parent.children[comonIndex]);
                     }else{
-                        console.log('ddd');
-                        console.log(parent);
                         result = vdCtrlOperate.deepCopyObj(parent.children[0], result)
                     }
                 }
             copyByLevel(parent);
+            result = vdCtrlOperate.loopAttr(result, parent.vdid);
             console.log('copyChildren', result);
             return result;
         }
@@ -448,6 +508,9 @@ const Component = (props) => {
 
 									<FormItem {...formItemLayout} label="新窗口">
 										<Switch value={item.children[1].value} onChange={formProps.handleAttrFormSwitchChange.bind(this, item.children[1], attrType)} size="small" />
+									</FormItem>
+                                    <FormItem {...formItemLayout} label="显示文本">
+										<Input value={item.children[2].value} onChange={formProps.handleAttrFormInputChange.bind(this, item.children[2], attrType)} size="small" />
 									</FormItem>
 						      	</Form>
 					    	), (
@@ -910,7 +973,7 @@ const Component = (props) => {
                             },
                             addTabs(){
 
-                                var tab = copyOperate.copyChildren(0, 'component','tabs', 2, [{ level:2, index: 0}]);
+                                var tab = copyOperate.copyChildren(0, 'component','tabs', 2);
                                 props.dispatch({
                                     type: 'vdCtrlTree/handleChildrenAdd',
                                     payload: {
@@ -921,13 +984,13 @@ const Component = (props) => {
                                     }
                                 });
 
-                                var content = copyOperate.copyChildren(1, 'component','tabs', 2, [{ level:1, index: 1}]);
+                                var content = copyOperate.copyChildren(1, 'component','tabs', 2, [{ level:0, index: 1}]);
                                 props.dispatch({
                                     type: 'vdCtrlTree/handleChildrenAdd',
                                     payload: {
                                         activeCtrl: props.vdCtrlTree.activeCtrl,
                                         children: content,
-                                        levelsInfo: [{ level:2, index: 1}],
+                                        levelsInfo: [{ level:0, index: 1}],
                                         level: 2
                                     }
                                 });
@@ -1043,8 +1106,7 @@ const Component = (props) => {
 	                                    <Button size="small"><Icon type="bars" />打开菜单</Button>
 	                                </Col>
 	                                <Col span={12}>
-	                                    <Button size="small"><Icon type="plus" />新增菜单</Button>
-	                                </Col>
+                                        <Button size="small" onClick={formProps.childrenAdd.bind(this,1, 'components', 'navbar', 4, [{level: 1,index:1}])}><Icon type="plus" />新增菜单</Button></Col>
 	                            </Row>
 
 	                            <Form className="form-no-margin-bottom">
@@ -1059,7 +1121,18 @@ const Component = (props) => {
                         	</Panel>
                         );
 	    			},
+                    'dropdown-setting'(item, attrTypeIndex) {
 
+	    				return (
+	    					<Panel header={item.title} key={item.key}>
+	                            <Row style={{marginTop: '15px'}}>
+	                                <Col span={12}>
+                                        <Button size="small" onClick={formProps.childrenAdd.bind(this,1, 'components', 'dropdown', 2, [{level: 0,index:1}])}><Icon type="plus" 	/>新增菜单</Button>
+                                    </Col>
+	                            </Row>
+                        	</Panel>
+                        );
+	    			},
 	    			'columns-setting' (item, attrTypeIndex) {
 
 	    				var columnHandler = {
@@ -1074,7 +1147,7 @@ const Component = (props) => {
 	    				}
 
 						jQuery.fn.extend({
-						    dragging:function(data){   
+						    dragging:function(data){
 								var $this = jQuery(this);
 								var xPage;
 								var yPage;
@@ -1087,15 +1160,15 @@ const Component = (props) => {
 								}
 								var opt = jQuery.extend({},defaults,data);
 								var movePosition = opt.move;
-								
+
 								var hander = opt.hander;
-								
+
 								if(hander == 1){
-									hander = $this; 
+									hander = $this;
 								}else{
 									hander = $this.find(opt.hander);
 								}
-								
+
 								//初始化
 								hander.css({"cursor":"move"});
 								$width=$this.width();
@@ -1108,7 +1181,7 @@ const Component = (props) => {
 								var faHeight = father.height();
 								var thisWidth = $this.width()+parseInt($this.css('padding-left'))+parseInt($this.css('padding-right'));
 								var thisHeight = $this.height()+parseInt($this.css('padding-top'))+parseInt($this.css('padding-bottom'));
-								
+
 								var mDown = false;//
 								var positionX;
 								var positionY;
@@ -1128,22 +1201,21 @@ const Component = (props) => {
 									positionX = $this.position().left;
 									positionY = $this.position().top;
 									if(opt.onMouseDown) {
-										opt.onMouseDown(e);		
+										opt.onMouseDown(e);
 									}
 									return false;
 								});
-									
+
 								jQuery(document).mouseup(function(e){
 									mDown = false;
 									if(opt.onMouseUp) {
-										opt.onMouseUp(e);				
+										opt.onMouseUp(e);
 									}
 								});
-									
+
 								jQuery(document).mousemove(function(e){
 									xPage = e.pageX;//--
 									moveX = positionX + xPage - X;
-									
 									yPage = e.pageY;//--
 									moveY = positionY + yPage - Y;
 									$this.css({"position":"absolute"});
@@ -1185,7 +1257,7 @@ const Component = (props) => {
 										}
 										return moveX;
 									}
-									
+
 									function thisYMove(){ //y轴移动
 										if(mDown == true){
 											$this.css({"top":moveY});
