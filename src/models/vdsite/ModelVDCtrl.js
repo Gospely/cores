@@ -35,7 +35,7 @@ export default {
 	namespace: 'vdctrl',
 	state: {
 
-   		specialAttrList: ['custom-attr', 'link-setting', 'list-setting', 'heading-type', 'image-setting', 'select-setting', 'tabs-setting', 'navbar-setting', 'slider-settings', 'columns-setting'],
+   		specialAttrList: ['custom-attr', 'link-setting', 'list-setting', 'heading-type', 'image-setting', 'select-setting', 'tabs-setting', 'navbar-setting', 'dropdown-setting', 'slider-settings', 'columns-setting'],
    		commonAttrList: [],
 		symbols: [],
 		currentSymbolKey: '',
@@ -2024,7 +2024,6 @@ export default {
                         attrs: [{
                             title: '下拉菜单设置',
                             isAttrSetting: true,
-                            key: 'dropdown-setting',
                             children: [{
                                 name: 'innerHTML',
                                 desc: '显示文本',
