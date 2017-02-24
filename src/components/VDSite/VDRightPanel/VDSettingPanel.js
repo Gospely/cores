@@ -1116,7 +1116,8 @@ const Component = (props) => {
 								var moveY ;
 								var $width,$height;
 
-								var prevX = 0;
+								var prevX = 0,
+									prevMoveX = 0;
 
 								hander.mousedown(function(e){
 									father.children().css({"zIndex":"0"});
@@ -1141,23 +1142,35 @@ const Component = (props) => {
 									
 								jQuery(document).mousemove(function(e){
 									xPage = e.pageX;//--
-									moveX = positionX+xPage-X;
+									moveX = positionX + xPage - X;
 									
 									yPage = e.pageY;//--
-									moveY = positionY+yPage-Y;
+									moveY = positionY + yPage - Y;
 									$this.css({"position":"absolute"});
 									function thisXMove(){ //x轴移动
 										if(mDown == true){
+
 											if(prevX - moveX < 0) {
-												if(opt.onMoveToRight) {
-													opt.onMoveToRight();
+
+												console.log('moveX - prevMoveX = ', moveX - prevMoveX);
+
+												if(moveX - prevMoveX > 20) {
+													$this.css({"left": moveX});
+													if(opt.onMoveToRight) {
+														opt.onMoveToRight();
+													}
 												}
+
 											}else {
+
+												$this.css({"left": moveX});
+
 												if(opt.onMoveToLeft) {
 													opt.onMoveToLeft();
 												}
+
 											}
-											$this.css({"left":moveX});
+
 										}else{
 											return;
 										}
