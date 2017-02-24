@@ -997,6 +997,11 @@ $(function() {
 				console.log(attr);
 				this.setAttr(attr);
 			},
+			setSliderSetting: function(attr){
+
+				console.log('setSliderSetting');
+				this.setAttr(attr);
+			},
             transformTypeToUpper: function(type) {
                 var settingTypeSplit = type.split('-'),
                     upperTypeName = '';
