@@ -472,6 +472,7 @@ export default {
 				visible: false
 			}
 		}
+
 	},
 
 	subscriptions: {

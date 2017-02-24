@@ -1,6 +1,8 @@
 import React , {PropTypes} from 'react';
 import dva from 'dva';
 
+import { message } from 'antd';
+
 export default {
 	namespace: 'vdcore',
 	state: {
@@ -45,7 +47,22 @@ export default {
 				key: '',
 				value: ''
 			}
+		},
+
+		columnSlider: {
+			count: 2,
+
+			columns: [{
+				span: 12,
+				value: 6
+			}, {
+				span: 12,
+				value: 6
+			}],
+
+			invalid: [5, 7, 8, 9, 10, 11]
 		}
+
 	},
 
 	subscriptions: {
@@ -100,7 +117,89 @@ export default {
 		handleCustomAttrCreatorInputChange(state, { payload: params }) {
 			state.customAttr.creator[params.attrName] = params.value;
 			return {...state};
+		},
+
+		handleColumnCountChange(state, { payload: params }) {
+			if(state.columnSlider.invalid.indexOf(parseInt(params.value)) != -1) {
+				message.error('只能输入1, 2, 3, 4, 6和12');
+				return {...state};
+			}
+
+			if(params.value < 1 || params.value > 12) {
+				if(params.value != '') {
+					message.error('栅格数不能超过12，且不能小于1');						
+					return {...state};
+				}
+			}
+
+			state.columnSlider.count = params.value;
+			var tmpColumns = [];
+
+			for (var i = 0; i < state.columnSlider.count; i++) {
+				var tmpColumn = {
+					span: 24 / params.value,
+					value: 24 / params.value / 2
+				};
+				tmpColumns.push(tmpColumn);
+			};
+
+			console.log(tmpColumns);
+
+			state.columnSlider.columns = tmpColumns;
+			return {...state};
+		},
+
+		shrinkLeftColumn(state, { payload: params }) {
+			if(state.columnSlider.columns[params.index].value >= 0 && state.columnSlider.columns[params.index + 1].value < 12) {
+			console.log('valid shrinkLeftColumn', state.columnSlider.columns[params.index].value);
+				if(state.columnSlider.columns[params.index].value < 1) {
+					state.columnSlider.columns[params.index].span = 1;
+					state.columnSlider.columns[params.index].value = 1;
+				}else {
+					state.columnSlider.columns[params.index].span -= 2;
+					state.columnSlider.columns[params.index].value -= 2;
+					if(state.columnSlider.columns[params.index].value === 0) {
+						state.columnSlider.columns[params.index].span = 1;
+						state.columnSlider.columns[params.index].value = 1;
+					}
+				}
+
+				state.columnSlider.columns[params.index + 1].span += 2;				
+				state.columnSlider.columns[params.index + 1].value += 2;
+
+			}
+			return {...state};
+		},
+
+		expandLeftColumn(state, { payload: params }) {
+			if(state.columnSlider.columns[params.index + 1].value >= 0 && state.columnSlider.columns[params.index].value < 12 ) {
+				console.log('valid shrinkRightColumn', state.columnSlider.columns[params.index].value);
+				if(state.columnSlider.columns[params.index].value >= 20) {
+					state.columnSlider.columns[params.index + 1].span = 11;
+					state.columnSlider.columns[params.index + 1].value = 11;
+
+					state.columnSlider.columns[params.index].span = 1;
+					state.columnSlider.columns[params.index].value = 1;
+
+				}else {
+					if(state.columnSlider.columns[params.index].value <= 0) {
+						state.columnSlider.columns[params.index + 1].span = 11;
+						state.columnSlider.columns[params.index + 1].value = 11;
+
+						state.columnSlider.columns[params.index].span = 1;
+						state.columnSlider.columns[params.index].value = 1;
+					}else {
+						state.columnSlider.columns[params.index + 1].span += 2;
+						state.columnSlider.columns[params.index + 1].value += 2;
+
+						state.columnSlider.columns[params.index].span -= 2;
+						state.columnSlider.columns[params.index].value -= 2;
+					}
+				}
+			}
+			return {...state};
 		}
+
 	}
 
 }
