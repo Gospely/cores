@@ -60,7 +60,12 @@ export default {
 				value: 6
 			}],
 
-			invalid: [5, 7, 8, 9, 10, 11]
+			invalid: [5, 7, 8, 9, 10, 11],
+
+			//1 2 3 4 6 12
+			increseTable: {
+				1: '11'
+			}
 		}
 
 	},

@@ -235,6 +235,13 @@ export default {
 							isAttr: true,
 							attrName: 'target',
 							id: ''
+						}, {
+							name: 'innerHTML',
+							desc: '显示文本',
+							type: 'input',
+							value: 'Brand',
+							isHTML: true,
+							id: ''
 						}]
 					}]
 				}
@@ -263,6 +270,13 @@ export default {
 							value: false,
 							isAttr: true,
 							attrName: 'target',
+							id: ''
+						}, {
+							name: 'innerHTML',
+							desc: '显示文本',
+							type: 'input',
+							value: 'Brand',
+							isHTML: true,
 							id: ''
 						}]
 					}, {
