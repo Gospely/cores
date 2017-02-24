@@ -391,13 +391,16 @@ export default {
 			var parentCtrl = currentActiveCtrl.controller;
 			var parentCtrlVdid;
 			var i = 0;
-			var parentIndex = 0;
+
 
 			function childrenAddBylevel(parent){
-				i++;
-				if(i == params.level -1){
-					parentIndex = params.parentIndex;
+				let parentIndex = 0;
+				for (var j = 0; j < params.levelsInfo.length; j++) {
+					if(i == params.levelsInfo[j].level){
+						parentIndex = params.levelsInfo[j].index;
+					}
 				}
+				i++;
 				if(i < params.level) {
 					childrenAddBylevel(parent.children[parentIndex]);
 				}else {
@@ -411,7 +414,8 @@ export default {
 					}
 				}
 			}
-			childrenAddBylevel(parentCtrl)
+			childrenAddBylevel(parentCtrl);
+			console.log('layout', state.layout);
 
 			state.activeCtrl = currentActiveCtrl.controller;
 			state.keyValeCreateVisible = false;
@@ -488,8 +492,6 @@ export default {
 						attr['id'] = randomString(8, 10);
 					};
 				}
-				console.log('config');
-				console.log(controller);
 				if(controller.vdid == null || controller.vdid == undefined){
 					ctrl = {
 						vdid: controller.key ? (controller.key + '-' + randomString(8, 10)) : randomString(8, 10),

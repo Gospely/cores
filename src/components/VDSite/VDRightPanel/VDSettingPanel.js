@@ -71,22 +71,26 @@ const Component = (props) => {
     const copyOperate = {
 
         /**
-         *从原始配置里面复制一个chidren, index 指定以第几个children 作为模板复制
+         *从原始配置里面复制一个chidren, index 指定以第几个children 作为模板复制 level 要复制组件的深度, levelsInfo 在某个深度 取children的下标,默认0
          */
-        copyChildren(index, fatherKey, key, level){
+        copyChildren(index, fatherKey, key, level, levelsInfo){
+            console.log(levelsInfo);
             var result,
                 ctrlConfig = vdCtrlOperate.findCtrlOriginConfig(fatherKey,key),
                 i = 0,
-                parent = ctrlConfig.details,
-                comonIndex = 0;
+                parent = ctrlConfig.details;
+
 
                 function copyByLevel(parent) {
-
-                    i++;
-                    if(i == level -1){
-                        comonIndex = index;
+                    let comonIndex = 0;
+                    for (var j = 0; j < levelsInfo.length; j++) {
+                        if(i == levelsInfo[j].level){
+                            comonIndex = levelsInfo[j].index;
+                        }
                     }
+                    i++;
                     if(i < level){
+                        console.log(i, comonIndex);
                         copyByLevel(parent.children[comonIndex]);
                     }else{
                         console.log('ddd');
@@ -95,6 +99,7 @@ const Component = (props) => {
                     }
                 }
             copyByLevel(parent);
+            console.log('copyChildren', result);
             return result;
         }
     }
@@ -192,16 +197,17 @@ const Component = (props) => {
                 }
             });
         },
-        childrenAdd(index, fatherKey, key, level){
+        childrenAdd(index, fatherKey, key, level, levelsInfo){
 
-            var children = copyOperate.copyChildren(index, fatherKey,key,level);
+            console.log('navbar');
+            var children = copyOperate.copyChildren(index, fatherKey, key, level, levelsInfo);
             props.dispatch({
                 type: 'vdCtrlTree/handleChildrenAdd',
                 payload: {
                     activeCtrl: props.vdCtrlTree.activeCtrl,
                     children: children,
-                    level: level,
-                    parentIndex: index
+                    levelsInfo: levelsInfo,
+                    level: level
                 }
             });
         }
@@ -337,6 +343,7 @@ const Component = (props) => {
 					    		});
 					    	}
 					    }
+
 	    				return (
 						    <Panel header={item.title} key={item.key}>
 						    	<Form>
@@ -716,7 +723,7 @@ const Component = (props) => {
 										<Input size="small" value={props.vdCtrlTree.attr.value} onChange={keyValueProps.addKeyChange}/>
 									</FormItem>
 									<FormItem>
-										<Button size="small" onClick={formProps.childrenAdd.bind(this,0, 'forms', 'select', 0)}>保存</Button>
+										<Button size="small" onClick={formProps.childrenAdd.bind(this,0, 'forms', 'select', 0, [{level: 0, index: 0}])}>保存</Button>
 									</FormItem>
 								</Form>
 					    	),
@@ -903,25 +910,25 @@ const Component = (props) => {
                             },
                             addTabs(){
 
-                                var tab = copyOperate.copyChildren(0, 'component','tabs', 2);
+                                var tab = copyOperate.copyChildren(0, 'component','tabs', 2, [{ level:2, index: 0}]);
                                 props.dispatch({
                                     type: 'vdCtrlTree/handleChildrenAdd',
                                     payload: {
                                         activeCtrl: props.vdCtrlTree.activeCtrl,
                                         children: tab,
-                                        level: 2,
-                                        parentIndex: 0,
+                                        levelsInfo: [{ level:2, index: 0}],
+                                        level: 2
                                     }
                                 });
 
-                                var content = copyOperate.copyChildren(1, 'component','tabs', 2);
+                                var content = copyOperate.copyChildren(1, 'component','tabs', 2, [{ level:1, index: 1}]);
                                 props.dispatch({
                                     type: 'vdCtrlTree/handleChildrenAdd',
                                     payload: {
                                         activeCtrl: props.vdCtrlTree.activeCtrl,
                                         children: content,
-                                        parentIndex: 1,
-                                        level: 2,
+                                        levelsInfo: [{ level:2, index: 1}],
+                                        level: 2
                                     }
                                 });
                             }
@@ -1029,7 +1036,6 @@ const Component = (props) => {
 
 	    			'navbar-setting' (item, attrTypeIndex) {
 
-                        console.log(item);
 	    				return (
 	    					<Panel header={item.title} key={item.key}>
 	                            <Row>
@@ -1282,10 +1288,8 @@ const Component = (props) => {
 	                            </div>
 	    					</Panel>
 	    				);
-
 	    			}
 				};
-                console.log(item);
 				return specialAttrHandler[item.key](item, index);
 			}
 

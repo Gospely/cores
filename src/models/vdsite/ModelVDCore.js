@@ -120,7 +120,7 @@ export default {
 		},
 
 		handleColumnCountChange(state, { payload: params }) {
-			if(props.columnSlider.invalid.indexOf(parseInt(params.value)) != -1) {
+			if(state.columnSlider.invalid.indexOf(parseInt(params.value)) != -1) {
 				message.error('只能输入1, 2, 3, 4, 6和12');
 				return {...state};
 			}
@@ -150,13 +150,18 @@ export default {
 		},
 
 		shrinkLeftColumn(state, { payload: params }) {
-			if(state.columnSlider.columns[params.index].value > 1 && state.columnSlider.columns[params.index + 1].value < 12) {
-				if(state.columnSlider.columns[params.index].span < 1) {
+			if(state.columnSlider.columns[params.index].value >= 0 && state.columnSlider.columns[params.index + 1].value < 12) {
+			console.log('valid shrinkLeftColumn', state.columnSlider.columns[params.index].value);
+				if(state.columnSlider.columns[params.index].value < 1) {
 					state.columnSlider.columns[params.index].span = 1;
 					state.columnSlider.columns[params.index].value = 1;
 				}else {
-					state.columnSlider.columns[params.index].span -= 2;			
-					state.columnSlider.columns[params.index].value -= 2;					
+					state.columnSlider.columns[params.index].span -= 2;
+					state.columnSlider.columns[params.index].value -= 2;
+					if(state.columnSlider.columns[params.index].value === 0) {
+						state.columnSlider.columns[params.index].span = 1;
+						state.columnSlider.columns[params.index].value = 1;
+					}
 				}
 
 				state.columnSlider.columns[params.index + 1].span += 2;				
@@ -167,13 +172,30 @@ export default {
 		},
 
 		expandLeftColumn(state, { payload: params }) {
-			if(state.columnSlider.columns[params.index].value > 1 && state.columnSlider.columns[params.index + 1].value < 12) {
-				state.columnSlider.columns[params.index].span += 2;				
-				state.columnSlider.columns[params.index].value += 2;
+			if(state.columnSlider.columns[params.index + 1].value >= 0 && state.columnSlider.columns[params.index].value < 12 ) {
+				console.log('valid shrinkRightColumn', state.columnSlider.columns[params.index].value);
+				if(state.columnSlider.columns[params.index].value >= 20) {
+					state.columnSlider.columns[params.index + 1].span = 11;
+					state.columnSlider.columns[params.index + 1].value = 11;
 
-				state.columnSlider.columns[params.index - 1].span -= 2;				
-				state.columnSlider.columns[params.index - 1].value -= 2;
+					state.columnSlider.columns[params.index].span = 1;
+					state.columnSlider.columns[params.index].value = 1;
 
+				}else {
+					if(state.columnSlider.columns[params.index].value <= 0) {
+						state.columnSlider.columns[params.index + 1].span = 11;
+						state.columnSlider.columns[params.index + 1].value = 11;
+
+						state.columnSlider.columns[params.index].span = 1;
+						state.columnSlider.columns[params.index].value = 1;
+					}else {
+						state.columnSlider.columns[params.index + 1].span += 2;
+						state.columnSlider.columns[params.index + 1].value += 2;
+
+						state.columnSlider.columns[params.index].span -= 2;
+						state.columnSlider.columns[params.index].value -= 2;
+					}
+				}
 			}
 			return {...state};
 		}
