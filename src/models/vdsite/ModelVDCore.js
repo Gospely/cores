@@ -63,8 +63,23 @@ export default {
 			invalid: [5, 7, 8, 9, 10, 11],
 
 			//1 2 3 4 6 12
+
+			decreaseTable: {
+				'1': 0,
+				'2': 1,
+				'3': 1,
+				'4': 1,
+				'6': 2,
+				'12': 6
+			},
+
 			increseTable: {
-				1: '11'
+				'1': 1,
+				'2': 1,
+				'3': 1,
+				'4': 2,
+				'6': 6,
+				'12': 0
 			}
 		}
 
@@ -155,28 +170,37 @@ export default {
 		},
 
 		shrinkLeftColumn(state, { payload: params }) {
+			var increaseNum = state.columnSlider.increseTable[(state.columnSlider.columns[params.index].value).toString()],
+				decreaseNum = state.columnSlider.decreaseTable[(state.columnSlider.columns[params.index].value).toString()];
+
+				console.log(state.columnSlider.columns[params.index].value);
+
 			if(state.columnSlider.columns[params.index].value >= 0 && state.columnSlider.columns[params.index + 1].value < 12) {
 			console.log('valid shrinkLeftColumn', state.columnSlider.columns[params.index].value);
 				if(state.columnSlider.columns[params.index].value < 1) {
 					state.columnSlider.columns[params.index].span = 2;
 					state.columnSlider.columns[params.index].value = 1;
 				}else {
-					state.columnSlider.columns[params.index].span -= 2;
-					state.columnSlider.columns[params.index].value -= 2;
+					state.columnSlider.columns[params.index].span -= decreaseNum;
+					state.columnSlider.columns[params.index].value -= decreaseNum;
 					if(state.columnSlider.columns[params.index].value === 0) {
 						state.columnSlider.columns[params.index].span = 2;
 						state.columnSlider.columns[params.index].value = 1;
 					}
 				}
 
-				state.columnSlider.columns[params.index + 1].span += 2;				
-				state.columnSlider.columns[params.index + 1].value += 2;
+				state.columnSlider.columns[params.index + 1].span += decreaseNum;				
+				state.columnSlider.columns[params.index + 1].value += decreaseNum;
 
 			}
 			return {...state};
 		},
 
 		expandLeftColumn(state, { payload: params }) {
+
+			var increaseNum = state.columnSlider.increseTable[(state.columnSlider.columns[params.index].value).toString()],
+				decreaseNum = state.columnSlider.decreaseTable[(state.columnSlider.columns[params.index].value).toString()];
+
 			if(state.columnSlider.columns[params.index + 1].value >= 0 && state.columnSlider.columns[params.index].value < 12 ) {
 				console.log('valid shrinkRightColumn', state.columnSlider.columns[params.index].value);
 				if(state.columnSlider.columns[params.index].value >= 20) {
@@ -194,11 +218,11 @@ export default {
 						state.columnSlider.columns[params.index].span = 2;
 						state.columnSlider.columns[params.index].value = 1;
 					}else {
-						state.columnSlider.columns[params.index].span += 2;
-						state.columnSlider.columns[params.index].value += 2;
+						state.columnSlider.columns[params.index].span += increaseNum;
+						state.columnSlider.columns[params.index].value += increaseNum;
 
-						state.columnSlider.columns[params.index + 1].span -= 2;
-						state.columnSlider.columns[params.index + 1].value -= 2;
+						state.columnSlider.columns[params.index + 1].span -= increaseNum;
+						state.columnSlider.columns[params.index + 1].value -= increaseNum;
 					}
 				}
 			}
