@@ -105,7 +105,6 @@ const VDTreeActions = {
 		let controllers = state.layout[activePage.key];
 		const loopControllers = function (controllers, level) {
 			level = level || 1;
-			console.log(controllers);
 			for(let i = 0; i < controllers.length; i ++) {
 				let currentControl = controllers[i];
 				if (currentControl.children) {
@@ -386,6 +385,7 @@ export default {
 				params.children.attrs[0].children[0].html = state.attr.html;
 				params.children.attrs[0].children[0].value = state.attr.value;
 			}
+			console.log(params);
 			params.children.parent = state.activeCtrl.vdid;
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
 			var parentCtrl = currentActiveCtrl.controller;
@@ -483,7 +483,7 @@ export default {
 
 				tmpAttr = controller.attrs;
 				for(let i = 0, len = tmpAttr.length; i < len; i ++) {
-					console.log(tmpAttr[i]);
+					// console.log(tmpAttr[i]);
 					if(specialAttrList.indexOf(tmpAttr[i].key) != -1) {
 						continue;
 					}
@@ -571,6 +571,7 @@ export default {
 
 		ctrlSelected(state, { payload: data }) {
 
+			console.log('vdCtrlTree ctrlSelected', data);
 			if(data.unActive){
 				console.log(data.parent);
 				var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, data.parent, state.activePage);

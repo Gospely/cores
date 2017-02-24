@@ -501,8 +501,8 @@ $(function() {
 				var elemGen = new ElemGenerator(activeCtrl);
 				var tempElem = elemGen.createElement();
 				tempElem.attr('vdid', vdid);
-				elem = elem.replaceWith(tempElem);
-				elem.data('controller', activeCtrl);
+				elem = elem.replaceWith(tempElem.clone());
+				// elem.data('controller', activeCtrl);
 			},
 			'add': function(parent, children, parent){
 
@@ -889,6 +889,9 @@ $(function() {
 					this.elem.attr(attr.attrName, attr.value);
 				}
                 if(attr.isAttr) {
+
+					console.log('atr');
+					console.log(attr);
 					this.elem.attr(attr.attrName, attr.value);
                 }
                 if (attr.isContainer) {
@@ -911,37 +914,38 @@ $(function() {
             setLinkSetting: function(attr) {
 
 
-				if(attr.isHTML){
+				if(attr.isHTML || attr.attrName == 'href'){
 					this.setAttr(attr)
+				}else {
+					if(attr.isAttr) {
+
+						if(attr.attrName == 'target') {
+							if(attr.value) {
+								this.elem.attr(attr.attrName, '_blank');
+							}else {
+								this.elem.attr(attr.attrName, '');
+							}
+						}else {
+							var attrValue = attr.value,
+
+								getAttrValue = function (val, type) {
+									var typeList = {
+										'link': '',
+										'mail': 'mailto:',
+										'phone': '',
+										'page': '',
+										'section': '#'
+									}
+									return typeList[type] + val;
+								}
+
+							attrValue = getAttrValue(attrValue, sessionStorage.currentActiveLinkType);
+
+
+							this.elem.attr(attr.attrName, attrValue);
+						}
+					}
 				}
-                if(attr.isAttr) {
-
-                    if(attr.attrName == 'target') {
-                        if(attr.value) {
-                            this.elem.attr(attr.attrName, '_blank');
-                        }else {
-                            this.elem.attr(attr.attrName, '');
-                        }
-                    }else {
-                        var attrValue = attr.value,
-
-                            getAttrValue = function (val, type) {
-                                var typeList = {
-                                    'link': '',
-                                    'mail': 'mailto:',
-                                    'phone': '',
-                                    'page': '',
-                                    'section': '#'
-                                }
-                                return typeList[type] + val;
-                            }
-
-                        attrValue = getAttrValue(attrValue, sessionStorage.currentActiveLinkType);
-
-
-                        this.elem.attr(attr.attrName, attrValue);
-                    }
-                }
             },
 
             setImageSetting: function(attr) {

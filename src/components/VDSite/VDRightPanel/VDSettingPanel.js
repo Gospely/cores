@@ -64,9 +64,67 @@ const Component = (props) => {
                     result[key] = obj[key];
                 }
             }
-            result.vdid = randomString(8,10);
             return result;
         },
+        loopAttr(controller, parent) {
+
+            let childCtrl = {},
+                tmpAttr = {},
+                ctrl = {};
+
+            tmpAttr = controller.attrs;
+            for(let i = 0, len = tmpAttr.length; i < len; i ++) {
+                // console.log(tmpAttr[i]);
+                if(specialAttrList.indexOf(tmpAttr[i].key) != -1) {
+                    continue;
+                }
+                for (var j = 0; j < tmpAttr[i].children.length; j++) {
+                    var attr = tmpAttr[i].children[j];
+                    attr['id'] = randomString(8, 10);
+                };
+            }
+            if(controller.vdid == null || controller.vdid == undefined){
+                ctrl = {
+                    vdid: controller.key ? (controller.key + '-' + randomString(8, 10)) : randomString(8, 10),
+                    attrs: tmpAttr,
+                    tag: controller.tag,
+                    className: controller.className,
+                    customClassName: [],
+                    activeStyle: '',
+                    children: [],
+                    isRander: controller.isRander || '',
+                    ignore: controller.ignore || false,
+                    parent: parent || '',
+                    unActive: controller.unActive
+                };
+            }else{
+                ctrl = {
+                    vdid: parent,
+                    attrs: tmpAttr,
+                    tag: controller.tag,
+                    className: controller.className,
+                    customClassName: [],
+                    activeStyle: '',
+                    children: [],
+                    isRander: controller.isRander || '',
+                    ignore: controller.ignore || false,
+                    parent: parent || '',
+                    unActive: false,
+                };
+            }
+
+            if(controller.children) {
+                for (var i = 0; i < controller.children.length; i++) {
+                    var currentCtrl = controller.children[i];
+                    childCtrl = vdCtrlOperate.loopAttr(currentCtrl, parent);
+                    ctrl.children.push(childCtrl);
+                };
+            }else {
+                ctrl.children = undefined;
+            }
+
+            return ctrl;
+        }
     }
     const copyOperate = {
 
@@ -83,9 +141,12 @@ const Component = (props) => {
 
                 function copyByLevel(parent) {
                     let comonIndex = 0;
-                    for (var j = 0; j < levelsInfo.length; j++) {
-                        if(i == levelsInfo[j].level){
-                            comonIndex = levelsInfo[j].index;
+
+                    if(levelsInfo) {
+                        for (var j = 0; j < levelsInfo.length; j++) {
+                            if(i == levelsInfo[j].level){
+                                comonIndex = levelsInfo[j].index;
+                            }
                         }
                     }
                     i++;
@@ -99,6 +160,7 @@ const Component = (props) => {
                     }
                 }
             copyByLevel(parent);
+            result = vdCtrlOperate.loopAttr(result, parent.vdid);
             console.log('copyChildren', result);
             return result;
         }
@@ -910,7 +972,7 @@ const Component = (props) => {
                             },
                             addTabs(){
 
-                                var tab = copyOperate.copyChildren(0, 'component','tabs', 2, [{ level:2, index: 0}]);
+                                var tab = copyOperate.copyChildren(0, 'component','tabs', 2);
                                 props.dispatch({
                                     type: 'vdCtrlTree/handleChildrenAdd',
                                     payload: {
@@ -921,13 +983,13 @@ const Component = (props) => {
                                     }
                                 });
 
-                                var content = copyOperate.copyChildren(1, 'component','tabs', 2, [{ level:1, index: 1}]);
+                                var content = copyOperate.copyChildren(1, 'component','tabs', 2, [{ level:0, index: 1}]);
                                 props.dispatch({
                                     type: 'vdCtrlTree/handleChildrenAdd',
                                     payload: {
                                         activeCtrl: props.vdCtrlTree.activeCtrl,
                                         children: content,
-                                        levelsInfo: [{ level:2, index: 1}],
+                                        levelsInfo: [{ level:0, index: 1}],
                                         level: 2
                                     }
                                 });

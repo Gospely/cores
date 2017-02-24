@@ -1606,6 +1606,7 @@ export default {
 					children: [{
 						tag: 'div',
 						className: ['container-fluid'],
+                        unActive: true,
 						attrs: [{
 							title: '导航菜单设置',
 							key: 'navbar-setting',
@@ -1613,6 +1614,7 @@ export default {
 						}],
 						children: [{
 							tag: 'div',
+                            unActive: true,
 							className: ['navbar-header'],
 							attrs: [{
 								title: '导航菜单设置',
@@ -1694,6 +1696,7 @@ export default {
 							}]
 						}, {
 							tag: 'div',
+                            unActive: true,
 							className: ['collapse', 'navbar-collapse'],
 							attrs: [{
 								title: '导航菜单设置',
