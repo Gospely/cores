@@ -70,7 +70,8 @@ export default {
 				'3': 1,
 				'4': 1,
 				'6': 2,
-				'12': 6
+				'12': 6,
+				'11': 5
 			},
 
 			increseTable: {
@@ -79,7 +80,8 @@ export default {
 				'3': 1,
 				'4': 2,
 				'6': 6,
-				'12': 0
+				'12': 0,
+				'11': 1
 			}
 		}
 
@@ -206,6 +208,8 @@ export default {
 
 					state.columnSlider.columns[params.index + 1].span = 2;
 					state.columnSlider.columns[params.index + 1].value = 1;
+
+					console.log('>=11', state.columnSlider.columns);
 				}else {
 					state.columnSlider.columns[params.index].span += increaseNum;
 					state.columnSlider.columns[params.index].value += increaseNum;
