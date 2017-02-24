@@ -173,10 +173,7 @@ export default {
 			var increaseNum = state.columnSlider.increseTable[(state.columnSlider.columns[params.index].value).toString()],
 				decreaseNum = state.columnSlider.decreaseTable[(state.columnSlider.columns[params.index].value).toString()];
 
-				console.log(state.columnSlider.columns[params.index].value);
-
 			if(state.columnSlider.columns[params.index].value >= 0 && state.columnSlider.columns[params.index + 1].value < 12) {
-			console.log('valid shrinkLeftColumn', state.columnSlider.columns[params.index].value);
 				if(state.columnSlider.columns[params.index].value < 1) {
 					state.columnSlider.columns[params.index].span = 2;
 					state.columnSlider.columns[params.index].value = 1;
@@ -203,26 +200,26 @@ export default {
 
 			if(state.columnSlider.columns[params.index + 1].value >= 0 && state.columnSlider.columns[params.index].value < 12 ) {
 				console.log('valid shrinkRightColumn', state.columnSlider.columns[params.index].value);
-				if(state.columnSlider.columns[params.index].value > 20) {
-					state.columnSlider.columns[params.index + 1].span = 12;
-					state.columnSlider.columns[params.index + 1].value = 11;
+				if(state.columnSlider.columns[params.index].value >= 11) {
+					state.columnSlider.columns[params.index].span = 22;
+					state.columnSlider.columns[params.index].value = 11;
 
-					state.columnSlider.columns[params.index].span = 2;
-					state.columnSlider.columns[params.index].value = 1;
-
+					state.columnSlider.columns[params.index + 1].span = 2;
+					state.columnSlider.columns[params.index + 1].value = 1;
 				}else {
-					if(state.columnSlider.columns[params.index].value <= 0) {
-						state.columnSlider.columns[params.index + 1].span = 22;
-						state.columnSlider.columns[params.index + 1].value = 11;
+					state.columnSlider.columns[params.index].span += increaseNum;
+					state.columnSlider.columns[params.index].value += increaseNum;
 
-						state.columnSlider.columns[params.index].span = 2;
-						state.columnSlider.columns[params.index].value = 1;
-					}else {
-						state.columnSlider.columns[params.index].span += increaseNum;
-						state.columnSlider.columns[params.index].value += increaseNum;
+					state.columnSlider.columns[params.index + 1].span -= increaseNum;
+					state.columnSlider.columns[params.index + 1].value -= increaseNum;
 
-						state.columnSlider.columns[params.index + 1].span -= increaseNum;
-						state.columnSlider.columns[params.index + 1].value -= increaseNum;
+					if(state.columnSlider.columns[params.index].value === 12) {
+						state.columnSlider.columns[params.index].span = 22;
+						state.columnSlider.columns[params.index].value = 11;
+
+						state.columnSlider.columns[params.index + 1].span = 2;
+						state.columnSlider.columns[params.index + 1].value = 1;
+
 					}
 				}
 			}
