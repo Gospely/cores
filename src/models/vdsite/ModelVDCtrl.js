@@ -1052,7 +1052,7 @@ export default {
 				key: 'label',
 				details: {
 					tag: 'label',
-					className: ['labe label-default'],
+					className: ['labe label-primary'],
 					attrs: [{
                         title: '属性设置',
                         key: 'label-attr',
@@ -1838,7 +1838,7 @@ export default {
 										attrs: [{
 											title: '导航菜单设置',
                                             isAttrSetting: true,
-											key: 'navbar-dropdown-setting',
+											key: 'navbar-setting',
 											children: [{
                     							name: 'innerHTML',
                     							desc: '显示文本',
@@ -1877,6 +1877,14 @@ export default {
                                                 isSetVal: true,
                     							id: '',
                                                 attrName: 'aria-expanded'
+                    						},{
+                    							name: 'addBtn',
+                    							desc: '加一个',
+                    							level: '',
+                                                levesInfo: '0',
+                                                type: 'buttonAdd',
+                    							isHTML: true,
+                    							id: '',
                     						}]
 										}],
                                         children: [{
@@ -2527,7 +2535,7 @@ export default {
 								key: 'slider-setting',
 								children: [{
                                     name: 'innerHTML',
-                                    value: '上一张',
+                                    value: '下一张',
                                     attrName: 'aria-hidden',
                                     isHTML: true,
                                     id: ''

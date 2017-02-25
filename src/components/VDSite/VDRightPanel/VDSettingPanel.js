@@ -270,8 +270,19 @@ const Component = (props) => {
                     level: level
                 }
             });
-        }
-
+        },
+        //普通children添加逻辑,当前activeCtrl 下添加Child
+        handleCommonChildrenAdd(fatherKey, key, level, levelsInfo){
+            //从配置中clone child的数据结构
+            var children = copyOperate.copyChildren(index, fatherKey, key, level, levelsInfo);
+            props.dispatch({
+                type: 'vdCtrlTree/handleCommonChildrenAdd',
+                payload: {
+                    activeCtrl: props.vdCtrlTree.activeCtrl,
+                    children: children,
+                }
+            });
+        },
 	}
 
    	const specialAttrList = props.vdctrl.specialAttrList;
@@ -1402,7 +1413,14 @@ const Component = (props) => {
 							</FormItem>
 		    			);
     				},
+                    buttonAdd (item) {
 
+                        return (
+                            <FormItem {...formItemLayout} label="" key={item.id}>
+                                <Button type="circle" size="small"><Icon type="plus" />加一个</Button>
+                            </FormItem>
+                        );
+                    },
     				multipleSelect (item) {
     					return (
 							<FormItem key={item.id} {...formItemLayout} label={item.desc}>

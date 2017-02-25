@@ -998,8 +998,6 @@ $(function() {
 				this.setAttr(attr);
 			},
 			setSliderSetting: function(attr){
-
-				console.log('setSliderSetting');
 				this.setAttr(attr);
 			},
             transformTypeToUpper: function(type) {

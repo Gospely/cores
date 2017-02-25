@@ -386,13 +386,11 @@ export default {
 				params.children.attrs[0].children[0].value = state.attr.value;
 			}
 			console.log(params);
-			params.children.parent = state.activeCtrl.vdid;
+			params.children.root = state.activeCtrl.root;
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
 			var parentCtrl = currentActiveCtrl.controller;
 			var parentCtrlVdid;
 			var i = 0;
-
-
 			function childrenAddBylevel(parent){
 				let parentIndex = 0;
 				for (var j = 0; j < params.levelsInfo.length; j++) {
@@ -503,7 +501,7 @@ export default {
 						children: [],
 						isRander: controller.isRander || '',
 						ignore: controller.ignore || false,
-						parent: parent || '',
+						root: parent || '',
 						unActive: controller.unActive
 					};
 				}else{
@@ -517,7 +515,7 @@ export default {
 						children: [],
 						isRander: controller.isRander || '',
 						ignore: controller.ignore || false,
-						parent: parent || '',
+						root: parent || '',
 						unActive: false,
 					};
 				}
@@ -573,8 +571,8 @@ export default {
 
 			console.log('vdCtrlTree ctrlSelected', data);
 			if(data.unActive){
-				console.log(data.parent);
-				var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, data.parent, state.activePage);
+				console.log(data.root);
+				var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, data.root, state.activePage);
 				console.log(currentActiveCtrl);
 				state.activeCtrl = currentActiveCtrl.controller;
 				console.log(state.activeCtrl);
