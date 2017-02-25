@@ -6,6 +6,10 @@ import createLoading from 'dva-loading';
 import packUIStage from './utils/packUIState.js';
 import auth from './utils/auth';
 
+import dragging from './utils/dragging.js';
+
+dragging();
+
 localStorage.itemToCut = localStorage.itemToCut || undefined;
 localStorage.itemToCopy = localStorage.itemToCopy || undefined;
 

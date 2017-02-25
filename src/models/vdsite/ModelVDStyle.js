@@ -663,7 +663,7 @@ export default {
 						cssClass = '.' + styleName + '{';
 					for(var property in currentStyle) {
 						var currentTableStyle = currentStyle[property];
-						if(currentTableStyle != '') {
+						if(currentTableStyle != '' && typeof currentTableStyle !== 'object') {
 							cssClass += property + ':' + currentTableStyle + ';'							
 						}
 					}
@@ -672,6 +672,71 @@ export default {
 				}
 
 				return cssText.toString();				
+			}
+
+			const specialStyle = {
+				background(currentStyleParent) {
+					let styleText = '';
+					for(let styleName in currentStyleParent) {
+						let currentStyleValue = currentStyleParent[styleName];
+						if (currentStyleValue !== '') {
+							if (typeof currentStyleValue === 'object') {
+								let valueText = '';
+								for(let i = 0; i < currentStyleValue.length; i++) {
+									let val = currentStyleValue[i];
+									if (val !== '') {
+										valueText += val + ' ';
+									}
+								}
+								styleText += styleName + ':' + valueText + ';';
+							}else {
+								styleText += styleName + ':' + currentStyleValue + ';';
+							}
+						}
+					}
+
+					return styleText;
+				},
+
+				border(currentStyleParent) {
+					let styleText = '';
+					for(let styleName in currentStyleParent) {
+						let currentStyleValue = currentStyleParent[styleName];
+						if (currentStyleValue !== '') {
+							styleText += styleName + ':' + currentStyleValue + ';';
+						}
+					}
+
+					return styleText;
+				},
+
+				'border-radius'(currentStyleParent) {
+					let styleText = '';
+					for(let styleName in currentStyleParent) {
+						let currentStyleValue = currentStyleParent[styleName];
+						if (currentStyleValue !== '') {
+							styleText += styleName + ':' + currentStyleValue + ';';
+						}
+					}
+
+					return styleText;
+				},
+
+				'box-shadow'(currentStyleParent) {
+					let styleText = 'box-shadow';
+					let currentStyle = currentStyleParent.childrenProps[currentStyleParent.state.activeProp];
+					let valueText = '';
+
+					for(var property in currentStyle) {
+						var currentTableStyle = currentStyle[property];
+						if(currentTableStyle != '') {
+							valueText += currentTableStyle + ' ';						
+						}
+					}
+					styleText += ':' + valueText + ';';
+					return styleText;
+
+				}
 			}
 
 			var cssText = stylesGenerator(state.cssStyleLayout);
