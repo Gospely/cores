@@ -193,7 +193,7 @@ export default {
 					'background-width': '',
 					'background-color': '',
 					'background-size': ['', '', false, false],
-					'background-position': '',
+					'background-position': ['center', 'center'],
 					'background-image': '',
 					'background-color': '',
 					'background-repeat': '',
@@ -656,24 +656,6 @@ export default {
 
 		applyCSSStyleIntoPage(state, { payload: params }) {
 
-			const stylesGenerator = (cssStyleLayout) => {
-				var cssText = '';
-				for(var styleName in cssStyleLayout) {
-					var currentStyle = cssStyleLayout[styleName],
-						cssClass = '.' + styleName + '{';
-					for(var property in currentStyle) {
-						var currentTableStyle = currentStyle[property];
-						if(currentTableStyle != '' && typeof currentTableStyle !== 'object') {
-							cssClass += property + ':' + currentTableStyle + ';'							
-						}
-					}
-					cssClass += '}';
-					cssText += cssClass;
-				}
-
-				return cssText.toString();				
-			}
-
 			const specialStyle = {
 				background(currentStyleParent) {
 					let styleText = '';
@@ -724,20 +706,137 @@ export default {
 
 				'box-shadow'(currentStyleParent) {
 					let styleText = 'box-shadow';
-					let currentStyle = currentStyleParent.childrenProps[currentStyleParent.state.activeProp];
+					let childrenProps = currentStyleParent.childrenProps;
 					let valueText = '';
-
-					for(var property in currentStyle) {
-						var currentTableStyle = currentStyle[property];
-						if(currentTableStyle != '') {
-							valueText += currentTableStyle + ' ';						
+					for(let i = 0; i < childrenProps.length; i ++) {
+						let currentStyle = childrenProps[i];
+						for(let property in currentStyle) {
+							let currentTableStyle = currentStyle[property];
+							if(currentTableStyle !== '' && currentTableStyle !== 'outset') {
+								valueText += currentTableStyle + ' ';						
+							}
 						}
+						if (i !== childrenProps.length - 1) {
+							valueText += ',';
+						}
+						
 					}
+					
 					styleText += ':' + valueText + ';';
 					return styleText;
 
+				},
+
+				'text-shadow'(currentStyleParent) {
+					let styleText = 'text-shaow';
+					let childrenProps = currentStyleParent.childrenProps;
+					let valueText = '';
+					for(let i = 0; i < childrenProps.length; i ++) {
+						let currentStyle = childrenProps[i];
+						for(let property in currentStyle) {
+							let currentTableStyle = currentStyle[property];
+							if(currentTableStyle !== '') {
+								valueText += currentTableStyle + ' ';						
+							}
+						}
+						if (i !== childrenProps.length - 1) {
+							valueText += ',';
+						}
+						
+					}
+					
+					styleText += ':' + valueText + ';';
+					return styleText;
+				},
+
+				transition(currentStyleParent) {
+					let styleText = 'transition';
+					let childrenProps = currentStyleParent.childrenProps;
+					let valueText = '';
+					for(let i = 0; i < childrenProps.length; i ++) {
+						let currentStyle = childrenProps[i];
+						for(let property in currentStyle) {
+							let currentTableStyle = currentStyle[property];
+							if(currentTableStyle !== '') {
+								valueText += currentTableStyle + ' ';						
+							}
+						}
+						if (i !== childrenProps.length - 1) {
+							valueText += ',';
+						}
+						
+					}
+					
+					styleText += ':' + valueText + ';';
+					return styleText;
+				},
+
+				transform(currentStyleParent) {
+					let styleText = 'transform';
+					let childrenProps = currentStyleParent.childrenProps;
+					let valueText = '';
+					for(let i = 0; i < childrenProps.length; i ++) {
+						let currentStyle = childrenProps[i];
+						valueText += currentStyle.name + '(';
+						let values = currentStyle.value;
+						valueText += values[0];
+						for (let j = 1; j < values.length; j ++) {
+							valueText += ',' + valueText[i];
+						}
+
+						if (i !== childrenProps.length - 1) {
+							valueText += '),';	
+						}else {
+							valueText += ')';
+						}
+					}
+					
+					styleText += ':' + valueText + ';';
+					return styleText;
+				},
+
+				filter(currentStyleParent) {
+					let childrenProps = currentStyleParent.childrenProps;
+					let styleText = 'transform';
+					let valueText = '';
+					for(let i = 0, len = childrenProps.length; i < len; i ++) {
+						let currentStyle = childrenProps[i];
+						
+						if (i !== childrenProps.length - 1) {
+							valueText += currentStyle.name + '(' + currentStyle.value + '),';
+						}else {
+							valueText += currentStyle.name + '(' + currentStyle.value + ')';
+						}
+
+					}
+
+					return styleText;
 				}
+
+
 			}
+
+			const stylesGenerator = (cssStyleLayout) => {
+				var cssText = '';
+				for(var styleName in cssStyleLayout) {
+					var currentStyle = cssStyleLayout[styleName],
+						cssClass = '.' + styleName + '{';
+					for(var property in currentStyle) {
+						var currentTableStyle = currentStyle[property];
+						if(currentTableStyle != '' && typeof currentTableStyle !== 'object') {
+							cssClass += property + ':' + currentTableStyle + ';'							
+						}else if (typeof currentTableStyle === 'object') {
+							cssClass += specialStyle[property](currentTableStyle);
+						}
+					}
+					cssClass += '}';
+					cssText += cssClass;
+				}
+
+				return cssText.toString();				
+			}
+
+			
 
 			var cssText = stylesGenerator(state.cssStyleLayout);
 
@@ -805,10 +904,14 @@ export default {
 				if(params.parent) {
 					var propertyParent = styleAction.findCSSPropertyByProperty(state.cssStyleLayout[activeStyleName], property);
 					console.log('propertyParent', propertyParent, property);
-					if(typeof params.parent.BGSizeIndex == 'undefined') {
-						propertyParent[property] = value;
+					if(typeof params.parent.index !== 'undefined') {
+						propertyParent[property][params.parent.index] = value;
+					}else if (property === 'background-position') {
+						let vals = value.split(' ');
+						propertyParent[property][0] = vals[0];
+						propertyParent[property][1] = vals[1];
 					}else {
-						propertyParent[property][params.parent.BGSizeIndex] = value;
+						propertyParent[property] = value;
 					}
 
 				}else {

@@ -214,42 +214,42 @@ const Component = (props) => {
           for (var i = 0; i < tree.length; i++) {
             var item = tree[i];
             if(item != null && item.children && item.children != undefined) {
-              tpl.push((
-                <SubMenu key={item.key} title={<Row>
-				  <Col span={18}>
-					  <Icon type="folder" />{item.name}
-				  </Col>
-				  <Col span={4}>
-					<Tooltip placement="top" title="删除文件夹">
-						<Icon type="delete" onClick={formItemProps.delete.bind(this, item)} />
-					</Tooltip>
-				  </Col>
-				</Row>}>
-                  {pageTreeGenerator(item.children, true)}
-                </SubMenu>
-              ))
+                  tpl.push((
+                    <SubMenu key={item.key} title={<Row>
+    				  <Col span={18}>
+    					  <Icon type="folder" />{item.name}
+    				  </Col>
+    				  <Col span={4}>
+    					<Tooltip placement="top" title="删除文件夹">
+    						<Icon type="delete" onClick={formItemProps.delete.bind(this, item)} />
+    					</Tooltip>
+    				  </Col>
+    				</Row>}>
+                      {pageTreeGenerator(item.children, true)}
+                    </SubMenu>
+                  ))
             }else {
-			if(item != null){
-				tpl.push((
-				  <Menu.Item key={item.key}>
-					<Row>
-					  <Col span={18}>
-						<Icon type="file" />{item.name}
-					  </Col>
-					  <Col span={2}>
-						<Tooltip placement="top" title="删除文件">
-							<Icon type="delete" onClick={formItemProps.delete.bind(this, item)} />
-						</Tooltip>
-					  </Col>
-					  <Col span={2}>
-						<Tooltip placement="top" title="设置页面的详细信息">
-							<Icon type="setting" onClick={allPagesProps.visibleChange}/>
-						</Tooltip>
-					  </Col>
-					</Row>
-				  </Menu.Item>
-				));
-			}
+    			if(item != null){
+    				tpl.push((
+    				  <Menu.Item key={item.key}>
+    					<Row>
+    					  <Col span={18}>
+    						<Icon type="file" />{item.name}
+    					  </Col>
+    					  <Col span={2}>
+    						<Tooltip placement="top" title="删除文件">
+    							<Icon type="delete" onClick={formItemProps.delete.bind(this, item)} />
+    						</Tooltip>
+    					  </Col>
+    					  <Col span={2}>
+    						<Tooltip placement="top" title="设置页面的详细信息">
+    							<Icon type="setting" onClick={allPagesProps.visibleChange}/>
+    						</Tooltip>
+    					  </Col>
+    					</Row>
+    				  </Menu.Item>
+    				));
+    			}
             }
           };
 

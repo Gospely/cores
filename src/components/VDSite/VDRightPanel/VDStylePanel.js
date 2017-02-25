@@ -233,7 +233,7 @@ const VDStylePanel = (props) => {
 
     		var backgroundSizeParams = props.vdstyles.backgroundSetting.backgroundSize;
 
-    		const handleBackgroundSizeInputChange = (cssProperty, parent, e) => {
+    		const handleBackgroundSizePositionChange = (cssProperty, parent, e) => {
 
     			var val = e.target ? e.target.value : e;
 
@@ -337,7 +337,7 @@ const VDStylePanel = (props) => {
 										<FormItem {...formItemLayout} label="宽度">
 											<Input
 												value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['background']['background-size'][0]}
-												onChange={handleBackgroundSizeInputChange.bind(this, 'background-size', {parent: 'background', BGSizeIndex: 0})} size="small" />
+												onChange={handleBackgroundSizePositionChange.bind(this, 'background-size', {parent: 'background', index: 0})} size="small" />
 										</FormItem>
 							      	</Form>
 							  	</Col>
@@ -346,7 +346,7 @@ const VDStylePanel = (props) => {
 										<FormItem {...formItemLayout} label="填充">
 											<Switch
 												checked={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['background']['background-size'][2]}
-												onChange={handleBackgroundSizeInputChange.bind(this, 'background-size', {parent: 'background', BGSizeIndex: 2})} size="small" />
+												onChange={handleBackgroundSizePositionChange.bind(this, 'background-size', {parent: 'background', index: 2})} size="small" />
 										</FormItem>
 							      	</Form>
 							  	</Col>
@@ -360,7 +360,7 @@ const VDStylePanel = (props) => {
 										<FormItem {...formItemLayout} label="高度">
 											<Input
 												value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['background']['background-size'][1]}
-												onChange={handleBackgroundSizeInputChange.bind(this, 'background-size', {parent: 'background', BGSizeIndex: 1})} size="small" />
+												onChange={handleBackgroundSizePositionChange.bind(this, 'background-size', {parent: 'background', index: 1})} size="small" />
 										</FormItem>
 							      	</Form>
 							  	</Col>
@@ -369,7 +369,7 @@ const VDStylePanel = (props) => {
 										<FormItem {...formItemLayout} label="适应">
 											<Switch
 												checked={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['background']['background-size'][3]}
-												onChange={handleBackgroundSizeInputChange.bind(this, 'background-size', {parent: 'background', BGSizeIndex: 3})} size="small" />
+												onChange={handleBackgroundSizePositionChange.bind(this, 'background-size', {parent: 'background', index: 3})} size="small" />
 										</FormItem>
 							      	</Form>
 							  	</Col>
@@ -428,7 +428,18 @@ const VDStylePanel = (props) => {
 								</Col>
 
 								<Col span={14}>
-
+									<Form className="form-no-margin-bottom">
+										<FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 18 }} label="top">
+											<Input
+												value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['background']['background-position'][0]}
+												onChange={handleBackgroundSizePositionChange.bind(this, 'background-position', {parent: 'background', index: 0})} size="small" />
+										</FormItem>
+										<FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 18 }} label="left">
+											<Input
+												value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['background']['background-position'][1]}
+												onChange={handleBackgroundSizePositionChange.bind(this, 'background-position', {parent: 'background', index: 1})} size="small" />
+										</FormItem>
+							      	</Form>
 								</Col>
 							</Row>
 

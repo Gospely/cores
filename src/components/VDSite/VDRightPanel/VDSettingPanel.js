@@ -9,8 +9,9 @@ import { Radio, Popover, Upload, Slider } from 'antd';
 
 import randomString from '../../../utils/randomString.js';
 
-import { Tree, Form, Switch, Input, Cascader, Select, Row, Col, Checkbox, Menu, Dropdown, message, Tag, Table, Popconfirm } from 'antd';
+import { Tree, TreeSelect, Form, Switch, Input, Cascader, Select, Row, Col, Checkbox, Menu, Dropdown, message, Tag, Table, Popconfirm } from 'antd';
 
+const TreeNode = TreeSelect.TreeNode;
 const FormItem = Form.Item;
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
@@ -165,10 +166,8 @@ const Component = (props) => {
     }
 	const formProps = {
 		handleAttrFormInputChange (item, attType, dom) {
-			var newVal = dom.target.value;
-			var attrName = item.name;
-            //
-			console.log('============', newVal, attrName, item);
+			let newVal = dom.target ? dom.target.value : dom;
+			let attrName = item.name;
 
 			props.dispatch({
 				type: 'vdCtrlTree/handleAttrFormChange',
@@ -275,6 +274,29 @@ const Component = (props) => {
 	}
 
    	const specialAttrList = props.vdctrl.specialAttrList;
+
+   	const loopPages = (pages) => {
+          let tpl = [];
+          for (let i = 0; i < pages.length; i++) {
+            let item = pages[i];
+            if(item != null && item.children && item.children != undefined) {
+                  tpl.push(
+                    <TreeNode value={item.key} key={item.key} title={item.name} isLeaf={false}>
+                    	{loopPages(item.children)}
+                    </TreeNode>
+                  );
+            }else {
+    			if(item != null){
+    				tpl.push((<TreeNode value={item.key} key={item.key} title={item.name} isLeaf={true} />));
+    			}
+            }
+
+        }
+        return tpl;
+
+   	}
+
+   	let pageTree = loopPages(props.vdpm.pageList);
 
     const attrsPanels = () => {
 
@@ -528,9 +550,15 @@ const Component = (props) => {
 					    	), (
 						      	<Form className="form-no-margin-bottom">
 									<FormItem {...formItemLayout} label="页面">
-									    <Select size="small" value="请选择页面">
-									      	<Option key="sss" value="h1">h1</Option>
-									    </Select>
+									    <TreeSelect
+									        placeholder="请选择页面"
+									        treeDefaultExpandAll
+									        size="small"
+									        value={item.children[0].value}
+									        onChange={formProps.handleAttrFormInputChange.bind(this, item.children[0], attrType)}
+									    >
+									      	{pageTree}
+									    </TreeSelect>
 									</FormItem>
 									<FormItem {...formItemLayout} label="新窗口">
 										<Switch size="small" />
@@ -1341,8 +1369,8 @@ const Component = (props) => {
 
 };
 
-function mapSateToProps({ vdcore, vdctrl, vdCtrlTree }) {
-  return { vdcore, vdctrl, vdCtrlTree };
+function mapSateToProps({ vdcore, vdctrl, vdCtrlTree, vdpm }) {
+  return { vdcore, vdctrl, vdCtrlTree, vdpm };
 }
 
 export default connect(mapSateToProps)(Component);
