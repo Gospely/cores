@@ -1094,7 +1094,7 @@ export default {
 				key: 'label',
 				details: {
 					tag: 'label',
-					className: ['labe label-default'],
+					className: ['labe label-primary'],
 					attrs: [{
                         title: '属性设置',
                         key: 'label-attr',
@@ -1919,6 +1919,14 @@ export default {
                                                 isSetVal: true,
                     							id: '',
                                                 attrName: 'aria-expanded'
+                    						},{
+                    							name: 'addBtn',
+                    							desc: '加一个',
+                    							level: 4,
+                                                levelsInfo: [{level: 1, index: 1}],
+                                                type: 'buttonAdd',
+                    							isHTML: true,
+                    							id: '',
                     						}]
 										}],
                                         children: [{
@@ -2569,7 +2577,7 @@ export default {
 								key: 'slider-setting',
 								children: [{
                                     name: 'innerHTML',
-                                    value: '上一张',
+                                    value: '下一张',
                                     attrName: 'aria-hidden',
                                     isHTML: true,
                                     id: ''

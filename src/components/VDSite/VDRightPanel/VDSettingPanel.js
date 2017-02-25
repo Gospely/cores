@@ -67,7 +67,7 @@ const Component = (props) => {
             }
             return result;
         },
-        loopAttr(controller, parent) {
+        loopAttr(controller, root, parent) {
 
             let childCtrl = {},
                 tmpAttr = {},
@@ -84,40 +84,24 @@ const Component = (props) => {
                     attr['id'] = randomString(8, 10);
                 };
             }
-            if(controller.vdid == null || controller.vdid == undefined){
-                ctrl = {
-                    vdid: controller.key ? (controller.key + '-' + randomString(8, 10)) : randomString(8, 10),
-                    attrs: tmpAttr,
-                    tag: controller.tag,
-                    className: controller.className,
-                    customClassName: [],
-                    activeStyle: '',
-                    children: [],
-                    isRander: controller.isRander || '',
-                    ignore: controller.ignore || false,
-                    parent: parent || '',
-                    unActive: controller.unActive
-                };
-            }else{
-                ctrl = {
-                    vdid: parent,
-                    attrs: tmpAttr,
-                    tag: controller.tag,
-                    className: controller.className,
-                    customClassName: [],
-                    activeStyle: '',
-                    children: [],
-                    isRander: controller.isRander || '',
-                    ignore: controller.ignore || false,
-                    parent: parent || '',
-                    unActive: false,
-                };
-            }
-
+            ctrl = {
+                vdid: controller.key ? (controller.key + '-' + randomString(8, 10)) : randomString(8, 10),
+                attrs: tmpAttr,
+                tag: controller.tag,
+                className: controller.className,
+                customClassName: [],
+                activeStyle: '',
+                children: [],
+                isRander: controller.isRander || '',
+                ignore: controller.ignore || false,
+                parent: parent.vdid || '',
+                root: root || '',
+                unActive: controller.unActive
+            };
             if(controller.children) {
                 for (var i = 0; i < controller.children.length; i++) {
                     var currentCtrl = controller.children[i];
-                    childCtrl = vdCtrlOperate.loopAttr(currentCtrl, parent);
+                    childCtrl = vdCtrlOperate.loopAttr(currentCtrl, root, ctrl);
                     ctrl.children.push(childCtrl);
                 };
             }else {
@@ -155,11 +139,12 @@ const Component = (props) => {
                         console.log(i, comonIndex);
                         copyByLevel(parent.children[comonIndex]);
                     }else{
+
                         result = vdCtrlOperate.deepCopyObj(parent.children[0], result)
                     }
                 }
             copyByLevel(parent);
-            result = vdCtrlOperate.loopAttr(result, parent.vdid);
+            result = vdCtrlOperate.loopAttr(result, props.vdCtrlTree.root, { vdid: undefined});
             console.log('copyChildren', result);
             return result;
         }
@@ -269,8 +254,23 @@ const Component = (props) => {
                     level: level
                 }
             });
-        }
-
+        },
+        //普通children添加逻辑,当前activeCtrl 下添加Child
+        handleComplexChildrenAdd(fatherKey, key, item, type){
+            //从配置中clone child的数据结构
+            console.log(item);
+            var children = copyOperate.copyChildren(0, fatherKey, key, item.level, item.levelsInfo);
+            console.log('handleComplexChildrenAdd');
+            console.log(children);
+            props.dispatch({
+                type: 'vdCtrlTree/handleComplexChildrenAdd',
+                payload: {
+                    activeCtrl: props.vdCtrlTree.activeCtrl,
+                    children: children,
+                    type: type
+                }
+            });
+        },
 	}
 
    	const specialAttrList = props.vdctrl.specialAttrList;
@@ -1262,7 +1262,15 @@ const Component = (props) => {
 							</FormItem>
 		    			);
     				},
-
+                    buttonAdd (item) {
+                        console.log(attrType);
+                        console.log(item);
+                        return (
+                            <FormItem {...formItemLayout} label="" key={item.id}>
+                                <Button type="circle" size="small" onClick={formProps.handleComplexChildrenAdd.bind(this, 'components', 'navbar',item, 'navbar-drop-down')}><Icon type="plus" />增加一个</Button>
+                            </FormItem>
+                        );
+                    },
     				multipleSelect (item) {
     					return (
 							<FormItem key={item.id} {...formItemLayout} label={item.desc}>

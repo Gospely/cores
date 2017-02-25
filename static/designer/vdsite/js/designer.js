@@ -507,6 +507,8 @@ $(function() {
 			'add': function(parent, children, parent){
 
 				console.log('add children');
+				console.log(children);
+				console.log(parent);
 				var elem = jq('[vdid='+ parent + ']');
 				var elemGen = new ElemGenerator(children);
 				var tempElem = elemGen.createElement();
@@ -889,7 +891,11 @@ $(function() {
 					console.log(attr);
 					console.log('isToggleAttr');
 					if(attr.isSetVal){
-						console.log(attr);
+						if(attr.attrName == 'aria-expanded'){
+							let className = attr.value? 'dropdown open' : 'dropdown';
+							this.elem.parent().removeClass("open");
+							this.elem.parent().addClass(className);
+						}
 						this.elem.attr(attr.attrName, attr.value);
 					}else{
 						if(!attr.value)
@@ -998,8 +1004,6 @@ $(function() {
 				this.setAttr(attr);
 			},
 			setSliderSetting: function(attr){
-
-				console.log('setSliderSetting');
 				this.setAttr(attr);
 			},
             transformTypeToUpper: function(type) {
