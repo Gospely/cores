@@ -123,7 +123,6 @@ const VDTreeActions = {
 	},
 	setActiveCtrl(state, controllerIndex, controllerKey, level) {
 	},
-
 }
 
 export default {
@@ -378,6 +377,40 @@ export default {
 			}, '*');
 			return {...state};
 		},
+		handleComplexChildrenAdd(state, { payload: params}){
+
+			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.parent, state.activePage);
+			const addChildrenByType = {
+
+				'navbar-drop-down'(){
+					var parent = currentActiveCtrl.controller.children[1];
+					params.children.parent = parent.vdid;
+					if(parent.children) {
+						parent.children.push(params.children);
+					}else {
+						var chidren = new Array();
+						chidren.push(params.children);
+						parent.children = children;
+					}
+					return parent;
+				}
+			}
+			addChildrenByType[params.type]();
+
+			window.VDDesignerFrame.postMessage({
+				VDAttrRefreshed: {
+					activeCtrl: state.activeCtrl,
+					attr: {
+						attrName: 'children',
+						action: 'add',
+						children: params.children,
+						parent: params.children.parent
+					},
+					attrType: params.attrType
+				}
+			}, '*');
+			return {...state};
+		},
 		//当前活跃控件 添加一个子控件
 		handleChildrenAdd(state, {payload: params}){
 
@@ -403,6 +436,7 @@ export default {
 					childrenAddBylevel(parent.children[parentIndex]);
 				}else {
 					parentCtrlVdid = parent.vdid;
+					params.children.parent = parentCtrlVdid;
 					if(parent.children) {
 						parent.children.push(params.children);
 					}else {
@@ -471,7 +505,8 @@ export default {
 			const specialAttrList = ['custom-attr', 'link-setting', 'list-setting', 'heading-type', 'image-setting', 'select-setting'];
 
 			let deepCopiedController = VDTreeActions.deepCopyObj(controller);
-
+			deepCopiedController.vdid = deepCopiedController.key ? (deepCopiedController.key + '-' + randomString(8, 10)) : randomString(8, 10);
+			let root = deepCopiedController.vdid;
 
 			const loopAttr = (controller, parent) => {
 
@@ -490,7 +525,22 @@ export default {
 						attr['id'] = randomString(8, 10);
 					};
 				}
-				if(controller.vdid == null || controller.vdid == undefined){
+				if(controller.vdid == parent.vdid){
+					ctrl = {
+						vdid: root,
+						attrs: tmpAttr,
+						tag: controller.tag,
+						className: controller.className,
+						customClassName: [],
+						activeStyle: '',
+						children: [],
+						isRander: controller.isRander || '',
+						ignore: controller.ignore || false,
+						root: root || '',
+						isRoot: true,
+						unActive: controller.unActive
+					};
+				}else{
 					ctrl = {
 						vdid: controller.key ? (controller.key + '-' + randomString(8, 10)) : randomString(8, 10),
 						attrs: tmpAttr,
@@ -501,21 +551,8 @@ export default {
 						children: [],
 						isRander: controller.isRander || '',
 						ignore: controller.ignore || false,
-						root: parent || '',
-						unActive: controller.unActive
-					};
-				}else{
-					ctrl = {
-						vdid: parent,
-						attrs: tmpAttr,
-						tag: controller.tag,
-						className: controller.className,
-						customClassName: [],
-						activeStyle: '',
-						children: [],
-						isRander: controller.isRander || '',
-						ignore: controller.ignore || false,
-						root: parent || '',
+						root: root || '',
+						parent: parent.vdid,
 						unActive: false,
 					};
 				}
@@ -523,7 +560,7 @@ export default {
 				if(controller.children) {
 					for (var i = 0; i < controller.children.length; i++) {
 						var currentCtrl = controller.children[i];
-						childCtrl = loopAttr(currentCtrl, parent);
+						childCtrl = loopAttr(currentCtrl, ctrl);
 						ctrl.children.push(childCtrl);
 					};
 				}else {
@@ -533,8 +570,7 @@ export default {
 				return ctrl;
 			}
 
-			deepCopiedController.vdid = deepCopiedController.key ? (deepCopiedController.key + '-' + randomString(8, 10)) : randomString(8, 10);
-			let tmpCtrl = loopAttr(deepCopiedController, deepCopiedController.vdid);
+			let tmpCtrl = loopAttr(deepCopiedController, deepCopiedController);
 			let activeCtrl = VDTreeActions.getActiveCtrl(state);
 
 			VDDesignerFrame.postMessage({

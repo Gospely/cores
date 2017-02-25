@@ -1838,7 +1838,7 @@ export default {
 										attrs: [{
 											title: '导航菜单设置',
                                             isAttrSetting: true,
-											key: 'navbar-setting',
+											key: 'navbar-dropdown-setting',
 											children: [{
                     							name: 'innerHTML',
                     							desc: '显示文本',
@@ -1880,8 +1880,8 @@ export default {
                     						},{
                     							name: 'addBtn',
                     							desc: '加一个',
-                    							level: '',
-                                                levesInfo: '0',
+                    							level: 4,
+                                                levelsInfo: [{level: 1, index: 1}],
                                                 type: 'buttonAdd',
                     							isHTML: true,
                     							id: '',
