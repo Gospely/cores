@@ -621,8 +621,12 @@ export default {
 			return {...state};
 		},
 		handleAttrFormChangeA(state, { payload: params }) {
+
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
-  			var ctrlAttrs = currentActiveCtrl.controller.attrs;
+			if (params.attrName === 'id') {
+				currentActiveCtrl.controller.id = params.newVal;
+			}
+			var ctrlAttrs = currentActiveCtrl.controller.attrs;
 
   			for (var i = 0; i < ctrlAttrs.length; i++) {
   				for (var j = 0; j < ctrlAttrs[i].children.length; j++) {
@@ -638,6 +642,7 @@ export default {
 	  				}
   				};
   			};
+  			
 
   			state.activeCtrl = currentActiveCtrl.controller;
 			console.log(state.activeCtrl);

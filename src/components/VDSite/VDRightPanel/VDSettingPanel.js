@@ -298,6 +298,25 @@ const Component = (props) => {
 
    	let pageTree = loopPages(props.vdpm.pageList);
 
+   	let controllerTree = [];
+   	const loopControllerTree = data => data.map((item) => {
+
+   		if (item.children) {
+			loopControllerTree(item.children);	
+   		}
+
+   		if (item.id) {
+   			controllerTree.push(
+	            <Option title={'#' + item.id} key={item.vdid}>{'#' + item.id}</Option>
+	        );
+   		}
+
+    })
+
+    loopControllerTree(props.vdCtrlTree.layout[props.vdCtrlTree.activePage.key]);
+
+    console.log(controllerTree)
+
     const attrsPanels = () => {
 
     	let attrs = props.vdCtrlTree.activeCtrl.attrs;
@@ -568,7 +587,7 @@ const Component = (props) => {
 								<Form className="form-no-margin-bottom">
 									<FormItem {...formItemLayout} label="元素">
 									    <Select size="small" value="请选择元素">
-									      	<Option key="sss" value="h1">h1</Option>
+									      	{controllerTree}
 									    </Select>
 									</FormItem>
 						      	</Form>
