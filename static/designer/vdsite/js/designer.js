@@ -515,6 +515,54 @@ $(function() {
 				elem = elem.append(tempElem);
 			},
 		}
+
+		//栅格操作
+		const columnsOperate = {
+			'add': function(parent, column, parent, count, colClass){
+				console.log(column)
+				var elem = jq('[vdid='+ parent + ']');
+				
+				for(var i = 0; i < count; i ++){
+					var elemGen = new ElemGenerator(column[i]);
+					var tempElem = elemGen.createElement();
+					elem = elem.append(tempElem);
+				}
+
+				elem.children().each(function () {
+					var classList = this.className.split(' ');
+
+					for (var i = 0; i < classList.length; i++) {
+						if(classList[i].indexOf('col-md-') !== -1) {
+							classList[i] = colClass;
+							break;
+						}
+					}
+
+					jq(this).attr("class", classList.join(' '));
+				})
+				
+			},
+
+			delete: function (parent, column, parent, count, colClass) {
+				var elem = jq('[vdid='+ parent + ']');
+				for(var i = 0; i < count; i ++){
+					elem.children().eq(-1).remove();
+				}
+				elem.children().each(function () {
+					var classList = this.className.split(' ');
+
+					for (var i = 0; i < classList.length; i++) {
+						if(classList[i].indexOf('col-md-') !== -1) {
+							classList[i] = colClass;
+							break;
+						}
+					}
+
+					jq(this).attr("class", classList.join(' '));
+				})
+			}
+		}
+
 		//对控件的一些操作
 		var controllerOperations = {
 			hideDesignerDraggerBorder: function () {
@@ -571,6 +619,8 @@ $(function() {
 				console.log(attr);
 				if(attr.attrName == 'children'){
 					childrenOperate[attr.action](activeCtrl, attr.children, attr.parent);
+				}else if (attr.attrName == 'columns') {
+					columnsOperate[attr.action](activeCtrl, attr.column, attr.parent, attr.count, attr.colClass);
 				}else {
 
 					new ElemGenerator(activeCtrl).setAttributeByAttr(attr, attrType);

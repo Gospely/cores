@@ -730,6 +730,150 @@ export default {
 			return {...state};
 		},
 
+		//栅格数变化
+		handleColumnCountChange(state, { payload: params }) {
+			let column = params.column;
+			let value = params.value;
+
+			let colClass = 'col-md-' + 12/value;
+			
+			let currentRootVdid = state.activeCtrl.root;
+			let activePage = state.activePage.key;
+			let ctrlTree = state.layout[activePage];
+
+			let findCtrlByVdId = function (ctrlTree,VdId) {
+				
+				for(let i = 0; i < ctrlTree.length; i ++) {
+					if (ctrlTree[i].children) {
+						let ctrl = findCtrlByVdId(ctrlTree[i].children, VdId);
+						if (ctrl) {
+							return ctrl;
+						}
+					}
+					if (ctrlTree[i].vdid === VdId) {
+						return ctrlTree[i];
+					}
+				}
+
+			}
+
+			let currentColums = findCtrlByVdId(ctrlTree, currentRootVdid);//当前的栅格
+
+			let currentCount = currentColums.children.length;//当前栅格里面的格子数
+
+			let changClassName = function (currentColums, colClass) {
+				for(let i = 0; i < currentColums.children.length; i ++){
+					let originalClassName = currentColums.children[i].className;
+					for(let j = 0; j < originalClassName.length; j ++) {
+						if (originalClassName[j].indexOf('col-md-') !== -1) {
+							originalClassName[j] = colClass;
+						}
+					}
+				}
+			}
+
+			let changCount = value - currentCount;
+			let deepCopiedController = VDTreeActions.deepCopyObj(column);
+			
+			if (changCount > 0) {
+
+				const specialAttrList = ['custom-attr', 'link-setting', 'list-setting', 'heading-type', 'image-setting', 'select-setting'];
+
+				const loopAttr = (controller) => {
+
+					let childCtrl = {},
+						tmpAttr = {},
+						ctrl = {};
+
+					tmpAttr = controller.attrs;
+					for(let i = 0, len = tmpAttr.length; i < len; i ++) {
+						// console.log(tmpAttr[i]);
+						if(specialAttrList.indexOf(tmpAttr[i].key) != -1) {
+							continue;
+						}
+						for (var j = 0; j < tmpAttr[i].children.length; j++) {
+							var attr = tmpAttr[i].children[j];
+							attr['id'] = randomString(8, 10);
+						};
+					}
+					
+					ctrl = {
+						vdid: controller.key ? (controller.key + '-' + randomString(8, 10)) : randomString(8, 10),
+						attrs: tmpAttr,
+						tag: controller.tag,
+						className: controller.className,
+						customClassName: [],
+						activeStyle: '',
+						children: [],
+						isRander: controller.isRander || '',
+						ignore: controller.ignore || false,
+						root: currentRootVdid || '',
+						parent: currentRootVdid,
+						unActive: false,
+					};
+					
+
+					if(controller.children) {
+						for (var i = 0; i < controller.children.length; i++) {
+							var currentCtrl = controller.children[i];
+							childCtrl = loopAttr(currentCtrl, ctrl);
+							ctrl.children.push(childCtrl);
+						};
+					}else {
+						ctrl.children = undefined;
+					}
+
+					return ctrl;
+				}
+
+				changClassName(currentColums, colClass);
+
+				let addedColumn = [];
+
+				for(let i = 0; i < changCount; i ++) {
+					let tmpCtrl = loopAttr(deepCopiedController);
+					tmpCtrl.className = ['vd-empty', colClass];
+					currentColums.children.push(tmpCtrl);
+					addedColumn.push(tmpCtrl)
+				}
+
+				window.VDDesignerFrame.postMessage({
+					VDAttrRefreshed: {
+						activeCtrl: state.activeCtrl,
+						attr: {
+							attrName: 'columns',
+							action: 'add',
+							column: addedColumn,
+							parent: currentRootVdid,
+							count: changCount,
+							colClass: colClass
+						},
+						attrType: params.attrType
+					}
+				}, '*');
+			}else {
+				for(let i = 0; i < -changCount; i ++) {
+					currentColums.children.pop();
+				}
+				changClassName(currentColums, colClass);
+				window.VDDesignerFrame.postMessage({
+					VDAttrRefreshed: {
+						activeCtrl: state.activeCtrl,
+						attr: {
+							attrName: 'columns',
+							action: 'delete',
+							column: '',
+							parent: currentRootVdid,
+							count: -changCount,
+							colClass: colClass
+						}
+					}
+				}, '*');
+			}
+
+			return {...state};
+		},
+
 		modifyCustomAttr(state, { payload: params }) {
 			return {...state};
 		},

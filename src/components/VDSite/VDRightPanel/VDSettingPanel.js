@@ -117,7 +117,6 @@ const Component = (props) => {
          *从原始配置里面复制一个chidren, index 指定以第几个children 作为模板复制 level 要复制组件的深度, levelsInfo 在某个深度 取children的下标,默认0
          */
         copyChildren(index, fatherKey, key, level, levelsInfo){
-            console.log(levelsInfo);
             var result,
                 ctrlConfig = vdCtrlOperate.findCtrlOriginConfig(fatherKey,key),
                 i = 0,
@@ -136,7 +135,6 @@ const Component = (props) => {
                     }
                     i++;
                     if(i < level){
-                        console.log(i, comonIndex);
                         copyByLevel(parent.children[comonIndex]);
                     }else{
 
@@ -145,7 +143,6 @@ const Component = (props) => {
                 }
             copyByLevel(parent);
             result = vdCtrlOperate.loopAttr(result, props.vdCtrlTree.root, { vdid: undefined});
-            console.log('copyChildren', result);
             return result;
         }
     }
@@ -258,10 +255,7 @@ const Component = (props) => {
         //普通children添加逻辑,当前activeCtrl 下添加Child
         handleComplexChildrenAdd(fatherKey, key, item, type){
             //从配置中clone child的数据结构
-            console.log(item);
-            var children = copyOperate.copyChildren(0, fatherKey, key, item.level, item.levelsInfo);
-            console.log('handleComplexChildrenAdd');
-            console.log(children);
+            let children = copyOperate.copyChildren(0, fatherKey, key, item.level, item.levelsInfo);
             props.dispatch({
                 type: 'vdCtrlTree/handleComplexChildrenAdd',
                 payload: {
@@ -1185,7 +1179,7 @@ const Component = (props) => {
 	    				var columnHandler = {
 	    					handleColumnCountChange (e) {
 	    						props.dispatch({
-	    							type: 'vdcore/handleColumnCountChange',
+	    							type: 'vdcore/columnCountChange',
 	    							payload: {
 	    								value: e.target.value
 	    							}
