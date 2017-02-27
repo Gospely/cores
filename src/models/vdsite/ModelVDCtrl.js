@@ -1937,7 +1937,11 @@ export default {
                     							level: 4,
                                                 levelsInfo: [{level: 1, index: 1}],
                                                 type: 'buttonAdd',
-                    							isHTML: true,
+                    							id: '',
+                    						},{
+                    							name: 'buttonDelete',
+                    							desc: '删除',
+                                                type: 'buttonDelete',
                     							id: '',
                     						}]
 										}],
