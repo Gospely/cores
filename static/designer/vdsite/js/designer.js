@@ -592,9 +592,7 @@ $(function() {
             },
 
             refreshCtrl: function(activeCtrl, attr, attrType) {
-
 				if(attr.isTag) {
-
 					let vdid  = activeCtrl.vdid;
 					var elem = jq('[vdid='+ activeCtrl.vdid + ']');
 					activeCtrl.vdid = activeCtrl.vdid + 'c';
@@ -610,7 +608,6 @@ $(function() {
 				}else if (attr.attrName == 'columns') {
 					columnsOperate[attr.action](activeCtrl, attr.column, attr.parent, attr.count, attr.colClass);
 				}else {
-
 					new ElemGenerator(activeCtrl).setAttributeByAttr(attr, attrType);
 				}
             },

@@ -17,14 +17,14 @@ const VDDesignerPanel = (props) => {
       window.VDDesignerFrame = window.frames["vdsite-designer"];
       setTimeout(function() {
         VDDesignerFrame.postMessage({
-            VDDesignerLoaded: {
-                load: true
-            }
+          VDDesignerLoaded: {
+              load: true
+          }
         }, '*');
 
         //加载全局CSS
         props.dispatch({
-          type: 'vdstyles/applyStyleIntoPage',
+          type: 'vdstyles/applyCSSStyleIntoPage',
           payload: {
             activeCtrl: props.vdCtrlTree.activeCtrl
           }
