@@ -278,14 +278,54 @@ function IndexPage(props) {
             </SplitPane>
         );
     }else {
-        devPanelTemplate = (
-            <SplitPane split = "vertical" minSize = { 1 } defaultSize = { leftBarWidth } >
-                <div className = "LeftSidebar" >
-                    <LeftSidebar></LeftSidebar>
+        if (localStorage.image === 'vd:site') {
+            devPanelTemplate = (
+                <div style={{display: 'flex', height: '100%', position: 'relative'}}>
+                    <div className = "LeftSidebar vdsite" >
+                        <LeftSidebar></LeftSidebar>
+                    </div>
+                    {devPanelLayoutComponent()}
                 </div>
-                {devPanelLayoutComponent()}
-            </SplitPane>
-        );
+            );
+        }else {
+            devPanelTemplate = (
+                <SplitPane split = "vertical" minSize = { 1 } defaultSize = { leftBarWidth } >
+                    <div className = "LeftSidebar" >
+                        <LeftSidebar></LeftSidebar>
+                    </div>
+                    {devPanelLayoutComponent()}
+                </SplitPane>
+            );
+        }
+        
+    }
+
+    if (localStorage.image === 'vd:site') {
+        let vdsiteCtrlBtn = $("#vdsiteCtrlBtn");
+        let vdsitePagesBtn = $("#vdsitePagesBtn");
+        if (vdsitePagesBtn.length && vdsitePagesBtn.length) {
+            let showPanel = (elem) => {
+                let btn = elem.parent();
+                btn.on('click', function (e) {
+                    // e.stopPropagation();
+                    let panel = $(".LeftSidebar.vdsite>.ant-tabs>.ant-tabs-content");
+                    if(parseInt(panel.css("width")) < 260) {
+                        panel.css({
+                            width: '260px'
+                        })
+                    }else if (btn.attr('aria-selected') === 'true'){
+                        panel.css({
+                            width: '0px'
+                        })
+                    }
+                    
+                })
+            }
+
+            showPanel(vdsiteCtrlBtn);
+            showPanel(vdsitePagesBtn);
+
+        }
     }
 
     const wholePageLayoutGenerator = () => {

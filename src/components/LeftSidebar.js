@@ -148,7 +148,7 @@ const leftSidebar = (props) => {
 		if(localStorage.image == 'vd:site') {
 	    	sidebarMenu = (
 	    		<TabPane style={styles.tab}
-	    			tab={<span style={styles.span}>
+	    			tab={<span id="vdsiteCtrlBtn" style={styles.span}>
 	    				<Icon style={styles.icon} type="plus" />控件
 	    			</span>} key="vdsite-controllers"
 	    			disabled={window.disabled}
@@ -168,7 +168,7 @@ const leftSidebar = (props) => {
 		if(localStorage.image == 'vd:site') {
 	    	sidebarMenu = (
 				<TabPane style={styles.tab}
-	    			tab={<span style={styles.span}>
+	    			tab={<span id="vdsitePagesBtn" style={styles.span}>
 	    				<Icon style={styles.icon} type="copy" />页面
 	    			</span>} key="vdsite-pages"
 	    			disabled={window.disabled}

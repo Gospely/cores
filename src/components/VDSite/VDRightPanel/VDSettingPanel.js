@@ -9,8 +9,9 @@ import { Radio, Popover, Upload, Slider } from 'antd';
 
 import randomString from '../../../utils/randomString.js';
 
-import { Tree, Form, Switch, Input, Cascader, Select, Row, Col, Checkbox, Menu, Dropdown, message, Tag, Table, Popconfirm } from 'antd';
+import { Tree, TreeSelect, Form, Switch, Input, Cascader, Select, Row, Col, Checkbox, Menu, Dropdown, message, Tag, Table, Popconfirm } from 'antd';
 
+const TreeNode = TreeSelect.TreeNode;
 const FormItem = Form.Item;
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
@@ -66,7 +67,7 @@ const Component = (props) => {
             }
             return result;
         },
-        loopAttr(controller, parent) {
+        loopAttr(controller, root, parent) {
 
             let childCtrl = {},
                 tmpAttr = {},
@@ -83,40 +84,24 @@ const Component = (props) => {
                     attr['id'] = randomString(8, 10);
                 };
             }
-            if(controller.vdid == null || controller.vdid == undefined){
-                ctrl = {
-                    vdid: controller.key ? (controller.key + '-' + randomString(8, 10)) : randomString(8, 10),
-                    attrs: tmpAttr,
-                    tag: controller.tag,
-                    className: controller.className,
-                    customClassName: [],
-                    activeStyle: '',
-                    children: [],
-                    isRander: controller.isRander || '',
-                    ignore: controller.ignore || false,
-                    parent: parent || '',
-                    unActive: controller.unActive
-                };
-            }else{
-                ctrl = {
-                    vdid: parent,
-                    attrs: tmpAttr,
-                    tag: controller.tag,
-                    className: controller.className,
-                    customClassName: [],
-                    activeStyle: '',
-                    children: [],
-                    isRander: controller.isRander || '',
-                    ignore: controller.ignore || false,
-                    parent: parent || '',
-                    unActive: false,
-                };
-            }
-
+            ctrl = {
+                vdid: controller.key ? (controller.key + '-' + randomString(8, 10)) : randomString(8, 10),
+                attrs: tmpAttr,
+                tag: controller.tag,
+                className: controller.className,
+                customClassName: [],
+                activeStyle: '',
+                children: [],
+                isRander: controller.isRander || '',
+                ignore: controller.ignore || false,
+                parent: parent.vdid || '',
+                root: root || '',
+                unActive: controller.unActive
+            };
             if(controller.children) {
                 for (var i = 0; i < controller.children.length; i++) {
                     var currentCtrl = controller.children[i];
-                    childCtrl = vdCtrlOperate.loopAttr(currentCtrl, parent);
+                    childCtrl = vdCtrlOperate.loopAttr(currentCtrl, root, ctrl);
                     ctrl.children.push(childCtrl);
                 };
             }else {
@@ -132,7 +117,6 @@ const Component = (props) => {
          *从原始配置里面复制一个chidren, index 指定以第几个children 作为模板复制 level 要复制组件的深度, levelsInfo 在某个深度 取children的下标,默认0
          */
         copyChildren(index, fatherKey, key, level, levelsInfo){
-            console.log(levelsInfo);
             var result,
                 ctrlConfig = vdCtrlOperate.findCtrlOriginConfig(fatherKey,key),
                 i = 0,
@@ -151,24 +135,21 @@ const Component = (props) => {
                     }
                     i++;
                     if(i < level){
-                        console.log(i, comonIndex);
                         copyByLevel(parent.children[comonIndex]);
                     }else{
+
                         result = vdCtrlOperate.deepCopyObj(parent.children[0], result)
                     }
                 }
             copyByLevel(parent);
-            result = vdCtrlOperate.loopAttr(result, parent.vdid);
-            console.log('copyChildren', result);
+            result = vdCtrlOperate.loopAttr(result, props.vdCtrlTree.root, { vdid: undefined});
             return result;
         }
     }
 	const formProps = {
 		handleAttrFormInputChange (item, attType, dom) {
-			var newVal = dom.target.value;
-			var attrName = item.name;
-            //
-			console.log('============', newVal, attrName, item);
+			let newVal = dom.target ? dom.target.value : dom;
+			let attrName = item.name;
 
 			props.dispatch({
 				type: 'vdCtrlTree/handleAttrFormChange',
@@ -270,11 +251,65 @@ const Component = (props) => {
                     level: level
                 }
             });
-        }
-
+        },
+        //普通children添加逻辑,当前activeCtrl 下添加Child
+        handleComplexChildrenAdd(fatherKey, key, item, type){
+            //从配置中clone child的数据结构
+            let children = copyOperate.copyChildren(0, fatherKey, key, item.level, item.levelsInfo);
+            props.dispatch({
+                type: 'vdCtrlTree/handleComplexChildrenAdd',
+                payload: {
+                    activeCtrl: props.vdCtrlTree.activeCtrl,
+                    children: children,
+                    type: type
+                }
+            });
+        },
 	}
 
    	const specialAttrList = props.vdctrl.specialAttrList;
+
+   	const loopPages = (pages) => {
+          let tpl = [];
+          for (let i = 0; i < pages.length; i++) {
+            let item = pages[i];
+            if(item != null && item.children && item.children != undefined) {
+                  tpl.push(
+                    <TreeNode value={item.key} key={item.key} title={item.name} isLeaf={false}>
+                    	{loopPages(item.children)}
+                    </TreeNode>
+                  );
+            }else {
+    			if(item != null){
+    				tpl.push((<TreeNode value={item.key} key={item.key} title={item.name} isLeaf={true} />));
+    			}
+            }
+
+        }
+        return tpl;
+
+   	}
+
+   	let pageTree = loopPages(props.vdpm.pageList);
+
+   	let controllerTree = [];
+   	const loopControllerTree = data => data.map((item) => {
+
+   		if (item.children) {
+			loopControllerTree(item.children);	
+   		}
+
+   		if (item.id) {
+   			controllerTree.push(
+	            <Option title={'#' + item.id} key={item.vdid}>{'#' + item.id}</Option>
+	        );
+   		}
+
+    })
+
+    loopControllerTree(props.vdCtrlTree.layout[props.vdCtrlTree.activePage.key]);
+
+    console.log(controllerTree)
 
     const attrsPanels = () => {
 
@@ -528,9 +563,15 @@ const Component = (props) => {
 					    	), (
 						      	<Form className="form-no-margin-bottom">
 									<FormItem {...formItemLayout} label="页面">
-									    <Select size="small" value="请选择页面">
-									      	<Option key="sss" value="h1">h1</Option>
-									    </Select>
+									    <TreeSelect
+									        placeholder="请选择页面"
+									        treeDefaultExpandAll
+									        size="small"
+									        value={item.children[0].value}
+									        onChange={formProps.handleAttrFormInputChange.bind(this, item.children[0], attrType)}
+									    >
+									      	{pageTree}
+									    </TreeSelect>
 									</FormItem>
 									<FormItem {...formItemLayout} label="新窗口">
 										<Switch size="small" />
@@ -540,7 +581,7 @@ const Component = (props) => {
 								<Form className="form-no-margin-bottom">
 									<FormItem {...formItemLayout} label="元素">
 									    <Select size="small" value="请选择元素">
-									      	<Option key="sss" value="h1">h1</Option>
+									      	{controllerTree}
 									    </Select>
 									</FormItem>
 						      	</Form>
@@ -1138,7 +1179,7 @@ const Component = (props) => {
 	    				var columnHandler = {
 	    					handleColumnCountChange (e) {
 	    						props.dispatch({
-	    							type: 'vdcore/handleColumnCountChange',
+	    							type: 'vdcore/columnCountChange',
 	    							payload: {
 	    								value: e.target.value
 	    							}
@@ -1234,7 +1275,15 @@ const Component = (props) => {
 							</FormItem>
 		    			);
     				},
-
+                    buttonAdd (item) {
+                        console.log(attrType);
+                        console.log(item);
+                        return (
+                            <FormItem {...formItemLayout} label="" key={item.id}>
+                                <Button type="circle" size="small" onClick={formProps.handleComplexChildrenAdd.bind(this, 'components', 'navbar',item, 'navbar-drop-down')}><Icon type="plus" />增加一个</Button>
+                            </FormItem>
+                        );
+                    },
     				multipleSelect (item) {
     					return (
 							<FormItem key={item.id} {...formItemLayout} label={item.desc}>
@@ -1341,8 +1390,8 @@ const Component = (props) => {
 
 };
 
-function mapSateToProps({ vdcore, vdctrl, vdCtrlTree }) {
-  return { vdcore, vdctrl, vdCtrlTree };
+function mapSateToProps({ vdcore, vdctrl, vdCtrlTree, vdpm }) {
+  return { vdcore, vdctrl, vdCtrlTree, vdpm };
 }
 
 export default connect(mapSateToProps)(Component);

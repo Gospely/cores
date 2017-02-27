@@ -10,6 +10,9 @@ export default {
 						type: "vdCtrlTree/generateCtrlTree",
 						payload: data
 					})
+					$(".LeftSidebar.vdsite>.ant-tabs>.ant-tabs-content").css({
+	        			width: '0px'
+	        		})
 				},
 
 				elemAdded() {

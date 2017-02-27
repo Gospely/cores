@@ -1,7 +1,8 @@
 import React , {PropTypes} from 'react';
 import dva from 'dva';
 
-import { message } from 'antd';
+import { message, Modal } from 'antd';
+const confirm = Modal.confirm;
 
 export default {
 	namespace: 'vdcore',
@@ -95,6 +96,98 @@ export default {
 
 	},
 
+	effects: {
+		*columnCountChange({ payload: params }, { call, put, select }) {
+
+			let invalid = yield select(state => state.vdcore.columnSlider.invalid);
+			if(invalid.indexOf(parseInt(params.value)) != -1) {
+				message.error('只能输入1, 2, 3, 4, 6和12');
+				return false;
+			}
+
+			if(params.value < 1 || params.value > 12) {
+				if(params.value != '') {
+					message.error('栅格数不能超过12，且不能小于1');						
+					return false;
+				}
+			}
+
+			if (params.value !== '') {
+				//每个格子原来的配置数据
+				let originalCtrl = yield select(state => state.vdctrl.controllers[0].content);
+				let column;
+				for(let i = 0; i < originalCtrl.length; i ++) {
+					if (originalCtrl[i].key === 'columns') {
+						column = originalCtrl[i].details.children[0];
+						break;
+					}
+				}
+
+				//找出当前活跃的栅格
+				let currentRootVdid = yield select(state => state.vdCtrlTree.activeCtrl.root);
+				let activePage = yield select(state => state.vdCtrlTree.activePage.key);
+				let ctrlTree = yield select(state => state.vdCtrlTree.layout[activePage]);
+
+				let findCtrlByVdId = function (ctrlTree,VdId) {
+					
+					for(let i = 0; i < ctrlTree.length; i ++) {
+						if (ctrlTree[i].children) {
+							let ctrl = findCtrlByVdId(ctrlTree[i].children, VdId);
+							if (ctrl) {
+								return ctrl;
+							}
+						}
+						if (ctrlTree[i].vdid === VdId) {
+							return ctrlTree[i];
+						}
+					}
+
+				}
+
+				let currentColums = findCtrlByVdId(ctrlTree, currentRootVdid);//当前的栅格
+
+				let currentCount = currentColums.children.length;
+
+					
+				if (currentCount > params.value) {
+					
+					for(let i = params.value; i < currentCount; i ++){
+						if (currentColums.children[i].children && currentColums.children[i].children.length !==0) {
+							confirm({
+			    			    title: '减少栅格',
+			    			    content: '您确定要减少栅格数吗？后面栅格的内容将丢失',
+			    			    onOk() {
+									
+			    			    },
+			    			    onCancel() {
+			    			    	return false;
+			    			    },
+			    			});
+						}
+					}
+				}
+
+				yield put({
+					type: 'vdCtrlTree/handleColumnCountChange',
+					payload: {
+						value: params.value,
+						column
+					}
+				})
+				
+			}
+			yield put({
+				type: 'handleColumnCountChange',
+				payload: {
+					value: params.value
+				}
+			})
+
+			
+			
+		}
+	},
+
 	reducers: {
 
 		handlePreview(state, { payload: params }) {
@@ -167,6 +260,7 @@ export default {
 			console.log(tmpColumns);
 
 			state.columnSlider.columns = tmpColumns;
+
 			return {...state};
 		},
 

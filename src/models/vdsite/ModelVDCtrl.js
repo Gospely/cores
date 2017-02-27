@@ -129,6 +129,12 @@ export default {
 							valueList: ['div', 'header', 'footer', 'nav', 'main', 'section', 'article', 'aside', 'address', 'figure'],
 							id: '',
 							isTag: true
+						}, {
+							name: 'container',
+							desc: '是否是容器',
+							value: true,
+							backend: true,
+							isContainer: true
 						}]
 					}]
 				}
@@ -142,7 +148,8 @@ export default {
 					attrs: [{
 						title: '属性设置',
 						key: 'container-attr',
-                        isChangeTag: true,
+						isChangeTag: true,
+                        isAttrSetting: true,
 						children: [{
 							name: 'tag',
 							desc: '标签',
@@ -151,6 +158,12 @@ export default {
                             isTag: true,
 							valueList: ['div', 'header', 'footer', 'nav', 'main', 'section', 'article', 'aside', 'address', 'figure'],
 							id: ''
+						}, {
+							name: 'container',
+							desc: '是否是容器',
+							value: true,
+							backend: true,
+							isContainer: true
 						}]
 					}]
 				}
@@ -173,6 +186,17 @@ export default {
 							title: '栅格设置',
 							key: 'columns-setting',
 							children: []
+						}, {
+							title: '属性设置',
+							key: 'columns-attr',
+							isAttrSetting: true,
+							children: [{
+								name: 'container',
+								desc: '是否是容器',
+								value: true,
+								backend: true,
+								isContainer: true
+							}]
 						}]
 					}, {
 						tag: 'div',
@@ -181,6 +205,17 @@ export default {
 							title: '栅格设置',
 							key: 'columns-setting',
 							children: []
+						}, {
+							title: '属性设置',
+							key: 'columns-attr',
+							isAttrSetting: true,
+							children: [{
+								name: 'container',
+								desc: '是否是容器',
+								value: true,
+								backend: true,
+								isContainer: true
+							}]
 						}]
 					}]
 				},
@@ -199,6 +234,7 @@ export default {
 						title: '属性设置',
 						key: 'div-block-attr',
                         isChangeTag: true,
+                        isSetAttribute: true,
 						children: [{
 							name: 'tag',
 							desc: '标签',
@@ -206,6 +242,12 @@ export default {
 							value: ['div'],
 							valueList: ['div', 'header', 'footer', 'nav', 'main', 'section', 'article', 'aside', 'address', 'figure'],
 							id: ''
+						}, {
+							name: 'container',
+							desc: '是否是容器',
+							value: true,
+							backend: true,
+							isContainer: true
 						}]
 					}]
 				}
@@ -309,32 +351,32 @@ export default {
     							desc: '标签',
     							value: 'ul',
     							isTag: true,
-    						},{
+    						}, {
                                 name: 'list-style',
                                 desc: '有无序号',
                                 value: 'circle inside',
                                 isStyle: true
-                            },{
-							name: 'container',
-							desc: '是否是容器',
-							value: true,
-							backend: true,
-							isContainer: true
+                            }, {
+								name: 'container',
+								desc: '是否是容器',
+								value: true,
+								backend: true,
+								isContainer: true
+							}, {
+								name: 'specialChild',
+								desc: '指定的子元素',
+								value: {
+									tag: ['LI'],
+									className: 'list-group-item'
+								},
+								backend: true,
+								isSpecialChild: true
+							}]
 						}, {
-							name: 'specialChild',
-							desc: '指定的子元素',
-							value: {
-								tag: ['LI'],
-								className: 'list-group-item'
-							},
-							backend: true,
-							isSpecialChild: true
-						}]
-					}, {
-						title: '列表设置',
-						key: 'list-setting',
-                        isChangeTag: true,
-					}],
+							title: '列表设置',
+							key: 'list-setting',
+	                        isChangeTag: true,
+						}],
 					children: [{
 						tag: 'li',
 						className: ['list-group-item', 'vd-empty'],
@@ -1052,7 +1094,7 @@ export default {
 				key: 'label',
 				details: {
 					tag: 'label',
-					className: ['labe label-default'],
+					className: ['labe label-primary'],
 					attrs: [{
                         title: '属性设置',
                         key: 'label-attr',
@@ -1877,6 +1919,14 @@ export default {
                                                 isSetVal: true,
                     							id: '',
                                                 attrName: 'aria-expanded'
+                    						},{
+                    							name: 'addBtn',
+                    							desc: '加一个',
+                    							level: 4,
+                                                levelsInfo: [{level: 1, index: 1}],
+                                                type: 'buttonAdd',
+                    							isHTML: true,
+                    							id: '',
                     						}]
 										}],
                                         children: [{
@@ -2527,7 +2577,7 @@ export default {
 								key: 'slider-setting',
 								children: [{
                                     name: 'innerHTML',
-                                    value: '上一张',
+                                    value: '下一张',
                                     attrName: 'aria-hidden',
                                     isHTML: true,
                                     id: ''
