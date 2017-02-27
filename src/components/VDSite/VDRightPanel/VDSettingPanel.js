@@ -227,6 +227,22 @@ const Component = (props) => {
             });
 
         },
+        handleComplextChildrenDelete(message, type){
+            console.log(type);
+            confirm({
+                title: '即将删除',
+                content: '确认删除当前控件' + message,
+                onOk() {
+                    props.dispatch({
+                        type: 'vdCtrlTree/handleComplextChildrenDelete',
+                        payload:{ type: type}
+                    });
+                },
+                onCancel() {
+
+                },
+            });
+        },
         childrenUpdate(attType){
 
             console.log('update');
@@ -547,6 +563,10 @@ const Component = (props) => {
                                     <FormItem {...formItemLayout} label="显示文本">
 										<Input value={item.children[2].value} onChange={formProps.handleAttrFormInputChange.bind(this, item.children[2], attrType)} size="small" />
 									</FormItem>
+
+                                    <FormItem {...formItemLayout} label="">
+                                        <Button type="circle" size="small" onClick={formProps.handleComplextChildrenDelete.bind(this, item.children[2].value, 'navbar-drop-down')} ><Icon type="delete" /> &nbsp;&nbsp;删除</Button>
+                                    </FormItem>
 						      	</Form>
 					    	), (
 						      	<Form className="form-no-margin-bottom">
@@ -1284,6 +1304,15 @@ const Component = (props) => {
                             </FormItem>
                         );
                     },
+                    buttonDelete (item) {
+                        console.log(attrType);
+                        console.log(item);
+                        return (
+                            <FormItem {...formItemLayout} label="" key={item.id}>
+                                <Button type="circle" size="small" onClick={formProps.handleComplextChildrenDelete.bind(this, '下拉菜单', 'navbar-drop-down')} ><Icon type="delete" />&nbsp;&nbsp;删除</Button>
+                            </FormItem>
+                        );
+                    },
     				multipleSelect (item) {
     					return (
 							<FormItem key={item.id} {...formItemLayout} label={item.desc}>
@@ -1336,6 +1365,7 @@ const Component = (props) => {
     				}
     			}
 
+                console.log(item.type);
                 if(item.type != null && item.type != undefined){
                     return formTypeList[item.type](item);
                 }else {

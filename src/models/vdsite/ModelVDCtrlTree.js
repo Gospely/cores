@@ -375,6 +375,39 @@ export default {
 			}, '*');
 			return {...state};
 		},
+		handleComplextChildrenDelete(state, {payload: params}){
+
+			var currentActiveCtrl,
+				target;
+
+			const deleteChildrenByType = {
+				'navbar-drop-down' (){
+					target = state.activeCtrl.parent;
+					var parent = VDTreeActions.getCtrlByKey(state, state.activeCtrl.parent, state.activePage).controller.parent;
+					console.log(parent);
+					currentActiveCtrl = VDTreeActions.getCtrlByKey(state, parent, state.activePage)
+				}
+			}
+			deleteChildrenByType[params.type]();
+
+			for (var i = 0; i < currentActiveCtrl.controller.children.length; i++) {
+				if(currentActiveCtrl.controller.children[i].vdid == target){
+					console.log(target);
+					currentActiveCtrl.controller.children.splice(i,0);
+				}
+			}
+			state.activeCtrl = currentActiveCtrl.controller;
+
+			window.VDDesignerFrame.postMessage({
+				VDChildrenDelete: {
+					activeCtrl: {
+						vdid: target
+					},
+					attrType: params.attrType
+				}
+			}, '*');
+			return {...state};
+		},
 		handleComplexChildrenAdd(state, { payload: params}){
 
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.parent, state.activePage);

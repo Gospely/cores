@@ -1768,7 +1768,12 @@ export default {
             							value: 'Brand',
             							isHTML: true,
             							id: ''
-            						}]
+            						},{
+                                        name: 'buttonDelete',
+                                        desc: '删除控件',
+                                        type: 'buttonDelete',
+                                        level: 1
+                                    }]
 								}]
 							}]
 						}, {
@@ -1824,6 +1829,11 @@ export default {
                                                 value: '菜单',
                                                 isHTML: true,
                                                 id: ''
+                                            },{
+                                                name: 'buttonDelete',
+                                                desc: '删除控件',
+                                                type: 'buttonDelete',
+                                                level: 1
                                             }]
                                         }]
 									}]
@@ -1863,7 +1873,12 @@ export default {
                     							value: '菜单',
                     							isHTML: true,
                     							id: ''
-                    						}]
+                    						},{
+                                                name: 'buttonDelete',
+                                                desc: '删除控件',
+                                                type: 'buttonDelete',
+                                                level: 1
+                                            }]
 										}]
 									}]
 								}, {
@@ -1927,7 +1942,12 @@ export default {
                                                 type: 'buttonAdd',
                     							isHTML: true,
                     							id: '',
-                    						}]
+                    						},{
+                                                name: 'buttonDelete',
+                                                desc: '删除控件',
+                                                type: 'buttonDelete',
+                                                level: 1
+                                            }]
 										}],
                                         children: [{
                                             tag: 'span',
@@ -1982,7 +2002,12 @@ export default {
                             							value: '菜单',
                             							isHTML: true,
                             							id: ''
-                            						}]
+                            						},{
+                                                        name: 'buttonDelete',
+                                                        desc: '删除控件',
+                                                        type: 'buttonDelete',
+                                                        level: 1
+                                                    }]
         										}]
         									}]
         								}, {
@@ -2021,7 +2046,12 @@ export default {
                             							value: '菜单',
                             							isHTML: true,
                             							id: ''
-                            						}]
+                            						},{
+                                                        name: 'buttonDelete',
+                                                        desc: '删除控件',
+                                                        type: 'buttonDelete',
+                                                        level: 1
+                                                    }]
         										}]
         									}]
         								}, {
@@ -2060,7 +2090,12 @@ export default {
                             							value: '菜单',
                             							isHTML: true,
                             							id: ''
-                            						},]
+                            						},{
+                                                        name: 'buttonDelete',
+                                                        desc: '删除控件',
+                                                        type: 'buttonDelete',
+                                                        level: 1
+                                                    }]
         										}]
         									}]
         								}]
