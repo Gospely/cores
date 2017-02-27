@@ -223,11 +223,11 @@ export default {
 						color: '#000000',
 						inset: 'outset'
 					}, {
-						'h-shadow': '',
-						'v-shadow': '',
-						blur: '',
-						spread: '',
-						color: '',
+						'h-shadow': '10px',
+						'v-shadow': '-5px',
+						blur: '10px',
+						spread: '10px',
+						color: '#dfdfdf',
 						inset: 'outset'
 					}]
 				},
@@ -717,18 +717,18 @@ export default {
 					let valueText = '';
 					for(let i = 0; i < childrenProps.length; i ++) {
 						let currentStyle = childrenProps[i];
+						console.log('box-shadow================', currentStyle);
 						for(let property in currentStyle) {
 							let currentTableStyle = currentStyle[property];
 							if(currentTableStyle !== '' && currentTableStyle !== 'outset') {
-								valueText += currentTableStyle + ' ';						
+								valueText += currentTableStyle + ' ';
 							}
 						}
 						if (i !== childrenProps.length - 1) {
 							valueText += ',';
 						}
-						
 					}
-					
+
 					styleText += ':' + valueText + ';';
 					return styleText;
 
@@ -858,14 +858,20 @@ export default {
 		setActiveBoxShadow(state, { payload: params }) {
 			var activeCSSLayout = state.cssStyleLayout[params.activeStyle];
 			if(activeCSSLayout) {
-				activeCSSLayout[params.shadowType].state.activeProp = params.cssPropertyIndex;				
+				console.log('setActiveBoxShadow', activeCSSLayout);
+				if(activeCSSLayout[params.shadowType].childrenProps[params.cssPropertyIndex]) {
+					activeCSSLayout[params.shadowType].state.activeProp = params.cssPropertyIndex;
+				}
 			}
 			return {...state};
 		},
 
 		removeThisShadow(state, { payload: params }) {
 			var activeCSSLayout = state.cssStyleLayout[params.activeStyle];
+			activeCSSLayout[params.shadowType].state.activeProp = activeCSSLayout[params.shadowType].childrenProps.length - 2;
+			activeCSSLayout[params.shadowType].state.activeProp = activeCSSLayout[params.shadowType].state.activeProp < 0 ? 0 : activeCSSLayout[params.shadowType].state.activeProp;
 			activeCSSLayout[params.shadowType].childrenProps.splice(params.cssPropertyIndex, 1);
+			console.log('removeThisShadow', activeCSSLayout);
 			message.success('删除成功');
 			return {...state};
 		},
@@ -882,8 +888,6 @@ export default {
 
 				if(property == 'border-position' || property == 'border-radius-position') {
 
-					alert('border-radius-position');
-
 					var parentType = property.split('-');
 					parentType.pop();
 					parentType = parentType.join('-');
@@ -894,28 +898,21 @@ export default {
 					//清除其它border类型，并根据现有propertyName重新生成样式
 
 					for(var props in activeBorderStyle) {
-						console.log(props, prevBorderPosition);
 						if(props.indexOf(prevBorderPosition) != -1) {
 							if(props != property) {
 								var tmpActiveBorderStyle = activeBorderStyle[props];
 								activeBorderStyle[props] = '';
 								delete activeBorderStyle[props];
-
 								var propsSplit = props.split('-');
 								activeBorderStyle[value + '-' + propsSplit[propsSplit.length - 1]] = tmpActiveBorderStyle;
-								console.log('activeBorderStyle＋＋＋＋＋＋＋＋', activeBorderStyle, props, property, value + '-' + propsSplit[propsSplit.length - 1]);
-								console.log('activeBorderStyle——————————————', activeBorderStyle, props, property, value + '-' + propsSplit[propsSplit.length - 1]);
 							}
 						}
 					}
-
-					console.log('activeBorderStyle==========', activeBorderStyle);
 
 				}
 
 				if(params.parent) {
 					var propertyParent = styleAction.findCSSPropertyByProperty(state.cssStyleLayout[activeStyleName], property);
-					console.log('propertyParent', propertyParent, property);
 					if(typeof params.parent.index !== 'undefined') {
 						propertyParent[property][params.parent.index] = value;
 					}else if (property === 'background-position') {
@@ -929,8 +926,6 @@ export default {
 				}else {
 					state.cssStyleLayout[activeStyleName][property] = value;
 				}
-
-				console.log(state.cssStyleLayout);
 
 			return {...state};
 		},

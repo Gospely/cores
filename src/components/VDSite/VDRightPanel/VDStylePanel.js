@@ -668,6 +668,8 @@ const VDStylePanel = (props) => {
 
     		const activeProp = props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].state.activeProp;
 
+			console.log(props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].childrenProps, activeProp);
+
     		const handleBoxShadowEditorChange = (property, e) => {
 
     			props.dispatch({
