@@ -836,8 +836,6 @@ export default {
 				return cssText.toString();				
 			}
 
-			
-
 			var cssText = stylesGenerator(state.cssStyleLayout);
 
 			window.VDDesignerFrame.postMessage({

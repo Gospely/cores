@@ -102,6 +102,13 @@ const VDStylePanel = (props) => {
 				activeStyleName: props.vdCtrlTree.activeCtrl.activeStyle
 			}
 		});
+
+		props.dispatch({
+			type: 'vdstyles/applyCSSStyleIntoPage',
+			payload: {
+				activeCtrl: props.vdCtrlTree.activeCtrl
+			}
+		});
 	}
 
 	const cssSelector = {
