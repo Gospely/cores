@@ -1181,7 +1181,7 @@ const Component = (props) => {
 	    					<Panel header={item.title} key={item.key}>
 	                            <Form className="form-no-margin-bottom">
 	                                <FormItem {...formItemLayout} label="栅格数">
-	                                	<Input size="small" min="1" placeholder="只能输入1, 2, 3, 4, 6和12" max="12" onChange={columnHandler.handleColumnCountChange.bind(this)} value={props.vdcore.columnSlider.count} type="number" />
+	                                	<Input size="small" min="1" placeholder="只能输入1到12" max="12" onChange={columnHandler.handleColumnCountChange.bind(this)} value={props.vdcore.columnSlider.count} type="number" />
 	                                </FormItem>
 	                            </Form>
 	                            <div className="column-slider-box">

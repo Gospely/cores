@@ -60,10 +60,6 @@ export default {
 				value: 6
 			}],
 
-			invalid: [5, 7, 8, 9, 10, 11],
-
-			//1 2 3 4 6 12
-
 			decreaseTable: {
 				'1': 0,
 				'2': 1,
@@ -142,11 +138,6 @@ export default {
 		},
 
 		handleColumnCountChange(state, { payload: params }) {
-			if(state.columnSlider.invalid.indexOf(parseInt(params.value)) != -1) {
-				message.error('只能输入1, 2, 3, 4, 6和12');
-				return {...state};
-			}
-
 			if(params.value < 1 || params.value > 12) {
 				if(params.value != '') {
 					message.error('栅格数不能超过12，且不能小于1');						
@@ -157,10 +148,18 @@ export default {
 			state.columnSlider.count = params.value;
 			var tmpColumns = [];
 
+			var span = (24 / params.value).toString();
+			span = span.split('.');
+			span = parseInt(span[0]);
+
+			var value = (12 / params.value).toString();
+			value = value.split('.');
+			value = parseInt(value[0]);
+
 			for (var i = 0; i < state.columnSlider.count; i++) {
 				var tmpColumn = {
-					span: 24 / params.value,
-					value: 24 / params.value / 2
+					span: span,
+					value: value
 				};
 				tmpColumns.push(tmpColumn);
 			};
