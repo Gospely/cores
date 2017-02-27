@@ -660,20 +660,24 @@ export default {
 				background(currentStyleParent) {
 					let styleText = '';
 					for(let styleName in currentStyleParent) {
-						let currentStyleValue = currentStyleParent[styleName];
-						if (currentStyleValue !== '') {
-							if (typeof currentStyleValue === 'object') {
-								let valueText = '';
-								for(let i = 0; i < currentStyleValue.length; i++) {
-									let val = currentStyleValue[i];
-									if (val !== '') {
-										valueText += val + ' ';
+						if(styleName != 'background-position') {
+
+							let currentStyleValue = currentStyleParent[styleName];
+							if (currentStyleValue !== '') {
+								if (typeof currentStyleValue === 'object') {
+									let valueText = '';
+									for(let i = 0; i < currentStyleValue.length; i++) {
+										let val = currentStyleValue[i];
+										if (val !== '') {
+											valueText += val + ' ';
+										}
 									}
+									styleText += styleName + ':' + valueText + ';';
+								}else {
+									styleText += styleName + ':' + currentStyleValue + ';';
 								}
-								styleText += styleName + ':' + valueText + ';';
-							}else {
-								styleText += styleName + ':' + currentStyleValue + ';';
 							}
+
 						}
 					}
 
@@ -683,9 +687,11 @@ export default {
 				border(currentStyleParent) {
 					let styleText = '';
 					for(let styleName in currentStyleParent) {
-						let currentStyleValue = currentStyleParent[styleName];
-						if (currentStyleValue !== '') {
-							styleText += styleName + ':' + currentStyleValue + ';';
+						if(styleName != 'border-position') {
+							let currentStyleValue = currentStyleParent[styleName];
+							if (currentStyleValue !== '') {
+								styleText += styleName + ':' + currentStyleValue + ';';
+							}
 						}
 					}
 
@@ -693,11 +699,14 @@ export default {
 				},
 
 				'border-radius'(currentStyleParent) {
+					console.log('borderRadius===========', currentStyleParent);
 					let styleText = '';
 					for(let styleName in currentStyleParent) {
-						let currentStyleValue = currentStyleParent[styleName];
-						if (currentStyleValue !== '') {
-							styleText += styleName + ':' + currentStyleValue + ';';
+						if(styleName != 'border-radius-position') {
+							let currentStyleValue = currentStyleParent[styleName];
+							if (currentStyleValue !== '') {
+								styleText += styleName + ':' + currentStyleValue + ';';
+							}
 						}
 					}
 
@@ -873,8 +882,6 @@ export default {
 					value = 'url("' + value + '")';
 				}
 
-				console.log(params);
-
 				if(property == 'border-position' || property == 'border-radius-position') {
 
 					var parentType = property.split('-');
@@ -889,6 +896,7 @@ export default {
 					for(var props in activeBorderStyle) {
 						if(props.indexOf(prevBorderPosition) != -1) {
 							if(props != property) {
+								console.log('清除其它border类型，并根据现有propertyName重新生成样式', props);
 								var propsSplit = props.split('-');
 								activeBorderStyle[value + '-' + propsSplit[propsSplit.length - 1]] = activeBorderStyle[props];
 								activeBorderStyle[props] = '';
@@ -908,6 +916,9 @@ export default {
 						let vals = value.split(' ');
 						propertyParent[property][0] = vals[0];
 						propertyParent[property][1] = vals[1];
+					}else if (property == 'border-radius-position') {
+						console.log('border-radius-position========', value);
+						propertyParent['border-radius'] = 0;					
 					}else {
 						propertyParent[property] = value;
 					}

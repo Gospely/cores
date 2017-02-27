@@ -2139,6 +2139,7 @@ const VDStylePanel = (props) => {
 			};
 
 			const handleBorderRadiusPositionChange = (position) => {
+				console.log('==================================handleBorderRadiusPositionChange==================================', position);
 				handleStylesChange('border-radius-position', {
 					target: {
 						value: position
