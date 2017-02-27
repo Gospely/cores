@@ -312,7 +312,13 @@ const VDStylePanel = (props) => {
 						<div className="bem-Frame_Head">
 							<div className="bem-Frame_Legend">
 								<div className="bem-SpecificityLabel bem-SpecificityLabel-local bem-SpecificityLabel-text">
-									图片资源
+									{
+										activeCSSStyleState['background']['background-image'] == '' ? <span>图片资源</span> : (
+										  	<Popconfirm onConfirm={() => { setThisPropertyNull('background-image') }} title="删除属性？" okText="是" cancelText="否">
+													<a href="#">图片资源</a>
+												</Popconfirm>
+										)
+									}
 								</div>
 							</div>
 						</div>
@@ -329,7 +335,13 @@ const VDStylePanel = (props) => {
 						<div className="bem-Frame_Head">
 							<div className="bem-Frame_Legend">
 								<div className="bem-SpecificityLabel bem-SpecificityLabel-local bem-SpecificityLabel-text">
-									大小
+									{
+										activeCSSStyleState['background']['background-size'] == '' ? <span>大小</span> : (
+										  	<Popconfirm onConfirm={() => { setThisPropertyNull('background-size') }} title="删除属性？" okText="是" cancelText="否">
+													<a href="#">大小</a>
+												</Popconfirm>
+										)
+									}
 								</div>
 							</div>
 						</div>
@@ -388,7 +400,13 @@ const VDStylePanel = (props) => {
 						<div className="bem-Frame_Head">
 							<div className="bem-Frame_Legend">
 								<div className="bem-SpecificityLabel bem-SpecificityLabel-local bem-SpecificityLabel-text">
-									位置
+									{
+										activeCSSStyleState['background-position'] == '' ? <span>位置</span> : (
+										  	<Popconfirm onConfirm={() => { setThisPropertyNull('background-position') }} title="删除属性？" okText="是" cancelText="否">
+													<a href="#">位置</a>
+												</Popconfirm>
+										)
+									}
 								</div>
 							</div>
 						</div>
@@ -452,7 +470,13 @@ const VDStylePanel = (props) => {
 					</div>
 
 			      	<Form className="form-no-margin-bottom">
-						<FormItem {...formItemLayout} label="重复">
+						<FormItem {...formItemLayout} label={
+								activeCSSStyleState['background']['background-repeat'] == '' ? <span>重复</span> : (
+								  	<Popconfirm onConfirm={() => { setThisPropertyNull('background-repeat') }} title="删除属性？" okText="是" cancelText="否">
+											<a href="#">重复</a>
+										</Popconfirm>
+								)
+							}>
 
 					        <RadioGroup defaultValue="repeat" size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['background']['background-repeat']} onChange={handleStylesChange.bind(this, 'background-repeat', 'background')}>
 						      	<RadioButton value="repeat">
@@ -481,7 +505,13 @@ const VDStylePanel = (props) => {
 			      	</Form>
 
 			      	<Form className="form-no-margin-bottom">
-						<FormItem {...formItemLayout} label="固定">
+						<FormItem {...formItemLayout} label={
+								activeCSSStyleState['background']['background-attachment'] == '' ? <span>固定</span> : (
+								  	<Popconfirm onConfirm={() => { setThisPropertyNull('background-attachment') }} title="删除属性？" okText="是" cancelText="否">
+											<a href="#">固定</a>
+										</Popconfirm>
+								)
+							}>
 
 					        <RadioGroup defaultValue="scroll" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['background']['background-attachment']} size="small" onChange={handleStylesChange.bind(this, 'background-attachment', 'background')}>
 						      	<RadioButton value="fixed">
@@ -568,6 +598,13 @@ const VDStylePanel = (props) => {
     					shadowType: 'box-shadow'
     				}
     			});
+
+				props.dispatch({
+					type: 'vdstyles/applyCSSStyleIntoPage',
+					payload: {
+						activeCtrl: props.vdCtrlTree.activeCtrl
+					}
+				});
     		}
 
     		const handleBoxShadowInputChange = (name, e) => {
@@ -663,6 +700,7 @@ const VDStylePanel = (props) => {
 						activeCtrl: props.vdCtrlTree.activeCtrl
 					}
     			});
+
 				message.success('保存成功');
     		}
 
@@ -767,6 +805,13 @@ const VDStylePanel = (props) => {
     					shadowType: 'text-shadow'
     				}
     			});
+
+				props.dispatch({
+					type: 'vdstyles/applyCSSStyleIntoPage',
+					payload: {
+						activeCtrl: props.vdCtrlTree.activeCtrl
+					}
+				});
     		}
 
     		const handleBoxShadowInputChange = (name, e) => {
@@ -932,6 +977,13 @@ const VDStylePanel = (props) => {
 						activeStyleName: props.vdCtrlTree.activeCtrl.activeStyle
 					}
     			});
+
+				props.dispatch({
+					type: 'vdstyles/applyCSSStyleIntoPage',
+					payload: {
+						activeCtrl: props.vdCtrlTree.activeCtrl
+					}
+				});
     		}
 
     		return (
@@ -1030,7 +1082,7 @@ const VDStylePanel = (props) => {
 				        <Col span={18}>
 				          	<Input
     				    		onChange={handleTransitionInputChange.bind(this, 'transition-duration')}
-				          		value={props.vdstyles.transitionSetting['transition-duration']} type="number" size="small" />
+				          		value={props.vdstyles.transitionSetting['transition-duration']} type="text" size="small" />
 				        </Col>
 				        <Col span={6} style={{paddingLeft: '15px'}}>
 				        	MS
@@ -1140,6 +1192,13 @@ const VDStylePanel = (props) => {
 						activeStyleName: props.vdCtrlTree.activeCtrl.activeStyle
 					}
     			});
+
+				props.dispatch({
+					type: 'vdstyles/applyCSSStyleIntoPage',
+					payload: {
+						activeCtrl: props.vdCtrlTree.activeCtrl
+					}
+				});
     		}
 
     		const handleTabChange = (transformType) => {
@@ -2325,6 +2384,13 @@ const VDStylePanel = (props) => {
 						activeStyle: props.vdCtrlTree.activeCtrl.activeStyle
 					}
 				});
+
+				props.dispatch({
+					type: 'vdstyles/applyCSSStyleIntoPage',
+					payload: {
+						activeCtrl: props.vdCtrlTree.activeCtrl
+					}
+				});
 			}
 
 			return (<Panel header="阴影" key="shadows">
@@ -2430,6 +2496,13 @@ const VDStylePanel = (props) => {
 						activeStyleName: props.vdCtrlTree.activeCtrl.activeStyle
 					}
 				});
+
+				props.dispatch({
+					type: 'vdstyles/applyCSSStyleIntoPage',
+					payload: {
+						activeCtrl: props.vdCtrlTree.activeCtrl
+					}
+				});
 			}
 
 			const removeThisTransform = (transformIndex) => {
@@ -2438,6 +2511,13 @@ const VDStylePanel = (props) => {
 					payload: {
 						transformIndex,
 						activeStyleName: props.vdCtrlTree.activeCtrl.activeStyle
+					}
+				});
+
+				props.dispatch({
+					type: 'vdstyles/applyCSSStyleIntoPage',
+					payload: {
+						activeCtrl: props.vdCtrlTree.activeCtrl
 					}
 				});
 			}
@@ -2679,6 +2759,14 @@ const VDStylePanel = (props) => {
 								activeFilterName: props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['filter'].filters[activeFilter].cssProp
 							}
 						});
+
+						props.dispatch({
+							type: 'vdstyles/applyCSSStyleIntoPage',
+							payload: {
+								activeCtrl: props.vdCtrlTree.activeCtrl
+							}
+						});
+
 					}
 
 					return (
@@ -2730,6 +2818,13 @@ const VDStylePanel = (props) => {
 					payload: {
 						filterIndex,
 						activeStyleName: props.vdCtrlTree.activeCtrl.activeStyle
+					}
+				});
+
+				props.dispatch({
+					type: 'vdstyles/applyCSSStyleIntoPage',
+					payload: {
+						activeCtrl: props.vdCtrlTree.activeCtrl
 					}
 				});
 			}

@@ -237,9 +237,9 @@ export default {
 						activeProp: 0
 					},
 					childrenProps: [{
-						'h-shadow': '20px',
-						'v-shadow': '-20px',
-						blur: '',
+						'h-shadow': '2px',
+						'v-shadow': '2px',
+						blur: '5px',
 						color: ''
 					}]
 				},
@@ -250,9 +250,9 @@ export default {
 					},
 					childrenProps: [{
 						'transition-property': 'all',
-						'transition-duration': 200,
+						'transition-duration': '0.2s',
 						'transition-timing-function': 'ease',
-						'transition-delay': 0
+						'transition-delay': ''
 					}]
 				},
 
@@ -658,24 +658,20 @@ export default {
 				background(currentStyleParent) {
 					let styleText = '';
 					for(let styleName in currentStyleParent) {
-						if(styleName != 'background-position') {
-
-							let currentStyleValue = currentStyleParent[styleName];
-							if (currentStyleValue !== '') {
-								if (typeof currentStyleValue === 'object') {
-									let valueText = '';
-									for(let i = 0; i < currentStyleValue.length; i++) {
-										let val = currentStyleValue[i];
-										if (val !== '') {
-											valueText += val + ' ';
-										}
+						let currentStyleValue = currentStyleParent[styleName];
+						if (currentStyleValue !== '') {
+							if (typeof currentStyleValue === 'object') {
+								let valueText = '';
+								for(let i = 0; i < currentStyleValue.length; i++) {
+									let val = currentStyleValue[i];
+									if (val !== '') {
+										valueText += val + ' ';
 									}
-									styleText += styleName + ':' + valueText + ';';
-								}else {
-									styleText += styleName + ':' + currentStyleValue + ';';
 								}
+								styleText += styleName + ':' + valueText + ';';
+							}else {
+								styleText += styleName + ':' + currentStyleValue + ';';
 							}
-
 						}
 					}
 
@@ -697,7 +693,6 @@ export default {
 				},
 
 				'border-radius'(currentStyleParent) {
-					console.log('borderRadius===========', currentStyleParent);
 					let styleText = '';
 					for(let styleName in currentStyleParent) {
 						if(styleName != 'border-radius-position') {
@@ -717,7 +712,6 @@ export default {
 					let valueText = '';
 					for(let i = 0; i < childrenProps.length; i ++) {
 						let currentStyle = childrenProps[i];
-						console.log('box-shadow================', currentStyle);
 						for(let property in currentStyle) {
 							let currentTableStyle = currentStyle[property];
 							if(currentTableStyle !== '' && currentTableStyle !== 'outset') {
@@ -735,7 +729,7 @@ export default {
 				},
 
 				'text-shadow'(currentStyleParent) {
-					let styleText = 'text-shaow';
+					let styleText = 'text-shadow';
 					let childrenProps = currentStyleParent.childrenProps;
 					let valueText = '';
 					for(let i = 0; i < childrenProps.length; i ++) {
@@ -788,11 +782,11 @@ export default {
 						let values = currentStyle.value;
 						valueText += values[0];
 						for (let j = 1; j < values.length; j ++) {
-							valueText += ',' + valueText[i];
+							valueText += ',' + values[j];
 						}
 
 						if (i !== childrenProps.length - 1) {
-							valueText += '),';	
+							valueText += ') ';	
 						}else {
 							valueText += ')';
 						}
