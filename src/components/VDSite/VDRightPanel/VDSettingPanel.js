@@ -69,6 +69,7 @@ const Component = (props) => {
         },
         loopAttr(controller, root, parent) {
 
+            console.log(root);
             let childCtrl = {},
                 tmpAttr = {},
                 ctrl = {};
@@ -101,13 +102,13 @@ const Component = (props) => {
             if(controller.children) {
                 for (var i = 0; i < controller.children.length; i++) {
                     var currentCtrl = controller.children[i];
+
                     childCtrl = vdCtrlOperate.loopAttr(currentCtrl, root, ctrl);
                     ctrl.children.push(childCtrl);
                 };
             }else {
                 ctrl.children = undefined;
             }
-
             return ctrl;
         }
     }
@@ -142,7 +143,7 @@ const Component = (props) => {
                     }
                 }
             copyByLevel(parent);
-            result = vdCtrlOperate.loopAttr(result, props.vdCtrlTree.root, { vdid: undefined});
+            result = vdCtrlOperate.loopAttr(result, props.vdCtrlTree.activeCtrl.root, { vdid: undefined});
             return result;
         }
     }

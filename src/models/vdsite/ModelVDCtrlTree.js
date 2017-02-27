@@ -383,6 +383,7 @@ export default {
 			const deleteChildrenByType = {
 				'navbar-drop-down' (){
 					target = state.activeCtrl.parent;
+					console.log(state.activeCtrl);
 					var parent = VDTreeActions.getCtrlByKey(state, state.activeCtrl.parent, state.activePage).controller.parent;
 					console.log(parent);
 					currentActiveCtrl = VDTreeActions.getCtrlByKey(state, parent, state.activePage)
@@ -468,6 +469,8 @@ export default {
 				}else {
 					parentCtrlVdid = parent.vdid;
 					params.children.parent = parentCtrlVdid;
+					console.log('parent');
+					console.log(parentCtrlVdid);
 					if(parent.children) {
 						parent.children.push(params.children);
 					}else {
@@ -481,7 +484,6 @@ export default {
 
 			state.activeCtrl = currentActiveCtrl.controller;
 			state.keyValeCreateVisible = false;
-			params.children.vdid = randomString(8,10);
 			window.VDDesignerFrame.postMessage({
 				VDAttrRefreshed: {
 					activeCtrl: state.activeCtrl,
