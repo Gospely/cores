@@ -1899,7 +1899,7 @@ export default {
 											children: [{
                     							name: 'innerHTML',
                     							desc: '显示文本',
-                    							value: '菜单',
+                    							value: '下拉菜单',
                                                 type: 'input',
                     							isHTML: true,
                     							id: ''
