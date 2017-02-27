@@ -1811,6 +1811,7 @@ export default {
                                             title: '导航菜单链接设置',
                                             key: 'link-setting',
                                             deleteAble: true,
+                                            changeDropDown: true,
                                             children: [{
                                                 name: 'src',
                                                 desc: '跳转链接',
@@ -1850,6 +1851,8 @@ export default {
 										attrs: [{
 											title: '导航菜单链接设置',
 											key: 'link-setting',
+                                            changeDropDown: true,
+                                            deleteAble: true,
 											children: [{
                                                 name: 'src',
                                                 desc: '跳转链接',
