@@ -5,7 +5,6 @@ import { Icon, message } from 'antd';
 var styleAction = {
 
 	findCSSPropertyByProperty: function(stylesList, property) {
-		console.log('==================findCSSPropertyByProperty==================', stylesList, property);
 		for(var prop in stylesList) {
 			var currrentStyleProperty = stylesList[prop];
 			if(typeof currrentStyleProperty == 'string' || typeof currrentStyleProperty.length != 'undefined') {
@@ -650,7 +649,6 @@ export default {
 			}
 
 			activeCSSStyleLayout[params.shadowType].childrenProps.push(tmp);
-			console.log(activeCSSStyleLayout[params.shadowType].childrenProps);
 			return {...state};
 		},
 
@@ -884,6 +882,8 @@ export default {
 
 				if(property == 'border-position' || property == 'border-radius-position') {
 
+					alert('border-radius-position');
+
 					var parentType = property.split('-');
 					parentType.pop();
 					parentType = parentType.join('-');
@@ -894,16 +894,22 @@ export default {
 					//清除其它border类型，并根据现有propertyName重新生成样式
 
 					for(var props in activeBorderStyle) {
+						console.log(props, prevBorderPosition);
 						if(props.indexOf(prevBorderPosition) != -1) {
 							if(props != property) {
-								console.log('清除其它border类型，并根据现有propertyName重新生成样式', props);
-								var propsSplit = props.split('-');
-								activeBorderStyle[value + '-' + propsSplit[propsSplit.length - 1]] = activeBorderStyle[props];
+								var tmpActiveBorderStyle = activeBorderStyle[props];
 								activeBorderStyle[props] = '';
 								delete activeBorderStyle[props];
+
+								var propsSplit = props.split('-');
+								activeBorderStyle[value + '-' + propsSplit[propsSplit.length - 1]] = tmpActiveBorderStyle;
+								console.log('activeBorderStyle＋＋＋＋＋＋＋＋', activeBorderStyle, props, property, value + '-' + propsSplit[propsSplit.length - 1]);
+								console.log('activeBorderStyle——————————————', activeBorderStyle, props, property, value + '-' + propsSplit[propsSplit.length - 1]);
 							}
 						}
 					}
+
+					console.log('activeBorderStyle==========', activeBorderStyle);
 
 				}
 
@@ -916,9 +922,6 @@ export default {
 						let vals = value.split(' ');
 						propertyParent[property][0] = vals[0];
 						propertyParent[property][1] = vals[1];
-					}else if (property == 'border-radius-position') {
-						console.log('border-radius-position========', value);
-						propertyParent['border-radius'] = 0;					
 					}else {
 						propertyParent[property] = value;
 					}

@@ -57,8 +57,6 @@ const VDStylePanel = (props) => {
 
 	const handleStylesChange = (stylePropertyName, parent, proxy) =>  {
 
-		console.log('================proxy==============', proxy, parent);
-
 		if(proxy == undefined) {
 			proxy = parent;
 		}
@@ -1384,8 +1382,6 @@ const VDStylePanel = (props) => {
 
     		const onSelect = ({ item, key, selectedKeys }) => {
 
-    			console.log(selectedKeys);
-
     			props.dispatch({
     				type: 'vdstyles/handleCSSStateChange',
     				payload: {
@@ -2139,7 +2135,6 @@ const VDStylePanel = (props) => {
 			};
 
 			const handleBorderRadiusPositionChange = (position) => {
-				console.log('==================================handleBorderRadiusPositionChange==================================', position);
 				handleStylesChange('border-radius-position', {
 					target: {
 						value: position
@@ -2524,7 +2519,6 @@ const VDStylePanel = (props) => {
 
 					var filterProps = {
 						onChange (value, option) {
-							console.log(value, option);
 							props.dispatch({
 								type: 'vdstyles/handleFilterTypeChange',
 								payload: {
