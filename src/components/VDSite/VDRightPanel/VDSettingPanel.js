@@ -564,9 +564,9 @@ const Component = (props) => {
 										<Input value={item.children[2].value} onChange={formProps.handleAttrFormInputChange.bind(this, item.children[2], attrType)} size="small" />
 									</FormItem>
 
-                                    <FormItem {...formItemLayout} label="">
+                                    { attrType.deleteAble && <FormItem {...formItemLayout} label="">
                                         <Button type="circle" size="small" onClick={formProps.handleComplextChildrenDelete.bind(this, item.children[2].value, 'navbar-drop-down')} ><Icon type="delete" /> &nbsp;&nbsp;删除</Button>
-                                    </FormItem>
+                                    </FormItem>}
 						      	</Form>
 					    	), (
 						      	<Form className="form-no-margin-bottom">

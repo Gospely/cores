@@ -544,7 +544,7 @@ export default {
 						title: '链接设置',
 						key: 'link-setting',
 						children: [{
-							name: 'src',
+							name: 'href',
 							desc: '跳转链接',
 							type: 'input',
 							value: '',
@@ -559,6 +559,13 @@ export default {
 							isAttr: true,
 							isTarget: true,
 							attrName: 'target',
+							id: ''
+						}, {
+							name: 'innerHTML',
+							desc: '显示文本',
+							type: 'toggle',
+							value: '这是一个链接',
+							isHTML: true,
 							id: ''
 						}]
 					}, {
@@ -1745,6 +1752,7 @@ export default {
 								attrs: [{
 									title: '导航菜单链接设置',
 									key: 'link-setting',
+                                    deleteAble: true,
 									children: [{
                                         name: 'src',
                                         desc: '跳转链接',
@@ -1768,12 +1776,7 @@ export default {
             							value: 'Brand',
             							isHTML: true,
             							id: ''
-            						},{
-                                        name: 'buttonDelete',
-                                        desc: '删除控件',
-                                        type: 'buttonDelete',
-                                        level: 1
-                                    }]
+            						}]
 								}]
 							}]
 						}, {
@@ -1807,6 +1810,7 @@ export default {
 										attrs: [{
                                             title: '导航菜单链接设置',
                                             key: 'link-setting',
+                                            deleteAble: true,
                                             children: [{
                                                 name: 'src',
                                                 desc: '跳转链接',
@@ -1829,11 +1833,6 @@ export default {
                                                 value: '菜单',
                                                 isHTML: true,
                                                 id: ''
-                                            },{
-                                                name: 'buttonDelete',
-                                                desc: '删除控件',
-                                                type: 'buttonDelete',
-                                                level: 1
                                             }]
                                         }]
 									}]
@@ -1873,12 +1872,7 @@ export default {
                     							value: '菜单',
                     							isHTML: true,
                     							id: ''
-                    						},{
-                                                name: 'buttonDelete',
-                                                desc: '删除控件',
-                                                type: 'buttonDelete',
-                                                level: 1
-                                            }]
+                    						}]
 										}]
 									}]
 								}, {
@@ -1942,12 +1936,7 @@ export default {
                                                 type: 'buttonAdd',
                     							isHTML: true,
                     							id: '',
-                    						},{
-                                                name: 'buttonDelete',
-                                                desc: '删除控件',
-                                                type: 'buttonDelete',
-                                                level: 1
-                                            }]
+                    						}]
 										}],
                                         children: [{
                                             tag: 'span',
@@ -1980,6 +1969,7 @@ export default {
         										attrs: [{
         											title: '导航菜单链接设置',
         											key: 'link-setting',
+                                                    deleteAble: true,
         											children: [{
                                                         name: 'src',
                                                         desc: '跳转链接',
@@ -2002,12 +1992,7 @@ export default {
                             							value: '菜单',
                             							isHTML: true,
                             							id: ''
-                            						},{
-                                                        name: 'buttonDelete',
-                                                        desc: '删除控件',
-                                                        type: 'buttonDelete',
-                                                        level: 1
-                                                    }]
+                            						}]
         										}]
         									}]
         								}, {
@@ -2016,6 +2001,47 @@ export default {
         									attrs: [{
         										title: '导航菜单设置',
         										key: 'navbar-setting',
+        										children: []
+        									}],
+        									children: [{
+        										tag: 'a',
+        										className: [],
+        										attrs: [{
+        											title: '导航菜单链接设置',
+        											key: 'link-setting',
+                                                    deleteAble: true,
+        											children: [{
+                                                        name: 'src',
+                                                        desc: '跳转链接',
+                                                        type: 'input',
+                                                        value: '',
+                                                        isAttr: true,
+                                                        attrName: 'href',
+                                                        id: ''
+                                                    }, {
+                                                        name: 'target',
+                                                        desc: '新窗口打开',
+                                                        type: 'toggle',
+                                                        value: false,
+                                                        isAttr: true,
+                                                        attrName: 'target',
+                                                        id: ''
+                                                    },{
+                            							name: 'innerHTML',
+                            							desc: '显示文本',
+                            							value: '菜单',
+                            							isHTML: true,
+                            							id: ''
+                            						}]
+        										}]
+        									}]
+        								}, {
+        									tag: 'li',
+        									className: [],
+        									attrs: [{
+        										title: '导航菜单设置',
+        										key: 'navbar-setting',
+                                                deleteAble: true,
         										children: []
         									}],
         									children: [{
@@ -2046,56 +2072,7 @@ export default {
                             							value: '菜单',
                             							isHTML: true,
                             							id: ''
-                            						},{
-                                                        name: 'buttonDelete',
-                                                        desc: '删除控件',
-                                                        type: 'buttonDelete',
-                                                        level: 1
-                                                    }]
-        										}]
-        									}]
-        								}, {
-        									tag: 'li',
-        									className: [],
-        									attrs: [{
-        										title: '导航菜单设置',
-        										key: 'navbar-setting',
-        										children: []
-        									}],
-        									children: [{
-        										tag: 'a',
-        										className: [],
-        										attrs: [{
-        											title: '导航菜单链接设置',
-        											key: 'link-setting',
-        											children: [{
-                                                        name: 'src',
-                                                        desc: '跳转链接',
-                                                        type: 'input',
-                                                        value: '',
-                                                        isAttr: true,
-                                                        attrName: 'href',
-                                                        id: ''
-                                                    }, {
-                                                        name: 'target',
-                                                        desc: '新窗口打开',
-                                                        type: 'toggle',
-                                                        value: false,
-                                                        isAttr: true,
-                                                        attrName: 'target',
-                                                        id: ''
-                                                    },{
-                            							name: 'innerHTML',
-                            							desc: '显示文本',
-                            							value: '菜单',
-                            							isHTML: true,
-                            							id: ''
-                            						},{
-                                                        name: 'buttonDelete',
-                                                        desc: '删除控件',
-                                                        type: 'buttonDelete',
-                                                        level: 1
-                                                    }]
+                            						}]
         										}]
         									}]
         								}]
@@ -2195,6 +2172,48 @@ export default {
                                 attrs: [{
                                     title: '下拉菜单链接设置',
                                     key: 'link-setting',
+                                    deleteAble: true,
+                                    children: [{
+                                        name: 'src',
+                                        desc: '跳转链接',
+                                        type: 'input',
+                                        value: '',
+                                        isAttr: true,
+                                        attrName: 'href',
+                                        id: ''
+                                    }, {
+                                        name: 'target',
+                                        desc: '新窗口打开',
+                                        type: 'toggle',
+                                        value: false,
+                                        isAttr: true,
+                                        attrName: 'target',
+                                        id: ''
+                                    },{
+                                        name: 'innerHTML',
+                                        desc: '显示文本',
+                                        value: '菜单',
+                                        isHTML: true,
+                                        id: ''
+                                    }]
+                                }]
+                            }]
+                        }, {
+                            tag: 'li',
+                            className: [],
+                            attrs: [{
+                                title: '下拉菜单设置',
+                                key: 'dropdown-setting',
+                                deleteAble: true,
+                                children: []
+                            }],
+                            children: [{
+                                tag: 'a',
+                                className: [],
+                                attrs: [{
+                                    title: '下拉菜单链接设置',
+                                    key: 'link-setting',
+                                    deleteAble: true,
                                     children: [{
                                         name: 'src',
                                         desc: '跳转链接',
@@ -2234,45 +2253,7 @@ export default {
                                 attrs: [{
                                     title: '下拉菜单链接设置',
                                     key: 'link-setting',
-                                    children: [{
-                                        name: 'src',
-                                        desc: '跳转链接',
-                                        type: 'input',
-                                        value: '',
-                                        isAttr: true,
-                                        attrName: 'href',
-                                        id: ''
-                                    }, {
-                                        name: 'target',
-                                        desc: '新窗口打开',
-                                        type: 'toggle',
-                                        value: false,
-                                        isAttr: true,
-                                        attrName: 'target',
-                                        id: ''
-                                    },{
-                                        name: 'innerHTML',
-                                        desc: '显示文本',
-                                        value: '菜单',
-                                        isHTML: true,
-                                        id: ''
-                                    }]
-                                }]
-                            }]
-                        }, {
-                            tag: 'li',
-                            className: [],
-                            attrs: [{
-                                title: '下拉菜单设置',
-                                key: 'dropdown-setting',
-                                children: []
-                            }],
-                            children: [{
-                                tag: 'a',
-                                className: [],
-                                attrs: [{
-                                    title: '下拉菜单链接设置',
-                                    key: 'link-setting',
+                                    deleteAble: true,
                                     children: [{
                                         name: 'src',
                                         desc: '跳转链接',
