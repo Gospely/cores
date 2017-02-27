@@ -296,7 +296,7 @@ const Component = (props) => {
    	const loopControllerTree = data => data.map((item) => {
 
    		if (item.children) {
-			loopControllerTree(item.children);	
+			loopControllerTree(item.children);
    		}
 
    		if (item.id) {
@@ -1142,7 +1142,7 @@ const Component = (props) => {
 
 	    				return (
 	    					<Panel header={item.title} key={item.key}>
-	                            <Row>
+	                            <Row style={{marginTop: '15px'}}>
 	                                <Col span={12}>
 	                                    <Button size="small"><Icon type="bars" />打开菜单</Button>
 	                                </Col>

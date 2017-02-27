@@ -20,7 +20,7 @@ module.exports = function(webpackConfig, env) {
   webpackConfig.plugins.push(
     new CopyWebpackPlugin([
       {
-        from: 'node_modules/monaco-editor/min/vs',
+        from: 'node_modules/react-monaco-editor/min/vs',
         to: 'vs',
       }
     ])
