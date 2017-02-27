@@ -66,8 +66,6 @@ $(function() {
 				var parentClass = guide.parent()[0].className;
 				var parentTag = guide.parent()[0].tagName;
 
-				console.log(specialParent, parentClass, parentTag)
-
 				if (parentClass.indexOf(specialParent.className) === -1 || specialParent.tag.indexOf(parentTag) === -1) {
 					return false;
 				}
@@ -428,7 +426,6 @@ $(function() {
 
                 var evtAction = {
                     ctrlTreeGenerated: function() {
-                        console.log(data);
                         var elem = new ElemGenerator(data.controller);
                         var elemToAdd = jq(elem.createElement());
                         dndData.elemToAdd = elemToAdd;
@@ -494,7 +491,6 @@ $(function() {
 
 			'update': function(activeCtrl, children, parent){
 
-				console.log(activeCtrl);
 				let vdid  = activeCtrl.vdid;
 				var elem = jq('[vdid='+ activeCtrl.vdid + ']');
 				activeCtrl.vdid = activeCtrl.vdid + 'c';
@@ -506,9 +502,6 @@ $(function() {
 			},
 			'add': function(parent, children, parent){
 
-				console.log('add children');
-				console.log(children);
-				console.log(parent);
 				var elem = jq('[vdid='+ parent + ']');
 				var elemGen = new ElemGenerator(children);
 				var tempElem = elemGen.createElement();
@@ -519,7 +512,6 @@ $(function() {
 		//栅格操作
 		const columnsOperate = {
 			'add': function(parent, column, parent, count, colClass){
-				console.log(column)
 				var elem = jq('[vdid='+ parent + ']');
 				
 				for(var i = 0; i < count; i ++){
@@ -590,9 +582,6 @@ $(function() {
 			},
 
             select: function(data, notPostMessage) {
-
-				console.log('select');
-				console.log(data);
 				if(data) {
 					notPostMessage = notPostMessage || false;
 	                controllerOperations.showDesignerDraggerBorder(jq('[vdid=' + data.vdid + ']'))
@@ -604,7 +593,6 @@ $(function() {
 
             refreshCtrl: function(activeCtrl, attr, attrType) {
 
-				console.log('refreshCtrl',activeCtrl);
 				if(attr.isTag) {
 
 					let vdid  = activeCtrl.vdid;
@@ -616,7 +604,7 @@ $(function() {
 					elem = elem.replaceWith(tempElem[0].outerHTML);
 					activeCtrl.vdid = vdid;
 				}
-				console.log(attr);
+
 				if(attr.attrName == 'children'){
 					childrenOperate[attr.action](activeCtrl, attr.children, attr.parent);
 				}else if (attr.attrName == 'columns') {
@@ -627,8 +615,6 @@ $(function() {
 				}
             },
 			deleteChildren: function(activeCtrl,attrType) {
-
-				console.log(activeCtrl, attrType);
 				let vdid  = activeCtrl.vdid;
 				var elem = jq('[vdid='+ activeCtrl.vdid + ']');
 				elem.remove();
@@ -858,8 +844,6 @@ $(function() {
         	initElem: function () {
         		if (!this.elemLoaded) {
                     var docCtrl = jq('[vdid='+ this.controller.vdid + ']');
-					console.log('initElem');
-					console.log(docCtrl);
                     this.elem = docCtrl.length > 0 ? docCtrl : jq(document.createElement(this.tag));
                     this.elemLoaded = true;
                     // this.refresh = docCtrl.length > 0;
@@ -926,8 +910,6 @@ $(function() {
             },
 
             setAttr: function(attr) {
-
-				console.log('setAttr', this.elem);
                 if(attr.isHTML) {
 
 					if(attr.html != null && attr.html != undefined){
@@ -938,8 +920,6 @@ $(function() {
 
                 }
 				if(attr.isToggleAttr){
-					console.log(attr);
-					console.log('isToggleAttr');
 					if(attr.isSetVal){
 						if(attr.attrName == 'aria-expanded'){
 							let className = attr.value? 'dropdown open' : 'dropdown';
@@ -954,9 +934,6 @@ $(function() {
 					}
 				}
                 if(attr.isAttr) {
-
-					console.log('atr');
-					console.log(attr);
 					this.elem.attr(attr.attrName, attr.value);
                 }
                 if (attr.isContainer) {
@@ -1042,15 +1019,9 @@ $(function() {
 				this.setAttr(attr);
 			},
 			setNavbarSetting: function(attr){
-
-				console.log('setNavbarsSetting');
-				console.log(attr);
 				this.setAttr(attr);
 			},
 			setDropdownSetting: function(attr){
-
-				console.log('setDropdownSetting');
-				console.log(attr);
 				this.setAttr(attr);
 			},
 			setSliderSetting: function(attr){
@@ -1113,8 +1084,6 @@ $(function() {
         	createElement: function () {
         		var self = this;
 
-				console.log('createElement');
-				console.log(this.controller);
         		this.initElem();
         		this.bindData();
         		this.setAttribute();
@@ -1177,8 +1146,6 @@ $(function() {
 
                 var self = this;
                 this.elem.click(function(e) {
-					console.log('click');
-					console.log(e);
                     e.stopPropagation();
                     var target = jq(e.target);
                     controllerOperations.select(target.data('controller'));
