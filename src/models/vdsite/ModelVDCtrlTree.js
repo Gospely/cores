@@ -375,6 +375,39 @@ export default {
 			}, '*');
 			return {...state};
 		},
+		handleComplextChildrenDelete(state, {payload: params}){
+
+			var currentActiveCtrl,
+				target;
+
+			const deleteChildrenByType = {
+				'navbar-drop-down' (){
+					target = state.activeCtrl.parent;
+					var parent = VDTreeActions.getCtrlByKey(state, state.activeCtrl.parent, state.activePage).controller.parent;
+					console.log(parent);
+					currentActiveCtrl = VDTreeActions.getCtrlByKey(state, parent, state.activePage)
+				}
+			}
+			deleteChildrenByType[params.type]();
+
+			for (var i = 0; i < currentActiveCtrl.controller.children.length; i++) {
+				if(currentActiveCtrl.controller.children[i].vdid == target){
+					console.log(target);
+					currentActiveCtrl.controller.children.splice(i,0);
+				}
+			}
+			state.activeCtrl = currentActiveCtrl.controller;
+
+			window.VDDesignerFrame.postMessage({
+				VDChildrenDelete: {
+					activeCtrl: {
+						vdid: target
+					},
+					attrType: params.attrType
+				}
+			}, '*');
+			return {...state};
+		},
 		handleComplexChildrenAdd(state, { payload: params}){
 
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.parent, state.activePage);
@@ -547,7 +580,7 @@ export default {
 						ignore: controller.ignore || false,
 						root: root || '',
 						parent: parent.vdid,
-						unActive: false,
+						unActive: controller.unActive,
 					};
 				}
 
@@ -597,6 +630,7 @@ export default {
 
 		ctrlSelected(state, { payload: data }) {
 			if(data.unActive){
+				console.log("unActive");
 				var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, data.root, state.activePage);
 				state.activeCtrl = currentActiveCtrl.controller;
 			}else {
@@ -629,7 +663,7 @@ export default {
 	  				}
   				};
   			};
-  			
+
 
   			state.activeCtrl = currentActiveCtrl.controller;
 			return {...state};
@@ -721,13 +755,13 @@ export default {
 			let value = params.value;
 
 			let colClass = 'col-md-' + 12/value;
-			
+
 			let currentRootVdid = state.activeCtrl.root;
 			let activePage = state.activePage.key;
 			let ctrlTree = state.layout[activePage];
 
 			let findCtrlByVdId = function (ctrlTree,VdId) {
-				
+
 				for(let i = 0; i < ctrlTree.length; i ++) {
 					if (ctrlTree[i].children) {
 						let ctrl = findCtrlByVdId(ctrlTree[i].children, VdId);
@@ -759,7 +793,7 @@ export default {
 
 			let changCount = value - currentCount;
 			let deepCopiedController = VDTreeActions.deepCopyObj(column);
-			
+
 			if (changCount > 0) {
 
 				const specialAttrList = ['custom-attr', 'link-setting', 'list-setting', 'heading-type', 'image-setting', 'select-setting'];
@@ -780,7 +814,7 @@ export default {
 							attr['id'] = randomString(8, 10);
 						};
 					}
-					
+
 					ctrl = {
 						vdid: controller.key ? (controller.key + '-' + randomString(8, 10)) : randomString(8, 10),
 						attrs: tmpAttr,
@@ -795,7 +829,7 @@ export default {
 						parent: currentRootVdid,
 						unActive: false,
 					};
-					
+
 
 					if(controller.children) {
 						for (var i = 0; i < controller.children.length; i++) {
