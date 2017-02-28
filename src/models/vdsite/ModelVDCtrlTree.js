@@ -379,26 +379,29 @@ export default {
 
 			var currentActiveCtrl,
 				target;
-
+				console.log(params);
 			const deleteChildrenByType = {
 				'navbar-drop-down' (){
 					target = state.activeCtrl.parent;
-					console.log(state.activeCtrl);
 					var parent = VDTreeActions.getCtrlByKey(state, state.activeCtrl.parent, state.activePage).controller.parent;
-					console.log(parent);
-					currentActiveCtrl = VDTreeActions.getCtrlByKey(state, parent, state.activePage)
+					currentActiveCtrl = VDTreeActions.getCtrlByKey(state, parent, state.activePage);
+					state.activeCtrl = currentActiveCtrl.controller;
+				},
+				'slider-delete' () {
+					target = params.target,
+					currentActiveCtrl = VDTreeActions.getCtrlByKey(state, params.parent, state.activePage);
+					state.selectIndex = 0;
 				}
 			}
 			deleteChildrenByType[params.type]();
 
 			for (var i = 0; i < currentActiveCtrl.controller.children.length; i++) {
+
 				if(currentActiveCtrl.controller.children[i].vdid == target){
-					console.log(target);
-					currentActiveCtrl.controller.children.splice(i,0);
+					currentActiveCtrl.controller.children.splice(i,1);
 				}
 			}
-			state.activeCtrl = currentActiveCtrl.controller;
-
+			state.activeCtrl =  VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage).controller;
 			window.VDDesignerFrame.postMessage({
 				VDChildrenDelete: {
 					activeCtrl: {

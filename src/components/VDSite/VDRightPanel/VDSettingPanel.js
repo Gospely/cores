@@ -1172,7 +1172,7 @@ const Component = (props) => {
 						  	}
 					    }
                         console.log(props.vdCtrlTree.activeCtrl.children[1].children[props.vdCtrlTree.selectIndex]);
-					    const tabSettingProps = {
+					    const sliderSettingProps = {
 					    	modifyContent: (
                                 <div className="guidance-panel-wrapper">
 									<div className="guidance-panel-child">
@@ -1281,6 +1281,18 @@ const Component = (props) => {
                                         payload: false
                                     });
                                 }, 10)
+                            },
+                            handleSliderDelete(target, parent, type){
+
+                                console.log(target, parent, type);
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleComplextChildrenDelete',
+                                    payload:{
+                                        target: target,
+                                        parent: parent,
+                                        type: type
+                                    }
+                                });
                             }
                         }
                         const sliderProps = {
@@ -1318,11 +1330,11 @@ const Component = (props) => {
                                 <li className="ant-dropdown-menu-item" role="menuitem" key={index}>
                                 <Row>
                                 <Col span={3}>
-                                      <Icon type="edit" onClick={tabSettingProps.editKeyValue.bind(this, index)}/>
+                                      <Icon type="edit" onClick={sliderSettingProps.editKeyValue.bind(this, index)}/>
                                 </Col>
                                 <Col span={3}>
-                                  <Popconfirm title="确认删除吗？" onConfirm={formProps.childrenDelete.bind(this, item.children[0].attrs[0].children[0].value , item, index, 2, attrType)} okText="确定" cancelText="取消">
-                                      <Icon type="delete" onClick={tabSettingProps.hidePopover}/>
+                                  <Popconfirm title="确认删除吗？" onConfirm={sliderSettingProps.handleSliderDelete.bind(this, props.vdCtrlTree.activeCtrl.children[1].children[props.vdCtrlTree.selectIndex].vdid , props.vdCtrlTree.activeCtrl.children[1].children[props.vdCtrlTree.selectIndex].parent, 'slider-delete')} okText="确定" cancelText="取消">
+                                      <Icon type="delete" onClick={sliderSettingProps.hidePopover}/>
                                       </Popconfirm>
                                 </Col>
                                   <Col span={18}>
@@ -1348,11 +1360,11 @@ const Component = (props) => {
 						    		</Col>
 						    	</Row>
                                 <Popover
-                                    content={tabSettingProps.modifyContent}
+                                    content={sliderSettingProps.modifyContent}
                                     title="修改 选项"
                                     trigger="click"
                                     visible={props.vdCtrlTree.keyValeUpdateVisible}
-                                    onVisibleChange = {tabSettingProps.updateVisibleChange}
+                                    onVisibleChange = {sliderSettingProps.updateVisibleChange}
                                 >
                                     <ul  className="ant-dropdown-menu ant-dropdown-menu-vertical ant-dropdown-menu-light ant-dropdown-menu-root symbol-list" role="menu">
                                         {images}
