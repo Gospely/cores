@@ -660,6 +660,11 @@ export default {
 			return {...state};
 		},
 
+		setActiveCtrlInTree(state, { payload: params }) {
+			state.defaultSelectedKeys = params;
+			return {...state};
+		},
+
 		ctrlSelected(state, { payload: data }) {
 			if(data.unActive){
 				console.log("unActive");

@@ -24,7 +24,6 @@ const Component = (props) => {
 
     window.constructionTreeLoaded = true;
 
-
 	var prevHoverCtrl = '',
 		realSelectedCtrl = '';
 
@@ -39,6 +38,11 @@ const Component = (props) => {
 						isFromCtrlTree: true
 					}
 				}, '*');
+
+				props.dispatch({
+					type: 'vdCtrlTree/setActiveCtrlInTree',
+					payload: val
+				})
 			},
 
 			onMouseEnter (evt) {
@@ -58,7 +62,7 @@ const Component = (props) => {
 			onMouseLeave (evt) {
 				window.VDDesignerFrame.postMessage({
 					VDCtrlSelected: {
-						vdid: realSelectedCtrl,
+						vdid: props.vdCtrlTree.defaultSelectedKeys[0],
 						isFromCtrlTree: true
 					}
 				}, '*');
@@ -71,8 +75,6 @@ const Component = (props) => {
 			activePage: props.vdCtrlTree.activePage.key,
 
 			onRightClick (proxy, node) {
-
-				console.log(proxy);
 
 	            var selectedKey = proxy.node.props.eventKey;
 
