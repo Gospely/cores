@@ -1136,6 +1136,153 @@ const Component = (props) => {
 
 	    			'slider-setting' (item, attrTypeIndex) {
 
+                        const keyValueProps = {
+
+                            keyValueChange(e){
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleChildrenAttrChange',
+                                    payload: {
+                                        index: props.vdCtrlTree.selectIndex,
+                                        attr: {
+                                            name: 'value',
+                                            value: e.target.value,
+                                            isTab: true
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                        const bgUploaderProps = {
+					 		listType: 'picture',
+						  	defaultFileList: item.children[0].fileInfo,
+
+						  	beforeUpload () {
+						  		props.dispatch({
+						  			type: 'vdCtrlTree/handleImageSettingBeforeUpload',
+						  			payload: item.children[0].fileInfo
+						  		});
+						  	},
+
+						  	onChange (object) {
+						  		formProps.handleAttrFormInputChange(item.children[0], attrType, {
+						  			target: {
+						  				value: object.file.thumbUrl
+						  			}
+						  		});
+						  	}
+					    }
+                        console.log(props.vdCtrlTree.activeCtrl.children[1].children[props.vdCtrlTree.selectIndex]);
+					    const tabSettingProps = {
+					    	modifyContent: (
+                                <div className="guidance-panel-wrapper">
+									<div className="guidance-panel-child">
+										<div className="bem-Frame">
+											<div className="bem-Frame_Head">
+												<div className="bem-Frame_Legend">
+													<div className="bem-SpecificityLabel bem-SpecificityLabel-local bem-SpecificityLabel-text">
+														图片资源
+													</div>
+												</div>
+											</div>
+											<div className="bem-Frame_Body">
+												<Upload {...bgUploaderProps}>
+													<Button><i className="fa fa-cloud-upload"></i>&nbsp;上传图片</Button>
+											  	</Upload>
+
+												<Button style={{float: 'right', bottom: '102px'}}><i className="fa fa-picture-o"></i>&nbsp;图片资源</Button>
+											</div>
+										</div>
+
+										<div className="bem-Frame">
+											<div className="bem-Frame_Head">
+												<div className="bem-Frame_Legend">
+													<div className="bem-SpecificityLabel bem-SpecificityLabel-local bem-SpecificityLabel-text">
+														大小
+													</div>
+												</div>
+											</div>
+											<div className="bem-Frame_Body">
+												<Row>
+
+												  	<Col span={11} style={{paddingRight: '5px'}}>
+												      	<Form className="form-no-margin-bottom">
+															<FormItem {...formItemLayout} label="宽度">
+																<Input onChange={formProps.handleAttrFormInputChange.bind(this, props.vdCtrlTree.activeCtrl.children[1].children[props.vdCtrlTree.selectIndex].children[0].attrs[0].children[2], attrType)} value={props.vdCtrlTree.activeCtrl.children[1].children[props.vdCtrlTree.selectIndex].children[0].attrs[0].children[2].value} size="small" />
+															</FormItem>
+												      	</Form>
+												  	</Col>
+												  	<Col span={13} style={{paddingLeft: '5px'}}>
+												      	<Form className="form-no-margin-bottom">
+															<FormItem {...formItemLayout} label="高度">
+																<Input onChange={formProps.handleAttrFormInputChange.bind(this, props.vdCtrlTree.activeCtrl.children[1].children[props.vdCtrlTree.selectIndex].children[0].attrs[0].children[3], attrType)} value={props.vdCtrlTree.activeCtrl.children[1].children[props.vdCtrlTree.selectIndex].children[0].attrs[0].children[3].value} size="small" />
+															</FormItem>
+												      	</Form>
+												  	</Col>
+
+												</Row>
+
+											</div>
+										</div>
+
+								      	<Form className="form-no-margin-bottom">
+											<FormItem {...formItemLayout} label={(
+								              <span>
+								                替换文本&nbsp;
+								                <Tooltip title="当图片无法加载时显示此文字">
+								                  <Icon type="question-circle-o" />
+								                </Tooltip>
+								              </span>
+								            )}>
+												<Input onChange={formProps.handleAttrFormInputChange.bind(this, props.vdCtrlTree.activeCtrl.children[1].children[props.vdCtrlTree.selectIndex].children[0].attrs[0].children[1], attrType)} value={props.vdCtrlTree.activeCtrl.children[1].children[props.vdCtrlTree.selectIndex].children[0].attrs[0].children[1].value} size="small" />
+											</FormItem>
+								      	</Form>
+
+									</div>
+								</div>
+					    	),
+
+					    	onVisibleChange () {
+
+					    	},
+                            createVisibleChange (value) {
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleCreateVisible',
+                                    payload: value
+                                });
+                            },
+                            updateVisibleChange(value){
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleUpdateVisible',
+                                    payload: value
+                                });
+                            },
+                            keyValueCreate(){
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleCreateVisible',
+                                    payload: true
+                                });
+                            },
+                            keyValuesUpdate(){
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleUpdateVisible',
+                                    payload: true
+                                });
+                            },
+                            editKeyValue(index) {
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleSelectIndex',
+                                    payload: index
+                                });
+                            },
+                            hidePopover(){
+                                setTimeout(function(){
+                                    props.dispatch({
+                                        type: 'vdCtrlTree/handleUpdateVisible',
+                                        payload: false
+                                    });
+                                }, 10)
+                            }
+                        }
                         const sliderProps = {
                             addSlider(){
 
@@ -1163,6 +1310,28 @@ const Component = (props) => {
                                 });
                             }
                         }
+
+                        const images = props.vdCtrlTree.activeCtrl.children[1].children.map((item, index) =>{
+
+                            console.log(item);
+                            return (
+                                <li className="ant-dropdown-menu-item" role="menuitem" key={index}>
+                                <Row>
+                                <Col span={3}>
+                                      <Icon type="edit" onClick={tabSettingProps.editKeyValue.bind(this, index)}/>
+                                </Col>
+                                <Col span={3}>
+                                  <Popconfirm title="确认删除吗？" onConfirm={formProps.childrenDelete.bind(this, item.children[0].attrs[0].children[0].value , item, index, 2, attrType)} okText="确定" cancelText="取消">
+                                      <Icon type="delete" onClick={tabSettingProps.hidePopover}/>
+                                      </Popconfirm>
+                                </Col>
+                                  <Col span={18}>
+                                    <p>{item.children[0].attrs[0].children[0].value}</p>
+                                  </Col>
+                                </Row>
+                              </li>
+                            )
+                        });
 	    				return (
 						    <Panel header={item.title} key={item.key}>
 						    	<Row style={{marginTop: '15px'}}>
@@ -1178,6 +1347,17 @@ const Component = (props) => {
 						    			</Col>
 						    		</Col>
 						    	</Row>
+                                <Popover
+                                    content={tabSettingProps.modifyContent}
+                                    title="修改 选项"
+                                    trigger="click"
+                                    visible={props.vdCtrlTree.keyValeUpdateVisible}
+                                    onVisibleChange = {tabSettingProps.updateVisibleChange}
+                                >
+                                    <ul  className="ant-dropdown-menu ant-dropdown-menu-vertical ant-dropdown-menu-light ant-dropdown-menu-root symbol-list" role="menu">
+                                        {images}
+                                    </ul>
+                                </Popover>
 						    </Panel>
 	    				);
 	    			},
