@@ -144,6 +144,8 @@ const Component = (props) => {
                 }
             copyByLevel(parent);
             result = vdCtrlOperate.loopAttr(result, props.vdCtrlTree.activeCtrl.root, { vdid: undefined});
+            console.log('result');
+            console.log(result.vdid);
             return result;
         }
     }
@@ -230,18 +232,9 @@ const Component = (props) => {
         },
         handleComplextChildrenDelete(message, type){
             console.log(type);
-            confirm({
-                title: '即将删除',
-                content: '确认删除当前控件' + message,
-                onOk() {
-                    props.dispatch({
-                        type: 'vdCtrlTree/handleComplextChildrenDelete',
-                        payload:{ type: type}
-                    });
-                },
-                onCancel() {
-
-                },
+            props.dispatch({
+                type: 'vdCtrlTree/handleComplextChildrenDelete',
+                payload:{ type: type}
             });
         },
         childrenUpdate(attType){
@@ -566,7 +559,9 @@ const Component = (props) => {
 									</FormItem>
 
                                     { attrType.deleteAble && <FormItem {...formItemLayout} label="">
-                                        <Button type="circle" size="small" onClick={formProps.handleComplextChildrenDelete.bind(this, item.children[2].value, 'navbar-drop-down')} ><Icon type="delete" /> &nbsp;&nbsp;删除</Button>
+                                        <Popconfirm title="确认删除？" onClick={formProps.handleComplextChildrenDelete.bind(this, item.children[2].value, 'navbar-drop-down')}>
+                                            <Button type="circle" size="small" ><Icon type="delete" /> &nbsp;&nbsp;删除</Button>
+                                        </Popconfirm>
                                     </FormItem>}
 						      	</Form>
 					    	), (
@@ -1310,7 +1305,9 @@ const Component = (props) => {
                         console.log(item);
                         return (
                             <FormItem {...formItemLayout} label="" key={item.id}>
-                                <Button type="circle" size="small" onClick={formProps.handleComplextChildrenDelete.bind(this, '下拉菜单', 'navbar-drop-down')} ><Icon type="delete" />&nbsp;&nbsp;删除</Button>
+                                <Popconfirm title="确认删除吗？" onClick={formProps.handleComplextChildrenDelete.bind(this, '下拉菜单', 'navbar-drop-down')} >
+                                    <Button type="circle" size="small" ><Icon type="delete" />&nbsp;&nbsp;删除</Button>
+                                </Popconfirm>
                             </FormItem>
                         );
                     },
