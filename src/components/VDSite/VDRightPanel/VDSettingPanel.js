@@ -1298,7 +1298,7 @@ const Component = (props) => {
                                     });
                                 }, 10)
                             },
-                            handleSliderDelete(target, parent, type){
+                            handleSliderDelete(target, parent, index, type){
 
                                 console.log(target, parent, type);
                                 props.dispatch({
@@ -1306,7 +1306,8 @@ const Component = (props) => {
                                     payload:{
                                         target: target,
                                         parent: parent,
-                                        type: type
+                                        type: type,
+                                        index: index
                                     }
                                 });
                             }
@@ -1349,7 +1350,7 @@ const Component = (props) => {
                                       <Icon type="edit" onClick={sliderSettingProps.editKeyValue.bind(this, index)}/>
                                 </Col>
                                 <Col span={3}>
-                                  <Popconfirm title="确认删除吗？" onConfirm={sliderSettingProps.handleSliderDelete.bind(this, itemImage.vdid , itemImage.parent, 'slider-delete')} okText="确定" cancelText="取消">
+                                  <Popconfirm title="确认删除吗？" onConfirm={sliderSettingProps.handleSliderDelete.bind(this, itemImage.vdid , itemImage.parent, index, 'slider-delete')} okText="确定" cancelText="取消">
                                       <Icon type="delete" onClick={sliderSettingProps.hidePopover}/>
                                       </Popconfirm>
                                 </Col>
