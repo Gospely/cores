@@ -951,8 +951,6 @@ $(function() {
             },
 
             setLinkSetting: function(attr) {
-
-
 				if(attr.isHTML || attr.attrName == 'href'){
 					this.setAttr(attr)
 				}else {
@@ -980,8 +978,10 @@ $(function() {
 
 							attrValue = getAttrValue(attrValue, sessionStorage.currentActiveLinkType);
 
+                            if(attrValue) {
+                                this.elem.attr(attr.attrName, attrValue);
+                            }
 
-							this.elem.attr(attr.attrName, attrValue);
 						}
 					}
 				}

@@ -1081,14 +1081,17 @@ export default {
                     state.appCreatingForm.mongodb = false;
                 }
 
-                if(params.value == 'vd:latest'){
+                if(!window.debug) {
 
-                    message.error('此功能未开放,正在开发');
-                    state.appCreatingForm.image = '';
-                    state.appCreatingForm.useFramework = false;
-                }else{
-                    if(params.value != 'wechat:latest')
-                    state.appCreatingForm.useFramework = true;
+                    if(params.value == 'vd:latest'){
+                        message.error('此功能未开放,正在开发');
+                        state.appCreatingForm.image = '';
+                        state.appCreatingForm.useFramework = false;
+                    }else{
+                        if(params.value != 'wechat:latest')
+                        state.appCreatingForm.useFramework = true;
+                    }
+
                 }
 
 			}

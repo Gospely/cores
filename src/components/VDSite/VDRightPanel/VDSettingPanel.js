@@ -567,13 +567,13 @@ const Component = (props) => {
 					    	), (
 						      	<Form className="form-no-margin-bottom">
 									<FormItem {...formItemLayout} label="邮箱地址">
-										<Input value={item.children[0].value} size="small" onChange={formProps.handleAttrFormInputChange.bind(this, item.children[0], attrType)}/>
+										<Input value={item.children[0].value} type="mail" size="small" onChange={formProps.handleAttrFormInputChange.bind(this, item.children[0], attrType)}/>
 									</FormItem>
 						      	</Form>
 					    	), (
 						      	<Form className="form-no-margin-bottom">
 									<FormItem {...formItemLayout} label="手机号码">
-										<Input value={item.children[0].value} size="small" onChange={formProps.handleAttrFormInputChange.bind(this, item.children[0], attrType)}/>
+										<Input value={item.children[0].value} type="tel" size="small" onChange={formProps.handleAttrFormInputChange.bind(this, item.children[0], attrType)}/>
 									</FormItem>
 						      	</Form>
 					    	), (
@@ -1296,7 +1296,7 @@ const Component = (props) => {
                         console.log(item);
                         return (
                             <FormItem {...formItemLayout} label="" key={item.id}>
-                                <Button type="circle" size="small" onClick={formProps.handleComplexChildrenAdd.bind(this, 'components', 'navbar',item, 'navbar-drop-down')}><Icon type="plus" />增加一个</Button>
+                                <Button size="small" onClick={formProps.handleComplexChildrenAdd.bind(this, 'components', 'navbar',item, 'navbar-drop-down')}><Icon type="plus" />增加一个</Button>
                             </FormItem>
                         );
                     },
@@ -1397,7 +1397,7 @@ const Component = (props) => {
     	});
     }
 
-    const settingPanelDefaultActiveKey = [];
+    const settingPanelDefaultActiveKey = ['container-attr', 'div-block-attr', 'list-attr', 'list-item-attr', 'h1-attr', 'paragraph-attr', 'text-link-attr', 'text-block-attr', 'blick-quote-attr', 'p-attr', 'video-attr', 'form-setting', 'label-attr', 'input-attr', 'textarea-attr', 'checkbox-attr', 'radio-attr', 'options-setting', 'slider-setting', 'section-attr', 'button-attr'];
 
     for (var i = 0; i < specialAttrList.length; i++) {
     	var attr = specialAttrList[i];
