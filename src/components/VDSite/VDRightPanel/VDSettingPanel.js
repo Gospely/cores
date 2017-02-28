@@ -1298,15 +1298,15 @@ const Component = (props) => {
                                     });
                                 }, 10)
                             },
-                            handleSliderDelete(target, parent, type){
+                            handleSliderDelete(target, parent, index, type){
 
-                                console.log(target, parent, type);
                                 props.dispatch({
                                     type: 'vdCtrlTree/handleComplextChildrenDelete',
                                     payload:{
                                         target: target,
                                         parent: parent,
-                                        type: type
+                                        type: type,
+                                        index: index
                                     }
                                 });
                             }
@@ -1315,7 +1315,6 @@ const Component = (props) => {
                             addSlider(){
 
                                 var slider = copyOperate.copyChildren(0, 'component','slider', 2);
-                                console.log(slider);
                                 props.dispatch({
                                     type: 'vdCtrlTree/handleChildrenAdd',
                                     payload: {
@@ -1341,7 +1340,6 @@ const Component = (props) => {
 
                         const images = props.vdCtrlTree.activeCtrl.children[1].children.map((item, index) =>{
 
-                            console.log(item);
                             return (
                                 <li className="ant-dropdown-menu-item" role="menuitem" key={index}>
                                 <Row>
@@ -1349,7 +1347,7 @@ const Component = (props) => {
                                       <Icon type="edit" onClick={sliderSettingProps.editKeyValue.bind(this, index)}/>
                                 </Col>
                                 <Col span={3}>
-                                  <Popconfirm title="确认删除吗？" onConfirm={sliderSettingProps.handleSliderDelete.bind(this, itemImage.vdid , itemImage.parent, 'slider-delete')} okText="确定" cancelText="取消">
+                                  <Popconfirm title="确认删除吗？" onConfirm={sliderSettingProps.handleSliderDelete.bind(this, itemImage.vdid , itemImage.parent, index, 'slider-delete')} okText="确定" cancelText="取消">
                                       <Icon type="delete" onClick={sliderSettingProps.hidePopover}/>
                                       </Popconfirm>
                                 </Col>
@@ -1528,8 +1526,6 @@ const Component = (props) => {
 		    			);
     				},
                     buttonAdd (item) {
-                        console.log(attrType);
-                        console.log(item);
                         return (
                             <FormItem {...formItemLayout} label="" key={item.id}>
                                 <Button size="small" onClick={formProps.handleComplexChildrenAdd.bind(this, 'components', 'navbar',item, 'navbar-drop-down')}><Icon type="plus" />增加一个</Button>
@@ -1537,8 +1533,6 @@ const Component = (props) => {
                         );
                     },
                     buttonDelete (item) {
-                        console.log(attrType);
-                        console.log(item);
                         return (
                             <FormItem {...formItemLayout} label="" key={item.id}>
                                 <Popconfirm title="确认删除吗？" onConfirm={formProps.handleComplextChildrenDelete.bind(this, '下拉菜单', 'navbar-drop-down')} >

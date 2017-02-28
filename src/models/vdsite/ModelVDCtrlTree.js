@@ -415,6 +415,17 @@ export default {
 				'slider-delete' () {
 					target = params.target,
 					currentActiveCtrl = VDTreeActions.getCtrlByKey(state, params.parent, state.activePage);
+					var root =  VDTreeActions.getCtrlByKey(state, currentActiveCtrl.controller.root, state.activePage).controller;
+
+					window.VDDesignerFrame.postMessage({
+						VDChildrenDelete: {
+							activeCtrl: {
+								vdid: root.children[0].children[params.index].vdid
+							},
+							attrType: params.attrType
+						}
+					}, '*');
+					root.children[0].children.splice(params.index, 1);
 					state.selectIndex = 0;
 				}
 			}
