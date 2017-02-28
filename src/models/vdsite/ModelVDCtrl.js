@@ -126,7 +126,7 @@ export default {
 							desc: '标签',
 							type: 'select',
 							value: ['section'],
-							valueList: ['div', 'header', 'footer', 'nav', 'main', 'section', 'article', 'aside', 'address', 'figure'],
+							valueList: ['div', 'header', 'footer', 'nav', 'main', 'section', 'article', 'a', 'address', 'figure'],
 							id: '',
 							isTag: true
 						}, {
@@ -156,7 +156,7 @@ export default {
 							type: 'select',
 							value: ['section'],
                             isTag: true,
-							valueList: ['div', 'header', 'footer', 'nav', 'main', 'section', 'article', 'aside', 'address', 'figure'],
+							valueList: ['div', 'header', 'footer', 'nav', 'main', 'section', 'article', 'a', 'address', 'figure'],
 							id: ''
 						}, {
 							name: 'container',
@@ -240,7 +240,7 @@ export default {
 							desc: '标签',
 							type: 'select',
 							value: ['div'],
-							valueList: ['div', 'header', 'footer', 'nav', 'main', 'section', 'article', 'aside', 'address', 'figure'],
+							valueList: ['div', 'header', 'footer', 'nav', 'main', 'section', 'article', 'a', 'address', 'figure'],
 							id: ''
 						}, {
 							name: 'container',
@@ -2048,7 +2048,6 @@ export default {
         									attrs: [{
         										title: '导航菜单设置',
         										key: 'navbar-setting',
-                                                deleteAble: true,
         										children: []
         									}],
         									children: [{
@@ -2057,6 +2056,7 @@ export default {
         										attrs: [{
         											title: '导航菜单链接设置',
         											key: 'link-setting',
+                                                    deleteAble: true,
         											children: [{
                                                         name: 'src',
                                                         desc: '跳转链接',
@@ -2389,7 +2389,7 @@ export default {
             					className: [''],
             					attrs: [{
             						title: '图片设置',
-            						key: 'slider-setting',
+            						key: 'image-setting',
             						children: [{
             							name: 'src',
             							desc: '图片地址',
@@ -2398,13 +2398,6 @@ export default {
             							isAttr: true,
             							attrName: 'src',
             							id: '',
-            						},{
-            							name: 'width',
-            							desc: '宽度',
-            							type: 'input',
-            							value: '100%',
-            							isAttr: true,
-            							attrName: 'width'
             						}, {
             							name: 'alt',
             							desc: '替换文本',
@@ -2412,6 +2405,20 @@ export default {
             							value: '',
             							isAttr: true,
             							attrName: 'alt'
+            						}, {
+            							name: 'width',
+            							desc: '宽度',
+            							type: 'input',
+                                        value: "100%",
+            							isAttr: true,
+            							attrName: 'width'
+            						}, {
+            							name: 'height',
+            							desc: '高度',
+            							type: 'input',
+                                        value: "100%",
+            							isAttr: true,
+            							attrName: 'height'
             						},{
             							name: 'image_placeholder',
             							desc: '占位图片',
@@ -2425,7 +2432,8 @@ export default {
     							className: ['carousel-caption'],
     							attrs: [{
     								title: '幻灯片设置',
-    								key: 'slider-setting',
+    								key: 'slider-label-setting',
+                                    isAttrSetting: true,
     								children: [{
                                         name: 'innerHTML',
                                         desc: '替换文本',
@@ -2449,7 +2457,7 @@ export default {
             					className: [''],
             					attrs: [{
             						title: '图片设置',
-            						key: 'slider-setting',
+            						key: 'image-setting',
             						children: [{
             							name: 'src',
             							desc: '图片地址',
@@ -2458,7 +2466,7 @@ export default {
             							isAttr: true,
             							attrName: 'src',
             							id: '',
-            						}, {
+            						},{
             							name: 'alt',
             							desc: '替换文本',
             							type: 'input',
@@ -2469,9 +2477,23 @@ export default {
             							name: 'width',
             							desc: '宽度',
             							type: 'input',
-            							value: '100%',
+            							value: "100%",
             							isAttr: true,
             							attrName: 'width'
+            						}, {
+            							name: 'height',
+            							desc: '高度',
+            							type: 'input',
+            							value: '100%',
+            							isAttr: true,
+            							attrName: 'height'
+            						}, {
+            							name: 'alt',
+            							desc: '替换文本',
+            							type: 'input',
+            							value: '',
+            							isAttr: true,
+            							attrName: 'alt'
             						}, {
             							name: 'image_placeholder',
             							desc: '占位图片',
@@ -2485,7 +2507,8 @@ export default {
     							className: ['carousel-caption'],
     							attrs: [{
     								title: '幻灯片设置',
-    								key: 'slider-setting',
+                                    key: 'slider-label-setting',
+                                    isAttrSetting: true,
     								children: [{
                                         name: 'innerHTML',
                                         desc: '替换文本',

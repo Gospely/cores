@@ -513,7 +513,7 @@ $(function() {
 		const columnsOperate = {
 			'add': function(parent, column, parent, count, colClass){
 				var elem = jq('[vdid='+ parent + ']');
-				
+
 				for(var i = 0; i < count; i ++){
 					var elemGen = new ElemGenerator(column[i]);
 					var tempElem = elemGen.createElement();
@@ -532,7 +532,7 @@ $(function() {
 
 					jq(this).attr("class", classList.join(' '));
 				})
-				
+
 			},
 
 			delete: function (parent, column, parent, count, colClass) {
@@ -908,7 +908,8 @@ $(function() {
 
             setAttr: function(attr) {
                 if(attr.isHTML) {
-
+					
+					console.log(attr);
 					if(attr.html != null && attr.html != undefined){
 						this.elem.html(attr.html);
 					}else{
@@ -1022,6 +1023,7 @@ $(function() {
 				this.setAttr(attr);
 			},
 			setSliderSetting: function(attr){
+
 				this.setAttr(attr);
 			},
             transformTypeToUpper: function(type) {

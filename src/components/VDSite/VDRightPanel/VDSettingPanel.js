@@ -1134,7 +1134,7 @@ const Component = (props) => {
 	    				);
 	    			},
 
-	    			'slider-settings' (item, attrTypeIndex) {
+	    			'slider-setting' (item, attrTypeIndex) {
 	    				return (
 						    <Panel header={item.title} key={item.key}>
 						    	<Row>
