@@ -471,6 +471,10 @@ $(function() {
                             dndData.dragElem = elemToAdd;
                             dndData.ctrlToAddData = data.controller;
                         };
+                    },
+
+                    VDCtrlSelected: function() {
+                        controllerOperations.select(data, true);
                     }
                 };
 
@@ -583,9 +587,20 @@ $(function() {
 
             select: function(data, notPostMessage) {
 				if(data) {
-					notPostMessage = notPostMessage || false;
-	                controllerOperations.showDesignerDraggerBorder(jq('[vdid=' + data.vdid + ']'))
-                    jq('#ctrl-title-hover, #ctrl-title-clicked').html(data.tag + '.' + data.customClassName.join('.'));
+
+                    if(data.vdid == '') {
+                        controllerOperations.hideDesignerDraggerBorder();
+                        return false;
+                    }
+
+                    notPostMessage = notPostMessage || false;
+                    var currentCtrl = jq('[vdid=' + data.vdid + ']');
+
+	                controllerOperations.showDesignerDraggerBorder(currentCtrl);
+                    if(data.isFromCtrlTree) {
+                        data = currentCtrl.data('controller');
+                    }
+                    jq('#ctrl-title-hover, #ctrl-title-clicked').html(data.tag + (data.customClassName.length > 0 ? '.' + data.customClassName.join('.') : ''));
 	                if(!notPostMessage) {
 	                    postMessageToFather.ctrlSelected(data);
 	                }

@@ -12,9 +12,41 @@ const TabPane = Tabs.TabPane;
 
 const Component = (props) => {
 
-	const ctrlPros = {
-			onSelect () {
+	var prevHoverCtrl = '',
+		realSelectedCtrl = '';
 
+	const ctrlPros = {
+			onSelect (val, e) {
+
+				realSelectedCtrl = val[0];
+
+				window.VDDesignerFrame.postMessage({
+					VDCtrlSelected: {
+						vdid: realSelectedCtrl,
+						isFromCtrlTree: true
+					}
+				}, '*');
+			},
+
+			onMouseEnter (evt) {
+
+				prevHoverCtrl = evt.node.props.eventKey;
+
+				window.VDDesignerFrame.postMessage({
+					VDCtrlSelected: {
+						vdid: prevHoverCtrl,
+						isFromCtrlTree: true
+					}
+				}, '*');
+			},
+
+			onMouseLeave (evt) {
+				window.VDDesignerFrame.postMessage({
+					VDCtrlSelected: {
+						vdid: realSelectedCtrl,
+						isFromCtrlTree: true
+					}
+				}, '*');
 			},
 
 			onCheck () {
@@ -46,7 +78,7 @@ const Component = (props) => {
       		defaultExpandAll={true}
         	defaultExpandedKeys={props.vdCtrlTree.defaultExpandedKeys}
         	defaultSelectedKeys={props.vdCtrlTree.defaultSelectedKeys}
-        	onSelect={ctrlPros.onSelect} onCheck={ctrlPros.onCheck}
+        	onSelect={ctrlPros.onSelect} onMouseEnter={ctrlPros.onMouseEnter} onMouseLeave={ctrlPros.onMouseLeave} onCheck={ctrlPros.onCheck}
       	>
       		{loopControllerTree(activeControllerTree)}
       </Tree>
