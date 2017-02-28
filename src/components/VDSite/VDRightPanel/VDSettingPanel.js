@@ -144,6 +144,8 @@ const Component = (props) => {
                 }
             copyByLevel(parent);
             result = vdCtrlOperate.loopAttr(result, props.vdCtrlTree.activeCtrl.root, { vdid: undefined});
+            console.log('result');
+            console.log(result.vdid);
             return result;
         }
     }
@@ -230,18 +232,9 @@ const Component = (props) => {
         },
         handleComplextChildrenDelete(message, type){
             console.log(type);
-            confirm({
-                title: '即将删除',
-                content: '确认删除当前控件' + message,
-                onOk() {
-                    props.dispatch({
-                        type: 'vdCtrlTree/handleComplextChildrenDelete',
-                        payload:{ type: type}
-                    });
-                },
-                onCancel() {
-
-                },
+            props.dispatch({
+                type: 'vdCtrlTree/handleComplextChildrenDelete',
+                payload:{ type: type}
             });
         },
         childrenUpdate(attType){
@@ -566,7 +559,9 @@ const Component = (props) => {
 									</FormItem>
 
                                     { attrType.deleteAble && <FormItem {...formItemLayout} label="">
-                                        <Button size="small" onClick={formProps.handleComplextChildrenDelete.bind(this, item.children[2].value, 'navbar-drop-down')} ><Icon type="delete" /></Button>
+                                        <Popconfirm title="确认删除？" onConfirm={formProps.handleComplextChildrenDelete.bind(this, item.children[2].value, 'navbar-drop-down')}>
+                                            <Button type="circle" size="small" ><Icon type="delete" /> &nbsp;&nbsp;删除</Button>
+                                        </Popconfirm>
                                     </FormItem>}
 						      	</Form>
 					    	), (
@@ -1139,12 +1134,221 @@ const Component = (props) => {
 	    				);
 	    			},
 
-	    			'slider-settings' (item, attrTypeIndex) {
+	    			'slider-setting' (item, attrTypeIndex) {
+
+                        const keyValueProps = {
+
+                            keyValueChange(e){
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleChildrenAttrChange',
+                                    payload: {
+                                        index: props.vdCtrlTree.selectIndex,
+                                        attr: {
+                                            name: 'value',
+                                            value: e.target.value,
+                                            isTab: true
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                        const bgUploaderProps = {
+					 		listType: 'picture',
+						  	defaultFileList: item.children[0].fileInfo,
+
+						  	beforeUpload () {
+						  		props.dispatch({
+						  			type: 'vdCtrlTree/handleImageSettingBeforeUpload',
+						  			payload: item.children[0].fileInfo
+						  		});
+						  	},
+
+						  	onChange (object) {
+						  		formProps.handleAttrFormInputChange(item.children[0], attrType, {
+						  			target: {
+						  				value: object.file.thumbUrl
+						  			}
+						  		});
+						  	}
+					    }
+                        console.log(props.vdCtrlTree.activeCtrl.children[1].children[props.vdCtrlTree.selectIndex]);
+					    const sliderSettingProps = {
+					    	modifyContent: (
+                                <div className="guidance-panel-wrapper">
+									<div className="guidance-panel-child">
+										<div className="bem-Frame">
+											<div className="bem-Frame_Head">
+												<div className="bem-Frame_Legend">
+													<div className="bem-SpecificityLabel bem-SpecificityLabel-local bem-SpecificityLabel-text">
+														图片资源
+													</div>
+												</div>
+											</div>
+											<div className="bem-Frame_Body">
+												<Upload {...bgUploaderProps}>
+													<Button><i className="fa fa-cloud-upload"></i>&nbsp;上传图片</Button>
+											  	</Upload>
+
+												<Button style={{float: 'right', bottom: '102px'}}><i className="fa fa-picture-o"></i>&nbsp;图片资源</Button>
+											</div>
+										</div>
+
+										<div className="bem-Frame">
+											<div className="bem-Frame_Head">
+												<div className="bem-Frame_Legend">
+													<div className="bem-SpecificityLabel bem-SpecificityLabel-local bem-SpecificityLabel-text">
+														大小
+													</div>
+												</div>
+											</div>
+											<div className="bem-Frame_Body">
+												<Row>
+
+												  	<Col span={11} style={{paddingRight: '5px'}}>
+												      	<Form className="form-no-margin-bottom">
+															<FormItem {...formItemLayout} label="宽度">
+																<Input onChange={formProps.handleAttrFormInputChange.bind(this, props.vdCtrlTree.activeCtrl.children[1].children[props.vdCtrlTree.selectIndex].children[0].attrs[0].children[2], attrType)} value={props.vdCtrlTree.activeCtrl.children[1].children[props.vdCtrlTree.selectIndex].children[0].attrs[0].children[2].value} size="small" />
+															</FormItem>
+												      	</Form>
+												  	</Col>
+												  	<Col span={13} style={{paddingLeft: '5px'}}>
+												      	<Form className="form-no-margin-bottom">
+															<FormItem {...formItemLayout} label="高度">
+																<Input onChange={formProps.handleAttrFormInputChange.bind(this, props.vdCtrlTree.activeCtrl.children[1].children[props.vdCtrlTree.selectIndex].children[0].attrs[0].children[3], attrType)} value={props.vdCtrlTree.activeCtrl.children[1].children[props.vdCtrlTree.selectIndex].children[0].attrs[0].children[3].value} size="small" />
+															</FormItem>
+												      	</Form>
+												  	</Col>
+
+												</Row>
+
+											</div>
+										</div>
+
+								      	<Form className="form-no-margin-bottom">
+											<FormItem {...formItemLayout} label={(
+								              <span>
+								                替换文本&nbsp;
+								                <Tooltip title="当图片无法加载时显示此文字">
+								                  <Icon type="question-circle-o" />
+								                </Tooltip>
+								              </span>
+								            )}>
+												<Input onChange={formProps.handleAttrFormInputChange.bind(this, props.vdCtrlTree.activeCtrl.children[1].children[props.vdCtrlTree.selectIndex].children[0].attrs[0].children[1], attrType)} value={props.vdCtrlTree.activeCtrl.children[1].children[props.vdCtrlTree.selectIndex].children[0].attrs[0].children[1].value} size="small" />
+											</FormItem>
+								      	</Form>
+
+									</div>
+								</div>
+					    	),
+
+					    	onVisibleChange () {
+
+					    	},
+                            createVisibleChange (value) {
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleCreateVisible',
+                                    payload: value
+                                });
+                            },
+                            updateVisibleChange(value){
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleUpdateVisible',
+                                    payload: value
+                                });
+                            },
+                            keyValueCreate(){
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleCreateVisible',
+                                    payload: true
+                                });
+                            },
+                            keyValuesUpdate(){
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleUpdateVisible',
+                                    payload: true
+                                });
+                            },
+                            editKeyValue(index) {
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleSelectIndex',
+                                    payload: index
+                                });
+                            },
+                            hidePopover(){
+                                setTimeout(function(){
+                                    props.dispatch({
+                                        type: 'vdCtrlTree/handleUpdateVisible',
+                                        payload: false
+                                    });
+                                }, 10)
+                            },
+                            handleSliderDelete(target, parent, type){
+
+                                console.log(target, parent, type);
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleComplextChildrenDelete',
+                                    payload:{
+                                        target: target,
+                                        parent: parent,
+                                        type: type
+                                    }
+                                });
+                            }
+                        }
+                        const sliderProps = {
+                            addSlider(){
+
+                                var slider = copyOperate.copyChildren(0, 'component','slider', 2);
+                                console.log(slider);
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleChildrenAdd',
+                                    payload: {
+                                        activeCtrl: props.vdCtrlTree.activeCtrl,
+                                        children: slider,
+                                        levelsInfo: [{ level:2, index: 0}],
+                                        level: 2
+                                    }
+                                });
+
+                                var content = copyOperate.copyChildren(1, 'component','slider', 2, [{ level:0, index: 1}]);
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleChildrenAdd',
+                                    payload: {
+                                        activeCtrl: props.vdCtrlTree.activeCtrl,
+                                        children: content,
+                                        levelsInfo: [{ level:0, index: 1}],
+                                        level: 2
+                                    }
+                                });
+                            }
+                        }
+
+                        const images = props.vdCtrlTree.activeCtrl.children[1].children.map((item, index) =>{
+
+                            console.log(item);
+                            return (
+                                <li className="ant-dropdown-menu-item" role="menuitem" key={index}>
+                                <Row>
+                                <Col span={3}>
+                                      <Icon type="edit" onClick={sliderSettingProps.editKeyValue.bind(this, index)}/>
+                                </Col>
+                                <Col span={3}>
+                                  <Popconfirm title="确认删除吗？" onConfirm={sliderSettingProps.handleSliderDelete.bind(this, props.vdCtrlTree.activeCtrl.children[1].children[props.vdCtrlTree.selectIndex].vdid , props.vdCtrlTree.activeCtrl.children[1].children[props.vdCtrlTree.selectIndex].parent, 'slider-delete')} okText="确定" cancelText="取消">
+                                      <Icon type="delete" onClick={sliderSettingProps.hidePopover}/>
+                                      </Popconfirm>
+                                </Col>
+                                  <Col span={18}>
+                                    <p>{item.children[0].attrs[0].children[0].value}</p>
+                                  </Col>
+                                </Row>
+                              </li>
+                            )
+                        });
 	    				return (
 						    <Panel header={item.title} key={item.key}>
-						    	<Row>
+						    	<Row style={{marginTop: '15px'}}>
 						    		<Col span={12}>
-						    			<Button size="small"><Icon type="plus" />增加一个</Button>
+						    			<Button size="small" onClick={sliderProps.addSlider}><Icon type="plus"/>增加一个</Button>
 						    		</Col>
 						    		<Col span={12}>
 						    			<Col span={12} style={{textAlign: 'right'}}>
@@ -1155,6 +1359,17 @@ const Component = (props) => {
 						    			</Col>
 						    		</Col>
 						    	</Row>
+                                <Popover
+                                    content={sliderSettingProps.modifyContent}
+                                    title="修改 选项"
+                                    trigger="click"
+                                    visible={props.vdCtrlTree.keyValeUpdateVisible}
+                                    onVisibleChange = {sliderSettingProps.updateVisibleChange}
+                                >
+                                    <ul  className="ant-dropdown-menu ant-dropdown-menu-vertical ant-dropdown-menu-light ant-dropdown-menu-root symbol-list" role="menu">
+                                        {images}
+                                    </ul>
+                                </Popover>
 						    </Panel>
 	    				);
 	    			},
@@ -1310,7 +1525,9 @@ const Component = (props) => {
                         console.log(item);
                         return (
                             <FormItem {...formItemLayout} label="" key={item.id}>
-                                <Button size="small" onClick={formProps.handleComplextChildrenDelete.bind(this, '下拉菜单', 'navbar-drop-down')} ><Icon type="delete" />删除</Button>
+                                <Popconfirm title="确认删除吗？" onConfirm={formProps.handleComplextChildrenDelete.bind(this, '下拉菜单', 'navbar-drop-down')} >
+                                    <Button type="circle" size="small" ><Icon type="delete" />&nbsp;&nbsp;删除</Button>
+                                </Popconfirm>
                             </FormItem>
                         );
                     },
