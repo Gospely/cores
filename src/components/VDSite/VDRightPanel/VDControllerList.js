@@ -18,6 +18,8 @@ const Component = (props) => {
 	const ctrlPros = {
 			onSelect (val, e) {
 
+
+
 				realSelectedCtrl = val[0];
 
 				window.VDDesignerFrame.postMessage({
@@ -29,6 +31,8 @@ const Component = (props) => {
 			},
 
 			onMouseEnter (evt) {
+
+				console.log(evt);
 
 				prevHoverCtrl = evt.node.props.eventKey;
 
@@ -77,7 +81,7 @@ const Component = (props) => {
       	<Tree showLine
       		defaultExpandAll={true}
         	defaultExpandedKeys={props.vdCtrlTree.defaultExpandedKeys}
-        	defaultSelectedKeys={props.vdCtrlTree.defaultSelectedKeys}
+        	selectedKeys={props.vdCtrlTree.defaultSelectedKeys}
         	onSelect={ctrlPros.onSelect} onMouseEnter={ctrlPros.onMouseEnter} onMouseLeave={ctrlPros.onMouseLeave} onCheck={ctrlPros.onCheck}
       	>
       		{loopControllerTree(activeControllerTree)}

@@ -461,7 +461,6 @@ $(function() {
                     pageSelected: function() {
                         jq('#VDDesignerContainer').html('');
                         controllerOperations.hideDesignerDraggerBorder();
-                        console.log('pageSelected', data);
                         for (var i = 0; i < data.length; i++) {
                             var currentController = data[i];
                             var elem = new ElemGenerator(currentController);
