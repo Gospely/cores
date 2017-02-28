@@ -2319,6 +2319,7 @@ export default {
 						attrs: [{
 							title: '幻灯片设置',
 							key: 'slider-setting',
+                            unActive: true,
 							children: []
 						}],
 						children: [{

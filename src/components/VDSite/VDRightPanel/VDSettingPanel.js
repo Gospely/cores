@@ -1030,7 +1030,7 @@ const Component = (props) => {
                             },
                             addTabs(){
 
-                                var image = copyOperate.copyChildren(0, 'component','tabs', 2);
+                                var tab = copyOperate.copyChildren(0, 'component','tabs', 2);
                                 props.dispatch({
                                     type: 'vdCtrlTree/handleChildrenAdd',
                                     payload: {
@@ -1167,7 +1167,7 @@ const Component = (props) => {
 						    <Panel header={item.title} key={item.key}>
 						    	<Row style={{marginTop: '15px'}}>
 						    		<Col span={12}>
-						    			<Button size="small"><Icon type="plus" onClick={sliderProps.addSlider}/>增加一个</Button>
+						    			<Button size="small" onClick={sliderProps.addSlider}><Icon type="plus"/>增加一个</Button>
 						    		</Col>
 						    		<Col span={12}>
 						    			<Col span={12} style={{textAlign: 'right'}}>
