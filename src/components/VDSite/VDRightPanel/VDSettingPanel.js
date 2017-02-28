@@ -559,7 +559,7 @@ const Component = (props) => {
 									</FormItem>
 
                                     { attrType.deleteAble && <FormItem {...formItemLayout} label="">
-                                        <Popconfirm title="确认删除？" onClick={formProps.handleComplextChildrenDelete.bind(this, item.children[2].value, 'navbar-drop-down')}>
+                                        <Popconfirm title="确认删除？" onConfirm={formProps.handleComplextChildrenDelete.bind(this, item.children[2].value, 'navbar-drop-down')}>
                                             <Button type="circle" size="small" ><Icon type="delete" /> &nbsp;&nbsp;删除</Button>
                                         </Popconfirm>
                                     </FormItem>}
@@ -1305,7 +1305,7 @@ const Component = (props) => {
                         console.log(item);
                         return (
                             <FormItem {...formItemLayout} label="" key={item.id}>
-                                <Popconfirm title="确认删除吗？" onClick={formProps.handleComplextChildrenDelete.bind(this, '下拉菜单', 'navbar-drop-down')} >
+                                <Popconfirm title="确认删除吗？" onConfirm={formProps.handleComplextChildrenDelete.bind(this, '下拉菜单', 'navbar-drop-down')} >
                                     <Button type="circle" size="small" ><Icon type="delete" />&nbsp;&nbsp;删除</Button>
                                 </Popconfirm>
                             </FormItem>
