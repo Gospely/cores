@@ -585,6 +585,7 @@ $(function() {
 				if(data) {
 					notPostMessage = notPostMessage || false;
 	                controllerOperations.showDesignerDraggerBorder(jq('[vdid=' + data.vdid + ']'))
+                    jq('#ctrl-title-hover, #ctrl-title-clicked').html(data.tag + '.' + data.customClassName.join('.'));
 	                if(!notPostMessage) {
 	                    postMessageToFather.ctrlSelected(data);
 	                }
@@ -643,6 +644,10 @@ $(function() {
             //     key: ''
             // });
 
+        });
+
+        jq(document).on('keyup', function(e) {
+            console.log(e);
         });
 
         //拖拽初始化类
@@ -1140,7 +1145,6 @@ $(function() {
             },
 
             listenClick: function() {
-
                 var self = this;
                 this.elem.click(function(e) {
                     e.stopPropagation();
