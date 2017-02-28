@@ -168,6 +168,13 @@ export default {
     		key: 'index.html'
     	},
 
+    	constructionMenuStyle: {
+		    position: 'fixed',
+		    top: '',
+		    left: '',
+		    display: 'none'
+		},
+
 	    activeCtrl: {
 			tag: 'div',
 			className: [],
@@ -253,6 +260,24 @@ export default {
 	},
 
 	reducers: {
+
+		showCtrlTreeContextMenu(state, { payload: proxy }) {
+			return {...state, constructionMenuStyle: {
+				position: 'fixed',
+				display: 'block',
+				left: proxy.event.pageX / 1.8,
+				top: proxy.event.pageY - 30,
+			}};
+		},
+
+		hideCtrlTreeContextMenu(state) {
+			return {...state, constructionMenuStyle: {
+				position: 'fixed',
+				display: 'none',
+				left: 0,
+				top: 0,
+			}};
+		},
 
 		handleCurrentSymbolKey(state, { payload: key}) {
 			state.currentSymbolKey = key;
