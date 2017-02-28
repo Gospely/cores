@@ -461,7 +461,6 @@ $(function() {
                     pageSelected: function() {
                         jq('#VDDesignerContainer').html('');
                         controllerOperations.hideDesignerDraggerBorder();
-                        console.log('pageSelected', data);
                         for (var i = 0; i < data.length; i++) {
                             var currentController = data[i];
                             var elem = new ElemGenerator(currentController);
@@ -471,6 +470,10 @@ $(function() {
                             dndData.dragElem = elemToAdd;
                             dndData.ctrlToAddData = data.controller;
                         };
+                    },
+
+                    VDCtrlSelected: function() {
+                        controllerOperations.select(data, true);
                     }
                 };
 
@@ -583,8 +586,20 @@ $(function() {
 
             select: function(data, notPostMessage) {
 				if(data) {
-					notPostMessage = notPostMessage || false;
-	                controllerOperations.showDesignerDraggerBorder(jq('[vdid=' + data.vdid + ']'))
+
+                    if(data.vdid == '') {
+                        controllerOperations.hideDesignerDraggerBorder();
+                        return false;
+                    }
+
+                    notPostMessage = notPostMessage || false;
+                    var currentCtrl = jq('[vdid=' + data.vdid + ']');
+
+	                controllerOperations.showDesignerDraggerBorder(currentCtrl);
+                    if(data.isFromCtrlTree) {
+                        data = currentCtrl.data('controller');
+                    }
+                    jq('#ctrl-title-hover, #ctrl-title-clicked').html(data.tag + (data.customClassName.length > 0 ? '.' + data.customClassName.join('.') : ''));
 	                if(!notPostMessage) {
 	                    postMessageToFather.ctrlSelected(data);
 	                }
@@ -643,6 +658,10 @@ $(function() {
             //     key: ''
             // });
 
+        });
+
+        jq(document).on('keyup', function(e) {
+            console.log(e);
         });
 
         //拖拽初始化类
@@ -1142,7 +1161,6 @@ $(function() {
             },
 
             listenClick: function() {
-
                 var self = this;
                 this.elem.click(function(e) {
                     e.stopPropagation();

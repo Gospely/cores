@@ -599,6 +599,8 @@ export default {
 					ctrl.children = undefined;
 				}
 
+				state.defaultSelectedKeys = [ctrl.vdid];
+
 				return ctrl;
 			}
 
@@ -644,6 +646,7 @@ export default {
 			var ctrlInfo = VDTreeActions.getActiveControllerIndexAndLvlByKey(state, state.activeCtrl.vdid, state.activePage);
 			state.activeCtrlIndex = ctrlInfo.index;
 			state.activeCtrlLvl = ctrlInfo.level;
+			state.defaultSelectedKeys = [state.activeCtrl.vdid];
 			return {...state};
 		},
 		handleAttrFormChangeA(state, { payload: params }) {
