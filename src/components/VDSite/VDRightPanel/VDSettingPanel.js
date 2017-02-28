@@ -1150,6 +1150,22 @@ const Component = (props) => {
                                         }
                                     }
                                 });
+                            },
+                            handleAttrFormInputChange(index,target, attrType, dom){
+
+                                let newVal = dom.target ? dom.target.value : dom;
+
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleAttrFormChangeNotRefreshActiveCtrl',
+                                    payload: {
+                                        index: index,
+                                        target: target,
+                                        attrType: attrType,
+                                        newVal: newVal
+                                    }
+                                });
+                                console.log(target);
+                                console.log(index);
                             }
                         }
                         const bgUploaderProps = {
@@ -1171,7 +1187,7 @@ const Component = (props) => {
 						  		});
 						  	}
 					    }
-                        console.log(props.vdCtrlTree.activeCtrl.children[1].children[props.vdCtrlTree.selectIndex]);
+                        var itemImage = props.vdCtrlTree.activeCtrl.children[1].children[props.vdCtrlTree.selectIndex];
 					    const sliderSettingProps = {
 					    	modifyContent: (
                                 <div className="guidance-panel-wrapper">
@@ -1207,14 +1223,14 @@ const Component = (props) => {
 												  	<Col span={11} style={{paddingRight: '5px'}}>
 												      	<Form className="form-no-margin-bottom">
 															<FormItem {...formItemLayout} label="宽度">
-																<Input onChange={formProps.handleAttrFormInputChange.bind(this, props.vdCtrlTree.activeCtrl.children[1].children[props.vdCtrlTree.selectIndex].children[0].attrs[0].children[2], attrType)} value={props.vdCtrlTree.activeCtrl.children[1].children[props.vdCtrlTree.selectIndex].children[0].attrs[0].children[2].value} size="small" />
+																<Input onChange={keyValueProps.handleAttrFormInputChange.bind(this, 2, itemImage.children[0].vdid, attrType)} value={itemImage.children[0].attrs[0].children[2].value} size="small" />
 															</FormItem>
 												      	</Form>
 												  	</Col>
 												  	<Col span={13} style={{paddingLeft: '5px'}}>
 												      	<Form className="form-no-margin-bottom">
 															<FormItem {...formItemLayout} label="高度">
-																<Input onChange={formProps.handleAttrFormInputChange.bind(this, props.vdCtrlTree.activeCtrl.children[1].children[props.vdCtrlTree.selectIndex].children[0].attrs[0].children[3], attrType)} value={props.vdCtrlTree.activeCtrl.children[1].children[props.vdCtrlTree.selectIndex].children[0].attrs[0].children[3].value} size="small" />
+																<Input onChange={keyValueProps.handleAttrFormInputChange.bind(this, 3, itemImage.children[0].vdid, attrType)} value={itemImage.children[0].attrs[0].children[3].value} size="small" />
 															</FormItem>
 												      	</Form>
 												  	</Col>
@@ -1233,7 +1249,7 @@ const Component = (props) => {
 								                </Tooltip>
 								              </span>
 								            )}>
-												<Input onChange={formProps.handleAttrFormInputChange.bind(this, props.vdCtrlTree.activeCtrl.children[1].children[props.vdCtrlTree.selectIndex].children[0].attrs[0].children[1], attrType)} value={props.vdCtrlTree.activeCtrl.children[1].children[props.vdCtrlTree.selectIndex].children[0].attrs[0].children[1].value} size="small" />
+												<Input onChange={keyValueProps.handleAttrFormInputChange.bind(this, 1, itemImage.children[0].vdid , attrType)} value={itemImage.children[0].attrs[0].children[1].value} size="small" />
 											</FormItem>
 								      	</Form>
 
@@ -1333,7 +1349,7 @@ const Component = (props) => {
                                       <Icon type="edit" onClick={sliderSettingProps.editKeyValue.bind(this, index)}/>
                                 </Col>
                                 <Col span={3}>
-                                  <Popconfirm title="确认删除吗？" onConfirm={sliderSettingProps.handleSliderDelete.bind(this, props.vdCtrlTree.activeCtrl.children[1].children[props.vdCtrlTree.selectIndex].vdid , props.vdCtrlTree.activeCtrl.children[1].children[props.vdCtrlTree.selectIndex].parent, 'slider-delete')} okText="确定" cancelText="取消">
+                                  <Popconfirm title="确认删除吗？" onConfirm={sliderSettingProps.handleSliderDelete.bind(this, itemImage.vdid , itemImage.parent, 'slider-delete')} okText="确定" cancelText="取消">
                                       <Icon type="delete" onClick={sliderSettingProps.hidePopover}/>
                                       </Popconfirm>
                                 </Col>
