@@ -2323,7 +2323,7 @@ export default {
 						}],
 						children: [{
 							tag: 'li',
-							className: ['active'],
+							className: [''],
 							attrs: [{
 								title: '幻灯片设置',
 								key: 'slider-setting',
@@ -2343,7 +2343,7 @@ export default {
 							}, ]
 						}, {
 							tag: 'li',
-							className: [''],
+							className: ['active'],
 							attrs: [{
 								title: '幻灯片设置',
 								key: 'slider-setting',
@@ -2378,7 +2378,7 @@ export default {
 						}],
 						children: [{
 							tag: 'div',
-							className: ['item', 'active'],
+							className: ['item'],
 							attrs: [{
 								title: '幻灯片设置',
 								key: 'slider-setting',
@@ -2446,7 +2446,7 @@ export default {
                             }]
 						}, {
 							tag: 'div',
-							className: ['item'],
+							className: ['item', 'active'],
 							attrs: [{
 								title: '幻灯片设置',
 								key: 'slider-setting',

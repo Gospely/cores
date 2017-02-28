@@ -1030,7 +1030,7 @@ const Component = (props) => {
                             },
                             addTabs(){
 
-                                var tab = copyOperate.copyChildren(0, 'component','tabs', 2);
+                                var image = copyOperate.copyChildren(0, 'component','tabs', 2);
                                 props.dispatch({
                                     type: 'vdCtrlTree/handleChildrenAdd',
                                     payload: {
@@ -1135,11 +1135,39 @@ const Component = (props) => {
 	    			},
 
 	    			'slider-setting' (item, attrTypeIndex) {
+
+                        const sliderProps = {
+                            addSlider(){
+
+                                var slider = copyOperate.copyChildren(0, 'component','slider', 2);
+                                console.log(slider);
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleChildrenAdd',
+                                    payload: {
+                                        activeCtrl: props.vdCtrlTree.activeCtrl,
+                                        children: slider,
+                                        levelsInfo: [{ level:2, index: 0}],
+                                        level: 2
+                                    }
+                                });
+
+                                var content = copyOperate.copyChildren(1, 'component','slider', 2, [{ level:0, index: 1}]);
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleChildrenAdd',
+                                    payload: {
+                                        activeCtrl: props.vdCtrlTree.activeCtrl,
+                                        children: content,
+                                        levelsInfo: [{ level:0, index: 1}],
+                                        level: 2
+                                    }
+                                });
+                            }
+                        }
 	    				return (
 						    <Panel header={item.title} key={item.key}>
-						    	<Row>
+						    	<Row style={{marginTop: '15px'}}>
 						    		<Col span={12}>
-						    			<Button size="small"><Icon type="plus" />增加一个</Button>
+						    			<Button size="small"><Icon type="plus" onClick={sliderProps.addSlider}/>增加一个</Button>
 						    		</Col>
 						    		<Col span={12}>
 						    			<Col span={12} style={{textAlign: 'right'}}>
