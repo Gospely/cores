@@ -927,7 +927,7 @@ $(function() {
 
             setAttr: function(attr) {
                 if(attr.isHTML) {
-					
+
 					console.log(attr);
 					if(attr.html != null && attr.html != undefined){
 						this.elem.html(attr.html);

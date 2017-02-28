@@ -2390,7 +2390,7 @@ export default {
             					className: [''],
             					attrs: [{
             						title: '图片设置',
-            						key: 'image-setting',
+            						key: 'slider-setting',
             						children: [{
             							name: 'src',
             							desc: '图片地址',
@@ -2458,7 +2458,7 @@ export default {
             					className: [''],
             					attrs: [{
             						title: '图片设置',
-            						key: 'image-setting',
+            						key: 'slider-setting',
             						children: [{
             							name: 'src',
             							desc: '图片地址',

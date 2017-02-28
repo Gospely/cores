@@ -697,8 +697,24 @@ export default {
   				};
   			};
 
-
   			state.activeCtrl = currentActiveCtrl.controller;
+			return {...state};
+		},
+		handleAttrFormChangeNotRefreshActiveCtrl(state, { payload: params}){
+
+			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, params.target, state.activePage);
+			if (params.attrName === 'id') {
+				currentActiveCtrl.controller.id = params.newVal;
+			}
+			var attr = currentActiveCtrl.controller.attrs[0].children[params.index];
+			attr.value = params.newVal;
+			window.VDDesignerFrame.postMessage({
+				VDAttrRefreshed: {
+					activeCtrl: currentActiveCtrl.controller,
+					attrType: params.attrType,
+					attr: attr
+				}
+			}, '*');
 			return {...state};
 		},
 		handleAttrRefreshed(state, { payload: params }) {
