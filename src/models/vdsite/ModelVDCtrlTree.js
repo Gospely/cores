@@ -654,7 +654,7 @@ export default {
 					console.log(parentIndex);
 					findParent(parent.children[parentIndex]);
 				}else {
-					target = parent.children[params.index];
+
 
 					console.log('change');
 					console.log(parent);
@@ -664,10 +664,29 @@ export default {
 							console.log('active');
 							console.log(k);
 							console.log(parent.children[j].className[k]);
-							if(parent.children[j].className[k] == 'active')
+							if(parent.children[j].className[k] == 'active'){
 								parent.children[j].className.splice(k,1);
+								if(params.action == 'next'){
+									if(k + 1 == parent.children.length){
+										params.index = 0;
+									}else {
+										params.index = k + 1;
+									}
+								}
+								if(params.action == 'last'){
+									if(k == 0){
+										params.index = 0;
+									}else {
+										params.index = parent.children.length -1;
+									}
+								}
+								break;
+							}
 						}
 					}
+					console.log('index');
+					console.log(params.index);
+					target = parent.children[params.index];
 					target.className.push('active');
 					console.log(parent);
 				}

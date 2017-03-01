@@ -1397,10 +1397,45 @@ const Component = (props) => {
 
 
                             next(){
-
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleActive',
+                                    payload: {
+                                        level: 2,
+                                        levelsInfo: [{level: 0, index:1}],
+                                        index: 0,
+                                        action: 'next'
+                                    }
+                                });
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleActive',
+                                    payload: {
+                                        level: 2,
+                                        levelsInfo: [],
+                                        index: 0,
+                                        action: 'next'
+                                    }
+                                });
                             },
                             last(){
 
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleActive',
+                                    payload: {
+                                        level: 2,
+                                        levelsInfo: [{level: 0, index:1}],
+                                        index: 0,
+                                        action: 'last'
+                                    }
+                                });
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleActive',
+                                    payload: {
+                                        level: 2,
+                                        levelsInfo: [],
+                                        index: 0,
+                                        action: 'last'
+                                    }
+                                });
                             }
                         }
 	    				return (

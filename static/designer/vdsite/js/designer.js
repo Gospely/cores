@@ -521,9 +521,9 @@ $(function() {
 				elem.data('controller', activeCtrl);
 
 			},
-			'add': function(parent, attr){
+			'add': function(activeCtrl, attr){
 
-				var elem = jq('[vdid='+ parent + ']');
+				var elem = jq('[vdid='+ attr.parent + ']');
 				var elemGen = new ElemGenerator(attr.children);
 				var tempElem = elemGen.createElement();
 				elem = elem.append(tempElem);
@@ -1162,7 +1162,7 @@ $(function() {
                             jqComponent = jq(component);
 
                         if(currentCtrl.isBeforeHTMLValue) {
-                            jqComponent.prepend(jq(loopComponent));                            
+                            jqComponent.prepend(jq(loopComponent));
                         }else {
                             jqComponent.append(jq(loopComponent));
                         }
