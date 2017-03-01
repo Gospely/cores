@@ -1574,7 +1574,7 @@ const VDStylePanel = (props) => {
 									</div>
 								</div>
 							</div>
-							<div className="bem-Frame_Body">
+							<div className="bem-Frame_Body" id="display-body">
 
 						        <RadioGroup defaultValue="block" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['display']} size="small" onChange={handleStylesChange.bind(this, 'display')}>
 							      	<RadioButton value="block">

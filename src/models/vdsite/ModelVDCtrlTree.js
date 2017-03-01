@@ -677,8 +677,8 @@ export default {
 		},
 
 		ctrlSelected(state, { payload: data }) {
+			console.log(data);
 			if(data.unActive){
-				console.log("unActive");
 				var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, data.root, state.activePage);
 				state.activeCtrl = currentActiveCtrl.controller;
 			}else {
