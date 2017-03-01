@@ -285,6 +285,17 @@ export default {
 							isHTML: true,
 							id: ''
 						}]
+					}, {
+						title: '属性设置',
+						key: 'link-block-attr',
+						isAttrSetting: true,
+						children: [{
+							name: 'container',
+							desc: '是否是容器',
+							value: true,
+							backend: true,
+							isContainer: true
+						}]
 					}]
 				}
 			}, {
@@ -457,11 +468,11 @@ export default {
 				key: 'list-item',
 				details: {
 					tag: 'li',
-					className: ['list-group-item'],
+					className: ['list-group-item', 'vd-empty'],
 					attrs: [{
 						title: '属性设置',
 						key: 'list-item-attr',
-						isSetAttribute: true,
+						isAttrSetting: true,
 						children: [{
 							name: 'specialParent',
 							desc: '必需放入list容器内',
@@ -471,6 +482,12 @@ export default {
 							},
 							isSpecialParent: true,
 							backend: true
+						}, {
+							name: 'container',
+							desc: '是否是容器',
+							value: true,
+							backend: true,
+							isContainer: true
 						}]
 					}]
 
