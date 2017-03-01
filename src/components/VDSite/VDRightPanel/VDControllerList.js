@@ -24,12 +24,13 @@ const Component = (props) => {
 
     window.constructionTreeLoaded = true;
 
-
 	var prevHoverCtrl = '',
 		realSelectedCtrl = '';
 
 	var ctrlPros = {
 			onSelect (val, e) {
+
+				console.log(val, e);
 
 				realSelectedCtrl = val[0];
 
@@ -39,11 +40,19 @@ const Component = (props) => {
 						isFromCtrlTree: true
 					}
 				}, '*');
+
+				props.dispatch({
+					type: "vdCtrlTree/ctrlSelected",
+					payload: JSON.parse(e.selectedNodes[0].props.ctrl)
+				});
+
+				// props.dispatch({
+				// 	type: 'vdCtrlTree/setActiveCtrlInTree',
+				// 	payload: val
+				// })
 			},
 
 			onMouseEnter (evt) {
-
-				console.log(evt);
 
 				prevHoverCtrl = evt.node.props.eventKey;
 
@@ -58,7 +67,7 @@ const Component = (props) => {
 			onMouseLeave (evt) {
 				window.VDDesignerFrame.postMessage({
 					VDCtrlSelected: {
-						vdid: realSelectedCtrl,
+						vdid: props.vdCtrlTree.defaultSelectedKeys[0],
 						isFromCtrlTree: true
 					}
 				}, '*');
@@ -71,8 +80,6 @@ const Component = (props) => {
 			activePage: props.vdCtrlTree.activePage.key,
 
 			onRightClick (proxy, node) {
-
-				console.log(proxy);
 
 	            var selectedKey = proxy.node.props.eventKey;
 
@@ -100,11 +107,11 @@ const Component = (props) => {
     		const title = item.tag + itemCls + itemId;
 
 	        if (item.children) {
-	            return <TreeNode title={title} key={item.vdid}>{loopControllerTree(item.children)}</TreeNode>;
+	            return <TreeNode ctrl={JSON.stringify(item)} title={title} key={item.vdid}>{loopControllerTree(item.children)}</TreeNode>;
 	        }
 
 	        return (
-	            <TreeNode title={title} key={item.vdid} isLeaf={item.isLeaf} />
+	            <TreeNode ctrl={JSON.stringify(item)} title={title} key={item.vdid} isLeaf={item.isLeaf} />
 	        );
 
 	    });

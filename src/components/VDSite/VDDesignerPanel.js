@@ -39,7 +39,7 @@ const VDDesignerPanel = (props) => {
     <div className="designer-wrapper" style={{height: '100%'}}>
         <iframe
           name="vdsite-designer"
-          width="100%" 
+          width="100%"
           height="100%" 
           frameBorder="0" 
           src="static/designer/vdsite/index.html"

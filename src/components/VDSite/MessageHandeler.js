@@ -26,7 +26,7 @@ export default {
 					props.dispatch({
 						type: "vdCtrlTree/ctrlSelected",
 						payload: data
-					})
+					});
 				}
 
 			}
