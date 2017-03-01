@@ -489,6 +489,16 @@ $(function() {
             });
 
         }();
+		//class操作
+		const classOperate = {
+			//
+			replaceClass: function(activeCtrl, attr){
+
+				var elem = jq('[vdid='+ attr.target.vdid + ']');
+				elem.removeClass(attr.remove);
+				elem.addClass(attr.replacement);
+			}
+		}
 		//对子节点的操作
 		const childrenOperate = {
 
@@ -510,8 +520,11 @@ $(function() {
 				var tempElem = elemGen.createElement();
 				elem = elem.append(tempElem);
 			},
-		}
+			//将要设置为active的children
+			changeActive: function(activeCtrl, children, parent){
 
+			}
+		}
 		//栅格操作
 		const columnsOperate = {
 			'add': function(parent, column, parent, count, colClass){
@@ -622,6 +635,8 @@ $(function() {
 					childrenOperate[attr.action](activeCtrl, attr.children, attr.parent);
 				}else if (attr.attrName == 'columns') {
 					columnsOperate[attr.action](activeCtrl, attr.column, attr.parent, attr.count, attr.colClass);
+				}else if(attr.attrName=='classOperate'){
+					classOperate[attr.action](activeCtrl, attr);
 				}else {
 					new ElemGenerator(activeCtrl).setAttributeByAttr(attr, attrType);
 				}
