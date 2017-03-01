@@ -931,7 +931,11 @@ $(function() {
 
                 if(attr.isAttr) {
                     if(attr.value) {
-                        this.elem.attr(attr.attrName, attr.value);
+                        if(attr.isScrollFlag) {
+                            this.elem.attr('data-section', attr.value);
+                        }else {
+                            this.elem.attr(attr.attrName, attr.value);                            
+                        }
                     }
                 }
 
@@ -1006,6 +1010,8 @@ $(function() {
             },
 
             setLinkSetting: function(attr) {
+                var self = this;
+
 				if(attr.isHTML || attr.attrName == 'href'){
 					this.setAttr(attr)
 				}else {
@@ -1022,13 +1028,31 @@ $(function() {
 
 								getAttrValue = function (val, type) {
 									var typeList = {
-										'link': '',
-										'mail': 'mailto:',
-										'phone': '',
-										'page': '',
-										'section': '#'
+										'link': function() {
+                                            return '';
+                                        },
+										'mail': function() {
+                                            return 'mailto:';
+                                        },
+										'phone': function() {
+                                            return '';
+                                        },
+										'page': function() {
+                                            return '';
+                                        },
+										'section': function() {
+                                            self.elem.attr('data-nav-section', val);
+                                            return '';
+                                        }
 									}
-									return typeList[type] + val;
+
+                                    console.log('++++++++++getAttrValue================', type)
+
+                                    if(typeList[type]) {
+                                        return typeList[type]() + val;                                        
+                                    }else {
+                                        return '';
+                                    }
 								}
 
                             sessionStorage.currentActiveLinkType = sessionStorage.currentActiveLinkType || 'link';

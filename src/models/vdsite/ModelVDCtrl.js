@@ -52,6 +52,7 @@ export default {
 				desc: 'id',
 				type: 'input',
 				isAttr: true,
+				isScrollFlag: true,
 				attrName: 'id',
 				value: '',
 				id: ''
@@ -281,7 +282,7 @@ export default {
 							name: 'innerHTML',
 							desc: '显示文本',
 							type: 'input',
-							value: 'Brand',
+							value: '',
 							isHTML: true,
 							id: ''
 						}]
@@ -328,7 +329,7 @@ export default {
 							name: 'innerHTML',
 							desc: '显示文本',
 							type: 'input',
-							value: 'Brand',
+							value: '',
 							isHTML: true,
 							id: ''
 						}]

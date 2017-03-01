@@ -266,6 +266,7 @@ const Component = (props) => {
     			activePage: val
     		}
     	});
+      $("#vdsitePagesBtn").click(); 
     }
 
 	return (

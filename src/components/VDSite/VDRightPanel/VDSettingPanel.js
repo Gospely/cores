@@ -614,7 +614,7 @@ const Component = (props) => {
 					    	), (
 								<Form className="form-no-margin-bottom">
 									<FormItem {...formItemLayout} label="元素">
-									    <Select size="small" value="请选择元素">
+									    <Select onChange={formProps.handleAttrFormInputChange.bind(this, item.children[0], attrType)} size="small" value={item.children[0].value}>
 									      	{controllerTree}
 									    </Select>
 									</FormItem>
