@@ -510,8 +510,16 @@ $(function() {
 				var elemGen = new ElemGenerator(activeCtrl);
 				var tempElem = elemGen.createElement();
 				tempElem.attr('vdid', vdid);
-				elem = elem.replaceWith(tempElem.clone());
-				// elem.data('controller', activeCtrl);
+				var clone = tempElem.clone(true);
+				console.log(tempElem.data('controller'));
+				elem.replaceWith(clone);
+				elem.children().remove();
+				elem = jq('[vdid='+ activeCtrl.vdid + ']');
+				for (var i = 0; i < activeCtrl.children.length; i++) {
+					elem.append(new ElemGenerator(activeCtrl.children[i]).createElement());
+				}
+				elem.data('controller', activeCtrl);
+
 			},
 			'add': function(parent, children, parent){
 
@@ -598,6 +606,8 @@ $(function() {
 			},
 
             select: function(data, notPostMessage) {
+				console.log("select");
+				console.log(data);
 				if(data) {
 
                     if(data.vdid == '') {
@@ -620,23 +630,24 @@ $(function() {
             },
 
             refreshCtrl: function(activeCtrl, attr, attrType) {
+				console.log(activeCtrl, attr);
 				if(attr.isTag) {
-					let vdid  = activeCtrl.vdid;
-					var elem = jq('[vdid='+ activeCtrl.vdid + ']');
-					activeCtrl.vdid = activeCtrl.vdid + 'c';
-					var elemGen = new ElemGenerator(activeCtrl);
-					var tempElem = elemGen.createElement();
-					tempElem.attr('vdid', vdid);
-					elem = elem.replaceWith(tempElem[0].outerHTML);
-					activeCtrl.vdid = vdid;
+					childrenOperate.update(activeCtrl);
 				}
-
 				if(attr.attrName == 'children'){
 					childrenOperate[attr.action](activeCtrl, attr.children, attr.parent);
 				}else if (attr.attrName == 'columns') {
 					columnsOperate[attr.action](activeCtrl, attr.column, attr.parent, attr.count, attr.colClass);
-				}else if(attr.attrName=='classOperate'){
+				}else if(attr.attrName == 'classOperate'){
 					classOperate[attr.action](activeCtrl, attr);
+				}else if(attr.attrName == 'replaceElem'){
+
+					console.log('replaceElem');
+					var parent = jq('[vdid='+ attr.parent + ']');
+					parent.children().remove();
+					var elemGen = new ElemGenerator(activeCtrl);
+					var tempElem = elemGen.createElement();
+					parent = parent.append(tempElem);
 				}else {
 					new ElemGenerator(activeCtrl).setAttributeByAttr(attr, attrType);
 				}

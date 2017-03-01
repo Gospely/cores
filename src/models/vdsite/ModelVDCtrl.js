@@ -1955,6 +1955,11 @@ export default {
                     							id: '',
                                                 attrName: 'aria-expanded'
                     						},{
+                    							name: 'switchType',
+                    							desc: '删除',
+                                                type: 'switchType',
+                    							id: '',
+                    						},{
                     							name: 'addBtn',
                     							desc: '加一个',
                     							level: 4,

@@ -138,11 +138,13 @@ const Component = (props) => {
                     if(i < level){
                         copyByLevel(parent.children[comonIndex]);
                     }else{
-
-                        result = vdCtrlOperate.deepCopyObj(parent.children[0], result)
+                        console.log(parent);
+                        result = vdCtrlOperate.deepCopyObj(parent.children[index], result)
                     }
                 }
             copyByLevel(parent);
+            console.log('result');
+            console.log(result);
             result = vdCtrlOperate.loopAttr(result, props.vdCtrlTree.activeCtrl.root, { vdid: undefined});
             console.log('result');
             console.log(result.vdid);
@@ -532,7 +534,20 @@ const Component = (props) => {
 								}
 							});
 				    	};
+                        const dropdownProps = {
 
+                            switchDropDown(item){
+                                let replacement = copyOperate.copyChildren(2, 'components', 'navbar', 4, [{level: 1,index:1}]);
+
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleChangeCurrentCtrl',
+                                    payload: {
+                                        replacement: replacement,
+                                        toDropDown: true,
+                                    }
+                                });
+                            }
+                        }
 					    const linkSettingProps = {
 
 					    	linkSettingTemplate: props.vdcore.linkSetting.list.map( (item, index) => {
@@ -554,13 +569,16 @@ const Component = (props) => {
 									<FormItem {...formItemLayout} label="新窗口">
 										<Switch value={item.children[1].value} onChange={formProps.handleAttrFormSwitchChange.bind(this, item.children[1], attrType)} size="small" />
 									</FormItem>
+                                    {attrType.changeDropDown && <FormItem {...formItemLayout} label="下拉菜单">
+                                        <Switch size="small"  onChange={dropdownProps.switchDropDown.bind(this, item)}/>
+                                    </FormItem>}
                                     <FormItem {...formItemLayout} label="显示文本">
 										<Input value={item.children[2].value} onChange={formProps.handleAttrFormInputChange.bind(this, item.children[2], attrType)} size="small" />
 									</FormItem>
 
                                     { attrType.deleteAble && <FormItem {...formItemLayout} label="">
                                         <Popconfirm title="确认删除？" onConfirm={formProps.handleComplextChildrenDelete.bind(this, item.children[2].value, 'navbar-drop-down')}>
-                                            <Button type="circle" size="small" ><Icon type="delete" /> &nbsp;&nbsp;删除</Button>
+                                            <Button  size="small" ><Icon type="delete" /> &nbsp;&nbsp;删除</Button>
                                         </Popconfirm>
                                     </FormItem>}
 						      	</Form>
@@ -1041,7 +1059,7 @@ const Component = (props) => {
                                     }
                                 });
 
-                                var content = copyOperate.copyChildren(1, 'component','tabs', 2, [{ level:0, index: 1}]);
+                                var content = copyOperate.copyChildren(0, 'component','tabs', 2, [{ level:0, index: 1}]);
                                 props.dispatch({
                                     type: 'vdCtrlTree/handleChildrenAdd',
                                     payload: {
@@ -1325,7 +1343,7 @@ const Component = (props) => {
                                     }
                                 });
 
-                                var content = copyOperate.copyChildren(1, 'component','slider', 2, [{ level:0, index: 1}]);
+                                var content = copyOperate.copyChildren(0, 'component','slider', 2, [{ level:0, index: 1}]);
                                 props.dispatch({
                                     type: 'vdCtrlTree/handleChildrenAdd',
                                     payload: {
@@ -1414,7 +1432,7 @@ const Component = (props) => {
 	                                    <Button size="small"><Icon type="bars" />打开菜单</Button>
 	                                </Col>
 	                                <Col span={12}>
-                                        <Button size="small" onClick={formProps.childrenAdd.bind(this,1, 'components', 'navbar', 4, [{level: 1,index:1}])}><Icon type="plus" />新增菜单</Button></Col>
+                                        <Button size="small" onClick={formProps.childrenAdd.bind(this,0, 'components', 'navbar', 4, [{level: 1,index:1}])}><Icon type="plus" />新增菜单</Button></Col>
 	                            </Row>
 
 	                            <Form className="form-no-margin-bottom">
@@ -1548,11 +1566,32 @@ const Component = (props) => {
                             </FormItem>
                         );
                     },
+                    switchType(item) {
+
+                        const dropdownProps = {
+
+                            switchDropDown(item){
+                                let replacement = copyOperate.copyChildren(0, 'components', 'navbar', 5, [{level: 1,index:1}]);
+                                replacement.parent = props.vdCtrlTree.activeCtrl.parent;
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleChangeCurrentCtrl',
+                                    payload: {
+                                        replacement: replacement,
+                                    }
+                                });
+                            }
+                        }
+                        return (
+                            <FormItem {...formItemLayout} label="普通菜单" key={item.id}>
+                                <Switch size="small" onChange={dropdownProps.switchDropDown.bind(this, item)}/>
+                            </FormItem>
+                        )
+                    },
                     buttonDelete (item) {
                         return (
                             <FormItem {...formItemLayout} label="" key={item.id}>
                                 <Popconfirm title="确认删除吗？" onConfirm={formProps.handleComplextChildrenDelete.bind(this, '下拉菜单', 'navbar-drop-down')} >
-                                    <Button type="circle" size="small" ><Icon type="delete" />&nbsp;&nbsp;删除</Button>
+                                    <Button size="small" ><Icon type="delete" />&nbsp;&nbsp;删除</Button>
                                 </Popconfirm>
                             </FormItem>
                         );
