@@ -135,7 +135,7 @@ export default {
 		editPopoverVisible: false,
 		keyValeUpdateVisible: false,
 		keyValeCreateVisible: false,
-		selectIndex: 0,
+		selectIndex: 1,
 		attr: {
 			html: '',
 			value: ''
@@ -620,7 +620,6 @@ export default {
 			}else {
 				parent.controller.children.splice(0,1, params.replacement);
 				state.activeCtrl = params.replacement;
-
 				window.VDDesignerFrame.postMessage({
 					VDAttrRefreshed: {
 						activeCtrl: state.activeCtrl,
@@ -632,6 +631,62 @@ export default {
 				}, '*');
 			}
 
+			return {...state};
+		},
+		handleActive(state, { payload: params }){
+
+			//根据level获取要更改节点的父节点的数据结构
+			console.log(params);
+			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage),
+			i = 0,
+			target;
+
+			function findParent(parent){
+
+				let parentIndex = 0;
+				for (var j = 0; j < params.levelsInfo.length; j++) {
+					if(i == params.levelsInfo[j].level){
+						parentIndex = params.levelsInfo[j].index;
+					}
+				}
+				i++;
+				if(i < params.level) {
+					console.log(parentIndex);
+					findParent(parent.children[parentIndex]);
+				}else {
+					target = parent.children[params.index];
+
+					console.log('change');
+					console.log(parent);
+					//切换active
+					for (var j = 0; j < parent.children.length; j++) {
+						for (var k = 0; k < parent.children[j].className.length; k++) {
+							console.log('active');
+							console.log(k);
+							console.log(parent.children[j].className[k]);
+							if(parent.children[j].className[k] == 'active')
+								parent.children[j].className.splice(k,1);
+						}
+					}
+					target.className.push('active');
+					console.log(parent);
+				}
+			}
+			findParent(currentActiveCtrl.controller);
+			state.activeCtrl = currentActiveCtrl.controller;
+			state.selectIndex = params.index;
+			window.VDDesignerFrame.postMessage({
+				VDAttrRefreshed: {
+					activeCtrl: target,
+					attr: {
+						attrName: 'children',
+						action: 'changeActive',
+						index: params.index,
+						parent: target.parent
+					},
+				}
+			}, '*');
+			console.log(target);
 			return {...state};
 		},
 		handlePreview(state, { payload: params }) {
