@@ -405,10 +405,10 @@ const Component = (props) => {
 					    	creatorContent: (
 						      	<Form className="form-no-margin-bottom">
 									<FormItem {...formItemLayout} label="key">
-										<Input value={customAttrCreator.key} onChange={customAttrCreator.onChange.bind(customAttrCreator, 'key')} size="small" />
+										<Input value={customAttrCreator.key} onChange={customAttrCreator.onChange.bind(customAttrCreator, 'key')} onPressEnter={customAttrCreator.save.bind(customAttrCreator)} size="small" />
 									</FormItem>
 									<FormItem {...formItemLayout} label="value">
-										<Input value={customAttrCreator.value} onChange={customAttrCreator.onChange.bind(customAttrCreator, 'value')} size="small" />
+										<Input value={customAttrCreator.value} onChange={customAttrCreator.onChange.bind(customAttrCreator, 'value')} onPressEnter={customAttrCreator.save.bind(customAttrCreator)} size="small" />
 									</FormItem>
 									<FormItem>
 										<Button onClick={customAttrCreator.save.bind(customAttrCreator)} size="small">保存</Button>
@@ -421,10 +421,10 @@ const Component = (props) => {
 					    		return (
 							      	<Form className="form-no-margin-bottom">
 										<FormItem {...formItemLayout} label="key">
-											<Input onChange={handleInputChange.bind(this, index, 'key')} value={val.key} size="small" />
+											<Input onChange={handleInputChange.bind(this, index, 'key')} onPressEnter={customAttrCreator.modify} value={val.key} size="small" />
 										</FormItem>
 										<FormItem {...formItemLayout} label="value">
-											<Input onChange={handleInputChange.bind(this, index, 'value')} value={val.value} size="small" />
+											<Input onChange={handleInputChange.bind(this, index, 'value')} onPressEnter={customAttrCreator.modify} value={val.value} size="small" />
 										</FormItem>
 										<FormItem>
 											<Button onClick={customAttrCreator.modify} size="small">保存</Button>
@@ -837,13 +837,13 @@ const Component = (props) => {
 					    	creatorContent: (
 						      	<Form className="form-no-margin-bottom">
 									<FormItem {...formItemLayout} label="说明">
-										<Input size="small"  value={props.vdCtrlTree.attr.html} onChange={keyValueProps.addHtmlChange}/>
+										<Input size="small"  value={props.vdCtrlTree.attr.html} onChange={keyValueProps.addHtmlChange} onPressEnter={formProps.childrenAdd.bind(this,0, 'forms', 'select', 0, [{level: 0, index: 0}])}/>
 									</FormItem>
 									<FormItem {...formItemLayout} label="值">
-										<Input size="small" value={props.vdCtrlTree.attr.value} onChange={keyValueProps.addKeyChange}/>
+										<Input size="small" value={props.vdCtrlTree.attr.value} onChange={keyValueProps.addKeyChange} onPressEnter={formProps.childrenAdd.bind(this,0, 'forms', 'select', 0, [{level: 0, index: 0}])}/>
 									</FormItem>
 									<FormItem>
-										<Button size="small" onClick={formProps.childrenAdd.bind(this,0, 'forms', 'select', 0, [{level: 0, index: 0}])}>保存</Button>
+										<Button size="small" onClick={formProps.childrenAdd.bind(this,0, 'forms', 'select', 0, [{level: 0, index: 0}])} >保存</Button>
 									</FormItem>
 								</Form>
 					    	),
@@ -851,13 +851,13 @@ const Component = (props) => {
 					    	modifyContent: (
 						      	<Form className="form-no-margin-bottom">
 									<FormItem {...formItemLayout} label="说明">
-										<Input size="small" value={props.vdCtrlTree.activeCtrl.children[props.vdCtrlTree.selectIndex].attrs[0].children[0].html} onChange={keyValueProps.valueChange} />
+										<Input size="small" value={props.vdCtrlTree.activeCtrl.children[props.vdCtrlTree.selectIndex].attrs[0].children[0].html} onChange={keyValueProps.valueChange} onPressEnter={formProps.childrenUpdate.bind(this,attrType)}/>
 									</FormItem>
 									<FormItem {...formItemLayout} label="值">
-										<Input size="small" value={props.vdCtrlTree.activeCtrl.children[props.vdCtrlTree.selectIndex].attrs[0].children[0].value} onChange={keyValueProps.keyValueChange}/>
+										<Input size="small" value={props.vdCtrlTree.activeCtrl.children[props.vdCtrlTree.selectIndex].attrs[0].children[0].value} onChange={keyValueProps.keyValueChange} onPressEnter={formProps.childrenUpdate.bind(this,attrType)}/>
 									</FormItem>
 									<FormItem>
-										<Button size="small" onClick={formProps.childrenUpdate.bind(this,attrType)}>保存</Button>
+										<Button size="small" onClick={formProps.childrenUpdate.bind(this,attrType)} >保存</Button>
 									</FormItem>
 								</Form>
 					    	),
@@ -979,7 +979,7 @@ const Component = (props) => {
 					    	modifyContent: (
 						      	<Form className="form-no-margin-bottom">
 									<FormItem {...formItemLayout} label="名称">
-										<Input size="small" value={props.vdCtrlTree.activeCtrl.children[0].children[props.vdCtrlTree.selectIndex].children[0].attrs[0].children[0].value} onChange={keyValueProps.keyValueChange}/>
+										<Input size="small" value={props.vdCtrlTree.activeCtrl.children[0].children[props.vdCtrlTree.selectIndex].children[0].attrs[0].children[0].value} onChange={keyValueProps.keyValueChange} onPressEnter={formProps.childrenUpdate.bind(this,attrType)}/>
 									</FormItem>
 									<FormItem>
 										<Button size="small" onClick={formProps.childrenUpdate.bind(this,attrType)}>保存</Button>
@@ -1514,9 +1514,9 @@ const Component = (props) => {
     				input (item) {
 
     					var inputTpl = item.props ? (
-							<Input onChange={formProps.handleAttrFormInputChange.bind(this, item, attrType)} {...item.props} value={item.value} size="small" />
+							<Input onChange={formProps.handleAttrFormInputChange.bind(this, item, attrType)} {...item.props} value={item.value} size="small" onPressEnter={formProps.handleAttrFormInputChange.bind(this, item, attrType)}/>
     					) : (
-							<Input onChange={formProps.handleAttrFormInputChange.bind(this, item, attrType)} value={item.value} size="small" />
+							<Input onChange={formProps.handleAttrFormInputChange.bind(this, item, attrType)} value={item.value} size="small" onPressEnter={formProps.handleAttrFormInputChange.bind(this, item, attrType)}/>
     					);
 
 		    			return (
