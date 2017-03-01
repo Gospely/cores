@@ -888,6 +888,8 @@ $(function() {
         	return this;
         }
 
+        parent.ElemGenerator = ElemGenerator;
+
         ElemGenerator.prototype = {
 
         	initElem: function () {
@@ -961,8 +963,8 @@ $(function() {
             setAttr: function(attr) {
                 if(attr.isHTML) {
 
-					console.log(attr);
-					if(attr.html != null && attr.html != undefined){
+					console.log('isAttr', attr);
+					if(attr.html){
 						this.elem.html(attr.html);
 					}else{
 						this.elem.html(attr.value);
@@ -1159,7 +1161,11 @@ $(function() {
 
                             jqComponent = jq(component);
 
-                        jqComponent.append(jq(loopComponent));
+                        if(currentCtrl.isBeforeHTMLValue) {
+                            jqComponent.prepend(jq(loopComponent));                            
+                        }else {
+                            jqComponent.append(jq(loopComponent));
+                        }
 
                     };
 
