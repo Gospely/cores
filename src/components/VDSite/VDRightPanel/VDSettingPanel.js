@@ -614,7 +614,7 @@ const Component = (props) => {
 					    	), (
 								<Form className="form-no-margin-bottom">
 									<FormItem {...formItemLayout} label="元素">
-									    <Select size="small" value="请选择元素">
+									    <Select onChange={formProps.handleAttrFormInputChange.bind(this, item.children[0], attrType)} size="small" value={item.children[0].value}>
 									      	{controllerTree}
 									    </Select>
 									</FormItem>
@@ -1069,16 +1069,33 @@ const Component = (props) => {
                                         level: 2
                                     }
                                 });
+                            },
+                            chooseTab(item, index){
+
+                                console.log('chooseTab');
+                                console.log(item, index);
+                                //改变active tab 对应的panel active
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleActive',
+                                    payload: {
+                                        level: 2,
+                                        levelsInfo: [{level: 0, index:1}],
+                                        index: index
+                                    }
+                                });
                             }
 					    }
                         const keyValues = props.vdCtrlTree.activeCtrl.children[0].children.map((item, index) =>{
 
                             console.log(item);
                             return (
-                                <li className="ant-dropdown-menu-item" role="menuitem" key={index}>
+                                <li className="ant-dropdown-menu-item" role="menuitem" key={index} onClick={tabSettingProps.chooseTab.bind(this,item, index)}>
                                 <Row>
-                                  <Col span={18}>
+                                  <Col span={15}>
                                     <p>{item.children[0].attrs[0].children[0].value}</p>
+                                  </Col>
+                                  <Col span={3}>
+                                    <Radio onClick={tabSettingProps.hidePopover} checked={index == props.vdCtrlTree.selectIndex}></Radio>
                                   </Col>
                                   <Col span={3}>
                                         <Icon type="edit" onClick={tabSettingProps.editKeyValue.bind(this, index)}/>
@@ -1223,7 +1240,7 @@ const Component = (props) => {
 													<Button><i className="fa fa-cloud-upload"></i>&nbsp;上传图片</Button>
 											  	</Upload>
 
-												<Button style={{float: 'right', bottom: '102px'}}><i className="fa fa-picture-o"></i>&nbsp;图片资源</Button>
+												<Button style={{float: 'right', bottom: '90px'}}><i className="fa fa-picture-o"></i>&nbsp;图片资源</Button>
 											</div>
 										</div>
 
@@ -1370,12 +1387,57 @@ const Component = (props) => {
                                       </Popconfirm>
                                 </Col>
                                   <Col span={18}>
-                                    <p>{item.children[0].attrs[0].children[0].value}</p>
+                                    <img alt="assets" style={{ width: '50px', textAlign: 'right' }} src={item.children[0].attrs[0].children[0].value} />
                                   </Col>
                                 </Row>
                               </li>
                             )
                         });
+                        const activeSliderProps = {
+
+
+                            next(){
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleActive',
+                                    payload: {
+                                        level: 2,
+                                        levelsInfo: [{level: 0, index:1}],
+                                        index: 0,
+                                        action: 'next'
+                                    }
+                                });
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleActive',
+                                    payload: {
+                                        level: 2,
+                                        levelsInfo: [],
+                                        index: 0,
+                                        action: 'next'
+                                    }
+                                });
+                            },
+                            last(){
+
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleActive',
+                                    payload: {
+                                        level: 2,
+                                        levelsInfo: [{level: 0, index:1}],
+                                        index: 0,
+                                        action: 'last'
+                                    }
+                                });
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleActive',
+                                    payload: {
+                                        level: 2,
+                                        levelsInfo: [],
+                                        index: 0,
+                                        action: 'last'
+                                    }
+                                });
+                            }
+                        }
 	    				return (
 						    <Panel header={item.title} key={item.key}>
 						    	<Row style={{marginTop: '15px'}}>
@@ -1383,11 +1445,11 @@ const Component = (props) => {
 						    			<Button size="small" onClick={sliderProps.addSlider}><Icon type="plus"/>增加一个</Button>
 						    		</Col>
 						    		<Col span={12}>
-						    			<Col span={12} style={{textAlign: 'right'}}>
-							    			<Button size="small"><Icon type="left" /></Button>
+						    			<Col span={12} style={{textAlign: 'right'}} >
+							    			<Button size="small" onClick={activeSliderProps.last.bind(item)}><Icon type="left" /></Button>
 						    			</Col>
 						    			<Col span={12} style={{textAlign: 'left'}}>
-							    			<Button size="small"><Icon type="right" /></Button>
+							    			<Button size="small" onClick={activeSliderProps.next.bind(item)}><Icon type="right" /></Button>
 						    			</Col>
 						    		</Col>
 						    	</Row>

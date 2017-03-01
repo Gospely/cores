@@ -502,7 +502,7 @@ $(function() {
 		//对子节点的操作
 		const childrenOperate = {
 
-			'update': function(activeCtrl, children, parent){
+			'update': function(activeCtrl, attr){
 
 				let vdid  = activeCtrl.vdid;
 				var elem = jq('[vdid='+ activeCtrl.vdid + ']');
@@ -521,16 +521,23 @@ $(function() {
 				elem.data('controller', activeCtrl);
 
 			},
-			'add': function(parent, children, parent){
+			'add': function(activeCtrl, attr){
 
-				var elem = jq('[vdid='+ parent + ']');
-				var elemGen = new ElemGenerator(children);
+				var elem = jq('[vdid='+ attr.parent + ']');
+				var elemGen = new ElemGenerator(attr.children);
 				var tempElem = elemGen.createElement();
 				elem = elem.append(tempElem);
 			},
 			//将要设置为active的children
-			changeActive: function(activeCtrl, children, parent){
+			changeActive: function(activeCtrl , attr){
 
+				console.log('changeActive');
+				var elem = jq('[vdid='+ attr.parent + ']');
+
+				var childrens = elem.children('.active');
+				console.log(childrens);
+				jq(childrens).removeClass('active');
+				jq(elem.children()[attr.index]).addClass('active');
 			}
 		}
 		//栅格操作
@@ -635,7 +642,7 @@ $(function() {
 					childrenOperate.update(activeCtrl);
 				}
 				if(attr.attrName == 'children'){
-					childrenOperate[attr.action](activeCtrl, attr.children, attr.parent);
+					childrenOperate[attr.action](activeCtrl, attr);
 				}else if (attr.attrName == 'columns') {
 					columnsOperate[attr.action](activeCtrl, attr.column, attr.parent, attr.count, attr.colClass);
 				}else if(attr.attrName == 'classOperate'){
@@ -931,7 +938,11 @@ $(function() {
 
                 if(attr.isAttr) {
                     if(attr.value) {
-                        this.elem.attr(attr.attrName, attr.value);
+                        if(attr.isScrollFlag) {
+                            this.elem.attr('data-section', attr.value);
+                        }else {
+                            this.elem.attr(attr.attrName, attr.value);                            
+                        }
                     }
                 }
 
@@ -1006,6 +1017,8 @@ $(function() {
             },
 
             setLinkSetting: function(attr) {
+                var self = this;
+
 				if(attr.isHTML || attr.attrName == 'href'){
 					this.setAttr(attr)
 				}else {
@@ -1022,18 +1035,39 @@ $(function() {
 
 								getAttrValue = function (val, type) {
 									var typeList = {
-										'link': '',
-										'mail': 'mailto:',
-										'phone': '',
-										'page': '',
-										'section': '#'
+										'link': function() {
+                                            return '';
+                                        },
+										'mail': function() {
+                                            return 'mailto:';
+                                        },
+										'phone': function() {
+                                            return '';
+                                        },
+										'page': function() {
+                                            return '';
+                                        },
+										'section': function() {
+                                            self.elem.attr('data-nav-section', val);
+                                            return '';
+                                        }
 									}
-									return typeList[type] + val;
+
+                                    console.log('++++++++++getAttrValue================', type)
+
+                                    if(typeList[type]) {
+                                        return typeList[type]() + val;                                        
+                                    }else {
+                                        return '';
+                                    }
 								}
+
+                            sessionStorage.currentActiveLinkType = sessionStorage.currentActiveLinkType || 'link';
 
 							attrValue = getAttrValue(attrValue, sessionStorage.currentActiveLinkType);
 
                             if(attrValue) {
+                                attrValue = attrValue == 'undefined' ? '' : attrValue;
                                 this.elem.attr(attr.attrName, attrValue);
                             }
 
@@ -1162,7 +1196,7 @@ $(function() {
                             jqComponent = jq(component);
 
                         if(currentCtrl.isBeforeHTMLValue) {
-                            jqComponent.prepend(jq(loopComponent));                            
+                            jqComponent.prepend(jq(loopComponent));
                         }else {
                             jqComponent.append(jq(loopComponent));
                         }
