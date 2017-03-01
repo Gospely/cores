@@ -32,48 +32,6 @@ export default {
 		specialStyleProperty: ['border-advance', 'shadows-advance', 'effects-advance', 'tt-advance', 'border-radius-advance'],
 		propertiesNeedRec: ['border-advance', 'shadows-advance', 'effects-advance', 'tt-advance', 'border-radius-advance', 'width-height', 'font-more'],
 
-		stylesList: {
-		    ".body":{
-		        "height": "100%"
-		    },
-		    ".designer-wrapper": {
-		        "width": "100%",
-		        "background": "url(./assets/preview_device_bg.png)",
-		        "overflow": "auto"
-		    },
-		    ".designer-header": {
-		        "padding-right": "10px",
-		        "padding-left": "10px",
-		        "padding-top": "5px",
-		        "padding-bottom": "5px",
-		        "background": "#fff"
-		    },
-		    ".dynamic-delete-button": {
-		        "cursor": "pointer",
-		        "position": "relative",
-		        "top": "4px",
-		        "font-size": "24px",
-		        "color": "#999",
-		        "transition": "all .3s"
-		    },
-		    ".vd-right-panel": {
-		        "height": "100vh"
-		    },
-		    ".vd-right-panel .ant-tabs": {
-		        "height": "100%"
-		    },
-		    ".vd-right-panel .ant-tabs-content": {
-		        "height": "e(\"calc(100vh - 39px)\")"
-		    },
-		    ".vd-right-panel .ant-tabs-tab": {
-		        "margin-right": "0!important",
-		        "padding-left": "16px!important",
-		        "padding-right": "16px!important",
-		        "padding-top": "10px!important",
-		        "padding-bottom": "9px!important"
-		    }
-		},
-
 		borderSetting: {
 			border: {
 				propertyName: 'border',
@@ -199,7 +157,7 @@ export default {
 					'margin-top': '',
 					'margin-bottom': '',
 					'margin-left': '',
-					'margin-left': ''
+					'margin-right': ''
 				},
 
 				background: {
@@ -715,10 +673,11 @@ export default {
 					return specialStyle['border'](currentStyleParent);
 				},
 
-				border(currentStyleParent) {
+				border(currentStyleParent, extraProperty) {
+					extraProperty = extraProperty || 'border-position';
 					let styleText = '';
 					for(let styleName in currentStyleParent) {
-						if(styleName != 'border-position') {
+						if(styleName != extraProperty) {
 							let currentStyleValue = currentStyleParent[styleName];
 							if (currentStyleValue !== '') {
 								styleText += styleName + ':' + currentStyleValue + ';';
@@ -730,17 +689,18 @@ export default {
 				},
 
 				'border-radius'(currentStyleParent) {
-					let styleText = '';
-					for(let styleName in currentStyleParent) {
-						if(styleName != 'border-radius-position') {
-							let currentStyleValue = currentStyleParent[styleName];
-							if (currentStyleValue !== '') {
-								styleText += styleName + ':' + currentStyleValue + ';';
-							}
-						}
-					}
+					return specialStyle['border'](currentStyleParent, 'border-radius-position');
+					// let styleText = '';
+					// for(let styleName in currentStyleParent) {
+					// 	if(styleName != 'border-radius-position') {
+					// 		let currentStyleValue = currentStyleParent[styleName];
+					// 		if (currentStyleValue !== '') {
+					// 			styleText += styleName + ':' + currentStyleValue + ';';
+					// 		}
+					// 	}
+					// }
 
-					return styleText;
+					// return styleText;
 				},
 
 				'box-shadow'(currentStyleParent) {
