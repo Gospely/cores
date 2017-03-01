@@ -1031,9 +1031,12 @@ $(function() {
 									return typeList[type] + val;
 								}
 
+                            sessionStorage.currentActiveLinkType = sessionStorage.currentActiveLinkType || 'link';
+
 							attrValue = getAttrValue(attrValue, sessionStorage.currentActiveLinkType);
 
                             if(attrValue) {
+                                attrValue = attrValue == 'undefined' ? '' : attrValue;
                                 this.elem.attr(attr.attrName, attrValue);
                             }
 
