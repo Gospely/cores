@@ -747,9 +747,8 @@ $(function() {
 
         		dndData.dragOverElem = target;
 
-        		//是否是行级元素
         		if (target.outerWidth() < target.parent().innerWidth()) {
-
+        			//是否是行级元素
         			var ref = (e.pageX - target.offset().left) / target.outerWidth();
         			var moveX = e.pageX - dndData.originalX;
 
@@ -757,15 +756,23 @@ $(function() {
 
         				if (ref <= 1/3) {
 
-		        			dndData.horizontalBefore(e, target);
+        					if (e.target.className.indexOf('col-md-') === -1) {
+        						dndData.horizontalBefore(e, target);	
+        					}else {
+        						dndData.verticalBefore(e, target.parent());
+        					}
 
 		        		} else if (ref > 1/3 && ref < 2/3) {
 
 		        			dndData.containerSpecialHandle(e, target);
 
 		        		} else if (ref >= 2/3) {
-
-		        			dndData.horizontalAfter(e, target);
+		        			
+		        			if (e.target.className.indexOf('col-md-') === -1) {
+		        				dndData.horizontalAfter(e, target);	
+		        			}else {
+		        				dndData.verticalAfter(e, target.parent());
+		        			}
 
 		        		}
 
