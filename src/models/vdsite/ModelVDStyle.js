@@ -188,6 +188,20 @@ export default {
 				'text-decoration': '',
 				'text-transform': '',
 
+				padding: {
+					'padding-top': '',
+					'padding-bottom': '',
+					'padding-right': '',
+					'padding-left': ''
+				},
+
+				margin: {
+					'margin-top': '',
+					'margin-bottom': '',
+					'margin-left': '',
+					'margin-left': ''
+				},
+
 				background: {
 					'background-width': '',
 					'background-color': '',
@@ -337,6 +351,21 @@ export default {
 			'write-mode': '',
 			'text-decoration': '',
 			'text-transform': '',
+
+			padding: {
+				'padding-top': '',
+				'padding-bottom': '',
+				'padding-right': '',
+				'padding-left': ''
+			},
+
+			margin: {
+				'margin-top': '',
+				'margin-bottom': '',
+				'margin-left': '',
+				'margin-left': ''
+			},
+
 			background: {
 				'background-width': '',
 				'background-color': '',
@@ -654,7 +683,7 @@ export default {
 
 		applyCSSStyleIntoPage(state, { payload: params }) {
 
-			const specialStyle = {
+			var specialStyle = {
 				background(currentStyleParent) {
 					let styleText = '';
 					for(let styleName in currentStyleParent) {
@@ -676,6 +705,14 @@ export default {
 					}
 
 					return styleText;
+				},
+
+				padding (currentStyleParent) {
+					return specialStyle['border'](currentStyleParent);
+				},
+
+				margin (currentStyleParent) {
+					return specialStyle['border'](currentStyleParent);
 				},
 
 				border(currentStyleParent) {

@@ -1609,6 +1609,165 @@ const VDStylePanel = (props) => {
 					</div>
 				</div>
 
+		    	<Row>
+
+				  	<Col span={12} style={{paddingRight: '5px'}}>
+				      	<Form className="form-no-margin-bottom">
+							<FormItem {...formItemLayout} label={
+								activeCSSStyleState['padding']['padding-top'] == '' ? <span>上内边距</span> : (
+								  	<Popconfirm onConfirm={() => { setThisPropertyNull('padding-top') }} title="删除属性？" okText="是" cancelText="否">
+											<a href="#">上内边距</a>
+										</Popconfirm>
+								)
+							}>
+								<Input size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['padding']['padding-top']} onChange={handleStylesChange.bind(this, 'padding-top')}/>
+							</FormItem>
+				      	</Form>
+				  	</Col>
+				  	<Col span={12} style={{paddingLeft: '5px'}}>
+				      	<Form className="form-no-margin-bottom">
+							<FormItem {...formItemLayout} label={
+								activeCSSStyleState['padding']['padding-bottom'] == '' ? <span>下内边距</span> : (
+								  	<Popconfirm onConfirm={() => { setThisPropertyNull('padding-bottom') }} title="删除属性？" okText="是" cancelText="否">
+											<a href="#">下内边距</a>
+										</Popconfirm>
+								)
+							}>
+								<Input size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['padding']['padding-bottom']} onChange={handleStylesChange.bind(this, 'padding-bottom')}/>
+							</FormItem>
+				      	</Form>
+				  	</Col>
+
+			  	</Row>
+
+		    	<Row>
+
+				  	<Col span={12} style={{paddingRight: '5px'}}>
+				      	<Form className="form-no-margin-bottom">
+							<FormItem {...formItemLayout} label={
+								activeCSSStyleState['padding']['padding-left'] == '' ? <span>左内边距</span> : (
+								  	<Popconfirm onConfirm={() => { setThisPropertyNull('padding-left') }} title="删除属性？" okText="是" cancelText="否">
+											<a href="#">左内边距</a>
+										</Popconfirm>
+								)
+							}>
+								<Input size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['padding']['padding-left']} onChange={handleStylesChange.bind(this, 'padding-left')}/>
+							</FormItem>
+				      	</Form>
+				  	</Col>
+				  	<Col span={12} style={{paddingLeft: '5px'}}>
+				      	<Form className="form-no-margin-bottom">
+							<FormItem {...formItemLayout} label={
+								activeCSSStyleState['padding']['padding-right'] == '' ? <span>右内边距</span> : (
+								  	<Popconfirm onConfirm={() => { setThisPropertyNull('padding-right') }} title="删除属性？" okText="是" cancelText="否">
+											<a href="#">右内边距</a>
+										</Popconfirm>
+								)
+							}>
+								<Input size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['padding']['padding-right']} onChange={handleStylesChange.bind(this, 'padding-right')}/>
+							</FormItem>
+				      	</Form>
+				  	</Col>
+
+			  	</Row>
+
+		      	<li className="ant-dropdown-menu-item-divider"></li>
+
+		    	<Row>
+
+				  	<Col span={12} style={{paddingRight: '5px'}}>
+				      	<Form className="form-no-margin-bottom">
+							<FormItem {...formItemLayout} label={
+								activeCSSStyleState['margin']['margin-top'] == '' ? <span>上外边距</span> : (
+								  	<Popconfirm onConfirm={() => { setThisPropertyNull('margin-top') }} title="删除属性？" okText="是" cancelText="否">
+											<a href="#">上外边距</a>
+										</Popconfirm>
+								)
+							}>
+								<Input size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['margin']['margin-top']} onChange={handleStylesChange.bind(this, 'margin-top')}/>
+							</FormItem>
+				      	</Form>
+				  	</Col>
+				  	<Col span={12} style={{paddingLeft: '5px'}}>
+				      	<Form className="form-no-margin-bottom">
+							<FormItem {...formItemLayout} label={
+								activeCSSStyleState['margin']['margin-bottom'] == '' ? <span>下外边距</span> : (
+								  	<Popconfirm onConfirm={() => { setThisPropertyNull('margin-bottom') }} title="删除属性？" okText="是" cancelText="否">
+											<a href="#">下外边距</a>
+										</Popconfirm>
+								)
+							}>
+								<Input size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['margin']['margin-bottom']} onChange={handleStylesChange.bind(this, 'margin-bottom')}/>
+							</FormItem>
+				      	</Form>
+				  	</Col>
+
+			  	</Row>
+
+		    	<Row>
+
+				  	<Col span={12} style={{paddingRight: '5px'}}>
+				      	<Form className="form-no-margin-bottom">
+							<FormItem {...formItemLayout} label={
+								activeCSSStyleState['margin']['margin-left'] == '' ? <span>左外边距</span> : (
+								  	<Popconfirm onConfirm={() => { setThisPropertyNull('margin-left') }} title="删除属性？" okText="是" cancelText="否">
+											<a href="#">左外边距</a>
+										</Popconfirm>
+								)
+							}>
+								<Input size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['margin']['margin-left']} onChange={handleStylesChange.bind(this, 'margin-left')}/>
+							</FormItem>
+				      	</Form>
+				  	</Col>
+				  	<Col span={12} style={{paddingLeft: '5px'}}>
+				      	<Form className="form-no-margin-bottom">
+							<FormItem {...formItemLayout} label={
+								activeCSSStyleState['margin']['margin-right'] == '' ? <span>左外边距</span> : (
+								  	<Popconfirm onConfirm={() => { setThisPropertyNull('margin-right') }} title="删除属性？" okText="是" cancelText="否">
+											<a href="#">左外边距</a>
+										</Popconfirm>
+								)
+							}>
+								<Input size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['margin']['margin-right']} onChange={handleStylesChange.bind(this, 'margin-right')}/>
+							</FormItem>
+				      	</Form>
+				  	</Col>
+
+			  	</Row>
+
+		      	<li className="ant-dropdown-menu-item-divider"></li>
+
+		    	<Row>
+
+				  	<Col span={12} style={{paddingRight: '5px'}}>
+				      	<Form className="form-no-margin-bottom">
+							<FormItem {...formItemLayout} label={
+								activeCSSStyleState['max-height'] == '' ? <span>最大</span> : (
+								  	<Popconfirm onConfirm={() => { setThisPropertyNull('max-height') }} title="删除属性？" okText="是" cancelText="否">
+											<a href="#">最大</a>
+										</Popconfirm>
+								)
+							}>
+								<Input size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['max-height']} onChange={handleStylesChange.bind(this, 'max-height')}/>
+							</FormItem>
+				      	</Form>
+				  	</Col>
+				  	<Col span={12} style={{paddingLeft: '5px'}}>
+				      	<Form className="form-no-margin-bottom">
+							<FormItem {...formItemLayout} label={
+								activeCSSStyleState['min-height'] == '' ? <span>最小</span> : (
+								  	<Popconfirm onConfirm={() => { setThisPropertyNull('min-height') }} title="删除属性？" okText="是" cancelText="否">
+											<a href="#">最小</a>
+										</Popconfirm>
+								)
+							}>
+								<Input size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['min-height']} onChange={handleStylesChange.bind(this, 'min-height')}/>
+							</FormItem>
+				      	</Form>
+				  	</Col>
+
+			  	</Row>
+
 		      	<li className="ant-dropdown-menu-item-divider"></li>
 
 		    	<Row>
