@@ -716,8 +716,6 @@ const weappCompiler = {
 		return true;
 	},
 
-	//
-
 	cloudPack: function *() {
 		var self = this;
 		var result = yield request('weapp/pack/', {

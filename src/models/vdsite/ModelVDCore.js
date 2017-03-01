@@ -1,6 +1,8 @@
 import React , {PropTypes} from 'react';
 import dva from 'dva';
 
+import request from '../../utils/request.js';
+
 import { message, Modal } from 'antd';
 const confirm = Modal.confirm;
 
@@ -105,9 +107,19 @@ export default {
 				pages = yield select(state => state.vdpm.pageList),
 				css = yield select(state => state.vdstyles.cssStyleLayout);
 
-			VDPackager.init({layout, pages, css});
+			var struct = VDPackager.pack({layout, pages, css});
 
-			console.log('packAndDownloadVDSiteProject');
+			console.log(JSON.stringify(struct));
+
+			var packResult = yield request('vdsite/pack', {
+	  			method: 'POST',
+	  			headers: {
+					"Content-Type": "application/json;charset=UTF-8",
+				},
+	  			body: JSON.stringify(struct),
+	  		});
+
+			console.log(packResult);
 		},
 
 		*columnCountChange({ payload: params }, { call, put, select }) {
@@ -195,8 +207,6 @@ export default {
 					value: params.value
 				}
 			})
-
-			
 			
 		}
 	},

@@ -650,7 +650,8 @@ export default {
 						ignore: controller.ignore || false,
 						root: root || '',
 						isRoot: true,
-						unActive: controller.unActive
+						unActive: controller.unActive,
+						isBeforeHTMLValue: controller.isBeforeHTMLValue || false
 					};
 				}else{
 					ctrl = {
@@ -666,6 +667,7 @@ export default {
 						root: root || '',
 						parent: parent.vdid,
 						unActive: controller.unActive,
+						isBeforeHTMLValue: controller.isBeforeHTMLValue || false
 					};
 				}
 
