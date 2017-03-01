@@ -661,23 +661,24 @@ export default {
 					//切换active
 					for (var j = 0; j < parent.children.length; j++) {
 						for (var k = 0; k < parent.children[j].className.length; k++) {
-							console.log('active');
-							console.log(k);
+
 							console.log(parent.children[j].className[k]);
 							if(parent.children[j].className[k] == 'active'){
 								parent.children[j].className.splice(k,1);
 								if(params.action == 'next'){
-									if(k + 1 == parent.children.length){
+									if(j == parent.children.length -1){
+										console.log('latest');
 										params.index = 0;
 									}else {
-										params.index = k + 1;
+										console.log('plus');
+										params.index = j + 1;
 									}
 								}
 								if(params.action == 'last'){
-									if(k == 0){
-										params.index = 0;
-									}else {
+									if(j == 0){
 										params.index = parent.children.length -1;
+									}else {
+										params.index = j -1;
 									}
 								}
 								break;
@@ -693,6 +694,7 @@ export default {
 			}
 			findParent(currentActiveCtrl.controller);
 			state.activeCtrl = currentActiveCtrl.controller;
+			console.log(state.activeCtrl);
 			state.selectIndex = params.index;
 			window.VDDesignerFrame.postMessage({
 				VDAttrRefreshed: {
