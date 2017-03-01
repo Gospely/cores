@@ -1390,6 +1390,23 @@ const Component = (props) => {
 
 	    			'navbar-setting' (item, attrTypeIndex) {
 
+                        const navbarSettingProps = {
+                            onSelect: function(val, target) {
+                                console.log(val, target);
+
+                                let remove = val == 'navbar-left' ? 'navbar-right' : 'navbar-left';
+
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleClassNameChange',
+                                    payload: {
+                                        remove: remove,
+                                        replacement: val,
+                                        level: 3,
+                                        levelsInfo: [{level: 1, index: 1}]
+                                    }
+                                });
+                            }
+                        }
 	    				return (
 	    					<Panel header={item.title} key={item.key}>
 	                            <Row style={{marginTop: '15px'}}>
@@ -1402,10 +1419,9 @@ const Component = (props) => {
 
 	                            <Form className="form-no-margin-bottom">
 	                                <FormItem {...formItemLayout} label="菜单类型">
-	                                    <Select size="small">
-	                                          <Option key="drop-down" value="drop-down">向下</Option>
-	                                          <Option key="over-right" value="over-right">靠右</Option>
-	                                          <Option key="over-left" value="over-left">靠左</Option>
+	                                    <Select size="small" onSelect={navbarSettingProps.onSelect}>
+	                                          <Option key="over-right" value="navbar-right">靠右</Option>
+	                                          <Option key="over-left" value="navbar-left">靠左</Option>
 	                                    </Select>
 	                                </FormItem>
 	                            </Form>

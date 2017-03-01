@@ -1646,7 +1646,7 @@ export default {
 						children: [{
 							tag: 'div',
                             unActive: true,
-							className: ['tab-pane', 'active'],
+							className: ['tab-pane'],
 							children: [],
 							attrs: [{
 								title: '标签页设置',
@@ -1665,7 +1665,7 @@ export default {
 							}]
 						},{
 							tag: 'div',
-							className: ['tab-pane', 'active'],
+							className: ['tab-pane'],
 							children: [],
 							attrs: [{
 								title: '标签页设置',

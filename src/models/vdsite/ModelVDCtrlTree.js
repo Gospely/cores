@@ -552,6 +552,50 @@ export default {
 			}, '*');
 			return {...state};
 		},
+		//修改控件的Class
+		handleClassNameChange(state, { payload: params}){
+
+			let currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage),
+			i = 0,
+			target;
+
+			function changeClassNameByLevel(parent){
+
+				let parentIndex = 0;
+				for (var j = 0; j < params.levelsInfo.length; j++) {
+					if(i == params.levelsInfo[j].level){
+						parentIndex = params.levelsInfo[j].index;
+					}
+				}
+				i++;
+				if(i < params.level) {
+					changeClassNameByLevel(parent.children[parentIndex]);
+				}else {
+					target = parent.children[parentIndex]
+				}
+			}
+			changeClassNameByLevel(currentActiveCtrl.controller);
+			console.log(target);
+			for (var k = 0; k < target.className.length; k++) {
+				if(target.className[k] == params.remove){
+					target.className.splice(k,1,params.replacement)
+				}
+			}
+			window.VDDesignerFrame.postMessage({
+				VDAttrRefreshed: {
+					activeCtrl: state.activeCtrl,
+					attr: {
+						action: 'replaceClass',
+						attrName: 'classOperate',
+						remove: params.remove,
+						replacement: params.replacement,
+						target: target,
+					},
+					attrType: params.attrType
+				}
+			}, '*');
+			return {...state};
+		},
 		handlePreview(state, { payload: params }) {
 			state.previewImage = params.previewImage;
 			state.previewVisible = params.previewVisible;
