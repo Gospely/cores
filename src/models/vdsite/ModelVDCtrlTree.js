@@ -596,7 +596,7 @@ export default {
 			}, '*');
 			return {...state};
 		},
-		//更改当前获取ctrl
+		//更改当前活跃ctrl
 		handleChangeCurrentCtrl(state, { payload: params}){
 
 			var parent =  VDTreeActions.getCtrlByKey(state, state.activeCtrl.parent, state.activePage);
@@ -605,6 +605,7 @@ export default {
 			if(params.toDropDown){
 				params.parent = parent.controller.parent,
 				params.replacement.vdid = parent.controller.vdid;
+				params.replacement.children[0].parent = parent.controller.vdid;
 				parent.controller = params.replacement;
 				state.activeCtrl = params.replacement.children[0];
 				window.VDDesignerFrame.postMessage({
@@ -758,6 +759,7 @@ export default {
 		},
 
 		ctrlSelected(state, { payload: data }) {
+			console.log('select');
 			console.log(data);
 			if(data.unActive){
 				var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, data.root, state.activePage);

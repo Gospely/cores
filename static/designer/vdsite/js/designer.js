@@ -504,14 +504,23 @@ $(function() {
 
 			'update': function(activeCtrl, children, parent){
 
+				console.log('update');
 				let vdid  = activeCtrl.vdid;
 				var elem = jq('[vdid='+ activeCtrl.vdid + ']');
 				activeCtrl.vdid = activeCtrl.vdid + 'c';
 				var elemGen = new ElemGenerator(activeCtrl);
 				var tempElem = elemGen.createElement();
 				tempElem.attr('vdid', vdid);
-				elem = elem.replaceWith(tempElem.clone());
-				// elem.data('controller', activeCtrl);
+				var clone = tempElem.clone(true);
+				console.log(tempElem.data('controller'));
+				elem.replaceWith(clone);
+				elem.children().remove();
+				elem = jq('[vdid='+ activeCtrl.vdid + ']');
+				for (var i = 0; i < activeCtrl.children.length; i++) {
+					elem.append(new ElemGenerator(activeCtrl.children[i]).createElement());
+				}
+				elem.data('controller', activeCtrl);
+
 			},
 			'add': function(parent, children, parent){
 
@@ -598,6 +607,8 @@ $(function() {
 			},
 
             select: function(data, notPostMessage) {
+				console.log("select");
+				console.log(data);
 				if(data) {
 
                     if(data.vdid == '') {
