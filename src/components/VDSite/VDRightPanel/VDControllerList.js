@@ -45,11 +45,6 @@ const Component = (props) => {
 					type: "vdCtrlTree/ctrlSelected",
 					payload: JSON.parse(e.selectedNodes[0].props.ctrl)
 				});
-
-				// props.dispatch({
-				// 	type: 'vdCtrlTree/setActiveCtrlInTree',
-				// 	payload: val
-				// })
 			},
 
 			onMouseEnter (evt) {
