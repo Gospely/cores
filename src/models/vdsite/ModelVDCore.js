@@ -124,20 +124,19 @@ export default {
 
 		*columnCountChange({ payload: params }, { call, put, select }) {
 
-			let invalid = yield select(state => state.vdcore.columnSlider.invalid);
-			if(invalid.indexOf(parseInt(params.value)) != -1) {
-				message.error('只能输入1, 2, 3, 4, 6和12');
-				return false;
-			}
+			if (params.value !== '') {
 
-			if(params.value < 1 || params.value > 12) {
-				if(params.value != '') {
-					message.error('栅格数不能超过12，且不能小于1');						
+				let invalid = [1, 2, 3, 4, 6, 12];
+				if(invalid.indexOf(parseInt(params.value)) === -1) {
+					message.error('只能输入1, 2, 3, 4, 6和12');
 					return false;
 				}
-			}
 
-			if (params.value !== '') {
+				if(params.value < 1 || params.value > 12) {
+						message.error('栅格数不能超过12，且不能小于1');						
+						return false;
+				}
+
 				//每个格子原来的配置数据
 				let originalCtrl = yield select(state => state.vdctrl.controllers[0].content);
 				let column;
@@ -308,6 +307,7 @@ export default {
 				state.columnSlider.columns[params.index + 1].value += decreaseNum;
 
 			}
+
 			return {...state};
 		},
 
