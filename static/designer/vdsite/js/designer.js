@@ -620,23 +620,24 @@ $(function() {
             },
 
             refreshCtrl: function(activeCtrl, attr, attrType) {
+				console.log(activeCtrl, attr);
 				if(attr.isTag) {
-					let vdid  = activeCtrl.vdid;
-					var elem = jq('[vdid='+ activeCtrl.vdid + ']');
-					activeCtrl.vdid = activeCtrl.vdid + 'c';
-					var elemGen = new ElemGenerator(activeCtrl);
-					var tempElem = elemGen.createElement();
-					tempElem.attr('vdid', vdid);
-					elem = elem.replaceWith(tempElem[0].outerHTML);
-					activeCtrl.vdid = vdid;
+					childrenOperate.update(activeCtrl);
 				}
-
 				if(attr.attrName == 'children'){
 					childrenOperate[attr.action](activeCtrl, attr.children, attr.parent);
 				}else if (attr.attrName == 'columns') {
 					columnsOperate[attr.action](activeCtrl, attr.column, attr.parent, attr.count, attr.colClass);
-				}else if(attr.attrName=='classOperate'){
+				}else if(attr.attrName == 'classOperate'){
 					classOperate[attr.action](activeCtrl, attr);
+				}else if(attr.attrName == 'replaceElem'){
+
+					console.log('replaceElem');
+					var parent = jq('[vdid='+ attr.parent + ']');
+					parent.children().remove();
+					var elemGen = new ElemGenerator(activeCtrl);
+					var tempElem = elemGen.createElement();
+					parent = parent.append(tempElem);
 				}else {
 					new ElemGenerator(activeCtrl).setAttributeByAttr(attr, attrType);
 				}
