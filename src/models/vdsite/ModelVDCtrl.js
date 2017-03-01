@@ -935,152 +935,172 @@ export default {
 					}],
 
 					children: [{
-    					tag: 'label',
-    					className: ['label label-default'],
+    					tag: 'div',
+    					className: ['form-group'],
     					attrs: [{
                             title: '属性设置',
                             key: 'label-attr',
                             isAttrSetting: true,
-                            children: [{
-                                name: 'innerHTML',
-                                desc: '名称',
-                                type: 'input',
-                                value: '姓名',
-                                id: '',
-                                isHTML: true,
-                            }]
-                        }]
+                            children: []
+                        }],
+                        children: [{
+	    					tag: 'label',
+	    					className: [],
+	    					attrs: [{
+	                            title: '属性设置',
+	                            key: 'label-attr',
+	                            isAttrSetting: true,
+	                            children: [{
+	                                name: 'innerHTML',
+	                                desc: '名称',
+	                                type: 'input',
+	                                value: '姓名',
+	                                id: '',
+	                                isHTML: true,
+	                            }]
+	                        }]
+	    				}, {
+							tag: 'input',
+							className: ['form-control'],
+							attrs: [{
+								title: '属性设置',
+								key: 'input-attr',
+								isAttrSetting: true,
+								children: [{
+									name: 'name',
+									desc: '名称',
+									type: 'input',
+									value: '',
+	                                isAttr: true,
+	                                attrName: 'value',
+									props: {
+										placeholder: '输入名称'
+									},
+									id: ''
+								}, {
+									name: 'placeholder',
+									desc: '占位字符',
+									type: 'input',
+									value: '输入姓名',
+	                                isAttr: true,
+	                                attrName: 'placeholder',
+									props: {
+										placeholder: '输入占位字符'
+									},
+									id: ''
+								}, {
+									name: 'input-type',
+									desc: '类型',
+									type: 'select',
+									value: 'input',
+	                                isAttr: true,
+	                                attrName: 'type',
+									valueList: ['input', 'email', 'password', 'number', 'tel'],
+									id: ''
+								}, {
+									name: 'autofocus',
+									desc: '自动聚焦',
+									type: 'toggle',
+	                                isToggleAttr: true,
+									value: true,
+									id: '',
+	                                attrName: 'autofocus'
+								}, {
+									name: 'required',
+									desc: '是否必填',
+									type: 'toggle',
+	                                isToggleAttr: true,
+									value: false,
+									id: '',
+	                                attrName: 'required'
+								}
+	                        ]
+							}]
+						}]
     				}, {
-						tag: 'input',
-						className: ['input-group'],
-						attrs: [{
-							title: '属性设置',
-							key: 'input-attr',
-							isAttrSetting: true,
-							children: [{
-								name: 'name',
-								desc: '名称',
-								type: 'input',
-								value: '',
-                                isAttr: true,
-                                attrName: 'value',
-								props: {
-									placeholder: '输入名称'
-								},
-								id: ''
-							}, {
-								name: 'placeholder',
-								desc: '占位字符',
-								type: 'input',
-								value: '输入姓名',
-                                isAttr: true,
-                                attrName: 'placeholder',
-								props: {
-									placeholder: '输入占位字符'
-								},
-								id: ''
-							}, {
-								name: 'input-type',
-								desc: '类型',
-								type: 'select',
-								value: 'input',
-                                isAttr: true,
-                                attrName: 'type',
-								valueList: ['input', 'email', 'password', 'number', 'tel'],
-								id: ''
-							}, {
-								name: 'autofocus',
-								desc: '自动聚焦',
-								type: 'toggle',
-                                isToggleAttr: true,
-								value: true,
-								id: '',
-                                attrName: 'autofocus'
-							}, {
-								name: 'required',
-								desc: '是否必填',
-								type: 'toggle',
-                                isToggleAttr: true,
-								value: false,
-								id: '',
-                                attrName: 'required'
-							}
-                        ]
-						}]
-					}, {
-    					tag: 'label',
-    					className: ['label label-default'],
+    					tag: 'div',
+    					className: ['form-group'],
     					attrs: [{
                             title: '属性设置',
                             key: 'label-attr',
                             isAttrSetting: true,
-                            children: [{
-                                name: 'innerHTML',
-                                desc: '名称',
-                                type: 'input',
-                                value: '邮箱',
-                                id: '',
-                                isHTML: true,
-                            }]
-                        }]
-    				},{
-						tag: 'input',
-						className: ['input-group'],
-						attrs: [{
-							title: '属性设置',
-							key: 'input-attr',
-							isAttrSetting: true,
-							children: [{
-								name: 'name',
-								desc: '名称',
-								type: 'input',
-								value: '',
-                                isAttr: true,
-                                attrName: 'value',
-								props: {
-									placeholder: '输入名称'
-								},
-								id: ''
-							}, {
-								name: 'placeholder',
-								desc: '占位字符',
-								type: 'input',
-								value: '输入邮箱',
-                                isAttr: true,
-                                attrName: 'placeholder',
-								props: {
-									placeholder: '输入占位字符'
-								},
-								id: ''
-							}, {
-								name: 'input-type',
-								desc: '类型',
-								type: 'select',
-								value: 'input',
-                                isAttr: true,
-                                attrName: 'type',
-								valueList: ['input', 'email', 'password', 'number', 'tel'],
-								id: ''
-							}, {
-								name: 'autofocus',
-								desc: '自动聚焦',
-								type: 'toggle',
-                                isToggleAttr: true,
-								value: true,
-								id: '',
-                                attrName: 'autofocus'
-							},{
-								name: 'required',
-								desc: '是否必填',
-								type: 'toggle',
-                                isToggleAttr: true,
-								value: false,
-								id: '',
-                                attrName: 'required'
-							}
-                        ]
+                            children: []
+                        }],
+                        children: [{
+	    					tag: 'label',
+	    					className: [],
+	    					attrs: [{
+	                            title: '属性设置',
+	                            key: 'label-attr',
+	                            isAttrSetting: true,
+	                            children: [{
+	                                name: 'innerHTML',
+	                                desc: '名称',
+	                                type: 'input',
+	                                value: '邮箱',
+	                                id: '',
+	                                isHTML: true,
+	                            }]
+	                        }]
+	    				}, {
+							tag: 'input',
+							className: ['form-control'],
+							attrs: [{
+								title: '属性设置',
+								key: 'input-attr',
+								isAttrSetting: true,
+								children: [{
+									name: 'name',
+									desc: '名称',
+									type: 'input',
+									value: '',
+	                                isAttr: true,
+	                                attrName: 'value',
+									props: {
+										placeholder: '输入名称'
+									},
+									id: ''
+								}, {
+									name: 'placeholder',
+									desc: '占位字符',
+									type: 'input',
+									value: '输入邮箱',
+	                                isAttr: true,
+	                                attrName: 'placeholder',
+									props: {
+										placeholder: '输入占位字符'
+									},
+									id: ''
+								}, {
+									name: 'input-type',
+									desc: '类型',
+									type: 'select',
+									value: 'input',
+	                                isAttr: true,
+	                                attrName: 'type',
+									valueList: ['input', 'email', 'password', 'number', 'tel'],
+									id: ''
+								}, {
+									name: 'autofocus',
+									desc: '自动聚焦',
+									type: 'toggle',
+	                                isToggleAttr: true,
+									value: true,
+									id: '',
+	                                attrName: 'autofocus'
+								}, {
+									name: 'required',
+									desc: '是否必填',
+									type: 'toggle',
+	                                isToggleAttr: true,
+									value: false,
+									id: '',
+	                                attrName: 'required'
+								}
+	                        ]
+							}]
 						}]
-					},{
+    				}, {
     					tag: 'input',
     					className: ['btn', 'btn-default'],
     					attrs: [{
@@ -1118,7 +1138,7 @@ export default {
 				key: 'label',
 				details: {
 					tag: 'label',
-					className: ['labe label-primary'],
+					className: [],
 					attrs: [{
                         title: '属性设置',
                         key: 'label-attr',
@@ -1140,7 +1160,7 @@ export default {
 				key: 'input',
 				details: {
 					tag: 'input',
-					className: ['input-group'],
+					className: ['form-control'],
 					attrs: [{
 						title: '属性设置',
 						key: 'input-attr',
@@ -1210,7 +1230,7 @@ export default {
                 setAttribute: true,
 				details: {
 					tag: 'textarea',
-					className: ['list-group'],
+					className: ['form-control'],
 					attrs: [{
 						title: '属性设置',
 						key: 'textarea-attr',
@@ -1286,11 +1306,28 @@ export default {
 				key: 'checkbox',
 				details: {
 					tag: 'div',
-					className: [],
+					className: ['checkbox'],
 					attrs: [],
                     children:[{
+    					tag: 'label',
+    					className: [],
+    					attrs: [{
+                            title: '属性设置',
+                            key: 'label-attr',
+                            isAttrSetting: true,
+                            children: [{
+                                name: 'innerHTML',
+                                desc: '名称',
+                                type: 'input',
+                                value: '多选框',
+                                id: '',
+                                isHTML: true,
+                            }]
+                        }],
+                        children: [{
         					tag: 'input',
-        					className: ['vd-check'],
+        					className: [],
+        					isBeforeHTMLValue: true,
         					attrs: [{
         						title: '属性设置',
         						key: 'checkbox-attr',
@@ -1318,25 +1355,9 @@ export default {
                                     attrName: 'type'
         						}]
         					}]
-                        },{
-        					tag: 'label',
-        					className: ['vd-label'],
-        					attrs: [{
-                                title: '属性设置',
-                                key: 'label-attr',
-                                isAttrSetting: true,
-                                children: [{
-                                    name: 'innerHTML',
-                                    desc: '名称',
-                                    type: 'input',
-                                    value: '多选框',
-                                    id: '',
-                                    isHTML: true,
-                                }]
-                            }]
-        				},
-                    ]
-				}
+                        }]
+    				}]
+            	}
 			}, {
 				icon: <svg width="26" height="26" viewBox="0 0 26 26" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><circle opacity=".2" fill="currentColor" cx="13" cy="13" r="10.6"></circle><path d="M13 0c7.2 0 13 5.8 13 13s-5.8 13-13 13S0 20.2 0 13 5.8 0 13 0m0 1C6.4 1 1 6.4 1 13s5.4 12 12 12 12-5.4 12-12S19.6 1 13 1z" opacity=".4"></path><path fill="currentColor" d="M13 3.5c5.2 0 9.5 4.3 9.5 9.5s-4.3 9.5-9.5 9.5-9.5-4.3-9.5-9.5S7.8 3.5 13 3.5M13 1C6.4 1 1 6.4 1 13s5.4 12 12 12 12-5.4 12-12S19.6 1 13 1z"></path><circle fill="currentColor" cx="13" cy="13" r="5"></circle></svg>,
 				name: '单选框',
@@ -1344,10 +1365,28 @@ export default {
 				details: {
 					tag: 'div',
 					attrs: [],
+					className: ['radio'],
                     children: [{
-                            tag: 'input',
-                            className: ['vd-radio'],
-                            attrs: [{
+    					tag: 'label',
+    					className: [],
+    					attrs: [{
+                            title: '属性设置',
+                            key: 'label-attr',
+                            isAttrSetting: true,
+                            children: [{
+                                name: 'innerHTML',
+                                desc: '名称',
+                                type: 'input',
+                                value: '单选框',
+                                id: '',
+                                isHTML: true,
+                            }]
+                        }],
+                        children: [{
+        					tag: 'input',
+        					className: [],
+        					isBeforeHTMLValue: true,
+        					attrs: [{
                                 title: '属性设置',
                                 key: 'radio-attr',
                                 isAttrSetting: true,
@@ -1374,24 +1413,8 @@ export default {
                                     attrName: 'type'
                                 }]
                             }]
-                        },{
-                            tag: 'label',
-                            className: ['vd-label'],
-                            attrs: [{
-                                title: '属性设置',
-                                key: 'label-attr',
-                                isAttrSetting: true,
-                                children: [{
-                                    name: 'innerHTML',
-                                    desc: '名称',
-                                    type: 'input',
-                                    value: '单选框',
-                                    id: '',
-                                    isHTML: true,
-                                }]
-                            }]
-                        },
-                    ]
+                        }]
+    				}]
 				}
 			}, {
 				icon: <svg width="60" height="23" viewBox="0 0 60 23" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".4" d="M57 0H3C1.3 0 0 1.3 0 3v17c0 1.7 1.3 3 3 3h54c1.7 0 3-1.3 3-3V3c0-1.7-1.3-3-3-3zM32 13H8v-2h24v2z"></path><path fill="currentColor" d="M57 1H3c-1.1 0-2 .9-2 2v17c0 1.1.9 2 2 2h54c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zM32 13H8v-2h24v2zm17 1l-4-4h8l-4 4z"></path><path opacity=".75" fill="currentColor" d="M8 11h24v2H8z"></path></svg>,
@@ -1399,7 +1422,7 @@ export default {
 				key: 'select',
 				details: {
 					tag: 'select',
-					className: ['vd-select'],
+					className: ['vd-select', 'form-control'],
 					attrs: [{
 						title: '选择框设置',
 						key: 'select-setting',
