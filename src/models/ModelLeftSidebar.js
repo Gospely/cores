@@ -147,6 +147,13 @@ export default {
 
 	effects: {
 
+        *packVDSite({ payload: params }, { call, put, select }) {
+
+            yield put({
+                type: 'vdcore/packAndDownloadVDSiteProject'
+            });
+        },
+
 		*startCompileWeapp({ payload: params }, {call, put, select}) {
 			var modelDesigner = yield select(state => state.designer),
 				topbar = yield select(state => state.sidebar),
@@ -1130,7 +1137,17 @@ export default {
 		handleFeedbackMsgChange(state, { payload: value }) {
 			state.modalFeedback.message = value;
 			return {...state};
-		}
+		},
+
+        showVDSiteDownloader(state) {
+            state.vdSiteDownloader.visible = true;
+            return {...state};
+        },
+
+        hideVDSiteDownloader(state) {
+            state.vdSiteDownloader.visible = false;
+            return {...state};
+        }
 
 	}
 

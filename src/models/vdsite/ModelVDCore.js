@@ -4,6 +4,8 @@ import dva from 'dva';
 import { message, Modal } from 'antd';
 const confirm = Modal.confirm;
 
+import VDPackager from './VDPackager.js';
+
 export default {
 	namespace: 'vdcore',
 	state: {
@@ -97,6 +99,17 @@ export default {
 	},
 
 	effects: {
+
+		*packAndDownloadVDSiteProject( { payload: params },  { call, put, select }) {
+			var layout = yield select(state => state.vdCtrlTree.layout),
+				pages = yield select(state => state.vdpm.pageList),
+				css = yield select(state => state.vdstyles.cssStyleLayout);
+
+			VDPackager.init({layout, pages, css});
+
+			console.log('packAndDownloadVDSiteProject');
+		},
+
 		*columnCountChange({ payload: params }, { call, put, select }) {
 
 			let invalid = yield select(state => state.vdcore.columnSlider.invalid);

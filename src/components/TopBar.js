@@ -393,6 +393,12 @@ const LeftSidebar = (props) => {
 	        	props.dispatch({
 	        		type: 'sidebar/showModalModifyGitOrgin'
 	        	});
+	        },
+
+	        'vdsite-downloader' () {
+	        	props.dispatch({
+	        		type: 'sidebar/packVDSite'
+	        	});
 	        }
 
 	      }
@@ -1422,6 +1428,10 @@ const LeftSidebar = (props) => {
 			          		<Icon type="appstore-o" />
 			          	</Tooltip>
 			        </Menu.Item>
+			        <Menu.Item key="vdsite-downloader">
+						<Icon type="cloud-download-o" />
+		        		打包下载
+			        </Menu.Item>
 			        <Menu.Item key="dashboard">
 						<Icon type="laptop" />
 		        		控制台
@@ -1568,6 +1578,26 @@ const LeftSidebar = (props) => {
 				type: 'sidebar/handleFeedbackMsgChange',
 				payload: e.target.value
 			});
+		}
+	}
+
+	const vdSiteProps = {
+		handleOk () {
+			props.dispatch({
+				type: 'sidebar/hideVDSiteDownloader'
+			});
+		},
+
+		handleCancel () {
+			props.dispatch({
+				type: 'sidebar/hideVDSiteDownloader'
+			});
+		},
+
+		aceHeight: (parseInt(document.body.clientHeight) - 300),
+
+		handleCodePreviewerChanged (value) {
+			console.log(value);
 		}
 	}
 
