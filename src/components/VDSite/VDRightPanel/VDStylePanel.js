@@ -92,15 +92,6 @@ const VDStylePanel = (props) => {
 			stylePropertyValue = proxy.target.value;
 		}
 
-		var units = ['px', 'em', 'rem', '%'];
-
-		for (var i = 0; i < units.length; i++) {
-			var unit = units[i];
-			if(stylePropertyValue.indexOf(unit) != -1) {
-				return false;
-			}
-		};
-
 		if(!props.vdCtrlTree.activeCtrl.activeStyle) {
 			message.error('执行错误，当前无活跃类名');
 			return false;
