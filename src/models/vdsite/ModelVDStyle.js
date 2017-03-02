@@ -727,11 +727,18 @@ export default {
 
 		applyCSSStyleIntoPage(state, { payload: params }) {
 
+			var currentActiveRecStyleName = '';
+
 			var specialStyle = {
 				background(currentStyleParent, unit) {
 					let styleText = '';
 					for(let styleName in currentStyleParent) {
 						let currentStyleValue = currentStyleParent[styleName];
+
+						if(state.unitList[currentActiveRecStyleName][styleName]) {
+							unit = state.unitList[currentActiveRecStyleName][styleName].unit;
+						}
+
 						if (currentStyleValue !== '') {
 							if (typeof currentStyleValue === 'object') {
 								let valueText = '';
@@ -767,6 +774,11 @@ export default {
 					let styleText = '';
 					for(let styleName in currentStyleParent) {
 						if(styleName != extraProperty) {
+
+							if(state.unitList[currentActiveRecStyleName][styleName]) {
+								unit = state.unitList[currentActiveRecStyleName][styleName].unit;
+							}
+
 							let currentStyleValue = currentStyleParent[styleName];
 							if (currentStyleValue !== '') {
 								styleText += styleName + ':' + currentStyleValue + unit + ';';
@@ -779,17 +791,6 @@ export default {
 
 				'border-radius'(currentStyleParent, unit) {
 					return specialStyle['border'](currentStyleParent, 'border-radius-position', unit);
-					// let styleText = '';
-					// for(let styleName in currentStyleParent) {
-					// 	if(styleName != 'border-radius-position') {
-					// 		let currentStyleValue = currentStyleParent[styleName];
-					// 		if (currentStyleValue !== '') {
-					// 			styleText += styleName + ':' + currentStyleValue + ';';
-					// 		}
-					// 	}
-					// }
-
-					// return styleText;
 				},
 
 				'box-shadow'(currentStyleParent, unit) {
@@ -908,16 +909,20 @@ export default {
 				for(var styleName in cssStyleLayout) {
 					var currentStyle = cssStyleLayout[styleName],
 						cssClass = '.' + styleName + '{';
+					
+						currentActiveRecStyleName = styleName;
+
 					for(var property in currentStyle) {
 						var currentTableStyle = currentStyle[property];
 						var unit = '';
 						if(state.unitList[styleName][property]) {
 							unit = state.unitList[styleName][property].unit;
 						}
+						console.log('stylesGenerator============', property, currentTableStyle, unit)
 						if(currentTableStyle != '' && typeof currentTableStyle !== 'object') {
 							cssClass += property + ':' + currentTableStyle + unit + ';'							
 						}else if (typeof currentTableStyle === 'object') {
-							cssClass += specialStyle[property](currentTableStyle, unit);
+							cssClass += specialStyle[property](currentTableStyle);
 						}
 					}
 					cssClass += '}';
