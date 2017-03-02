@@ -504,6 +504,19 @@ $(function() {
 
 			'update': function(activeCtrl, attr){
 
+				function generateChildren(parent,elem) {
+
+					if(parent.chidren){
+						for (var i = 0; i < parent.children.length; i++) {
+
+							elem = new ElemGenerator(parent.children[i]).createElement();
+							elem.push(generateChildren(parent.children[i], elem));
+
+						}
+					}else {
+						return elem;
+					}
+				}
 				let vdid  = activeCtrl.vdid;
 				var elem = jq('[vdid='+ activeCtrl.vdid + ']');
 				activeCtrl.vdid = activeCtrl.vdid + 'c';
@@ -514,11 +527,7 @@ $(function() {
 				elem.replaceWith(clone);
 				elem.children().remove();
 				elem = jq('[vdid='+ activeCtrl.vdid + ']');
-				if(activeCtrl.chidren){
-					for (var i = 0; i < activeCtrl.children.length; i++) {
-						elem.append(new ElemGenerator(activeCtrl.children[i]).createElement());
-					}
-				}
+				generateChildren(activeCtrl, elem);
 				elem.data('controller', activeCtrl);
 
 			},

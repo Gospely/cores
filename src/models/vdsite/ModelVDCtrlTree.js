@@ -702,6 +702,44 @@ export default {
 			console.log(target);
 			return {...state};
 		},
+		handleFade(state, { payload: params }){
+
+			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
+			console.log(currentActiveCtrl.controller);
+			console.log(params);
+			if(params.value){
+				for (var i = 0; i < currentActiveCtrl.controller.children[1].children.length; i++) {
+
+					currentActiveCtrl.controller.children[1].children[i].className.push('fade');
+				}
+			}else {
+				for (var i = 0; i < currentActiveCtrl.controller.children[1].children.length; i++) {
+
+					for (var j = 0; j < currentActiveCtrl.controller.children[1].children[i].className.length; j++) {
+						if(currentActiveCtrl.controller.children[1].children[i].className[j] == 'fade'){
+							console.log('splice');
+							currentActiveCtrl.controller.children[1].children[i].className.splice(j,1);
+							break;
+						}
+					}
+				}
+			}
+			currentActiveCtrl.controller.attrs[0].children[0].value = params.value;
+			state.activeCtrl = currentActiveCtrl.controller;
+			console.log(currentActiveCtrl.controller);
+			window.VDDesignerFrame.postMessage({
+				VDAttrRefreshed: {
+					activeCtrl: state.activeCtrl,
+					attr: {
+						attrName: 'children',
+						action: 'update'
+					},
+					attrType: params.attrType
+				}
+			}, '*');
+			return {...state};
+			return {...state};
+		},
 		handlePreview(state, { payload: params }) {
 			state.previewImage = params.previewImage;
 			state.previewVisible = params.previewVisible;

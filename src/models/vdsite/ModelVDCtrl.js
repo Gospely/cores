@@ -1537,7 +1537,10 @@ export default {
 					attrs: [{
 						title: '标签页设置',
 						key: 'tabs-setting',
-						children: []
+						children: [{
+                            name: 'fade',
+                            value: false,
+                        }]
 					}],
 					children: [{
 						tag: 'div',
@@ -1697,7 +1700,7 @@ export default {
 						},{
 							tag: 'div',
                             unActive: true,
-							className: ['tab-pane', 'active'],
+							className: ['tab-pane', 'in', 'active'],
 							children: [],
 							attrs: [{
 								title: '标签页设置',
