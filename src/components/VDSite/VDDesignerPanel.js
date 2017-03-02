@@ -38,9 +38,10 @@ const VDDesignerPanel = (props) => {
   return (
     <div className="designer-wrapper" style={{height: '100%'}}>
         <iframe
+          className="centen-VD"
           name="vdsite-designer"
-          width="100%"
-          height="100%" 
+          width={props.vdcore.VDDesigner[props.vdcore.VDDesigner.activeSize].width}
+          height={props.vdcore.VDDesigner[props.vdcore.VDDesigner.activeSize].height} 
           frameBorder="0" 
           src="static/designer/vdsite/index.html"
           onLoad={VDDesignerPanelProps.handleDesPanelLoaded}
@@ -51,8 +52,8 @@ const VDDesignerPanel = (props) => {
 
 };
 
-function mapSateToProps({ vdCtrlTree }) {
-  return { vdCtrlTree };
+function mapSateToProps({ vdCtrlTree, vdcore }) {
+  return { vdCtrlTree, vdcore};
 }
 
 export default connect(mapSateToProps)(VDDesignerPanel);

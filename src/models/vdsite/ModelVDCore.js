@@ -84,8 +84,37 @@ export default {
 				'12': 0,
 				'11': 1
 			}
-		}
+		},
 
+		VDDesigner: {
+
+			activeSize: 'pc',
+
+			pc: {
+				width: '100%',
+				height: '100%'
+			},
+
+			verticalTablet:{
+				width: '40%',
+				height: '90%'
+			},
+
+			alignTablet: {
+				width: '68%',
+				height: '70%'
+			},
+
+			verticalPhone: {
+				width: '23%',
+				height: '70%'
+			},
+
+			alignPhone: {
+				width: '40%',
+				height: '38%'
+			}
+		}
 	},
 
 	subscriptions: {
@@ -211,6 +240,11 @@ export default {
 	},
 
 	reducers: {
+
+		changeVDSize(state, { payload: params }) {
+			state.VDDesigner.activeSize = params.VDSize;
+			return {...state};
+		},
 
 		handlePreview(state, { payload: params }) {
 			state.previewImage = params.previewImage;

@@ -399,7 +399,53 @@ const LeftSidebar = (props) => {
 	        	props.dispatch({
 	        		type: 'sidebar/packVDSite'
 	        	});
+	        },
+
+	        PC() {	        	
+	        	props.dispatch({
+	        		type: 'vdcore/changeVDSize',
+	        		payload: {
+	        			VDSize: 'pc'
+	        		}
+	        	});
+	        },
+
+	        verticalTablet() {
+	        	props.dispatch({
+	        		type: 'vdcore/changeVDSize',
+	        		payload: {
+	        			VDSize: 'verticalTablet'
+	        		}
+	        	});
+	        },
+
+	        alignTablet() {
+	        	props.dispatch({
+	        		type: 'vdcore/changeVDSize',
+	        		payload: {
+	        			VDSize: 'alignTablet'
+	        		}
+	        	});
+	        },
+
+	        verticalPhone() {
+	        	props.dispatch({
+	        		type: 'vdcore/changeVDSize',
+	        		payload: {
+	        			VDSize: 'verticalPhone'
+	        		}
+	        	});
+	        },
+
+	        alignPhone() {
+	        	props.dispatch({
+	        		type: 'vdcore/changeVDSize',
+	        		payload: {
+	        			VDSize: 'alignPhone'
+	        		}
+	        	});
 	        }
+
 
 	      }
 
@@ -1409,8 +1455,7 @@ const LeftSidebar = (props) => {
 				);
 			}
 			return debugMenu;
-		}
-
+		} 
 		if(localStorage.image == 'vd:site') {
 
 			topbarMenu = (
@@ -1439,6 +1484,21 @@ const LeftSidebar = (props) => {
 					<Menu.Item key="feedback">
 						<Icon type="smile-o" />
 						反馈建议
+			        </Menu.Item>
+			        <Menu.Item key="PC" title="电脑" className="change-icon" style={{marginLeft: '130px'}}>
+			        	<i className='change-vd-icon icon-bg-0'></i>
+			        </Menu.Item>
+			        <Menu.Item key="verticalTablet" className="change-icon" title="竖平板">
+			        	<i className='change-vd-icon icon-bg-36'></i>
+			        </Menu.Item>
+			        <Menu.Item key="alignTablet" className="change-icon" title="横平板">
+			        	<i className='change-vd-icon icon-bg-75'></i>
+			        </Menu.Item>
+			        <Menu.Item key="verticalPhone" className="change-icon" title="竖手机">
+			        	<i className='change-vd-icon icon-bg-113'></i>
+			        </Menu.Item>
+			        <Menu.Item key="alignPhone" className="change-icon" title="横手机">
+			        	<i className='change-vd-icon icon-bg-150'></i>
 			        </Menu.Item>
 			        <Menu.Item key="delete" placement="left" className='delete-app-btn'>
 				      	<Tooltip placement="leftBottom" title="删除此应用">
@@ -1855,8 +1915,8 @@ const LeftSidebar = (props) => {
 
 }
 
-function mapStateToProps({ sidebar, editor, editorTop, rightbar, designer, attr ,devpanel, layout, cpre, vdpm}) {
-  return { sidebar, editor, editorTop, rightbar, designer, attr ,devpanel, layout, cpre, vdpm};
+function mapStateToProps({ sidebar, editor, editorTop, rightbar, designer, attr ,devpanel, layout, cpre, vdpm, vdcore}) {
+  return { sidebar, editor, editorTop, rightbar, designer, attr ,devpanel, layout, cpre, vdpm, vdcore};
 }
 
 export default connect(mapStateToProps)(LeftSidebar);
