@@ -514,8 +514,10 @@ $(function() {
 				elem.replaceWith(clone);
 				elem.children().remove();
 				elem = jq('[vdid='+ activeCtrl.vdid + ']');
-				for (var i = 0; i < activeCtrl.children.length; i++) {
-					elem.append(new ElemGenerator(activeCtrl.children[i]).createElement());
+				if(activeCtrl.chidren){
+					for (var i = 0; i < activeCtrl.children.length; i++) {
+						elem.append(new ElemGenerator(activeCtrl.children[i]).createElement());
+					}
 				}
 				elem.data('controller', activeCtrl);
 
@@ -763,7 +765,7 @@ $(function() {
         				if (ref <= 1/3) {
 
         					if (e.target.className.indexOf('col-md-') === -1) {
-        						dndData.horizontalBefore(e, target);	
+        						dndData.horizontalBefore(e, target);
         					}else {
         						dndData.verticalBefore(e, target.parent());
         					}
@@ -773,9 +775,9 @@ $(function() {
 		        			dndData.containerSpecialHandle(e, target);
 
 		        		} else if (ref >= 2/3) {
-		        			
+
 		        			if (e.target.className.indexOf('col-md-') === -1) {
-		        				dndData.horizontalAfter(e, target);	
+		        				dndData.horizontalAfter(e, target);
 		        			}else {
 		        				dndData.verticalAfter(e, target.parent());
 		        			}
