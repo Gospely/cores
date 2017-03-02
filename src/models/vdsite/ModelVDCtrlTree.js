@@ -752,7 +752,23 @@ export default {
 			console.log(currentActiveCtrl.controller);
 			return {...state};
 		},
+		triggerMenu(state){
+
+			console.log('triggerMenu');
+			window.VDDesignerFrame.postMessage({
+				VDAttrRefreshed: {
+					activeCtrl: state.activeCtrl,
+					attr: {
+						action: 'triggerMenu',
+						attrName: 'scriptOperate',
+						target: state.activeCtrl.children[0].children[0].children[0].vdid,
+					},
+				}
+			}, '*');
+			return {...state};
+		},
 		handlePreview(state, { payload: params }) {
+
 			state.previewImage = params.previewImage;
 			state.previewVisible = params.previewVisible;
 			return {...state};

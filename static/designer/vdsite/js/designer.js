@@ -489,6 +489,17 @@ $(function() {
             });
 
         }();
+		const scriptOperate = {
+			triggerMenu(activeCtrl, attr){
+
+				console.log('trigger');
+				console.log(attr);
+				var elem = jq('[vdid='+ attr.target + ']');
+				var e = jq.Event("click");
+				console.log(e);
+				elem.trigger(e);
+			}
+		}
 		//class操作
 		const classOperate = {
 			//替换class
@@ -666,7 +677,9 @@ $(function() {
 					var elemGen = new ElemGenerator(activeCtrl);
 					var tempElem = elemGen.createElement();
 					parent = parent.append(tempElem);
-				}else {
+				}else  if (attr.attrName == 'scriptOperate') {
+					scriptOperate[attr.action](activeCtrl, attr);
+				}else{
 					new ElemGenerator(activeCtrl).setAttributeByAttr(attr, attrType);
 				}
             },
