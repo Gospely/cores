@@ -511,7 +511,6 @@ $(function() {
 				var tempElem = elemGen.createElement();
 				tempElem.attr('vdid', vdid);
 				var clone = tempElem.clone(true);
-				console.log(tempElem.data('controller'));
 				elem.replaceWith(clone);
 				elem.children().remove();
 				elem = jq('[vdid='+ activeCtrl.vdid + ']');
@@ -637,7 +636,7 @@ $(function() {
             },
 
             refreshCtrl: function(activeCtrl, attr, attrType) {
-				console.log(activeCtrl, attr);
+
 				if(attr.isTag) {
 					childrenOperate.update(activeCtrl);
 				}
@@ -934,7 +933,7 @@ $(function() {
                         if(attr.isScrollFlag) {
                             this.elem.attr('data-section', attr.value);
                         }else {
-                            this.elem.attr(attr.attrName, attr.value);                            
+                            this.elem.attr(attr.attrName, attr.value);
                         }
                     }
                 }
@@ -967,7 +966,6 @@ $(function() {
             setAttr: function(attr) {
                 if(attr.isHTML) {
 
-					console.log('isAttr', attr);
 					if(attr.html){
 						this.elem.html(attr.html);
 					}else{
@@ -1049,7 +1047,7 @@ $(function() {
                                     console.log('++++++++++getAttrValue================', type)
 
                                     if(typeList[type]) {
-                                        return typeList[type]() + val;                                        
+                                        return typeList[type]() + val;
                                     }else {
                                         return '';
                                     }
