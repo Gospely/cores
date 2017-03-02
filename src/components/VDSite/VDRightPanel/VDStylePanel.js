@@ -1091,10 +1091,11 @@ const VDStylePanel = (props) => {
 				        <Col span={18}>
 				          	<Input
     				    		onChange={handleTransitionInputChange.bind(this, 'transition-duration')}
+    				    		type="number"
 				          		value={props.vdstyles.transitionSetting['transition-duration']} type="text" size="small" />
 				        </Col>
 				        <Col span={6} style={{paddingLeft: '15px'}}>
-				        	MS
+				        	s
 				        </Col>
 				    </Row>
 				</FormItem>
@@ -2642,7 +2643,7 @@ const VDStylePanel = (props) => {
 													<Tag color={cssProperty['color']}></Tag>
 												</Col>
 												<Col span={16} style={{textAlign: 'center', cursor: 'pointer'}}>
-													<span>{cssProperty['h-shadow']},{cssProperty['v-shadow']}</span>
+													<span>{cssProperty['h-shadow']}px,{cssProperty['v-shadow']}px</span>
 												</Col>
 												<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
 													<i onClick={removeThisShadow.bind(this, cssPropertyIndex, 'text-shadow')} className="fa fa-trash-o"></i>
@@ -3038,7 +3039,7 @@ const VDStylePanel = (props) => {
   					<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right', marginTop: 5}} label="滤镜">
 		      			<Tooltip placement="top" title="添加滤镜">
 		      				<Popover title='添加滤镜' placement="leftTop" trigger="click" visible={props.vdstyles.popover.newFilter.visible} content={effectsProps.newfilterEditor()}>
-				      			<Button onClick={newFilterPopoverTrigger} style={{borderBottom: 'none'}}>
+				      			<Button size="small" onClick={newFilterPopoverTrigger} style={{borderBottom: 'none'}}>
 				      				<i className="fa fa-plus"></i>
 				      			</Button>
 				      		</Popover>
