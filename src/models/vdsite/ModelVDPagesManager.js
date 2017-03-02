@@ -175,7 +175,8 @@ export default {
 
 			var tree = state.pageManager.treeSelect.value;
 			var bool = false;
-
+            console.log('tree');
+            console.log(tree);
 			if(tree != 'root') {
 				state.newPageFrom.key = tree + '/' + state.newPageFrom.name + '.html'
 				state.pageList = pushPage(state.pageList);
@@ -204,7 +205,7 @@ export default {
 					}
 				}
 				state.pageList.push(state.newPageFrom);
-				state.activePage = state.newFolderForm.key;
+				state.activePage = state.newPageFrom.key;
 			}
             delete state.pageList['children'];
 			state.pageManager.newPageVisible = bool;
@@ -303,7 +304,12 @@ export default {
 
 			var bool = false;
 			var tree = state.pageManager.treeSelect.value;
-			state.newFolderForm.key = tree + '/' + state.newFolderForm.name
+            if(tree == 'root'){
+                state.newFolderForm.key = state.newFolderForm.name
+            }else {
+                state.newFolderForm.key = tree + '/' + state.newFolderForm.name
+            }
+
 			state.newFolderForm.children = [];
 			let pushPage = function(pages){
 
