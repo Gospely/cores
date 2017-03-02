@@ -1537,7 +1537,10 @@ export default {
 					attrs: [{
 						title: '标签页设置',
 						key: 'tabs-setting',
-						children: []
+						children: [{
+                            name: 'fade',
+                            value: false,
+                        }]
 					}],
 					children: [{
 						tag: 'div',
@@ -1697,7 +1700,7 @@ export default {
 						},{
 							tag: 'div',
                             unActive: true,
-							className: ['tab-pane', 'active'],
+							className: ['tab-pane', 'in', 'active'],
 							children: [],
 							attrs: [{
 								title: '标签页设置',
@@ -2441,10 +2444,17 @@ export default {
             							name: 'src',
             							desc: '图片地址',
             							type: 'input',
-            							value: 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iOTAwIiBoZWlnaHQ9IjUwMCIgdmlld0JveD0iMCAwIDkwMCA1MDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzkwMHg1MDAvYXV0by8jNjY2OiM0NDQvdGV4dDpTZWNvbmQgc2xpZGUKQ3JlYXRlZCB3aXRoIEhvbGRlci5qcyAyLjYuMC4KTGVhcm4gbW9yZSBhdCBodHRwOi8vaG9sZGVyanMuY29tCihjKSAyMDEyLTIwMTUgSXZhbiBNYWxvcGluc2t5IC0gaHR0cDovL2ltc2t5LmNvCi0tPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbI2hvbGRlcl8xNWE2ZTk2ZWRhOSB0ZXh0IHsgZmlsbDojNDQ0O2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjQ1cHQgfSBdXT48L3N0eWxlPjwvZGVmcz48ZyBpZD0iaG9sZGVyXzE1YTZlOTZlZGE5Ij48cmVjdCB3aWR0aD0iOTAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0iIzY2NiIvPjxnPjx0ZXh0IHg9IjI2NC45NTMxMjUiIHk9IjI3MC4xNzk2ODc1Ij5TZWNvbmQgc2xpZGU8L3RleHQ+PC9nPjwvZz48L3N2Zz4=',
+            							value: 'https://d3e54v103j8qbb.cloudfront.net/img/image-placeholder.svg',
             							isAttr: true,
             							attrName: 'src',
             							id: '',
+                                        fileInfo: [{
+            								uid: -1,
+            								name: 'image-placeholder.svg',
+            								states: 'done',
+            								url: 'https://d3e54v103j8qbb.cloudfront.net/img/image-placeholder.svg',
+            								thumbUrl: 'https://d3e54v103j8qbb.cloudfront.net/img/image-placeholder.svg'
+            							}]
             						}, {
             							name: 'alt',
             							desc: '替换文本',
@@ -2509,10 +2519,17 @@ export default {
             							name: 'src',
             							desc: '图片地址',
             							type: 'input',
-                                        value: 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iOTAwIiBoZWlnaHQ9IjUwMCIgdmlld0JveD0iMCAwIDkwMCA1MDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzkwMHg1MDAvYXV0by8jNzc3OiM1NTUvdGV4dDpGaXJzdCBzbGlkZQpDcmVhdGVkIHdpdGggSG9sZGVyLmpzIDIuNi4wLgpMZWFybiBtb3JlIGF0IGh0dHA6Ly9ob2xkZXJqcy5jb20KKGMpIDIwMTItMjAxNSBJdmFuIE1hbG9waW5za3kgLSBodHRwOi8vaW1za3kuY28KLS0+PGRlZnM+PHN0eWxlIHR5cGU9InRleHQvY3NzIj48IVtDREFUQVsjaG9sZGVyXzE1YTZlOTZkNTlhIHRleHQgeyBmaWxsOiM1NTU7Zm9udC13ZWlnaHQ6Ym9sZDtmb250LWZhbWlseTpBcmlhbCwgSGVsdmV0aWNhLCBPcGVuIFNhbnMsIHNhbnMtc2VyaWYsIG1vbm9zcGFjZTtmb250LXNpemU6NDVwdCB9IF1dPjwvc3R5bGU+PC9kZWZzPjxnIGlkPSJob2xkZXJfMTVhNmU5NmQ1OWEiPjxyZWN0IHdpZHRoPSI5MDAiIGhlaWdodD0iNTAwIiBmaWxsPSIjNzc3Ii8+PGc+PHRleHQgeD0iMzA4LjI5Njg3NSIgeT0iMjcwLjE3OTY4NzUiPkZpcnN0IHNsaWRlPC90ZXh0PjwvZz48L2c+PC9zdmc+',
+                                        value: 'https://d3e54v103j8qbb.cloudfront.net/img/image-placeholder.svg',
             							isAttr: true,
             							attrName: 'src',
             							id: '',
+                                        fileInfo: [{
+            								uid: -1,
+            								name: 'image-placeholder.svg',
+            								states: 'done',
+            								url: 'https://d3e54v103j8qbb.cloudfront.net/img/image-placeholder.svg',
+            								thumbUrl: 'https://d3e54v103j8qbb.cloudfront.net/img/image-placeholder.svg'
+            							}]
             						},{
             							name: 'alt',
             							desc: '替换文本',
@@ -2569,7 +2586,7 @@ export default {
 						}]
 					}, {
 						tag: 'a',
-						className: ['left', 'carousel-control'],
+						className: ['right', 'carousel-control'],
 						attrs: [{
 							title: '幻灯片设置',
 							key: 'slider-setting',
@@ -2644,7 +2661,7 @@ export default {
                                 name: 'data-slide',
                                 isAttr: true,
                                 attrName: 'data-slide',
-                                value: 'prev',
+                                value: 'next',
                                 id: ''
                             }]
 						}],

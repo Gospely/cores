@@ -600,13 +600,15 @@ export default {
 		handleChangeCurrentCtrl(state, { payload: params}){
 
 			var parent =  VDTreeActions.getCtrlByKey(state, state.activeCtrl.parent, state.activePage);
-			console.log(parent);
 
 			if(params.toDropDown){
 				params.parent = parent.controller.parent,
 				params.replacement.vdid = parent.controller.vdid;
 				params.replacement.children[0].parent = parent.controller.vdid;
-				parent.controller = params.replacement;
+				parent.controller.children = [];
+				for (var i = 0; i < params.replacement.children.length; i++) {
+					parent.controller.children.push(params.replacement.children[i]);
+				}
 				state.activeCtrl = params.replacement.children[0];
 				window.VDDesignerFrame.postMessage({
 					VDAttrRefreshed: {
@@ -618,7 +620,8 @@ export default {
 					}
 				}, '*');
 			}else {
-				parent.controller.children.splice(0,1, params.replacement);
+				parent.controller.children = [];
+				parent.controller.children.push(params.replacement);
 				state.activeCtrl = params.replacement;
 				window.VDDesignerFrame.postMessage({
 					VDAttrRefreshed: {
@@ -630,13 +633,11 @@ export default {
 					}
 				}, '*');
 			}
-
 			return {...state};
 		},
 		handleActive(state, { payload: params }){
 
 			//根据level获取要更改节点的父节点的数据结构
-			console.log(params);
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage),
 			i = 0,
 			target;
@@ -651,13 +652,8 @@ export default {
 				}
 				i++;
 				if(i < params.level) {
-					console.log(parentIndex);
 					findParent(parent.children[parentIndex]);
 				}else {
-
-
-					console.log('change');
-					console.log(parent);
 					//切换active
 					for (var j = 0; j < parent.children.length; j++) {
 						for (var k = 0; k < parent.children[j].className.length; k++) {
@@ -667,10 +663,8 @@ export default {
 								parent.children[j].className.splice(k,1);
 								if(params.action == 'next'){
 									if(j == parent.children.length -1){
-										console.log('latest');
 										params.index = 0;
 									}else {
-										console.log('plus');
 										params.index = j + 1;
 									}
 								}
@@ -685,8 +679,6 @@ export default {
 							}
 						}
 					}
-					console.log('index');
-					console.log(params.index);
 					target = parent.children[params.index];
 					target.className.push('active');
 					console.log(parent);
@@ -708,6 +700,56 @@ export default {
 				}
 			}, '*');
 			console.log(target);
+			return {...state};
+		},
+		handleFade(state, { payload: params }){
+
+			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
+			console.log(currentActiveCtrl.controller);
+			console.log(params);
+			if(params.value){
+				for (var i = 0; i < currentActiveCtrl.controller.children[1].children.length; i++) {
+
+					currentActiveCtrl.controller.children[1].children[i].className.push('fade');
+				}
+				window.VDDesignerFrame.postMessage({
+					VDAttrRefreshed: {
+						activeCtrl: state.activeCtrl,
+						attr: {
+							attrName: 'children',
+							action: 'update'
+						},
+						attrType: params.attrType
+					}
+				}, '*');
+
+			}else {
+				for (var i = 0; i < currentActiveCtrl.controller.children[1].children.length; i++) {
+
+					for (var j = 0; j < currentActiveCtrl.controller.children[1].children[i].className.length; j++) {
+						if(currentActiveCtrl.controller.children[1].children[i].className[j] == 'fade'){
+							console.log('splice');
+							currentActiveCtrl.controller.children[1].children[i].className.splice(j,1);
+							break;
+						}
+					}
+				}
+				window.VDDesignerFrame.postMessage({
+					VDAttrRefreshed: {
+						activeCtrl: state.activeCtrl,
+						attr: {
+							action: 'batchClassRemove',
+							attrName: 'classOperate',
+							parent: currentActiveCtrl.controller.children[1].vdid,
+							targetClass: 'fade',
+						},
+						attrType: params.attrType
+					}
+				}, '*');
+			}
+			currentActiveCtrl.controller.attrs[0].children[0].value = params.value;
+			state.activeCtrl = currentActiveCtrl.controller;
+			console.log(currentActiveCtrl.controller);
 			return {...state};
 		},
 		handlePreview(state, { payload: params }) {
@@ -857,6 +899,9 @@ export default {
 			if (params.attrName === 'id') {
 				currentActiveCtrl.controller.id = params.newVal;
 			}
+			console.log(state.activeCtrl);
+			console.log('handleAttrFormChangeA');
+			console.log(currentActiveCtrl);
 			var ctrlAttrs = currentActiveCtrl.controller.attrs;
 
   			for (var i = 0; i < ctrlAttrs.length; i++) {
@@ -1123,6 +1168,7 @@ export default {
 		},
 
 		handleImageSettingBeforeUpload(state, { payload: params }) {
+			console.log(params);
 			params = params.splice(0, params.length);
 			return {...state};
 		},

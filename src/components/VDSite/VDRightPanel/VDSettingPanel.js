@@ -39,8 +39,8 @@ const Component = (props) => {
         findCtrlOriginConfig(fatherKey, key){
 
             for (var i = 0; i < props.vdctrl.controllers.length; i++) {
-                console.log(props.vdctrl.controllers[i].key);
-                console.log(key);
+                // console.log(props.vdctrl.controllers[i].key);
+                // console.log(key);
                 if(props.vdctrl.controllers[i].key = fatherKey){
 
                     for (var j = 0; j < props.vdctrl.controllers[i].content.length; j++) {
@@ -69,7 +69,7 @@ const Component = (props) => {
         },
         loopAttr(controller, root, parent) {
 
-            console.log(root);
+            // console.log(root);
             let childCtrl = {},
                 tmpAttr = {},
                 ctrl = {};
@@ -143,11 +143,7 @@ const Component = (props) => {
                     }
                 }
             copyByLevel(parent);
-            console.log('result');
-            console.log(result);
             result = vdCtrlOperate.loopAttr(result, props.vdCtrlTree.activeCtrl.root, { vdid: undefined});
-            console.log('result');
-            console.log(result.vdid);
             return result;
         }
     }
@@ -1083,7 +1079,16 @@ const Component = (props) => {
                                         index: index
                                     }
                                 });
-                            }
+                            },
+                            handleFade(e){
+                                console.log(e);
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleFade',
+                                    payload: {
+                                        value: e
+                                    }
+                                });
+                            },
 					    }
                         const keyValues = props.vdCtrlTree.activeCtrl.children[0].children.map((item, index) =>{
 
@@ -1109,31 +1114,15 @@ const Component = (props) => {
                               </li>
                             )
                         });
-
+                        console.log(item);
 	    				return (
 						    <Panel header={item.title} key={item.key}>
 
-                                <Form className="form-no-margin-bottom">
-                                    <FormItem {...formItemLayout} label="淡入时间">
-                                        <Input size="small" />
-                                    </FormItem>
-                                </Form>
-                                <Form className="form-no-margin-bottom">
-                                    <FormItem {...formItemLayout} label="淡出时间">
-                                        <Input size="small" />
-                                    </FormItem>
-                                </Form>
 
 						      	<Form className="form-no-margin-bottom">
-									<FormItem {...formItemLayout} label="过渡效果">
-										<Select
-										    style={{ width: '100%' }}
-										    defaultValue={item.value}
-										    size="small"
-										>
-								    	  <Option key="111">111</Option>
-									  	</Select>
-									</FormItem>
+                                    <FormItem {...formItemLayout} label="过渡效果" >
+                                        <Switch size="small" value={item.children[0].value} onChange={tabSettingProps.handleFade}/>
+                                    </FormItem>
 						      	</Form>
 
 								<Button type="circle" size="small"><Icon type="plus"  onClick={tabSettingProps.addTabs}/></Button>
@@ -1203,26 +1192,33 @@ const Component = (props) => {
                                 console.log(index);
                             }
                         }
+                        var itemImage = props.vdCtrlTree.activeCtrl.children[1].children[props.vdCtrlTree.selectIndex];
                         const bgUploaderProps = {
 					 		listType: 'picture',
-						  	defaultFileList: item.children[0].fileInfo,
+						  	defaultFileList: itemImage.children[0].attrs[0].children[0].fileInfo,
 
 						  	beforeUpload () {
+                                console.log(itemImage);
 						  		props.dispatch({
 						  			type: 'vdCtrlTree/handleImageSettingBeforeUpload',
-						  			payload: item.children[0].fileInfo
+						  			payload: itemImage.children[0].attrs[0].children[0].fileInfo
 						  		});
 						  	},
 
 						  	onChange (object) {
-						  		formProps.handleAttrFormInputChange(item.children[0], attrType, {
-						  			target: {
-						  				value: object.file.thumbUrl
-						  			}
-						  		});
+
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleAttrFormChangeNotRefreshActiveCtrl',
+                                    payload: {
+                                        index: 0,
+                                        target: itemImage.children[0].vdid,
+                                        attrType: attrType,
+                                        newVal: object.file.thumbUrl
+                                    }
+                                });
 						  	}
 					    }
-                        var itemImage = props.vdCtrlTree.activeCtrl.children[1].children[props.vdCtrlTree.selectIndex];
+
 					    const sliderSettingProps = {
 					    	modifyContent: (
                                 <div className="guidance-panel-wrapper">
@@ -1240,7 +1236,7 @@ const Component = (props) => {
 													<Button><i className="fa fa-cloud-upload"></i>&nbsp;上传图片</Button>
 											  	</Upload>
 
-												<Button style={{float: 'right', bottom: '90px'}}><i className="fa fa-picture-o"></i>&nbsp;图片资源</Button>
+												<Button style={{float: 'right', bottom: '102px'}}><i className="fa fa-picture-o"></i>&nbsp;图片资源</Button>
 											</div>
 										</div>
 

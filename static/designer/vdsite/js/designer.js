@@ -491,12 +491,23 @@ $(function() {
         }();
 		//class操作
 		const classOperate = {
-			//
+			//替换class
 			replaceClass: function(activeCtrl, attr){
 
 				var elem = jq('[vdid='+ attr.target.vdid + ']');
 				elem.removeClass(attr.remove);
 				elem.addClass(attr.replacement);
+			},
+			//删除children的class
+			batchClassRemove: function(activeCtrl, attr){
+				console.log('batchClassRemove');
+				console.log(attr);
+				var elem = jq('[vdid='+ attr.parent + ']');
+				var childrens = elem.children('.' +attr.targetClass);
+				console.log(childrens);
+				for (var i = 0; i < childrens.length; i++) {
+					jq(childrens[i]).removeClass(attr.targetClass);
+				}
 			}
 		}
 		//对子节点的操作
@@ -511,15 +522,15 @@ $(function() {
 				var tempElem = elemGen.createElement();
 				tempElem.attr('vdid', vdid);
 				var clone = tempElem.clone(true);
-				console.log(tempElem.data('controller'));
 				elem.replaceWith(clone);
 				elem.children().remove();
 				elem = jq('[vdid='+ activeCtrl.vdid + ']');
-				for (var i = 0; i < activeCtrl.children.length; i++) {
-					elem.append(new ElemGenerator(activeCtrl.children[i]).createElement());
-				}
+				if(activeCtrl.chidren){
+	 				for (var i = 0; i < activeCtrl.children.length; i++) {
+	 					elem.append(new ElemGenerator(activeCtrl.children[i]).createElement());
+	 				}
+	 			}
 				elem.data('controller', activeCtrl);
-
 			},
 			'add': function(activeCtrl, attr){
 
@@ -637,7 +648,7 @@ $(function() {
             },
 
             refreshCtrl: function(activeCtrl, attr, attrType) {
-				console.log(activeCtrl, attr);
+
 				if(attr.isTag) {
 					childrenOperate.update(activeCtrl);
 				}
@@ -764,7 +775,7 @@ $(function() {
         				if (ref <= 1/3) {
 
         					if (e.target.className.indexOf('col-md-') === -1) {
-        						dndData.horizontalBefore(e, target);	
+        						dndData.horizontalBefore(e, target);
         					}else {
         						dndData.verticalBefore(e, target.parent());
         					}
@@ -774,9 +785,9 @@ $(function() {
 		        			dndData.containerSpecialHandle(e, target);
 
 		        		} else if (ref >= 2/3) {
-		        			
+
 		        			if (e.target.className.indexOf('col-md-') === -1) {
-		        				dndData.horizontalAfter(e, target);	
+		        				dndData.horizontalAfter(e, target);
 		        			}else {
 		        				dndData.verticalAfter(e, target.parent());
 		        			}
@@ -941,7 +952,7 @@ $(function() {
                         if(attr.isScrollFlag) {
                             this.elem.attr('data-section', attr.value);
                         }else {
-                            this.elem.attr(attr.attrName, attr.value);                            
+                            this.elem.attr(attr.attrName, attr.value);
                         }
                     }
                 }
@@ -974,7 +985,6 @@ $(function() {
             setAttr: function(attr) {
                 if(attr.isHTML) {
 
-					console.log('isAttr', attr);
 					if(attr.html){
 						this.elem.html(attr.html);
 					}else{
@@ -1056,7 +1066,7 @@ $(function() {
                                     console.log('++++++++++getAttrValue================', type)
 
                                     if(typeList[type]) {
-                                        return typeList[type]() + val;                                        
+                                        return typeList[type]() + val;
                                     }else {
                                         return '';
                                     }
