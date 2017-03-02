@@ -182,7 +182,39 @@ export default {
 					defaultUnit: 'px',
 					unit: 'px'
 				},
+				'border-top-width': {
+					defaultUnit: 'px',
+					unit: 'px'
+				},
+				'border-bottom-width': {
+					defaultUnit: 'px',
+					unit: 'px'
+				},
+				'border-left-width': {
+					defaultUnit: 'px',
+					unit: 'px'
+				},
+				'border-right-width': {
+					defaultUnit: 'px',
+					unit: 'px'
+				},
 				'border-radius': {
+					defaultUnit: 'px',
+					unit: 'px'
+				},
+				'border-bottom-right-radius': {
+					defaultUnit: 'px',
+					unit: 'px'
+				},
+				'border-top-left-radius': {
+					defaultUnit: 'px',
+					unit: 'px'
+				},
+				'border-top-right-radius': {
+					defaultUnit: 'px',
+					unit: 'px'
+				},
+				'border-bottom-left-radius': {
 					defaultUnit: 'px',
 					unit: 'px'
 				},
@@ -810,6 +842,7 @@ export default {
 								styleText += styleName + ':' + currentStyleValue + unit + ';';
 							}
 						}
+						unit = '';
 					}
 
 					return styleText;
