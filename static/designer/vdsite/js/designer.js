@@ -491,12 +491,23 @@ $(function() {
         }();
 		//class操作
 		const classOperate = {
-			//
+			//替换class
 			replaceClass: function(activeCtrl, attr){
 
 				var elem = jq('[vdid='+ attr.target.vdid + ']');
 				elem.removeClass(attr.remove);
 				elem.addClass(attr.replacement);
+			},
+			//删除children的class
+			batchClassRemove: function(activeCtrl, attr){
+				console.log('batchClassRemove');
+				console.log(attr);
+				var elem = jq('[vdid='+ attr.parent + ']');
+				var childrens = elem.children('.' +attr.targetClass);
+				console.log(childrens);
+				for (var i = 0; i < childrens.length; i++) {
+					jq(childrens[i]).removeClass(attr.targetClass);
+				}
 			}
 		}
 		//对子节点的操作
@@ -504,19 +515,6 @@ $(function() {
 
 			'update': function(activeCtrl, attr){
 
-				function generateChildren(parent,elem) {
-
-					if(parent.chidren){
-						for (var i = 0; i < parent.children.length; i++) {
-
-							elem = new ElemGenerator(parent.children[i]).createElement();
-							elem.push(generateChildren(parent.children[i], elem));
-
-						}
-					}else {
-						return elem;
-					}
-				}
 				let vdid  = activeCtrl.vdid;
 				var elem = jq('[vdid='+ activeCtrl.vdid + ']');
 				activeCtrl.vdid = activeCtrl.vdid + 'c';
@@ -527,9 +525,12 @@ $(function() {
 				elem.replaceWith(clone);
 				elem.children().remove();
 				elem = jq('[vdid='+ activeCtrl.vdid + ']');
-				generateChildren(activeCtrl, elem);
+				if(activeCtrl.chidren){
+	 				for (var i = 0; i < activeCtrl.children.length; i++) {
+	 					elem.append(new ElemGenerator(activeCtrl.children[i]).createElement());
+	 				}
+	 			}
 				elem.data('controller', activeCtrl);
-
 			},
 			'add': function(activeCtrl, attr){
 

@@ -712,6 +712,17 @@ export default {
 
 					currentActiveCtrl.controller.children[1].children[i].className.push('fade');
 				}
+				window.VDDesignerFrame.postMessage({
+					VDAttrRefreshed: {
+						activeCtrl: state.activeCtrl,
+						attr: {
+							attrName: 'children',
+							action: 'update'
+						},
+						attrType: params.attrType
+					}
+				}, '*');
+
 			}else {
 				for (var i = 0; i < currentActiveCtrl.controller.children[1].children.length; i++) {
 
@@ -723,21 +734,22 @@ export default {
 						}
 					}
 				}
+				window.VDDesignerFrame.postMessage({
+					VDAttrRefreshed: {
+						activeCtrl: state.activeCtrl,
+						attr: {
+							action: 'batchClassRemove',
+							attrName: 'classOperate',
+							parent: currentActiveCtrl.controller.children[1].vdid,
+							targetClass: 'fade',
+						},
+						attrType: params.attrType
+					}
+				}, '*');
 			}
 			currentActiveCtrl.controller.attrs[0].children[0].value = params.value;
 			state.activeCtrl = currentActiveCtrl.controller;
 			console.log(currentActiveCtrl.controller);
-			window.VDDesignerFrame.postMessage({
-				VDAttrRefreshed: {
-					activeCtrl: state.activeCtrl,
-					attr: {
-						attrName: 'children',
-						action: 'update'
-					},
-					attrType: params.attrType
-				}
-			}, '*');
-			return {...state};
 			return {...state};
 		},
 		handlePreview(state, { payload: params }) {
