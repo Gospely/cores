@@ -1118,6 +1118,7 @@ export default {
 		},
 
 		handleImageSettingBeforeUpload(state, { payload: params }) {
+			console.log(params);
 			params = params.splice(0, params.length);
 			return {...state};
 		},
