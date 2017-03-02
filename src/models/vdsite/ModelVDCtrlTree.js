@@ -761,7 +761,7 @@ export default {
 					attr: {
 						action: 'triggerMenu',
 						attrName: 'scriptOperate',
-						target: state.activeCtrl.children[0].children[0].children[0].vdid,
+						target: state.activeCtrl.children[0].children[1].vdid,
 					},
 				}
 			}, '*');

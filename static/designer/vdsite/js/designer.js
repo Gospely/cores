@@ -495,9 +495,12 @@ $(function() {
 				console.log('trigger');
 				console.log(attr);
 				var elem = jq('[vdid='+ attr.target + ']');
-				var e = jq.Event("click");
-				console.log(e);
-				elem.trigger(e);
+				if(elem.hasClass('in')){
+					elem.removeClass('in');
+				}else {
+					elem.addClass('in');
+				}
+
 			}
 		}
 		//class操作
