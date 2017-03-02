@@ -145,6 +145,7 @@ export default {
 				'write-mode': '',
 				'text-decoration': '',
 				'text-transform': '',
+				'letter-spacing': '',
 
 				padding: {
 					'padding-top': '',
@@ -309,6 +310,7 @@ export default {
 			'write-mode': '',
 			'text-decoration': '',
 			'text-transform': '',
+			'letter-spacing': '',
 
 			padding: {
 				'padding-top': '',
@@ -321,7 +323,7 @@ export default {
 				'margin-top': '',
 				'margin-bottom': '',
 				'margin-left': '',
-				'margin-left': ''
+				'margin-right': ''
 			},
 
 			background: {
