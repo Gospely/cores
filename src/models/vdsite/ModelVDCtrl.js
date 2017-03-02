@@ -1752,6 +1752,7 @@ export default {
 							children: [{
 								tag: 'button',
 								className: ['navbar-toggle', 'collapsed'],
+                                unActive: true,
 								attrs: [{
 									title: '导航菜单设置',
 									key: 'navbar-setting',
@@ -1760,6 +1761,7 @@ export default {
 								children: [{
 									tag: 'span',
 									className: ['sr-only'],
+                                    unActive: true,
 									attrs: [{
 										title: '导航菜单设置',
 										key: 'navbar-setting',
@@ -1768,6 +1770,7 @@ export default {
 								}, {
 									tag: 'span',
 									className: ['icon-bar'],
+                                    unActive: true,
 									attrs: [{
 										title: '导航菜单设置',
 										key: 'navbar-setting',
@@ -1776,6 +1779,7 @@ export default {
 								}, {
 									tag: 'span',
 									className: ['icon-bar'],
+                                    unActive: true,
 									attrs: [{
 										title: '导航菜单设置',
 										key: 'navbar-setting',
@@ -1784,6 +1788,7 @@ export default {
 								}, {
 									tag: 'span',
 									className: ['icon-bar'],
+                                    unActive: true,
 									attrs: [{
 										title: '导航菜单设置',
 										key: 'navbar-setting',
