@@ -2445,6 +2445,13 @@ export default {
             							isAttr: true,
             							attrName: 'src',
             							id: '',
+                                        fileInfo: [{
+            								uid: -1,
+            								name: 'image-placeholder.svg',
+            								states: 'done',
+            								url: 'https://d3e54v103j8qbb.cloudfront.net/img/image-placeholder.svg',
+            								thumbUrl: 'https://d3e54v103j8qbb.cloudfront.net/img/image-placeholder.svg'
+            							}]
             						}, {
             							name: 'alt',
             							desc: '替换文本',
@@ -2513,6 +2520,13 @@ export default {
             							isAttr: true,
             							attrName: 'src',
             							id: '',
+                                        fileInfo: [{
+            								uid: -1,
+            								name: 'image-placeholder.svg',
+            								states: 'done',
+            								url: 'https://d3e54v103j8qbb.cloudfront.net/img/image-placeholder.svg',
+            								thumbUrl: 'https://d3e54v103j8qbb.cloudfront.net/img/image-placeholder.svg'
+            							}]
             						},{
             							name: 'alt',
             							desc: '替换文本',
