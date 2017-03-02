@@ -126,7 +126,7 @@ export default {
 					defaultUnit: 'px',
 					unit: 'px'
 				},
-				'max-width': {
+				'min-width': {
 					defaultUnit: 'px',
 					unit: 'px'
 				},
@@ -174,6 +174,10 @@ export default {
 					defaultUnit: 'px',
 					unit: 'px'
 				},
+				// 'background-size': {
+				// 	defaultUnit: 'px',
+				// 	unit: 'px'
+				// },
 				'border-width': {
 					defaultUnit: 'px',
 					unit: 'px'
@@ -199,8 +203,8 @@ export default {
 					unit: 'px'
 				},
 				'opacity': {
-					defaultUnit: '%',
-					unit: '%'
+					defaultUnit: '',
+					unit: ''
 				}
 			}
 		},
@@ -731,6 +735,7 @@ export default {
 
 			var specialStyle = {
 				background(currentStyleParent, unit) {
+					unit = unit || '';
 					let styleText = '';
 					for(let styleName in currentStyleParent) {
 						let currentStyleValue = currentStyleParent[styleName];
@@ -742,34 +747,55 @@ export default {
 						if (currentStyleValue !== '') {
 							if (typeof currentStyleValue === 'object') {
 								let valueText = '';
-								for(let i = 0; i < currentStyleValue.length; i++) {
-									let val = currentStyleValue[i];
-									if (val !== '') {
-										valueText += val + ' ';
+								if(currentStyleValue.length === 4) {
+
+									if(currentStyleValue[0] == '' && currentStyleValue[1] == '' && !currentStyleValue[2] && !currentStyleValue[3]) {
+										continue;
 									}
+
+									//background-size
+									if(currentStyleValue[0] == '' && currentStyleValue[1] == '') {
+										if(currentStyleValue[2]) {
+											valueText = 'cover';
+										}
+
+										if(currentStyleValue[3]) {
+											valueText = 'contain';
+										}
+									}else {
+										valueText = currentStyleValue[0] + ' ' + currentStyleValue[1];
+									}
+								}else {
+									//background-position
+									valueText = currentStyleValue.join(' ');
 								}
 								styleText += styleName + ':' + valueText + unit + ';';
 							}else {
 								styleText += styleName + ':' + currentStyleValue + unit + ';';
 							}
 						}
+
+						unit = '';
 					}
 
 					return styleText;
 				},
 
 				padding (currentStyleParent, unit) {
+					unit = unit || '';
 					return specialStyle['border'](currentStyleParent, undefined, unit);
 				},
 
 				margin (currentStyleParent, unit) {
+					unit = unit || '';
 					return specialStyle['border'](currentStyleParent, undefined, unit);
 				},
 
 				border(currentStyleParent, extraProperty, unit) {
 					extraProperty = extraProperty || 'border-position';
 					if(!unit) {
-						extraProperty = 'border-position';
+						unit = unit || '';
+						extraProperty = extraProperty;
 					}
 					let styleText = '';
 					for(let styleName in currentStyleParent) {
@@ -790,10 +816,12 @@ export default {
 				},
 
 				'border-radius'(currentStyleParent, unit) {
+					unit = unit || '';
 					return specialStyle['border'](currentStyleParent, 'border-radius-position', unit);
 				},
 
 				'box-shadow'(currentStyleParent, unit) {
+					unit = unit || '';
 					let styleText = 'box-shadow';
 					let childrenProps = currentStyleParent.childrenProps;
 					let valueText = '';
@@ -802,7 +830,7 @@ export default {
 						for(let property in currentStyle) {
 							let currentTableStyle = currentStyle[property];
 							if(currentTableStyle !== '' && currentTableStyle !== 'outset') {
-								valueText += currentTableStyle + ' ';
+								valueText += currentTableStyle + unit + ' ';
 							}
 						}
 						if (i !== childrenProps.length - 1) {
@@ -810,12 +838,13 @@ export default {
 						}
 					}
 
-					styleText += ':' + valueText + unit + ';';
+					styleText += ':' + valueText + ';';
 					return styleText;
 
 				},
 
 				'text-shadow'(currentStyleParent, unit) {
+					unit = unit || '';
 					let styleText = 'text-shadow';
 					let childrenProps = currentStyleParent.childrenProps;
 					let valueText = '';
@@ -824,7 +853,7 @@ export default {
 						for(let property in currentStyle) {
 							let currentTableStyle = currentStyle[property];
 							if(currentTableStyle !== '') {
-								valueText += currentTableStyle + ' ';						
+								valueText += currentTableStyle + unit + ' ';						
 							}
 						}
 						if (i !== childrenProps.length - 1) {
@@ -833,11 +862,12 @@ export default {
 						
 					}
 					
-					styleText += ':' + valueText + unit + ';';
+					styleText += ':' + valueText + ';';
 					return styleText;
 				},
 
 				transition(currentStyleParent, unit) {
+					unit = unit || '';
 					let styleText = 'transition';
 					let childrenProps = currentStyleParent.childrenProps;
 					let valueText = '';
@@ -846,7 +876,7 @@ export default {
 						for(let property in currentStyle) {
 							let currentTableStyle = currentStyle[property];
 							if(currentTableStyle !== '') {
-								valueText += currentTableStyle + ' ';						
+								valueText += currentTableStyle + unit + ' ';						
 							}
 						}
 						if (i !== childrenProps.length - 1) {
@@ -855,11 +885,12 @@ export default {
 						
 					}
 					
-					styleText += ':' + valueText + unit + ';';
+					styleText += ':' + valueText + ';';
 					return styleText;
 				},
 
 				transform(currentStyleParent, unit) {
+					unit = unit || '';
 					let styleText = 'transform';
 					let childrenProps = currentStyleParent.childrenProps;
 					let valueText = '';
@@ -869,21 +900,22 @@ export default {
 						let values = currentStyle.value;
 						valueText += values[0];
 						for (let j = 1; j < values.length; j ++) {
-							valueText += ',' + values[j];
+							valueText += ',' + values[j] + unit;
 						}
 
 						if (i !== childrenProps.length - 1) {
-							valueText += ') ';	
+							valueText += ') ';
 						}else {
 							valueText += ')';
 						}
 					}
 					
-					styleText += ':' + valueText + unit + ';';
+					styleText += ':' + valueText + ';';
 					return styleText;
 				},
 
 				filter(currentStyleParent, unit) {
+					unit = unit || '';
 					let childrenProps = currentStyleParent.childrenProps;
 					let styleText = 'transform';
 					let valueText = '';
@@ -918,7 +950,6 @@ export default {
 						if(state.unitList[styleName][property]) {
 							unit = state.unitList[styleName][property].unit;
 						}
-						console.log('stylesGenerator============', property, currentTableStyle, unit)
 						if(currentTableStyle != '' && typeof currentTableStyle !== 'object') {
 							cssClass += property + ':' + currentTableStyle + unit + ';'							
 						}else if (typeof currentTableStyle === 'object') {
