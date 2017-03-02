@@ -39,8 +39,8 @@ const Component = (props) => {
         findCtrlOriginConfig(fatherKey, key){
 
             for (var i = 0; i < props.vdctrl.controllers.length; i++) {
-                console.log(props.vdctrl.controllers[i].key);
-                console.log(key);
+                // console.log(props.vdctrl.controllers[i].key);
+                // console.log(key);
                 if(props.vdctrl.controllers[i].key = fatherKey){
 
                     for (var j = 0; j < props.vdctrl.controllers[i].content.length; j++) {
@@ -69,7 +69,7 @@ const Component = (props) => {
         },
         loopAttr(controller, root, parent) {
 
-            console.log(root);
+            // console.log(root);
             let childCtrl = {},
                 tmpAttr = {},
                 ctrl = {};
@@ -143,11 +143,7 @@ const Component = (props) => {
                     }
                 }
             copyByLevel(parent);
-            console.log('result');
-            console.log(result);
             result = vdCtrlOperate.loopAttr(result, props.vdCtrlTree.activeCtrl.root, { vdid: undefined});
-            console.log('result');
-            console.log(result.vdid);
             return result;
         }
     }

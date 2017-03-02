@@ -511,7 +511,6 @@ $(function() {
 				var tempElem = elemGen.createElement();
 				tempElem.attr('vdid', vdid);
 				var clone = tempElem.clone(true);
-				console.log(tempElem.data('controller'));
 				elem.replaceWith(clone);
 				elem.children().remove();
 				elem = jq('[vdid='+ activeCtrl.vdid + ']');
@@ -637,7 +636,7 @@ $(function() {
             },
 
             refreshCtrl: function(activeCtrl, attr, attrType) {
-				console.log(activeCtrl, attr);
+
 				if(attr.isTag) {
 					childrenOperate.update(activeCtrl);
 				}
@@ -754,9 +753,8 @@ $(function() {
 
         		dndData.dragOverElem = target;
 
-        		//是否是行级元素
         		if (target.outerWidth() < target.parent().innerWidth()) {
-
+        			//是否是行级元素
         			var ref = (e.pageX - target.offset().left) / target.outerWidth();
         			var moveX = e.pageX - dndData.originalX;
 
@@ -764,15 +762,23 @@ $(function() {
 
         				if (ref <= 1/3) {
 
-		        			dndData.horizontalBefore(e, target);
+        					if (e.target.className.indexOf('col-md-') === -1) {
+        						dndData.horizontalBefore(e, target);	
+        					}else {
+        						dndData.verticalBefore(e, target.parent());
+        					}
 
 		        		} else if (ref > 1/3 && ref < 2/3) {
 
 		        			dndData.containerSpecialHandle(e, target);
 
 		        		} else if (ref >= 2/3) {
-
-		        			dndData.horizontalAfter(e, target);
+		        			
+		        			if (e.target.className.indexOf('col-md-') === -1) {
+		        				dndData.horizontalAfter(e, target);	
+		        			}else {
+		        				dndData.verticalAfter(e, target.parent());
+		        			}
 
 		        		}
 
@@ -934,7 +940,7 @@ $(function() {
                         if(attr.isScrollFlag) {
                             this.elem.attr('data-section', attr.value);
                         }else {
-                            this.elem.attr(attr.attrName, attr.value);                            
+                            this.elem.attr(attr.attrName, attr.value);
                         }
                     }
                 }
@@ -967,7 +973,6 @@ $(function() {
             setAttr: function(attr) {
                 if(attr.isHTML) {
 
-					console.log('isAttr', attr);
 					if(attr.html){
 						this.elem.html(attr.html);
 					}else{
@@ -1049,7 +1054,7 @@ $(function() {
                                     console.log('++++++++++getAttrValue================', type)
 
                                     if(typeList[type]) {
-                                        return typeList[type]() + val;                                        
+                                        return typeList[type]() + val;
                                     }else {
                                         return '';
                                     }
