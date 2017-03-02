@@ -174,10 +174,6 @@ export default {
 					defaultUnit: 'px',
 					unit: 'px'
 				},
-				// 'background-size': {
-				// 	defaultUnit: 'px',
-				// 	unit: 'px'
-				// },
 				'border-width': {
 					defaultUnit: 'px',
 					unit: 'px'
@@ -238,6 +234,133 @@ export default {
 					defaultUnit: '',
 					unit: ''
 				}
+			}
+		},
+
+		cssPropertyUnits: {
+			width: {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			height: {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'max-width': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'min-height': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'min-width': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'max-height': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'font-size': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'padding-top': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'padding-left': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'padding-right': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'padding-bottom': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'margin-top': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'margin-right': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'margin-left': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'margin-bottom': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'background-width': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'border-width': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'border-top-width': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'border-bottom-width': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'border-left-width': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'border-right-width': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'border-radius': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'border-bottom-right-radius': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'border-top-left-radius': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'border-top-right-radius': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'border-bottom-left-radius': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'h-shadow': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'v-shadow': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'blur': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'spread': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'opacity': {
+				defaultUnit: '',
+				unit: ''
 			}
 		},
 
@@ -663,7 +786,6 @@ export default {
 				state.newStyleName = tmpStyleName[0] + ':' + params.cssState;
 			}
 
-			// state.stylesList['.' + state.newStyleName] = {};
 			state.activeStyle = state.newStyleName;
 			state.newStyleName = '';
 
@@ -677,7 +799,9 @@ export default {
 			}
 
 			state.cssStyleLayout[state.activeStyle] = state.cssStyleList;
-			console.log(state.cssStyleLayout);
+			state.unitList[state.activeStyle] = state.cssPropertyUnits;
+
+			console.log(state);
 			return {...state};
 		},
 
