@@ -489,7 +489,6 @@ export default {
 
             //请求后台文件文件写入
 
-
             var result = yield request('vd', {
                 method: 'POST',
                 body: JSON.stringify({

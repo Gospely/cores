@@ -30,7 +30,9 @@ const Component = (props) => {
 	var ctrlPros = {
 			onSelect (val, e) {
 
-				console.log(val, e);
+				if(e.node.props.title == 'body') {
+					return false;
+				}
 
 				realSelectedCtrl = val[0];
 
@@ -51,6 +53,10 @@ const Component = (props) => {
 
 				prevHoverCtrl = evt.node.props.eventKey;
 
+				if(evt.node.props.title == 'body') {
+					return false;
+				}
+
 				window.VDDesignerFrame.postMessage({
 					VDCtrlSelected: {
 						vdid: prevHoverCtrl,
@@ -60,6 +66,11 @@ const Component = (props) => {
 			},
 
 			onMouseLeave (evt) {
+
+				if(evt.node.props.title == 'body') {
+					return false;
+				}
+
 				window.VDDesignerFrame.postMessage({
 					VDCtrlSelected: {
 						vdid: props.vdCtrlTree.defaultSelectedKeys[0],

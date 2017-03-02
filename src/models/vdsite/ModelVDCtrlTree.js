@@ -143,7 +143,8 @@ export default {
 		childrenCopy: '',
 	    layout: {
 	    	'index.html': [{
-	    		className: ['body'],
+	    		className: [],
+	    		customClassName: [],
 	    		id: '',
 	    		tag: 'body',
 	    		vdid: 'body-main',
