@@ -109,6 +109,8 @@ export default {
 
 			var struct = VDPackager.pack({layout, pages, css});
 
+			message.success('请稍等，正在打包……');
+
 			console.log(JSON.stringify(struct));
 
 			var packResult = yield request('vdsite/pack', {
@@ -116,10 +118,16 @@ export default {
 	  			headers: {
 					"Content-Type": "application/json;charset=UTF-8",
 				},
-	  			body: JSON.stringify(struct),
+	  			body: JSON.stringify(struct)
 	  		});
 
-			console.log(packResult);
+	  		if(packResult.data.code == 200) {
+				message.success('即将下载……');
+		  		var fileSrc = packResult.data.fields;
+		  		fileSrc = fileSrc.split('/');
+		  		fileSrc = fileSrc.pop();
+		  		window.open('http://api.gospely.com/vdsite/download/' + fileSrc);
+	  		}
 		},
 
 		*columnCountChange({ payload: params }, { call, put, select }) {
