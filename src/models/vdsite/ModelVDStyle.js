@@ -2,6 +2,21 @@ import React , {PropTypes} from 'react';
 import dva from 'dva';
 import { Icon, message } from 'antd';
 
+var deepCopyObj = function(obj, result) {
+	result = result || {};
+	for(let key in obj) {
+		if (typeof obj[key] === 'object') {
+			result[key] = (obj[key].constructor === Array)? []: {};
+			deepCopyObj(obj[key], result[key]);
+		}else {
+			result[key] = obj[key];
+		}
+	}
+	return result;
+}
+
+window.deepCopyObj = deepCopyObj;
+
 var styleAction = {
 
 	findCSSPropertyByProperty: function(stylesList, property) {
@@ -603,24 +618,14 @@ export default {
 				state: {
 					activeProp: 0
 				},
-				childrenProps: [{
-					'transition-property': 'all',
-					'transition-duration': 0.1,
-					'transition-timing-function': 'ease'
-				}]
+				childrenProps: []
 			},
 
 			transform: {
 				state: {
 					activeProp: 0
 				},
-				childrenProps: [{
-					name: 'translate',
-					value: ['10', '20']
-				}, {
-					name: 'scale',
-					value: [1.5, 2.4]
-				}]
+				childrenProps: []
 			},
 			opacity: '',
 			cursor: '',
@@ -795,8 +800,13 @@ export default {
 				}
 			}
 
-			state.cssStyleLayout[state.activeStyle] = state.cssStyleList;
-			state.unitList[state.activeStyle] = state.cssPropertyUnits;
+			console.log('==================', state.cssStyleList);
+
+			var cssTpl = deepCopyObj(state.cssStyleList),
+				unitsTpl = deepCopyObj(state.cssPropertyUnits);
+
+			state.cssStyleLayout[state.activeStyle] = cssTpl;
+			state.unitList[state.activeStyle] = unitsTpl;
 
 			console.log(state);
 			return {...state};
