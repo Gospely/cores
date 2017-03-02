@@ -1336,7 +1336,7 @@ export default {
 
 		handleFilterInputChange(state, { payload: params }) {
 			state.filterSetting.value = params.value;
-			state.filterSetting.unit = params.unit;
+			state.filterSetting.unit = '';
 			return {...state};
 		},
 
