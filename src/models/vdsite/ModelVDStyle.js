@@ -1036,12 +1036,27 @@ export default {
 				if(params.parent) {
 					var propertyParent = styleAction.findCSSPropertyByProperty(state.cssStyleLayout[activeStyleName], property);
 					if(typeof params.parent.index !== 'undefined') {
-						propertyParent[property][params.parent.index] = value;
+						if(property === 'background-size') {
+							console.log('background-size', value);
+							if(params.parent.index == 2 || params.parent.index == 3) {
+								var constractIndex = params.parent.index == 2 ? 3 : 2;
+								propertyParent[property][0] = '';
+								propertyParent[property][1] = '';
+								propertyParent[property][constractIndex] = !value;
+								propertyParent[property][params.parent.index] = value;
+							}else {
+								propertyParent[property][params.parent.index] = value;
+								propertyParent[property][2] = false;
+								propertyParent[property][3] = false;								
+							}
+						}else {
+							propertyParent[property][params.parent.index] = value;
+						}
 					}else if (property === 'background-position') {
 						let vals = value.split(' ');
 						propertyParent[property][0] = vals[0];
 						propertyParent[property][1] = vals[1];
-					}else {
+					}else {						
 						propertyParent[property] = value;
 					}
 

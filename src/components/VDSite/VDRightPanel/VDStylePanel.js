@@ -265,29 +265,6 @@ const VDStylePanel = (props) => {
 
     			var val = e.target ? e.target.value : e;
 
-    			const packBGSizeParams = () => {
-
-    				var result = '';
-
-    				if(backgroundSizeParams.width != '') {
-    					result += backgroundSizeParams.width + ' ';
-    				}
-
-    				if(backgroundSizeParams.height != '') {
-    					result += backgroundSizeParams.height + ' ';
-       				}
-
-    				if(backgroundSizeParams.cover) {
-    					result = 'cover';
-    				}
-
-    				if(backgroundSizeParams.contain) {
-    					result = 'contain';
-    				}
-
-    				return result;
-    			}
-
     			handleStylesChange(cssProperty, parent, {
     				target: {
     					value: val
