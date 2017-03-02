@@ -32,19 +32,6 @@ export default {
 		specialStyleProperty: ['border-advance', 'shadows-advance', 'effects-advance', 'tt-advance', 'border-radius-advance'],
 		propertiesNeedRec: ['border-advance', 'shadows-advance', 'effects-advance', 'tt-advance', 'border-radius-advance', 'width-height', 'font-more'],
 
-		borderSetting: {
-			border: {
-				propertyName: 'border',
-				width: '',
-				color: ''
-			},
-
-			borderRadius: {
-				propertyName: 'border-radius',
-				borderRadius: ''
-			}
-		},
-
 		backgroundSetting: {
 			backgroundSize: {
 				width: '',
@@ -119,6 +106,103 @@ export default {
 			x: 0,
 			y: 0,
 			name: 'translate'
+		},
+
+		unitList: {
+			body: {
+				width: {
+					defaultUnit: 'px',
+					unit: 'px'
+				},
+				height: {
+					defaultUnit: 'px',
+					unit: 'px'
+				},
+				'max-width': {
+					defaultUnit: 'px',
+					unit: 'px'
+				},
+				'min-height': {
+					defaultUnit: 'px',
+					unit: 'px'
+				},
+				'max-width': {
+					defaultUnit: 'px',
+					unit: 'px'
+				},
+				'max-height': {
+					defaultUnit: 'px',
+					unit: 'px'
+				},
+				'font-size': {
+					defaultUnit: 'px',
+					unit: 'px'
+				},
+				'padding-top': {
+					defaultUnit: 'px',
+					unit: 'px'
+				},
+				'padding-left': {
+					defaultUnit: 'px',
+					unit: 'px'
+				},
+				'padding-right': {
+					defaultUnit: 'px',
+					unit: 'px'
+				},
+				'padding-bottom': {
+					defaultUnit: 'px',
+					unit: 'px'
+				},
+				'margin-top': {
+					defaultUnit: 'px',
+					unit: 'px'
+				},
+				'margin-right': {
+					defaultUnit: 'px',
+					unit: 'px'
+				},
+				'margin-left': {
+					defaultUnit: 'px',
+					unit: 'px'
+				},
+				'margin-bottom': {
+					defaultUnit: 'px',
+					unit: 'px'
+				},
+				'background-width': {
+					defaultUnit: 'px',
+					unit: 'px'
+				},
+				'border-width': {
+					defaultUnit: 'px',
+					unit: 'px'
+				},
+				'border-radius': {
+					defaultUnit: 'px',
+					unit: 'px'
+				},
+				'h-shadow': {
+					defaultUnit: 'px',
+					unit: 'px'
+				},
+				'v-shadow': {
+					defaultUnit: 'px',
+					unit: 'px'
+				},
+				'blur': {
+					defaultUnit: 'px',
+					unit: 'px'
+				},
+				'spread': {
+					defaultUnit: 'px',
+					unit: 'px'
+				},
+				'opacity': {
+					defaultUnit: '%',
+					unit: '%'
+				}
+			}
 		},
 
 		cssStyleLayout: {
@@ -644,7 +728,7 @@ export default {
 		applyCSSStyleIntoPage(state, { payload: params }) {
 
 			var specialStyle = {
-				background(currentStyleParent) {
+				background(currentStyleParent, unit) {
 					let styleText = '';
 					for(let styleName in currentStyleParent) {
 						let currentStyleValue = currentStyleParent[styleName];
@@ -657,9 +741,9 @@ export default {
 										valueText += val + ' ';
 									}
 								}
-								styleText += styleName + ':' + valueText + ';';
+								styleText += styleName + ':' + valueText + unit + ';';
 							}else {
-								styleText += styleName + ':' + currentStyleValue + ';';
+								styleText += styleName + ':' + currentStyleValue + unit + ';';
 							}
 						}
 					}
@@ -667,22 +751,25 @@ export default {
 					return styleText;
 				},
 
-				padding (currentStyleParent) {
-					return specialStyle['border'](currentStyleParent);
+				padding (currentStyleParent, unit) {
+					return specialStyle['border'](currentStyleParent, undefined, unit);
 				},
 
-				margin (currentStyleParent) {
-					return specialStyle['border'](currentStyleParent);
+				margin (currentStyleParent, unit) {
+					return specialStyle['border'](currentStyleParent, undefined, unit);
 				},
 
-				border(currentStyleParent, extraProperty) {
+				border(currentStyleParent, extraProperty, unit) {
 					extraProperty = extraProperty || 'border-position';
+					if(!unit) {
+						extraProperty = 'border-position';
+					}
 					let styleText = '';
 					for(let styleName in currentStyleParent) {
 						if(styleName != extraProperty) {
 							let currentStyleValue = currentStyleParent[styleName];
 							if (currentStyleValue !== '') {
-								styleText += styleName + ':' + currentStyleValue + ';';
+								styleText += styleName + ':' + currentStyleValue + unit + ';';
 							}
 						}
 					}
@@ -690,8 +777,8 @@ export default {
 					return styleText;
 				},
 
-				'border-radius'(currentStyleParent) {
-					return specialStyle['border'](currentStyleParent, 'border-radius-position');
+				'border-radius'(currentStyleParent, unit) {
+					return specialStyle['border'](currentStyleParent, 'border-radius-position', unit);
 					// let styleText = '';
 					// for(let styleName in currentStyleParent) {
 					// 	if(styleName != 'border-radius-position') {
@@ -705,7 +792,7 @@ export default {
 					// return styleText;
 				},
 
-				'box-shadow'(currentStyleParent) {
+				'box-shadow'(currentStyleParent, unit) {
 					let styleText = 'box-shadow';
 					let childrenProps = currentStyleParent.childrenProps;
 					let valueText = '';
@@ -722,12 +809,12 @@ export default {
 						}
 					}
 
-					styleText += ':' + valueText + ';';
+					styleText += ':' + valueText + unit + ';';
 					return styleText;
 
 				},
 
-				'text-shadow'(currentStyleParent) {
+				'text-shadow'(currentStyleParent, unit) {
 					let styleText = 'text-shadow';
 					let childrenProps = currentStyleParent.childrenProps;
 					let valueText = '';
@@ -745,11 +832,11 @@ export default {
 						
 					}
 					
-					styleText += ':' + valueText + ';';
+					styleText += ':' + valueText + unit + ';';
 					return styleText;
 				},
 
-				transition(currentStyleParent) {
+				transition(currentStyleParent, unit) {
 					let styleText = 'transition';
 					let childrenProps = currentStyleParent.childrenProps;
 					let valueText = '';
@@ -767,11 +854,11 @@ export default {
 						
 					}
 					
-					styleText += ':' + valueText + ';';
+					styleText += ':' + valueText + unit + ';';
 					return styleText;
 				},
 
-				transform(currentStyleParent) {
+				transform(currentStyleParent, unit) {
 					let styleText = 'transform';
 					let childrenProps = currentStyleParent.childrenProps;
 					let valueText = '';
@@ -791,11 +878,11 @@ export default {
 						}
 					}
 					
-					styleText += ':' + valueText + ';';
+					styleText += ':' + valueText + unit + ';';
 					return styleText;
 				},
 
-				filter(currentStyleParent) {
+				filter(currentStyleParent, unit) {
 					let childrenProps = currentStyleParent.childrenProps;
 					let styleText = 'transform';
 					let valueText = '';
@@ -823,10 +910,14 @@ export default {
 						cssClass = '.' + styleName + '{';
 					for(var property in currentStyle) {
 						var currentTableStyle = currentStyle[property];
+						var unit = '';
+						if(state.unitList[styleName][property]) {
+							unit = state.unitList[styleName][property].unit;
+						}
 						if(currentTableStyle != '' && typeof currentTableStyle !== 'object') {
-							cssClass += property + ':' + currentTableStyle + ';'							
+							cssClass += property + ':' + currentTableStyle + unit + ';'							
 						}else if (typeof currentTableStyle === 'object') {
-							cssClass += specialStyle[property](currentTableStyle);
+							cssClass += specialStyle[property](currentTableStyle, unit);
 						}
 					}
 					cssClass += '}';
@@ -1035,6 +1126,11 @@ export default {
 		setThisPropertyNull(state, { payload: params }) {
 			var propertyParent = styleAction.findCSSPropertyByProperty(state.cssStyleLayout[params.activeStyleName], params.property);
 			propertyParent[params.property] = '';
+			return {...state};
+		},
+
+		changeActiveUnit(state, { payload: params }) {
+			state.unitList[params.activeStyleName][params.property].unit = params.value;
 			return {...state};
 		}
 
