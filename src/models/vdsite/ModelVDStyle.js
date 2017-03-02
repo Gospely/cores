@@ -98,8 +98,7 @@ export default {
 		transitionSetting: {
 			'transition-property': 'all',
 			'transition-duration': 0,
-			'transition-timing-function': 'ease',
-			'transition-delay': 0
+			'transition-timing-function': 'ease'
 		},
 
 		transformSetting: {
@@ -126,7 +125,7 @@ export default {
 					defaultUnit: 'px',
 					unit: 'px'
 				},
-				'max-width': {
+				'min-width': {
 					defaultUnit: 'px',
 					unit: 'px'
 				},
@@ -178,7 +177,39 @@ export default {
 					defaultUnit: 'px',
 					unit: 'px'
 				},
+				'border-top-width': {
+					defaultUnit: 'px',
+					unit: 'px'
+				},
+				'border-bottom-width': {
+					defaultUnit: 'px',
+					unit: 'px'
+				},
+				'border-left-width': {
+					defaultUnit: 'px',
+					unit: 'px'
+				},
+				'border-right-width': {
+					defaultUnit: 'px',
+					unit: 'px'
+				},
 				'border-radius': {
+					defaultUnit: 'px',
+					unit: 'px'
+				},
+				'border-bottom-right-radius': {
+					defaultUnit: 'px',
+					unit: 'px'
+				},
+				'border-top-left-radius': {
+					defaultUnit: 'px',
+					unit: 'px'
+				},
+				'border-top-right-radius': {
+					defaultUnit: 'px',
+					unit: 'px'
+				},
+				'border-bottom-left-radius': {
 					defaultUnit: 'px',
 					unit: 'px'
 				},
@@ -199,9 +230,136 @@ export default {
 					unit: 'px'
 				},
 				'opacity': {
-					defaultUnit: '%',
-					unit: '%'
+					defaultUnit: '',
+					unit: ''
 				}
+			}
+		},
+
+		cssPropertyUnits: {
+			width: {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			height: {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'max-width': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'min-height': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'min-width': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'max-height': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'font-size': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'padding-top': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'padding-left': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'padding-right': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'padding-bottom': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'margin-top': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'margin-right': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'margin-left': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'margin-bottom': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'background-width': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'border-width': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'border-top-width': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'border-bottom-width': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'border-left-width': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'border-right-width': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'border-radius': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'border-bottom-right-radius': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'border-top-left-radius': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'border-top-right-radius': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'border-bottom-left-radius': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'h-shadow': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'v-shadow': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'blur': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'spread': {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			'opacity': {
+				defaultUnit: '',
+				unit: ''
 			}
 		},
 
@@ -273,17 +431,17 @@ export default {
 						activeProp: 0
 					},
 					childrenProps: [{
-						'h-shadow': '20px',
-						'v-shadow': '20px',
-						blur: '20px',
-						spread: '30px',
+						'h-shadow': '20',
+						'v-shadow': '20',
+						blur: '20',
+						spread: '30',
 						color: '#000000',
 						inset: 'outset'
 					}, {
-						'h-shadow': '10px',
-						'v-shadow': '-5px',
-						blur: '10px',
-						spread: '10px',
+						'h-shadow': '10',
+						'v-shadow': '-5',
+						blur: '10',
+						spread: '10',
 						color: '#dfdfdf',
 						inset: 'outset'
 					}]
@@ -294,9 +452,9 @@ export default {
 						activeProp: 0
 					},
 					childrenProps: [{
-						'h-shadow': '2px',
-						'v-shadow': '2px',
-						blur: '5px',
+						'h-shadow': '2',
+						'v-shadow': '2',
+						blur: '5',
 						color: ''
 					}]
 				},
@@ -307,9 +465,8 @@ export default {
 					},
 					childrenProps: [{
 						'transition-property': 'all',
-						'transition-duration': '0.2s',
-						'transition-timing-function': 'ease',
-						'transition-delay': ''
+						'transition-duration': '0.2',
+						'transition-timing-function': 'ease'
 					}]
 				},
 
@@ -319,7 +476,7 @@ export default {
 					},
 					childrenProps: [{
 						name: 'translate',
-						value: ['10px', '20px']
+						value: ['10', '20']
 					}, {
 						name: 'scale',
 						value: [1.5, 2.4]
@@ -358,10 +515,10 @@ export default {
 
 					childrenProps: [{
 						name: 'blur',
-						value: '20px'
+						value: '20'
 					}, {
 						name: 'brightness',
-						value: '20%'
+						value: '20'
 					}],
 
 					state: {
@@ -448,9 +605,8 @@ export default {
 				},
 				childrenProps: [{
 					'transition-property': 'all',
-					'transition-duration': 200,
-					'transition-timing-function': 'ease',
-					'transition-delay': 0
+					'transition-duration': 0.1,
+					'transition-timing-function': 'ease'
 				}]
 			},
 
@@ -460,7 +616,7 @@ export default {
 				},
 				childrenProps: [{
 					name: 'translate',
-					value: ['10px', '20px']
+					value: ['10', '20']
 				}, {
 					name: 'scale',
 					value: [1.5, 2.4]
@@ -627,7 +783,6 @@ export default {
 				state.newStyleName = tmpStyleName[0] + ':' + params.cssState;
 			}
 
-			// state.stylesList['.' + state.newStyleName] = {};
 			state.activeStyle = state.newStyleName;
 			state.newStyleName = '';
 
@@ -641,7 +796,9 @@ export default {
 			}
 
 			state.cssStyleLayout[state.activeStyle] = state.cssStyleList;
-			console.log(state.cssStyleLayout);
+			state.unitList[state.activeStyle] = state.cssPropertyUnits;
+
+			console.log(state);
 			return {...state};
 		},
 
@@ -731,6 +888,7 @@ export default {
 
 			var specialStyle = {
 				background(currentStyleParent, unit) {
+					unit = unit || '';
 					let styleText = '';
 					for(let styleName in currentStyleParent) {
 						let currentStyleValue = currentStyleParent[styleName];
@@ -742,34 +900,55 @@ export default {
 						if (currentStyleValue !== '') {
 							if (typeof currentStyleValue === 'object') {
 								let valueText = '';
-								for(let i = 0; i < currentStyleValue.length; i++) {
-									let val = currentStyleValue[i];
-									if (val !== '') {
-										valueText += val + ' ';
+								if(currentStyleValue.length === 4) {
+
+									if(currentStyleValue[0] == '' && currentStyleValue[1] == '' && !currentStyleValue[2] && !currentStyleValue[3]) {
+										continue;
 									}
+
+									//background-size
+									if(currentStyleValue[0] == '' && currentStyleValue[1] == '') {
+										if(currentStyleValue[2]) {
+											valueText = 'cover';
+										}
+
+										if(currentStyleValue[3]) {
+											valueText = 'contain';
+										}
+									}else {
+										valueText = currentStyleValue[0] + ' ' + currentStyleValue[1];
+									}
+								}else {
+									//background-position
+									valueText = currentStyleValue.join(' ');
 								}
 								styleText += styleName + ':' + valueText + unit + ';';
 							}else {
 								styleText += styleName + ':' + currentStyleValue + unit + ';';
 							}
 						}
+
+						unit = '';
 					}
 
 					return styleText;
 				},
 
 				padding (currentStyleParent, unit) {
+					unit = unit || '';
 					return specialStyle['border'](currentStyleParent, undefined, unit);
 				},
 
 				margin (currentStyleParent, unit) {
+					unit = unit || '';
 					return specialStyle['border'](currentStyleParent, undefined, unit);
 				},
 
 				border(currentStyleParent, extraProperty, unit) {
 					extraProperty = extraProperty || 'border-position';
 					if(!unit) {
-						extraProperty = 'border-position';
+						unit = unit || '';
+						extraProperty = extraProperty;
 					}
 					let styleText = '';
 					for(let styleName in currentStyleParent) {
@@ -784,16 +963,19 @@ export default {
 								styleText += styleName + ':' + currentStyleValue + unit + ';';
 							}
 						}
+						unit = '';
 					}
 
 					return styleText;
 				},
 
 				'border-radius'(currentStyleParent, unit) {
+					unit = unit || '';
 					return specialStyle['border'](currentStyleParent, 'border-radius-position', unit);
 				},
 
 				'box-shadow'(currentStyleParent, unit) {
+					unit = unit || 'px';
 					let styleText = 'box-shadow';
 					let childrenProps = currentStyleParent.childrenProps;
 					let valueText = '';
@@ -802,7 +984,11 @@ export default {
 						for(let property in currentStyle) {
 							let currentTableStyle = currentStyle[property];
 							if(currentTableStyle !== '' && currentTableStyle !== 'outset') {
-								valueText += currentTableStyle + ' ';
+								if(property == 'color' || property == 'inset') {
+									valueText += currentTableStyle + ' ';
+								}else {
+									valueText += currentTableStyle + unit + ' ';									
+								}
 							}
 						}
 						if (i !== childrenProps.length - 1) {
@@ -810,12 +996,13 @@ export default {
 						}
 					}
 
-					styleText += ':' + valueText + unit + ';';
+					styleText += ':' + valueText + ';';
 					return styleText;
 
 				},
 
 				'text-shadow'(currentStyleParent, unit) {
+					unit = unit || 'px';
 					let styleText = 'text-shadow';
 					let childrenProps = currentStyleParent.childrenProps;
 					let valueText = '';
@@ -824,7 +1011,11 @@ export default {
 						for(let property in currentStyle) {
 							let currentTableStyle = currentStyle[property];
 							if(currentTableStyle !== '') {
-								valueText += currentTableStyle + ' ';						
+								if(property == 'color') {
+									valueText += currentTableStyle + ' ';
+								}else {
+									valueText += currentTableStyle + unit + ' ';									
+								}
 							}
 						}
 						if (i !== childrenProps.length - 1) {
@@ -833,11 +1024,12 @@ export default {
 						
 					}
 					
-					styleText += ':' + valueText + unit + ';';
+					styleText += ':' + valueText + ';';
 					return styleText;
 				},
 
 				transition(currentStyleParent, unit) {
+					unit = unit || 's';
 					let styleText = 'transition';
 					let childrenProps = currentStyleParent.childrenProps;
 					let valueText = '';
@@ -846,7 +1038,11 @@ export default {
 						for(let property in currentStyle) {
 							let currentTableStyle = currentStyle[property];
 							if(currentTableStyle !== '') {
-								valueText += currentTableStyle + ' ';						
+								if(property == 'transition-duration') {
+									valueText += currentTableStyle + unit + ' ';									
+								}else {
+									valueText += currentTableStyle + ' ';									
+								}
 							}
 						}
 						if (i !== childrenProps.length - 1) {
@@ -855,11 +1051,12 @@ export default {
 						
 					}
 					
-					styleText += ':' + valueText + unit + ';';
+					styleText += ':' + valueText + ';';
 					return styleText;
 				},
 
 				transform(currentStyleParent, unit) {
+					unit = unit || '';
 					let styleText = 'transform';
 					let childrenProps = currentStyleParent.childrenProps;
 					let valueText = '';
@@ -867,36 +1064,71 @@ export default {
 						let currentStyle = childrenProps[i];
 						valueText += currentStyle.name + '(';
 						let values = currentStyle.value;
-						valueText += values[0];
+
+						if(currentStyle.name == 'translate') {
+							unit = 'px';
+						}
+
+						if(currentStyle.name == 'scale') {
+							unit = '';
+						}
+
+						if(currentStyle.name == 'rotate') {
+							unit = 'deg';
+						}
+
+						if(currentStyle.name == 'skew') {
+							unit = 'px';
+						}
+
+						valueText += values[0] + unit;
 						for (let j = 1; j < values.length; j ++) {
-							valueText += ',' + values[j];
+							valueText += ',' + values[j] + unit;
 						}
 
 						if (i !== childrenProps.length - 1) {
-							valueText += ') ';	
+							valueText += ') ';
 						}else {
 							valueText += ')';
 						}
 					}
 					
-					styleText += ':' + valueText + unit + ';';
+					styleText += ':' + valueText + ';';
 					return styleText;
 				},
 
 				filter(currentStyleParent, unit) {
+					unit = unit || '';
 					let childrenProps = currentStyleParent.childrenProps;
-					let styleText = 'transform';
+					let styleText = 'filter';
 					let valueText = '';
 					for(let i = 0, len = childrenProps.length; i < len; i ++) {
 						let currentStyle = childrenProps[i];
-						
-						if (i !== childrenProps.length - 1) {
-							valueText += currentStyle.name + '(' + currentStyle.value + '),';
-						}else {
-							valueText += currentStyle.name + '(' + currentStyle.value + ')';
+
+						var unitTable = {
+							blur: 'px',
+							brightness: '%',
+							contrast: '%',
+							grayscale: '%',
+							'hue-rotate': 'deg',
+							invert: '%',
+							opacity: '%',
+							saturate: '%',
+							sepia: '%'
 						}
 
+						if(unitTable[currentStyle.name]) {
+							unit = unitTable[currentStyle.name];
+						}
+
+						if (i !== childrenProps.length - 1) {
+							valueText += currentStyle.name + '(' + currentStyle.value + unit + ') ';
+						}else {
+							valueText += currentStyle.name + '(' + currentStyle.value + unit + ')';
+						}
 					}
+
+					styleText = styleText + ':' + valueText;
 
 					return styleText;
 				}
@@ -918,7 +1150,6 @@ export default {
 						if(state.unitList[styleName][property]) {
 							unit = state.unitList[styleName][property].unit;
 						}
-						console.log('stylesGenerator============', property, currentTableStyle, unit)
 						if(currentTableStyle != '' && typeof currentTableStyle !== 'object') {
 							cssClass += property + ':' + currentTableStyle + unit + ';'							
 						}else if (typeof currentTableStyle === 'object') {
@@ -1005,12 +1236,27 @@ export default {
 				if(params.parent) {
 					var propertyParent = styleAction.findCSSPropertyByProperty(state.cssStyleLayout[activeStyleName], property);
 					if(typeof params.parent.index !== 'undefined') {
-						propertyParent[property][params.parent.index] = value;
+						if(property === 'background-size') {
+							console.log('background-size', value);
+							if(params.parent.index == 2 || params.parent.index == 3) {
+								var constractIndex = params.parent.index == 2 ? 3 : 2;
+								propertyParent[property][0] = '';
+								propertyParent[property][1] = '';
+								propertyParent[property][constractIndex] = !value;
+								propertyParent[property][params.parent.index] = value;
+							}else {
+								propertyParent[property][params.parent.index] = value;
+								propertyParent[property][2] = false;
+								propertyParent[property][3] = false;								
+							}
+						}else {
+							propertyParent[property][params.parent.index] = value;
+						}
 					}else if (property === 'background-position') {
 						let vals = value.split(' ');
 						propertyParent[property][0] = vals[0];
 						propertyParent[property][1] = vals[1];
-					}else {
+					}else {						
 						propertyParent[property] = value;
 					}
 
@@ -1068,8 +1314,7 @@ export default {
 			state.transitionSetting = {
 				'transition-property': 'all',
 				'transition-duration': 0,
-				'transition-timing-function': 'ease',
-				'transition-delay': 0
+				'transition-timing-function': 'ease'
 			}
 			return {...state};
 		},
@@ -1091,7 +1336,7 @@ export default {
 
 		handleFilterInputChange(state, { payload: params }) {
 			state.filterSetting.value = params.value;
-			state.filterSetting.unit = params.unit;
+			state.filterSetting.unit = '';
 			return {...state};
 		},
 
