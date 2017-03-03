@@ -1050,6 +1050,7 @@ export default {
 
 	reducers: {
 		initState(state, {payload: params}){
+			console.log('initState=================')
 			console.log(params);
 			state.activeCtrl = params.UIState.activeCtrl;
 			state.layout = params.UIState.layout;
@@ -1057,12 +1058,14 @@ export default {
 			state.activePage = params.UIState.activePage;
 			state.selectIndex = params.UIState.selectIndex;
 			setTimeout(function(){
+				console.log('initState,setTimeout============');
 				window.VDDesignerFrame.postMessage({
 					pageSelected: state.layout[state.activePage.key][0].children
 				}, '*');
-			}, 2000 )
+			}, 2000)
 			return {...state};
 		},
+
 		showCtrlTreeContextMenu(state, { payload: proxy }) {
 			return {...state, constructionMenuStyle: {
 				position: 'fixed',
