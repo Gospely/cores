@@ -17,7 +17,7 @@ import initApplication from '../utils/initApplication';
 import gitTerminal from '../utils/gitTerminal';
 import fileListen from '../utils/fileListen';
 
-import Previewer from './Panel/Previewer.js';
+import Preview from './TopBar/Preview.js';
 
 import { Steps } from 'antd';
 import { Progress } from 'antd';
@@ -316,25 +316,6 @@ const LeftSidebar = (props) => {
 				}
 	        },
 
-	        preview() {
-
-	        	message.warning('暂不提供预览功能，请关注后续版本');
-
-	        	return false;
-
-	          	var title = (
-						<span>
-							<i className="fa fa-weixin"></i> 小程序 预览
-						</span>
-					),
-
-		          	type = 'previewer';
-
-        		props.dispatch({
-        			type: 'devpanel/loadPreviewer',
-        			payload: true
-        		});
-	        },
 
 	        'common-preview'() {
 
@@ -387,6 +368,12 @@ const LeftSidebar = (props) => {
 	        	    onCancel() {
 	        	    },
 	        	});
+	        },
+
+	        preview() {
+	        	props.dispatch({
+	        		type: 'preview/showPreview'
+	        	})
 	        },
 
 	        configGit () {
@@ -1485,25 +1472,34 @@ const LeftSidebar = (props) => {
 						<Icon type="smile-o" />
 						反馈建议
 			        </Menu.Item>
-			        <Menu.Item key="PC" title="电脑" className="change-icon" style={{marginLeft: '130px'}}>
+			        <Menu.Item key="PC" title="电脑" className='change-icon' style={{marginLeft: '130px'}}>
 			        	<i className='change-vd-icon icon-bg-0'></i>
 			        </Menu.Item>
-			        <Menu.Item key="verticalTablet" className="change-icon" title="竖平板">
+			        <Menu.Item key="verticalTablet" className='change-icon' title="竖平板">
 			        	<i className='change-vd-icon icon-bg-36'></i>
 			        </Menu.Item>
-			        <Menu.Item key="alignTablet" className="change-icon" title="横平板">
+			        <Menu.Item key="alignTablet" className='change-icon' title="横平板">
 			        	<i className='change-vd-icon icon-bg-75'></i>
 			        </Menu.Item>
-			        <Menu.Item key="verticalPhone" className="change-icon" title="竖手机">
+			        <Menu.Item key="verticalPhone" className='change-icon' title="竖手机">
 			        	<i className='change-vd-icon icon-bg-113'></i>
 			        </Menu.Item>
-			        <Menu.Item key="alignPhone" className="change-icon" title="横手机">
+			        <Menu.Item key="alignPhone" className='change-icon' title="横手机">
 			        	<i className='change-vd-icon icon-bg-150'></i>
 			        </Menu.Item>
+					<Menu.Item key="preview" placement="left" className='preview-app-btn'>
+						<Tooltip placement="leftBottom" title="预览此应用">
+			          		<Icon type="eye-o" />
+			          	</Tooltip>
+					</Menu.Item>
 			        <Menu.Item key="delete" placement="left" className='delete-app-btn'>
 				      	<Tooltip placement="leftBottom" title="删除此应用">
 			          		<Icon type="delete" />
 			          	</Tooltip>
+			        </Menu.Item>
+			        <Menu.Item key="release" className="releaseItem">
+			        	<Icon type="export" />
+			        	发布
 			        </Menu.Item>
 			    </Menu>
 			);
@@ -1900,14 +1896,13 @@ const LeftSidebar = (props) => {
 
 		    <Dashboard></Dashboard>
 
+		    <Preview></Preview>
+
 			<Modal width="30%"  title="意见建议" visible={props.sidebar.modalFeedback.visible}
 	          	onOk={feedbackProps.submit} onCancel={feedbackProps.hideModal}
 		    >
 		    	<Input type="textarea" placeholder="请留下您的想法:)" value={props.sidebar.modalFeedback.message} rows={4} onChange={feedbackProps.onMsgChange} />
 		    </Modal>
-
-
-			{initPreviewer()}
 
         </div>
 

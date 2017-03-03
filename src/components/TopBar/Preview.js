@@ -3,13 +3,13 @@ import { connect } from 'dva';
 
 import { Button, Modal } from 'antd';
 
-const Dashboard = (props) => {
+const Preview = (props) => {
 
-  const DashboardProps = {
+  const PreviewProps = {
 
     hide () {
       props.dispatch({
-        type: 'dashboard/hideDash'
+        type: 'preview/hidePreview'
       });
     }
 
@@ -19,18 +19,18 @@ const Dashboard = (props) => {
     <div className="designer-wrapper">
 
         <Modal
-          title="控制台 | Gospel - Web在线可视化集成开发环境"
+          title="预览| Gospel - Web在线可视化集成开发环境"
           wrapClassName="vertical-center-modal"
-          visible={props.dashboard.visible}
+          visible={props.preview.visible}
           wrapClassName="dashboard-wrapper"
-          onCancel={DashboardProps.hide}
+          onCancel={PreviewProps.hide}
         >
           <iframe
             name="gospel-designer" 
             width="100%" 
             height="100%" 
             frameBorder="0" 
-            src={props.dashboard.src}
+            src={props.preview.src}
             >
           </iframe>
         </Modal>
@@ -40,8 +40,8 @@ const Dashboard = (props) => {
 
 };
 
-function mapSateToProps({ dashboard }) {
-  return { dashboard };
+function mapSateToProps({ preview }) {
+  return { preview };
 }
 
-export default connect(mapSateToProps)(Dashboard);
+export default connect(mapSateToProps)(Preview);
