@@ -34,7 +34,7 @@ const packUIStage = function (params) {
       	},
 		previewer: params.cpre,
 		vdpm: params.vdpm,
-		vdcore: params.vdCore,
+		vdcore: params.vdcore,
 		vdCtrlTree: {
 			activeCtrl: params.vdCtrlTree.activeCtrl,
 			layout: params.vdCtrlTree.layout,

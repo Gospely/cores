@@ -1060,7 +1060,7 @@ export default {
 				window.VDDesignerFrame.postMessage({
 					pageSelected: state.layout[state.activePage.key][0].children
 				}, '*');
-			}, 1500 )
+			}, 2000 )
 			return {...state};
 		},
 		showCtrlTreeContextMenu(state, { payload: proxy }) {

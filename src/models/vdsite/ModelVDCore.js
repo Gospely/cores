@@ -266,8 +266,9 @@ export default {
 
 	reducers: {
 		initState(state, {payload: params}){
+			console.log('vdCore');
 			console.log(params);
-			state.VDDesigner.activeSize = params.UIState.VDSize;
+			state.VDDesigner = params.UIState.VDDesigner;
 			return  {...state};
 		},
 		changeVDSize(state, { payload: params }) {
