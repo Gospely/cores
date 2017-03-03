@@ -918,7 +918,7 @@ const Component = (props) => {
                         const keyValues = props.vdCtrlTree.activeCtrl.children.map((item, index) =>{
 
                             return (
-                                <li className="ant-dropdown-menu-item" role="menuitem" key={index}>
+                                <li className="ant-dropdown-menu-item" role="menuitem" key={item.id}>
                                 <Row>
                                   <Col span={18}>
                                     <p>{item.attrs[0].children[0].value} = {item.attrs[0].children[0].html}</p>
