@@ -869,7 +869,7 @@ export default {
 				key: 'icon',
 				details: {
 					tag: 'i',
-					className: ['fa', 'fa fa-picture-o','fa-2x'],
+					className: ['fa', 'fa-picture-o','fa-2x'],
 					attrs: [{
 						title: '图标设置',
 						key: 'icon-setting',
@@ -878,6 +878,12 @@ export default {
                             value: true,
                             attrName: 'aria-hidden',
                             isAttr: true
+                        },{
+                            name: 'currentIcon',
+                            value: 'fa-picture-o'
+                        },{
+                            name: 'currentSize',
+                            value: 'fa-2x'
                         }]
 					}]
 				}
@@ -2636,8 +2642,8 @@ export default {
                             }]
 						}],
 						children: [{
-							tag: 'span',
-							className: ['glyphicon', 'glyphicon-chevron-right'],
+							tag: 'i',
+							className: ['glyphicon', 'fa', 'fa-2x', 'fa-fast-forward'],
 							attrs: [{
 								title: '幻灯片设置',
 								key: 'slider-setting',
@@ -2691,8 +2697,8 @@ export default {
                             }]
 						}],
 						children: [{
-							tag: 'span',
-							className: ['glyphicon', 'glyphicon-chevron-left'],
+							tag: 'i',
+							className: ['glyphicon', 'fa', 'fa-2x', 'fa-fast-backward'],
 							attrs: [{
 								title: '幻灯片设置',
 								key: 'slider-setting',

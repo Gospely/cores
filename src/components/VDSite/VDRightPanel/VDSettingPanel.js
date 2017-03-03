@@ -1465,11 +1465,60 @@ const Component = (props) => {
 	    			},
                     'icon-setting' (item, attrTypeIndex){
 
+                        const iconOperate = {
+
+                            updateVisibleChange(value){
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleUpdateVisible',
+                                    payload: value
+                                });
+                            },
+                            chooseIcon(item){
+                                console.log(item);
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleUpdateVisible',
+                                    payload: false
+                                });
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleClassNameChange',
+                                    payload: {
+                                        remove: props.vdCtrlTree.activeCtrl.attrs[0].children[1].value,
+                                        replacement: item,
+                                        level: 0,
+                                        index: 1,
+                                        levelsInfo: []
+                                    }
+                                });
+                            },
+                            onSelect(e){
+
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleClassNameChange',
+                                    payload: {
+                                        remove: props.vdCtrlTree.activeCtrl.attrs[0].children[2].value,
+                                        replacement: e,
+                                        level: 0,
+                                        index: 2,
+                                        levelsInfo: []
+                                    }
+                                });
+                            }
+                        }
                         const iconSettingProps = {
 
+                            iconList: (<Row>
+                                 {
+                                     props.vdCtrlTree.icons.map((item)=>{
 
+                                         return (
+                                             <Col span={1} key={item} style={{'cursor': 'pointer'}}>
+                                                <i className={item} onClick={iconOperate.chooseIcon.bind(this, item)} />
+                                            </Col>
+                                         );
+                                     })
+                                 }
+                            </Row>)
                         }
-
                         return (
                             <Panel header={item.title} key={item.key}>
 
@@ -1482,20 +1531,28 @@ const Component = (props) => {
                                 </Form>
 	                            <Row>
 	                                <Col span={12}>
-	                                    <Button size="small"><Icon type="bars" />选择图标</Button>
+                                    <Popover
+                                        content={iconSettingProps.iconList}
+                                        title="修改 图标"
+                                        visible={props.vdCtrlTree.keyValeUpdateVisible}
+                                        onVisibleChange={iconOperate.updateVisibleChange}
+                                        trigger="click">
+	                                    <Button size="small" ><Icon type="bars" />选择图标</Button>
+                                    </Popover>
 	                                </Col>
 	                            </Row>
                                 <Form className="form-no-margin-bottom">
                                    <FormItem {...formItemLayout} label="图标大小">
-                                       <Select size="small">
-                                             <Option key="over-right" value="1x">1X</Option>
-                                             <Option key="over-right" value="2x">2X</Option>
-                                             <Option key="over-right" value="3x">3X</Option>
-                                             <Option key="over-right" value="4x">4X</Option>
-                                             <Option key="over-right" value="5x">5X</Option>
+                                       <Select size="small" onSelect={iconOperate.onSelect} value={props.vdCtrlTree.activeCtrl.attrs[0].children[2].value}>
+                                             <Option key="over-right" value="fa-1x">1X</Option>
+                                             <Option key="over-right" value="fa-2x">2X</Option>
+                                             <Option key="over-right" value="fa-3x">3X</Option>
+                                             <Option key="over-right" value="fa-4x">4X</Option>
+                                             <Option key="over-right" value="fa-5x">5X</Option>
                                        </Select>
                                    </FormItem>
                                </Form>
+
                         	</Panel>
                         );
                     },
