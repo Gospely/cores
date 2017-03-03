@@ -1454,6 +1454,7 @@ export default {
     					attrs: [{
     						title: '选项设置',
     						key: 'options-setting',
+                            unActive: true,
                             isAttrSetting: true,
     						children: [{
                                 name: 'option',
@@ -1473,6 +1474,7 @@ export default {
     					attrs: [{
     						title: '选项设置',
     						key: 'options-setting',
+                            unActive: true,
                             isAttrSetting: true,
     						children: [{
                                 name: 'option',
