@@ -1049,7 +1049,20 @@ export default {
 	},
 
 	reducers: {
-
+		initState(state, {payload: params}){
+			console.log(params);
+			state.activeCtrl = params.UIState.activeCtrl;
+			state.layout = params.UIState.layout;
+			state.layoutState = params.UIState.layoutState;
+			state.activePage = params.UIState.activePage;
+			state.selectIndex = params.UIState.selectIndex;
+			setTimeout(function(){
+				window.VDDesignerFrame.postMessage({
+					pageSelected: state.layout[state.activePage.key][0].children
+				}, '*');
+			}, 3000 )
+			return {...state};
+		},
 		showCtrlTreeContextMenu(state, { payload: proxy }) {
 			return {...state, constructionMenuStyle: {
 				position: 'fixed',
@@ -1996,7 +2009,7 @@ export default {
 					needChangeAttr[params.index].value = 1;
 					currentColums.children[params.index].attrs[0].children[1].value[params.index].span = 1;
 					currentColums.children[params.index].attrs[0].children[1].value[params.index].value = 1;
-					
+
 				}else {
 
 					window.VDDesignerFrame.postMessage({
@@ -2053,7 +2066,7 @@ export default {
 					}
 				}, '*');
 
-				needChangeAttr[params.index + 1].span += decreaseNum * 2;				
+				needChangeAttr[params.index + 1].span += decreaseNum * 2;
 				needChangeAttr[params.index + 1].value += decreaseNum;
 
 			}
@@ -2075,7 +2088,7 @@ export default {
 			let needChangeAttr = currentColums.attrs[0].children[1].value;
 
 			if(needChangeAttr[params.index + 1].value >= 0 && needChangeAttr[params.index].value < 12 ) {
-				
+
 				if(needChangeAttr[params.index].value >= 11) {
 
 					window.VDDesignerFrame.postMessage({

@@ -468,6 +468,8 @@ $(function() {
 
                     pageSelected: function() {
                         jq('#VDDesignerContainer').html('');
+						console.log("pageSelected");
+						console.log(data);
                         controllerOperations.hideDesignerDraggerBorder();
                         for (var i = 0; i < data.length; i++) {
                             var currentController = data[i];
@@ -1003,13 +1005,13 @@ $(function() {
                             };
                         };
                     }
-
-                    for (var i = 0; i < className.length; i++) {
-                        var cls = className[i];
-                        this.elem.addClass(cls);
-                    };
+					if(className) {
+						for (var i = 0; i < className.length; i++) {
+	                        var cls = className[i];
+	                        this.elem.addClass(cls);
+	                    };
+					}
                 }
-
             },
 
             setAttr: function(attr) {

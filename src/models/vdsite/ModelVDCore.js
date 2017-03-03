@@ -183,7 +183,7 @@ export default {
 			if (params.value !== '') {
 
 				if(params.value < 1 || params.value > 12) {
-						message.error('栅格数不能超过12，且不能小于1');						
+						message.error('栅格数不能超过12，且不能小于1');
 						return false;
 				}
 
@@ -203,7 +203,7 @@ export default {
 				let ctrlTree = yield select(state => state.vdCtrlTree.layout[activePage]);
 
 				let findCtrlByVdId = function (ctrlTree,VdId) {
-					
+
 					for(let i = 0; i < ctrlTree.length; i ++) {
 						if (ctrlTree[i].children) {
 							let ctrl = findCtrlByVdId(ctrlTree[i].children, VdId);
@@ -224,14 +224,14 @@ export default {
 
 				//当减少格子数时判断被删的格子是否有子元素，有就询问
 				if (currentCount > params.value) {
-					
+
 					for(let i = params.value; i < currentCount; i ++){
 						if (currentColums.children[i].children && currentColums.children[i].children.length !==0) {
 							confirm({
 			    			    title: '减少栅格',
 			    			    content: '您确定要减少栅格数吗？后面栅格的内容将丢失',
 			    			    onOk() {
-									
+
 			    			    },
 			    			    onCancel() {
 			    			    	return false;
@@ -250,7 +250,7 @@ export default {
 						currentRootVdid
 					}
 				})
-				
+
 			}
 
 			yield put({
@@ -260,12 +260,16 @@ export default {
 					tmpColumns: tmpColumns
 				}
 			})
-			
+
 		}
 	},
 
 	reducers: {
-
+		initState(state, {payload: params}){
+			console.log(params);
+			state.VDDesigner.activeSize = params.UIState.VDSize;
+			return  {...state};
+		},
 		changeVDSize(state, { payload: params }) {
 			state.VDDesigner.activeSize = params.VDSize;
 			return {...state};

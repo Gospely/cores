@@ -15,6 +15,14 @@ const initState = function (props, applicationId) {
         payload: { UIState: UIState.UIState.vdpm }
     });
     props.dispatch({
+        type: 'vdCtrlTree/initState',
+        payload: { UIState: UIState.UIState.vdCtrlTree }
+    });
+    props.dispatch({
+        type: 'vdCore/initState',
+        payload: { UIState: UIState.UIState.vdCore }
+    });
+    props.dispatch({
       type: 'devpanel/getConfig',
       payload: { id : applicationId, UIState: UIState.UIState.devpanel}
     });
