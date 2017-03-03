@@ -150,13 +150,13 @@ const Component = (props) => {
 	const formProps = {
 		handleAttrFormInputChange (item, attType, dom) {
 			let newVal = dom.target ? dom.target.value : dom;
-			let attrName = item.name;
+			let attrId = item.id;
 
 			props.dispatch({
 				type: 'vdCtrlTree/handleAttrFormChange',
 				payload: {
 					newVal: newVal,
-					attrName: attrName
+					attrId: attrId
 				}
 			});
 
@@ -171,12 +171,12 @@ const Component = (props) => {
 		},
 
 		handleAttrFormSwitchChange (item, attType, checked) {
-			var attrName = item.name;
+			let attrId = item.id;
 			props.dispatch({
 				type: 'vdCtrlTree/handleAttrFormChange',
 				payload: {
 					newVal: checked,
-					attrName: attrName,
+					attrId: attrId,
 					attrType: attType
 				}
 			});
@@ -192,12 +192,12 @@ const Component = (props) => {
 		},
 
 		handleAttrFormSelectChange (item, attType, selectedVal) {
-			var attrName = item.name;
+			var attrId = item.id;
 			props.dispatch({
 				type: 'vdCtrlTree/handleAttrFormChange',
 				payload: {
 					newVal: selectedVal,
-					attrName: attrName
+					attrId: attrId
 				}
 			});
 
@@ -504,32 +504,6 @@ const Component = (props) => {
 
 	    			'link-setting' (item, attrTypeIndex) {
 
-	    				const handleLinkSettingValueChange = (item, attType, dom) => {
-
-				    		// props.dispatch({
-				    		// 	type: 'vdcore/handleLinkSettingValueChange',
-				    		// 	payload: dom.target.value
-				    		// });
-
-				    		props.dispatch({
-		    					type: 'vdCtrlTree/saveCustomAttr',
-		    					payload: {
-		    						key: 'href',
-		    						value: dom.target.value,
-		    						attrTypeIndex: attrTypeIndex,
-		    						attrType: attrType
-		    					}
-			    			});
-
-							props.dispatch({
-								type: 'vdCtrlTree/handleAttrRefreshed',
-								payload: {
-									activeCtrl: props.vdCtrlTree.activeCtrl,
-									attr: item,
-									attrType: attType
-								}
-							});
-				    	};
                         const dropdownProps = {
 
                             switchDropDown(item){
@@ -563,17 +537,17 @@ const Component = (props) => {
 									</FormItem>
 
 									<FormItem {...formItemLayout} label="新窗口">
-										<Switch value={item.children[1].value} onChange={formProps.handleAttrFormSwitchChange.bind(this, item.children[1], attrType)} size="small" />
+										<Switch value={item.children[5].value} onChange={formProps.handleAttrFormSwitchChange.bind(this, item.children[5], attrType)} size="small" />
 									</FormItem>
                                     {attrType.changeDropDown && <FormItem {...formItemLayout} label="下拉菜单">
                                         <Switch size="small"  onChange={dropdownProps.switchDropDown.bind(this, item)}/>
                                     </FormItem>}
                                     <FormItem {...formItemLayout} label="显示文本">
-										<Input value={item.children[2].value} onChange={formProps.handleAttrFormInputChange.bind(this, item.children[2], attrType)} size="small" />
+										<Input value={item.children[6].value} onChange={formProps.handleAttrFormInputChange.bind(this, item.children[6], attrType)} size="small" />
 									</FormItem>
 
                                     { attrType.deleteAble && <FormItem {...formItemLayout} label="">
-                                        <Popconfirm title="确认删除？" onConfirm={formProps.handleComplextChildrenDelete.bind(this, item.children[2].value, 'navbar-drop-down')}>
+                                        <Popconfirm title="确认删除？" onConfirm={formProps.handleComplextChildrenDelete.bind(this, item.children[6].value, 'navbar-drop-down')}>
                                             <Button  size="small" ><Icon type="delete" /> &nbsp;&nbsp;删除</Button>
                                         </Popconfirm>
                                     </FormItem>}
@@ -581,13 +555,13 @@ const Component = (props) => {
 					    	), (
 						      	<Form className="form-no-margin-bottom">
 									<FormItem {...formItemLayout} label="邮箱地址">
-										<Input value={item.children[0].value} type="mail" size="small" onChange={formProps.handleAttrFormInputChange.bind(this, item.children[0], attrType)}/>
+										<Input value={item.children[1].value} type="mail" size="small" onChange={formProps.handleAttrFormInputChange.bind(this, item.children[1], attrType)}/>
 									</FormItem>
 						      	</Form>
 					    	), (
 						      	<Form className="form-no-margin-bottom">
 									<FormItem {...formItemLayout} label="手机号码">
-										<Input value={item.children[0].value} type="tel" size="small" onChange={formProps.handleAttrFormInputChange.bind(this, item.children[0], attrType)}/>
+										<Input value={item.children[2].value} type="tel" size="small" onChange={formProps.handleAttrFormInputChange.bind(this, item.children[2], attrType)}/>
 									</FormItem>
 						      	</Form>
 					    	), (
@@ -597,8 +571,8 @@ const Component = (props) => {
 									        placeholder="请选择页面"
 									        treeDefaultExpandAll
 									        size="small"
-									        value={item.children[0].value}
-									        onChange={formProps.handleAttrFormInputChange.bind(this, item.children[0], attrType)}
+									        value={item.children[3].value}
+									        onChange={formProps.handleAttrFormSelectChange.bind(this, item.children[3], attrType)}
 									    >
 									      	{pageTree}
 									    </TreeSelect>
@@ -610,7 +584,7 @@ const Component = (props) => {
 					    	), (
 								<Form className="form-no-margin-bottom">
 									<FormItem {...formItemLayout} label="元素">
-									    <Select onChange={formProps.handleAttrFormInputChange.bind(this, item.children[0], attrType)} size="small" value={item.children[0].value}>
+									    <Select onChange={formProps.handleAttrFormSelectChange.bind(this, item.children[4], attrType)} size="small" value={item.children[4].value}>
 									      	{controllerTree}
 									    </Select>
 									</FormItem>
@@ -1529,7 +1503,7 @@ const Component = (props) => {
 	    			},
 	    			'columns-setting' (item, attrTypeIndex) {
 
-	    				var columnHandler = {
+	    				const columnHandler = {
 	    					handleColumnCountChange (e) {
 	    						props.dispatch({
 	    							type: 'vdcore/columnCountChange',
@@ -1548,10 +1522,12 @@ const Component = (props) => {
 										move: 'x',
 
 										onMoveToLeft: function() {
-											console.log('left');
+											console.log('left', index);
 											props.dispatch({
-												type: 'vdcore/shrinkLeftColumn',
+												type: 'vdCtrlTree/shrinkLeftColumn',
 												payload: {
+													increaseNum: props.vdcore.columnSlider.increseTable[(props.vdcore.columnSlider.columns[index].value).toString()],
+													decreaseNum: props.vdcore.columnSlider.decreaseTable[(props.vdcore.columnSlider.columns[index].value).toString()],
 													index
 												}
 											});
@@ -1560,8 +1536,10 @@ const Component = (props) => {
 										onMoveToRight: function() {
 											console.log('right');
 											props.dispatch({
-												type: 'vdcore/expandLeftColumn',
+												type: 'vdCtrlTree/expandLeftColumn',
 												payload: {
+													increaseNum: props.vdcore.columnSlider.increseTable[(props.vdcore.columnSlider.columns[index].value).toString()],
+													decreaseNum: props.vdcore.columnSlider.decreaseTable[(props.vdcore.columnSlider.columns[index].value).toString()],
 													index
 												}
 											});
@@ -1575,14 +1553,14 @@ const Component = (props) => {
 	    					<Panel header={item.title} key={item.key}>
 	                            <Form className="form-no-margin-bottom">
 	                                <FormItem {...formItemLayout} label="栅格数">
-	                                	<Input size="small" min="1" placeholder="只能输入1到12" max="12" onChange={columnHandler.handleColumnCountChange.bind(this)} value={props.vdcore.columnSlider.count} type="number" />
+	                                	<Input size="small" min="1" placeholder="只能输入1到12" max="12" onChange={columnHandler.handleColumnCountChange.bind(this)} value={item.children[0].value} type="number" />
 	                                </FormItem>
 	                            </Form>
 	                            <div className="column-slider-box">
 	                            	<div className="grid-slider">
 	                            		<Row>
 	                            		{
-	                            			props.vdcore.columnSlider.columns.map((column, columnIndex) => {
+	                            			item.children[1].value.map((column, columnIndex) => {
 	                            				return (
 			                            			<Col key={columnIndex} span={column.span}>
 					                            		<div className="column-slider-column">

@@ -178,7 +178,23 @@ export default {
 					attrs: [{
 						title: '栅格设置',
 						key: 'columns-setting',
-						children: []
+						children: [{
+							name: 'columns-count',
+							desc: '栅格个数',
+							value: 2,
+							id: ''
+						}, {
+							name: 'columns-col-layout',
+							desc: '每个栅格占的col数',
+							value: [{
+								span: 12,
+								value: 6
+							}, {
+								span: 12,
+								value: 6
+							}],
+							id: ''
+						}]
 					}],
 					children: [{
 						tag: 'div',
@@ -186,7 +202,23 @@ export default {
 						attrs: [{
 							title: '栅格设置',
 							key: 'columns-setting',
-							children: []
+							children: [{
+								name: 'columns-count',
+								desc: '栅格个数',
+								value: 2,
+								id: ''
+							}, {
+								name: 'columns-col-layout',
+								desc: '每个栅格占的col数',
+								value: [{
+									span: 12,
+									value: 6
+								}, {
+									span: 12,
+									value: 6
+								}],
+								id: ''
+							}]
 						}, {
 							title: '属性设置',
 							key: 'columns-attr',
@@ -205,7 +237,23 @@ export default {
 						attrs: [{
 							title: '栅格设置',
 							key: 'columns-setting',
-							children: []
+							children: [{
+								name: 'columns-count',
+								desc: '栅格个数',
+								value: 2,
+								id: ''
+							}, {
+								name: 'columns-col-layout',
+								desc: '每个栅格占的col数',
+								value: [{
+									span: 12,
+									value: 6
+								}, {
+									span: 12,
+									value: 6
+								}],
+								id: ''
+							}]
 						}, {
 							title: '属性设置',
 							key: 'columns-attr',
@@ -318,6 +366,38 @@ export default {
 							attrName: 'src',
 							id: ''
 						}, {
+							name: 'src',
+							desc: '跳转邮箱',
+							type: 'input',
+							value: '',
+							isAttr: true,
+							attrName: 'src',
+							id: ''
+						}, {
+							name: 'src',
+							desc: '跳转电话',
+							type: 'input',
+							value: '',
+							isAttr: true,
+							attrName: 'src',
+							id: ''
+						}, {
+							name: 'src',
+							desc: '跳转页面',
+							type: 'select',
+							value: '',
+							isAttr: true,
+							attrName: 'src',
+							id: ''
+						}, {
+							name: 'src',
+							desc: '跳转元素',
+							type: 'select',
+							value: '',
+							isAttr: true,
+							attrName: 'src',
+							id: ''
+						}, {
 							name: 'target',
 							desc: '新窗口打开',
 							type: 'toggle',
@@ -388,6 +468,7 @@ export default {
 							title: '列表设置',
 							key: 'list-setting',
 	                        isChangeTag: true,
+	                        children: []
 						}],
 					children: [{
 						tag: 'li',

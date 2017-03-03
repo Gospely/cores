@@ -788,7 +788,7 @@ export default {
 		generateCtrlTree(state, { payload: ctrl }) {
 			let controller = ctrl.details;
 
-			const specialAttrList = ['custom-attr', 'link-setting', 'list-setting', 'heading-type', 'image-setting', 'select-setting'];
+			// const specialAttrList = ['custom-attr', 'link-setting', 'list-setting', 'heading-type', 'image-setting', 'select-setting'];
 
 			let deepCopiedController = VDTreeActions.deepCopyObj(controller);
 			deepCopiedController.vdid = deepCopiedController.key ? (deepCopiedController.key + '-' + randomString(8, 10)) : randomString(8, 10);
@@ -802,9 +802,9 @@ export default {
 
 				tmpAttr = controller.attrs;
 				for(let i = 0, len = tmpAttr.length; i < len; i ++) {
-					if(specialAttrList.indexOf(tmpAttr[i].key) != -1) {
-						continue;
-					}
+					// if(specialAttrList.indexOf(tmpAttr[i].key) !== -1) {
+					// 	continue;
+					// }
 					for (var j = 0; j < tmpAttr[i].children.length; j++) {
 						var attr = tmpAttr[i].children[j];
 						attr['id'] = randomString(8, 10);
@@ -896,15 +896,14 @@ export default {
 		},
 
 		ctrlSelected(state, { payload: data }) {
-			console.log('select');
-			console.log(data);
+
 			if(data.unActive){
-				var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, data.root, state.activePage);
+				let currentActiveCtrl = VDTreeActions.getCtrlByKey(state, data.root, state.activePage);
 				state.activeCtrl = currentActiveCtrl.controller;
 			}else {
 				state.activeCtrl = data;
 			}
-			var ctrlInfo = VDTreeActions.getActiveControllerIndexAndLvlByKey(state, state.activeCtrl.vdid, state.activePage);
+			let ctrlInfo = VDTreeActions.getActiveControllerIndexAndLvlByKey(state, state.activeCtrl.vdid, state.activePage);
 			state.activeCtrlIndex = ctrlInfo.index;
 			state.activeCtrlLvl = ctrlInfo.level;
 			state.defaultSelectedKeys = [state.activeCtrl.vdid];
@@ -912,20 +911,18 @@ export default {
 		},
 		handleAttrFormChangeA(state, { payload: params }) {
 
-			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
+			let currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
 			if (params.attrName === 'id') {
 				currentActiveCtrl.controller.id = params.newVal;
 			}
-			console.log(state.activeCtrl);
-			console.log('handleAttrFormChangeA');
-			console.log(currentActiveCtrl);
+			console.log(params)
 			var ctrlAttrs = currentActiveCtrl.controller.attrs;
 
   			for (var i = 0; i < ctrlAttrs.length; i++) {
   				for (var j = 0; j < ctrlAttrs[i].children.length; j++) {
   					var attr = ctrlAttrs[i].children[j];
   					var flag = false;
-	  				if(attr.name == params.attrName) {
+	  				if(attr.id == params.attrId) {
 	  					attr.value = params.newVal;
 	  					flag = true;
 	  					break;
@@ -1040,51 +1037,43 @@ export default {
 		//栅格数变化
 		handleColumnCountChange(state, { payload: params }) {
 			let column = params.column;
-			let value = params.value;
+			let currentRootVdid = params.currentRootVdid;
+			let tmpColumns = params.tmpColumns;
 
-			let colClass = 'col-md-' + 12/value;
+			let colClass = 'col-md-' + tmpColumns[0].value;
 
-			let currentRootVdid = state.activeCtrl.root;
-			let activePage = state.activePage.key;
-			let ctrlTree = state.layout[activePage];
+			let currentColums = VDTreeActions.getCtrlByKey(state, currentRootVdid, state.activePage);
+			currentColums = currentColums.controller//当前的栅格
+			let currentCount = currentColums.attrs[0].children[0].value;//当前栅格里面的格子数
+			let changCount = params.value - currentCount;
 
-			let findCtrlByVdId = function (ctrlTree,VdId) {
+			currentColums.attrs[0].children[0].value = params.value;
+			currentColums.attrs[0].children[1].value = tmpColumns;
 
-				for(let i = 0; i < ctrlTree.length; i ++) {
-					if (ctrlTree[i].children) {
-						let ctrl = findCtrlByVdId(ctrlTree[i].children, VdId);
-						if (ctrl) {
-							return ctrl;
-						}
-					}
-					if (ctrlTree[i].vdid === VdId) {
-						return ctrlTree[i];
-					}
-				}
-
-			}
-
-			let currentColums = findCtrlByVdId(ctrlTree, currentRootVdid);//当前的栅格
-
-			let currentCount = currentColums.children.length;//当前栅格里面的格子数
-
-			let changClassName = function (currentColums, colClass) {
+			//改变className及其属性值
+			let changClassName = function () {
 				for(let i = 0; i < currentColums.children.length; i ++){
-					let originalClassName = currentColums.children[i].className;
+
+					let currentChild = currentColums.children[i];
+
+					currentChild.attrs[0].children[0].value = params.value;
+					currentChild.attrs[0].children[1].value = tmpColumns;
+
+					let originalClassName = currentChild.className;
 					for(let j = 0; j < originalClassName.length; j ++) {
 						if (originalClassName[j].indexOf('col-md-') !== -1) {
 							originalClassName[j] = colClass;
+							break;
 						}
 					}
+					currentColums.children[i] = currentChild;
 				}
 			}
 
-			let changCount = value - currentCount;
 			let deepCopiedController = VDTreeActions.deepCopyObj(column);
 
 			if (changCount > 0) {
 
-				const specialAttrList = ['custom-attr', 'link-setting', 'list-setting', 'heading-type', 'image-setting', 'select-setting'];
 
 				const loopAttr = (controller) => {
 
@@ -1094,14 +1083,14 @@ export default {
 
 					tmpAttr = controller.attrs;
 					for(let i = 0, len = tmpAttr.length; i < len; i ++) {
-						if(specialAttrList.indexOf(tmpAttr[i].key) != -1) {
-							continue;
-						}
 						for (var j = 0; j < tmpAttr[i].children.length; j++) {
 							var attr = tmpAttr[i].children[j];
 							attr['id'] = randomString(8, 10);
 						};
 					}
+
+					tmpAttr[0].children[0].value = params.value;
+					tmpAttr[0].children[1].value = tmpColumns;
 
 					ctrl = {
 						vdid: controller.key ? (controller.key + '-' + randomString(8, 10)) : randomString(8, 10),
@@ -1132,7 +1121,7 @@ export default {
 					return ctrl;
 				}
 
-				changClassName(currentColums, colClass);
+				changClassName();
 
 				let addedColumn = [];
 
@@ -1161,7 +1150,7 @@ export default {
 				for(let i = 0; i < -changCount; i ++) {
 					currentColums.children.pop();
 				}
-				changClassName(currentColums, colClass);
+				changClassName();
 				window.VDDesignerFrame.postMessage({
 					VDAttrRefreshed: {
 						activeCtrl: state.activeCtrl,
@@ -1177,6 +1166,235 @@ export default {
 				}, '*');
 			}
 
+			state.activeCtrl = currentColums;
+
+			return {...state};
+		},
+
+		shrinkLeftColumn(state, { payload: params }) {
+			let increaseNum = params.increaseNum,
+				decreaseNum = params.decreaseNum;
+
+			let currentRootVdid = state.activeCtrl.root,
+				currentColums = VDTreeActions.getCtrlByKey(state, currentRootVdid, state.activePage);
+			currentColums = currentColums.controller//当前的栅格
+
+			let needChangeAttr = currentColums.attrs[0].children[1].value;
+
+			if(needChangeAttr[params.index].value >= 0 && needChangeAttr[params.index + 1].value < 12) {
+				if(needChangeAttr[params.index].value < 1) {
+
+					window.VDDesignerFrame.postMessage({
+						VDAttrRefreshed: {
+							activeCtrl: currentColums.children[params.index],
+							attr: {
+								attrName: 'classOperate',
+								action: 'replaceClass',
+								remove: 'col-md-' + needChangeAttr[params.index].value,
+								replacement: 'col-md-1',
+								target: {
+									vdid: currentColums.children[params.index].vdid
+								}
+							}
+						}
+					}, '*');
+
+					needChangeAttr[params.index].span = 2;
+					needChangeAttr[params.index].value = 1;
+					currentColums.children[params.index].attrs[0].children[1].value[params.index].span = 1;
+					currentColums.children[params.index].attrs[0].children[1].value[params.index].value = 1;
+					
+				}else {
+
+					window.VDDesignerFrame.postMessage({
+						VDAttrRefreshed: {
+							activeCtrl: currentColums.children[params.index],
+							attr: {
+								attrName: 'classOperate',
+								action: 'replaceClass',
+								remove: 'col-md-' + needChangeAttr[params.index].value,
+								replacement: 'col-md-' + (needChangeAttr[params.index].value - decreaseNum),
+								target: {
+									vdid: currentColums.children[params.index].vdid
+								}
+							}
+						}
+					}, '*');
+
+					needChangeAttr[params.index].span -= decreaseNum * 2;
+					needChangeAttr[params.index].value -= decreaseNum;
+					if(needChangeAttr[params.index].value === 0) {
+
+						window.VDDesignerFrame.postMessage({
+							VDAttrRefreshed: {
+								activeCtrl: currentColums.children[params.index],
+								attr: {
+									attrName: 'classOperate',
+									action: 'replaceClass',
+									remove: 'col-md-' + needChangeAttr[params.index].value,
+									replacement: 'col-md-1',
+									target: {
+										vdid: currentColums.children[params.index].vdid
+									}
+								}
+							}
+						}, '*');
+
+						needChangeAttr[params.index].span = 2;
+						needChangeAttr[params.index].value = 1;
+					}
+				}
+
+				window.VDDesignerFrame.postMessage({
+					VDAttrRefreshed: {
+						activeCtrl: currentColums.children[params.index + 1],
+						attr: {
+							attrName: 'classOperate',
+							action: 'replaceClass',
+							remove: 'col-md-' + needChangeAttr[params.index + 1].value,
+							replacement: 'col-md-' + (needChangeAttr[params.index + 1].value + decreaseNum),
+							target: {
+								vdid: currentColums.children[params.index + 1].vdid
+							}
+						}
+					}
+				}, '*');
+
+				needChangeAttr[params.index + 1].span += decreaseNum * 2;				
+				needChangeAttr[params.index + 1].value += decreaseNum;
+
+			}
+
+			state.activeCtrl = currentColums;
+
+			return {...state};
+		},
+
+		expandLeftColumn(state, { payload: params }) {
+
+			let increaseNum = params.increaseNum,
+				decreaseNum = params.decreaseNum;
+
+			let currentRootVdid = state.activeCtrl.root,
+				currentColums = VDTreeActions.getCtrlByKey(state, currentRootVdid, state.activePage);
+			currentColums = currentColums.controller//当前的栅格
+
+			let needChangeAttr = currentColums.attrs[0].children[1].value;
+
+			if(needChangeAttr[params.index + 1].value >= 0 && needChangeAttr[params.index].value < 12 ) {
+				
+				if(needChangeAttr[params.index].value >= 11) {
+
+					window.VDDesignerFrame.postMessage({
+						VDAttrRefreshed: {
+							activeCtrl: currentColums.children[params.index],
+							attr: {
+								attrName: 'classOperate',
+								action: 'replaceClass',
+								remove: 'col-md-' + needChangeAttr[params.index].value,
+								replacement: 'col-md-11',
+								target: {
+									vdid: currentColums.children[params.index].vdid
+								}
+							}
+						}
+					}, '*');
+					needChangeAttr[params.index].span = 22;
+					needChangeAttr[params.index].value = 11;
+
+					window.VDDesignerFrame.postMessage({
+						VDAttrRefreshed: {
+							activeCtrl: currentColums.children[params.index + 1],
+							attr: {
+								attrName: 'classOperate',
+								action: 'replaceClass',
+								remove: 'col-md-' + needChangeAttr[params.index + 1].value,
+								replacement: 'col-md-1',
+								target: {
+									vdid: currentColums.children[params.index + 1].vdid
+								}
+							}
+						}
+					}, '*');
+					needChangeAttr[params.index + 1].span = 2;
+					needChangeAttr[params.index + 1].value = 1;
+
+				}else {
+
+					window.VDDesignerFrame.postMessage({
+						VDAttrRefreshed: {
+							activeCtrl: currentColums.children[params.index],
+							attr: {
+								attrName: 'classOperate',
+								action: 'replaceClass',
+								remove: 'col-md-' + needChangeAttr[params.index].value,
+								replacement: 'col-md-' + (needChangeAttr[params.index].value + increaseNum),
+								target: {
+									vdid: currentColums.children[params.index].vdid
+								}
+							}
+						}
+					}, '*');
+					needChangeAttr[params.index].span += increaseNum * 2;
+					needChangeAttr[params.index].value += increaseNum;
+
+					window.VDDesignerFrame.postMessage({
+						VDAttrRefreshed: {
+							activeCtrl: currentColums.children[params.index + 1],
+							attr: {
+								attrName: 'classOperate',
+								action: 'replaceClass',
+								remove: 'col-md-' + needChangeAttr[params.index + 1].value,
+								replacement: 'col-md-' + (needChangeAttr[params.index + 1].value - increaseNum),
+								target: {
+									vdid: currentColums.children[params.index + 1].vdid
+								}
+							}
+						}
+					}, '*');
+					needChangeAttr[params.index + 1].span -= increaseNum * 2;
+					needChangeAttr[params.index + 1].value -= increaseNum;
+
+					if(needChangeAttr[params.index].value === 12) {
+						window.VDDesignerFrame.postMessage({
+							VDAttrRefreshed: {
+								activeCtrl: currentColums.children[params.index],
+								attr: {
+									attrName: 'classOperate',
+									action: 'replaceClass',
+									remove: 'col-md-' + needChangeAttr[params.index].value,
+									replacement: 'col-md-11',
+									target: {
+										vdid: currentColums.children[params.index].vdid
+									}
+								}
+							}
+						}, '*');
+						needChangeAttr[params.index].span = 22;
+						needChangeAttr[params.index].value = 11;
+
+						window.VDDesignerFrame.postMessage({
+							VDAttrRefreshed: {
+								activeCtrl: currentColums.children[params.index + 1],
+								attr: {
+									attrName: 'classOperate',
+									action: 'replaceClass',
+									remove: 'col-md-' + needChangeAttr[params.index + 1].value,
+									replacement: 'col-md-1',
+									target: {
+										vdid: currentColums.children[params.index + 1].vdid
+									}
+								}
+							}
+						}, '*');
+						needChangeAttr[params.index + 1].span = 2;
+						needChangeAttr[params.index + 1].value = 1;
+
+					}
+				}
+			}
+
+			state.activeCtrl = currentColums;
 			return {...state};
 		},
 
@@ -1269,7 +1487,7 @@ export default {
   				type: 'handleAttrFormChangeA',
   				payload: {
   					newVal: params.newVal,
-  					attrName: params.attrName,
+  					attrId: params.attrId,
   					activePage: activePage
   				}
   			})

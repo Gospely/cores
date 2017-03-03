@@ -161,13 +161,26 @@ export default {
 
 		*columnCountChange({ payload: params }, { call, put, select }) {
 
-			if (params.value !== '') {
+			//生成对应栅格的格数 col 等
+			let tmpColumns = [];
+			let span = (24 / params.value).toString();
+			span = span.split('.');
+			span = parseInt(span[0]);
 
-				let invalid = [1, 2, 3, 4, 6, 12];
-				if(invalid.indexOf(parseInt(params.value)) === -1) {
-					message.error('只能输入1, 2, 3, 4, 6和12');
-					return false;
-				}
+			let value = (12 / params.value).toString();
+			value = value.split('.');
+			value = parseInt(value[0]);
+
+			for (var i = 0; i < params.value; i++) {
+				var tmpColumn = {
+					span: span,
+					value: value
+				};
+				tmpColumns.push(tmpColumn);
+			};
+
+
+			if (params.value !== '') {
 
 				if(params.value < 1 || params.value > 12) {
 						message.error('栅格数不能超过12，且不能小于1');						
@@ -209,7 +222,7 @@ export default {
 
 				let currentCount = currentColums.children.length;
 
-					
+				//当减少格子数时判断被删的格子是否有子元素，有就询问
 				if (currentCount > params.value) {
 					
 					for(let i = params.value; i < currentCount; i ++){
@@ -232,15 +245,19 @@ export default {
 					type: 'vdCtrlTree/handleColumnCountChange',
 					payload: {
 						value: params.value,
-						column
+						column,
+						tmpColumns,
+						currentRootVdid
 					}
 				})
 				
 			}
+
 			yield put({
 				type: 'handleColumnCountChange',
 				payload: {
-					value: params.value
+					value: params.value,
+					tmpColumns: tmpColumns
 				}
 			})
 			
@@ -295,96 +312,11 @@ export default {
 		},
 
 		handleColumnCountChange(state, { payload: params }) {
-			if(params.value < 1 || params.value > 12) {
-				if(params.value != '') {
-					message.error('栅格数不能超过12，且不能小于1');						
-					return {...state};
-				}
-			}
 
 			state.columnSlider.count = params.value;
-			var tmpColumns = [];
 
-			var span = (24 / params.value).toString();
-			span = span.split('.');
-			span = parseInt(span[0]);
+			state.columnSlider.columns = params.tmpColumns;
 
-			var value = (12 / params.value).toString();
-			value = value.split('.');
-			value = parseInt(value[0]);
-
-			for (var i = 0; i < state.columnSlider.count; i++) {
-				var tmpColumn = {
-					span: span,
-					value: value
-				};
-				tmpColumns.push(tmpColumn);
-			};
-
-			console.log(tmpColumns);
-
-			state.columnSlider.columns = tmpColumns;
-
-			return {...state};
-		},
-
-		shrinkLeftColumn(state, { payload: params }) {
-			var increaseNum = state.columnSlider.increseTable[(state.columnSlider.columns[params.index].value).toString()],
-				decreaseNum = state.columnSlider.decreaseTable[(state.columnSlider.columns[params.index].value).toString()];
-
-			if(state.columnSlider.columns[params.index].value >= 0 && state.columnSlider.columns[params.index + 1].value < 12) {
-				if(state.columnSlider.columns[params.index].value < 1) {
-					state.columnSlider.columns[params.index].span = 2;
-					state.columnSlider.columns[params.index].value = 1;
-				}else {
-					state.columnSlider.columns[params.index].span -= decreaseNum;
-					state.columnSlider.columns[params.index].value -= decreaseNum;
-					if(state.columnSlider.columns[params.index].value === 0) {
-						state.columnSlider.columns[params.index].span = 2;
-						state.columnSlider.columns[params.index].value = 1;
-					}
-				}
-
-				state.columnSlider.columns[params.index + 1].span += decreaseNum;				
-				state.columnSlider.columns[params.index + 1].value += decreaseNum;
-
-			}
-
-			return {...state};
-		},
-
-		expandLeftColumn(state, { payload: params }) {
-
-			var increaseNum = state.columnSlider.increseTable[(state.columnSlider.columns[params.index].value).toString()],
-				decreaseNum = state.columnSlider.decreaseTable[(state.columnSlider.columns[params.index].value).toString()];
-
-			if(state.columnSlider.columns[params.index + 1].value >= 0 && state.columnSlider.columns[params.index].value < 12 ) {
-				console.log('valid shrinkRightColumn', state.columnSlider.columns[params.index].value);
-				if(state.columnSlider.columns[params.index].value >= 11) {
-					state.columnSlider.columns[params.index].span = 22;
-					state.columnSlider.columns[params.index].value = 11;
-
-					state.columnSlider.columns[params.index + 1].span = 2;
-					state.columnSlider.columns[params.index + 1].value = 1;
-
-					console.log('>=11', state.columnSlider.columns);
-				}else {
-					state.columnSlider.columns[params.index].span += increaseNum;
-					state.columnSlider.columns[params.index].value += increaseNum;
-
-					state.columnSlider.columns[params.index + 1].span -= increaseNum;
-					state.columnSlider.columns[params.index + 1].value -= increaseNum;
-
-					if(state.columnSlider.columns[params.index].value === 12) {
-						state.columnSlider.columns[params.index].span = 22;
-						state.columnSlider.columns[params.index].value = 11;
-
-						state.columnSlider.columns[params.index + 1].span = 2;
-						state.columnSlider.columns[params.index + 1].value = 1;
-
-					}
-				}
-			}
 			return {...state};
 		}
 

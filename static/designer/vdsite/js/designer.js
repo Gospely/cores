@@ -223,15 +223,19 @@ $(function() {
 
 			dndData.actionBeforeMove(e, target);
 
+			var lastChild = target.children().last();
+			var lastPosition = 0;
+        	if (lastChild.length) {
+        		lastPosition = lastChild.offset().top + lastChild.outerHeight()
+        	}
 			target.append(guide);
-
 			guide.css({
 				width: target.innerWidth(),
 				display: 'block',
 				height: 2,
-				position: 'relative',
-				top: 0,
-				left: 0
+				position: 'fixed',
+				top: target.offset().top + 10 + lastPosition,
+				left: target.offset().left
 			})
 
 			parentGuide.css({
@@ -303,16 +307,20 @@ $(function() {
 
         	dndData.actionBeforeMove(e, target);
 
+        	var lastChild = target.children().last();
+        	var lastPosition = 0;
+        	if (lastChild.length) {
+        		lastPosition = lastChild.offset().top + lastChild.outerHeight()
+        	}
 			target.append(guide);
 			guide.css({
 				width: target.innerWidth(),
 				display: 'block',
 				height: 2,
-				position: 'relative',
-				top: 0,
-				left: 0
+				position: 'fixed',
+				top: target.offset().top + 10 + lastPosition,
+				left: target.offset().left
 			})
-
 			parentGuide.css({
 				left: target.offset().left,
 				top: target.offset().top,
@@ -718,9 +726,13 @@ $(function() {
             //     key: ''
             // });
 
+            // console.log('点击事件')
+
         });
 
-        jq(document).on('keyup', function(e) {
+        jq(parentWindow.document, parentWindow.document).on("keyup", function(e) {
+        	e.preventDefault();
+        	e.stopPropagation()
             console.log(e);
         });
 
@@ -901,7 +913,9 @@ $(function() {
 
         		if (guide.hasClass("error")) {
         			alert('非法位置');
-        			handler();
+        			dndData.needChangeClass = [];
+        			dndData.isMouseDown = false;
+        			controllerOperations.showDesignerDraggerBorder(dndData.dragElem);
 					return false;
         		}
 
