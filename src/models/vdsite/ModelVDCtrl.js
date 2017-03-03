@@ -884,6 +884,9 @@ export default {
                         },{
                             name: 'currentSize',
                             value: 'fa-2x'
+                        },{
+                            name: 'currentSize',
+                            value: ''
                         }]
 					}]
 				}

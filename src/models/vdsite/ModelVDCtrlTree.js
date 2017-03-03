@@ -1361,7 +1361,7 @@ export default {
 					changeClassNameByLevel(parent.children[parentIndex]);
 				}else {
 					if(parent.children){
-							target = parent.children[parentIndex]
+						target = parent.children[parentIndex]
 					}
 				}
 			}

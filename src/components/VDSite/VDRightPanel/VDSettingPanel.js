@@ -1502,6 +1502,33 @@ const Component = (props) => {
                                         levelsInfo: []
                                     }
                                 });
+                            },
+                            switchSpin(e){
+                                console.log("switchSpin");
+                                console.log(e);
+                                if(e){
+                                    props.dispatch({
+                                        type: 'vdCtrlTree/handleClassNameChange',
+                                        payload: {
+                                            remove: props.vdCtrlTree.activeCtrl.attrs[0].children[3].value,
+                                            replacement: 'fa-spin',
+                                            level: 0,
+                                            index: 3,
+                                            levelsInfo: []
+                                        }
+                                    });
+                                }else {
+                                    props.dispatch({
+                                        type: 'vdCtrlTree/handleClassNameChange',
+                                        payload: {
+                                            remove: 'fa-spin',
+                                            replacement: '',
+                                            level: 0,
+                                            index: 3,
+                                            levelsInfo: []
+                                        }
+                                    });
+                                }
                             }
                         }
                         const iconSettingProps = {
@@ -1540,8 +1567,12 @@ const Component = (props) => {
 	                                    <Button size="small" ><Icon type="bars" />选择图标</Button>
                                     </Popover>
 	                                </Col>
+
 	                            </Row>
                                 <Form className="form-no-margin-bottom">
+                                    <FormItem {...formItemLayout} label="旋转动画" key={item.id}>
+                                        <Switch size="small" checked={props.vdCtrlTree.activeCtrl.attrs[0].children[3].value=="fa-spin"} onChange={iconOperate.switchSpin}/>
+                                    </FormItem>
                                    <FormItem {...formItemLayout} label="图标大小">
                                        <Select size="small" onSelect={iconOperate.onSelect} value={props.vdCtrlTree.activeCtrl.attrs[0].children[2].value}>
                                              <Option key="over-right" value="fa-1x">1X</Option>
