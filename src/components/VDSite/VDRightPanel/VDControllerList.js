@@ -30,6 +30,8 @@ const Component = (props) => {
 	var ctrlPros = {
 			onSelect (val, e) {
 
+				console.log('==============', e);
+
 				if(e.node.props.title == 'body') {
 					return false;
 				}
@@ -43,9 +45,11 @@ const Component = (props) => {
 					}
 				}, '*');
 
+				var ctrl = e.selectedNodes ? JSON.parse(e.selectedNodes[0].props.ctrl) : JSON.parse(e.node.props.ctrl);
+
 				props.dispatch({
 					type: "vdCtrlTree/ctrlSelected",
-					payload: JSON.parse(e.selectedNodes[0].props.ctrl)
+					payload: ctrl
 				});
 			},
 
@@ -91,7 +95,7 @@ const Component = (props) => {
 
 	            sessionStorage.currentSelectedConstructionKey = selectedKey;
 
-	            ctrlPros.onSelect([selectedKey]);
+	            ctrlPros.onSelect([selectedKey], proxy);
 
 				props.dispatch({
 					type: 'vdCtrlTree/showCtrlTreeContextMenu',

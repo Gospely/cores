@@ -121,7 +121,11 @@ export default {
 		modalFeedback: {
 			visible: false,
 			message: ''
-		}
+		},
+
+        modalPreview: {
+            visible: false
+        }
 	},
 
     subscriptions: {
