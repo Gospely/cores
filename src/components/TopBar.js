@@ -1488,7 +1488,7 @@ const LeftSidebar = (props) => {
 			        	<i className='change-vd-icon icon-bg-150'></i>
 			        </Menu.Item>
 					<Menu.Item key="preview" placement="left" className='preview-app-btn'>
-						<Tooltip placement="leftBottom" title="预览此应用">
+						<Tooltip placement="leftBottom" title="预览">
 			          		<Icon type="eye-o" />
 			          	</Tooltip>
 					</Menu.Item>

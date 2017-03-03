@@ -12,28 +12,28 @@ export default {
   subscriptions: {
 
     setup({ dispatch, history }) {
-          history.listen(({ pathname }) => {
+      history.listen(({ pathname }) => {
 
-            var src = '';
+        var src = '';
 
-            if(document.domain == 'localhost') {
-              src = 'http://'+localStorage.domain
-            }else {
-              src = 'http://dash.gospely.com';
-            }
+        if(document.domain == 'localhost') {
+          src = 'http://'+localStorage.domain
+        }else {
+          src = 'http://dash.gospely.com';
+        }
 
-            let visible = !!sessionStorage.previewVisibe;
+        let visible = !!sessionStorage.previewVisibe;
 
-            dispatch({
-              type: 'setVible',
-              payload: visible
-            })
+        dispatch({
+          type: 'setVible',
+          payload: visible
+        })
 
-            dispatch({
-              type: 'setSrc',
-              payload: src
-            });
-          });
+        dispatch({
+          type: 'setSrc',
+          payload: src
+        });
+      });
     }
 
   },
