@@ -489,6 +489,20 @@ $(function() {
             });
 
         }();
+		const scriptOperate = {
+			triggerMenu(activeCtrl, attr){
+
+				console.log('trigger');
+				console.log(attr);
+				var elem = jq('[vdid='+ attr.target + ']');
+				if(elem.hasClass('in')){
+					elem.removeClass('in');
+				}else {
+					elem.addClass('in');
+				}
+
+			}
+		}
 		//class操作
 		const classOperate = {
 			//替换class
@@ -666,7 +680,9 @@ $(function() {
 					var elemGen = new ElemGenerator(activeCtrl);
 					var tempElem = elemGen.createElement();
 					parent = parent.append(tempElem);
-				}else {
+				}else  if (attr.attrName == 'scriptOperate') {
+					scriptOperate[attr.action](activeCtrl, attr);
+				}else{
 					new ElemGenerator(activeCtrl).setAttributeByAttr(attr, attrType);
 				}
             },
@@ -1121,6 +1137,10 @@ $(function() {
 				this.setAttr(attr);
 			},
 			setSliderSetting: function(attr){
+
+				this.setAttr(attr);
+			},
+			setIconSetting: function(attr){
 
 				this.setAttr(attr);
 			},
