@@ -1463,7 +1463,42 @@ const Component = (props) => {
 						    </Panel>
 	    				);
 	    			},
+                    'icon-setting' (item, attrTypeIndex){
 
+                        const iconSettingProps = {
+
+
+                        }
+
+                        return (
+                            <Panel header={item.title} key={item.key}>
+
+                                <Form className="form-no-margin-bottom">
+                                   <FormItem {...formItemLayout} label="图标类型">
+                                       <Select size="small" value="Font Awesome">
+                                             <Option key="over-right" value="fa">Font Awesome</Option>
+                                       </Select>
+                                   </FormItem>
+                                </Form>
+	                            <Row>
+	                                <Col span={12}>
+	                                    <Button size="small"><Icon type="bars" />选择图标</Button>
+	                                </Col>
+	                            </Row>
+                                <Form className="form-no-margin-bottom">
+                                   <FormItem {...formItemLayout} label="图标大小">
+                                       <Select size="small">
+                                             <Option key="over-right" value="1x">1X</Option>
+                                             <Option key="over-right" value="2x">2X</Option>
+                                             <Option key="over-right" value="3x">3X</Option>
+                                             <Option key="over-right" value="4x">4X</Option>
+                                             <Option key="over-right" value="5x">5X</Option>
+                                       </Select>
+                                   </FormItem>
+                               </Form>
+                        	</Panel>
+                        );
+                    },
 	    			'navbar-setting' (item, attrTypeIndex) {
 
                         const navbarSettingProps = {

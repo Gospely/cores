@@ -1140,6 +1140,10 @@ $(function() {
 
 				this.setAttr(attr);
 			},
+			setIconSetting: function(attr){
+
+				this.setAttr(attr);
+			},
             transformTypeToUpper: function(type) {
                 var settingTypeSplit = type.split('-'),
                     upperTypeName = '';
