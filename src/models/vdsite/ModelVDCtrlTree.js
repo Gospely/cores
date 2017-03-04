@@ -2233,6 +2233,7 @@ export default {
 							}
 						}
 					}, '*');
+					//
 					needChangeAttr[params.index].span += increaseNum * 2;
 					needChangeAttr[params.index].value += increaseNum;
 

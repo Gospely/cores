@@ -1256,6 +1256,13 @@ $(function() {
         			}
         		}
 
+        		var customClassName = this.controller.customClassName;
+        		if (customClassName) {
+        			for(var i = 0, len = customClassName.length; i < len; i ++) {
+        				this.elem.addClass(customClassName[i]);
+        			}
+        		}
+
         		var component = this.elem;
 
         		if (this.controller.children && this.controller.children.length > 0) {
