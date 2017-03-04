@@ -1052,7 +1052,7 @@ export default {
 
 	reducers: {
 		initState(state, {payload: params}){
-			state.activeCtrl = params.UIState.activeCtrl;
+			// state.activeCtrl = params.UIState.activeCtrl;
 			state.layout = params.UIState.layout;
 			state.layoutState = params.UIState.layoutState;
 			state.activePage = params.UIState.activePage;
