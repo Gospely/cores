@@ -1158,6 +1158,7 @@ export default {
 		},
 		handleSelectIndex(state, { payload: index}){
 
+			console.log('handleSelectIndex');
 			state.selectIndex = index;
 			return { ...state};
 		},
@@ -1229,9 +1230,9 @@ export default {
 						}
 					}, '*');
 					root.children[0].children.splice(params.index, 1);
-					state.selectIndex = 0;
 				}
 			}
+			state.selectIndex = 0;
 			deleteChildrenByType[params.type]();
 
 			for (var i = 0; i < currentActiveCtrl.controller.children.length; i++) {
