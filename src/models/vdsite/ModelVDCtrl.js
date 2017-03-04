@@ -2486,6 +2486,7 @@ export default {
 					}],
 					children: [{
 						tag: 'ol',
+                        unActive: true,
 						className: ['carousel-indicators'],
 						attrs: [{
 							title: '幻灯片设置',
@@ -2495,6 +2496,7 @@ export default {
 						}],
 						children: [{
 							tag: 'li',
+                            unActive: true,
 							className: [''],
 							attrs: [{
 								title: '幻灯片设置',
@@ -2515,6 +2517,7 @@ export default {
 							}, ]
 						}, {
 							tag: 'li',
+                            unActive: true,
 							className: ['active'],
 							attrs: [{
 								title: '幻灯片设置',
@@ -2536,6 +2539,7 @@ export default {
 						}]
 					}, {
 						tag: 'div',
+                        unActive: true,
 						className: ['carousel-inner'],
 						attrs: [{
 							title: '幻灯片设置',
@@ -2550,6 +2554,7 @@ export default {
 						}],
 						children: [{
 							tag: 'div',
+                            unActive: true,
 							className: ['item'],
 							attrs: [{
 								title: '幻灯片设置',
@@ -2559,6 +2564,7 @@ export default {
                             children: [{
             					tag: 'img',
             					className: [''],
+                                unActive: true,
             					attrs: [{
             						title: '图片设置',
             						key: 'slider-setting',
@@ -2625,6 +2631,7 @@ export default {
                             }]
 						}, {
 							tag: 'div',
+                            unActive: true,
 							className: ['item', 'active'],
 							attrs: [{
 								title: '幻灯片设置',
@@ -2633,6 +2640,7 @@ export default {
 							}],
                             children: [{
             					tag: 'img',
+                                unActive: true,
             					className: [''],
             					attrs: [{
             						title: '图片设置',
@@ -2708,6 +2716,7 @@ export default {
 						}]
 					}, {
 						tag: 'a',
+                        unActive: true,
 						className: ['right', 'carousel-control'],
 						attrs: [{
 							title: '幻灯片设置',
@@ -2734,6 +2743,7 @@ export default {
 						}],
 						children: [{
 							tag: 'i',
+                            unActive: true,
 							className: ['glyphicon-chevron-right', 'fa', 'fa-2x', 'fa-fast-forward'],
 							attrs: [{
 								title: '幻灯片设置',
@@ -2748,6 +2758,7 @@ export default {
 							}]
 						}, {
 							tag: 'span',
+                            unActive: true,
 							className: ['sr-only'],
 							attrs: [{
 								title: '幻灯片设置',
@@ -2763,6 +2774,7 @@ export default {
 						}]
 					}, {
 						tag: 'a',
+                        unActive: true,
 						className: ['left', 'carousel-control'],
 						attrs: [{
 							title: '幻灯片设置',
@@ -2789,6 +2801,7 @@ export default {
 						}],
 						children: [{
 							tag: 'i',
+                            unActive: true,
 							className: ['glyphicon-chevron-left', 'fa', 'fa-2x', 'fa-fast-backward'],
 							attrs: [{
 								title: '幻灯片设置',
@@ -2803,6 +2816,7 @@ export default {
 							}]
 						}, {
 							tag: 'span',
+                            unActive: true,
 							className: ['sr-only'],
 							attrs: [{
 								title: '幻灯片设置',

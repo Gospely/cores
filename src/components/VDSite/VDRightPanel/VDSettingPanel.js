@@ -1340,7 +1340,7 @@ const Component = (props) => {
                                 });
                             }
                         }
-
+                        console.log(props.vdCtrlTree.activeCtrl);
                         const images = props.vdCtrlTree.activeCtrl.children[1].children.map((item, index) =>{
 
                             return (
