@@ -114,6 +114,10 @@ export default {
 				width: '40%',
 				height: '38%'
 			}
+		},
+
+		rightTabsPane: {
+			activeTabsPane: 'style',
 		}
 	},
 
@@ -271,8 +275,14 @@ export default {
 			state.VDDesigner = params.UIState.VDDesigner;
 			return  {...state};
 		},
+
 		changeVDSize(state, { payload: params }) {
 			state.VDDesigner.activeSize = params.VDSize;
+			return {...state};
+		},
+
+		changeTabsPane(state, { payload: params }) {
+			state.RightTabsPane.activeTabsPane = params;
 			return {...state};
 		},
 

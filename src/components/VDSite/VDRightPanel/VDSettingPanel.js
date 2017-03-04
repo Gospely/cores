@@ -679,6 +679,19 @@ const Component = (props) => {
 
 	    			'image-setting' (item, attrTypeIndex) {
 
+                        const skipToImggallery = {
+
+                            handleClick() {
+
+                                props.dispatch({
+                                    type: 'vdcore/changeTabsPane',
+                                    payload: 'assets'
+
+                                });
+                            }
+                            
+                        }
+
 					    const bgUploaderProps = {
 					 		listType: 'picture',
 						  	defaultFileList: item.children[0].fileInfo,
@@ -717,7 +730,7 @@ const Component = (props) => {
 													<Button><i className="fa fa-cloud-upload"></i>&nbsp;上传图片</Button>
 											  	</Upload>
 
-												<Button style={{float: 'right', bottom: '102px'}}><i className="fa fa-picture-o"></i>&nbsp;图片资源</Button>
+												<Button onClick={skipToImggallery.handleClick} style={{float: 'right', bottom: '102px'}}><i className="fa fa-picture-o"></i>&nbsp;图片资源</Button>
 											</div>
 										</div>
 
