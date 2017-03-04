@@ -692,7 +692,7 @@ $(function() {
 			},
 
             select: function(data, notPostMessage) {
-				
+
 				if(data) {
 
                     if(data.vdid == '') {
@@ -1080,7 +1080,18 @@ $(function() {
 					if(attr.html){
 						this.elem.html(attr.html);
 					}else{
-						this.elem.html(attr.value);
+						var childrens = this.elem.children();
+						console.log(childrens);
+						this.elem.html('');
+						if(childrens){
+							for (var i = 0; i < childrens.length; i++) {
+								this.elem.append(childrens[i]);
+							}
+							this.elem.innerText = '';
+							this.elem.append(attr.value);
+						}else {
+							this.elem.html(attr.value);
+						}
 					}
 
                 }
@@ -1286,6 +1297,13 @@ $(function() {
         		if (className) {
         			for(var i = 0, len = className.length; i < len; i ++) {
         				this.elem.addClass(className[i]);
+        			}
+        		}
+
+        		var customClassName = this.controller.customClassName;
+        		if (customClassName) {
+        			for(var i = 0, len = customClassName.length; i < len; i ++) {
+        				this.elem.addClass(customClassName[i]);
         			}
         		}
 

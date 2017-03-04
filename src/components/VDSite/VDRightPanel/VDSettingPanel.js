@@ -165,7 +165,6 @@ const Component = (props) => {
 					attrId: attrId
 				}
 			});
-
 			props.dispatch({
 				type: 'vdCtrlTree/handleAttrRefreshed',
 				payload: {
@@ -174,6 +173,7 @@ const Component = (props) => {
 					attrType: attType
 				}
 			});
+
 		},
 
 		handleAttrFormSwitchChange (item, attType, checked) {
@@ -1346,7 +1346,7 @@ const Component = (props) => {
                                 });
                             }
                         }
-
+                        console.log(props.vdCtrlTree.activeCtrl);
                         const images = props.vdCtrlTree.activeCtrl.children[1].children.map((item, index) =>{
 
                             return (
@@ -1584,15 +1584,18 @@ const Component = (props) => {
                                 });
                             },
                             openMenu(){
-                                props.dispatch({
-                	        		type: 'vdcore/changeVDSize',
-                	        		payload: {
-                	        			VDSize: 'verticalTablet'
-                	        		}
-                	        	});
-                                props.dispatch({
-                	        		type: 'vdCtrlTree/triggerMenu',
-                	        	});
+                                console.log(props.vdcore.VDDesigner.activeSize);
+                                if(props.vdcore.VDDesigner.activeSize != 'pc'){
+                                    props.dispatch({
+                    	        		type: 'vdcore/changeVDSize',
+                    	        		payload: {
+                    	        			VDSize: 'verticalTablet'
+                    	        		}
+                    	        	});
+                                    props.dispatch({
+                    	        		type: 'vdCtrlTree/triggerMenu',
+                    	        	});
+                                }
                             }
                         }
 	    				return (
