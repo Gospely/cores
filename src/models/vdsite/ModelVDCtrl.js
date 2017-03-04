@@ -1415,7 +1415,11 @@ export default {
 				details: {
 					tag: 'div',
 					className: ['checkbox'],
-					attrs: [],
+					attrs: [{
+                        title: '属性设置',
+                        key: 'checkbox-attr',
+                        children:[]
+                    }],
                     children:[{
     					tag: 'label',
     					className: [],
@@ -1472,7 +1476,11 @@ export default {
 				key: 'radio-button',
 				details: {
 					tag: 'div',
-					attrs: [],
+					attrs: [{
+                        title: '属性设置',
+                        key: 'checkbox-attr',
+                        children:[]
+                    }],
 					className: ['radio'],
                     children: [{
     					tag: 'label',
