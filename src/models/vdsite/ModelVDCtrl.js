@@ -2734,7 +2734,7 @@ export default {
 						}],
 						children: [{
 							tag: 'i',
-							className: ['glyphicon', 'fa', 'fa-2x', 'fa-fast-forward'],
+							className: ['glyphicon-chevron-right', 'fa', 'fa-2x', 'fa-fast-forward'],
 							attrs: [{
 								title: '幻灯片设置',
 								key: 'slider-setting',
@@ -2789,7 +2789,7 @@ export default {
 						}],
 						children: [{
 							tag: 'i',
-							className: ['glyphicon', 'fa', 'fa-2x', 'fa-fast-backward'],
+							className: ['glyphicon-chevron-left', 'fa', 'fa-2x', 'fa-fast-backward'],
 							attrs: [{
 								title: '幻灯片设置',
 								key: 'slider-setting',
