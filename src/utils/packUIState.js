@@ -43,7 +43,8 @@ const packUIStage = function (params) {
 	    		key: 'index.html'
 	    	},
 			selectIndex: params.vdCtrlTree.selectIndex || 0
-		}
+		},
+		vdstyles: params.vdstyles
 	}
 
 	return uiState;
