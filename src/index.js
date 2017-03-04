@@ -62,6 +62,7 @@ app.use({
 			};
 			var escape = false
 			if(localStorage.image == 'wechat:latest' ||  localStorage.image == 'vd:site'){
+
 				localStorage.UIState = JSON.stringify(state);
 			}else{
 				localStorage.UIState = JSON.stringify(state,function(key,value){

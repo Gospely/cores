@@ -502,6 +502,10 @@ $(function() {
 				var elem = jq('[vdid='+ attr.target.vdid + ']');
 				elem.removeClass(attr.remove);
 				elem.addClass(attr.replacement);
+				if (attr.needSelect) {
+					controllerOperations.showDesignerDraggerBorder(dndData.dragElem);
+				}
+				
 			},
 			//删除children的class
 			batchClassRemove: function(activeCtrl, attr){

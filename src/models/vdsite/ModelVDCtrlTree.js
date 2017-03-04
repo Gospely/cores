@@ -1065,6 +1065,7 @@ export default {
 			state.activePage = params.UIState.activePage;
 			state.selectIndex = params.UIState.selectIndex;
 			setTimeout(function(){
+				localStorage.flashState = true;
 				window.VDDesignerFrame.postMessage({
 					pageSelected: state.layout[state.activePage.key][0].children
 				}, '*');
@@ -2482,6 +2483,7 @@ export default {
 								target: {
 									vdid: newParent.vdid
 								},
+								needSelect: true
 							},
 							attrType: ''
 						}
@@ -2512,6 +2514,7 @@ export default {
 								target: {
 									vdid: originalParentInfo.parentCtrl.vdid
 								},
+								needSelect: true
 							},
 							attrType: ''
 						}
