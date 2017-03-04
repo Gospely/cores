@@ -750,8 +750,6 @@ export default {
 	reducers: {
 		initState(state, { payload: params}){
 
-			console.log(params);
-			console.log('vdstyles initState');
 			state.backgroundSetting = params.UIState.backgroundSetting;
 			state.cssStyleList = params.UIState.cssStyleList;
 			state.boxShadow = params.UIState.boxShadow;
@@ -908,7 +906,6 @@ export default {
 
 		applyCSSStyleIntoPage(state, { payload: params }) {
 
-			console.log('applyCSSStyleIntoPage');
 			var currentActiveRecStyleName = '';
 
 			var specialStyle = {
