@@ -74,6 +74,10 @@ export default {
 			condition: 'load'
 		},
 
+		interactionModifierForm: {
+			visible: false
+		},
+
 		interactions: [{
 			animate: 'bounce',
 			name: '弹跳',
@@ -84,7 +88,9 @@ export default {
 			name: '弹跳进入',
 			duration: '',
 			condition: 'hover'
-		}]
+		}],
+
+		activeInteraction: 0
 
 	},
 
@@ -169,7 +175,28 @@ export default {
 				condition: 'load'
 			}
 			return {...state};
+		},
+
+		toggleInteactionEditor(state) {
+			state.interactionModifierForm.visible = !state.interactionModifierForm.visible;
+			return {...state};
+		},
+
+		showInteractionEditor(state) {
+			state.interactionModifierForm.visible = true;
+			return {...state};
+		},
+
+		hideInteractionEditor(state) {
+			state.interactionModifierForm.visible = false;
+			return {...state};
+		},
+
+		setActiveInteraction(state, { payload: interactionIndex }) {
+			state.activeInteraction = interactionIndex;
+			return {...state};
 		}
+
 	}
 
 }
