@@ -45,7 +45,7 @@ const VDTreeActions = {
 		let obj = {
 				index: 0,
 				level: 1,
-				controller: ''
+				controller: undefined
 			},
 
 			controllers = state.layout[activePage.key];
@@ -2459,6 +2459,42 @@ export default {
 			state.activeCtrlIndex = params.index;
 			state.defaultSelectedKeys = [moveCtrl[0].vdid];
 
+			return {...state};
+		},
+
+		handleInteractionOnSelect(state, { payload: params }) {
+
+			//加动画类
+			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage).controller;
+
+			if(!currentActiveCtrl) {
+				message.error('请先添加控件或选择一个控件再进行操作！');
+				return {...state};
+			}
+
+			if(currentActiveCtrl.customClassName.indexOf('animated') == -1) {
+				currentActiveCtrl.customClassName.push('animated');				
+			}
+
+			if(currentActiveCtrl.customClassName.indexOf(params.animateName) == -1) {
+				currentActiveCtrl.customClassName.push(params.animateName);
+			}else {
+				for (var i = 0; i < currentActiveCtrl.customClassName.length; i++) {
+					var crt = currentActiveCtrl.customClassName[i];
+					if(crt == params.animateName) {
+						currentActiveCtrl.customClassName.splice(i, 1);
+					}
+				};
+			}
+
+			state.activeCtrl = currentActiveCtrl;
+
+			window.VDDesignerFrame.postMessage({
+				animateElement: {
+					id: state.activeCtrl.vdid,
+					animateName: params.animateName
+				}
+			}, '*');
 			return {...state};
 		}
 	},

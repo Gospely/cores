@@ -69,6 +69,23 @@ export default {
 
 	},
 
+	effects: {
+
+		*handleInteractionOnSelect({payload: params}, {call, put, select}) {
+
+			var interactions = yield select(state => state.vdanimations.interactions);
+			var animateName = interactions[params.key].animate;
+
+			yield put({
+				type: 'vdCtrlTree/handleInteractionOnSelect',
+				payload: {
+					animateName
+				}
+			});
+		}
+
+	},
+
 	reducers: {
 
 		removeInteraction(state, { payload: index }) {

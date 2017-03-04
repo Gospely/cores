@@ -500,6 +500,11 @@ $(function() {
 
                     hideDesignerDraggerBorder: function () {
                     	controllerOperations.hideDesignerDraggerBorder();
+                    },
+
+                    animateElement: function() {
+                    	console.log(data);
+                    	jq('[vdid="' + data.id + '"]').animateCss(data.animateName);
                     }
                 };
 

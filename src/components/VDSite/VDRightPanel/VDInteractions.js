@@ -208,6 +208,16 @@ const Component = (props) => {
     	});
     }
 
+    const handleInteractionOnSelect = ({ item, key, selectedKeys }) => {
+
+    	props.dispatch({
+    		type: 'vdanimations/handleInteractionOnSelect',
+    		payload: {
+    			key: parseInt(key)
+    		}
+    	});
+    }
+
   	return (
 	    <div className="interaction-section" style={{padding: '15px'}}>
 
@@ -235,7 +245,7 @@ const Component = (props) => {
 	    		</Col>
 	    	</Row>
 
-      		<Menu className="interaction-list">
+      		<Menu className="interaction-list" onSelect={handleInteractionOnSelect}>
       			<Menu.Item>
 		        	<Radio style={radioStyle} value={1}>None</Radio>
       			</Menu.Item>
@@ -246,7 +256,7 @@ const Component = (props) => {
 			      			<Menu.Item key={interactionIndex}>
 			      				<Row>
 									<Col span={18}>
-					        			<Radio style={radioStyle} value={2}>{interaction.name}</Radio>
+					        			<Radio style={radioStyle} value={2}>{interaction.name} - {interaction.condition}</Radio>
 									</Col>
 									<Col span={6} style={{textAlign: 'right'}}>
 							            <Icon onClick={interactionEditor.modifyInteraction.bind(this, interactionIndex)} type="edit" />
