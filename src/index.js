@@ -53,19 +53,12 @@ app.use({
 				UIState: UIState,
 			};
 			var escape = false
-			if(localStorage.image != 'wechat:latest'){
-				localStorage.UIState = JSON.stringify(state,function(key,value){
-
-					if(key == 'content' || key == 'value'|| key == 'designer'){
-						return undefined
-					}else{
-						return value;
-					}
-				});
+			if(localStorage.image == 'wechat:latest' ||  localStorage.image == 'vd:site'){
+				localStorage.UIState = JSON.stringify(state);
 			}else{
 				localStorage.UIState = JSON.stringify(state,function(key,value){
 
-					if(key == 'content' || ( key == 'value' && escape)){
+					if(key == 'content' || key == 'value'|| key == 'designer'){
 						return undefined
 					}else{
 						return value;

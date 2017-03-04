@@ -15,6 +15,7 @@ const packUIStage = function (params) {
 		},
 
 	}
+	console.log(params);
 	var uiState = {
       	rightbar: {
                   activeMenu: params.rightbar.activeMenu
@@ -32,7 +33,17 @@ const packUIStage = function (params) {
                   defaultDevice: params.designer.defaultDevice
       	},
 		previewer: params.cpre,
-		vdpm: params.vdpm
+		vdpm: params.vdpm,
+		vdcore: params.vdcore,
+		vdCtrlTree: {
+			activeCtrl: params.vdCtrlTree.activeCtrl,
+			layout: params.vdCtrlTree.layout,
+			layoutState: params.vdCtrlTree.layoutState,
+			activePage: params.vdCtrlTree.activePage || {
+	    		key: 'index.html'
+	    	},
+			selectIndex: params.vdCtrlTree.selectIndex || 0
+		}
 	}
 
 	return uiState;

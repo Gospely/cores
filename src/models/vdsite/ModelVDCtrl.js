@@ -177,7 +177,23 @@ export default {
 					attrs: [{
 						title: '栅格设置',
 						key: 'columns-setting',
-						children: []
+						children: [{
+							name: 'columns-count',
+							desc: '栅格个数',
+							value: 2,
+							id: ''
+						}, {
+							name: 'columns-col-layout',
+							desc: '每个栅格占的col数',
+							value: [{
+								span: 12,
+								value: 6
+							}, {
+								span: 12,
+								value: 6
+							}],
+							id: ''
+						}]
 					}],
 					children: [{
 						tag: 'div',
@@ -185,7 +201,23 @@ export default {
 						attrs: [{
 							title: '栅格设置',
 							key: 'columns-setting',
-							children: []
+							children: [{
+								name: 'columns-count',
+								desc: '栅格个数',
+								value: 2,
+								id: ''
+							}, {
+								name: 'columns-col-layout',
+								desc: '每个栅格占的col数',
+								value: [{
+									span: 12,
+									value: 6
+								}, {
+									span: 12,
+									value: 6
+								}],
+								id: ''
+							}]
 						}, {
 							title: '属性设置',
 							key: 'columns-attr',
@@ -204,7 +236,23 @@ export default {
 						attrs: [{
 							title: '栅格设置',
 							key: 'columns-setting',
-							children: []
+							children: [{
+								name: 'columns-count',
+								desc: '栅格个数',
+								value: 2,
+								id: ''
+							}, {
+								name: 'columns-col-layout',
+								desc: '每个栅格占的col数',
+								value: [{
+									span: 12,
+									value: 6
+								}, {
+									span: 12,
+									value: 6
+								}],
+								id: ''
+							}]
 						}, {
 							title: '属性设置',
 							key: 'columns-attr',
@@ -317,6 +365,38 @@ export default {
 							attrName: 'src',
 							id: ''
 						}, {
+							name: 'src',
+							desc: '跳转邮箱',
+							type: 'input',
+							value: '',
+							isAttr: true,
+							attrName: 'src',
+							id: ''
+						}, {
+							name: 'src',
+							desc: '跳转电话',
+							type: 'input',
+							value: '',
+							isAttr: true,
+							attrName: 'src',
+							id: ''
+						}, {
+							name: 'src',
+							desc: '跳转页面',
+							type: 'select',
+							value: '',
+							isAttr: true,
+							attrName: 'src',
+							id: ''
+						}, {
+							name: 'src',
+							desc: '跳转元素',
+							type: 'select',
+							value: '',
+							isAttr: true,
+							attrName: 'src',
+							id: ''
+						}, {
 							name: 'target',
 							desc: '新窗口打开',
 							type: 'toggle',
@@ -387,6 +467,7 @@ export default {
 							title: '列表设置',
 							key: 'list-setting',
 	                        isChangeTag: true,
+	                        children: []
 						}],
 					children: [{
 						tag: 'li',
@@ -868,7 +949,7 @@ export default {
 				key: 'icon',
 				details: {
 					tag: 'i',
-					className: ['fa', 'fa fa-picture-o','fa-2x'],
+					className: ['fa', 'fa-picture-o','fa-2x'],
 					attrs: [{
 						title: '图标设置',
 						key: 'icon-setting',
@@ -877,6 +958,15 @@ export default {
                             value: true,
                             attrName: 'aria-hidden',
                             isAttr: true
+                        },{
+                            name: 'currentIcon',
+                            value: 'fa-picture-o'
+                        },{
+                            name: 'currentSize',
+                            value: 'fa-2x'
+                        },{
+                            name: 'currentSize',
+                            value: ''
                         }]
 					}]
 				}
@@ -2635,8 +2725,8 @@ export default {
                             }]
 						}],
 						children: [{
-							tag: 'span',
-							className: ['glyphicon', 'glyphicon-chevron-right'],
+							tag: 'i',
+							className: ['glyphicon', 'fa', 'fa-2x', 'fa-fast-forward'],
 							attrs: [{
 								title: '幻灯片设置',
 								key: 'slider-setting',
@@ -2690,8 +2780,8 @@ export default {
                             }]
 						}],
 						children: [{
-							tag: 'span',
-							className: ['glyphicon', 'glyphicon-chevron-left'],
+							tag: 'i',
+							className: ['glyphicon', 'fa', 'fa-2x', 'fa-fast-backward'],
 							attrs: [{
 								title: '幻灯片设置',
 								key: 'slider-setting',
