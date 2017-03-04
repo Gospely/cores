@@ -14,6 +14,11 @@ const initState = function (props, applicationId) {
         type: 'vdpm/initState',
         payload: { UIState: UIState.UIState.vdpm }
     });
+    console.log(UIState.UIState);
+    props.dispatch({
+        type: 'vdstyles/initState',
+        payload: { UIState: UIState.UIState.vdstyles }
+    });
     props.dispatch({
         type: 'vdCtrlTree/initState',
         payload: { UIState: UIState.UIState.vdCtrlTree }
@@ -22,6 +27,17 @@ const initState = function (props, applicationId) {
         type: 'vdcore/initState',
         payload: { UIState: UIState.UIState.vdcore }
     });
+
+    setTimeout(function(){
+        console.log(props);
+        console.log(props.vdCtrlTree);
+        props.dispatch({
+          type: 'vdstyles/applyCSSStyleIntoPage',
+          payload: {
+            activeCtrl: props.vdCtrlTree.activeCtrl
+          }
+        });
+    }, 1000);
     props.dispatch({
       type: 'devpanel/getConfig',
       payload: { id : applicationId, UIState: UIState.UIState.devpanel}

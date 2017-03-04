@@ -388,7 +388,7 @@ const LeftSidebar = (props) => {
 	        	});
 	        },
 
-	        PC() {	        	
+	        PC() {
 	        	props.dispatch({
 	        		type: 'vdcore/changeVDSize',
 	        		payload: {
@@ -1442,7 +1442,7 @@ const LeftSidebar = (props) => {
 				);
 			}
 			return debugMenu;
-		} 
+		}
 		if(localStorage.image == 'vd:site') {
 
 			topbarMenu = (
@@ -1910,8 +1910,8 @@ const LeftSidebar = (props) => {
 
 }
 
-function mapStateToProps({ sidebar, editor, editorTop, rightbar, designer, attr ,devpanel, layout, cpre, vdpm, vdcore}) {
-  return { sidebar, editor, editorTop, rightbar, designer, attr ,devpanel, layout, cpre, vdpm, vdcore};
+function mapStateToProps({ sidebar, editor, editorTop, rightbar, designer, attr ,devpanel, layout, cpre, vdpm, vdcore, vdCtrlTree}) {
+  return { sidebar, editor, editorTop, rightbar, designer, attr ,devpanel, layout, cpre, vdpm, vdcore, vdCtrlTree};
 }
 
 export default connect(mapStateToProps)(LeftSidebar);
