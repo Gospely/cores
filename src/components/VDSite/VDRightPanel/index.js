@@ -31,10 +31,17 @@ const VDRightPanel = (props) => {
 
     flag = true;
 
+    const onChange = (key) => {
+      props.dispatch({
+        type: 'vdcore/changeTabsPane',
+        payload: key
+      });
+    } 
+
   return (
     <div className="vd-right-panel">
 
-      <Tabs activeKey={props.vdcore.rightTabsPane.activeTabsPane}>
+      <Tabs onChange={onChange} activeKey={props.vdcore.rightTabsPane.activeTabsPane}>
 
         <TabPane tab={
           <Tooltip placement="bottom" title="样式">

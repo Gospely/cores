@@ -281,8 +281,8 @@ export default {
 			return {...state};
 		},
 
-		changeTabsPane(state, { payload: params }) {
-			state.RightTabsPane.activeTabsPane = params;
+		changeTabsPane(state, { payload: key }) {
+			state.rightTabsPane.activeTabsPane = key;
 			return {...state};
 		},
 
