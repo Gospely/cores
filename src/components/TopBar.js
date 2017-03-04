@@ -1472,19 +1472,19 @@ const LeftSidebar = (props) => {
 						<Icon type="smile-o" />
 						反馈建议
 			        </Menu.Item>
-			        <Menu.Item key="PC" title="电脑" className='change-icon' style={{marginLeft: '130px'}}>
+			        <Menu.Item key="PC" className='change-icon' style={{marginLeft: '170px'}}>
 			        	<i className='change-vd-icon icon-bg-0'></i>
 			        </Menu.Item>
-			        <Menu.Item key="verticalTablet" className='change-icon' title="竖平板">
+			        <Menu.Item key="verticalTablet" className='change-icon'>
 			        	<i className='change-vd-icon icon-bg-36'></i>
 			        </Menu.Item>
-			        <Menu.Item key="alignTablet" className='change-icon' title="横平板">
+			        <Menu.Item key="alignTablet" className='change-icon'>
 			        	<i className='change-vd-icon icon-bg-75'></i>
 			        </Menu.Item>
-			        <Menu.Item key="verticalPhone" className='change-icon' title="竖手机">
+			        <Menu.Item key="verticalPhone" className='change-icon'>
 			        	<i className='change-vd-icon icon-bg-113'></i>
 			        </Menu.Item>
-			        <Menu.Item key="alignPhone" className='change-icon' title="横手机">
+			        <Menu.Item key="alignPhone" className='change-icon'>
 			        	<i className='change-vd-icon icon-bg-150'></i>
 			        </Menu.Item>
 					<Menu.Item key="preview" placement="left" className='preview-app-btn'>

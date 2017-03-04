@@ -467,6 +467,7 @@ $(function() {
 					},
 
                     pageSelected: function() {
+                    	console.log('pageSelected=++++++++++++')
                         jq('#VDDesignerContainer').html('');
 						console.log("pageSelected");
 						console.log(data);
