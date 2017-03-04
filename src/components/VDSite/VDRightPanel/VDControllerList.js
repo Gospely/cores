@@ -30,8 +30,6 @@ const Component = (props) => {
 	var ctrlPros = {
 			onSelect (val, e) {
 
-				console.log('==============', e);
-
 				if(e.node.props.title == 'body') {
 					return false;
 				}
@@ -89,10 +87,14 @@ const Component = (props) => {
 
 			activePage: props.vdCtrlTree.activePage.key,
 
-			onRightClick (proxy, node) {
+			onRightClick (proxy) {
 
-	            var selectedKey = proxy.node.props.eventKey;
+	            let selectedKey = proxy.node.props.eventKey;
 
+	            if (selectedKey.split('-')[0] === 'body') {
+	            	return false;
+	            }
+	            
 	            sessionStorage.currentSelectedConstructionKey = selectedKey;
 
 	            ctrlPros.onSelect([selectedKey], proxy);
@@ -105,7 +107,9 @@ const Component = (props) => {
 			},
 
 			deleteThisConstruction () {
-
+				props.dispatch({
+					type: 'vdCtrlTree/deleteCtrl'
+				});
 			}
 		},
 
@@ -113,7 +117,7 @@ const Component = (props) => {
 
     	loopControllerTree = data => data.map((item) => {
     		const itemId = !item.id ? '' : '#' + item.id;
-    		const itemCls = item.className.length > 0 ? '.' + item.className.join('.') : '';
+    		const itemCls = item.customClassName && item.customClassName.length > 0 ? '.' + item.customClassName.join('.') : '';
     		const title = item.tag + itemCls + itemId;
 
 	        if (item.children) {

@@ -40,6 +40,12 @@ import ColorPicker from '../../Panel/ColorPicker.js';
 
 const VDStylePanel = (props) => {
 
+	if (props.vdCtrlTree.activeCtrl === 'none' || '') {
+		return (
+			<div className="none-operation-obj">暂无操作对象</div>
+		)
+	}
+
 	const activeCSSStyleState = props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle];
 
 	const cssAction = {
@@ -1621,11 +1627,11 @@ const VDStylePanel = (props) => {
 										</Popconfirm>
 								)
 							}>
-								<Input 
-									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['padding-top'].unit, 'padding-top')} 
+								<Input
+									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['padding-top'].unit, 'padding-top')}
 									size="small"
-									type="number" 
-									value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['padding']['padding-top']} 
+									type="number"
+									value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['padding']['padding-top']}
 									onChange={handleStylesChange.bind(this, 'padding-top')}/>
 							</FormItem>
 				      	</Form>
@@ -1640,8 +1646,8 @@ const VDStylePanel = (props) => {
 								)
 							}>
 								<Input
-									type="number" 
-									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['padding-bottom'].unit, 'padding-bottom')} 
+									type="number"
+									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['padding-bottom'].unit, 'padding-bottom')}
 								 	size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['padding']['padding-bottom']} onChange={handleStylesChange.bind(this, 'padding-bottom')}/>
 							</FormItem>
 				      	</Form>
@@ -1660,9 +1666,9 @@ const VDStylePanel = (props) => {
 										</Popconfirm>
 								)
 							}>
-								<Input 
-									type="number" 
-									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['padding-left'].unit, 'padding-left')} 
+								<Input
+									type="number"
+									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['padding-left'].unit, 'padding-left')}
 								 	size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['padding']['padding-left']} onChange={handleStylesChange.bind(this, 'padding-left')}/>
 							</FormItem>
 				      	</Form>
@@ -1676,9 +1682,9 @@ const VDStylePanel = (props) => {
 										</Popconfirm>
 								)
 							}>
-								<Input 
-									type="number" 
-									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['padding-right'].unit, 'padding-right')} 
+								<Input
+									type="number"
+									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['padding-right'].unit, 'padding-right')}
 									size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['padding']['padding-right']} onChange={handleStylesChange.bind(this, 'padding-right')}/>
 							</FormItem>
 				      	</Form>
@@ -1699,9 +1705,9 @@ const VDStylePanel = (props) => {
 										</Popconfirm>
 								)
 							}>
-								<Input 
-									type="number" 
-									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['margin-top'].unit, 'margin-top')} 
+								<Input
+									type="number"
+									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['margin-top'].unit, 'margin-top')}
 									size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['margin']['margin-top']} onChange={handleStylesChange.bind(this, 'margin-top')}/>
 							</FormItem>
 				      	</Form>
@@ -1715,9 +1721,9 @@ const VDStylePanel = (props) => {
 										</Popconfirm>
 								)
 							}>
-								<Input 
-									type="number" 
-									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['margin-bottom'].unit, 'margin-bottom')} 
+								<Input
+									type="number"
+									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['margin-bottom'].unit, 'margin-bottom')}
 								 	size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['margin']['margin-bottom']} onChange={handleStylesChange.bind(this, 'margin-bottom')}/>
 							</FormItem>
 				      	</Form>
@@ -1736,9 +1742,9 @@ const VDStylePanel = (props) => {
 										</Popconfirm>
 								)
 							}>
-								<Input 
-									type="number" 
-									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['margin-left'].unit, 'margin-left')} 
+								<Input
+									type="number"
+									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['margin-left'].unit, 'margin-left')}
 									size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['margin']['margin-left']} onChange={handleStylesChange.bind(this, 'margin-left')}/>
 							</FormItem>
 				      	</Form>
@@ -1752,9 +1758,9 @@ const VDStylePanel = (props) => {
 										</Popconfirm>
 								)
 							}>
-								<Input 
-									type="number" 
-									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['margin-right'].unit, 'margin-right')} 
+								<Input
+									type="number"
+									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['margin-right'].unit, 'margin-right')}
 									size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['margin']['margin-right']} onChange={handleStylesChange.bind(this, 'margin-right')}/>
 							</FormItem>
 				      	</Form>
@@ -1775,8 +1781,8 @@ const VDStylePanel = (props) => {
 										</Popconfirm>
 								)
 							}>
-								<Input 
-									type="number" 
+								<Input
+									type="number"
 									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['width'].unit, 'width')}
 								 	size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['width']} onChange={handleStylesChange.bind(this, 'width')}/>
 							</FormItem>
@@ -1792,7 +1798,7 @@ const VDStylePanel = (props) => {
 								)
 							}>
 								<Input
-									type="number" 
+									type="number"
 									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['height'].unit, 'height')}
 								 	size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['height']} onChange={handleStylesChange.bind(this, 'height')}/>
 							</FormItem>
@@ -1813,7 +1819,7 @@ const VDStylePanel = (props) => {
 								)
 							}>
 								<Input
-									type="number" 
+									type="number"
 									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['max-width'].unit, 'max-width')}
 									size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['max-width']} onChange={handleStylesChange.bind(this, 'max-width')}/>
 							</FormItem>
@@ -1829,7 +1835,7 @@ const VDStylePanel = (props) => {
 								)
 							}>
 								<Input
-									type="number" 
+									type="number"
 									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['min-width'].unit, 'min-width')}
 									size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['min-width']} onChange={handleStylesChange.bind(this, 'min-width')}/>
 							</FormItem>
@@ -1850,7 +1856,7 @@ const VDStylePanel = (props) => {
 								)
 							}>
 								<Input
-									type="number" 
+									type="number"
 									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['max-height'].unit, 'max-height')}
 									size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['max-height']} onChange={handleStylesChange.bind(this, 'max-height')}/>
 							</FormItem>
@@ -1866,7 +1872,7 @@ const VDStylePanel = (props) => {
 								)
 							}>
 								<Input
-									type="number" 
+									type="number"
 									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['min-height'].unit, 'min-height')}
 									size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['min-height']} onChange={handleStylesChange.bind(this, 'min-height')}/>
 							</FormItem>
@@ -2527,7 +2533,7 @@ const VDStylePanel = (props) => {
 										</Popconfirm>
 								)
 							}>
-								<Input 
+								<Input
 									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle][borderRadiusPosition + '-radius'].unit, borderRadiusPosition + '-radius')}
 									value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['border-radius'][borderRadiusPosition + '-radius']} size="small" onChange={handleBorderRadiusInputChange.bind(this, 'radius')} />
 							</FormItem>

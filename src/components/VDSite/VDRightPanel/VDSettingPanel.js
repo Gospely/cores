@@ -28,6 +28,12 @@ for (let i = 10; i < 36; i++) {
 
 const Component = (props) => {
 
+	if (props.vdCtrlTree.activeCtrl === 'none' || '') {
+		return (
+			<div className="none-operation-obj">暂无操作对象</div>
+		)
+	}
+
     const formItemLayout = {
       	labelCol: { span: 8 },
       	wrapperCol: { span: 16 }
@@ -159,7 +165,6 @@ const Component = (props) => {
 					attrId: attrId
 				}
 			});
-
 			props.dispatch({
 				type: 'vdCtrlTree/handleAttrRefreshed',
 				payload: {
@@ -168,6 +173,7 @@ const Component = (props) => {
 					attrType: attType
 				}
 			});
+
 		},
 
 		handleAttrFormSwitchChange (item, attType, checked) {
@@ -316,8 +322,6 @@ const Component = (props) => {
     })
 
     loopControllerTree(props.vdCtrlTree.layout[props.vdCtrlTree.activePage.key]);
-
-    console.log(controllerTree)
 
     const attrsPanels = () => {
 
@@ -1308,6 +1312,12 @@ const Component = (props) => {
                                     payload: index
                                 });
                             },
+                            handleIndex(index) {
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleSelectIndex',
+                                    payload: index
+                                });
+                            },
                             hidePopover(){
                                 setTimeout(function(){
                                     props.dispatch({
@@ -1355,11 +1365,11 @@ const Component = (props) => {
                                 });
                             }
                         }
-
+                        console.log(props.vdCtrlTree.activeCtrl);
                         const images = props.vdCtrlTree.activeCtrl.children[1].children.map((item, index) =>{
 
                             return (
-                                <li className="ant-dropdown-menu-item" role="menuitem" key={index}>
+                                <li className="ant-dropdown-menu-item" role="menuitem" key={index} onClick={sliderSettingProps.handleIndex.bind(this, index)}>
                                 <Row>
                                 <Col span={3}>
                                       <Icon type="edit" onClick={sliderSettingProps.editKeyValue.bind(this, index)}/>
@@ -1377,7 +1387,6 @@ const Component = (props) => {
                             )
                         });
                         const activeSliderProps = {
-
 
                             next(){
                                 props.dispatch({
@@ -1593,15 +1602,18 @@ const Component = (props) => {
                                 });
                             },
                             openMenu(){
-                                props.dispatch({
-                	        		type: 'vdcore/changeVDSize',
-                	        		payload: {
-                	        			VDSize: 'verticalTablet'
-                	        		}
-                	        	});
-                                props.dispatch({
-                	        		type: 'vdCtrlTree/triggerMenu',
-                	        	});
+                                console.log(props.vdcore.VDDesigner.activeSize);
+                                if(props.vdcore.VDDesigner.activeSize != 'pc'){
+                                    props.dispatch({
+                    	        		type: 'vdcore/changeVDSize',
+                    	        		payload: {
+                    	        			VDSize: 'verticalTablet'
+                    	        		}
+                    	        	});
+                                    props.dispatch({
+                    	        		type: 'vdCtrlTree/triggerMenu',
+                    	        	});
+                                }
                             }
                         }
 	    				return (

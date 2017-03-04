@@ -44,7 +44,8 @@ const VDTreeActions = {
 	getCtrlByKey(state, key, activePage) {
 		let obj = {
 				index: 0,
-				level: 1
+				level: 1,
+				controller: undefined
 			},
 
 			controllers = state.layout[activePage.key];
@@ -56,7 +57,7 @@ const VDTreeActions = {
 				if (currentControl.children) {
 					loopControllers(currentControl.children, level ++);
 				}
-				if (currentControl.vdid == key) {
+				if (currentControl.vdid === key) {
 					obj.index = i;
 					obj.level = level;
 					obj.controller = currentControl;
@@ -71,34 +72,40 @@ const VDTreeActions = {
 	getParentCtrlByKey(state, key, activePage) {
 		let obj = {
 				index: 0,
-				level: 1
+				level: 1,
+				controller: '',
+				parentCtrl: '',
+				parentIndex: ''
 			},
 
 			controllers = state.layout[activePage.key];
 
-		const loopControllers = function (controllers, level) {
+		const loopControllers = function (controllers, level, parent, parentIndex) {
 			level = level || 1;
 			for(let i = 0; i < controllers.length; i ++) {
 				let currentControl = controllers[i];
 				if (currentControl.children) {
-					loopControllers(currentControl.children, level ++);
+					loopControllers(currentControl.children, level ++, currentControl, i);
 				}
 				if (currentControl.vdid == key) {
 					obj.index = i;
 					obj.level = level;
 					obj.controller = currentControl;
+					obj.parentCtrl = parent;
+					obj.parentIndex = parentIndex;
 					break;
 				}
 			}
 			return obj;
 		}
 
-		return loopControllers(controllers, 1);
+		return loopControllers(controllers, 1, state.layout, 0);
 	},
 	getActiveControllerIndexAndLvlByKey(state, key, activePage) {
 		let obj = {
 			index: '',
-			level: 1
+			level: 1,
+			controller: ''
 		};
 		let controllers = state.layout[activePage.key];
 		const loopControllers = function (controllers, level) {
@@ -111,6 +118,7 @@ const VDTreeActions = {
 				if (currentControl.vdid == key) {
 					obj.index = i;
 					obj.level = level;
+					obj.controller = currentControl;
 					break;
 				}
 			}
@@ -943,11 +951,11 @@ export default {
 
 	    layoutState: {
 
-	    	activeController: {
-	    		index: 0,
-	    		key: '',
-	    		level: 3
-	    	}
+	    	// activeController: {
+	    	// 	index: 0,
+	    	// 	key: '',
+	    	// 	level: 3
+	    	// }
 	    },
 
 	    activeCtrlIndex: 0,
@@ -1050,15 +1058,12 @@ export default {
 
 	reducers: {
 		initState(state, {payload: params}){
-			console.log('initState=================')
-			console.log(params);
-			state.activeCtrl = params.UIState.activeCtrl;
+			// state.activeCtrl = params.UIState.activeCtrl;
 			state.layout = params.UIState.layout;
 			state.layoutState = params.UIState.layoutState;
 			state.activePage = params.UIState.activePage;
 			state.selectIndex = params.UIState.selectIndex;
 			setTimeout(function(){
-				console.log('initState,setTimeout============');
 				window.VDDesignerFrame.postMessage({
 					pageSelected: state.layout[state.activePage.key][0].children
 				}, '*');
@@ -1070,8 +1075,8 @@ export default {
 			return {...state, constructionMenuStyle: {
 				position: 'fixed',
 				display: 'block',
-				left: proxy.event.pageX / 1.8,
-				top: proxy.event.pageY - 30,
+				left: proxy.event.pageX,
+				top: proxy.event.pageY,
 			}};
 		},
 
@@ -1159,6 +1164,7 @@ export default {
 		},
 		handleSelectIndex(state, { payload: index}){
 
+			console.log('handleSelectIndex');
 			state.selectIndex = index;
 			return { ...state};
 		},
@@ -1209,7 +1215,6 @@ export default {
 
 			var currentActiveCtrl,
 				target;
-				console.log(params);
 			const deleteChildrenByType = {
 				'navbar-drop-down' (){
 					target = state.activeCtrl.parent;
@@ -1231,9 +1236,9 @@ export default {
 						}
 					}, '*');
 					root.children[0].children.splice(params.index, 1);
-					state.selectIndex = 0;
 				}
 			}
+			state.selectIndex = 0;
 			deleteChildrenByType[params.type]();
 
 			for (var i = 0; i < currentActiveCtrl.controller.children.length; i++) {
@@ -1313,8 +1318,6 @@ export default {
 				}else {
 					parentCtrlVdid = parent.vdid;
 					params.children.parent = parentCtrlVdid;
-					console.log('parent');
-					console.log(parentCtrlVdid);
 					if(parent.children) {
 						parent.children.push(params.children);
 					}else {
@@ -1468,7 +1471,6 @@ export default {
 					for (var j = 0; j < parent.children.length; j++) {
 						for (var k = 0; k < parent.children[j].className.length; k++) {
 
-							console.log(parent.children[j].className[k]);
 							if(parent.children[j].className[k] == 'active'){
 								parent.children[j].className.splice(k,1);
 								if(params.action == 'next'){
@@ -1491,7 +1493,6 @@ export default {
 					}
 					target = parent.children[params.index];
 					target.className.push('active');
-					console.log(parent);
 				}
 			}
 			findParent(currentActiveCtrl.controller);
@@ -1515,8 +1516,6 @@ export default {
 		handleFade(state, { payload: params }){
 
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
-			console.log(currentActiveCtrl.controller);
-			console.log(params);
 			if(params.value){
 				for (var i = 0; i < currentActiveCtrl.controller.children[1].children.length; i++) {
 
@@ -1559,7 +1558,6 @@ export default {
 			}
 			currentActiveCtrl.controller.attrs[0].children[0].value = params.value;
 			state.activeCtrl = currentActiveCtrl.controller;
-			console.log(currentActiveCtrl.controller);
 			return {...state};
 		},
 		triggerMenu(state){
@@ -1575,6 +1573,98 @@ export default {
 					},
 				}
 			}, '*');
+			return {...state};
+		},
+		deletePage(state, {payload: params}){
+
+			console.log(state.layout);
+			state.activeCtrl= {
+				tag: 'div',
+				className: [],
+				customClassName: [],
+	    		vdid: '456',
+				id: '',
+	    		ctrlName: 'div-block',
+				attrs: [{
+					title: '基础设置',
+					key: 'basic',
+					children: [{
+						name: 'id',
+						desc: 'id',
+						type: 'input',
+						value: '',
+						id: '5443'
+					}, {
+						name: 'class',
+						desc: '可见屏幕',
+						type: 'multipleSelect',
+						value: ['visible-lg-block', 'visible-md-block', 'visible-sm-block', 'visible-xs-block'],
+						valueList: [{
+							name: '大屏幕(桌面 (≥1200px))',
+							value: 'visible-lg-block'
+						}, {
+							name: '中等屏幕(桌面 (≥992px))',
+							value: 'visible-md-block'
+						}, {
+							name: '小屏幕(平板 (≥768px))',
+							value: 'visible-sm-block'
+						}, {
+							name: '超小屏幕(手机 (<768px))',
+							value: 'visible-xs-block'
+						}],
+						id: ''
+					}]
+				}, {
+					title: '自定义属性',
+					key: 'custom-attr',
+					children: [{
+						key: '123',
+						value: '34'
+					}]
+				}],
+				children: [{
+					tag: 'h1',
+					className: [],
+					vdid: '098',
+		    		ctrlName: 'heading',
+					id: '',
+					attrs: [{
+						title: '基础设置',
+						key: 'basic',
+						children: [{
+							name: 'id',
+							desc: 'id',
+							type: 'input',
+							value: '',
+							id: '5443'
+						}, {
+							name: 'class',
+							desc: '可见屏幕',
+							type: 'multipleSelect',
+							value: ['visible-lg-block', 'visible-md-block', 'visible-sm-block', 'visible-xs-block'],
+							valueList: [{
+								name: '大屏幕(桌面 (≥1200px))',
+								value: 'visible-lg-block'
+							}, {
+								name: '中等屏幕(桌面 (≥992px))',
+								value: 'visible-md-block'
+							}, {
+								name: '小屏幕(平板 (≥768px))',
+								value: 'visible-sm-block'
+							}, {
+								name: '超小屏幕(手机 (<768px))',
+								value: 'visible-xs-block'
+							}],
+							id: ''
+						}]
+					}]
+				}]
+			};
+			state.activePage.key = 'index.html';
+			delete state.layout[params.key];
+			window.VDDesignerFrame.postMessage({
+	    		pageSelected: state.layout[state.activePage.key][0].children
+	    	}, '*');
 			return {...state};
 		},
 		handlePreview(state, { payload: params }) {
@@ -1681,18 +1771,18 @@ export default {
 			return {...state};
 		},
 
-		handleElemAdded(state, { payload: params }) {
-			state.layout[params.activePage][0].children.push(params.ctrl);
-			state.activeCtrl = params.ctrl;
-			var ctrlInfo = VDTreeActions.getActiveControllerIndexAndLvlByKey(state, params.ctrl.vdid, state.activePage);
-			state.activeCtrlIndex = ctrlInfo.index;
-			state.activeCtrlLvl = ctrlInfo.level;
-			return {...state};
-		},
+		// handleElemAdded(state, { payload: params }) {
+		// 	// state.layout[params.activePage][0].children.push(params.ctrl);
+		// 	state.activeCtrl = params.ctrl;
+		// 	var ctrlInfo = VDTreeActions.getActiveControllerIndexAndLvlByKey(state, params.ctrl.vdid, state.activePage);
+		// 	state.activeCtrlIndex = ctrlInfo.index;
+		// 	state.activeCtrlLvl = ctrlInfo.level;
+		// 	return {...state};
+		// },
 
 		setActivePage(state, { payload: params }) {
-			state.activePage.key = params.activePage.key;
 
+			state.activePage.key = params.activePage.key;
 	    	window.VDDesignerFrame.postMessage({
 	    		pageSelected: state.layout[params.activePage.key][0].children
 	    	}, '*');
@@ -1707,15 +1797,19 @@ export default {
 		ctrlSelected(state, { payload: data }) {
 
 			if(data.unActive){
-				let currentActiveCtrl = VDTreeActions.getCtrlByKey(state, data.root, state.activePage);
+				let currentActiveCtrl = VDTreeActions.getActiveControllerIndexAndLvlByKey(state, data.root, state.activePage);
 				state.activeCtrl = currentActiveCtrl.controller;
+				state.activeCtrlIndex = currentActiveCtrl.index;
+				state.activeCtrlLvl = currentActiveCtrl.level;
+				state.defaultSelectedKeys = [data.root];
 			}else {
-				state.activeCtrl = data;
+				let ctrlInfo = VDTreeActions.getActiveControllerIndexAndLvlByKey(state, data.vdid, state.activePage);
+				state.activeCtrl = ctrlInfo.controller;
+				state.activeCtrlIndex = ctrlInfo.index;
+				state.activeCtrlLvl = ctrlInfo.level;
+				state.defaultSelectedKeys = [data.vdid];
 			}
-			let ctrlInfo = VDTreeActions.getActiveControllerIndexAndLvlByKey(state, state.activeCtrl.vdid, state.activePage);
-			state.activeCtrlIndex = ctrlInfo.index;
-			state.activeCtrlLvl = ctrlInfo.level;
-			state.defaultSelectedKeys = [state.activeCtrl.vdid];
+
 			return {...state};
 		},
 		handleAttrFormChangeA(state, { payload: params }) {
@@ -1875,7 +1969,6 @@ export default {
 							break;
 						}
 					}
-					currentColums.children[i] = currentChild;
 				}
 			}
 
@@ -1943,7 +2036,7 @@ export default {
 
 				window.VDDesignerFrame.postMessage({
 					VDAttrRefreshed: {
-						activeCtrl: state.activeCtrl,
+						activeCtrl: currentColums,
 						attr: {
 							attrName: 'columns',
 							action: 'add',
@@ -1962,7 +2055,7 @@ export default {
 				changClassName();
 				window.VDDesignerFrame.postMessage({
 					VDAttrRefreshed: {
-						activeCtrl: state.activeCtrl,
+						activeCtrl: currentColums,
 						attr: {
 							attrName: 'columns',
 							action: 'delete',
@@ -1975,6 +2068,7 @@ export default {
 				}, '*');
 			}
 
+			let actrl = VDTreeActions.getActiveControllerIndexAndLvlByKey(state, currentRootVdid, state.activePage);
 			state.activeCtrl = currentColums;
 
 			return {...state};
@@ -2144,6 +2238,7 @@ export default {
 							}
 						}
 					}, '*');
+					//
 					needChangeAttr[params.index].span += increaseNum * 2;
 					needChangeAttr[params.index].value += increaseNum;
 
@@ -2284,6 +2379,122 @@ export default {
 	    		pageSelected: state.layout[pageInfo.key][0].children
 	    	}, '*');
 
+			return {...state};
+		},
+
+		deleteCtrl(state, {payload: params}) {
+
+			let deleteKey = params && params.fromKeyboard ? state.activeCtrl.vdid : sessionStorage.currentSelectedConstructionKey;
+			
+			let deleteParentInfo = VDTreeActions.getParentCtrlByKey(state, deleteKey, state.activePage),
+				deleteParentCtrl = deleteParentInfo.parentCtrl,
+				deleteIndex = deleteParentInfo.index;
+			deleteParentCtrl.children.splice(deleteIndex, 1);
+
+			window.VDDesignerFrame.postMessage({
+				deleteCtrl: deleteKey
+			}, '*');
+
+			if (deleteParentCtrl.children.length === 0) {
+
+				if (deleteParentCtrl.vdid.split('-')[0] === 'body') {
+					state.activeCtrl = 'none';
+					state.activeCtrlIndex = 'none';
+					state.activeCtrlLvl = 'none';
+					state.defaultSelectedKeys = ['none'];
+				}else {
+					state.activeCtrl = deleteParentCtrl;
+					state.activeCtrlIndex = deleteParentInfo.parentIndex;
+					state.activeCtrlLvl = deleteParentInfo.level - 1;
+					state.defaultSelectedKeys = [deleteParentCtrl.vdid];
+				}
+				
+			}else if (typeof deleteParentCtrl.children[deleteIndex] !== 'undefined') {
+				state.activeCtrl = deleteParentCtrl.children[deleteIndex];
+				state.activeCtrlIndex = deleteIndex
+				state.activeCtrlLvl = deleteParentInfo.level;
+				state.defaultSelectedKeys = [state.activeCtrl.vdid];
+			}else {
+				state.activeCtrl = deleteParentCtrl.children[deleteIndex - 1];
+				state.activeCtrlIndex = deleteIndex - 1
+				state.activeCtrlLvl = deleteParentInfo.level;
+				state.defaultSelectedKeys = [state.activeCtrl.vdid];
+			}
+
+			if (state.activeCtrl !== 'none') {
+				window.VDDesignerFrame.postMessage({
+					VDCtrlSelected: {
+						vdid: state.defaultSelectedKeys,
+						isFromCtrlTree: true
+					}
+				}, '*');
+			}else {
+				window.VDDesignerFrame.postMessage({
+					hideDesignerDraggerBorder: {}
+				}, '*');
+			}
+
+			return {...state};
+		},
+
+		ctrlMovedAndDroped(state, { payload: params }) {
+			let moveCtrl, children;
+			if (params.dropTargetVdid) {
+				let newParentInfo = VDTreeActions.getCtrlByKey(state, params.dropTargetVdid, state.activePage);
+				children = newParentInfo.controller.children = newParentInfo.controller.children || [];
+				state.activeCtrlLvl = newParentInfo.level + 1;
+			}else {
+				children = state.layout[state.activePage.key][0].children;
+				state.activeCtrlLvl = 2
+			}
+
+			if (params.isFromSelf) {
+				let originalParentInfo = VDTreeActions.getParentCtrlByKey(state, params.moveElemVdid, state.activePage);
+				moveCtrl = originalParentInfo.parentCtrl.children.splice(originalParentInfo.index, 1);
+			}else {
+				moveCtrl = [params.ctrl];
+			}
+			children.splice(params.index, 0, moveCtrl[0]);
+			state.activeCtrl = moveCtrl[0];
+			state.activeCtrlIndex = params.index;
+			state.defaultSelectedKeys = [moveCtrl[0].vdid];
+
+			return {...state};
+		},
+
+		handleInteractionOnSelect(state, { payload: params }) {
+
+			//加动画类
+			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage).controller;
+
+			if(!currentActiveCtrl) {
+				message.error('请先添加控件或选择一个控件再进行操作！');
+				return {...state};
+			}
+
+			if(currentActiveCtrl.customClassName.indexOf('animated') == -1) {
+				currentActiveCtrl.customClassName.push('animated');				
+			}
+
+			if(currentActiveCtrl.customClassName.indexOf(params.animateName) == -1) {
+				currentActiveCtrl.customClassName.push(params.animateName);
+			}else {
+				for (var i = 0; i < currentActiveCtrl.customClassName.length; i++) {
+					var crt = currentActiveCtrl.customClassName[i];
+					if(crt == params.animateName) {
+						currentActiveCtrl.customClassName.splice(i, 1);
+					}
+				};
+			}
+
+			state.activeCtrl = currentActiveCtrl;
+
+			window.VDDesignerFrame.postMessage({
+				animateElement: {
+					id: state.activeCtrl.vdid,
+					animateName: params.animateName
+				}
+			}, '*');
 			return {...state};
 		}
 	},

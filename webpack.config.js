@@ -17,14 +17,27 @@ module.exports = function(webpackConfig, env) {
     return !(plugin instanceof webpack.optimize.CommonsChunkPlugin);
   });
 
-  webpackConfig.plugins.push(
-    new CopyWebpackPlugin([
-      {
-        from: 'node_modules/monaco-editor/min/vs',
-        to: 'vs',
-      }
-    ])
-  );
+
+    try {
+        webpackConfig.plugins.push(
+          new CopyWebpackPlugin([
+            {
+              from: 'node_modules/monaco-editor/min/vs',
+              to: 'vs',
+            }
+          ])
+        );
+    } catch (e) {
+        new CopyWebpackPlugin([
+          {
+            from: 'node_modules/react-monaco-editor/node_modules/monaco-editor/min/vs',
+            to: 'vs',
+          }
+        ])
+    } finally {
+
+    }
+
 
   // Support CSS Modules
   // Parse all less files as css module.

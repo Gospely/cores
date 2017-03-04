@@ -15,12 +15,13 @@ $(function() {
 		// if (next.attr("id") === "vdInsertGuide") {
 		// 	return !next.next().attr("vdid");
 		// }else {
-			return !next.attr("vdid") && next.attr("id") !== "vdInsertGuide";
+			return !next.attr("vdid") && next.attr("id") !== "vdInsertGuideHidden";
 		// }
 
     };
 
     var guide = jq("#vdInsertGuide");
+    var guideHidden = jq("#vdInsertGuideHidden");
     var parentGuide = jq("#vdOutlineDropParentNode");
 
 	//拖拽过程中的一些数据及函数
@@ -41,9 +42,9 @@ $(function() {
 		//判断是否是合格子元素的方法
 		isLegalChild: function (e, target) {
 
-			if (guide.parent().data("specialChild")) {
+			if (guideHidden.parent().data("specialChild")) {
 
-				var specialChild = guide.parent().data("specialChild");
+				var specialChild = guideHidden.parent().data("specialChild");
 				var dragClass = dndData.dragElem[0].className;
 				var dragTag = dndData.dragElem[0].tagName;
 
@@ -63,8 +64,8 @@ $(function() {
 			if (dndData.dragElem.data("specialParent")) {
 
 				var specialParent = dndData.dragElem.data("specialParent");
-				var parentClass = guide.parent()[0].className;
-				var parentTag = guide.parent()[0].tagName;
+				var parentClass = guideHidden.parent()[0].className;
+				var parentTag = guideHidden.parent()[0].tagName;
 
 				if (parentClass.indexOf(specialParent.className) === -1 || specialParent.tag.indexOf(parentTag) === -1) {
 					return false;
@@ -80,7 +81,7 @@ $(function() {
 		actionBeforeMove: function (e, target) {
 
 			if (!(dndData.isMouseDown && guide.css("display") === 'none')) {
-				dndData.dragElemParent = guide.parent();
+				dndData.dragElemParent = guideHidden.parent();
 			}
 
 		},
@@ -110,9 +111,9 @@ $(function() {
 				})
 			}
 
-			if (guide.parent().children().length >= 2) {
+			if (guideHidden.parent().children().length >= 2) {
 				dndData.needChangeClass.push({
-					target: guide.parent(),
+					target: guideHidden.parent(),
 					className: 'vd-empty',
 					type: 'remove'
 				})
@@ -145,13 +146,13 @@ $(function() {
 
 		verticalBefore: function (e, target, isContainerSpecial) {
 
-			if (target.prev().attr("id") === "vdInsertGuide" && guide.css("display") !== "none") {
+			if (target.prev().attr("id") === "vdInsertGuideHidden" && guide.css("display") !== "none") {
 				return false;
 			}
 
 			dndData.actionBeforeMove(e, target);
 
-			target.before(guide);
+			target.before(guideHidden);
 
 			dndData.needShowParentGuide(e, target);
 
@@ -161,8 +162,8 @@ $(function() {
 					height: 2,
 					display: 'block',
 					top: target.offset().top,
-					position: 'fixed',
-					left: 0
+					// position: 'fixed',
+					left: target.offset().left
 				})
 			}else {
 				guide.css({
@@ -170,8 +171,8 @@ $(function() {
 					height: 2,
 					display: 'block',
 					top: target.offset().top,
-					position: 'fixed',
-					left: 0
+					// position: 'fixed',
+					left: target.offset().left
 				})
 			}
 
@@ -180,13 +181,13 @@ $(function() {
 
 		verticalAfter: function (e, target, isContainerSpecial) {
 
-			if (target.next().attr("id") === "vdInsertGuide" && guide.css("display") !== "none") {
+			if (target.next().attr("id") === "vdInsertGuideHidden" && guide.css("display") !== "none") {
 				return false;
 			}
 
 			dndData.actionBeforeMove(e, target);
 
-			target.after(guide);
+			target.after(guideHidden);
 			dndData.needShowParentGuide(e, target);
 
 			if (isContainerSpecial) {
@@ -195,8 +196,8 @@ $(function() {
 					display: 'block',
 					height: 2,
 					top: target.offset().top + target.outerHeight(),
-					position: 'fixed',
-					left: 0
+					// position: 'fixed',
+					left: target.offset().left
 				})
 			}else {
 				guide.css({
@@ -204,8 +205,8 @@ $(function() {
 					display: 'block',
 					height: 2,
 					top: target.offset().top + target.outerHeight(),
-					position: 'fixed',
-					left: 0
+					// position: 'fixed',
+					left: target.offset().left
 				})
 			}
 
@@ -216,7 +217,7 @@ $(function() {
 		verticalAppend: function (e, target) {
 
 			if (target.children().length) {
-				if(target.children()[target.children().length - 1].id === 'vdInsertGuide' && guide.css("display") !== "none") {
+				if(target.children()[target.children().length - 1].id === 'vdInsertGuideHidden' && guide.css("display") !== "none") {
 					return false;
 				}
 			}
@@ -228,12 +229,12 @@ $(function() {
         	if (lastChild.length) {
         		lastPosition = lastChild.offset().top + lastChild.outerHeight()
         	}
-			target.append(guide);
+			target.append(guideHidden);
 			guide.css({
 				width: target.innerWidth(),
 				display: 'block',
 				height: 2,
-				position: 'fixed',
+				// position: 'fixed',
 				top: target.offset().top + 10 + lastPosition,
 				left: target.offset().left
 			})
@@ -257,14 +258,14 @@ $(function() {
 
         horizontalBefore: function (e, target) {
 
-        	if (target.prev().attr("id") === "vdInsertGuide" && guide.css("display") !== "none") {
+        	if (target.prev().attr("id") === "vdInsertGuideHidden" && guide.css("display") !== "none") {
 				return false;
 			}
 
         	dndData.actionBeforeMove(e, target);
 
         	dndData.needShowParentGuide(e, target);
-			target.before(guide);
+			target.before(guideHidden);
 
 			guide.css({
 				width: 2,
@@ -272,27 +273,27 @@ $(function() {
 				display: 'block',
 				top: target.offset().top,
 				left: target.offset().left,
-				position: 'fixed'
+				// position: 'fixed'
 			})
 			dndData.actionAfterMove(e, target);
         },
 
         horizontalAfter: function (e, target) {
 
-        	if (target.next().attr("id") === "vdInsertGuide" && guide.css("display") !== "none") {
+        	if (target.next().attr("id") === "vdInsertGuideHidden" && guide.css("display") !== "none") {
 				return false;
 			}
 
         	dndData.actionBeforeMove(e, target);
 
         	dndData.needShowParentGuide(e, target);
-			target.after(guide);
+			target.after(guideHidden);
 			guide.css({
 				width: 2,
 				display: 'block',
 				top: target.offset().top,
 				left: target.offset().left + target.outerWidth(),
-				position: 'fixed'
+				// position: 'fixed'
 			})
 			dndData.actionAfterMove(e, target);
         },
@@ -300,7 +301,7 @@ $(function() {
         horizontalAppend: function (e, target) {
 
         	if (target.children().length) {
-				if(target.children()[target.children().length - 1].id === 'vdInsertGuide' && guide.css("display") !== "none") {
+				if(target.children()[target.children().length - 1].id === 'vdInsertGuideHidden' && guide.css("display") !== "none") {
 					return false;
 				}
 			}
@@ -312,12 +313,12 @@ $(function() {
         	if (lastChild.length) {
         		lastPosition = lastChild.offset().top + lastChild.outerHeight()
         	}
-			target.append(guide);
+			target.append(guideHidden);
 			guide.css({
 				width: target.innerWidth(),
 				display: 'block',
 				height: 2,
-				position: 'fixed',
+				// position: 'fixed',
 				top: target.offset().top + 10 + lastPosition,
 				left: target.offset().left
 			})
@@ -355,7 +356,7 @@ $(function() {
 			let first = firAndLas[0],
 				last = firAndLas[firAndLas.length - 1];
 
-			if (first && last && first[0].id !== "vdInsertGuide") {
+			if (first && last && first[0].id !== "vdInsertGuideHidden") {
 				let heigher = first.outerHeight();
 
 				if (heigher < last.outerHeight()) {
@@ -419,6 +420,10 @@ $(function() {
 
 			ctrlSelected: function (c) {
 				parentWindow.postMessage({ 'ctrlSelected': c }, "*");
+			},
+
+			ctrlMovedAndDroped: function (c) {
+				parentWindow.postMessage({ 'ctrlMovedAndDroped' : c }, "*");
 			}
 		};
 
@@ -448,7 +453,9 @@ $(function() {
 
                     applyCSSIntoPage: function() {
                         pageOperations.applyCSS(data.cssText);
-                        controllerOperations.select(data.activeCtrl, true);
+                        if (data.activeCtrl !== 'none' && data.activeCtrl !== '') {
+                        	controllerOperations.select(data.activeCtrl, true);
+                        }
                     },
 
 					VDChildrenDelete: function(){
@@ -485,6 +492,19 @@ $(function() {
 
                     VDCtrlSelected: function() {
                         controllerOperations.select(data, true);
+                    },
+
+                    deleteCtrl: function () {
+                    	jq('[vdid=' + data + ']').remove();
+                    },
+
+                    hideDesignerDraggerBorder: function () {
+                    	controllerOperations.hideDesignerDraggerBorder();
+                    },
+
+                    animateElement: function() {
+                    	console.log(data);
+                    	jq('[vdid="' + data.id + '"]').animateCss(data.animateName);
                     }
                 };
 
@@ -503,8 +523,6 @@ $(function() {
 		const scriptOperate = {
 			triggerMenu(activeCtrl, attr){
 
-				console.log('trigger');
-				console.log(attr);
 				var elem = jq('[vdid='+ attr.target + ']');
 				if(elem.hasClass('in')){
 					elem.removeClass('in');
@@ -578,7 +596,7 @@ $(function() {
 		}
 		//栅格操作
 		const columnsOperate = {
-			'add': function(parent, column, parent, count, colClass){
+			'add': function(activeCtrl, column, parent, count, colClass){
 				var elem = jq('[vdid='+ parent + ']');
 
 				for(var i = 0; i < count; i ++){
@@ -600,9 +618,15 @@ $(function() {
 					jq(this).attr("class", classList.join(' '));
 				})
 
+				var childrenData = [];
+				for(var i = 0; i < activeCtrl.children.length; i ++) {
+					childrenData.push(activeCtrl.children[i]);
+				}
+				controllerOperations.refreshData(parent, activeCtrl, childrenData)
+
 			},
 
-			delete: function (parent, column, parent, count, colClass) {
+			delete: function (activeCtrl, column, parent, count, colClass) {
 				var elem = jq('[vdid='+ parent + ']');
 				for(var i = 0; i < count; i ++){
 					elem.children().eq(-1).remove();
@@ -619,6 +643,12 @@ $(function() {
 
 					jq(this).attr("class", classList.join(' '));
 				})
+
+				var childrenData = [];
+				for(var i = 0; i < activeCtrl.children.length; i ++) {
+					childrenData.push(activeCtrl.children[i]);
+				}
+				controllerOperations.refreshData(parent, activeCtrl, childrenData)
 			}
 		}
 
@@ -649,8 +679,7 @@ $(function() {
 			},
 
             select: function(data, notPostMessage) {
-				console.log("select");
-				console.log(data);
+
 				if(data) {
 
                     if(data.vdid == '') {
@@ -672,6 +701,14 @@ $(function() {
 				}
             },
 
+            refreshData: function (rootVdid, rootData, childrenData) {
+            	jq('[vdid=' + rootVdid + ']').data('controller', rootData)
+            	.children().each(function (index) {
+            		jq(this).data('controller', childrenData[index]);
+            	});
+
+            },
+
             refreshCtrl: function(activeCtrl, attr, attrType) {
 
 				if(attr.isTag) {
@@ -685,7 +722,6 @@ $(function() {
 					classOperate[attr.action](activeCtrl, attr);
 				}else if(attr.attrName == 'replaceElem'){
 
-					console.log('replaceElem');
 					var parent = jq('[vdid='+ attr.parent + ']');
 					parent.children().remove();
 					var elemGen = new ElemGenerator(activeCtrl);
@@ -731,12 +767,6 @@ $(function() {
 
             // console.log('点击事件')
 
-        });
-
-        jq(parentWindow.document, parentWindow.document).on("keyup", function(e) {
-        	e.preventDefault();
-        	e.stopPropagation()
-            console.log(e);
         });
 
         //拖拽初始化类
@@ -887,6 +917,8 @@ $(function() {
         		e.preventDefault();
         		e.stopPropagation();
 
+        		var dragElem = dndData.dragElem;
+
         		let handler = function () {
         			var needChangeClass = dndData.needChangeClass;
 
@@ -904,7 +936,7 @@ $(function() {
 
 	        		dndData.needChangeClass = [];
         			dndData.isMouseDown = false;
-        			controllerOperations.showDesignerDraggerBorder(dndData.dragElem);
+        			controllerOperations.showDesignerDraggerBorder(dragElem);
         		}
 
         		if(guide.css("display") === 'none') {
@@ -918,14 +950,22 @@ $(function() {
         			alert('非法位置');
         			dndData.needChangeClass = [];
         			dndData.isMouseDown = false;
-        			controllerOperations.showDesignerDraggerBorder(dndData.dragElem);
+        			controllerOperations.showDesignerDraggerBorder(dragElem);
 					return false;
         		}
 
-        		jq("#vdInsertGuide").after(dndData.dragElem);
-        		if (!dndData.isMouseDown) {
-        			postMessageToFather.elemAdded(dndData.ctrlToAddData);
-        		}
+        		jq("#vdInsertGuideHidden").after(dragElem);
+        		postMessageToFather.ctrlMovedAndDroped({
+        			moveElemVdid: dragElem.attr("vdid"),
+        			dropTargetVdid: dragElem.parent().attr("vdid"),
+        			index: dragElem.prevAll().length - 1,
+        			isFromSelf: dndData.isMouseDown,
+        			ctrl: dndData.ctrlToAddData || ''
+        		});
+
+        		// if (!dndData.isMouseDown) {
+        		// 	postMessageToFather.elemAdded(dndData.ctrlToAddData);
+        		// }
         		handler();
 
         	}
@@ -1021,7 +1061,18 @@ $(function() {
 					if(attr.html){
 						this.elem.html(attr.html);
 					}else{
-						this.elem.html(attr.value);
+						var childrens = this.elem.children();
+						console.log(childrens);
+						this.elem.html('');
+						if(childrens){
+							for (var i = 0; i < childrens.length; i++) {
+								this.elem.append(childrens[i]);
+							}
+							this.elem.innerText = '';
+							this.elem.append(attr.value);
+						}else {
+							this.elem.html(attr.value);
+						}
 					}
 
                 }
@@ -1057,6 +1108,7 @@ $(function() {
 				if(attr.isStyle){
 					this.elem.css(attr.name, attr.value);
 				}
+
             },
 
             setLinkSetting: function(attr) {
@@ -1176,7 +1228,7 @@ $(function() {
         		this.initElem();
         		for(var i = 0, len = this.controller.attrs.length; i < len; i ++) {
         			var attr = this.controller.attrs[i];
-
+        			
                     if(attr.isAttrSetting) {
                         //基础属性设置（无复杂交互）统一处理
                         for (var j = 0; j < attr.children.length; j++) {
@@ -1226,6 +1278,13 @@ $(function() {
         		if (className) {
         			for(var i = 0, len = className.length; i < len; i ++) {
         				this.elem.addClass(className[i]);
+        			}
+        		}
+
+        		var customClassName = this.controller.customClassName;
+        		if (customClassName) {
+        			for(var i = 0, len = customClassName.length; i < len; i ++) {
+        				this.elem.addClass(customClassName[i]);
         			}
         		}
 
@@ -1332,11 +1391,16 @@ $(function() {
         		}
         	},
         	onDown: function (e) {
+
+        		var target = jq(e.target);
+        		if (target.data("controller") && target.data("controller").unActive) {
+        			return false;
+        		}
         		e.stopPropagation();
         		e.preventDefault();
 
-        		dndData.dragElemParent = jq(e.target).parent();
-        		dndData.dragElem = jq(e.target);
+        		dndData.dragElemParent = target.parent();
+        		dndData.dragElem = target;
         		dndData.isMouseDown = true;
 
         	},
