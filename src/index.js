@@ -44,7 +44,6 @@ app.use({
 			window.appRouter = app._history;
 		}
 
-
 		if(localStorage.flashState == 'true') {
 			var state = app._store.getState();
 			var UIState = packUIStage(state);
@@ -65,7 +64,6 @@ app.use({
 					}
 				});
 			}
-
 		}
 	}
 });

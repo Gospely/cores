@@ -33,12 +33,11 @@ const VDDesignerPanel = (props) => {
 
             }, 500);
             $(window).off("keyup");
-            $(window).on("keyup", function (e) {
+            $(window).on("keyup", {props}, function (e) {
                 e.stopPropagation();
                 e.preventDefault();
-                if (e.keyCode === 46 && props.vdCtrlTree.activeCtrl !== '' && props.vdCtrlTree.activeCtrl !== 'none') {
-                    console.log(props.vdCtrlTree.activeCtrl)
-                    props.dispatch({
+                if (e.keyCode === 46) {
+                    e.data.props.dispatch({
                         type: 'vdCtrlTree/deleteCtrl',
                         payload: {
                             fromKeyboard: true
@@ -46,6 +45,7 @@ const VDDesignerPanel = (props) => {
                     })
                 }
             })
+
         }
 
     };

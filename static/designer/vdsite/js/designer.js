@@ -102,31 +102,6 @@ $(function() {
 		//每次位置变动后的处理
 		actionAfterMove: function (e, target) {
 
-			if (dndData.dragElemParent.children() && dndData.dragElemParent.children().length === 0 ||
-				dndData.isMouseDown && dndData.dragElemParent.children().length === 1) {
-				dndData.needChangeClass.push({
-					target: dndData.dragElemParent,
-					className: 'vd-empty',
-					type: 'add'
-				})
-			}
-
-			if (guideHidden.parent().children().length >= 2) {
-				dndData.needChangeClass.push({
-					target: guideHidden.parent(),
-					className: 'vd-empty',
-					type: 'remove'
-				})
-			}
-
-			if (dndData.dragElem.children().length >= 1) {
-				dndData.needChangeClass.push({
-					target: dndData.dragElem,
-					className: 'vd-empty',
-					type: 'remove'
-				})
-			}
-
 			if (dndData.isLegalChild(e, target) && dndData.isLegalParent(e, target)) {
 				guide.removeClass("error");
 				parentGuide.removeClass("error");
@@ -139,8 +114,6 @@ $(function() {
 			dndData.originalY = e.pageY;
 
 		},
-
-		needChangeClass: [],
 
 		isMouseDown: false,
 
@@ -247,12 +220,6 @@ $(function() {
 				display: 'block'
 			})
 
-			dndData.needChangeClass.push({
-				className: 'vd-empty',
-				target: target,
-				type: 'remove'
-			})
-
 			dndData.actionAfterMove(e, target, 'append');
 		},
 
@@ -328,11 +295,6 @@ $(function() {
 				width: target.outerWidth(),
 				height: target.outerHeight(),
 				display: 'block'
-			})
-			dndData.needChangeClass.push({
-				className: 'vd-empty',
-				target: target,
-				type: 'remove'
 			})
 
 			dndData.actionAfterMove(e, target, 'append');
@@ -538,11 +500,8 @@ $(function() {
 			},
 			//删除children的class
 			batchClassRemove: function(activeCtrl, attr){
-				console.log('batchClassRemove');
-				console.log(attr);
 				var elem = jq('[vdid='+ attr.parent + ']');
 				var childrens = elem.children('.' +attr.targetClass);
-				console.log(childrens);
 				for (var i = 0; i < childrens.length; i++) {
 					jq(childrens[i]).removeClass(attr.targetClass);
 				}
@@ -915,21 +874,7 @@ $(function() {
         		var dragElem = dndData.dragElem;
 
         		let handler = function () {
-        			var needChangeClass = dndData.needChangeClass;
-
-	        		for(var i = 0; i < needChangeClass.length; i++) {
-	        			var ncc = needChangeClass[i];
-	        			if (ncc.type === 'remove') {
-	        				ncc.target.removeClass(ncc.className);
-	        			}else {
-	        				if (!ncc.target.hasClass(ncc.className)) {
-		        				ncc.target.addClass(ncc.className)
-		        			}
-	        			}
-
-	        		}
-
-	        		dndData.needChangeClass = [];
+     
         			dndData.isMouseDown = false;
         			controllerOperations.showDesignerDraggerBorder(dragElem);
         		}
@@ -943,7 +888,6 @@ $(function() {
 
         		if (guide.hasClass("error")) {
         			alert('非法位置');
-        			dndData.needChangeClass = [];
         			dndData.isMouseDown = false;
         			controllerOperations.showDesignerDraggerBorder(dragElem);
 					return false;
@@ -959,7 +903,7 @@ $(function() {
         		});
 
         		// if (!dndData.isMouseDown) {
-        		// 	postMessageToFather.elemAdded(dndData.ctrlToAddData);
+        			// postMessageToFather.elemAdded(dndData.ctrlToAddData);
         		// }
         		handler();
 

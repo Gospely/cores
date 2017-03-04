@@ -70,6 +70,7 @@ const VDTreeActions = {
 		return loopControllers(controllers, 1);
 	},
 	getParentCtrlByKey(state, key, activePage) {
+
 		let obj = {
 				index: 0,
 				level: 1,
@@ -2384,8 +2385,16 @@ export default {
 
 		deleteCtrl(state, {payload: params}) {
 
-			let deleteKey = params && params.fromKeyboard ? state.activeCtrl.vdid : sessionStorage.currentSelectedConstructionKey;
-			
+			let deleteKey;
+			if (params && params.fromKeyboard) {
+				deleteKey = state.activeCtrl.vdid;
+				if (!deleteKey) {
+					return {...state};
+				}
+			}else {
+				deleteKey = sessionStorage.currentSelectedConstructionKey;
+			}
+
 			let deleteParentInfo = VDTreeActions.getParentCtrlByKey(state, deleteKey, state.activePage),
 				deleteParentCtrl = deleteParentInfo.parentCtrl,
 				deleteIndex = deleteParentInfo.index;
@@ -2407,6 +2416,23 @@ export default {
 					state.activeCtrlIndex = deleteParentInfo.parentIndex;
 					state.activeCtrlLvl = deleteParentInfo.level - 1;
 					state.defaultSelectedKeys = [deleteParentCtrl.vdid];
+
+					window.VDDesignerFrame.postMessage({
+						VDAttrRefreshed: {
+							activeCtrl: '',
+							attr: {
+								action: 'replaceClass',
+								attrName: 'classOperate',
+								remove: '',
+								replacement: 'vd-empty',
+								target: {
+									vdid: deleteParentCtrl.vdid
+								},
+							},
+							attrType: ''
+						}
+					}, '*');
+					deleteParentCtrl.className.push('vd-empty');
 				}
 				
 			}else if (typeof deleteParentCtrl.children[deleteIndex] !== 'undefined') {
@@ -2438,10 +2464,32 @@ export default {
 		},
 
 		ctrlMovedAndDroped(state, { payload: params }) {
-			let moveCtrl, children;
+			let moveCtrl, children, newParent;
 			if (params.dropTargetVdid) {
 				let newParentInfo = VDTreeActions.getCtrlByKey(state, params.dropTargetVdid, state.activePage);
-				children = newParentInfo.controller.children = newParentInfo.controller.children || [];
+				newParent = newParentInfo.controller;
+				newParent.children = newParent.children || [];
+				children = newParent.children;
+				if (children.length === 0) {
+					window.VDDesignerFrame.postMessage({
+						VDAttrRefreshed: {
+							activeCtrl: '',
+							attr: {
+								action: 'replaceClass',
+								attrName: 'classOperate',
+								remove: 'vd-empty',
+								replacement: '',
+								target: {
+									vdid: newParent.vdid
+								},
+							},
+							attrType: ''
+						}
+					}, '*');
+					let index = newParent.className.indexOf('vd-empty');
+					newParent.className.splice(index, 1);
+				}
+
 				state.activeCtrlLvl = newParentInfo.level + 1;
 			}else {
 				children = state.layout[state.activePage.key][0].children;
@@ -2450,7 +2498,27 @@ export default {
 
 			if (params.isFromSelf) {
 				let originalParentInfo = VDTreeActions.getParentCtrlByKey(state, params.moveElemVdid, state.activePage);
-				moveCtrl = originalParentInfo.parentCtrl.children.splice(originalParentInfo.index, 1);
+				let originalParentChildren = originalParentInfo.parentCtrl.children;
+				moveCtrl = originalParentChildren.splice(originalParentInfo.index, 1);
+				if (originalParentChildren.length === 0 && !(newParent && newParent.vdid === originalParentInfo.parentCtrl.vdid)) {
+					window.VDDesignerFrame.postMessage({
+						VDAttrRefreshed: {
+							activeCtrl: '',
+							attr: {
+								action: 'replaceClass',
+								attrName: 'classOperate',
+								remove: '',
+								replacement: 'vd-empty',
+								target: {
+									vdid: originalParentInfo.parentCtrl.vdid
+								},
+							},
+							attrType: ''
+						}
+					}, '*');
+					originalParentInfo.parentCtrl.className.push('vd-empty');
+				}
+				
 			}else {
 				moveCtrl = [params.ctrl];
 			}
