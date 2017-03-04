@@ -317,8 +317,6 @@ const Component = (props) => {
 
     loopControllerTree(props.vdCtrlTree.layout[props.vdCtrlTree.activePage.key]);
 
-    console.log(controllerTree)
-
     const attrsPanels = () => {
 
     	let attrs = props.vdCtrlTree.activeCtrl.attrs;
