@@ -282,7 +282,7 @@ export default {
 						title: '属性设置',
 						key: 'div-block-attr',
                         isChangeTag: true,
-                        isSetAttribute: true,
+                        isAttrSetting: true,
 						children: [{
 							name: 'tag',
 							desc: '标签',

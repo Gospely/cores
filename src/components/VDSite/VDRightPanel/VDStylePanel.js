@@ -40,6 +40,12 @@ import ColorPicker from '../../Panel/ColorPicker.js';
 
 const VDStylePanel = (props) => {
 
+	if (props.vdCtrlTree.activeCtrl === 'none' || '') {
+		return (
+			<div className="none-operation-obj">暂无操作对象</div>
+		)
+	}
+
 	const activeCSSStyleState = props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle];
 
 	const cssAction = {

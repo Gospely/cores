@@ -15,18 +15,25 @@ export default {
 	        		})
 				},
 
-				elemAdded() {
-					props.dispatch({
-						type: "vdpm/elemAdded",
-						payload: data
-					})
-				},
+				// elemAdded() {
+				// 	props.dispatch({
+				// 		type: "vdpm/elemAdded",
+				// 		payload: data
+				// 	})
+				// },
 
 				ctrlSelected() {
 					props.dispatch({
 						type: "vdCtrlTree/ctrlSelected",
 						payload: data
 					});
+				},
+
+				ctrlMovedAndDroped() {
+					props.dispatch({
+						type: "vdCtrlTree/ctrlMovedAndDroped",
+						payload: data
+					})
 				}
 
 			}

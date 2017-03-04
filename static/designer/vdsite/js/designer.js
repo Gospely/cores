@@ -20,6 +20,25 @@ $(function() {
 
     };
 
+    var scrollTop = jq(window).scrollTop(),
+    	scrollLeft = jq(window).scrollLeft();
+    var scrollInterval, originalTop;
+
+    sessionStorage.originalScrollTop = jq(window).scrollTop();
+
+    jq(window).scroll(function (e) {
+    	scrollTop = jq(window).scrollTop();
+    	scrollLeft = jq(window).scrollLeft();
+        scrollInterval = setInterval(function () {
+        	originalTop = scrollTop;
+        	if (scrollTop == originalTop) {
+        		console.log(3333);
+        		clearInterval(scrollInterval);
+        	}
+        }, 500)
+
+    })
+
     var guide = jq("#vdInsertGuide");
     var parentGuide = jq("#vdOutlineDropParentNode");
 
@@ -89,8 +108,8 @@ $(function() {
 			var parent = target.parent();
 			if (parent.data("container")) {
 				parentGuide.css({
-					left: parent.offset().left,
-					top: parent.offset().top,
+					left: parent.offset().left - scrollLeft,
+					top: parent.offset().top - scrollTop,
 					width: parent.outerWidth(),
 					height: parent.outerHeight(),
 					display: 'block'
@@ -160,18 +179,18 @@ $(function() {
 					width: target.parent().innerWidth(),
 					height: 2,
 					display: 'block',
-					top: target.offset().top,
+					top: target.offset().top - scrollTop,
 					position: 'fixed',
-					left: 0
+					left: target.offset().left - scrollLeft
 				})
 			}else {
 				guide.css({
 					width: target.outerWidth(),
 					height: 2,
 					display: 'block',
-					top: target.offset().top,
+					top: target.offset().top - scrollTop,
 					position: 'fixed',
-					left: 0
+					left: target.offset().left - scrollLeft
 				})
 			}
 
@@ -194,18 +213,18 @@ $(function() {
 					width: target.parent().innerWidth(),
 					display: 'block',
 					height: 2,
-					top: target.offset().top + target.outerHeight(),
+					top: target.offset().top + target.outerHeight() - scrollTop,
 					position: 'fixed',
-					left: 0
+					left: target.offset().left - scrollLeft
 				})
 			}else {
 				guide.css({
 					width: target.outerWidth(),
 					display: 'block',
 					height: 2,
-					top: target.offset().top + target.outerHeight(),
+					top: target.offset().top + target.outerHeight() - scrollTop,
 					position: 'fixed',
-					left: 0
+					left: target.offset().left - scrollLeft
 				})
 			}
 
@@ -234,13 +253,13 @@ $(function() {
 				display: 'block',
 				height: 2,
 				position: 'fixed',
-				top: target.offset().top + 10 + lastPosition,
-				left: target.offset().left
+				top: target.offset().top + 10 + lastPosition - scrollTop,
+				left: target.offset().left - scrollLeft
 			})
 
 			parentGuide.css({
-				left: target.offset().left,
-				top: target.offset().top,
+				left: target.offset().left - scrollLeft,
+				top: target.offset().top - scrollTop,
 				width: target.outerWidth(),
 				height: target.outerHeight(),
 				display: 'block'
@@ -270,8 +289,8 @@ $(function() {
 				width: 2,
 				height: target.outerHeight(),
 				display: 'block',
-				top: target.offset().top,
-				left: target.offset().left,
+				top: target.offset().top - scrollTop,
+				left: target.offset().left - scrollLeft,
 				position: 'fixed'
 			})
 			dndData.actionAfterMove(e, target);
@@ -290,8 +309,8 @@ $(function() {
 			guide.css({
 				width: 2,
 				display: 'block',
-				top: target.offset().top,
-				left: target.offset().left + target.outerWidth(),
+				top: target.offset().top - scrollTop,
+				left: target.offset().left + target.outerWidth() - scrollLeft,
 				position: 'fixed'
 			})
 			dndData.actionAfterMove(e, target);
@@ -318,12 +337,12 @@ $(function() {
 				display: 'block',
 				height: 2,
 				position: 'fixed',
-				top: target.offset().top + 10 + lastPosition,
-				left: target.offset().left
+				top: target.offset().top + 10 + lastPosition - scrollTop,
+				left: target.offset().left - scrollLeft
 			})
 			parentGuide.css({
-				left: target.offset().left,
-				top: target.offset().top,
+				left: target.offset().left - scrollLeft,
+				top: target.offset().top - scrollTop,
 				width: target.outerWidth(),
 				height: target.outerHeight(),
 				display: 'block'
@@ -365,8 +384,8 @@ $(function() {
 				let ref = (e.pageY - first.offset().top) / heigher;
 
 				parentGuide.css({
-					left: target.parent().offset().left,
-					top: target.parent().offset().top,
+					left: target.parent().offset().left - scrollLeft,
+					top: target.parent().offset().top - scrollTop,
 					width: target.parent().outerWidth(),
 					height: target.parent().outerHeight(),
 					display: 'block'
@@ -419,6 +438,10 @@ $(function() {
 
 			ctrlSelected: function (c) {
 				parentWindow.postMessage({ 'ctrlSelected': c }, "*");
+			},
+
+			ctrlMovedAndDroped: function (c) {
+				parentWindow.postMessage({ 'ctrlMovedAndDroped' : c }, "*");
 			}
 		};
 
@@ -448,7 +471,9 @@ $(function() {
 
                     applyCSSIntoPage: function() {
                         pageOperations.applyCSS(data.cssText);
-                        controllerOperations.select(data.activeCtrl, true);
+                        if (data.activeCtrl !== 'none' && data.activeCtrl !== '') {
+                        	controllerOperations.select(data.activeCtrl, true);
+                        }
                     },
 
 					VDChildrenDelete: function(){
@@ -485,6 +510,14 @@ $(function() {
 
                     VDCtrlSelected: function() {
                         controllerOperations.select(data, true);
+                    },
+
+                    deleteCtrlFromCtrlTree: function () {
+                    	jq('[vdid=' + data + ']').remove();
+                    },
+
+                    hideDesignerDraggerBorder: function () {
+                    	controllerOperations.hideDesignerDraggerBorder();
                     }
                 };
 
@@ -903,6 +936,8 @@ $(function() {
         		e.preventDefault();
         		e.stopPropagation();
 
+        		var dragElem = dndData.dragElem;
+
         		let handler = function () {
         			var needChangeClass = dndData.needChangeClass;
 
@@ -920,7 +955,7 @@ $(function() {
 
 	        		dndData.needChangeClass = [];
         			dndData.isMouseDown = false;
-        			controllerOperations.showDesignerDraggerBorder(dndData.dragElem);
+        			controllerOperations.showDesignerDraggerBorder(dragElem);
         		}
 
         		if(guide.css("display") === 'none') {
@@ -934,14 +969,22 @@ $(function() {
         			alert('非法位置');
         			dndData.needChangeClass = [];
         			dndData.isMouseDown = false;
-        			controllerOperations.showDesignerDraggerBorder(dndData.dragElem);
+        			controllerOperations.showDesignerDraggerBorder(dragElem);
 					return false;
         		}
 
-        		jq("#vdInsertGuide").after(dndData.dragElem);
-        		if (!dndData.isMouseDown) {
-        			postMessageToFather.elemAdded(dndData.ctrlToAddData);
-        		}
+        		jq("#vdInsertGuide").after(dragElem);
+        		postMessageToFather.ctrlMovedAndDroped({
+        			moveElemVdid: dragElem.attr("vdid"),
+        			dropTargetVdid: dragElem.parent().attr("vdid"),
+        			index: dragElem.prevAll().length - 1,
+        			isFromSelf: dndData.isMouseDown,
+        			ctrl: dndData.ctrlToAddData || ''
+        		});
+
+        		// if (!dndData.isMouseDown) {
+        		// 	postMessageToFather.elemAdded(dndData.ctrlToAddData);
+        		// }
         		handler();
 
         	}
@@ -1073,6 +1116,7 @@ $(function() {
 				if(attr.isStyle){
 					this.elem.css(attr.name, attr.value);
 				}
+
             },
 
             setLinkSetting: function(attr) {
@@ -1192,7 +1236,7 @@ $(function() {
         		this.initElem();
         		for(var i = 0, len = this.controller.attrs.length; i < len; i ++) {
         			var attr = this.controller.attrs[i];
-
+        			
                     if(attr.isAttrSetting) {
                         //基础属性设置（无复杂交互）统一处理
                         for (var j = 0; j < attr.children.length; j++) {
@@ -1285,8 +1329,8 @@ $(function() {
                     targetHeight = target.height();
 
                     jq('#vd-OutlineSelectedHoverNode').css({
-                        top: target.offset().top,
-                        left: target.offset().left,
+                        top: target.offset().top - scrollTop,
+                        left: target.offset().left - scrollLeft,
                         width: target.outerWidth(),
                         height: target.outerHeight(),
                         display: 'block'
@@ -1348,11 +1392,16 @@ $(function() {
         		}
         	},
         	onDown: function (e) {
+
+        		var target = jq(e.target);
+        		if (target.data("controller") && target.data("controller").unActive) {
+        			return false;
+        		}
         		e.stopPropagation();
         		e.preventDefault();
 
-        		dndData.dragElemParent = jq(e.target).parent();
-        		dndData.dragElem = jq(e.target);
+        		dndData.dragElemParent = target.parent();
+        		dndData.dragElem = target;
         		dndData.isMouseDown = true;
 
         	},

@@ -28,6 +28,12 @@ for (let i = 10; i < 36; i++) {
 
 const Component = (props) => {
 
+	if (props.vdCtrlTree.activeCtrl === 'none' || '') {
+		return (
+			<div className="none-operation-obj">暂无操作对象</div>
+		)
+	}
+
     const formItemLayout = {
       	labelCol: { span: 8 },
       	wrapperCol: { span: 16 }

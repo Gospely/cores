@@ -30,7 +30,6 @@ const Component = (props) => {
 	var ctrlPros = {
 			onSelect (val, e) {
 
-
 				if(e.node.props.title == 'body') {
 					return false;
 				}
@@ -88,10 +87,14 @@ const Component = (props) => {
 
 			activePage: props.vdCtrlTree.activePage.key,
 
-			onRightClick (proxy, node) {
+			onRightClick (proxy) {
 
-	            var selectedKey = proxy.node.props.eventKey;
+	            let selectedKey = proxy.node.props.eventKey;
 
+	            if (selectedKey.split('-')[0] === 'body') {
+	            	return false;
+	            }
+	            
 	            sessionStorage.currentSelectedConstructionKey = selectedKey;
 
 	            ctrlPros.onSelect([selectedKey], proxy);
@@ -104,7 +107,9 @@ const Component = (props) => {
 			},
 
 			deleteThisConstruction () {
-
+				props.dispatch({
+					type: 'vdCtrlTree/deleteCtrlFromCtrlTree'
+				});
 			}
 		},
 
@@ -124,6 +129,7 @@ const Component = (props) => {
 	        );
 
 	    });
+	    console.log(activeControllerTree)
 
   	return (
   		<div>

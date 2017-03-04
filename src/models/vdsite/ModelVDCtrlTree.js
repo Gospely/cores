@@ -44,7 +44,8 @@ const VDTreeActions = {
 	getCtrlByKey(state, key, activePage) {
 		let obj = {
 				index: 0,
-				level: 1
+				level: 1,
+				controller: ''
 			},
 
 			controllers = state.layout[activePage.key];
@@ -56,7 +57,7 @@ const VDTreeActions = {
 				if (currentControl.children) {
 					loopControllers(currentControl.children, level ++);
 				}
-				if (currentControl.vdid == key) {
+				if (currentControl.vdid === key) {
 					obj.index = i;
 					obj.level = level;
 					obj.controller = currentControl;
@@ -71,29 +72,34 @@ const VDTreeActions = {
 	getParentCtrlByKey(state, key, activePage) {
 		let obj = {
 				index: 0,
-				level: 1
+				level: 1,
+				controller: '',
+				parentCtrl: '',
+				parentIndex: ''
 			},
 
 			controllers = state.layout[activePage.key];
 
-		const loopControllers = function (controllers, level) {
+		const loopControllers = function (controllers, level, parent, parentIndex) {
 			level = level || 1;
 			for(let i = 0; i < controllers.length; i ++) {
 				let currentControl = controllers[i];
 				if (currentControl.children) {
-					loopControllers(currentControl.children, level ++);
+					loopControllers(currentControl.children, level ++, currentControl, i);
 				}
 				if (currentControl.vdid == key) {
 					obj.index = i;
 					obj.level = level;
 					obj.controller = currentControl;
+					obj.parentCtrl = parent;
+					obj.parentIndex = parentIndex;
 					break;
 				}
 			}
 			return obj;
 		}
 
-		return loopControllers(controllers, 1);
+		return loopControllers(controllers, 1, state.layout, 0);
 	},
 	getActiveControllerIndexAndLvlByKey(state, key, activePage) {
 		let obj = {
@@ -1069,8 +1075,8 @@ export default {
 			return {...state, constructionMenuStyle: {
 				position: 'fixed',
 				display: 'block',
-				left: proxy.event.pageX / 1.8,
-				top: proxy.event.pageY - 30,
+				left: proxy.event.pageX,
+				top: proxy.event.pageY,
 			}};
 		},
 
@@ -1674,14 +1680,14 @@ export default {
 			return {...state};
 		},
 
-		handleElemAdded(state, { payload: params }) {
-			state.layout[params.activePage][0].children.push(params.ctrl);
-			state.activeCtrl = params.ctrl;
-			var ctrlInfo = VDTreeActions.getActiveControllerIndexAndLvlByKey(state, params.ctrl.vdid, state.activePage);
-			state.activeCtrlIndex = ctrlInfo.index;
-			state.activeCtrlLvl = ctrlInfo.level;
-			return {...state};
-		},
+		// handleElemAdded(state, { payload: params }) {
+		// 	// state.layout[params.activePage][0].children.push(params.ctrl);
+		// 	state.activeCtrl = params.ctrl;
+		// 	var ctrlInfo = VDTreeActions.getActiveControllerIndexAndLvlByKey(state, params.ctrl.vdid, state.activePage);
+		// 	state.activeCtrlIndex = ctrlInfo.index;
+		// 	state.activeCtrlLvl = ctrlInfo.level;
+		// 	return {...state};
+		// },
 
 		setActivePage(state, { payload: params }) {
 			state.activePage.key = params.activePage.key;
@@ -2281,6 +2287,76 @@ export default {
 	    		pageSelected: state.layout[pageInfo.key][0].children
 	    	}, '*');
 
+			return {...state};
+		},
+
+		deleteCtrlFromCtrlTree(state, {payload: params}) {
+			let deleteParentInfo = VDTreeActions.getParentCtrlByKey(state, sessionStorage.currentSelectedConstructionKey, state.activePage),
+				deleteParentCtrl = deleteParentInfo.parentCtrl,
+				deleteIndex = deleteParentInfo.index;
+			deleteParentCtrl.children.splice(deleteIndex, 1);
+
+			window.VDDesignerFrame.postMessage({
+				deleteCtrlFromCtrlTree: sessionStorage.currentSelectedConstructionKey
+			}, '*');
+
+			if (deleteParentCtrl.children.length === 0) {
+
+				if (deleteParentCtrl.vdid.split('-')[0] === 'body') {
+					state.activeCtrl = 'none';
+					state.activeCtrlIndex = 'none';
+					state.activeCtrlLvl = 'none';
+					state.defaultSelectedKeys = ['none'];
+				}else {
+					state.activeCtrl = deleteParentCtrl;
+					state.activeCtrlIndex = deleteParentInfo.parentIndex;
+					state.activeCtrlLvl = deleteParentInfo.level - 1;
+					state.defaultSelectedKeys = [deleteParentCtrl.vdid];
+				}
+				
+			}else if (typeof deleteParentCtrl.children[deleteIndex] !== 'undefined') {
+				state.activeCtrl = deleteParentCtrl.children[deleteIndex];
+				state.activeCtrlIndex = deleteIndex
+				state.activeCtrlLvl = deleteParentInfo.level;
+				state.defaultSelectedKeys = [state.activeCtrl.vdid];
+			}else {
+				state.activeCtrl = deleteParentCtrl.children[deleteIndex - 1];
+				state.activeCtrlIndex = deleteIndex - 1
+				state.activeCtrlLvl = deleteParentInfo.level;
+				state.defaultSelectedKeys = [state.activeCtrl.vdid];
+			}
+
+			if (state.activeCtrl !== 'none') {
+				window.VDDesignerFrame.postMessage({
+					VDCtrlSelected: {
+						vdid: state.defaultSelectedKeys,
+						isFromCtrlTree: true
+					}
+				}, '*');
+			}else {
+				window.VDDesignerFrame.postMessage({
+					hideDesignerDraggerBorder: {}
+				}, '*');
+			}
+			return {...state};
+		},
+
+		ctrlMovedAndDroped(state, { payload: params }) {
+			let moveCtrl, children;
+			if (params.dropTargetVdid) {
+				let newParentInfo = VDTreeActions.getCtrlByKey(state, params.dropTargetVdid, state.activePage);
+				children = newParentInfo.controller.children = newParentInfo.controller.children || [];
+			}else {
+				children = state.layout[state.activePage.key][0].children;
+			}
+
+			if (params.isFromSelf) {
+				let originalParentInfo = VDTreeActions.getParentCtrlByKey(state, params.moveElemVdid, state.activePage);
+				moveCtrl = originalParentInfo.parentCtrl.children.splice(originalParentInfo.index, 1);
+			}else {
+				moveCtrl = [params.ctrl];
+			}
+			children.splice(params.index, 0, moveCtrl[0]);
 			return {...state};
 		}
 	},
