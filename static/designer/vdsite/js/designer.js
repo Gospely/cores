@@ -15,31 +15,13 @@ $(function() {
 		// if (next.attr("id") === "vdInsertGuide") {
 		// 	return !next.next().attr("vdid");
 		// }else {
-			return !next.attr("vdid") && next.attr("id") !== "vdInsertGuide";
+			return !next.attr("vdid") && next.attr("id") !== "vdInsertGuideHidden";
 		// }
 
     };
 
-    var scrollTop = jq(window).scrollTop(),
-    	scrollLeft = jq(window).scrollLeft();
-    var scrollInterval, originalTop;
-
-    sessionStorage.originalScrollTop = jq(window).scrollTop();
-
-    jq(window).scroll(function (e) {
-    	scrollTop = jq(window).scrollTop();
-    	scrollLeft = jq(window).scrollLeft();
-        scrollInterval = setInterval(function () {
-        	originalTop = scrollTop;
-        	if (scrollTop == originalTop) {
-        		console.log(3333);
-        		clearInterval(scrollInterval);
-        	}
-        }, 500)
-
-    })
-
     var guide = jq("#vdInsertGuide");
+    var guideHidden = jq("#vdInsertGuideHidden");
     var parentGuide = jq("#vdOutlineDropParentNode");
 
 	//拖拽过程中的一些数据及函数
@@ -60,9 +42,9 @@ $(function() {
 		//判断是否是合格子元素的方法
 		isLegalChild: function (e, target) {
 
-			if (guide.parent().data("specialChild")) {
+			if (guideHidden.parent().data("specialChild")) {
 
-				var specialChild = guide.parent().data("specialChild");
+				var specialChild = guideHidden.parent().data("specialChild");
 				var dragClass = dndData.dragElem[0].className;
 				var dragTag = dndData.dragElem[0].tagName;
 
@@ -82,8 +64,8 @@ $(function() {
 			if (dndData.dragElem.data("specialParent")) {
 
 				var specialParent = dndData.dragElem.data("specialParent");
-				var parentClass = guide.parent()[0].className;
-				var parentTag = guide.parent()[0].tagName;
+				var parentClass = guideHidden.parent()[0].className;
+				var parentTag = guideHidden.parent()[0].tagName;
 
 				if (parentClass.indexOf(specialParent.className) === -1 || specialParent.tag.indexOf(parentTag) === -1) {
 					return false;
@@ -99,7 +81,7 @@ $(function() {
 		actionBeforeMove: function (e, target) {
 
 			if (!(dndData.isMouseDown && guide.css("display") === 'none')) {
-				dndData.dragElemParent = guide.parent();
+				dndData.dragElemParent = guideHidden.parent();
 			}
 
 		},
@@ -108,8 +90,8 @@ $(function() {
 			var parent = target.parent();
 			if (parent.data("container")) {
 				parentGuide.css({
-					left: parent.offset().left - scrollLeft,
-					top: parent.offset().top - scrollTop,
+					left: parent.offset().left,
+					top: parent.offset().top,
 					width: parent.outerWidth(),
 					height: parent.outerHeight(),
 					display: 'block'
@@ -129,9 +111,9 @@ $(function() {
 				})
 			}
 
-			if (guide.parent().children().length >= 2) {
+			if (guideHidden.parent().children().length >= 2) {
 				dndData.needChangeClass.push({
-					target: guide.parent(),
+					target: guideHidden.parent(),
 					className: 'vd-empty',
 					type: 'remove'
 				})
@@ -164,13 +146,13 @@ $(function() {
 
 		verticalBefore: function (e, target, isContainerSpecial) {
 
-			if (target.prev().attr("id") === "vdInsertGuide" && guide.css("display") !== "none") {
+			if (target.prev().attr("id") === "vdInsertGuideHidden" && guide.css("display") !== "none") {
 				return false;
 			}
 
 			dndData.actionBeforeMove(e, target);
 
-			target.before(guide);
+			target.before(guideHidden);
 
 			dndData.needShowParentGuide(e, target);
 
@@ -179,18 +161,18 @@ $(function() {
 					width: target.parent().innerWidth(),
 					height: 2,
 					display: 'block',
-					top: target.offset().top - scrollTop,
-					position: 'fixed',
-					left: target.offset().left - scrollLeft
+					top: target.offset().top,
+					// position: 'fixed',
+					left: target.offset().left
 				})
 			}else {
 				guide.css({
 					width: target.outerWidth(),
 					height: 2,
 					display: 'block',
-					top: target.offset().top - scrollTop,
-					position: 'fixed',
-					left: target.offset().left - scrollLeft
+					top: target.offset().top,
+					// position: 'fixed',
+					left: target.offset().left
 				})
 			}
 
@@ -199,13 +181,13 @@ $(function() {
 
 		verticalAfter: function (e, target, isContainerSpecial) {
 
-			if (target.next().attr("id") === "vdInsertGuide" && guide.css("display") !== "none") {
+			if (target.next().attr("id") === "vdInsertGuideHidden" && guide.css("display") !== "none") {
 				return false;
 			}
 
 			dndData.actionBeforeMove(e, target);
 
-			target.after(guide);
+			target.after(guideHidden);
 			dndData.needShowParentGuide(e, target);
 
 			if (isContainerSpecial) {
@@ -213,18 +195,18 @@ $(function() {
 					width: target.parent().innerWidth(),
 					display: 'block',
 					height: 2,
-					top: target.offset().top + target.outerHeight() - scrollTop,
-					position: 'fixed',
-					left: target.offset().left - scrollLeft
+					top: target.offset().top + target.outerHeight(),
+					// position: 'fixed',
+					left: target.offset().left
 				})
 			}else {
 				guide.css({
 					width: target.outerWidth(),
 					display: 'block',
 					height: 2,
-					top: target.offset().top + target.outerHeight() - scrollTop,
-					position: 'fixed',
-					left: target.offset().left - scrollLeft
+					top: target.offset().top + target.outerHeight(),
+					// position: 'fixed',
+					left: target.offset().left
 				})
 			}
 
@@ -235,7 +217,7 @@ $(function() {
 		verticalAppend: function (e, target) {
 
 			if (target.children().length) {
-				if(target.children()[target.children().length - 1].id === 'vdInsertGuide' && guide.css("display") !== "none") {
+				if(target.children()[target.children().length - 1].id === 'vdInsertGuideHidden' && guide.css("display") !== "none") {
 					return false;
 				}
 			}
@@ -247,19 +229,19 @@ $(function() {
         	if (lastChild.length) {
         		lastPosition = lastChild.offset().top + lastChild.outerHeight()
         	}
-			target.append(guide);
+			target.append(guideHidden);
 			guide.css({
 				width: target.innerWidth(),
 				display: 'block',
 				height: 2,
-				position: 'fixed',
-				top: target.offset().top + 10 + lastPosition - scrollTop,
-				left: target.offset().left - scrollLeft
+				// position: 'fixed',
+				top: target.offset().top + 10 + lastPosition,
+				left: target.offset().left
 			})
 
 			parentGuide.css({
-				left: target.offset().left - scrollLeft,
-				top: target.offset().top - scrollTop,
+				left: target.offset().left,
+				top: target.offset().top,
 				width: target.outerWidth(),
 				height: target.outerHeight(),
 				display: 'block'
@@ -276,42 +258,42 @@ $(function() {
 
         horizontalBefore: function (e, target) {
 
-        	if (target.prev().attr("id") === "vdInsertGuide" && guide.css("display") !== "none") {
+        	if (target.prev().attr("id") === "vdInsertGuideHidden" && guide.css("display") !== "none") {
 				return false;
 			}
 
         	dndData.actionBeforeMove(e, target);
 
         	dndData.needShowParentGuide(e, target);
-			target.before(guide);
+			target.before(guideHidden);
 
 			guide.css({
 				width: 2,
 				height: target.outerHeight(),
 				display: 'block',
-				top: target.offset().top - scrollTop,
-				left: target.offset().left - scrollLeft,
-				position: 'fixed'
+				top: target.offset().top,
+				left: target.offset().left,
+				// position: 'fixed'
 			})
 			dndData.actionAfterMove(e, target);
         },
 
         horizontalAfter: function (e, target) {
 
-        	if (target.next().attr("id") === "vdInsertGuide" && guide.css("display") !== "none") {
+        	if (target.next().attr("id") === "vdInsertGuideHidden" && guide.css("display") !== "none") {
 				return false;
 			}
 
         	dndData.actionBeforeMove(e, target);
 
         	dndData.needShowParentGuide(e, target);
-			target.after(guide);
+			target.after(guideHidden);
 			guide.css({
 				width: 2,
 				display: 'block',
-				top: target.offset().top - scrollTop,
-				left: target.offset().left + target.outerWidth() - scrollLeft,
-				position: 'fixed'
+				top: target.offset().top,
+				left: target.offset().left + target.outerWidth(),
+				// position: 'fixed'
 			})
 			dndData.actionAfterMove(e, target);
         },
@@ -319,7 +301,7 @@ $(function() {
         horizontalAppend: function (e, target) {
 
         	if (target.children().length) {
-				if(target.children()[target.children().length - 1].id === 'vdInsertGuide' && guide.css("display") !== "none") {
+				if(target.children()[target.children().length - 1].id === 'vdInsertGuideHidden' && guide.css("display") !== "none") {
 					return false;
 				}
 			}
@@ -331,18 +313,18 @@ $(function() {
         	if (lastChild.length) {
         		lastPosition = lastChild.offset().top + lastChild.outerHeight()
         	}
-			target.append(guide);
+			target.append(guideHidden);
 			guide.css({
 				width: target.innerWidth(),
 				display: 'block',
 				height: 2,
-				position: 'fixed',
-				top: target.offset().top + 10 + lastPosition - scrollTop,
-				left: target.offset().left - scrollLeft
+				// position: 'fixed',
+				top: target.offset().top + 10 + lastPosition,
+				left: target.offset().left
 			})
 			parentGuide.css({
-				left: target.offset().left - scrollLeft,
-				top: target.offset().top - scrollTop,
+				left: target.offset().left,
+				top: target.offset().top,
 				width: target.outerWidth(),
 				height: target.outerHeight(),
 				display: 'block'
@@ -374,7 +356,7 @@ $(function() {
 			let first = firAndLas[0],
 				last = firAndLas[firAndLas.length - 1];
 
-			if (first && last && first[0].id !== "vdInsertGuide") {
+			if (first && last && first[0].id !== "vdInsertGuideHidden") {
 				let heigher = first.outerHeight();
 
 				if (heigher < last.outerHeight()) {
@@ -384,8 +366,8 @@ $(function() {
 				let ref = (e.pageY - first.offset().top) / heigher;
 
 				parentGuide.css({
-					left: target.parent().offset().left - scrollLeft,
-					top: target.parent().offset().top - scrollTop,
+					left: target.parent().offset().left,
+					top: target.parent().offset().top,
 					width: target.parent().outerWidth(),
 					height: target.parent().outerHeight(),
 					display: 'block'
@@ -512,7 +494,7 @@ $(function() {
                         controllerOperations.select(data, true);
                     },
 
-                    deleteCtrlFromCtrlTree: function () {
+                    deleteCtrl: function () {
                     	jq('[vdid=' + data + ']').remove();
                     },
 
@@ -782,12 +764,6 @@ $(function() {
 
         });
 
-        jq(parentWindow.document, parentWindow.document).on("keyup", function(e) {
-        	e.preventDefault();
-        	e.stopPropagation()
-            console.log(e);
-        });
-
         //拖拽初始化类
         function DndInitialization(options) {
 
@@ -973,7 +949,7 @@ $(function() {
 					return false;
         		}
 
-        		jq("#vdInsertGuide").after(dragElem);
+        		jq("#vdInsertGuideHidden").after(dragElem);
         		postMessageToFather.ctrlMovedAndDroped({
         			moveElemVdid: dragElem.attr("vdid"),
         			dropTargetVdid: dragElem.parent().attr("vdid"),
@@ -1347,8 +1323,8 @@ $(function() {
                     targetHeight = target.height();
 
                     jq('#vd-OutlineSelectedHoverNode').css({
-                        top: target.offset().top - scrollTop,
-                        left: target.offset().left - scrollLeft,
+                        top: target.offset().top,
+                        left: target.offset().left,
                         width: target.outerWidth(),
                         height: target.outerHeight(),
                         display: 'block'
