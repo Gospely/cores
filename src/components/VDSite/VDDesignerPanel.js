@@ -22,6 +22,7 @@ const VDDesignerPanel = (props) => {
           }
         }, '*');
 
+        
         //加载全局CSS
         props.dispatch({
           type: 'vdstyles/applyCSSStyleIntoPage',
@@ -41,8 +42,8 @@ const VDDesignerPanel = (props) => {
           className="centen-VD"
           name="vdsite-designer"
           width={props.vdcore.VDDesigner[props.vdcore.VDDesigner.activeSize].width}
-          height={props.vdcore.VDDesigner[props.vdcore.VDDesigner.activeSize].height} 
-          frameBorder="0" 
+          height={props.vdcore.VDDesigner[props.vdcore.VDDesigner.activeSize].height}
+          frameBorder="0"
           src="static/designer/vdsite/index.html"
           onLoad={VDDesignerPanelProps.handleDesPanelLoaded}
           >

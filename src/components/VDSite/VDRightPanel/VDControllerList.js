@@ -30,7 +30,6 @@ const Component = (props) => {
 	var ctrlPros = {
 			onSelect (val, e) {
 
-				console.log('==============', e);
 
 				if(e.node.props.title == 'body') {
 					return false;

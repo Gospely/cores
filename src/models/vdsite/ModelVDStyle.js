@@ -107,7 +107,7 @@ export default {
 
 		filterSetting: {
 			value: '',
-			unit: ''		
+			unit: ''
 		},
 
 		transitionSetting: {
@@ -748,7 +748,19 @@ export default {
 	},
 
 	reducers: {
+		initState(state, { payload: params}){
 
+			state.backgroundSetting = params.UIState.backgroundSetting;
+			state.cssStyleList = params.UIState.cssStyleList;
+			state.boxShadow = params.UIState.boxShadow;
+			state.cssStyleLayout = params.UIState.cssStyleLayout;
+			state.textShadow = params.UIState.textShadow;
+			state.filterSetting = params.UIState.filterSetting;
+			state.transitionSetting = params.UIState.transitionSetting;
+			state.transformSetting = params.UIState.transformSetting;
+			state.unitList = params.UIState.unitList;
+			return {...state};
+		},
 		handleCSSStateChange(state, { payload: params }) {
 			state.activeCSSState = params.selectedKeys;
 			state.activeCSSStateName = params.stateName;
@@ -997,7 +1009,7 @@ export default {
 								if(property == 'color' || property == 'inset') {
 									valueText += currentTableStyle + ' ';
 								}else {
-									valueText += currentTableStyle + unit + ' ';									
+									valueText += currentTableStyle + unit + ' ';
 								}
 							}
 						}
@@ -1024,16 +1036,16 @@ export default {
 								if(property == 'color') {
 									valueText += currentTableStyle + ' ';
 								}else {
-									valueText += currentTableStyle + unit + ' ';									
+									valueText += currentTableStyle + unit + ' ';
 								}
 							}
 						}
 						if (i !== childrenProps.length - 1) {
 							valueText += ',';
 						}
-						
+
 					}
-					
+
 					styleText += ':' + valueText + ';';
 					return styleText;
 				},
@@ -1049,18 +1061,18 @@ export default {
 							let currentTableStyle = currentStyle[property];
 							if(currentTableStyle !== '') {
 								if(property == 'transition-duration') {
-									valueText += currentTableStyle + unit + ' ';									
+									valueText += currentTableStyle + unit + ' ';
 								}else {
-									valueText += currentTableStyle + ' ';									
+									valueText += currentTableStyle + ' ';
 								}
 							}
 						}
 						if (i !== childrenProps.length - 1) {
 							valueText += ',';
 						}
-						
+
 					}
-					
+
 					styleText += ':' + valueText + ';';
 					return styleText;
 				},
@@ -1102,7 +1114,7 @@ export default {
 							valueText += ')';
 						}
 					}
-					
+
 					styleText += ':' + valueText + ';';
 					return styleText;
 				},
@@ -1151,7 +1163,7 @@ export default {
 				for(var styleName in cssStyleLayout) {
 					var currentStyle = cssStyleLayout[styleName],
 						cssClass = '.' + styleName + '{';
-					
+
 						currentActiveRecStyleName = styleName;
 
 					for(var property in currentStyle) {
@@ -1161,7 +1173,7 @@ export default {
 							unit = state.unitList[styleName][property].unit;
 						}
 						if(currentTableStyle != '' && typeof currentTableStyle !== 'object') {
-							cssClass += property + ':' + currentTableStyle + unit + ';'							
+							cssClass += property + ':' + currentTableStyle + unit + ';'
 						}else if (typeof currentTableStyle === 'object') {
 							cssClass += specialStyle[property](currentTableStyle);
 						}
@@ -1170,7 +1182,7 @@ export default {
 					cssText += cssClass;
 				}
 
-				return cssText.toString();				
+				return cssText.toString();
 			}
 
 			window.stylesGenerator = stylesGenerator;
@@ -1257,7 +1269,7 @@ export default {
 							}else {
 								propertyParent[property][params.parent.index] = value;
 								propertyParent[property][2] = false;
-								propertyParent[property][3] = false;								
+								propertyParent[property][3] = false;
 							}
 						}else {
 							propertyParent[property][params.parent.index] = value;
@@ -1266,7 +1278,7 @@ export default {
 						let vals = value.split(' ');
 						propertyParent[property][0] = vals[0];
 						propertyParent[property][1] = vals[1];
-					}else {						
+					}else {
 						propertyParent[property] = value;
 					}
 
@@ -1364,7 +1376,7 @@ export default {
 
 		removeThisTransform(state, { payload: params }) {
 			var cssProperty = state.cssStyleLayout[params.activeStyleName]['transform'];
-			cssProperty.childrenProps.splice(params.transformIndex, 1);			
+			cssProperty.childrenProps.splice(params.transformIndex, 1);
 			return {...state};
 		},
 
