@@ -1570,6 +1570,98 @@ export default {
 			}, '*');
 			return {...state};
 		},
+		deletePage(state, {payload: params}){
+
+			console.log(state.layout);
+			state.activeCtrl= {
+				tag: 'div',
+				className: [],
+				customClassName: [],
+	    		vdid: '456',
+				id: '',
+	    		ctrlName: 'div-block',
+				attrs: [{
+					title: '基础设置',
+					key: 'basic',
+					children: [{
+						name: 'id',
+						desc: 'id',
+						type: 'input',
+						value: '',
+						id: '5443'
+					}, {
+						name: 'class',
+						desc: '可见屏幕',
+						type: 'multipleSelect',
+						value: ['visible-lg-block', 'visible-md-block', 'visible-sm-block', 'visible-xs-block'],
+						valueList: [{
+							name: '大屏幕(桌面 (≥1200px))',
+							value: 'visible-lg-block'
+						}, {
+							name: '中等屏幕(桌面 (≥992px))',
+							value: 'visible-md-block'
+						}, {
+							name: '小屏幕(平板 (≥768px))',
+							value: 'visible-sm-block'
+						}, {
+							name: '超小屏幕(手机 (<768px))',
+							value: 'visible-xs-block'
+						}],
+						id: ''
+					}]
+				}, {
+					title: '自定义属性',
+					key: 'custom-attr',
+					children: [{
+						key: '123',
+						value: '34'
+					}]
+				}],
+				children: [{
+					tag: 'h1',
+					className: [],
+					vdid: '098',
+		    		ctrlName: 'heading',
+					id: '',
+					attrs: [{
+						title: '基础设置',
+						key: 'basic',
+						children: [{
+							name: 'id',
+							desc: 'id',
+							type: 'input',
+							value: '',
+							id: '5443'
+						}, {
+							name: 'class',
+							desc: '可见屏幕',
+							type: 'multipleSelect',
+							value: ['visible-lg-block', 'visible-md-block', 'visible-sm-block', 'visible-xs-block'],
+							valueList: [{
+								name: '大屏幕(桌面 (≥1200px))',
+								value: 'visible-lg-block'
+							}, {
+								name: '中等屏幕(桌面 (≥992px))',
+								value: 'visible-md-block'
+							}, {
+								name: '小屏幕(平板 (≥768px))',
+								value: 'visible-sm-block'
+							}, {
+								name: '超小屏幕(手机 (<768px))',
+								value: 'visible-xs-block'
+							}],
+							id: ''
+						}]
+					}]
+				}]
+			};
+			state.activePage.key = 'index.html';
+			delete state.layout[params.key];
+			window.VDDesignerFrame.postMessage({
+	    		pageSelected: state.layout[state.activePage.key][0].children
+	    	}, '*');
+			return {...state};
+		},
 		handlePreview(state, { payload: params }) {
 
 			state.previewImage = params.previewImage;
@@ -1684,8 +1776,8 @@ export default {
 		},
 
 		setActivePage(state, { payload: params }) {
-			state.activePage.key = params.activePage.key;
 
+			state.activePage.key = params.activePage.key;
 	    	window.VDDesignerFrame.postMessage({
 	    		pageSelected: state.layout[params.activePage.key][0].children
 	    	}, '*');
@@ -1712,7 +1804,7 @@ export default {
 				state.activeCtrlLvl = ctrlInfo.level;
 				state.defaultSelectedKeys = [data.vdid];
 			}
-			
+
 			return {...state};
 		},
 		handleAttrFormChangeA(state, { payload: params }) {

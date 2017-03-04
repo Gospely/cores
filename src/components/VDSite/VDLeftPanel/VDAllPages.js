@@ -7,7 +7,7 @@ import { Tooltip } from 'antd';
 
 import { Popover } from 'antd';
 
-import { Menu,Modal } from 'antd';
+import { Menu, Modal, message} from 'antd';
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 
@@ -88,6 +88,10 @@ const Component = (props) => {
 		},
 		deletePage(){
 
+			if(props.vdpm.currentActivePageListItem == 'index.html'){
+				message.error('主页面不能删除');
+				return;
+			}
 			confirm({
 				title: '即将删除',
 				content: '确认删除',
@@ -95,6 +99,12 @@ const Component = (props) => {
 
 					props.dispatch({
 						type: 'vdpm/deletePage',
+					});
+					props.dispatch({
+						type: 'vdCtrlTree/deletePage',
+						payload: {
+							key: props.vdpm.currentActivePageListItem
+						}
 					});
 				},
 				onCancel() {
@@ -106,6 +116,10 @@ const Component = (props) => {
 		delete(item){
 
 			console.log(item);
+			if(item.key == 'index.html'){
+				message.error('主页面不能删除');
+				return;
+			}
 			confirm({
 				title: '即将删除' + item.name,
 				content: '确认删除' + item.name + '? ',
@@ -114,6 +128,12 @@ const Component = (props) => {
 					props.dispatch({
 						type: 'vdpm/deletePage',
 						payload: item.key
+					});
+					props.dispatch({
+						type: 'vdCtrlTree/deletePage',
+						payload: {
+							key: item.key
+						}
 					});
 				},
 				onCancel() {
@@ -266,14 +286,14 @@ const Component = (props) => {
     			activePage: val
     		}
     	});
-      $("#vdsitePagesBtn").click(); 
+      $("#vdsitePagesBtn").click();
     }
 
 	return (
-    <div className="vd-allpages-list">	
+    <div className="vd-allpages-list">
 		<Popover placement="right" title="设置页面的详细信息" content={generatePageDetailSettings()} onClick={allPagesProps.handlePageListItemClick} visibleChange={allPagesProps.visibleChange}  visible={props.vdpm.pageManager.updatePopoverVisible}>
 			<Menu
-				style={{ width: '100%' }}	
+				style={{ width: '100%' }}
 				defaultOpenKeys={['index.html']}
 				selectedKeys={[props.vdpm.currentActivePageListItem]}
 				mode="inline"

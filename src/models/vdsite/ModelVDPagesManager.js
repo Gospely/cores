@@ -181,6 +181,7 @@ export default {
 				state.newPageFrom.key = tree + '/' + state.newPageFrom.name + '.html'
 				state.pageList = pushPage(state.pageList);
 			}else {
+                state.newPageFrom.name = state.newPageFrom.name.trim();
 				state.newPageFrom.key = state.newPageFrom.name + '.html'
 				for (var j = 0; j < state.pageList.length; j++) {
 					if(state.pageList[j].name == state.newPageFrom.name && state.pageList[j].children == null){
