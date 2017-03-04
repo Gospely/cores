@@ -1299,6 +1299,12 @@ const Component = (props) => {
                                     payload: index
                                 });
                             },
+                            handleIndex(index) {
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleSelectIndex',
+                                    payload: index
+                                });
+                            },
                             hidePopover(){
                                 setTimeout(function(){
                                     props.dispatch({
@@ -1350,7 +1356,7 @@ const Component = (props) => {
                         const images = props.vdCtrlTree.activeCtrl.children[1].children.map((item, index) =>{
 
                             return (
-                                <li className="ant-dropdown-menu-item" role="menuitem" key={index}>
+                                <li className="ant-dropdown-menu-item" role="menuitem" key={index} onClick={sliderSettingProps.handleIndex.bind(this, index)}>
                                 <Row>
                                 <Col span={3}>
                                       <Icon type="edit" onClick={sliderSettingProps.editKeyValue.bind(this, index)}/>
@@ -1368,7 +1374,6 @@ const Component = (props) => {
                             )
                         });
                         const activeSliderProps = {
-
 
                             next(){
                                 props.dispatch({
