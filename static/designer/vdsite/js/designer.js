@@ -503,8 +503,6 @@ $(function() {
 		const scriptOperate = {
 			triggerMenu(activeCtrl, attr){
 
-				console.log('trigger');
-				console.log(attr);
 				var elem = jq('[vdid='+ attr.target + ']');
 				if(elem.hasClass('in')){
 					elem.removeClass('in');
@@ -578,7 +576,7 @@ $(function() {
 		}
 		//栅格操作
 		const columnsOperate = {
-			'add': function(parent, column, parent, count, colClass){
+			'add': function(activeCtrl, column, parent, count, colClass){
 				var elem = jq('[vdid='+ parent + ']');
 
 				for(var i = 0; i < count; i ++){
@@ -600,9 +598,15 @@ $(function() {
 					jq(this).attr("class", classList.join(' '));
 				})
 
+				var childrenData = [];
+				for(var i = 0; i < activeCtrl.children.length; i ++) {
+					childrenData.push(activeCtrl.children[i]);
+				}
+				controllerOperations.refreshData(parent, activeCtrl, childrenData)
+
 			},
 
-			delete: function (parent, column, parent, count, colClass) {
+			delete: function (activeCtrl, column, parent, count, colClass) {
 				var elem = jq('[vdid='+ parent + ']');
 				for(var i = 0; i < count; i ++){
 					elem.children().eq(-1).remove();
@@ -619,6 +623,12 @@ $(function() {
 
 					jq(this).attr("class", classList.join(' '));
 				})
+
+				var childrenData = [];
+				for(var i = 0; i < activeCtrl.children.length; i ++) {
+					childrenData.push(activeCtrl.children[i]);
+				}
+				controllerOperations.refreshData(parent, activeCtrl, childrenData)
 			}
 		}
 
@@ -649,8 +659,7 @@ $(function() {
 			},
 
             select: function(data, notPostMessage) {
-				console.log("select");
-				console.log(data);
+				
 				if(data) {
 
                     if(data.vdid == '') {
@@ -672,6 +681,14 @@ $(function() {
 				}
             },
 
+            refreshData: function (rootVdid, rootData, childrenData) {
+            	jq('[vdid=' + rootVdid + ']').data('controller', rootData)
+            	.children().each(function (index) {
+            		jq(this).data('controller', childrenData[index]);
+            	});
+
+            },
+
             refreshCtrl: function(activeCtrl, attr, attrType) {
 
 				if(attr.isTag) {
@@ -685,7 +702,6 @@ $(function() {
 					classOperate[attr.action](activeCtrl, attr);
 				}else if(attr.attrName == 'replaceElem'){
 
-					console.log('replaceElem');
 					var parent = jq('[vdid='+ attr.parent + ']');
 					parent.children().remove();
 					var elemGen = new ElemGenerator(activeCtrl);
