@@ -159,9 +159,6 @@ const Component = (props) => {
 					attrId: attrId
 				}
 			});
-            console.log('handleAttrFormChange');
-            console.log(item);
-            console.log(attType);
 			props.dispatch({
 				type: 'vdCtrlTree/handleAttrRefreshed',
 				payload: {
@@ -1581,15 +1578,18 @@ const Component = (props) => {
                                 });
                             },
                             openMenu(){
-                                props.dispatch({
-                	        		type: 'vdcore/changeVDSize',
-                	        		payload: {
-                	        			VDSize: 'verticalTablet'
-                	        		}
-                	        	});
-                                props.dispatch({
-                	        		type: 'vdCtrlTree/triggerMenu',
-                	        	});
+                                console.log(props.vdcore.VDDesigner.activeSize);
+                                if(props.vdcore.VDDesigner.activeSize != 'pc'){
+                                    props.dispatch({
+                    	        		type: 'vdcore/changeVDSize',
+                    	        		payload: {
+                    	        			VDSize: 'verticalTablet'
+                    	        		}
+                    	        	});
+                                    props.dispatch({
+                    	        		type: 'vdCtrlTree/triggerMenu',
+                    	        	});
+                                }
                             }
                         }
 	    				return (
