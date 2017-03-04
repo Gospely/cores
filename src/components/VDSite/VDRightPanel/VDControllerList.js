@@ -108,7 +108,7 @@ const Component = (props) => {
 
 			deleteThisConstruction () {
 				props.dispatch({
-					type: 'vdCtrlTree/deleteCtrlFromCtrlTree'
+					type: 'vdCtrlTree/deleteCtrl'
 				});
 			}
 		},
@@ -117,7 +117,7 @@ const Component = (props) => {
 
     	loopControllerTree = data => data.map((item) => {
     		const itemId = !item.id ? '' : '#' + item.id;
-    		const itemCls = item.customClassName.length > 0 ? '.' + item.customClassName.join('.') : '';
+    		const itemCls = item.customClassName && item.customClassName.length > 0 ? '.' + item.customClassName.join('.') : '';
     		const title = item.tag + itemCls + itemId;
 
 	        if (item.children) {
@@ -129,7 +129,6 @@ const Component = (props) => {
 	        );
 
 	    });
-	    console.log(activeControllerTree)
 
   	return (
   		<div>

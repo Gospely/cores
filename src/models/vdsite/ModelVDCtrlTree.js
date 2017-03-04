@@ -1318,8 +1318,6 @@ export default {
 				}else {
 					parentCtrlVdid = parent.vdid;
 					params.children.parent = parentCtrlVdid;
-					console.log('parent');
-					console.log(parentCtrlVdid);
 					if(parent.children) {
 						parent.children.push(params.children);
 					}else {
@@ -2384,14 +2382,17 @@ export default {
 			return {...state};
 		},
 
-		deleteCtrlFromCtrlTree(state, {payload: params}) {
-			let deleteParentInfo = VDTreeActions.getParentCtrlByKey(state, sessionStorage.currentSelectedConstructionKey, state.activePage),
+		deleteCtrl(state, {payload: params}) {
+
+			let deleteKey = params && params.fromKeyboard ? state.activeCtrl.vdid : sessionStorage.currentSelectedConstructionKey;
+			
+			let deleteParentInfo = VDTreeActions.getParentCtrlByKey(state, deleteKey, state.activePage),
 				deleteParentCtrl = deleteParentInfo.parentCtrl,
 				deleteIndex = deleteParentInfo.index;
 			deleteParentCtrl.children.splice(deleteIndex, 1);
 
 			window.VDDesignerFrame.postMessage({
-				deleteCtrlFromCtrlTree: sessionStorage.currentSelectedConstructionKey
+				deleteCtrl: deleteKey
 			}, '*');
 
 			if (deleteParentCtrl.children.length === 0) {
@@ -2432,6 +2433,7 @@ export default {
 					hideDesignerDraggerBorder: {}
 				}, '*');
 			}
+
 			return {...state};
 		},
 
@@ -2440,8 +2442,10 @@ export default {
 			if (params.dropTargetVdid) {
 				let newParentInfo = VDTreeActions.getCtrlByKey(state, params.dropTargetVdid, state.activePage);
 				children = newParentInfo.controller.children = newParentInfo.controller.children || [];
+				state.activeCtrlLvl = newParentInfo.level + 1;
 			}else {
 				children = state.layout[state.activePage.key][0].children;
+				state.activeCtrlLvl = 2
 			}
 
 			if (params.isFromSelf) {
@@ -2451,6 +2455,10 @@ export default {
 				moveCtrl = [params.ctrl];
 			}
 			children.splice(params.index, 0, moveCtrl[0]);
+			state.activeCtrl = moveCtrl[0];
+			state.activeCtrlIndex = params.index;
+			state.defaultSelectedKeys = [moveCtrl[0].vdid];
+
 			return {...state};
 		}
 	},

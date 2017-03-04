@@ -228,7 +228,7 @@ html.vd-design-mode * {
 .vd-OutlineDropParentNode {
   border: 2px solid #FF7000;
   z-index: 65535;
-  position: fixed;
+  position: absolute;
   pointer-events: none !important;
   display: none;
 }
