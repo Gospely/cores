@@ -38,7 +38,9 @@ const Component = (props) => {
 
 
     const interactionCreator = {
-    	content () {
+    	content (edit) {
+
+    		edit = edit || false;
 
     		const handleChange = (attrName, value) => {
     			value = typeof value == 'object' ? value.target.value : value;
@@ -57,9 +59,16 @@ const Component = (props) => {
     				payload: {
     					value,
     					attrName,
-    					animate
+    					animate,
+    					edit
     				}
     			});
+    		}
+
+    		if(edit) {
+    			setTimeout(function() {
+					$('#animate-previewer').animateCss(props.vdanimations.interactions[props.vdanimations.activeInteraction].animate);
+    			}, 800);
     		}
 
     		return (
@@ -71,7 +80,7 @@ const Component = (props) => {
 
 								<Col span={12} style={{paddingRight: '15px'}}>
 									<Select
-										value={props.vdanimations.newInteractionForm.name}
+										value={edit ? props.vdanimations.interactions[props.vdanimations.activeInteraction].name : props.vdanimations.newInteractionForm.name}
 										size="small"
 									    onChange={handleChange.bind(this, 'name')}
 									>
@@ -109,7 +118,7 @@ const Component = (props) => {
 							<Row>
 								<Col span={12} style={{paddingRight: '15px'}}>
 									<Input
-										value={props.vdanimations.newInteractionForm.duration}
+										value={edit ? props.vdanimations.interactions[props.vdanimations.activeInteraction].duration : props.vdanimations.newInteractionForm.duration}
 									    onChange={handleChange.bind(this, 'duration')}
 										type="number" size="small" placeholder="单位:毫秒,可留空" />
 								</Col>
@@ -121,7 +130,7 @@ const Component = (props) => {
 								<Col span={12} style={{paddingRight: '15px'}}>								
 									<Select
 										size="small"
-										value={props.vdanimations.newInteractionForm.condition}
+										value={edit ? props.vdanimations.interactions[props.vdanimations.activeInteraction].condition : props.vdanimations.newInteractionForm.condition}
 									    onChange={handleChange.bind(this, 'condition')}
 									>
 								      	<Option value="load">页面加载</Option>
@@ -165,7 +174,7 @@ const Component = (props) => {
 
     const interactionEditor = {
     	content () {
-			return interactionCreator.content();
+			return interactionCreator.content(true);
     	},
 
     	modifyInteraction (interactionIndex) {

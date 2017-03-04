@@ -26,31 +26,6 @@ export default {
 				visible: false
 			},
 
-			triggerList: [{
-				name: 'Load',
-				src: 'https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png'
-			}, {
-				name: 'Scroll',
-				src: 'https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png'
-			}, {
-				name: 'Click',
-				src: 'https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png'
-			}, {
-				name: 'Hover',
-				src: 'https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png'
-			}, {
-				name: 'Tabs',
-				src: 'https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png'
-			}, {
-				name: 'Slider',
-				src: 'https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png'
-			}, {
-				name: 'Navbar',
-				src: 'https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png'
-			}, {
-				name: 'Dropdown',
-				src: 'https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png'
-			}],
 		},
 
 		animations: [{
@@ -141,21 +116,22 @@ export default {
 			return {...state};
 		},
 
-		showModalNewStep(state) {
-			state.interactionCreator.modalNewStep.visible = true;
-			return {...state};
-		},
-
-		hideModalNewStep(state) {
-			state.interactionCreator.modalNewStep.visible = false;
-			return {...state};
-		},
 
 		handleNewInteractionFormChange(state, { payload: params }) {
-			state.newInteractionForm[params.attrName] = params.value;
 
-			if(params.attrName == 'name') {
-				state.newInteractionForm.animate = params.animate;
+			if(!params.edit) {
+				state.newInteractionForm[params.attrName] = params.value;
+
+				if(params.attrName == 'name') {
+					state.newInteractionForm.animate = params.animate;
+				}
+			}else {
+				var activeInteraction = state.interactions[state.activeInteraction];
+				activeInteraction[params.attrName] = params.value
+
+				if(params.attrName == 'name') {
+					activeInteraction.animate = params.animate;
+				}
 			}
 
 			return {...state};
