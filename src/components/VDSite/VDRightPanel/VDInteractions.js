@@ -113,77 +113,111 @@ const Component = (props) => {
 	)
 
     const interactionCreator = {
-    	content: (
-    		<div>
-		    	<Form className="form-no-margin-bottom">
-					<FormItem {...formItemLayout} label="动画名称">
-						<Input size="small" />
-					</FormItem>
-		    	</Form>
+    	content () {
 
-		    	<Form className="form-no-margin-bottom">
-					<FormItem {...formItemLayout} label="初始动作">
-					</FormItem>
-		    	</Form>
+    		const handleChange = (attrName, value) => {
+    			value = typeof value == 'object' ? value.target.value : value;
 
-		    	<div style={{paddingLeft: '10px', paddingRight: '10px'}}>
+    			var animate = '';
 
-		      		<Menu className="interaction-list">
-		      			<Menu.Item>
-		      				<Row>
-								<Col span={18}>
-				      				<span>None</span>
+    			if(attrName == 'name') {
+    				animate = value.split('+')[0];
+    				value = value.split('+')[1];
+
+    				$('#animate-previewer').animateCss(animate);
+    			}
+
+    			props.dispatch({
+    				type: 'vdanimations/handleNewInteractionFormChange',
+    				payload: {
+    					value,
+    					attrName,
+    					animate
+    				}
+    			});
+    		}
+
+    		return (
+	    		<div>
+			    	<Form className="form-no-margin-bottom">
+						<FormItem {...formItemLayout} label="动画名称">
+
+							<Row>
+
+								<Col span={12} style={{paddingRight: '15px'}}>
+									<Select
+										value={props.vdanimations.newInteractionForm.name}
+										size="small"
+									    onChange={handleChange.bind(this, 'name')}
+									>
+									  	{
+									  		props.vdanimations.animations.map((item, index) => {
+									  			return (
+												    <OptGroup label={item.name} key={item.name}>
+												    	{
+												    		item.children.map((animate, animateIndex) => {
+												    			return (
+															      	<Option value={animate.name + '+' + animate.title} key={animate.name}>{animate.title}</Option>
+												    			);
+												    		})
+												    	}
+												    </OptGroup>
+									  			);
+
+									  		})
+									  	}
+									</Select>
 								</Col>
-								<Col span={6} style={{textAlign: 'right'}}>
-									
-							        <Icon type="edit" onClick={modelActions.showModalAddInitalAppearance} />
 
-						            <Popconfirm title="确认删除吗？" placement="left" okText="确定" cancelText="取消">
-										<Icon type="delete" />
-									</Popconfirm>
+								<Col span={12} style={{textAlign: 'right'}}>
+									<h1 id="animate-previewer" style={{fontWeight: 200}}>动画预览</h1>
 								</Col>
-		      				</Row>
-		       			</Menu.Item>
-		      		</Menu>
 
-		    	</div>
+							</Row>
 
-		    	<Form className="form-no-margin-bottom">
-					<FormItem {...formItemLayout} label="触发条件">
-					</FormItem>
-		    	</Form>
+						</FormItem>
+			    	</Form>
 
-		    	<div style={{paddingLeft: '10px', paddingRight: '10px'}}>
+			    	<Form className="form-no-margin-bottom">
 
-		      		<Menu className="interaction-list">
-		      			<Menu.Item>
-		      				<Row>
-								<Col span={18}>
-				      				<span>None</span>
+						<FormItem {...formItemLayout} label="执行时间">
+							<Row>
+								<Col span={12} style={{paddingRight: '15px'}}>
+									<Input
+										value={props.vdanimations.newInteractionForm.duration}
+									    onChange={handleChange.bind(this, 'duration')}
+										type="number" size="small" placeholder="单位：毫秒（ms）" />
 								</Col>
-								<Col span={6} style={{textAlign: 'right'}}>
-									<Popover
-							        	content={triggerListPopover}
-							        	title="选择触发动作"
-							        	trigger="click"
-							        	placement="left"
-							      	>
-							            <Icon type="edit" />
-							      	</Popover>
-						            <Popconfirm title="确认删除吗？" placement="left" okText="确定" cancelText="取消">
-										<Icon type="delete" />
-									</Popconfirm>
+							</Row>
+						</FormItem>
+
+						<FormItem {...formItemLayout} label="触发条件">
+							<Row>
+								<Col span={12} style={{paddingRight: '15px'}}>								
+									<Select
+										size="small"
+										value={props.vdanimations.newInteractionForm.condition}
+									    onChange={handleChange.bind(this, 'condition')}
+									>
+								      	<Option value="load">页面加载</Option>
+								      	<Option value="scroll">页面滑动</Option>
+								      	<Option value="click">鼠标点击</Option>
+								      	<Option value="hover">鼠标悬浮</Option>
+									</Select>
 								</Col>
-		      				</Row>
-		       			</Menu.Item>
-		      		</Menu>
-
-		    	</div>
-
-    		</div>
-    	),
+							</Row>
+						</FormItem>
+			    	</Form>
+	    		</div>
+	    	)
+		},
 
     	handleOk () {
+
+    		props.dispatch({
+    			type: 'vdanimations/saveInteraction'
+    		});
+
     		props.dispatch({
     			type: 'vdanimations/hideInteractionCreator'
     		});
@@ -1384,6 +1418,13 @@ const Component = (props) => {
     	)
     }
 
+    const onConfirmRemoveThisInteraction = (index) => {
+    	props.dispatch({
+    		type: 'vdanimations/removeInteraction',
+    		payload: index
+    	});
+    }
+
   	return (
 	    <div className="interaction-section" style={{padding: '15px'}}>
 
@@ -1397,7 +1438,7 @@ const Component = (props) => {
           				onOk={interactionCreator.handleOk}
           				onCancel={interactionCreator.handleCancel}
         			>
-        				{interactionCreator.content}
+        				{interactionCreator.content()}
         			</Modal>
 
         			<Modal title="新增 初始动作"
@@ -1431,26 +1472,34 @@ const Component = (props) => {
       			<Menu.Item>
 		        	<Radio style={radioStyle} value={1}>None</Radio>
       			</Menu.Item>
-      			<Menu.Item>
-      				<Row>
-						<Col span={18}>
-		        			<Radio style={radioStyle} value={2}>交互动画名称</Radio>
-						</Col>
-						<Col span={6} style={{textAlign: 'right'}}>
-							<Popover
-					        	content={interactionEditor.content}
-					        	title="编辑 交互动画"
-					        	trigger="click"
-					        	placement="left"
-					      	>
-					            <Icon type="edit" />
-					      	</Popover>
-				            <Popconfirm title="确认删除吗？" placement="left" okText="确定" cancelText="取消">
-								<Icon type="delete" />
-							</Popconfirm>
-						</Col>
-      				</Row>
-       			</Menu.Item>
+      			{
+      				props.vdanimations.interactions.map((interaction, interactionIndex) => {
+      					return (
+
+			      			<Menu.Item key={interactionIndex}>
+			      				<Row>
+									<Col span={18}>
+					        			<Radio style={radioStyle} value={2}>{interaction.name}</Radio>
+									</Col>
+									<Col span={6} style={{textAlign: 'right'}}>
+										<Popover
+								        	content={interactionEditor.content}
+								        	title="编辑 交互动画"
+								        	trigger="click"
+								        	placement="left"
+								      	>
+								            <Icon type="edit" />
+								      	</Popover>
+							            <Popconfirm title="确认删除吗？" placement="left" onConfirm={onConfirmRemoveThisInteraction.bind(this, interactionIndex)} okText="确定" cancelText="取消">
+											<Icon type="delete" />
+										</Popconfirm>
+									</Col>
+			      				</Row>
+			       			</Menu.Item>
+
+      					);
+      				})
+      			}
       		</Menu>
 
 	    </div>
