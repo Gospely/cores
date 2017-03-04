@@ -1,4 +1,4 @@
-import React , {PropTypes} from 'react';
+ import React , {PropTypes} from 'react';
 import dva from 'dva';
 import { Icon, notification } from 'antd';
 import randomString from '../../utils/randomString.js';
@@ -12,7 +12,6 @@ const openNotificationWithIcon = (type, title, description) => (
 
 const methods = {
 	checkName(symbols, name){
-
 		for (var i = 0; i < symbols.length; i++) {
 			if(symbols[i].name == name){
 				return false;
