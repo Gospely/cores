@@ -30,43 +30,44 @@ const VDRightPanel = (props) => {
     }
 
     flag = true;
-    
+
   return (
     <div className="vd-right-panel">
-      <Tabs defaultActiveKey="styles">
+
+      <Tabs activeKey={props.vdcore.rightTabsPane.activeTabsPane}>
 
         <TabPane tab={
           <Tooltip placement="bottom" title="样式">
             <Icon type="edit" />
-          </Tooltip>} key="styles">
+          </Tooltip>} key='style'>
           <VDStylePanel></VDStylePanel>
         </TabPane>
 
         <TabPane tab={
           <Tooltip placement="bottom" title="组件设置">
             <Icon type="setting" />
-          </Tooltip>} key="settings">
+          </Tooltip>} key='settings'>
           <VDSettingPanel></VDSettingPanel>
         </TabPane>
 
         <TabPane tab={
           <Tooltip placement="bottom" title="组件树">
             <Icon type="bars" />
-          </Tooltip>} key="controllers">
+          </Tooltip>} key='controllers'>
           <VDControllerList></VDControllerList>
         </TabPane>
 
         <TabPane tab={
           <Tooltip placement="bottom" title="交互动画">
             <Icon type="inbox" />
-          </Tooltip>} key="interactions">
+          </Tooltip>} key='interactions'>
           <VDInteractions></VDInteractions>
         </TabPane>
 
         <TabPane tab={
           <Tooltip placement="bottom" title="资源文件">
             <Icon type="picture" />
-          </Tooltip>} key="assets">
+          </Tooltip>} key='assets'>
           <VDAssets></VDAssets>
         </TabPane>
       </Tabs>
@@ -75,8 +76,8 @@ const VDRightPanel = (props) => {
 
 };
 
-function mapSateToProps({ vdCtrlTree, elemAdded }) {
-  return { vdCtrlTree, elemAdded };
+function mapSateToProps({ vdCtrlTree, elemAdded, vdcore}) {
+  return { vdCtrlTree, elemAdded, vdcore};
 }
 
 export default connect(mapSateToProps)(VDRightPanel);

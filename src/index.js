@@ -23,6 +23,15 @@ if(document.domain != 'localhost') {
 	window.debug = true;
 }
 
+$.fn.extend({
+    animateCss: function (animationName) {
+        var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+        this.addClass('animated ' + animationName).one(animationEnd, function() {
+            $(this).removeClass('animated ' + animationName);
+        });
+    }
+});
+
 // 1. 认证和状态同步
 auth();
 localStorage.flashState = 'false';
