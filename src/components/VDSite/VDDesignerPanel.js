@@ -36,6 +36,7 @@ const VDDesignerPanel = (props) => {
             $(window).on("keyup", {props}, function (e) {
                 e.stopPropagation();
                 e.preventDefault();
+
                 if (e.keyCode === 46) {
                     e.data.props.dispatch({
                         type: 'vdCtrlTree/deleteCtrl',
