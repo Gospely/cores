@@ -2082,7 +2082,7 @@ export default {
 
 			let currentRootVdid = state.activeCtrl.root,
 				currentColums = VDTreeActions.getCtrlByKey(state, currentRootVdid, state.activePage);
-			currentColums = currentColums.controller//当前的栅格
+			currentColums = currentColums.controller;
 
 			let needChangeAttr = currentColums.attrs[0].children[1].value;
 
