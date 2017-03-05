@@ -38,6 +38,8 @@ $(function() {
 		originalX: '',
 		dragElemParent: '',
 
+		errorMessage: '非法位置',
+
 
 		//判断是否是合格子元素的方法
 		isLegalChild: function (e, target) {
@@ -49,13 +51,13 @@ $(function() {
 				var dragTag = dndData.dragElem[0].tagName;
 
 				if (dragClass.indexOf(specialChild.className) === -1 || specialChild.tag.indexOf(dragTag) === -1) {
-					return false;
+					return [false, specialChild.errorMessage];
 				}
 
-				return true;
+				return [true, ''];
 			}
 
-			return true;
+			return [true, ''];
 
 		},
 
@@ -64,17 +66,29 @@ $(function() {
 			if (dndData.dragElem.data("specialParent")) {
 
 				var specialParent = dndData.dragElem.data("specialParent");
+				var specialTag = specialParent.tag;
+				var specialClassName = specialParent.className;
 				var parentClass = guideHidden.parent()[0].className;
 				var parentTag = guideHidden.parent()[0].tagName;
+				jq("#VDDesignerContainer").addClass('illegalArea');
+				jq("#VDDesignerContainer").find("*").addClass('illegalArea');
+				jq("#VDDesignerContainer").find("*").each(function () {
+					var $this = jq(this);
+						if (this.className.indexOf(specialClassName) !== -1) {
+							console.log('remove')
+							$this.removeClass('illegalArea');
+							$this.find('*').removeClass('illegalArea');
+					}
+				})
 
-				if (parentClass.indexOf(specialParent.className) === -1 || specialParent.tag.indexOf(parentTag) === -1) {
-					return false;
+				if (parentClass.indexOf(specialClassName) === -1 || specialTag.indexOf(parentTag) === -1) {
+					return [false, specialParent.errorMessage];
 				}
 
-				return true;
+				return [true, ''];
 			}
 
-			return true;
+			return [true, ''];
 		},
 
 		//每次位置变动前的处理
@@ -88,7 +102,8 @@ $(function() {
 
 		needShowParentGuide: function (e, target) {
 			var parent = target.parent();
-			if (parent.data("container")) {
+
+			if (parent.data("container") || parent.attr('id') === 'VDDesignerContainer') {
 				parentGuide.css({
 					left: parent.offset().left,
 					top: parent.offset().top,
@@ -102,12 +117,24 @@ $(function() {
 		//每次位置变动后的处理
 		actionAfterMove: function (e, target) {
 
-			if (dndData.isLegalChild(e, target) && dndData.isLegalParent(e, target)) {
+			var isLegalChild = dndData.isLegalChild(e, target);
+			var isLegalParent = dndData.isLegalParent(e, target);
+
+			if (isLegalChild[0] && isLegalParent[0]) {
 				guide.removeClass("error");
 				parentGuide.removeClass("error");
-			}else {
+			}
+
+			if (!isLegalChild[0]) {
 				guide.addClass("error");
 				parentGuide.addClass("error");
+				dndData.errorMessage = isLegalChild[1];
+			}
+
+			if (!isLegalParent[0]) {
+				guide.addClass("error");
+				parentGuide.addClass("error");
+				dndData.errorMessage = isLegalParent[1];
 			}
 
 			dndData.originalX = e.pageX;
@@ -169,8 +196,7 @@ $(function() {
 					display: 'block',
 					height: 2,
 					top: target.offset().top + target.outerHeight(),
-					// position: 'fixed',
-					left: target.offset().left
+					left: target.parent().children().eq(0).offset().left
 				})
 			}else {
 				guide.css({
@@ -178,7 +204,6 @@ $(function() {
 					display: 'block',
 					height: 2,
 					top: target.offset().top + target.outerHeight(),
-					// position: 'fixed',
 					left: target.offset().left
 				})
 			}
@@ -328,10 +353,10 @@ $(function() {
 				let ref = (e.pageY - first.offset().top) / heigher;
 
 				parentGuide.css({
-					left: target.parent().offset().left,
-					top: target.parent().offset().top,
-					width: target.parent().outerWidth(),
-					height: target.parent().outerHeight(),
+					left: target.offset().left,
+					top: target.offset().top,
+					width: target.outerWidth(),
+					height: target.outerHeight(),
 					display: 'block'
 				})
 
@@ -386,6 +411,10 @@ $(function() {
 
 			ctrlMovedAndDroped: function (c) {
 				parentWindow.postMessage({ 'ctrlMovedAndDroped' : c }, "*");
+			},
+
+			showErrorMessage: function (c) {
+				parentWindow.postMessage({ 'showErrorMessage' : c }, "*");
 			}
 		};
 
@@ -562,12 +591,6 @@ $(function() {
 			'add': function(activeCtrl, column, parent, count, colClass){
 				var elem = jq('[vdid='+ parent + ']');
 
-				for(var i = 0; i < count; i ++){
-					var elemGen = new ElemGenerator(column[i]);
-					var tempElem = elemGen.createElement();
-					elem = elem.append(tempElem);
-				}
-
 				elem.children().each(function () {
 					var classList = this.className.split(' ');
 
@@ -580,6 +603,12 @@ $(function() {
 
 					jq(this).attr("class", classList.join(' '));
 				})
+
+				for(var i = 0; i < count; i ++){
+					var elemGen = new ElemGenerator(column[i]);
+					var tempElem = elemGen.createElement();
+					elem.append(tempElem);
+				}
 
 				var childrenData = [];
 				for(var i = 0; i < activeCtrl.children.length; i ++) {
@@ -789,7 +818,21 @@ $(function() {
 
         		dndData.dragOverElem = target;
 
-        		if (target.outerWidth() < target.parent().innerWidth()) {
+        		if (target.data("controller") && target.data("controller").unActive) {
+        			var findParent = function (elem) {
+        				if (elem.parent().length) {
+        					findParent(elem.parent())
+        				}
+        				if (elem.data("controller") && !elem.data("controller").unActive) {
+        					target = elem;
+        					dndData.dragOverElem = elem;
+        				}
+        			}
+        			findParent(target);
+        		}
+
+        		if (target.outerWidth() < target.parent().innerWidth() && e.target.className.indexOf('col-md-') === -1 &&
+        			target.css('display') !== 'block' && target.css('display') !== 'flex') {
         			//是否是行级元素
         			var ref = (e.pageX - target.offset().left) / target.outerWidth();
         			var moveX = e.pageX - dndData.originalX;
@@ -843,6 +886,11 @@ $(function() {
 
         				if (ref <= 1/3) {
 
+        					if (e.target.className.indexOf('col-md-') > -1) {
+        						target = target.parent();
+        						dndData.dragOverElem = target;
+        					}
+
 		        			dndData.verticalBefore(e, target);
 
 		        		} else if (ref > 1/3 && ref < 2/3) {
@@ -850,6 +898,11 @@ $(function() {
 		        			dndData.containerSpecialHandle(e, target);
 
 		        		} else if (ref >= 2/3) {
+
+		        			if (e.target.className.indexOf('col-md-') > -1) {
+        						target = target.parent();
+        						dndData.dragOverElem = target;
+        					}
 
 		        			dndData.verticalAfter(e, target);
 
@@ -886,19 +939,34 @@ $(function() {
      
         			dndData.isMouseDown = false;
         			controllerOperations.showDesignerDraggerBorder(dragElem);
+        			jq("#VDDesignerContainer").find("*").removeClass('illegalArea');
+        			jq("#VDDesignerContainer").removeClass('illegalArea');
+        			dndData.errorMessage = '非法位置';
         		}
 
         		if(guide.css("display") === 'none') {
         			dndData.isMouseDown = false;
+        			dndData.errorMessage = '非法位置';
+        			jq("#VDDesignerContainer").find("*").removeClass('illegalArea');
+        			jq("#VDDesignerContainer").removeClass('illegalArea');
 					return false;
 				}
 
+				jq("#VDDesignerContainer").find("*").removeClass('illegalArea');
+				jq("#VDDesignerContainer").removeClass('illegalArea');
         		controllerOperations.hideDesignerDraggerBorder();
 
         		if (guide.hasClass("error")) {
-        			alert('非法位置');
+
+        			postMessageToFather.showErrorMessage({
+        				errorMessage: dndData.errorMessage
+        			});
+
         			dndData.isMouseDown = false;
+        			dndData.errorMessage = '非法位置';
         			controllerOperations.showDesignerDraggerBorder(dragElem);
+        			jq("#VDDesignerContainer").find("*").removeClass('illegalArea');
+        			jq("#VDDesignerContainer").removeClass('illegalArea');
 					return false;
         		}
 
@@ -1341,15 +1409,26 @@ $(function() {
         	onDown: function (e) {
 
         		var target = jq(e.target);
-        		if (target.data("controller") && target.data("controller").unActive) {
-        			return false;
-        		}
+
         		e.stopPropagation();
         		e.preventDefault();
 
         		dndData.dragElemParent = target.parent();
         		dndData.dragElem = target;
         		dndData.isMouseDown = true;
+
+        		if (target.data("controller") && target.data("controller").unActive) {
+        			var findParent = function (elem) {
+        				if (elem.parent().length) {
+        					findParent(elem.parent())
+        				}
+        				if (elem.data("controller") && !elem.data("controller").unActive) {
+        					dndData.dragElem = elem;
+        					dndData.dragElemParent = elem;
+        				}
+        			}
+        			findParent(target);
+        		}
 
         	},
         	onUp: function (e) {

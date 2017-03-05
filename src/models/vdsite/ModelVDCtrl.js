@@ -198,6 +198,7 @@ export default {
 					children: [{
 						tag: 'div',
 						className: ['vd-empty','col-md-6'],
+						unActive: true,
 						attrs: [{
 							title: '栅格设置',
 							key: 'columns-setting',
@@ -233,6 +234,7 @@ export default {
 					}, {
 						tag: 'div',
 						className: ['vd-empty', 'col-md-6'],
+						unActive: true,
 						attrs: [{
 							title: '栅格设置',
 							key: 'columns-setting',
@@ -458,7 +460,8 @@ export default {
 								desc: '指定的子元素',
 								value: {
 									tag: ['LI'],
-									className: 'list-group-item'
+									className: 'list-group-item',
+									errorMessage: '列表容器只能放列表项'
 								},
 								backend: true,
 								isSpecialChild: true
@@ -481,7 +484,8 @@ export default {
 								desc: '必需放入list容器内',
 								value: {
 									tag: ['UL', 'OL'],
-									className: 'list-group'
+									className: 'list-group',
+									errorMessage: '列表项只能放入列表容器内'
 								},
 								isSpecialParent: true,
 								backend: true
@@ -505,7 +509,8 @@ export default {
 								desc: '必需放入list容器内',
 								value: {
 									tag: ['UL', 'OL'],
-									className: 'list-group'
+									className: 'list-group',
+									errorMessage: '列表项只能放入列表容器内'
 								},
 								isSpecialParent: true,
 								backend: true
@@ -529,7 +534,8 @@ export default {
 								desc: '必需放入list容器内',
 								value: {
 									tag: ['UL', 'OL'],
-									className: 'list-group'
+									className: 'list-group',
+									errorMessage: '列表项只能放入列表容器内'
 								},
 								isSpecialParent: true,
 								backend: true
@@ -559,7 +565,8 @@ export default {
 							desc: '必需放入list容器内',
 							value: {
 								tag: ['UL', 'OL'],
-								className: 'list-group'
+								className: 'list-group',
+								errorMessage: '列表项只能放入列表容器内'
 							},
 							isSpecialParent: true,
 							backend: true
@@ -1566,10 +1573,10 @@ export default {
                     children: [{
                         tag: 'option',
     					className: [],
+    					unActive: true,
     					attrs: [{
     						title: '选项设置',
     						key: 'options-setting',
-                            unActive: true,
                             isAttrSetting: true,
     						children: [{
                                 name: 'option',
@@ -1586,10 +1593,10 @@ export default {
                     },{
                         tag: 'option',
     					className: [],
+    					unActive: true,
     					attrs: [{
     						title: '选项设置',
     						key: 'options-setting',
-                            unActive: true,
                             isAttrSetting: true,
     						children: [{
                                 name: 'option',
@@ -1670,7 +1677,6 @@ export default {
 						}],
 						children: [{
                             tag: 'a',
-                            unActive: true,
                             className: ['tab-pane', 'vd-tab-link', 'vd-inline-block'],
                             attrs: [{
                                 title: '标签页设置',

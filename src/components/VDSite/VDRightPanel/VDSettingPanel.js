@@ -1666,28 +1666,27 @@ const Component = (props) => {
 							var inter = setInterval(function() {
 								if($('#' + id).length !== 0) {
 									clearInterval(inter);
+									
+									if ($('#' + id).data('isBinded')) {
+										return;
+									}
+									$('#' + id).data('isBinded', true);
 									$('#' + id).dragging({
 										move: 'x',
 
 										onMoveToLeft: function() {
-											console.log('left', index);
 											props.dispatch({
 												type: 'vdCtrlTree/shrinkLeftColumn',
 												payload: {
-													increaseNum: props.vdcore.columnSlider.increseTable[(props.vdcore.columnSlider.columns[index].value).toString()],
-													decreaseNum: props.vdcore.columnSlider.decreaseTable[(props.vdcore.columnSlider.columns[index].value).toString()],
 													index
 												}
 											});
 										},
 
 										onMoveToRight: function() {
-											console.log('right');
 											props.dispatch({
 												type: 'vdCtrlTree/expandLeftColumn',
 												payload: {
-													increaseNum: props.vdcore.columnSlider.increseTable[(props.vdcore.columnSlider.columns[index].value).toString()],
-													decreaseNum: props.vdcore.columnSlider.decreaseTable[(props.vdcore.columnSlider.columns[index].value).toString()],
 													index
 												}
 											});
@@ -1715,8 +1714,11 @@ const Component = (props) => {
 					                            			{column.value}
 					                            		</div>
 					                            		{
-					                            			columnIndex == props.vdcore.columnSlider.columns.length - 1 ? '' : (
-							                            		<div id={'column-slider' + columnIndex} className="column-slider-gutter">{makeColumnSliderDraggable('column-slider' + columnIndex, columnIndex)}<div className="handle"></div></div>
+					                            			columnIndex == item.children[0].value - 1 ? '' : (
+							                            		<div id={'column-slider' + columnIndex} className="column-slider-gutter">
+							                            			{makeColumnSliderDraggable('column-slider' + columnIndex, columnIndex)}
+							                            			<div className="handle"></div>
+							                            		</div>
 					                            			)
 					                            		}
 			                            			</Col>

@@ -1,3 +1,4 @@
+import { message } from 'antd';
 export default {
 	init(props) {
 		window.addEventListener("message", (evt) => {
@@ -34,6 +35,10 @@ export default {
 						type: "vdCtrlTree/ctrlMovedAndDroped",
 						payload: data
 					})
+				},
+
+				showErrorMessage() {
+					message.error(data.errorMessage, 2.5)
 				}
 
 			}

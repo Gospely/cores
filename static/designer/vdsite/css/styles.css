@@ -45,7 +45,7 @@ html.vd-design-mode * {
 
 .vd-OutlineSelectedNode {
     border: 1px solid rgba(23, 141, 247, 0.93);
-    z-index: 65535;
+    z-index: 65533;
 }
 
 .vd-outline {
@@ -227,7 +227,7 @@ html.vd-design-mode * {
 
 .vd-OutlineDropParentNode {
   border: 2px solid #FF7000;
-  z-index: 65535;
+  z-index: 65534;
   position: absolute;
   pointer-events: none !important;
   display: none;
@@ -289,4 +289,8 @@ html.vd-design-mode * {
     margin-left: auto;
     margin-right: auto;
     max-width: 940px;
+}
+
+.illegalArea {
+  background-color: rgba(1 , 1, 1, .37);
 }

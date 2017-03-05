@@ -1941,14 +1941,15 @@ export default {
 
 		//栅格数变化
 		handleColumnCountChange(state, { payload: params }) {
+			console.log(params)
 			let column = params.column;
 			let currentRootVdid = params.currentRootVdid;
 			let tmpColumns = params.tmpColumns;
 
 			let colClass = 'col-md-' + tmpColumns[0].value;
 
-			let currentColums = VDTreeActions.getCtrlByKey(state, currentRootVdid, state.activePage);
-			currentColums = currentColums.controller//当前的栅格
+			let currentColumsInfo = VDTreeActions.getCtrlByKey(state, currentRootVdid, state.activePage);
+			let currentColums = currentColumsInfo.controller//当前的栅格
 			let currentCount = currentColums.attrs[0].children[0].value;//当前栅格里面的格子数
 			let changCount = params.value - currentCount;
 
@@ -2070,15 +2071,18 @@ export default {
 				}, '*');
 			}
 
-			let actrl = VDTreeActions.getActiveControllerIndexAndLvlByKey(state, currentRootVdid, state.activePage);
+			// let actrl = VDTreeActions.getActiveControllerIndexAndLvlByKey(state, currentRootVdid, state.activePage);
+			// state.activeCtrl = currentColums;
 			state.activeCtrl = currentColums;
+			state.activeCtrlIndex = currentColumsInfo.index;
+			state.activeCtrlLvl = currentColumsInfo.level;
+			state.defaultSelectedKeys = [currentColumsInfo.vdid];
+			console.log(currentColums)
 
 			return {...state};
 		},
 
 		shrinkLeftColumn(state, { payload: params }) {
-			let increaseNum = params.increaseNum,
-				decreaseNum = params.decreaseNum;
 
 			let currentRootVdid = state.activeCtrl.root,
 				currentColums = VDTreeActions.getCtrlByKey(state, currentRootVdid, state.activePage);
@@ -2086,69 +2090,38 @@ export default {
 
 			let needChangeAttr = currentColums.attrs[0].children[1].value;
 
-			if(needChangeAttr[params.index].value >= 0 && needChangeAttr[params.index + 1].value < 12) {
-				if(needChangeAttr[params.index].value < 1) {
-
-					window.VDDesignerFrame.postMessage({
-						VDAttrRefreshed: {
-							activeCtrl: currentColums.children[params.index],
-							attr: {
-								attrName: 'classOperate',
-								action: 'replaceClass',
-								remove: 'col-md-' + needChangeAttr[params.index].value,
-								replacement: 'col-md-1',
-								target: {
-									vdid: currentColums.children[params.index].vdid
-								}
-							}
-						}
-					}, '*');
-
-					needChangeAttr[params.index].span = 2;
-					needChangeAttr[params.index].value = 1;
-					currentColums.children[params.index].attrs[0].children[1].value[params.index].span = 1;
-					currentColums.children[params.index].attrs[0].children[1].value[params.index].value = 1;
-
-				}else {
-
-					window.VDDesignerFrame.postMessage({
-						VDAttrRefreshed: {
-							activeCtrl: currentColums.children[params.index],
-							attr: {
-								attrName: 'classOperate',
-								action: 'replaceClass',
-								remove: 'col-md-' + needChangeAttr[params.index].value,
-								replacement: 'col-md-' + (needChangeAttr[params.index].value - decreaseNum),
-								target: {
-									vdid: currentColums.children[params.index].vdid
-								}
-							}
-						}
-					}, '*');
-
-					needChangeAttr[params.index].span -= decreaseNum * 2;
-					needChangeAttr[params.index].value -= decreaseNum;
-					if(needChangeAttr[params.index].value === 0) {
-
-						window.VDDesignerFrame.postMessage({
-							VDAttrRefreshed: {
-								activeCtrl: currentColums.children[params.index],
-								attr: {
-									attrName: 'classOperate',
-									action: 'replaceClass',
-									remove: 'col-md-' + needChangeAttr[params.index].value,
-									replacement: 'col-md-1',
-									target: {
-										vdid: currentColums.children[params.index].vdid
-									}
-								}
-							}
-						}, '*');
-
-						needChangeAttr[params.index].span = 2;
-						needChangeAttr[params.index].value = 1;
+			let changClassName = (classNames, className) => {
+				for(let i = 0; i < classNames.length; i ++) {
+					if (classNames[i].indexOf('col-md-') !== -1) {
+						classNames[i] = className;
 					}
 				}
+			}
+
+			if (needChangeAttr[params.index].value > 1) {
+				window.VDDesignerFrame.postMessage({
+					VDAttrRefreshed: {
+						activeCtrl: currentColums.children[params.index],
+						attr: {
+							attrName: 'classOperate',
+							action: 'replaceClass',
+							remove: 'col-md-' + (needChangeAttr[params.index].value),
+							replacement: 'col-md-' + (needChangeAttr[params.index].value - 1),
+							target: {
+								vdid: currentColums.children[params.index].vdid
+							}
+						}
+					}
+				}, '*');
+
+				needChangeAttr[params.index].span -= 2;
+				needChangeAttr[params.index].value -= 1;
+				for(let i = 0; i < currentColums.children.length; i ++) {
+					currentColums.children[i].attrs[0].children[1].value[params.index].span = needChangeAttr[params.index].span;
+					currentColums.children[i].attrs[0].children[1].value[params.index].value = needChangeAttr[params.index].value;
+				}
+
+				changClassName(currentColums.children[params.index].className, 'col-md-' + (needChangeAttr[params.index].value));
 
 				window.VDDesignerFrame.postMessage({
 					VDAttrRefreshed: {
@@ -2156,8 +2129,8 @@ export default {
 						attr: {
 							attrName: 'classOperate',
 							action: 'replaceClass',
-							remove: 'col-md-' + needChangeAttr[params.index + 1].value,
-							replacement: 'col-md-' + (needChangeAttr[params.index + 1].value + decreaseNum),
+							remove: 'col-md-' + (needChangeAttr[params.index + 1].value),
+							replacement: 'col-md-' + (needChangeAttr[params.index + 1].value + 1),
 							target: {
 								vdid: currentColums.children[params.index + 1].vdid
 							}
@@ -2165,20 +2138,23 @@ export default {
 					}
 				}, '*');
 
-				needChangeAttr[params.index + 1].span += decreaseNum * 2;
-				needChangeAttr[params.index + 1].value += decreaseNum;
+				needChangeAttr[params.index + 1].span += 2;
+				needChangeAttr[params.index + 1].value += 1;
+				
+				for(let i = 0; i < currentColums.children.length; i ++) {
+					currentColums.children[i].attrs[0].children[1].value[params.index + 1].span = needChangeAttr[params.index + 1].span;
+					currentColums.children[i].attrs[0].children[1].value[params.index + 1].value = needChangeAttr[params.index + 1].value;
+				}
 
+				changClassName(currentColums.children[params.index + 1].className, 'col-md-' + (needChangeAttr[params.index + 1].value));
 			}
 
-			state.activeCtrl = currentColums;
-
 			return {...state};
+
 		},
 
 		expandLeftColumn(state, { payload: params }) {
 
-			let increaseNum = params.increaseNum,
-				decreaseNum = params.decreaseNum;
 
 			let currentRootVdid = state.activeCtrl.root,
 				currentColums = VDTreeActions.getCtrlByKey(state, currentRootVdid, state.activePage);
@@ -2186,121 +2162,64 @@ export default {
 
 			let needChangeAttr = currentColums.attrs[0].children[1].value;
 
-			if(needChangeAttr[params.index + 1].value >= 0 && needChangeAttr[params.index].value < 12 ) {
-
-				if(needChangeAttr[params.index].value >= 11) {
-
-					window.VDDesignerFrame.postMessage({
-						VDAttrRefreshed: {
-							activeCtrl: currentColums.children[params.index],
-							attr: {
-								attrName: 'classOperate',
-								action: 'replaceClass',
-								remove: 'col-md-' + needChangeAttr[params.index].value,
-								replacement: 'col-md-11',
-								target: {
-									vdid: currentColums.children[params.index].vdid
-								}
-							}
-						}
-					}, '*');
-					needChangeAttr[params.index].span = 22;
-					needChangeAttr[params.index].value = 11;
-
-					window.VDDesignerFrame.postMessage({
-						VDAttrRefreshed: {
-							activeCtrl: currentColums.children[params.index + 1],
-							attr: {
-								attrName: 'classOperate',
-								action: 'replaceClass',
-								remove: 'col-md-' + needChangeAttr[params.index + 1].value,
-								replacement: 'col-md-1',
-								target: {
-									vdid: currentColums.children[params.index + 1].vdid
-								}
-							}
-						}
-					}, '*');
-					needChangeAttr[params.index + 1].span = 2;
-					needChangeAttr[params.index + 1].value = 1;
-
-				}else {
-
-					window.VDDesignerFrame.postMessage({
-						VDAttrRefreshed: {
-							activeCtrl: currentColums.children[params.index],
-							attr: {
-								attrName: 'classOperate',
-								action: 'replaceClass',
-								remove: 'col-md-' + needChangeAttr[params.index].value,
-								replacement: 'col-md-' + (needChangeAttr[params.index].value + increaseNum),
-								target: {
-									vdid: currentColums.children[params.index].vdid
-								}
-							}
-						}
-					}, '*');
-					//
-					needChangeAttr[params.index].span += increaseNum * 2;
-					needChangeAttr[params.index].value += increaseNum;
-
-					window.VDDesignerFrame.postMessage({
-						VDAttrRefreshed: {
-							activeCtrl: currentColums.children[params.index + 1],
-							attr: {
-								attrName: 'classOperate',
-								action: 'replaceClass',
-								remove: 'col-md-' + needChangeAttr[params.index + 1].value,
-								replacement: 'col-md-' + (needChangeAttr[params.index + 1].value - increaseNum),
-								target: {
-									vdid: currentColums.children[params.index + 1].vdid
-								}
-							}
-						}
-					}, '*');
-					needChangeAttr[params.index + 1].span -= increaseNum * 2;
-					needChangeAttr[params.index + 1].value -= increaseNum;
-
-					if(needChangeAttr[params.index].value === 12) {
-						window.VDDesignerFrame.postMessage({
-							VDAttrRefreshed: {
-								activeCtrl: currentColums.children[params.index],
-								attr: {
-									attrName: 'classOperate',
-									action: 'replaceClass',
-									remove: 'col-md-' + needChangeAttr[params.index].value,
-									replacement: 'col-md-11',
-									target: {
-										vdid: currentColums.children[params.index].vdid
-									}
-								}
-							}
-						}, '*');
-						needChangeAttr[params.index].span = 22;
-						needChangeAttr[params.index].value = 11;
-
-						window.VDDesignerFrame.postMessage({
-							VDAttrRefreshed: {
-								activeCtrl: currentColums.children[params.index + 1],
-								attr: {
-									attrName: 'classOperate',
-									action: 'replaceClass',
-									remove: 'col-md-' + needChangeAttr[params.index + 1].value,
-									replacement: 'col-md-1',
-									target: {
-										vdid: currentColums.children[params.index + 1].vdid
-									}
-								}
-							}
-						}, '*');
-						needChangeAttr[params.index + 1].span = 2;
-						needChangeAttr[params.index + 1].value = 1;
-
+			let changClassName = (classNames, className) => {
+				for(let i = 0; i < classNames.length; i ++) {
+					if (classNames[i].indexOf('col-md-') !== -1) {
+						classNames[i] = className;
 					}
 				}
 			}
 
-			state.activeCtrl = currentColums;
+			if (needChangeAttr[params.index + 1].value > 1) {
+				window.VDDesignerFrame.postMessage({
+					VDAttrRefreshed: {
+						activeCtrl: currentColums.children[params.index],
+						attr: {
+							attrName: 'classOperate',
+							action: 'replaceClass',
+							remove: 'col-md-' + (needChangeAttr[params.index].value),
+							replacement: 'col-md-' + (needChangeAttr[params.index].value + 1),
+							target: {
+								vdid: currentColums.children[params.index].vdid
+							}
+						}
+					}
+				}, '*');
+				//
+				needChangeAttr[params.index].span += 2;
+				needChangeAttr[params.index].value += 1;
+				
+				for(let i = 0; i < currentColums.children.length; i ++) {
+					currentColums.children[i].attrs[0].children[1].value[params.index].span = needChangeAttr[params.index].span;
+					currentColums.children[i].attrs[0].children[1].value[params.index].value = needChangeAttr[params.index].value;
+				}
+				changClassName(currentColums.children[params.index].className, 'col-md-' + (needChangeAttr[params.index].value));
+
+				window.VDDesignerFrame.postMessage({
+					VDAttrRefreshed: {
+						activeCtrl: currentColums.children[params.index + 1],
+						attr: {
+							attrName: 'classOperate',
+							action: 'replaceClass',
+							remove: 'col-md-' + (needChangeAttr[params.index + 1].value),
+							replacement: 'col-md-' + (needChangeAttr[params.index + 1].value - 1),
+							target: {
+								vdid: currentColums.children[params.index + 1].vdid
+							}
+						}
+					}
+				}, '*');
+				needChangeAttr[params.index + 1].span -= 2;
+				needChangeAttr[params.index + 1].value -= 1;
+
+				for(let i = 0; i < currentColums.children.length; i ++) {
+					currentColums.children[i].attrs[0].children[1].value[params.index + 1].span = needChangeAttr[params.index + 1].span;
+					currentColums.children[i].attrs[0].children[1].value[params.index + 1].value = needChangeAttr[params.index + 1].value;
+				}
+				
+				changClassName(currentColums.children[params.index + 1].className, 'col-md-' + (needChangeAttr[params.index + 1].value));
+			}
+
 			return {...state};
 		},
 

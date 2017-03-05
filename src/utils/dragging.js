@@ -3,6 +3,10 @@ const dragging = () => {
 
 	jQuery.fn.extend({
 	    dragging:function(data){
+
+	    	// if(jQuery._data(document, 'events').mousemove.length !== 0) {
+	    	// 	return;
+	    	// };
 			var $this = jQuery(this);
 			var xPage;
 			var yPage;
@@ -25,7 +29,7 @@ const dragging = () => {
 			}
 
 			//初始化
-			hander.css({"cursor":"move"});
+			// hander.css({"cursor":"move"});
 			$width=$this.width();
 			$height=$this.height();
 			// $this.css({"width":$width+"px","height":$height+"px"});
@@ -53,8 +57,9 @@ const dragging = () => {
 				mDown = true;
 				X = e.pageX;
 				Y = e.pageY;
-				positionX = $this.position().left;
-				positionY = $this.position().top;
+				xPage = e.pageX
+				// positionX = $this.position().left;
+				// positionY = $this.position().top;
 				if(opt.onMouseDown) {
 					opt.onMouseDown(e);
 				}
@@ -63,40 +68,54 @@ const dragging = () => {
 
 			jQuery(document).mouseup(function(e){
 				mDown = false;
+				xPage = e.pageX;
+				X = e.pageX;
 				if(opt.onMouseUp) {
 					opt.onMouseUp(e);
 				}
-			});
 
-			jQuery(document).mousemove(function(e){
-				xPage = e.pageX;//--
-				moveX = positionX + xPage - X;
-				yPage = e.pageY;//--
-				moveY = positionY + yPage - Y;
-				$this.css({"position":"absolute"});
+			});
+			jQuery(document).on('mousemove', function(e){
+				// xPage = e.pageX;//--
+				// moveX = positionX + xPage - X;
+				// yPage = e.pageY;//--
+				// moveY = positionY + yPage - Y;
+				// $this.css({"position":"absolute"});
 				function thisXMove(){ //x轴移动
 					if(mDown == true){
 
-						if(prevX - moveX < 0) {
+						xPage = e.pageX;
 
-							console.log('moveX - prevMoveX = ', moveX - prevLeft);
+						if(X - xPage <= 0) {
 
-							if(moveX - prevLeft >= 25) {
-								prevLeft = moveX;
+							// console.log('moveX - prevMoveX = ', moveX - prevLeft);
+
+							if(xPage - X >= 15) {
+								// prevLeft = moveX;
 								// $this.css({"left": moveX});
+								if (X == xPage) {
+									return;
+								}
+								X = xPage;
 								if(opt.onMoveToRight) {
 									opt.onMoveToRight();
 								}
+								console.log(xPage - X)
 							}
 
 						}else {
 
-							if(prevLeft - moveX >= 20 ) {
-								prevLeft = moveX
+							if(X - xPage >= 15 ) {
+								if (X == xPage) {
+									return;
+								}
+								// prevLeft = moveX
 								// $this.css({"left": moveX});
+								X = xPage;
 								if(opt.onMoveToLeft) {
 									opt.onMoveToLeft();
 								}
+								
 							}
 
 						}
@@ -105,7 +124,7 @@ const dragging = () => {
 						return;
 					}
 					if(moveX < 0){
-						$this.css({"left":"0"});
+						// $this.css({"left":"0"});
 					}
 					if(moveX > (faWidth-thisWidth)){
 						// $this.css({"left":faWidth-thisWidth});
