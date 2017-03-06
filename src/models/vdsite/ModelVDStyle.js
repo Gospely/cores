@@ -292,19 +292,29 @@ export default {
 				cursor: {
 					important: false
 				},
-				'border-bottom-right-style': {
+
+				'border-style': {
 					important: false
 				},
-				'border-top-left-style': {
+			
+				'border-color': {
 					important: false
 				},
-				'border-top-right-style': {
+
+				'border-bottom-style': {
 					important: false
 				},
-				'border-bottom-left-style': {
+				'border-top-style': {
 					important: false
 				},
-				'border-bottom-right-color': {
+				'border-left-style': {
+					important: false
+				},
+				'border-right-style': {
+					important: false
+				},
+
+				'border-right-color': {
 					important: false
 				},
 				'border-top-color': {
@@ -316,18 +326,7 @@ export default {
 				'border-left-color': {
 					important: false
 				},
-				'border-right-width': {
-					important: false
-				},
-				'border-left-width': {
-					important: false
-				},
-				'border-top-width': {
-					important: false
-				},
-				'border-bottom-width': {
-					important: false
-				},
+
 				'background-color': {
 					important: false
 				},
@@ -569,19 +568,29 @@ export default {
 			cursor: {
 				important: false
 			},
-			'border-bottom-right-style': {
+
+			'border-style': {
 				important: false
 			},
-			'border-top-left-style': {
+		
+			'border-color': {
 				important: false
 			},
-			'border-top-right-style': {
+
+			'border-bottom-style': {
 				important: false
 			},
-			'border-bottom-left-style': {
+			'border-top-style': {
 				important: false
 			},
-			'border-bottom-right-color': {
+			'border-left-style': {
+				important: false
+			},
+			'border-right-style': {
+				important: false
+			},
+
+			'border-right-color': {
 				important: false
 			},
 			'border-top-color': {
@@ -593,18 +602,7 @@ export default {
 			'border-left-color': {
 				important: false
 			},
-			'border-right-width': {
-				important: false
-			},
-			'border-left-width': {
-				important: false
-			},
-			'border-top-width': {
-				important: false
-			},
-			'border-bottom-width': {
-				important: false
-			},
+
 			'background-color': {
 				important: false
 			},
