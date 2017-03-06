@@ -118,6 +118,8 @@ export default {
 
 		rightTabsPane: {
 			activeTabsPane: 'style',
+			linkTo: false,
+
 		}
 	},
 
@@ -281,8 +283,9 @@ export default {
 			return {...state};
 		},
 
-		changeTabsPane(state, { payload: key }) {
-			state.rightTabsPane.activeTabsPane = key;
+		changeTabsPane(state, { payload: params }) {
+			state.rightTabsPane.activeTabsPane = params.activeTabsPane;
+			state.rightTabsPane.linkTo = params.linkTo;
 			return {...state};
 		},
 

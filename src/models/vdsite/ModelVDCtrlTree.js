@@ -1180,6 +1180,15 @@ export default {
 			state.activeCtrl = currentActiveCtrl.controller;
 			return { ...state};
 		},
+		uploadPreviewImg(state, { payload: params}){
+			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
+			console.log(currentActiveCtrl);
+			console.log(currentActiveCtrl.controller.attrs[0].children[0].fileInfo);
+			currentActiveCtrl.controller.attrs[0].children[0].fileInfo = params;
+								console.log(currentActiveCtrl.controller.attrs[0].children[0].fileInfo);
+
+			return { ...state}
+		},
 		handleAddChildrenAttr(state, { payload: params}){
 			state.attr[params.name] = params.value
 			return {...state};

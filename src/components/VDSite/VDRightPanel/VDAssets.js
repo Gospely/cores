@@ -14,13 +14,36 @@ const Component = (props) => {
 
 	const assetsProps = {
 		handlePreview (file) {
-			props.dispatch({
-				type: 'vdassets/handlePreview',
-				payload: {
-			      	previewImage: file.url || file.thumbUrl,
-			      	previewVisible: true,
-			    }
+
+			const linkToSettings = props.vdcore.rightTabsPane.linkTo;
+
+			if(linkToSettings){
+				    console.log(file);
+            		console.log(props.vdCtrlTree.layoutState);
+				props.dispatch({
+					type: 'vdcore/changeTabsPane',
+					payload: {
+						activeTabsPane: 'settings',
+          				linkTo: false,
+					}
+				});
+
+				props.dispatch({
+					type: 'vdCtrlTree/uploadPreviewImg',
+					payload: file
+				})
+
+			}else{
+
+				props.dispatch({
+					type: 'vdassets/handlePreview',
+					payload: {
+			      		previewImage: file.url || file.thumbUrl,
+			      		previewVisible: true,
+			    	}
+
 			});
+			}
 		},
 
 		handleChange (image) {
@@ -53,7 +76,7 @@ const Component = (props) => {
 			props.dispatch({
 				type: 'vdassets/handleCancel'
 			});
-		}
+		},
 	}
 
     const uploadButton = (
@@ -85,8 +108,8 @@ const Component = (props) => {
 
 };
 
-function mapSateToProps({ vdassets }) {
-  return { vdassets };
+function mapSateToProps({ vdassets, vdcore, vdCtrlTree}) {
+  return { vdassets, vdcore, vdCtrlTree};
 }
 
 export default connect(mapSateToProps)(Component);
