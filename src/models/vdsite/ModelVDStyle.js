@@ -716,7 +716,8 @@ export default {
 					'margin-top': '',
 					'margin-bottom': '',
 					'margin-left': '',
-					'margin-right': ''
+					'margin-right': '',
+					'margin-center': false
 				},
 
 				background: {
@@ -883,7 +884,8 @@ export default {
 				'margin-top': '',
 				'margin-bottom': '',
 				'margin-left': '',
-				'margin-right': ''
+				'margin-right': '',
+				'margin-center': false
 			},
 
 			background: {
@@ -1272,7 +1274,7 @@ export default {
 
 				margin (currentStyleParent, unit) {
 					unit = unit || '';
-					return specialStyle['border'](currentStyleParent, undefined, unit);
+					return specialStyle['border'](currentStyleParent, 'margin-center', unit);
 				},
 
 				border(currentStyleParent, extraProperty, unit) {
@@ -1292,7 +1294,12 @@ export default {
 
 							let currentStyleValue = currentStyleParent[styleName];
 							if (currentStyleValue !== '') {
-								styleText += styleName + ':' + currentStyleValue + unit + important + ';';
+								if(currentStyleValue == 'auto') {
+									//margin: 0 auto
+									styleText += styleName + ':' + currentStyleValue + important + ';';
+								}else {
+									styleText += styleName + ':' + currentStyleValue + unit + important + ';';
+								}
 							}
 						}
 						unit = '';
@@ -1717,24 +1724,34 @@ export default {
 		},
 
 		setThisPropertyImportant(state, { payload: params }) {
-			var propertyParent = styleAction.findCSSPropertyByProperty(state.cssStyleLayout[params.activeStyleName], params.property);
 			var activeCSSProperty = state.unitList[params.activeStyleName][params.property];
 			activeCSSProperty.important = !activeCSSProperty.important;
-			// if(propertyParent[params.property].indexOf('!important') == -1) {
-			// 	propertyParent[params.property] += '!important';
-			// }else {
-			// 	propertyParent[params.property] = propertyParent[params.property].replace('!important', '');			
-			// }
-			console.log(activeCSSProperty);
 			return {...state};
 		},
 
 		changeActiveUnit(state, { payload: params }) {
 			state.unitList[params.activeStyleName][params.property].unit = params.value;
 			return {...state};
+		},
+
+		setMarginCenter(state, { payload: params }) {
+			var cssProperty = state.cssStyleLayout[params.activeStyleName]['margin'];
+			cssProperty[params.property] = params.checked;
+
+			if(params.checked) {
+				cssProperty['margin-top'] = 0;
+				cssProperty['margin-bottom'] = 0;
+				cssProperty['margin-left'] = 'auto';
+				cssProperty['margin-right'] = 'auto';				
+			}else {
+				cssProperty['margin-top'] = 0;
+				cssProperty['margin-bottom'] = 0;
+				cssProperty['margin-left'] = 0;
+				cssProperty['margin-right'] = 0;
+			}
+
+			return {...state};
 		}
-
-
 	}
 
 }

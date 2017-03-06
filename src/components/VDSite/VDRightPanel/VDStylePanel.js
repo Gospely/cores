@@ -1600,6 +1600,25 @@ const VDStylePanel = (props) => {
     	);
 
 		const layoutPanel = () => {
+
+			const setMarginCenter = (checked) => {
+				props.dispatch({
+					type: 'vdstyles/setMarginCenter',
+					payload: {
+						property: 'margin-center',
+						checked,
+						activeStyleName: props.vdCtrlTree.activeCtrl.activeStyle
+					}
+				});
+
+				props.dispatch({
+					type: 'vdstyles/applyCSSStyleIntoPage',
+					payload: {
+						activeCtrl: props.vdCtrlTree.activeCtrl
+					}
+				});
+			}
+
 			return (
 		    <Panel header="布局" key="layout">
 
@@ -1742,7 +1761,13 @@ const VDStylePanel = (props) => {
 
 		      	<li className="ant-dropdown-menu-item-divider"></li>
 
-		    	<Row>
+		      	<Form className="form-no-margin-bottom zindex-form">
+					<FormItem {...formItemLayout} label="居中">
+						<Switch onChange={setMarginCenter} value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['margin']['center']} size="small" />
+					</FormItem>
+		      	</Form>
+
+		    	<Row hidden={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['margin']['margin-center']}>
 
 				  	<Col span={12} style={{paddingRight: '5px'}}>
 				      	<Form className="form-no-margin-bottom">
@@ -1783,7 +1808,7 @@ const VDStylePanel = (props) => {
 
 			  	</Row>
 
-		    	<Row>
+		    	<Row hidden={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['margin']['margin-center']}>
 
 				  	<Col span={12} style={{paddingRight: '5px'}}>
 				      	<Form className="form-no-margin-bottom">
