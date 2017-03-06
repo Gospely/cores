@@ -54,6 +54,11 @@ export default {
 		},
 
 		interactions: [{
+			animate: '',
+			name: 'None',
+			duration: '',
+			condition: 'none'
+		}, {
 			animate: 'bounce',
 			name: '弹跳',
 			duration: '',
@@ -65,23 +70,34 @@ export default {
 			condition: 'hover'
 		}],
 
-		activeInteraction: 0
+		activeInteraction: 0,
+
+		activeInteractionIndex: 0
 
 	},
 
 	effects: {
 
 		*handleInteractionOnSelect({payload: params}, {call, put, select}) {
-
+			
 			var interactions = yield select(state => state.vdanimations.interactions);
 			var animateName = interactions[params.key].animate;
 
+			if (params.key !== 0) {
+				yield put({
+					type: 'vdCtrlTree/handleInteractionOnSelect',
+					payload: {
+						animateName
+					}
+				});
+			}
+
 			yield put({
-				type: 'vdCtrlTree/handleInteractionOnSelect',
+				type: 'setActiveInteraction',
 				payload: {
-					animateName
+					interactionIndex: params.key
 				}
-			});
+			})
 		}
 
 	},
@@ -143,7 +159,7 @@ export default {
 					state.newInteractionForm.animate = params.animate;
 				}
 			}else {
-				var activeInteraction = state.interactions[state.activeInteraction];
+				var activeInteraction = state.interactions[state.activeInteractionIndex];
 				activeInteraction[params.attrName] = params.value
 
 				if(params.attrName == 'name') {
@@ -186,7 +202,7 @@ export default {
 		},
 
 		setActiveInteraction(state, { payload: interactionIndex }) {
-			state.activeInteraction = interactionIndex;
+			state.activeInteractionIndex = typeof interactionIndex === 'object' ? interactionIndex.interactionIndex : interactionIndex;
 			return {...state};
 		}
 

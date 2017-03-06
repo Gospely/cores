@@ -67,7 +67,7 @@ const Component = (props) => {
 
     		if(edit) {
     			setTimeout(function() {
-					$('#animate-previewer').animateCss(props.vdanimations.interactions[props.vdanimations.activeInteraction].animate);
+					$('#animate-previewer').animateCss(props.vdanimations.interactions[props.vdanimations.activeInteractionIndex].animate);
     			}, 800);
     		}
 
@@ -80,7 +80,7 @@ const Component = (props) => {
 
 								<Col span={12} style={{paddingRight: '15px'}}>
 									<Select
-										value={edit ? props.vdanimations.interactions[props.vdanimations.activeInteraction].name : props.vdanimations.newInteractionForm.name}
+										value={edit ? props.vdanimations.interactions[props.vdanimations.activeInteractionIndex].name : props.vdanimations.newInteractionForm.name}
 										size="small"
 									    onChange={handleChange.bind(this, 'name')}
 									>
@@ -118,7 +118,7 @@ const Component = (props) => {
 							<Row>
 								<Col span={12} style={{paddingRight: '15px'}}>
 									<Input
-										value={edit ? props.vdanimations.interactions[props.vdanimations.activeInteraction].duration : props.vdanimations.newInteractionForm.duration}
+										value={edit ? props.vdanimations.interactions[props.vdanimations.activeInteractionIndex].duration : props.vdanimations.newInteractionForm.duration}
 									    onChange={handleChange.bind(this, 'duration')}
 										type="number" size="small" placeholder="单位:毫秒,可留空" />
 								</Col>
@@ -130,7 +130,7 @@ const Component = (props) => {
 								<Col span={12} style={{paddingRight: '15px'}}>								
 									<Select
 										size="small"
-										value={edit ? props.vdanimations.interactions[props.vdanimations.activeInteraction].condition : props.vdanimations.newInteractionForm.condition}
+										value={edit ? props.vdanimations.interactions[props.vdanimations.activeInteractionIndex].condition : props.vdanimations.newInteractionForm.condition}
 									    onChange={handleChange.bind(this, 'condition')}
 									>
 								      	<Option value="load">页面加载</Option>
@@ -187,6 +187,13 @@ const Component = (props) => {
     			payload: interactionIndex
     		});
     	},
+
+        setActiveInteraction (interactionIndex) {
+            props.dispatch({
+                type: 'vdanimations/setActiveInteraction',
+                payload: interactionIndex
+            });
+        },
 
     	handleOk () {
     		props.dispatch({
@@ -246,9 +253,6 @@ const Component = (props) => {
 	    	</Row>
 
       		<Menu className="interaction-list" onSelect={handleInteractionOnSelect}>
-      			<Menu.Item>
-		        	<Radio style={radioStyle} value={1}>None</Radio>
-      			</Menu.Item>
       			{
       				props.vdanimations.interactions.map((interaction, interactionIndex) => {
       					return (
@@ -256,14 +260,18 @@ const Component = (props) => {
 			      			<Menu.Item key={interactionIndex}>
 			      				<Row>
 									<Col span={18}>
-					        			<Radio style={radioStyle} value={2}>{interaction.name} - {interaction.condition}</Radio>
+					        			<Radio checked={props.vdanimations.activeInteractionIndex === interactionIndex} 
+                                            style={radioStyle} value={interactionIndex}>{interaction.name} - {interaction.condition}
+                                        </Radio>
 									</Col>
-									<Col span={6} style={{textAlign: 'right'}}>
+									{
+                                        interactionIndex !== 10 && (<Col span={6} style={{textAlign: 'right'}}>
 							            <Icon onClick={interactionEditor.modifyInteraction.bind(this, interactionIndex)} type="edit" />
-							            <Popconfirm title="确认删除吗？" placement="left" onConfirm={onConfirmRemoveThisInteraction.bind(this, interactionIndex)} okText="确定" cancelText="取消">
-											<Icon type="delete" />
-										</Popconfirm>
-									</Col>
+							                <Popconfirm title="确认删除吗？" placement="left" onConfirm={onConfirmRemoveThisInteraction.bind(this, interactionIndex)} okText="确定" cancelText="取消">
+											     <Icon type="delete" />
+										    </Popconfirm>
+									   </Col>)
+                                    }
 			      				</Row>
 			       			</Menu.Item>
 
