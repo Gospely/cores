@@ -262,135 +262,168 @@ export default {
 		cssPropertyUnits: {
 			width: {
 				defaultUnit: 'px',
-				unit: 'px'
+				unit: 'px',
+				important: false
 			},
 			height: {
 				defaultUnit: 'px',
-				unit: 'px'
+				unit: 'px',
+				important: false
 			},
 			'max-width': {
 				defaultUnit: 'px',
-				unit: 'px'
+				unit: 'px',
+				important: false
 			},
 			'min-height': {
 				defaultUnit: 'px',
-				unit: 'px'
+				unit: 'px',
+				important: false
 			},
 			'min-width': {
 				defaultUnit: 'px',
-				unit: 'px'
+				unit: 'px',
+				important: false
 			},
 			'max-height': {
 				defaultUnit: 'px',
-				unit: 'px'
+				unit: 'px',
+				important: false
 			},
 			'font-size': {
 				defaultUnit: 'px',
-				unit: 'px'
+				unit: 'px',
+				important: false
 			},
 			'padding-top': {
 				defaultUnit: 'px',
-				unit: 'px'
+				unit: 'px',
+				important: false
 			},
 			'padding-left': {
 				defaultUnit: 'px',
-				unit: 'px'
+				unit: 'px',
+				important: false
 			},
 			'padding-right': {
 				defaultUnit: 'px',
-				unit: 'px'
+				unit: 'px',
+				important: false
 			},
 			'padding-bottom': {
 				defaultUnit: 'px',
-				unit: 'px'
+				unit: 'px',
+				important: false
 			},
 			'margin-top': {
 				defaultUnit: 'px',
-				unit: 'px'
+				unit: 'px',
+				important: false
 			},
 			'margin-right': {
 				defaultUnit: 'px',
-				unit: 'px'
+				unit: 'px',
+				important: false
 			},
 			'margin-left': {
 				defaultUnit: 'px',
-				unit: 'px'
+				unit: 'px',
+				important: false
 			},
 			'margin-bottom': {
 				defaultUnit: 'px',
-				unit: 'px'
+				unit: 'px',
+				important: false
 			},
 			'background-width': {
 				defaultUnit: 'px',
-				unit: 'px'
+				unit: 'px',
+				important: false
 			},
 			'border-width': {
 				defaultUnit: 'px',
-				unit: 'px'
+				unit: 'px',
+				important: false
 			},
 			'border-top-width': {
 				defaultUnit: 'px',
-				unit: 'px'
+				unit: 'px',
+				important: false
 			},
 			'border-bottom-width': {
 				defaultUnit: 'px',
-				unit: 'px'
+				unit: 'px',
+				important: false
 			},
 			'border-left-width': {
 				defaultUnit: 'px',
-				unit: 'px'
+				unit: 'px',
+				important: false
 			},
 			'border-right-width': {
 				defaultUnit: 'px',
-				unit: 'px'
+				unit: 'px',
+				important: false
 			},
 			'border-radius': {
 				defaultUnit: 'px',
-				unit: 'px'
+				unit: 'px',
+				important: false
 			},
 			'border-bottom-right-radius': {
 				defaultUnit: 'px',
-				unit: 'px'
+				unit: 'px',
+				important: false
 			},
 			'border-top-left-radius': {
 				defaultUnit: 'px',
-				unit: 'px'
+				unit: 'px',
+				important: false
 			},
 			'border-top-right-radius': {
 				defaultUnit: 'px',
-				unit: 'px'
+				unit: 'px',
+				important: false
 			},
 			'border-bottom-left-radius': {
 				defaultUnit: 'px',
-				unit: 'px'
+				unit: 'px',
+				important: false
 			},
 			'h-shadow': {
 				defaultUnit: 'px',
-				unit: 'px'
+				unit: 'px',
+				important: false
 			},
 			'v-shadow': {
 				defaultUnit: 'px',
-				unit: 'px'
+				unit: 'px',
+				important: false
 			},
 			'blur': {
 				defaultUnit: 'px',
-				unit: 'px'
+				unit: 'px',
+				important: false
 			},
 			'spread': {
 				defaultUnit: 'px',
-				unit: 'px'
+				unit: 'px',
+				important: false
 			},
 			'opacity': {
 				defaultUnit: '',
-				unit: ''
+				unit: '',
+				important: false
 			},
 			top: {
 				defaultUnit: 'px',
-				unit: 'px'
+				unit: 'px',
+				important: false
 			},
 			left: {
 				defaultUnit: 'px',
-				unit: 'px'
+				unit: 'px',
+				important: false
 			}
 		},
 
@@ -933,12 +966,13 @@ export default {
 			var specialStyle = {
 				background(currentStyleParent, unit) {
 					unit = unit || '';
-					let styleText = '';
+					let styleText = '', important = '';
 					for(let styleName in currentStyleParent) {
 						let currentStyleValue = currentStyleParent[styleName];
 
 						if(state.unitList[currentActiveRecStyleName][styleName]) {
 							unit = state.unitList[currentActiveRecStyleName][styleName].unit;
+							important = state.unitList[currentActiveRecStyleName][styleName].important ? '!important' : '';
 						}
 
 						if (currentStyleValue !== '') {
@@ -964,11 +998,15 @@ export default {
 									}
 								}else {
 									//background-position
-									valueText = currentStyleValue.join(' ');
+									if(currentStyleValue.length > 0) {
+										valueText = currentStyleValue.join(' ');										
+									}else {
+										continue;
+									}
 								}
-								styleText += styleName + ':' + valueText + unit + ';';
+								styleText += styleName + ':' + valueText + unit + important + ';';
 							}else {
-								styleText += styleName + ':' + currentStyleValue + unit + ';';
+								styleText += styleName + ':' + currentStyleValue + unit + important + ';';
 							}
 						}
 
@@ -994,17 +1032,18 @@ export default {
 						unit = unit || '';
 						extraProperty = extraProperty;
 					}
-					let styleText = '';
+					let styleText = '', important;
 					for(let styleName in currentStyleParent) {
 						if(styleName != extraProperty) {
 
 							if(state.unitList[currentActiveRecStyleName][styleName]) {
 								unit = state.unitList[currentActiveRecStyleName][styleName].unit;
+								important = state.unitList[currentActiveRecStyleName][styleName].important ? '!important' : '';
 							}
 
 							let currentStyleValue = currentStyleParent[styleName];
 							if (currentStyleValue !== '') {
-								styleText += styleName + ':' + currentStyleValue + unit + ';';
+								styleText += styleName + ':' + currentStyleValue + unit + important + ';';
 							}
 						}
 						unit = '';
@@ -1190,12 +1229,13 @@ export default {
 
 					for(var property in currentStyle) {
 						var currentTableStyle = currentStyle[property];
-						var unit = '';
+						var unit = '', important = '';
 						if(state.unitList[styleName][property]) {
 							unit = state.unitList[styleName][property].unit;
+							important = state.unitList[styleName][property].important ? '!important' : '';
 						}
 						if(currentTableStyle != '' && typeof currentTableStyle !== 'object') {
-							cssClass += property + ':' + currentTableStyle + unit + ';'
+							cssClass += property + ':' + currentTableStyle + unit + important + ';'
 						}else if (typeof currentTableStyle === 'object') {
 							cssClass += specialStyle[property](currentTableStyle);
 						}
@@ -1424,6 +1464,19 @@ export default {
 		setThisPropertyNull(state, { payload: params }) {
 			var propertyParent = styleAction.findCSSPropertyByProperty(state.cssStyleLayout[params.activeStyleName], params.property);
 			propertyParent[params.property] = '';
+			return {...state};
+		},
+
+		setThisPropertyImportant(state, { payload: params }) {
+			var propertyParent = styleAction.findCSSPropertyByProperty(state.cssStyleLayout[params.activeStyleName], params.property);
+			var activeCSSProperty = state.unitList[params.activeStyleName][params.property];
+			activeCSSProperty.important = !activeCSSProperty.important;
+			// if(propertyParent[params.property].indexOf('!important') == -1) {
+			// 	propertyParent[params.property] += '!important';
+			// }else {
+			// 	propertyParent[params.property] = propertyParent[params.property].replace('!important', '');			
+			// }
+			console.log(activeCSSProperty);
 			return {...state};
 		},
 
