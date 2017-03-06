@@ -34,7 +34,11 @@ const VDRightPanel = (props) => {
     const onChange = (key) => {
       props.dispatch({
         type: 'vdcore/changeTabsPane',
-        payload: key
+        payload: {
+          activeTabsPane: key,
+          linkTo: false,
+
+        }
       });
     } 
 

@@ -10,22 +10,7 @@ export default {
 	    previewVisible: false,
 	    previewImage: '',
 		isUploading: false,
-	    fileList: [{
-	      	uid: -1,
-	      	name: 'xxx.png',
-	      	status: 'done',
-	      	url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-	    }, {
-	      	uid: 0,
-	      	name: 'xxx.png',
-	      	status: 'done',
-	      	url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-	    }, {
-	      	uid: 1,
-	      	name: 'xxx.png',
-	      	status: 'done',
-	      	url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-	    }]
+	    fileList: []
 	},
 	subscriptions: {
 		setup({ dispatch, history }) {
