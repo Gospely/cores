@@ -2009,7 +2009,7 @@ export default {
 						ignore: controller.ignore || false,
 						root: currentRootVdid || '',
 						parent: currentRootVdid,
-						unActive: false,
+						unActive: controller.unActive || false,
 					};
 
 
