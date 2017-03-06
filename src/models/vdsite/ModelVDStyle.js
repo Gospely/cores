@@ -247,6 +247,14 @@ export default {
 				'opacity': {
 					defaultUnit: '',
 					unit: ''
+				},
+				top: {
+					defaultUnit: 'px',
+					unit: 'px'
+				},
+				left: {
+					defaultUnit: 'px',
+					unit: 'px'
 				}
 			}
 		},
@@ -375,6 +383,14 @@ export default {
 			'opacity': {
 				defaultUnit: '',
 				unit: ''
+			},
+			top: {
+				defaultUnit: 'px',
+				unit: 'px'
+			},
+			left: {
+				defaultUnit: 'px',
+				unit: 'px'
 			}
 		},
 
@@ -403,6 +419,9 @@ export default {
 				'text-decoration': '',
 				'text-transform': '',
 				'letter-spacing': '',
+				'z-index': '',
+				top: '',
+				left: '',
 
 				padding: {
 					'padding-top': '',
@@ -567,6 +586,9 @@ export default {
 			'text-decoration': '',
 			'text-transform': '',
 			'letter-spacing': '',
+			'z-index': '',
+			top: '',
+			left: '',
 
 			padding: {
 				'padding-top': '',

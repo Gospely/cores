@@ -2014,6 +2014,64 @@ const VDStylePanel = (props) => {
 					</FormItem>
 		      	</Form>
 
+		      	<li className="ant-dropdown-menu-item-divider"></li>
+
+		    	<Row>
+
+				  	<Col span={12} style={{paddingRight: '5px'}}>
+				      	<Form className="form-no-margin-bottom">
+							<FormItem {...formItemLayout} label={
+								activeCSSStyleState['top'] == '' ? <span>顶边</span> : (
+								  	<Popconfirm onConfirm={() => { setThisPropertyNull('top') }} title="删除属性？" okText="是" cancelText="否">
+											<a href="#">顶边</a>
+										</Popconfirm>
+								)
+							}>
+								<Input
+									type="number"
+									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['top'].unit, 'top')}
+									size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['top']} onChange={handleStylesChange.bind(this, 'top')}/>
+							</FormItem>
+				      	</Form>
+				  	</Col>
+				  	<Col span={12} style={{paddingLeft: '5px'}}>
+				      	<Form className="form-no-margin-bottom">
+							<FormItem {...formItemLayout} label={
+								activeCSSStyleState['left'] == '' ? <span>左边</span> : (
+								  	<Popconfirm onConfirm={() => { setThisPropertyNull('left') }} title="删除属性？" okText="是" cancelText="否">
+											<a href="#">左边</a>
+										</Popconfirm>
+								)
+							}>
+								<Input
+									type="number"
+									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['left'].unit, 'left')}
+								 	size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['left']} onChange={handleStylesChange.bind(this, 'left')}/>
+							</FormItem>
+				      	</Form>
+				  	</Col>
+
+			  	</Row>
+
+		      	<li className="ant-dropdown-menu-item-divider"></li>
+
+
+		      	<Form className="form-no-margin-bottom zindex-form">
+					<FormItem {...formItemLayout} label={
+						activeCSSStyleState['z-index'] == '' ? <span>堆叠顺序</span> : (
+						  	<Popconfirm onConfirm={() => { setThisPropertyNull('z-index') }} title="删除属性？" okText="是" cancelText="否">
+									<a href="#">堆叠顺序</a>
+								</Popconfirm>
+						)
+					}>
+						<Input
+							type="number"
+							max={65535}
+							min={-65535}
+						 	size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['z-index']} onChange={handleStylesChange.bind(this, 'z-index')}/>
+					</FormItem>
+		      	</Form>
+
 		    </Panel>
 		);
 		}
