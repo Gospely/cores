@@ -126,135 +126,276 @@ export default {
 			body: {
 				width: {
 					defaultUnit: 'px',
-					unit: 'px'
+					unit: 'px',
+					important: false
 				},
 				height: {
 					defaultUnit: 'px',
-					unit: 'px'
+					unit: 'px',
+					important: false
 				},
 				'max-width': {
 					defaultUnit: 'px',
-					unit: 'px'
+					unit: 'px',
+					important: false
 				},
 				'min-height': {
 					defaultUnit: 'px',
-					unit: 'px'
+					unit: 'px',
+					important: false
 				},
 				'min-width': {
 					defaultUnit: 'px',
-					unit: 'px'
+					unit: 'px',
+					important: false
 				},
 				'max-height': {
 					defaultUnit: 'px',
-					unit: 'px'
+					unit: 'px',
+					important: false
 				},
 				'font-size': {
 					defaultUnit: 'px',
-					unit: 'px'
+					unit: 'px',
+					important: false
 				},
 				'padding-top': {
 					defaultUnit: 'px',
-					unit: 'px'
+					unit: 'px',
+					important: false
 				},
 				'padding-left': {
 					defaultUnit: 'px',
-					unit: 'px'
+					unit: 'px',
+					important: false
 				},
 				'padding-right': {
 					defaultUnit: 'px',
-					unit: 'px'
+					unit: 'px',
+					important: false
 				},
 				'padding-bottom': {
 					defaultUnit: 'px',
-					unit: 'px'
+					unit: 'px',
+					important: false
 				},
 				'margin-top': {
 					defaultUnit: 'px',
-					unit: 'px'
+					unit: 'px',
+					important: false
 				},
 				'margin-right': {
 					defaultUnit: 'px',
-					unit: 'px'
+					unit: 'px',
+					important: false
 				},
 				'margin-left': {
 					defaultUnit: 'px',
-					unit: 'px'
+					unit: 'px',
+					important: false
 				},
 				'margin-bottom': {
 					defaultUnit: 'px',
-					unit: 'px'
+					unit: 'px',
+					important: false
 				},
 				'background-width': {
 					defaultUnit: 'px',
-					unit: 'px'
+					unit: 'px',
+					important: false
 				},
 				'border-width': {
 					defaultUnit: 'px',
-					unit: 'px'
+					unit: 'px',
+					important: false
 				},
 				'border-top-width': {
 					defaultUnit: 'px',
-					unit: 'px'
+					unit: 'px',
+					important: false
 				},
 				'border-bottom-width': {
 					defaultUnit: 'px',
-					unit: 'px'
+					unit: 'px',
+					important: false
 				},
 				'border-left-width': {
 					defaultUnit: 'px',
-					unit: 'px'
+					unit: 'px',
+					important: false
 				},
 				'border-right-width': {
 					defaultUnit: 'px',
-					unit: 'px'
+					unit: 'px',
+					important: false
 				},
 				'border-radius': {
 					defaultUnit: 'px',
-					unit: 'px'
+					unit: 'px',
+					important: false
 				},
 				'border-bottom-right-radius': {
 					defaultUnit: 'px',
-					unit: 'px'
+					unit: 'px',
+					important: false
 				},
 				'border-top-left-radius': {
 					defaultUnit: 'px',
-					unit: 'px'
+					unit: 'px',
+					important: false
 				},
 				'border-top-right-radius': {
 					defaultUnit: 'px',
-					unit: 'px'
+					unit: 'px',
+					important: false
 				},
 				'border-bottom-left-radius': {
 					defaultUnit: 'px',
-					unit: 'px'
+					unit: 'px',
+					important: false
 				},
 				'h-shadow': {
 					defaultUnit: 'px',
-					unit: 'px'
+					unit: 'px',
+					important: false
 				},
 				'v-shadow': {
 					defaultUnit: 'px',
-					unit: 'px'
+					unit: 'px',
+					important: false
 				},
 				'blur': {
 					defaultUnit: 'px',
-					unit: 'px'
+					unit: 'px',
+					important: false
 				},
 				'spread': {
 					defaultUnit: 'px',
-					unit: 'px'
+					unit: 'px',
+					important: false
 				},
 				'opacity': {
 					defaultUnit: '',
-					unit: ''
+					unit: '',
+					important: false
 				},
 				top: {
 					defaultUnit: 'px',
-					unit: 'px'
+					unit: 'px',
+					important: false
 				},
 				left: {
 					defaultUnit: 'px',
-					unit: 'px'
+					unit: 'px',
+					important: false
+				},
+				cursor: {
+					important: false
+				},
+				'border-bottom-right-style': {
+					important: false
+				},
+				'border-top-left-style': {
+					important: false
+				},
+				'border-top-right-style': {
+					important: false
+				},
+				'border-bottom-left-style': {
+					important: false
+				},
+				'border-bottom-right-color': {
+					important: false
+				},
+				'border-top-color': {
+					important: false
+				},
+				'border-bottom-color': {
+					important: false
+				},
+				'border-left-color': {
+					important: false
+				},
+				'border-right-width': {
+					important: false
+				},
+				'border-left-width': {
+					important: false
+				},
+				'border-top-width': {
+					important: false
+				},
+				'border-bottom-width': {
+					important: false
+				},
+				'background-color': {
+					important: false
+				},
+				'background-color': {
+					important: false
+				},
+				'text-transform': {
+					important: false
+				},
+				'text-decoration': {
+					important: false
+				},
+				'write-mode': {
+					important: false
+				},
+				'text-align': {
+					important: false
+				},
+				'letter-spacing': {
+					important: false
+				},
+				'line-height': {
+					important: false
+				},
+				'write-mode': {
+					important: false
+				},
+				'text-indent': {
+					important: false
+				},
+				'font-style': {
+					important: false
+				},
+				'font-weight': {
+					important: false
+				},
+				color: {
+					important: false
+				},
+				'font-family': {
+					important: false
+				},
+				'z-index': {
+					important: false
+				},
+				position: {
+					important: false
+				},
+				overflow: {
+					important: false
+				},
+				clear: {
+					important: false
+				},
+				float: {
+					important: false
+				},
+				display: {
+					important: false
+				},
+				'background-position': {
+					important: false
+				},
+				'background-size': {
+					important: false
+				},
+				'background-image': {
+					important: false
 				}
 			}
 		},
@@ -424,6 +565,114 @@ export default {
 				defaultUnit: 'px',
 				unit: 'px',
 				important: false
+			},
+			cursor: {
+				important: false
+			},
+			'border-bottom-right-style': {
+				important: false
+			},
+			'border-top-left-style': {
+				important: false
+			},
+			'border-top-right-style': {
+				important: false
+			},
+			'border-bottom-left-style': {
+				important: false
+			},
+			'border-bottom-right-color': {
+				important: false
+			},
+			'border-top-color': {
+				important: false
+			},
+			'border-bottom-color': {
+				important: false
+			},
+			'border-left-color': {
+				important: false
+			},
+			'border-right-width': {
+				important: false
+			},
+			'border-left-width': {
+				important: false
+			},
+			'border-top-width': {
+				important: false
+			},
+			'border-bottom-width': {
+				important: false
+			},
+			'background-color': {
+				important: false
+			},
+			'background-color': {
+				important: false
+			},
+			'text-transform': {
+				important: false
+			},
+			'text-decoration': {
+				important: false
+			},
+			'write-mode': {
+				important: false
+			},
+			'text-align': {
+				important: false
+			},
+			'letter-spacing': {
+				important: false
+			},
+			'line-height': {
+				important: false
+			},
+			'write-mode': {
+				important: false
+			},
+			'text-indent': {
+				important: false
+			},
+			'font-style': {
+				important: false
+			},
+			'font-weight': {
+				important: false
+			},
+			color: {
+				important: false
+			},
+			'font-family': {
+				important: false
+			},
+			'z-index': {
+				important: false
+			},
+			position: {
+				important: false
+			},
+			overflow: {
+				important: false
+			},
+			clear: {
+				important: false
+			},
+			float: {
+				important: false
+			},
+			display: {
+				important: false
+			},
+			'background-position': {
+				important: false
+			},
+			'background-size': {
+				important: false
+			},
+			'background-image': {
+				important: false
 			}
 		},
 
@@ -467,7 +716,8 @@ export default {
 					'margin-top': '',
 					'margin-bottom': '',
 					'margin-left': '',
-					'margin-right': ''
+					'margin-right': '',
+					'margin-center': false
 				},
 
 				background: {
@@ -634,7 +884,8 @@ export default {
 				'margin-top': '',
 				'margin-bottom': '',
 				'margin-left': '',
-				'margin-right': ''
+				'margin-right': '',
+				'margin-center': false
 			},
 
 			background: {
@@ -971,7 +1222,7 @@ export default {
 						let currentStyleValue = currentStyleParent[styleName];
 
 						if(state.unitList[currentActiveRecStyleName][styleName]) {
-							unit = state.unitList[currentActiveRecStyleName][styleName].unit;
+							unit = state.unitList[currentActiveRecStyleName][styleName].unit || '';
 							important = state.unitList[currentActiveRecStyleName][styleName].important ? '!important' : '';
 						}
 
@@ -1023,7 +1274,7 @@ export default {
 
 				margin (currentStyleParent, unit) {
 					unit = unit || '';
-					return specialStyle['border'](currentStyleParent, undefined, unit);
+					return specialStyle['border'](currentStyleParent, 'margin-center', unit);
 				},
 
 				border(currentStyleParent, extraProperty, unit) {
@@ -1037,13 +1288,18 @@ export default {
 						if(styleName != extraProperty) {
 
 							if(state.unitList[currentActiveRecStyleName][styleName]) {
-								unit = state.unitList[currentActiveRecStyleName][styleName].unit;
+								unit = state.unitList[currentActiveRecStyleName][styleName].unit || '';
 								important = state.unitList[currentActiveRecStyleName][styleName].important ? '!important' : '';
 							}
 
 							let currentStyleValue = currentStyleParent[styleName];
 							if (currentStyleValue !== '') {
-								styleText += styleName + ':' + currentStyleValue + unit + important + ';';
+								if(currentStyleValue == 'auto') {
+									//margin: 0 auto
+									styleText += styleName + ':' + currentStyleValue + important + ';';
+								}else {
+									styleText += styleName + ':' + currentStyleValue + unit + important + ';';
+								}
 							}
 						}
 						unit = '';
@@ -1231,7 +1487,7 @@ export default {
 						var currentTableStyle = currentStyle[property];
 						var unit = '', important = '';
 						if(state.unitList[styleName][property]) {
-							unit = state.unitList[styleName][property].unit;
+							unit = state.unitList[styleName][property].unit || '';
 							important = state.unitList[styleName][property].important ? '!important' : '';
 						}
 						if(currentTableStyle != '' && typeof currentTableStyle !== 'object') {
@@ -1468,24 +1724,34 @@ export default {
 		},
 
 		setThisPropertyImportant(state, { payload: params }) {
-			var propertyParent = styleAction.findCSSPropertyByProperty(state.cssStyleLayout[params.activeStyleName], params.property);
 			var activeCSSProperty = state.unitList[params.activeStyleName][params.property];
 			activeCSSProperty.important = !activeCSSProperty.important;
-			// if(propertyParent[params.property].indexOf('!important') == -1) {
-			// 	propertyParent[params.property] += '!important';
-			// }else {
-			// 	propertyParent[params.property] = propertyParent[params.property].replace('!important', '');			
-			// }
-			console.log(activeCSSProperty);
 			return {...state};
 		},
 
 		changeActiveUnit(state, { payload: params }) {
 			state.unitList[params.activeStyleName][params.property].unit = params.value;
 			return {...state};
+		},
+
+		setMarginCenter(state, { payload: params }) {
+			var cssProperty = state.cssStyleLayout[params.activeStyleName]['margin'];
+			cssProperty[params.property] = params.checked;
+
+			if(params.checked) {
+				cssProperty['margin-top'] = 0;
+				cssProperty['margin-bottom'] = 0;
+				cssProperty['margin-left'] = 'auto';
+				cssProperty['margin-right'] = 'auto';				
+			}else {
+				cssProperty['margin-top'] = 0;
+				cssProperty['margin-bottom'] = 0;
+				cssProperty['margin-left'] = 0;
+				cssProperty['margin-right'] = 0;
+			}
+
+			return {...state};
 		}
-
-
 	}
 
 }
