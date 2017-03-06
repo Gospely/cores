@@ -371,9 +371,23 @@ const LeftSidebar = (props) => {
 	        },
 
 	        preview() {
-	        	props.dispatch({
-	        		type: 'preview/showPreview'
-	        	})
+				//vdsite 预览
+				console.log('showPreview');
+				console.log(props.vdpm.currentActivePageListItem);
+				if(localStorage.image == 'vd:site'){
+
+					props.dispatch({
+						type: 'preview/setSrc',
+						payload: 'http://' + localStorage.domain + '/pages/' + props.vdpm.currentActivePageListItem
+					});
+					props.dispatch({
+						type: 'preview/initPreviewer'
+					});
+				}else {
+					props.dispatch({
+						type: 'preview/showPreview'
+					})
+				}
 	        },
 
 	        configGit () {

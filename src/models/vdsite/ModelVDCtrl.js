@@ -2488,6 +2488,18 @@ export default {
                             isAttr: true,
                             value: 'carousel-example-generic',
                             attrName: 'id'
+                        },{
+                            name: 'id',
+                            id: '',
+                            isAttr: true,
+                            value: true,
+                            attrName: 'backend'
+                        },{
+                            name: 'id',
+                            id: '',
+                            isAttr: true,
+                            value: 'height: inherit;',
+                            attrName: 'style'
                         }]
 					}],
 					children: [{

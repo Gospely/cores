@@ -6,7 +6,6 @@ import request from '../../utils/request.js';
 import { message, Modal } from 'antd';
 const confirm = Modal.confirm;
 
-import VDPackager from './VDPackager.js';
 
 export default {
 	namespace: 'vdcore',
@@ -136,31 +135,8 @@ export default {
 	effects: {
 
 		*packAndDownloadVDSiteProject( { payload: params },  { call, put, select }) {
-			var layout = yield select(state => state.vdCtrlTree.layout),
-				pages = yield select(state => state.vdpm.pageList),
-				css = yield select(state => state.vdstyles.cssStyleLayout);
 
-			var struct = VDPackager.pack({layout, pages, css});
-
-			message.success('请稍等，正在打包……');
-
-			console.log(JSON.stringify(struct));
-
-			var packResult = yield request('vdsite/pack', {
-	  			method: 'POST',
-	  			headers: {
-					"Content-Type": "application/json;charset=UTF-8",
-				},
-	  			body: JSON.stringify(struct)
-	  		});
-
-	  		if(packResult.data.code == 200) {
-				message.success('即将下载……');
-		  		var fileSrc = packResult.data.fields;
-		  		fileSrc = fileSrc.split('/');
-		  		fileSrc = fileSrc.pop();
-		  		window.open('http://api.gospely.com/vdsite/download/' + fileSrc);
-	  		}
+			window.open(localStorage.baseURL + 'vdsite/download?folder=' + localStorage.dir + '&project=' + localStorage.currentProject)
 		},
 
 		*columnCountChange({ payload: params }, { call, put, select }) {
