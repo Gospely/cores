@@ -46,7 +46,8 @@ const VDStylePanel = (props) => {
 		)
 	}
 
-	const activeCSSStyleState = props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle];
+	const activeCSSStyleState = props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle],
+		  activeCSSUnitList = props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle];
 
 	const cssAction = {
 
@@ -71,6 +72,14 @@ const VDStylePanel = (props) => {
 					activeStyleName: props.vdCtrlTree.activeCtrl.activeStyle
 				}
 			});
+
+			props.dispatch({
+				type: 'vdstyles/applyCSSStyleIntoPage',
+				payload: {
+					activeCtrl: props.vdCtrlTree.activeCtrl
+				}
+			});
+
 		}
 
 		return (
@@ -124,6 +133,23 @@ const VDStylePanel = (props) => {
 	const setThisPropertyNull = (property) => {
 		props.dispatch({
 			type: 'vdstyles/setThisPropertyNull',
+			payload: {
+				property,
+				activeStyleName: props.vdCtrlTree.activeCtrl.activeStyle
+			}
+		});
+
+		props.dispatch({
+			type: 'vdstyles/applyCSSStyleIntoPage',
+			payload: {
+				activeCtrl: props.vdCtrlTree.activeCtrl
+			}
+		});
+	}
+
+	const setThisPropertyImportant = (property) => {
+		props.dispatch({
+			type: 'vdstyles/setThisPropertyImportant',
 			payload: {
 				property,
 				activeStyleName: props.vdCtrlTree.activeCtrl.activeStyle
@@ -320,7 +346,9 @@ const VDStylePanel = (props) => {
 								<div className="bem-SpecificityLabel bem-SpecificityLabel-local bem-SpecificityLabel-text">
 									{
 										activeCSSStyleState['background']['background-image'] == '' ? <span>图片资源</span> : (
-										  	<Popconfirm onConfirm={() => { setThisPropertyNull('background-image') }} title="删除属性？" okText="是" cancelText="否">
+										  	<Popconfirm onCancel={() => { setThisPropertyImportant('background-image') }} onConfirm={() => { setThisPropertyNull('background-image') }} title="属性操作" okText="删除属性" cancelText={
+								  		!activeCSSUnitList['background-image'] ? <span>置!important</span> : <span>取消!important</span>
+								  	}>
 													<a href="#">图片资源</a>
 												</Popconfirm>
 										)
@@ -343,7 +371,9 @@ const VDStylePanel = (props) => {
 								<div className="bem-SpecificityLabel bem-SpecificityLabel-local bem-SpecificityLabel-text">
 									{
 										activeCSSStyleState['background']['background-size'] == '' ? <span>大小</span> : (
-										  	<Popconfirm onConfirm={() => { setThisPropertyNull('background-size') }} title="删除属性？" okText="是" cancelText="否">
+										  	<Popconfirm onCancel={() => { setThisPropertyImportant('background-size') }} onConfirm={() => { setThisPropertyNull('background-size') }} title="属性操作" okText="删除属性" cancelText={
+								  		!activeCSSUnitList['background-size'] ? <span>置!important</span> : <span>取消!important</span>
+								  	}>
 													<a href="#">大小</a>
 												</Popconfirm>
 										)
@@ -408,7 +438,9 @@ const VDStylePanel = (props) => {
 								<div className="bem-SpecificityLabel bem-SpecificityLabel-local bem-SpecificityLabel-text">
 									{
 										activeCSSStyleState['background-position'] == '' ? <span>位置</span> : (
-										  	<Popconfirm onConfirm={() => { setThisPropertyNull('background-position') }} title="删除属性？" okText="是" cancelText="否">
+										  	<Popconfirm onCancel={() => { setThisPropertyImportant('background-position') }} onConfirm={() => { setThisPropertyNull('background-position') }} title="属性操作" okText="删除属性" cancelText={
+								  		!activeCSSUnitList['background-position'] ? <span>置!important</span> : <span>取消!important</span>
+								  	}>
 													<a href="#">位置</a>
 												</Popconfirm>
 										)
@@ -478,7 +510,9 @@ const VDStylePanel = (props) => {
 			      	<Form className="form-no-margin-bottom">
 						<FormItem {...formItemLayout} label={
 								activeCSSStyleState['background']['background-repeat'] == '' ? <span>重复</span> : (
-								  	<Popconfirm onConfirm={() => { setThisPropertyNull('background-repeat') }} title="删除属性？" okText="是" cancelText="否">
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant('background-repeat') }} onConfirm={() => { setThisPropertyNull('background-repeat') }} title="属性操作" okText="删除属性" cancelText={
+								  		!activeCSSUnitList['background-repeat'] ? <span>置!important</span> : <span>取消!important</span>
+								  	}>
 											<a href="#">重复</a>
 										</Popconfirm>
 								)
@@ -513,7 +547,9 @@ const VDStylePanel = (props) => {
 			      	<Form className="form-no-margin-bottom">
 						<FormItem {...formItemLayout} label={
 								activeCSSStyleState['background']['background-attachment'] == '' ? <span>固定</span> : (
-								  	<Popconfirm onConfirm={() => { setThisPropertyNull('background-attachment') }} title="删除属性？" okText="是" cancelText="否">
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant('background-attachment') }} onConfirm={() => { setThisPropertyNull('background-attachment') }} title="属性操作" okText="删除属性" cancelText={
+								  		!activeCSSUnitList['background-attachment'] ? <span>置!important</span> : <span>取消!important</span>
+								  	}>
 											<a href="#">固定</a>
 										</Popconfirm>
 								)
@@ -1573,7 +1609,9 @@ const VDStylePanel = (props) => {
 									<div className="bem-SpecificityLabel bem-SpecificityLabel-local bem-SpecificityLabel-text">
 										{
 											activeCSSStyleState['display'] == '' ? <span>Display 设置</span> : (
-											  	<Popconfirm onConfirm={() => { setThisPropertyNull('display') }} title="删除属性？" okText="是" cancelText="否">
+											  	<Popconfirm onCancel={() => { setThisPropertyImportant('display') }} onConfirm={() => { setThisPropertyNull('display') }} title="属性操作" okText="删除属性" cancelText={
+								  					!activeCSSUnitList['display'] ? <span>置!important</span> : <span>取消!important</span>
+								  				}>
 		 											<a href="#">Display 设置</a>
 		  										</Popconfirm>
 											)
@@ -1622,7 +1660,9 @@ const VDStylePanel = (props) => {
 				      	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label={
 								activeCSSStyleState['padding']['padding-top'] == '' ? <span>上内边距</span> : (
-								  	<Popconfirm onConfirm={() => { setThisPropertyNull('padding-top') }} title="删除属性？" okText="是" cancelText="否">
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant('padding-top') }} onConfirm={() => { setThisPropertyNull('padding-top') }} title="属性操作" okText="删除属性" cancelText={
+								  					!activeCSSUnitList['padding-top'] ? <span>置!important</span> : <span>取消!important</span>
+								  				}>
 											<a href="#">上内边距</a>
 										</Popconfirm>
 								)
@@ -1640,7 +1680,9 @@ const VDStylePanel = (props) => {
 				      	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label={
 								activeCSSStyleState['padding']['padding-bottom'] == '' ? <span>下内边距</span> : (
-								  	<Popconfirm onConfirm={() => { setThisPropertyNull('padding-bottom') }} title="删除属性？" okText="是" cancelText="否">
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant('padding-bottom') }} onConfirm={() => { setThisPropertyNull('padding-bottom') }} title="属性操作" okText="删除属性" cancelText={
+								  					!activeCSSUnitList['padding-bottom'] ? <span>置!important</span> : <span>取消!important</span>
+								  				}>
 											<a href="#">下内边距</a>
 										</Popconfirm>
 								)
@@ -1661,7 +1703,9 @@ const VDStylePanel = (props) => {
 				      	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label={
 								activeCSSStyleState['padding']['padding-left'] == '' ? <span>左内边距</span> : (
-								  	<Popconfirm onConfirm={() => { setThisPropertyNull('padding-left') }} title="删除属性？" okText="是" cancelText="否">
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant('padding-left') }} onConfirm={() => { setThisPropertyNull('padding-left') }} title="属性操作" okText="删除属性" cancelText={
+								  					!activeCSSUnitList['padding-left'] ? <span>置!important</span> : <span>取消!important</span>
+								  				}>
 											<a href="#">左内边距</a>
 										</Popconfirm>
 								)
@@ -1677,7 +1721,9 @@ const VDStylePanel = (props) => {
 				      	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label={
 								activeCSSStyleState['padding']['padding-right'] == '' ? <span>右内边距</span> : (
-								  	<Popconfirm onConfirm={() => { setThisPropertyNull('padding-right') }} title="删除属性？" okText="是" cancelText="否">
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant('padding-right') }} onConfirm={() => { setThisPropertyNull('padding-right') }} title="属性操作" okText="删除属性" cancelText={
+								  					!activeCSSUnitList['padding-right'] ? <span>置!important</span> : <span>取消!important</span>
+								  				}>
 											<a href="#">右内边距</a>
 										</Popconfirm>
 								)
@@ -1700,7 +1746,9 @@ const VDStylePanel = (props) => {
 				      	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label={
 								activeCSSStyleState['margin']['margin-top'] == '' ? <span>上外边距</span> : (
-								  	<Popconfirm onConfirm={() => { setThisPropertyNull('margin-top') }} title="删除属性？" okText="是" cancelText="否">
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant('margin-top') }} onConfirm={() => { setThisPropertyNull('margin-top') }} title="属性操作" okText="删除属性" cancelText={
+								  					!activeCSSUnitList['margin-top'] ? <span>置!important</span> : <span>取消!important</span>
+								  				}>
 											<a href="#">上外边距</a>
 										</Popconfirm>
 								)
@@ -1716,7 +1764,9 @@ const VDStylePanel = (props) => {
 				      	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label={
 								activeCSSStyleState['margin']['margin-bottom'] == '' ? <span>下外边距</span> : (
-								  	<Popconfirm onConfirm={() => { setThisPropertyNull('margin-bottom') }} title="删除属性？" okText="是" cancelText="否">
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant('margin-bottom') }} onConfirm={() => { setThisPropertyNull('margin-bottom') }} title="属性操作" okText="删除属性" cancelText={
+								  					!activeCSSUnitList['margin-bottom'] ? <span>置!important</span> : <span>取消!important</span>
+								  				}>
 											<a href="#">下外边距</a>
 										</Popconfirm>
 								)
@@ -1737,7 +1787,9 @@ const VDStylePanel = (props) => {
 				      	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label={
 								activeCSSStyleState['margin']['margin-left'] == '' ? <span>左外边距</span> : (
-								  	<Popconfirm onConfirm={() => { setThisPropertyNull('margin-left') }} title="删除属性？" okText="是" cancelText="否">
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant('margin-left') }} onConfirm={() => { setThisPropertyNull('margin-left') }} title="属性操作" okText="删除属性" cancelText={
+								  					!activeCSSUnitList['margin-left']? <span>置!important</span> : <span>取消!important</span>
+								  				}>
 											<a href="#">左外边距</a>
 										</Popconfirm>
 								)
@@ -1753,7 +1805,9 @@ const VDStylePanel = (props) => {
 				      	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label={
 								activeCSSStyleState['margin']['margin-right'] == '' ? <span>右外边距</span> : (
-								  	<Popconfirm onConfirm={() => { setThisPropertyNull('margin-right') }} title="删除属性？" okText="是" cancelText="否">
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant('margin-right') }} onConfirm={() => { setThisPropertyNull('margin-right') }} title="属性操作" okText="删除属性" cancelText={
+								  					!activeCSSUnitList['margin-right']? <span>置!important</span> : <span>取消!important</span>
+								  				}>
 											<a href="#">右外边距</a>
 										</Popconfirm>
 								)
@@ -1776,7 +1830,9 @@ const VDStylePanel = (props) => {
 				      	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label={
 								activeCSSStyleState['width'] == '' ? <span>宽度</span> : (
-								  	<Popconfirm onConfirm={() => { setThisPropertyNull('width') }} title="删除属性？" okText="是" cancelText="否">
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant('width') }} onConfirm={() => { setThisPropertyNull('width') }} title="属性操作" okText="删除属性" cancelText={
+								  					!activeCSSUnitList['width'] ? <span>置!important</span> : <span>取消!important</span>
+								  				}>
 											<a href="#">宽度</a>
 										</Popconfirm>
 								)
@@ -1792,7 +1848,9 @@ const VDStylePanel = (props) => {
 				      	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label={
 								activeCSSStyleState['height'] == '' ? <span>高度</span> : (
-								  	<Popconfirm onConfirm={() => { setThisPropertyNull('height') }} title="删除属性？" okText="是" cancelText="否">
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant('height') }} onConfirm={() => { setThisPropertyNull('height') }} title="属性操作" okText="删除属性" cancelText={
+								  					!activeCSSUnitList['height'] ? <span>置!important</span> : <span>取消!important</span>
+								  				}>
 											<a href="#">高度</a>
 										</Popconfirm>
 								)
@@ -1813,7 +1871,9 @@ const VDStylePanel = (props) => {
 				      	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label={
 								activeCSSStyleState['max-width'] == '' ? <span>最大</span> : (
-								  	<Popconfirm onConfirm={() => { setThisPropertyNull('max-width') }} title="删除属性？" okText="是" cancelText="否">
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant('max-width') }} onConfirm={() => { setThisPropertyNull('max-width') }} title="属性操作" okText="删除属性" cancelText={
+								  					!activeCSSUnitList['max-width'] ? <span>置!important</span> : <span>取消!important</span>
+								  				}>
 											<a href="#">最大</a>
 										</Popconfirm>
 								)
@@ -1829,7 +1889,9 @@ const VDStylePanel = (props) => {
 				      	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label={
 								activeCSSStyleState['min-width'] == '' ? <span>最小</span> : (
-								  	<Popconfirm onConfirm={() => { setThisPropertyNull('min-width') }} title="删除属性？" okText="是" cancelText="否">
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant('min-width') }} onConfirm={() => { setThisPropertyNull('min-width') }} title="属性操作" okText="删除属性" cancelText={
+								  					!activeCSSUnitList['min-width'] ? <span>置!important</span> : <span>取消!important</span>
+								  				}>
 											<a href="#">最小</a>
 										</Popconfirm>
 								)
@@ -1850,7 +1912,9 @@ const VDStylePanel = (props) => {
 				      	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label={
 								activeCSSStyleState['max-height'] == '' ? <span>最大</span> : (
-								  	<Popconfirm onConfirm={() => { setThisPropertyNull('max-height') }} title="删除属性？" okText="是" cancelText="否">
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant('max-height') }} onConfirm={() => { setThisPropertyNull('max-height') }} title="属性操作" okText="删除属性" cancelText={
+								  					!activeCSSUnitList['max-height'] ? <span>置!important</span> : <span>取消!important</span>
+								  				}>
 											<a href="#">最大</a>
 										</Popconfirm>
 								)
@@ -1866,7 +1930,9 @@ const VDStylePanel = (props) => {
 				      	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label={
 								activeCSSStyleState['min-height'] == '' ? <span>最小</span> : (
-								  	<Popconfirm onConfirm={() => { setThisPropertyNull('min-height') }} title="删除属性？" okText="是" cancelText="否">
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant('min-height') }} onConfirm={() => { setThisPropertyNull('min-height') }} title="属性操作" okText="删除属性" cancelText={
+								  					!activeCSSUnitList['min-height'] ? <span>置!important</span> : <span>取消!important</span>
+								  				}>
 											<a href="#">最小</a>
 										</Popconfirm>
 								)
@@ -1886,7 +1952,9 @@ const VDStylePanel = (props) => {
 		      	<Form className="form-no-margin-bottom">
 					<FormItem {...formItemLayout} label={
 								activeCSSStyleState['float'] == '' ? <span>浮动</span> : (
-								  	<Popconfirm onConfirm={() => { setThisPropertyNull('float') }} title="删除属性？" okText="是" cancelText="否">
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant('float') }} onConfirm={() => { setThisPropertyNull('float') }} title="属性操作" okText="删除属性" cancelText={
+								  					!activeCSSUnitList['float'] ? <span>置!important</span> : <span>取消!important</span>
+								  				}>
 											<a href="#">浮动</a>
 										</Popconfirm>
 								)
@@ -1914,7 +1982,9 @@ const VDStylePanel = (props) => {
 		      	<Form className="form-no-margin-bottom">
 					<FormItem {...formItemLayout} label={
 								activeCSSStyleState['clear'] == '' ? <span>清除</span> : (
-								  	<Popconfirm onConfirm={() => { setThisPropertyNull('clear') }} title="删除属性？" okText="是" cancelText="否">
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant('clear') }} onConfirm={() => { setThisPropertyNull('clear') }} title="属性操作" okText="删除属性" cancelText={
+								  					!activeCSSUnitList['clear'] ? <span>置!important</span> : <span>取消!important</span>
+								  				}>
 											<a href="#">清除</a>
 										</Popconfirm>
 								)
@@ -1949,7 +2019,9 @@ const VDStylePanel = (props) => {
 		      	<Form className="form-no-margin-bottom">
 					<FormItem {...formItemLayout} label={
 								activeCSSStyleState['overflow'] == '' ? <span>溢出</span> : (
-								  	<Popconfirm onConfirm={() => { setThisPropertyNull('overflow') }} title="删除属性？" okText="是" cancelText="否">
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant('overflow') }} onConfirm={() => { setThisPropertyNull('overflow') }} title="属性操作" okText="删除属性" cancelText={
+								  					!activeCSSUnitList['overflow'] ? <span>置!important</span> : <span>取消!important</span>
+								  				}>
 											<a href="#">溢出</a>
 										</Popconfirm>
 								)
@@ -1984,7 +2056,9 @@ const VDStylePanel = (props) => {
 		      	<Form className="form-no-margin-bottom">
 					<FormItem {...formItemLayout} label={
 								activeCSSStyleState['position'] == '' ? <span>位置</span> : (
-								  	<Popconfirm onConfirm={() => { setThisPropertyNull('position') }} title="删除属性？" okText="是" cancelText="否">
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant('position') }} onConfirm={() => { setThisPropertyNull('position') }} title="属性操作" okText="删除属性" cancelText={
+								  					!activeCSSUnitList['position'] ? <span>置!important</span> : <span>取消!important</span>
+								  				}>
 											<a href="#">位置</a>
 										</Popconfirm>
 								)
@@ -2014,6 +2088,70 @@ const VDStylePanel = (props) => {
 					</FormItem>
 		      	</Form>
 
+		      	<li className="ant-dropdown-menu-item-divider"></li>
+
+		    	<Row>
+
+				  	<Col span={12} style={{paddingRight: '5px'}}>
+				      	<Form className="form-no-margin-bottom">
+							<FormItem {...formItemLayout} label={
+								activeCSSStyleState['top'] == '' ? <span>顶边</span> : (
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant('top') }} onConfirm={() => { setThisPropertyNull('top') }} title="属性操作" okText="删除属性" cancelText={
+								  					!activeCSSUnitList['top'] ? <span>置!important</span> : <span>取消!important</span>
+								  				}>
+											<a href="#">顶边</a>
+										</Popconfirm>
+								)
+							}>
+								<Input
+									type="number"
+									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['top'].unit, 'top')}
+									size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['top']} onChange={handleStylesChange.bind(this, 'top')}/>
+							</FormItem>
+				      	</Form>
+				  	</Col>
+				  	<Col span={12} style={{paddingLeft: '5px'}}>
+				      	<Form className="form-no-margin-bottom">
+							<FormItem {...formItemLayout} label={
+								activeCSSStyleState['left'] == '' ? <span>左边</span> : (
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant('left') }} onConfirm={() => { setThisPropertyNull('left') }} title="属性操作" okText="删除属性" cancelText={
+								  					!activeCSSUnitList['left'] ? <span>置!important</span> : <span>取消!important</span>
+								  				}>
+											<a href="#">左边</a>
+										</Popconfirm>
+								)
+							}>
+								<Input
+									type="number"
+									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['left'].unit, 'left')}
+								 	size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['left']} onChange={handleStylesChange.bind(this, 'left')}/>
+							</FormItem>
+				      	</Form>
+				  	</Col>
+
+			  	</Row>
+
+		      	<li className="ant-dropdown-menu-item-divider"></li>
+
+
+		      	<Form className="form-no-margin-bottom zindex-form">
+					<FormItem {...formItemLayout} label={
+						activeCSSStyleState['z-index'] == '' ? <span>堆叠顺序</span> : (
+						  	<Popconfirm onCancel={() => { setThisPropertyImportant('z-index') }} onConfirm={() => { setThisPropertyNull('z-index') }} title="属性操作" okText="删除属性" cancelText={
+								  					activeCSSStyleState['z-index'].indexOf('!important') == -1 ? <span>置!important</span> : <span>取消!important</span>
+								  				}>
+									<a href="#">堆叠顺序</a>
+								</Popconfirm>
+						)
+					}>
+						<Input
+							type="number"
+							max={65535}
+							min={-65535}
+						 	size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['z-index']} onChange={handleStylesChange.bind(this, 'z-index')}/>
+					</FormItem>
+		      	</Form>
+
 		    </Panel>
 		);
 		}
@@ -2027,7 +2165,9 @@ const VDStylePanel = (props) => {
 				      	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label={
 								activeCSSStyleState['font-family'] == '' ? <span>字体</span> : (
-								  	<Popconfirm onConfirm={() => { setThisPropertyNull('font-family') }} title="删除属性？" okText="是" cancelText="否">
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant('font-family') }} onConfirm={() => { setThisPropertyNull('font-family') }} title="属性操作" okText="删除属性" cancelText={
+								  					activeCSSStyleState['font-family'].indexOf('!important') == -1 ? <span>置!important</span> : <span>取消!important</span>
+								  				}>
 											<a href="#">字体</a>
 										</Popconfirm>
 								)
@@ -2042,7 +2182,9 @@ const VDStylePanel = (props) => {
 				      	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label={
 								activeCSSStyleState['color'] == '' ? <span>颜色</span> : (
-								  	<Popconfirm onConfirm={() => { setThisPropertyNull('color') }} title="删除属性？" okText="是" cancelText="否">
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant('color') }} onConfirm={() => { setThisPropertyNull('color') }} title="属性操作" okText="删除属性" cancelText={
+								  					activeCSSStyleState['color'].indexOf('!important') == -1 ? <span>置!important</span> : <span>取消!important</span>
+								  				}>
 											<a href="#">颜色</a>
 										</Popconfirm>
 								)
@@ -2060,7 +2202,9 @@ const VDStylePanel = (props) => {
 				      	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label={
 								activeCSSStyleState['font-weight'] == '' ? <span>粗细</span> : (
-								  	<Popconfirm onConfirm={() => { setThisPropertyNull('font-weight') }} title="删除属性？" okText="是" cancelText="否">
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant('font-weight') }} onConfirm={() => { setThisPropertyNull('font-weight') }} title="属性操作" okText="删除属性" cancelText={
+								  					activeCSSStyleState['font-weight'].indexOf('!important') == -1 ? <span>置!important</span> : <span>取消!important</span>
+								  				}>
 											<a href="#">粗细</a>
 										</Popconfirm>
 								)
@@ -2082,7 +2226,9 @@ const VDStylePanel = (props) => {
 				      	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label={
 								activeCSSStyleState['font-style'] == '' ? <span>样式</span> : (
-								  	<Popconfirm onConfirm={() => { setThisPropertyNull('font-style') }} title="删除属性？" okText="是" cancelText="否">
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant('font-style') }} onConfirm={() => { setThisPropertyNull('font-style') }} title="属性操作" okText="删除属性" cancelText={
+								  					activeCSSStyleState['font-style'].indexOf('!important') == -1 ? <span>置!important</span> : <span>取消!important</span>
+								  				}>
 											<a href="#">样式</a>
 										</Popconfirm>
 								)
@@ -2113,7 +2259,9 @@ const VDStylePanel = (props) => {
 					  	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label={
 								activeCSSStyleState['text-indent'] == '' ? <span>缩进</span> : (
-								  	<Popconfirm onConfirm={() => { setThisPropertyNull('text-indent') }} title="删除属性？" okText="是" cancelText="否">
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant('text-indent') }} onConfirm={() => { setThisPropertyNull('text-indent') }} title="属性操作" okText="删除属性" cancelText={
+								  					activeCSSStyleState['text-indent'].indexOf('!important') == -1 ? <span>置!important</span> : <span>取消!important</span>
+								  				}>
 											<a href="#">缩进</a>
 										</Popconfirm>
 								)
@@ -2126,7 +2274,9 @@ const VDStylePanel = (props) => {
 				      	<Form className="form-no-margin-bottom">
 							<FormItem style={{marginTop: '6px'}} {...formItemLayout} label={
 								activeCSSStyleState['font-size'] == '' ? <span>大小</span> : (
-								  	<Popconfirm onConfirm={() => { setThisPropertyNull('font-size') }} title="删除属性？" okText="是" cancelText="否">
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant('font-size') }} onConfirm={() => { setThisPropertyNull('font-size') }} title="属性操作" okText="删除属性" cancelText={
+								  					activeCSSStyleState['font-size'].indexOf('!important') == -1 ? <span>置!important</span> : <span>取消!important</span>
+								  				}>
 											<a href="#">大小</a>
 										</Popconfirm>
 								)
@@ -2146,7 +2296,9 @@ const VDStylePanel = (props) => {
 				      	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label={
 								activeCSSStyleState['line-height'] == '' ? <span>行间距</span> : (
-								  	<Popconfirm onConfirm={() => { setThisPropertyNull('line-height') }} title="删除属性？" okText="是" cancelText="否">
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant('line-height') }} onConfirm={() => { setThisPropertyNull('line-height') }} title="属性操作" okText="删除属性" cancelText={
+								  					activeCSSStyleState['line-height'].indexOf('!important') == -1 ? <span>置!important</span> : <span>取消!important</span>
+								  				}>
 											<a href="#">行间距</a>
 										</Popconfirm>
 								)
@@ -2159,7 +2311,9 @@ const VDStylePanel = (props) => {
 				      	<Form className="form-no-margin-bottom">
 							<FormItem style={{marginTop: 4}} {...formItemLayout} label={
 								activeCSSStyleState['letter-spacing'] == '' ? <span>词间距</span> : (
-								  	<Popconfirm onConfirm={() => { setThisPropertyNull('letter-spacing') }} title="删除属性？" okText="是" cancelText="否">
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant('letter-spacing') }} onConfirm={() => { setThisPropertyNull('letter-spacing') }} title="属性操作" okText="删除属性" cancelText={
+								  					activeCSSStyleState['letter-spacing'].indexOf('!important') == -1 ? <span>置!important</span> : <span>取消!important</span>
+								  				}>
 											<a href="#">词间距</a>
 										</Popconfirm>
 								)
@@ -2177,7 +2331,9 @@ const VDStylePanel = (props) => {
 
 					<FormItem {...formItemLayout} label={
 								activeCSSStyleState['text-align'] == '' ? <span>排列方式</span> : (
-								  	<Popconfirm onConfirm={() => { setThisPropertyNull('text-align') }} title="删除属性？" okText="是" cancelText="否">
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant('text-align') }} onConfirm={() => { setThisPropertyNull('text-align') }} title="属性操作" okText="删除属性" cancelText={
+								  					activeCSSStyleState['text-align'].indexOf('!important') == -1 ? <span>置!important</span> : <span>取消!important</span>
+								  				}>
 											<a href="#">排列方式</a>
 										</Popconfirm>
 								)
@@ -2210,7 +2366,9 @@ const VDStylePanel = (props) => {
 
 					<FormItem {...formItemLayout} label={
 								activeCSSStyleState['write-mode'] == '' ? <span>阅读顺序</span> : (
-								  	<Popconfirm onConfirm={() => { setThisPropertyNull('write-mode') }} title="删除属性？" okText="是" cancelText="否">
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant('write-mode') }} onConfirm={() => { setThisPropertyNull('write-mode') }} title="属性操作" okText="删除属性" cancelText={
+								  					activeCSSStyleState['write-mode'].indexOf('!important') == -1 ? <span>置!important</span> : <span>取消!important</span>
+								  				}>
 											<a href="#">阅读顺序</a>
 										</Popconfirm>
 								)
@@ -2233,7 +2391,9 @@ const VDStylePanel = (props) => {
 
 					<FormItem {...formItemLayout} label={
 								activeCSSStyleState['text-decoration'] == '' ? <span>渲染</span> : (
-								  	<Popconfirm onConfirm={() => { setThisPropertyNull('text-decoration') }} title="删除属性？" okText="是" cancelText="否">
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant('text-decoration') }} onConfirm={() => { setThisPropertyNull('text-decoration') }} title="属性操作" okText="删除属性" cancelText={
+								  					activeCSSStyleState['text-decoration'].indexOf('!important') == -1 ? <span>置!important</span> : <span>取消!important</span>
+								  				}>
 											<a href="#">渲染</a>
 										</Popconfirm>
 								)
@@ -2261,7 +2421,9 @@ const VDStylePanel = (props) => {
 
 					<FormItem {...formItemLayout} label={
 								activeCSSStyleState['text-transform'] == '' ? <span>大小写</span> : (
-								  	<Popconfirm onConfirm={() => { setThisPropertyNull('text-transform') }} title="删除属性？" okText="是" cancelText="否">
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant('text-transform') }} onConfirm={() => { setThisPropertyNull('text-transform') }} title="属性操作" okText="删除属性" cancelText={
+								  					activeCSSStyleState['text-transform'].indexOf('!important') == -1 ? <span>置!important</span> : <span>取消!important</span>
+								  				}>
 											<a href="#">大小写</a>
 										</Popconfirm>
 								)
@@ -2299,6 +2461,15 @@ const VDStylePanel = (props) => {
 		}
 
 		const backgroundPanel = () => {
+
+			const setBGAlpha = () => {
+				handleStylesChange('background-color', 'background', {
+					target: {
+						value: 'transparent'
+					}
+				})
+			}
+
 		 	return (
 			    <Panel header="背景" key="background">
 
@@ -2340,12 +2511,21 @@ const VDStylePanel = (props) => {
 			    	<Form className="form-no-margin-bottom">
 						<FormItem {...formItemLayout} label={
 								activeCSSStyleState['background']['background-color'] == '' ? <span>背景色</span> : (
-								  	<Popconfirm onConfirm={() => { setThisPropertyNull('background-color') }} title="删除属性？" okText="是" cancelText="否">
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant('background-color') }} onCancel={() => { setThisPropertyImportant('background-color') }} onConfirm={() => { setThisPropertyNull('background-color') }} title="属性操作" okText="删除属性" cancelText={
+								  		activeCSSStyleState['background']['background-color'].indexOf('!important') == -1 ? <span>置!important</span> : <span>取消!important</span>
+								  	}>
 											<a href="#">背景色</a>
 										</Popconfirm>
 								)
 							}>
-							<Input type="color" size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['background']['background-color']} onChange={handleStylesChange.bind(this, 'background-color', 'background')}/>
+							<Row>
+								<Col span={12} style={{paddingRight: '10px'}}>
+									<Input type="color" size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['background']['background-color']} onChange={handleStylesChange.bind(this, 'background-color', 'background')}/>
+								</Col>
+								<Col span={12}>
+									<Button onClick={setBGAlpha} size="small" style={{paddingLeft: '10px', paddingRight: '10px'}}>透明背景</Button>
+								</Col>
+							</Row>
 						</FormItem>
 			    	</Form>
 
@@ -2436,7 +2616,9 @@ const VDStylePanel = (props) => {
 				    	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label={
 								activeCSSStyleState['border'][borderPosition + '-width'] == '' ? <span>宽度</span> : (
-								  	<Popconfirm onConfirm={() => { setThisPropertyNull(borderPosition + '-width') }}title="删除属性？" okText="是" cancelText="否">
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant(borderPosition + '-width') }} onConfirm={() => { setThisPropertyNull(borderPosition + '-width') }}title="属性操作" okText="删除属性" cancelText={
+								  		activeCSSStyleState['border'][borderPosition + '-width'].indexOf('!important') == -1 ? <span>置!important</span> : <span>取消!important</span>
+								  	}>
 											<a href="#">宽度</a>
 										</Popconfirm>
 								)
@@ -2449,7 +2631,9 @@ const VDStylePanel = (props) => {
 
 							<FormItem {...formItemLayout} label={
 								activeCSSStyleState['border'][borderPosition + '-color'] == '' ? <span>颜色</span> : (
-								  	<Popconfirm onConfirm={() => { setThisPropertyNull(borderPosition + '-color') }} title="删除属性？" okText="是" cancelText="否">
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant(borderPosition + '-color') }} onConfirm={() => { setThisPropertyNull(borderPosition + '-color') }} title="属性操作" okText="删除属性" cancelText={
+								  		activeCSSStyleState['border'][borderPosition + '-color'].indexOf('!important') == -1 ? <span>置!important</span> : <span>取消!important</span>
+								  	}>
 											<a href="#">颜色</a>
 										</Popconfirm>
 								)
@@ -2464,7 +2648,9 @@ const VDStylePanel = (props) => {
 
 					<FormItem {...formItemLayout} label={
 								activeCSSStyleState['border'][borderPosition + '-style'] == '' ? <span>样式</span> : (
-								  	<Popconfirm onConfirm={() => { setThisPropertyNull(borderPosition + '-style') }} title="删除属性？" okText="是" cancelText="否">
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant(borderPosition + '-style') }} onConfirm={() => { setThisPropertyNull(borderPosition + '-style') }} title="属性操作" okText="删除属性" cancelText={
+								  					activeCSSStyleState['border'][borderPosition + '-style'].indexOf('!important') == -1 ? <span>置!important</span> : <span>取消!important</span>
+								  				}>
 											<a href="#">样式</a>
 										</Popconfirm>
 								)
@@ -2528,7 +2714,9 @@ const VDStylePanel = (props) => {
 				    	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label={
 								activeCSSStyleState['border-radius'][borderRadiusPosition + '-radius'] == '' ? <span>弧度</span> : (
-								  	<Popconfirm onConfirm={() => { setThisPropertyNull(borderRadiusPosition + '-radius') }} title="删除属性？" okText="是" cancelText="否">
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant(borderRadiusPosition + '-radius') }} onConfirm={() => { setThisPropertyNull(borderRadiusPosition + '-radius') }} title="属性操作" okText="删除属性" cancelText={
+								  					activeCSSStyleState['border-radius'][borderPosition + '-radius'].indexOf('!important') == -1 ? <span>置!important</span> : <span>取消!important</span>
+								  				}>
 											<a href="#">弧度</a>
 										</Popconfirm>
 								)
@@ -3018,7 +3206,9 @@ const VDStylePanel = (props) => {
 		    	<Form className="form-no-margin-bottom">
   	    			<FormItem labelCol={{span: 6}} wrapperCol={{span: 16}} label={
 								activeCSSStyleState['opacity'] == '' ? <span>透明度</span> : (
-								  	<Popconfirm onConfirm={() => { setThisPropertyNull('opacity') }} title="删除属性？" okText="是" cancelText="否">
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant('opacity') }} onConfirm={() => { setThisPropertyNull('opacity') }} title="属性操作" okText="删除属性" cancelText={
+								  					activeCSSStyleState['opacity'].indexOf('!important') == -1 ? <span>置!important</span> : <span>取消!important</span>
+								  				}>
 											<a href="#">透明度</a>
 										</Popconfirm>
 								)
@@ -3066,7 +3256,9 @@ const VDStylePanel = (props) => {
 
 					<FormItem style={{marginTop: 20}} labelCol={{span: 8}} wrapperCol={{span: 16}} label={
 								activeCSSStyleState['cursor'] == '' ? <span>鼠标样式</span> : (
-								  	<Popconfirm onConfirm={() => { setThisPropertyNull('cursor') }} title="删除属性？" okText="是" cancelText="否">
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant('cursor') }} onConfirm={() => { setThisPropertyNull('cursor') }} title="属性操作" okText="删除属性" cancelText={
+								  					activeCSSStyleState['cursor'].indexOf('!important') == -1 ? <span>置!important</span> : <span>取消!important</span>
+								  				}>
 											<a href="#">鼠标样式</a>
 										</Popconfirm>
 								)
