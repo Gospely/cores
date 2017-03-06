@@ -635,6 +635,12 @@ export default {
 							value: '这是一个段落',
 							isHTML: true,
 							id: ''
+						}, {
+							name: 'container',
+							desc: '是否是容器',
+							value: true,
+							backend: true,
+							isContainer: true
 						}]
 					}]
 				}
@@ -725,6 +731,12 @@ export default {
 								value: '这是一个文本块',
 								isHTML: true,
 								id: ''
+							}, {
+								name: 'container',
+								desc: '是否是容器',
+								value: true,
+								backend: true,
+								isContainer: true
 							}]
 						}]
 					}]
@@ -803,6 +815,12 @@ export default {
 								value: '这是一个文本块',
 								isHTML: true,
 								id: ''
+							}, {
+								name: 'container',
+								desc: '是否是容器',
+								value: true,
+								backend: true,
+								isContainer: true
 							}]
 						}]
 					}, {
@@ -822,6 +840,12 @@ export default {
 								value: '这是另一个文本块',
 								isHTML: true,
 								id: ''
+							}, {
+								name: 'container',
+								desc: '是否是容器',
+								value: true,
+								backend: true,
+								isContainer: true
 							}]
 						}]
 					}]
@@ -2488,6 +2512,18 @@ export default {
                             isAttr: true,
                             value: 'carousel-example-generic',
                             attrName: 'id'
+                        },{
+                            name: 'id',
+                            id: '',
+                            isAttr: true,
+                            value: true,
+                            attrName: 'backend'
+                        },{
+                            name: 'id',
+                            id: '',
+                            isAttr: true,
+                            value: 'height: inherit;',
+                            attrName: 'style'
                         }]
 					}],
 					children: [{
