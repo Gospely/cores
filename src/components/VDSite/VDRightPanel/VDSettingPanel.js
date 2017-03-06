@@ -691,8 +691,7 @@ const Component = (props) => {
                                     type: 'vdcore/changeTabsPane',
                                     payload: {
                                     	activeTabsPane: 'assets',
-                                    	linkTo: true,
-
+                                    	linkTo: true
                                     }
 
                                 });

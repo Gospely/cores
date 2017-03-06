@@ -35,7 +35,7 @@ export default {
 				title: '弹跳'
 			},{
 				name: 'flash',
-				title: 'Falsh'
+				title: '闪烁'
 			},{
 				name: 'pulse',
 				title: '脉动'

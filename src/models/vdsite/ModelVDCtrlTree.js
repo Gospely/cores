@@ -1069,7 +1069,7 @@ export default {
 				window.VDDesignerFrame.postMessage({
 					pageSelected: state.layout[state.activePage.key][0].children
 				}, '*');
-			}, 2500)
+			}, 2000)
 			return {...state};
 		},
 
@@ -1182,11 +1182,9 @@ export default {
 		},
 		uploadPreviewImg(state, { payload: params}){
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
-			console.log(currentActiveCtrl);
-			console.log(currentActiveCtrl.controller.attrs[0].children[0].fileInfo);
 			currentActiveCtrl.controller.attrs[0].children[0].fileInfo = params;
-								console.log(currentActiveCtrl.controller.attrs[0].children[0].fileInfo);
-
+			console.log(currentActiveCtrl.controller.attrs[0].children[0].fileInfo);
+			state.activeCtrl = currentActiveCtrl.controller;
 			return { ...state}
 		},
 		handleAddChildrenAttr(state, { payload: params}){
@@ -2018,7 +2016,7 @@ export default {
 						ignore: controller.ignore || false,
 						root: currentRootVdid || '',
 						parent: currentRootVdid,
-						unActive: controller.unActive || false,
+						unActive: false,
 					};
 
 
@@ -2149,7 +2147,7 @@ export default {
 
 				needChangeAttr[params.index + 1].span += 2;
 				needChangeAttr[params.index + 1].value += 1;
-
+				
 				for(let i = 0; i < currentColums.children.length; i ++) {
 					currentColums.children[i].attrs[0].children[1].value[params.index + 1].span = needChangeAttr[params.index + 1].span;
 					currentColums.children[i].attrs[0].children[1].value[params.index + 1].value = needChangeAttr[params.index + 1].value;
@@ -2197,7 +2195,7 @@ export default {
 				//
 				needChangeAttr[params.index].span += 2;
 				needChangeAttr[params.index].value += 1;
-
+				
 				for(let i = 0; i < currentColums.children.length; i ++) {
 					currentColums.children[i].attrs[0].children[1].value[params.index].span = needChangeAttr[params.index].span;
 					currentColums.children[i].attrs[0].children[1].value[params.index].value = needChangeAttr[params.index].value;
@@ -2225,7 +2223,7 @@ export default {
 					currentColums.children[i].attrs[0].children[1].value[params.index + 1].span = needChangeAttr[params.index + 1].span;
 					currentColums.children[i].attrs[0].children[1].value[params.index + 1].value = needChangeAttr[params.index + 1].value;
 				}
-
+				
 				changClassName(currentColums.children[params.index + 1].className, 'col-md-' + (needChangeAttr[params.index + 1].value));
 			}
 
@@ -2363,7 +2361,7 @@ export default {
 					}, '*');
 					deleteParentCtrl.className.push('vd-empty');
 				}
-
+				
 			}else if (typeof deleteParentCtrl.children[deleteIndex] !== 'undefined') {
 				state.activeCtrl = deleteParentCtrl.children[deleteIndex];
 				state.activeCtrlIndex = deleteIndex
@@ -2449,7 +2447,7 @@ export default {
 					}, '*');
 					originalParentInfo.parentCtrl.className.push('vd-empty');
 				}
-
+				
 			}else {
 				moveCtrl = [params.ctrl];
 			}
@@ -2472,7 +2470,7 @@ export default {
 			}
 
 			if(currentActiveCtrl.customClassName.indexOf('animated') == -1) {
-				currentActiveCtrl.customClassName.push('animated');
+				currentActiveCtrl.customClassName.push('animated');				
 			}
 
 			if(currentActiveCtrl.customClassName.indexOf(params.animateName) == -1) {
