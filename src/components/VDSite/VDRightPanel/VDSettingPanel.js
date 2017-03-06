@@ -697,7 +697,7 @@ const Component = (props) => {
 
                                 });
                             }
-                            
+
                         }
 
 					    const bgUploaderProps = {
@@ -1644,7 +1644,7 @@ const Component = (props) => {
                     'dropdown-setting'(item, attrTypeIndex) {
 
 	    				return (
-	    					<Panel header={item.title} key={item.key}>
+	    					<Panel header={item.title} key={item.id}>
 	                            <Row style={{marginTop: '15px'}}>
 	                                <Col span={12}>
                                         <Button size="small" onClick={formProps.childrenAdd.bind(this,1, 'components', 'dropdown', 2, [{level: 0,index:1}])}><Icon type="plus" 	/>新增菜单</Button>
@@ -1670,7 +1670,7 @@ const Component = (props) => {
 							var inter = setInterval(function() {
 								if($('#' + id).length !== 0) {
 									clearInterval(inter);
-									
+
 									if ($('#' + id).data('isBinded')) {
 										return;
 									}

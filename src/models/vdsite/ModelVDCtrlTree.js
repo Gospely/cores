@@ -1069,7 +1069,7 @@ export default {
 				window.VDDesignerFrame.postMessage({
 					pageSelected: state.layout[state.activePage.key][0].children
 				}, '*');
-			}, 2000)
+			}, 2500)
 			return {...state};
 		},
 
@@ -2018,7 +2018,7 @@ export default {
 						ignore: controller.ignore || false,
 						root: currentRootVdid || '',
 						parent: currentRootVdid,
-						unActive: false,
+						unActive: controller.unActive || false,
 					};
 
 
@@ -2149,7 +2149,7 @@ export default {
 
 				needChangeAttr[params.index + 1].span += 2;
 				needChangeAttr[params.index + 1].value += 1;
-				
+
 				for(let i = 0; i < currentColums.children.length; i ++) {
 					currentColums.children[i].attrs[0].children[1].value[params.index + 1].span = needChangeAttr[params.index + 1].span;
 					currentColums.children[i].attrs[0].children[1].value[params.index + 1].value = needChangeAttr[params.index + 1].value;
@@ -2197,7 +2197,7 @@ export default {
 				//
 				needChangeAttr[params.index].span += 2;
 				needChangeAttr[params.index].value += 1;
-				
+
 				for(let i = 0; i < currentColums.children.length; i ++) {
 					currentColums.children[i].attrs[0].children[1].value[params.index].span = needChangeAttr[params.index].span;
 					currentColums.children[i].attrs[0].children[1].value[params.index].value = needChangeAttr[params.index].value;
@@ -2225,7 +2225,7 @@ export default {
 					currentColums.children[i].attrs[0].children[1].value[params.index + 1].span = needChangeAttr[params.index + 1].span;
 					currentColums.children[i].attrs[0].children[1].value[params.index + 1].value = needChangeAttr[params.index + 1].value;
 				}
-				
+
 				changClassName(currentColums.children[params.index + 1].className, 'col-md-' + (needChangeAttr[params.index + 1].value));
 			}
 
@@ -2363,7 +2363,7 @@ export default {
 					}, '*');
 					deleteParentCtrl.className.push('vd-empty');
 				}
-				
+
 			}else if (typeof deleteParentCtrl.children[deleteIndex] !== 'undefined') {
 				state.activeCtrl = deleteParentCtrl.children[deleteIndex];
 				state.activeCtrlIndex = deleteIndex
@@ -2449,7 +2449,7 @@ export default {
 					}, '*');
 					originalParentInfo.parentCtrl.className.push('vd-empty');
 				}
-				
+
 			}else {
 				moveCtrl = [params.ctrl];
 			}
@@ -2472,7 +2472,7 @@ export default {
 			}
 
 			if(currentActiveCtrl.customClassName.indexOf('animated') == -1) {
-				currentActiveCtrl.customClassName.push('animated');				
+				currentActiveCtrl.customClassName.push('animated');
 			}
 
 			if(currentActiveCtrl.customClassName.indexOf(params.animateName) == -1) {

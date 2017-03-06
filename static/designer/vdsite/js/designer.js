@@ -818,7 +818,10 @@ $(function() {
 
         		dndData.dragOverElem = target;
 
-        		if (target.data("controller") && target.data("controller").unActive) {
+        		// console.log(target.data("controller"))
+
+        		//不准拖动的组件找父级
+        		if (target.data("controller") && target.data("controller").unActive && target.attr('vdid') === dndData.dragElem.attr('vdid')) {
         			var findParent = function (elem) {
         				if (elem.parent().length) {
         					findParent(elem.parent())
@@ -1337,6 +1340,7 @@ $(function() {
 
             listenHover: function() {
                 var self = this;
+
                 this.elem.hover(function(e) {
                     var target = jq(e.target);
                     var targetHeight = 0;
@@ -1348,7 +1352,8 @@ $(function() {
                         left: target.offset().left,
                         width: target.outerWidth(),
                         height: target.outerHeight(),
-                        display: 'block'
+                        display: 'block',
+                        zIndex: 65532
                     });
                 }, function(e) {
                     jq('#vd-OutlineSelectedHoverNode').hide();
