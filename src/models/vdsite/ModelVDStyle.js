@@ -586,7 +586,7 @@ export default {
 				'background-width': '',
 				'background-color': '',
 				'background-size': ['', '', false, false],
-				'background-position': '',
+				'background-position': [],
 				'background-image': '',
 				'background-color': '',
 				'background-repeat': '',
@@ -1276,6 +1276,10 @@ export default {
 						}
 					}else if (property === 'background-position') {
 						let vals = value.split(' ');
+						console.log(propertyParent, property);
+						if(typeof propertyParent[property] == 'string') {
+							propertyParent[property] = [];
+						}
 						propertyParent[property][0] = vals[0];
 						propertyParent[property][1] = vals[1];
 					}else {
