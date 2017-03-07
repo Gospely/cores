@@ -472,10 +472,17 @@ export default {
 						scriptText += `\njQuery('[vdid="${currentVdid[j]}"]').${currentInteraction.condition}(function (e) {
 	jQuery(e.target).animateCss('${currentInteraction.animate}');
 });`
-					}else {
+					}else if (currentInteraction.condition === 'click') {
 						scriptText += `\njQuery('[vdid="${currentVdid[j]}"]').on('${currentInteraction.condition}', function (e) {
 	jQuery(e.target).animateCss('${currentInteraction.animate}');
 });`
+					}else if (currentInteraction.condition === 'scroll') {
+						scriptText += `\njQuery(window).scroll(function (e) {
+							var elem = jQuery('[vdid="${currentVdid[j]}"]');
+							if (elem.offset().top === jQuery(window).innerHeight()) {
+								elem.animateCss('${currentInteraction.animate}');
+							}
+						})`
 					}
 					
 
