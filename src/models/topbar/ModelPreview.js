@@ -94,10 +94,10 @@ effects:{
         yield put({
             type: 'preview/setSrc',
             payload: 'http://' + localStorage.domain + '/pages/' + currPage + "?t" + new Date(),
-        })
+        });
         yield put({
             type: 'showPreview'
-        })
+        });
     }
 }
 }
