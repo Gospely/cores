@@ -460,6 +460,10 @@ $(function() {
                         }
                     },
 
+                    applyScriptIntoPage: function () {
+                    	pageOperations.applyScript(data);
+                    },
+
 					VDChildrenDelete: function(){
 						console.log('delete children');
 						controllerOperations.deleteChildren(data.activeCtrl, data.attrType);
@@ -756,6 +760,12 @@ $(function() {
                 var oldStyle = jq('[sid="global-css"]').remove();
                 var css = jq('<style sid="global-css">' + cssText + '</style>');
                 jq('head').append(css);
+            },
+
+            applyScript: function (scriptText) {
+            	var oldScript = jq('[sid="global-script"]').remove();
+            	var script = jq('<script sid="global-script">' + scriptText + '</script>');
+            	jq('body').append(script);
             },
 
             reload: function() {

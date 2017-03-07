@@ -279,17 +279,29 @@ export default {
 			animate: '',
 			name: 'None',
 			duration: '',
-			condition: 'none'
+			condition: 'none',
+			vdid: []
 		}, {
 			animate: 'bounce',
 			name: '弹跳',
 			duration: '',
-			condition: 'click'
+			condition: 'click',
+			vdid: []
 		}, {
 			animate: 'bounceIn',
 			name: '弹跳进入',
 			duration: '',
-			condition: 'hover'
+			condition: 'hover',
+			vdid: []
+		}],
+
+		script: {
+			text: ``
+		},
+
+		needOffEffects: [{
+			vdid: '',
+			condition: ''
 		}],
 
 		activeInteraction: 0,
@@ -317,7 +329,8 @@ export default {
 			yield put({
 				type: 'setActiveInteraction',
 				payload: {
-					interactionIndex: params.key
+					interactionIndex: params.key,
+					vdid: params.vdid
 				}
 			})
 		}
@@ -328,11 +341,11 @@ export default {
 
 		initState(state, { payload: params }){
 
-			state.newInteractionForm = params.UIState.newInteractionForm;
-			state.interactionModifierForm = params.UIState.interactionModifierForm;
-			state.interactions = params.UIState.interactions;
-			state.activeInteraction = params.UIState.activeInteraction;
-			state.activeInteractionIndex = params.UIState.activeInteractionIndex;
+			// state.newInteractionForm = params.UIState.newInteractionForm;
+			// state.interactionModifierForm = params.UIState.interactionModifierForm;
+			// state.interactions = params.UIState.interactions;
+			// state.activeInteraction = params.UIState.activeInteraction;
+			// state.activeInteractionIndex = params.UIState.activeInteractionIndex;
 
 			return {...state};
 		},
@@ -433,8 +446,51 @@ export default {
 			return {...state};
 		},
 
-		setActiveInteraction(state, { payload: interactionIndex }) {
-			state.activeInteractionIndex = typeof interactionIndex === 'object' ? interactionIndex.interactionIndex : interactionIndex;
+		setActiveInteraction(state, { payload: params }) {
+			let prevActiveInteraction = state.interactions[state.activeInteractionIndex];
+			let prevVdids = prevActiveInteraction.vdid;
+			let prevIndex = prevVdids.indexOf(params.vdid);
+			state.needOffEffects.push({
+				vdid: params.vdid,
+				condition: prevActiveInteraction.condition
+			});
+			if (prevIndex !== -1) {
+				prevVdids.splice(prevIndex, 1);
+			}
+			
+			state.activeInteractionIndex = params.interactionIndex;
+			state.interactions[state.activeInteractionIndex].vdid.push(params.vdid);
+			let scriptText = ``;
+			for(let i = 1; i < state.interactions.length; i ++) {
+				let currentInteraction = state.interactions[i];
+				
+				let currentVdid = currentInteraction.vdid
+				for(let j = 0; j < currentVdid.length; j ++) {
+
+					if (currentInteraction.condition === 'hover') {
+						scriptText += `\njQuery('[vdid="${currentVdid[j]}"]').${currentInteraction.condition}(function (e) {
+	jQuery(e.target).animateCss('${currentInteraction.animate}');
+});`
+					}else {
+						scriptText += `\njQuery('[vdid="${currentVdid[j]}"]').on('${currentInteraction.condition}', function (e) {
+	jQuery(e.target).animateCss('${currentInteraction.animate}');
+});`
+					}
+					
+
+				}
+			}
+
+			for(let i = 0; i < state.needOffEffects.length; i ++) {
+				let currentOff = state.needOffEffects[i];
+				scriptText += `\njQuery('[vdid="${currentOff.vdid}"]').off('${currentOff.condition}');`
+			}
+			
+			 state.needOffEffects = [];
+			console.log(scriptText)
+			window.VDDesignerFrame.postMessage({
+				applyScriptIntoPage: scriptText
+			}, "*");
 			return {...state};
 		}
 
