@@ -45,13 +45,7 @@ const packUIStage = function (params) {
 			selectIndex: params.vdCtrlTree.selectIndex || 0
 		},
 		vdstyles: params.vdstyles,
-		vdanimations: {
-			newInteractionForm: params.vdanimations.newInteractionForm,
-			interactionModifierForm: params.vdanimations.interactionModifierForm,
-			interactions: params.vdanimations.interactions,
-			activeInteraction: params.vdanimations.activeInteraction,
-			activeInteractionIndex: params.vdanimations.activeInteractionIndex,
-		}
+		vdanimations: params.vdanimations,
 	}
 
 	return uiState;

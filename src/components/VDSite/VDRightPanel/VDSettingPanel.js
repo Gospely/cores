@@ -537,7 +537,7 @@ const Component = (props) => {
 
 					    	linkSettingTemplate: props.vdcore.linkSetting.list.map( (item, index) => {
 								return (
-									<RadioButton key={item.value} value={item.value}>
+									<RadioButton key={index} value={item.value}>
 						              	<Tooltip placement="top" title={item.tip}>
 						      				<Icon type={item.icon} />
 						      			</Tooltip>
@@ -1848,7 +1848,6 @@ const Component = (props) => {
     				}
     			}
 
-                console.log(item.type);
                 if(item.type != null && item.type != undefined){
                     return formTypeList[item.type](item);
                 }else {
