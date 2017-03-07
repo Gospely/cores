@@ -333,6 +333,8 @@ export default {
 			state.interactions = params.UIState.interactions;
 			state.activeInteraction = params.UIState.activeInteraction;
 			state.activeInteractionIndex = params.UIState.activeInteractionIndex;
+			state.interactionCreator = params.UIState.interactionCreator;
+			state.animations = params.UIState.animations;
 
 			return {...state};
 		},

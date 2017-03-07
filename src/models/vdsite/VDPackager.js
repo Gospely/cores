@@ -11,7 +11,7 @@ var VDPackager = {
 	layout: {},
 
 	htmlTpl: {
-		head: `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Gospel</title><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="generator" content="Gospel"><link rel="stylesheet" type="text/css" href="css/normalize.css"><link rel="stylesheet" type="text/css" href="css/gospel.css"><link rel="stylesheet" type="text/css" href="css/styles.css"><script type="text/javascript" src="js/modernizr.js"></script>`,
+		head: `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Gospel</title><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="generator" content="Gospel"><link rel="stylesheet" type="text/css" href="css/normalize.css"><link rel="stylesheet" type="text/css" href="css/gospel.css"><link rel="stylesheet" type="text/css" href="css/styles.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><link href="//cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet"><script type="text/javascript" src="js/modernizr.js"></script>`,
 
 		body: `</head><body>`,
 
@@ -47,7 +47,7 @@ var VDPackager = {
 
 			for (var i = 0; i < pages.length; i++) {
 				var currentPage = pages[i];
-				
+
 				var meta = {
 					description: ''
 				};
@@ -68,7 +68,7 @@ var VDPackager = {
 					var realHTML = '', htmlText = '';
 
 					if(this.layout[currentPage.key]) {
-						realHTML = this.compileLayout(this.layout[currentPage.key]);						
+						realHTML = this.compileLayout(this.layout[currentPage.key]);
 					}
 
 					htmlText = this.htmlTpl.head + meta.description + this.htmlTpl.body + realHTML + this.htmlTpl.footer;
