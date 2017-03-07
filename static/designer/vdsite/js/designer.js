@@ -438,7 +438,13 @@ $(function() {
                     },
 
                     upLoadBgImg: function(){
-                    	jq('[vdid="'+ data.activeCtrl.vdid + '"]').css('background-image', 'url("' + data.url + '")');
+
+						jq('[vdid="'+ data.activeCtrl.vdid + '"]').attr('src', data.url);
+						// if(data.action){
+						//
+						// }else {
+						// 	jq('[vdid="'+ data.activeCtrl.vdid + '"]').css('background-image', 'url("' + data.url + '")');
+						// }
                     },
 
                     uploadImgRefreshed: function(){
@@ -1195,6 +1201,7 @@ $(function() {
                                     if(typeList[type]) {
                                         return typeList[type]() + val;
                                     }else {
+										self.elem.attr('href', val);
                                         return '';
                                     }
 								}

@@ -41,7 +41,7 @@ const initState = function (props, applicationId) {
             activeCtrl: props.vdCtrlTree.activeCtrl
           }
         });
-    }, 1000);
+    }, 3000);
     props.dispatch({
       type: 'devpanel/getConfig',
       payload: { id : applicationId, UIState: UIState.UIState.devpanel}

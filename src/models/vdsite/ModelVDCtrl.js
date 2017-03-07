@@ -320,6 +320,38 @@ export default {
 							attrName: 'src',
 							id: ''
 						}, {
+							name: 'src',
+							desc: '跳转邮箱',
+							type: 'input',
+							value: '',
+							isAttr: true,
+							attrName: 'src',
+							id: ''
+						}, {
+							name: 'src',
+							desc: '跳转电话',
+							type: 'input',
+							value: '',
+							isAttr: true,
+							attrName: 'src',
+							id: ''
+						}, {
+							name: 'src',
+							desc: '跳转页面',
+							type: 'select',
+							value: '',
+							isAttr: true,
+							attrName: 'src',
+							id: ''
+						}, {
+							name: 'src',
+							desc: '跳转元素',
+							type: 'select',
+							value: '',
+							isAttr: true,
+							attrName: 'src',
+							id: ''
+						},{
 							name: 'target',
 							desc: '新窗口打开',
 							type: 'toggle',
@@ -655,9 +687,41 @@ export default {
 						title: '链接设置',
 						key: 'link-setting',
 						children: [{
-							name: 'href',
+							name: 'src',
 							desc: '跳转链接',
 							type: 'input',
+							value: '',
+							isAttr: true,
+							attrName: 'src',
+							id: ''
+						}, {
+							name: 'src',
+							desc: '跳转邮箱',
+							type: 'input',
+							value: '',
+							isAttr: true,
+							attrName: 'src',
+							id: ''
+						}, {
+							name: 'src',
+							desc: '跳转电话',
+							type: 'input',
+							value: '',
+							isAttr: true,
+							attrName: 'src',
+							id: ''
+						}, {
+							name: 'src',
+							desc: '跳转页面',
+							type: 'select',
+							value: '',
+							isAttr: true,
+							attrName: 'src',
+							id: ''
+						}, {
+							name: 'src',
+							desc: '跳转元素',
+							type: 'select',
 							value: '',
 							isAttr: true,
 							attrName: 'src',
@@ -2046,14 +2110,46 @@ export default {
 									key: 'link-setting',
                                     deleteAble: true,
 									children: [{
-                                        name: 'src',
-                                        desc: '跳转链接',
-                                        type: 'input',
-                                        value: '',
-                                        isAttr: true,
-                                        attrName: 'href',
-                                        id: ''
-                                    }, {
+            							name: 'src',
+            							desc: '跳转链接',
+            							type: 'input',
+            							value: '',
+            							isAttr: true,
+            							attrName: 'src',
+            							id: ''
+            						}, {
+            							name: 'src',
+            							desc: '跳转邮箱',
+            							type: 'input',
+            							value: '',
+            							isAttr: true,
+            							attrName: 'src',
+            							id: ''
+            						}, {
+            							name: 'src',
+            							desc: '跳转电话',
+            							type: 'input',
+            							value: '',
+            							isAttr: true,
+            							attrName: 'src',
+            							id: ''
+            						}, {
+            							name: 'src',
+            							desc: '跳转页面',
+            							type: 'select',
+            							value: '',
+            							isAttr: true,
+            							attrName: 'src',
+            							id: ''
+            						}, {
+            							name: 'src',
+            							desc: '跳转元素',
+            							type: 'select',
+            							value: '',
+            							isAttr: true,
+            							attrName: 'src',
+            							id: ''
+            						}, {
                                         name: 'target',
                                         desc: '新窗口打开',
                                         type: 'toggle',
@@ -2105,14 +2201,46 @@ export default {
                                             deleteAble: true,
                                             changeDropDown: true,
                                             children: [{
-                                                name: 'src',
-                                                desc: '跳转链接',
-                                                type: 'input',
-                                                value: '',
-                                                isAttr: true,
-                                                attrName: 'href',
-                                                id: ''
-                                            }, {
+                    							name: 'src',
+                    							desc: '跳转链接',
+                    							type: 'input',
+                    							value: '',
+                    							isAttr: true,
+                    							attrName: 'src',
+                    							id: ''
+                    						}, {
+                    							name: 'src',
+                    							desc: '跳转邮箱',
+                    							type: 'input',
+                    							value: '',
+                    							isAttr: true,
+                    							attrName: 'src',
+                    							id: ''
+                    						}, {
+                    							name: 'src',
+                    							desc: '跳转电话',
+                    							type: 'input',
+                    							value: '',
+                    							isAttr: true,
+                    							attrName: 'src',
+                    							id: ''
+                    						}, {
+                    							name: 'src',
+                    							desc: '跳转页面',
+                    							type: 'select',
+                    							value: '',
+                    							isAttr: true,
+                    							attrName: 'src',
+                    							id: ''
+                    						}, {
+                    							name: 'src',
+                    							desc: '跳转元素',
+                    							type: 'select',
+                    							value: '',
+                    							isAttr: true,
+                    							attrName: 'src',
+                    							id: ''
+                    						},{
                                                 name: 'target',
                                                 desc: '新窗口打开',
                                                 type: 'toggle',
@@ -2146,14 +2274,46 @@ export default {
                                             changeDropDown: true,
                                             deleteAble: true,
 											children: [{
-                                                name: 'src',
-                                                desc: '跳转链接',
-                                                type: 'input',
-                                                value: '',
-                                                isAttr: true,
-                                                attrName: 'href',
-                                                id: ''
-                                            }, {
+                    							name: 'src',
+                    							desc: '跳转链接',
+                    							type: 'input',
+                    							value: '',
+                    							isAttr: true,
+                    							attrName: 'src',
+                    							id: ''
+                    						}, {
+                    							name: 'src',
+                    							desc: '跳转邮箱',
+                    							type: 'input',
+                    							value: '',
+                    							isAttr: true,
+                    							attrName: 'src',
+                    							id: ''
+                    						}, {
+                    							name: 'src',
+                    							desc: '跳转电话',
+                    							type: 'input',
+                    							value: '',
+                    							isAttr: true,
+                    							attrName: 'src',
+                    							id: ''
+                    						}, {
+                    							name: 'src',
+                    							desc: '跳转页面',
+                    							type: 'select',
+                    							value: '',
+                    							isAttr: true,
+                    							attrName: 'src',
+                    							id: ''
+                    						}, {
+                    							name: 'src',
+                    							desc: '跳转元素',
+                    							type: 'select',
+                    							value: '',
+                    							isAttr: true,
+                    							attrName: 'src',
+                    							id: ''
+                    						}, {
                                                 name: 'target',
                                                 desc: '新窗口打开',
                                                 type: 'toggle',
@@ -2275,14 +2435,46 @@ export default {
         											key: 'link-setting',
                                                     deleteAble: true,
         											children: [{
-                                                        name: 'src',
-                                                        desc: '跳转链接',
-                                                        type: 'input',
-                                                        value: '',
-                                                        isAttr: true,
-                                                        attrName: 'href',
-                                                        id: ''
-                                                    }, {
+                            							name: 'src',
+                            							desc: '跳转链接',
+                            							type: 'input',
+                            							value: '',
+                            							isAttr: true,
+                            							attrName: 'src',
+                            							id: ''
+                            						}, {
+                            							name: 'src',
+                            							desc: '跳转邮箱',
+                            							type: 'input',
+                            							value: '',
+                            							isAttr: true,
+                            							attrName: 'src',
+                            							id: ''
+                            						}, {
+                            							name: 'src',
+                            							desc: '跳转电话',
+                            							type: 'input',
+                            							value: '',
+                            							isAttr: true,
+                            							attrName: 'src',
+                            							id: ''
+                            						}, {
+                            							name: 'src',
+                            							desc: '跳转页面',
+                            							type: 'select',
+                            							value: '',
+                            							isAttr: true,
+                            							attrName: 'src',
+                            							id: ''
+                            						}, {
+                            							name: 'src',
+                            							desc: '跳转元素',
+                            							type: 'select',
+                            							value: '',
+                            							isAttr: true,
+                            							attrName: 'src',
+                            							id: ''
+                            						}, {
                                                         name: 'target',
                                                         desc: '新窗口打开',
                                                         type: 'toggle',
@@ -2315,14 +2507,46 @@ export default {
         											key: 'link-setting',
                                                     deleteAble: true,
         											children: [{
-                                                        name: 'src',
-                                                        desc: '跳转链接',
-                                                        type: 'input',
-                                                        value: '',
-                                                        isAttr: true,
-                                                        attrName: 'href',
-                                                        id: ''
-                                                    }, {
+                            							name: 'src',
+                            							desc: '跳转链接',
+                            							type: 'input',
+                            							value: '',
+                            							isAttr: true,
+                            							attrName: 'src',
+                            							id: ''
+                            						}, {
+                            							name: 'src',
+                            							desc: '跳转邮箱',
+                            							type: 'input',
+                            							value: '',
+                            							isAttr: true,
+                            							attrName: 'src',
+                            							id: ''
+                            						}, {
+                            							name: 'src',
+                            							desc: '跳转电话',
+                            							type: 'input',
+                            							value: '',
+                            							isAttr: true,
+                            							attrName: 'src',
+                            							id: ''
+                            						}, {
+                            							name: 'src',
+                            							desc: '跳转页面',
+                            							type: 'select',
+                            							value: '',
+                            							isAttr: true,
+                            							attrName: 'src',
+                            							id: ''
+                            						}, {
+                            							name: 'src',
+                            							desc: '跳转元素',
+                            							type: 'select',
+                            							value: '',
+                            							isAttr: true,
+                            							attrName: 'src',
+                            							id: ''
+                            						}, {
                                                         name: 'target',
                                                         desc: '新窗口打开',
                                                         type: 'toggle',
@@ -2355,14 +2579,46 @@ export default {
         											key: 'link-setting',
                                                     deleteAble: true,
         											children: [{
-                                                        name: 'src',
-                                                        desc: '跳转链接',
-                                                        type: 'input',
-                                                        value: '',
-                                                        isAttr: true,
-                                                        attrName: 'href',
-                                                        id: ''
-                                                    }, {
+                            							name: 'src',
+                            							desc: '跳转链接',
+                            							type: 'input',
+                            							value: '',
+                            							isAttr: true,
+                            							attrName: 'src',
+                            							id: ''
+                            						}, {
+                            							name: 'src',
+                            							desc: '跳转邮箱',
+                            							type: 'input',
+                            							value: '',
+                            							isAttr: true,
+                            							attrName: 'src',
+                            							id: ''
+                            						}, {
+                            							name: 'src',
+                            							desc: '跳转电话',
+                            							type: 'input',
+                            							value: '',
+                            							isAttr: true,
+                            							attrName: 'src',
+                            							id: ''
+                            						}, {
+                            							name: 'src',
+                            							desc: '跳转页面',
+                            							type: 'select',
+                            							value: '',
+                            							isAttr: true,
+                            							attrName: 'src',
+                            							id: ''
+                            						}, {
+                            							name: 'src',
+                            							desc: '跳转元素',
+                            							type: 'select',
+                            							value: '',
+                            							isAttr: true,
+                            							attrName: 'src',
+                            							id: ''
+                            						}, {
                                                         name: 'target',
                                                         desc: '新窗口打开',
                                                         type: 'toggle',
@@ -2478,14 +2734,46 @@ export default {
                                     key: 'link-setting',
                                     deleteAble: true,
                                     children: [{
-                                        name: 'src',
-                                        desc: '跳转链接',
-                                        type: 'input',
-                                        value: '',
-                                        isAttr: true,
-                                        attrName: 'href',
-                                        id: ''
-                                    }, {
+            							name: 'src',
+            							desc: '跳转链接',
+            							type: 'input',
+            							value: '',
+            							isAttr: true,
+            							attrName: 'src',
+            							id: ''
+            						}, {
+            							name: 'src',
+            							desc: '跳转邮箱',
+            							type: 'input',
+            							value: '',
+            							isAttr: true,
+            							attrName: 'src',
+            							id: ''
+            						}, {
+            							name: 'src',
+            							desc: '跳转电话',
+            							type: 'input',
+            							value: '',
+            							isAttr: true,
+            							attrName: 'src',
+            							id: ''
+            						}, {
+            							name: 'src',
+            							desc: '跳转页面',
+            							type: 'select',
+            							value: '',
+            							isAttr: true,
+            							attrName: 'src',
+            							id: ''
+            						}, {
+            							name: 'src',
+            							desc: '跳转元素',
+            							type: 'select',
+            							value: '',
+            							isAttr: true,
+            							attrName: 'src',
+            							id: ''
+            						}, {
                                         name: 'target',
                                         desc: '新窗口打开',
                                         type: 'toggle',
@@ -2519,14 +2807,46 @@ export default {
                                     key: 'link-setting',
                                     deleteAble: true,
                                     children: [{
-                                        name: 'src',
-                                        desc: '跳转链接',
-                                        type: 'input',
-                                        value: '',
-                                        isAttr: true,
-                                        attrName: 'href',
-                                        id: ''
-                                    }, {
+            							name: 'src',
+            							desc: '跳转链接',
+            							type: 'input',
+            							value: '',
+            							isAttr: true,
+            							attrName: 'src',
+            							id: ''
+            						}, {
+            							name: 'src',
+            							desc: '跳转邮箱',
+            							type: 'input',
+            							value: '',
+            							isAttr: true,
+            							attrName: 'src',
+            							id: ''
+            						}, {
+            							name: 'src',
+            							desc: '跳转电话',
+            							type: 'input',
+            							value: '',
+            							isAttr: true,
+            							attrName: 'src',
+            							id: ''
+            						}, {
+            							name: 'src',
+            							desc: '跳转页面',
+            							type: 'select',
+            							value: '',
+            							isAttr: true,
+            							attrName: 'src',
+            							id: ''
+            						}, {
+            							name: 'src',
+            							desc: '跳转元素',
+            							type: 'select',
+            							value: '',
+            							isAttr: true,
+            							attrName: 'src',
+            							id: ''
+            						},{
                                         name: 'target',
                                         desc: '新窗口打开',
                                         type: 'toggle',
@@ -2559,14 +2879,46 @@ export default {
                                     key: 'link-setting',
                                     deleteAble: true,
                                     children: [{
-                                        name: 'src',
-                                        desc: '跳转链接',
-                                        type: 'input',
-                                        value: '',
-                                        isAttr: true,
-                                        attrName: 'href',
-                                        id: ''
-                                    }, {
+            							name: 'src',
+            							desc: '跳转链接',
+            							type: 'input',
+            							value: '',
+            							isAttr: true,
+            							attrName: 'src',
+            							id: ''
+            						}, {
+            							name: 'src',
+            							desc: '跳转邮箱',
+            							type: 'input',
+            							value: '',
+            							isAttr: true,
+            							attrName: 'src',
+            							id: ''
+            						}, {
+            							name: 'src',
+            							desc: '跳转电话',
+            							type: 'input',
+            							value: '',
+            							isAttr: true,
+            							attrName: 'src',
+            							id: ''
+            						}, {
+            							name: 'src',
+            							desc: '跳转页面',
+            							type: 'select',
+            							value: '',
+            							isAttr: true,
+            							attrName: 'src',
+            							id: ''
+            						}, {
+            							name: 'src',
+            							desc: '跳转元素',
+            							type: 'select',
+            							value: '',
+            							isAttr: true,
+            							attrName: 'src',
+            							id: ''
+            						}, {
                                         name: 'target',
                                         desc: '新窗口打开',
                                         type: 'toggle',

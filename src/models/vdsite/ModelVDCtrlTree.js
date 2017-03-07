@@ -1181,30 +1181,54 @@ export default {
 			return { ...state};
 		},
 		uploadBgImg(state, { payload: params}){
+
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
-			currentActiveCtrl.controller.attrs[0].children[0].fileInfo = [params];
-			currentActiveCtrl.controller.attrs[0].children[0].value = params.url;
-			console.log(currentActiveCtrl.controller);
-			state.activeCtrl = currentActiveCtrl.controller;
-			var url =  currentActiveCtrl.controller.attrs[0].children[0].fileInfo[0].url
+			console.log('uploadBgImg');
+			if(currentActiveCtrl.controller.attrs[0].key == 'slider-setting'){
+				var activeCtrl = currentActiveCtrl.controller.children[1].children[state.selectIndex];
+				console.log(activeCtrl);
+				 currentActiveCtrl.controller.children[1].children[state.selectIndex].attrs[0].children[0].fileInfo = [params];
+				url = params.url;
+			}else {
+				currentActiveCtrl.controller.attrs[0].children[0].fileInfo = [params];
+				currentActiveCtrl.controller.attrs[0].children[0].value = params.url;
+				console.log(currentActiveCtrl.controller);
+				state.activeCtrl = currentActiveCtrl.controller;
+				var url =  currentActiveCtrl.controller.attrs[0].children[0].fileInfo[0].url,
+				activeCtrl =  currentActiveCtrl.controller;
+
+			}
+
 			window.VDDesignerFrame.postMessage({
 				upLoadBgImg: {
-					activeCtrl: currentActiveCtrl.controller,
+					activeCtrl:activeCtrl,
 					url: url
 				}
 			}, '*');
 			return { ...state}
 		},
 		uploadPreviewImg(state, { payload: params}){
+
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
-			currentActiveCtrl.controller.attrs[0].children[0].fileInfo = [params];
-			currentActiveCtrl.controller.attrs[0].children[0].value = params.url;
-			console.log(currentActiveCtrl.controller);
-			state.activeCtrl = currentActiveCtrl.controller;
-			var url =  currentActiveCtrl.controller.attrs[0].children[0].fileInfo[0].url
+			console.log('uploadBgImg');
+			if(currentActiveCtrl.controller.attrs[0].key == 'slider-setting'){
+				var activeCtrl = currentActiveCtrl.controller.children[1].children[state.selectIndex].children[0];
+				console.log(activeCtrl);
+				currentActiveCtrl.controller.children[1].children[state.selectIndex].children[0].attrs[0].children[0].value = params.url
+				url = params.url;
+			}else {
+				currentActiveCtrl.controller.attrs[0].children[0].fileInfo = [params];
+				currentActiveCtrl.controller.attrs[0].children[0].value = params.url;
+				console.log(currentActiveCtrl.controller);
+				state.activeCtrl = currentActiveCtrl.controller;
+				var url =  currentActiveCtrl.controller.attrs[0].children[0].fileInfo[0].url,
+				activeCtrl =  currentActiveCtrl.controller;
+
+			}
+
 			window.VDDesignerFrame.postMessage({
-				uploadImgRefreshed: {
-					activeCtrl: currentActiveCtrl.controller,
+				upLoadBgImg: {
+					activeCtrl:activeCtrl,
 					url: url
 				}
 			}, '*');

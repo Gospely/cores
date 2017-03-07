@@ -293,6 +293,16 @@ export default {
 					unit: 'px',
 					important: false
 				},
+				bottom: {
+					defaultUnit: 'px',
+					unit: 'px',
+					important: false
+				},
+				right: {
+					defaultUnit: 'px',
+					unit: 'px',
+					important: false
+				},
 				cursor: {
 					important: false
 				},
@@ -300,7 +310,7 @@ export default {
 				'border-style': {
 					important: false
 				},
-			
+
 				'border-color': {
 					important: false
 				},
@@ -569,6 +579,19 @@ export default {
 				unit: 'px',
 				important: false
 			},
+
+			right: {
+				defaultUnit: 'px',
+				unit: 'px',
+				important: false
+			},
+
+			bottom: {
+				defaultUnit: 'px',
+				unit: 'px',
+				important: false
+			},
+
 			cursor: {
 				important: false
 			},
@@ -576,7 +599,7 @@ export default {
 			'border-style': {
 				important: false
 			},
-		
+
 			'border-color': {
 				important: false
 			},
@@ -706,6 +729,8 @@ export default {
 				'z-index': '',
 				top: '',
 				left: '',
+				right: '',
+				bottom: '',
 
 				padding: {
 					'padding-top': '',
@@ -874,6 +899,8 @@ export default {
 			'z-index': '',
 			top: '',
 			left: '',
+			right: '',
+			bottom: '',
 
 			padding: {
 				'padding-top': '',
@@ -1057,16 +1084,15 @@ export default {
 
 	reducers: {
 		initState(state, { payload: params}){
-
-			state.backgroundSetting = params.UIState.backgroundSetting;
-			state.cssStyleList = params.UIState.cssStyleList;
-			state.boxShadow = params.UIState.boxShadow;
-			state.cssStyleLayout = params.UIState.cssStyleLayout;
-			state.textShadow = params.UIState.textShadow;
-			state.filterSetting = params.UIState.filterSetting;
-			state.transitionSetting = params.UIState.transitionSetting;
-			state.transformSetting = params.UIState.transformSetting;
-			state.unitList = params.UIState.unitList;
+			// state.backgroundSetting = params.UIState.backgroundSetting;
+			// state.cssStyleList = params.UIState.cssStyleList;
+			// state.boxShadow = params.UIState.boxShadow;
+			// state.cssStyleLayout = params.UIState.cssStyleLayout;
+			// state.textShadow = params.UIState.textShadow;
+			// state.filterSetting = params.UIState.filterSetting;
+			// state.transitionSetting = params.UIState.transitionSetting;
+			// state.transformSetting = params.UIState.transformSetting;
+			// state.unitList = params.UIState.unitList;
 			return {...state};
 		},
 		handleCSSStateChange(state, { payload: params }) {
@@ -1252,7 +1278,7 @@ export default {
 								}else {
 									//background-position
 									if(currentStyleValue.length > 0) {
-										valueText = currentStyleValue.join(' ');										
+										valueText = currentStyleValue.join(' ');
 									}else {
 										continue;
 									}
@@ -1288,7 +1314,6 @@ export default {
 					let styleText = '', important;
 					for(let styleName in currentStyleParent) {
 						if(styleName != extraProperty) {
-
 							if(state.unitList[currentActiveRecStyleName][styleName]) {
 								unit = state.unitList[currentActiveRecStyleName][styleName].unit || '';
 								important = state.unitList[currentActiveRecStyleName][styleName].important ? '!important' : '';
@@ -1476,8 +1501,8 @@ export default {
 
 
 			}
-
 			const stylesGenerator = (cssStyleLayout) => {
+
 				var cssText = '';
 				for(var styleName in cssStyleLayout) {
 					var currentStyle = cssStyleLayout[styleName],
@@ -1749,7 +1774,7 @@ export default {
 				cssProperty['margin-top'] = 0;
 				cssProperty['margin-bottom'] = 0;
 				cssProperty['margin-left'] = 'auto';
-				cssProperty['margin-right'] = 'auto';				
+				cssProperty['margin-right'] = 'auto';
 			}else {
 				cssProperty['margin-top'] = 0;
 				cssProperty['margin-bottom'] = 0;

@@ -2146,6 +2146,49 @@ const VDStylePanel = (props) => {
 
 		      	<li className="ant-dropdown-menu-item-divider"></li>
 
+		    	<Row>
+
+				  	<Col span={12} style={{paddingRight: '5px'}}>
+				      	<Form className="form-no-margin-bottom">
+							<FormItem {...formItemLayout} label={
+								activeCSSStyleState['bottom'] == '' ? <span>底边</span> : (
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant('bottom') }} onConfirm={() => { setThisPropertyNull('bottom') }} title="属性操作" okText="删除属性" cancelText={
+								  					!activeCSSUnitList['bottom'].important ? <span>置!important</span> : <span>取消!important</span>
+								  				}>
+											<a href="#">底边</a>
+										</Popconfirm>
+								)
+							}>
+								<Input
+									type="number"
+									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['bottom'].unit, 'bottom')}
+									size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['bottom']} onChange={handleStylesChange.bind(this, 'bottom')}/>
+							</FormItem>
+				      	</Form>
+				  	</Col>
+				  	<Col span={12} style={{paddingLeft: '5px'}}>
+				      	<Form className="form-no-margin-bottom">
+							<FormItem {...formItemLayout} label={
+								activeCSSStyleState['right'] == '' ? <span>右边</span> : (
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant('right') }} onConfirm={() => { setThisPropertyNull('right') }} title="属性操作" okText="删除属性" cancelText={
+								  					!activeCSSUnitList['right'].important ? <span>置!important</span> : <span>取消!important</span>
+								  				}>
+											<a href="#">右边</a>
+										</Popconfirm>
+								)
+							}>
+								<Input
+									type="number"
+									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['right'].unit, 'right')}
+								 	size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['right']} onChange={handleStylesChange.bind(this, 'right')}/>
+							</FormItem>
+				      	</Form>
+				  	</Col>
+
+			  	</Row>
+
+		      	<li className="ant-dropdown-menu-item-divider"></li>
+
 
 		      	<Form className="form-no-margin-bottom zindex-form">
 					<FormItem {...formItemLayout} label={

@@ -11,11 +11,11 @@ var VDPackager = {
 	layout: {},
 
 	htmlTpl: {
-		head: `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Gospel</title><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="generator" content="Gospel"><link rel="stylesheet" type="text/css" href="css/normalize.css"><link rel="stylesheet" type="text/css" href="css/gospel.css"><link rel="stylesheet" type="text/css" href="css/styles.css"><script type="text/javascript" src="js/modernizr.js"></script></head></html>`,
+		head: `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Gospel</title><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="generator" content="Gospel"><link rel="stylesheet" type="text/css" href="css/normalize.css"><link rel="stylesheet" type="text/css" href="css/gospel.css"><link rel="stylesheet" type="text/css" href="css/styles.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><link href="//cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet"><script type="text/javascript" src="js/modernizr.js"></script>`,
 
 		body: `</head><body>`,
 
-		footer: `<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script><script src="js/bootstrap.min.js"></script><!--[if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]-->`
+		footer: `<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script><script src="js/bootstrap.min.js"></script><!--[if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]--></body></html>`
 	},
 
 	pack (params) {
@@ -47,7 +47,7 @@ var VDPackager = {
 
 			for (var i = 0; i < pages.length; i++) {
 				var currentPage = pages[i];
-				
+
 				var meta = {
 					description: ''
 				};
@@ -68,10 +68,10 @@ var VDPackager = {
 					var realHTML = '', htmlText = '';
 
 					if(this.layout[currentPage.key]) {
-						realHTML = this.compileLayout(this.layout[currentPage.key]);						
+						realHTML = this.compileLayout(this.layout[currentPage.key]);
 					}
 
-					htmlText = this.htmlTpl.head + meta.description  + this.htmlTpl.body + realHTML + this.htmlTpl.footer;
+					htmlText = this.htmlTpl.head + meta.description + this.htmlTpl.body + realHTML + this.htmlTpl.footer;
 
 					if(directory) {
 						parentDir[currentPage.key] = htmlText;
@@ -95,17 +95,17 @@ var VDPackager = {
 	compileLayout (layout) {
 
 		var bodyChildren = layout[0].children,
-			pageBase = $('<div class="page"></div>');
+			resultTpl = '';
 
 		for (var i = 0; i < bodyChildren.length; i++) {
             var currentController = bodyChildren[i],
             	elem = new window.ElemGenerator(currentController),
            		elemToAdd = $(elem.createElement());
 
-           	pageBase += elemToAdd[0].outerHTML;
+           	resultTpl += elemToAdd[0].outerHTML;
         };
 
-        return pageBase;
+        return resultTpl;
 	}
 
 }
