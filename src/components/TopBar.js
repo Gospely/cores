@@ -132,11 +132,6 @@ const LeftSidebar = (props) => {
 				        		type: 'sidebar/showModalNewApp'
 				          	});
 					    },
-					    onCancel() {
-							props.dispatch({
-				        		type: 'sidebar/showModalNewApp'
-				          	});
-					    },
 					});
 	        	}else {
 	          		props.dispatch({
