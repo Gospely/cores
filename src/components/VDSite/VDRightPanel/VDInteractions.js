@@ -149,7 +149,10 @@ const Component = (props) => {
     	handleOk () {
 
     		props.dispatch({
-    			type: 'vdanimations/saveInteraction'
+    			type: 'vdanimations/saveInteraction',
+                payload: {
+                    vdid: props.vdCtrlTree.activeCtrl.vdid
+                }
     		});
 
     		props.dispatch({
@@ -182,7 +185,7 @@ const Component = (props) => {
     			type: 'vdanimations/toggleInteactionEditor'
     		});
             console.log(props.vdCtrlTree.activeCtrl)
-            debugger
+            
     		props.dispatch({
     			type: 'vdanimations/setActiveInteraction',
     			payload: {

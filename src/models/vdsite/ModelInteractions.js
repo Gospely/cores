@@ -268,7 +268,8 @@ export default {
 			name: '',
 			animate: '',
 			duration: '',
-			condition: 'load'
+			condition: 'load',
+			vdid: []
 		},
 
 		interactionModifierForm: {
@@ -292,6 +293,12 @@ export default {
 			name: '弹跳进入',
 			duration: '',
 			condition: 'hover',
+			vdid: []
+		}, {
+			animate: 'bounceIn',
+			name: '弹跳进入',
+			duration: '',
+			condition: 'scroll',
 			vdid: []
 		}],
 
@@ -341,13 +348,13 @@ export default {
 
 		initState(state, { payload: params }){
 
-			// state.newInteractionForm = params.UIState.newInteractionForm;
-			// state.interactionModifierForm = params.UIState.interactionModifierForm;
-			// state.interactions = params.UIState.interactions;
-			// state.activeInteraction = params.UIState.activeInteraction;
-			// state.activeInteractionIndex = params.UIState.activeInteractionIndex;
-			// state.interactionCreator = params.UIState.interactionCreator;
-			// state.animations = params.UIState.animations;
+			state.newInteractionForm = params.UIState.newInteractionForm;
+			state.interactionModifierForm = params.UIState.interactionModifierForm;
+			state.interactions = params.UIState.interactions;
+			state.activeInteraction = params.UIState.activeInteraction;
+			state.activeInteractionIndex = params.UIState.activeInteractionIndex;
+			state.interactionCreator = params.UIState.interactionCreator;
+			state.animations = params.UIState.animations;
 			return {...state};
 		},
 		removeInteraction(state, { payload: index }) {
@@ -416,7 +423,7 @@ export default {
 			return {...state};
 		},
 
-		saveInteraction(state) {
+		saveInteraction(state, {payload: params}) {
 			if(state.newInteractionForm.name == '') {
 				message.error('请选择动画效果');
 				return {...state};
@@ -427,7 +434,8 @@ export default {
 				name: '',
 				animate: '',
 				duration: '',
-				condition: 'load'
+				condition: 'load',
+				vdid: [params.vdid]
 			}
 			return {...state};
 		},
@@ -460,6 +468,7 @@ export default {
 			}
 			
 			state.activeInteractionIndex = params.interactionIndex;
+			console.log(state.interactions)
 			state.interactions[state.activeInteractionIndex].vdid.push(params.vdid);
 			let scriptText = ``;
 			for(let i = 1; i < state.interactions.length; i ++) {
@@ -479,7 +488,7 @@ export default {
 					}else if (currentInteraction.condition === 'scroll') {
 						scriptText += `\njQuery(window).scroll(function (e) {
 							var elem = jQuery('[vdid="${currentVdid[j]}"]');
-							if (elem.offset().top === jQuery(window).innerHeight()) {
+							if (elem.offset().top - jQuery(window).scrollTop() === jQuery(window).innerHeight() / 2) {
 								elem.animateCss('${currentInteraction.animate}');
 							}
 						})`
