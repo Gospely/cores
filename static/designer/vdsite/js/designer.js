@@ -440,6 +440,7 @@ $(function() {
                     uploadImgRefreshed: function(){
                     	console.log(data);
                     	console.log(data.activeCtrl.vdid);
+                    	
                     	jq('[vdid="'+ data.activeCtrl.vdid + '"]').attr('src', data.url);
                     },
 

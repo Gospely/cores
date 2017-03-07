@@ -298,7 +298,7 @@ const VDStylePanel = (props) => {
 
     		const cssBGUploadProps = {
 		 		listType: 'picture',
-			  	defaultFileList: props.vdstyles.backgroundSetting.backgroundImage.fileInfo,
+			  	fileList: props.vdstyles.backgroundSetting.backgroundImage.fileInfo,
 
 			  	beforeUpload () {
 			  		props.dispatch({
@@ -318,6 +318,21 @@ const VDStylePanel = (props) => {
 			  	}
 
     		}
+
+		 	const skipToImggallery = {
+
+                handleClick() {
+                    props.dispatch({
+                        type: 'vdcore/changeTabsPane',
+                        payload: {
+                        	activeTabsPane: 'assets',
+                        	linkTo: true
+                        }
+
+                    });
+                }
+
+            }
 
     		const handleBGPosChange = (pos) => {
     			handleStylesChange('background-position', {
@@ -353,7 +368,7 @@ const VDStylePanel = (props) => {
 								<Button><i className="fa fa-cloud-upload"></i>&nbsp;上传图片</Button>
 						  	</Upload>
 
-							<Button style={{position: 'absolute', right: '30px', top: '60px'}}><i className="fa fa-picture-o"></i>&nbsp;图片资源</Button>
+							<Button onClick={skipToImggallery.handleClick} style={{position: 'absolute', right: '30px', top: '60px'}}><i className="fa fa-picture-o"></i>&nbsp;图片资源</Button>
 						</div>
 					</div>
 
@@ -3357,8 +3372,8 @@ const VDStylePanel = (props) => {
 };
 
 
-function mapSateToProps({ vdstyles, vdCtrlTree }) {
-  return { vdstyles, vdCtrlTree };
+function mapSateToProps({ vdstyles, vdCtrlTree, vdcore }) {
+  return { vdstyles, vdCtrlTree, vdcore };
 }
 
 export default connect(mapSateToProps)(VDStylePanel);
