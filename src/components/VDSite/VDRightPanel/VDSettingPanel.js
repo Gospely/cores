@@ -154,7 +154,7 @@ const Component = (props) => {
         }
     }
 	const formProps = {
-		handleAttrFormInputChange (item, attType, dom) {
+		handleAttrFormInputChange (item, attrType, dom) {
 			let newVal = dom.target ? dom.target.value : dom;
 			let attrId = item.id;
 
@@ -162,18 +162,22 @@ const Component = (props) => {
 				type: 'vdCtrlTree/handleAttrFormChange',
 				payload: {
 					newVal: newVal,
-					attrId: attrId
+					attrId: attrId,
+                    attrType: attrType
 				}
 			});
-			props.dispatch({
-				type: 'vdCtrlTree/handleAttrRefreshed',
-				payload: {
-					activeCtrl: props.vdCtrlTree.activeCtrl,
-					attr: item,
-					attrType: attType
-				}
-			});
+            if(attrType.key == 'slider-setting') {
 
+            }else {
+                props.dispatch({
+    				type: 'vdCtrlTree/handleAttrRefreshed',
+    				payload: {
+    					activeCtrl: props.vdCtrlTree.activeCtrl,
+    					attr: item,
+    					attrType: attrType
+    				}
+    			});
+            }
 		},
 
 		handleAttrFormSwitchChange (item, attType, checked) {
@@ -1234,37 +1238,6 @@ const Component = (props) => {
 											</div>
 										</div>
 
-										<div className="bem-Frame">
-											<div className="bem-Frame_Head">
-												<div className="bem-Frame_Legend">
-													<div className="bem-SpecificityLabel bem-SpecificityLabel-local bem-SpecificityLabel-text">
-														大小
-													</div>
-												</div>
-											</div>
-											<div className="bem-Frame_Body">
-												<Row>
-
-												  	<Col span={11} style={{paddingRight: '5px'}}>
-												      	<Form className="form-no-margin-bottom">
-															<FormItem {...formItemLayout} label="宽度">
-																<Input onChange={keyValueProps.handleAttrFormInputChange.bind(this, 2, itemImage.children[0].vdid, attrType)} value={itemImage.children[0].attrs[0].children[2].value} size="small" />
-															</FormItem>
-												      	</Form>
-												  	</Col>
-												  	<Col span={13} style={{paddingLeft: '5px'}}>
-												      	<Form className="form-no-margin-bottom">
-															<FormItem {...formItemLayout} label="高度">
-																<Input onChange={keyValueProps.handleAttrFormInputChange.bind(this, 3, itemImage.children[0].vdid, attrType)} value={itemImage.children[0].attrs[0].children[3].value} size="small" />
-															</FormItem>
-												      	</Form>
-												  	</Col>
-
-												</Row>
-
-											</div>
-										</div>
-
 								      	<Form className="form-no-margin-bottom">
 											<FormItem {...formItemLayout} label={(
 								              <span>
@@ -1431,10 +1404,22 @@ const Component = (props) => {
                                         action: 'last'
                                     }
                                 });
+                            },
+                            handleSliderHeightAndWidth(item, value){
+
                             }
                         }
+                        console.log(props.vdCtrlTree.activeCtrl);
 	    				return (
 						    <Panel header={item.title} key={item.key}>
+                            <Form className="form-no-margin-bottom">
+                               <FormItem {...formItemLayout} label="高度">
+                                    <Input size="small" value={props.vdCtrlTree.activeCtrl.attrs[0].children[3].value} onChange={formProps.handleAttrFormInputChange.bind(this, props.vdCtrlTree.activeCtrl.attrs[0].children[3], attrType)}/>
+                               </FormItem>
+                               <FormItem {...formItemLayout} label="宽度">
+                                    <Input size="small" value={props.vdCtrlTree.activeCtrl.attrs[0].children[4].value} onChange={formProps.handleAttrFormInputChange.bind(this, props.vdCtrlTree.activeCtrl.attrs[0].children[4], attrType)}/>
+                               </FormItem>
+                            </Form>
 						    	<Row style={{marginTop: '15px'}}>
 						    		<Col span={12}>
 						    			<Button size="small" onClick={sliderProps.addSlider}><Icon type="plus"/>增加一个</Button>
