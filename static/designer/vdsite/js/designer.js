@@ -438,7 +438,7 @@ $(function() {
                     },
 
                     upLoadBgImg: function(){
-						
+
 						jq('[vdid="'+ data.activeCtrl.vdid + '"]').attr('src', data.url);
 						// if(data.action){
 						//
@@ -1191,6 +1191,7 @@ $(function() {
                                     if(typeList[type]) {
                                         return typeList[type]() + val;
                                     }else {
+										self.elem.attr('href', val);
                                         return '';
                                     }
 								}
