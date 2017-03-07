@@ -1736,7 +1736,7 @@ export default {
                                     key: 'tabs-setting',
                                     children: [{
                                         name: 'href',
-                                        value: 'tab1',
+                                        value: '#tab1',
                                         isAttr: true,
                                         attrName: 'href',
                                         id: ''
@@ -1797,7 +1797,7 @@ export default {
                                     key: 'tabs-setting',
                                     children: [{
                                         name: 'href',
-                                        value: 'tab2',
+                                        value: '#tab2',
                                         isAttr: true,
                                         attrName: 'href',
                                         id: ''
@@ -1858,7 +1858,7 @@ export default {
                                     key: 'tabs-setting',
                                     children: [{
                                         name: 'href',
-                                        value: 'tab3',
+                                        value: '#tab3',
                                         isAttr: true,
                                         attrName: 'href',
                                         id: ''

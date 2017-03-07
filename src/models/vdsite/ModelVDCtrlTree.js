@@ -1490,6 +1490,16 @@ export default {
 				for (var j = 0; j < params.levelsInfo.length; j++) {
 					if(i == params.levelsInfo[j].level){
 						parentIndex = params.levelsInfo[j].index;
+						if(params.action == 'tab'){
+							console.log(parent);
+							for (var k = 0; k < parent.children.length; k++) {
+								for (var m = 0; m < parent.children[k].children[0].className.length; m++) {
+									if(parent.children[k].children[0].className[m] == 'active'){
+										parent.children[k].children[0].className.splice(m,1);
+									}
+								}
+							}
+						}
 					}
 				}
 				i++;
@@ -1538,7 +1548,8 @@ export default {
 						attrName: 'children',
 						action: 'changeActive',
 						index: params.index,
-						parent: target.parent
+						parent: target.parent,
+						type: params.action
 					},
 				}
 			}, '*');
