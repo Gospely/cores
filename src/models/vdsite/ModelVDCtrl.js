@@ -1691,27 +1691,31 @@ export default {
                         }]
 					}],
 					children: [{
-						tag: 'div',
+                        tag: 'ul',
                         unActive: true,
-						className: ['nav', 'nav-tabs'],
-						attrs: [{
-						    title: '标签页设置',
-							key: 'tabs-setting',
-							children: []
-						}],
-						children: [{
-                            tag: 'a',
-                            className: ['tab-pane', 'vd-tab-link', 'vd-inline-block'],
+                        className: ['nav', 'nav-tabs'],
+                        attrs: [{
+                            title: '标签页设置',
+                            key: 'tabs-setting',
+                            children: [{
+                                name: 'role',
+                                value: 'tablist',
+                                isAttr: true,
+                                attrName: 'role',
+                            }]
+                        }],
+                        children: [{
+                            tag: 'li',
+                            className: [''],
                             attrs: [{
                                 title: '标签页设置',
                                 key: 'tabs-setting',
                                 children: [{
-                                    name: 'src',
-                                    desc: '跳转链接',
-                                    type: 'input',
-                                    value: '',
+                                    name: 'role',
+                                    desc: 'presentation',
+                                    value: 'presentation',
                                     isAttr: true,
-                                    attrName: 'src',
+                                    attrName: 'role',
                                     id: ''
                                 }, {
                                     name: 'target',
@@ -1724,36 +1728,55 @@ export default {
                                 }]
                             }],
                             children: [{
-                                tag: 'div',
+                                tag: 'a',
                                 unActive: true,
-                                className: [],
+                                className: ['tab-pane'],
                                 attrs: [{
-                                title: '标签页设置',
+                                    title: '标签页设置',
                                     key: 'tabs-setting',
                                     children: [{
-                                        name: 'innerHTML',
-                                        desc: '显示文本',
-                                        type: 'input',
-                                        value: 'Tab 1',
-                                        isHTML: true,
+                                        name: 'href',
+                                        value: '#tab1',
+                                        isAttr: true,
+                                        attrName: 'href',
                                         id: ''
+                                    }, {
+                                        name: 'aria-controls',
+                                        value: 'tab1',
+                                        isAttr: true,
+                                        attrName: 'aria-controls',
+                                        id: ''
+                                    },{
+                                        name: 'role',
+                                        value: 'tab',
+                                        isAttr: true,
+                                        attrName: 'role',
+                                        id: ''
+                                    },{
+                                        name: 'data-toggle',
+                                        value: 'tab',
+                                        isAttr: true,
+                                        attrName: 'data-toggle',
+                                        id: ''
+                                    },{
+                                        name: 'innerHTML',
+                                        isHTML: true,
+                                        value: 'Tab 1'
                                     }]
                                 }],
                             }]
                         },{
-                            tag: 'a',
-                            unActive: true,
-                            className: ['tab-pane', 'vd-tab-link', 'vd-inline-block'],
+                            tag: 'li',
+                            className: ['active'],
                             attrs: [{
                                 title: '标签页设置',
                                 key: 'tabs-setting',
                                 children: [{
-                                    name: 'src',
-                                    desc: '跳转链接',
-                                    type: 'input',
-                                    value: '',
+                                    name: 'role',
+                                    desc: 'presentation',
+                                    value: 'presentation',
                                     isAttr: true,
-                                    attrName: 'src',
+                                    attrName: 'role',
                                     id: ''
                                 }, {
                                     name: 'target',
@@ -1766,36 +1789,55 @@ export default {
                                 }]
                             }],
                             children: [{
-                                tag: 'div',
+                                tag: 'a',
                                 unActive: true,
-                                className: [],
+                                className: ['tab-pane'],
                                 attrs: [{
-                                title: '标签页设置',
+                                    title: '标签页设置',
                                     key: 'tabs-setting',
                                     children: [{
-                                        name: 'innerHTML',
-                                        desc: '显示文本',
-                                        type: 'input',
-                                        value: 'Tab 2',
-                                        isHTML: true,
+                                        name: 'href',
+                                        value: '#tab2',
+                                        isAttr: true,
+                                        attrName: 'href',
                                         id: ''
+                                    }, {
+                                        name: 'aria-controls',
+                                        value: 'tab2',
+                                        isAttr: true,
+                                        attrName: 'aria-controls',
+                                        id: ''
+                                    },{
+                                        name: 'role',
+                                        value: 'tab',
+                                        isAttr: true,
+                                        attrName: 'role',
+                                        id: ''
+                                    },{
+                                        name: 'data-toggle',
+                                        value: 'tab',
+                                        isAttr: true,
+                                        attrName: 'data-toggle',
+                                        id: ''
+                                    },{
+                                        name: 'innerHTML',
+                                        isHTML: true,
+                                        value: 'Tab 2'
                                     }]
                                 }],
                             }]
                         },{
-                            tag: 'a',
-                            unActive: true,
-                            className: ['tab-pane', 'vd-tab-link', 'vd-inline-block'],
+                            tag: 'li',
+                            className: [''],
                             attrs: [{
                                 title: '标签页设置',
                                 key: 'tabs-setting',
                                 children: [{
-                                    name: 'src',
-                                    desc: '跳转链接',
-                                    type: 'input',
-                                    value: '',
+                                    name: 'role',
+                                    desc: 'presentation',
+                                    value: 'presentation',
                                     isAttr: true,
-                                    attrName: 'src',
+                                    attrName: 'role',
                                     id: ''
                                 }, {
                                     name: 'target',
@@ -1808,27 +1850,48 @@ export default {
                                 }]
                             }],
                             children: [{
-                                tag: 'div',
+                                tag: 'a',
                                 unActive: true,
-                                className: [],
+                                className: ['tab-pane'],
                                 attrs: [{
-                                title: '标签页设置',
+                                    title: '标签页设置',
                                     key: 'tabs-setting',
                                     children: [{
-                                        name: 'innerHTML',
-                                        desc: '显示文本',
-                                        type: 'input',
-                                        value: 'Tab 3',
-                                        isHTML: true,
+                                        name: 'href',
+                                        value: '#tab3',
+                                        isAttr: true,
+                                        attrName: 'href',
                                         id: ''
+                                    }, {
+                                        name: 'aria-controls',
+                                        value: 'tab3',
+                                        isAttr: true,
+                                        attrName: 'aria-controls',
+                                        id: ''
+                                    },{
+                                        name: 'role',
+                                        value: 'tab',
+                                        isAttr: true,
+                                        attrName: 'role',
+                                        id: ''
+                                    },{
+                                        name: 'data-toggle',
+                                        value: 'tab',
+                                        isAttr: true,
+                                        attrName: 'data-toggle',
+                                        id: ''
+                                    },{
+                                        name: 'innerHTML',
+                                        isHTML: true,
+                                        value: 'Tab 3'
                                     }]
                                 }],
                             }]
                         }]
-					}, {
+                    },{
 						tag: 'div',
                         unActive: true,
-						className: ['tab-content', 'vd-tab-content', 'vd-empty'],
+						className: ['tab-content'],
 						attrs: [{
 							title: '标签页设置',
 							key: 'tabs-setting',
@@ -1837,31 +1900,61 @@ export default {
 						children: [{
 							tag: 'div',
                             unActive: true,
-							className: ['tab-pane'],
+							className: ['vd-empty', 'tab-pane'],
 							children: [],
 							attrs: [{
 								title: '标签页设置',
 								key: 'tabs-setting',
-								children: []
+								children: [{
+                                    name: 'id',
+                                    value: 'tab1',
+                                    isAttr: true,
+                                    attrName: 'id'
+                                },{
+                                    name: 'role',
+                                    value: 'tabpanel',
+                                    isAttr: true,
+                                    attrName: 'role'
+                                }]
 							}]
 						},{
 							tag: 'div',
                             unActive: true,
-							className: ['tab-pane', 'in', 'active'],
+							className: ['vd-empty', 'tab-pane', 'in', 'active'],
 							children: [],
 							attrs: [{
 								title: '标签页设置',
 								key: 'tabs-setting',
-								children: []
+								children: [{
+                                    name: 'id',
+                                    value: 'tab2',
+                                    isAttr: true,
+                                    attrName: 'id'
+                                },{
+                                    name: 'role',
+                                    value: 'tabpanel',
+                                    isAttr: true,
+                                    attrName: 'role'
+                                }]
 							}]
 						},{
 							tag: 'div',
-							className: ['tab-pane'],
+							className: ['vd-empty', 'tab-pane'],
 							children: [],
 							attrs: [{
 								title: '标签页设置',
 								key: 'tabs-setting',
-								children: []
+								children: [{
+                                    name: 'id',
+                                    value: 'tab3',
+                                    isAttr: true,
+                                    attrName: 'id'
+                                },{
+                                    name: 'role',
+                                    value: 'tabpanel',
+                                    isAttr: true,
+                                    attrName: 'role'
+                                }]
 							}]
 						}]
 					}]
@@ -2516,7 +2609,7 @@ export default {
                             name: 'style',
                             id: '',
                             isAttr: true,
-                            value: 'height: 500px; width: 100%',
+                            value: 'height: 500px; width: 100%;',
                             attrName: 'style'
                         },{
                             name: 'height',

@@ -444,7 +444,7 @@ $(function() {
                     uploadImgRefreshed: function(){
                     	console.log(data);
                     	console.log(data.activeCtrl.vdid);
-                    	
+
                     	jq('[vdid="'+ data.activeCtrl.vdid + '"]').attr('src', data.url);
                     },
 
@@ -545,7 +545,7 @@ $(function() {
 				if (attr.needSelect) {
 					controllerOperations.showDesignerDraggerBorder(dndData.dragElem);
 				}
-				
+
 			},
 			//删除children的class
 			batchClassRemove: function(activeCtrl, attr){
@@ -590,9 +590,11 @@ $(function() {
 
 				console.log('changeActive');
 				var elem = jq('[vdid='+ attr.parent + ']');
-
 				var childrens = elem.children('.active');
-				console.log(childrens);
+				if(attr.type == 'tab'){
+					var parent = elem.parent();
+					childrens = parent.find('.active');
+				}
 				jq(childrens).removeClass('active');
 				jq(elem.children()[attr.index]).addClass('active');
 			}
@@ -950,7 +952,7 @@ $(function() {
         		var dragElem = dndData.dragElem;
 
         		let handler = function () {
-     
+
         			dndData.isMouseDown = false;
         			controllerOperations.showDesignerDraggerBorder(dragElem);
         			jq("#VDDesignerContainer").find("*").removeClass('illegalArea');
@@ -1258,7 +1260,7 @@ $(function() {
         		this.initElem();
         		for(var i = 0, len = this.controller.attrs.length; i < len; i ++) {
         			var attr = this.controller.attrs[i];
-        			
+
                     if(attr.isAttrSetting) {
                         //基础属性设置（无复杂交互）统一处理
                         for (var j = 0; j < attr.children.length; j++) {

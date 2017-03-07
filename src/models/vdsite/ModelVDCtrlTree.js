@@ -1173,7 +1173,7 @@ export default {
 		handleChildrenAttrChange(state, { payload: params}){
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
 			if(params.attr.isTab){
-				currentActiveCtrl.controller.children[0].children[state.selectIndex].children[0].attrs[0].children[0][params.attr.name] = params.attr.value;
+				currentActiveCtrl.controller.children[0].children[state.selectIndex].children[0].attrs[0].children[4][params.attr.name] = params.attr.value;
 			}else{
 				currentActiveCtrl.controller.children[state.selectIndex].attrs[0].children[0][params.attr.name] = params.attr.value;
 			}
@@ -1217,6 +1217,14 @@ export default {
 		//当前活跃控件子删除
 		handleChildrenDelete(state, {payload: params}){
 
+			if(params.index == state.selectIndex) {
+
+				if(params.index == 0){
+					state.selectIndex = 1;
+				}
+				state.selectIndex = params.index -1;
+			}
+
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
 			var children =  params.children;
 			var parentCtrl = currentActiveCtrl.controller;
@@ -1241,6 +1249,7 @@ export default {
 					attrType: params.attrType
 				}
 			}, '*');
+
 			return {...state};
 		},
 		handleComplextChildrenDelete(state, {payload: params}){
@@ -1379,6 +1388,8 @@ export default {
 		},
 		//当前活跃控件子控件更新
 		handleChildrenUpdate(state, {payload: params}){
+
+			console.log(params);
 			state.keyValeUpdateVisible = false;
 			window.VDDesignerFrame.postMessage({
 				VDAttrRefreshed: {
@@ -1493,6 +1504,16 @@ export default {
 				for (var j = 0; j < params.levelsInfo.length; j++) {
 					if(i == params.levelsInfo[j].level){
 						parentIndex = params.levelsInfo[j].index;
+						if(params.action == 'tab'){
+							console.log(parent);
+							for (var k = 0; k < parent.children.length; k++) {
+								for (var m = 0; m < parent.children[k].children[0].className.length; m++) {
+									if(parent.children[k].children[0].className[m] == 'active'){
+										parent.children[k].children[0].className.splice(m,1);
+									}
+								}
+							}
+						}
 					}
 				}
 				i++;
@@ -1523,6 +1544,9 @@ export default {
 							}
 						}
 					}
+					console.log('handleActive ssss');
+					console.log(parent);
+					console.log(target);
 					target = parent.children[params.index];
 					target.className.push('active');
 				}
@@ -1538,7 +1562,8 @@ export default {
 						attrName: 'children',
 						action: 'changeActive',
 						index: params.index,
-						parent: target.parent
+						parent: target.parent,
+						type: params.action
 					},
 				}
 			}, '*');
@@ -1869,27 +1894,25 @@ export default {
 	  				}
   				};
   			};
-			console.log(targetAttr);
 			var style = currentActiveCtrl.controller.attrs[0].children[2].value;
-			console.log(style);
 			if(targetAttr == 'height'){
-				style = style.replace(/height: \d*(%|px);/,"height: " + params.newVal);
+				style = style.replace(/height: \d*(%|px);/,"height: " + params.newVal + ";");
 			}
 			if(targetAttr == 'width') {
-				style = style.replace(/width: \d*(%|px);/,"width: " + params.newVal);
+				style = style.replace(/width: \d*(%|px);/,"width: " + params.newVal + ";");
 			}
 			console.log(style);
+			currentActiveCtrl.controller.attrs[0].children[2].value = style;
 			window.VDDesignerFrame.postMessage({
 				VDAttrRefreshed: {
 					attrType: params.attrType,
-					attr: currentActiveCtrl.controller.attrs[0].children[2].value,
+					attr: currentActiveCtrl.controller.attrs[0].children[2],
 					activeCtrl: currentActiveCtrl.controller
 				}
 			}, '*');
 			if(params.attrType.key == 'slider-setting'){
-				console.log(currentActiveCtrl.controller.children[1]);
 				for (var i = 0; i < currentActiveCtrl.controller.children[1].children.length; i++) {
-					currentActiveCtrl.controller.children[1].children[i].children[0].attrs[0].children[2] = style;
+					currentActiveCtrl.controller.children[1].children[i].children[0].attrs[0].children[2].value = style;
 					window.VDDesignerFrame.postMessage({
 						VDAttrRefreshed: {
 							attrType: params.attrType,
