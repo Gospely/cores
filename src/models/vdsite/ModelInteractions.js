@@ -6,7 +6,7 @@ import { message } from 'antd';
 export default {
 	namespace: 'vdanimations',
 	state: {
-		
+
 		interactionCreator: {
 			modalCreator: {
 				visible: false
@@ -301,7 +301,7 @@ export default {
 	effects: {
 
 		*handleInteractionOnSelect({payload: params}, {call, put, select}) {
-			
+
 			var interactions = yield select(state => state.vdanimations.interactions);
 			var animateName = interactions[params.key].animate;
 
@@ -326,6 +326,16 @@ export default {
 
 	reducers: {
 
+		initState(state, { payload: params }){
+
+			state.newInteractionForm = params.UIState.newInteractionForm;
+			state.interactionModifierForm = params.UIState.interactionModifierForm;
+			state.interactions = params.UIState.interactions;
+			state.activeInteraction = params.UIState.activeInteraction;
+			state.activeInteractionIndex = params.UIState.activeInteractionIndex;
+
+			return {...state};
+		},
 		removeInteraction(state, { payload: index }) {
 			state.interactions.splice(index, 1);
 			return {...state};

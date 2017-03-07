@@ -27,6 +27,10 @@ const initState = function (props, applicationId) {
         type: 'vdcore/initState',
         payload: { UIState: UIState.UIState.vdcore }
     });
+    props.dispatch({
+        type: 'vdanimations/initState',
+        payload: { UIState: UIState.UIState.vdanimations }
+    });
 
     setTimeout(function(){
         console.log(props);

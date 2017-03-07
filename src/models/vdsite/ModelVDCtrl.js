@@ -1707,6 +1707,7 @@ export default {
                         children: [{
                             tag: 'li',
                             className: [''],
+                            unActive: true,
                             attrs: [{
                                 title: '标签页设置',
                                 key: 'tabs-setting',
@@ -1768,6 +1769,7 @@ export default {
                         },{
                             tag: 'li',
                             className: ['active'],
+                            unActive: true,
                             attrs: [{
                                 title: '标签页设置',
                                 key: 'tabs-setting',
@@ -1829,6 +1831,7 @@ export default {
                         },{
                             tag: 'li',
                             className: [''],
+                            unActive: true,
                             attrs: [{
                                 title: '标签页设置',
                                 key: 'tabs-setting',
