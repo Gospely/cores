@@ -1754,7 +1754,7 @@ export default {
                                         id: ''
                                     },{
                                         name: 'data-toggle',
-                                        value: 'tab1',
+                                        value: 'tab',
                                         isAttr: true,
                                         attrName: 'data-toggle',
                                         id: ''
@@ -1767,7 +1767,7 @@ export default {
                             }]
                         },{
                             tag: 'li',
-                            className: [''],
+                            className: ['active'],
                             attrs: [{
                                 title: '标签页设置',
                                 key: 'tabs-setting',
@@ -1791,7 +1791,7 @@ export default {
                             children: [{
                                 tag: 'a',
                                 unActive: true,
-                                className: ['tab-pane', 'active'],
+                                className: ['tab-pane'],
                                 attrs: [{
                                     title: '标签页设置',
                                     key: 'tabs-setting',
@@ -1815,7 +1815,7 @@ export default {
                                         id: ''
                                     },{
                                         name: 'data-toggle',
-                                        value: 'tab2',
+                                        value: 'tab',
                                         isAttr: true,
                                         attrName: 'data-toggle',
                                         id: ''
@@ -1876,7 +1876,7 @@ export default {
                                         id: ''
                                     },{
                                         name: 'data-toggle',
-                                        value: 'tab3',
+                                        value: 'tab',
                                         isAttr: true,
                                         attrName: 'data-toggle',
                                         id: ''

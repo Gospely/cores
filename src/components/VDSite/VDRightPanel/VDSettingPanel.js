@@ -1083,10 +1083,9 @@ const Component = (props) => {
                                 props.dispatch({
                                     type: 'vdCtrlTree/handleActive',
                                     payload: {
-                                        level: 3,
-                                        levelsInfo: [{index:index, level: 1}],
-                                        index: 0,
-                                        action: 'tab'
+                                        level: 2,
+                                        levelsInfo: [],
+                                        index: index,
                                     }
                                 });
                                 props.dispatch({
