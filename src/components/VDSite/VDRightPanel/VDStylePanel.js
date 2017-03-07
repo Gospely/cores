@@ -296,44 +296,6 @@ const VDStylePanel = (props) => {
     			});
     		}
 
-    		const cssBGUploadProps = {
-		 		listType: 'picture',
-			  	fileList: props.vdstyles.backgroundSetting.backgroundImage.fileInfo,
-
-			  	beforeUpload () {
-			  		props.dispatch({
-			  			type: 'vdstyles/handleBGSettingBeforeUpload',
-			  			payload: props.vdstyles.backgroundSetting.backgroundImage.fileInfo
-			  		});
-			  	},
-
-			  	onChange (object) {
-			  		handleStylesChange('background-image', {
-			  			parent: 'background'
-			  		}, {
-			  			target: {
-			  				value: object.file.thumbUrl
-			  			}
-			  		});
-			  	}
-
-    		}
-
-		 	const skipToImggallery = {
-
-                handleClick() {
-                    props.dispatch({
-                        type: 'vdcore/changeTabsPane',
-                        payload: {
-                        	activeTabsPane: 'assets',
-                        	linkTo: true
-                        }
-
-                    });
-                }
-
-            }
-
     		const handleBGPosChange = (pos) => {
     			handleStylesChange('background-position', {
     				parent: 'background'
@@ -343,6 +305,29 @@ const VDStylePanel = (props) => {
     				}
     			});
     		}
+
+    		const skipToImggallery = {
+
+                handleClick() {
+                    props.dispatch({
+
+                        type: 'vdcore/changeTabsPane',
+                        payload: {
+                        	activeTabsPane: 'assets',
+                        	linkTo: 'style'
+                        }
+
+                    });
+
+                    props.dispatch({
+
+						type: 'vdstyles/showBackgroundStyleSettingPane',
+						payload: false
+
+					});
+                }
+
+            }
 
     		return (
 			<div className="guidance-panel-wrapper">
@@ -364,11 +349,7 @@ const VDStylePanel = (props) => {
 							</div>
 						</div>
 						<div className="bem-Frame_Body">
-							<Upload {...cssBGUploadProps}>
-								<Button><i className="fa fa-cloud-upload"></i>&nbsp;上传图片</Button>
-						  	</Upload>
-
-							<Button onClick={skipToImggallery.handleClick} style={{position: 'absolute', right: '30px', top: '60px'}}><i className="fa fa-picture-o"></i>&nbsp;图片资源</Button>
+							<Button onClick={skipToImggallery.handleClick} style={{ left: '0'}}><i className="fa fa-picture-o"></i>&nbsp;图片资源</Button>
 						</div>
 					</div>
 
@@ -2502,6 +2483,15 @@ const VDStylePanel = (props) => {
 				})
 			}
 
+
+			const handleVisibleChange = (visible) => {
+				
+				props.dispatch({
+					type: 'vdstyles/showBackgroundStyleSettingPane',
+					payload: visible
+				});
+			}
+
 		 	return (
 			    <Panel header="背景" key="background">
 
@@ -2516,6 +2506,8 @@ const VDStylePanel = (props) => {
 							        	title="图片处理"
 							        	trigger="click"
 							        	placement="left"
+							        	visible={props.vdstyles.backgroundStyleSettingPane.visible}
+							        	onVisibleChange={handleVisibleChange}
 							      	>
 				  		              	<Tooltip placement="top" title="图片">
 											<i className="fa fa-picture-o"></i>
@@ -3372,8 +3364,8 @@ const VDStylePanel = (props) => {
 };
 
 
-function mapSateToProps({ vdstyles, vdCtrlTree, vdcore }) {
-  return { vdstyles, vdCtrlTree, vdcore };
+function mapSateToProps({ vdstyles, vdCtrlTree }) {
+  return { vdstyles, vdCtrlTree };
 }
 
 export default connect(mapSateToProps)(VDStylePanel);

@@ -437,6 +437,10 @@ $(function() {
                         dndData.ctrlToAddData = data.controller;
                     },
 
+                    upLoadBgImg: function(){
+                    	jq('[vdid="'+ data.activeCtrl.vdid + '"]').css('background-image', 'url("' + data.url + '")');
+                    },
+
                     uploadImgRefreshed: function(){
                     	console.log(data);
                     	console.log(data.activeCtrl.vdid);
