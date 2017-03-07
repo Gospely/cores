@@ -1182,9 +1182,18 @@ export default {
 		},
 		uploadPreviewImg(state, { payload: params}){
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
-			currentActiveCtrl.controller.attrs[0].children[0].fileInfo = params;
-			console.log(currentActiveCtrl.controller.attrs[0].children[0].fileInfo);
+			currentActiveCtrl.controller.attrs[0].children[0].fileInfo = [params];
+			currentActiveCtrl.controller.attrs[0].children[0].value = params.url;
+			console.log(currentActiveCtrl.controller);
 			state.activeCtrl = currentActiveCtrl.controller;
+			var url =  currentActiveCtrl.controller.attrs[0].children[0].fileInfo[0].url
+			window.VDDesignerFrame.postMessage({
+				uploadImgRefreshed: {
+					activeCtrl: currentActiveCtrl.controller,
+					url: url
+
+				}
+			}, '*');
 			return { ...state}
 		},
 		handleAddChildrenAttr(state, { payload: params}){
@@ -1855,6 +1864,7 @@ export default {
 				currentActiveCtrl.controller.id = params.newVal;
 			}
 			var attr = currentActiveCtrl.controller.attrs[0].children[params.index];
+			console.log(attr);
 			attr.value = params.newVal;
 			window.VDDesignerFrame.postMessage({
 				VDAttrRefreshed: {

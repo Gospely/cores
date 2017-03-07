@@ -701,7 +701,7 @@ const Component = (props) => {
 
 					    const bgUploaderProps = {
 					 		listType: 'picture',
-						  	defaultFileList: item.children[0].fileInfo,
+						  	fileList: item.children[0].fileInfo,
 
 						  	beforeUpload () {
 						  		props.dispatch({

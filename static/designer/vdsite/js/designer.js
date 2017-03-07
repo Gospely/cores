@@ -437,6 +437,12 @@ $(function() {
                         dndData.ctrlToAddData = data.controller;
                     },
 
+                    uploadImgRefreshed: function(){
+                    	console.log(data);
+                    	console.log(data.activeCtrl.vdid);
+                    	jq('[vdid="'+ data.activeCtrl.vdid + '"]').attr('src', data.url);
+                    },
+
                     VDAttrRefreshed: function() {
                         controllerOperations.refreshCtrl(data.activeCtrl, data.attr, data.attrType);
                         controllerOperations.select(data.activeCtrl, true);
