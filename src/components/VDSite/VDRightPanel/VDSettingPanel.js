@@ -692,7 +692,6 @@ const Component = (props) => {
                         const skipToImggallery = {
 
                             handleClick() {
-                            		console.log(item.children[0].fileInfo);
                                 props.dispatch({
                                     type: 'vdcore/changeTabsPane',
                                     payload: {
