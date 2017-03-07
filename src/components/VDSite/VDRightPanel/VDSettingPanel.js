@@ -1206,69 +1206,23 @@ const Component = (props) => {
                             }
                         }
                         var itemImage = props.vdCtrlTree.activeCtrl.children[1].children[props.vdCtrlTree.selectIndex] || props.vdCtrlTree.activeCtrl.children[1].children[0] ;
-                        const bgUploaderProps = {
-					 		listType: 'picture',
-						  	defaultFileList: itemImage.children[0].attrs[0].children[0].fileInfo,
+                        const skipToImggallery = {
 
-						  	beforeUpload () {
-                                console.log(itemImage);
-						  		props.dispatch({
-						  			type: 'vdCtrlTree/handleImageSettingBeforeUpload',
-						  			payload: itemImage.children[0].attrs[0].children[0].fileInfo
-						  		});
-						  	},
-
-						  	onChange (object) {
-
+                            handleClick() {
                                 props.dispatch({
-                                    type: 'vdCtrlTree/handleAttrFormChangeNotRefreshActiveCtrl',
+                                    type: 'vdcore/changeTabsPane',
                                     payload: {
-                                        index: 0,
-                                        target: itemImage.children[0].vdid,
-                                        attrType: attrType,
-                                        newVal: object.file.thumbUrl
+                                    	activeTabsPane: 'assets',
+                                    	linkTo: 'assets'
                                     }
+
                                 });
-						  	}
-					    }
+                            }
+
+                        }
 
 					    const sliderSettingProps = {
-					    	modifyContent: (
-                                <div className="guidance-panel-wrapper">
-									<div className="guidance-panel-child">
-										<div className="bem-Frame">
-											<div className="bem-Frame_Head">
-												<div className="bem-Frame_Legend">
-													<div className="bem-SpecificityLabel bem-SpecificityLabel-local bem-SpecificityLabel-text">
-														图片资源
-													</div>
-												</div>
-											</div>
-											<div className="bem-Frame_Body">
-												<Upload {...bgUploaderProps}>
-													<Button><i className="fa fa-cloud-upload"></i>&nbsp;上传图片</Button>
-											  	</Upload>
 
-												<Button style={{float: 'right', bottom: '102px'}}><i className="fa fa-picture-o"></i>&nbsp;图片资源</Button>
-											</div>
-										</div>
-
-								      	<Form className="form-no-margin-bottom">
-											<FormItem {...formItemLayout} label={(
-								              <span>
-								                替换文本&nbsp;
-								                <Tooltip title="当图片无法加载时显示此文字">
-								                  <Icon type="question-circle-o" />
-								                </Tooltip>
-								              </span>
-								            )}>
-												<Input onChange={keyValueProps.handleAttrFormInputChange.bind(this, 1, itemImage.children[0].vdid , attrType)} value={itemImage.children[0].attrs[0].children[1].value} size="small" />
-											</FormItem>
-								      	</Form>
-
-									</div>
-								</div>
-					    	),
 
 					    	onVisibleChange () {
 
@@ -1307,6 +1261,17 @@ const Component = (props) => {
                                 props.dispatch({
                                     type: 'vdCtrlTree/handleSelectIndex',
                                     payload: index
+                                });
+
+                            },
+                            handleChooseImage(){
+                                props.dispatch({
+                                    type: 'vdcore/changeTabsPane',
+                                    payload: {
+                                    	activeTabsPane: 'assets',
+                                    	linkTo: 'assets'
+                                    }
+
                                 });
                             },
                             hidePopover(){
@@ -1363,7 +1328,7 @@ const Component = (props) => {
                                 <li className="ant-dropdown-menu-item" role="menuitem" key={index} onClick={sliderSettingProps.handleIndex.bind(this, index)}>
                                 <Row>
                                 <Col span={3}>
-                                      <Icon type="edit" onClick={sliderSettingProps.editKeyValue.bind(this, index)}/>
+                                      <Icon type="edit" onClick={sliderSettingProps.handleChooseImage.bind(this, index)}/>
                                 </Col>
                                 <Col span={3}>
                                   <Popconfirm title="确认删除吗？" onConfirm={sliderSettingProps.handleSliderDelete.bind(this, itemImage.vdid , itemImage.parent, index, 'slider-delete')} okText="确定" cancelText="取消">
@@ -1448,17 +1413,9 @@ const Component = (props) => {
 						    			</Col>
 						    		</Col>
 						    	</Row>
-                                <Popover
-                                    content={sliderSettingProps.modifyContent}
-                                    title="修改 选项"
-                                    trigger="click"
-                                    visible={props.vdCtrlTree.keyValeUpdateVisible}
-                                    onVisibleChange = {sliderSettingProps.updateVisibleChange}
-                                >
-                                    <ul  className="ant-dropdown-menu ant-dropdown-menu-vertical ant-dropdown-menu-light ant-dropdown-menu-root symbol-list" role="menu">
-                                        {images}
-                                    </ul>
-                                </Popover>
+                                <ul  className="ant-dropdown-menu ant-dropdown-menu-vertical ant-dropdown-menu-light ant-dropdown-menu-root symbol-list" role="menu">
+                                    {images}
+                                </ul>
 						    </Panel>
 	    				);
 	    			},
