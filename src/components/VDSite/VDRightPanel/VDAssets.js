@@ -15,16 +15,15 @@ const Component = (props) => {
 	const assetsProps = {
 		handlePreview (file) {
 
-			const linkToSettings = props.vdcore.rightTabsPane.linkTo;
+			const linkToWhere = props.vdcore.rightTabsPane.linkTo;
 
-			if(linkToSettings){
-				    console.log(file);
-            		console.log(props.vdCtrlTree.layoutState);
+			if(linkToWhere == 'assets'){
+
 				props.dispatch({
 					type: 'vdcore/changeTabsPane',
 					payload: {
 						activeTabsPane: 'settings',
-          				linkTo: false,
+          				linkTo: '',
 					}
 				});
 
@@ -32,6 +31,28 @@ const Component = (props) => {
 					type: 'vdCtrlTree/uploadPreviewImg',
 					payload: file
 				})
+
+			}else if(linkToWhere == 'style'){
+
+				props.dispatch({
+					type: 'vdcore/changeTabsPane',
+					payload: {
+						activeTabsPane: 'style',
+          				linkTo: '',
+					}
+				});
+
+				props.dispatch({
+
+						type: 'vdstyles/showBackgroundStyleSettingPane',
+						payload: true
+
+					});
+
+				props.dispatch({
+					type: 'vdCtrlTree/uploadBgImg',
+					payload: file
+				});
 
 			}else{
 

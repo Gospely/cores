@@ -117,7 +117,7 @@ export default {
 
 		rightTabsPane: {
 			activeTabsPane: 'style',
-			linkTo: false,
+			linkTo: ''
 
 		}
 	},

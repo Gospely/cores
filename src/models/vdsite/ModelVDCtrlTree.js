@@ -1180,6 +1180,21 @@ export default {
 			state.activeCtrl = currentActiveCtrl.controller;
 			return { ...state};
 		},
+		uploadBgImg(state, { payload: params}){
+			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
+			currentActiveCtrl.controller.attrs[0].children[0].fileInfo = [params];
+			currentActiveCtrl.controller.attrs[0].children[0].value = params.url;
+			console.log(currentActiveCtrl.controller);
+			state.activeCtrl = currentActiveCtrl.controller;
+			var url =  currentActiveCtrl.controller.attrs[0].children[0].fileInfo[0].url
+			window.VDDesignerFrame.postMessage({
+				upLoadBgImg: {
+					activeCtrl: currentActiveCtrl.controller,
+					url: url
+				}
+			}, '*');
+			return { ...state}
+		},
 		uploadPreviewImg(state, { payload: params}){
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
 			currentActiveCtrl.controller.attrs[0].children[0].fileInfo = [params];
@@ -1191,7 +1206,6 @@ export default {
 				uploadImgRefreshed: {
 					activeCtrl: currentActiveCtrl.controller,
 					url: url
-
 				}
 			}, '*');
 			return { ...state}
@@ -2272,12 +2286,6 @@ export default {
 		},
 
 		modifyCustomAttr(state, { payload: params }) {
-			return {...state};
-		},
-
-		handleImageSettingBeforeUpload(state, { payload: params }) {
-			console.log(params);
-			params = params.splice(0, params.length);
 			return {...state};
 		},
 

@@ -60,6 +60,10 @@ export default {
 			}
 		},
 
+		backgroundStyleSettingPane: {
+			visible: false,
+		},
+
 		boxShadow: {
 			'h-shadow': {
 				value: '',
@@ -1647,6 +1651,11 @@ export default {
 			state.filterSetting.value = '';
 			state.popover['newFilter'].visible = false;
 
+			return {...state};
+		},
+
+		showBackgroundStyleSettingPane(state, { payload: params}) {
+			state.backgroundStyleSettingPane.visible = params;
 			return {...state};
 		},
 

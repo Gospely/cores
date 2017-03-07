@@ -694,33 +694,13 @@ const Component = (props) => {
                                     type: 'vdcore/changeTabsPane',
                                     payload: {
                                     	activeTabsPane: 'assets',
-                                    	linkTo: true
+                                    	linkTo: 'assets'
                                     }
 
                                 });
                             }
 
                         }
-
-					    const bgUploaderProps = {
-					 		listType: 'picture',
-						  	fileList: item.children[0].fileInfo,
-
-						  	beforeUpload () {
-						  		props.dispatch({
-						  			type: 'vdCtrlTree/handleImageSettingBeforeUpload',
-						  			payload: item.children[0].fileInfo
-						  		});
-						  	},
-
-						  	onChange (object) {
-						  		formProps.handleAttrFormInputChange(item.children[0], attrType, {
-						  			target: {
-						  				value: object.file.thumbUrl
-						  			}
-						  		});
-						  	}
-					    }
 
 	    				return (
 						    <Panel header={item.title} key={item.key}>
@@ -736,11 +716,7 @@ const Component = (props) => {
 												</div>
 											</div>
 											<div className="bem-Frame_Body">
-												<Upload {...bgUploaderProps}>
-													<Button><i className="fa fa-cloud-upload"></i>&nbsp;上传图片</Button>
-											  	</Upload>
-
-												<Button onClick={skipToImggallery.handleClick} style={{float: 'right', bottom: '102px'}}><i className="fa fa-picture-o"></i>&nbsp;图片资源</Button>
+												<Button onClick={skipToImggallery.handleClick} style={{ left: '0' ,top: '0' ,bottom: '102px'}}><i className="fa fa-picture-o"></i>&nbsp;图片资源</Button>
 											</div>
 										</div>
 
