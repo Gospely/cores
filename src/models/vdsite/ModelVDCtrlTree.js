@@ -1173,7 +1173,7 @@ export default {
 		handleChildrenAttrChange(state, { payload: params}){
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
 			if(params.attr.isTab){
-				currentActiveCtrl.controller.children[0].children[state.selectIndex].children[0].attrs[0].children[0][params.attr.name] = params.attr.value;
+				currentActiveCtrl.controller.children[0].children[state.selectIndex].children[0].attrs[0].children[4][params.attr.name] = params.attr.value;
 			}else{
 				currentActiveCtrl.controller.children[state.selectIndex].attrs[0].children[0][params.attr.name] = params.attr.value;
 			}
@@ -1203,6 +1203,14 @@ export default {
 		//当前活跃控件子删除
 		handleChildrenDelete(state, {payload: params}){
 
+			if(params.index == state.selectIndex) {
+
+				if(params.index == 0){
+					state.selectIndex = 1;
+				}
+				state.selectIndex = params.index -1;
+			}
+
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
 			var children =  params.children;
 			var parentCtrl = currentActiveCtrl.controller;
@@ -1227,6 +1235,7 @@ export default {
 					attrType: params.attrType
 				}
 			}, '*');
+
 			return {...state};
 		},
 		handleComplextChildrenDelete(state, {payload: params}){
@@ -1365,6 +1374,8 @@ export default {
 		},
 		//当前活跃控件子控件更新
 		handleChildrenUpdate(state, {payload: params}){
+
+			console.log(params);
 			state.keyValeUpdateVisible = false;
 			window.VDDesignerFrame.postMessage({
 				VDAttrRefreshed: {
@@ -1509,6 +1520,9 @@ export default {
 							}
 						}
 					}
+					console.log('handleActive ssss');
+					console.log(parent);
+					console.log(target);
 					target = parent.children[params.index];
 					target.className.push('active');
 				}

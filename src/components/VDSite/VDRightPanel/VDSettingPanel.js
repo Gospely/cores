@@ -250,10 +250,15 @@ const Component = (props) => {
         childrenUpdate(attType){
 
             console.log('update');
+            let activeCtrl = props.vdCtrlTree.activeCtrl.children[props.vdCtrlTree.selectIndex] || props.vdCtrlTree.activeCtrl.children[0];
+
+            if(attType.key == 'tabs-setting') {
+                activeCtrl = props.vdCtrlTree.activeCtrl.children[props.vdCtrlTree.selectIndex].children[0] || props.vdCtrlTree.activeCtrl.children[0];
+            }
             props.dispatch({
                 type: 'vdCtrlTree/handleChildrenUpdate',
                 payload: {
-                    activeCtrl: props.vdCtrlTree.activeCtrl.children[props.vdCtrlTree.selectIndex],
+                    activeCtrl: activeCtrl,
                     attrType: attType
                 }
             });
@@ -845,6 +850,7 @@ const Component = (props) => {
                                 });
                             },
                         }
+                        var selectItem =props.vdCtrlTree.activeCtrl.children[props.vdCtrlTree.selectIndex] || props.vdCtrlTree.activeCtrl.children[0];
 					    const selectSettingProps = {
 
 					    	creatorContent: (
@@ -864,10 +870,10 @@ const Component = (props) => {
 					    	modifyContent: (
 						      	<Form className="form-no-margin-bottom">
 									<FormItem {...formItemLayout} label="说明">
-										<Input size="small" value={props.vdCtrlTree.activeCtrl.children[props.vdCtrlTree.selectIndex].attrs[0].children[0].html} onChange={keyValueProps.valueChange} onPressEnter={formProps.childrenUpdate.bind(this,attrType)}/>
+										<Input size="small" value={selectItem.attrs[0].children[0].html} onChange={keyValueProps.valueChange} onPressEnter={formProps.childrenUpdate.bind(this,attrType)}/>
 									</FormItem>
 									<FormItem {...formItemLayout} label="值">
-										<Input size="small" value={props.vdCtrlTree.activeCtrl.children[props.vdCtrlTree.selectIndex].attrs[0].children[0].value} onChange={keyValueProps.keyValueChange} onPressEnter={formProps.childrenUpdate.bind(this,attrType)}/>
+										<Input size="small" value={selectItem.attrs[0].children[0].value} onChange={keyValueProps.keyValueChange} onPressEnter={formProps.childrenUpdate.bind(this,attrType)}/>
 									</FormItem>
 									<FormItem>
 										<Button size="small" onClick={formProps.childrenUpdate.bind(this,attrType)} >保存</Button>
@@ -987,12 +993,14 @@ const Component = (props) => {
                                 });
                             }
                         }
+                        console.log('tabs');
+                        var tabItem = props.vdCtrlTree.activeCtrl.children[0].children[props.vdCtrlTree.selectIndex] || props.vdCtrlTree.activeCtrl.children[0].children[0];
                         console.log(props.vdCtrlTree.activeCtrl.children[0].children[props.vdCtrlTree.selectIndex]);
 					    const tabSettingProps = {
 					    	modifyContent: (
 						      	<Form className="form-no-margin-bottom">
 									<FormItem {...formItemLayout} label="名称">
-										<Input size="small" value={props.vdCtrlTree.activeCtrl.children[0].children[props.vdCtrlTree.selectIndex].children[0].attrs[0].children[0].value} onChange={keyValueProps.keyValueChange} onPressEnter={formProps.childrenUpdate.bind(this,attrType)}/>
+										<Input size="small" value={tabItem.children[0].attrs[0].children[4].value} onChange={keyValueProps.keyValueChange} onPressEnter={formProps.childrenUpdate.bind(this,attrType)}/>
 									</FormItem>
 									<FormItem>
 										<Button size="small" onClick={formProps.childrenUpdate.bind(this,attrType)}>保存</Button>
@@ -1070,6 +1078,17 @@ const Component = (props) => {
                                 console.log('chooseTab');
                                 console.log(item, index);
                                 //改变active tab 对应的panel active
+
+                                console.log('handleActive');
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleActive',
+                                    payload: {
+                                        level: 3,
+                                        levelsInfo: [{index:index, level: 1}],
+                                        index: 0,
+                                        action: 'tab'
+                                    }
+                                });
                                 props.dispatch({
                                     type: 'vdCtrlTree/handleActive',
                                     payload: {
@@ -1096,7 +1115,7 @@ const Component = (props) => {
                                 <li className="ant-dropdown-menu-item" role="menuitem" key={index} onClick={tabSettingProps.chooseTab.bind(this,item, index)}>
                                 <Row>
                                   <Col span={15}>
-                                    <p>{item.children[0].attrs[0].children[0].value}</p>
+                                    <p>{item.children[0].attrs[0].children[4].value}</p>
                                   </Col>
                                   <Col span={3}>
                                     <Radio onClick={tabSettingProps.hidePopover} checked={index == props.vdCtrlTree.selectIndex}></Radio>
@@ -1191,7 +1210,7 @@ const Component = (props) => {
                                 console.log(index);
                             }
                         }
-                        var itemImage = props.vdCtrlTree.activeCtrl.children[1].children[props.vdCtrlTree.selectIndex];
+                        var itemImage = props.vdCtrlTree.activeCtrl.children[1].children[props.vdCtrlTree.selectIndex] || props.vdCtrlTree.activeCtrl.children[1].children[0] ;
                         const bgUploaderProps = {
 					 		listType: 'picture',
 						  	defaultFileList: itemImage.children[0].attrs[0].children[0].fileInfo,
