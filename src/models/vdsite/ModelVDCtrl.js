@@ -2513,17 +2513,19 @@ export default {
                             value: 'carousel-example-generic',
                             attrName: 'id'
                         },{
-                            name: 'id',
+                            name: 'style',
                             id: '',
                             isAttr: true,
-                            value: true,
-                            attrName: 'backend'
-                        },{
-                            name: 'id',
-                            id: '',
-                            isAttr: true,
-                            value: 'height: inherit;',
+                            value: 'height: 500px; width: 100%',
                             attrName: 'style'
+                        },{
+                            name: 'height',
+                            id: '',
+                            value: '500px',
+                        },{
+                            name: 'width',
+                            id: '',
+                            value: '100%',
                         }]
 					}],
 					children: [{
@@ -2632,21 +2634,13 @@ export default {
             							value: '',
             							isAttr: true,
             							attrName: 'alt'
-            						}, {
-            							name: 'width',
-            							desc: '宽度',
-            							type: 'input',
-                                        value: "100%",
-            							isAttr: true,
-            							attrName: 'width'
-            						}, {
-            							name: 'height',
-            							desc: '高度',
-            							type: 'input',
-                                        value: "100%",
-            							isAttr: true,
-            							attrName: 'height'
             						},{
+                                        name: 'style',
+                                        id: '',
+                                        isAttr: true,
+                                        value: 'height: 500px; width: 100%',
+                                        attrName: 'style'
+                                    },{
             							name: 'image_placeholder',
             							desc: '占位图片',
             							type: 'input',
@@ -2710,27 +2704,12 @@ export default {
             							isAttr: true,
             							attrName: 'alt'
             						}, {
-            							name: 'width',
-            							desc: '宽度',
-            							type: 'input',
-            							value: "100%",
-            							isAttr: true,
-            							attrName: 'width'
-            						}, {
-            							name: 'height',
-            							desc: '高度',
-            							type: 'input',
-            							value: '100%',
-            							isAttr: true,
-            							attrName: 'height'
-            						}, {
-            							name: 'alt',
-            							desc: '替换文本',
-            							type: 'input',
-            							value: '',
-            							isAttr: true,
-            							attrName: 'alt'
-            						}, {
+                                        name: 'style',
+                                        id: '',
+                                        isAttr: true,
+                                        value: 'height: 500px; width: 100%',
+                                        attrName: 'style'
+                                    }, {
             							name: 'image_placeholder',
             							desc: '占位图片',
             							type: 'input',

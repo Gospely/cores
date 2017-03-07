@@ -1832,18 +1832,20 @@ export default {
 		},
 		handleAttrFormChangeA(state, { payload: params }) {
 
+			console.log(params);
 			let currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
 			if (params.attrName === 'id') {
 				currentActiveCtrl.controller.id = params.newVal;
 			}
 			console.log(params)
 			var ctrlAttrs = currentActiveCtrl.controller.attrs;
-
+			var targetAttr;
   			for (var i = 0; i < ctrlAttrs.length; i++) {
   				for (var j = 0; j < ctrlAttrs[i].children.length; j++) {
   					var attr = ctrlAttrs[i].children[j];
   					var flag = false;
 	  				if(attr.id == params.attrId) {
+						targetAttr = attr.name;
 	  					attr.value = params.newVal;
 	  					flag = true;
 	  					break;
@@ -1853,7 +1855,36 @@ export default {
 	  				}
   				};
   			};
-
+			console.log(targetAttr);
+			var style = currentActiveCtrl.controller.attrs[0].children[2].value;
+			console.log(style);
+			if(targetAttr == 'height'){
+				style = style.replace(/height: \d*(%|px);/,"height: " + params.newVal);
+			}
+			if(targetAttr == 'width') {
+				style = style.replace(/width: \d*(%|px);/,"width: " + params.newVal);
+			}
+			console.log(style);
+			window.VDDesignerFrame.postMessage({
+				VDAttrRefreshed: {
+					attrType: params.attrType,
+					attr: currentActiveCtrl.controller.attrs[0].children[2].value,
+					activeCtrl: currentActiveCtrl.controller
+				}
+			}, '*');
+			if(params.attrType.key == 'slider-setting'){
+				console.log(currentActiveCtrl.controller.children[1]);
+				for (var i = 0; i < currentActiveCtrl.controller.children[1].children.length; i++) {
+					currentActiveCtrl.controller.children[1].children[i].children[0].attrs[0].children[2] = style;
+					window.VDDesignerFrame.postMessage({
+						VDAttrRefreshed: {
+							attrType: params.attrType,
+							attr: currentActiveCtrl.controller.children[1].children[i].children[0].attrs[0].children[2],
+							activeCtrl: currentActiveCtrl.controller.children[1].children[i].children[0],
+						}
+					}, '*');
+				}
+			}
   			state.activeCtrl = currentActiveCtrl.controller;
 			return {...state};
 		},
@@ -2157,7 +2188,7 @@ export default {
 
 				needChangeAttr[params.index + 1].span += 2;
 				needChangeAttr[params.index + 1].value += 1;
-				
+
 				for(let i = 0; i < currentColums.children.length; i ++) {
 					currentColums.children[i].attrs[0].children[1].value[params.index + 1].span = needChangeAttr[params.index + 1].span;
 					currentColums.children[i].attrs[0].children[1].value[params.index + 1].value = needChangeAttr[params.index + 1].value;
@@ -2205,7 +2236,7 @@ export default {
 				//
 				needChangeAttr[params.index].span += 2;
 				needChangeAttr[params.index].value += 1;
-				
+
 				for(let i = 0; i < currentColums.children.length; i ++) {
 					currentColums.children[i].attrs[0].children[1].value[params.index].span = needChangeAttr[params.index].span;
 					currentColums.children[i].attrs[0].children[1].value[params.index].value = needChangeAttr[params.index].value;
@@ -2233,7 +2264,7 @@ export default {
 					currentColums.children[i].attrs[0].children[1].value[params.index + 1].span = needChangeAttr[params.index + 1].span;
 					currentColums.children[i].attrs[0].children[1].value[params.index + 1].value = needChangeAttr[params.index + 1].value;
 				}
-				
+
 				changClassName(currentColums.children[params.index + 1].className, 'col-md-' + (needChangeAttr[params.index + 1].value));
 			}
 
@@ -2371,7 +2402,7 @@ export default {
 					}, '*');
 					deleteParentCtrl.className.push('vd-empty');
 				}
-				
+
 			}else if (typeof deleteParentCtrl.children[deleteIndex] !== 'undefined') {
 				state.activeCtrl = deleteParentCtrl.children[deleteIndex];
 				state.activeCtrlIndex = deleteIndex
@@ -2457,7 +2488,7 @@ export default {
 					}, '*');
 					originalParentInfo.parentCtrl.className.push('vd-empty');
 				}
-				
+
 			}else {
 				moveCtrl = [params.ctrl];
 			}
@@ -2480,7 +2511,7 @@ export default {
 			}
 
 			if(currentActiveCtrl.customClassName.indexOf('animated') == -1) {
-				currentActiveCtrl.customClassName.push('animated');				
+				currentActiveCtrl.customClassName.push('animated');
 			}
 
 			if(currentActiveCtrl.customClassName.indexOf(params.animateName) == -1) {
@@ -2515,6 +2546,7 @@ export default {
   				payload: {
   					newVal: params.newVal,
   					attrId: params.attrId,
+					attrType: params.attrType,
   					activePage: activePage
   				}
   			})
