@@ -158,26 +158,28 @@ const Component = (props) => {
 			let newVal = dom.target ? dom.target.value : dom;
 			let attrId = item.id;
 
-			props.dispatch({
-				type: 'vdCtrlTree/handleAttrFormChange',
-				payload: {
-					newVal: newVal,
-					attrId: attrId,
+            if(attrType.key == 'slider-setting'){
+                if(!/\d*(%|px)/.test(newVal)){
+                    newVal = newVal + "px";
+                }
+            }
+            props.dispatch({
+                type: 'vdCtrlTree/handleAttrFormChange',
+                payload: {
+                    newVal: newVal,
+                    attrId: attrId,
                     attrType: attrType
+                }
+            });
+			props.dispatch({
+				type: 'vdCtrlTree/handleAttrRefreshed',
+				payload: {
+					activeCtrl: props.vdCtrlTree.activeCtrl,
+					attr: item,
+					attrType: attrType
 				}
 			});
-            if(attrType.key == 'slider-setting') {
 
-            }else {
-                props.dispatch({
-    				type: 'vdCtrlTree/handleAttrRefreshed',
-    				payload: {
-    					activeCtrl: props.vdCtrlTree.activeCtrl,
-    					attr: item,
-    					attrType: attrType
-    				}
-    			});
-            }
 		},
 
 		handleAttrFormSwitchChange (item, attType, checked) {
@@ -705,7 +707,7 @@ const Component = (props) => {
 
 					    const bgUploaderProps = {
 					 		listType: 'picture',
-						  	fileList: item.children[0].fileInfo,
+						  	defaultFileList: item.children[0].fileInfo,
 
 						  	beforeUpload () {
 						  		props.dispatch({

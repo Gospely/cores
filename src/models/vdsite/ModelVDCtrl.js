@@ -2516,7 +2516,7 @@ export default {
                             name: 'style',
                             id: '',
                             isAttr: true,
-                            value: 'height: 500px; width: 100%',
+                            value: 'height: 500px; width: 100%;',
                             attrName: 'style'
                         },{
                             name: 'height',

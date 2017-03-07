@@ -1855,27 +1855,25 @@ export default {
 	  				}
   				};
   			};
-			console.log(targetAttr);
 			var style = currentActiveCtrl.controller.attrs[0].children[2].value;
-			console.log(style);
 			if(targetAttr == 'height'){
-				style = style.replace(/height: \d*(%|px);/,"height: " + params.newVal);
+				style = style.replace(/height: \d*(%|px);/,"height: " + params.newVal + ";");
 			}
 			if(targetAttr == 'width') {
-				style = style.replace(/width: \d*(%|px);/,"width: " + params.newVal);
+				style = style.replace(/width: \d*(%|px);/,"width: " + params.newVal + ";");
 			}
 			console.log(style);
+			currentActiveCtrl.controller.attrs[0].children[2].value = style;
 			window.VDDesignerFrame.postMessage({
 				VDAttrRefreshed: {
 					attrType: params.attrType,
-					attr: currentActiveCtrl.controller.attrs[0].children[2].value,
+					attr: currentActiveCtrl.controller.attrs[0].children[2],
 					activeCtrl: currentActiveCtrl.controller
 				}
 			}, '*');
 			if(params.attrType.key == 'slider-setting'){
-				console.log(currentActiveCtrl.controller.children[1]);
 				for (var i = 0; i < currentActiveCtrl.controller.children[1].children.length; i++) {
-					currentActiveCtrl.controller.children[1].children[i].children[0].attrs[0].children[2] = style;
+					currentActiveCtrl.controller.children[1].children[i].children[0].attrs[0].children[2].value = style;
 					window.VDDesignerFrame.postMessage({
 						VDAttrRefreshed: {
 							attrType: params.attrType,
