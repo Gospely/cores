@@ -16,12 +16,6 @@ import MessageHandeler from '../MessageHandeler.js';
 const TabPane = Tabs.TabPane;
 
 let flag = false;
-        // <TabPane tab={
-        //   <Tooltip placement="bottom" title="样式管理">
-        //     <Icon type="exception" />
-        //   </Tooltip>} key="styles-manager">
-        //   <VDStyleManager></VDStyleManager>
-        // </TabPane>
 
 const VDRightPanel = (props) => {
 
@@ -66,6 +60,13 @@ const VDRightPanel = (props) => {
             <Icon type="bars" />
           </Tooltip>} key='controllers'>
           <VDControllerList></VDControllerList>
+        </TabPane>
+
+        <TabPane tab={
+          <Tooltip placement="bottom" title="样式管理">
+            <Icon type="exception" />
+          </Tooltip>} key="styles-manager">
+          <VDStyleManager></VDStyleManager>
         </TabPane>
 
         <TabPane tab={
