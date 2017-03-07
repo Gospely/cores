@@ -177,6 +177,7 @@ const VDStylePanel = (props) => {
 		cssClassListForDropdown () {
 
 			const onSelect = (e) => {
+				console.log(e);
 				props.dispatch({
 					type: 'vdCtrlTree/setActiveStyle',
 					payload: e.selectedKeys[0]
@@ -187,7 +188,7 @@ const VDStylePanel = (props) => {
 			  	<Menu selectedKeys={[props.vdCtrlTree.activeCtrl.activeStyle]} onSelect={onSelect}>
 			  		{
 			  			props.vdCtrlTree.activeCtrl.customClassName.map((item, key) => {
-					    	return <Menu.Item key={key}>{
+					    	return <Menu.Item key={item}>{
 					    		props.vdCtrlTree.activeCtrl.activeStyle == item ? (
 					    			<Tag color="#87d068"><span style={{color: 'rgb(255, 255, 255)'}}>{item}</span></Tag>
 					    		) : (item)
@@ -260,17 +261,6 @@ const VDStylePanel = (props) => {
       	labelCol: { span: 8 },
       	wrapperCol: { span: 16 }
     };
-
-    const bgUploaderProps = {
- 		listType: 'picture',
-	  	defaultFileList: [{
-	    	uid: -1,
-	    	name: 'xxx.png',
-	    	status: 'done',
-	    	url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-	    	thumbUrl: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-	  	}]
-    }
 
     const bgGradientLinearAngelMarks = {
 		0: '0',

@@ -17,9 +17,11 @@ export default {
 			history.listen(({ pathname }) => {
 
 				console.log("setup");
-				dispatch({
-					type: 'fetchFileList'
-				});
+				if(localStorage.image == "vd:site"){
+					dispatch({
+						type: 'fetchFileList'
+					});
+				}
 				return true;
 			});
 		}

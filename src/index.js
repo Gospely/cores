@@ -8,7 +8,7 @@ import auth from './utils/auth';
 
 import dragging from './utils/dragging.js';
 
-dragging();
+dragging();//
 
 localStorage.itemToCut = localStorage.itemToCut || undefined;
 localStorage.itemToCopy = localStorage.itemToCopy || undefined;
