@@ -1005,13 +1005,9 @@ export default {
 
 						var pos = currentControl.customClassName.indexOf(originStyleName);
 
-						console.log('styleNameEdited=============', currentControl, pos, originStyleName);
-
 						if (pos != -1) {
 							currentControl.customClassName.splice(pos, 1);
 							currentControl.customClassName.push(newStyleName);
-
-							console.log('styleNameEdited=============');
 
 							//通知dom更新
 							window.VDDesignerFrame.postMessage({
