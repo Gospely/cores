@@ -50,6 +50,14 @@ const Component = (props) => {
 	 			props.dispatch({
 	 				type: 'vdstyles/hideStyleManagerModifyPop'
 	 			});
+
+				props.dispatch({
+					type: 'vdstyles/applyCSSStyleIntoPage',
+					payload: {
+						activeCtrl: props.vdCtrlTree.activeCtrl
+					}
+				});
+
  			}
 
  			return (
@@ -74,7 +82,7 @@ const Component = (props) => {
  			}); 			
 
  			props.dispatch({
- 				type: 'vdstyles/showStyleManagerModifyPop'
+ 				type: 'vdstyles/toggleStyleManagerModifyPop'
  			});
  		}
 
@@ -111,8 +119,8 @@ const Component = (props) => {
 
 };
 
-function mapSateToProps({ dashboard, vdstyles }) {
-  return { dashboard, vdstyles };
+function mapSateToProps({ dashboard, vdstyles, vdCtrlTree }) {
+  return { dashboard, vdstyles, vdCtrlTree };
 }
 
 export default connect(mapSateToProps)(Component);

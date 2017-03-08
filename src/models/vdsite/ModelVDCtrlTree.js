@@ -69,6 +69,7 @@ const VDTreeActions = {
 
 		return loopControllers(controllers, 1);
 	},
+
 	getParentCtrlByKey(state, key, activePage) {
 
 		let obj = {
@@ -985,6 +986,69 @@ export default {
 			state.activePage = params.UIState.activePage;
 			state.selectIndex = params.UIState.selectIndex;
 			localStorage.flashState = true;
+			return {...state};
+		},
+
+		editStyleNameA(state, { payload: params }) {
+
+			const editStyleNameRec = (state, originStyleName, newStyleName, activePage) => {
+				let 
+					controllers = state.layout[activePage.key];
+
+				const loopControllers = function (controllers, level) {
+					level = level || 1;
+					for(let i = 0; i < controllers.length; i ++) {
+						let currentControl = controllers[i];
+						if (currentControl.children) {
+							loopControllers(currentControl.children, level ++);
+						}
+
+						var pos = currentControl.customClassName.indexOf(originStyleName);
+
+						console.log('styleNameEdited=============', currentControl, pos, originStyleName);
+
+						if (pos != -1) {
+							currentControl.customClassName.splice(pos, 1);
+							currentControl.customClassName.push(newStyleName);
+
+							console.log('styleNameEdited=============');
+
+							//通知dom更新
+							window.VDDesignerFrame.postMessage({
+								styleNameEdited: {
+									vdid: currentControl.vdid,
+									originStyleName,
+									newStyleName
+								}
+							}, '*');
+
+						}
+
+						if(currentControl.activeStyle == originStyleName) {
+							currentControl.activeStyle = newStyleName;
+						}
+
+					}
+				}
+
+				loopControllers(controllers, 1);
+			};
+
+			//更新所有组件树
+			editStyleNameRec(state, params.origin, params.newStyleName, state.activePage);
+
+			//更新activeCtrl
+			if(state.activeCtrl.activeStyle == params.origin) {
+				state.activeCtrl.activeStyle = params.newStyleName;
+			}
+
+			var pos = state.activeCtrl.customClassName.indexOf(params.origin);
+
+			if(pos != -1) {
+				state.activeCtrl.customClassName.splice(pos, 1);
+				state.activeCtrl.customClassName.push(params.newStyleName);
+			}
+
 			return {...state};
 		},
 

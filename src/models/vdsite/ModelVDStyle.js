@@ -1086,6 +1086,25 @@ export default {
 				type: "vdCtrlTree/changeCustomClass",
 				payload: params
 			});
+		},
+
+		*editStyleName({ payload: params }, { call, put, select }) {
+
+			var newStyleName = yield select(state => state.vdstyles.styleManager.modifyPop.value);
+
+			yield put({
+				type: "vdCtrlTree/editStyleNameA",
+				payload: {
+					origin: params.origin,
+					newStyleName
+				}
+			});
+
+			yield put({
+				type: "editStyleNameA",
+				payload: params
+			});
+
 		}
 
 	},
@@ -1101,12 +1120,17 @@ export default {
 			return {...state};
 		},
 
+		toggleStyleManagerModifyPop(state, { payload: params }) {
+			state.styleManager.modifyPop.visible = !state.styleManager.modifyPop.visible;
+			return {...state};
+		},
+
 		hideStyleManagerModifyPop(state, { payload: params }) {
 			state.styleManager.modifyPop.visible = false;
 			return {...state};
 		},
 
-		editStyleName(state, { payload: params }) {
+		editStyleNameA(state, { payload: params }) {
 			state.cssStyleLayout[state.styleManager.modifyPop.value] = state.cssStyleLayout[params.origin];
 			delete state.cssStyleLayout[params.origin];
 
