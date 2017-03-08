@@ -32,9 +32,9 @@ var VDPackager = {
 
 		this.fileStructure.css = this.compileCSS();
 
-		this.fileStructure.scripts = this.compilePage();
+		this.compilePage();
 
-		this.compileScripts();
+		this.fileStructure.scripts = this.compileScripts();
 
 		return this.fileStructure;
 	},
@@ -44,7 +44,7 @@ var VDPackager = {
 	},
 
 	compileScripts () {
-		return '';
+		return '<script></script>';
 	},
 
 	compilePage () {

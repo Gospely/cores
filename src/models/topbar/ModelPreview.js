@@ -80,24 +80,26 @@ effects:{
 
         var struct = VDPackager.pack({layout, pages, css});
 
-        message.success('请稍等，正在准备预览……');
-        struct.folder = localStorage.dir;
+        console.log(struct);
 
-        var packResult = yield request('vdsite/pack', {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json;charset=UTF-8",
-            },
-            body: JSON.stringify(struct)
-        });
+        // message.success('请稍等，正在准备预览……');
+        // struct.folder = localStorage.dir;
 
-        yield put({
-            type: 'preview/setSrc',
-            payload: 'http://' + localStorage.domain + '/pages/' + currPage + "?t" + new Date(),
-        });
-        yield put({
-            type: 'showPreview'
-        });
+        // var packResult = yield request('vdsite/pack', {
+        //     method: 'POST',
+        //     headers: {
+        //         "Content-Type": "application/json;charset=UTF-8",
+        //     },
+        //     body: JSON.stringify(struct)
+        // });
+
+        // yield put({
+        //     type: 'preview/setSrc',
+        //     payload: 'http://' + localStorage.domain + '/pages/' + currPage + "?t" + new Date(),
+        // });
+        // yield put({
+        //     type: 'showPreview'
+        // });
     }
 }
 }

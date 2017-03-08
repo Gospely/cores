@@ -1187,7 +1187,7 @@ export default {
 			if(currentActiveCtrl.controller.attrs[0].key == 'slider-setting'){
 				var activeCtrl = currentActiveCtrl.controller.children[1].children[state.selectIndex];
 				console.log(activeCtrl);
-				 currentActiveCtrl.controller.children[1].children[state.selectIndex].attrs[0].children[0].fileInfo = [params];
+				currentActiveCtrl.controller.children[1].children[state.selectIndex].attrs[0].children[0].fileInfo = [params];
 				url = params.url;
 			}else {
 				currentActiveCtrl.controller.attrs[0].children[0].fileInfo = [params];
