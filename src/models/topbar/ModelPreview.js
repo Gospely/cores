@@ -8,8 +8,8 @@ export default {
 
   state: {
     visible: false,
-
-    src: ''
+    src: '',
+    spinVisible: false,
   },
 
   subscriptions: {
@@ -47,6 +47,12 @@ export default {
     hidePreview(state) {
       state.visible = false;
       sessionStorage.previewVisibe = '';
+      return {...state};
+    },
+
+    hideSpin(state, { payload: params}) {
+      console.log('hideSpin');
+      state.spinVisible = params;
       return {...state};
     },
 

@@ -1099,25 +1099,13 @@ export default {
 
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
 			console.log('uploadBgImg');
-			if(currentActiveCtrl.controller.attrs[0].key == 'slider-setting'){
-				var activeCtrl = currentActiveCtrl.controller.children[1].children[state.selectIndex];
-				console.log(activeCtrl);
-				currentActiveCtrl.controller.children[1].children[state.selectIndex].attrs[0].children[0].fileInfo = [params];
-				url = params.url;
-			}else {
 				currentActiveCtrl.controller.attrs[0].children[0].fileInfo = [params];
-				currentActiveCtrl.controller.attrs[0].children[0].value = params.url;
-				console.log(currentActiveCtrl.controller);
-				state.activeCtrl = currentActiveCtrl.controller;
-				var url =  currentActiveCtrl.controller.attrs[0].children[0].fileInfo[0].url,
-				activeCtrl =  currentActiveCtrl.controller;
+				var url = currentActiveCtrl.controller.attrs[0].children[0].fileInfo.url 
+				url = params.url;
 
-			}
-
-			window.VDDesignerFrame.postMessage({
-				upLoadBgImg: {
-					activeCtrl:activeCtrl,
-					url: url
+			window.postMessage( {
+				fetchImgFromSrc: {
+					url:url
 				}
 			}, '*');
 			return { ...state}
@@ -1125,7 +1113,6 @@ export default {
 		uploadPreviewImg(state, { payload: params}){
 
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
-			console.log('uploadBgImg');
 			if(currentActiveCtrl.controller.attrs[0].key == 'slider-setting'){
 				var activeCtrl = currentActiveCtrl.controller.children[1].children[state.selectIndex].children[0];
 				console.log(activeCtrl);
@@ -1153,11 +1140,6 @@ export default {
 				}, '*');
 			}
 
-			window.postMessage( {
-				backgroundImgurl: {
-					url
-				}
-			}, '*');
 			return { ...state}
 		},
 

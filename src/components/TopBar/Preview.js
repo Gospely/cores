@@ -11,9 +11,15 @@ const Preview = (props) => {
       props.dispatch({
         type: 'preview/hidePreview'
       });
+    },
+
+    hideSpin () {
+      console.log('onload');
+      props.dispatch({
+        type: 'preview/hideSpin',
+        payload: false
+      })
     }
-
-
 
   };
 
@@ -21,7 +27,7 @@ const Preview = (props) => {
     
       <div className="designer-wrapper">
             <Modal
-              title="预览| Gospel - Web在线可视化集成开发环境"
+            title="预览| Gospel - Web在线可视化集成开发环境"
               wrapClassName="vertical-center-modal"
               visible={props.preview.visible}
               wrapClassName="dashboard-wrapper"
@@ -34,6 +40,7 @@ const Preview = (props) => {
                   height="100%" 
                   frameBorder="0" 
                   src={props.preview.src}
+                  onLoad={PreviewProps.hideSpin}
                   >
                   
                 </iframe>
