@@ -69,6 +69,7 @@ const VDTreeActions = {
 
 		return loopControllers(controllers, 1);
 	},
+
 	getParentCtrlByKey(state, key, activePage) {
 
 		let obj = {
@@ -988,6 +989,130 @@ export default {
 			return {...state};
 		},
 
+		editStyleNameA(state, { payload: params }) {
+
+			const editStyleNameRec = (state, originStyleName, newStyleName, activePage) => {
+				let 
+					controllers = state.layout[activePage.key];
+
+				const loopControllers = function (controllers, level) {
+					level = level || 1;
+					for(let i = 0; i < controllers.length; i ++) {
+						let currentControl = controllers[i];
+						if (currentControl.children) {
+							loopControllers(currentControl.children, level ++);
+						}
+
+						var pos = currentControl.customClassName.indexOf(originStyleName);
+
+						if (pos != -1) {
+							currentControl.customClassName.splice(pos, 1);
+							currentControl.customClassName.push(newStyleName);
+
+							//通知dom更新
+							window.VDDesignerFrame.postMessage({
+								styleNameEdited: {
+									vdid: currentControl.vdid,
+									originStyleName,
+									newStyleName
+								}
+							}, '*');
+
+						}
+
+						if(currentControl.activeStyle == originStyleName) {
+							currentControl.activeStyle = newStyleName;
+						}
+
+					}
+				}
+
+				loopControllers(controllers, 1);
+			};
+
+			//更新所有组件树
+			editStyleNameRec(state, params.origin, params.newStyleName, state.activePage);
+
+			//更新activeCtrl
+			if(state.activeCtrl.activeStyle == params.origin) {
+				state.activeCtrl.activeStyle = params.newStyleName;
+			}
+
+			var pos = state.activeCtrl.customClassName.indexOf(params.origin);
+
+			if(pos != -1) {
+				state.activeCtrl.customClassName.splice(pos, 1);
+				state.activeCtrl.customClassName.push(params.newStyleName);
+			}
+
+			return {...state};
+		},
+
+		removeStyleNameA(state, { payload: params }) {
+
+			const editStyleNameRec = (state, originStyleName, newStyleName, activePage) => {
+				let 
+					controllers = state.layout[activePage.key];
+
+				const loopControllers = function (controllers, level) {
+					level = level || 1;
+					for(let i = 0; i < controllers.length; i ++) {
+						let currentControl = controllers[i];
+						if (currentControl.children) {
+							loopControllers(currentControl.children, level ++);
+						}
+
+						var pos = currentControl.customClassName.indexOf(originStyleName);
+
+						if (pos != -1) {
+							currentControl.customClassName.splice(pos, 1);
+
+							//通知dom更新
+							window.VDDesignerFrame.postMessage({
+								styleNameEdited: {
+									vdid: currentControl.vdid,
+									originStyleName,
+									newStyleName: ''
+								}
+							}, '*');
+
+						}
+
+						if(currentControl.activeStyle == originStyleName) {
+							if(currentControl.customClassName[pos - 1]) {
+								currentControl.activeStyle = currentControl.customClassName[pos - 1];
+							}else {
+								currentControl.activeStyle = '';
+							}
+						}
+
+					}
+				}
+
+				loopControllers(controllers, 1);
+			};
+
+			//更新所有组件树
+			editStyleNameRec(state, params.origin, params.newStyleName, state.activePage);
+
+			//更新activeCtrl
+			if(state.activeCtrl.activeStyle == params.origin) {
+				if(state.activeCtrl.customClassName[pos - 1]) {
+					state.activeCtrl.activeStyle = state.activeCtrl.customClassName[pos - 1];
+				}else {
+					state.activeCtrl.activeStyle = '';
+				}
+			}
+
+			var pos = state.activeCtrl.customClassName.indexOf(params.origin);
+
+			if(pos != -1) {
+				state.activeCtrl.customClassName.splice(pos, 1);
+			}
+
+			return {...state};
+		},
+
 		showCtrlTreeContextMenu(state, { payload: proxy }) {
 			return {...state, constructionMenuStyle: {
 				position: 'fixed',
@@ -1653,7 +1778,7 @@ export default {
 			state.activePage.key = 'index.html';
 			delete state.layout[params.key];
 			window.VDDesignerFrame.postMessage({
-	    		pageSelected: state.layout[state.activePage.key][0].children
+	    		pageSelected: state.layout[state.activePage.key]
 	    	}, '*');
 			return {...state};
 		},
@@ -1774,7 +1899,7 @@ export default {
 
 			state.activePage.key = params.activePage.key;
 	    	window.VDDesignerFrame.postMessage({
-	    		pageSelected: state.layout[params.activePage.key][0].children
+	    		pageSelected: state.layout[params.activePage.key]
 	    	}, '*');
 			return {...state};
 		},
@@ -2310,7 +2435,7 @@ export default {
 	    	state.activePage.key = pageInfo.key;
 
 	    	window.VDDesignerFrame.postMessage({
-	    		pageSelected: state.layout[pageInfo.key][0].children
+	    		pageSelected: state.layout[pageInfo.key]
 	    	}, '*');
 
 			return {...state};
