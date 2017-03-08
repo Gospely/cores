@@ -4,7 +4,7 @@ $(function() {
 	}
 
 	//animation动画函数(在这里定义全局变量才能解绑)
-	window.animationClickHandler = function (e) {
+	window.animationTrigger = function (e) {
 		jQuery(e.target).animateCss(e.data.animate);
 	}
 

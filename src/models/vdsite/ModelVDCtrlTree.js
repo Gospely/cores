@@ -2441,17 +2441,7 @@ export default {
 			return {...state};
 		},
 
-		deleteCtrl(state, {payload: params}) {
-
-			let deleteKey;
-			if (params && params.fromKeyboard) {
-				deleteKey = state.activeCtrl.vdid;
-				if (!deleteKey) {
-					return {...state};
-				}
-			}else {
-				deleteKey = sessionStorage.currentSelectedConstructionKey;
-			}
+		handleDeleteCtrl(state, {payload: deleteKey}) {
 
 			let deleteParentInfo = VDTreeActions.getParentCtrlByKey(state, deleteKey, state.activePage),
 				deleteParentCtrl = deleteParentInfo.parentCtrl,
@@ -2640,6 +2630,33 @@ export default {
   					activePage: activePage
   				}
   			})
+		},
+
+		*deleteCtrl({payload: params}, {call, put, select}) {
+
+			let activeCtrl = yield select(state => state.vdCtrlTree.activeCtrl);
+			let deleteKey;
+
+			if (params && params.fromKeyboard) {
+				deleteKey = activeCtrl.vdid;
+				
+				if (!deleteKey) {
+					return false;
+				}
+				
+			}else {
+				deleteKey = sessionStorage.currentSelectedConstructionKey;
+			}
+
+			yield put({
+				type: 'handleDeleteCtrl',
+				payload: deleteKey
+			})
+
+			yield put({
+				type: 'vdanimations/handleDeleteCtrl',
+				payload: deleteKey
+			})
 		}
 
 	}

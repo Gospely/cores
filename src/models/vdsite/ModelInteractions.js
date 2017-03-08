@@ -306,10 +306,9 @@ export default {
 			text: ``
 		},
 
-		needOffEffects: [{
-			vdid: '',
-			condition: ''
-		}],
+		needOffEffects: [],
+
+		deletedCtrl: [],
 
 		activeInteraction: 0,
 
@@ -455,22 +454,32 @@ export default {
 			return {...state};
 		},
 
+		handleDeleteCtrl(state, {payload: deleteKey}) {
+			state.deletedCtrl.push(deleteKey);
+			return {...state};
+		},
+
 		setActiveInteraction(state, { payload: params }) {
 			let prevActiveInteraction = state.interactions[state.activeInteractionIndex];
 			let prevVdids = prevActiveInteraction.vdid;
 			let prevIndex = prevVdids.indexOf(params.vdid);
-			state.needOffEffects.push({
-				vdid: params.vdid,
-				condition: prevActiveInteraction.condition
-			});
+			
+			if (prevActiveInteraction.condition !== 'none') {
+				state.needOffEffects.push({
+					vdid: params.vdid,
+					condition: prevActiveInteraction.condition
+				});
+			}
+
+			let scriptText = ``;
 
 			for(let i = 0; i < state.needOffEffects.length; i ++) {
 				let currentOff = state.needOffEffects[i];
 				if (currentOff.condition === 'hover') {
-					scriptText += `\njQuery('[vdid="${currentOff.vdid}"]').off('mouseenter' ,animationClickHandler);`
-					scriptText += `\njQuery('[vdid="${currentOff.vdid}"]').off('mouseleave' ,animationClickHandler);`
+					scriptText += `\njQuery('[vdid="${currentOff.vdid}"]').off('mouseenter' ,animationTrigger);`
+					scriptText += `\njQuery('[vdid="${currentOff.vdid}"]').off('mouseleave' ,animationTrigger);`
 				}else if (currentOff.condition === 'click') {
-					scriptText += `\njQuery('[vdid="${currentOff.vdid}"]').off('click', animationClickHandler);`
+					scriptText += `\njQuery('[vdid="${currentOff.vdid}"]').off('click', animationTrigger);`
 				}
 			}
 
@@ -482,13 +491,22 @@ export default {
 			
 			state.interactions[state.activeInteractionIndex].vdid.push(params.vdid);
 
-			let scriptText = ``;
-
 			let handlers = {
 				'hover'(currentVdid, animate, duration) {
 					for(let j = 0; j < currentVdid.length; j ++) {
-						scriptText += `\njQuery('[vdid="${currentVdid[j]}"]').on('mouseenter', {animate: '${animate}'} ,animationClickHandler);`
-						scriptText += `\njQuery('[vdid="${currentVdid[j]}"]').on('mouseleave', {animate: '${animate}'} ,animationClickHandler);`
+
+						//控件是否已经被删除
+						let deletedCtrl = state.deletedCtrl;
+						let deletedIndex = deletedCtrl.indexOf(currentVdid[j]);
+
+						if (deletedIndex !== -1) {
+							currentVdid.splice(j, 1);
+							deletedCtrl.splice(deletedCtrl, 1);
+							return false;
+						}
+
+						scriptText += `\njQuery('[vdid="${currentVdid[j]}"]').on('mouseenter', {animate: '${animate}'} ,animationTrigger);`
+						scriptText += `\njQuery('[vdid="${currentVdid[j]}"]').on('mouseleave', {animate: '${animate}'} ,animationTrigger);`
 						if (duration) {
 							scriptText += `\njQuery('[vdid="${currentVdid[j]}"]').css({
 	animationDuration: '${duration}ms'
@@ -499,7 +517,18 @@ export default {
 
 				'click'(currentVdid, animate, duration) {
 					for(let j = 0; j < currentVdid.length; j ++) {
-						scriptText += `\njQuery('[vdid="${currentVdid[j]}"]').on('click', {animate: '${animate}'} ,animationClickHandler);`
+
+						//控件是否已经被删除
+						let deletedCtrl = state.deletedCtrl;
+						let deletedIndex = deletedCtrl.indexOf(currentVdid[j]);
+
+						if (deletedIndex !== -1) {
+							currentVdid.splice(j, 1);
+							deletedCtrl.splice(deletedCtrl, 1);
+							return false;
+						}
+
+						scriptText += `\njQuery('[vdid="${currentVdid[j]}"]').on('click', {animate: '${animate}'} ,animationTrigger);`
 						if (duration) {
 							scriptText += `\njQuery('[vdid="${currentVdid[j]}"]').css({
 	animationDuration: '${duration}ms'
@@ -509,9 +538,19 @@ export default {
 				},
 
 				'scroll'(currentVdid, animate, duration) {
-					scriptText += `\njQuery(window).off('scroll')`;
+					scriptText += `\njQuery(window).off('scroll');`;
 					scriptText += `\njQuery(window).on('scroll', function (e) {`;
 					for(let j = 0; j < currentVdid.length; j ++) {
+
+						//控件是否已经被删除
+						let deletedCtrl = state.deletedCtrl;
+						let deletedIndex = deletedCtrl.indexOf(currentVdid[j]);
+
+						if (deletedIndex !== -1) {
+							currentVdid.splice(j, 1);
+							deletedCtrl.splice(deletedCtrl, 1);
+							return false;
+						}
 
 						scriptText += `\n	var elem${j} = jQuery('[vdid="${currentVdid[j]}"]');
 	if (elem${j}.offset().top - jQuery(window).scrollTop() <= jQuery(window).innerHeight()) {
@@ -520,11 +559,11 @@ export default {
 						if (duration) {
 							scriptText += `\n	elem${j}.css({
 		animationDuration: '${duration}ms'
-});`
+	});`
 						}
 
 					}
-					scriptText += `\n	})`;
+					scriptText += `\n});`;
 
 				}
 			}
