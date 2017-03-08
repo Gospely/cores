@@ -974,86 +974,86 @@ export default {
 		},
 
 	    activeCtrl: {
-			tag: 'div',
-			className: [],
-			customClassName: [],
-    		vdid: '456',
-			id: '',
-    		ctrlName: 'div-block',
-			attrs: [{
-				title: '基础设置',
-				key: 'basic',
-				children: [{
-					name: 'id',
-					desc: 'id',
-					type: 'input',
-					value: '',
-					id: '5443'
-				}, {
-					name: 'class',
-					desc: '可见屏幕',
-					type: 'multipleSelect',
-					value: ['visible-lg-block', 'visible-md-block', 'visible-sm-block', 'visible-xs-block'],
-					valueList: [{
-						name: '大屏幕(桌面 (≥1200px))',
-						value: 'visible-lg-block'
-					}, {
-						name: '中等屏幕(桌面 (≥992px))',
-						value: 'visible-md-block'
-					}, {
-						name: '小屏幕(平板 (≥768px))',
-						value: 'visible-sm-block'
-					}, {
-						name: '超小屏幕(手机 (<768px))',
-						value: 'visible-xs-block'
-					}],
-					id: ''
-				}]
-			}, {
-				title: '自定义属性',
-				key: 'custom-attr',
-				children: [{
-					key: '123',
-					value: '34'
-				}]
-			}],
-			children: [{
-				tag: 'h1',
-				className: [],
-				vdid: '098',
-	    		ctrlName: 'heading',
-				id: '',
-				attrs: [{
-					title: '基础设置',
-					key: 'basic',
-					children: [{
-						name: 'id',
-						desc: 'id',
-						type: 'input',
-						value: '',
-						id: '5443'
-					}, {
-						name: 'class',
-						desc: '可见屏幕',
-						type: 'multipleSelect',
-						value: ['visible-lg-block', 'visible-md-block', 'visible-sm-block', 'visible-xs-block'],
-						valueList: [{
-							name: '大屏幕(桌面 (≥1200px))',
-							value: 'visible-lg-block'
-						}, {
-							name: '中等屏幕(桌面 (≥992px))',
-							value: 'visible-md-block'
-						}, {
-							name: '小屏幕(平板 (≥768px))',
-							value: 'visible-sm-block'
-						}, {
-							name: '超小屏幕(手机 (<768px))',
-							value: 'visible-xs-block'
-						}],
-						id: ''
-					}]
-				}]
-			}]
+			// tag: 'div',
+			// className: [],
+			// customClassName: [],
+   //  		vdid: '456',
+			// id: '',
+   //  		ctrlName: 'div-block',
+			// attrs: [{
+			// 	title: '基础设置',
+			// 	key: 'basic',
+			// 	children: [{
+			// 		name: 'id',
+			// 		desc: 'id',
+			// 		type: 'input',
+			// 		value: '',
+			// 		id: '5443'
+			// 	}, {
+			// 		name: 'class',
+			// 		desc: '可见屏幕',
+			// 		type: 'multipleSelect',
+			// 		value: ['visible-lg-block', 'visible-md-block', 'visible-sm-block', 'visible-xs-block'],
+			// 		valueList: [{
+			// 			name: '大屏幕(桌面 (≥1200px))',
+			// 			value: 'visible-lg-block'
+			// 		}, {
+			// 			name: '中等屏幕(桌面 (≥992px))',
+			// 			value: 'visible-md-block'
+			// 		}, {
+			// 			name: '小屏幕(平板 (≥768px))',
+			// 			value: 'visible-sm-block'
+			// 		}, {
+			// 			name: '超小屏幕(手机 (<768px))',
+			// 			value: 'visible-xs-block'
+			// 		}],
+			// 		id: ''
+			// 	}]
+			// }, {
+			// 	title: '自定义属性',
+			// 	key: 'custom-attr',
+			// 	children: [{
+			// 		key: '123',
+			// 		value: '34'
+			// 	}]
+			// }],
+			// children: [{
+			// 	tag: 'h1',
+			// 	className: [],
+			// 	vdid: '098',
+	  //   		ctrlName: 'heading',
+			// 	id: '',
+			// 	attrs: [{
+			// 		title: '基础设置',
+			// 		key: 'basic',
+			// 		children: [{
+			// 			name: 'id',
+			// 			desc: 'id',
+			// 			type: 'input',
+			// 			value: '',
+			// 			id: '5443'
+			// 		}, {
+			// 			name: 'class',
+			// 			desc: '可见屏幕',
+			// 			type: 'multipleSelect',
+			// 			value: ['visible-lg-block', 'visible-md-block', 'visible-sm-block', 'visible-xs-block'],
+			// 			valueList: [{
+			// 				name: '大屏幕(桌面 (≥1200px))',
+			// 				value: 'visible-lg-block'
+			// 			}, {
+			// 				name: '中等屏幕(桌面 (≥992px))',
+			// 				value: 'visible-md-block'
+			// 			}, {
+			// 				name: '小屏幕(平板 (≥768px))',
+			// 				value: 'visible-sm-block'
+			// 			}, {
+			// 				name: '超小屏幕(手机 (<768px))',
+			// 				value: 'visible-xs-block'
+			// 			}],
+			// 			id: ''
+			// 		}]
+			// 	}]
+			// }]
 		}
 	},
 

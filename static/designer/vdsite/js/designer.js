@@ -461,7 +461,7 @@ $(function() {
 
                     applyCSSIntoPage: function() {
                         pageOperations.applyCSS(data.cssText);
-                        if (data.activeCtrl !== 'none' && data.activeCtrl !== '') {
+                        if (data.activeCtrl.tag) {
                         	controllerOperations.select(data.activeCtrl, true);
                         }
                     },

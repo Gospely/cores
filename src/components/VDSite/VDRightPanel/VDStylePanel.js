@@ -40,7 +40,7 @@ import ColorPicker from '../../Panel/ColorPicker.js';
 
 const VDStylePanel = (props) => {
 
-	if (props.vdCtrlTree.activeCtrl === 'none' || '') {
+	if (!props.vdCtrlTree.activeCtrl.tag) {
 		return (
 			<div className="none-operation-obj">暂无操作对象</div>
 		)
@@ -3400,7 +3400,7 @@ const VDStylePanel = (props) => {
 
   	return (
   		<div className="vdctrl-pane-wrapper">
-  			{vdctrlCollapse()}
+  			{ props.vdCtrlTree.activeCtrl.tag && vdctrlCollapse() }
   		</div>
   	);
 

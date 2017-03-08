@@ -28,7 +28,7 @@ for (let i = 10; i < 36; i++) {
 
 const Component = (props) => {
 
-	if (props.vdCtrlTree.activeCtrl === 'none' || '') {
+	if (!props.vdCtrlTree.activeCtrl.tag) {
 		return (
 			<div className="none-operation-obj">暂无操作对象</div>
 		)
