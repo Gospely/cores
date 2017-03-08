@@ -46,6 +46,23 @@ const VDStylePanel = (props) => {
 		)
 	}
 
+	if(!window.isListenBGImageEvt) {
+
+    	window.addEventListener('message',function(e){
+			console.log('123456',e.data);
+				window.isListenBGImageEvt = true;
+
+			handleStylesChange('background-image', {
+						parent: 'background'
+					} ,{
+						target: {
+							value: e.data.fetchImgFromSrc.url
+						}
+					});
+		})
+
+	}
+
 	const activeCSSStyleState = props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle],
 		  activeCSSUnitList = props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle];
 
@@ -263,15 +280,14 @@ const VDStylePanel = (props) => {
 				}
 
 				return (
-			      	<Form className="form-no-margin-bottom">
-						<FormItem {...formItemLayout} label="类名">
-							<Input onPressEnter={onClick} onChange={handleNewStyleNameChange} value={newStyleName} size="small" />
-						</FormItem>
-
-						<FormItem {...formItemLayout} label="">
+					<Row>
+						<Col span={12}>
+							<Input placeholder="请输入类名" onPressEnter={onClick} onChange={handleNewStyleNameChange} value={newStyleName} size="small" />
+						</Col>
+						<Col span={12}>
 							<Button onClick={onClick.bind(this)} style={{float: 'right'}} size="small">添加并应用</Button>
-						</FormItem>
-			      	</Form>
+						</Col>
+					</Row>
 				);
 			}
 		}
@@ -347,19 +363,8 @@ const VDStylePanel = (props) => {
 
 					});
 
-					window.addEventListener('message',function(e){
-							console.log('123456',e);
-						handleStylesChange('background-image', {
-							parent: 'background'
-						} ,{
-							target: {
-								value: e.data.backgroundImgUrl
-							}
-						});
-					})
-
-					
                 }
+
             }
 
     		return (

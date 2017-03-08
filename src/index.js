@@ -15,6 +15,7 @@ localStorage.itemToCopy = localStorage.itemToCopy || undefined;
 
 window.flag = false;
 window.fileFlag = false;
+window.isListenBGImageEvt = false;
 
 if(document.domain != 'localhost') {
 	window.debug = false;

@@ -523,6 +523,11 @@ $(function() {
                     animateElement: function() {
                     	console.log(data);
                     	jq('[vdid="' + data.id + '"]').animateCss(data.animateName);
+                    },
+
+                    styleNameEdited: function() {
+                    	jq('[vdid="' + data.vdid + '"]').removeClass(data.originStyleName);
+                    	jq('[vdid="' + data.vdid + '"]').addClass(data.newStyleName);
                     }
                 };
 

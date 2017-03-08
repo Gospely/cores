@@ -50,12 +50,20 @@ const Component = (props) => {
 	 			props.dispatch({
 	 				type: 'vdstyles/hideStyleManagerModifyPop'
 	 			});
+
+				props.dispatch({
+					type: 'vdstyles/applyCSSStyleIntoPage',
+					payload: {
+						activeCtrl: props.vdCtrlTree.activeCtrl
+					}
+				});
+
  			}
 
  			return (
  				<Row>
  					<Col span={18} style={{paddingRight: 10}}>
- 						<Input size="small" onChange={handleStyleManageModifierChange.bind(this)} value={props.vdstyles.styleManager.modifyPop.value} />
+ 						<Input onPressEnter={edit} size="small" onChange={handleStyleManageModifierChange.bind(this)} value={props.vdstyles.styleManager.modifyPop.value} />
  					</Col>
  					<Col span={6}>
  						<Button onClick={edit} size="small">修改</Button>
@@ -74,7 +82,7 @@ const Component = (props) => {
  			}); 			
 
  			props.dispatch({
- 				type: 'vdstyles/showStyleManagerModifyPop'
+ 				type: 'vdstyles/toggleStyleManagerModifyPop'
  			});
  		}
 
@@ -111,8 +119,8 @@ const Component = (props) => {
 
 };
 
-function mapSateToProps({ dashboard, vdstyles }) {
-  return { dashboard, vdstyles };
+function mapSateToProps({ dashboard, vdstyles, vdCtrlTree }) {
+  return { dashboard, vdstyles, vdCtrlTree };
 }
 
 export default connect(mapSateToProps)(Component);
