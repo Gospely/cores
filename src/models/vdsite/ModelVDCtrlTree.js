@@ -1670,7 +1670,7 @@ export default {
 			state.activePage.key = 'index.html';
 			delete state.layout[params.key];
 			window.VDDesignerFrame.postMessage({
-	    		pageSelected: state.layout[state.activePage.key][0].children
+	    		pageSelected: state.layout[state.activePage.key]
 	    	}, '*');
 			return {...state};
 		},
@@ -1791,7 +1791,7 @@ export default {
 
 			state.activePage.key = params.activePage.key;
 	    	window.VDDesignerFrame.postMessage({
-	    		pageSelected: state.layout[params.activePage.key][0].children
+	    		pageSelected: state.layout[params.activePage.key]
 	    	}, '*');
 			return {...state};
 		},
@@ -2327,7 +2327,7 @@ export default {
 	    	state.activePage.key = pageInfo.key;
 
 	    	window.VDDesignerFrame.postMessage({
-	    		pageSelected: state.layout[pageInfo.key][0].children
+	    		pageSelected: state.layout[pageInfo.key]
 	    	}, '*');
 
 			return {...state};
