@@ -297,7 +297,7 @@ export default {
 		}, {
 			animate: 'bounceIn',
 			name: '弹跳进入',
-			duration: '',
+			duration: '3000',
 			condition: 'scroll',
 			vdid: []
 		}],
@@ -463,51 +463,90 @@ export default {
 				vdid: params.vdid,
 				condition: prevActiveInteraction.condition
 			});
+
+			for(let i = 0; i < state.needOffEffects.length; i ++) {
+				let currentOff = state.needOffEffects[i];
+				if (currentOff.condition === 'hover') {
+					scriptText += `\njQuery('[vdid="${currentOff.vdid}"]').off('mouseenter' ,animationClickHandler);`
+					scriptText += `\njQuery('[vdid="${currentOff.vdid}"]').off('mouseleave' ,animationClickHandler);`
+				}else if (currentOff.condition === 'click') {
+					scriptText += `\njQuery('[vdid="${currentOff.vdid}"]').off('click', animationClickHandler);`
+				}
+			}
+
 			if (prevIndex !== -1) {
 				prevVdids.splice(prevIndex, 1);
 			}
 			
 			state.activeInteractionIndex = params.interactionIndex;
-			console.log(state.interactions)
+			
 			state.interactions[state.activeInteractionIndex].vdid.push(params.vdid);
-			let scriptText = ``;
-			for(let i = 1; i < state.interactions.length; i ++) {
-				let currentInteraction = state.interactions[i];
-				
-				let currentVdid = currentInteraction.vdid
-				for(let j = 0; j < currentVdid.length; j ++) {
 
-					if (currentInteraction.condition === 'hover') {
-						scriptText += `\njQuery('[vdid="${currentVdid[j]}"]').${currentInteraction.condition}(function (e) {
-	jQuery(e.target).animateCss('${currentInteraction.animate}');
+			let scriptText = ``;
+
+			let handlers = {
+				'hover'(currentVdid, animate, duration) {
+					for(let j = 0; j < currentVdid.length; j ++) {
+						scriptText += `\njQuery('[vdid="${currentVdid[j]}"]').on('mouseenter', {animate: '${animate}'} ,animationClickHandler);`
+						scriptText += `\njQuery('[vdid="${currentVdid[j]}"]').on('mouseleave', {animate: '${animate}'} ,animationClickHandler);`
+						if (duration) {
+							scriptText += `\njQuery('[vdid="${currentVdid[j]}"]').css({
+	animationDuration: '${duration}ms'
 });`
-					}else if (currentInteraction.condition === 'click') {
-						scriptText += `\njQuery('[vdid="${currentVdid[j]}"]').on('${currentInteraction.condition}', function (e) {
-	jQuery(e.target).animateCss('${currentInteraction.animate}');
-});`
-					}else if (currentInteraction.condition === 'scroll') {
-						scriptText += `\njQuery(window).scroll(function (e) {
-							var elem = jQuery('[vdid="${currentVdid[j]}"]');
-							if (elem.offset().top - jQuery(window).scrollTop() === jQuery(window).innerHeight() / 2) {
-								elem.animateCss('${currentInteraction.animate}');
-							}
-						})`
+						}
 					}
-					
+				},
+
+				'click'(currentVdid, animate, duration) {
+					for(let j = 0; j < currentVdid.length; j ++) {
+						scriptText += `\njQuery('[vdid="${currentVdid[j]}"]').on('click', {animate: '${animate}'} ,animationClickHandler);`
+						if (duration) {
+							scriptText += `\njQuery('[vdid="${currentVdid[j]}"]').css({
+	animationDuration: '${duration}ms'
+});`
+						}
+					}
+				},
+
+				'scroll'(currentVdid, animate, duration) {
+					scriptText += `\njQuery(window).off('scroll')`;
+					scriptText += `\njQuery(window).on('scroll', function (e) {`;
+					for(let j = 0; j < currentVdid.length; j ++) {
+
+						scriptText += `\n	var elem${j} = jQuery('[vdid="${currentVdid[j]}"]');
+	if (elem${j}.offset().top - jQuery(window).scrollTop() <= jQuery(window).innerHeight()) {
+		elem${j}.addClass('animated ${animate}');
+	}`
+						if (duration) {
+							scriptText += `\n	elem${j}.css({
+		animationDuration: '${duration}ms'
+});`
+						}
+
+					}
+					scriptText += `\n	})`;
 
 				}
 			}
 
-			for(let i = 0; i < state.needOffEffects.length; i ++) {
-				let currentOff = state.needOffEffects[i];
-				scriptText += `\njQuery('[vdid="${currentOff.vdid}"]').off('${currentOff.condition}');`
+			for(let i = 1; i < state.interactions.length; i ++) {
+				let currentInteraction = state.interactions[i];
+				
+				let currentVdid = currentInteraction.vdid
+
+				if (currentVdid.length !== 0) {
+					handlers[currentInteraction.condition](currentVdid, currentInteraction.animate, currentInteraction.duration);
+				}
+				
+					
 			}
 			
-			 state.needOffEffects = [];
-			console.log(scriptText)
+			state.needOffEffects = [];
+			
 			window.VDDesignerFrame.postMessage({
 				applyScriptIntoPage: scriptText
 			}, "*");
+
 			return {...state};
 		}
 
