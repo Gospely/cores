@@ -1213,8 +1213,14 @@ export default {
 				}, '*');
 			}
 
+			window.postMessage( {
+				backgroundImgurl: {
+					url
+				}
+			}, '*');
 			return { ...state}
 		},
+
 		handleAddChildrenAttr(state, { payload: params}){
 			state.attr[params.name] = params.value
 			return {...state};

@@ -386,10 +386,6 @@ const LeftSidebar = (props) => {
 	        },
 			release() {
 
-				console.log('release');
-				props.dispatch({
-					type: 'vdcore/deploy'
-				});
 			},
 	        configGit () {
 	        	props.dispatch({
@@ -1459,6 +1455,32 @@ const LeftSidebar = (props) => {
 			return debugMenu;
 		}
 		if(localStorage.image == 'vd:site') {
+			const vdMenuProps = {
+
+				selectMenu(item){
+
+					const eventHandle ={
+						deploy() {
+
+							console.log('release');
+							props.dispatch({
+								type: 'vdcore/deploy'
+							});
+						},
+						visit(){
+							window.open("http://" + localStorage.domain);
+						}
+					}
+					eventHandle[item.key]();
+				}
+
+			}
+			const deployMenu = (
+				<Menu onClick = {vdMenuProps.selectMenu}>
+					<Menu.Item key='deploy' onClick={vdMenuProps.release}>发布</Menu.Item>
+					<Menu.Item key='visit' disabled={window.disabled}>访问：http://{localStorage.domain}</Menu.Item>
+				</Menu>
+			);
 			topbarMenu = (
 		      	<Menu
 		      		style={styles.sidebar}
@@ -1512,9 +1534,13 @@ const LeftSidebar = (props) => {
 			          	</Tooltip>
 			        </Menu.Item>
 
-			        <Menu.Item key="release" className="releaseItem">
-				        	<Icon type="export" />
-				        	发布
+			        <Menu.Item key="release" className="releaseItem" style={{'margin-right':'30px'}}>
+						<Dropdown overlay={deployMenu}  trigger={['click']}>
+				    			<div style={{width: 30}}>
+									<Icon type="export" />
+									发布
+								</div>
+						</Dropdown>
 			        </Menu.Item>
 
 			    </Menu>
@@ -1911,8 +1937,8 @@ const LeftSidebar = (props) => {
 		    </Modal>
 
 		    <Dashboard></Dashboard>
-
-		    <Preview></Preview>
+		    
+	    	<Preview></Preview>
 
 			<Modal width="30%"  title="意见建议" visible={props.sidebar.modalFeedback.visible}
 	          	onOk={feedbackProps.submit} onCancel={feedbackProps.hideModal}
