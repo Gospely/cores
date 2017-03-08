@@ -1145,14 +1145,14 @@ export default {
 
 			}
 
-			window.VDDesignerFrame.postMessage({
-				upLoadBgImg: {
-					activeCtrl:activeCtrl,
-					url: url
+			window.postMessage( {
+				backgroundImgurl: {
+					url
 				}
 			}, '*');
 			return { ...state}
 		},
+
 		handleAddChildrenAttr(state, { payload: params}){
 			state.attr[params.name] = params.value
 			return {...state};

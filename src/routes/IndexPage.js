@@ -306,12 +306,12 @@ function IndexPage(props) {
         if (vdsitePagesBtn.length && vdsitePagesBtn.length) {
             let showPanel = (elem) => {
                 let btn = elem.parent();
+                let panel = $(".LeftSidebar.vdsite>.ant-tabs>.ant-tabs-content");
                 btn.on('click', function (e) {
                     // e.stopPropagation();
-                    let panel = $(".LeftSidebar.vdsite>.ant-tabs>.ant-tabs-content");
                     if(parseInt(panel.css("width")) < 260) {
                         panel.css({
-                            width: '270px'
+                            width: '260px'
                         })
                     }else if (btn.attr('aria-selected') === 'true'){
                         panel.css({
@@ -324,6 +324,7 @@ function IndexPage(props) {
             showPanel(vdsiteCtrlBtn);
             showPanel(vdsitePagesBtn);
         }
+    
     }
 
     const wholePageLayoutGenerator = () => {

@@ -17,7 +17,7 @@ const Component = (props) => {
 
 			const linkToWhere = props.vdcore.rightTabsPane.linkTo;
 
-			if(linkToWhere == 'assets'){
+			if(linkToWhere == 'settings'){
 
 				props.dispatch({
 					type: 'vdcore/changeTabsPane',
@@ -43,7 +43,6 @@ const Component = (props) => {
 				});
 
 				props.dispatch({
-
 						type: 'vdstyles/showBackgroundStyleSettingPane',
 						payload: false
 
@@ -53,6 +52,8 @@ const Component = (props) => {
 					type: 'vdCtrlTree/uploadBgImg',
 					payload: file
 				});
+
+				//document.getElementById("backgroundImgPaneBtn").click();
 
 			}else{
 
