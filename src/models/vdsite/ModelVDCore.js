@@ -118,7 +118,30 @@ export default {
 		rightTabsPane: {
 			activeTabsPane: 'style',
 			linkTo: ''
+		},
 
+		actions: {
+
+			dom: {
+
+				add: [],
+
+				remove: [],
+
+				move: [],
+
+				attrEdited: []
+			},
+
+			css: {
+				add: [],
+
+				remove: [],
+
+				propertyEdited: []
+			},
+
+			actionList: []
 		}
 	},
 
