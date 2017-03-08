@@ -1105,6 +1105,22 @@ export default {
 				payload: params
 			});
 
+		},
+
+		*removeStyleName({ payload: params }, { call, put, select }) {
+
+			yield put({
+				type: "vdCtrlTree/removeStyleNameA",
+				payload: {
+					origin: params.origin
+				}
+			});
+
+			yield put({
+				type: "removeStyleNameA",
+				payload: params
+			});
+
 		}
 
 	},
@@ -1154,7 +1170,7 @@ export default {
 			return {...state};
 		},
 
-		removeStyleName(state, { payload: params }) {
+		removeStyleNameA(state, { payload: params }) {
 			delete state.cssStyleLayout[params.origin];
 			delete state.unitList[params.origin];
 
