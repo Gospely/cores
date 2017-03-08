@@ -5,7 +5,7 @@ import { Button, Modal, message, notification } from 'antd';
 import { Tabs, Icon } from 'antd';
 import { Tooltip } from 'antd';
 import { Row, Col } from 'antd';
-import { Popover, Form, Input, Menu } from 'antd';
+import { Popover, Form, Input, Menu, Popconfirm } from 'antd';
 
 const FormItem = Form.Item;
 const SubMenu = Menu.SubMenu;
@@ -59,19 +59,10 @@ const Component = (props) => {
          });
      },
      deleteSymbol(e){
-
-         confirm({
-             title: '提示',
-             content: '确认删除 ' + e.name + '控件',
-             onOk() {
-                 props.dispatch({
-                     type: 'vdCtrlTree/deleteSymbol',
-                     payload: e.key
-                 });
-             },
-             onCancel() {
-             },
-         });
+       props.dispatch({
+           type: 'vdCtrlTree/deleteSymbol',
+           payload: e.key
+       });
      },
      showPopover(){
         //  if(props.vdctrl.currentSymbolKey == '' || props.vdctrl.currentSymbolKey == null ){
@@ -107,26 +98,29 @@ const Component = (props) => {
   }
   const newSymbolsPopover = {
     content: (
-      <Form className="form-no-margin-bottom">
-        <FormItem {...formItemLayout} label="名称">
-          <Input size="small"  value={props.vdCtrlTree.symbolName} onChange={formItemProps.onChange}/>
-        </FormItem>
-        <Button size="small" onClick={formItemProps.addSymbol} >添加</Button>
-      </Form>
+      <Row>
+        <Col span={14}>
+          <Input size="small" placeholder="请输入名称" value={props.vdCtrlTree.symbolName} onChange={formItemProps.onChange}/>
+        </Col>
+        <Col span={10} style={{textAlign: 'right'}}>
+          <Button size="small" onClick={formItemProps.addSymbol} >添加</Button>
+        </Col>
+      </Row>
     )
   };
 
   const editSymbolsPopover = {
     content: (
-      <Form className="form-no-margin-bottom">
-        <FormItem {...formItemLayout} label="名称">
+      <Row>
+        <Col span={14}>
           <Input size="small"  value={props.vdCtrlTree.symbolName} onChange={formItemProps.onChange}/>
-        </FormItem>
-        <Button size="small" onClick={formItemProps.editSymbol} >确定</Button>
-      </Form>
+        </Col>
+        <Col span={10} style={{textAlign: 'right'}}>
+          <Button size="small" onClick={formItemProps.editSymbol} >确定</Button>
+        </Col>
+      </Row>
     )
   };
-
 
   const symbols = () => {
 
@@ -142,7 +136,11 @@ const Component = (props) => {
               <p>{item.name} - {item.controllers.length} 个控件</p>
             </Col>
             <Col span={2}>
-              <Icon type="delete" onClick={formItemProps.deleteSymbol.bind(this, item)} />
+              <Popconfirm title="确定要删除这个Symbol吗？" onConfirm={formItemProps.deleteSymbol.bind(this, item)} okText="是" cancelText="否">
+                <a href="#">
+                  <Icon type="delete" />
+                </a>
+              </Popconfirm>
             </Col>
             <Col span={2}>
               <Icon type="edit" onClick={formItemProps.chooseSymbol.bind(this, item)} />

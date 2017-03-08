@@ -63,7 +63,7 @@ const Component = (props) => {
  			return (
  				<Row>
  					<Col span={18} style={{paddingRight: 10}}>
- 						<Input size="small" onChange={handleStyleManageModifierChange.bind(this)} value={props.vdstyles.styleManager.modifyPop.value} />
+ 						<Input onPressEnter={edit} size="small" onChange={handleStyleManageModifierChange.bind(this)} value={props.vdstyles.styleManager.modifyPop.value} />
  					</Col>
  					<Col span={6}>
  						<Button onClick={edit} size="small">修改</Button>
