@@ -47,11 +47,13 @@ const VDDesignerPanel = (props) => {
                 }
             })
 
-        }
+        },
+
+
 
     };
 
-    return ( <div className = "designer-wrapper" style = {{ height: '100%' }}>
+    return ( <div onClick={() => { $("#vdsitePagesBtn").click() }} className = "designer-wrapper" style = {{ height: '100%' }}>
             <iframe className = "centen-VD"
                 name = "vdsite-designer"
                 width = { props.vdcore.VDDesigner[props.vdcore.VDDesigner.activeSize].width }

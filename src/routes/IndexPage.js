@@ -311,7 +311,7 @@ function IndexPage(props) {
                     let panel = $(".LeftSidebar.vdsite>.ant-tabs>.ant-tabs-content");
                     if(parseInt(panel.css("width")) < 260) {
                         panel.css({
-                            width: '260px'
+                            width: '270px'
                         })
                     }else if (btn.attr('aria-selected') === 'true'){
                         panel.css({
@@ -321,10 +321,8 @@ function IndexPage(props) {
                     
                 })
             }
-
             showPanel(vdsiteCtrlBtn);
             showPanel(vdsitePagesBtn);
-
         }
     }
 
