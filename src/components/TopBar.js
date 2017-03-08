@@ -1529,9 +1529,9 @@ const LeftSidebar = (props) => {
 
 			        <Menu.Item key="release" className="releaseItem">
 						<Popover
-							content={<Form className="form-no-margin-bottom">
+							content={(<Form className="form-no-margin-bottom">
 								<a href={accessUrl} target="_blank" onClick={vdMenuProps.clickUrl}>点击访问</a>
-							</Form>}
+							</Form>)}
 							title="访问链接"
 							trigger="click"
 							visible={props.vdcore.accessVisible}

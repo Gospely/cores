@@ -499,18 +499,18 @@ export default {
             });
 
         },
-        *removeFile({payload: fileName}, {call, put, select}) {
+        *removeFile({payload: params}, {call, put, select}) {
 
 			var result = yield request('fs/remove', {
 				method: 'POST',
 				body: JSON.stringify({
-					fileName: localStorage.dir + fileName
+					fileName: localStorage.dir + params.fileName
 				})
 			});
             var result = yield request('fs/remove', {
 				method: 'POST',
 				body: JSON.stringify({
-					fileName: localStorage.dir + 'pages/' + fileName
+					fileName: localStorage.dir + 'pages/' + params.fileName
 				})
 			});
       		yield put({type: 'deletePage'});
