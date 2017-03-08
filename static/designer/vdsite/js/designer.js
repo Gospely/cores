@@ -457,9 +457,13 @@ $(function() {
 
                     applyCSSIntoPage: function() {
                         pageOperations.applyCSS(data.cssText);
-                        if (data.activeCtrl !== 'none' && data.activeCtrl !== '') {
+                        if (data.activeCtrl.tag) {
                         	controllerOperations.select(data.activeCtrl, true);
                         }
+                    },
+
+                    applyScriptIntoPage: function () {
+                    	pageOperations.applyScript(data);
                     },
 
 					VDChildrenDelete: function(){
@@ -758,6 +762,12 @@ $(function() {
                 var oldStyle = jq('[sid="global-css"]').remove();
                 var css = jq('<style sid="global-css">' + cssText + '</style>');
                 jq('head').append(css);
+            },
+
+            applyScript: function (scriptText) {
+            	var oldScript = jq('[sid="global-script"]').remove();
+            	var script = jq('<script sid="global-script">' + scriptText + '</script>');
+            	jq('body').append(script);
             },
 
             reload: function() {

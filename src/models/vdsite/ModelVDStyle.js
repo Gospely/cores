@@ -293,6 +293,16 @@ export default {
 					unit: 'px',
 					important: false
 				},
+				bottom: {
+					defaultUnit: 'px',
+					unit: 'px',
+					important: false
+				},
+				right: {
+					defaultUnit: 'px',
+					unit: 'px',
+					important: false
+				},
 				cursor: {
 					important: false
 				},
@@ -569,6 +579,19 @@ export default {
 				unit: 'px',
 				important: false
 			},
+
+			right: {
+				defaultUnit: 'px',
+				unit: 'px',
+				important: false
+			},
+
+			bottom: {
+				defaultUnit: 'px',
+				unit: 'px',
+				important: false
+			},
+
 			cursor: {
 				important: false
 			},
@@ -706,6 +729,8 @@ export default {
 				'z-index': '',
 				top: '',
 				left: '',
+				right: '',
+				bottom: '',
 
 				padding: {
 					'padding-top': '',
@@ -874,6 +899,8 @@ export default {
 			'z-index': '',
 			top: '',
 			left: '',
+			right: '',
+			bottom: '',
 
 			padding: {
 				'padding-top': '',
@@ -1057,17 +1084,15 @@ export default {
 
 	reducers: {
 		initState(state, { payload: params}){
-
-			state.backgroundSetting = params.UIState.backgroundSetting;
-			state.cssStyleList = params.UIState.cssStyleList;
-			state.boxShadow = params.UIState.boxShadow;
-			state.cssStyleLayout = params.UIState.cssStyleLayout;
-			state.textShadow = params.UIState.textShadow;
-			state.filterSetting = params.UIState.filterSetting;
-			state.transitionSetting = params.UIState.transitionSetting;
-			state.transformSetting = params.UIState.transformSetting;
-			//state.unitList = params.UIState.unitList;
-			// state.cssPropertyState
+			// state.backgroundSetting = params.UIState.backgroundSetting;
+			// state.cssStyleList = params.UIState.cssStyleList;
+			// state.boxShadow = params.UIState.boxShadow;
+			// state.cssStyleLayout = params.UIState.cssStyleLayout;
+			// state.textShadow = params.UIState.textShadow;
+			// state.filterSetting = params.UIState.filterSetting;
+			// state.transitionSetting = params.UIState.transitionSetting;
+			// state.transformSetting = params.UIState.transformSetting;
+			// state.unitList = params.UIState.unitList;
 			return {...state};
 		},
 		handleCSSStateChange(state, { payload: params }) {

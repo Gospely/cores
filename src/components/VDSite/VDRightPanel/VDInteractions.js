@@ -149,7 +149,10 @@ const Component = (props) => {
     	handleOk () {
 
     		props.dispatch({
-    			type: 'vdanimations/saveInteraction'
+    			type: 'vdanimations/saveInteraction',
+                payload: {
+                    vdid: props.vdCtrlTree.activeCtrl.vdid
+                }
     		});
 
     		props.dispatch({
@@ -181,19 +184,16 @@ const Component = (props) => {
     		props.dispatch({
     			type: 'vdanimations/toggleInteactionEditor'
     		});
-
+            console.log(props.vdCtrlTree.activeCtrl)
+            
     		props.dispatch({
     			type: 'vdanimations/setActiveInteraction',
-    			payload: interactionIndex
+    			payload: {
+                    interactionIndex,
+                    vdid: props.vdCtrlTree.activeCtrl.vdid
+                }
     		});
     	},
-
-        setActiveInteraction (interactionIndex) {
-            props.dispatch({
-                type: 'vdanimations/setActiveInteraction',
-                payload: interactionIndex
-            });
-        },
 
     	handleOk () {
     		props.dispatch({
@@ -220,7 +220,8 @@ const Component = (props) => {
     	props.dispatch({
     		type: 'vdanimations/handleInteractionOnSelect',
     		payload: {
-    			key: parseInt(key)
+    			key: parseInt(key),
+                vdid: props.vdCtrlTree.activeCtrl.vdid
     		}
     	});
     }
@@ -285,8 +286,8 @@ const Component = (props) => {
 
 };
 
-function mapSateToProps({ vdanimations }) {
-  return { vdanimations };
+function mapSateToProps({ vdanimations, vdCtrlTree }) {
+  return { vdanimations, vdCtrlTree };
 }
 
 export default connect(mapSateToProps)(Component);

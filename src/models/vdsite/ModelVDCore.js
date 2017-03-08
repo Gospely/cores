@@ -118,7 +118,30 @@ export default {
 		rightTabsPane: {
 			activeTabsPane: 'style',
 			linkTo: ''
+		},
 
+		actions: {
+
+			dom: {
+
+				add: [],
+
+				remove: [],
+
+				move: [],
+
+				attrEdited: []
+			},
+
+			css: {
+				add: [],
+
+				remove: [],
+
+				propertyEdited: []
+			},
+
+			actionList: []
 		}
 	},
 
@@ -137,7 +160,6 @@ export default {
 	effects: {
 
 		*packAndDownloadVDSiteProject( { payload: params },  { call, put, select }) {
-
 			window.open(localStorage.baseURL + 'vdsite/download?folder=' + localStorage.dir + '&project=' + localStorage.currentProject)
 		},
 

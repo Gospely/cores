@@ -268,7 +268,8 @@ export default {
 			name: '',
 			animate: '',
 			duration: '',
-			condition: 'load'
+			condition: 'load',
+			vdid: []
 		},
 
 		interactionModifierForm: {
@@ -279,17 +280,35 @@ export default {
 			animate: '',
 			name: 'None',
 			duration: '',
-			condition: 'none'
+			condition: 'none',
+			vdid: []
 		}, {
 			animate: 'bounce',
 			name: '弹跳',
 			duration: '',
-			condition: 'click'
+			condition: 'click',
+			vdid: []
 		}, {
 			animate: 'bounceIn',
 			name: '弹跳进入',
 			duration: '',
-			condition: 'hover'
+			condition: 'hover',
+			vdid: []
+		}, {
+			animate: 'bounceIn',
+			name: '弹跳进入',
+			duration: '',
+			condition: 'scroll',
+			vdid: []
+		}],
+
+		script: {
+			text: ``
+		},
+
+		needOffEffects: [{
+			vdid: '',
+			condition: ''
 		}],
 
 		activeInteraction: 0,
@@ -317,7 +336,8 @@ export default {
 			yield put({
 				type: 'setActiveInteraction',
 				payload: {
-					interactionIndex: params.key
+					interactionIndex: params.key,
+					vdid: params.vdid
 				}
 			})
 		}
@@ -328,14 +348,13 @@ export default {
 
 		initState(state, { payload: params }){
 
-			state.newInteractionForm = params.UIState.newInteractionForm;
-			state.interactionModifierForm = params.UIState.interactionModifierForm;
-			state.interactions = params.UIState.interactions;
-			state.activeInteraction = params.UIState.activeInteraction;
-			state.activeInteractionIndex = params.UIState.activeInteractionIndex;
-			state.interactionCreator = params.UIState.interactionCreator;
-			state.animations = params.UIState.animations;
-
+			// state.newInteractionForm = params.UIState.newInteractionForm;
+			// state.interactionModifierForm = params.UIState.interactionModifierForm;
+			// state.interactions = params.UIState.interactions;
+			// state.activeInteraction = params.UIState.activeInteraction;
+			// state.activeInteractionIndex = params.UIState.activeInteractionIndex;
+			// state.interactionCreator = params.UIState.interactionCreator;
+			// state.animations = params.UIState.animations;
 			return {...state};
 		},
 		removeInteraction(state, { payload: index }) {
@@ -404,7 +423,7 @@ export default {
 			return {...state};
 		},
 
-		saveInteraction(state) {
+		saveInteraction(state, {payload: params}) {
 			if(state.newInteractionForm.name == '') {
 				message.error('请选择动画效果');
 				return {...state};
@@ -415,7 +434,8 @@ export default {
 				name: '',
 				animate: '',
 				duration: '',
-				condition: 'load'
+				condition: 'load',
+				vdid: [params.vdid]
 			}
 			return {...state};
 		},
@@ -435,8 +455,59 @@ export default {
 			return {...state};
 		},
 
-		setActiveInteraction(state, { payload: interactionIndex }) {
-			state.activeInteractionIndex = typeof interactionIndex === 'object' ? interactionIndex.interactionIndex : interactionIndex;
+		setActiveInteraction(state, { payload: params }) {
+			let prevActiveInteraction = state.interactions[state.activeInteractionIndex];
+			let prevVdids = prevActiveInteraction.vdid;
+			let prevIndex = prevVdids.indexOf(params.vdid);
+			state.needOffEffects.push({
+				vdid: params.vdid,
+				condition: prevActiveInteraction.condition
+			});
+			if (prevIndex !== -1) {
+				prevVdids.splice(prevIndex, 1);
+			}
+			
+			state.activeInteractionIndex = params.interactionIndex;
+			console.log(state.interactions)
+			state.interactions[state.activeInteractionIndex].vdid.push(params.vdid);
+			let scriptText = ``;
+			for(let i = 1; i < state.interactions.length; i ++) {
+				let currentInteraction = state.interactions[i];
+				
+				let currentVdid = currentInteraction.vdid
+				for(let j = 0; j < currentVdid.length; j ++) {
+
+					if (currentInteraction.condition === 'hover') {
+						scriptText += `\njQuery('[vdid="${currentVdid[j]}"]').${currentInteraction.condition}(function (e) {
+	jQuery(e.target).animateCss('${currentInteraction.animate}');
+});`
+					}else if (currentInteraction.condition === 'click') {
+						scriptText += `\njQuery('[vdid="${currentVdid[j]}"]').on('${currentInteraction.condition}', function (e) {
+	jQuery(e.target).animateCss('${currentInteraction.animate}');
+});`
+					}else if (currentInteraction.condition === 'scroll') {
+						scriptText += `\njQuery(window).scroll(function (e) {
+							var elem = jQuery('[vdid="${currentVdid[j]}"]');
+							if (elem.offset().top - jQuery(window).scrollTop() === jQuery(window).innerHeight() / 2) {
+								elem.animateCss('${currentInteraction.animate}');
+							}
+						})`
+					}
+					
+
+				}
+			}
+
+			for(let i = 0; i < state.needOffEffects.length; i ++) {
+				let currentOff = state.needOffEffects[i];
+				scriptText += `\njQuery('[vdid="${currentOff.vdid}"]').off('${currentOff.condition}');`
+			}
+			
+			 state.needOffEffects = [];
+			console.log(scriptText)
+			window.VDDesignerFrame.postMessage({
+				applyScriptIntoPage: scriptText
+			}, "*");
 			return {...state};
 		}
 
