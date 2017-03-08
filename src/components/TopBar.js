@@ -1937,8 +1937,8 @@ const LeftSidebar = (props) => {
 		    </Modal>
 
 		    <Dashboard></Dashboard>
-
-		    <Preview></Preview>
+		    
+	    	<Preview></Preview>
 
 			<Modal width="30%"  title="意见建议" visible={props.sidebar.modalFeedback.visible}
 	          	onOk={feedbackProps.submit} onCancel={feedbackProps.hideModal}

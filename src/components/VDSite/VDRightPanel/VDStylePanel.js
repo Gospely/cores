@@ -346,8 +346,20 @@ const VDStylePanel = (props) => {
 						payload: false
 
 					});
-                }
 
+					window.addEventListener('message',function(e){
+							console.log('123456',e);
+						handleStylesChange('background-image', {
+							parent: 'background'
+						} ,{
+							target: {
+								value: e.data.backgroundImgUrl
+							}
+						});
+					})
+
+					
+                }
             }
 
     		return (
@@ -370,7 +382,7 @@ const VDStylePanel = (props) => {
 							</div>
 						</div>
 						<div className="bem-Frame_Body">
-							<Button onClick={skipToImggallery.handleClick} style={{ left: '0'}}><i className="fa fa-picture-o"></i>&nbsp;图片资源</Button>
+							<Button id="backgroundImgPaneBtn" onClick={skipToImggallery.handleClick} style={{ left: '0'}}><i className="fa fa-picture-o"></i>&nbsp;图片资源</Button>
 						</div>
 					</div>
 
