@@ -1459,21 +1459,6 @@ const LeftSidebar = (props) => {
 			return debugMenu;
 		}
 		if(localStorage.image == 'vd:site') {
-			let accessUrl = 'http://' + localStorage.domain;
-			const vdMenuProps = {
-				accessVisibleChange(value){
-					props.dispatch({
-						type: 'vdcore/handleAccessVisibleChange',
-						payload: false
-					});
-				},
-				clickUrl(){
-					props.dispatch({
-						type: 'vdcore/handleAccessVisibleChange',
-						payload: false
-					});
-				}
-			}
 			topbarMenu = (
 		      	<Menu
 		      		style={styles.sidebar}
@@ -1528,18 +1513,8 @@ const LeftSidebar = (props) => {
 			        </Menu.Item>
 
 			        <Menu.Item key="release" className="releaseItem">
-						<Popover
-							content={(<Form className="form-no-margin-bottom">
-								<a href={accessUrl} target="_blank" onClick={vdMenuProps.clickUrl}>点击访问</a>
-							</Form>)}
-							title="访问链接"
-							trigger="click"
-							visible={props.vdcore.accessVisible}
-							onVisibleChange = {vdMenuProps.accessVisibleChange}
-						>
 				        	<Icon type="export" />
 				        	发布
-						</Popover>
 			        </Menu.Item>
 
 			    </Menu>
