@@ -1086,7 +1086,6 @@ export default {
 				type: "vdCtrlTree/changeCustomClass",
 				payload: params
 			});
-
 		}
 
 	},
@@ -1107,6 +1106,49 @@ export default {
 			return {...state};
 		},
 
+		editStyleName(state, { payload: params }) {
+			state.cssStyleLayout[state.styleManager.modifyPop.value] = state.cssStyleLayout[params.origin];
+			delete state.cssStyleLayout[params.origin];
+
+			state.unitList[state.styleManager.modifyPop.value] = state.unitList[params.origin];
+			delete state.unitList[params.origin];
+
+			for(var styleName in state.cssStyleLayout) {
+
+				var status = ['hover', 'focus', 'pressed'];
+
+				for (var i = 0; i < status.length; i++) {
+					var stat = status[i];
+					if(styleName == params.origin + ':' + stat) {
+						state.unitList[state.styleManager.modifyPop.value + ':' + stat] = state.unitList[params.origin + ':' + stat];
+						delete params.origin + ':' + stat;
+					}
+				};
+			}
+
+			state.styleManager.modifyPop.value = '';
+			return {...state};
+		},
+
+		removeStyleName(state, { payload: params }) {
+			delete state.cssStyleLayout[params.origin];
+			delete state.unitList[params.origin];
+
+			for(var styleName in state.cssStyleLayout) {
+
+				var status = ['hover', 'focus', 'pressed'];
+
+				for (var i = 0; i < status.length; i++) {
+					var stat = status[i];
+					if(styleName == params.origin + ':' + stat) {
+						delete params.origin + ':' + stat;
+					}
+				};
+			}
+
+			return {...state};
+		},
+
 		initState(state, { payload: params}){
 			// state.backgroundSetting = params.UIState.backgroundSetting;
 			// state.cssStyleList = params.UIState.cssStyleList;
@@ -1122,18 +1164,6 @@ export default {
 		handleCSSStateChange(state, { payload: params }) {
 			state.activeCSSState = params.selectedKeys;
 			state.activeCSSStateName = params.stateName;
-			return {...state};
-		},
-
-		appendStyleIntoOfficialStyle(state) {
-
-			// for (var i = 0; i < state.cssPropertyState.length; i++) {
-			// 	var cssProperty = state.cssPropertyState[i];
-			// 	cssProperty.cssProperty = state.cssPropertyList;
-			// };
-
-			// console.log('appendStyleIntoOfficialStyle', state.cssPropertyState);
-
 			return {...state};
 		},
 
