@@ -946,7 +946,8 @@ export default {
 	    		tag: 'body',
 	    		vdid: 'body-main',
 	    		ctrlName: 'body',
-	    		children: []
+	    		children: [],
+	    		attrs: []
 	    	}],
 	    },
 
@@ -979,14 +980,14 @@ export default {
 	reducers: {
 		initState(state, {payload: params}){
 			// state.activeCtrl = params.UIState.activeCtrl;
-			state.layout = params.UIState.layout;
+			// state.layout = params.UIState.layout;
 			state.layoutState = params.UIState.layoutState;
 			state.activePage = params.UIState.activePage;
 			state.selectIndex = params.UIState.selectIndex;
 			setTimeout(function(){
 				localStorage.flashState = true;
 				window.VDDesignerFrame.postMessage({
-					pageSelected: state.layout[state.activePage.key][0].children
+					pageSelected: state.layout[state.activePage.key]
 				}, '*');
 			}, 2000)
 			return {...state};
@@ -2314,7 +2315,8 @@ export default {
 	    		tag: 'body',
 	    		vdid: 'body-' + randomString(8, 10),
 	    		ctrlName: 'body',
-	    		children: []
+	    		children: [],
+	    		attrs: []
 	    	}];
 	    	state.activePage.key = pageInfo.key;
 

@@ -430,6 +430,7 @@ $(function() {
 
                 var evtAction = {
                     ctrlTreeGenerated: function() {
+                    	console.log('ctrlTreeGenerated');
                         var elem = new ElemGenerator(data.controller);
                         var elemToAdd = jq(elem.createElement());
                         dndData.elemToAdd = elemToAdd;
@@ -486,19 +487,23 @@ $(function() {
 					},
 
                     pageSelected: function() {
-                    	console.log('pageSelected=++++++++++++')
-                        jq('#VDDesignerContainer').html('');
-						console.log("pageSelected");
-						console.log(data);
+                    	console.log('======pageSelected', data);
+                    	var VDDesignerContainer = jq('#VDDesignerContainer');
+                       	VDDesignerContainer.html('');
                         controllerOperations.hideDesignerDraggerBorder();
                         for (var i = 0; i < data.length; i++) {
                             var currentController = data[i];
                             var elem = new ElemGenerator(currentController);
-                            var elemToAdd = jq(elem.createElement());
-                            jq('#VDDesignerContainer').append(elemToAdd);
-                            dndData.elemToAdd = elemToAdd;
-                            dndData.dragElem = elemToAdd;
-                            dndData.ctrlToAddData = data.controller;
+
+			        		if(currentController.tag == 'body') {
+			        			elem.handleBody();
+			        		}else {
+	                            var elemToAdd = jq(elem.createElement());
+	                            VDDesignerContainer.append(elemToAdd);
+	                            dndData.elemToAdd = elemToAdd;
+	                            dndData.dragElem = elemToAdd;
+	                            dndData.ctrlToAddData = data.controller;
+			        		}
                         };
                     },
 
@@ -1032,6 +1037,12 @@ $(function() {
         ElemGenerator.prototype = {
 
         	initElem: function () {
+        		if(this.controller.tag == 'body') {
+        			this.elem = jq('body');
+        			this.elemLoaded = true;
+        			return false;
+        		}
+
         		if (!this.elemLoaded) {
                     var docCtrl = jq('[vdid='+ this.controller.vdid + ']');
                     this.elem = docCtrl.length > 0 ? docCtrl : jq(document.createElement(this.tag));
@@ -1316,12 +1327,15 @@ $(function() {
                 }
             },
 
-        	createElement: function () {
-        		var self = this;
+            handleBody: function() {
+            	this.initElem();
+            	this.addClass();
+            	this.bindData();
 
-        		this.initElem();
-        		this.bindData();
-        		this.setAttribute();
+            	this.elem.attr('vdid', this.controller.vdid);
+            },
+
+            addClass: function() {
 
         		var className = this.controller.className;
         		if (className) {
@@ -1337,14 +1351,25 @@ $(function() {
         			}
         		}
 
+            },
+
+        	createElement: function () {
+        		var self = this;
+
+        		this.initElem();
+        		this.bindData();
+        		this.setAttribute();
+
+        		this.addClass();
+
         		var component = this.elem;
 
         		if (this.controller.children && this.controller.children.length > 0) {
 
                     for (var i = 0; i < this.controller.children.length; i++) {
-                        var currentCtrl = this.controller.children[i],
+                        var currentCtrl = this.controller.children[i];
 
-                            reComGenerator = new ElemGenerator(currentCtrl),
+                        var reComGenerator = new ElemGenerator(currentCtrl),
 
                             loopComponent = reComGenerator.createElement(),
 
