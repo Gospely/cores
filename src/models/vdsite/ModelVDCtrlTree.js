@@ -984,12 +984,7 @@ export default {
 			state.layoutState = params.UIState.layoutState;
 			state.activePage = params.UIState.activePage;
 			state.selectIndex = params.UIState.selectIndex;
-			setTimeout(function(){
-				localStorage.flashState = true;
-				window.VDDesignerFrame.postMessage({
-					pageSelected: state.layout[state.activePage.key]
-				}, '*');
-			}, 2000)
+			localStorage.flashState = true;
 			return {...state};
 		},
 

@@ -22,7 +22,9 @@ const VDDesignerPanel = (props) => {
                     }
                 }, '*');
 
-
+                window.VDDesignerFrame.postMessage({
+                    pageSelected: props.vdCtrlTree.layout[props.vdCtrlTree.activePage.key]
+                }, '*');
                 //加载全局CSS
                 props.dispatch({
                     type: 'vdstyles/applyCSSStyleIntoPage',
@@ -60,7 +62,7 @@ const VDDesignerPanel = (props) => {
                 src = "static/designer/vdsite/index.html"
                 onLoad = { VDDesignerPanelProps.handleDesPanelLoaded }
             >
-            </iframe> 
+            </iframe>
         </div>
     );
 
