@@ -946,7 +946,8 @@ export default {
 	    		tag: 'body',
 	    		vdid: 'body-main',
 	    		ctrlName: 'body',
-	    		children: []
+	    		children: [],
+	    		attrs: []
 	    	}],
 	    },
 
@@ -979,16 +980,11 @@ export default {
 	reducers: {
 		initState(state, {payload: params}){
 			// state.activeCtrl = params.UIState.activeCtrl;
-			state.layout = params.UIState.layout;
+			// state.layout = params.UIState.layout;
 			state.layoutState = params.UIState.layoutState;
 			state.activePage = params.UIState.activePage;
 			state.selectIndex = params.UIState.selectIndex;
-			setTimeout(function(){
-				localStorage.flashState = true;
-				window.VDDesignerFrame.postMessage({
-					pageSelected: state.layout[state.activePage.key][0].children
-				}, '*');
-			}, 2000)
+			localStorage.flashState = true;
 			return {...state};
 		},
 
@@ -1135,6 +1131,13 @@ export default {
 				console.log(activeCtrl);
 				currentActiveCtrl.controller.children[1].children[state.selectIndex].children[0].attrs[0].children[0].value = params.url
 				url = params.url;
+
+				window.VDDesignerFrame.postMessage({
+					uploadImgRefreshed: {
+						activeCtrl:activeCtrl,
+						url: url
+					}
+				}, '*');
 			}else {
 				currentActiveCtrl.controller.attrs[0].children[0].fileInfo = [params];
 				currentActiveCtrl.controller.attrs[0].children[0].value = params.url;
@@ -1142,7 +1145,12 @@ export default {
 				state.activeCtrl = currentActiveCtrl.controller;
 				var url =  currentActiveCtrl.controller.attrs[0].children[0].fileInfo[0].url,
 				activeCtrl =  currentActiveCtrl.controller;
-
+				window.VDDesignerFrame.postMessage({
+					upLoadBgImg: {
+						activeCtrl:activeCtrl,
+						url: url
+					}
+				}, '*');
 			}
 
 			window.postMessage( {
@@ -2314,7 +2322,8 @@ export default {
 	    		tag: 'body',
 	    		vdid: 'body-' + randomString(8, 10),
 	    		ctrlName: 'body',
-	    		children: []
+	    		children: [],
+	    		attrs: []
 	    	}];
 	    	state.activePage.key = pageInfo.key;
 

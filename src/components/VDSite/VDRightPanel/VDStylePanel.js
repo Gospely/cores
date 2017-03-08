@@ -206,6 +206,14 @@ const VDStylePanel = (props) => {
 
 				const onClick = () => {
 
+					var patt = new RegExp(/^[a-zA-Z|\-|0-9]+$/),
+						regResult = patt.test(newStyleName);
+
+					if(!regResult) {
+						message.error('只能输入英文大小写字母、数字和“-”');
+						return false;
+					}
+
 					if(newStyleName == '') {
 						message.error('请输入类名!');
 						return false;
@@ -235,6 +243,19 @@ const VDStylePanel = (props) => {
 				}
 
 				const handleNewStyleNameChange = (e) => {
+
+					if(e.target.value != '') {
+
+						var patt = new RegExp(/^[a-zA-Z|\-|0-9]+$/),
+							regResult = patt.test(e.target.value);
+
+						if(!regResult) {
+							message.error('只能输入英文大小写字母、数字和“-”');
+							return false;
+						}
+
+					}
+
 					props.dispatch({
 						type: 'vdstyles/handleNewStyleNameChange',
 						payload: e.target.value

@@ -20,7 +20,7 @@ import fileListen from '../utils/fileListen';
 import Preview from './TopBar/Preview.js';
 
 import { Steps } from 'antd';
-import { Progress } from 'antd';
+import { Progress, Popover } from 'antd';
 
 import Dashboard from './TopBar/Dashboard.js';
 
@@ -384,7 +384,13 @@ const LeftSidebar = (props) => {
 					})
 				}
 	        },
+			release() {
 
+				console.log('release');
+				props.dispatch({
+					type: 'vdcore/deploy'
+				});
+			},
 	        configGit () {
 	        	props.dispatch({
 	        		type: 'sidebar/showModalModifyGitOrgin'
@@ -1453,7 +1459,6 @@ const LeftSidebar = (props) => {
 			return debugMenu;
 		}
 		if(localStorage.image == 'vd:site') {
-
 			topbarMenu = (
 		      	<Menu
 		      		style={styles.sidebar}
@@ -1506,10 +1511,12 @@ const LeftSidebar = (props) => {
 			          		<Icon type="delete" />
 			          	</Tooltip>
 			        </Menu.Item>
+
 			        <Menu.Item key="release" className="releaseItem">
-			        	<Icon type="export" />
-			        	发布
+				        	<Icon type="export" />
+				        	发布
 			        </Menu.Item>
+
 			    </Menu>
 			);
 

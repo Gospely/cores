@@ -32,16 +32,6 @@ const initState = function (props, applicationId) {
         payload: { UIState: UIState.UIState.vdanimations }
     });
 
-    setTimeout(function(){
-        console.log(props);
-        console.log(props.vdCtrlTree);
-        props.dispatch({
-          type: 'vdstyles/applyCSSStyleIntoPage',
-          payload: {
-            activeCtrl: props.vdCtrlTree.activeCtrl
-          }
-        });
-    }, 3000);
     props.dispatch({
       type: 'devpanel/getConfig',
       payload: { id : applicationId, UIState: UIState.UIState.devpanel}

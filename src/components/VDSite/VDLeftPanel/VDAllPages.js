@@ -7,7 +7,7 @@ import { Tooltip } from 'antd';
 
 import { Popover } from 'antd';
 
-import { Menu, Modal, message} from 'antd';
+import { Menu, Modal, message, Popconfirm} from 'antd';
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 
@@ -106,6 +106,12 @@ const Component = (props) => {
 							key: props.vdpm.currentActivePageListItem
 						}
 					});
+					props.dispatch({
+						type: 'vdpm/removeFile',
+						payload: {
+							fileName: props.vdpm.currentActivePageListItem
+						}
+					});
 				},
 				onCancel() {
 
@@ -120,25 +126,21 @@ const Component = (props) => {
 				message.error('主页面不能删除');
 				return;
 			}
-			confirm({
-				title: '即将删除' + item.name,
-				content: '确认删除' + item.name + '? ',
-				onOk() {
-
-					props.dispatch({
-						type: 'vdpm/deletePage',
-						payload: item.key
-					});
-					props.dispatch({
-						type: 'vdCtrlTree/deletePage',
-						payload: {
-							key: item.key
-						}
-					});
-				},
-				onCancel() {
-
-				},
+			props.dispatch({
+				type: 'vdpm/deletePage',
+				payload: item.key
+			});
+			props.dispatch({
+				type: 'vdCtrlTree/deletePage',
+				payload: {
+					key: item.key
+				}
+			});
+			props.dispatch({
+				type: 'vdpm/removeFile',
+				payload: {
+					fileName: item.key
+				}
 			});
 
 		},
@@ -240,9 +242,11 @@ const Component = (props) => {
     					  <Icon type="folder" />{item.name}
     				  </Col>
     				  <Col span={4}>
-    					<Tooltip placement="top" title="删除文件夹">
-    						<Icon type="delete" onClick={formItemProps.delete.bind(this, item)} />
-    					</Tooltip>
+						  <Popconfirm title="确认删除吗？" onConfirm={formItemProps.delete.bind(this, item)} okText="确定" cancelText="取消">
+	    					<Tooltip placement="top" title="删除文件夹">
+	    						<Icon type="delete" />
+	    					</Tooltip>
+						  </Popconfirm>
     				  </Col>
     				</Row>}>
                       {pageTreeGenerator(item.children, true)}
@@ -257,9 +261,11 @@ const Component = (props) => {
     						<Icon type="file" />{item.name}
     					  </Col>
     					  <Col span={2}>
-    						<Tooltip placement="top" title="删除文件">
-    							<Icon type="delete" onClick={formItemProps.delete.bind(this, item)} />
-    						</Tooltip>
+						   <Popconfirm title="确认删除吗？" onConfirm={formItemProps.delete.bind(this, item)} okText="确定" cancelText="取消">
+	    						<Tooltip placement="top" title="删除文件">
+	    							<Icon type="delete" />
+	    						</Tooltip>
+							</Popconfirm>
     					  </Col>
     					  <Col span={2}>
     						<Tooltip placement="top" title="设置页面的详细信息">

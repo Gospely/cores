@@ -211,18 +211,23 @@ const initApplication = function (application, props, flag){
         if(localStorage.UIState != null && localStorage.UIState != undefined){
 
             var UIState = JSON.parse(localStorage.UIState);
+
             if(UIState.applicationId != application.id){
 
-                props.dispatch({
-                    type: 'UIState/readConfig',
-                    payload: {
-                        id: application.id,
-                        ctx: props
-                    }
-                });
+                if(!flag){
+                    props.dispatch({
+                        type: 'UIState/readConfig',
+                        payload: {
+                            id: application.id,
+                            ctx: props
+                        }
+                    });
+                }
 
             }else{
-                initState(props, application.id);
+                if(!flag){
+                    initState(props, application.id);
+                }
             }
         }else {
             props.dispatch({
