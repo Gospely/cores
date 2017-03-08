@@ -106,6 +106,12 @@ const Component = (props) => {
 							key: props.vdpm.currentActivePageListItem
 						}
 					});
+					props.dispatch({
+						type: 'vdpm/removeFile',
+						payload: {
+							key: props.vdpm.currentActivePageListItem
+						}
+					});
 				},
 				onCancel() {
 
@@ -131,6 +137,12 @@ const Component = (props) => {
 					});
 					props.dispatch({
 						type: 'vdCtrlTree/deletePage',
+						payload: {
+							key: item.key
+						}
+					});
+					props.dispatch({
+						type: 'vdpm/removeFile',
 						payload: {
 							key: item.key
 						}
