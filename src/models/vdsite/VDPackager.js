@@ -32,7 +32,7 @@ var VDPackager = {
 
 		this.fileStructure.css = this.compileCSS();
 
-		this.compilePage();
+		this.fileStructure.scripts = this.compilePage();
 
 		this.compileScripts();
 
