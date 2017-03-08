@@ -45,7 +45,7 @@ const Component = (props) => {
      addSymbol(){
          console.log('add');
          if(props.vdCtrlTree.symbolName == '' || props.vdCtrlTree.symbolName == null ){
-             openNotificationWithIcon('info', '控件名为空');
+             openNotificationWithIcon('info', '请输入控件名');
              return;
          }
          props.dispatch({
@@ -100,7 +100,7 @@ const Component = (props) => {
     content: (
       <Row>
         <Col span={14}>
-          <Input size="small" placeholder="请输入名称" value={props.vdCtrlTree.symbolName} onChange={formItemProps.onChange}/>
+          <Input size="small" onPressEnter={formItemProps.addSymbol} placeholder="请输入名称" value={props.vdCtrlTree.symbolName} onChange={formItemProps.onChange}/>
         </Col>
         <Col span={10} style={{textAlign: 'right'}}>
           <Button size="small" onClick={formItemProps.addSymbol} >添加</Button>
@@ -113,10 +113,10 @@ const Component = (props) => {
     content: (
       <Row>
         <Col span={14}>
-          <Input size="small"  value={props.vdCtrlTree.symbolName} onChange={formItemProps.onChange}/>
+          <Input size="small" onPressEnter={formItemProps.editSymbol} value={props.vdCtrlTree.symbolName} onChange={formItemProps.onChange}/>
         </Col>
         <Col span={10} style={{textAlign: 'right'}}>
-          <Button size="small" onClick={formItemProps.editSymbol} >确定</Button>
+          <Button size="small" onClick={formItemProps.editSymbol}>确定</Button>
         </Col>
       </Row>
     )
@@ -127,16 +127,16 @@ const Component = (props) => {
     var sys = props.vdCtrlTree.symbols.map((item, index) => {
         console.log(props.vdCtrlTree.symbols);
       return (
-        <Menu.Item key={index}>
+        <Menu.Item key={index} className="symbols-ctrl">
           <Row>
             <Col span={4}>
               <svg width="26" height="26" viewBox="0 0 26 26" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)', color: 'rgba(0, 0, 0, 0.521569)', flexShrink: '0'}}><path fill="currentColor" d="M13-.08l-.37.14L0,5V20.66l13,5.47,13-5.47V5ZM24,6.46l0-.06h0ZM13,10.29,2.64,6.15,13,2.07,23.32,6.15ZM2,6.4l0,.06V6.41ZM2,8.05l10,4v11.5L2,19.34ZM14,23.54V12l10-4V19.34Z"></path><polygon fill="currentColor" opacity=".3" points="1.71 19.59 12.8 24.16 12.98 11.34 1.62 6.76 1.71 19.59"></polygon></svg>
             </Col>
             <Col span={16} style={{paddingLeft: '10px'}} >
-              <p>{item.name} - {item.controllers.length} 个控件</p>
+              <p>{item.name}</p>
             </Col>
             <Col span={2}>
-              <Popconfirm title="确定要删除这个Symbol吗？" onConfirm={formItemProps.deleteSymbol.bind(this, item)} okText="是" cancelText="否">
+              <Popconfirm title="确定要删除这个自定义组件吗？" onConfirm={formItemProps.deleteSymbol.bind(this, item)} okText="是" cancelText="否">
                 <a href="#">
                   <Icon type="delete" />
                 </a>
@@ -150,9 +150,13 @@ const Component = (props) => {
       );
     });
 
+    const onSymbolMenuSelect = ({ item, key, selectedKeys }) => {
+      console.log(item, key, selectedKeys);
+    }
+
     return(
     <Popover placement="right" content={editSymbolsPopover.content} visible={props.vdCtrlTree.editPopoverVisible} onVisibleChange={formItemProps.editPopoverVisibleChange}>
-        <Menu>
+        <Menu onSelect={onSymbolMenuSelect}>
             {sys}
         </Menu>
     </Popover>
@@ -167,7 +171,7 @@ const Component = (props) => {
       <Row>
         <Col span={4} offset={20}>
           <Popover placement="right" trigger={['click']} content={newSymbolsPopover.content} visible={props.vdCtrlTree.popoverVisible} onVisibleChange={formItemProps.visibleChange}>
-              <Tooltip placement="bottom" title="选择一个块然后点击此按钮添加一个Symbol">
+              <Tooltip placement="bottom" title="选择一组控件然后点击此按钮置之为一个自定义组件">
                 <Button style={{marginTop: '10px'}} shape="circle"><Icon type="plus"/></Button>
               </Tooltip>
           </Popover>

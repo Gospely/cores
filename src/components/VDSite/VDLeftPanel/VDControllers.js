@@ -17,7 +17,7 @@ const Component = (props) => {
     	<TabPane tab="控件" key="ctrl">
     		<VDCtrl></VDCtrl>
     	</TabPane>
-    	<TabPane tab="Symbols" key="symbol">
+    	<TabPane tab="自定义组件" key="symbol">
     		<VDSymbol></VDSymbol>
     	</TabPane>
   	</Tabs>    

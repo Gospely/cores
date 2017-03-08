@@ -830,7 +830,7 @@ $(function() {
         DndInitialization.prototype = {
         	makeComponentsDraggable: function(cb) {
         		var self = this;
-        		var components = jq(parentWindow.document, parentWindow.document).find('.anticons-list-item');
+        		var components = jq(parentWindow.document, parentWindow.document).find('.anticons-list-item, .symbols-ctrl');
 
         		components.each(function(n) {
         			jq(this).attr("draggable", true);

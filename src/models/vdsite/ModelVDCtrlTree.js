@@ -1142,8 +1142,15 @@ export default {
 		handleAddSymbol(state) {
 
 			if(!methods.checkName(state.symbols, state.symbolName)){
-				 openNotificationWithIcon('info', '控件名已被占用');
+				 openNotificationWithIcon('info', '该控件名已被占用，请重新输入');
+				 return {...state};
 			}else{
+
+				if(!state.activeCtrl.tag) {
+					message.error('请选择一个控件或添加一个控件再进行操作');
+					return {...state};
+				}
+
 				var addController = {
 					name: localStorage.symbolName,
 					key: randomString(8, 10),
