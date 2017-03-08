@@ -3,7 +3,8 @@ var VDPackager = {
 
 	fileStructure: {
 		css: '',
-		pages: {}
+		pages: {},
+		scripts: ''
 	},
 
 	pages: {},
@@ -33,11 +34,17 @@ var VDPackager = {
 
 		this.compilePage();
 
+		this.compileScripts();
+
 		return this.fileStructure;
 	},
 
 	compileCSS () {
 		return window.stylesGenerator(this.css);
+	},
+
+	compileScripts () {
+		return '';
 	},
 
 	compilePage () {

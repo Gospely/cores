@@ -348,13 +348,13 @@ export default {
 
 		initState(state, { payload: params }){
 
-			state.newInteractionForm = params.UIState.newInteractionForm;
-			state.interactionModifierForm = params.UIState.interactionModifierForm;
-			state.interactions = params.UIState.interactions;
-			state.activeInteraction = params.UIState.activeInteraction;
-			state.activeInteractionIndex = params.UIState.activeInteractionIndex;
-			state.interactionCreator = params.UIState.interactionCreator;
-			state.animations = params.UIState.animations;
+			// state.newInteractionForm = params.UIState.newInteractionForm;
+			// state.interactionModifierForm = params.UIState.interactionModifierForm;
+			// state.interactions = params.UIState.interactions;
+			// state.activeInteraction = params.UIState.activeInteraction;
+			// state.activeInteractionIndex = params.UIState.activeInteractionIndex;
+			// state.interactionCreator = params.UIState.interactionCreator;
+			// state.animations = params.UIState.animations;
 			return {...state};
 		},
 		removeInteraction(state, { payload: index }) {
