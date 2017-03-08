@@ -1136,6 +1136,13 @@ export default {
 				console.log(activeCtrl);
 				currentActiveCtrl.controller.children[1].children[state.selectIndex].children[0].attrs[0].children[0].value = params.url
 				url = params.url;
+
+				window.VDDesignerFrame.postMessage({
+					uploadImgRefreshed: {
+						activeCtrl:activeCtrl,
+						url: url
+					}
+				}, '*');
 			}else {
 				currentActiveCtrl.controller.attrs[0].children[0].fileInfo = [params];
 				currentActiveCtrl.controller.attrs[0].children[0].value = params.url;
@@ -1143,15 +1150,14 @@ export default {
 				state.activeCtrl = currentActiveCtrl.controller;
 				var url =  currentActiveCtrl.controller.attrs[0].children[0].fileInfo[0].url,
 				activeCtrl =  currentActiveCtrl.controller;
-
+				window.VDDesignerFrame.postMessage({
+					upLoadBgImg: {
+						activeCtrl:activeCtrl,
+						url: url
+					}
+				}, '*');
 			}
 
-			window.VDDesignerFrame.postMessage({
-				upLoadBgImg: {
-					activeCtrl:activeCtrl,
-					url: url
-				}
-			}, '*');
 			return { ...state}
 		},
 		handleAddChildrenAttr(state, { payload: params}){

@@ -2648,6 +2648,7 @@ export default {
 				key: 'dropdown',
 				details: {
                     tag: 'div',
+                    unActive: true,
                     className: ['dropdown open'],
                     attrs: [{
                         title: '下拉菜单设置',
@@ -2657,6 +2658,7 @@ export default {
                     children: [{
                         tag: 'button',
                         className: ['btn btn-default', 'dropdown-toggle'],
+                        unActive: true,
                         attrs: [{
                             title: '下拉菜单设置',
                             key: 'btn-dropdown',
@@ -2704,6 +2706,7 @@ export default {
                         children: [{
                             tag: 'span',
                             className: ['caret'],
+                            unActive: true,
                             attrs: [{
                                 title: '下拉菜单设置',
                                 key: 'dropdown-setting',
@@ -2713,6 +2716,7 @@ export default {
                     },{
                         tag: 'ul',
                         className: ['dropdown-menu'],
+                        unActive: true,
                         attrs: [{
                             title: '下拉菜单设置',
                             key: 'dropdown-setting',
@@ -2721,6 +2725,7 @@ export default {
                         children: [{
                             tag: 'li',
                             className: [],
+                            unActive: true,
                             attrs: [{
                                 title: '下拉菜单设置',
                                 key: 'dropdown-setting',
@@ -2729,6 +2734,7 @@ export default {
                             children: [{
                                 tag: 'a',
                                 className: [],
+                                unActive: true,
                                 attrs: [{
                                     title: '下拉菜单链接设置',
                                     key: 'link-setting',
@@ -2796,12 +2802,14 @@ export default {
                             attrs: [{
                                 title: '下拉菜单设置',
                                 key: 'dropdown-setting',
+                                unActive: true,
                                 deleteAble: true,
                                 children: []
                             }],
                             children: [{
                                 tag: 'a',
                                 className: [],
+                                unActive: true,
                                 attrs: [{
                                     title: '下拉菜单链接设置',
                                     key: 'link-setting',
@@ -2866,6 +2874,7 @@ export default {
                         }, {
                             tag: 'li',
                             className: [],
+                            unActive: true,
                             attrs: [{
                                 title: '下拉菜单设置',
                                 key: 'dropdown-setting',
@@ -2874,6 +2883,7 @@ export default {
                             children: [{
                                 tag: 'a',
                                 className: [],
+                                unActive: true,
                                 attrs: [{
                                     title: '下拉菜单链接设置',
                                     key: 'link-setting',

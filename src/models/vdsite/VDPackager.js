@@ -12,11 +12,11 @@ var VDPackager = {
 	layout: {},
 
 	htmlTpl: {
-		head: `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Gospel</title><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="generator" content="Gospel"><link rel="stylesheet" type="text/css" href="css/normalize.css"><link rel="stylesheet" type="text/css" href="css/gospel.css"><link rel="stylesheet" type="text/css" href="css/styles.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><link href="//cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet"><script type="text/javascript" src="js/modernizr.js"></script>`,
+		head: `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Gospel</title><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="generator" content="Gospel"><link rel="stylesheet" type="text/css" href="vendor/css/normalize.css"><link rel="stylesheet" type="text/css" href="vendor/css/gospel.css"><link rel="stylesheet" type="text/css" href="css/styles.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><link href="//cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet"><script type="text/javascript" src="vendor/js/modernizr.js"></script>`,
 
 		body: `</head><body>`,
 
-		footer: `<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script><script src="js/bootstrap.min.js"></script><!--[if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]--></body></html>`,
+		footer: `<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script><script src="vendor/js/bootstrap.min.js"></script><!--[if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]--></body></html>`,
 
 		scripts: `
 
@@ -37,9 +37,9 @@ var VDPackager = {
 	var navigationSection = function() {
 
 		var $section = $('[data-section]');
-		
+
 		$section.waypoint(function(direction) {
-		  	
+
 		  	if (direction === 'down') {
 		    	navActive($(this.element).data('section'));
 		  	}
