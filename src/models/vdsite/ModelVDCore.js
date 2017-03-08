@@ -143,7 +143,10 @@ export default {
 				propertyEdited: []
 			},
 
-			actionList: []
+			actionList: [{
+				actionType: 'dom',
+				actionName: 'add'
+			}]
 		}
 	},
 

@@ -1039,6 +1039,15 @@ export default {
 			newTransform: {
 				visible: false
 			}
+		},
+
+		styleManager: {
+
+			modifyPop: {
+				value: '',
+				visible: false
+			}
+
 		}
 
 	},
@@ -1077,12 +1086,69 @@ export default {
 				type: "vdCtrlTree/changeCustomClass",
 				payload: params
 			});
-
 		}
 
 	},
 
 	reducers: {
+		handleStyleManageModifierChange(state, { payload: params }) {
+			state.styleManager.modifyPop.value = params.value;
+			return {...state};
+		},
+
+		showStyleManagerModifyPop(state, { payload: params }) {
+			state.styleManager.modifyPop.visible = true;
+			return {...state};
+		},
+
+		hideStyleManagerModifyPop(state, { payload: params }) {
+			state.styleManager.modifyPop.visible = false;
+			return {...state};
+		},
+
+		editStyleName(state, { payload: params }) {
+			state.cssStyleLayout[state.styleManager.modifyPop.value] = state.cssStyleLayout[params.origin];
+			delete state.cssStyleLayout[params.origin];
+
+			state.unitList[state.styleManager.modifyPop.value] = state.unitList[params.origin];
+			delete state.unitList[params.origin];
+
+			for(var styleName in state.cssStyleLayout) {
+
+				var status = ['hover', 'focus', 'pressed'];
+
+				for (var i = 0; i < status.length; i++) {
+					var stat = status[i];
+					if(styleName == params.origin + ':' + stat) {
+						state.unitList[state.styleManager.modifyPop.value + ':' + stat] = state.unitList[params.origin + ':' + stat];
+						delete params.origin + ':' + stat;
+					}
+				};
+			}
+
+			state.styleManager.modifyPop.value = '';
+			return {...state};
+		},
+
+		removeStyleName(state, { payload: params }) {
+			delete state.cssStyleLayout[params.origin];
+			delete state.unitList[params.origin];
+
+			for(var styleName in state.cssStyleLayout) {
+
+				var status = ['hover', 'focus', 'pressed'];
+
+				for (var i = 0; i < status.length; i++) {
+					var stat = status[i];
+					if(styleName == params.origin + ':' + stat) {
+						delete params.origin + ':' + stat;
+					}
+				};
+			}
+
+			return {...state};
+		},
+
 		initState(state, { payload: params}){
 
 			// state.backgroundSetting = params.UIState.backgroundSetting;
@@ -1099,18 +1165,6 @@ export default {
 		handleCSSStateChange(state, { payload: params }) {
 			state.activeCSSState = params.selectedKeys;
 			state.activeCSSStateName = params.stateName;
-			return {...state};
-		},
-
-		appendStyleIntoOfficialStyle(state) {
-
-			// for (var i = 0; i < state.cssPropertyState.length; i++) {
-			// 	var cssProperty = state.cssPropertyState[i];
-			// 	cssProperty.cssProperty = state.cssPropertyList;
-			// };
-
-			// console.log('appendStyleIntoOfficialStyle', state.cssPropertyState);
-
 			return {...state};
 		},
 
