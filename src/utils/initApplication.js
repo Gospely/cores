@@ -211,29 +211,30 @@ const initApplication = function (application, props, flag){
         if(localStorage.UIState != null && localStorage.UIState != undefined){
 
             var UIState = JSON.parse(localStorage.UIState);
-            if(UIState.applicationId != application.id){
+            if(!flag){
+                if(UIState.applicationId != application.id){
 
-                props.dispatch({
-                    type: 'UIState/readConfig',
-                    payload: {
-                        id: application.id,
-                        ctx: props
+                        props.dispatch({
+                            type: 'UIState/readConfig',
+                            payload: {
+                                id: application.id,
+                                ctx: props
+                            }
+                        });
+
+                    }else{
+                        initState(props, application.id);
                     }
-                });
-
-            }else{
-                initState(props, application.id);
-            }
-        }else {
-            props.dispatch({
-                type: 'UIState/readConfig',
-                payload: {
-                    id: application.id,
-                    ctx: props
+                }else {
+                    props.dispatch({
+                        type: 'UIState/readConfig',
+                        payload: {
+                            id: application.id,
+                            ctx: props
+                        }
+                    });
                 }
-            });
-        }
-
+            }
 
         localStorage.currentProject = application.name;
         localStorage.port = application.port;

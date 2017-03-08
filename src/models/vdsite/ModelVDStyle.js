@@ -1084,6 +1084,7 @@ export default {
 
 	reducers: {
 		initState(state, { payload: params}){
+
 			// state.backgroundSetting = params.UIState.backgroundSetting;
 			// state.cssStyleList = params.UIState.cssStyleList;
 			// state.boxShadow = params.UIState.boxShadow;
