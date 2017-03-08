@@ -1039,6 +1039,15 @@ export default {
 			newTransform: {
 				visible: false
 			}
+		},
+
+		styleManager: {
+
+			modifyPop: {
+				value: '',
+				visible: false
+			}
+
 		}
 
 	},
@@ -1083,6 +1092,21 @@ export default {
 	},
 
 	reducers: {
+		handleStyleManageModifierChange(state, { payload: params }) {
+			state.styleManager.modifyPop.value = params.value;
+			return {...state};
+		},
+
+		showStyleManagerModifyPop(state, { payload: params }) {
+			state.styleManager.modifyPop.visible = true;
+			return {...state};
+		},
+
+		hideStyleManagerModifyPop(state, { payload: params }) {
+			state.styleManager.modifyPop.visible = false;
+			return {...state};
+		},
+
 		initState(state, { payload: params}){
 			// state.backgroundSetting = params.UIState.backgroundSetting;
 			// state.cssStyleList = params.UIState.cssStyleList;
