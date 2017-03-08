@@ -2,6 +2,7 @@ import React , {PropTypes} from 'react';
 import dva from 'dva';
 
 import request from '../../utils/request.js';
+import VDPackager from '../vdsite/VDPackager.js';
 
 import { message, Modal } from 'antd';
 const confirm = Modal.confirm;
@@ -160,6 +161,26 @@ export default {
 	effects: {
 
 		*packAndDownloadVDSiteProject( { payload: params },  { call, put, select }) {
+
+			var layout = yield select(state => state.vdCtrlTree.layout),
+	            pages = yield select(state => state.vdpm.pageList),
+	            css = yield select(state => state.vdstyles.cssStyleLayout),
+	            currPage = yield select(state => state.vdpm.currentActivePageListItem);
+
+	        var struct = VDPackager.pack({layout, pages, css});
+
+	        message.success('正在打包.....');
+	        struct.folder = localStorage.dir;
+			struct.isBeautify = true;
+
+	        var packResult = yield request('vdsite/pack', {
+	            method: 'POST',
+	            headers: {
+	                "Content-Type": "application/json;charset=UTF-8",
+	            },
+	            body: JSON.stringify(struct)
+	        });
+			console.log(packResult);
 			window.open(localStorage.baseURL + 'vdsite/download?folder=' + localStorage.dir + '&project=' + localStorage.currentProject)
 		},
 
