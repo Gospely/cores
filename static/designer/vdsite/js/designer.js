@@ -3,6 +3,11 @@ $(function() {
 		document.domain = 'gospely.com';
 	}
 
+	//animation动画函数(在这里定义全局变量才能解绑)
+	window.animationTrigger = function (e) {
+		jQuery(e.target).animateCss(e.data.animate);
+	}
+
 	var jq = jQuery.noConflict();
 
 	//是否是最后一个子元素
@@ -776,8 +781,10 @@ $(function() {
 
             applyScript: function (scriptText) {
             	var oldScript = jq('[sid="global-script"]').remove();
-            	var script = jq('<script sid="global-script">' + scriptText + '</script>');
-            	jq('body').append(script);
+            	
+        		var script = jq('<script sid="global-script">' + scriptText + '</script>');
+        		jq('body').append(script);
+        	
             },
 
             reload: function() {
@@ -823,7 +830,7 @@ $(function() {
         DndInitialization.prototype = {
         	makeComponentsDraggable: function(cb) {
         		var self = this;
-        		var components = jq(parentWindow.document, parentWindow.document).find('.anticons-list-item');
+        		var components = jq(parentWindow.document, parentWindow.document).find('.anticons-list-item, .symbols-ctrl');
 
         		components.each(function(n) {
         			jq(this).attr("draggable", true);

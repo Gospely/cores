@@ -49,16 +49,19 @@ const VDStylePanel = (props) => {
 	if(!window.isListenBGImageEvt) {
 
     	window.addEventListener('message',function(e){
-			console.log('123456',e.data);
-				window.isListenBGImageEvt = true;
+			window.isListenBGImageEvt = true;
+
+			if(!e.data.fetchImgFromSrc) {
+				return false;
+			}
 
 			handleStylesChange('background-image', {
-						parent: 'background'
-					} ,{
-						target: {
-							value: e.data.fetchImgFromSrc.url
-						}
-					});
+				parent: 'background'
+			} ,{
+				target: {
+					value: e.data.fetchImgFromSrc.url
+				}
+			});
 		})
 
 	}
