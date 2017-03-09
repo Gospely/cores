@@ -366,6 +366,11 @@ const LeftSidebar = (props) => {
 	        },
 
 	        preview() {
+	        	//console.log(props.preview.spinVisible);
+	        	props.dispatch({
+	        		type: 'preview/showSpin',
+	        		payload: true
+	        	})
 				//vdsite 预览
 				console.log('showPreview');
 				console.log(props.vdpm.currentActivePageListItem);
