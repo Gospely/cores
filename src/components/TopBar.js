@@ -17,6 +17,8 @@ import initApplication from '../utils/initApplication';
 import gitTerminal from '../utils/gitTerminal';
 import fileListen from '../utils/fileListen';
 
+import { Cascader } from 'antd';
+
 import Preview from './TopBar/Preview.js';
 
 import { Steps } from 'antd';
@@ -1061,44 +1063,6 @@ const LeftSidebar = (props) => {
 	const modalAppCreatorProps = {
 
 		appCreatingSteps: [{
-		  	title: '基本信息',
-		  	content: (
-		  		<div>
-			  		<div style={{ marginTop: 32 }}>
-			  		    <Row>
-					      	<Col span={4} style={{textAlign: 'right'}}>
-					      		<span>您的项目名称：</span>
-					      	</Col>
-					      	<Col span={8} style={{textAlign: 'left'}}>
-				              	<Input onPressEnter={() => modalAppCreatorProps.next()} onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'appName')} value={props.sidebar.appCreatingForm.appName} />
-					      	</Col>
-					    </Row>
-					</div>
-
-			  		<div style={{ marginTop: 32 }}>
-			  		    <Row>
-					      	<Col span={4} style={{textAlign: 'right'}}>
-					      		<span>从Git创建：</span>
-					      	</Col>
-					      	<Col span={8} style={{textAlign: 'left'}}>
-				              	<Switch onChange={modalAppCreatorFromHandler.onFromGitSwitchChange.bind(this, 'fromGit')} checked={props.sidebar.appCreatingForm.fromGit} />
-					      	</Col>
-					    </Row>
-					</div>
-
-			  		<div style={{ marginTop: 32 }} hidden={!props.sidebar.appCreatingForm.fromGit}>
-			  		    <Row>
-					      	<Col span={4} style={{textAlign: 'right'}}>
-					      		<span>您的Git项目地址：</span>
-					      	</Col>
-					      	<Col span={8} style={{textAlign: 'left'}}>
-				              	<Input placeholder="暂不支持SSH创建，请使用HTTP" onPressEnter={() => modalAppCreatorProps.next()} onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'git')} value={props.sidebar.appCreatingForm.git} />
-					      	</Col>
-					    </Row>
-					</div>
-		  		</div>
-		    ),
-		}, {
 			title: '选择项目类型',
 			content: (
 
@@ -1163,6 +1127,44 @@ const LeftSidebar = (props) => {
 
 			)
 		}, {
+		  	title: '基本信息',
+		  	content: (
+		  		<div>
+			  		<div style={{ marginTop: 32 }}>
+			  		    <Row>
+					      	<Col span={4} style={{textAlign: 'right'}}>
+					      		<span>您的项目名称：</span>
+					      	</Col>
+					      	<Col span={8} style={{textAlign: 'left'}}>
+				              	<Input onPressEnter={() => modalAppCreatorProps.next()} onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'appName')} value={props.sidebar.appCreatingForm.appName} />
+					      	</Col>
+					    </Row>
+					</div>
+
+			  		<div style={{ marginTop: 32 }}>
+			  		    <Row>
+					      	<Col span={4} style={{textAlign: 'right'}}>
+					      		<span>从Git创建：</span>
+					      	</Col>
+					      	<Col span={8} style={{textAlign: 'left'}}>
+				              	<Switch onChange={modalAppCreatorFromHandler.onFromGitSwitchChange.bind(this, 'fromGit')} checked={props.sidebar.appCreatingForm.fromGit} />
+					      	</Col>
+					    </Row>
+					</div>
+
+			  		<div style={{ marginTop: 32 }} hidden={!props.sidebar.appCreatingForm.fromGit}>
+			  		    <Row>
+					      	<Col span={4} style={{textAlign: 'right'}}>
+					      		<span>您的Git项目地址：</span>
+					      	</Col>
+					      	<Col span={8} style={{textAlign: 'left'}}>
+				              	<Input placeholder="暂不支持SSH创建，请使用HTTP" onPressEnter={() => modalAppCreatorProps.next()} onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'git')} value={props.sidebar.appCreatingForm.git} />
+					      	</Col>
+					    </Row>
+					</div>
+		  		</div>
+		    ),
+		}, {
 			title: '数据库配置',
 			content: (
 				<div>
@@ -1215,7 +1217,7 @@ const LeftSidebar = (props) => {
 
 		next () {
 
-			if(props.sidebar.currentAppCreatingStep === 0) {
+			if(props.sidebar.currentAppCreatingStep === 1) {
 
 				const illegalLetter = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '+', '=', '[', ']',
 									'{', '}', '\\', '|', ':', ';', '\'', '"', '<', '>', ',', '.', '/', '?'];
@@ -1250,7 +1252,7 @@ const LeftSidebar = (props) => {
 				});
 			}
 
-			if(props.sidebar.currentAppCreatingStep === 1) {
+			if(props.sidebar.currentAppCreatingStep === 0) {
 
 				if(props.sidebar.appCreatingForm.image == '') {
 					message.error('请选择项目类型');
@@ -1481,6 +1483,23 @@ const LeftSidebar = (props) => {
 					<Menu.Item key='visit' disabled={window.disabled}>访问：http://{localStorage.domain}</Menu.Item>
 				</Menu>
 			);
+
+			const options = [{
+			  value: 'zhejiang',
+			  label: 'Zhejiang',
+			  children: [{
+			    value: 'hangzhou',
+			    label: 'Hangzhou',
+			  }],
+			}, {
+			  value: 'jiangsu',
+			  label: 'Jiangsu',
+			  children: [{
+			    value: 'nanjing',
+			    label: 'Nanjing',
+			  }],
+			}];
+
 			topbarMenu = (
 		      	<Menu
 		      		style={styles.sidebar}
