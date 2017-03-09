@@ -992,7 +992,7 @@ export default {
 		editStyleNameA(state, { payload: params }) {
 
 			const editStyleNameRec = (state, originStyleName, newStyleName, activePage) => {
-				let 
+				let
 					controllers = state.layout[activePage.key];
 
 				const loopControllers = function (controllers, level) {
@@ -1051,7 +1051,7 @@ export default {
 		removeStyleNameA(state, { payload: params }) {
 
 			const editStyleNameRec = (state, originStyleName, newStyleName, activePage) => {
-				let 
+				let
 					controllers = state.layout[activePage.key];
 
 				const loopControllers = function (controllers, level) {
@@ -1232,7 +1232,7 @@ export default {
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
 			console.log('uploadBgImg');
 				currentActiveCtrl.controller.attrs[0].children[0].fileInfo = [params];
-				var url = currentActiveCtrl.controller.attrs[0].children[0].fileInfo.url 
+				var url = currentActiveCtrl.controller.attrs[0].children[0].fileInfo.url
 				url = params.url;
 
 			window.postMessage( {
@@ -1342,6 +1342,21 @@ export default {
 						}
 					}, '*');
 					root.children[0].children.splice(params.index, 1);
+					for (var i = 0; i < root.children[0].children.length; i++) {
+						root.children[0].children[i].attrs[0].children[1].value = i;
+						window.VDDesignerFrame.postMessage({
+							VDAttrRefreshed: {
+								attrType: {
+									key: 'slider-setting'
+								},
+								attr: root.children[0].children[i].attrs[0].children[1],
+								activeCtrl: root.children[0].children[i]
+							}
+						}, '*');
+
+					}
+					console.log('root');
+					console.log(root);
 				}
 			}
 			state.selectIndex = 0;
@@ -2646,11 +2661,11 @@ export default {
 
 			if (params && params.fromKeyboard) {
 				deleteKey = activeCtrl.vdid;
-				
+
 				if (!deleteKey) {
 					return false;
 				}
-				
+
 			}else {
 				deleteKey = sessionStorage.currentSelectedConstructionKey;
 			}
