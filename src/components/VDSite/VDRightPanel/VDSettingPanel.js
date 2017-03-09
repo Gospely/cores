@@ -1213,7 +1213,7 @@ const Component = (props) => {
                                     type: 'vdcore/changeTabsPane',
                                     payload: {
                                     	activeTabsPane: 'assets',
-                                    	linkTo: 'assets'
+                                    	linkTo: 'settings'
                                     }
 
                                 });
@@ -1269,7 +1269,7 @@ const Component = (props) => {
                                     type: 'vdcore/changeTabsPane',
                                     payload: {
                                     	activeTabsPane: 'assets',
-                                    	linkTo: 'assets'
+                                    	linkTo: 'settings'
                                     }
 
                                 });

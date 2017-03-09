@@ -342,6 +342,7 @@ export default {
 		},
 
 		changeTabsPane(state, { payload: params }) {
+			console.log(params);
 			state.rightTabsPane.activeTabsPane = params.activeTabsPane;
 			state.rightTabsPane.linkTo = params.linkTo;
 			return {...state};
