@@ -1470,7 +1470,7 @@ const LeftSidebar = (props) => {
 							});
 						},
 						visit(){
-							window.open("http://" + localStorage.domain);
+							window.open("http://" + localStorage.domain + '/index.html');
 						}
 					}
 					eventHandle[item.key]();
@@ -1956,7 +1956,7 @@ const LeftSidebar = (props) => {
 		    </Modal>
 
 		    <Dashboard></Dashboard>
-		    
+
 	    	<Preview></Preview>
 
 			<Modal width="30%"  title="意见建议" visible={props.sidebar.modalFeedback.visible}

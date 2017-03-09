@@ -1047,7 +1047,11 @@ const Component = (props) => {
                             },
                             addTabs(){
 
+                                var random =  randomString(8, 10);;
+
                                 var tab = copyOperate.copyChildren(0, 'component','tabs', 2);
+                                tab.children[0].attrs[0].children[0].value = '#' + random;
+                                console.log(tab);
                                 props.dispatch({
                                     type: 'vdCtrlTree/handleChildrenAdd',
                                     payload: {
@@ -1057,8 +1061,8 @@ const Component = (props) => {
                                         level: 2
                                     }
                                 });
-
                                 var content = copyOperate.copyChildren(0, 'component','tabs', 2, [{ level:0, index: 1}]);
+                                content.attrs[0].children[0].value = random;
                                 props.dispatch({
                                     type: 'vdCtrlTree/handleChildrenAdd',
                                     payload: {
@@ -1068,6 +1072,7 @@ const Component = (props) => {
                                         level: 2
                                     }
                                 });
+
                             },
                             chooseTab(item, index){
 
@@ -1299,6 +1304,9 @@ const Component = (props) => {
                             addSlider(){
 
                                 var slider = copyOperate.copyChildren(0, 'component','slider', 2);
+                                console.log(slider);
+                                console.log(slider.attrs[0]);
+                                slider.attrs[0].children[1].value = props.vdCtrlTree.activeCtrl.children[0].children.length;
                                 props.dispatch({
                                     type: 'vdCtrlTree/handleChildrenAdd',
                                     payload: {
@@ -1308,7 +1316,6 @@ const Component = (props) => {
                                         level: 2
                                     }
                                 });
-
                                 var content = copyOperate.copyChildren(0, 'component','slider', 2, [{ level:0, index: 1}]);
                                 props.dispatch({
                                     type: 'vdCtrlTree/handleChildrenAdd',
