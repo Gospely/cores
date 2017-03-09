@@ -1142,8 +1142,8 @@ export default {
 		handleAddSymbol(state) {
 
 			if(!methods.checkName(state.symbols, state.symbolName)){
-				 openNotificationWithIcon('info', '该控件名已被占用，请重新输入');
-				 return {...state};
+				openNotificationWithIcon('info', '该控件名已被占用，请重新输入');
+				return {...state};
 			}else{
 
 				if(!state.activeCtrl.tag) {
@@ -1154,12 +1154,19 @@ export default {
 				var addController = {
 					name: localStorage.symbolName,
 					key: randomString(8, 10),
-					controllers: [state.activeCtrl]
+					controllers: {
+						details: state.activeCtrl
+					}
 				}
 				state.popoverVisible = false;
 				state.symbolName = '';
 				state.symbols.push(addController);
+
+				window.VDDesignerFrame.postMessage({
+					symbolsAdded: addController
+				}, '*');
 			}
+
 			return { ...state};
 		},
 		handlePopoverVisbile(state, { payload: value}) {

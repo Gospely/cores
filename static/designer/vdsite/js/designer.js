@@ -528,6 +528,24 @@ $(function() {
                     styleNameEdited: function() {
                     	jq('[vdid="' + data.vdid + '"]').removeClass(data.originStyleName);
                     	jq('[vdid="' + data.vdid + '"]').addClass(data.newStyleName);
+                    },
+
+                    symbolsAdded: function() {
+		        		var self = this;
+		        		var components = jq(parentWindow.document, parentWindow.document).find('.symbols-ctrl');
+
+		        		components.each(function(n) {
+		        			jq(this).attr("draggable", true);
+		        			jq(this).on("dragstart", function (e) {
+				        		postMessageToFather.generateCtrlTree(parentWindow.VDDnddata);
+				        		e.stopPropagation();
+				        	});
+
+				        	jq(this).on("dragend", function (e) {
+				        		e.preventDefault();
+				        	});
+		        		});
+
                     }
                 };
 
@@ -830,7 +848,7 @@ $(function() {
         DndInitialization.prototype = {
         	makeComponentsDraggable: function(cb) {
         		var self = this;
-        		var components = jq(parentWindow.document, parentWindow.document).find('.anticons-list-item, .symbols-ctrl');
+        		var components = jq(parentWindow.document, parentWindow.document).find('.anticons-list-item');
 
         		components.each(function(n) {
         			jq(this).attr("draggable", true);
@@ -842,7 +860,7 @@ $(function() {
 		        	jq(this).on("dragend", function (e) {
 		        		e.preventDefault();
 		        	});
-        		})
+        		});
         	},
 
         	onEnter: function (e) {
