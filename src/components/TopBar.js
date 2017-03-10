@@ -124,6 +124,10 @@ const LeftSidebar = (props) => {
                             available: true,
                         }
 					});
+					//初始化语言镜像
+					props.dispatch({
+						type: 'sidebar/initImages'
+					});
 					confirm({
 					    title: '即将新建应用',
 					    content: '您要保存工作状态后再进行新建操作吗? ',
@@ -502,6 +506,7 @@ const LeftSidebar = (props) => {
 			props.dispatch({
 				type: 'sidebar/createApp'
 			});
+
 			notification.open({
 				message: '正在创建应用，请稍等……',
 				title: '创建应用'
@@ -1251,10 +1256,7 @@ const LeftSidebar = (props) => {
 					return false;
 				}
 
-				//初始化语言镜像
-				props.dispatch({
-					type: 'sidebar/initImages'
-				});
+
 			}
 
 			if(props.sidebar.currentAppCreatingStep === 0) {
