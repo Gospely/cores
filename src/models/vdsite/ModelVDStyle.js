@@ -360,7 +360,9 @@ export default {
 					important: false
 				},
 				'letter-spacing': {
-					important: false
+					important: false,
+					defaultUnit: 'px',
+					unit: 'px'
 				},
 				'line-height': {
 					important: false
@@ -649,7 +651,9 @@ export default {
 				important: false
 			},
 			'letter-spacing': {
-				important: false
+				important: false,
+				defaultUnit: 'px',
+				unit: 'px'
 			},
 			'line-height': {
 				important: false
