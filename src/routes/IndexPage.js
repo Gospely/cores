@@ -303,23 +303,40 @@ function IndexPage(props) {
     if (localStorage.image === 'vd:site') {
         let vdsiteCtrlBtn = $("#vdsiteCtrlBtn");
         let vdsitePagesBtn = $("#vdsitePagesBtn");
+        let closeVdLeftPanel = $("#closeVDLeftPanel");
         if (vdsitePagesBtn.length && vdsitePagesBtn.length) {
             let showPanel = (elem) => {
                 let btn = elem.parent();
                 let panel = $(".LeftSidebar.vdsite>.ant-tabs>.ant-tabs-content");
                 btn.on('click', function (e) {
-                    // e.stopPropagation();
+                    //e.stopPropagation();
                     if(parseInt(panel.css("width")) < 260) {
                         panel.css({
                             width: '260px'
+                        }),
+                        closeVdLeftPanel.css({
+                            zIndex: '999'
                         })
                     }else if (btn.attr('aria-selected') === 'true'){
                         panel.css({
                             width: '0px'
+                        }),
+                        closeVdLeftPanel.css({
+                            zIndex: '-1'
                         })
                     }
-                    
+                });
+                closeVdLeftPanel.on('click',function(e){
+                    if(parseInt(panel.css("width")) == 260){
+                        panel.css({
+                            width: '0px'
+                        }),
+                        closeVdLeftPanel.css({
+                            zIndex: '-1'
+                        })
+                    }
                 })
+                
             }
             showPanel(vdsiteCtrlBtn);
             showPanel(vdsitePagesBtn);

@@ -1039,7 +1039,8 @@ $(function() {
         			dropTargetVdid: dragElem.parent().attr("vdid"),
         			index: dragElem.prevAll().length - 1,
         			isFromSelf: dndData.isMouseDown,
-        			ctrl: dndData.ctrlToAddData || ''
+        			ctrl: dndData.ctrlToAddData || '',
+        			closeVDLeftPanelDivId:"closeVDLeftPanel"
         		});
 
         		// if (!dndData.isMouseDown) {
