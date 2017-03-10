@@ -1966,8 +1966,10 @@ export default {
 				state.defaultSelectedKeys = [data.vdid];
 			}
 			//点击组件同步BGImg设置界面预览
-			if(state.activeCtrl.attrs[0].children && state.activeCtrl.attrs[0].children[0].fileInfo){
-				state.backgroundImgSettingPanePreviewUrl = state.activeCtrl.attrs[0].children[0].fileInfo[0].url;
+			if(state.activeCtrl.attrs[0].children && state.activeCtrl.attrs[0].children[0]){
+				if(state.activeCtrl.attrs[0].children[0].fileInfo) {
+					state.backgroundImgSettingPanePreviewUrl = state.activeCtrl.attrs[0].children[0].fileInfo[0].url;					
+				}
 			}
 
 			if(state.activeCtrl.tag == "img" && state.activeCtrl.attrs[0].children[0].fileInfo){
