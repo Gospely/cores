@@ -47,3 +47,9 @@
 	});
 
 })();
+
+//点击VD空白处关闭控件窗口
+
+//var btn = window.doucment.getElementById("vdsiteCtrlBtn");
+
+    //console.log(btn)

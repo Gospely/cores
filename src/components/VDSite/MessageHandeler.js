@@ -57,5 +57,24 @@ export default {
 				evtAction[eventName]();
 			}
 		})
+
+		window.addEventListener('message',function(e) {
+
+			if(!e.data.fetchImgFromSrc) {
+				return false;
+			}
+
+			window.handleStylesChange('background-image', {
+				parent: 'background'
+			}, {
+				target: {
+					value: e.data.fetchImgFromSrc.url
+				}
+			});
+
+		});
+
+
 	}
+
 }

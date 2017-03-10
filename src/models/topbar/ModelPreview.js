@@ -9,7 +9,7 @@ export default {
   state: {
     visible: false,
     src: '',
-    spinVisible: false,
+    spinVisible: true,
   },
 
   subscriptions: {
@@ -49,7 +49,10 @@ export default {
       sessionStorage.previewVisibe = '';
       return {...state};
     },
-
+    showSpin(state, { payload: params}) {
+      state.spinVisible = params;
+      return {...state};
+    },
     hideSpin(state, { payload: params}) {
       console.log('hideSpin');
       state.spinVisible = params;

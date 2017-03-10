@@ -43,7 +43,7 @@ const Component = (props) => {
 
 				props.dispatch({
 						type: 'vdstyles/showBackgroundStyleSettingPane',
-						payload: false
+						payload: true
 
 					});
 

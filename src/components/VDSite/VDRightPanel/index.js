@@ -1,7 +1,7 @@
 import React , {PropTypes} from 'react';
 import { connect } from 'dva';
 
-import { Button, Modal } from 'antd';
+import { Button, Modal, Spin } from 'antd';
 import { Tabs, Icon } from 'antd';
 import { Tooltip } from 'antd';
 
@@ -40,13 +40,14 @@ const VDRightPanel = (props) => {
     <div className="vd-right-panel">
 
       <Tabs onChange={onChange} activeKey={props.vdcore.rightTabsPane.activeTabsPane}>
-
+       
         <TabPane tab={
           <Tooltip placement="bottom" title="样式">
             <Icon type="edit" />
           </Tooltip>} key='style'>
-          <VDStylePanel></VDStylePanel>
+            <VDStylePanel></VDStylePanel>
         </TabPane>
+        
 
         <TabPane tab={
           <Tooltip placement="bottom" title="组件设置">
@@ -88,8 +89,8 @@ const VDRightPanel = (props) => {
 
 };
 
-function mapSateToProps({ vdCtrlTree, elemAdded, vdcore}) {
-  return { vdCtrlTree, elemAdded, vdcore};
+function mapSateToProps({ vdCtrlTree, elemAdded, vdcore, vdstyles}) {
+  return { vdCtrlTree, elemAdded, vdcore, vdstyles};
 }
 
 export default connect(mapSateToProps)(VDRightPanel);
