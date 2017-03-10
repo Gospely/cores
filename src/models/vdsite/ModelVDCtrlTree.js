@@ -1940,7 +1940,7 @@ export default {
 
 		ctrlSelected(state, { payload: data }) {
 
-			if(data.unActive){
+			if(data.unCtrl){
 				let currentActiveCtrl = VDTreeActions.getActiveControllerIndexAndLvlByKey(state, data.root, state.activePage);
 				state.activeCtrl = currentActiveCtrl.controller;
 				state.activeCtrlIndex = currentActiveCtrl.index;
