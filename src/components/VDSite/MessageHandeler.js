@@ -35,12 +35,11 @@ export default {
 						type: "vdCtrlTree/ctrlMovedAndDroped",
 						payload: data
 					})
+
+					$("#closeVDLeftPanel").css({zIndex: '-1'})
+
+					console.log(data.closeVDLeftPanelDivId)
 				},
-
-				showErrorMessage() {
-					message.error(data.errorMessage, 2.5)
-				}
-
 			}
 
 			for(var key in data) {
@@ -48,7 +47,9 @@ export default {
 			}
 
 			if(evtAction[eventName]) {
-
+				
+				$("#closeVDLeftPanel").css({zIndex: '-1'})
+				
 				if(typeof data[eventName] != 'object') {
 					data = JSON.parse(data[eventName]);
 				}else {

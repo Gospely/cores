@@ -64,6 +64,7 @@ const VDDesignerPanel = (props) => {
                     onLoad = { VDDesignerPanelProps.handleDesPanelLoaded }
                 >
                 </iframe>
+                <div id="closeVDLeftPanel" className='close-VD-left-panel'></div>
             </div>
     );
 

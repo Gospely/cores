@@ -33,6 +33,10 @@ $.fn.extend({
     }
 });
 
+function closeLeftPanel(){
+	alert("123");
+};
+console.log(document);
 // 1. 认证和状态同步
 auth();
 localStorage.flashState = 'false';
