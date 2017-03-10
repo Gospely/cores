@@ -37,54 +37,57 @@ const VDRightPanel = (props) => {
     } 
 
   return (
-    <div className="vd-right-panel">
+    <Spin spinning={props.vdstyles.VDStylePaneSpinActive}>
+      <div id="VDRightPanel" className="vd-right-panel">
 
-      <Tabs onChange={onChange} activeKey={props.vdcore.rightTabsPane.activeTabsPane}>
-       
-        <TabPane tab={
-          <Tooltip placement="bottom" title="样式">
-            <Icon type="edit" />
-          </Tooltip>} key='style'>
-            <VDStylePanel></VDStylePanel>
-        </TabPane>
-        
+        <Tabs onChange={onChange} activeKey={props.vdcore.rightTabsPane.activeTabsPane}>
+         
+          <TabPane tab={
+            <Tooltip placement="bottom" title="样式">
+              <Icon type="edit" />
+            </Tooltip>} key='style'>
+              <VDStylePanel></VDStylePanel>
+          </TabPane>
+          
 
-        <TabPane tab={
-          <Tooltip placement="bottom" title="组件设置">
-            <Icon type="setting" />
-          </Tooltip>} key='settings'>
-          <VDSettingPanel></VDSettingPanel>
-        </TabPane>
+          <TabPane tab={
+            <Tooltip placement="bottom" title="组件设置">
+              <Icon type="setting" />
+            </Tooltip>} key='settings'>
+            <VDSettingPanel></VDSettingPanel>
+          </TabPane>
 
-        <TabPane tab={
-          <Tooltip placement="bottom" title="组件树">
-            <Icon type="bars" />
-          </Tooltip>} key='controllers'>
-          <VDControllerList></VDControllerList>
-        </TabPane>
+          <TabPane tab={
+            <Tooltip placement="bottom" title="组件树">
+              <Icon type="bars" />
+            </Tooltip>} key='controllers'>
+            <VDControllerList></VDControllerList>
+          </TabPane>
 
-        <TabPane tab={
-          <Tooltip placement="bottom" title="样式管理">
-            <Icon type="exception" />
-          </Tooltip>} key="styles-manager">
-          <VDStyleManager></VDStyleManager>
-        </TabPane>
+          <TabPane tab={
+            <Tooltip placement="bottom" title="样式管理">
+              <Icon type="exception" />
+            </Tooltip>} key="styles-manager">
+            <VDStyleManager></VDStyleManager>
+          </TabPane>
 
-        <TabPane tab={
-          <Tooltip placement="bottom" title="交互动画">
-            <Icon type="inbox" />
-          </Tooltip>} key='interactions'>
-          <VDInteractions></VDInteractions>
-        </TabPane>
+          <TabPane tab={
+            <Tooltip placement="bottom" title="交互动画">
+              <Icon type="inbox" />
+            </Tooltip>} key='interactions'>
+            <VDInteractions></VDInteractions>
+          </TabPane>
 
-        <TabPane tab={
-          <Tooltip placement="bottom" title="资源文件">
-            <Icon type="picture" />
-          </Tooltip>} key='assets'>
-          <VDAssets></VDAssets>
-        </TabPane>
-      </Tabs>
-    </div>
+          <TabPane tab={
+            <Tooltip placement="bottom" title="资源文件">
+              <Icon type="picture" />
+            </Tooltip>} key='assets'>
+            <VDAssets></VDAssets>
+          </TabPane>
+        </Tabs>
+
+      </div>
+    </Spin>
   );
 
 };

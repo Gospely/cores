@@ -45,12 +45,26 @@ const Component = (props) => {
 						type: 'vdstyles/showBackgroundStyleSettingPane',
 						payload: false
 
-					});
+				});
 
 				props.dispatch({
 					type: 'vdCtrlTree/uploadBgImg',
 					payload: file
 				});
+
+				props.dispatch({
+					type: 'vdstyles/changeVDStylePaneSpinActive',
+					payload: true
+				});
+
+				console.log($("#VDRightPanel"));
+
+				$("#VDRightPanel").ready(function(){
+					props.dispatch({
+					type: 'vdstyles/changeVDStylePaneSpinActive',
+					payload: false
+				});
+				})
 
 				//document.getElementById("backgroundImgPaneBtn").click();
 
