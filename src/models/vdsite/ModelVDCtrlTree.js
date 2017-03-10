@@ -1871,14 +1871,14 @@ export default {
 						attrs: tmpAttr,
 						tag: controller.tag,
 						className: controller.className,
-						customClassName: [],
+						customClassName: controller.customClassName || [],
 						activeStyle: '',
 						children: [],
 						isRander: controller.isRander || '',
 						ignore: controller.ignore || false,
 						root: root || '',
 						isRoot: true,
-						unActive: controller.unActive,
+						unCtrl: controller.unCtrl,
 						isBeforeHTMLValue: controller.isBeforeHTMLValue || false
 					};
 				}else{
@@ -1887,14 +1887,14 @@ export default {
 						attrs: tmpAttr,
 						tag: controller.tag,
 						className: controller.className,
-						customClassName: [],
+						customClassName: controller.customClassName || [],
 						activeStyle: '',
 						children: [],
 						isRander: controller.isRander || '',
 						ignore: controller.ignore || false,
 						root: root || '',
 						parent: parent.vdid,
-						unActive: controller.unActive,
+						unCtrl: controller.unCtrl,
 						isBeforeHTMLValue: controller.isBeforeHTMLValue || false
 					};
 				}
@@ -1953,6 +1953,7 @@ export default {
 		ctrlSelected(state, { payload: data }) {
 
 			if(data.unCtrl){
+				console.log('unCtrl');
 				let currentActiveCtrl = VDTreeActions.getActiveControllerIndexAndLvlByKey(state, data.root, state.activePage);
 				state.activeCtrl = currentActiveCtrl.controller;
 				state.activeCtrlIndex = currentActiveCtrl.index;
@@ -1966,8 +1967,10 @@ export default {
 				state.defaultSelectedKeys = [data.vdid];
 			}
 			//点击组件同步BGImg设置界面预览
-			if(state.activeCtrl.attrs[0].children && state.activeCtrl.attrs[0].children[0].fileInfo){
-				state.backgroundImgSettingPanePreviewUrl = state.activeCtrl.attrs[0].children[0].fileInfo[0].url;
+			if(state.activeCtrl.attrs[0].children && state.activeCtrl.attrs[0].children[0]){
+				if(state.activeCtrl.attrs[0].children[0].fileInfo) {
+					state.backgroundImgSettingPanePreviewUrl = state.activeCtrl.attrs[0].children[0].fileInfo[0].url;					
+				}
 			}
 
 			if(state.activeCtrl.tag == "img" && state.activeCtrl.attrs[0].children[0].fileInfo){
