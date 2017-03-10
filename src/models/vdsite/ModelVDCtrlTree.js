@@ -995,7 +995,7 @@ export default {
 		editStyleNameA(state, { payload: params }) {
 
 			const editStyleNameRec = (state, originStyleName, newStyleName, activePage) => {
-				let 
+				let
 					controllers = state.layout[activePage.key];
 
 				const loopControllers = function (controllers, level) {
@@ -1054,7 +1054,7 @@ export default {
 		removeStyleNameA(state, { payload: params }) {
 
 			const editStyleNameRec = (state, originStyleName, newStyleName, activePage) => {
-				let 
+				let
 					controllers = state.layout[activePage.key];
 
 				const loopControllers = function (controllers, level) {
@@ -1145,8 +1145,8 @@ export default {
 		handleAddSymbol(state) {
 
 			if(!methods.checkName(state.symbols, state.symbolName)){
-				 openNotificationWithIcon('info', '该控件名已被占用，请重新输入');
-				 return {...state};
+				openNotificationWithIcon('info', '该控件名已被占用，请重新输入');
+				return {...state};
 			}else{
 
 				if(!state.activeCtrl.tag) {
@@ -1157,12 +1157,19 @@ export default {
 				var addController = {
 					name: localStorage.symbolName,
 					key: randomString(8, 10),
-					controllers: [state.activeCtrl]
+					controllers: {
+						details: state.activeCtrl
+					}
 				}
 				state.popoverVisible = false;
 				state.symbolName = '';
 				state.symbols.push(addController);
+
+				window.VDDesignerFrame.postMessage({
+					symbolsAdded: addController
+				}, '*');
 			}
+
 			return { ...state};
 		},
 		handlePopoverVisbile(state, { payload: value}) {
@@ -1235,7 +1242,11 @@ export default {
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
 			console.log('uploadBgImg');
 				currentActiveCtrl.controller.attrs[0].children[0].fileInfo = [params];
+
 				var url = currentActiveCtrl.controller.attrs[0].children[0].fileInfo.url ;
+
+				var url = currentActiveCtrl.controller.attrs[0].children[0].fileInfo.url
+
 				url = params.url;
 				console.log(state.activeCtrlIndex);
 				//同步背景图片设置界面预览
@@ -1349,6 +1360,21 @@ export default {
 						}
 					}, '*');
 					root.children[0].children.splice(params.index, 1);
+					for (var i = 0; i < root.children[0].children.length; i++) {
+						root.children[0].children[i].attrs[0].children[1].value = i;
+						window.VDDesignerFrame.postMessage({
+							VDAttrRefreshed: {
+								attrType: {
+									key: 'slider-setting'
+								},
+								attr: root.children[0].children[i].attrs[0].children[1],
+								activeCtrl: root.children[0].children[i]
+							}
+						}, '*');
+
+					}
+					console.log('root');
+					console.log(root);
 				}
 			}
 			state.selectIndex = 0;
@@ -1925,7 +1951,7 @@ export default {
 
 		ctrlSelected(state, { payload: data }) {
 
-			if(data.unActive){
+			if(data.unCtrl){
 				let currentActiveCtrl = VDTreeActions.getActiveControllerIndexAndLvlByKey(state, data.root, state.activePage);
 				state.activeCtrl = currentActiveCtrl.controller;
 				state.activeCtrlIndex = currentActiveCtrl.index;
@@ -2661,11 +2687,11 @@ export default {
 
 			if (params && params.fromKeyboard) {
 				deleteKey = activeCtrl.vdid;
-				
+
 				if (!deleteKey) {
 					return false;
 				}
-				
+
 			}else {
 				deleteKey = sessionStorage.currentSelectedConstructionKey;
 			}

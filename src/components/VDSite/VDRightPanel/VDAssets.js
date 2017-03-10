@@ -16,7 +16,6 @@ const Component = (props) => {
 		handlePreview (file) {
 
 			const linkToWhere = props.vdcore.rightTabsPane.linkTo;
-
 			if(linkToWhere == 'settings'){
 
 				props.dispatch({

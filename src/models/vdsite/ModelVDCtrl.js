@@ -1757,6 +1757,7 @@ export default {
 					children: [{
                         tag: 'ul',
                         unActive: true,
+                        unCtrl: true,
                         className: ['nav', 'nav-tabs'],
                         attrs: [{
                             title: '标签页设置',
@@ -1772,6 +1773,7 @@ export default {
                             tag: 'li',
                             className: [''],
                             unActive: true,
+                            unCtrl: true,
                             attrs: [{
                                 title: '标签页设置',
                                 key: 'tabs-setting',
@@ -1795,6 +1797,7 @@ export default {
                             children: [{
                                 tag: 'a',
                                 unActive: true,
+                                unCtrl: true,
                                 className: ['tab-pane'],
                                 attrs: [{
                                     title: '标签页设置',
@@ -1834,6 +1837,7 @@ export default {
                             tag: 'li',
                             className: ['active'],
                             unActive: true,
+                            unCtrl: true,
                             attrs: [{
                                 title: '标签页设置',
                                 key: 'tabs-setting',
@@ -1857,6 +1861,7 @@ export default {
                             children: [{
                                 tag: 'a',
                                 unActive: true,
+                                unCtrl: true,
                                 className: ['tab-pane'],
                                 attrs: [{
                                     title: '标签页设置',
@@ -1896,6 +1901,7 @@ export default {
                             tag: 'li',
                             className: [''],
                             unActive: true,
+                            unCtrl: true,
                             attrs: [{
                                 title: '标签页设置',
                                 key: 'tabs-setting',
@@ -1919,6 +1925,7 @@ export default {
                             children: [{
                                 tag: 'a',
                                 unActive: true,
+                                unCtrl: true,
                                 className: ['tab-pane'],
                                 attrs: [{
                                     title: '标签页设置',
@@ -1958,6 +1965,7 @@ export default {
                     },{
 						tag: 'div',
                         unActive: true,
+                        unCtrl: true,
 						className: ['tab-content'],
 						attrs: [{
 							title: '标签页设置',
@@ -1967,6 +1975,7 @@ export default {
 						children: [{
 							tag: 'div',
                             unActive: true,
+                            unCtrl: true,
 							className: ['vd-empty', 'tab-pane'],
 							children: [],
 							attrs: [{
@@ -1987,6 +1996,7 @@ export default {
 						},{
 							tag: 'div',
                             unActive: true,
+                            unCtrl: true,
 							className: ['vd-empty', 'tab-pane', 'in', 'active'],
 							children: [],
 							attrs: [{
@@ -2007,6 +2017,7 @@ export default {
 						},{
 							tag: 'div',
 							className: ['vd-empty', 'tab-pane'],
+                            unCtrl: true,
 							children: [],
 							attrs: [{
 								title: '标签页设置',
@@ -2994,11 +3005,13 @@ export default {
 							title: '幻灯片设置',
 							key: 'slider-setting',
                             unActive: true,
+                            unCtrl: true,
 							children: []
 						}],
 						children: [{
 							tag: 'li',
                             unActive: true,
+                            unCtrl: true,
 							className: [''],
 							attrs: [{
 								title: '幻灯片设置',
@@ -3020,6 +3033,7 @@ export default {
 						}, {
 							tag: 'li',
                             unActive: true,
+                            unCtrl: true,
 							className: ['active'],
 							attrs: [{
 								title: '幻灯片设置',
@@ -3042,6 +3056,7 @@ export default {
 					}, {
 						tag: 'div',
                         unActive: true,
+                        unCtrl: true,
 						className: ['carousel-inner'],
 						attrs: [{
 							title: '幻灯片设置',
@@ -3057,6 +3072,7 @@ export default {
 						children: [{
 							tag: 'div',
                             unActive: true,
+                            unCtrl: true,
 							className: ['item'],
 							attrs: [{
 								title: '幻灯片设置',
@@ -3067,6 +3083,7 @@ export default {
             					tag: 'img',
             					className: [''],
                                 unActive: true,
+                                unCtrl: true,
             					attrs: [{
             						title: '图片设置',
             						key: 'slider-setting',
@@ -3135,6 +3152,7 @@ export default {
                             children: [{
             					tag: 'img',
                                 unActive: true,
+                                unCtrl: true,
             					className: [''],
             					attrs: [{
             						title: '图片设置',
@@ -3196,6 +3214,7 @@ export default {
 					}, {
 						tag: 'a',
                         unActive: true,
+                        unCtrl: true,
 						className: ['right', 'carousel-control'],
 						attrs: [{
 							title: '幻灯片设置',
@@ -3223,6 +3242,7 @@ export default {
 						children: [{
 							tag: 'i',
                             unActive: true,
+                            unCtrl: true,
 							className: ['glyphicon-chevron-right', 'fa', 'fa-2x', 'fa-fast-forward'],
 							attrs: [{
 								title: '幻灯片设置',
@@ -3238,6 +3258,7 @@ export default {
 						}, {
 							tag: 'span',
                             unActive: true,
+                            unCtrl: true,
 							className: ['sr-only'],
 							attrs: [{
 								title: '幻灯片设置',
@@ -3254,6 +3275,7 @@ export default {
 					}, {
 						tag: 'a',
                         unActive: true,
+                        unCtrl: true,
 						className: ['left', 'carousel-control'],
 						attrs: [{
 							title: '幻灯片设置',
@@ -3281,6 +3303,7 @@ export default {
 						children: [{
 							tag: 'i',
                             unActive: true,
+                            unCtrl: true,
 							className: ['glyphicon-chevron-left', 'fa', 'fa-2x', 'fa-fast-backward'],
 							attrs: [{
 								title: '幻灯片设置',
@@ -3296,6 +3319,7 @@ export default {
 						}, {
 							tag: 'span',
                             unActive: true,
+                            unCtrl: true,
 							className: ['sr-only'],
 							attrs: [{
 								title: '幻灯片设置',
