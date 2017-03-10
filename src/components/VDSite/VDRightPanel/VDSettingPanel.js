@@ -743,8 +743,11 @@ const Component = (props) => {
 												</div>
 											</div>
 											<div className="bem-Frame_Body">
-												<Button onClick={skipToImggallery.handleClick} style={{ left: '0' ,top: '0' ,bottom: '102px'}}><i className="fa fa-picture-o"></i>&nbsp;图片资源</Button>
-											</div>
+												<Button onClick={skipToImggallery.handleClick} style={{ left: '0' ,top: '24px' ,bottom: '102px'}}><i className="fa fa-picture-o"></i>&nbsp;图片资源</Button>
+										        <div className="background-setting-pane-img-preview">
+                                                     <img style={{width: '80px', height: '50px'}} src={props.vdCtrlTree.imgSettingPanePreviewUrl}/>
+                                                </div>
+                                            </div>
 										</div>
 
 										<div className="bem-Frame">
@@ -1213,7 +1216,7 @@ const Component = (props) => {
                                     type: 'vdcore/changeTabsPane',
                                     payload: {
                                     	activeTabsPane: 'assets',
-                                    	linkTo: 'assets'
+                                    	linkTo: 'settings'
                                     }
 
                                 });

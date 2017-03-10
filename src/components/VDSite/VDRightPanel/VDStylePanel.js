@@ -46,26 +46,6 @@ const VDStylePanel = (props) => {
 		)
 	}
 
-	if(!window.isListenBGImageEvt) {
-
-    	window.addEventListener('message',function(e){
-			window.isListenBGImageEvt = true;
-
-			if(!e.data.fetchImgFromSrc) {
-				return false;
-			}
-
-			handleStylesChange('background-image', {
-				parent: 'background'
-			} ,{
-				target: {
-					value: e.data.fetchImgFromSrc.url
-				}
-			});
-		})
-
-	}
-
 	const activeCSSStyleState = props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle],
 		  activeCSSUnitList = props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle];
 
@@ -151,6 +131,8 @@ const VDStylePanel = (props) => {
 			}
 		});
 	}
+
+	window.handleStylesChange = handleStylesChange;
 
 	const setThisPropertyNull = (property) => {
 		props.dispatch({
@@ -349,6 +331,7 @@ const VDStylePanel = (props) => {
     		const skipToImggallery = {
 
                 handleClick() {
+                	console.log(props.vdCtrlTree.activeCtrl.activeStyle);
                     props.dispatch({
 
                         type: 'vdcore/changeTabsPane',
@@ -390,7 +373,10 @@ const VDStylePanel = (props) => {
 							</div>
 						</div>
 						<div className="bem-Frame_Body">
-							<Button id="backgroundImgPaneBtn" onClick={skipToImggallery.handleClick} style={{ left: '0'}}><i className="fa fa-picture-o"></i>&nbsp;图片资源</Button>
+							<Button id="backgroundImgPaneBtn" onClick={skipToImggallery.handleClick} style={{ left: '0', top: '24px'}}><i className="fa fa-picture-o"></i>&nbsp;图片资源</Button>
+							<div className="background-setting-pane-img-preview">
+								<img style={{width: '110px', height: '50px'}} src={props.vdCtrlTree.backgroundImgSettingPanePreviewUrl}/>
+							</div>
 						</div>
 					</div>
 

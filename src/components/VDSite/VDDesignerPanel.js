@@ -50,20 +50,21 @@ const VDDesignerPanel = (props) => {
             })
 
         },
-
     };
 
-    return ( <div className = "designer-wrapper" style = {{ height: '100%' }}>
-            <iframe className = "centen-VD"
-                name = "vdsite-designer"
-                width = { props.vdcore.VDDesigner[props.vdcore.VDDesigner.activeSize].width }
-                height = { props.vdcore.VDDesigner[props.vdcore.VDDesigner.activeSize].height }
-                frameBorder = "0"
-                src = "static/designer/vdsite/index.html"
-                onLoad = { VDDesignerPanelProps.handleDesPanelLoaded }
-            >
-            </iframe>
-        </div>
+    return ( <div className = "designer-wrapper" 
+                  style = {{ height: '100%' }}
+             >
+                <iframe className = "centen-VD"
+                    name = "vdsite-designer"
+                    width = { props.vdcore.VDDesigner[props.vdcore.VDDesigner.activeSize].width }
+                    height = { props.vdcore.VDDesigner[props.vdcore.VDDesigner.activeSize].height }
+                    frameBorder = "0"
+                    src = "static/designer/vdsite/index.html"
+                    onLoad = { VDDesignerPanelProps.handleDesPanelLoaded }
+                >
+                </iframe>
+            </div>
     );
 
 };
