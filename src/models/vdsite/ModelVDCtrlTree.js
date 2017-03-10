@@ -1866,7 +1866,7 @@ export default {
 						ignore: controller.ignore || false,
 						root: root || '',
 						isRoot: true,
-						unActive: controller.unActive,
+						unCtrl: controller.unCtrl,
 						isBeforeHTMLValue: controller.isBeforeHTMLValue || false
 					};
 				}else{
@@ -1882,7 +1882,7 @@ export default {
 						ignore: controller.ignore || false,
 						root: root || '',
 						parent: parent.vdid,
-						unActive: controller.unActive,
+						unCtrl: controller.unCtrl,
 						isBeforeHTMLValue: controller.isBeforeHTMLValue || false
 					};
 				}
@@ -1941,6 +1941,7 @@ export default {
 		ctrlSelected(state, { payload: data }) {
 
 			if(data.unCtrl){
+				console.log('unCtrl');
 				let currentActiveCtrl = VDTreeActions.getActiveControllerIndexAndLvlByKey(state, data.root, state.activePage);
 				state.activeCtrl = currentActiveCtrl.controller;
 				state.activeCtrlIndex = currentActiveCtrl.index;

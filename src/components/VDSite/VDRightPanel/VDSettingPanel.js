@@ -103,7 +103,7 @@ const Component = (props) => {
                 ignore: controller.ignore || false,
                 parent: parent.vdid || '',
                 root: root || '',
-                unActive: controller.unActive
+                unCtrl: controller.unCtrl
             };
             if(controller.children) {
                 for (var i = 0; i < controller.children.length; i++) {

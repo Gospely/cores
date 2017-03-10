@@ -1662,6 +1662,7 @@ export default {
                         tag: 'option',
     					className: [],
     					unActive: true,
+                        unCtrl: true,
     					attrs: [{
     						title: '选项设置',
     						key: 'options-setting',
@@ -1682,6 +1683,7 @@ export default {
                         tag: 'option',
     					className: [],
     					unActive: true,
+                        unCtrl: true,
     					attrs: [{
     						title: '选项设置',
     						key: 'options-setting',
@@ -2053,6 +2055,7 @@ export default {
 						tag: 'div',
 						className: ['container-fluid'],
                         unActive: true,
+                        unCtrl: true,
 						attrs: [{
 							title: '导航菜单设置',
 							key: 'navbar-setting',
@@ -2061,6 +2064,7 @@ export default {
 						children: [{
 							tag: 'div',
                             unActive: true,
+                            unCtrl: true,
 							className: ['navbar-header'],
 							attrs: [{
 								title: '导航菜单设置',
@@ -2071,6 +2075,7 @@ export default {
 								tag: 'button',
 								className: ['navbar-toggle', 'collapsed'],
                                 unActive: true,
+                                unCtrl: true,
 								attrs: [{
 									title: '导航菜单设置',
 									key: 'navbar-setting',
@@ -2080,6 +2085,7 @@ export default {
 									tag: 'span',
 									className: ['sr-only'],
                                     unActive: true,
+                                    unCtrl: true,
 									attrs: [{
 										title: '导航菜单设置',
 										key: 'navbar-setting',
@@ -2089,6 +2095,7 @@ export default {
 									tag: 'span',
 									className: ['icon-bar'],
                                     unActive: true,
+                                    unCtrl: true,
 									attrs: [{
 										title: '导航菜单设置',
 										key: 'navbar-setting',
@@ -2098,6 +2105,7 @@ export default {
 									tag: 'span',
 									className: ['icon-bar'],
                                     unActive: true,
+                                    unCtrl: true,
 									attrs: [{
 										title: '导航菜单设置',
 										key: 'navbar-setting',
@@ -2107,6 +2115,7 @@ export default {
 									tag: 'span',
 									className: ['icon-bar'],
                                     unActive: true,
+                                    unCtrl: true,
 									attrs: [{
 										title: '导航菜单设置',
 										key: 'navbar-setting',
@@ -2181,6 +2190,7 @@ export default {
 						}, {
 							tag: 'div',
                             unActive: true,
+                            unCtrl: true,
 							className: ['collapse', 'navbar-collapse'],
 							attrs: [{
 								title: '导航菜单设置',
@@ -2189,6 +2199,8 @@ export default {
 							}],
 							children: [{
 								tag: 'ul',
+                                unCtrl: true,
+                                unActive: true,
 								className: ['nav', 'navbar-nav', 'navbar-right'],
 								attrs: [{
 									title: '导航菜单设置',
@@ -2197,6 +2209,7 @@ export default {
 								}],
 								children: [{
 									tag: 'li',
+                                    unActive: true,
 									className: [],
 									attrs: [{
 										title: '导航菜单设置',
@@ -2270,6 +2283,7 @@ export default {
 									}]
 								}, {
 									tag: 'li',
+                                    unActive: true,
 									className: [],
 									attrs: [{
 										title: '导航菜单设置',
@@ -2343,6 +2357,7 @@ export default {
 									}]
 								}, {
 									tag: 'li',
+                                    unActive: true,
 									className: ['dropdown open'],
 									attrs: [{
 										title: '导航菜单设置',
@@ -2504,6 +2519,7 @@ export default {
         									}]
         								}, {
         									tag: 'li',
+                                            unActive: true,
         									className: [],
         									attrs: [{
         										title: '导航菜单设置',
@@ -2576,6 +2592,7 @@ export default {
         									}]
         								}, {
         									tag: 'li',
+                                            unActive: true,
         									className: [],
         									attrs: [{
         										title: '导航菜单设置',
@@ -2826,6 +2843,7 @@ export default {
                                     key: 'link-setting',
                                     deleteAble: true,
                                     children: [{
+
             							name: 'src',
             							desc: '跳转链接',
             							type: 'input',
