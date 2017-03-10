@@ -1477,7 +1477,7 @@ const LeftSidebar = (props) => {
 							});
 						},
 						visit(){
-							window.open("http://" + localStorage.domain + '/index.html');
+							window.open("http://" + localStorage.domain + '/index.html?r=' + randomWord(8, 10));
 						}
 					}
 					eventHandle[item.key]();
