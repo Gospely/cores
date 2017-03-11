@@ -1662,6 +1662,16 @@ export default {
                             isToggleAttr: true,
                             attrName: 'multiple',
                             id: '',
+                        },{
+                            name: 'specialChild',
+                            desc: '指定的子元素',
+                            value: {
+                                tag: ['option'],
+                                className: 'cant-not-fuck-clazz',
+                                errorMessage: '无法放置'
+                            },
+                            backend: true,
+                            isSpecialChild: true
                         }]
 					}],
                     children: [{
@@ -1760,6 +1770,16 @@ export default {
 						children: [{
                             name: 'fade',
                             value: false,
+                        },{
+                            name: 'specialChild',
+                            desc: '指定的子元素',
+                            value: {
+                                tag: ['FUNCK'],
+                                className: 'cant-not-fuck-clazz',
+                                errorMessage: '无法放置'
+                            },
+                            backend: true,
+                            isSpecialChild: true
                         }]
 					}],
 					children: [{
@@ -1775,6 +1795,16 @@ export default {
                                 value: 'tablist',
                                 isAttr: true,
                                 attrName: 'role',
+                            },{
+                                name: 'specialChild',
+                                desc: '指定的子元素',
+                                value: {
+                                    tag: ['FUNCK'],
+                                    className: 'cant-not-fuck-clazz',
+                                    errorMessage: '无法放置'
+                                },
+                                backend: true,
+                                isSpecialChild: true
                             }]
                         }],
                         children: [{
@@ -1800,6 +1830,16 @@ export default {
                                     isAttr: true,
                                     attrName: 'target',
                                     id: ''
+                                },{
+                                    name: 'specialChild',
+                                    desc: '指定的子元素',
+                                    value: {
+                                        tag: ['FUNCK'],
+                                        className: 'cant-not-fuck-clazz',
+                                        errorMessage: '无法放置'
+                                    },
+                                    backend: true,
+                                    isSpecialChild: true
                                 }]
                             }],
                             children: [{
@@ -1864,6 +1904,16 @@ export default {
                                     isAttr: true,
                                     attrName: 'target',
                                     id: ''
+                                },{
+                                    name: 'specialChild',
+                                    desc: '指定的子元素',
+                                    value: {
+                                        tag: ['FUNCK'],
+                                        className: 'cant-not-fuck-clazz',
+                                        errorMessage: '无法放置'
+                                    },
+                                    backend: true,
+                                    isSpecialChild: true
                                 }]
                             }],
                             children: [{
@@ -1928,6 +1978,16 @@ export default {
                                     isAttr: true,
                                     attrName: 'target',
                                     id: ''
+                                },{
+                                    name: 'specialChild',
+                                    desc: '指定的子元素',
+                                    value: {
+                                        tag: ['FUNCK'],
+                                        className: 'cant-not-fuck-clazz',
+                                        errorMessage: '无法放置'
+                                    },
+                                    backend: true,
+                                    isSpecialChild: true
                                 }]
                             }],
                             children: [{
@@ -2089,7 +2149,7 @@ export default {
                             desc: '指定的子元素',
                             value: {
                                 tag: ['FUNCK'],
-                                className: 'list-fuck-item',
+                                className: 'cant-not-fuck-clazz',
                                 errorMessage: '无法放置'
                             },
                             backend: true,
@@ -2109,7 +2169,7 @@ export default {
                                 desc: '指定的子元素',
                                 value: {
                                     tag: ['FUNCK'],
-                                    className: 'list-fuck-item',
+                                    className: 'cant-not-fuck-clazz',
                                     errorMessage: '无法放置'
                                 },
                                 backend: true,
@@ -2129,7 +2189,7 @@ export default {
                                     desc: '指定的子元素',
                                     value: {
                                         tag: ['FUNCK'],
-                                        className: 'list-fuck-item',
+                                        className: 'cant-not-fuck-clazz',
                                         errorMessage: '无法放置'
                                     },
                                     backend: true,
@@ -2149,7 +2209,7 @@ export default {
                                         desc: '指定的子元素',
                                         value: {
                                             tag: ['FUNCK'],
-                                            className: 'list-fuck-item',
+                                            className: 'cant-not-fuck-clazz',
                                             errorMessage: '无法放置'
                                         },
                                         backend: true,
@@ -2275,7 +2335,7 @@ export default {
                                     desc: '指定的子元素',
                                     value: {
                                         tag: ['FUNCK'],
-                                        className: 'list-fuck-item',
+                                        className: 'cant-not-fuck-clazz',
                                         errorMessage: '无法放置'
                                     },
                                     backend: true,
@@ -2295,7 +2355,7 @@ export default {
                                         desc: '指定的子元素',
                                         value: {
                                             tag: ['FUNCK'],
-                                            className: 'list-fuck-item',
+                                            className: 'cant-not-fuck-clazz',
                                             errorMessage: '无法放置'
                                         },
                                         backend: true,
@@ -2314,7 +2374,7 @@ export default {
                                             desc: '指定的子元素',
                                             value: {
                                                 tag: ['FUNCK'],
-                                                className: 'list-fuck-item',
+                                                className: 'cant-not-fuck-clazz',
                                                 errorMessage: '无法放置'
                                             },
                                             backend: true,
@@ -2398,7 +2458,7 @@ export default {
                                             desc: '指定的子元素',
                                             value: {
                                                 tag: ['FUNCK'],
-                                                className: 'list-fuck-item',
+                                                className: 'cant-not-fuck-clazz',
                                                 errorMessage: '无法放置'
                                             },
                                             backend: true,
@@ -2483,7 +2543,7 @@ export default {
                                             desc: '指定的子元素',
                                             value: {
                                                 tag: ['FUNCK'],
-                                                className: 'list-fuck-item',
+                                                className: 'cant-not-fuck-clazz',
                                                 errorMessage: '无法放置'
                                             },
                                             backend: true,
@@ -2557,7 +2617,7 @@ export default {
                                                 desc: '指定的子元素',
                                                 value: {
                                                     tag: ['FUNCK'],
-                                                    className: 'list-fuck-item',
+                                                    className: 'cant-not-fuck-clazz',
                                                     errorMessage: '无法放置'
                                                 },
                                                 backend: true,
@@ -2575,7 +2635,7 @@ export default {
                                                     desc: '指定的子元素',
                                                     value: {
                                                         tag: ['FUNCK'],
-                                                        className: 'list-fuck-item',
+                                                        className: 'cant-not-fuck-clazz',
                                                         errorMessage: '无法放置'
                                                     },
                                                     backend: true,
@@ -2594,7 +2654,7 @@ export default {
                                                 desc: '指定的子元素',
                                                 value: {
                                                     tag: ['FUNCK'],
-                                                    className: 'list-fuck-item',
+                                                    className: 'cant-not-fuck-clazz',
                                                     errorMessage: '无法放置'
                                                 },
                                                 backend: true,
@@ -2612,7 +2672,7 @@ export default {
                                                     desc: '指定的子元素',
                                                     value: {
                                                         tag: ['FUNCK'],
-                                                        className: 'list-fuck-item',
+                                                        className: 'cant-not-fuck-clazz',
                                                         errorMessage: '无法放置'
                                                     },
                                                     backend: true,
@@ -2695,7 +2755,7 @@ export default {
                                                     desc: '指定的子元素',
                                                     value: {
                                                         tag: ['FUNCK'],
-                                                        className: 'list-fuck-item',
+                                                        className: 'cant-not-fuck-clazz',
                                                         errorMessage: '无法放置'
                                                     },
                                                     backend: true,
@@ -2778,7 +2838,7 @@ export default {
                                                     desc: '指定的子元素',
                                                     value: {
                                                         tag: ['FUNCK'],
-                                                        className: 'list-fuck-item',
+                                                        className: 'cant-not-fuck-clazz',
                                                         errorMessage: '无法放置'
                                                     },
                                                     backend: true,
@@ -2872,7 +2932,7 @@ export default {
                             desc: '指定的子元素',
                             value: {
                                 tag: ['FUNCK'],
-                                className: 'list-fuck-item',
+                                className: 'cant-not-fuck-clazz',
                                 errorMessage: '无法放置'
                             },
                             backend: true,
@@ -2930,7 +2990,7 @@ export default {
                                 desc: '指定的子元素',
                                 value: {
                                     tag: ['FUNCK'],
-                                    className: 'list-fuck-item',
+                                    className: 'cant-not-fuck-clazz',
                                     errorMessage: '无法放置'
                                 },
                                 backend: true,
@@ -2959,7 +3019,7 @@ export default {
                                 desc: '指定的子元素',
                                 value: {
                                     tag: ['FUNCK'],
-                                    className: 'list-fuck-item',
+                                    className: 'cant-not-fuck-clazz',
                                     errorMessage: '无法放置'
                                 },
                                 backend: true,
@@ -2978,7 +3038,7 @@ export default {
                                     desc: '指定的子元素',
                                     value: {
                                         tag: ['FUNCK'],
-                                        className: 'list-fuck-item',
+                                        className: 'cant-not-fuck-clazz',
                                         errorMessage: '无法放置'
                                     },
                                     backend: true,
@@ -3063,7 +3123,7 @@ export default {
                                     desc: '指定的子元素',
                                     value: {
                                         tag: ['FUNCK'],
-                                        className: 'list-fuck-item',
+                                        className: 'cant-not-fuck-clazz',
                                         errorMessage: '无法放置'
                                     },
                                     backend: true,
@@ -3148,7 +3208,7 @@ export default {
                                     desc: '指定的子元素',
                                     value: {
                                         tag: ['FUNCK'],
-                                        className: 'list-fuck-item',
+                                        className: 'cant-not-fuck-clazz',
                                         errorMessage: '无法放置'
                                     },
                                     backend: true,
@@ -3264,7 +3324,7 @@ export default {
                             desc: '指定的子元素',
                             value: {
                                 tag: ['FUNCK'],
-                                className: 'list-fuck-item',
+                                className: 'cant-not-fuck-clazz',
                                 errorMessage: '无法放置'
                             },
                             backend: true,
@@ -3285,7 +3345,7 @@ export default {
                                 desc: '指定的子元素',
                                 value: {
                                     tag: ['FUNCK'],
-                                    className: 'list-fuck-item',
+                                    className: 'cant-not-fuck-clazz',
                                     errorMessage: '无法放置'
                                 },
                                 backend: true,
@@ -3356,7 +3416,7 @@ export default {
                                 desc: '指定的子元素',
                                 value: {
                                     tag: ['FUNCK'],
-                                    className: 'list-fuck-item',
+                                    className: 'cant-not-fuck-clazz',
                                     errorMessage: '无法放置'
                                 },
                                 backend: true,
@@ -3376,7 +3436,7 @@ export default {
                                     desc: '指定的子元素',
                                     value: {
                                         tag: ['FUNCK'],
-                                        className: 'list-fuck-item',
+                                        className: 'cant-not-fuck-clazz',
                                         errorMessage: '无法放置'
                                     },
                                     backend: true,
@@ -3446,7 +3506,7 @@ export default {
                                         desc: '指定的子元素',
                                         value: {
                                             tag: ['FUNCK'],
-                                            className: 'list-fuck-item',
+                                            className: 'cant-not-fuck-clazz',
                                             errorMessage: '无法放置'
                                         },
                                         backend: true,
@@ -3466,7 +3526,7 @@ export default {
                                     desc: '指定的子元素',
                                     value: {
                                         tag: ['FUNCK'],
-                                        className: 'list-fuck-item',
+                                        className: 'cant-not-fuck-clazz',
                                         errorMessage: '无法放置'
                                     },
                                     backend: true,
@@ -3536,7 +3596,7 @@ export default {
                                         desc: '指定的子元素',
                                         value: {
                                             tag: ['FUNCK'],
-                                            className: 'list-fuck-item',
+                                            className: 'cant-not-fuck-clazz',
                                             errorMessage: '无法放置'
                                         },
                                         backend: true,
@@ -3576,7 +3636,7 @@ export default {
                                 desc: '指定的子元素',
                                 value: {
                                     tag: ['FUNCK'],
-                                    className: 'list-fuck-item',
+                                    className: 'cant-not-fuck-clazz',
                                     errorMessage: '无法放置'
                                 },
                                 backend: true,
@@ -3647,7 +3707,7 @@ export default {
                                 desc: '指定的子元素',
                                 value: {
                                     tag: ['FUNCK'],
-                                    className: 'list-fuck-item',
+                                    className: 'cant-not-fuck-clazz',
                                     errorMessage: '无法放置'
                                 },
                                 backend: true,
