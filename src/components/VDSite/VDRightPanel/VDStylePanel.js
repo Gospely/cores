@@ -309,6 +309,8 @@ const VDStylePanel = (props) => {
 
     	imageSetter () {
 
+    		console.log(props.vdstyles.cssStyleLayout)
+
     		var backgroundSizeParams = props.vdstyles.backgroundSetting.backgroundSize;
 
     		const handleBackgroundSizePositionChange = (cssProperty, parent, e) => {

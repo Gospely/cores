@@ -1878,15 +1878,15 @@ export default {
 			cssProperty[params.property] = params.checked;
 
 			if(params.checked) {
-				cssProperty['margin-top'] = 0;
-				cssProperty['margin-bottom'] = 0;
+				cssProperty['margin-top'] = '0';
+				cssProperty['margin-bottom'] = '0';
 				cssProperty['margin-left'] = 'auto';
 				cssProperty['margin-right'] = 'auto';
 			}else {
-				cssProperty['margin-top'] = 0;
-				cssProperty['margin-bottom'] = 0;
-				cssProperty['margin-left'] = 0;
-				cssProperty['margin-right'] = 0;
+				cssProperty['margin-top'] = '0';
+				cssProperty['margin-bottom'] = '0';
+				cssProperty['margin-left'] = '0';
+				cssProperty['margin-right'] = '0';
 			}
 
 			return {...state};
