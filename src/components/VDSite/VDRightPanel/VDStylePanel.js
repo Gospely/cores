@@ -391,8 +391,8 @@ const VDStylePanel = (props) => {
 							<Button id="backgroundImgPaneBtn" onClick={skipToImggallery.handleClick} style={{ left: '0', top: '24px'}}><i className="fa fa-picture-o"></i>&nbsp;图片资源</Button>
 							<div className="background-setting-pane-img-preview">
 								{
-										activeCSSStyleState['background']['background-image'] == '' ? <img style={{width: '110px', height: '50px'}} src={props.vdCtrlTree.backgroundImgSettingPanePreviewUrl}/> :
-										<img style={{width: '110px', height: '50px'}} src={activeCSSStyleState['background']['background-image'].split("(")[1].split(")")[0].replace(/"/g,'')}/>
+										activeCSSStyleState['background']['background-image'] == '' ? <img style={{width: '100px', height: '65px'}} src={placeholderImgBase64}/> :
+										<img style={{width: '100px', height: '65px'}} src={activeCSSStyleState['background']['background-image'].split("(")[1].split(")")[0].replace(/"/g,'')}/>
 									}
 
 							</div>
