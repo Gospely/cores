@@ -330,9 +330,8 @@ export default {
 			return {...state};
 		},
 		initState(state, {payload: params}){
-			console.log('vdCore');
-			console.log(params);
-			state.VDDesigner = params.UIState.VDDesigner;
+
+			state.VDDesigner = params.UIState.VDDesigner || state.VDDesigner;
 			return  {...state};
 		},
 

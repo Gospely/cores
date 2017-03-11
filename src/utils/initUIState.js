@@ -69,6 +69,7 @@ const initState = function (props, applicationId) {
     props.dispatch({
         type: 'UIState/setDySaveEffects'
     });
+    localStorage.flashState = true;
 }
 
 export default initState;
