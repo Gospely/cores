@@ -1974,6 +1974,7 @@ export default {
 						tag: 'div',
                         unActive: true,
                         unCtrl: true,
+                        unBefore: true,
 						className: ['tab-content'],
 						attrs: [{
 							title: '标签页设置',
