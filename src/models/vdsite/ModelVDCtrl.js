@@ -457,6 +457,12 @@ export default {
 							value: '按钮',
 							isHTML: true,
 							id: ''
+						}, {
+							name: 'container',
+							desc: '是否是容器',
+							value: true,
+							backend: true,
+							isContainer: true
 						}]
 					}]
 				}

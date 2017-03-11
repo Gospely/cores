@@ -40,6 +40,26 @@ export default {
 
 					console.log(data.closeVDLeftPanelDivId)
 				},
+
+				copyCtrl() {
+					props.dispatch({
+						type: "vdCtrlTree/copyCtrl",
+						payload: data
+					})
+				},
+
+				pastCtrl() {
+					props.dispatch({
+						type: "vdCtrlTree/pastCtrl",
+						payload: data
+					})
+				},
+
+				cutCtrl() {
+					props.dispatch({
+						type: "vdCtrlTree/cutCtrl"
+					})
+				}
 			}
 
 			for(var key in data) {
