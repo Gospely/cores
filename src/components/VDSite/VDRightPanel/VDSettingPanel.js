@@ -365,7 +365,13 @@ const Component = (props) => {
 			    			value: props.vdcore.customAttr.creator.value,
 
 			    			save () {
-			    				var self = this;
+                                var self = this;
+
+                                if(self.value == '' || self.key == '') {
+                                    message.error('请完整填写键值对!');
+                                    return false;
+                                }
+
 			    				props.dispatch({
 			    					type: 'vdCtrlTree/saveCustomAttr',
 			    					payload: {
