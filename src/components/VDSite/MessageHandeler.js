@@ -22,6 +22,7 @@ export default {
 				// 		payload: data
 				// 	})
 				// },
+				//
 
 				ctrlSelected() {
 					props.dispatch({
