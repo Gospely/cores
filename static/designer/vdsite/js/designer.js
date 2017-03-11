@@ -1271,7 +1271,7 @@ $(function() {
 
                 if(attr.isImagePlaceholder) {
                     if(!this.withImage) {
-                        this.elem.attr('src', 'https://d3e54v103j8qbb.cloudfront.net/img/image-placeholder.svg');
+                        this.elem.attr('src', window.parent.placeholderImgBase64);
                     }
                 }
             },
