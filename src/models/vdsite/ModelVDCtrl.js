@@ -3069,7 +3069,17 @@ export default {
 							key: 'slider-setting',
                             unActive: true,
                             unCtrl: true,
-							children: []
+							children: [{
+                                name: 'specialChild',
+                                desc: '指定的子元素',
+                                value: {
+                                    tag: ['FUNCK'],
+                                    className: 'list-fuck-item',
+                                    errorMessage: '无法放置'
+                                },
+                                backend: true,
+                                isSpecialChild: true
+                            }]
 						}],
 						children: [{
 							tag: 'li',
