@@ -45,10 +45,20 @@ const VDStylePanel = (props) => {
 			<div className="none-operation-obj">暂无操作对象</div>
 		)
 	}
+	console.log('props.vdstyles.cssStyleLayout');
+	console.log(props.vdCtrlTree.activeCtrl.activeStyle);
+	console.log(props.vdstyles.cssStyleLayout);
+	console.log(props.vdstyles.unitList);
 
-	const activeCSSStyleState = props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle],
+	var activeCSSStyleState = props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle],
 		  activeCSSUnitList = props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle];
-
+	console.log(activeCSSStyleState);
+	if(!activeCSSStyleState){
+		console.log("get from localStorage");
+		var UIState = JSON.parse(localStorage.UIState);
+		activeCSSStyleState = UIState.UIState.vdstyles.cssStyleLayout[UIState.UIState.vdCtrlTree.activeCtrl.activeStyle];
+		activeCSSUnitList = UIState.UIState.vdstyles.unitList[UIState.UIState.vdCtrlTree.activeCtrl.activeStyle];
+	}
 	console.log('activeCSSUnitList=====', activeCSSUnitList);
 
 	const cssAction = {
@@ -89,7 +99,7 @@ const VDStylePanel = (props) => {
 		    	<Option style={{padding: '7px 8px'}} size="small" value="px">px</Option>
 		    	<Option style={{padding: '7px 8px'}} size="small" value="em">em</Option>
 		    	<Option style={{padding: '7px 8px'}} size="small" value="rem">rem</Option>
-		    	<Option style={{padding: '7px 8px'}} size="small" value="vh">vh</Option>		    	
+		    	<Option style={{padding: '7px 8px'}} size="small" value="vh">vh</Option>
 		    	<Option style={{padding: '7px 8px'}} size="small" value="%">%</Option>
 		  	</Select>
 		);
@@ -306,6 +316,8 @@ const VDStylePanel = (props) => {
 
     	imageSetter () {
 
+    		console.log(props.vdstyles.cssStyleLayout)
+
     		var backgroundSizeParams = props.vdstyles.backgroundSetting.backgroundSize;
 
     		const handleBackgroundSizePositionChange = (cssProperty, parent, e) => {
@@ -376,7 +388,11 @@ const VDStylePanel = (props) => {
 						<div className="bem-Frame_Body">
 							<Button id="backgroundImgPaneBtn" onClick={skipToImggallery.handleClick} style={{ left: '0', top: '24px'}}><i className="fa fa-picture-o"></i>&nbsp;图片资源</Button>
 							<div className="background-setting-pane-img-preview">
-								<img style={{width: '110px', height: '50px'}} src={props.vdCtrlTree.backgroundImgSettingPanePreviewUrl}/>
+								{
+										activeCSSStyleState['background']['background-image'] == '' ? <img style={{width: '110px', height: '50px'}} src={props.vdCtrlTree.backgroundImgSettingPanePreviewUrl}/> :
+										<img style={{width: '110px', height: '50px'}} src={activeCSSStyleState['background']['background-image'].split("(")[1].split(")")[0].replace(/"/g,'')}/>
+									}
+
 							</div>
 						</div>
 					</div>
@@ -2402,7 +2418,7 @@ const VDStylePanel = (props) => {
 										</Popconfirm>
 								)
 							}>
-								<Input 
+								<Input
 									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['letter-spacing'].unit, 'letter-spacing')}
 									type="text" size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['letter-spacing']} onChange={handleStylesChange.bind(this, 'letter-spacing')}/>
 							</FormItem>
@@ -2558,7 +2574,7 @@ const VDStylePanel = (props) => {
 
 
 			const handleVisibleChange = (visible) => {
-				
+
 				props.dispatch({
 					type: 'vdstyles/showBackgroundStyleSettingPane',
 					payload: visible

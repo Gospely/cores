@@ -12,7 +12,6 @@ export default {
 
 		dySave: true,
 		gap: 500000,
-
 		saveInterval: 0
 	},
 
@@ -35,6 +34,7 @@ export default {
   				message.error('读取配置失败');
   				return false;
   			}
+			console.log('get UIState from server');
 			var config = configs.data.fields[0];
 			localStorage.uistateId = config.id;
 			localStorage.UIState = config.configs;
@@ -56,28 +56,6 @@ export default {
 	    			gap: config.gap
 	    		}
     		});
-			var state = yield select(state => state.devpanel);
-
-  			function cb() {
-  				var configTobeSaved = {
-  					id: config.id,
-  					configs: localStorage.UIState
-  				}
-  				if(config.dySave) {
-						var url = baseUrl.baseURL + "uistates";
-						fetch(url, {
-							method: 'PUT',
-							headers: {
-      							"Content-Type": "application/json;charset=UTF-8",
-								'Authorization': localStorage.token
-							},
-							body: JSON.stringify(configTobeSaved)
-						})
-  				}else {
-  					window.clearInterval(window.uistateSave)
-  				}
-  			}
-  			window.uistateSave = window.setInterval(cb, config.gap);
 		},
 
 		*writeConfig({ payload: params }, { call, put, select }) {
@@ -107,26 +85,29 @@ export default {
 
 		*setDySaveEffects({ payload: params }, { call, put, select }) {
 
-			params.gap = params.gap || 500000;
-
-			var result = yield request('uitates', {
-      			method: 'PUT',
-      			body: {
-      				id: params.id,
-      				application: params.application,
-      				dySave: params.dySave,
-      				gap: params.gap
-      			}
-      		});
-
-      		if(result) {
-      			yield put({
-      				type: 'setDySave'
-      			}, payload: {
-      				dySave: params.dySave,
-      				gap: params.gap
-      			});
-      		}
+			var dySave = yield select(state=> state.UIState.dySave),
+				gap = yield select(state => state.UIState.gap);
+			console.log('setDySaveEffects');
+			function cb() {
+				var configTobeSaved = {
+					id: localStorage.uistateId,
+					configs: localStorage.UIState
+				}
+				if(dySave) {
+						var url = baseUrl.baseURL + "uistates";
+						fetch(url, {
+							method: 'PUT',
+							headers: {
+								"Content-Type": "application/json;charset=UTF-8",
+								'Authorization': localStorage.token
+							},
+							body: JSON.stringify(configTobeSaved)
+						})
+				}else {
+					window.clearInterval(window.uistateSave)
+				}
+			}
+			window.uistateSave = window.setInterval(cb, gap);
 		}
 
 	},

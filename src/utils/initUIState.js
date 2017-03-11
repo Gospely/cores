@@ -3,6 +3,10 @@ const initState = function (props, applicationId) {
 
     var UIState = JSON.parse(localStorage.UIState);
     props.dispatch({
+        type: 'vdstyles/initState',
+        payload: { UIState: UIState.UIState.vdstyles }
+    });
+    props.dispatch({
         type: 'sidebar/initState',
         payload: { UIState: UIState.UIState.sidebar }
     });
@@ -15,14 +19,12 @@ const initState = function (props, applicationId) {
         payload: { UIState: UIState.UIState.vdpm }
     });
     console.log(UIState.UIState);
-    props.dispatch({
-        type: 'vdstyles/initState',
-        payload: { UIState: UIState.UIState.vdstyles }
-    });
+
     props.dispatch({
         type: 'vdCtrlTree/initState',
         payload: { UIState: UIState.UIState.vdCtrlTree }
     });
+
     props.dispatch({
         type: 'vdcore/initState',
         payload: { UIState: UIState.UIState.vdcore }
@@ -64,6 +66,10 @@ const initState = function (props, applicationId) {
             payload: 'vdsite-controllers'
         });
     }
+    props.dispatch({
+        type: 'UIState/setDySaveEffects'
+    });
+    localStorage.flashState = true;
 }
 
 export default initState;
