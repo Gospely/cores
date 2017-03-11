@@ -977,7 +977,7 @@ $(function() {
         				}
         			}
         			findParent(target);
-        			console.log(9999)
+        			
         		}
 
         		if (target.outerWidth() < target.parent().innerWidth() && e.target.className.indexOf('col-md-') === -1 &&
@@ -989,6 +989,10 @@ $(function() {
 	        		if (target.data("container")) {
 
         				if (ref <= 1/3) {
+
+        					if (target.data("controller") && target.data("controller").unBefore) {
+        						return false;
+        					}
 
         					if (e.target.className.indexOf('col-md-') === -1) {
         						dndData.horizontalBefore(e, target);
@@ -1018,6 +1022,10 @@ $(function() {
 
 		        		} else if (ref < 1/2) {
 
+		        			if (target.data("controller") && target.data("controller").unBefore) {
+        						return false;
+        					}
+
 		        			dndData.horizontalBefore(e, target);
 
 		        		} else if (ref >= 1/2) {
@@ -1034,6 +1042,10 @@ $(function() {
         			if (target.data("container")) {
 
         				if (ref <= 1/3) {
+
+        					if (target.data("controller") && target.data("controller").unBefore) {
+        						return false;
+        					}
 
         					if (e.target.className.indexOf('col-md-') > -1) {
         						target = target.parent();
@@ -1064,6 +1076,10 @@ $(function() {
 		        			dndData.containerSpecialHandle(e, target);
 
 		        		}else if (ref < 1/2) {
+
+		        			if (target.data("controller") && target.data("controller").unBefore) {
+        						return false;
+        					}
 
 		        			dndData.verticalBefore(e, target);
 
