@@ -310,47 +310,53 @@ export default {
 					className: ['vd-empty'],
 					attrs: [{
 						title: '链接设置',
-						key: 'link-setting',
+						key: 'link-setting', activeLinkType: 'link',
+						activeLinkType: 'link',
 						children: [{
 							name: 'src',
 							desc: '跳转链接',
 							type: 'input',
 							value: '',
 							isAttr: true,
-							attrName: 'src',
-							id: ''
+							attrName: 'href',
+							id: '',
+							attrType: 'link'
 						}, {
 							name: 'src',
 							desc: '跳转邮箱',
 							type: 'input',
 							value: '',
 							isAttr: true,
-							attrName: 'src',
-							id: ''
+							attrName: 'href',
+							id: '',
+							attrType: 'mail'
 						}, {
 							name: 'src',
 							desc: '跳转电话',
 							type: 'input',
 							value: '',
 							isAttr: true,
-							attrName: 'src',
-							id: ''
+							attrName: 'href',
+							id: '',
+							attrType: 'phone'
 						}, {
 							name: 'src',
 							desc: '跳转页面',
 							type: 'select',
 							value: '',
 							isAttr: true,
-							attrName: 'src',
-							id: ''
+							attrName: 'href',
+							id: '',
+							attrType: 'page'
 						}, {
 							name: 'src',
 							desc: '跳转元素',
 							type: 'select',
 							value: '',
 							isAttr: true,
-							attrName: 'src',
-							id: ''
+							attrName: 'href',
+							id: '',
+							attrType: 'section'
 						},{
 							name: 'target',
 							desc: '新窗口打开',
@@ -389,47 +395,52 @@ export default {
 					className: ['btn', 'btn-default'],
 					attrs: [{
 						title: '链接设置',
-						key: 'link-setting',
+						key: 'link-setting', activeLinkType: 'link',
 						children: [{
 							name: 'src',
 							desc: '跳转链接',
 							type: 'input',
 							value: '',
 							isAttr: true,
-							attrName: 'src',
-							id: ''
+							attrName: 'href',
+							id: '',
+							attrType: 'link'
 						}, {
 							name: 'src',
 							desc: '跳转邮箱',
 							type: 'input',
 							value: '',
 							isAttr: true,
-							attrName: 'src',
-							id: ''
+							attrName: 'href',
+							id: '',
+							attrType: 'mail'
 						}, {
 							name: 'src',
 							desc: '跳转电话',
 							type: 'input',
 							value: '',
 							isAttr: true,
-							attrName: 'src',
-							id: ''
+							attrName: 'href',
+							id: '',
+							attrType: 'phone'
 						}, {
 							name: 'src',
 							desc: '跳转页面',
 							type: 'select',
 							value: '',
 							isAttr: true,
-							attrName: 'src',
-							id: ''
+							attrName: 'href',
+							id: '',
+							attrType: 'page'
 						}, {
 							name: 'src',
 							desc: '跳转元素',
 							type: 'select',
 							value: '',
 							isAttr: true,
-							attrName: 'src',
-							id: ''
+							attrName: 'href',
+							id: '',
+							attrType: 'section'
 						}, {
 							name: 'target',
 							desc: '新窗口打开',
@@ -685,47 +696,52 @@ export default {
 					className: [],
 					attrs: [{
 						title: '链接设置',
-						key: 'link-setting',
+						key: 'link-setting', activeLinkType: 'link',
 						children: [{
 							name: 'src',
 							desc: '跳转链接',
 							type: 'input',
 							value: '',
 							isAttr: true,
-							attrName: 'src',
-							id: ''
+							attrName: 'href',
+							id: '',
+							attrType: 'link'
 						}, {
 							name: 'src',
 							desc: '跳转邮箱',
 							type: 'input',
 							value: '',
 							isAttr: true,
-							attrName: 'src',
-							id: ''
+							attrName: 'href',
+							id: '',
+							attrType: 'mail'
 						}, {
 							name: 'src',
 							desc: '跳转电话',
 							type: 'input',
 							value: '',
 							isAttr: true,
-							attrName: 'src',
-							id: ''
+							attrName: 'href',
+							id: '',
+							attrType: 'phone'
 						}, {
 							name: 'src',
 							desc: '跳转页面',
 							type: 'select',
 							value: '',
 							isAttr: true,
-							attrName: 'src',
-							id: ''
+							attrName: 'href',
+							id: '',
+							attrType: 'page'
 						}, {
 							name: 'src',
 							desc: '跳转元素',
 							type: 'select',
 							value: '',
 							isAttr: true,
-							attrName: 'src',
-							id: ''
+							attrName: 'href',
+							id: '',
+							attrType: 'section'
 						}, {
 							name: 'target',
 							desc: '新窗口打开',
@@ -2145,7 +2161,7 @@ export default {
 								className: ['navbar-brand'],
 								attrs: [{
 									title: '导航菜单链接设置',
-									key: 'link-setting',
+									key: 'link-setting', activeLinkType: 'link',
                                     deleteAble: true,
 									children: [{
             							name: 'src',
@@ -2153,40 +2169,45 @@ export default {
             							type: 'input',
             							value: '',
             							isAttr: true,
-            							attrName: 'src',
-            							id: ''
+            							attrName: 'href',
+            							id: '',
+										attrType: 'link'
             						}, {
             							name: 'src',
             							desc: '跳转邮箱',
             							type: 'input',
             							value: '',
             							isAttr: true,
-            							attrName: 'src',
-            							id: ''
+            							attrName: 'href',
+            							id: '',
+										attrType: 'mail'
             						}, {
             							name: 'src',
             							desc: '跳转电话',
             							type: 'input',
             							value: '',
             							isAttr: true,
-            							attrName: 'src',
-            							id: ''
+            							attrName: 'href',
+            							id: '',
+										attrType: 'phone'
             						}, {
             							name: 'src',
             							desc: '跳转页面',
             							type: 'select',
             							value: '',
             							isAttr: true,
-            							attrName: 'src',
-            							id: ''
+            							attrName: 'href',
+            							id: '',
+										attrType: 'page'
             						}, {
             							name: 'src',
             							desc: '跳转元素',
             							type: 'select',
             							value: '',
             							isAttr: true,
-            							attrName: 'src',
-            							id: ''
+            							attrName: 'href',
+            							id: '',
+										attrType: 'section'
             						}, {
                                         name: 'target',
                                         desc: '新窗口打开',
@@ -2239,7 +2260,7 @@ export default {
 										className: [],
 										attrs: [{
                                             title: '导航菜单链接设置',
-                                            key: 'link-setting',
+                                            key: 'link-setting', activeLinkType: 'link',
                                             deleteAble: true,
                                             changeDropDown: true,
                                             children: [{
@@ -2248,40 +2269,45 @@ export default {
                     							type: 'input',
                     							value: '',
                     							isAttr: true,
-                    							attrName: 'src',
-                    							id: ''
+                    							attrName: 'href',
+                    							id: '',
+												attrType: 'link'
                     						}, {
                     							name: 'src',
                     							desc: '跳转邮箱',
                     							type: 'input',
                     							value: '',
                     							isAttr: true,
-                    							attrName: 'src',
-                    							id: ''
+                    							attrName: 'href',
+                    							id: '',
+												attrType: 'mail'
                     						}, {
                     							name: 'src',
                     							desc: '跳转电话',
                     							type: 'input',
                     							value: '',
                     							isAttr: true,
-                    							attrName: 'src',
-                    							id: ''
+                    							attrName: 'href',
+                    							id: '',
+												attrType: 'phone'
                     						}, {
                     							name: 'src',
                     							desc: '跳转页面',
                     							type: 'select',
                     							value: '',
                     							isAttr: true,
-                    							attrName: 'src',
-                    							id: ''
+                    							attrName: 'href',
+                    							id: '',
+												attrType: 'page'
                     						}, {
                     							name: 'src',
                     							desc: '跳转元素',
                     							type: 'select',
                     							value: '',
                     							isAttr: true,
-                    							attrName: 'src',
-                    							id: ''
+                    							attrName: 'href',
+                    							id: '',
+												attrType: 'section'
                     						},{
                                                 name: 'target',
                                                 desc: '新窗口打开',
@@ -2313,7 +2339,7 @@ export default {
 										className: [],
 										attrs: [{
 											title: '导航菜单链接设置',
-											key: 'link-setting',
+											key: 'link-setting', activeLinkType: 'link',
                                             changeDropDown: true,
                                             deleteAble: true,
 											children: [{
@@ -2322,40 +2348,45 @@ export default {
                     							type: 'input',
                     							value: '',
                     							isAttr: true,
-                    							attrName: 'src',
-                    							id: ''
+                    							attrName: 'href',
+                    							id: '',
+												attrType: 'link'
                     						}, {
                     							name: 'src',
                     							desc: '跳转邮箱',
                     							type: 'input',
                     							value: '',
                     							isAttr: true,
-                    							attrName: 'src',
-                    							id: ''
+                    							attrName: 'href',
+                    							id: '',
+												attrType: 'mail'
                     						}, {
                     							name: 'src',
                     							desc: '跳转电话',
                     							type: 'input',
                     							value: '',
                     							isAttr: true,
-                    							attrName: 'src',
-                    							id: ''
+                    							attrName: 'href',
+                    							id: '',
+												attrType: 'phone'
                     						}, {
                     							name: 'src',
                     							desc: '跳转页面',
                     							type: 'select',
                     							value: '',
                     							isAttr: true,
-                    							attrName: 'src',
-                    							id: ''
+                    							attrName: 'href',
+                    							id: '',
+												attrType: 'page'
                     						}, {
                     							name: 'src',
                     							desc: '跳转元素',
                     							type: 'select',
                     							value: '',
                     							isAttr: true,
-                    							attrName: 'src',
-                    							id: ''
+                    							attrName: 'href',
+                    							id: '',
+												attrType: 'section'
                     						}, {
                                                 name: 'target',
                                                 desc: '新窗口打开',
@@ -2476,7 +2507,7 @@ export default {
         										className: [],
         										attrs: [{
         											title: '导航菜单链接设置',
-        											key: 'link-setting',
+        											key: 'link-setting', activeLinkType: 'link',
                                                     deleteAble: true,
         											children: [{
                             							name: 'src',
@@ -2484,40 +2515,45 @@ export default {
                             							type: 'input',
                             							value: '',
                             							isAttr: true,
-                            							attrName: 'src',
-                            							id: ''
+                            							attrName: 'href',
+                            							id: '',
+														attrType: 'link'
                             						}, {
                             							name: 'src',
                             							desc: '跳转邮箱',
                             							type: 'input',
                             							value: '',
                             							isAttr: true,
-                            							attrName: 'src',
-                            							id: ''
+                            							attrName: 'href',
+                            							id: '',
+														attrType: 'mail'
                             						}, {
                             							name: 'src',
                             							desc: '跳转电话',
                             							type: 'input',
                             							value: '',
                             							isAttr: true,
-                            							attrName: 'src',
-                            							id: ''
+                            							attrName: 'href',
+                            							id: '',
+														attrType: 'phone'
                             						}, {
                             							name: 'src',
                             							desc: '跳转页面',
                             							type: 'select',
                             							value: '',
                             							isAttr: true,
-                            							attrName: 'src',
-                            							id: ''
+                            							attrName: 'href',
+                            							id: '',
+														attrType: 'page'
                             						}, {
                             							name: 'src',
                             							desc: '跳转元素',
                             							type: 'select',
                             							value: '',
                             							isAttr: true,
-                            							attrName: 'src',
-                            							id: ''
+                            							attrName: 'href',
+                            							id: '',
+														attrType: 'section'
                             						}, {
                                                         name: 'target',
                                                         desc: '新窗口打开',
@@ -2549,7 +2585,7 @@ export default {
         										className: [],
         										attrs: [{
         											title: '导航菜单链接设置',
-        											key: 'link-setting',
+        											key: 'link-setting', activeLinkType: 'link',
                                                     deleteAble: true,
         											children: [{
                             							name: 'src',
@@ -2557,40 +2593,45 @@ export default {
                             							type: 'input',
                             							value: '',
                             							isAttr: true,
-                            							attrName: 'src',
-                            							id: ''
+                            							attrName: 'href',
+                            							id: '',
+														attrType: 'link'
                             						}, {
                             							name: 'src',
                             							desc: '跳转邮箱',
                             							type: 'input',
                             							value: '',
                             							isAttr: true,
-                            							attrName: 'src',
-                            							id: ''
+                            							attrName: 'href',
+                            							id: '',
+														attrType: 'mail'
                             						}, {
                             							name: 'src',
                             							desc: '跳转电话',
                             							type: 'input',
                             							value: '',
                             							isAttr: true,
-                            							attrName: 'src',
-                            							id: ''
+                            							attrName: 'href',
+                            							id: '',
+														attrType: 'phone'
                             						}, {
                             							name: 'src',
                             							desc: '跳转页面',
                             							type: 'select',
                             							value: '',
                             							isAttr: true,
-                            							attrName: 'src',
-                            							id: ''
+                            							attrName: 'href',
+                            							id: '',
+														attrType: 'page'
                             						}, {
                             							name: 'src',
                             							desc: '跳转元素',
                             							type: 'select',
                             							value: '',
                             							isAttr: true,
-                            							attrName: 'src',
-                            							id: ''
+                            							attrName: 'href',
+                            							id: '',
+														attrType: 'section'
                             						}, {
                                                         name: 'target',
                                                         desc: '新窗口打开',
@@ -2622,7 +2663,7 @@ export default {
         										className: [],
         										attrs: [{
         											title: '导航菜单链接设置',
-        											key: 'link-setting',
+        											key: 'link-setting', activeLinkType: 'link',
                                                     deleteAble: true,
         											children: [{
                             							name: 'src',
@@ -2630,40 +2671,45 @@ export default {
                             							type: 'input',
                             							value: '',
                             							isAttr: true,
-                            							attrName: 'src',
-                            							id: ''
+                            							attrName: 'href',
+                            							id: '',
+														attrType: 'link'
                             						}, {
                             							name: 'src',
                             							desc: '跳转邮箱',
                             							type: 'input',
                             							value: '',
                             							isAttr: true,
-                            							attrName: 'src',
-                            							id: ''
+                            							attrName: 'href',
+                            							id: '',
+														attrType: 'mail'
                             						}, {
                             							name: 'src',
                             							desc: '跳转电话',
                             							type: 'input',
                             							value: '',
                             							isAttr: true,
-                            							attrName: 'src',
-                            							id: ''
+                            							attrName: 'href',
+                            							id: '',
+														attrType: 'phone'
                             						}, {
                             							name: 'src',
                             							desc: '跳转页面',
                             							type: 'select',
                             							value: '',
                             							isAttr: true,
-                            							attrName: 'src',
-                            							id: ''
+                            							attrName: 'href',
+                            							id: '',
+														attrType: 'page'
                             						}, {
                             							name: 'src',
                             							desc: '跳转元素',
                             							type: 'select',
                             							value: '',
                             							isAttr: true,
-                            							attrName: 'src',
-                            							id: ''
+                            							attrName: 'href',
+                            							id: '',
+														attrType: 'section'
                             						}, {
                                                         name: 'target',
                                                         desc: '新窗口打开',
@@ -2783,7 +2829,7 @@ export default {
                                 unActive: true,
                                 attrs: [{
                                     title: '下拉菜单链接设置',
-                                    key: 'link-setting',
+                                    key: 'link-setting', activeLinkType: 'link',
                                     deleteAble: true,
                                     children: [{
             							name: 'src',
@@ -2791,40 +2837,45 @@ export default {
             							type: 'input',
             							value: '',
             							isAttr: true,
-            							attrName: 'src',
-            							id: ''
+            							attrName: 'href',
+            							id: '',
+										attrType: 'link'
             						}, {
             							name: 'src',
             							desc: '跳转邮箱',
             							type: 'input',
             							value: '',
             							isAttr: true,
-            							attrName: 'src',
-            							id: ''
+            							attrName: 'href',
+            							id: '',
+										attrType: 'mail'
             						}, {
             							name: 'src',
             							desc: '跳转电话',
             							type: 'input',
             							value: '',
             							isAttr: true,
-            							attrName: 'src',
-            							id: ''
+            							attrName: 'href',
+            							id: '',
+										attrType: 'phone'
             						}, {
             							name: 'src',
             							desc: '跳转页面',
             							type: 'select',
             							value: '',
             							isAttr: true,
-            							attrName: 'src',
-            							id: ''
+            							attrName: 'href',
+            							id: '',
+										attrType: 'page'
             						}, {
             							name: 'src',
             							desc: '跳转元素',
             							type: 'select',
             							value: '',
             							isAttr: true,
-            							attrName: 'src',
-            							id: ''
+            							attrName: 'href',
+            							id: '',
+										attrType: 'section'
             						}, {
                                         name: 'target',
                                         desc: '新窗口打开',
@@ -2858,7 +2909,7 @@ export default {
                                 unActive: true,
                                 attrs: [{
                                     title: '下拉菜单链接设置',
-                                    key: 'link-setting',
+                                    key: 'link-setting', activeLinkType: 'link',
                                     deleteAble: true,
                                     children: [{
 
@@ -2867,40 +2918,45 @@ export default {
             							type: 'input',
             							value: '',
             							isAttr: true,
-            							attrName: 'src',
-            							id: ''
+            							attrName: 'href',
+            							id: '',
+										attrType: 'link'
             						}, {
             							name: 'src',
             							desc: '跳转邮箱',
             							type: 'input',
             							value: '',
             							isAttr: true,
-            							attrName: 'src',
-            							id: ''
+            							attrName: 'href',
+            							id: '',
+										attrType: 'mail'
             						}, {
             							name: 'src',
             							desc: '跳转电话',
             							type: 'input',
             							value: '',
             							isAttr: true,
-            							attrName: 'src',
-            							id: ''
+            							attrName: 'href',
+            							id: '',
+										attrType: 'phone'
             						}, {
             							name: 'src',
             							desc: '跳转页面',
             							type: 'select',
             							value: '',
             							isAttr: true,
-            							attrName: 'src',
-            							id: ''
+            							attrName: 'href',
+            							id: '',
+										attrType: 'page'
             						}, {
             							name: 'src',
             							desc: '跳转元素',
             							type: 'select',
             							value: '',
             							isAttr: true,
-            							attrName: 'src',
-            							id: ''
+            							attrName: 'href',
+            							id: '',
+										attrType: 'section'
             						},{
                                         name: 'target',
                                         desc: '新窗口打开',
@@ -2933,7 +2989,7 @@ export default {
                                 unActive: true,
                                 attrs: [{
                                     title: '下拉菜单链接设置',
-                                    key: 'link-setting',
+                                    key: 'link-setting', activeLinkType: 'link',
                                     deleteAble: true,
                                     children: [{
             							name: 'src',
@@ -2941,40 +2997,45 @@ export default {
             							type: 'input',
             							value: '',
             							isAttr: true,
-            							attrName: 'src',
-            							id: ''
+            							attrName: 'href',
+            							id: '',
+										attrType: 'link'
             						}, {
             							name: 'src',
             							desc: '跳转邮箱',
             							type: 'input',
             							value: '',
             							isAttr: true,
-            							attrName: 'src',
-            							id: ''
+            							attrName: 'href',
+            							id: '',
+										attrType: 'mail'
             						}, {
             							name: 'src',
             							desc: '跳转电话',
             							type: 'input',
             							value: '',
             							isAttr: true,
-            							attrName: 'src',
-            							id: ''
+            							attrName: 'href',
+            							id: '',
+										attrType: 'phone'
             						}, {
             							name: 'src',
             							desc: '跳转页面',
             							type: 'select',
             							value: '',
             							isAttr: true,
-            							attrName: 'src',
-            							id: ''
+            							attrName: 'href',
+            							id: '',
+										attrType: 'page'
             						}, {
             							name: 'src',
             							desc: '跳转元素',
             							type: 'select',
             							value: '',
             							isAttr: true,
-            							attrName: 'src',
-            							id: ''
+            							attrName: 'href',
+            							id: '',
+										attrType: 'section'
             						}, {
                                         name: 'target',
                                         desc: '新窗口打开',

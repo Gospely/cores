@@ -1881,6 +1881,8 @@ export default {
 				state.defaultSelectedKeys = [data.vdid];
 			}
 
+			console.log(state.activeCtrl);
+
 			return {...state};
 		},
 		handleAttrFormChangeA(state, { payload: params }) {
@@ -2429,6 +2431,11 @@ export default {
 				}, '*');
 			}
 
+			return {...state};
+		},
+
+		handleLinkSettingTypeChange(state, { payload: params }) {
+			params.item.activeLinkType = params.value;			
 			return {...state};
 		},
 

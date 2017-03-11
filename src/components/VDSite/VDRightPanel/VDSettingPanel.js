@@ -241,19 +241,16 @@ const Component = (props) => {
 
         },
         handleComplextChildrenDelete(message, type){
-            console.log(type);
             props.dispatch({
                 type: 'vdCtrlTree/handleComplextChildrenDelete',
                 payload:{ type: type}
             });
         },
         childrenUpdate(attType){
-
-            console.log('update');
             let activeCtrl = props.vdCtrlTree.activeCtrl.children[props.vdCtrlTree.selectIndex] || props.vdCtrlTree.activeCtrl.children[0];
 
             if(attType.key == 'tabs-setting') {
-                activeCtrl = props.vdCtrlTree.activeCtrl.children[props.vdCtrlTree.selectIndex].children[0] || props.vdCtrlTree.activeCtrl.children[0];
+                activeCtrl = props.vdCtrlTree.activeCtrl.children[0].children[props.vdCtrlTree.selectIndex].children[0] || props.vdCtrlTree.activeCtrl.children[0];
             }
             props.dispatch({
                 type: 'vdCtrlTree/handleChildrenUpdate',
@@ -264,8 +261,6 @@ const Component = (props) => {
             });
         },
         childrenAdd(index, fatherKey, key, level, levelsInfo){
-
-            console.log('navbar');
             var children = copyOperate.copyChildren(index, fatherKey, key, level, levelsInfo);
             props.dispatch({
                 type: 'vdCtrlTree/handleChildrenAdd',
@@ -519,6 +514,8 @@ const Component = (props) => {
 
 	    			'link-setting' (item, attrTypeIndex) {
 
+                        console.log('linkSetting', item);
+
                         const dropdownProps = {
 
                             switchDropDown(item){
@@ -611,16 +608,23 @@ const Component = (props) => {
 					    			type: 'vdcore/handleLinkSettingTypeChange',
 					    			payload: e.target.value
 					    		});
+
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleLinkSettingTypeChange',
+                                    payload: {
+                                        item,
+                                        value: e.target.value
+                                    }
+                                });
 					    	}
 
 					    }
 
 	    				return (
 						    <Panel header={item.title} key={item.key}>
-								<RadioGroup onChange={linkSettingProps.onChange} defaultValue="link" size="small">
+								<RadioGroup onChange={linkSettingProps.onChange} value={item.activeLinkType} size="small">
 									{linkSettingProps.linkSettingTemplate}
 							    </RadioGroup>
-
 						    	{linkSettingProps.tpl[props.vdcore.linkSetting.activeLinkType]}
 						    </Panel>
 	    				);
@@ -631,8 +635,6 @@ const Component = (props) => {
                         const listSettingProps = {
 
                             listTypeChoose(e){
-
-                                console.log(attrType);
                                 var attr = {
         							name: 'tag',
         							desc: '标签',
@@ -651,10 +653,7 @@ const Component = (props) => {
                             },
                             onChange(e){
 
-                                console.log(attrType);
-                                console.log(e);
                                 var value = e? 'decimal inside': 'circle inside'
-                                console.log(value);
                                 var attr = {
                                     name: 'list-style',
                                     desc: '有无序号',
@@ -992,9 +991,7 @@ const Component = (props) => {
                                 });
                             }
                         }
-                        console.log('tabs');
                         var tabItem = props.vdCtrlTree.activeCtrl.children[0].children[props.vdCtrlTree.selectIndex] || props.vdCtrlTree.activeCtrl.children[0].children[0];
-                        console.log(props.vdCtrlTree.activeCtrl.children[0].children[props.vdCtrlTree.selectIndex]);
 					    const tabSettingProps = {
 					    	modifyContent: (
 						      	<Form className="form-no-margin-bottom">
@@ -1054,7 +1051,6 @@ const Component = (props) => {
 
                                 var tab = copyOperate.copyChildren(0, 'component','tabs', 2);
                                 tab.children[0].attrs[0].children[0].value = '#' + random;
-                                console.log(tab);
                                 props.dispatch({
                                     type: 'vdCtrlTree/handleChildrenAdd',
                                     payload: {
@@ -1079,11 +1075,8 @@ const Component = (props) => {
                             },
                             chooseTab(item, index){
 
-                                console.log('chooseTab');
-                                console.log(item, index);
                                 //改变active tab 对应的panel active
 
-                                console.log('handleActive');
                                 props.dispatch({
                                     type: 'vdCtrlTree/handleActive',
                                     payload: {
@@ -1102,7 +1095,6 @@ const Component = (props) => {
                                 });
                             },
                             handleFade(e){
-                                console.log(e);
                                 props.dispatch({
                                     type: 'vdCtrlTree/handleFade',
                                     payload: {
@@ -1113,7 +1105,6 @@ const Component = (props) => {
 					    }
                         const keyValues = props.vdCtrlTree.activeCtrl.children[0].children.map((item, index) =>{
 
-                            console.log(item);
                             return (
                                 <li className="ant-dropdown-menu-item" role="menuitem" key={index} onClick={tabSettingProps.chooseTab.bind(this,item, index)}>
                                 <Row>
@@ -1135,7 +1126,6 @@ const Component = (props) => {
                               </li>
                             )
                         });
-                        console.log(item);
 	    				return (
 						    <Panel header={item.title} key={item.key}>
 
@@ -1209,8 +1199,6 @@ const Component = (props) => {
                                         newVal: newVal
                                     }
                                 });
-                                console.log(target);
-                                console.log(index);
                             }
                         }
                         var itemImage = props.vdCtrlTree.activeCtrl.children[1].children[props.vdCtrlTree.selectIndex] || props.vdCtrlTree.activeCtrl.children[1].children[0] ;
@@ -1307,8 +1295,6 @@ const Component = (props) => {
                             addSlider(){
 
                                 var slider = copyOperate.copyChildren(0, 'component','slider', 2);
-                                console.log(slider);
-                                console.log(slider.attrs[0]);
                                 slider.attrs[0].children[1].value = props.vdCtrlTree.activeCtrl.children[0].children.length;
                                 props.dispatch({
                                     type: 'vdCtrlTree/handleChildrenAdd',
@@ -1331,7 +1317,6 @@ const Component = (props) => {
                                 });
                             }
                         }
-                        console.log(props.vdCtrlTree.activeCtrl);
                         const images = props.vdCtrlTree.activeCtrl.children[1].children.map((item, index) =>{
 
                             return (
@@ -1399,7 +1384,6 @@ const Component = (props) => {
 
                             }
                         }
-                        console.log(props.vdCtrlTree.activeCtrl);
 	    				return (
 						    <Panel header={item.title} key={item.key}>
                             <Form className="form-no-margin-bottom">
@@ -1440,7 +1424,6 @@ const Component = (props) => {
                                 });
                             },
                             chooseIcon(item){
-                                console.log(item);
                                 props.dispatch({
                                     type: 'vdCtrlTree/handleUpdateVisible',
                                     payload: false
@@ -1470,8 +1453,6 @@ const Component = (props) => {
                                 });
                             },
                             switchSpin(e){
-                                console.log("switchSpin");
-                                console.log(e);
                                 if(e){
                                     props.dispatch({
                                         type: 'vdCtrlTree/handleClassNameChange',
@@ -1557,7 +1538,6 @@ const Component = (props) => {
 
                         const navbarSettingProps = {
                             onSelect: function(val, target) {
-                                console.log(val, target);
 
                                 let remove = val == 'navbar-left' ? 'navbar-right' : 'navbar-left';
 
@@ -1572,7 +1552,6 @@ const Component = (props) => {
                                 });
                             },
                             openMenu(){
-                                console.log(props.vdcore.VDDesigner.activeSize);
                                 if(props.vdcore.VDDesigner.activeSize != 'pc'){
                                     props.dispatch({
                     	        		type: 'vdcore/changeVDSize',
@@ -1855,7 +1834,7 @@ const Component = (props) => {
     	settingPanelDefaultActiveKey.push(attr);
     };
 
-    // settingPanelDefaultActiveKey.push('basic');
+    settingPanelDefaultActiveKey.push('basic');
 
   	return (
 
