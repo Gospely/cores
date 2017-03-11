@@ -508,19 +508,16 @@ $(function() {
                     	var VDDesignerContainer = jq('#VDDesignerContainer');
                        	VDDesignerContainer.html('');
                         controllerOperations.hideDesignerDraggerBorder();
-                        for (var i = 0; i < data.length; i++) {
-                            var currentController = data[i];
+						var elemBody = new ElemGenerator(data[0]);
+						elemBody.handleBody();
+                        for (var i = 0; i < data[0].children.length; i++) {
+                            var currentController = data[0].children[i];
                             var elem = new ElemGenerator(currentController);
-
-			        		if(currentController.tag == 'body') {
-			        			elem.handleBody();
-			        		}else {
-	                            var elemToAdd = jq(elem.createElement());
-	                            VDDesignerContainer.append(elemToAdd);
-	                            dndData.elemToAdd = elemToAdd;
-	                            dndData.dragElem = elemToAdd;
-	                            dndData.ctrlToAddData = data.controller;
-			        		}
+                            var elemToAdd = jq(elem.createElement());
+                            VDDesignerContainer.append(elemToAdd);
+                            dndData.elemToAdd = elemToAdd;
+                            dndData.dragElem = elemToAdd;
+                            dndData.ctrlToAddData = data.controller;
                         };
                     },
 
