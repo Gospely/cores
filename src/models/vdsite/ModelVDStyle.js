@@ -403,6 +403,9 @@ export default {
 				display: {
 					important: false
 				},
+				'background-repeat': {
+					important: false
+				},
 				'background-position': {
 					important: false
 				},
@@ -692,6 +695,9 @@ export default {
 				important: false
 			},
 			display: {
+				important: false
+			},
+			'background-repeat': {
 				important: false
 			},
 			'background-position': {
@@ -1202,15 +1208,15 @@ export default {
 		initState(state, { payload: params}){
 
 			console.log(params);
-			state.backgroundSetting = params.UIState.backgroundSetting;
-			state.cssStyleList = params.UIState.cssStyleList;
-			state.boxShadow = params.UIState.boxShadow;
-			state.cssStyleLayout = params.UIState.cssStyleLayout;
-			state.textShadow = params.UIState.textShadow;
-			state.filterSetting = params.UIState.filterSetting;
-			state.transitionSetting = params.UIState.transitionSetting;
-			state.transformSetting = params.UIState.transformSetting;
-			state.unitList = params.UIState.unitList;
+			state.backgroundSetting = params.UIState.backgroundSetting || state.backgroundSetting;
+			state.cssStyleList = params.UIState.cssStyleList || state.cssStyleList;
+			state.boxShadow = params.UIState.boxShadow || state.boxShadow;
+			state.cssStyleLayout = params.UIState.cssStyleLayout || state.cssStyleLayout;
+			state.textShadow = params.UIState.textShadow || state.textShadow;
+			state.filterSetting = params.UIState.filterSetting || state.filterSetting;
+			state.transitionSetting = params.UIState.transitionSetting || state.transitionSetting;
+			state.transformSetting = params.UIState.transformSetting || state.transformSetting;
+			state.unitList = params.UIState.unitList || state.unitList;
 			return {...state};
 		},
 		handleCSSStateChange(state, { payload: params }) {
@@ -1260,8 +1266,9 @@ export default {
 			state.cssStyleLayout[state.activeStyle] = cssTpl;
 			console.log("addStyle");
 			state.unitList[state.activeStyle] = unitsTpl;
-
 			console.log(state);
+			console.log(state.cssStyleLayout);
+			console.log(state.unitList);
 			return {...state};
 		},
 

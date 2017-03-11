@@ -34,6 +34,7 @@ export default {
   				message.error('读取配置失败');
   				return false;
   			}
+			console.log('get UIState from server');
 			var config = configs.data.fields[0];
 			localStorage.uistateId = config.id;
 			localStorage.UIState = config.configs;
@@ -106,7 +107,7 @@ export default {
 					window.clearInterval(window.uistateSave)
 				}
 			}
-			window.uistateSave = window.setInterval(cb, 3000);
+			window.uistateSave = window.setInterval(cb, gap);
 		}
 
 	},
