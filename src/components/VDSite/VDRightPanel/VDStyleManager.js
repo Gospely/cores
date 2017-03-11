@@ -116,7 +116,7 @@ const Component = (props) => {
  		}else {
 	 		return (
 	 			<div>
-	 				<p>样式列表：</p>
+	 				<p style={{margin: 10}}>样式列表：</p>
 			  		<Menu
 			      		mode="inline"
 			  		>
