@@ -508,8 +508,8 @@ $(function() {
                     	var VDDesignerContainer = jq('#VDDesignerContainer');
                        	VDDesignerContainer.html('');
                         controllerOperations.hideDesignerDraggerBorder();
-						var elemBody = new ElemGenerator(data[0]);
-						elemBody.handleBody();
+                        var elemBody = new ElemGenerator(data[0]);
+                        elemBody.handleBody();
                         for (var i = 0; i < data[0].children.length; i++) {
                             var currentController = data[0].children[i];
                             var elem = new ElemGenerator(currentController);
@@ -987,10 +987,6 @@ $(function() {
 
         				if (ref <= 1/3) {
 
-        					if (target.data("controller") && target.data("controller").unBefore) {
-        						return false;
-        					}
-
         					if (e.target.className.indexOf('col-md-') === -1) {
         						dndData.horizontalBefore(e, target);
         					}else {
@@ -1019,10 +1015,6 @@ $(function() {
 
 		        		} else if (ref < 1/2) {
 
-		        			if (target.data("controller") && target.data("controller").unBefore) {
-        						return false;
-        					}
-
 		        			dndData.horizontalBefore(e, target);
 
 		        		} else if (ref >= 1/2) {
@@ -1039,10 +1031,6 @@ $(function() {
         			if (target.data("container")) {
 
         				if (ref <= 1/3) {
-
-        					if (target.data("controller") && target.data("controller").unBefore) {
-        						return false;
-        					}
 
         					if (e.target.className.indexOf('col-md-') > -1) {
         						target = target.parent();
@@ -1073,10 +1061,6 @@ $(function() {
 		        			dndData.containerSpecialHandle(e, target);
 
 		        		}else if (ref < 1/2) {
-
-		        			if (target.data("controller") && target.data("controller").unBefore) {
-        						return false;
-        					}
 
 		        			dndData.verticalBefore(e, target);
 
