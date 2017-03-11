@@ -86,7 +86,10 @@ const Component = (props) => {
  			});
  		}
 
+ 		let cnt = 0;
+
  		for(var styleName in cssStyles) {
+ 			cnt ++;
  			MenuItems.push(
 		  		<Menu.Item key={styleName}>
 		  			<Row>
@@ -106,18 +109,25 @@ const Component = (props) => {
  			);
  		}
 
- 		return MenuItems;
+ 		if(cnt === 0) {
+ 			return (
+				<div className="none-operation-obj">暂无样式</div>
+ 			);
+ 		}else {
+	 		return (
+	 			<div>
+	 				<p>样式列表：</p>
+			  		<Menu
+			      		mode="inline"
+			  		>
+			  			{MenuItems}
+					</Menu>
+	 			</div>
+	 		);
+ 		}
  	}
 
-  	return (
-  		<div>
-	  		<Menu
-	      		mode="inline"
-	  		>
-	  			{getAllStyles()}
-			</Menu>
-  		</div>
-  	);
+  	return getAllStyles();
 
 };
 

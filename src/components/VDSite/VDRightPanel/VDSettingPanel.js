@@ -1855,7 +1855,7 @@ const Component = (props) => {
     	settingPanelDefaultActiveKey.push(attr);
     };
 
-    settingPanelDefaultActiveKey.push('basic');
+    // settingPanelDefaultActiveKey.push('basic');
 
   	return (
 
