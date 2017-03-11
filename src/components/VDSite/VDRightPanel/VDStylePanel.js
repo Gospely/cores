@@ -1595,7 +1595,7 @@ const VDStylePanel = (props) => {
 			<Panel header={<span><i className="fa fa-css3"></i>&nbsp;CSS类选择器<Button size="small" onClick={linkToStylesManager}>样式管理</Button></span>} key="css">
 				<Row>
 					<Col span={18}>
-					  	<p style={{marginBottom: '10px'}}>当前类名：<Tag color="#87d068"><span style={{color: 'rgb(255, 255, 255)'}}>{props.vdCtrlTree.activeCtrl.activeStyle || '无活跃类名'}</span></Tag></p>
+					  	<div style={{marginBottom: '10px'}}>当前类名：<Tag color="#87d068"><span style={{color: 'rgb(255, 255, 255)'}}>{props.vdCtrlTree.activeCtrl.activeStyle || '无活跃类名'}</span></Tag></div>
 					</Col>
 					<Col span={6} style={{textAlign: 'right'}}>
 					  	<Dropdown overlay={cssStateMenu()}>
@@ -3419,7 +3419,7 @@ const VDStylePanel = (props) => {
 
 			var tipPanel = (
 				<Card style={{ width: 'auto', margin: '15px', background: '#f7f7f7' }}>
-				    <p>添加<Tag color="#87d068"><span style={{color: 'rgb(255, 255, 255)'}}>类名</span></Tag>后可以调整以下属性：</p>
+				    <div>添加<Tag color="#87d068"><span style={{color: 'rgb(255, 255, 255)'}}>类名</span></Tag>后可以调整以下属性：</div>
 				    <ol>
 				    	<li>1、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>元素位置</span></Tag>和<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>大小</span></Tag></li>
 				    	<li>2、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>字体</span></Tag>属性</li>

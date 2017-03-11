@@ -76,6 +76,39 @@ const Component = (props) => {
 				}, '*');
 			},
 
+			onDragEnter (evt) {
+				// console.log(evt);
+			},
+
+			onDrop (info) {
+				
+			    props.dispatch({
+			    	type: "vdCtrlTree/handleTreeNodeDrop",
+			    	payload: info
+			    })
+			},
+
+			onDragOver (info) {
+				// if (sessionStorage.currentDragNodeCtrl.) {}
+			},
+
+			onDragStart (info) {
+				let ctrl = info.node.props.ctrl;
+				for(let i = 0; i < ctrl.attrs.length; i ++) {
+					if (attrs[i].isAttrSetting) {
+						for(let j = 0; j < attrs[i].children.length; j ++) {
+							let attr = attrs[i].children[j];
+							if(attr.isSpecialChild) {
+								sessionStorage.currentDragNodeSpecialChild = attr.value;
+							}
+							break;
+						}
+					}
+					break;
+				}
+				
+			},
+
 			onCheck () {
 
 			},
@@ -135,6 +168,11 @@ const Component = (props) => {
         		onSelect={ctrlPros.onSelect} onMouseEnter={ctrlPros.onMouseEnter} onMouseLeave={ctrlPros.onMouseLeave} onCheck={ctrlPros.onCheck}
         		onExpand={ctrlPros.onExpand}
         		autoExpandParent={props.vdCtrlTree.autoExpandParent}
+        		draggable
+        		onDragEnter={ctrlPros.onDragEnter}
+        		onDrop={ctrlPros.onDrop}
+        		onDragOver={ctrlPros.onDragOver}
+        		onDragStart={ctrlPros.onDragStart}
       		>
       			{loopControllerTree(activeControllerTree)}
       		</Tree>

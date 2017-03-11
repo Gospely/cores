@@ -75,7 +75,7 @@ const VDDesignerPanel = (props) => {
                         onLoad = { VDDesignerPanelProps.handleDesPanelLoaded }
                     >
                     </iframe>
-                    <Spin  spinning={props.vdcore.loading}  style={{ 'margin-top': '300px' }}>
+                    <Spin  spinning={props.vdcore.loading}  style={{ 'marginTop': '300px' }}>
                 <div id="closeVDLeftPanel" className='close-VD-left-panel'></div>
                 </Spin>
             </div>

@@ -136,6 +136,7 @@ const VDTreeActions = {
 export default {
 	namespace: 'vdCtrlTree',
 	state: {
+	    autoExpandParent: true,
 	    defaultExpandedKeys: ["body-main"],
 	    defaultSelectedKeys: [""],
 		symbols: [],
@@ -2334,6 +2335,61 @@ export default {
 			return {...state};
 		},
 
+		handleTreeNodeDrop(state, { payload: info }) {
+			const dropKey = info.node.props.eventKey;
+		    const dragKey = info.dragNode.props.eventKey;
+		    // const dragNodesKeys = info.dragNodesKeys;
+		    const loop = (data, key, callback) => {
+		      	data.forEach((item, index, arr) => {
+		        	if (item.vdid === key) {
+		          		return callback(item, index, arr);
+		        	}
+		        	if (item.children) {
+		          		return loop(item.children, key, callback);
+		        	}
+		      	});
+		    };
+		    const data = state.layout[state.activePage.key];
+		    let dragObj;
+		    loop(data, dragKey, (item, index, arr) => {
+		      	arr.splice(index, 1);
+		      	dragObj = item;
+		    });
+		    if (info.dropToGap) {
+		      	let ar;
+		      	let i;
+		      	loop(data, dropKey, (item, index, arr) => {
+		        	ar = arr;
+		        	i = index;
+		      	});
+		      	ar.splice(i, 0, dragObj);
+
+		      	VDDesignerFrame.postMessage({
+		      		treeNodeDroped: {
+		      			target: dropKey,
+		      			dragNode: dragKey,
+		      			type: 'before'
+		      		}
+		      	}, "*")
+
+		    } else {
+		      	loop(data, dropKey, (item) => {
+		        	item.children = item.children || [];
+		        	item.children.push(dragObj);
+		      	});
+
+		      	VDDesignerFrame.postMessage({
+		      		treeNodeDroped: {
+		      			target: dropKey,
+		      			dragNode: dragKey,
+		      			type: 'append'
+		      		}
+		      	}, "*")
+			}
+
+			return {...state};
+		},
+
 		changeCustomClass(state, { payload: params }) {
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
 
@@ -2401,6 +2457,123 @@ export default {
 	    		pageSelected: state.layout[pageInfo.key]
 	    	}, '*');
 
+			return {...state};
+		},
+
+		copyCtrl(state, {payload: params}) {
+			sessionStorage.copiedCtrl = JSON.stringify(state.activeCtrl);
+			return {...state};
+		},
+
+		pastCtrl(state, {payload: params}) {
+			let controller = JSON.parse(sessionStorage.copiedCtrl);
+			let activeCtrl = state.activeCtrl;
+
+			controller.vdid = controller.key ? (controller.key + '-' + randomString(8, 10)) : randomString(8, 10);
+			controller.parent = activeCtrl.vdid;
+			controller.root = activeCtrl.root;
+			controller.isRoot = activeCtrl.isRoot;
+			const loopAttr = (controller, wrapperVdid, activeCtrl) => {
+				controller.vdid = controller.key ? (controller.key + '-' + randomString(8, 10)) : randomString(8, 10);
+				controller.root = activeCtrl.root;
+				controller.isRoot = activeCtrl.isRoot;
+				if (controller.vdid === wrapperVdid) {
+					controller.parent = activeCtrl.vdid;
+				}
+
+				for(let i = 0, len = controller.attrs.length; i < len; i ++) {
+					let tmpAttr = controller.attrs[i];
+					if (tmpAttr.key === 'basic') {
+						for(let j = 0; j <tmpAttr.children.length; j ++) {
+							if (tmpAttr.children[j].name === 'id') {
+									tmpAttr.children[j].value = '';
+							}
+						}
+					}
+					for (let j = 0; j < tmpAttr.children.length; j++) {
+						let attr = tmpAttr.children[j];
+						attr['id'] = randomString(8, 10);
+					};
+				}
+
+				if (controller.children && controller.children.length) {
+					for(let i = 0; i < controller.children.length; i ++) {
+						loopAttr(controller.children[i]);
+					}
+				}
+				
+			}
+				
+			loopAttr(controller, controller.vdid, activeCtrl);
+
+			const pastHandler = {
+				append(activeCtrl, controller) {
+					activeCtrl.children = activeCtrl.children || [];
+					activeCtrl.children.push(controller);
+					if (state.expandedKeys.indexOf(activeCtrl.vdid) === -1) {
+						state.expandedKeys.push(activeCtrl.vdid);
+						state.autoExpandParent = true;
+					}
+				},
+
+				prepend(activeCtrl, controller) {
+					activeCtrl.children = activeCtrl.children || [];
+					activeCtrl.children.splice(0, 0, controller);
+					if (state.expandedKeys.indexOf(activeCtrl.vdid) === -1) {
+						state.expandedKeys.push(activeCtrl.vdid);
+						state.autoExpandParent = true;
+					}
+				},
+
+				after(activeCtrl, controller) {
+					let parentInfo = VDTreeActions.getParentCtrlByKey(state, activeCtrl.vdid, state.activePage);
+					parentInfo.parentCtrl.children.splice(parentInfo.index + 1, 0, controller);
+					if (state.expandedKeys.indexOf(parentInfo.parentCtrl.vdid) === -1) {
+						state.expandedKeys.push(parentInfo.parentCtrl.vdid);
+						state.autoExpandParent = true;
+					}
+				},
+
+				before(activeCtrl, controller) {
+					let parentInfo = VDTreeActions.getParentCtrlByKey(state, activeCtrl.vdid, state.activePage);
+					parentInfo.parentCtrl.children.splice(parentInfo.index, 0, controller);
+					if (state.expandedKeys.indexOf(parentInfo.parentCtrl.vdid) === -1) {
+						state.expandedKeys.push(parentInfo.parentCtrl.vdid);
+						state.autoExpandParent = true;
+					}
+				}
+			}
+			pastHandler[params.type](activeCtrl, controller);
+
+			VDDesignerFrame.postMessage({
+				ctrlDataPasted: {
+					controller,
+					activeCtrlVdid: activeCtrl.vdid,
+					type: params.type
+				}
+			}, "*");
+
+			if (activeCtrl.children.length === 1) {
+				let index = activeCtrl.className.indexOf('vd-empty');
+				activeCtrl.className.splice(index, 1);
+				window.VDDesignerFrame.postMessage({
+					VDAttrRefreshed: {
+						activeCtrl: state.activeCtrl,
+						attr: {
+							action: 'replaceClass',
+							attrName: 'classOperate',
+							remove: 'vd-empty',
+							replacement: '',
+							target: {
+								vdid: activeCtrl.vdid
+							},
+							needSelect: true
+						},
+						attrType: ''
+					}
+				}, '*');
+			}
+			
 			return {...state};
 		},
 
