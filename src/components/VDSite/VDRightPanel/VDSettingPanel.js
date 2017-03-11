@@ -281,6 +281,7 @@ const Component = (props) => {
         handleComplexChildrenAdd(fatherKey, key, item, type){
             //从配置中clone child的数据结构
             let children = copyOperate.copyChildren(0, fatherKey, key, item.level, item.levelsInfo);
+            console.log('handleComplexChildrenAdd', children);
             props.dispatch({
                 type: 'vdCtrlTree/handleComplexChildrenAdd',
                 payload: {

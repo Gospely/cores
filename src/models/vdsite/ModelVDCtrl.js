@@ -2435,8 +2435,8 @@ export default {
                     						},{
                     							name: 'addBtn',
                     							desc: '加一个',
-                    							level: 4,
-                                                levelsInfo: [{level: 1, index: 1}],
+                    							level: 7,
+                                                levelsInfo: [{level: 1, index: 1}, {level: 3, index: 1}, {level: 4, index: 2}],
                                                 type: 'buttonAdd',
                     							id: '',
                     						},{
