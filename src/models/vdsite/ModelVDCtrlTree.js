@@ -1294,7 +1294,7 @@ export default {
 			state.attr[params.name] = params.value
 			return {...state};
 		},
-		//当前活跃控件子删除
+		//当前活跃控件子删除    scasdsacsas
 		handleChildrenDelete(state, {payload: params}){
 
 			if(params.index == state.selectIndex) {
