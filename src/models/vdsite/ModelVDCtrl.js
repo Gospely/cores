@@ -1985,6 +1985,7 @@ export default {
 							tag: 'div',
                             unActive: true,
                             unCtrl: true,
+                            unBefore: true,
 							className: ['vd-empty', 'tab-pane'],
 							children: [],
 							attrs: [{
@@ -2012,6 +2013,7 @@ export default {
 							tag: 'div',
                             unActive: true,
                             unCtrl: true,
+                            unBefore: true,
 							className: ['vd-empty', 'tab-pane', 'in', 'active'],
 							children: [],
 							attrs: [{
@@ -2038,6 +2040,8 @@ export default {
 						},{
 							tag: 'div',
 							className: ['vd-empty', 'tab-pane'],
+                            unCtrl: true,
+                            unBefore: true,
                             unCtrl: true,
 							children: [],
 							attrs: [{
