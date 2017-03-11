@@ -138,6 +138,7 @@ export default {
 	state: {
 	    defaultExpandedKeys: ["body-main", '456', '789'],
 	    expandedKeys: ["body-main", '456', '789'],
+	    autoExpandParent: true,
 	    backgroundImgSettingPanePreviewUrl: "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTQwcHgiIGhlaWdodD0iMTQwcHgiIHZpZXdCb3g9IjAgMCAxNDAgMTQwIiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogIDxnPgogICAgICA8cmVjdCBpZD0iUmVjdGFuZ2xlIiBmaWxsPSIjRTBFMEUwIiB4PSIwIiB5PSIwIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCI+PC9yZWN0PgogICAgICA8cGF0aCBkPSJNOTIsODggTDQ4LDg4IEM0Ni45LDg4IDQ2LDg3LjEgNDYsODYgTDQ2LDU0IEM0Niw1Mi45IDQ2LjksNTIgNDgsNTIgTDkyLDUyIEM5My4xLDUyIDk0LDUyLjkgOTQsNTQgTDk0LDg2IEM5NCw4Ny4xIDkzLjEsODggOTIsODggWiBNNjguMjgwNSw3My41NzI1IEw2NC44NjU1LDcwLjA1MTUgTDU1LjIyOTUsODAuOTk5NSBMODUuMzQ5NSw4MC45OTk1IEw3NC41NjQ1LDY0LjY0NDUgTDY4LjI4MDUsNzMuNTcyNSBaIE02Mi45MTg1LDY0LjUyMzUgQzYyLjkxODUsNjIuNDI5NSA2MS4yMjA1LDYwLjczMjUgNTkuMTI2NSw2MC43MzI1IEM1Ny4wMzU1LDYwLjczMjUgNTUuMzM2NSw2Mi40Mjk1IDU1LjMzNjUsNjQuNTIzNSBDNTUuMzM2NSw2Ni42MTY1IDU3LjAzNTUsNjguMzEzNSA1OS4xMjY1LDY4LjMxMzUgQzYxLjIyMDUsNjguMzEzNSA2Mi45MTg1LDY2LjYxNjUgNjIuOTE4NSw2NC41MjM1IFoiIGlkPSJDb21iaW5lZC1TaGFwZSIgZmlsbD0iI0MyQzJDMiI+PC9wYXRoPgogIDwvZz4KPC9zdmc+",
 	    imgSettingPanePreviewUrl: "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTQwcHgiIGhlaWdodD0iMTQwcHgiIHZpZXdCb3g9IjAgMCAxNDAgMTQwIiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogIDxnPgogICAgICA8cmVjdCBpZD0iUmVjdGFuZ2xlIiBmaWxsPSIjRTBFMEUwIiB4PSIwIiB5PSIwIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCI+PC9yZWN0PgogICAgICA8cGF0aCBkPSJNOTIsODggTDQ4LDg4IEM0Ni45LDg4IDQ2LDg3LjEgNDYsODYgTDQ2LDU0IEM0Niw1Mi45IDQ2LjksNTIgNDgsNTIgTDkyLDUyIEM5My4xLDUyIDk0LDUyLjkgOTQsNTQgTDk0LDg2IEM5NCw4Ny4xIDkzLjEsODggOTIsODggWiBNNjguMjgwNSw3My41NzI1IEw2NC44NjU1LDcwLjA1MTUgTDU1LjIyOTUsODAuOTk5NSBMODUuMzQ5NSw4MC45OTk1IEw3NC41NjQ1LDY0LjY0NDUgTDY4LjI4MDUsNzMuNTcyNSBaIE02Mi45MTg1LDY0LjUyMzUgQzYyLjkxODUsNjIuNDI5NSA2MS4yMjA1LDYwLjczMjUgNTkuMTI2NSw2MC43MzI1IEM1Ny4wMzU1LDYwLjczMjUgNTUuMzM2NSw2Mi40Mjk1IDU1LjMzNjUsNjQuNTIzNSBDNTUuMzM2NSw2Ni42MTY1IDU3LjAzNTUsNjguMzEzNSA1OS4xMjY1LDY4LjMxMzUgQzYxLjIyMDUsNjguMzEzNSA2Mi45MTg1LDY2LjYxNjUgNjIuOTE4NSw2NC41MjM1IFoiIGlkPSJDb21iaW5lZC1TaGFwZSIgZmlsbD0iI0MyQzJDMiI+PC9wYXRoPgogIDwvZz4KPC9zdmc+",
 		symbols: [],
@@ -2528,14 +2529,50 @@ export default {
 				
 			loopAttr(controller, controller.vdid, activeCtrl);
 
-			activeCtrl.children = activeCtrl.children || [];
-			activeCtrl.children.splice(0, 0, controller);
+			const pastHandler = {
+				append(activeCtrl, controller) {
+					activeCtrl.children = activeCtrl.children || [];
+					activeCtrl.children.push(controller);
+					if (state.expandedKeys.indexOf(activeCtrl.vdid) === -1) {
+						state.expandedKeys.push(activeCtrl.vdid);
+						state.autoExpandParent = true;
+					}
+				},
+
+				prepend(activeCtrl, controller) {
+					activeCtrl.children = activeCtrl.children || [];
+					activeCtrl.children.splice(0, 0, controller);
+					if (state.expandedKeys.indexOf(activeCtrl.vdid) === -1) {
+						state.expandedKeys.push(activeCtrl.vdid);
+						state.autoExpandParent = true;
+					}
+				},
+
+				after(activeCtrl, controller) {
+					let parentInfo = VDTreeActions.getParentCtrlByKey(state, activeCtrl.vdid, state.activePage);
+					parentInfo.parentCtrl.children.splice(parentInfo.index + 1, 0, controller);
+					if (state.expandedKeys.indexOf(parentInfo.parentCtrl.vdid) === -1) {
+						state.expandedKeys.push(parentInfo.parentCtrl.vdid);
+						state.autoExpandParent = true;
+					}
+				},
+
+				before(activeCtrl, controller) {
+					let parentInfo = VDTreeActions.getParentCtrlByKey(state, activeCtrl.vdid, state.activePage);
+					parentInfo.parentCtrl.children.splice(parentInfo.index, 0, controller);
+					if (state.expandedKeys.indexOf(parentInfo.parentCtrl.vdid) === -1) {
+						state.expandedKeys.push(parentInfo.parentCtrl.vdid);
+						state.autoExpandParent = true;
+					}
+				}
+			}
+			pastHandler[params.type](activeCtrl, controller);
 
 			VDDesignerFrame.postMessage({
 				ctrlDataPasted: {
 					controller,
 					activeCtrlVdid: activeCtrl.vdid,
-					prepend: params.prepend
+					type: params.type
 				}
 			}, "*");
 

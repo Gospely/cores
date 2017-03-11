@@ -10,20 +10,26 @@ $(function() {
 
 	var jq = jQuery.noConflict();
 
-	//是否是最后一个子元素
-	jQuery.fn.isLastChild = function() {
-		var next = this.next();
-
-		// if (!next) {
-		// 	return true;
-		// }
-		// if (next.attr("id") === "vdInsertGuide") {
-		// 	return !next.next().attr("vdid");
-		// }else {
-			return !next.attr("vdid") && next.attr("id") !== "vdInsertGuideHidden";
-		// }
-
+	jQuery.fn.isChildOf = function(b) {
+        return (this.closest(b).length > 0);
     };
+
+    var drawCanvas = function (left, top , width, height) {
+    	jq("#drawLegalArea").remove();
+    	var $canvas = jq('<canvas id="drawLegalArea" class="vd-drop-mask"></canvas>');
+    	var windowHeight = jq(window).height();
+    	var windowWidth = jq(window).width();
+    	jq('body').append($canvas);
+
+    	var ctx = $canvas[0].getContext("2d");
+    	ctx.fillStyle = "rgba(1, 1, 1, .37)";
+    	ctx.fillRect(0, 0, windowWidth, windowHeight);
+    	ctx.fillStyle = "rgba(1, 1, 1, 1)";
+    	ctx.globalCompositeOperation = 'destination-out';
+    	ctx.fillRect(left, top, width, height);
+    	
+    	
+    }
 
     var guide = jq("#vdInsertGuide");
     var guideHidden = jq("#vdInsertGuideHidden");
@@ -75,6 +81,7 @@ $(function() {
 				var specialClassName = specialParent.className;
 				var parentClass = guideHidden.parent()[0].className;
 				var parentTag = guideHidden.parent()[0].tagName;
+
 				jq("#VDDesignerContainer").addClass('illegalArea');
 				jq("#VDDesignerContainer").find("*").addClass('illegalArea');
 				jq("#VDDesignerContainer").find("*").each(function () {
@@ -85,6 +92,8 @@ $(function() {
 							$this.find('*').removeClass('illegalArea');
 					}
 				})
+				// var parent = guideHidden.parent();
+				// drawCanvas(parent.offset().left, parent.offset().top, parent.outerWidth(), parent.outerHeight());
 
 				if (parentClass.indexOf(specialClassName) === -1 || specialTag.indexOf(parentTag) === -1) {
 					return [false, specialParent.errorMessage];
@@ -232,6 +241,7 @@ $(function() {
         	if (lastChild.length) {
         		lastPosition = lastChild.offset().top + lastChild.outerHeight()
         	}
+
 			target.append(guideHidden);
 			guide.css({
 				width: target.innerWidth(),
@@ -331,10 +341,6 @@ $(function() {
         },
 
         containerSpecialHandle: function (e, target) {
-
-        	if (dndData.dragElem.attr("vdid") === target.attr("vdid")) {
-        		return false;
-        	}
 
 			let firAndLas = [];
 			target.children().each(function () {
@@ -437,6 +443,7 @@ $(function() {
 			deleteCtrl: function (c) {
 				parentWindow.postMessage({ 'deleteCtrl' : c }, "*");
 			}
+
 		};
 
 		//监听父级消息
@@ -562,15 +569,12 @@ $(function() {
                     },
 
                     ctrlDataPasted: function () {
-                    	console.log(data)
+                    	
                     	var elem = new ElemGenerator(data.controller);
                         var elemToAdd = jq(elem.createElement());
                         var parent = jq("[vdid=" + data.activeCtrlVdid + "]");
-                        if (data.prepend) {
-                        	parent.prepend(elemToAdd);	
-                        }else {
-                        	parent.append(elemToAdd);	
-                        }
+                        parent[data.type](elemToAdd);
+                        controllerOperations.select(data.controller);
                     }
                 };
 
@@ -618,7 +622,7 @@ $(function() {
 		    	if (jq(e.target).hasClass('disabled')) {
 		    		return false;
 		    	}
-		    	postMessageToFather.pastCtrl({});
+		    	postMessageToFather.pastCtrl({type: 'append'});
 		    	jq("#vdRightClickMenu").hide();
 		    })
 
@@ -632,14 +636,37 @@ $(function() {
 		    jq("#vdPastPre").click(function (e) {
 		    	e.stopPropagation();
 		    	e.preventDefault();
-		    	postMessageToFather.pastCtrl({prepend: true});
+		    	if (jq(e.target).hasClass('disabled')) {
+		    		return false;
+		    	}
+		    	postMessageToFather.pastCtrl({type: 'prepend'});
 		    	jq("#vdRightClickMenu").hide();
 		    })
 
 		    jq("#vdDelete").click(function (e) {
 		    	e.stopPropagation();
 		    	e.preventDefault();
-		    	postMessageToFather.vdDelete({});
+		    	postMessageToFather.deleteCtrl({});
+		    	jq("#vdRightClickMenu").hide();
+		    })
+
+		    jq("#vdPastBefore").click(function (e) {
+		    	e.stopPropagation();
+		    	e.preventDefault();
+		    	if (jq(e.target).hasClass('disabled')) {
+		    		return false;
+		    	}
+		    	postMessageToFather.pastCtrl({type: 'before'});
+		    	jq("#vdRightClickMenu").hide();
+		    })
+
+		    jq("#vdPastAfter").click(function (e) {
+		    	e.stopPropagation();
+		    	e.preventDefault();
+		    	if (jq(e.target).hasClass('disabled')) {
+		    		return false;
+		    	}
+		    	postMessageToFather.pastCtrl({type: 'after'});
 		    	jq("#vdRightClickMenu").hide();
 		    })
 
@@ -820,18 +847,50 @@ $(function() {
 
             showRightClickMenu: function (e) {
             	
-            	var past = jq("#vdPast");
+            	var pastInside = jq("#vdPast, #vdPastPre");
+            	var pastBrother = jq("#vdPastBefore, #vdPastAfter");
             	var target = jq(e.target);
-            	jq("#vdRightClickMenu").css({
-            		display: 'block',
-            		left: e.pageX,
-            		top: e.pageY
-            	})
-            	if (!sessionStorage.copiedCtrl || (!target.data('container') && target.attr('id') !== 'VDDesignerContainer')) {
-            		past.addClass('disabled');
-            	}else {
-            		past.removeClass('disabled')
+            	var menu = jq("#vdRightClickMenu");
+            	var left = e.pageX;
+            	var top = e.pageY;
+            	
+            	if (jq(window).width() - e.pageX < menu.outerWidth()) {
+            		left = jq(window).width() - menu.outerWidth() - 10 + jq(window).scrollLeft();
             	}
+            	if (jq(window).height() - e.pageY < menu.outerHeight()) {
+            		top = jq(window).height() - menu.outerHeight() - 10 + jq(window).scrollTop();
+            	}
+            	menu.css({
+            		display: 'block',
+            		left: left,
+            		top: top
+            	})
+
+            	if (!sessionStorage.copiedCtrl || (!target.data('container') && target.attr('id') !== 'VDDesignerContainer')) {
+            		pastInside.addClass('disabled');
+            	}else {
+            		pastInside.removeClass('disabled')
+            	}
+
+				if (target.parent().data("specialChild")) {
+					var controller = JSON.parse(sessionStorage.copiedCtrl);
+					var specialChild = target.parent().data("specialChild");
+					var ctrlClass = controller.className.join(' ');
+					var ctrlTag = controller.tag;
+					if (typeof ctrlTag === 'object') {
+						ctrlTag = ctrlTag[0];
+					}
+					
+					if (ctrlClass.indexOf(specialChild.className) === -1 || specialChild.tag.indexOf(ctrlTag.toUpperCase()) === -1) {
+						pastBrother.addClass('disabled');
+					}else {
+						pastBrother.removeClass('disabled');
+					}
+
+				}else {
+					pastBrother.removeClass('disabled');
+				}
+
             },
 
             refreshData: function (rootVdid, rootData, childrenData) {
@@ -965,6 +1024,8 @@ $(function() {
         		e.stopPropagation();
 
         		var target = jq(e.target);
+        		var targetIsChild = target.isChildOf(dndData.dragElem);
+        		var isContainer = target.data("container");
 
         		dndData.dragOverElem = target;
 
@@ -978,11 +1039,19 @@ $(function() {
         				if (elem.data("controller") && !elem.data("controller").unActive) {
         					target = elem;
         					dndData.dragOverElem = elem;
+        					dndData.dragElem = elem;
         				}
         			}
         			findParent(target);
         			
         		}
+
+        		//当拖动容器时可能会出现自己append到自己里面去的情况，在此防止
+        		if(targetIsChild) {
+        			dndData.dragOverElem = dndData.dragElem;
+					target = dndData.dragElem;
+					isContainer = false;
+				}
 
         		if (target.outerWidth() < target.parent().innerWidth() && e.target.className.indexOf('col-md-') === -1 &&
         			target.css('display') !== 'block' && target.css('display') !== 'flex') {
@@ -990,7 +1059,7 @@ $(function() {
         			var ref = (e.pageX - target.offset().left) / target.outerWidth();
         			var moveX = e.pageX - dndData.originalX;
 
-	        		if (target.data("container")) {
+	        		if (isContainer) {
 
         				if (ref <= 1/3) {
 
@@ -1035,7 +1104,7 @@ $(function() {
         			var ref = (e.pageY - target.offset().top) / target.outerHeight();
         			var moveY = e.pageY - dndData.originalY;
 
-        			if (target.data("container")) {
+        			if (isContainer) {
 
         				if (ref <= 1/3) {
 

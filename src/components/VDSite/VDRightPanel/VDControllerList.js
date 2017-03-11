@@ -76,6 +76,14 @@ const Component = (props) => {
 				}, '*');
 			},
 
+			onDragEnter (evt) {
+				console.log(evt);
+			},
+
+			onDrop (evt) {
+				console.log(evt);
+			},
+
 			onCheck () {
 
 			},
@@ -136,6 +144,9 @@ const Component = (props) => {
         		expandedKeys={props.vdCtrlTree.expandedKeys}
         		onExpand={ctrlPros.onExpand}
         		autoExpandParent={props.vdCtrlTree.autoExpandParent}
+        		draggable
+        		onDragEnter={ctrlPros.onDragEnter}
+        		onDrop={ctrlPros.onDrop}
       		>
       			{loopControllerTree(activeControllerTree)}
       		</Tree>

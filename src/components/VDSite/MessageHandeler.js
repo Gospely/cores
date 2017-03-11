@@ -66,7 +66,7 @@ export default {
 					})
 				},
 
-				vdDelete() {
+				deleteCtrl() {
 					props.dispatch({
 						type: "vdCtrlTree/deleteCtrl",
 						payload: {
