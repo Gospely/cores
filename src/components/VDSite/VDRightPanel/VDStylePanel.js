@@ -2570,7 +2570,7 @@ const VDStylePanel = (props) => {
 
 			    	<Form className="form-no-margin-bottom">
 
-						<FormItem {...formItemLayout} label="图片和渐变">
+						<FormItem {...formItemLayout} label="图片">
 
 							<RadioGroup defaultValue="图片" size="small">
 						      	<RadioButton value="图片">
@@ -2587,18 +2587,6 @@ const VDStylePanel = (props) => {
 							      		</Tooltip>
 							      	</Popover>
 					      		</RadioButton>
-						      	<RadioButton value="渐变色">
-									<Popover
-							        	content={backgroundImageAndGradient.gradientSetter}
-							        	title="渐变处理"
-							        	trigger="click"
-							        	placement="bottom"
-							      	>
-				  		              	<Tooltip placement="top" title="渐变">
-											<i className="fa fa-barcode"></i>
-							      		</Tooltip>
-						      		</Popover>
-						      	</RadioButton>
 						    </RadioGroup>
 
 						</FormItem>

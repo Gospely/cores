@@ -1052,8 +1052,9 @@ export default {
 				visible: false
 			}
 
-		}
+		},
 
+		VDStylePaneSpinActive: false
 	},
 
 	subscriptions: {
@@ -1132,6 +1133,11 @@ export default {
 	reducers: {
 		handleStyleManageModifierChange(state, { payload: params }) {
 			state.styleManager.modifyPop.value = params.value;
+			return {...state};
+		},
+
+		changeVDStylePaneSpinActive(state, { payload: params }) {
+			state.VDStylePaneSpinActive = params
 			return {...state};
 		},
 

@@ -110,11 +110,13 @@ const Component = (props) => {
  	}
 
   	return (
-  		<Menu
-      		mode="inline"
-  		>
-  			{getAllStyles()}
-		</Menu>
+  		<div>
+	  		<Menu
+	      		mode="inline"
+	  		>
+	  			{getAllStyles()}
+			</Menu>
+  		</div>
   	);
 
 };
