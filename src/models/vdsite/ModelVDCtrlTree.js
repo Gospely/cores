@@ -137,7 +137,6 @@ export default {
 	namespace: 'vdCtrlTree',
 	state: {
 	    defaultExpandedKeys: ["body-main", '456', '789'],
-	    backgroundImgSettingPanePreviewUrl: placeholderImgBase64,
 	    defaultSelectedKeys: [""],
 		symbols: [],
 		icons: [
@@ -983,13 +982,17 @@ export default {
 		initState(state, {payload: params}){
 
 			console.log(params);
-			//state.activeCtrl = params.UIState.activeCtrl;
+			state.activeCtrl = params.UIState.activeCtrl;
 			state.layout = params.UIState.layout;
 			state.layoutState = params.UIState.layoutState;
 			state.activePage = params.UIState.activePage;
 			state.selectIndex = params.UIState.selectIndex;
 			state.symbols = params.UIState.symbols;
-			localStorage.flashState = true;
+			setTimeout(function(){
+				window.VDDesignerFrame.postMessage({
+					pageSelected: state.layout[state.activePage.key]
+				}, '*');
+			}, 2500)
 			return {...state};
 		},
 
@@ -1245,7 +1248,7 @@ export default {
 				currentActiveCtrl.controller.attrs[0].children[0].fileInfo = [params];
 				var url = currentActiveCtrl.controller.attrs[0].children[0].fileInfo.url
 				url = params.url;
-				console.log(state.activeCtrlIndex);
+
 			window.postMessage( {
 				fetchImgFromSrc: {
 					url:url
@@ -1276,7 +1279,7 @@ export default {
 				var url =  currentActiveCtrl.controller.attrs[0].children[0].fileInfo[0].url,
 				activeCtrl =  currentActiveCtrl.controller;
 				window.VDDesignerFrame.postMessage({
-					upLoadBgImg: {
+					uploadImgRefreshed: {
 						activeCtrl:activeCtrl,
 						url: url
 					}
@@ -1958,17 +1961,6 @@ export default {
 				state.activeCtrlLvl = ctrlInfo.level;
 				state.defaultSelectedKeys = [data.vdid];
 			}
-
-			//点击组件同步BGImg设置界面预览
-			// if(state.activeCtrl.attrs[0].children && state.activeCtrl.attrs[0].children[0]){
-			// 	if(state.activeCtrl.attrs[0].children[0].fileInfo) {
-			// 		state.backgroundImgSettingPanePreviewUrl = state.activeCtrl.attrs[0].children[0].fileInfo[0].url;					
-			// 	}
-			// }
-
-			// if(state.activeCtrl.tag == "img" && state.activeCtrl.attrs[0].children[0].fileInfo){
-			// 	state.imgSettingPanePreviewUrl = state.activeCtrl.attrs[0].children[0].fileInfo[0].url;
-			// }
 
 			return {...state};
 		},

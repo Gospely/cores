@@ -403,6 +403,9 @@ export default {
 				display: {
 					important: false
 				},
+				'background-repeat': {
+					important: false
+				},				
 				'background-position': {
 					important: false
 				},
@@ -692,6 +695,9 @@ export default {
 				important: false
 			},
 			display: {
+				important: false
+			},
+			'background-repeat': {
 				important: false
 			},
 			'background-position': {
@@ -1260,8 +1266,9 @@ export default {
 			state.cssStyleLayout[state.activeStyle] = cssTpl;
 			console.log("addStyle");
 			state.unitList[state.activeStyle] = unitsTpl;
-
 			console.log(state);
+			console.log(state.cssStyleLayout);
+			console.log(state.unitList);
 			return {...state};
 		},
 
