@@ -25,13 +25,13 @@ const packUIStage = function (params) {
                   activeMenu: params.sidebar.activeMenu
       	},
 
-      	devpanel: params.devpanel,
-
-      	designer: {
-                  layout: params.designer.layout,
-                  layoutState: params.designer.layoutState,
-                  defaultDevice: params.designer.defaultDevice
-      	},
+       	devpanel: params.devpanel,
+		//
+     //  	designer: {
+        //           layout: params.designer.layout,
+        //           layoutState: params.designer.layoutState,
+        //           defaultDevice: params.designer.defaultDevice
+     //  	},
 		previewer: params.cpre,
 		vdpm: params.vdpm,
 		vdcore: params.vdcore,
@@ -42,6 +42,7 @@ const packUIStage = function (params) {
 			activePage: params.vdCtrlTree.activePage || {
 	    		key: 'index.html'
 	    	},
+			symbols: params.vdCtrlTree.symbols,
 			selectIndex: params.vdCtrlTree.selectIndex || 0
 		},
 		vdstyles: params.vdstyles,

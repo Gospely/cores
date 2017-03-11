@@ -45,7 +45,10 @@ const VDStylePanel = (props) => {
 			<div className="none-operation-obj">暂无操作对象</div>
 		)
 	}
-
+	console.log('props.vdstyles.cssStyleLayout');
+	console.log(props.vdCtrlTree.activeCtrl.activeStyle);
+	console.log(props.vdstyles.cssStyleLayout);
+	console.log(props.vdstyles.unitList);
 	const activeCSSStyleState = props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle],
 		  activeCSSUnitList = props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle];
 
@@ -89,7 +92,7 @@ const VDStylePanel = (props) => {
 		    	<Option style={{padding: '7px 8px'}} size="small" value="px">px</Option>
 		    	<Option style={{padding: '7px 8px'}} size="small" value="em">em</Option>
 		    	<Option style={{padding: '7px 8px'}} size="small" value="rem">rem</Option>
-		    	<Option style={{padding: '7px 8px'}} size="small" value="vh">vh</Option>		    	
+		    	<Option style={{padding: '7px 8px'}} size="small" value="vh">vh</Option>
 		    	<Option style={{padding: '7px 8px'}} size="small" value="%">%</Option>
 		  	</Select>
 		);
@@ -2402,7 +2405,7 @@ const VDStylePanel = (props) => {
 										</Popconfirm>
 								)
 							}>
-								<Input 
+								<Input
 									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['letter-spacing'].unit, 'letter-spacing')}
 									type="text" size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['letter-spacing']} onChange={handleStylesChange.bind(this, 'letter-spacing')}/>
 							</FormItem>
@@ -2558,7 +2561,7 @@ const VDStylePanel = (props) => {
 
 
 			const handleVisibleChange = (visible) => {
-				
+
 				props.dispatch({
 					type: 'vdstyles/showBackgroundStyleSettingPane',
 					payload: visible

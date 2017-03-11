@@ -64,6 +64,9 @@ const initState = function (props, applicationId) {
             payload: 'vdsite-controllers'
         });
     }
+    props.dispatch({
+        type: 'UIState/setDySaveEffects'
+    });
 }
 
 export default initState;
