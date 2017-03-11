@@ -420,6 +420,22 @@ $(function() {
 
 			showErrorMessage: function (c) {
 				parentWindow.postMessage({ 'showErrorMessage' : c }, "*");
+			},
+
+			copyCtrl: function (c) {
+				parentWindow.postMessage({ 'copyCtrl' : c }, "*");
+			},
+
+			cutCtrl: function (c) {
+				parentWindow.postMessage({ 'cutCtrl' : c }, "*");
+			},
+
+			pastCtrl: function (c) {
+				parentWindow.postMessage({ 'pastCtrl' : c }, "*");
+			},
+
+			deleteCtrl: function (c) {
+				parentWindow.postMessage({ 'deleteCtrl' : c }, "*");
 			}
 		};
 
@@ -546,6 +562,18 @@ $(function() {
 				        	});
 		        		});
 
+                    },
+
+                    ctrlDataPasted: function () {
+                    	console.log(data)
+                    	var elem = new ElemGenerator(data.controller);
+                        var elemToAdd = jq(elem.createElement());
+                        var parent = jq("[vdid=" + data.activeCtrlVdid + "]");
+                        if (data.prepend) {
+                        	parent.prepend(elemToAdd);	
+                        }else {
+                        	parent.append(elemToAdd);	
+                        }
                     }
                 };
 
@@ -573,6 +601,46 @@ $(function() {
 
 			}
 		}
+
+		//右键菜单
+		var rightClickMenu = function () {
+
+	    	var copiedData = '';
+
+	    	jq("#vdCopy").click(function (e) {
+		    	e.stopPropagation();
+		    	e.preventDefault();
+		    	postMessageToFather.copyCtrl({});
+		    	jq("#vdRightClickMenu").hide();
+
+		    })
+
+		    jq("#vdPast").click(function (e) {
+		    	e.stopPropagation();
+		    	e.preventDefault();
+		    	if (jq(e.target).hasClass('disabled')) {
+		    		return false;
+		    	}
+		    	postMessageToFather.pastCtrl({});
+		    	jq("#vdRightClickMenu").hide();
+		    })
+
+		    jq("#vdCut").click(function (e) {
+		    	e.stopPropagation();
+		    	e.preventDefault();
+		    	jq("#vdRightClickMenu").hide();
+		    	postMessageToFather.cutCtrl({});
+		    })
+
+		    jq("#vdPastPre").click(function (e) {
+		    	e.stopPropagation();
+		    	e.preventDefault();
+		    	postMessageToFather.pastCtrl({prepend: true});
+		    	jq("#vdRightClickMenu").hide();
+		    })
+
+	    }();
+
 		//class操作
 		const classOperate = {
 			//替换class
@@ -706,6 +774,7 @@ $(function() {
 
 			showDesignerDraggerBorder: function (target) {
 
+				console.log(target)
                 if(target.length === 0) {
                     return false;
                 }
@@ -723,7 +792,7 @@ $(function() {
 			},
 
             select: function(data, notPostMessage) {
-
+            	jq("#vdRightClickMenu").hide();
 				if(data) {
 
                     if(data.vdid == '') {
@@ -738,11 +807,27 @@ $(function() {
                     if(data.isFromCtrlTree) {
                         data = currentCtrl.data('controller');
                     }
-                    jq('#ctrl-title-hover, #ctrl-title-clicked').html(data.tag + (data.customClassName.length > 0 ? '.' + data.customClassName.join('.') : ''));
+                    jq('#ctrl-title-clicked').html(data.tag + (data.customClassName.length > 0 ? '.' + data.customClassName.join('.') : ''));
 	                if(!notPostMessage) {
 	                    postMessageToFather.ctrlSelected(data);
 	                }
 				}
+            },
+
+            showRightClickMenu: function (e) {
+            	
+            	var past = jq("#vdPast");
+            	var target = jq(e.target);
+            	jq("#vdRightClickMenu").css({
+            		display: 'block',
+            		left: e.pageX,
+            		top: e.pageY
+            	})
+            	if (!sessionStorage.copiedCtrl || (!target.data('container') && target.attr('id') !== 'VDDesignerContainer')) {
+            		past.addClass('disabled');
+            	}else {
+            		past.removeClass('disabled')
+            	}
             },
 
             refreshData: function (rootVdid, rootData, childrenData) {
@@ -818,6 +903,7 @@ $(function() {
             // });
 
             // console.log('点击事件')
+            jq("#vdRightClickMenu").hide();
 
         });
 
@@ -878,10 +964,9 @@ $(function() {
 
         		dndData.dragOverElem = target;
 
-        		// console.log(target.data("controller"))
-
         		//不准拖动的组件找父级
         		if (target.data("controller") && target.data("controller").unActive && target.attr('vdid') === dndData.dragElem.attr('vdid')) {
+
         			var findParent = function (elem) {
         				if (elem.parent().length) {
         					findParent(elem.parent())
@@ -892,6 +977,7 @@ $(function() {
         				}
         			}
         			findParent(target);
+        			console.log(9999)
         		}
 
         		if (target.outerWidth() < target.parent().innerWidth() && e.target.className.indexOf('col-md-') === -1 &&
@@ -1414,6 +1500,7 @@ $(function() {
 
                 this.listenHover();
                 this.listenClick();
+                this.listenContextmenu();
 
                 this.makeElemAddedDraggable();
 
@@ -1426,6 +1513,8 @@ $(function() {
                 this.elem.hover(function(e) {
                     var target = jq(e.target);
                     var targetHeight = 0;
+                    var elemData = jq(e.target).data('controller');
+                	jq('#ctrl-title-hover').html(elemData.tag + (elemData.customClassName.length > 0 ? '.' + elemData.customClassName.join('.') : ''));
 
                     targetHeight = target.height();
 
@@ -1446,10 +1535,20 @@ $(function() {
                 var self = this;
                 this.elem.click(function(e) {
                     e.stopPropagation();
+                    e.preventDefault();
                     var target = jq(e.target);
                     controllerOperations.select(target.data('controller'));
+                    
                     return false;
                 });
+            },
+
+            listenContextmenu: function () {
+            	this.elem.contextmenu(function (e) {
+            		e.preventDefault();
+            		controllerOperations.select(jq(e.target).data('controller'));
+            		controllerOperations.showRightClickMenu(e);
+            	})
             },
 
         	makeElemAddedDraggable: function () {
@@ -1459,7 +1558,11 @@ $(function() {
         		var designerContainer = jq("#VDDesignerContainer");
 
         		designerContainer.on("mousedown", function (e) {
-        			self.onDown(e);
+        			
+        			if (e.which === 1) {
+        				self.onDown(e);
+        			}
+        			
         		});
 
         		designerContainer.on("mouseenter", function (e) {

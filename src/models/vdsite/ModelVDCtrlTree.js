@@ -137,7 +137,9 @@ export default {
 	namespace: 'vdCtrlTree',
 	state: {
 	    defaultExpandedKeys: ["body-main", '456', '789'],
-	    defaultSelectedKeys: [""],
+	    expandedKeys: ["body-main", '456', '789'],
+	    backgroundImgSettingPanePreviewUrl: "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTQwcHgiIGhlaWdodD0iMTQwcHgiIHZpZXdCb3g9IjAgMCAxNDAgMTQwIiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogIDxnPgogICAgICA8cmVjdCBpZD0iUmVjdGFuZ2xlIiBmaWxsPSIjRTBFMEUwIiB4PSIwIiB5PSIwIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCI+PC9yZWN0PgogICAgICA8cGF0aCBkPSJNOTIsODggTDQ4LDg4IEM0Ni45LDg4IDQ2LDg3LjEgNDYsODYgTDQ2LDU0IEM0Niw1Mi45IDQ2LjksNTIgNDgsNTIgTDkyLDUyIEM5My4xLDUyIDk0LDUyLjkgOTQsNTQgTDk0LDg2IEM5NCw4Ny4xIDkzLjEsODggOTIsODggWiBNNjguMjgwNSw3My41NzI1IEw2NC44NjU1LDcwLjA1MTUgTDU1LjIyOTUsODAuOTk5NSBMODUuMzQ5NSw4MC45OTk1IEw3NC41NjQ1LDY0LjY0NDUgTDY4LjI4MDUsNzMuNTcyNSBaIE02Mi45MTg1LDY0LjUyMzUgQzYyLjkxODUsNjIuNDI5NSA2MS4yMjA1LDYwLjczMjUgNTkuMTI2NSw2MC43MzI1IEM1Ny4wMzU1LDYwLjczMjUgNTUuMzM2NSw2Mi40Mjk1IDU1LjMzNjUsNjQuNTIzNSBDNTUuMzM2NSw2Ni42MTY1IDU3LjAzNTUsNjguMzEzNSA1OS4xMjY1LDY4LjMxMzUgQzYxLjIyMDUsNjguMzEzNSA2Mi45MTg1LDY2LjYxNjUgNjIuOTE4NSw2NC41MjM1IFoiIGlkPSJDb21iaW5lZC1TaGFwZSIgZmlsbD0iI0MyQzJDMiI+PC9wYXRoPgogIDwvZz4KPC9zdmc+",
+	    imgSettingPanePreviewUrl: "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTQwcHgiIGhlaWdodD0iMTQwcHgiIHZpZXdCb3g9IjAgMCAxNDAgMTQwIiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogIDxnPgogICAgICA8cmVjdCBpZD0iUmVjdGFuZ2xlIiBmaWxsPSIjRTBFMEUwIiB4PSIwIiB5PSIwIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCI+PC9yZWN0PgogICAgICA8cGF0aCBkPSJNOTIsODggTDQ4LDg4IEM0Ni45LDg4IDQ2LDg3LjEgNDYsODYgTDQ2LDU0IEM0Niw1Mi45IDQ2LjksNTIgNDgsNTIgTDkyLDUyIEM5My4xLDUyIDk0LDUyLjkgOTQsNTQgTDk0LDg2IEM5NCw4Ny4xIDkzLjEsODggOTIsODggWiBNNjguMjgwNSw3My41NzI1IEw2NC44NjU1LDcwLjA1MTUgTDU1LjIyOTUsODAuOTk5NSBMODUuMzQ5NSw4MC45OTk1IEw3NC41NjQ1LDY0LjY0NDUgTDY4LjI4MDUsNzMuNTcyNSBaIE02Mi45MTg1LDY0LjUyMzUgQzYyLjkxODUsNjIuNDI5NSA2MS4yMjA1LDYwLjczMjUgNTkuMTI2NSw2MC43MzI1IEM1Ny4wMzU1LDYwLjczMjUgNTUuMzM2NSw2Mi40Mjk1IDU1LjMzNjUsNjQuNTIzNSBDNTUuMzM2NSw2Ni42MTY1IDU3LjAzNTUsNjguMzEzNSA1OS4xMjY1LDY4LjMxMzUgQzYxLjIyMDUsNjguMzEzNSA2Mi45MTg1LDY2LjYxNjUgNjIuOTE4NSw2NC41MjM1IFoiIGlkPSJDb21iaW5lZC1TaGFwZSIgZmlsbD0iI0MyQzJDMiI+PC9wYXRoPgogIDwvZz4KPC9zdmc+",
 		symbols: [],
 		icons: [
 			'fa fa-external-link',
@@ -980,9 +982,7 @@ export default {
 
 	reducers: {
 		initState(state, {payload: params}){
-
-			console.log(params);
-			state.activeCtrl = params.UIState.activeCtrl = {};
+			state.activeCtrl = params.UIState.activeCtrl || {};
 			state.layout = params.UIState.layout || [];
 			state.layoutState = params.UIState.layoutState;
 			state.activePage = params.UIState.activePage || 'index.html';
@@ -1870,6 +1870,7 @@ export default {
 						root: root || '',
 						isRoot: true,
 						unCtrl: controller.unCtrl,
+						unActive: controller.unActive,
 						isBeforeHTMLValue: controller.isBeforeHTMLValue || false
 					};
 				}else{
@@ -1886,6 +1887,7 @@ export default {
 						root: root || '',
 						parent: parent.vdid,
 						unCtrl: controller.unCtrl,
+						unActive: controller.unActive,
 						isBeforeHTMLValue: controller.isBeforeHTMLValue || false
 					};
 				}
@@ -1960,6 +1962,11 @@ export default {
 
 			return {...state};
 		},
+
+		handleTreeExpaned(state, { payload: expandedKeys }) {
+			return {...state, expandedKeys: expandedKeys, autoExpandParent: false};
+		},
+
 		handleAttrFormChangeA(state, { payload: params }) {
 
 			console.log(params);
@@ -2185,6 +2192,7 @@ export default {
 						ignore: controller.ignore || false,
 						root: currentRootVdid || '',
 						parent: currentRootVdid,
+						unActive: controller.unActive,
 						unCtrl: false,
 					};
 
@@ -2474,6 +2482,87 @@ export default {
 			return {...state};
 		},
 
+		copyCtrl(state, {payload: params}) {
+			sessionStorage.copiedCtrl = JSON.stringify(state.activeCtrl);
+			return {...state};
+		},
+
+		pastCtrl(state, {payload: params}) {
+			let controller = JSON.parse(sessionStorage.copiedCtrl);
+			let activeCtrl = state.activeCtrl;
+
+			controller.vdid = controller.key ? (controller.key + '-' + randomString(8, 10)) : randomString(8, 10);
+			controller.parent = activeCtrl.vdid;
+			controller.root = activeCtrl.root;
+			controller.isRoot = activeCtrl.isRoot;
+			const loopAttr = (controller, wrapperVdid, activeCtrl) => {
+				controller.vdid = controller.key ? (controller.key + '-' + randomString(8, 10)) : randomString(8, 10);
+				controller.root = activeCtrl.root;
+				controller.isRoot = activeCtrl.isRoot;
+				if (controller.vdid === wrapperVdid) {
+					controller.parent = activeCtrl.vdid;
+				}
+
+				for(let i = 0, len = controller.attrs.length; i < len; i ++) {
+					let tmpAttr = controller.attrs[i];
+					if (tmpAttr.key === 'basic') {
+						for(let j = 0; j <tmpAttr.children.length; j ++) {
+							if (tmpAttr.children[j].name === 'id') {
+									tmpAttr.children[j].value = '';
+							}
+						}
+					}
+					for (let j = 0; j < tmpAttr.children.length; j++) {
+						let attr = tmpAttr.children[j];
+						attr['id'] = randomString(8, 10);
+					};
+				}
+
+				if (controller.children && controller.children.length) {
+					for(let i = 0; i < controller.children.length; i ++) {
+						loopAttr(controller.children[i]);
+					}
+				}
+				
+			}
+				
+			loopAttr(controller, controller.vdid, activeCtrl);
+
+			activeCtrl.children = activeCtrl.children || [];
+			activeCtrl.children.splice(0, 0, controller);
+
+			VDDesignerFrame.postMessage({
+				ctrlDataPasted: {
+					controller,
+					activeCtrlVdid: activeCtrl.vdid,
+					prepend: params.prepend
+				}
+			}, "*");
+
+			if (activeCtrl.children.length === 1) {
+				let index = activeCtrl.className.indexOf('vd-empty');
+				activeCtrl.className.splice(index, 1);
+				window.VDDesignerFrame.postMessage({
+					VDAttrRefreshed: {
+						activeCtrl: state.activeCtrl,
+						attr: {
+							action: 'replaceClass',
+							attrName: 'classOperate',
+							remove: 'vd-empty',
+							replacement: '',
+							target: {
+								vdid: activeCtrl.vdid
+							},
+							needSelect: true
+						},
+						attrType: ''
+					}
+				}, '*');
+			}
+			
+			return {...state};
+		},
+
 		handleDeleteCtrl(state, {payload: deleteKey}) {
 
 			let deleteParentInfo = VDTreeActions.getParentCtrlByKey(state, deleteKey, state.activePage),
@@ -2486,6 +2575,11 @@ export default {
 			}, '*');
 
 			if (deleteParentCtrl.children.length === 0) {
+
+				let expandedKeysIndex = state.expandedKeys.indexOf(deleteParentCtrl.vdid);
+				if (expandedKeysIndex !== -1) {
+					state.expandedKeys.splice(expandedKeysIndex, 1);
+				}
 
 				if (deleteParentCtrl.vdid.split('-')[0] === 'body') {
 					state.activeCtrl = 'none';
@@ -2574,8 +2668,9 @@ export default {
 
 				state.activeCtrlLvl = newParentInfo.level + 1;
 			}else {
-				children = state.layout[state.activePage.key][0].children;
-				state.activeCtrlLvl = 2
+				newParent = state.layout[state.activePage.key][0];
+				children = newParent.children;
+				state.activeCtrlLvl = 2;
 			}
 
 			if (params.isFromSelf) {
@@ -2609,6 +2704,12 @@ export default {
 			state.activeCtrl = moveCtrl[0];
 			state.activeCtrlIndex = params.index;
 			state.defaultSelectedKeys = [moveCtrl[0].vdid];
+
+			let newParentVdid = newParent.vdid;
+			if(state.expandedKeys.indexOf(newParentVdid) === -1) {
+				state.expandedKeys.push(newParentVdid);
+			}
+			state.autoExpandParent = true;
 
 			return {...state};
 		},
@@ -2689,6 +2790,15 @@ export default {
 			yield put({
 				type: 'vdanimations/handleDeleteCtrl',
 				payload: deleteKey
+			})
+		},
+
+		*cutCtrl({payload: params}, {call, put, select}) {
+			let activeCtrl = yield select(state => state.vdCtrlTree.activeCtrl);
+			sessionStorage.copiedCtrl = JSON.stringify(activeCtrl);
+			yield put ({
+				type: 'handleDeleteCtrl',
+				payload: activeCtrl.vdid
 			})
 		}
 

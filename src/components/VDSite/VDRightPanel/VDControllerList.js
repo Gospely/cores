@@ -47,6 +47,13 @@ const Component = (props) => {
 				});
 			},
 
+			onExpand (expandedKeys) {
+				props.dispatch({
+					type: 'vdCtrlTree/handleTreeExpaned',
+					payload: expandedKeys
+				})
+			},
+
 			onMouseEnter (evt) {
 
 				prevHoverCtrl = evt.node.props.eventKey;
@@ -126,6 +133,9 @@ const Component = (props) => {
         		selectedKeys={props.vdCtrlTree.defaultSelectedKeys}
         		onRightClick={ctrlPros.onRightClick}
         		onSelect={ctrlPros.onSelect} onMouseEnter={ctrlPros.onMouseEnter} onMouseLeave={ctrlPros.onMouseLeave} onCheck={ctrlPros.onCheck}
+        		expandedKeys={props.vdCtrlTree.expandedKeys}
+        		onExpand={ctrlPros.onExpand}
+        		autoExpandParent={props.vdCtrlTree.autoExpandParent}
       		>
       			{loopControllerTree(activeControllerTree)}
       		</Tree>

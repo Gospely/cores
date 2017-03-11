@@ -45,7 +45,7 @@ html.vd-design-mode * {
 
 .vd-OutlineSelectedNode {
     border: 1px solid rgba(23, 141, 247, 0.93);
-    z-index: 65533;
+    z-index: 65532;
 }
 
 .vd-outline {
@@ -161,7 +161,7 @@ html.vd-design-mode * {
 
 .vd-insert-guide {
 	position: absolute;
-	z-index: 65535;
+	z-index: 65534;
 	pointer-events: none !important;
 	height: 2px;
 	display: none;
@@ -227,7 +227,7 @@ html.vd-design-mode * {
 
 .vd-OutlineDropParentNode {
   border: 2px solid #FF7000;
-  z-index: 65534;
+  z-index: 65533;
   position: absolute;
   pointer-events: none !important;
   display: none;
@@ -242,18 +242,18 @@ html.vd-design-mode * {
     margin-bottom: 0px;
 }
 .vd-check {
-   margin: 4px 0 0;
-   margin-top: 1px;
-   line-height: normal;
-   float: left;
-   margin-left: -20px;
+    margin: 4px 0 0;
+    margin-top: 1px;
+    line-height: normal;
+    float: left;
+    margin-left: -20px;
 }
 .vd-radio {
-   margin: 4px 0 0;
-   margin-top: 1px;
-   line-height: normal;
-   float: left;
-   margin-left: -20px;
+    margin: 4px 0 0;
+    margin-top: 1px;
+    line-height: normal;
+    float: left;
+    margin-left: -20px;
 }
 .vd-link {
     position: relative;
@@ -292,5 +292,33 @@ html.vd-design-mode * {
 }
 
 .illegalArea {
-  background-color: rgba(1 , 1, 1, .37);
+    background-color: rgba(1 , 1, 1, .37);
+}
+
+.vd-right-click-menu {
+    padding: 0;
+    z-index: 65535;
+    position: absolute;
+    display: none;
+    outline: none;
+    margin-bottom: 0;
+    list-style: none;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+    color: rgba(0, 0, 0, 0.65);
+    background: #fff;
+    line-height: 36px;
+    border-top: 1px solid #e9e9e9;
+    border-bottom: 1px solid #e9e9e9;
+    border-left: 1px solid #e9e9e9;
+}
+.vd-right-click-menu>li:hover {
+    color: rgba(23, 141, 247, 0.93);
+}
+.vd-right-click-menu>li {
+    padding: 0 20px 0 20px;
+    cursor: pointer;
+}
+.vd-right-click-menu>li.disabled {
+    background-color: #e9e9e9;
+    cursor: not-allowed;
 }
