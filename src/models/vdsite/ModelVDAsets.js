@@ -108,6 +108,10 @@ export default {
 				return fetch('http://api.gospely.com/fs/image/upload',{
 	      			method:'POST',
 	      			//mode: "no-cors",
+					headers: {
+						"Content-Type": "application/json;charset=UTF-8",
+						'Authorization': localStorage.token
+					},
 	      			body:formdata,
 	      		})
 			}
@@ -119,6 +123,10 @@ export default {
 			yield put({type: 'setUploading'});
 			var mkResult = yield request('fs/remove', {
 				method: 'POST',
+				headers: {
+					"Content-Type": "application/json;charset=UTF-8",
+					'Authorization': localStorage.token
+				},
 				body: JSON.stringify({
 					fileName: localStorage.dir + 'images/' + fileName
 				})
