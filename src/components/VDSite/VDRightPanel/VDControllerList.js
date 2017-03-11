@@ -89,17 +89,24 @@ const Component = (props) => {
 			},
 
 			onDragOver (info) {
-				if (sessionStorage.currentDragNodeCtrl.) {}
+				// if (sessionStorage.currentDragNodeCtrl.) {}
 			},
 
 			onDragStart (info) {
 				let ctrl = info.node.props.ctrl;
 				for(let i = 0; i < ctrl.attrs.length; i ++) {
 					if (attrs[i].isAttrSetting) {
-						
+						for(let j = 0; j < attrs[i].children.length; j ++) {
+							let attr = attrs[i].children[j];
+							if(attr.isSpecialChild) {
+								sessionStorage.currentDragNodeSpecialChild = attr.value;
+							}
+							break;
+						}
 					}
+					break;
 				}
-				sessionStorage.currentDragNodeCtrl = info.node.props.ctrl
+				
 			},
 
 			onCheck () {
