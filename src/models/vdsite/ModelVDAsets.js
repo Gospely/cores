@@ -109,7 +109,7 @@ export default {
 				message.success('文件上传成功')
 			}
 			function upload(formdata){
-				return fetch('http://localhost:8089/fs/image/upload',{
+				return fetch(localStorage.baseURL + 'fs/image/upload',{
 	      			method:'POST',
 	      			//mode: "no-cors",
 					headers: {
