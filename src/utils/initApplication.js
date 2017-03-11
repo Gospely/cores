@@ -214,20 +214,16 @@ const initApplication = function (application, props, flag){
 
             if(UIState.applicationId != application.id){
 
-                if(!flag){
-                    props.dispatch({
-                        type: 'UIState/readConfig',
-                        payload: {
-                            id: application.id,
-                            ctx: props
-                        }
-                    });
-                }
+                props.dispatch({
+                    type: 'UIState/readConfig',
+                    payload: {
+                        id: application.id,
+                        ctx: props
+                    }
+                });
 
             }else{
-                if(!flag){
-                    initState(props, application.id);
-                }
+                initState(props, application.id);
             }
         }else {
             props.dispatch({

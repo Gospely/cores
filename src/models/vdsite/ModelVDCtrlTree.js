@@ -136,11 +136,9 @@ const VDTreeActions = {
 export default {
 	namespace: 'vdCtrlTree',
 	state: {
-	    defaultExpandedKeys: ["body-main", '456', '789'],
-	    expandedKeys: ["body-main", '456', '789'],
 	    autoExpandParent: true,
-	    backgroundImgSettingPanePreviewUrl: "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTQwcHgiIGhlaWdodD0iMTQwcHgiIHZpZXdCb3g9IjAgMCAxNDAgMTQwIiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogIDxnPgogICAgICA8cmVjdCBpZD0iUmVjdGFuZ2xlIiBmaWxsPSIjRTBFMEUwIiB4PSIwIiB5PSIwIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCI+PC9yZWN0PgogICAgICA8cGF0aCBkPSJNOTIsODggTDQ4LDg4IEM0Ni45LDg4IDQ2LDg3LjEgNDYsODYgTDQ2LDU0IEM0Niw1Mi45IDQ2LjksNTIgNDgsNTIgTDkyLDUyIEM5My4xLDUyIDk0LDUyLjkgOTQsNTQgTDk0LDg2IEM5NCw4Ny4xIDkzLjEsODggOTIsODggWiBNNjguMjgwNSw3My41NzI1IEw2NC44NjU1LDcwLjA1MTUgTDU1LjIyOTUsODAuOTk5NSBMODUuMzQ5NSw4MC45OTk1IEw3NC41NjQ1LDY0LjY0NDUgTDY4LjI4MDUsNzMuNTcyNSBaIE02Mi45MTg1LDY0LjUyMzUgQzYyLjkxODUsNjIuNDI5NSA2MS4yMjA1LDYwLjczMjUgNTkuMTI2NSw2MC43MzI1IEM1Ny4wMzU1LDYwLjczMjUgNTUuMzM2NSw2Mi40Mjk1IDU1LjMzNjUsNjQuNTIzNSBDNTUuMzM2NSw2Ni42MTY1IDU3LjAzNTUsNjguMzEzNSA1OS4xMjY1LDY4LjMxMzUgQzYxLjIyMDUsNjguMzEzNSA2Mi45MTg1LDY2LjYxNjUgNjIuOTE4NSw2NC41MjM1IFoiIGlkPSJDb21iaW5lZC1TaGFwZSIgZmlsbD0iI0MyQzJDMiI+PC9wYXRoPgogIDwvZz4KPC9zdmc+",
-	    imgSettingPanePreviewUrl: "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTQwcHgiIGhlaWdodD0iMTQwcHgiIHZpZXdCb3g9IjAgMCAxNDAgMTQwIiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogIDxnPgogICAgICA8cmVjdCBpZD0iUmVjdGFuZ2xlIiBmaWxsPSIjRTBFMEUwIiB4PSIwIiB5PSIwIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCI+PC9yZWN0PgogICAgICA8cGF0aCBkPSJNOTIsODggTDQ4LDg4IEM0Ni45LDg4IDQ2LDg3LjEgNDYsODYgTDQ2LDU0IEM0Niw1Mi45IDQ2LjksNTIgNDgsNTIgTDkyLDUyIEM5My4xLDUyIDk0LDUyLjkgOTQsNTQgTDk0LDg2IEM5NCw4Ny4xIDkzLjEsODggOTIsODggWiBNNjguMjgwNSw3My41NzI1IEw2NC44NjU1LDcwLjA1MTUgTDU1LjIyOTUsODAuOTk5NSBMODUuMzQ5NSw4MC45OTk1IEw3NC41NjQ1LDY0LjY0NDUgTDY4LjI4MDUsNzMuNTcyNSBaIE02Mi45MTg1LDY0LjUyMzUgQzYyLjkxODUsNjIuNDI5NSA2MS4yMjA1LDYwLjczMjUgNTkuMTI2NSw2MC43MzI1IEM1Ny4wMzU1LDYwLjczMjUgNTUuMzM2NSw2Mi40Mjk1IDU1LjMzNjUsNjQuNTIzNSBDNTUuMzM2NSw2Ni42MTY1IDU3LjAzNTUsNjguMzEzNSA1OS4xMjY1LDY4LjMxMzUgQzYxLjIyMDUsNjguMzEzNSA2Mi45MTg1LDY2LjYxNjUgNjIuOTE4NSw2NC41MjM1IFoiIGlkPSJDb21iaW5lZC1TaGFwZSIgZmlsbD0iI0MyQzJDMiI+PC9wYXRoPgogIDwvZz4KPC9zdmc+",
+	    defaultExpandedKeys: ["body-main"],
+	    defaultSelectedKeys: [""],
 		symbols: [],
 		icons: [
 			'fa fa-external-link',
@@ -983,13 +981,20 @@ export default {
 
 	reducers: {
 		initState(state, {payload: params}){
-			state.activeCtrl = params.UIState.activeCtrl || {};
+
+			console.log(params);
+			state.activeCtrl = params.UIState.activeCtrl = {};
 			state.layout = params.UIState.layout || [];
 			state.layoutState = params.UIState.layoutState;
-			state.activePage = params.UIState.activePage || 'index.html';
+			state.activePage = params.UIState.activePage || {
+				key: 'index.html'
+			};
 			state.selectIndex = params.UIState.selectIndex || 0;
 			state.symbols = params.UIState.symbols || [];
-			localStorage.flashState = true;
+			state.activeCtrlLvl = params.UIState.activeCtrlLvl || 0;
+			state.activeCtrlIndex = params.UIState.activeCtrlIndex || 1;
+			state.defaultExpandedKeys = params.UIState.defaultExpandedKeys;
+
 			return {...state};
 		},
 
@@ -1290,7 +1295,7 @@ export default {
 			state.attr[params.name] = params.value
 			return {...state};
 		},
-		//当前活跃控件子删除
+		//当前活跃控件子删除    scasdsacsas
 		handleChildrenDelete(state, {payload: params}){
 
 			if(params.index == state.selectIndex) {
@@ -1724,90 +1729,7 @@ export default {
 			return {...state};
 		},
 		deletePage(state, {payload: params}){
-
-			console.log(state.layout);
-			state.activeCtrl= {
-				tag: 'div',
-				className: [],
-				customClassName: [],
-	    		vdid: '456',
-				id: '',
-	    		ctrlName: 'div-block',
-				attrs: [{
-					title: '基础设置',
-					key: 'basic',
-					children: [{
-						name: 'id',
-						desc: 'id',
-						type: 'input',
-						value: '',
-						id: '5443'
-					}, {
-						name: 'class',
-						desc: '可见屏幕',
-						type: 'multipleSelect',
-						value: ['visible-lg-block', 'visible-md-block', 'visible-sm-block', 'visible-xs-block'],
-						valueList: [{
-							name: '大屏幕(桌面 (≥1200px))',
-							value: 'visible-lg-block'
-						}, {
-							name: '中等屏幕(桌面 (≥992px))',
-							value: 'visible-md-block'
-						}, {
-							name: '小屏幕(平板 (≥768px))',
-							value: 'visible-sm-block'
-						}, {
-							name: '超小屏幕(手机 (<768px))',
-							value: 'visible-xs-block'
-						}],
-						id: ''
-					}]
-				}, {
-					title: '自定义属性',
-					key: 'custom-attr',
-					children: [{
-						key: '123',
-						value: '34'
-					}]
-				}],
-				children: [{
-					tag: 'h1',
-					className: [],
-					vdid: '098',
-		    		ctrlName: 'heading',
-					id: '',
-					attrs: [{
-						title: '基础设置',
-						key: 'basic',
-						children: [{
-							name: 'id',
-							desc: 'id',
-							type: 'input',
-							value: '',
-							id: '5443'
-						}, {
-							name: 'class',
-							desc: '可见屏幕',
-							type: 'multipleSelect',
-							value: ['visible-lg-block', 'visible-md-block', 'visible-sm-block', 'visible-xs-block'],
-							valueList: [{
-								name: '大屏幕(桌面 (≥1200px))',
-								value: 'visible-lg-block'
-							}, {
-								name: '中等屏幕(桌面 (≥992px))',
-								value: 'visible-md-block'
-							}, {
-								name: '小屏幕(平板 (≥768px))',
-								value: 'visible-sm-block'
-							}, {
-								name: '超小屏幕(手机 (<768px))',
-								value: 'visible-xs-block'
-							}],
-							id: ''
-						}]
-					}]
-				}]
-			};
+			state.activeCtrl = {};
 			state.activePage.key = 'index.html';
 			delete state.layout[params.key];
 			window.VDDesignerFrame.postMessage({
@@ -1871,7 +1793,6 @@ export default {
 						root: root || '',
 						isRoot: true,
 						unCtrl: controller.unCtrl,
-						unActive: controller.unActive,
 						isBeforeHTMLValue: controller.isBeforeHTMLValue || false
 					};
 				}else{
@@ -1888,7 +1809,6 @@ export default {
 						root: root || '',
 						parent: parent.vdid,
 						unCtrl: controller.unCtrl,
-						unActive: controller.unActive,
 						isBeforeHTMLValue: controller.isBeforeHTMLValue || false
 					};
 				}
@@ -1963,11 +1883,6 @@ export default {
 
 			return {...state};
 		},
-
-		handleTreeExpaned(state, { payload: expandedKeys }) {
-			return {...state, expandedKeys: expandedKeys, autoExpandParent: false};
-		},
-
 		handleAttrFormChangeA(state, { payload: params }) {
 
 			console.log(params);
@@ -2193,7 +2108,6 @@ export default {
 						ignore: controller.ignore || false,
 						root: currentRootVdid || '',
 						parent: currentRootVdid,
-						unActive: controller.unActive,
 						unCtrl: false,
 					};
 
@@ -2419,6 +2333,61 @@ export default {
 			return {...state};
 		},
 
+		handleTreeNodeDrop(state, { payload: info }) {
+			const dropKey = info.node.props.eventKey;
+		    const dragKey = info.dragNode.props.eventKey;
+		    // const dragNodesKeys = info.dragNodesKeys;
+		    const loop = (data, key, callback) => {
+		      	data.forEach((item, index, arr) => {
+		        	if (item.vdid === key) {
+		          		return callback(item, index, arr);
+		        	}
+		        	if (item.children) {
+		          		return loop(item.children, key, callback);
+		        	}
+		      	});
+		    };
+		    const data = state.layout[state.activePage.key];
+		    let dragObj;
+		    loop(data, dragKey, (item, index, arr) => {
+		      	arr.splice(index, 1);
+		      	dragObj = item;
+		    });
+		    if (info.dropToGap) {
+		      	let ar;
+		      	let i;
+		      	loop(data, dropKey, (item, index, arr) => {
+		        	ar = arr;
+		        	i = index;
+		      	});
+		      	ar.splice(i, 0, dragObj);
+
+		      	VDDesignerFrame.postMessage({
+		      		treeNodeDroped: {
+		      			target: dropKey,
+		      			dragNode: dragKey,
+		      			type: 'before'
+		      		}
+		      	}, "*")
+
+		    } else {
+		      	loop(data, dropKey, (item) => {
+		        	item.children = item.children || [];
+		        	item.children.push(dragObj);
+		      	});
+
+		      	VDDesignerFrame.postMessage({
+		      		treeNodeDroped: {
+		      			target: dropKey,
+		      			dragNode: dragKey,
+		      			type: 'append'
+		      		}
+		      	}, "*")
+			}
+
+			return {...state};
+		},
+
 		changeCustomClass(state, { payload: params }) {
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
 
@@ -2472,6 +2441,7 @@ export default {
 	    		vdid: 'body-' + randomString(8, 10),
 	    		ctrlName: 'body',
 	    		children: [],
+	    		customClassName: [],
 	    		attrs: []
 	    	}];
 	    	state.activePage.key = pageInfo.key;
@@ -2613,11 +2583,6 @@ export default {
 
 			if (deleteParentCtrl.children.length === 0) {
 
-				let expandedKeysIndex = state.expandedKeys.indexOf(deleteParentCtrl.vdid);
-				if (expandedKeysIndex !== -1) {
-					state.expandedKeys.splice(expandedKeysIndex, 1);
-				}
-
 				if (deleteParentCtrl.vdid.split('-')[0] === 'body') {
 					state.activeCtrl = 'none';
 					state.activeCtrlIndex = 'none';
@@ -2705,9 +2670,8 @@ export default {
 
 				state.activeCtrlLvl = newParentInfo.level + 1;
 			}else {
-				newParent = state.layout[state.activePage.key][0];
-				children = newParent.children;
-				state.activeCtrlLvl = 2;
+				children = state.layout[state.activePage.key][0].children;
+				state.activeCtrlLvl = 2
 			}
 
 			if (params.isFromSelf) {
@@ -2741,12 +2705,6 @@ export default {
 			state.activeCtrl = moveCtrl[0];
 			state.activeCtrlIndex = params.index;
 			state.defaultSelectedKeys = [moveCtrl[0].vdid];
-
-			let newParentVdid = newParent.vdid;
-			if(state.expandedKeys.indexOf(newParentVdid) === -1) {
-				state.expandedKeys.push(newParentVdid);
-			}
-			state.autoExpandParent = true;
 
 			return {...state};
 		},
@@ -2829,15 +2787,6 @@ export default {
 			yield put({
 				type: 'vdanimations/handleDeleteCtrl',
 				payload: deleteKey
-			})
-		},
-
-		*cutCtrl({payload: params}, {call, put, select}) {
-			let activeCtrl = yield select(state => state.vdCtrlTree.activeCtrl);
-			sessionStorage.copiedCtrl = JSON.stringify(activeCtrl);
-			yield put ({
-				type: 'handleDeleteCtrl',
-				payload: activeCtrl.vdid
 			})
 		}
 

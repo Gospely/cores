@@ -321,6 +321,8 @@ const VDStylePanel = (props) => {
     		var backgroundSizeParams = props.vdstyles.backgroundSetting.backgroundSize;
 
     		const handleBackgroundSizePositionChange = (cssProperty, parent, e) => {
+    			console.log(cssProperty);
+    			console.log(parent);
 
     			var val = e.target ? e.target.value : e;
 
@@ -389,8 +391,8 @@ const VDStylePanel = (props) => {
 							<Button id="backgroundImgPaneBtn" onClick={skipToImggallery.handleClick} style={{ left: '0', top: '24px'}}><i className="fa fa-picture-o"></i>&nbsp;图片资源</Button>
 							<div className="background-setting-pane-img-preview">
 								{
-										activeCSSStyleState['background']['background-image'] == '' ? <img style={{width: '110px', height: '50px'}} src={props.vdCtrlTree.backgroundImgSettingPanePreviewUrl}/> :
-										<img style={{width: '110px', height: '50px'}} src={activeCSSStyleState['background']['background-image'].split("(")[1].split(")")[0].replace(/"/g,'')}/>
+										activeCSSStyleState['background']['background-image'] == '' ? <img style={{width: '100px', height: '65px'}} src={placeholderImgBase64}/> :
+										<img style={{width: '100px', height: '65px'}} src={activeCSSStyleState['background']['background-image'].split("(")[1].split(")")[0].replace(/"/g,'')}/>
 									}
 
 							</div>
@@ -1576,12 +1578,24 @@ const VDStylePanel = (props) => {
 	    	);
     	}
 
+    	const linkToStylesManager = (e) =>{
+				props.dispatch({
+					type: 'vdcore/changeTabsPane',
+					payload: {
+						activeTabsPane: 'styles-manager',
+          				linkTo: '',
+					}
+				});
+				e.stopPropagation();
+				return false;
+    	}
+
     	const cssPanel = (
 
-			<Panel header={<span><i className="fa fa-css3"></i>&nbsp;CSS类选择器 <Button size="small">管理样式</Button></span>} key="css">
+			<Panel header={<span><i className="fa fa-css3"></i>&nbsp;CSS类选择器<Button size="small" onClick={linkToStylesManager}>样式管理</Button></span>} key="css">
 				<Row>
 					<Col span={18}>
-					  	<p style={{marginBottom: '10px'}}>当前类名：<Tag color="#87d068"><span style={{color: 'rgb(255, 255, 255)'}}>{props.vdCtrlTree.activeCtrl.activeStyle || '无活跃类名'}</span></Tag></p>
+					  	<div style={{marginBottom: '10px'}}>当前类名：<Tag color="#87d068"><span style={{color: 'rgb(255, 255, 255)'}}>{props.vdCtrlTree.activeCtrl.activeStyle || '无活跃类名'}</span></Tag></div>
 					</Col>
 					<Col span={6} style={{textAlign: 'right'}}>
 					  	<Dropdown overlay={cssStateMenu()}>
@@ -3405,7 +3419,7 @@ const VDStylePanel = (props) => {
 
 			var tipPanel = (
 				<Card style={{ width: 'auto', margin: '15px', background: '#f7f7f7' }}>
-				    <p>添加<Tag color="#87d068"><span style={{color: 'rgb(255, 255, 255)'}}>类名</span></Tag>后可以调整以下属性：</p>
+				    <div>添加<Tag color="#87d068"><span style={{color: 'rgb(255, 255, 255)'}}>类名</span></Tag>后可以调整以下属性：</div>
 				    <ol>
 				    	<li>1、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>元素位置</span></Tag>和<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>大小</span></Tag></li>
 				    	<li>2、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>字体</span></Tag>属性</li>

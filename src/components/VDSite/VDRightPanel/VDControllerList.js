@@ -77,11 +77,29 @@ const Component = (props) => {
 			},
 
 			onDragEnter (evt) {
-				console.log(evt);
+				// console.log(evt);
 			},
 
-			onDrop (evt) {
-				console.log(evt);
+			onDrop (info) {
+				
+			    props.dispatch({
+			    	type: "vdCtrlTree/handleTreeNodeDrop",
+			    	payload: info
+			    })
+			},
+
+			onDragOver (info) {
+				if (sessionStorage.currentDragNodeCtrl.) {}
+			},
+
+			onDragStart (info) {
+				let ctrl = info.node.props.ctrl;
+				for(let i = 0; i < ctrl.attrs.length; i ++) {
+					if (attrs[i].isAttrSetting) {
+						
+					}
+				}
+				sessionStorage.currentDragNodeCtrl = info.node.props.ctrl
 			},
 
 			onCheck () {
@@ -137,16 +155,17 @@ const Component = (props) => {
   		<div>
       		<Tree showLine
       			defaultExpandAll={true}
-        		defaultExpandedKeys={props.vdCtrlTree.defaultExpandedKeys}
+      			defaultExpandedKeys={props.vdCtrlTree.defaultExpandedKeys}
         		selectedKeys={props.vdCtrlTree.defaultSelectedKeys}
         		onRightClick={ctrlPros.onRightClick}
         		onSelect={ctrlPros.onSelect} onMouseEnter={ctrlPros.onMouseEnter} onMouseLeave={ctrlPros.onMouseLeave} onCheck={ctrlPros.onCheck}
-        		expandedKeys={props.vdCtrlTree.expandedKeys}
         		onExpand={ctrlPros.onExpand}
         		autoExpandParent={props.vdCtrlTree.autoExpandParent}
         		draggable
         		onDragEnter={ctrlPros.onDragEnter}
         		onDrop={ctrlPros.onDrop}
+        		onDragOver={ctrlPros.onDragOver}
+        		onDragStart={ctrlPros.onDragStart}
       		>
       			{loopControllerTree(activeControllerTree)}
       		</Tree>

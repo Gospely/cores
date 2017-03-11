@@ -1720,11 +1720,19 @@ export default {
 						if(property === 'background-size') {
 							console.log('background-size', value);
 							if(params.parent.index == 2 || params.parent.index == 3) {
-								var constractIndex = params.parent.index == 2 ? 3 : 2;
+								if(value){
+																	var constractIndex = params.parent.index == 2 ? 3 : 2;
 								propertyParent[property][0] = '';
 								propertyParent[property][1] = '';
 								propertyParent[property][constractIndex] = !value;
 								propertyParent[property][params.parent.index] = value;
+							}else{
+								propertyParent[property][0] = '';
+								propertyParent[property][1] = '';
+								//propertyParent[property][constractIndex] = !value;
+								propertyParent[property][params.parent.index] = value;
+							}
+
 							}else {
 								propertyParent[property][params.parent.index] = value;
 								propertyParent[property][2] = false;
@@ -1864,8 +1872,26 @@ export default {
 		},
 
 		setThisPropertyNull(state, { payload: params }) {
+			console.log(params);
 			var propertyParent = styleAction.findCSSPropertyByProperty(state.cssStyleLayout[params.activeStyleName], params.property);
-			propertyParent[params.property] = '';
+
+			var actions = {
+				'background-size' () {
+					propertyParent[params.property] = ['', '', false, false];
+				},
+
+				'background-position' () {
+					propertyParent[params.property] = ['center', 'center'];
+				}
+
+			}
+
+			if(actions[params.property]) {
+				actions[params.property]();
+			}else {
+				propertyParent[params.property] = '';
+			}
+			
 			return {...state};
 		},
 

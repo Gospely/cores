@@ -575,6 +575,10 @@ $(function() {
                         var parent = jq("[vdid=" + data.activeCtrlVdid + "]");
                         parent[data.type](elemToAdd);
                         controllerOperations.select(data.controller);
+                    },
+
+                    treeNodeDroped: function () {
+                    	jq("[vdid=" + data.target + "]")[data.type](jq("[vdid=" + data.dragNode + "]"));
                     }
                 };
 
@@ -805,7 +809,6 @@ $(function() {
 
 			showDesignerDraggerBorder: function (target) {
 
-				console.log(target)
                 if(target.length === 0) {
                     return false;
                 }

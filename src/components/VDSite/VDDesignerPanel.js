@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'dva';
 
-import { Button, Modal } from 'antd';
+import { Button, Modal, Spin } from 'antd';
 
 const VDDesignerPanel = (props) => {
 
@@ -22,11 +22,19 @@ const VDDesignerPanel = (props) => {
                     }
                 }, '*');
 
+                props.dispatch({
+                    type: 'vdcore/handleLoading',
+                    payload: true
+                });
                 setTimeout(function(){
                     window.VDDesignerFrame.postMessage({
                         pageSelected: props.vdCtrlTree.layout[props.vdCtrlTree.activePage.key]
                     }, '*');
-                }, 500)
+                    props.dispatch({
+                        type: 'vdcore/handleLoading',
+                        payload: false
+                    });
+                }, 2500)
                 //加载全局CSS
                 props.dispatch({
                     type: 'vdstyles/applyCSSStyleIntoPage',
@@ -57,16 +65,19 @@ const VDDesignerPanel = (props) => {
     return ( <div className = "designer-wrapper"
                   style = {{ height: '100%' }}
              >
-                <iframe className = "centen-VD"
-                    name = "vdsite-designer"
-                    width = { props.vdcore.VDDesigner[props.vdcore.VDDesigner.activeSize].width }
-                    height = { props.vdcore.VDDesigner[props.vdcore.VDDesigner.activeSize].height }
-                    frameBorder = "0"
-                    src = "static/designer/vdsite/index.html"
-                    onLoad = { VDDesignerPanelProps.handleDesPanelLoaded }
-                >
-                </iframe>
+
+                    <iframe className = "centen-VD"
+                        name = "vdsite-designer"
+                        width = { props.vdcore.VDDesigner[props.vdcore.VDDesigner.activeSize].width }
+                        height = { props.vdcore.VDDesigner[props.vdcore.VDDesigner.activeSize].height }
+                        frameBorder = "0"
+                        src = "static/designer/vdsite/index.html"
+                        onLoad = { VDDesignerPanelProps.handleDesPanelLoaded }
+                    >
+                    </iframe>
+                    <Spin  spinning={props.vdcore.loading}  style={{ 'marginTop': '300px' }}>
                 <div id="closeVDLeftPanel" className='close-VD-left-panel'></div>
+                </Spin>
             </div>
     );
 

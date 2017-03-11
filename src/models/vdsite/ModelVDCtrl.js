@@ -457,12 +457,6 @@ export default {
 							value: '按钮',
 							isHTML: true,
 							id: ''
-						}, {
-							name: 'container',
-							desc: '是否是容器',
-							value: true,
-							backend: true,
-							isContainer: true
 						}]
 					}]
 				}
@@ -1978,17 +1972,7 @@ export default {
 						attrs: [{
 							title: '标签页设置',
 							key: 'tabs-setting',
-							children: [{
-								name: 'specialChild',
-								desc: '该处不能放置',
-								value: {
-									tag: ['div'],
-									className: 'list-group-item',
-									errorMessage: '列表容器只能放列表项'
-								},
-								backend: true,
-								isSpecialChild: true
-							}]
+							children: []
 						}],
 						children: [{
 							tag: 'div',
@@ -2047,7 +2031,6 @@ export default {
 						},{
 							tag: 'div',
 							className: ['vd-empty', 'tab-pane'],
-                            unCtrl: true,
                             unCtrl: true,
 							children: [],
 							attrs: [{
@@ -2452,8 +2435,8 @@ export default {
                     						},{
                     							name: 'addBtn',
                     							desc: '加一个',
-                    							level: 4,
-                                                levelsInfo: [{level: 1, index: 1}],
+                    							level: 7,
+                                                levelsInfo: [{level: 1, index: 1}, {level: 3, index: 1}, {level: 4, index: 2}],
                                                 type: 'buttonAdd',
                     							id: '',
                     						},{
@@ -3048,16 +3031,6 @@ export default {
                             name: 'width',
                             id: '',
                             value: '100%',
-                        },{
-                            name: 'specialChild',
-                            desc: '指定的子元素',
-                            value: {
-                                tag: ['FUNCK'],
-                                className: 'list-fuck-item',
-                                errorMessage: '无法放置'
-                            },
-                            backend: true,
-                            isSpecialChild: true
                         }]
 					}],
 					children: [{
