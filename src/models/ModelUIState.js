@@ -106,7 +106,7 @@ export default {
 					window.clearInterval(window.uistateSave)
 				}
 			}
-			window.uistateSave = window.setInterval(cb, gap);
+			window.uistateSave = window.setInterval(cb, 3000);
 		}
 
 	},

@@ -15,14 +15,18 @@ const initState = function (props, applicationId) {
         payload: { UIState: UIState.UIState.vdpm }
     });
     console.log(UIState.UIState);
-    props.dispatch({
-        type: 'vdstyles/initState',
-        payload: { UIState: UIState.UIState.vdstyles }
-    });
+
     props.dispatch({
         type: 'vdCtrlTree/initState',
         payload: { UIState: UIState.UIState.vdCtrlTree }
     });
+
+    setTimeout(function(){
+        props.dispatch({
+            type: 'vdstyles/initState',
+            payload: { UIState: UIState.UIState.vdstyles }
+        });
+    }, 200)
     props.dispatch({
         type: 'vdcore/initState',
         payload: { UIState: UIState.UIState.vdcore }
