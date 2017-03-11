@@ -1993,7 +1993,13 @@ export default {
                                     value: 'tabpanel',
                                     isAttr: true,
                                     attrName: 'role'
-                                }]
+                                },{
+        							name: 'container',
+        							desc: '是否是容器',
+        							value: true,
+        							backend: true,
+        							isContainer: true
+        						}]
 							}]
 						},{
 							tag: 'div',
@@ -2014,7 +2020,13 @@ export default {
                                     value: 'tabpanel',
                                     isAttr: true,
                                     attrName: 'role'
-                                }]
+                                },{
+        							name: 'container',
+        							desc: '是否是容器',
+        							value: true,
+        							backend: true,
+        							isContainer: true
+        						}]
 							}]
 						},{
 							tag: 'div',
@@ -2034,7 +2046,13 @@ export default {
                                     value: 'tabpanel',
                                     isAttr: true,
                                     attrName: 'role'
-                                }]
+                                },{
+        							name: 'container',
+        							desc: '是否是容器',
+        							value: true,
+        							backend: true,
+        							isContainer: true
+        						}]
 							}]
 						}]
 					}]
