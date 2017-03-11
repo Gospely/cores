@@ -987,7 +987,7 @@ export default {
 			state.layoutState = params.UIState.layoutState;
 			state.activePage = params.UIState.activePage;
 			state.selectIndex = params.UIState.selectIndex;
-			state.symbols = params.UIState.symbols;
+			state.symbols = params.UIState.symbols || [];
 			setTimeout(function(){
 				window.VDDesignerFrame.postMessage({
 					pageSelected: state.layout[state.activePage.key]
