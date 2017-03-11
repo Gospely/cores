@@ -63,6 +63,15 @@ export default {
 					props.dispatch({
 						type: "vdCtrlTree/cutCtrl"
 					})
+				},
+
+				vdDelete() {
+					props.dispatch({
+						type: "vdCtrlTree/deleteCtrl",
+						payload: {
+							isFromFrames: true
+						}
+					})
 				}
 			}
 

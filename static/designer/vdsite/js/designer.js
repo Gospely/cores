@@ -636,6 +636,13 @@ $(function() {
 		    	jq("#vdRightClickMenu").hide();
 		    })
 
+		    jq("#vdDelete").click(function (e) {
+		    	e.stopPropagation();
+		    	e.preventDefault();
+		    	postMessageToFather.vdDelete({});
+		    	jq("#vdRightClickMenu").hide();
+		    })
+
 	    }();
 
 		//class操作
