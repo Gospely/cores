@@ -1974,18 +1974,26 @@ export default {
 						tag: 'div',
                         unActive: true,
                         unCtrl: true,
-                        unBefore: true,
 						className: ['tab-content'],
 						attrs: [{
 							title: '标签页设置',
 							key: 'tabs-setting',
-							children: []
+							children: [{
+								name: 'specialChild',
+								desc: '该处不能放置',
+								value: {
+									tag: ['div'],
+									className: 'tab-pane',
+									errorMessage: '列表容器只能放列表项'
+								},
+								backend: true,
+								isSpecialChild: true
+							}]
 						}],
 						children: [{
 							tag: 'div',
                             unActive: true,
                             unCtrl: true,
-                            unBefore: true,
 							className: ['vd-empty', 'tab-pane'],
 							children: [],
 							attrs: [{
@@ -2013,7 +2021,6 @@ export default {
 							tag: 'div',
                             unActive: true,
                             unCtrl: true,
-                            unBefore: true,
 							className: ['vd-empty', 'tab-pane', 'in', 'active'],
 							children: [],
 							attrs: [{
@@ -2041,7 +2048,6 @@ export default {
 							tag: 'div',
 							className: ['vd-empty', 'tab-pane'],
                             unCtrl: true,
-                            unBefore: true,
                             unCtrl: true,
 							children: [],
 							attrs: [{
