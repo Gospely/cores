@@ -1880,6 +1880,8 @@ export default {
 				state.defaultSelectedKeys = [data.vdid];
 			}
 
+			console.log(state.activeCtrl);
+
 			return {...state};
 		},
 		handleAttrFormChangeA(state, { payload: params }) {
