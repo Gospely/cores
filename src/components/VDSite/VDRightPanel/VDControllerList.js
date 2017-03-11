@@ -129,7 +129,7 @@ const Component = (props) => {
   		<div>
       		<Tree showLine
       			defaultExpandAll={true}
-        		expandedKeys={props.vdCtrlTree.defaultExpandedKeys}
+      			defaultExpandedKeys={props.vdCtrlTree.defaultExpandedKeys}
         		selectedKeys={props.vdCtrlTree.defaultSelectedKeys}
         		onRightClick={ctrlPros.onRightClick}
         		onSelect={ctrlPros.onSelect} onMouseEnter={ctrlPros.onMouseEnter} onMouseLeave={ctrlPros.onMouseLeave} onCheck={ctrlPros.onCheck}
