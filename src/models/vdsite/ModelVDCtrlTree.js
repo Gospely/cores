@@ -2513,11 +2513,11 @@ export default {
 			controller.vdid = controller.key ? (controller.key + '-' + randomString(8, 10)) : randomString(8, 10);
 			controller.parent = activeCtrl.vdid;
 			controller.root = activeCtrl.root;
-			controller.isRoot = activeCtrl.isRoot;
+			controller.isRoot = controller.isRoot;
 			const loopAttr = (controller, wrapperVdid, activeCtrl) => {
 				controller.vdid = controller.key ? (controller.key + '-' + randomString(8, 10)) : randomString(8, 10);
 				controller.root = activeCtrl.root;
-				controller.isRoot = activeCtrl.isRoot;
+				controller.isRoot = controller.isRoot;
 				if (controller.vdid === wrapperVdid) {
 					controller.parent = activeCtrl.vdid;
 				}
@@ -2539,7 +2539,7 @@ export default {
 
 				if (controller.children && controller.children.length) {
 					for(let i = 0; i < controller.children.length; i ++) {
-						loopAttr(controller.children[i]);
+						loopAttr(controller.children[i], wrapperVdid, activeCtrl);
 					}
 				}
 				
