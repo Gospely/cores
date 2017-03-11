@@ -457,12 +457,6 @@ export default {
 							value: '按钮',
 							isHTML: true,
 							id: ''
-						}, {
-							name: 'container',
-							desc: '是否是容器',
-							value: true,
-							backend: true,
-							isContainer: true
 						}]
 					}]
 				}
@@ -1978,17 +1972,7 @@ export default {
 						attrs: [{
 							title: '标签页设置',
 							key: 'tabs-setting',
-							children: [{
-								name: 'specialChild',
-								desc: '该处不能放置',
-								value: {
-									tag: ['div'],
-									className: 'list-group-item',
-									errorMessage: '列表容器只能放列表项'
-								},
-								backend: true,
-								isSpecialChild: true
-							}]
+							children: []
 						}],
 						children: [{
 							tag: 'div',
@@ -2048,7 +2032,6 @@ export default {
 							tag: 'div',
 							className: ['vd-empty', 'tab-pane'],
                             unCtrl: true,
-                            unCtrl: true,
 							children: [],
 							attrs: [{
 								title: '标签页设置',
@@ -2084,17 +2067,7 @@ export default {
 					attrs: [{
 						title: '导航菜单设置',
 						key: 'navbar-setting',
-						children: [{
-                            name: 'specialChild',
-                            desc: '指定的子元素',
-                            value: {
-                                tag: ['FUNCK'],
-                                className: 'list-fuck-item',
-                                errorMessage: '无法放置'
-                            },
-                            backend: true,
-                            isSpecialChild: true
-                        }]
+						children: []
 					}],
 					children: [{
 						tag: 'div',
@@ -2104,17 +2077,7 @@ export default {
 						attrs: [{
 							title: '导航菜单设置',
 							key: 'navbar-setting',
-							children: [{
-                                name: 'specialChild',
-                                desc: '指定的子元素',
-                                value: {
-                                    tag: ['FUNCK'],
-                                    className: 'list-fuck-item',
-                                    errorMessage: '无法放置'
-                                },
-                                backend: true,
-                                isSpecialChild: true
-                            }]
+							children: []
 						}],
 						children: [{
 							tag: 'div',
@@ -2124,17 +2087,7 @@ export default {
 							attrs: [{
 								title: '导航菜单设置',
 								key: 'navbar-setting',
-								children: [{
-                                    name: 'specialChild',
-                                    desc: '指定的子元素',
-                                    value: {
-                                        tag: ['FUNCK'],
-                                        className: 'list-fuck-item',
-                                        errorMessage: '无法放置'
-                                    },
-                                    backend: true,
-                                    isSpecialChild: true
-                                }]
+								children: []
 							}],
 							children: [{
 								tag: 'button',
@@ -2144,17 +2097,7 @@ export default {
 								attrs: [{
 									title: '导航菜单设置',
 									key: 'navbar-setting',
-									children: [{
-                                        name: 'specialChild',
-                                        desc: '指定的子元素',
-                                        value: {
-                                            tag: ['FUNCK'],
-                                            className: 'list-fuck-item',
-                                            errorMessage: '无法放置'
-                                        },
-                                        backend: true,
-                                        isSpecialChild: true
-                                    }]
+									children: [{}]
 								}],
 								children: [{
 									tag: 'span',
@@ -2270,17 +2213,7 @@ export default {
 							attrs: [{
 								title: '导航菜单设置',
 								key: 'navbar-setting',
-								children: [{
-                                    name: 'specialChild',
-                                    desc: '指定的子元素',
-                                    value: {
-                                        tag: ['FUNCK'],
-                                        className: 'list-fuck-item',
-                                        errorMessage: '无法放置'
-                                    },
-                                    backend: true,
-                                    isSpecialChild: true
-                                }]
+								children: []
 							}],
 							children: [{
 								tag: 'ul',
@@ -2290,17 +2223,7 @@ export default {
 								attrs: [{
 									title: '导航菜单设置',
 									key: 'navbar-setting',
-									children: [{
-                                        name: 'specialChild',
-                                        desc: '指定的子元素',
-                                        value: {
-                                            tag: ['FUNCK'],
-                                            className: 'list-fuck-item',
-                                            errorMessage: '无法放置'
-                                        },
-                                        backend: true,
-                                        isSpecialChild: true
-                                    }]
+									children: []
 								}],
 								children: [{
 									tag: 'li',
@@ -2309,17 +2232,7 @@ export default {
 									attrs: [{
 										title: '导航菜单设置',
 										key: 'navbar-setting',
-										children: [{
-                                            name: 'specialChild',
-                                            desc: '指定的子元素',
-                                            value: {
-                                                tag: ['FUNCK'],
-                                                className: 'list-fuck-item',
-                                                errorMessage: '无法放置'
-                                            },
-                                            backend: true,
-                                            isSpecialChild: true
-                                        }]
+										children: []
 									}],
 									children: [{
 										tag: 'a',
@@ -2393,17 +2306,7 @@ export default {
 									attrs: [{
 										title: '导航菜单设置',
 										key: 'navbar-setting',
-										children: [{
-                                            name: 'specialChild',
-                                            desc: '指定的子元素',
-                                            value: {
-                                                tag: ['FUNCK'],
-                                                className: 'list-fuck-item',
-                                                errorMessage: '无法放置'
-                                            },
-                                            backend: true,
-                                            isSpecialChild: true
-                                        }]
+										children: []
 									}],
 									children: [{
 										tag: 'a',
@@ -2473,22 +2376,11 @@ export default {
 								}, {
 									tag: 'li',
                                     unActive: true,
-									className: ['dropdown', 'open'],
+									className: ['dropdown open'],
 									attrs: [{
 										title: '导航菜单设置',
-                                        isAttrSetting: true,
 										key: 'navbar-dropdown-setting',
-										children: [{
-                                            name: 'specialChild',
-                                            desc: '指定的子元素',
-                                            value: {
-                                                tag: ['FUNCK'],
-                                                className: 'list-fuck-item',
-                                                errorMessage: '无法放置'
-                                            },
-                                            backend: true,
-                                            isSpecialChild: true
-                                        }]
+										children: []
 									}],
 									children: [{
 										tag: 'a',
@@ -2543,8 +2435,8 @@ export default {
                     						},{
                     							name: 'addBtn',
                     							desc: '加一个',
-                    							level: 4,
-                                                levelsInfo: [{level: 1, index: 1}],
+                    							level: 7,
+                                                levelsInfo: [{level: 1, index: 1}, {level: 3, index: 1}, {level: 4, index: 2}],
                                                 type: 'buttonAdd',
                     							id: '',
                     						},{
@@ -2552,17 +2444,7 @@ export default {
                     							desc: '删除',
                                                 type: 'buttonDelete',
                     							id: '',
-                    						},{
-                                                name: 'specialChild',
-                                                desc: '指定的子元素',
-                                                value: {
-                                                    tag: ['FUNCK'],
-                                                    className: 'list-fuck-item',
-                                                    errorMessage: '无法放置'
-                                                },
-                                                backend: true,
-                                                isSpecialChild: true
-                                            }]
+                    						}]
 										}],
                                         children: [{
                                             tag: 'span',
@@ -2570,17 +2452,7 @@ export default {
                                             attrs: [{
                                                 title: '导航菜单设置',
                                                 key: 'navbar-setting',
-                                                children: [{
-                                                    name: 'specialChild',
-                                                    desc: '指定的子元素',
-                                                    value: {
-                                                        tag: ['FUNCK'],
-                                                        className: 'list-fuck-item',
-                                                        errorMessage: '无法放置'
-                                                    },
-                                                    backend: true,
-                                                    isSpecialChild: true
-                                                }]
+                                                children: []
                                             }]
                                         }]
 									},{
@@ -2589,17 +2461,7 @@ export default {
         								attrs: [{
         									title: '导航菜单设置',
         									key: 'navbar-setting',
-        									children: [{
-                                                name: 'specialChild',
-                                                desc: '指定的子元素',
-                                                value: {
-                                                    tag: ['FUNCK'],
-                                                    className: 'list-fuck-item',
-                                                    errorMessage: '无法放置'
-                                                },
-                                                backend: true,
-                                                isSpecialChild: true
-                                            }]
+        									children: []
         								}],
         								children: [{
         									tag: 'li',
@@ -2607,17 +2469,7 @@ export default {
         									attrs: [{
         										title: '导航菜单设置',
         										key: 'navbar-setting',
-        										children: [{
-                                                    name: 'specialChild',
-                                                    desc: '指定的子元素',
-                                                    value: {
-                                                        tag: ['FUNCK'],
-                                                        className: 'list-fuck-item',
-                                                        errorMessage: '无法放置'
-                                                    },
-                                                    backend: true,
-                                                    isSpecialChild: true
-                                                }]
+        										children: []
         									}],
         									children: [{
         										tag: 'a',
@@ -2690,17 +2542,7 @@ export default {
         									attrs: [{
         										title: '导航菜单设置',
         										key: 'navbar-setting',
-        										children: [{
-                                                    name: 'specialChild',
-                                                    desc: '指定的子元素',
-                                                    value: {
-                                                        tag: ['FUNCK'],
-                                                        className: 'list-fuck-item',
-                                                        errorMessage: '无法放置'
-                                                    },
-                                                    backend: true,
-                                                    isSpecialChild: true
-                                                }]
+        										children: []
         									}],
         									children: [{
         										tag: 'a',
@@ -2773,17 +2615,7 @@ export default {
         									attrs: [{
         										title: '导航菜单设置',
         										key: 'navbar-setting',
-        										children: [{
-                                                    name: 'specialChild',
-                                                    desc: '指定的子元素',
-                                                    value: {
-                                                        tag: ['FUNCK'],
-                                                        className: 'list-fuck-item',
-                                                        errorMessage: '无法放置'
-                                                    },
-                                                    backend: true,
-                                                    isSpecialChild: true
-                                                }]
+        										children: []
         									}],
         									children: [{
         										tag: 'a',
@@ -2863,21 +2695,11 @@ export default {
 				details: {
                     tag: 'div',
                     unActive: true,
-                    className: ['dropdown', 'open'],
+                    className: ['dropdown open'],
                     attrs: [{
                         title: '下拉菜单设置',
                         key: 'dropdown-setting',
-                        children: [{
-                            name: 'specialChild',
-                            desc: '指定的子元素',
-                            value: {
-                                tag: ['FUNCK'],
-                                className: 'list-fuck-item',
-                                errorMessage: '无法放置'
-                            },
-                            backend: true,
-                            isSpecialChild: true
-                        }]
+                        children: []
                     }],
                     children: [{
                         tag: 'button',
@@ -2925,16 +2747,6 @@ export default {
                                 isSetVal: true,
                                 id: '',
                                 attrName: 'aria-expanded'
-                            },{
-                                name: 'specialChild',
-                                desc: '指定的子元素',
-                                value: {
-                                    tag: ['FUNCK'],
-                                    className: 'list-fuck-item',
-                                    errorMessage: '无法放置'
-                                },
-                                backend: true,
-                                isSpecialChild: true
                             }]
                         }],
                         children: [{
@@ -2954,17 +2766,7 @@ export default {
                         attrs: [{
                             title: '下拉菜单设置',
                             key: 'dropdown-setting',
-                            children: [{
-                                name: 'specialChild',
-                                desc: '指定的子元素',
-                                value: {
-                                    tag: ['FUNCK'],
-                                    className: 'list-fuck-item',
-                                    errorMessage: '无法放置'
-                                },
-                                backend: true,
-                                isSpecialChild: true
-                            }]
+                            children: []
                         }],
                         children: [{
                             tag: 'li',
@@ -2973,17 +2775,7 @@ export default {
                             attrs: [{
                                 title: '下拉菜单设置',
                                 key: 'dropdown-setting',
-                                children: [{
-                                    name: 'specialChild',
-                                    desc: '指定的子元素',
-                                    value: {
-                                        tag: ['FUNCK'],
-                                        className: 'list-fuck-item',
-                                        errorMessage: '无法放置'
-                                    },
-                                    backend: true,
-                                    isSpecialChild: true
-                                }]
+                                children: []
                             }],
                             children: [{
                                 tag: 'a',
@@ -3058,17 +2850,7 @@ export default {
                                 key: 'dropdown-setting',
                                 unActive: true,
                                 deleteAble: true,
-                                children: [{
-                                    name: 'specialChild',
-                                    desc: '指定的子元素',
-                                    value: {
-                                        tag: ['FUNCK'],
-                                        className: 'list-fuck-item',
-                                        errorMessage: '无法放置'
-                                    },
-                                    backend: true,
-                                    isSpecialChild: true
-                                }]
+                                children: []
                             }],
                             children: [{
                                 tag: 'a',
@@ -3143,17 +2925,7 @@ export default {
                             attrs: [{
                                 title: '下拉菜单设置',
                                 key: 'dropdown-setting',
-                                children: [{
-                                    name: 'specialChild',
-                                    desc: '指定的子元素',
-                                    value: {
-                                        tag: ['FUNCK'],
-                                        className: 'list-fuck-item',
-                                        errorMessage: '无法放置'
-                                    },
-                                    backend: true,
-                                    isSpecialChild: true
-                                }]
+                                children: []
                             }],
                             children: [{
                                 tag: 'a',
@@ -3259,16 +3031,6 @@ export default {
                             name: 'width',
                             id: '',
                             value: '100%',
-                        },{
-                            name: 'specialChild',
-                            desc: '指定的子元素',
-                            value: {
-                                tag: ['FUNCK'],
-                                className: 'list-fuck-item',
-                                errorMessage: '无法放置'
-                            },
-                            backend: true,
-                            isSpecialChild: true
                         }]
 					}],
 					children: [{
@@ -3280,17 +3042,7 @@ export default {
 							key: 'slider-setting',
                             unActive: true,
                             unCtrl: true,
-							children: [{
-                                name: 'specialChild',
-                                desc: '指定的子元素',
-                                value: {
-                                    tag: ['FUNCK'],
-                                    className: 'list-fuck-item',
-                                    errorMessage: '无法放置'
-                                },
-                                backend: true,
-                                isSpecialChild: true
-                            }]
+							children: []
 						}],
 						children: [{
 							tag: 'li',
@@ -3351,16 +3103,6 @@ export default {
                                 isAttr: true,
                                 value: 'listbox',
                                 id: ''
-                            },{
-                                name: 'specialChild',
-                                desc: '指定的子元素',
-                                value: {
-                                    tag: ['FUNCK'],
-                                    className: 'list-fuck-item',
-                                    errorMessage: '无法放置'
-                                },
-                                backend: true,
-                                isSpecialChild: true
                             }]
 						}],
 						children: [{
@@ -3371,17 +3113,7 @@ export default {
 							attrs: [{
 								title: '幻灯片设置',
 								key: 'slider-setting',
-								children: [{
-                                    name: 'specialChild',
-                                    desc: '指定的子元素',
-                                    value: {
-                                        tag: ['FUNCK'],
-                                        className: 'list-fuck-item',
-                                        errorMessage: '无法放置'
-                                    },
-                                    backend: true,
-                                    isSpecialChild: true
-                                }]
+								children: []
 							}],
                             children: [{
             					tag: 'img',
@@ -3441,16 +3173,6 @@ export default {
                                         value: 'Slider 1',
                                         isHTML: true,
                                         id: ''
-                                    },{
-                                        name: 'specialChild',
-                                        desc: '指定的子元素',
-                                        value: {
-                                            tag: ['FUNCK'],
-                                            className: 'list-fuck-item',
-                                            errorMessage: '无法放置'
-                                        },
-                                        backend: true,
-                                        isSpecialChild: true
                                     }]
     							}],
                             }]
@@ -3461,17 +3183,7 @@ export default {
 							attrs: [{
 								title: '幻灯片设置',
 								key: 'slider-setting',
-								children: [{
-                                    name: 'specialChild',
-                                    desc: '指定的子元素',
-                                    value: {
-                                        tag: ['FUNCK'],
-                                        className: 'list-fuck-item',
-                                        errorMessage: '无法放置'
-                                    },
-                                    backend: true,
-                                    isSpecialChild: true
-                                }]
+								children: []
 							}],
                             children: [{
             					tag: 'img',
@@ -3531,16 +3243,6 @@ export default {
                                         value: 'Slider 2',
                                         isHTML: true,
                                         id: ''
-                                    },{
-                                        name: 'specialChild',
-                                        desc: '指定的子元素',
-                                        value: {
-                                            tag: ['FUNCK'],
-                                            className: 'list-fuck-item',
-                                            errorMessage: '无法放置'
-                                        },
-                                        backend: true,
-                                        isSpecialChild: true
                                     }]
     							}],
                             }]
@@ -3571,16 +3273,6 @@ export default {
                                 attrName: 'data-slide',
                                 value: 'prev',
                                 id: ''
-                            },{
-                                name: 'specialChild',
-                                desc: '指定的子元素',
-                                value: {
-                                    tag: ['FUNCK'],
-                                    className: 'list-fuck-item',
-                                    errorMessage: '无法放置'
-                                },
-                                backend: true,
-                                isSpecialChild: true
                             }]
 						}],
 						children: [{
@@ -3642,16 +3334,6 @@ export default {
                                 attrName: 'data-slide',
                                 value: 'next',
                                 id: ''
-                            },{
-                                name: 'specialChild',
-                                desc: '指定的子元素',
-                                value: {
-                                    tag: ['FUNCK'],
-                                    className: 'list-fuck-item',
-                                    errorMessage: '无法放置'
-                                },
-                                backend: true,
-                                isSpecialChild: true
                             }]
 						}],
 						children: [{

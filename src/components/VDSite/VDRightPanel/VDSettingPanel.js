@@ -281,6 +281,7 @@ const Component = (props) => {
         handleComplexChildrenAdd(fatherKey, key, item, type){
             //从配置中clone child的数据结构
             let children = copyOperate.copyChildren(0, fatherKey, key, item.level, item.levelsInfo);
+            console.log('handleComplexChildrenAdd', children);
             props.dispatch({
                 type: 'vdCtrlTree/handleComplexChildrenAdd',
                 payload: {
@@ -745,7 +746,7 @@ const Component = (props) => {
 											<div className="bem-Frame_Body">
 												<Button onClick={skipToImggallery.handleClick} style={{ left: '0' ,top: '24px' ,bottom: '102px'}}><i className="fa fa-picture-o"></i>&nbsp;图片资源</Button>
 										        <div className="background-setting-pane-img-preview">
-                                                     <img style={{width: '80px', height: '50px'}} src={item.children[0].fileInfo[0].url}/>
+                                                     <img style={{width: '80px', height: '65px'}} src={item.children[0].fileInfo[0].url}/>
                                                 </div>
                                             </div>
 										</div>

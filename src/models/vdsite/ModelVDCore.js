@@ -15,7 +15,7 @@ export default {
 		customAttr: {
 			visible: false
 		},
-
+		loading: false,
 		linkSetting: {
 			list: [{
 				tip: '跳转到一个链接',
@@ -324,6 +324,11 @@ export default {
 
 	reducers: {
 
+		handleLoading(state, { payload: value}){
+
+			state.loading = value;
+			return {...state};
+		},
 		handleAccessVisibleChange(state, { payload: value}){
 
 			state.accessVisible = value;
