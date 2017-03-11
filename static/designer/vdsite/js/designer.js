@@ -508,16 +508,19 @@ $(function() {
                     	var VDDesignerContainer = jq('#VDDesignerContainer');
                        	VDDesignerContainer.html('');
                         controllerOperations.hideDesignerDraggerBorder();
-						var elemBody = new ElemGenerator(data[0]);
-						elemBody.handleBody();
-                        for (var i = 0; i < data[0].children.length; i++) {
-                            var currentController = data[0].children[i];
+                        for (var i = 0; i < data.length; i++) {
+                            var currentController = data[i];
                             var elem = new ElemGenerator(currentController);
-                            var elemToAdd = jq(elem.createElement());
-                            VDDesignerContainer.append(elemToAdd);
-                            dndData.elemToAdd = elemToAdd;
-                            dndData.dragElem = elemToAdd;
-                            dndData.ctrlToAddData = data.controller;
+
+			        		if(currentController.tag == 'body') {
+			        			elem.handleBody();
+			        		}else {
+	                            var elemToAdd = jq(elem.createElement());
+	                            VDDesignerContainer.append(elemToAdd);
+	                            dndData.elemToAdd = elemToAdd;
+	                            dndData.dragElem = elemToAdd;
+	                            dndData.ctrlToAddData = data.controller;
+			        		}
                         };
                     },
 
@@ -987,10 +990,6 @@ $(function() {
 
         				if (ref <= 1/3) {
 
-        					if (target.data("controller") && target.data("controller").unBefore) {
-        						return false;
-        					}
-
         					if (e.target.className.indexOf('col-md-') === -1) {
         						dndData.horizontalBefore(e, target);
         					}else {
@@ -1019,10 +1018,6 @@ $(function() {
 
 		        		} else if (ref < 1/2) {
 
-		        			if (target.data("controller") && target.data("controller").unBefore) {
-        						return false;
-        					}
-
 		        			dndData.horizontalBefore(e, target);
 
 		        		} else if (ref >= 1/2) {
@@ -1039,10 +1034,6 @@ $(function() {
         			if (target.data("container")) {
 
         				if (ref <= 1/3) {
-
-        					if (target.data("controller") && target.data("controller").unBefore) {
-        						return false;
-        					}
 
         					if (e.target.className.indexOf('col-md-') > -1) {
         						target = target.parent();
@@ -1073,10 +1064,6 @@ $(function() {
 		        			dndData.containerSpecialHandle(e, target);
 
 		        		}else if (ref < 1/2) {
-
-		        			if (target.data("controller") && target.data("controller").unBefore) {
-        						return false;
-        					}
 
 		        			dndData.verticalBefore(e, target);
 

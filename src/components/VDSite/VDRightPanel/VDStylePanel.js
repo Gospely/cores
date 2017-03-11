@@ -1581,7 +1581,7 @@ const VDStylePanel = (props) => {
 
     	const cssPanel = (
 
-			<Panel header={<span><i className="fa fa-css3"></i>&nbsp;CSS类选择器</span>} key="css">
+			<Panel header={<span><i className="fa fa-css3"></i>&nbsp;CSS类选择器 <Button size="small">管理样式</Button></span>} key="css">
 				<Row>
 					<Col span={18}>
 					  	<p style={{marginBottom: '10px'}}>当前类名：<Tag color="#87d068"><span style={{color: 'rgb(255, 255, 255)'}}>{props.vdCtrlTree.activeCtrl.activeStyle || '无活跃类名'}</span></Tag></p>

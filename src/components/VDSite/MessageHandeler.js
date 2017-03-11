@@ -30,6 +30,10 @@ export default {
 					});
 				},
 
+				showErrorMessage() {
+					message.error(data.errorMessage);
+				},
+
 				ctrlMovedAndDroped() {
 					props.dispatch({
 						type: "vdCtrlTree/ctrlMovedAndDroped",
