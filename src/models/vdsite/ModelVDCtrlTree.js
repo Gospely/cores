@@ -1276,7 +1276,7 @@ export default {
 				var url =  currentActiveCtrl.controller.attrs[0].children[0].fileInfo[0].url,
 				activeCtrl =  currentActiveCtrl.controller;
 				window.VDDesignerFrame.postMessage({
-					upLoadBgImg: {
+					uploadImgRefreshed: {
 						activeCtrl:activeCtrl,
 						url: url
 					}
