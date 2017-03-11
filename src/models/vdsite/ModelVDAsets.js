@@ -82,12 +82,14 @@ export default {
 			console.log(fileList);
 			var images = new Array();
 			for (var i = 0; i < fileList.length; i++) {
-				images.push({
-					uid: fileList[i].id,
-					name: fileList[i].text,
-					status: 'done',
-					url: 'http://' + localStorage.domain + '/images/' + fileList[i].text
-				});
+				if(fileList[i].text != '.gitkeep') {
+					images.push({
+						uid: fileList[i].id,
+						name: fileList[i].text,
+						status: 'done',
+						url: 'http://' + localStorage.domain + '/images/' + fileList[i].text
+					});
+				}
 			}
 			yield put({ type: 'list', payload: images });
 		},
@@ -96,6 +98,8 @@ export default {
 			yield put({type: 'setUploading'});
 			var formdata = new FormData();
       		formdata.append('folder',localStorage.dir);
+			console.log('uploadImage');
+			console.log(image);
       		formdata.append('fileUp',image.file);
 			formdata.append('remoteIp',localStorage.host);
 
@@ -105,11 +109,10 @@ export default {
 				message.success('文件上传成功')
 			}
 			function upload(formdata){
-				return fetch('http://api.gospely.com/fs/image/upload',{
+				return fetch('http://localhost:8089/fs/image/upload',{
 	      			method:'POST',
 	      			//mode: "no-cors",
 					headers: {
-						"Content-Type": "application/json;charset=UTF-8",
 						'Authorization': localStorage.token
 					},
 	      			body:formdata,
@@ -123,10 +126,6 @@ export default {
 			yield put({type: 'setUploading'});
 			var mkResult = yield request('fs/remove', {
 				method: 'POST',
-				headers: {
-					"Content-Type": "application/json;charset=UTF-8",
-					'Authorization': localStorage.token
-				},
 				body: JSON.stringify({
 					fileName: localStorage.dir + 'images/' + fileName
 				})

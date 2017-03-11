@@ -101,6 +101,8 @@ const Component = (props) => {
 			}
 		},
 		customRequest(image){
+			console.log('uploadImage');
+			console.log(image);
 			props.dispatch({
 				type: 'vdassets/uploadImage',
 				payload: image,
