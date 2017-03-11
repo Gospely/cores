@@ -3048,7 +3048,14 @@ export default {
                             name: 'width',
                             id: '',
                             value: '100%',
-                        }]
+                        },{
+                            name: 'specialChild',
+                            desc: '不支持',
+                            value: {
+                                tag: ['FUNCK'],
+                                className: 'cant-fuck',
+                                errorMessage: '不能放置'
+                            },]
 					}],
 					children: [{
 						tag: 'ol',
