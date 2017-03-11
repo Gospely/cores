@@ -253,7 +253,7 @@ const Component = (props) => {
             let activeCtrl = props.vdCtrlTree.activeCtrl.children[props.vdCtrlTree.selectIndex] || props.vdCtrlTree.activeCtrl.children[0];
 
             if(attType.key == 'tabs-setting') {
-                activeCtrl = props.vdCtrlTree.activeCtrl.children[props.vdCtrlTree.selectIndex].children[0] || props.vdCtrlTree.activeCtrl.children[0];
+                activeCtrl = props.vdCtrlTree.activeCtrl.children[0].children[props.vdCtrlTree.selectIndex].children[0] || props.vdCtrlTree.activeCtrl.children[0];
             }
             props.dispatch({
                 type: 'vdCtrlTree/handleChildrenUpdate',
