@@ -22,6 +22,7 @@ export default {
 				// 		payload: data
 				// 	})
 				// },
+				//
 
 				ctrlSelected() {
 					props.dispatch({
@@ -62,6 +63,15 @@ export default {
 				cutCtrl() {
 					props.dispatch({
 						type: "vdCtrlTree/cutCtrl"
+					})
+				},
+
+				vdDelete() {
+					props.dispatch({
+						type: "vdCtrlTree/deleteCtrl",
+						payload: {
+							isFromFrames: true
+						}
 					})
 				}
 			}

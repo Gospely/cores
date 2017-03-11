@@ -2672,7 +2672,9 @@ export default {
 			let activeCtrl = yield select(state => state.vdCtrlTree.activeCtrl);
 			let deleteKey;
 
-			if (params && params.fromKeyboard) {
+			if (params && params.isFromFrames) {
+				deleteKey = activeCtrl.vdid;
+			}else if (params && params.fromKeyboard) {
 				deleteKey = activeCtrl.vdid;
 
 				if (!deleteKey) {
