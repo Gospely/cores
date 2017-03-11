@@ -137,11 +137,8 @@ export default {
 	namespace: 'vdCtrlTree',
 	state: {
 	    defaultExpandedKeys: ["body-main", '456', '789'],
-<<<<<<< HEAD
 	    backgroundImgSettingPanePreviewUrl: placeholderImgBase64,
-=======
 	    defaultSelectedKeys: [""],
->>>>>>> dc87a55bb334a6637f5d270ff7749772f6f88b00
 		symbols: [],
 		icons: [
 			'fa fa-external-link',
@@ -1248,11 +1245,7 @@ export default {
 				currentActiveCtrl.controller.attrs[0].children[0].fileInfo = [params];
 				var url = currentActiveCtrl.controller.attrs[0].children[0].fileInfo.url
 				url = params.url;
-<<<<<<< HEAD
 				console.log(state.activeCtrlIndex);
-=======
->>>>>>> dc87a55bb334a6637f5d270ff7749772f6f88b00
-
 			window.postMessage( {
 				fetchImgFromSrc: {
 					url:url
@@ -1965,7 +1958,7 @@ export default {
 				state.activeCtrlLvl = ctrlInfo.level;
 				state.defaultSelectedKeys = [data.vdid];
 			}
-			
+
 			//点击组件同步BGImg设置界面预览
 			// if(state.activeCtrl.attrs[0].children && state.activeCtrl.attrs[0].children[0]){
 			// 	if(state.activeCtrl.attrs[0].children[0].fileInfo) {
