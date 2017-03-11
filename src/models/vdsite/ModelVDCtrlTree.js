@@ -2378,6 +2378,11 @@ export default {
 			return {...state};
 		},
 
+		handleLinkSettingTypeChange(state, { payload: params }) {
+			params.item.activeLinkType = params.value;			
+			return {...state};
+		},
+
 		addPageToLayout(state, { payload: params }) {
 			var pageInfo = params.page;
 			state.layout[pageInfo.key] = [{

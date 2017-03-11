@@ -514,6 +514,8 @@ const Component = (props) => {
 
 	    			'link-setting' (item, attrTypeIndex) {
 
+                        console.log('linkSetting', item);
+
                         const dropdownProps = {
 
                             switchDropDown(item){
@@ -606,16 +608,23 @@ const Component = (props) => {
 					    			type: 'vdcore/handleLinkSettingTypeChange',
 					    			payload: e.target.value
 					    		});
+
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleLinkSettingTypeChange',
+                                    payload: {
+                                        item,
+                                        value: e.target.value
+                                    }
+                                });
 					    	}
 
 					    }
 
 	    				return (
 						    <Panel header={item.title} key={item.key}>
-								<RadioGroup onChange={linkSettingProps.onChange} defaultValue="link" size="small">
+								<RadioGroup onChange={linkSettingProps.onChange} value={item.activeLinkType} size="small">
 									{linkSettingProps.linkSettingTemplate}
 							    </RadioGroup>
-
 						    	{linkSettingProps.tpl[props.vdcore.linkSetting.activeLinkType]}
 						    </Panel>
 	    				);

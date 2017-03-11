@@ -1290,8 +1290,8 @@ $(function() {
             setLinkSetting: function(attr) {
                 var self = this;
 
-				if(attr.isHTML || attr.attrName == 'href'){
-					this.setAttr(attr)
+				if(attr.isHTML){
+					this.setAttr(attr);
 				}else {
 					if(attr.isAttr) {
 
@@ -1302,46 +1302,47 @@ $(function() {
 								this.elem.attr(attr.attrName, '');
 							}
 						}else {
-							var attrValue = attr.value,
 
-								getAttrValue = function (val, type) {
-									var typeList = {
-										'link': function() {
-                                            return '';
-                                        },
-										'mail': function() {
-                                            return 'mailto:';
-                                        },
-										'phone': function() {
-                                            return '';
-                                        },
-										'page': function() {
-                                            return '';
-                                        },
-										'section': function() {
-                                            self.elem.attr('data-nav-section', val);
-                                            return '';
-                                        }
+							if(this.controller.attrs[0].activeLinkType == attr.attrType) {
+
+								var attrValue = attr.value,
+
+									getAttrValue = function (val, type) {
+										var typeList = {
+											'link': function() {
+	                                            return '';
+	                                        },
+											'mail': function() {
+	                                            return 'mailto:';
+	                                        },
+											'phone': function() {
+	                                            return 'phone:';
+	                                        },
+											'page': function() {
+	                                            return '';
+	                                        },
+											'section': function() {
+	                                            self.elem.attr('data-nav-section', val);
+	                                            return '';
+	                                        }
+										}
+
+	                                    if(typeList[type]) {
+	                                        return typeList[type]() + val;
+	                                    }else {
+											self.elem.attr('href', val);
+	                                        return '';
+	                                    }
 									}
 
-                                    console.log('++++++++++getAttrValue================', type)
+								attrValue = getAttrValue(attrValue, this.controller.attrs[0].activeLinkType);
 
-                                    if(typeList[type]) {
-                                        return typeList[type]() + val;
-                                    }else {
-										self.elem.attr('href', val);
-                                        return '';
-                                    }
-								}
+	                            if(attrValue) {
+	                                attrValue = attrValue == 'undefined' ? '' : attrValue;
+	                                this.elem.attr(attr.attrName, attrValue);
+	                            }
 
-                            sessionStorage.currentActiveLinkType = sessionStorage.currentActiveLinkType || 'link';
-
-							attrValue = getAttrValue(attrValue, sessionStorage.currentActiveLinkType);
-
-                            if(attrValue) {
-                                attrValue = attrValue == 'undefined' ? '' : attrValue;
-                                this.elem.attr(attr.attrName, attrValue);
-                            }
+							}
 
 						}
 					}
