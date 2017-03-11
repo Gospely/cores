@@ -26,7 +26,7 @@ const VDDesignerPanel = (props) => {
                     window.VDDesignerFrame.postMessage({
                         pageSelected: props.vdCtrlTree.layout[props.vdCtrlTree.activePage.key]
                     }, '*');
-                }, 500)
+                }, 2500)
                 //加载全局CSS
                 props.dispatch({
                     type: 'vdstyles/applyCSSStyleIntoPage',
