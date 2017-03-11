@@ -1983,7 +1983,7 @@ export default {
 								desc: '该处不能放置',
 								value: {
 									tag: ['div'],
-									className: 'tab-pane',
+									className: 'list-group-item',
 									errorMessage: '列表容器只能放列表项'
 								},
 								backend: true,
@@ -3048,6 +3048,16 @@ export default {
                             name: 'width',
                             id: '',
                             value: '100%',
+                        },{
+                            name: 'specialChild',
+                            desc: '指定的子元素',
+                            value: {
+                                tag: ['FUNCK'],
+                                className: 'list-fuck-item',
+                                errorMessage: '无法放置'
+                            },
+                            backend: true,
+                            isSpecialChild: true
                         }]
 					}],
 					children: [{
