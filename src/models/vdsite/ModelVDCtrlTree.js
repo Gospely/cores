@@ -982,12 +982,12 @@ export default {
 		initState(state, {payload: params}){
 
 			console.log(params);
-			state.activeCtrl = params.UIState.activeCtrl;
-			state.layout = params.UIState.layout;
+			state.activeCtrl = params.UIState.activeCtrl = {};
+			state.layout = params.UIState.layout || [];
 			state.layoutState = params.UIState.layoutState;
-			state.activePage = params.UIState.activePage;
-			state.selectIndex = params.UIState.selectIndex;
-			state.symbols = params.UIState.symbols;
+			state.activePage = params.UIState.activePage || 'index.html';
+			state.selectIndex = params.UIState.selectIndex || 0;
+			state.symbols = params.UIState.symbols || [];
 			setTimeout(function(){
 				window.VDDesignerFrame.postMessage({
 					pageSelected: state.layout[state.activePage.key]

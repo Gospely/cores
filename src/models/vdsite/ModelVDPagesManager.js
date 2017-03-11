@@ -413,9 +413,10 @@ export default {
 			}]};
 		},
 		initState(state, {payload: params}){
-            state.pageList = params.UIState.pageList;
-            state.currentActivePageListItem = params.UIState.currentActivePageListItem;
-            state.activePage = params.UIState.activePage;
+            
+            state.pageList = params.UIState.pageList || [];
+            state.currentActivePageListItem = params.UIState.currentActivePageListItem || 'index.html';
+            state.activePage = params.UIState.activePage || 'index.html';
 			return { ...state};
 		},
 
