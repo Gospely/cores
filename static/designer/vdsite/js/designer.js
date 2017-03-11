@@ -609,9 +609,6 @@ $(function() {
 
 		//右键菜单
 		var rightClickMenu = function () {
-
-	    	var copiedData = '';
-
 	    	jq("#vdCopy").click(function (e) {
 		    	e.stopPropagation();
 		    	e.preventDefault();

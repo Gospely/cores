@@ -139,6 +139,7 @@ export default {
 	    autoExpandParent: true,
 	    defaultExpandedKeys: ["body-main"],
 	    defaultSelectedKeys: [""],
+	    expandedKeys: ["body-main"],
 		symbols: [],
 		icons: [
 			'fa fa-external-link',
@@ -2353,6 +2354,26 @@ export default {
 		    let dragObj;
 		    loop(data, dragKey, (item, index, arr) => {
 		      	arr.splice(index, 1);
+		   //    	if (arr.length === 0) {
+		   //    		item.className.push("vd-empty");
+		   //    		window.VDDesignerFrame.postMessage({
+					// 	VDAttrRefreshed: {
+					// 		activeCtrl: state.activeCtrl,
+					// 		attr: {
+					// 			action: 'replaceClass',
+					// 			attrName: 'classOperate',
+					// 			remove: '',
+					// 			replacement: 'vd-empty',
+					// 			target: {
+					// 				vdid: item.vdid
+					// 			},
+					// 			needSelect: true
+					// 		},
+					// 		attrType: ''
+					// 	}
+					// }, '*');
+		   //    	}
+		      	
 		      	dragObj = item;
 		    });
 		    if (info.dropToGap) {
@@ -2374,6 +2395,26 @@ export default {
 
 		    } else {
 		      	loop(data, dropKey, (item) => {
+		      		if (item.children.length === 0) {
+			      		item.className.push("vd-empty");
+			      		window.VDDesignerFrame.postMessage({
+							VDAttrRefreshed: {
+								activeCtrl: state.activeCtrl,
+								attr: {
+									action: 'replaceClass',
+									attrName: 'classOperate',
+									remove: 'vd-empty',
+									replacement: '',
+									target: {
+										vdid: item.vdid
+									},
+									needSelect: true
+								},
+								attrType: ''
+							}
+						}, '*');
+			      	}
+			      	
 		        	item.children = item.children || [];
 		        	item.children.push(dragObj);
 		      	});
@@ -2795,7 +2836,16 @@ export default {
 				type: 'vdanimations/handleDeleteCtrl',
 				payload: deleteKey
 			})
-		}
+		},
+
+		*cutCtrl({payload: params}, {call, put, select}) {		
+ 			let activeCtrl = yield select(state => state.vdCtrlTree.activeCtrl);		
+ 			sessionStorage.copiedCtrl = JSON.stringify(activeCtrl);		
+ 			yield put ({		
+ 				type: 'handleDeleteCtrl',		
+ 				payload: activeCtrl.vdid		
+ 			})		
+  		}
 
 	}
 

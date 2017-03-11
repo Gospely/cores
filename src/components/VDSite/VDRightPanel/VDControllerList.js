@@ -1,7 +1,7 @@
 import React , {PropTypes} from 'react';
 import { connect } from 'dva';
 
-import { Button, Modal } from 'antd';
+import { Button, Modal, message } from 'antd';
 import { Tabs, Icon } from 'antd';
 import { Tooltip, Menu } from 'antd';
 
@@ -82,31 +82,66 @@ const Component = (props) => {
 
 			onDrop (info) {
 				
-			    props.dispatch({
-			    	type: "vdCtrlTree/handleTreeNodeDrop",
-			    	payload: info
-			    })
+				let errors = $(".error-drop-tree-node").removeClass("error-drop-tree-node");
+				if (errors.length > 0) {
+					message.error(JSON.parse(sessionStorage.currentDragNodeSpecialParent).errorMessage);
+				}else {
+					props.dispatch({
+				    	type: "vdCtrlTree/handleTreeNodeDrop",
+				    	payload: info
+				    })
+				}
+			    
+			    sessionStorage.currentDragNodeSpecialParent = '';
 			},
 
 			onDragOver (info) {
-				// if (sessionStorage.currentDragNodeCtrl.) {}
+
+				if (sessionStorage.currentDragNodeSpecialParent) {
+					let specialParent = JSON.parse(sessionStorage.currentDragNodeSpecialParent);
+					let ctrl = JSON.parse(info.node.props.ctrl);
+					let target = $(info.event.target);
+
+					if (target.hasClass("ant-tree-node-content-wrapper")) {
+						$(".ant-tree-node-content-wrapper").not(target).removeClass("error-drop-tree-node");	
+					}
+
+					var specialTag = specialParent.tag;
+					var specialClassName = specialParent.className;
+					var ctrlClass = ctrl.className;
+					var ctrlTag = ctrl.tag;
+					if (typeof ctrlTag === 'object') {
+						ctrlTag = ctrlTag[0];
+					}
+					if ((ctrlClass.indexOf(specialClassName) === -1 || specialTag.indexOf(ctrlTag.toUpperCase()) === -1) && 
+						target.hasClass("ant-tree-node-content-wrapper")) {
+						target.addClass('error-drop-tree-node');
+					}
+				}
+			},
+
+			onDragLeave (info) {
+				// if ($(info.event.target).hasClass("error-drop-tree-node")) {
+				// 	$(info.event.target).removeClass("error-drop-tree-node");
+				// }
 			},
 
 			onDragStart (info) {
-				let ctrl = info.node.props.ctrl;
+				console.log(info.node.props.ctrl)
+				let ctrl = JSON.parse(info.node.props.ctrl);
 				for(let i = 0; i < ctrl.attrs.length; i ++) {
-					if (attrs[i].isAttrSetting) {
-						for(let j = 0; j < attrs[i].children.length; j ++) {
-							let attr = attrs[i].children[j];
-							if(attr.isSpecialChild) {
-								sessionStorage.currentDragNodeSpecialChild = attr.value;
+					if (ctrl.attrs[i].isAttrSetting) {
+						for(let j = 0; j < ctrl.attrs[i].children.length; j ++) {
+							let attr = ctrl.attrs[i].children[j];
+							if(attr.isSpecialParent) {
+								sessionStorage.currentDragNodeSpecialParent = JSON.stringify(attr.value);
 							}
 							break;
 						}
 					}
 					break;
 				}
-				
+
 			},
 
 			onCheck () {
@@ -173,6 +208,7 @@ const Component = (props) => {
         		onDrop={ctrlPros.onDrop}
         		onDragOver={ctrlPros.onDragOver}
         		onDragStart={ctrlPros.onDragStart}
+        		onDragLeave={ctrlPros.onDragLeave}
       		>
       			{loopControllerTree(activeControllerTree)}
       		</Tree>
