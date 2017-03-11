@@ -136,9 +136,12 @@ const VDTreeActions = {
 export default {
 	namespace: 'vdCtrlTree',
 	state: {
-
 	    defaultExpandedKeys: ["body-main", '456', '789'],
+<<<<<<< HEAD
 	    backgroundImgSettingPanePreviewUrl: placeholderImgBase64,
+=======
+	    defaultSelectedKeys: [""],
+>>>>>>> dc87a55bb334a6637f5d270ff7749772f6f88b00
 		symbols: [],
 		icons: [
 			'fa fa-external-link',
@@ -976,17 +979,19 @@ export default {
 		    display: 'none'
 		},
 
-	    activeCtrl: {},
-
+	    activeCtrl: {}
 	},
 
 	reducers: {
 		initState(state, {payload: params}){
-			// state.activeCtrl = params.UIState.activeCtrl;
-			// state.layout = params.UIState.layout;
+
+			console.log(params);
+			//state.activeCtrl = params.UIState.activeCtrl;
+			state.layout = params.UIState.layout;
 			state.layoutState = params.UIState.layoutState;
 			state.activePage = params.UIState.activePage;
 			state.selectIndex = params.UIState.selectIndex;
+			state.symbols = params.UIState.symbols;
 			localStorage.flashState = true;
 			return {...state};
 		},
@@ -1241,17 +1246,15 @@ export default {
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
 			console.log('uploadBgImg');
 				currentActiveCtrl.controller.attrs[0].children[0].fileInfo = [params];
-
-				var url = currentActiveCtrl.controller.attrs[0].children[0].fileInfo.url ;
-
 				var url = currentActiveCtrl.controller.attrs[0].children[0].fileInfo.url
-
 				url = params.url;
+<<<<<<< HEAD
 				console.log(state.activeCtrlIndex);
+=======
+>>>>>>> dc87a55bb334a6637f5d270ff7749772f6f88b00
 
 			window.postMessage( {
 				fetchImgFromSrc: {
-					activeCtrlIndex:state.activeCtrlIndex,
 					url:url
 				}
 			}, '*');
@@ -1280,7 +1283,7 @@ export default {
 				var url =  currentActiveCtrl.controller.attrs[0].children[0].fileInfo[0].url,
 				activeCtrl =  currentActiveCtrl.controller;
 				window.VDDesignerFrame.postMessage({
-					uploadImgRefreshed: {
+					upLoadBgImg: {
 						activeCtrl:activeCtrl,
 						url: url
 					}
@@ -1867,7 +1870,7 @@ export default {
 						attrs: tmpAttr,
 						tag: controller.tag,
 						className: controller.className,
-						customClassName: controller.customClassName || [],
+						customClassName: [],
 						activeStyle: '',
 						children: [],
 						isRander: controller.isRander || '',
@@ -1883,7 +1886,7 @@ export default {
 						attrs: tmpAttr,
 						tag: controller.tag,
 						className: controller.className,
-						customClassName: controller.customClassName || [],
+						customClassName: [],
 						activeStyle: '',
 						children: [],
 						isRander: controller.isRander || '',
@@ -1962,6 +1965,7 @@ export default {
 				state.activeCtrlLvl = ctrlInfo.level;
 				state.defaultSelectedKeys = [data.vdid];
 			}
+			
 			//点击组件同步BGImg设置界面预览
 			// if(state.activeCtrl.attrs[0].children && state.activeCtrl.attrs[0].children[0]){
 			// 	if(state.activeCtrl.attrs[0].children[0].fileInfo) {
@@ -2200,7 +2204,7 @@ export default {
 						ignore: controller.ignore || false,
 						root: currentRootVdid || '',
 						parent: currentRootVdid,
-						unActive: false,
+						unCtrl: false,
 					};
 
 

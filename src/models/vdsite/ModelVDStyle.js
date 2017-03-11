@@ -1201,15 +1201,16 @@ export default {
 
 		initState(state, { payload: params}){
 
-			// state.backgroundSetting = params.UIState.backgroundSetting;
-			// state.cssStyleList = params.UIState.cssStyleList;
-			// state.boxShadow = params.UIState.boxShadow;
-			// state.cssStyleLayout = params.UIState.cssStyleLayout;
-			// state.textShadow = params.UIState.textShadow;
-			// state.filterSetting = params.UIState.filterSetting;
-			// state.transitionSetting = params.UIState.transitionSetting;
-			// state.transformSetting = params.UIState.transformSetting;
-			// state.unitList = params.UIState.unitList;
+			console.log(params);
+			state.backgroundSetting = params.UIState.backgroundSetting;
+			state.cssStyleList = params.UIState.cssStyleList;
+			state.boxShadow = params.UIState.boxShadow;
+			state.cssStyleLayout = params.UIState.cssStyleLayout;
+			state.textShadow = params.UIState.textShadow;
+			state.filterSetting = params.UIState.filterSetting;
+			state.transitionSetting = params.UIState.transitionSetting;
+			state.transformSetting = params.UIState.transformSetting;
+			state.unitList = params.UIState.unitList;
 			return {...state};
 		},
 		handleCSSStateChange(state, { payload: params }) {
@@ -1257,6 +1258,7 @@ export default {
 				unitsTpl = deepCopyObj(state.cssPropertyUnits);
 
 			state.cssStyleLayout[state.activeStyle] = cssTpl;
+			console.log("addStyle");
 			state.unitList[state.activeStyle] = unitsTpl;
 
 			console.log(state);
