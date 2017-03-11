@@ -45,7 +45,8 @@ const packUIStage = function (params) {
 			symbols: params.vdCtrlTree.symbols,
 			selectIndex: params.vdCtrlTree.selectIndex || 0,
 			activeCtrlLvl: params.vdCtrlTree.activeCtrlLvl || 0,
-			activeCtrlIndex: params.vdCtrlTree.activeCtrlIndex || 1
+			activeCtrlIndex: params.vdCtrlTree.activeCtrlIndex || 1,
+			defaultExpandedKeys: params.vdCtrlTree.defaultExpandedKeys || ['body-main']
 		},
 		vdstyles: params.vdstyles,
 		vdanimations: params.vdanimations,
