@@ -85,9 +85,10 @@ effects:{
         var layout = yield select(state => state.vdCtrlTree.layout),
             pages = yield select(state => state.vdpm.pageList),
             css = yield select(state => state.vdstyles.cssStyleLayout),
-            currPage = yield select(state => state.vdpm.currentActivePageListItem);
+            currPage = yield select(state => state.vdpm.currentActivePageListItem),
+            interaction = yield select(state => state.vdanimations);
 
-        var struct = VDPackager.pack({layout, pages, css});
+        var struct = VDPackager.pack({layout, pages, css, interaction});
 
         message.success('请稍等，正在准备预览……');
         struct.folder = localStorage.dir;
@@ -101,7 +102,7 @@ effects:{
         });
 
         yield put({
-            type: 'preview/setSrc',
+            type: 'setSrc',
             payload: 'http://' + localStorage.domain + '/pages/' + currPage + "?t" + new Date(),
         });
         yield put({

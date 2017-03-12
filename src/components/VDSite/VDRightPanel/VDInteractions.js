@@ -224,6 +224,12 @@ const Component = (props) => {
     	});
     }
 
+    if (!props.vdCtrlTree.activeCtrl || !props.vdCtrlTree.activeCtrl.tag) {
+        return (
+            <div className="none-operation-obj">暂无操作对象</div>
+        )
+    }
+
   	return (
 	    <div className="interaction-section" style={{padding: '15px'}}>
 
@@ -251,7 +257,7 @@ const Component = (props) => {
 	    		</Col>
 	    	</Row>
 
-      		<Menu className="interaction-list" onSelect={handleInteractionOnSelect}>
+      		<Menu className="interaction-list" selectedKeys={[]} onSelect={handleInteractionOnSelect}>
       			{
       				props.vdanimations.interactions.map((interaction, interactionIndex) => {
       					return (
@@ -259,12 +265,12 @@ const Component = (props) => {
 			      			<Menu.Item key={interactionIndex}>
 			      				<Row>
 									<Col span={18}>
-					        			<Radio checked={props.vdanimations.activeInteractionIndex === interactionIndex} 
-                                            style={radioStyle} value={interactionIndex}>{interaction.name} - {interaction.condition}
+					        			<Radio checked={props.vdCtrlTree.activeCtrl.animationClassList[0].key === interaction.key} 
+                                            style={radioStyle} value={interaction.key}>{interaction.name} - {interaction.condition}
                                         </Radio>
 									</Col>
 									{
-                                        interactionIndex !== 10 && (<Col span={6} style={{textAlign: 'right'}}>
+                                        interaction.key !== 'none' && (<Col span={6} style={{textAlign: 'right'}}>
 							            <Icon onClick={interactionEditor.modifyInteraction.bind(this, interactionIndex)} type="edit" />
 							                <Popconfirm title="确认删除吗？" placement="left" onConfirm={onConfirmRemoveThisInteraction.bind(this, interactionIndex)} okText="确定" cancelText="取消">
 											     <Icon type="delete" />

@@ -1720,3 +1720,9 @@ $(function() {
 	})
 
 })
+
+window.onload = function () {
+	window.parent.postMessage({
+		allLoaded: {}
+	}, "*")
+}

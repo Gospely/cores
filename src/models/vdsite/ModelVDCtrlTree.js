@@ -945,6 +945,14 @@ export default {
 	    	'index.html': [{
 	    		className: [],
 	    		customClassName: [],
+	    		animationClassList: [{
+					animate: '',
+					name: 'None',
+					duration: '',
+					condition: 'none',
+					vdid: [],
+					key: 'none'
+				}],
 	    		id: '',
 	    		tag: 'body',
 	    		vdid: 'body-main',
@@ -1764,6 +1772,15 @@ export default {
 			deepCopiedController.vdid = deepCopiedController.key ? (deepCopiedController.key + '-' + randomString(8, 10)) : randomString(8, 10);
 			let root = deepCopiedController.vdid;
 
+			let animationClassList = [{
+					animate: '',
+					name: 'None',
+					duration: '',
+					condition: 'none',
+					vdid: [],
+					key: 'none'
+				}];
+
 			const loopAttr = (controller, parent) => {
 
 				let childCtrl = {},
@@ -1787,6 +1804,7 @@ export default {
 						tag: controller.tag,
 						className: controller.className,
 						customClassName: [],
+						animationClassList: controller.animationClassList || animationClassList,
 						activeStyle: '',
 						children: [],
 						isRander: controller.isRander || '',
@@ -1803,6 +1821,7 @@ export default {
 						tag: controller.tag,
 						className: controller.className,
 						customClassName: [],
+						animationClassList: controller.animationClassList || animationClassList,
 						activeStyle: '',
 						children: [],
 						isRander: controller.isRander || '',
@@ -2081,6 +2100,14 @@ export default {
 
 			if (changCount > 0) {
 
+				let animationClassList = [{
+					animate: '',
+					name: 'None',
+					duration: '',
+					condition: 'none',
+					vdid: [],
+					key: 'none'
+				}];
 
 				const loopAttr = (controller) => {
 
@@ -2105,6 +2132,7 @@ export default {
 						tag: controller.tag,
 						className: controller.className,
 						customClassName: [],
+						animationClassList: controller.animationClassList || animationClassList,
 						activeStyle: '',
 						children: [],
 						isRander: controller.isRander || '',
@@ -2482,6 +2510,7 @@ export default {
 
 		addPageToLayout(state, { payload: params }) {
 			var pageInfo = params.page;
+
 			state.layout[pageInfo.key] = [{
 	    		className: [],
 	    		id: '',
@@ -2490,6 +2519,14 @@ export default {
 	    		ctrlName: 'body',
 	    		children: [],
 	    		customClassName: [],
+	    		animationClassList: [{
+					animate: '',
+					name: 'None',
+					duration: '',
+					condition: 'none',
+					vdid: [],
+					key: 'none'
+				}],
 	    		attrs: []
 	    	}];
 	    	state.activePage.key = pageInfo.key;
@@ -2760,36 +2797,42 @@ export default {
 		handleInteractionOnSelect(state, { payload: params }) {
 
 			//加动画类
-			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage).controller;
+			// var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage).controller;
 
-			if(!currentActiveCtrl) {
-				message.error('请先添加控件或选择一个控件再进行操作！');
-				return {...state};
-			}
+			// if(!currentActiveCtrl) {
+			// 	message.error('请先添加控件或选择一个控件再进行操作！');
+			// 	return {...state};
+			// }
 
-			if(currentActiveCtrl.customClassName.indexOf('animated') == -1) {
-				currentActiveCtrl.customClassName.push('animated');
-			}
+			// if(currentActiveCtrl.customClassName.indexOf('animated') == -1) {
+			// 	currentActiveCtrl.customClassName.push('animated');
+			// }
 
-			if(currentActiveCtrl.customClassName.indexOf(params.animateName) == -1) {
-				currentActiveCtrl.customClassName.push(params.animateName);
-			}else {
-				for (var i = 0; i < currentActiveCtrl.customClassName.length; i++) {
-					var crt = currentActiveCtrl.customClassName[i];
-					if(crt == params.animateName) {
-						currentActiveCtrl.customClassName.splice(i, 1);
-					}
-				};
-			}
+			// if(currentActiveCtrl.customClassName.indexOf(params.animateName) == -1) {
+			// 	currentActiveCtrl.customClassName.push(params.animateName);
+			// }else {
+			// 	for (var i = 0; i < currentActiveCtrl.customClassName.length; i++) {
+			// 		var crt = currentActiveCtrl.customClassName[i];
+			// 		if(crt == params.animateName) {
+			// 			currentActiveCtrl.customClassName.splice(i, 1);
+			// 		}
+			// 	};
+			// }
 
-			state.activeCtrl = currentActiveCtrl;
+			let currentList = state.activeCtrl.animationClassList;
+			currentList.pop();
+			currentList.push(params);
 
-			window.VDDesignerFrame.postMessage({
+			if (params.key !== 'none') {
+				
+				window.VDDesignerFrame.postMessage({
 				animateElement: {
-					id: state.activeCtrl.vdid,
-					animateName: params.animateName
-				}
-			}, '*');
+						id: state.activeCtrl.vdid,
+						animateName: params.animate
+					}
+				}, '*');
+			}
+			
 			return {...state};
 		}
 	},
