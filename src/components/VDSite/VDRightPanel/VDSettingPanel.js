@@ -209,7 +209,8 @@ const Component = (props) => {
 				type: 'vdCtrlTree/handleAttrFormChange',
 				payload: {
 					newVal: selectedVal,
-					attrId: attrId
+					attrId: attrId,
+                    attrType: attType
 				}
 			});
 
@@ -519,8 +520,6 @@ const Component = (props) => {
 	    			},
 
 	    			'link-setting' (item, attrTypeIndex) {
-
-                        console.log('linkSetting', item);
 
                         const dropdownProps = {
 

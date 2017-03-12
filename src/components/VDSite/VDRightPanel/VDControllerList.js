@@ -82,42 +82,42 @@ const Component = (props) => {
 
 			onDrop (info) {
 				
-				let errors = $(".error-drop-tree-node").removeClass("error-drop-tree-node");
-				if (errors.length > 0) {
-					message.error(JSON.parse(sessionStorage.currentDragNodeSpecialParent).errorMessage);
-				}else {
+				// let errors = $(".error-drop-tree-node").removeClass("error-drop-tree-node");
+				// if (errors.length > 0) {
+				// 	message.error(JSON.parse(sessionStorage.currentDragNodeSpecialParent).errorMessage);
+				// }else {
 					props.dispatch({
 				    	type: "vdCtrlTree/handleTreeNodeDrop",
 				    	payload: info
 				    })
-				}
+				// }
 			    
-			    sessionStorage.currentDragNodeSpecialParent = '';
+			 //    sessionStorage.currentDragNodeSpecialParent = '';
 			},
 
 			onDragOver (info) {
 
-				if (sessionStorage.currentDragNodeSpecialParent) {
-					let specialParent = JSON.parse(sessionStorage.currentDragNodeSpecialParent);
-					let ctrl = JSON.parse(info.node.props.ctrl);
-					let target = $(info.event.target);
+				// if (sessionStorage.currentDragNodeSpecialParent) {
+				// 	let specialParent = JSON.parse(sessionStorage.currentDragNodeSpecialParent);
+				// 	let ctrl = JSON.parse(info.node.props.ctrl);
+				// 	let target = $(info.event.target);
 
-					if (target.hasClass("ant-tree-node-content-wrapper")) {
-						$(".ant-tree-node-content-wrapper").not(target).removeClass("error-drop-tree-node");	
-					}
+				// 	if (target.hasClass("ant-tree-node-content-wrapper")) {
+				// 		$(".ant-tree-node-content-wrapper").not(target).removeClass("error-drop-tree-node");	
+				// 	}
 
-					var specialTag = specialParent.tag;
-					var specialClassName = specialParent.className;
-					var ctrlClass = ctrl.className;
-					var ctrlTag = ctrl.tag;
-					if (typeof ctrlTag === 'object') {
-						ctrlTag = ctrlTag[0];
-					}
-					if ((ctrlClass.indexOf(specialClassName) === -1 || specialTag.indexOf(ctrlTag.toUpperCase()) === -1) && 
-						target.hasClass("ant-tree-node-content-wrapper")) {
-						target.addClass('error-drop-tree-node');
-					}
-				}
+				// 	var specialTag = specialParent.tag;
+				// 	var specialClassName = specialParent.className;
+				// 	var ctrlClass = ctrl.className;
+				// 	var ctrlTag = ctrl.tag;
+				// 	if (typeof ctrlTag === 'object') {
+				// 		ctrlTag = ctrlTag[0];
+				// 	}
+				// 	if ((ctrlClass.indexOf(specialClassName) === -1 || specialTag.indexOf(ctrlTag.toUpperCase()) === -1) && 
+				// 		target.hasClass("ant-tree-node-content-wrapper")) {
+				// 		target.addClass('error-drop-tree-node');
+				// 	}
+				// }
 			},
 
 			onDragLeave (info) {
@@ -127,20 +127,20 @@ const Component = (props) => {
 			},
 
 			onDragStart (info) {
-				console.log(info.node.props.ctrl)
-				let ctrl = JSON.parse(info.node.props.ctrl);
-				for(let i = 0; i < ctrl.attrs.length; i ++) {
-					if (ctrl.attrs[i].isAttrSetting) {
-						for(let j = 0; j < ctrl.attrs[i].children.length; j ++) {
-							let attr = ctrl.attrs[i].children[j];
-							if(attr.isSpecialParent) {
-								sessionStorage.currentDragNodeSpecialParent = JSON.stringify(attr.value);
-							}
-							break;
-						}
-					}
-					break;
-				}
+				// console.log(info.node.props.ctrl)
+				// let ctrl = JSON.parse(info.node.props.ctrl);
+				// for(let i = 0; i < ctrl.attrs.length; i ++) {
+				// 	if (ctrl.attrs[i].isAttrSetting) {
+				// 		for(let j = 0; j < ctrl.attrs[i].children.length; j ++) {
+				// 			let attr = ctrl.attrs[i].children[j];
+				// 			if(attr.isSpecialParent) {
+				// 				sessionStorage.currentDragNodeSpecialParent = JSON.stringify(attr.value);
+				// 			}
+				// 			break;
+				// 		}
+				// 	}
+				// 	break;
+				// }
 
 			},
 
@@ -198,9 +198,12 @@ const Component = (props) => {
       		<Tree showLine
       			defaultExpandAll={true}
       			defaultExpandedKeys={props.vdCtrlTree.defaultExpandedKeys}
-        		selectedKeys={props.vdCtrlTree.defaultSelectedKeys}
+        		expandedKeys={props.vdCtrlTree.expandedKeys}
         		onRightClick={ctrlPros.onRightClick}
-        		onSelect={ctrlPros.onSelect} onMouseEnter={ctrlPros.onMouseEnter} onMouseLeave={ctrlPros.onMouseLeave} onCheck={ctrlPros.onCheck}
+        		onSelect={ctrlPros.onSelect} 
+        		onMouseEnter={ctrlPros.onMouseEnter} 
+        		onMouseLeave={ctrlPros.onMouseLeave} 
+        		onCheck={ctrlPros.onCheck}
         		onExpand={ctrlPros.onExpand}
         		autoExpandParent={props.vdCtrlTree.autoExpandParent}
         		draggable
