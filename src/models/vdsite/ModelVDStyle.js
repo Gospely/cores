@@ -1477,7 +1477,7 @@ export default {
 					}
 
 					styleText += ':' + valueText + ';';
-					return styleText;
+					return childrenProps.length ? styleText : '';
 
 				},
 
@@ -1505,7 +1505,7 @@ export default {
 					}
 
 					styleText += ':' + valueText + ';';
-					return styleText;
+					return childrenProps.length ? styleText : '';
 				},
 
 				transition(currentStyleParent, unit) {
@@ -1532,7 +1532,7 @@ export default {
 					}
 
 					styleText += ':' + valueText + ';';
-					return styleText;
+					return childrenProps.length ? styleText : '';
 				},
 
 				transform(currentStyleParent, unit) {
@@ -1574,7 +1574,7 @@ export default {
 					}
 
 					styleText += ':' + valueText + ';';
-					return styleText;
+					return childrenProps.length ? styleText : '';
 				},
 
 				filter(currentStyleParent, unit) {
@@ -1610,7 +1610,7 @@ export default {
 
 					styleText = styleText + ':' + valueText;
 
-					return styleText;
+					return childrenProps.length ? styleText : '';
 				}
 
 
