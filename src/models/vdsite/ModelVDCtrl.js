@@ -1060,7 +1060,7 @@ export default {
 				key: 'icon',
 				details: {
 					tag: 'i',
-					className: ['fa', 'fa-picture-o','fa-2x'],
+					className: ['fa', 'fa-picture-o', 'fa-2x'],
 					attrs: [{
 						title: '图标设置',
 						key: 'icon-setting',
@@ -1069,14 +1069,14 @@ export default {
                             value: true,
                             attrName: 'aria-hidden',
                             isAttr: true
-                        },{
+                        }, {
                             name: 'currentIcon',
                             value: 'fa-picture-o'
-                        },{
+                        }, {
                             name: 'currentSize',
                             value: 'fa-2x'
-                        },{
-                            name: 'currentSize',
+                        }, {
+                            name: 'spin',
                             value: ''
                         }]
 					}]
