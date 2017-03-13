@@ -1912,8 +1912,9 @@ export default {
 		handleAttrFormChangeA(state, { payload: params }) {
 
 			let currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
-			
+
 			var ctrlAttrs = currentActiveCtrl.controller.attrs;
+			console.log(currentActiveCtrl);
 			var targetAttr;
   			for (var i = 0; i < ctrlAttrs.length; i++) {
   				for (var j = 0; j < ctrlAttrs[i].children.length; j++) {
@@ -1952,7 +1953,7 @@ export default {
 					}
 				}, '*');
   			}
-			
+
 			if(params.attrType.key == 'slider-setting'){
 				for (var i = 0; i < currentActiveCtrl.controller.children[1].children.length; i++) {
 					currentActiveCtrl.controller.children[1].children[i].children[0].attrs[0].children[2].value = style;
@@ -2385,7 +2386,7 @@ export default {
 		        	}
 		      	});
 		    };
-		    
+
 		    const data = state.layout[state.activePage.key];
 		    let dragObj;
 		    loop(data, dragKey, state.layout, (item, index, arr, parent) => {
@@ -2409,7 +2410,7 @@ export default {
 						}
 					}, '*');
 		      	}
-		      	
+
 		      	dragObj = item;
 		    });
 		    if (info.dropToGap) {
@@ -2451,7 +2452,7 @@ export default {
 							}
 						}, '*');
 			      	}
-		        	
+
 		        	item.children.push(dragObj);
 		      	});
 
@@ -2512,7 +2513,7 @@ export default {
 		},
 
 		handleLinkSettingTypeChange(state, { payload: params }) {
-			params.item.activeLinkType = params.value;			
+			params.item.activeLinkType = params.value;
 			return {...state};
 		},
 
@@ -2587,9 +2588,9 @@ export default {
 						loopAttr(controller.children[i], wrapperVdid, activeCtrl);
 					}
 				}
-				
+
 			}
-				
+
 			loopAttr(controller, controller.vdid, activeCtrl);
 
 			const pastHandler = {
@@ -2659,7 +2660,7 @@ export default {
 					}
 				}, '*');
 			}
-			
+
 			return {...state};
 		},
 
@@ -2823,7 +2824,7 @@ export default {
 			currentList.push(params);
 
 			if (params.key !== 'none') {
-				
+
 				window.VDDesignerFrame.postMessage({
 				animateElement: {
 						id: state.activeCtrl.vdid,
@@ -2831,7 +2832,7 @@ export default {
 					}
 				}, '*');
 			}
-			
+
 			return {...state};
 		}
 	},
@@ -2880,13 +2881,13 @@ export default {
 			})
 		},
 
-		*cutCtrl({payload: params}, {call, put, select}) {		
- 			let activeCtrl = yield select(state => state.vdCtrlTree.activeCtrl);		
- 			sessionStorage.copiedCtrl = JSON.stringify(activeCtrl);		
- 			yield put ({		
- 				type: 'handleDeleteCtrl',		
- 				payload: activeCtrl.vdid		
- 			})		
+		*cutCtrl({payload: params}, {call, put, select}) {
+ 			let activeCtrl = yield select(state => state.vdCtrlTree.activeCtrl);
+ 			sessionStorage.copiedCtrl = JSON.stringify(activeCtrl);
+ 			yield put ({
+ 				type: 'handleDeleteCtrl',
+ 				payload: activeCtrl.vdid
+ 			})
   		}
 
 	}
