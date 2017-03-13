@@ -395,7 +395,7 @@ export default {
 					className: ['btn', 'btn-default'],
 					attrs: [{
 						title: '链接设置',
-						key: 'link-setting', 
+						key: 'link-setting',
 						activeLinkType: 'link',
 						children: [{
 							name: 'src',
@@ -1989,7 +1989,17 @@ export default {
 						attrs: [{
 							title: '标签页设置',
 							key: 'tabs-setting',
-							children: []
+							children: [{
+								name: 'specialChild',
+								desc: '指定的子元素',
+								value: {
+									tag: ['div'],
+									className: 'tab-pane',
+									errorMessage: '无法放置'
+								},
+								backend: true,
+								isSpecialChild: true
+							}]
 						}],
 						children: [{
 							tag: 'div',
