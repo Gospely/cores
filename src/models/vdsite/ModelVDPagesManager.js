@@ -30,7 +30,9 @@ export default {
 			name: '',
 			seo: {
 				title: '',
-				description: ''
+				description: '',
+				whetherSyn: true
+
 			},
 			script: {
 				head: '',
@@ -144,9 +146,12 @@ export default {
 			var keys = params.target.split('.');
 			if(keys.length == 2){
 				state.newPageFrom[keys[0]][keys[1]] = params.value;
+				state.newPageFrom.seo.whetherSyn = params.whetherSyn;
 			}else{
 				state.newPageFrom[params.target] = params.value;
+				state.newPageFrom.seo.whetherSyn = params.whetherSyn;
 			}
+
 			return { ...state};
 		},
 		handleCreatePage(state, { payload: params}){

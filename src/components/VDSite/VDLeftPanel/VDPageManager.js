@@ -133,6 +133,14 @@ const Component = (props) => {
 				type: 'vdpm/handleFolderName',
 				payload: { target: 'name', value: value.target.value}
 			});
+
+			if(props.vdpm.newPageFrom.seo.title == '') {
+				props.dispatch({
+					type: 'vdpm/handNewPageFormChange',
+					payload: { target: 'seo.title', value: value.target.value}
+				});
+			}
+
 		},
 		createPage(){
 
@@ -180,13 +188,30 @@ const Component = (props) => {
 
 			props.dispatch({
 				type: 'vdpm/handNewPageFormChange',
-				payload: { target: 'name', value: value.target.value}
+				payload: { target: 'name',
+		 				   value: value.target.value,
+		 				   whetherSyn: props.vdpm.newPageFrom.seo.whetherSyn
+						}
 			});
+
+			if(props.vdpm.newPageFrom.seo.title == "" || props.vdpm.newPageFrom.seo.whetherSyn) {
+				props.dispatch({
+					type: 'vdpm/handNewPageFormChange',
+					payload: { 
+						target: 'seo.title', 
+						value: value.target.value ,
+						whetherSyn: true
+					}
+				});
+			}
 		},
 		handlePageTitleChange(value){
 			props.dispatch({
 				type: 'vdpm/handNewPageFormChange',
-				payload: { target: 'seo.title', value: value.target.value}
+				payload: { target: 'seo.title', 
+							value: value.target.value,
+							whetherSyn: false
+						}
 			});
 		},
 		handlePageDescriptionChange(value){
@@ -317,7 +342,7 @@ const Component = (props) => {
 		            )}
 		            hasFeedback
 		          >
-		            <Input  value={props.vdpm.newPageFrom.seo.title} onChange={newPagePopoverProps.handlePageTitleChange}/>
+		            <Input id="newPageTitle"  value={props.vdpm.newPageFrom.seo.title} onChange={newPagePopoverProps.handlePageTitleChange}/>
 		          </FormItem>
 		          <FormItem
 		            {...formItemLayout}
