@@ -53,18 +53,15 @@ const app = dva({
 
 // 3. Plugins
 app.use({
-	onStateChange: () => {
+	onStateChange: (data) => {
 
 		if(!window.appRouter) {
 			window.appRouter = app._history;
 		}
 
 		if(localStorage.flashState == 'true') {
-			console.log('flashState');
 			var state = app._store.getState();
 			var UIState = packUIStage(state);
-			console.log(UIState);
-			console.log(state.vdCtrlTree.activeCtrl)
 			var state = {
 				applicationId: localStorage.applicationId,
 				UIState: UIState,

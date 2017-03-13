@@ -114,19 +114,19 @@ const LeftSidebar = (props) => {
 	const leftSidebarProps = {
 
 	    handleClick(activeMenu) {
+
 	      var handleActiveMenuEvent = {
 
 	        create() {
+				props.dispatch({
+					type: 'sidebar/initImages'
+				});
 	        	if(location.hash.indexOf('project') != -1) {
 					props.dispatch({
 						type: 'sidebar/handleAvailable',
                         payload: {
                             available: true,
                         }
-					});
-					//初始化语言镜像
-					props.dispatch({
-						type: 'sidebar/initImages'
 					});
 					confirm({
 					    title: '即将新建应用',
@@ -1151,7 +1151,7 @@ const LeftSidebar = (props) => {
 					    </Row>
 					</div>
 
-			  		<div style={{ marginTop: 32 }}>
+			  		<div style={{ marginTop: 32 }} hidden={!props.sidebar.appCreatingForm.useGit}>
 			  		    <Row>
 					      	<Col span={4} style={{textAlign: 'right'}}>
 					      		<span>从Git创建：</span>
