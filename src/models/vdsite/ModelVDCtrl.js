@@ -1620,15 +1620,15 @@ export default {
                                 isAttrSetting: true,
                                 children: [{
                                     name: 'radio-value',
-                                    desc: '默认值',
-                                    type: 'input',
-                                    value: '默认值',
+                                    desc: '是否选中',
+                                    type: 'toggle',
+                                    value: false,
                                     props: {
                                         placeholder: '输入名称'
                                     },
                                     id: '',
                                     isAttr: true,
-                                    attrName: 'value'
+                                    attrName: 'checked'
                                 },{
                                     name: 'type',
                                     desc: '类型',

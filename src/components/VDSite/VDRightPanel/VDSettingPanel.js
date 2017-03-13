@@ -160,54 +160,72 @@ const Component = (props) => {
 			let attrId = item.id;
             let time = new Date().getTime();
             sessionStorage.newTime = time;
-            if(attrType.key == 'link-setting'){
+
                 if(sessionStorage.oldTime){
                     if(sessionStorage.newTime-sessionStorage.oldTime > 1500){
                         sessionStorage.oldTime = sessionStorage.newTime;
                         console.log('dayu2');
-                        if(attrType.activeLinkType == 'link'){
-                            if(/^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/.test(newVal)){
-                                newVal = newVal;
-                                sessionStorage.clear();
-                            }else{
-                                message.error('请输入正确的链接地址');
-                                sessionStorage.clear();
-                                item.value = "";
-                                newVal = "";
+                        if(attrType.key == 'link-setting'){
+                            if(attrType.activeLinkType == 'link'){
+                                if(/\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/.test(newVal)){
+                                    newVal = newVal;
+                                    sessionStorage.clear();
+                                }else{
+                                    message.error('请输入正确的链接地址');
+                                    sessionStorage.clear();
+                                    item.value = "";
+                                    newVal = "";
+                                }
+                            }
+
+                            if(attrType.activeLinkType == 'mail'){
+                                if(/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(newVal)){
+                                    newVal = newVal;
+                                    sessionStorage.clear();
+                                }else{
+                                    message.error('请输入正确的邮箱地址');
+                                    sessionStorage.clear();
+                                    item.value = "";
+                                    newVal = "";
+                                }
+                            }
+
+                            if(attrType.activeLinkType == 'phone'){
+                               if(/^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9]|177)\d{8}$/.test(newVal)){
+                                    newVal = newVal;
+                                    sessionStorage.clear();
+                                }else{
+                                    message.error('请输入正确的电话号码');
+                                    sessionStorage.clear();
+                                    item.value = "";
+                                    newVal = "";
+                                }
                             }
                         }
 
-                        if(attrType.activeLinkType == 'mail'){
-                            if(/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(newVal)){
-                                newVal = newVal;
-                                sessionStorage.clear();
-                            }else{
-                                message.error('请输入正确的邮箱地址');
-                                sessionStorage.clear();
-                                item.value = "";
-                                newVal = "";
+                            if(attrType.key == 'video-attr') {
+                                if(/\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/.test(newVal)){
+                                    newVal = newVal;
+                                    sessionStorage.clear();
+                                }else{
+                                    message.error('请输入正确的地址');
+                                    sessionStorage.clear();
+                                    item.value = "";
+                                    newVal = "";
+                                }
                             }
-                        }
 
-                        if(attrType.activeLinkType == 'phone'){
-                           if(/^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9]|177)\d{8}$/.test(newVal)){
-                                newVal = newVal;
-                                sessionStorage.clear();
-                            }else{
-                                message.error('请输入正确的电话号码');
-                                sessionStorage.clear();
-                                item.value = "";
-                                newVal = "";
-                            }
-                        }
                     }else{
                         sessionStorage.oldTime = sessionStorage.newTime;
                     }
                 }else{
                     sessionStorage.oldTime = sessionStorage.newTime;
                 }
-            }
+
+            
+            
             if(attrType.key == 'slider-setting'){
+
                 if(!/\d*(%|px)/.test(newVal)){
                     newVal = newVal + "px";
                 }
@@ -593,7 +611,7 @@ const Component = (props) => {
                             let inputPhoneValue = item.children[2].value;
 
                             if(item.activeLinkType == 'link' && inputLinkValue != ""){
-                                if(!/^[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+\.?/.test(inputLinkValue)){
+                                if(!/\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/.test(inputLinkValue)){
                                     message.error('请输入正确的链接地址');
                                     inputLinkValue = '';
                                     return false;
@@ -1512,6 +1530,12 @@ const Component = (props) => {
                                     payload: value
                                 });
                             },
+                            closeIconPanel(){
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleUpdateVisible',
+                                    payload: false
+                                });
+                            },
                             chooseIcon(item){
                                 props.dispatch({
                                     type: 'vdCtrlTree/handleUpdateVisible',
@@ -1570,6 +1594,7 @@ const Component = (props) => {
                         const iconSettingProps = {
 
                             iconList: (<Row>
+                                        <Button size="small" onClick={iconOperate.closeIconPanel} style={{position: 'absolute',right: '42px',top: '-36px'}} ><Icon type="shrink" />退出选择</Button>
                                  {
                                      props.vdCtrlTree.icons.map((item)=>{
 
