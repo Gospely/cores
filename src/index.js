@@ -47,6 +47,7 @@ const app = dva({
 	initialState: {},
 
 	onError(e) {
+		console.log(e);
 	  	message.error(e.message);
 	}
 });
