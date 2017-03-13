@@ -33,7 +33,7 @@ const Preview = (props) => {
               wrapClassName="dashboard-wrapper"
               onCancel={PreviewProps.hide}
             >
-              <div id="previewSpin">
+            <div id="previewSpin">
               <Spin spinning={props.preview.spinVisible} tip="Loading..." size="large">
                 <iframe
                   name="gospel-designer" 
@@ -43,10 +43,10 @@ const Preview = (props) => {
                   src={props.preview.src}
                   onLoad={PreviewProps.hideSpin}
                   >
-                  
+                 
                 </iframe>
               </Spin>
-              </div>
+            </div>   
             </Modal>
       </div>
       

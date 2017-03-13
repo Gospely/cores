@@ -485,20 +485,20 @@ export default {
 			return {...state};
 		},
 		handleHa(state) {
-			state.panels.panes[0].activeTab.key = "1";
-			state.devType.defaultActiveKey = 'file';
-			localStorage.version = '6';
-			localStorage.defaultActiveKey = 'file';
-			localStorage.activeMenu = "setting";
+			// state.panels.panes[0].activeTab.key = "1";
+			// state.devType.defaultActiveKey = 'file';
+			// localStorage.version = '6';
+			// localStorage.defaultActiveKey = 'file';
+			// localStorage.activeMenu = "setting";
 
-			state.panels.panes[0].tabs = [{
-				"title":"欢迎页面 - Gospel",
-				"key":"1","type":"welcome",
-				"editorId":"",
-				"searchVisible":false,
-				"isSave":false
-			}];
-			state.devType.type = 'ha';
+			// state.panels.panes[0].tabs = [{
+			// 	"title":"欢迎页面 - Gospel",
+			// 	"key":"1","type":"welcome",
+			// 	"editorId":"",
+			// 	"searchVisible":false,
+			// 	"isSave":false
+			// }];
+			// state.devType.type = 'ha';
 			return {...state};
 		},
 

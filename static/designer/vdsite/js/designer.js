@@ -5,7 +5,13 @@ $(function() {
 
 	//animation动画函数(在这里定义全局变量才能解绑)
 	window.animationTrigger = function (e) {
-		jQuery(e.target).animateCss(e.data.animate);
+		var selected = jQuery("#vd-OutlineSelectedActiveNode");
+		var target = jQuery(e.target);
+		target.animateCss(e.data.animate);
+		if (selected.offset().top === target.offset().top && selected.offset().left === target.offset().left) {
+			selected.animateCss(e.data.animate);			
+		}
+		
 	}
 
 	var jq = jQuery.noConflict();
@@ -541,8 +547,13 @@ $(function() {
                     },
 
                     animateElement: function() {
-                    	console.log(data);
-                    	jq('[vdid="' + data.id + '"]').animateCss(data.animateName);
+                    	
+                    	var selected = jQuery("#vd-OutlineSelectedActiveNode");
+                    	var target = jq('[vdid="' + data.id + '"]');
+                    	target.animateCss(data.animateName);
+                    	if (selected.offset().top === target.offset().top && selected.offset().left === target.offset().left) {
+							selected.animateCss(data.animateName);			
+						}
                     },
 
                     styleNameEdited: function() {
@@ -1393,7 +1404,7 @@ $(function() {
 	                                        },
 											'section': function() {
 	                                            self.elem.attr('data-nav-section', val);
-	                                            return '';
+	                                            return '#';
 	                                        }
 										}
 

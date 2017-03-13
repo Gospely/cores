@@ -2603,7 +2603,7 @@ const VDStylePanel = (props) => {
 						<FormItem {...formItemLayout} label="图片">
 
 							<RadioGroup defaultValue="图片" size="small">
-						      	<RadioButton value="图片">
+						      	<RadioButton value="图片" onPressEnter={handleVisibleChange}>
 									<Popover
 							        	content={backgroundImageAndGradient.imageSetter()}
 							        	title="图片处理"
