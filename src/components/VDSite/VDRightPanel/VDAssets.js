@@ -42,9 +42,8 @@ const Component = (props) => {
 				});
 
 				props.dispatch({
-						type: 'vdstyles/showBackgroundStyleSettingPane',
-						payload: false
-
+					type: 'vdstyles/showBackgroundStyleSettingPane',
+					payload: false
 				});
 
 				props.dispatch({
@@ -60,13 +59,11 @@ const Component = (props) => {
 				console.log($("#VDRightPanel"));
 
 				$("#VDRightPanel").ready(function(){
-					props.dispatch({
-					type: 'vdstyles/changeVDStylePaneSpinActive',
-					payload: false
+						props.dispatch({
+						type: 'vdstyles/changeVDStylePaneSpinActive',
+						payload: false
+					});
 				});
-				})
-
-				//document.getElementById("backgroundImgPaneBtn").click();
 
 			}else{
 
@@ -76,8 +73,7 @@ const Component = (props) => {
 			      		previewImage: file.url || file.thumbUrl,
 			      		previewVisible: true,
 			    	}
-
-			});
+				});
 			}
 		},
 

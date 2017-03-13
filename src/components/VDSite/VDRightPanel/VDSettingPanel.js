@@ -81,11 +81,9 @@ const Component = (props) => {
                 ctrl = {};
 
             tmpAttr = controller.attrs;
+            console.log('loopAttr');
+            console.log(tmpAttr);
             for(let i = 0, len = tmpAttr.length; i < len; i ++) {
-                // console.log(tmpAttr[i]);
-                if(specialAttrList.indexOf(tmpAttr[i].key) != -1) {
-                    continue;
-                }
                 for (var j = 0; j < tmpAttr[i].children.length; j++) {
                     var attr = tmpAttr[i].children[j];
                     attr['id'] = randomString(8, 10);
@@ -142,12 +140,15 @@ const Component = (props) => {
                     }
                     i++;
                     if(i < level){
+                        console.log(parent);
+                        console.log(comonIndex);
                         copyByLevel(parent.children[comonIndex]);
                     }else{
                         console.log(parent);
                         result = vdCtrlOperate.deepCopyObj(parent.children[index], result)
                     }
                 }
+            console.log(parent);
             copyByLevel(parent);
             result = vdCtrlOperate.loopAttr(result, props.vdCtrlTree.activeCtrl.root, { vdid: undefined});
             return result;
@@ -159,7 +160,6 @@ const Component = (props) => {
 			let attrId = item.id;
             let time = new Date().getTime();
             sessionStorage.newTime = time;
-
 
                 if(sessionStorage.oldTime){
                     if(sessionStorage.newTime-sessionStorage.oldTime > 1500){
@@ -203,7 +203,7 @@ const Component = (props) => {
                             }
                         }
 
-                            if(attrType.key == 'video-attr'){
+                            if(attrType.key == 'video-attr') {
                                 if(/\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/.test(newVal)){
                                     newVal = newVal;
                                     sessionStorage.clear();
@@ -221,9 +221,11 @@ const Component = (props) => {
                 }else{
                     sessionStorage.oldTime = sessionStorage.newTime;
                 }
-            
 
+            
+            
             if(attrType.key == 'slider-setting'){
+
                 if(!/\d*(%|px)/.test(newVal)){
                     newVal = newVal + "px";
                 }
@@ -341,6 +343,7 @@ const Component = (props) => {
         //普通children添加逻辑,当前activeCtrl 下添加Child
         handleComplexChildrenAdd(fatherKey, key, item, type){
             //从配置中clone child的数据结构
+            console.log(item);
             let children = copyOperate.copyChildren(0, fatherKey, key, item.level, item.levelsInfo);
             props.dispatch({
                 type: 'vdCtrlTree/handleComplexChildrenAdd',
@@ -613,7 +616,7 @@ const Component = (props) => {
                                     inputLinkValue = '';
                                     return false;
                                 }
-                       
+
                             }
                             if(item.activeLinkType == 'mail' && inputMailValue != ""){
                                 if(!/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(inputMailValue)){
@@ -635,6 +638,8 @@ const Component = (props) => {
 					    const linkSettingProps = {
 
 					    	linkSettingTemplate: props.vdcore.linkSetting.list.map( (item, index) => {
+                                console.log('linkSetting');
+                                console.log(item);
 								return (
 									<RadioButton key={index} value={item.value}>
 						              	<Tooltip placement="top" title={item.tip}>
@@ -643,7 +648,6 @@ const Component = (props) => {
 							      	</RadioButton>
 								);
 							}),
-
 					    	tpl: [(
 						      	<Form className="form-no-margin-bottom">
 									<FormItem {...formItemLayout} label="链接地址">

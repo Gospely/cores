@@ -47,13 +47,14 @@ const app = dva({
 	initialState: {},
 
 	onError(e) {
+		console.log(e);
 	  	message.error(e.message);
 	}
 });
 
 // 3. Plugins
 app.use({
-	onStateChange: () => {
+	onStateChange: (data) => {
 
 		if(!window.appRouter) {
 			window.appRouter = app._history;

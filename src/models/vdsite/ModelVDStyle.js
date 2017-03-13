@@ -1891,7 +1891,7 @@ export default {
 			}else {
 				propertyParent[params.property] = '';
 			}
-			
+
 			return {...state};
 		},
 

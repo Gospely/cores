@@ -100,6 +100,14 @@ var VDPackager = {
     			margin-right: auto;
     			max-width: 940px;
 			}
+
+			html, body, .vd-full-container {
+				height: 100%;
+			}
+
+			html {
+				overflow: auto;
+			}
 		`;
 
 		return baseCSS + window.stylesGenerator(this.css);
@@ -176,7 +184,7 @@ var VDPackager = {
            	resultTpl += elemToAdd[0].outerHTML;
         };
 
-        return resultTpl;
+        return '<div class="vd-full-container">' + resultTpl + '</div>';
 	}
 
 }
