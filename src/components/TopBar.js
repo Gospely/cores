@@ -1151,7 +1151,7 @@ const LeftSidebar = (props) => {
 					    </Row>
 					</div>
 
-			  		<div style={{ marginTop: 32 }} hidden={props.sidebar.appCreatingForm.useGit}>
+			  		<div style={{ marginTop: 32 }} hidden={!props.sidebar.appCreatingForm.useGit}>
 			  		    <Row>
 					      	<Col span={4} style={{textAlign: 'right'}}>
 					      		<span>从Git创建：</span>

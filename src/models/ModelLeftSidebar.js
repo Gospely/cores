@@ -1068,6 +1068,7 @@ export default {
 
 		handleInputChanged(state, { payload: params }) {
 
+            console.log(params);
 			state.appCreatingForm[params['input']] = params.value;
 
 			if(params['input'] == 'image') {
@@ -1082,7 +1083,8 @@ export default {
                     }else {
                         state.appCreatingForm.useFramework = true;
                     }
-                    if(params.value == 'vd:site'){
+                    if(params.value == 'vd:latest'){
+                        console.log('git disabled');
                         state.appCreatingForm.useGit = false;
                     }
                     state.appCreatingForm.databaseShow = '该类型项目暂时不支持创建本地数据库';
