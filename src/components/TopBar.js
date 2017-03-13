@@ -140,6 +140,9 @@ const LeftSidebar = (props) => {
 					    },
 					});
 	        	}else {
+					props.dispatch({
+						type: 'sidebar/initImages'
+					});
 	          		props.dispatch({
 		        		type: 'sidebar/showModalNewApp'
 		          	});
