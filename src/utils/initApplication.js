@@ -208,7 +208,7 @@ const initApplication = function (application, props, flag){
             payload: { id: application.image}
         });
 
-        if(localStorage.UIState != null && localStorage.UIState != undefined){
+        if(localStorage.UIState){
 
             var UIState = JSON.parse(localStorage.UIState);
 
