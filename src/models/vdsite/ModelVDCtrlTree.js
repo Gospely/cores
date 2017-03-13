@@ -1254,15 +1254,15 @@ export default {
 		},
 		uploadBgImg(state, { payload: params}){
 
-			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
-			console.log('uploadBgImg');
-				currentActiveCtrl.controller.attrs[0].children[0].fileInfo = [params];
-				var url = currentActiveCtrl.controller.attrs[0].children[0].fileInfo.url
-				url = params.url;
+			// var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
+			// console.log('uploadBgImg');
+			// 	currentActiveCtrl.controller.attrs[0].children[0].fileInfo = [params];
+			// 	var url = currentActiveCtrl.controller.attrs[0].children[0].fileInfo.url
+				// url = params.url;
 
-			window.postMessage( {
+			window.postMessage({
 				fetchImgFromSrc: {
-					url:url
+					url: params.url
 				}
 			}, '*');
 			return { ...state}
