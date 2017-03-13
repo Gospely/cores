@@ -98,7 +98,8 @@ export default {
             databaseShow: '创建本地数据库',
             isFront: false,
             mongodb: false,
-            isProjectNameAvailabel: true
+            isProjectNameAvailabel: true,
+            useGit: true,
 		},
 
         images: [],
@@ -485,8 +486,8 @@ export default {
 				});
 
                 window.location.hash = 'project/' + result.data.fields.id;
-                window.location.reload();
-                //initApplication(result.data.fields,params.ctx,true);
+                //window.location.reload();
+                initApplication(result.data.fields,params.ctx,true);
 
             }else {
 
@@ -1074,14 +1075,17 @@ export default {
 				state.appCreatingForm.framework = '';
 
 
-                if(params.value == 'html:latest' || params.value == 'wechat:latest'){
+                if(params.value == 'html:latest' || params.value == 'wechat:latest' || params.value == 'vd:latest'){
                     state.appCreatingForm.isFront = true;
                     if(params.value == 'wechat:latest'){
                         state.appCreatingForm.useFramework = false;
                     }else {
                         state.appCreatingForm.useFramework = true;
                     }
-                    state.appCreatingForm.databaseShow = '前端项目暂时不支持创建本地数据库';
+                    if(params.value == 'vd:site'){
+                        state.appCreatingForm.useGit = false;
+                    }
+                    state.appCreatingForm.databaseShow = '该类型项目暂时不支持创建本地数据库';
                 }else{
                     state.appCreatingForm.isFront = false;
                     state.appCreatingForm.useFramework = true;
