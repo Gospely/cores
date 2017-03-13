@@ -15,7 +15,6 @@ const packUIStage = function (params) {
 		},
 
 	}
-	console.log(params);
 	var uiState = {
       	rightbar: {
                   activeMenu: params.rightbar.activeMenu
