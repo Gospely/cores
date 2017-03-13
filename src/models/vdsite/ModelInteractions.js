@@ -1,5 +1,6 @@
 import React , {PropTypes} from 'react';
 import dva from 'dva';
+import randomString from '../../utils/randomString.js';
 
 import { message } from 'antd';
 
@@ -281,30 +282,32 @@ export default {
 			name: 'None',
 			duration: '',
 			condition: 'none',
-			vdid: []
+			vdid: [],
+			key: 'none'
 		}, {
 			animate: 'bounce',
 			name: '弹跳',
 			duration: '',
 			condition: 'click',
-			vdid: []
+			vdid: [],
+			key: '456'
 		}, {
 			animate: 'bounceIn',
 			name: '弹跳进入',
 			duration: '',
 			condition: 'hover',
-			vdid: []
+			vdid: [],
+			key: '789'
 		}, {
 			animate: 'bounceIn',
 			name: '弹跳进入',
 			duration: '3000',
 			condition: 'scroll',
-			vdid: []
+			vdid: [],
+			key: '901'
 		}],
 
-		script: {
-			text: ``
-		},
+		scriptText: '',
 
 		needOffEffects: [],
 
@@ -316,27 +319,41 @@ export default {
 
 	},
 
+	// subscriptions: {
+
+	//     setup({ dispatch, history }) {
+	// 	    history.listen(({ pathname }) => {
+	// 	    	dispatch({
+	// 	    		type: 'setActiveInteraction'
+	// 	    	})
+	// 	    }
+	// 	}
+	// },
+
 	effects: {
 
 		*handleInteractionOnSelect({payload: params}, {call, put, select}) {
-
 			var interactions = yield select(state => state.vdanimations.interactions);
-			var animateName = interactions[params.key].animate;
-
-			if (params.key !== 0) {
-				yield put({
-					type: 'vdCtrlTree/handleInteractionOnSelect',
-					payload: {
-						animateName
-					}
-				});
-			}
+			yield put({
+				type: 'vdCtrlTree/handleInteractionOnSelect',
+				payload: interactions[params.key]
+			});
 
 			yield put({
 				type: 'setActiveInteraction',
 				payload: {
 					interactionIndex: params.key,
 					vdid: params.vdid
+				}
+			})
+		},
+
+		*removeInteraction({payload: index}, {call, put, select}) {
+			yield put({
+				type: 'setActiveInteraction',
+				payload: {
+					justUpdate: true,
+					index
 				}
 			})
 		}
@@ -347,19 +364,28 @@ export default {
 
 		initState(state, { payload: params }){
 
-			// state.newInteractionForm = params.UIState.newInteractionForm;
-			// state.interactionModifierForm = params.UIState.interactionModifierForm;
-			// state.interactions = params.UIState.interactions;
-			// state.activeInteraction = params.UIState.activeInteraction;
-			// state.activeInteractionIndex = params.UIState.activeInteractionIndex;
-			// state.interactionCreator = params.UIState.interactionCreator;
-			// state.animations = params.UIState.animations;
+			state.newInteractionForm = params.UIState.newInteractionForm;
+			state.interactionModifierForm = params.UIState.interactionModifierForm;
+			state.interactions = params.UIState.interactions;
+			state.activeInteraction = params.UIState.activeInteraction;
+			state.activeInteractionIndex = params.UIState.activeInteractionIndex;
+			state.interactionCreator = params.UIState.interactionCreator;
+			state.animations = params.UIState.animations;
+			state.scriptText = params.UIState.scriptText;
+			
 			return {...state};
 		},
-		removeInteraction(state, { payload: index }) {
-			state.interactions.splice(index, 1);
+		applyScriptIntoPage(state) {
+			window.VDDesignerFrame.postMessage({
+				applyScriptIntoPage: state.scriptText
+			}, "*");
 			return {...state};
 		},
+
+		// handleRemoveInteraction(state, { payload: index }) {
+		// 	state.interactions.splice(index, 1);
+		// 	return {...state};
+		// },
 
 		showInteractionCreator(state, { payload: fileList }) {
 			state.interactionCreator.modalCreator.visible = true;
@@ -428,6 +454,7 @@ export default {
 				return {...state};
 			}
 
+			state.newInteractionForm.key = randomString(8, 10);
 			state.interactions.push(state.newInteractionForm);
 			state.newInteractionForm = {
 				name: '',
@@ -460,6 +487,145 @@ export default {
 		},
 
 		setActiveInteraction(state, { payload: params }) {
+
+			let writeScript = () => {
+				let scrollAnimations = [];
+				let scriptText = '';
+
+				let handlers = {
+					'hover'(currentVdid, animate, duration) {
+						for(let j = 0; j < currentVdid.length; j ++) {
+
+							//控件是否已经被删除
+							let deletedCtrl = state.deletedCtrl;
+							let deletedIndex = deletedCtrl.indexOf(currentVdid[j]);
+
+							if (deletedIndex !== -1) {
+								currentVdid.splice(j, 1);
+								deletedCtrl.splice(deletedCtrl, 1);
+								// return false;
+							}
+
+							scriptText += `\n	jQuery('[vdid="${currentVdid[j]}"]').on('mouseenter', {animate: '${animate}'} ,animationTrigger);`
+							scriptText += `\n	jQuery('[vdid="${currentVdid[j]}"]').on('mouseleave', {animate: '${animate}'} ,animationTrigger);`
+							if (duration) {
+								scriptText += `\n	jQuery('[vdid="${currentVdid[j]}"]').css({
+			animationDuration: '${duration}ms'
+		});`
+							}
+						}
+					},
+
+					'click'(currentVdid, animate, duration) {
+						for(let j = 0; j < currentVdid.length; j ++) {
+
+							//控件是否已经被删除
+							let deletedCtrl = state.deletedCtrl;
+							let deletedIndex = deletedCtrl.indexOf(currentVdid[j]);
+
+							if (deletedIndex !== -1) {
+								currentVdid.splice(j, 1);
+								deletedCtrl.splice(deletedCtrl, 1);
+								// return false;
+							}
+
+							scriptText += `\n	jQuery('[vdid="${currentVdid[j]}"]').on('click', {animate: '${animate}'} ,animationTrigger);`
+							if (duration) {
+								scriptText += `\n	jQuery('[vdid="${currentVdid[j]}"]').css({
+			animationDuration: '${duration}ms'
+		});`
+							}
+						}
+					},
+
+					'scroll'(currentVdid, animate, duration) {
+						scrollAnimations.push({
+							currentVdid,
+							animate,
+							duration
+						});
+					},
+
+					//scroll写进一个函数，方便解绑
+					'scrollSpecialHandler' (scrollAnimations) {
+						for(let i = 0; i < scrollAnimations.length; i ++) {
+							let currentVdid = scrollAnimations[i].currentVdid;
+							let animate = scrollAnimations[i].animate;
+							let duration = scrollAnimations[i].duration;
+
+							scriptText += `\n	jQuery(window).off('scroll');`;
+							scriptText += `\n	jQuery(window).on('scroll', function (e) {`;
+							for(let j = 0; j < currentVdid.length; j ++) {
+
+								//控件是否已经被删除
+								let deletedCtrl = state.deletedCtrl;
+								let deletedIndex = deletedCtrl.indexOf(currentVdid[j]);
+
+								if (deletedIndex !== -1) {
+									currentVdid.splice(j, 1);
+									deletedCtrl.splice(deletedCtrl, 1);
+									// return false;
+								}
+
+								scriptText += `\n		var elem${j} = jQuery('[vdid="${currentVdid[j]}"]');
+			if (elem${j}.offset().top - jQuery(window).scrollTop() <= jQuery(window).innerHeight()) {
+				elem${j}.addClass('animated ${animate}');
+			}`
+								if (duration) {
+									scriptText += `\n		elem${j}.css({
+				animationDuration: '${duration}ms'
+			});`
+								}
+
+							}
+							scriptText += `\n	});`;
+						}
+						
+					}
+				}
+
+				for(let i = 1; i < state.interactions.length; i ++) {
+					let currentInteraction = state.interactions[i];
+					
+					let currentVdid = currentInteraction.vdid
+
+					if (currentVdid.length !== 0) {
+						handlers[currentInteraction.condition](currentVdid, currentInteraction.animate, currentInteraction.duration);
+						handlers.scrollSpecialHandler(scrollAnimations);
+					}
+					
+						
+				}
+
+				scriptText += `\n})()`;
+
+				return scriptText;
+			}
+
+			if (params.justUpdate) {
+				let script = `\n(function () {`;
+				let deleteAnimation = state.interactions.splice(params.index, 1)[0];
+
+				if (deleteAnimation.condition === 'click') {
+					for(let i = 0; i < deleteAnimation.vdid.length; i ++) {
+						script += `\n	jQuery('[vdid="${deleteAnimation.vdid[i]}"]').off('click', animationTrigger);`
+					}
+				}if (deleteAnimation.condition === 'hover') {
+					for(let i = 0; i < deleteAnimation.vdid.length; i ++) {
+						script += `\n	jQuery('[vdid="${deleteAnimation.vdid[i]}"]').off('mouseenter' ,animationTrigger);`
+						script += `\n	jQuery('[vdid="${deleteAnimation.vdid[i]}"]').off('mouseleave' ,animationTrigger);`
+					}
+				}
+				
+				script += writeScript();
+
+				window.VDDesignerFrame.postMessage({
+					applyScriptIntoPage: script
+				}, "*");
+				state.scriptText = script;
+				return {...state};
+			}
+
 			let prevActiveInteraction = state.interactions[state.activeInteractionIndex];
 			let prevVdids = prevActiveInteraction.vdid;
 			let prevIndex = prevVdids.indexOf(params.vdid);
@@ -471,15 +637,15 @@ export default {
 				});
 			}
 
-			let scriptText = ``;
+			let scriptText = `\n(function () {`;
 
 			for(let i = 0; i < state.needOffEffects.length; i ++) {
 				let currentOff = state.needOffEffects[i];
 				if (currentOff.condition === 'hover') {
-					scriptText += `\njQuery('[vdid="${currentOff.vdid}"]').off('mouseenter' ,animationTrigger);`
-					scriptText += `\njQuery('[vdid="${currentOff.vdid}"]').off('mouseleave' ,animationTrigger);`
+					scriptText += `\n	jQuery('[vdid="${currentOff.vdid}"]').off('mouseenter' ,animationTrigger);`
+					scriptText += `\n	jQuery('[vdid="${currentOff.vdid}"]').off('mouseleave' ,animationTrigger);`
 				}else if (currentOff.condition === 'click') {
-					scriptText += `\njQuery('[vdid="${currentOff.vdid}"]').off('click', animationTrigger);`
+					scriptText += `\n	jQuery('[vdid="${currentOff.vdid}"]').off('click', animationTrigger);`
 				}
 			}
 
@@ -488,103 +654,16 @@ export default {
 			}
 			
 			state.activeInteractionIndex = params.interactionIndex;
-			
 			state.interactions[state.activeInteractionIndex].vdid.push(params.vdid);
-
-			let handlers = {
-				'hover'(currentVdid, animate, duration) {
-					for(let j = 0; j < currentVdid.length; j ++) {
-
-						//控件是否已经被删除
-						let deletedCtrl = state.deletedCtrl;
-						let deletedIndex = deletedCtrl.indexOf(currentVdid[j]);
-
-						if (deletedIndex !== -1) {
-							currentVdid.splice(j, 1);
-							deletedCtrl.splice(deletedCtrl, 1);
-							return false;
-						}
-
-						scriptText += `\njQuery('[vdid="${currentVdid[j]}"]').on('mouseenter', {animate: '${animate}'} ,animationTrigger);`
-						scriptText += `\njQuery('[vdid="${currentVdid[j]}"]').on('mouseleave', {animate: '${animate}'} ,animationTrigger);`
-						if (duration) {
-							scriptText += `\njQuery('[vdid="${currentVdid[j]}"]').css({
-	animationDuration: '${duration}ms'
-});`
-						}
-					}
-				},
-
-				'click'(currentVdid, animate, duration) {
-					for(let j = 0; j < currentVdid.length; j ++) {
-
-						//控件是否已经被删除
-						let deletedCtrl = state.deletedCtrl;
-						let deletedIndex = deletedCtrl.indexOf(currentVdid[j]);
-
-						if (deletedIndex !== -1) {
-							currentVdid.splice(j, 1);
-							deletedCtrl.splice(deletedCtrl, 1);
-							return false;
-						}
-
-						scriptText += `\njQuery('[vdid="${currentVdid[j]}"]').on('click', {animate: '${animate}'} ,animationTrigger);`
-						if (duration) {
-							scriptText += `\njQuery('[vdid="${currentVdid[j]}"]').css({
-	animationDuration: '${duration}ms'
-});`
-						}
-					}
-				},
-
-				'scroll'(currentVdid, animate, duration) {
-					scriptText += `\njQuery(window).off('scroll');`;
-					scriptText += `\njQuery(window).on('scroll', function (e) {`;
-					for(let j = 0; j < currentVdid.length; j ++) {
-
-						//控件是否已经被删除
-						let deletedCtrl = state.deletedCtrl;
-						let deletedIndex = deletedCtrl.indexOf(currentVdid[j]);
-
-						if (deletedIndex !== -1) {
-							currentVdid.splice(j, 1);
-							deletedCtrl.splice(deletedCtrl, 1);
-							return false;
-						}
-
-						scriptText += `\n	var elem${j} = jQuery('[vdid="${currentVdid[j]}"]');
-	if (elem${j}.offset().top - jQuery(window).scrollTop() <= jQuery(window).innerHeight()) {
-		elem${j}.addClass('animated ${animate}');
-	}`
-						if (duration) {
-							scriptText += `\n	elem${j}.css({
-		animationDuration: '${duration}ms'
-	});`
-						}
-
-					}
-					scriptText += `\n});`;
-
-				}
-			}
-
-			for(let i = 1; i < state.interactions.length; i ++) {
-				let currentInteraction = state.interactions[i];
-				
-				let currentVdid = currentInteraction.vdid
-
-				if (currentVdid.length !== 0) {
-					handlers[currentInteraction.condition](currentVdid, currentInteraction.animate, currentInteraction.duration);
-				}
-				
-					
-			}
 			
-			state.needOffEffects = [];
+			scriptText += writeScript();
 			
 			window.VDDesignerFrame.postMessage({
 				applyScriptIntoPage: scriptText
 			}, "*");
+			state.scriptText = scriptText;
+			
+			state.needOffEffects = [];
 
 			return {...state};
 		}

@@ -1269,6 +1269,7 @@ $(function() {
                     if(attr.value) {
                         if(attr.isScrollFlag) {
                             this.elem.attr('data-section', attr.value);
+                            this.elem.attr('id', attr.value);
                         }else {
                             this.elem.attr(attr.attrName, attr.value);
                         }
@@ -1720,3 +1721,9 @@ $(function() {
 	})
 
 })
+
+window.onload = function () {
+	window.parent.postMessage({
+		allLoaded: {}
+	}, "*")
+}

@@ -395,7 +395,8 @@ export default {
 					className: ['btn', 'btn-default'],
 					attrs: [{
 						title: '链接设置',
-						key: 'link-setting', activeLinkType: 'link',
+						key: 'link-setting', 
+						activeLinkType: 'link',
 						children: [{
 							name: 'src',
 							desc: '跳转链接',

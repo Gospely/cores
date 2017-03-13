@@ -945,6 +945,14 @@ export default {
 	    	'index.html': [{
 	    		className: [],
 	    		customClassName: [],
+	    		animationClassList: [{
+					animate: '',
+					name: 'None',
+					duration: '',
+					condition: 'none',
+					vdid: [],
+					key: 'none'
+				}],
 	    		id: '',
 	    		tag: 'body',
 	    		vdid: 'body-main',
@@ -1764,6 +1772,15 @@ export default {
 			deepCopiedController.vdid = deepCopiedController.key ? (deepCopiedController.key + '-' + randomString(8, 10)) : randomString(8, 10);
 			let root = deepCopiedController.vdid;
 
+			let animationClassList = [{
+					animate: '',
+					name: 'None',
+					duration: '',
+					condition: 'none',
+					vdid: [],
+					key: 'none'
+				}];
+
 			const loopAttr = (controller, parent) => {
 
 				let childCtrl = {},
@@ -1787,6 +1804,7 @@ export default {
 						tag: controller.tag,
 						className: controller.className,
 						customClassName: [],
+						animationClassList: controller.animationClassList || animationClassList,
 						activeStyle: '',
 						children: [],
 						isRander: controller.isRander || '',
@@ -1803,6 +1821,7 @@ export default {
 						tag: controller.tag,
 						className: controller.className,
 						customClassName: [],
+						animationClassList: controller.animationClassList || animationClassList,
 						activeStyle: '',
 						children: [],
 						isRander: controller.isRander || '',
@@ -1860,6 +1879,10 @@ export default {
 			return {...state};
 		},
 
+		handleTreeExpaned(state, { payload: expandedKeys }) {
+ 			return {...state, expandedKeys: expandedKeys, autoExpandParent: false};
+ 		},
+
 		setActiveCtrlInTree(state, { payload: params }) {
 			state.defaultSelectedKeys = params;
 			return {...state};
@@ -1888,12 +1911,8 @@ export default {
 		},
 		handleAttrFormChangeA(state, { payload: params }) {
 
-			console.log(params);
 			let currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
-			if (params.attrName === 'id') {
-				currentActiveCtrl.controller.id = params.newVal;
-			}
-			console.log(params)
+			
 			var ctrlAttrs = currentActiveCtrl.controller.attrs;
 			var targetAttr;
   			for (var i = 0; i < ctrlAttrs.length; i++) {
@@ -1904,6 +1923,9 @@ export default {
 						targetAttr = attr.name;
 	  					attr.value = params.newVal;
 	  					flag = true;
+	  					if (attr.attrName === 'id') {
+							currentActiveCtrl.controller.id = params.newVal;
+						}
 	  					break;
 	  				}
 	  				if(flag) {
@@ -1911,22 +1933,26 @@ export default {
 	  				}
   				};
   			};
-			var style = currentActiveCtrl.controller.attrs[0].children[2].value;
-			if(targetAttr == 'height'){
-				style = style.replace(/height: \d*(%|px);/,"height: " + params.newVal + ";");
-			}
-			if(targetAttr == 'width') {
-				style = style.replace(/width: \d*(%|px);/,"width: " + params.newVal + ";");
-			}
-			console.log(style);
-			currentActiveCtrl.controller.attrs[0].children[2].value = style;
-			window.VDDesignerFrame.postMessage({
-				VDAttrRefreshed: {
-					attrType: params.attrType,
-					attr: currentActiveCtrl.controller.attrs[0].children[2],
-					activeCtrl: currentActiveCtrl.controller
+
+  			if (currentActiveCtrl.controller.attrs[0].children[2]) {
+  				var style = currentActiveCtrl.controller.attrs[0].children[2].value;
+				if(targetAttr == 'height'){
+					style = style.replace(/height: \d*(%|px);/,"height: " + params.newVal + ";");
 				}
-			}, '*');
+				if(targetAttr == 'width') {
+					style = style.replace(/width: \d*(%|px);/,"width: " + params.newVal + ";");
+				}
+				console.log(style);
+				currentActiveCtrl.controller.attrs[0].children[2].value = style;
+				window.VDDesignerFrame.postMessage({
+					VDAttrRefreshed: {
+						attrType: params.attrType,
+						attr: currentActiveCtrl.controller.attrs[0].children[2],
+						activeCtrl: currentActiveCtrl.controller
+					}
+				}, '*');
+  			}
+			
 			if(params.attrType.key == 'slider-setting'){
 				for (var i = 0; i < currentActiveCtrl.controller.children[1].children.length; i++) {
 					currentActiveCtrl.controller.children[1].children[i].children[0].attrs[0].children[2].value = style;
@@ -2081,6 +2107,14 @@ export default {
 
 			if (changCount > 0) {
 
+				let animationClassList = [{
+					animate: '',
+					name: 'None',
+					duration: '',
+					condition: 'none',
+					vdid: [],
+					key: 'none'
+				}];
 
 				const loopAttr = (controller) => {
 
@@ -2105,6 +2139,7 @@ export default {
 						tag: controller.tag,
 						className: controller.className,
 						customClassName: [],
+						animationClassList: controller.animationClassList || animationClassList,
 						activeStyle: '',
 						children: [],
 						isRander: controller.isRander || '',
@@ -2340,46 +2375,47 @@ export default {
 			const dropKey = info.node.props.eventKey;
 		    const dragKey = info.dragNode.props.eventKey;
 		    // const dragNodesKeys = info.dragNodesKeys;
-		    const loop = (data, key, callback) => {
+		    const loop = (data, key, parent, callback) => {
 		      	data.forEach((item, index, arr) => {
 		        	if (item.vdid === key) {
-		          		return callback(item, index, arr);
+		          		return callback(item, index, arr, parent);
 		        	}
 		        	if (item.children) {
-		          		return loop(item.children, key, callback);
+		          		return loop(item.children, key, item, callback);
 		        	}
 		      	});
 		    };
+		    
 		    const data = state.layout[state.activePage.key];
 		    let dragObj;
-		    loop(data, dragKey, (item, index, arr) => {
+		    loop(data, dragKey, state.layout, (item, index, arr, parent) => {
 		      	arr.splice(index, 1);
-		   //    	if (arr.length === 0) {
-		   //    		item.className.push("vd-empty");
-		   //    		window.VDDesignerFrame.postMessage({
-					// 	VDAttrRefreshed: {
-					// 		activeCtrl: state.activeCtrl,
-					// 		attr: {
-					// 			action: 'replaceClass',
-					// 			attrName: 'classOperate',
-					// 			remove: '',
-					// 			replacement: 'vd-empty',
-					// 			target: {
-					// 				vdid: item.vdid
-					// 			},
-					// 			needSelect: true
-					// 		},
-					// 		attrType: ''
-					// 	}
-					// }, '*');
-		   //    	}
+		      	if (arr.length === 0 && parent.tag !== 'body') {
+		      		parent.className.push("vd-empty");
+		      		window.VDDesignerFrame.postMessage({
+						VDAttrRefreshed: {
+							activeCtrl: state.activeCtrl,
+							attr: {
+								action: 'replaceClass',
+								attrName: 'classOperate',
+								remove: '',
+								replacement: 'vd-empty',
+								target: {
+									vdid: parent.vdid
+								},
+								needSelect: true
+							},
+							attrType: ''
+						}
+					}, '*');
+		      	}
 		      	
 		      	dragObj = item;
 		    });
 		    if (info.dropToGap) {
 		      	let ar;
 		      	let i;
-		      	loop(data, dropKey, (item, index, arr) => {
+		      	loop(data, dropKey, state.layout, (item, index, arr) => {
 		        	ar = arr;
 		        	i = index;
 		      	});
@@ -2394,9 +2430,10 @@ export default {
 		      	}, "*")
 
 		    } else {
-		      	loop(data, dropKey, (item) => {
+		      	loop(data, dropKey, state.layout, (item) => {
+		      		item.children = item.children || [];
 		      		if (item.children.length === 0) {
-			      		item.className.push("vd-empty");
+		      			item.className.splice(item.className.indexOf('vd-empty'), 1);
 			      		window.VDDesignerFrame.postMessage({
 							VDAttrRefreshed: {
 								activeCtrl: state.activeCtrl,
@@ -2414,8 +2451,7 @@ export default {
 							}
 						}, '*');
 			      	}
-			      	
-		        	item.children = item.children || [];
+		        	
 		        	item.children.push(dragObj);
 		      	});
 
@@ -2482,6 +2518,7 @@ export default {
 
 		addPageToLayout(state, { payload: params }) {
 			var pageInfo = params.page;
+
 			state.layout[pageInfo.key] = [{
 	    		className: [],
 	    		id: '',
@@ -2490,6 +2527,14 @@ export default {
 	    		ctrlName: 'body',
 	    		children: [],
 	    		customClassName: [],
+	    		animationClassList: [{
+					animate: '',
+					name: 'None',
+					duration: '',
+					condition: 'none',
+					vdid: [],
+					key: 'none'
+				}],
 	    		attrs: []
 	    	}];
 	    	state.activePage.key = pageInfo.key;
@@ -2631,6 +2676,11 @@ export default {
 
 			if (deleteParentCtrl.children.length === 0) {
 
+				let expandedKeysIndex = state.expandedKeys.indexOf(deleteParentCtrl.vdid);
+ 				if (expandedKeysIndex !== -1) {
+ 					state.expandedKeys.splice(expandedKeysIndex, 1);
+ 				}
+
 				if (deleteParentCtrl.vdid.split('-')[0] === 'body') {
 					state.activeCtrl = 'none';
 					state.activeCtrlIndex = 'none';
@@ -2718,7 +2768,8 @@ export default {
 
 				state.activeCtrlLvl = newParentInfo.level + 1;
 			}else {
-				children = state.layout[state.activePage.key][0].children;
+				newParent = state.layout[state.activePage.key][0];
+				children = newParent.children;
 				state.activeCtrlLvl = 2
 			}
 
@@ -2754,42 +2805,33 @@ export default {
 			state.activeCtrlIndex = params.index;
 			state.defaultSelectedKeys = [moveCtrl[0].vdid];
 
+			let newParentVdid = newParent.vdid;
+ 			if(state.expandedKeys.indexOf(newParentVdid) === -1) {
+ 				state.expandedKeys.push(newParentVdid);
+ 			}
+ 			state.autoExpandParent = true;
+
 			return {...state};
 		},
 
 		handleInteractionOnSelect(state, { payload: params }) {
 
 			//加动画类
-			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage).controller;
 
-			if(!currentActiveCtrl) {
-				message.error('请先添加控件或选择一个控件再进行操作！');
-				return {...state};
-			}
+			let currentList = state.activeCtrl.animationClassList;
+			currentList.pop();
+			currentList.push(params);
 
-			if(currentActiveCtrl.customClassName.indexOf('animated') == -1) {
-				currentActiveCtrl.customClassName.push('animated');
-			}
-
-			if(currentActiveCtrl.customClassName.indexOf(params.animateName) == -1) {
-				currentActiveCtrl.customClassName.push(params.animateName);
-			}else {
-				for (var i = 0; i < currentActiveCtrl.customClassName.length; i++) {
-					var crt = currentActiveCtrl.customClassName[i];
-					if(crt == params.animateName) {
-						currentActiveCtrl.customClassName.splice(i, 1);
-					}
-				};
-			}
-
-			state.activeCtrl = currentActiveCtrl;
-
-			window.VDDesignerFrame.postMessage({
+			if (params.key !== 'none') {
+				
+				window.VDDesignerFrame.postMessage({
 				animateElement: {
-					id: state.activeCtrl.vdid,
-					animateName: params.animateName
-				}
-			}, '*');
+						id: state.activeCtrl.vdid,
+						animateName: params.animate
+					}
+				}, '*');
+			}
+			
 			return {...state};
 		}
 	},

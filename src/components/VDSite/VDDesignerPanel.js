@@ -43,6 +43,13 @@ const VDDesignerPanel = (props) => {
                     }
                 });
 
+                //加载动画js
+                setTimeout(function(){
+                    props.dispatch({
+                        type: 'vdanimations/applyScriptIntoPage'
+                    })
+                }, 2600)
+
             }, 500);
             $(window).off("keyup");
             $(window).on("keyup", {props}, function (e) {
@@ -83,8 +90,8 @@ const VDDesignerPanel = (props) => {
 
 };
 
-function mapSateToProps({ vdCtrlTree, vdcore }) {
-    return { vdCtrlTree, vdcore };
+function mapSateToProps({ vdCtrlTree, vdcore, vdanimations }) {
+    return { vdCtrlTree, vdcore, vdanimations };
 }
 
 export default connect(mapSateToProps)(VDDesignerPanel);

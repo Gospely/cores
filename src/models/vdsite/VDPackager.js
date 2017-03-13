@@ -87,7 +87,7 @@ var VDPackager = {
 
 		this.compilePage();
 
-		this.fileStructure.scripts = this.compileScripts();
+		this.fileStructure.scripts = this.compileScripts(params);
 
 		return this.fileStructure;
 	},
@@ -105,8 +105,8 @@ var VDPackager = {
 		return baseCSS + window.stylesGenerator(this.css);
 	},
 
-	compileScripts () {
-		return '<script>' + this.htmlTpl.scripts + '</script>';
+	compileScripts (params) {
+		return '<script>' + this.htmlTpl.scripts + params.interaction.scriptText + '</script>';
 	},
 
 	compilePage () {

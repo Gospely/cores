@@ -182,15 +182,15 @@ const Component = (props) => {
     		props.dispatch({
     			type: 'vdanimations/toggleInteactionEditor'
     		});
-            console.log(props.vdCtrlTree.activeCtrl)
+            // console.log(props.vdCtrlTree.activeCtrl)
             
-    		props.dispatch({
-    			type: 'vdanimations/setActiveInteraction',
-    			payload: {
-                    interactionIndex,
-                    vdid: props.vdCtrlTree.activeCtrl.vdid
-                }
-    		});
+    		// props.dispatch({
+    		// 	type: 'vdanimations/setActiveInteraction',
+    		// 	payload: {
+      //               interactionIndex,
+      //               vdid: props.vdCtrlTree.activeCtrl.vdid
+      //           }
+    		// });
     	},
 
     	handleOk () {
@@ -214,7 +214,12 @@ const Component = (props) => {
     }
 
     const handleInteractionOnSelect = ({ item, key, selectedKeys }) => {
-
+        let interactions = props.vdanimations.interactions;
+        for(let i = 0; i < interactions.length; i ++) {
+            if (interactions[i].key === key) {
+                key = i;
+            }
+        }
     	props.dispatch({
     		type: 'vdanimations/handleInteractionOnSelect',
     		payload: {
@@ -222,6 +227,12 @@ const Component = (props) => {
                 vdid: props.vdCtrlTree.activeCtrl.vdid
     		}
     	});
+    }
+
+    if (!props.vdCtrlTree.activeCtrl || !props.vdCtrlTree.activeCtrl.tag) {
+        return (
+            <div className="none-operation-obj">暂无操作对象</div>
+        )
     }
 
   	return (
@@ -251,20 +262,20 @@ const Component = (props) => {
 	    		</Col>
 	    	</Row>
 
-      		<Menu className="interaction-list" onSelect={handleInteractionOnSelect}>
+      		<Menu className="interaction-list" selectedKeys={[props.vdCtrlTree.activeCtrl.animationClassList[0].key]} onSelect={handleInteractionOnSelect}>
       			{
       				props.vdanimations.interactions.map((interaction, interactionIndex) => {
       					return (
 
-			      			<Menu.Item key={interactionIndex}>
+			      			<Menu.Item key={interaction.key}>
 			      				<Row>
 									<Col span={18}>
-					        			<Radio checked={props.vdanimations.activeInteractionIndex === interactionIndex} 
-                                            style={radioStyle} value={interactionIndex}>{interaction.name} - {interaction.condition}
+					        			<Radio checked={props.vdCtrlTree.activeCtrl.animationClassList[0].key === interaction.key} 
+                                            style={radioStyle} value={interaction.key}>{interaction.name} - {interaction.condition}
                                         </Radio>
 									</Col>
 									{
-                                        interactionIndex !== 10 && (<Col span={6} style={{textAlign: 'right'}}>
+                                        interaction.key !== 'none' && (<Col span={6} style={{textAlign: 'right'}}>
 							            <Icon onClick={interactionEditor.modifyInteraction.bind(this, interactionIndex)} type="edit" />
 							                <Popconfirm title="确认删除吗？" placement="left" onConfirm={onConfirmRemoveThisInteraction.bind(this, interactionIndex)} okText="确定" cancelText="取消">
 											     <Icon type="delete" />
