@@ -1560,9 +1560,9 @@ const LeftSidebar = (props) => {
 			          	</Tooltip>
 			        </Menu.Item>
 
-			        <Menu.Item key="release" className="releaseItem" style={{'marginRight':'30px'}}>
+			        <Menu.Item key="release" className="releaseItem">
 						<Dropdown overlay={deployMenu}  trigger={['click']}>
-				    			<div style={{width: 30}}>
+				    			<div style={{width: 60}}>
 									<Icon type="export" />
 									发布
 								</div>
