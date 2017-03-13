@@ -485,7 +485,8 @@ export default {
 				});
 
                 window.location.hash = 'project/' + result.data.fields.id;
-                initApplication(result.data.fields,params.ctx,true);
+                window.location.reload();
+                //initApplication(result.data.fields,params.ctx,true);
 
             }else {
 
