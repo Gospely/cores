@@ -2895,23 +2895,27 @@ const VDStylePanel = (props) => {
 						{
 							props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].childrenProps.map((cssProperty, cssPropertyIndex) => {
 								return (
-							      	<Popover onVisibleChange={onVisibleChange.bind(this, cssPropertyIndex, 'box-shadow')} key={cssPropertyIndex} placement="left" title="编辑盒子阴影" content={shadowProps.modifyPopover()} trigger="click">
 
-										<div key={cssPropertyIndex} style={{border: '1px solid #d9d9d9', minHeight: 10, marginTop: '10px'}}>
+										<div key={cssPropertyIndex}  style={{border: '1px solid #d9d9d9', minHeight: 10, marginTop: '10px'}}>
 											<Row>
 												<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
 													<Tag color={cssProperty['color']}></Tag>
 												</Col>
-												<Col span={16} style={{textAlign: 'center', cursor: 'pointer'}}>
+												<Col span={12} style={{textAlign: 'center', cursor: 'pointer'}}>
 													<span>{cssProperty['inset']}</span>
 												</Col>
+												<Popover key={cssPropertyIndex} placement="left" title="编辑盒子阴影" content={shadowProps.modifyPopover()} trigger="click">
+													<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
+														<i onClick={onVisibleChange.bind(this, cssPropertyIndex, 'box-shadow')} className="fa fa-edit"></i>
+													</Col>
+												</Popover>
+
 												<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
 													<i onClick={removeThisShadow.bind(this, cssPropertyIndex, 'box-shadow')} className="fa fa-trash-o"></i>
 												</Col>
 											</Row>
 										</div>
 
-							      	</Popover>
 								);
 							})
 						}

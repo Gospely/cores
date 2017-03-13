@@ -53,7 +53,7 @@ const app = dva({
 
 // 3. Plugins
 app.use({
-	onStateChange: () => {
+	onStateChange: (data) => {
 
 		if(!window.appRouter) {
 			window.appRouter = app._history;
