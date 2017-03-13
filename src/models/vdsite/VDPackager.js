@@ -114,7 +114,7 @@ var VDPackager = {
 	},
 
 	compileScripts (params) {
-		return '<script>' + this.htmlTpl.scripts + params.interaction.scriptText + '</script>';
+		return this.htmlTpl.scripts + params.interaction.scriptText;
 	},
 
 	compilePage () {
