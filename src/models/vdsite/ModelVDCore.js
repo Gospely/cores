@@ -239,12 +239,13 @@ export default {
 				tmpColumns.push(tmpColumn);
 			};
 
+			alert(params.value);
 
 			if (params.value !== '') {
 
 				if(params.value < 1 || params.value > 12) {
-						message.error('栅格数不能超过12，且不能小于1');
-						return false;
+					message.error('栅格数不能超过12，且不能小于1');
+					return false;
 				}
 
 				//每个格子原来的配置数据
