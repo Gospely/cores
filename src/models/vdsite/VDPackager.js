@@ -16,7 +16,7 @@ var VDPackager = {
 
 		body: `</head><body>`,
 
-		footer: `<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script><script src="vendor/js/bootstrap.min.js"></script><!--[if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]--></body></html>`,
+		footer: `<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script><script src="vendor/js/bootstrap.min.js"></script><script src="js/main.js"><!--[if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]--></body></html>`,
 
 		scripts: `
 
@@ -93,7 +93,16 @@ var VDPackager = {
 	},
 
 	compileCSS () {
-		return window.stylesGenerator(this.css);
+
+		var baseCSS = `
+			.vd-container {
+    			margin-left: auto;
+    			margin-right: auto;
+    			max-width: 940px;
+			}
+		`;
+
+		return baseCSS + window.stylesGenerator(this.css);
 	},
 
 	compileScripts () {
