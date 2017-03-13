@@ -157,12 +157,61 @@ const Component = (props) => {
 		handleAttrFormInputChange (item, attrType, dom) {
 			let newVal = dom.target ? dom.target.value : dom;
 			let attrId = item.id;
+            let time = new Date().getTime();
+            sessionStorage.newTime = time;
+            if(attrType.key == 'link-setting'){
+                if(sessionStorage.oldTime){
+                    if(sessionStorage.newTime-sessionStorage.oldTime > 1500){
+                        sessionStorage.oldTime = sessionStorage.newTime;
+                        console.log('dayu2');
+                        if(attrType.activeLinkType == 'link'){
+                            if(/^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/.test(newVal)){
+                                newVal = newVal;
+                                sessionStorage.clear();
+                            }else{
+                                message.error('请输入正确的链接地址');
+                                sessionStorage.clear();
+                                item.value = "";
+                                newVal = "";
+                            }
+                        }
 
+                        if(attrType.activeLinkType == 'mail'){
+                            if(/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(newVal)){
+                                newVal = newVal;
+                                sessionStorage.clear();
+                            }else{
+                                message.error('请输入正确的邮箱地址');
+                                sessionStorage.clear();
+                                item.value = "";
+                                newVal = "";
+                            }
+                        }
+
+                        if(attrType.activeLinkType == 'phone'){
+                           if(/^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9]|177)\d{8}$/.test(newVal)){
+                                newVal = newVal;
+                                sessionStorage.clear();
+                            }else{
+                                message.error('请输入正确的电话号码');
+                                sessionStorage.clear();
+                                item.value = "";
+                                newVal = "";
+                            }
+                        }
+                    }else{
+                        sessionStorage.oldTime = sessionStorage.newTime;
+                    }
+                }else{
+                    sessionStorage.oldTime = sessionStorage.newTime;
+                }
+            }                       
             if(attrType.key == 'slider-setting'){
                 if(!/\d*(%|px)/.test(newVal)){
                     newVal = newVal + "px";
                 }
             }
+
             props.dispatch({
                 type: 'vdCtrlTree/handleAttrFormChange',
                 payload: {
@@ -171,15 +220,14 @@ const Component = (props) => {
                     attrType: attrType
                 }
             });
-			props.dispatch({
-				type: 'vdCtrlTree/handleAttrRefreshed',
-				payload: {
-					activeCtrl: props.vdCtrlTree.activeCtrl,
-					attr: item,
-					attrType: attrType
-				}
-			});
-
+            props.dispatch({
+                type: 'vdCtrlTree/handleAttrRefreshed',
+                payload: {
+                    activeCtrl: props.vdCtrlTree.activeCtrl,
+                    attr: item,
+                    attrType: attrType
+                }
+            });
 		},
 
 		handleAttrFormSwitchChange (item, attType, checked) {
@@ -535,6 +583,38 @@ const Component = (props) => {
                                 });
                             }
                         }
+
+                        const validateFromData =() => {
+
+                            let inputLinkValue = item.children[0].value;
+                            let inputMailValue = item.children[1].value;
+                            let inputPhoneValue = item.children[2].value;
+
+                            if(item.activeLinkType == 'link' && inputLinkValue != ""){
+                                if(!/^[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+\.?/.test(inputLinkValue)){
+                                    message.error('请输入正确的链接地址');
+                                    inputLinkValue = '';
+                                    return false;
+                                }
+                       
+                            }
+                            if(item.activeLinkType == 'mail' && inputMailValue != ""){
+                                if(!/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(inputMailValue)){
+                                    message.error('请输入正确的邮箱地址');
+                                    inputMailValue = '';
+                                    return false;
+                                }
+                            }
+
+                            if(item.activeLinkType == 'phone' && inputPhoneValue != ""){
+                               if(!/^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9]|177)\d{8}$/.test(inputPhoneValue)){
+                                    message.error('请输入正确的电话号码');
+                                    inputPhoneValue = '';
+                                    return false;
+                                }
+                            }
+                        }
+
 					    const linkSettingProps = {
 
 					    	linkSettingTemplate: props.vdcore.linkSetting.list.map( (item, index) => {
@@ -550,7 +630,7 @@ const Component = (props) => {
 					    	tpl: [(
 						      	<Form className="form-no-margin-bottom">
 									<FormItem {...formItemLayout} label="链接地址">
-										<Input size="small" value={item.children[0].value} onChange={formProps.handleAttrFormInputChange.bind(this, item.children[0], attrType)}/>
+										<Input size="small" value={item.children[0].value} type="url" onChange={formProps.handleAttrFormInputChange.bind(this, item.children[0], attrType)} onBlur={validateFromData}/>
 									</FormItem>
 
 									<FormItem {...formItemLayout} label="新窗口">
@@ -572,13 +652,13 @@ const Component = (props) => {
 					    	), (
 						      	<Form className="form-no-margin-bottom">
 									<FormItem {...formItemLayout} label="邮箱地址">
-										<Input value={item.children[1].value} type="mail" size="small" onChange={formProps.handleAttrFormInputChange.bind(this, item.children[1], attrType)}/>
+										<Input value={item.children[1].value} type="email" size="small" onChange={formProps.handleAttrFormInputChange.bind(this, item.children[1], attrType)} onBlur={validateFromData}/>
 									</FormItem>
 						      	</Form>
 					    	), (
 						      	<Form className="form-no-margin-bottom">
 									<FormItem {...formItemLayout} label="手机号码">
-										<Input value={item.children[2].value} type="tel" size="small" onChange={formProps.handleAttrFormInputChange.bind(this, item.children[2], attrType)}/>
+										<Input value={item.children[2].value} type="tel" size="small" onChange={formProps.handleAttrFormInputChange.bind(this, item.children[2], attrType)} onBlur={validateFromData}/>
 									</FormItem>
 						      	</Form>
 					    	), (
@@ -609,6 +689,7 @@ const Component = (props) => {
 					    	)],
 
 					    	onChange (e) {
+                                sessionStorage.clear();
 					    		props.dispatch({
 					    			type: 'vdcore/handleLinkSettingTypeChange',
 					    			payload: e.target.value
