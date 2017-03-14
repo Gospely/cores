@@ -20,7 +20,7 @@ const Component = (props) => {
 			window.VDDnddata = ctrl;
 		}
 	}
-
+	console.log(props.vdctrl.controllers);
 	const panels = props.vdctrl.controllers.map((item, i) => {
 
 		console.log(item);

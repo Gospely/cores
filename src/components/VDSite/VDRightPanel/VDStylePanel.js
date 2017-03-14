@@ -54,11 +54,6 @@ const VDStylePanel = (props) => {
 	var activeCSSStyleState = props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle],
 		  activeCSSUnitList = props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle];
 	console.log(activeCSSStyleState);
-	if(!activeCSSStyleState){
-		return (
-			<div className="none-operation-obj">暂无操作对象</div>
-		)
-	}
 	console.log('activeCSSUnitList=====', activeCSSUnitList);
 
 	const cssAction = {
