@@ -200,7 +200,7 @@ export default {
 
 	        message.success('正在发布.....');
 	        struct.folder = localStorage.dir;
-			struct.isBeautify = true;
+			// struct.isBeautify = false;
 
 	        var packResult = yield request('vdsite/pack', {
 	            method: 'POST',
