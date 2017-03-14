@@ -186,7 +186,7 @@ export default {
 	            body: JSON.stringify(struct)
 	        });
 			console.log(packResult);
-			window.open(localStorage.baseURL + 'vdsite/download?folder=' + localStorage.dir + '&project=' + localStorage.currentProject)
+			window.open(localStorage.baseURL + 'vdsite/download?token=' + localStorage.token + '&folder=' + localStorage.dir + '&project=' + localStorage.currentProject)
 		},
 		*deploy({ payload: params }, { call, put, select }){
 

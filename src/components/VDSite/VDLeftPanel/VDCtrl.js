@@ -16,10 +16,22 @@ const Component = (props) => {
 
 	const VDControllersProps = {
 		onSelect(ctrl) {
-			window.VDDnddata = ctrl;
+
+			var tmpKey = [],
+				tmpCtrl = ctrl;
+
+			for (var i = 0; i < tmpCtrl.details.attrs.length; i++) {
+				var attr = tmpCtrl.details.attrs[i];
+				if(tmpKey.indexOf(attr.key) == -1) {
+					tmpKey.push(attr.key);
+				}else {
+					tmpCtrl = tmpCtrl.details.attrs.splice(i, 1);
+				}
+			};
+
+			window.VDDnddata = tmpCtrl;
 		}
 	}
-	console.log(props.vdctrl.controllers);
 	const panels = props.vdctrl.controllers.map((item, i) => {
 		if(item.content) {
 			const
@@ -36,7 +48,7 @@ const Component = (props) => {
 										return (
 									    	<Col key={ctrl.key} span={8}>
 									    		<div className="anticons-list-item" onMouseDown={VDControllersProps.onSelect.bind(this, ctrl)}>
-									    			<span dangerouslySetInnerHTML={{__html: ctrl.icon}}>{console.log(typeof ctrl.icon, ctrl.icon)}</span>
+									    			<span dangerouslySetInnerHTML={{__html: ctrl.icon}}></span>
 									    			<div className="anticon-class">{ctrl.name}</div>
 									    		</div>
 									    	</Col>
@@ -67,8 +79,6 @@ const Component = (props) => {
 			);
 		}
 	})
-
-	console.log(panels);
 
   	return (
   		<div className="vdctrl-pane-wrapper">

@@ -2418,7 +2418,7 @@ export default {
                                }, {
                                    tag: 'li',
                                    unActive: true,
-                                   className: ['dropdown open'],
+                                   className: ['dropdown'],
                                    attrs: [{
                                        title: '导航菜单设置',
                                        key: 'navbar-dropdown-setting',
@@ -2462,7 +2462,7 @@ export default {
                                            },{
                                                name: 'aria-expanded',
                                                desc: '是否展开',
-                                               value: true,
+                                               value: false,
                                                isAttr: true,
                                                type: 'toggle',
                                                isToggleAttr: true,
@@ -2752,7 +2752,7 @@ export default {
                details: {
                    tag: 'div',
                    unActive: true,
-                   className: ['dropdown open'],
+                   className: ['dropdown'],
                    attrs: [{
                        title: '下拉菜单设置',
                        key: 'dropdown-setting',
@@ -2797,7 +2797,7 @@ export default {
                            },{
                                name: 'aria-expanded',
                                desc: '是否展开',
-                               value: true,
+                               value: false,
                                isAttr: true,
                                type: 'toggle',
                                isToggleAttr: true,

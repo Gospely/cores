@@ -566,6 +566,8 @@ $(function() {
 		        		var self = this;
 		        		var components = jq(parentWindow.document, parentWindow.document).find('.symbols-ctrl');
 
+		        		console.log('symbolsAdded================');
+
 		        		components.each(function(n) {
 		        			jq(this).attr("draggable", true);
 		        			jq(this).on("dragstart", function (e) {
