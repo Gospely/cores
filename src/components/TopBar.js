@@ -398,6 +398,9 @@ const LeftSidebar = (props) => {
 
 	        saveBtn() {
 
+				props.dispatch({
+					type: 'UIState/writeConfig'
+				});
 	        	props.dispatch({
 	        		type: 'sidebar/changeSaveBtnState',
 	        		payload: {
@@ -418,7 +421,6 @@ const LeftSidebar = (props) => {
 		        		}
 		        	})
 
-	        		message.success('保存成功');
 	        	},"2000");
 	        },
 
