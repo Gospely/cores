@@ -72,7 +72,7 @@ const VDDesignerPanel = (props) => {
     return ( <div className = "designer-wrapper"
                   style = {{ height: '100%' }}
              >
-
+                <Spin spinning={props.vdcore.loading} style={{ height: 100, top: 'calc(50% - 100px)' }}>
                     <iframe className = "centen-VD"
                         name = "vdsite-designer"
                         width = { props.vdcore.VDDesigner[props.vdcore.VDDesigner.activeSize].width }
@@ -82,8 +82,7 @@ const VDDesignerPanel = (props) => {
                         onLoad = { VDDesignerPanelProps.handleDesPanelLoaded }
                     >
                     </iframe>
-                    <Spin  spinning={props.vdcore.loading}  style={{ 'marginTop': '300px' }}>
-                <div id="closeVDLeftPanel" className='close-VD-left-panel'></div>
+                    <div id="closeVDLeftPanel" className='close-VD-left-panel'></div>
                 </Spin>
             </div>
     );

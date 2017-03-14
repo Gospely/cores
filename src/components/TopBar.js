@@ -520,6 +520,8 @@ const LeftSidebar = (props) => {
 	    },
 
 	    confirmDeleteApp(application) {
+			window.disabled = true;
+			localStorage.image = '';
 			notification.open({
 				message: '正在删除应用，请稍等……',
 				title: '删除应用'
@@ -534,7 +536,7 @@ const LeftSidebar = (props) => {
 			props.dispatch({
 				type: 'sidebar/deleteApp',
 				payload: {application}
-			})
+			});
 	    },
 
 	    cancelDeleteApp() {
