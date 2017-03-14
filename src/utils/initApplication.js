@@ -242,7 +242,7 @@ const initApplication = function (application, props, flag){
         localStorage.docker = application.docker;
         localStorage.applicationId = application.id;
 
-        document.title = localStorage.currentProject + ':先进的在线Web可视化集成开发环境';
+        document.title = localStorage.currentProject + ' - Gospel:先进的在线Web可视化集成开发环境';
 
         var namespace = localStorage.user + localStorage.currentProject + '_' + localStorage.userName;
         fileListen(props, namespace)

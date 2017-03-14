@@ -19,7 +19,6 @@ const Component = (props) => {
 			window.VDDnddata = ctrl;
 		}
 	}
-	console.log(props.vdctrl.controllers);
 	const panels = props.vdctrl.controllers.map((item, i) => {
 		if(item.content) {
 			const
@@ -36,7 +35,7 @@ const Component = (props) => {
 										return (
 									    	<Col key={ctrl.key} span={8}>
 									    		<div className="anticons-list-item" onMouseDown={VDControllersProps.onSelect.bind(this, ctrl)}>
-									    			<span dangerouslySetInnerHTML={{__html: ctrl.icon}}>{console.log(typeof ctrl.icon, ctrl.icon)}</span>
+									    			<span dangerouslySetInnerHTML={{__html: ctrl.icon}}></span>
 									    			<div className="anticon-class">{ctrl.name}</div>
 									    		</div>
 									    	</Col>
@@ -67,8 +66,6 @@ const Component = (props) => {
 			);
 		}
 	})
-
-	console.log(panels);
 
   	return (
   		<div className="vdctrl-pane-wrapper">

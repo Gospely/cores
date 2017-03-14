@@ -1,5 +1,41 @@
 const initState = function (props, applicationId) {
 
+    const initStateOperate = {
+        'common':{
+            before: function(props, applicationId){
+
+            },
+            middle: function(props, applicationId){
+
+            },
+            after: function(props, applicationId){
+
+            }
+        },
+        'shell':{
+            before: function(props, applicationId){
+
+            },
+            middle: function(props, applicationId){
+
+            },
+            after: function(props, applicationId){
+
+            }
+        },
+        'ha':{
+            before: function(props, applicationId){
+
+            },
+            middle: function(props, applicationId){
+
+            },
+            after: function(props, applicationId){
+
+            }
+        },
+    }
+
     var UIState = JSON.parse(localStorage.UIState);
 
 
