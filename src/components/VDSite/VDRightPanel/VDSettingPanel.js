@@ -390,7 +390,7 @@ const Component = (props) => {
 
    		if (item.id) {
    			controllerTree.push(
-	            <Option title={'#' + item.id} key={item.vdid}>{'#' + item.id}</Option>
+	            <Option title={'#' + item.id} value={item.id} key={item.vdid}>{'#' + item.id}</Option>
 	        );
    		}
 

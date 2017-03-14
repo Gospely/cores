@@ -1417,6 +1417,8 @@ $(function() {
 	                                    }
 									}
 
+								console.log(attr);
+
 								attrValue = getAttrValue(attrValue, this.controller.attrs[0].activeLinkType);
 
 	                            if(attrValue) {
