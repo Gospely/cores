@@ -658,6 +658,27 @@ const VDStylePanel = (props) => {
 		)
     }
 
+    const changeBoxShadowPaneVisible = () =>{
+
+		props.dispatch({
+			type: 'vdstyles/changeBoxShadowPaneVisible'
+		})
+	}
+
+    const changeTextShadowPaneVisible =() =>{
+
+    	props.dispatch({
+    		type:'vdstyles/changeTextShadowPaneVisible'
+    	})
+    }
+
+    const changeNewTranstionPane =() =>{
+
+    	props.dispatch({
+    		type:'vdstyles/changeNewTranstionPane'
+    	})
+    }
+
     const shadowProps = {
     	settingPopover () {
 
@@ -676,6 +697,9 @@ const VDStylePanel = (props) => {
 						activeCtrl: props.vdCtrlTree.activeCtrl
 					}
 				});
+
+				changeBoxShadowPaneVisible();
+
     		}
 
     		const handleBoxShadowInputChange = (name, e) => {
@@ -699,7 +723,7 @@ const VDStylePanel = (props) => {
 					<FormItem {...formItemLayout} label="水平阴影">
 						<Row>
 					        <Col span={14} style={{paddingRight: '10px'}}>
-					          	<Input type="number" onChange={handleBoxShadowInputChange.bind(this, 'h-shadow')} value={props.vdstyles.boxShadow['h-shadow'].value} size="small"/>
+					          	<Input onPressEnter={saveBoxShadow} type="number" onChange={handleBoxShadowInputChange.bind(this, 'h-shadow')} value={props.vdstyles.boxShadow['h-shadow'].value} size="small"/>
 					        </Col>
 					        <Col span={4}>
 					        	PX
@@ -710,7 +734,7 @@ const VDStylePanel = (props) => {
 					<FormItem {...formItemLayout} label="垂直阴影">
 						<Row>
 					        <Col span={14} style={{paddingRight: '10px'}}>
-					          	<Input type="number" onChange={handleBoxShadowInputChange.bind(this, 'v-shadow')} value={props.vdstyles.boxShadow['v-shadow'].value} size="small"/>
+					          	<Input onPressEnter={saveBoxShadow} type="number" onChange={handleBoxShadowInputChange.bind(this, 'v-shadow')} value={props.vdstyles.boxShadow['v-shadow'].value} size="small"/>
 					        </Col>
 					        <Col span={4}>
 					        	PX
@@ -721,7 +745,7 @@ const VDStylePanel = (props) => {
 					<FormItem {...formItemLayout} label="模糊距离">
 						<Row>
 					        <Col span={14} style={{paddingRight: '10px'}}>
-					          	<Input type="number" onChange={handleBoxShadowInputChange.bind(this, 'blur')} value={props.vdstyles.boxShadow.blur.value} size="small"/>
+					          	<Input onPressEnter={saveBoxShadow} type="number" onChange={handleBoxShadowInputChange.bind(this, 'blur')} value={props.vdstyles.boxShadow.blur.value} size="small"/>
 					        </Col>
 					        <Col span={4}>
 					        	PX
@@ -732,7 +756,7 @@ const VDStylePanel = (props) => {
 					<FormItem {...formItemLayout} label="阴影尺寸">
 						<Row>
 					        <Col span={14} style={{paddingRight: '10px'}}>
-					          	<Input type="number" onChange={handleBoxShadowInputChange.bind(this, 'spread')} value={props.vdstyles.boxShadow.spread.value} size="small"/>
+					          	<Input onPressEnter={saveBoxShadow} type="number" onChange={handleBoxShadowInputChange.bind(this, 'spread')} value={props.vdstyles.boxShadow.spread.value} size="small"/>
 					        </Col>
 					        <Col span={4}>
 					        	PX
@@ -741,7 +765,7 @@ const VDStylePanel = (props) => {
 					</FormItem>
 
 					<FormItem {...formItemLayout} label="颜色">
-						<Input onChange={handleBoxShadowInputChange.bind(this, 'color')} value={props.vdstyles.boxShadow.color.value} type="color" size="small" />
+						<Input onPressEnter={saveBoxShadow} onChange={handleBoxShadowInputChange.bind(this, 'color')} value={props.vdstyles.boxShadow.color.value} type="color" size="small" />
 					</FormItem>
 
 					<FormItem {...formItemLayout} label="类型">
@@ -771,8 +795,8 @@ const VDStylePanel = (props) => {
 						activeCtrl: props.vdCtrlTree.activeCtrl
 					}
     			});
-
 				message.success('保存成功');
+
     		}
 
     		const activeProp = props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].state.activeProp;
@@ -800,7 +824,7 @@ const VDStylePanel = (props) => {
 						<FormItem {...formItemLayout} label="水平阴影">
 							<Row>
 						        <Col span={14} style={{paddingRight: '10px'}}>
-						          	<Input onChange={handleBoxShadowEditorChange.bind(this, 'h-shadow')} value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].childrenProps[activeProp]['h-shadow']} size="small"/>
+						          	<Input onPressEnter={saveBoxShadow} onChange={handleBoxShadowEditorChange.bind(this, 'h-shadow')} value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].childrenProps[activeProp]['h-shadow']} size="small"/>
 						        </Col>
 						        <Col span={4}>
 						        	PX
@@ -811,7 +835,7 @@ const VDStylePanel = (props) => {
 						<FormItem {...formItemLayout} label="垂直阴影">
 							<Row>
 						        <Col span={14} style={{paddingRight: '10px'}}>
-						          	<Input onChange={handleBoxShadowEditorChange.bind(this, 'v-shadow')} value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].childrenProps[activeProp]['v-shadow']} size="small"/>
+						          	<Input onPressEnter={saveBoxShadow} onChange={handleBoxShadowEditorChange.bind(this, 'v-shadow')} value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].childrenProps[activeProp]['v-shadow']} size="small"/>
 						        </Col>
 						        <Col span={4}>
 						        	PX
@@ -822,7 +846,7 @@ const VDStylePanel = (props) => {
 						<FormItem {...formItemLayout} label="模糊距离">
 							<Row>
 						        <Col span={14} style={{paddingRight: '10px'}}>
-						          	<Input onChange={handleBoxShadowEditorChange.bind(this, 'blur')} value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].childrenProps[activeProp]['blur']} size="small"/>
+						          	<Input onPressEnter={saveBoxShadow} onChange={handleBoxShadowEditorChange.bind(this, 'blur')} value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].childrenProps[activeProp]['blur']} size="small"/>
 						        </Col>
 						        <Col span={4}>
 						        	PX
@@ -833,7 +857,7 @@ const VDStylePanel = (props) => {
 						<FormItem {...formItemLayout} label="阴影尺寸">
 							<Row>
 						        <Col span={14} style={{paddingRight: '10px'}}>
-						          	<Input onChange={handleBoxShadowEditorChange.bind(this, 'spread')} value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].childrenProps[activeProp]['spread']} size="small"/>
+						          	<Input onPressEnter={saveBoxShadow} onChange={handleBoxShadowEditorChange.bind(this, 'spread')} value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].childrenProps[activeProp]['spread']} size="small"/>
 						        </Col>
 						        <Col span={4}>
 						        	PX
@@ -842,7 +866,7 @@ const VDStylePanel = (props) => {
 						</FormItem>
 
 						<FormItem {...formItemLayout} label="颜色">
-							<Input onChange={handleBoxShadowEditorChange.bind(this, 'color')} value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].childrenProps[activeProp]['color']} type="color" size="small" />
+							<Input onPressEnter={saveBoxShadow} onChange={handleBoxShadowEditorChange.bind(this, 'color')} value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].childrenProps[activeProp]['color']} type="color" size="small" />
 						</FormItem>
 
 						<FormItem {...formItemLayout} label="类型">
@@ -883,6 +907,8 @@ const VDStylePanel = (props) => {
 						activeCtrl: props.vdCtrlTree.activeCtrl
 					}
 				});
+				changeTextShadowPaneVisible();
+
     		}
 
     		const handleBoxShadowInputChange = (name, e) => {
@@ -906,7 +932,7 @@ const VDStylePanel = (props) => {
 					<FormItem {...formItemLayout} label="水平阴影">
 						<Row>
 					        <Col span={14} style={{paddingRight: '10px'}}>
-					          	<Input onChange={handleBoxShadowInputChange.bind(this, 'h-shadow')} value={props.vdstyles.textShadow['h-shadow'].value} size="small"/>
+					          	<Input onPressEnter={saveBoxShadow} onChange={handleBoxShadowInputChange.bind(this, 'h-shadow')} value={props.vdstyles.textShadow['h-shadow'].value} size="small"/>
 					        </Col>
 					        <Col span={4}>
 					        	PX
@@ -1055,6 +1081,7 @@ const VDStylePanel = (props) => {
 						activeCtrl: props.vdCtrlTree.activeCtrl
 					}
 				});
+				changeNewTranstionPane();
     		}
 
     		return (
@@ -1068,6 +1095,7 @@ const VDStylePanel = (props) => {
     				    value={props.vdstyles.transitionSetting['transition-property']}
     				    size="small"
     				    onChange={handleTransitionInputChange.bind(this, 'transition-property')}
+    				    onPressEnter={saveThisTransition}
     				>
     				  	<OptGroup key="advanced" label="高级">
     				        <Option key="all">所有</Option>
@@ -1152,6 +1180,7 @@ const VDStylePanel = (props) => {
 					<Row>
 				        <Col span={18}>
 				          	<Input
+				          		onPressEnter={saveThisTransition}
     				    		onChange={handleTransitionInputChange.bind(this, 'transition-duration')}
     				    		type="number"
 				          		value={props.vdstyles.transitionSetting['transition-duration']} type="text" size="small" />
@@ -1168,10 +1197,11 @@ const VDStylePanel = (props) => {
 							曲线：
 						</Col>
 						<Col span={8}>
-			      			<Input size="small" disabled={false} value="ease" />
+			      			<Input onPressEnter={saveThisTransition} size="small" disabled={false} value="ease" />
 						</Col>
 						<Col span={12} style={{paddingLeft: '15px'}}>
 					      	<Select
+					      		onPressEnter={saveThisTransition}
     				    		onChange={handleTransitionInputChange.bind(this, 'transition-timing-function')}
 		    				    placeholder="变化速度曲线"
 								value={props.vdstyles.transitionSetting['transition-timing-function']}
@@ -2598,7 +2628,7 @@ const VDStylePanel = (props) => {
 						<FormItem {...formItemLayout} label="图片">
 
 							<RadioGroup defaultValue="图片" size="small">
-						      	<RadioButton value="图片" onPressEnter={handleVisibleChange}>
+						      	<RadioButton value="图片">
 									<Popover
 							        	content={backgroundImageAndGradient.imageSetter()}
 							        	title="图片处理"
@@ -2607,7 +2637,7 @@ const VDStylePanel = (props) => {
 							        	visible={props.vdstyles.backgroundStyleSettingPane.visible}
 							        	onVisibleChange={handleVisibleChange}
 							      	>
-				  		              	<Tooltip placement="top" title="图片">
+				  		              	<Tooltip placement="top" title="图片" >
 											<i className="fa fa-picture-o"></i>
 							      		</Tooltip>
 							      	</Popover>
@@ -2875,12 +2905,13 @@ const VDStylePanel = (props) => {
 				});
 			}
 
+			
 			return (<Panel header="阴影" key="shadows">
 		    	<Form className="form-no-margin-bottom">
 					<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right'}} label="盒子阴影">
 
 		      			<Tooltip placement="top" title="添加盒子阴影">
-		      				<Popover title='添加盒子阴影' placement="leftTop" trigger="click" content={shadowProps.settingPopover(this)}>
+		      				<Popover title='添加盒子阴影' placement="leftTop" visible={props.vdstyles.boxShadowPane.visible} onClick={changeBoxShadowPaneVisible} content={shadowProps.settingPopover(this)}>
 								<Button size="small"><Icon type="plus" /></Button>
 				      		</Popover>
 			      		</Tooltip>
@@ -2899,7 +2930,10 @@ const VDStylePanel = (props) => {
 												<Col span={12} style={{textAlign: 'center', cursor: 'pointer'}}>
 													<span>{cssProperty['inset']}</span>
 												</Col>
-												<Popover key={cssPropertyIndex} placement="left" title="编辑盒子阴影" content={shadowProps.modifyPopover()} trigger="click">
+												<Popover key={cssPropertyIndex} placement="left" title="编辑盒子阴影" 
+														content={shadowProps.modifyPopover()} 
+														trigger="click"
+														>
 													<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
 														<i onClick={onVisibleChange.bind(this, cssPropertyIndex, 'box-shadow')} className="fa fa-edit"></i>
 													</Col>
@@ -2924,7 +2958,7 @@ const VDStylePanel = (props) => {
 					<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right'}} label="文字阴影">
 
 		      			<Tooltip placement="top" title="添加文字阴影">
-		      				<Popover title='添加文字阴影' placement="leftTop" trigger="click" content={textShadowProps.settingPopover()}>
+		      				<Popover title='添加文字阴影' placement="leftTop" visible={props.vdstyles.textShadowPane.visible} onClick={changeTextShadowPaneVisible} content={textShadowProps.settingPopover()}>
 								<Button size="small"><Icon type="plus" /></Button>
 				      		</Popover>
 			      		</Tooltip>
@@ -3013,8 +3047,8 @@ const VDStylePanel = (props) => {
 			      	<Form className="form-no-margin-bottom">
 			      		<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right', marginTop: 5, marginBottom: 6}} label="过渡">
 			      			<Tooltip placement="top" title="添加过渡">
-			      				<Popover title='添加过渡' placement="leftTop" trigger="click" visible={props.vdstyles.popover.newTransition.visible} content={transformAndTransitionProps.transformSettingPopover()}>
-					      			<Button size="small" onClick={() => { props.dispatch({type: 'vdstyles/togglePopover', payload: { popoverName: 'newTransition' }}) }} style={{borderBottom: 'none'}}>
+			      				<Popover title='添加过渡' placement="leftTop" onClick={changeNewTranstionPane} visible={props.vdstyles.popover.newTransition.visible} content={transformAndTransitionProps.transformSettingPopover()}>
+					      			<Button size="small" style={{borderBottom: 'none'}}>
 					      				<i className="fa fa-plus"></i>
 					      			</Button>
 					      		</Popover>
