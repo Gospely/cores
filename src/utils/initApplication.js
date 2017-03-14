@@ -138,7 +138,31 @@ const initApplication = function (application, props, flag){
               tips: '打开应用中...'
             }
         });
+        if(localStorage.UIState){
 
+            var UIState = JSON.parse(localStorage.UIState);
+            console.log('initUIState ---------');
+            console.log(UIState);
+            if(UIState.applicationId == application.id){
+                initState(props, application.id);
+            }else {
+                props.dispatch({
+                    type: 'UIState/readConfig',
+                    payload: {
+                        id: application.id,
+                        ctx: props
+                    }
+                });
+            }
+        }else {
+            props.dispatch({
+                type: 'UIState/readConfig',
+                payload: {
+                    id: application.id,
+                    ctx: props
+                }
+            });
+        }
         window.isWeapp = false;
 
         // localStorage.defaultActiveKey = 'file';
@@ -200,30 +224,8 @@ const initApplication = function (application, props, flag){
               }
             });
         }
-        if(localStorage.UIState){
 
-            var UIState = JSON.parse(localStorage.UIState);
 
-            if(UIState.applicationId == application.id){
-                initUIState(props, application.id);
-            }else {
-                props.dispatch({
-                    type: 'UIState/readConfig',
-                    payload: {
-                        id: application.id,
-                        ctx: props
-                    }
-                });
-            }
-        }else {
-            props.dispatch({
-                type: 'UIState/readConfig',
-                payload: {
-                    id: application.id,
-                    ctx: props
-                }
-            });
-        }
         props.dispatch({
             type: 'devpanel/startDocker',
             payload: { docker:  application.docker, id: application.id, ctx: props}
