@@ -26,6 +26,7 @@ const VDDesignerPanel = (props) => {
                     type: 'vdcore/handleLoading',
                     payload: true
                 });
+
                 setTimeout(function(){
                     window.VDDesignerFrame.postMessage({
                         pageSelected: props.vdCtrlTree.layout[props.vdCtrlTree.activePage.key]
@@ -34,7 +35,8 @@ const VDDesignerPanel = (props) => {
                         type: 'vdcore/handleLoading',
                         payload: false
                     });
-                }, 2500)
+                }, 2500);
+
                 //加载全局CSS
                 props.dispatch({
                     type: 'vdstyles/applyCSSStyleIntoPage',
@@ -47,8 +49,8 @@ const VDDesignerPanel = (props) => {
                 setTimeout(function(){
                     props.dispatch({
                         type: 'vdanimations/applyScriptIntoPage'
-                    })
-                }, 2600)
+                    });
+                }, 2600);
 
             }, 500);
             $(window).off("keyup");

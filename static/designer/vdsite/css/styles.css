@@ -2,7 +2,10 @@ html,
 body,
 .VDDesignerContainer {
     height: 100%;
-    padding-bottom: 100px;
+}
+
+.VDDesignerContainer {
+    margin-bottom: 200px;
 }
 
 html {
