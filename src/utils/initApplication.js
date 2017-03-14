@@ -234,7 +234,6 @@ const initApplication = function (application, props, flag){
             type: 'devpanel/handleImages',
             payload: { id: application.image}
         });
-
         localStorage.currentProject = application.name;
         localStorage.port = application.port;
         localStorage.sshPort = application.sshPort;
