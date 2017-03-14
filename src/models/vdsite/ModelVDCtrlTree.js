@@ -1865,6 +1865,8 @@ export default {
     			}
 			}, '*');
 
+			console.log('generateCtrlTree================+++++++++++++++++', ctrl);
+
 			return {...state};
 		},
 
