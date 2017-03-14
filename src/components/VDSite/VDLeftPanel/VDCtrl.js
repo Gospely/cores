@@ -16,7 +16,6 @@ const Component = (props) => {
 
 	const VDControllersProps = {
 		onSelect(ctrl) {
-			ctrl['icon'] = {};
 			window.VDDnddata = ctrl;
 		}
 	}
@@ -40,7 +39,7 @@ const Component = (props) => {
 										return (
 									    	<Col key={ctrl.key} span={8}>
 									    		<div className="anticons-list-item" onMouseDown={VDControllersProps.onSelect.bind(this, ctrl)}>
-									    			<div dangerouslySetInnerHTML={{__html: ctrl.icon}}></div>
+									    			<span dangerouslySetInnerHTML={{__html: ctrl.icon}}>{console.log(typeof ctrl.icon, ctrl.icon)}</span>
 									    			<div className="anticon-class">{ctrl.name}</div>
 									    		</div>
 									    	</Col>
