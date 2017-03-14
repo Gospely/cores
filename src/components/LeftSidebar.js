@@ -27,7 +27,9 @@ const leftSidebar = (props) => {
 			type: 'sidebar/handleTabChanged',
 			payload: key
 		});
+	}
 
+	var closePage = () => {
 		props.dispatch({
 			type: 'vdpm/handleNewPageVisible',
 			payload: { value: false}
@@ -203,7 +205,12 @@ const leftSidebar = (props) => {
 	}
 
 	return (
-	  	<Tabs tabPosition="left" defaultActiveKey={props.devpanel.devType.defaultActiveKey} activeKey={props.sidebar.activeMenu} onChange={handleTabChanged}>
+	  	<Tabs tabPosition="left" 
+	  		  defaultActiveKey={props.devpanel.devType.defaultActiveKey} 
+	  		  activeKey={props.sidebar.activeMenu} 
+	  		  onChange={handleTabChanged}
+	  		  onTabClick={closePage}
+	  		  >
 	  		{tabContent()}
 	  	</Tabs>
 	)
