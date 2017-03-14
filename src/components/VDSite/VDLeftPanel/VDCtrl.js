@@ -25,7 +25,7 @@ const Component = (props) => {
 				if(tmpKey.indexOf(attr.key) == -1) {
 					tmpKey.push(attr.key);
 				}else {
-					tmpCtrl = tmpCtrl.splice(i, 1);
+					tmpCtrl = tmpCtrl.details.attrs.splice(i, 1);
 				}
 			};
 
