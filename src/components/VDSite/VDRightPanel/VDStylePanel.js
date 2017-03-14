@@ -2627,8 +2627,6 @@ const VDStylePanel = (props) => {
 
 						<FormItem {...formItemLayout} label="图片">
 
-							<RadioGroup defaultValue="图片" size="small">
-						      	<RadioButton value="图片">
 									<Popover
 							        	content={backgroundImageAndGradient.imageSetter()}
 							        	title="图片处理"
@@ -2636,14 +2634,11 @@ const VDStylePanel = (props) => {
 							        	placement="left"
 							        	visible={props.vdstyles.backgroundStyleSettingPane.visible}
 							        	onVisibleChange={handleVisibleChange}
-							      	>
-				  		              	<Tooltip placement="top" title="图片" >
-											<i className="fa fa-picture-o"></i>
-							      		</Tooltip>
+							      	>	
+					  		              	<Button>
+												<i className="fa fa-picture-o"></i>
+								      		</Button>
 							      	</Popover>
-					      		</RadioButton>
-						    </RadioGroup>
-
 						</FormItem>
 
 			    	</Form>
