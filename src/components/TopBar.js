@@ -1588,7 +1588,7 @@ const LeftSidebar = (props) => {
 						<Tooltip placement="leftBottom" title={props.sidebar.saveBtn.title}>
 			          		<span>
 			          			<Icon type={props.sidebar.saveBtn.iconType} />
-			          			保存
+			          			{props.sidebar.saveBtn.title}
 			          		</span>
 			          	</Tooltip>
 					</Menu.Item>

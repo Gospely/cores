@@ -1617,7 +1617,7 @@ const VDStylePanel = (props) => {
 
     	const cssPanel = (
 
-			<Panel header={<span><i className="fa fa-css3"></i>&nbsp;CSS类选择器<Button size="small" onClick={linkToStylesManager}>样式管理</Button></span>} key="css">
+			<Panel header={<span><i className="fa fa-css3"></i>&nbsp;CSS类选择器<Button size="small" style={{marginLeft: "8px"}} onClick={linkToStylesManager}>样式管理</Button></span>} key="css">
 				<Row>
 					<Col span={18}>
 					  	<div style={{marginBottom: '10px'}}>当前类名：<Tag color="#87d068"><span style={{color: 'rgb(255, 255, 255)'}}>{props.vdCtrlTree.activeCtrl.activeStyle || '无活跃类名'}</span></Tag></div>
@@ -2722,12 +2722,12 @@ const VDStylePanel = (props) => {
 						<Row style={{marginBottom: '5px'}}>
 							<Col span={8}>
 								<Tooltip placement="left" title="左边框">
-									<Button onClick={handleBorderTypeChange.bind(this, 'border-left')} size="small"><i className="fa fa-window-maximize" style={{transform: 'rotate(-90deg)'}}></i></Button>
+									<Button onClick={handleBorderTypeChange.bind(this, 'border-left')} style={{marginLeft: '-3px'}} size="small"><i className="fa fa-window-maximize" style={{transform: 'rotate(-90deg)'}}></i></Button>
 								</Tooltip>
 							</Col>
 							<Col span={8}>
 								<Tooltip title="全边框">
-									<Button onClick={handleBorderTypeChange.bind(this, 'border')} style={{width: '27px'}} size="small"><i className="fa fa-square-o"></i></Button>
+									<Button onClick={handleBorderTypeChange.bind(this, 'border')} style={{width: '23px'}} size="small"><i className="fa fa-square-o"></i></Button>
 								</Tooltip>
 							</Col>
 							<Col span={8}>
@@ -2825,27 +2825,27 @@ const VDStylePanel = (props) => {
 						<Row style={{marginBottom: '5px'}}>
 							<Col span={8}>
 								<Tooltip placement="top" title="弧 - 左上">
-									<Button onClick={handleBorderRadiusPositionChange.bind(this, 'border-top-left')} style={{borderTopLeftRadius: '28px', width: '28px', height: '28px'}} size="small"><i className="fa fa-window-maximize"></i></Button>
+									<Button onClick={handleBorderRadiusPositionChange.bind(this, 'border-top-left')} style={{borderTopLeftRadius: '28px', width: '28px', height: '28px', marginBottom: '1px', marginLeft: '-2px'}} size="small"><i style={{position: 'relative', top: '3px', left: '2px'}} className="fa fa-window-maximize"></i></Button>
 								</Tooltip>
 								<Tooltip placement="bottom" title="弧 - 左下">
-									<Button onClick={handleBorderRadiusPositionChange.bind(this, 'border-bottom-left')} style={{borderBottomLeftRadius: '28px', width: '28px', height: '28px', marginTop: '3px'}} size="small"><i className="fa fa-window-maximize"></i></Button>
+									<Button onClick={handleBorderRadiusPositionChange.bind(this, 'border-bottom-left')} style={{borderBottomLeftRadius: '28px', width: '28px', height: '28px', marginTop: '1px', marginLeft: '-2px'}} size="small"><i style={{position: 'relative', top: '-3px', left: '2px'}} className="fa fa-window-maximize"></i></Button>
 								</Tooltip>
 							</Col>
 							<Col span={8}>
-								<Button onClick={handleBorderRadiusPositionChange.bind(this, 'border')} style={{marginTop: '16px', marginRight: '1px'}} size="small"><i className="fa fa-window-maximize"></i></Button>
+								<Button onClick={handleBorderRadiusPositionChange.bind(this, 'border')} style={{marginTop: '17px', marginRight: '1px'}} size="small"><i className="fa fa-window-maximize"></i></Button>
 							</Col>
 							<Col span={8}>
 								<Tooltip placement="top" title="弧 - 右上">
-									<Button onClick={handleBorderRadiusPositionChange.bind(this, 'border-top-right')} style={{borderTopRightRadius: '28px', width: '28px', height: '28px'}} size="small"><i className="fa fa-window-maximize"></i></Button>
+									<Button onClick={handleBorderRadiusPositionChange.bind(this, 'border-top-right')} style={{borderTopRightRadius: '28px', width: '28px', height: '28px', marginBottom: '1px', marginLeft: '3px'}} size="small"><i style={{position: 'relative', top: '3px', left: '-2px'}} className="fa fa-window-maximize"></i></Button>
 								</Tooltip>
 								<Tooltip placement="bottom" title="弧 - 右下">
-									<Button onClick={handleBorderRadiusPositionChange.bind(this, 'border-bottom-right')} style={{borderBottomRightRadius: '28px', width: '28px', height: '28px', marginTop: '3px'}} size="small"><i className="fa fa-window-maximize"></i></Button>
+									<Button onClick={handleBorderRadiusPositionChange.bind(this, 'border-bottom-right')} style={{borderBottomRightRadius: '28px', width: '28px', height: '28px', marginTop: '1px', marginLeft: '3px'}} size="small"><i style={{position: 'relative', top: '-3px', left: '-2px'}} className="fa fa-window-maximize"></i></Button>
 								</Tooltip>
 							</Col>
 						</Row>
 					</Col>
 
-					<Col span={16} style={{paddingLeft: '15px'}}>
+					<Col span={16} style={{paddingLeft: '15px', marginTop: '12px'}}>
 				    	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label={
 								activeCSSStyleState['border-radius'][borderRadiusPosition + '-radius'] == '' ? <span>弧度</span> : (
@@ -3043,7 +3043,7 @@ const VDStylePanel = (props) => {
 			      		<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right', marginTop: 5, marginBottom: 6}} label="过渡">
 			      			<Tooltip placement="top" title="添加过渡">
 			      				<Popover title='添加过渡' placement="leftTop" onClick={changeNewTranstionPane} visible={props.vdstyles.popover.newTransition.visible} content={transformAndTransitionProps.transformSettingPopover()}>
-					      			<Button size="small" style={{borderBottom: 'none'}}>
+					      			<Button size="small">
 					      				<i className="fa fa-plus"></i>
 					      			</Button>
 					      		</Popover>
@@ -3369,7 +3369,7 @@ const VDStylePanel = (props) => {
   					<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right', marginTop: 5}} label="滤镜">
 		      			<Tooltip placement="top" title="添加滤镜">
 		      				<Popover title='添加滤镜' placement="leftTop" trigger="click" visible={props.vdstyles.popover.newFilter.visible} content={effectsProps.newfilterEditor()}>
-				      			<Button size="small" onClick={newFilterPopoverTrigger} style={{borderBottom: 'none'}}>
+				      			<Button size="small" onClick={newFilterPopoverTrigger}>
 				      				<i className="fa fa-plus"></i>
 				      			</Button>
 				      		</Popover>
@@ -3447,14 +3447,14 @@ const VDStylePanel = (props) => {
 
 			var tipPanel = (
 				<Card style={{ width: 'auto', margin: '15px', background: '#f7f7f7' }}>
-				    <div>添加<Tag color="#87d068"><span style={{color: 'rgb(255, 255, 255)'}}>类名</span></Tag>后可以调整以下属性：</div>
+				    <div>添加<Tag style={{marginLeft: '8px'}} color="#87d068"><span style={{color: 'rgb(255, 255, 255)'}}>类名</span></Tag>后可以调整以下属性：</div>
 				    <ol>
-				    	<li>1、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>元素位置</span></Tag>和<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>大小</span></Tag></li>
-				    	<li>2、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>字体</span></Tag>属性</li>
-				    	<li>3、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>背景</span></Tag>属性</li>
-				    	<li>4、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>边框</span></Tag>属性</li>
-				    	<li>5、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>阴影</span></Tag>属性</li>
-				    	<li>6、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>交互动画</span></Tag></li>
+				    	<li style={{margin:'2px'}}>1、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>元素位置</span></Tag>和<Tag color="cyan" style={{marginLeft: '8px'}}><span style={{color: 'rgb(255, 255, 255)'}}>大小</span></Tag></li>
+				    	<li style={{margin:'2px'}}>2、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>字体</span></Tag>属性</li>
+				    	<li style={{margin:'2px'}}>3、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>背景</span></Tag>属性</li>
+				    	<li style={{margin:'2px'}}>4、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>边框</span></Tag>属性</li>
+				    	<li style={{margin:'2px'}}>5、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>阴影</span></Tag>属性</li>
+				    	<li style={{margin:'2px'}}>6、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>交互动画</span></Tag></li>
 				    </ol>
 				</Card>
 			);

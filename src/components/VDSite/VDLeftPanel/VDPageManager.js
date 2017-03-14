@@ -186,36 +186,46 @@ const Component = (props) => {
 		},
 		handlePageNameChange(value){
 
-				var patt = new RegExp(/^[a-zA-Z|\-|0-9]*$/),
-						regResult = patt.test(value.target.value);
+			var patt = new RegExp(/^[a-zA-Z|\-|0-9]*$/),
+					regResult = patt.test(value.target.value);
 
-				if(!regResult) {
-					openNotificationWithIcon('error', '只能输入英文大小写字母、数字和“-”');
-					message.error('只能输入英文大小写字母、数字和“-”');
-					return false;
-				}
+			if(!regResult) {
+				openNotificationWithIcon('error', '只能输入英文大小写字母、数字和“-”');
+				message.error('只能输入英文大小写字母、数字和“-”');
+				return false;
+			}
 
+			props.dispatch({
+				type: 'vdpm/handNewPageFormChange',
+				payload: { target: 'name',
+		 				   value: value.target.value,
+		 				   whetherSyn: props.vdpm.newPageFrom.seo.whetherSyn
+						}
+			});
+
+			if(props.vdpm.newPageFrom.seo.title == "" || props.vdpm.newPageFrom.seo.whetherSyn) {
 				props.dispatch({
 					type: 'vdpm/handNewPageFormChange',
-					payload: { target: 'name',
-			 				   value: value.target.value,
-			 				   whetherSyn: props.vdpm.newPageFrom.seo.whetherSyn
-							}
+					payload: { 
+						target: 'seo.title', 
+						value: value.target.value ,
+						whetherSyn: true
+					}
 				});
-
-				if(props.vdpm.newPageFrom.seo.title == "" || props.vdpm.newPageFrom.seo.whetherSyn) {
-					props.dispatch({
-						type: 'vdpm/handNewPageFormChange',
-						payload: { 
-							target: 'seo.title', 
-							value: value.target.value ,
-							whetherSyn: true
-						}
-					});
-				}
+			}
 
 		},
 		handlePageTitleChange(value){
+
+			var patt = new RegExp(/^[a-zA-Z|\-|0-9]*$/),
+					regResult = patt.test(value.target.value);
+
+			if(!regResult) {
+				openNotificationWithIcon('error', '只能输入英文大小写字母、数字和“-”');
+				message.error('只能输入英文大小写字母、数字和“-”');
+				return false;
+			}
+			
 			props.dispatch({
 				type: 'vdpm/handNewPageFormChange',
 				payload: { target: 'seo.title', 
