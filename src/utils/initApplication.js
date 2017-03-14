@@ -140,6 +140,26 @@ const initApplication = function (application, props, flag){
         });
 
         window.isWeapp = false;
+
+        if(localStorage.UIState){
+
+            var UIState = JSON.parse(localStorage.UIState);
+            props.dispatch({
+                type: 'UIState/readConfig',
+                payload: {
+                    id: application.id,
+                    ctx: props
+                }
+            });
+        }else {
+            props.dispatch({
+                type: 'UIState/readConfig',
+                payload: {
+                    id: application.id,
+                    ctx: props
+                }
+            });
+        }
         // localStorage.defaultActiveKey = 'file';
         // localStorage.activeMenu = "setting";
 
@@ -207,34 +227,6 @@ const initApplication = function (application, props, flag){
             type: 'devpanel/handleImages',
             payload: { id: application.image}
         });
-
-        if(localStorage.UIState){
-
-            var UIState = JSON.parse(localStorage.UIState);
-
-            if(UIState.applicationId != application.id){
-
-                props.dispatch({
-                    type: 'UIState/readConfig',
-                    payload: {
-                        id: application.id,
-                        ctx: props
-                    }
-                });
-
-            }else{
-                initState(props, application.id);
-            }
-        }else {
-            props.dispatch({
-                type: 'UIState/readConfig',
-                payload: {
-                    id: application.id,
-                    ctx: props
-                }
-            });
-        }
-
 
         localStorage.currentProject = application.name;
         localStorage.port = application.port;

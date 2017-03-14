@@ -81,7 +81,7 @@ const Component = (props) => {
 			},
 
 			onDrop (info) {
-				
+
 				// let errors = $(".error-drop-tree-node").removeClass("error-drop-tree-node");
 				// if (errors.length > 0) {
 				// 	message.error(JSON.parse(sessionStorage.currentDragNodeSpecialParent).errorMessage);
@@ -91,7 +91,7 @@ const Component = (props) => {
 				    	payload: info
 				    })
 				// }
-			    
+
 			 //    sessionStorage.currentDragNodeSpecialParent = '';
 			},
 
@@ -103,7 +103,7 @@ const Component = (props) => {
 				// 	let target = $(info.event.target);
 
 				// 	if (target.hasClass("ant-tree-node-content-wrapper")) {
-				// 		$(".ant-tree-node-content-wrapper").not(target).removeClass("error-drop-tree-node");	
+				// 		$(".ant-tree-node-content-wrapper").not(target).removeClass("error-drop-tree-node");
 				// 	}
 
 				// 	var specialTag = specialParent.tag;
@@ -113,7 +113,7 @@ const Component = (props) => {
 				// 	if (typeof ctrlTag === 'object') {
 				// 		ctrlTag = ctrlTag[0];
 				// 	}
-				// 	if ((ctrlClass.indexOf(specialClassName) === -1 || specialTag.indexOf(ctrlTag.toUpperCase()) === -1) && 
+				// 	if ((ctrlClass.indexOf(specialClassName) === -1 || specialTag.indexOf(ctrlTag.toUpperCase()) === -1) &&
 				// 		target.hasClass("ant-tree-node-content-wrapper")) {
 				// 		target.addClass('error-drop-tree-node');
 				// 	}
@@ -157,7 +157,7 @@ const Component = (props) => {
 	            if (selectedKey.split('-')[0] === 'body') {
 	            	return false;
 	            }
-	            
+
 	            sessionStorage.currentSelectedConstructionKey = selectedKey;
 
 	            ctrlPros.onSelect([selectedKey], proxy);
@@ -200,9 +200,9 @@ const Component = (props) => {
       			defaultExpandedKeys={props.vdCtrlTree.defaultExpandedKeys}
         		expandedKeys={props.vdCtrlTree.expandedKeys}
         		onRightClick={ctrlPros.onRightClick}
-        		onSelect={ctrlPros.onSelect} 
-        		onMouseEnter={ctrlPros.onMouseEnter} 
-        		onMouseLeave={ctrlPros.onMouseLeave} 
+        		onSelect={ctrlPros.onSelect}
+        		onMouseEnter={ctrlPros.onMouseEnter}
+        		onMouseLeave={ctrlPros.onMouseLeave}
         		onCheck={ctrlPros.onCheck}
         		onExpand={ctrlPros.onExpand}
         		autoExpandParent={props.vdCtrlTree.autoExpandParent}

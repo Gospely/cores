@@ -222,8 +222,8 @@ const Component = (props) => {
                     sessionStorage.oldTime = sessionStorage.newTime;
                 }
 
-            
-            
+
+
             if(attrType.key == 'slider-setting'){
 
                 if(!/\d*(%|px)/.test(newVal)){

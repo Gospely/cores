@@ -550,8 +550,12 @@ const LeftSidebar = (props) => {
     			});
     			window.reload = true
     			window.applicationId = application.id;
-    			initApplication(application, props);
 
+				console.log(application);
+				props.dispatch({
+					type: 'vdCtrlTree/initActiveState'
+				})
+    			initApplication(application, props);
 	    	}
 
         	if(location.hash.indexOf('project') != -1) {

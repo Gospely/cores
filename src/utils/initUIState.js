@@ -2,11 +2,7 @@
 const initState = function (props, applicationId) {
 
     var UIState = JSON.parse(localStorage.UIState);
-    console.log('vdstyles/initState');
-    props.dispatch({
-        type: 'vdstyles/initState',
-        payload: { UIState: UIState.UIState.vdstyles }
-    });
+
     props.dispatch({
         type: 'sidebar/initState',
         payload: { UIState: UIState.UIState.sidebar }
@@ -24,7 +20,12 @@ const initState = function (props, applicationId) {
         type: 'vdCtrlTree/initState',
         payload: { UIState: UIState.UIState.vdCtrlTree }
     });
-console.log('vdcore/initState');
+    console.log('vdstyles/initState');
+    props.dispatch({
+        type: 'vdstyles/initState',
+        payload: { UIState: UIState.UIState.vdstyles }
+    });
+    console.log('vdcore/initState');
     props.dispatch({
         type: 'vdcore/initState',
         payload: { UIState: UIState.UIState.vdcore }
