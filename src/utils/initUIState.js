@@ -35,10 +35,6 @@ const initState = function (props, applicationId) {
         payload: { UIState: UIState.UIState.vdanimations }
     });
 
-    props.dispatch({
-      type: 'devpanel/getConfig',
-      payload: { id : applicationId, UIState: UIState.UIState.devpanel}
-    });
     localStorage.create = 'false';
     localStorage.createPage = 'false';
 
@@ -60,6 +56,10 @@ const initState = function (props, applicationId) {
         props.dispatch({
             type: 'sidebar/setActiveMenu',
             payload: 'file'
+        });
+        props.dispatch({
+          type: 'devpanel/getConfig',
+          payload: { id : applicationId, UIState: UIState.UIState.devpanel}
         });
     }else {
         props.dispatch({
