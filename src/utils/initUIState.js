@@ -1,16 +1,8 @@
-
 const initState = function (props, applicationId) {
 
     var UIState = JSON.parse(localStorage.UIState);
 
-    props.dispatch({
-        type: 'sidebar/initState',
-        payload: { UIState: UIState.UIState.sidebar }
-    });
-    props.dispatch({
-        type: 'rightbar/initState',
-        payload: { UIState: UIState.UIState.rightbar }
-    });
+
     props.dispatch({
         type: 'vdpm/initState',
         payload: { UIState: UIState.UIState.vdpm }

@@ -234,7 +234,6 @@ const initApplication = function (application, props, flag){
             type: 'devpanel/handleImages',
             payload: { id: application.image}
         });
-
         localStorage.currentProject = application.name;
         localStorage.port = application.port;
         localStorage.sshPort = application.sshPort;
@@ -242,6 +241,8 @@ const initApplication = function (application, props, flag){
         localStorage.image = application.image;
         localStorage.docker = application.docker;
         localStorage.applicationId = application.id;
+
+        document.title = localStorage.currentProject + ':先进的在线Web可视化集成开发环境';
 
         var namespace = localStorage.user + localStorage.currentProject + '_' + localStorage.userName;
         fileListen(props, namespace)
