@@ -40,7 +40,7 @@ const Component = (props) => {
 										return (
 									    	<Col key={ctrl.key} span={8}>
 									    		<div className="anticons-list-item" onMouseDown={VDControllersProps.onSelect.bind(this, ctrl)}>
-									    			{ctrl.icon}
+									    			<div dangerouslySetInnerHTML={{__html: ctrl.icon}}></div>
 									    			<div className="anticon-class">{ctrl.name}</div>
 									    		</div>
 									    	</Col>
@@ -71,6 +71,8 @@ const Component = (props) => {
 			);
 		}
 	})
+
+	console.log(panels);
 
   	return (
   		<div className="vdctrl-pane-wrapper">
