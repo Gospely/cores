@@ -15,7 +15,7 @@ import { Menu } from 'antd';
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 
-import { TreeSelect } from 'antd';
+import { TreeSelect, message } from 'antd';
 const TreeNode = TreeSelect.TreeNode;
 
 import { Form, Input, Cascader, Select, Checkbox } from 'antd';
@@ -186,24 +186,34 @@ const Component = (props) => {
 		},
 		handlePageNameChange(value){
 
-			props.dispatch({
-				type: 'vdpm/handNewPageFormChange',
-				payload: { target: 'name',
-		 				   value: value.target.value,
-		 				   whetherSyn: props.vdpm.newPageFrom.seo.whetherSyn
-						}
-			});
+				var patt = new RegExp(/^[a-zA-Z|\-|0-9]*$/),
+						regResult = patt.test(value.target.value);
 
-			if(props.vdpm.newPageFrom.seo.title == "" || props.vdpm.newPageFrom.seo.whetherSyn) {
+				if(!regResult) {
+					openNotificationWithIcon('error', '只能输入英文大小写字母、数字和“-”');
+					message.error('只能输入英文大小写字母、数字和“-”');
+					return false;
+				}
+
 				props.dispatch({
 					type: 'vdpm/handNewPageFormChange',
-					payload: { 
-						target: 'seo.title', 
-						value: value.target.value ,
-						whetherSyn: true
-					}
+					payload: { target: 'name',
+			 				   value: value.target.value,
+			 				   whetherSyn: props.vdpm.newPageFrom.seo.whetherSyn
+							}
 				});
-			}
+
+				if(props.vdpm.newPageFrom.seo.title == "" || props.vdpm.newPageFrom.seo.whetherSyn) {
+					props.dispatch({
+						type: 'vdpm/handNewPageFormChange',
+						payload: { 
+							target: 'seo.title', 
+							value: value.target.value ,
+							whetherSyn: true
+						}
+					});
+				}
+
 		},
 		handlePageTitleChange(value){
 			props.dispatch({
@@ -317,8 +327,8 @@ const Component = (props) => {
 		            {...formItemLayout}
 		            label={(
 		              <span>
-		                页面名称&nbsp;
-		                <Tooltip title="建议使用英文">
+		                文件名称&nbsp;
+		                <Tooltip title="必须使用英文">
 		                  <Icon type="question-circle-o" />
 		                </Tooltip>
 		              </span>
