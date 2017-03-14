@@ -16,7 +16,7 @@ var VDPackager = {
 
 		body: `</head><body>`,
 
-		footer: `<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script><script src="vendor/js/bootstrap.min.js"></script><script src="js/main.js"><!--[if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]--></body></html>`,
+		footer: `<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script><script src="vendor/js/bootstrap.min.js"></script><script src="js/main.js"></script><!--[if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]--></body></html>`,
 
 		scripts: `
 

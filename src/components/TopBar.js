@@ -1586,7 +1586,10 @@ const LeftSidebar = (props) => {
 			        </Menu.Item>
 			        <Menu.Item key={props.sidebar.saveBtn.key} placement="left" className='save-app-btn'>
 						<Tooltip placement="leftBottom" title={props.sidebar.saveBtn.title}>
-			          		<Icon type={props.sidebar.saveBtn.iconType} />
+			          		<span>
+			          			<Icon type={props.sidebar.saveBtn.iconType} />
+			          			保存
+			          		</span>
 			          	</Tooltip>
 					</Menu.Item>
 					<Menu.Item key="preview" placement="left" className='preview-app-btn'>
