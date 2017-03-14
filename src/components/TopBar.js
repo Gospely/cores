@@ -554,9 +554,6 @@ const LeftSidebar = (props) => {
     			window.applicationId = application.id;
 
 				console.log(application);
-				props.dispatch({
-					type: 'vdCtrlTree/initActiveState'
-				})
     			initApplication(application, props);
 	    	}
 

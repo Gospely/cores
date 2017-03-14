@@ -10,7 +10,7 @@ import { Row, Col } from 'antd';
 const Panel = Collapse.Panel;
 const TabPane = Tabs.TabPane;
 
-window.VDDnddata = '';
+// window.VDDnddata = '';
 
 const Component = (props) => {
 

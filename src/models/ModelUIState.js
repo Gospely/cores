@@ -64,8 +64,6 @@ export default {
 				id: localStorage.uistateId,
 				configs: localStorage.UIState
 			}
-			console.log(localStorage.uistateId);
-			console.log(localStorage.UIState);
 			var url = baseUrl.baseURL + "uistates";
 
 			var result = yield fetch(url, {
