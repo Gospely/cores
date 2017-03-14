@@ -395,6 +395,33 @@ const LeftSidebar = (props) => {
 					})
 				}
 	        },
+
+	        saveBtn() {
+
+	        	props.dispatch({
+	        		type: 'sidebar/changeSaveBtnState',
+	        		payload: {
+	        			key: '',
+				        title: '正在保存...',
+				        iconType: 'loading',
+	        		}
+	        	})
+
+	        	setTimeout(function recovery() {
+
+	        		props.dispatch({
+		        		type: 'sidebar/changeSaveBtnState',
+		        		payload: {
+		        			key: 'saveBtn',
+				            title: '保存',
+				            iconType: 'check',
+		        		}
+		        	})
+
+	        		message.success('保存成功');
+	        	},"2000");
+	        },
+
 			release() {
 
 			},
@@ -1552,6 +1579,11 @@ const LeftSidebar = (props) => {
 			        <Menu.Item key="alignPhone" className='change-icon'>
 			        	<i className='change-vd-icon icon-bg-150'></i>
 			        </Menu.Item>
+			        <Menu.Item key={props.sidebar.saveBtn.key} placement="left" className='save-app-btn'>
+						<Tooltip placement="leftBottom" title={props.sidebar.saveBtn.title}>
+			          		<Icon type={props.sidebar.saveBtn.iconType} />
+			          	</Tooltip>
+					</Menu.Item>
 					<Menu.Item key="preview" placement="left" className='preview-app-btn'>
 						<Tooltip placement="leftBottom" title="预览">
 			          		<Icon type="eye-o" />
