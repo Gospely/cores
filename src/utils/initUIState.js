@@ -2,10 +2,7 @@
 const initState = function (props, applicationId) {
 
     var UIState = JSON.parse(localStorage.UIState);
-    props.dispatch({
-        type: 'vdstyles/initState',
-        payload: { UIState: UIState.UIState.vdstyles }
-    });
+
     props.dispatch({
         type: 'sidebar/initState',
         payload: { UIState: UIState.UIState.sidebar }
@@ -18,13 +15,17 @@ const initState = function (props, applicationId) {
         type: 'vdpm/initState',
         payload: { UIState: UIState.UIState.vdpm }
     });
-    console.log(UIState.UIState);
-
+    console.log('vdCtrlTree/initState');
     props.dispatch({
         type: 'vdCtrlTree/initState',
         payload: { UIState: UIState.UIState.vdCtrlTree }
     });
-
+    console.log('vdstyles/initState');
+    props.dispatch({
+        type: 'vdstyles/initState',
+        payload: { UIState: UIState.UIState.vdstyles }
+    });
+    console.log('vdcore/initState');
     props.dispatch({
         type: 'vdcore/initState',
         payload: { UIState: UIState.UIState.vdcore }
@@ -34,10 +35,6 @@ const initState = function (props, applicationId) {
         payload: { UIState: UIState.UIState.vdanimations }
     });
 
-    props.dispatch({
-      type: 'devpanel/getConfig',
-      payload: { id : applicationId, UIState: UIState.UIState.devpanel}
-    });
     localStorage.create = 'false';
     localStorage.createPage = 'false';
 
@@ -59,6 +56,10 @@ const initState = function (props, applicationId) {
         props.dispatch({
             type: 'sidebar/setActiveMenu',
             payload: 'file'
+        });
+        props.dispatch({
+          type: 'devpanel/getConfig',
+          payload: { id : applicationId, UIState: UIState.UIState.devpanel}
         });
     }else {
         props.dispatch({

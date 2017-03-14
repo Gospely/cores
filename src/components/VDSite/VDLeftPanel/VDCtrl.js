@@ -20,13 +20,13 @@ const Component = (props) => {
 			window.VDDnddata = ctrl;
 		}
 	}
-
+	console.log(props.vdctrl.controllers);
 	const panels = props.vdctrl.controllers.map((item, i) => {
 
 		console.log(item);
 		console.log(i);
 		if(item.content) {
-			const 
+			const
 				contentLength = item.content.length,
 				rowCount = contentLength / 3,
 				rowGenerator = (rowCount) => {

@@ -13,9 +13,23 @@ const TabPane = Tabs.TabPane;
 
 const Component = (props) => {
 
+    const vdpagesProps = {
+        setUnVisible (){
+            console.log('click pages');
+            props.dispatch({
+    			type: 'vdpm/handleNewPageVisible',
+    			payload: { value: false}
+    		});
+    		props.dispatch({
+    			type: 'vdpm/handleNewFolderVisible',
+    			payload: { value: false}
+    		});
+        }
+    }
+
   	return (
 		<div className="vdctrl-pane-wrapper vdpage-pane-wrapper">
-			<Collapse bordered={false} defaultActiveKey={['page-manager', 'page-list']}>
+			<Collapse bordered={false} defaultActiveKey={['page-manager', 'page-list']} onChange={vdpagesProps.setUnVisible}>
 		    	<Panel header="页面管理" key="page-manager">
 		      		<VDPageManager></VDPageManager>
 		    	</Panel>
@@ -28,8 +42,8 @@ const Component = (props) => {
 
 };
 
-function mapSateToProps({ dashboard }) {
-  return { dashboard };
+function mapSateToProps({ dashboard, vdpm }) {
+  return { dashboard, vdpm };
 }
 
 export default connect(mapSateToProps)(Component);

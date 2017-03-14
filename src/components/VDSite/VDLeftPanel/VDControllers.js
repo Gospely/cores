@@ -20,7 +20,7 @@ const Component = (props) => {
     	<TabPane tab="自定义组件" key="symbol">
     		<VDSymbol></VDSymbol>
     	</TabPane>
-  	</Tabs>    
+  	</Tabs>
   );
 
 };

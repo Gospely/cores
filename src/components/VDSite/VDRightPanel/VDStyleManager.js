@@ -45,7 +45,7 @@ const Component = (props) => {
 	 				payload: {
 	 					origin: styleName
 	 				}
-	 			}); 				
+	 			});
 
 	 			props.dispatch({
 	 				type: 'vdstyles/hideStyleManagerModifyPop'
@@ -79,7 +79,7 @@ const Component = (props) => {
  				payload: {
  					value: styleName
  				}
- 			}); 			
+ 			});
 
  			props.dispatch({
  				type: 'vdstyles/toggleStyleManagerModifyPop'

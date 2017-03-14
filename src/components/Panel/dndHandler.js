@@ -83,6 +83,7 @@ export default {
 				  	}
 					var application = data.fields;
 					if(data.fields != null){
+						// localStorage.UIState = '';
 						initApplication(application,props);
 					}else{
 						localStorage.clear();

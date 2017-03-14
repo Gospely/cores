@@ -547,6 +547,8 @@ const LeftSidebar = (props) => {
 	    },
 
 	    confirmDeleteApp(application) {
+			window.disabled = true;
+			localStorage.image = '';
 			notification.open({
 				message: '正在删除应用，请稍等……',
 				title: '删除应用'
@@ -561,7 +563,7 @@ const LeftSidebar = (props) => {
 			props.dispatch({
 				type: 'sidebar/deleteApp',
 				payload: {application}
-			})
+			});
 	    },
 
 	    cancelDeleteApp() {
@@ -577,8 +579,12 @@ const LeftSidebar = (props) => {
     			});
     			window.reload = true
     			window.applicationId = application.id;
-    			initApplication(application, props);
 
+				console.log(application);
+				props.dispatch({
+					type: 'vdCtrlTree/initActiveState'
+				})
+    			initApplication(application, props);
 	    	}
 
         	if(location.hash.indexOf('project') != -1) {

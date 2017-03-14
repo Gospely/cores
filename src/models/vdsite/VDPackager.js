@@ -26,18 +26,18 @@ var VDPackager = {
 	// Reflect scrolling in navigation
 	var navActive = function(section) {
 
-		// var $el = $('#navbar > ul');
-		// $el.find('li').removeClass('active');
-		// $el.each(function(){
-		// 	$(this).find('a[data-nav-section="'+section+'"]').closest('li').addClass('active');
-		// });
+		var $el = $('#navbar > ul');
+		$el.find('li').removeClass('active');
+		$el.each(function(){
+			$(this).find('a[data-nav-section="'+section+'"]').closest('li').addClass('active');
+		});
 
 	};
 
 	var navigationSection = function() {
 
 		var $section = $('[data-section]');
-
+		
 		$section.waypoint(function(direction) {
 
 		  	if (direction === 'down') {
@@ -56,6 +56,7 @@ var VDPackager = {
 		});
 
 	};
+
 
 	navigationSection();
 
@@ -114,7 +115,7 @@ var VDPackager = {
 	},
 
 	compileScripts (params) {
-		return '<script>' + this.htmlTpl.scripts + params.interaction.scriptText + '</script>';
+		return this.htmlTpl.scripts + params.interaction.scriptText;
 	},
 
 	compilePage () {

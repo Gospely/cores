@@ -5,7 +5,13 @@ $(function() {
 
 	//animation动画函数(在这里定义全局变量才能解绑)
 	window.animationTrigger = function (e) {
-		jQuery(e.target).animateCss(e.data.animate);
+		var selected = jQuery("#vd-OutlineSelectedActiveNode");
+		var target = jQuery(e.target);
+		target.animateCss(e.data.animate);
+		if (selected.offset().top === target.offset().top && selected.offset().left === target.offset().left) {
+			selected.animateCss(e.data.animate);
+		}
+
 	}
 
 	var jq = jQuery.noConflict();
@@ -27,8 +33,8 @@ $(function() {
     	ctx.fillStyle = "rgba(1, 1, 1, 1)";
     	ctx.globalCompositeOperation = 'destination-out';
     	ctx.fillRect(left, top, width, height);
-    	
-    	
+
+
     }
 
     var guide = jq("#vdInsertGuide");
@@ -409,6 +415,7 @@ $(function() {
 			},
 
 			generateCtrlTree: function(c) {
+
 				parentWindow.postMessage({ 'generateCtrlTree': c }, "*");
 			},
 
@@ -541,8 +548,13 @@ $(function() {
                     },
 
                     animateElement: function() {
-                    	console.log(data);
-                    	jq('[vdid="' + data.id + '"]').animateCss(data.animateName);
+
+                    	var selected = jQuery("#vd-OutlineSelectedActiveNode");
+                    	var target = jq('[vdid="' + data.id + '"]');
+                    	target.animateCss(data.animateName);
+                    	if (selected.offset().top === target.offset().top && selected.offset().left === target.offset().left) {
+							selected.animateCss(data.animateName);
+						}
                     },
 
                     styleNameEdited: function() {
@@ -569,7 +581,7 @@ $(function() {
                     },
 
                     ctrlDataPasted: function () {
-                    	
+
                     	var elem = new ElemGenerator(data.controller);
                         var elemToAdd = jq(elem.createElement());
                         var parent = jq("[vdid=" + data.activeCtrlVdid + "]");
@@ -846,14 +858,14 @@ $(function() {
             },
 
             showRightClickMenu: function (e) {
-            	
+
             	var pastInside = jq("#vdPast, #vdPastPre");
             	var pastBrother = jq("#vdPastBefore, #vdPastAfter");
             	var target = jq(e.target);
             	var menu = jq("#vdRightClickMenu");
             	var left = e.pageX;
             	var top = e.pageY;
-            	
+
             	if (jq(window).width() - e.pageX < menu.outerWidth()) {
             		left = jq(window).width() - menu.outerWidth() - 10 + jq(window).scrollLeft();
             	}
@@ -880,7 +892,7 @@ $(function() {
 					if (typeof ctrlTag === 'object') {
 						ctrlTag = ctrlTag[0];
 					}
-					
+
 					if (ctrlClass.indexOf(specialChild.className) === -1 || specialChild.tag.indexOf(ctrlTag.toUpperCase()) === -1) {
 						pastBrother.addClass('disabled');
 					}else {
@@ -947,10 +959,10 @@ $(function() {
 
             applyScript: function (scriptText) {
             	var oldScript = jq('[sid="global-script"]').remove();
-            	
+
         		var script = jq('<script sid="global-script">' + scriptText + '</script>');
         		jq('body').append(script);
-        	
+
             },
 
             reload: function() {
@@ -1043,7 +1055,7 @@ $(function() {
         				}
         			}
         			findParent(target);
-        			
+
         		}
 
         		//当拖动容器时可能会出现自己append到自己里面去的情况，在此防止
@@ -1393,7 +1405,7 @@ $(function() {
 	                                        },
 											'section': function() {
 	                                            self.elem.attr('data-nav-section', val);
-	                                            return '';
+	                                            return '#';
 	                                        }
 										}
 
@@ -1613,7 +1625,7 @@ $(function() {
                     e.preventDefault();
                     var target = jq(e.target);
                     controllerOperations.select(target.data('controller'));
-                    
+
                     return false;
                 });
             },
@@ -1633,11 +1645,11 @@ $(function() {
         		var designerContainer = jq("#VDDesignerContainer");
 
         		designerContainer.on("mousedown", function (e) {
-        			
+
         			if (e.which === 1) {
         				self.onDown(e);
         			}
-        			
+
         		});
 
         		designerContainer.on("mouseenter", function (e) {

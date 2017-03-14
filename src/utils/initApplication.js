@@ -138,8 +138,33 @@ const initApplication = function (application, props, flag){
               tips: '打开应用中...'
             }
         });
+        if(localStorage.UIState){
 
+            var UIState = JSON.parse(localStorage.UIState);
+            console.log('initUIState ---------');
+            console.log(UIState);
+            if(UIState.applicationId == application.id){
+                initState(props, application.id);
+            }else {
+                props.dispatch({
+                    type: 'UIState/readConfig',
+                    payload: {
+                        id: application.id,
+                        ctx: props
+                    }
+                });
+            }
+        }else {
+            props.dispatch({
+                type: 'UIState/readConfig',
+                payload: {
+                    id: application.id,
+                    ctx: props
+                }
+            });
+        }
         window.isWeapp = false;
+
         // localStorage.defaultActiveKey = 'file';
         // localStorage.activeMenu = "setting";
 
@@ -199,6 +224,8 @@ const initApplication = function (application, props, flag){
               }
             });
         }
+
+
         props.dispatch({
             type: 'devpanel/startDocker',
             payload: { docker:  application.docker, id: application.id, ctx: props}
@@ -207,34 +234,6 @@ const initApplication = function (application, props, flag){
             type: 'devpanel/handleImages',
             payload: { id: application.image}
         });
-
-        if(localStorage.UIState != null && localStorage.UIState != undefined){
-
-            var UIState = JSON.parse(localStorage.UIState);
-
-            if(UIState.applicationId != application.id){
-
-                props.dispatch({
-                    type: 'UIState/readConfig',
-                    payload: {
-                        id: application.id,
-                        ctx: props
-                    }
-                });
-
-            }else{
-                initState(props, application.id);
-            }
-        }else {
-            props.dispatch({
-                type: 'UIState/readConfig',
-                payload: {
-                    id: application.id,
-                    ctx: props
-                }
-            });
-        }
-
 
         localStorage.currentProject = application.name;
         localStorage.port = application.port;

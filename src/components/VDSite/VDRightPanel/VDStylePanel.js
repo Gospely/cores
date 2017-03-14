@@ -40,6 +40,7 @@ import ColorPicker from '../../Panel/ColorPicker.js';
 
 const VDStylePanel = (props) => {
 
+	console.log(props.vdCtrlTree.activeCtrl.tag);
 	if (!props.vdCtrlTree.activeCtrl.tag) {
 		return (
 			<div className="none-operation-obj">暂无操作对象</div>
@@ -53,12 +54,6 @@ const VDStylePanel = (props) => {
 	var activeCSSStyleState = props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle],
 		  activeCSSUnitList = props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle];
 	console.log(activeCSSStyleState);
-	if(!activeCSSStyleState){
-		console.log("get from localStorage");
-		var UIState = JSON.parse(localStorage.UIState);
-		activeCSSStyleState = UIState.UIState.vdstyles.cssStyleLayout[UIState.UIState.vdCtrlTree.activeCtrl.activeStyle];
-		activeCSSUnitList = UIState.UIState.vdstyles.unitList[UIState.UIState.vdCtrlTree.activeCtrl.activeStyle];
-	}
 	console.log('activeCSSUnitList=====', activeCSSUnitList);
 
 	const cssAction = {

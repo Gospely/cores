@@ -992,7 +992,7 @@ export default {
 		initState(state, {payload: params}){
 
 			console.log(params);
-			state.activeCtrl = params.UIState.activeCtrl = {};
+			state.activeCtrl = params.UIState.activeCtrl || {};
 			state.layout = params.UIState.layout || [];
 			state.layoutState = params.UIState.layoutState;
 			state.activePage = params.UIState.activePage || {
@@ -1006,7 +1006,14 @@ export default {
 
 			return {...state};
 		},
+		initActiveState(state){
 
+			state.activeCtrl = {};
+			state.defaultSelectedKeys = [""];
+			state.activeCtrlLvl = 0;
+			state.activeCtrlIndex = 1;
+			return {...state};
+		},
 		editStyleNameA(state, { payload: params }) {
 
 			const editStyleNameRec = (state, originStyleName, newStyleName, activePage) => {
@@ -2558,20 +2565,21 @@ export default {
 
 			controller.vdid = controller.key ? (controller.key + '-' + randomString(8, 10)) : randomString(8, 10);
 			controller.parent = activeCtrl.vdid;
-			controller.root = activeCtrl.root;
 			controller.isRoot = controller.isRoot;
+			if (!controller.isRoot) {
+				controller.root = activeCtrl.root;
+				controller.parent = activeCtrl.parent;
+			}
 			const loopAttr = (controller, wrapperVdid, activeCtrl) => {
 				controller.vdid = controller.key ? (controller.key + '-' + randomString(8, 10)) : randomString(8, 10);
-				controller.root = activeCtrl.root;
+				controller.root = controller.root;
 				controller.isRoot = controller.isRoot;
-				if (controller.vdid === wrapperVdid) {
-					controller.parent = activeCtrl.vdid;
-				}
+				controller.parent = controller.parent;
 
 				for(let i = 0, len = controller.attrs.length; i < len; i ++) {
 					let tmpAttr = controller.attrs[i];
 					if (tmpAttr.key === 'basic') {
-						for(let j = 0; j <tmpAttr.children.length; j ++) {
+						for(let j = 0; j < tmpAttr.children.length; j ++) {
 							if (tmpAttr.children[j].name === 'id') {
 									tmpAttr.children[j].value = '';
 							}
