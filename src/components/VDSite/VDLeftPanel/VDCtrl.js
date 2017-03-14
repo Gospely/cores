@@ -21,9 +21,6 @@ const Component = (props) => {
 	}
 	console.log(props.vdctrl.controllers);
 	const panels = props.vdctrl.controllers.map((item, i) => {
-
-		console.log(item);
-		console.log(i);
 		if(item.content) {
 			const
 				contentLength = item.content.length,
