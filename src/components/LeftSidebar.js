@@ -75,7 +75,7 @@ const leftSidebar = (props) => {
 			}
 		}
 
-		return '';
+		return [];
 	}
 
 	let constructionTreeComponent = () => {
@@ -99,7 +99,7 @@ const leftSidebar = (props) => {
 					    </Panel>
 					</Collapse>
 		    	</TabPane>
-			) : '';
+			) : [];
 	}
 
 	let columnLayouComponent = () => {
@@ -119,7 +119,7 @@ const leftSidebar = (props) => {
 			}
 		}
 
-		return '';
+		return [];
 	}
 
 	let settingLayoutComponent = () => {
@@ -137,13 +137,13 @@ const leftSidebar = (props) => {
 			);
 		}
 
-		return ''
+		return [];
 
 	}
 
 	let VDControllersComponent = () => {
 
-		var sidebarMenu = '';
+		var sidebarMenu = [];
 
 		if(localStorage.image == 'vd:site') {
 	    	sidebarMenu = (
@@ -163,7 +163,7 @@ const leftSidebar = (props) => {
 
 	let VDPagesComponent = () => {
 
-		var sidebarMenu = '';
+		var sidebarMenu = [];
 
 		if(localStorage.image == 'vd:site') {
 	    	sidebarMenu = (
@@ -181,14 +181,30 @@ const leftSidebar = (props) => {
 		return sidebarMenu;
 	}
 
+	const tabContent = () => {
+
+		var content = [];
+
+		content[0] = constructionTreeComponent();
+		content[1] = FileTreeComponent();
+		content[2] = columnLayouComponent();
+		content[3] = settingLayoutComponent();
+		content[4] = VDControllersComponent();
+		content[5] = VDPagesComponent();
+
+		for (var i = 0; i < content.length; i++) {
+			var c = content[i];
+			if(c.length) {
+				content.splice(i, 1);
+			}
+		};
+
+		return content;
+	}
+
 	return (
 	  	<Tabs tabPosition="left" defaultActiveKey={props.devpanel.devType.defaultActiveKey} activeKey={props.sidebar.activeMenu} onChange={handleTabChanged}>
-	  		{constructionTreeComponent()}
-	    	{FileTreeComponent()}
-	    	{columnLayouComponent()}
-	    	{settingLayoutComponent()}
-	    	{VDControllersComponent()}
-	    	{VDPagesComponent()}
+	  		{tabContent()}
 	  	</Tabs>
 	)
 

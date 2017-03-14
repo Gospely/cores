@@ -124,6 +124,12 @@ export default {
 			message: ''
 		},
 
+        saveBtn:{
+            key: 'saveBtn',
+            title: '保存',
+            iconType: 'check',
+        },
+
         modalPreview: {
             visible: false
         }
@@ -714,6 +720,13 @@ export default {
             state.sshKey = params.sshKey;
             return {...state};
         },
+        changeSaveBtnState(state, { payload: params }) {
+            state.saveBtn.key = params.key;
+            state.saveBtn.title = params.title;
+            state.saveBtn.iconType = params.iconType;
+            return {...state};
+        },
+
 		setProjectNameAvailabel(state, { payload: available }) {
 			state.appCreatingForm.isProjectNameAvailabel = available;
 			return {...state};

@@ -64,6 +64,14 @@ export default {
 			visible: false,
 		},
 
+		boxShadowPane: {
+			visible: false,
+		},
+
+		textShadowPane: {
+			visible: false
+		},
+
 		boxShadow: {
 			'h-shadow': {
 				value: '',
@@ -1140,6 +1148,21 @@ export default {
 		handleStyleManageModifierChange(state, { payload: params }) {
 			state.styleManager.modifyPop.value = params.value;
 			return {...state};
+		},
+
+		changeBoxShadowPaneVisible(state, { payload: params }) {
+			state.boxShadowPane.visible = !state.boxShadowPane.visible;
+			return {...state}
+		},
+		
+		changeNewTranstionPane(state, { payload: params }) {
+			state.popover.newTransition.visible = !state.popover.newTransition.visible
+			return {...state}
+		},
+
+		changeTextShadowPaneVisible(state, { payload: params }) {
+			state.textShadowPane.visible = !state.textShadowPane.visible;
+			return {...state}
 		},
 
 		changeVDStylePaneSpinActive(state, { payload: params }) {
