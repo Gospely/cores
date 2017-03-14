@@ -64,12 +64,15 @@ export default {
 				id: localStorage.uistateId,
 				configs: localStorage.UIState
 			}
+			console.log(localStorage.uistateId);
+			console.log(localStorage.UIState);
 			var url = baseUrl.baseURL + "uistates";
 
 			var result = yield fetch(url, {
 				method: 'PUT',
 				headers: {
 					"Content-Type": "application/json;charset=UTF-8",
+					'Authorization': localStorage.token
 				},
 				body: JSON.stringify(configTobeSaved)
 			}).then(function() {

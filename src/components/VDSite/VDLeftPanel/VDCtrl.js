@@ -26,7 +26,7 @@ const Component = (props) => {
 		console.log(item);
 		console.log(i);
 		if(item.content) {
-			const 
+			const
 				contentLength = item.content.length,
 				rowCount = contentLength / 3,
 				rowGenerator = (rowCount) => {
