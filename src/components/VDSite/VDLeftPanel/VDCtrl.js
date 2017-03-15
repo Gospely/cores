@@ -20,7 +20,7 @@ const Component = (props) => {
 				tmpCtrl = ctrl;
 
 			console.log(tmpCtrl.details);
-
+			debugger;
 			if(tmpCtrl.details) {
 				console.log(tmpCtrl.details.attrs);
 				for (var i = 0; i < tmpCtrl.details.attrs.length; i++) {

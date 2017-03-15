@@ -1134,7 +1134,6 @@ export default {
 					origin: params.origin
 				}
 			});
-
 			yield put({
 				type: "removeStyleNameA",
 				payload: params
@@ -1154,7 +1153,7 @@ export default {
 			state.boxShadowPane.visible = !state.boxShadowPane.visible;
 			return {...state}
 		},
-		
+
 		changeNewTranstionPane(state, { payload: params }) {
 			state.popover.newTransition.visible = !state.popover.newTransition.visible
 			return {...state}
@@ -1175,10 +1174,10 @@ export default {
 			return {...state};
 		},
 
-		toggleStyleManagerModifyPop(state, { payload: params }) {
-			state.styleManager.modifyPop.visible = !state.styleManager.modifyPop.visible;
-			return {...state};
-		},
+		// toggleStyleManagerModifyPop(state, { payload: params }) {
+		// 	state.styleManager.modifyPop.visible = params.value;
+		// 	return {...state};
+		// },
 
 		hideStyleManagerModifyPop(state, { payload: params }) {
 			state.styleManager.modifyPop.visible = false;
@@ -1186,6 +1185,9 @@ export default {
 		},
 
 		editStyleNameA(state, { payload: params }) {
+
+			console.log(params);
+			console.log(state.styleManager.modifyPop.value);
 			state.cssStyleLayout[state.styleManager.modifyPop.value] = state.cssStyleLayout[params.origin];
 			delete state.cssStyleLayout[params.origin];
 
