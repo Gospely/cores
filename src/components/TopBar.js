@@ -575,10 +575,13 @@ const LeftSidebar = (props) => {
 	    openApp(application) {
 	    	const swApp = (application) => {
 	    		window.location.hash = 'project/' + application.id;
-    			props.dispatch({
-    				type: 'devpanel/stopDocker',
-    				payload: { id: localStorage.applicationId, image: localStorage.image }
-    			});
+    			// props.dispatch({
+    			// 	type: 'devpanel/stopDocker',
+    			// 	payload: { id: localStorage.applicationId, image: localStorage.image }
+    			// });
+				props.dispatch({
+					type: 'vdctrl/initActiveState'
+				});
     			window.reload = true
     			window.applicationId = application.id;
 
