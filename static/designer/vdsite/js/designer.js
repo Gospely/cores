@@ -1490,31 +1490,32 @@ $(function() {
             },
         	setAttribute: function () {
         		this.initElem();
-        		for(var i = 0, len = this.controller.attrs.length; i < len; i ++) {
-        			var attr = this.controller.attrs[i];
+				if(this.controller) {
+					for(var i = 0, len = this.controller.attrs.length; i < len; i ++) {
+	        			var attr = this.controller.attrs[i];
 
-                    if(attr.isAttrSetting) {
-                        //基础属性设置（无复杂交互）统一处理
-                        for (var j = 0; j < attr.children.length; j++) {
-                            var att = attr.children[j];
-                            this.setAttr(att);
-                        };
-                    }else {
+	                    if(attr.isAttrSetting) {
+	                        //基础属性设置（无复杂交互）统一处理
+	                        for (var j = 0; j < attr.children.length; j++) {
+	                            var att = attr.children[j];
+	                            this.setAttr(att);
+	                        };
+	                    }else {
 
-                        //调用所需要的属性设置类型
-                        var upperTypeName = this.transformTypeToUpper(attr.key);
+	                        //调用所需要的属性设置类型
+	                        var upperTypeName = this.transformTypeToUpper(attr.key);
 
-                        if(this['set' + upperTypeName]) {
-                            for (var j = 0; j < attr.children.length; j++) {
-                                var att = attr.children[j];
-                                this['set' + upperTypeName](att);
-                            };
-                        }
+	                        if(this['set' + upperTypeName]) {
+	                            for (var j = 0; j < attr.children.length; j++) {
+	                                var att = attr.children[j];
+	                                this['set' + upperTypeName](att);
+	                            };
+	                        }
 
-                    }
-        		}
-
-        		this.elem.attr('vdid', this.controller.vdid);
+	                    }
+	        		}
+	        		this.elem.attr('vdid', this.controller.vdid);
+				}
         	},
 
             setAttributeByAttr: function(attr, attrType) {

@@ -16,23 +16,30 @@ const Component = (props) => {
 
 	const VDControllersProps = {
 		onSelect(ctrl) {
-
 			var tmpKey = [],
 				tmpCtrl = ctrl;
 
-			for (var i = 0; i < tmpCtrl.details.attrs.length; i++) {
-				var attr = tmpCtrl.details.attrs[i];
-				if(tmpKey.indexOf(attr.key) == -1) {
-					tmpKey.push(attr.key);
-				}else {
-					tmpCtrl = tmpCtrl.details.attrs.splice(i, 1);
-				}
-			};
+			console.log(tmpCtrl.details);
+
+			if(tmpCtrl.details) {
+				console.log(tmpCtrl.details.attrs);
+				for (var i = 0; i < tmpCtrl.details.attrs.length; i++) {
+					var attr = tmpCtrl.details.attrs[i];
+					if(tmpKey.indexOf(attr.key) == -1) {
+						tmpKey.push(attr.key);
+					}else {
+						tmpCtrl.details.attrs.splice(i, 1);
+					}
+				};
+			}
 
 			window.VDDnddata = tmpCtrl;
 		}
 	}
 	const panels = props.vdctrl.controllers.map((item, i) => {
+
+		console.log(item);
+		console.log(i);
 		if(item.content) {
 			const
 				contentLength = item.content.length,
