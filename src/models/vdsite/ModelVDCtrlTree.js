@@ -1087,6 +1087,10 @@ export default {
 							loopControllers(currentControl.children, level ++);
 						}
 
+						if(!currentControl.customClassName) {
+							continue;
+						}
+
 						var pos = currentControl.customClassName.indexOf(originStyleName);
 
 						if (pos != -1) {

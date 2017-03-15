@@ -365,19 +365,19 @@ export default {
                            isAttr: true,
                            attrName: 'target',
                            id: ''
-                       }, {
-                           name: 'innerHTML',
-                           desc: '显示文本',
-                           type: 'input',
-                           value: '',
-                           isHTML: true,
-                           id: ''
                        }]
                    }, {
                        title: '属性设置',
                        key: 'link-block-attr',
                        isAttrSetting: true,
                        children: [{
+                           name: 'value',
+                           desc: '按钮值',
+                           type: 'input',
+                           value: '按钮',
+                           isHTML: true,
+                           id: ''
+                       },{
                            name: 'container',
                            desc: '是否是容器',
                            value: true,
@@ -449,13 +449,6 @@ export default {
                            value: false,
                            isAttr: true,
                            attrName: 'target',
-                           id: ''
-                       }, {
-                           name: 'innerHTML',
-                           desc: '显示文本',
-                           type: 'input',
-                           value: '',
-                           isHTML: true,
                            id: ''
                        }]
                    }, {

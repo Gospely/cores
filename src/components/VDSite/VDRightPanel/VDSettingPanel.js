@@ -167,51 +167,59 @@ const Component = (props) => {
                         console.log('dayu2');
                         if(attrType.key == 'link-setting'){
                             if(attrType.activeLinkType == 'link'){
-                                if(/\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/.test(newVal)){
-                                    newVal = newVal;
-                                    sessionStorage.clear();
-                                }else{
-                                    message.error('请输入正确的链接地址');
-                                    sessionStorage.clear();
-                                    item.value = "";
-                                    newVal = "";
+                                if(newVal != ""){
+                                    if(/\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/.test(newVal)){
+                                        newVal = newVal;
+                                        sessionStorage.clear();
+                                    }else{
+                                        message.error('请输入正确的链接地址');
+                                        sessionStorage.clear();
+                                        item.value = "";
+                                        newVal = "";
+                                    }
                                 }
                             }
 
                             if(attrType.activeLinkType == 'mail'){
-                                if(/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(newVal)){
-                                    newVal = newVal;
-                                    sessionStorage.clear();
-                                }else{
-                                    message.error('请输入正确的邮箱地址');
-                                    sessionStorage.clear();
-                                    item.value = "";
-                                    newVal = "";
+                                if(newVal != ""){
+                                    if(/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(newVal)){
+                                        newVal = newVal;
+                                        sessionStorage.clear();
+                                    }else{
+                                        message.error('请输入正确的邮箱地址');
+                                        sessionStorage.clear();
+                                        item.value = "";
+                                        newVal = "";
+                                    }
                                 }
                             }
 
                             if(attrType.activeLinkType == 'phone'){
-                               if(/^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9]|177)\d{8}$/.test(newVal)){
-                                    newVal = newVal;
-                                    sessionStorage.clear();
-                                }else{
-                                    message.error('请输入正确的电话号码');
-                                    sessionStorage.clear();
-                                    item.value = "";
-                                    newVal = "";
+                                if(newVal != ""){
+                                   if(/^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9]|177)\d{8}$/.test(newVal)){
+                                        newVal = newVal;
+                                        sessionStorage.clear();
+                                    }else{
+                                        message.error('请输入正确的电话号码');
+                                        sessionStorage.clear();
+                                        item.value = "";
+                                        newVal = "";
+                                    }
                                 }
                             }
                         }
 
                             if(attrType.key == 'video-attr') {
-                                if(/\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/.test(newVal)){
-                                    newVal = newVal;
-                                    sessionStorage.clear();
-                                }else{
-                                    message.error('请输入正确的地址');
-                                    sessionStorage.clear();
-                                    item.value = "";
-                                    newVal = "";
+                                if(newVal != ""){
+                                    if(/\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/.test(newVal)){
+                                        newVal = newVal;
+                                        sessionStorage.clear();
+                                    }else{
+                                        message.error('请输入正确的地址');
+                                        sessionStorage.clear();
+                                        item.value = "";
+                                        newVal = "";
+                                    }
                                 }
                             }
 
@@ -660,10 +668,6 @@ const Component = (props) => {
                                     {attrType.changeDropDown && <FormItem {...formItemLayout} label="下拉菜单">
                                         <Switch size="small"  onChange={dropdownProps.switchDropDown.bind(this, item)}/>
                                     </FormItem>}
-                                    <FormItem {...formItemLayout} label="显示文本">
-										<Input value={item.children[6].value} onChange={formProps.handleAttrFormInputChange.bind(this, item.children[6], attrType)} size="small" />
-									</FormItem>
-
                                     { attrType.deleteAble && <FormItem {...formItemLayout} label="">
                                         <Popconfirm title="确认删除？" onConfirm={formProps.handleComplextChildrenDelete.bind(this, item.children[6].value, 'navbar-drop-down')}>
                                             <Button  size="small" ><Icon type="delete" /> &nbsp;&nbsp;删除</Button>
@@ -1941,7 +1945,7 @@ const Component = (props) => {
     	});
     }
 
-    const settingPanelDefaultActiveKey = ['container-attr', 'div-block-attr', 'list-attr', 'list-item-attr', 'h1-attr', 'paragraph-attr', 'text-link-attr', 'text-block-attr', 'blick-quote-attr', 'p-attr', 'video-attr', 'form-setting', 'label-attr', 'input-attr', 'textarea-attr', 'checkbox-attr', 'radio-attr', 'options-setting', 'slider-setting', 'section-attr', 'button-attr'];
+    const settingPanelDefaultActiveKey = ['container-attr', 'div-block-attr', 'list-attr', 'list-item-attr', 'h1-attr', 'paragraph-attr', 'text-link-attr', 'text-block-attr', 'blick-quote-attr', 'p-attr', 'video-attr', 'form-setting', 'label-attr', 'input-attr', 'textarea-attr', 'checkbox-attr', 'radio-attr', 'options-setting', 'slider-setting', 'section-attr', 'button-attr', 'link-block-attr'];
 
     for (var i = 0; i < specialAttrList.length; i++) {
     	var attr = specialAttrList[i];
