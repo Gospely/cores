@@ -219,6 +219,8 @@ const VDStylePanel = (props) => {
 
 				const newStyleName = props.vdstyles.newStyleName;
 
+				const keyWord = ['btn','navbar','dropup','label','table','glyphicon','lead']
+
 				const onClick = () => {
 					console.log(props.vdstyles.cssStyleLayout)
 
@@ -238,6 +240,13 @@ const VDStylePanel = (props) => {
 					for(var key in props.vdstyles.cssStyleLayout){
 						if(key == newStyleName) {
 							message.error(' 类名重复，请重新输入');
+							return false;
+						}
+					}
+
+					for(var i=0;i<keyWord.length;i ++){
+						if(newStyleName ==keyWord[i]){
+							message.error(' 建议添加前缀或者更换类名');
 							return false;
 						}
 					}
