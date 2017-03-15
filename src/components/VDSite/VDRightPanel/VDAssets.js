@@ -114,7 +114,7 @@ const Component = (props) => {
 
     const uploadButton = (
       <div style={{height: '100%'}}>
-        <Icon type="plus" style={{lineHeight: '2.2'}} />
+        <Icon type="plus" style={{lineHeight: '2.0'}} />
       </div>
     );
 
