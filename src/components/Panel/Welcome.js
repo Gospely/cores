@@ -35,11 +35,14 @@ const Welcome = (props) => {
 	};
 
 	const createApp = function() {
+		props.dispatch({
+			type: 'sidebar/initImages'
+		});
   		props.dispatch({
     		type: 'sidebar/showModalNewApp'
       	});
 	}
-	
+
 	const openApp = function() {
   		props.dispatch({
     		type: 'sidebar/showModalSwitchApp'
@@ -66,7 +69,7 @@ const Welcome = (props) => {
 				<p>为解放开发者生产力而生</p>
 			</div>
 		</div>
-		
+
   	);
 
 };
