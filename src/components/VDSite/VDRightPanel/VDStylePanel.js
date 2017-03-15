@@ -2652,7 +2652,7 @@ const VDStylePanel = (props) => {
 							        	placement="left"
 							        	visible={props.vdstyles.backgroundStyleSettingPane.visible}
 							        	onVisibleChange={handleVisibleChange}
-							      	>	
+							      	>
 					  		              	<Button>
 												<i className="fa fa-picture-o"></i>
 								      		</Button>
@@ -2918,7 +2918,7 @@ const VDStylePanel = (props) => {
 				});
 			}
 
-			
+
 			return (<Panel header="阴影" key="shadows">
 		    	<Form className="form-no-margin-bottom">
 					<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right'}} label="盒子阴影">
@@ -2943,8 +2943,8 @@ const VDStylePanel = (props) => {
 												<Col span={12} style={{textAlign: 'center', cursor: 'pointer'}}>
 													<span>{cssProperty['inset']}</span>
 												</Col>
-												<Popover key={cssPropertyIndex} placement="left" title="编辑盒子阴影" 
-														content={shadowProps.modifyPopover()} 
+												<Popover key={cssPropertyIndex} placement="left" title="编辑盒子阴影"
+														content={shadowProps.modifyPopover()}
 														trigger="click"
 														>
 													<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
