@@ -20,6 +20,8 @@ const Component = (props) => {
 			var tmpKey = [],
 				tmpCtrl = ctrl;
 
+			console.log(tmpCtrl.details);
+
 			if(tmpCtrl.details) {
 				for (var i = 0; i < tmpCtrl.details.attrs.length; i++) {
 					var attr = tmpCtrl.details.attrs[i];
