@@ -54,12 +54,6 @@ const VDStylePanel = (props) => {
 	var activeCSSStyleState = props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle],
 		  activeCSSUnitList = props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle];
 
-	if(!activeCSSStyleState) {
-		return (
-			<div className="none-operation-obj">暂无操作对象</div>
-		)		
-	}
-
 	console.log('activeCSSStyleState=========', activeCSSStyleState);
 	console.log('activeCSSUnitList=====', activeCSSUnitList);
 
@@ -3444,48 +3438,52 @@ const VDStylePanel = (props) => {
 		);
 		}
 
-		var tpl = '';
+		var tipPanel = (
+			<Card style={{ width: 'auto', margin: '15px', background: '#f7f7f7' }}>
+			    <div>添加<Tag style={{marginLeft: '8px'}} color="#87d068"><span style={{color: 'rgb(255, 255, 255)'}}>类名</span></Tag>后可以调整以下属性：</div>
+			    <ol>
+			    	<li style={{margin:'2px'}}>1、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>元素位置</span></Tag>和<Tag color="cyan" style={{marginLeft: '8px'}}><span style={{color: 'rgb(255, 255, 255)'}}>大小</span></Tag></li>
+			    	<li style={{margin:'2px'}}>2、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>字体</span></Tag>属性</li>
+			    	<li style={{margin:'2px'}}>3、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>背景</span></Tag>属性</li>
+			    	<li style={{margin:'2px'}}>4、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>边框</span></Tag>属性</li>
+			    	<li style={{margin:'2px'}}>5、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>阴影</span></Tag>属性</li>
+			    	<li style={{margin:'2px'}}>6、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>交互动画</span></Tag></li>
+			    </ol>
+			</Card>
+		);
+
+		var tpl = '',
+			newCSSTpl = (
+
+			<div>
+				<Collapse bordered={false} defaultActiveKey={['css', 'layout', 'typo', 'background', 'borders', 'shadows', 'tt', 'effects']}>
+					{cssPanel}
+				</Collapse>
+				{tipPanel}
+			</div>
+		);
 
 		if(props.vdCtrlTree.activeCtrl.activeStyle) {
-			tpl = (
 
-				<Collapse bordered={false} defaultActiveKey={['css', 'layout', 'typo', 'background', 'borders', 'shadows', 'transitions-transforms', 'effects']}>
-					{cssPanel}
-					{layoutPanel()}
-					{typoPanel()}
-					{backgroundPanel()}
-					{bordersPanel()}
-					{shadowsPanel()}
-					{transitionsTransformsPanel()}
-					{effectsPanel()}
-				</Collapse>
-
-			);
-		}else {
-
-			var tipPanel = (
-				<Card style={{ width: 'auto', margin: '15px', background: '#f7f7f7' }}>
-				    <div>添加<Tag style={{marginLeft: '8px'}} color="#87d068"><span style={{color: 'rgb(255, 255, 255)'}}>类名</span></Tag>后可以调整以下属性：</div>
-				    <ol>
-				    	<li style={{margin:'2px'}}>1、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>元素位置</span></Tag>和<Tag color="cyan" style={{marginLeft: '8px'}}><span style={{color: 'rgb(255, 255, 255)'}}>大小</span></Tag></li>
-				    	<li style={{margin:'2px'}}>2、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>字体</span></Tag>属性</li>
-				    	<li style={{margin:'2px'}}>3、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>背景</span></Tag>属性</li>
-				    	<li style={{margin:'2px'}}>4、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>边框</span></Tag>属性</li>
-				    	<li style={{margin:'2px'}}>5、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>阴影</span></Tag>属性</li>
-				    	<li style={{margin:'2px'}}>6、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>交互动画</span></Tag></li>
-				    </ol>
-				</Card>
-			);
-
-			tpl = (
-
-				<div>
-					<Collapse bordered={false} defaultActiveKey={['css', 'layout', 'typo', 'background', 'borders', 'shadows', 'tt', 'effects']}>
+			if(!activeCSSStyleState) {
+				tpl = newCSSTpl;
+			}else {
+				tpl = (
+					<Collapse bordered={false} defaultActiveKey={['css', 'layout', 'typo', 'background', 'borders', 'shadows', 'transitions-transforms', 'effects']}>
 						{cssPanel}
+						{layoutPanel()}
+						{typoPanel()}
+						{backgroundPanel()}
+						{bordersPanel()}
+						{shadowsPanel()}
+						{transitionsTransformsPanel()}
+						{effectsPanel()}
 					</Collapse>
-					{tipPanel}
-				</div>
-			);
+				);
+			}
+
+		}else {
+			tpl = newCSSTpl;
 		}
 
 		return tpl;
