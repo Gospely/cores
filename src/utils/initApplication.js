@@ -9,6 +9,7 @@ const initApplication = function (application, props, flag){
 
     //清除定时器
     window.clearInterval(window.uistateSave)
+    window.VDDnddata = {};
     //断开上一个socket
     if(window.fileSocket != null && !flag) {
         window.fileSocket.emit('leave', localStorage.applicationId + localStorage.userName);
@@ -252,7 +253,6 @@ const initApplication = function (application, props, flag){
     props.dispatch({
         type: 'UIState/setDySaveEffects'
     });
-    localStorage.flashState = 'true';
 }
 
 export default initApplication;
