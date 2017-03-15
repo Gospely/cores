@@ -732,6 +732,9 @@ const LeftSidebar = (props) => {
 
 		createAppFromModal() {
 			props.dispatch({
+				type: 'sidebar/initImages'
+			});
+			props.dispatch({
 				type: 'sidebar/handleAvailable',
 				payload: {
 					available: true,
@@ -740,9 +743,6 @@ const LeftSidebar = (props) => {
 			props.dispatch({
 				type: 'sidebar/showNewAppAndHideSwitch',
 			})
-			props.dispatch({
-				type: 'sidebar/initImages'
-			});
 		}
 	};
 
