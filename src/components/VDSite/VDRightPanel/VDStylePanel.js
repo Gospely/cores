@@ -213,6 +213,7 @@ const VDStylePanel = (props) => {
 				const newStyleName = props.vdstyles.newStyleName;
 
 				const onClick = () => {
+					console.log(props.vdstyles.cssStyleLayout)
 
 					var patt = new RegExp(/^[a-zA-Z|\-|0-9]+$/),
 						regResult = patt.test(newStyleName);
@@ -226,6 +227,14 @@ const VDStylePanel = (props) => {
 						message.error('请输入类名!');
 						return false;
 					}
+
+					for(var key in props.vdstyles.cssStyleLayout){
+						if(key == newStyleName) {
+							message.error(' 类名重复，请重新输入');
+							return false;
+						}
+					}
+
 
 					props.dispatch({
 						type: 'vdstyles/addStyle',
@@ -248,6 +257,8 @@ const VDStylePanel = (props) => {
 		    				push: true
 		    			}
 					});
+
+					console.log(props.vdCtrlTree.activeCtrl)
 				}
 
 				const handleNewStyleNameChange = (e) => {
