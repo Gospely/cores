@@ -294,6 +294,9 @@ const VDStylePanel = (props) => {
 							<Input placeholder="请输入类名" onPressEnter={onClick} onChange={handleNewStyleNameChange} value={newStyleName} size="small" />
 						</Col>
 						<Col span={12}>
+							      <Tooltip placement="bottom" title="尽量避免使用关键字,情可参照官方文档">
+							        <Icon type="question-circle-o" style={{position: 'relative', left: '38px', top: '2px'}}/>
+							      </Tooltip>
 							<Button onClick={onClick.bind(this)} style={{float: 'right'}} size="small">添加并应用</Button>
 						</Col>
 					</Row>
@@ -1638,7 +1641,7 @@ const VDStylePanel = (props) => {
 			<Panel header={<span><i className="fa fa-css3"></i>&nbsp;CSS类选择器<Button size="small" style={{marginLeft: "8px"}} onClick={linkToStylesManager}>样式管理</Button></span>} key="css">
 				<Row>
 					<Col span={18}>
-					  	<div style={{marginBottom: '10px'}}>当前类名：<Tag color="#87d068"><span style={{color: 'rgb(255, 255, 255)'}}>{props.vdCtrlTree.activeCtrl.activeStyle || '无活跃类名'}</span></Tag></div>
+					  	<div style={{marginBottom: '10px',marginTop: '5px'}}>当前类名：<Tag color="#87d068"><span style={{color: 'rgb(255, 255, 255)'}}>{props.vdCtrlTree.activeCtrl.activeStyle || '无活跃类名'}</span></Tag></div>
 					</Col>
 					<Col span={6} style={{textAlign: 'right'}}>
 					  	<Dropdown overlay={cssStateMenu()}>
@@ -2672,11 +2675,11 @@ const VDStylePanel = (props) => {
 								)
 							}>
 							<Row>
-								<Col span={12} style={{paddingRight: '10px'}}>
+								<Col span={12} style={{paddingRight: '10px', marginBottom:'5px'}}>
 									<Input type="color" size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['background']['background-color']} onChange={handleStylesChange.bind(this, 'background-color', 'background')}/>
 								</Col>
 								<Col span={12}>
-									<Button onClick={setBGAlpha} size="small" style={{paddingLeft: '10px', paddingRight: '10px'}}>透明背景</Button>
+									<Button onClick={setBGAlpha} size="small" style={{paddingLeft: '10px', paddingRight: '10px', marginTop: '4px'}}>透明背景</Button>
 								</Col>
 							</Row>
 						</FormItem>
@@ -2730,7 +2733,7 @@ const VDStylePanel = (props) => {
 					<Col span={8}>
 						<Row style={{marginBottom: '5px'}}>
 							<Col span={8}></Col>
-							<Col span={8}>
+							<Col span={8} style={{marginTop: '5px'}}>
 								<Tooltip title="上边框">
 									<Button onClick={handleBorderTypeChange.bind(this, 'border-top')} size="small"><i className="fa fa-window-maximize"></i></Button>
 								</Tooltip>
@@ -2745,7 +2748,7 @@ const VDStylePanel = (props) => {
 							</Col>
 							<Col span={8}>
 								<Tooltip title="全边框">
-									<Button onClick={handleBorderTypeChange.bind(this, 'border')} style={{width: '23px'}} size="small"><i className="fa fa-square-o"></i></Button>
+									<Button onClick={handleBorderTypeChange.bind(this, 'border')} style={{width: '31px'}} size="small"><i className="fa fa-square-o"></i></Button>
 								</Tooltip>
 							</Col>
 							<Col span={8}>
