@@ -564,9 +564,22 @@ $(function() {
 
                     symbolsAdded: function() {
 		        		var self = this;
-		        		var components = jq(parentWindow.document, parentWindow.document).find('.symbols-ctrl');
+		        		var components = jq(parentWindow.document, parentWindow.document).find('.symbols-ctrl').eq(data.index);
 
-		        		console.log('symbolsAdded================');
+	        			jq(components).attr("draggable", true);
+	        			jq(components).on("dragstart", function (e) {
+			        		postMessageToFather.generateCtrlTree(parentWindow.VDDnddata);
+			        		e.stopPropagation();
+			        	});
+
+			        	jq(components).on("dragend", function (e) {
+			        		e.preventDefault();
+			        	});
+                    },
+
+                    initSymbols: function() {
+		        		var self = this;
+		        		var components = jq(parentWindow.document, parentWindow.document).find('.symbols-ctrl');
 
 		        		components.each(function(n) {
 		        			jq(this).attr("draggable", true);

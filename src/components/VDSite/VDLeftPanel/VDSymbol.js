@@ -22,7 +22,7 @@ const openNotificationWithIcon = (type, title, description) => (
 const Component = (props) => {
 
   window.VDDesignerFrame.postMessage({
-    symbolsAdded: {}
+    initSymbols: {}
   }, '*');
 
   const formItemLayout = {
