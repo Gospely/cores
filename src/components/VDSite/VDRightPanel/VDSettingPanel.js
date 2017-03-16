@@ -232,15 +232,38 @@ const Component = (props) => {
 
 
 
-            // if(attrType.key == 'slider-setting'){
-            //
-            //     if(item.name == 'height') {
-            //
-            //     }
-            //     if(item.name == 'width'){
-            //
-            //     }
-            // }
+            if(attrType.key == 'slider-setting'){
+
+                if(newVal != ''){
+                    if(item.name == 'height') {
+
+                        if(props.vdCtrlTree.heightUnit == '%'){
+                            if(!/^([1-9]\d?|100)$/.test(newVal)){
+                                message.error("请输入 1～100 之间的数字 ");
+                                return;
+                            }
+                        }else {
+                            if(!/^([1-9][0-9]*)$/.test(newVal)){
+                                message.error("请输入合理的数值");
+                                return;
+                            }
+                        }
+                    }
+                    if(item.name == 'width'){
+                        if(props.vdCtrlTree.widthUnit == '%'){
+                            if(!/^([1-9]\d?|100)$/.test(newVal)){
+                                message.error("请输入 1～100 之间的数字 ")
+                                return;
+                            }
+                        }else {
+                            if(!/^([1-9][0-9]*)$/.test(newVal)){
+                                message.error("请输入合理的数值");
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
 
             props.dispatch({
                 type: 'vdCtrlTree/handleAttrFormChange',
