@@ -69,7 +69,11 @@ export default {
 		},
 
 		textShadowPane: {
-			visible: false
+			visible: false,
+		},
+
+		newStylePopover: {
+			visible: false,
 		},
 
 		boxShadow: {
@@ -1025,10 +1029,10 @@ export default {
 			key: 'hover',
 			name: '悬浮'
 		}, {
-			key: 'pressed',
+			key: 'active',
 			name: '按下'
 		}, {
-			key: 'focused',
+			key: 'focus',
 			name: '聚焦'
 		}],
 
@@ -1147,6 +1151,11 @@ export default {
 		handleStyleManageModifierChange(state, { payload: params }) {
 			state.styleManager.modifyPop.value = params.value;
 			return {...state};
+		},
+
+		changeNewStylePopoverVisible(state, {payload: params }) {
+			state.newStylePopover.visible = !state.newStylePopover.visible
+			return {...state}
 		},
 
 		changeBoxShadowPaneVisible(state, { payload: params }) {

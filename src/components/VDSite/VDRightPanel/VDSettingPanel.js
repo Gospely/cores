@@ -1540,15 +1540,15 @@ const Component = (props) => {
                             }
                         }
                         const heightSelectAfter = (
-                          <Select defaultValue={props.vdCtrlTree.heightUnit} onChange={activeSliderProps.heightUnitChange} style={{ width: 70 }}>
-                                <Option value="%">%</Option>
-                                <Option value="px">px</Option>
+                          <Select defaultValue={props.vdCtrlTree.heightUnit} onChange={activeSliderProps.heightUnitChange} style={{ width: 50 }}>
+                                <Option style={{marginLeft: '12px'}} value="%">%</Option>
+                                <Option style={{marginLeft: '12px'}} value="px">px</Option>
                           </Select>
                         );
                         const widthSelectAfter = (
-                          <Select defaultValue={props.vdCtrlTree.widthUnit} onChange={activeSliderProps.widthUnitChange} style={{ width: 70 }}>
-                                <Option value="%">%</Option>
-                                <Option value="px">px</Option>
+                          <Select defaultValue={props.vdCtrlTree.widthUnit} onChange={activeSliderProps.widthUnitChange} style={{ width: 50 }}>
+                                <Option style={{marginLeft: '12px'}} value="%">%</Option>
+                                <Option style={{marginLeft: '12px'}} value="px">px</Option>
                           </Select>
                         );
 	    				return (
@@ -1567,10 +1567,10 @@ const Component = (props) => {
 						    		</Col>
 						    		<Col span={12}>
 						    			<Col span={12} style={{textAlign: 'right'}} >
-							    			<Button size="small" onClick={activeSliderProps.last.bind(item)}><Icon type="left" /></Button>
+							    			<Button size="small" style={{marginRight: '5px'}} onClick={activeSliderProps.last.bind(item)}><Icon type="left" /></Button>
 						    			</Col>
 						    			<Col span={12} style={{textAlign: 'left'}}>
-							    			<Button size="small" onClick={activeSliderProps.next.bind(item)}><Icon type="right" /></Button>
+							    			<Button size="small" style={{marginLeft: '5px'}} onClick={activeSliderProps.next.bind(item)}><Icon type="right" /></Button>
 						    			</Col>
 						    		</Col>
 						    	</Row>
