@@ -1236,7 +1236,10 @@ export default {
 				state.symbols.push(addController);
 
 				window.VDDesignerFrame.postMessage({
-					symbolsAdded: addController
+					symbolsAdded: {
+						symbol: addController,
+						index: state.symbols.length - 1
+					}
 				}, '*');
 			}
 

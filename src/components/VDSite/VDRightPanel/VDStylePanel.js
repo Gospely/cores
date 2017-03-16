@@ -62,7 +62,6 @@ const VDStylePanel = (props) => {
 				classes.push(key);
 			}
 			return classes;
-			// return props.vdstyles.cssPropertyState;
 		}
 
 	}
