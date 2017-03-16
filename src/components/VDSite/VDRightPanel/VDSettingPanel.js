@@ -234,8 +234,19 @@ const Component = (props) => {
 
             if(attrType.key == 'slider-setting'){
 
+                if(!/\d*(%|px|p|x)/.test(newVal)){
+                    message.error('请输入正确的数据格式');
+                }
+                if(/\d*(p|x)/.test(newVal)){
+                    newVal = newVal.replace('p', '');
+                    newVal = newVal.replace('x', '');
+                    newVal = newVal + "px"
+                }
                 if(!/\d*(%|px)/.test(newVal)){
-                    newVal = newVal + "px";
+
+                    if(/\d*/.test(newVal)){
+                        newVal = newVal + "px";
+                    }
                 }
             }
 
