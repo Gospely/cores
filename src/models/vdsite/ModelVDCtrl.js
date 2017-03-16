@@ -2228,6 +2228,18 @@ export default {
                                        isHTML: true,
                                        id: ''
                                    }]
+                               },{
+                                  title: '属性设置',
+                                   key: 'button-attr',
+                                   isAttrSetting: true,
+                                   children: [{
+                                       name: 'value',
+                                       desc: '导航菜单值',
+                                       type: 'input',
+                                       value: '导航菜单',
+                                       isHTML: true,
+                                       id: ''
+                                   }]
                                }]
                            }]
                        }, {
@@ -2327,6 +2339,18 @@ export default {
                                                isHTML: true,
                                                id: ''
                                            }]
+                                       },{
+                                          title: '属性设置',
+                                           key: 'button-attr',
+                                           isAttrSetting: true,
+                                           children: [{
+                                               name: 'value',
+                                               desc: '导航菜单值',
+                                               type: 'input',
+                                               value: '导航菜单',
+                                               isHTML: true,
+                                               id: ''
+                                           }]
                                        }]
                                    }]
                                }, {
@@ -2403,6 +2427,18 @@ export default {
                                                name: 'innerHTML',
                                                desc: '显示文本',
                                                value: '菜单',
+                                               isHTML: true,
+                                               id: ''
+                                           }]
+                                       },{
+                                          title: '属性设置',
+                                           key: 'button-attr',
+                                           isAttrSetting: true,
+                                           children: [{
+                                               name: 'value',
+                                               desc: '导航菜单值',
+                                               type: 'input',
+                                               value: '导航菜单',
                                                isHTML: true,
                                                id: ''
                                            }]
@@ -2573,81 +2609,15 @@ export default {
                                                        isHTML: true,
                                                        id: ''
                                                    }]
-                                               }]
-                                           }]
-                                       }, {
-                                           tag: 'li',
-                                           unActive: true,
-                                           className: [],
-                                           attrs: [{
-                                               title: '导航菜单设置',
-                                               key: 'navbar-setting',
-                                               children: []
-                                           }],
-                                           children: [{
-                                               tag: 'a',
-                                               className: [],
-                                               attrs: [{
-                                                   title: '导航菜单链接设置',
-                                                   key: 'link-setting', activeLinkType: 'link',
-                                                   deleteAble: true,
+                                               },{
+                                                  title: '属性设置',
+                                                   key: 'button-attr',
+                                                   isAttrSetting: true,
                                                    children: [{
-                                                       name: 'src',
-                                                       desc: '跳转链接',
+                                                       name: 'value',
+                                                       desc: '导航菜单值',
                                                        type: 'input',
-                                                       value: '',
-                                                       isAttr: true,
-                                                       attrName: 'href',
-                                                       id: '',
-                                                       attrType: 'link'
-                                                   }, {
-                                                       name: 'src',
-                                                       desc: '跳转邮箱',
-                                                       type: 'input',
-                                                       value: '',
-                                                       isAttr: true,
-                                                       attrName: 'href',
-                                                       id: '',
-                                                       attrType: 'mail'
-                                                   }, {
-                                                       name: 'src',
-                                                       desc: '跳转电话',
-                                                       type: 'input',
-                                                       value: '',
-                                                       isAttr: true,
-                                                       attrName: 'href',
-                                                       id: '',
-                                                       attrType: 'phone'
-                                                   }, {
-                                                       name: 'src',
-                                                       desc: '跳转页面',
-                                                       type: 'select',
-                                                       value: '',
-                                                       isAttr: true,
-                                                       attrName: 'href',
-                                                       id: '',
-                                                       attrType: 'page'
-                                                   }, {
-                                                       name: 'src',
-                                                       desc: '跳转元素',
-                                                       type: 'select',
-                                                       value: '',
-                                                       isAttr: true,
-                                                       attrName: 'href',
-                                                       id: '',
-                                                       attrType: 'section'
-                                                   }, {
-                                                       name: 'target',
-                                                       desc: '新窗口打开',
-                                                       type: 'toggle',
-                                                       value: false,
-                                                       isAttr: true,
-                                                       attrName: 'target',
-                                                       id: ''
-                                                   },{
-                                                       name: 'innerHTML',
-                                                       desc: '显示文本',
-                                                       value: '菜单',
+                                                       value: '导航菜单',
                                                        isHTML: true,
                                                        id: ''
                                                    }]
@@ -2726,6 +2696,108 @@ export default {
                                                        name: 'innerHTML',
                                                        desc: '显示文本',
                                                        value: '菜单',
+                                                       isHTML: true,
+                                                       id: ''
+                                                   }]
+                                               },{
+                                                  title: '属性设置',
+                                                   key: 'button-attr',
+                                                   isAttrSetting: true,
+                                                   children: [{
+                                                       name: 'value',
+                                                       desc: '导航菜单值',
+                                                       type: 'input',
+                                                       value: '导航菜单',
+                                                       isHTML: true,
+                                                       id: ''
+                                                   }]
+                                               }]
+                                           }]
+                                       }, {
+                                           tag: 'li',
+                                           unActive: true,
+                                           className: [],
+                                           attrs: [{
+                                               title: '导航菜单设置',
+                                               key: 'navbar-setting',
+                                               children: []
+                                           }],
+                                           children: [{
+                                               tag: 'a',
+                                               className: [],
+                                               attrs: [{
+                                                   title: '导航菜单链接设置',
+                                                   key: 'link-setting', activeLinkType: 'link',
+                                                   deleteAble: true,
+                                                   children: [{
+                                                       name: 'src',
+                                                       desc: '跳转链接',
+                                                       type: 'input',
+                                                       value: '',
+                                                       isAttr: true,
+                                                       attrName: 'href',
+                                                       id: '',
+                                                       attrType: 'link'
+                                                   }, {
+                                                       name: 'src',
+                                                       desc: '跳转邮箱',
+                                                       type: 'input',
+                                                       value: '',
+                                                       isAttr: true,
+                                                       attrName: 'href',
+                                                       id: '',
+                                                       attrType: 'mail'
+                                                   }, {
+                                                       name: 'src',
+                                                       desc: '跳转电话',
+                                                       type: 'input',
+                                                       value: '',
+                                                       isAttr: true,
+                                                       attrName: 'href',
+                                                       id: '',
+                                                       attrType: 'phone'
+                                                   }, {
+                                                       name: 'src',
+                                                       desc: '跳转页面',
+                                                       type: 'select',
+                                                       value: '',
+                                                       isAttr: true,
+                                                       attrName: 'href',
+                                                       id: '',
+                                                       attrType: 'page'
+                                                   }, {
+                                                       name: 'src',
+                                                       desc: '跳转元素',
+                                                       type: 'select',
+                                                       value: '',
+                                                       isAttr: true,
+                                                       attrName: 'href',
+                                                       id: '',
+                                                       attrType: 'section'
+                                                   }, {
+                                                       name: 'target',
+                                                       desc: '新窗口打开',
+                                                       type: 'toggle',
+                                                       value: false,
+                                                       isAttr: true,
+                                                       attrName: 'target',
+                                                       id: ''
+                                                   },{
+                                                       name: 'innerHTML',
+                                                       desc: '显示文本',
+                                                       value: '菜单',
+                                                       isHTML: true,
+                                                       id: ''
+                                                   }]
+                                               },{
+                                                  title: '属性设置',
+                                                   key: 'button-attr',
+                                                   isAttrSetting: true,
+                                                   children: [{
+                                                       name: 'value',
+                                                       desc: '导航菜单值',
+                                                       type: 'input',
+                                                       value: '导航菜单',
                                                        isHTML: true,
                                                        id: ''
                                                    }]
@@ -2895,6 +2967,18 @@ export default {
                                        isHTML: true,
                                        id: ''
                                    }]
+                               },{
+                                  title: '属性设置',
+                                   key: 'button-attr',
+                                   isAttrSetting: true,
+                                   children: [{
+                                       name: 'value',
+                                       desc: '菜单值',
+                                       type: 'input',
+                                       value: '菜单',
+                                       isHTML: true,
+                                       id: ''
+                                   }]
                                }]
                            }]
                        }, {
@@ -2972,6 +3056,18 @@ export default {
                                    },{
                                        name: 'innerHTML',
                                        desc: '显示文本',
+                                       value: '菜单',
+                                       isHTML: true,
+                                       id: ''
+                                   }]
+                               },{
+                                  title: '属性设置',
+                                   key: 'button-attr',
+                                   isAttrSetting: true,
+                                   children: [{
+                                       name: 'value',
+                                       desc: '菜单值',
+                                       type: 'input',
                                        value: '菜单',
                                        isHTML: true,
                                        id: ''
@@ -3055,6 +3151,18 @@ export default {
                                        isHTML: true,
                                        id: ''
                                    },]
+                               },{
+                                  title: '属性设置',
+                                   key: 'button-attr',
+                                   isAttrSetting: true,
+                                   children: [{
+                                       name: 'value',
+                                       desc: '菜单值',
+                                       type: 'input',
+                                       value: '菜单',
+                                       isHTML: true,
+                                       id: ''
+                                   }]
                                }]
                            }]
                        }]

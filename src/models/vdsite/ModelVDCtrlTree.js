@@ -1954,10 +1954,10 @@ export default {
   			if (currentActiveCtrl.controller.attrs[0].children[2]) {
   				var style = currentActiveCtrl.controller.attrs[0].children[2].value;
 				if(targetAttr == 'height'){
-					style = style.replace(/height: \d*(%|px);/,"height: " + params.newVal + ";");
+					style = style.replace(/height: \d*(%|p\*x);/,"height: " + params.newVal + ";");
 				}
 				if(targetAttr == 'width') {
-					style = style.replace(/width: \d*(%|px);/,"width: " + params.newVal + ";");
+					style = style.replace(/width: \d*(%|p\*x);/,"width: " + params.newVal + ";");
 				}
 				console.log(style);
 				currentActiveCtrl.controller.attrs[0].children[2].value = style;

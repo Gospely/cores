@@ -234,8 +234,19 @@ const Component = (props) => {
 
             if(attrType.key == 'slider-setting'){
 
+                if(!/\d*(%|px|p|x)/.test(newVal)){
+                    message.error('请输入正确的数据格式');
+                }
+                if(/\d*(p|x)/.test(newVal)){
+                    newVal = newVal.replace('p', '');
+                    newVal = newVal.replace('x', '');
+                    newVal = newVal + "px"
+                }
                 if(!/\d*(%|px)/.test(newVal)){
-                    newVal = newVal + "px";
+
+                    if(/\d*/.test(newVal)){
+                        newVal = newVal + "px";
+                    }
                 }
             }
 
@@ -549,7 +560,7 @@ const Component = (props) => {
 								        	title="新建 自定义属性"
 								        	trigger="click"
 								      	>
-											<Button type="circle" size="small"><Icon type="plus" /></Button>
+											<Button type="circle" size="small"><Icon type="plus" style={{position: 'relative', top: '-2px'}} /></Button>
 								      	</Popover>
 									</FormItem>
 
@@ -1865,7 +1876,7 @@ const Component = (props) => {
 							<FormItem key={item.id} {...formItemLayout} label={item.desc}>
 								<Select
 								    multiple
-								    style={{ width: '100%' }}
+								    style={{ width: '100%', marginBottom: '5px'}}
 								    value={item.value}
 								    size="small"
 								    onChange={formProps.handleAttrFormSelectChange.bind(this, item, attrType)}
@@ -1886,7 +1897,7 @@ const Component = (props) => {
     					return (
 							<FormItem key={item.id} {...formItemLayout} label={item.desc}>
 								<Select
-								    style={{ width: '100%' }}
+								    style={{ width: '100%', marginBottom: '5px'}}
 								    value={item.value}
 								    size="small"
 							     	onChange={formProps.handleAttrFormSelectChange.bind(this, item, attrType)}
