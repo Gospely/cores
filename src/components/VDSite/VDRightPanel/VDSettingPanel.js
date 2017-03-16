@@ -1452,6 +1452,21 @@ const Component = (props) => {
                                         level: 2
                                     }
                                 });
+
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleUnit',
+                                    payload: {
+                                        target: 'widthUnit',
+                                        value: props.vdCtrlTree.widthUnit
+                                    }
+                                });
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleUnit',
+                                    payload: {
+                                        target: 'heightUnit',
+                                        value: props.vdCtrlTree.heightUnit
+                                    }
+                                });
                             }
                         }
                         const images = props.vdCtrlTree.activeCtrl.children[1].children.map((item, index) =>{
