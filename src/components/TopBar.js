@@ -584,11 +584,11 @@ const LeftSidebar = (props) => {
 				});
     			window.reload = true
     			window.applicationId = application.id;
-				if(application.image == 'vd:site') {
-
-					console.log('');
-					window.frames["vdsite-designer"].location.reload();
-				}
+				// if(application.image == 'vd:site') {
+				//
+				// 	console.log('');
+				// 	window.frames["vdsite-designer"].location.reload();
+				// }
 				console.log(application);
     			initApplication(application, props);
 	    	}
