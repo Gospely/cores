@@ -264,6 +264,10 @@ const VDStylePanel = (props) => {
 		    			}
 					});
 
+					props.dispatch({
+						type: 'vdstyles/changeNewStylePopoverVisible'
+					})
+
 					console.log(props.vdCtrlTree.activeCtrl)
 				}
 
@@ -293,10 +297,10 @@ const VDStylePanel = (props) => {
 							<Input placeholder="请输入类名" onPressEnter={onClick} onChange={handleNewStyleNameChange} value={newStyleName} size="small" />
 						</Col>
 						<Col span={12}>
-							      <Tooltip placement="bottom" title="尽量避免使用关键字,情可参照官方文档">
-							        <Icon type="question-circle-o" style={{position: 'relative', left: '38px', top: '2px'}}/>
+							      <Tooltip placement="bottom" title="尽量避免使用关键字,详情可参照官方文档">
+							        <Icon type="question-circle-o" style={{position: 'relative', left: '34px', top: '2px'}}/>
 							      </Tooltip>
-							<Button onClick={onClick.bind(this)} style={{float: 'right'}} size="small">添加并应用</Button>
+							<Button onClick={onClick.bind(this)} onPressEnter={onClick} style={{float: 'right'}} size="small">添加并应用</Button>
 						</Col>
 					</Row>
 				);
@@ -1635,6 +1639,12 @@ const VDStylePanel = (props) => {
 				return false;
     	}
 
+    	const changeNewStylePopoverVisible= () =>{
+    			props.dispatch({
+    				type: 'vdstyles/changeNewStylePopoverVisible'
+    			})
+    	}
+
     	const cssPanel = (
 
 			<Panel header={<span><i className="fa fa-css3"></i>&nbsp;CSS类选择器<Button size="small" style={{marginLeft: "8px"}} onClick={linkToStylesManager}>样式管理</Button></span>} key="css">
@@ -1652,7 +1662,7 @@ const VDStylePanel = (props) => {
 				</Row>
 		    	<Row>
       				<Col span={3}>
-      				    <Popover placement="bottom" content={cssSelector.newStylePopover.content()} trigger={['click']}>
+      				    <Popover placement="bottom" content={cssSelector.newStylePopover.content()} visible={props.vdstyles.newStylePopover.visible} onClick={changeNewStylePopoverVisible}>
 						  	<Button style={{marginBottom: '10px', marginLeft: '-1px'}} size="small">
 		  		              	<Tooltip placement="left" title="新增一个样式并应用">
 							  		<i className="fa fa-plus"></i>
