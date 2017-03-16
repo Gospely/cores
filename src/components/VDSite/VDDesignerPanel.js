@@ -45,6 +45,10 @@ const VDDesignerPanel = (props) => {
                     }
                 });
 
+
+                // window.VDDesignerFrame.postMessage({
+    	    	// 	pageSelected: props.vdCtrlTre.layout[props.vdCtrlTre.activePage.key]
+    	    	// }, '*');
                 //加载动画js
                 setTimeout(function(){
                     props.dispatch({
@@ -75,9 +79,9 @@ const VDDesignerPanel = (props) => {
                   style = {{ height: '100%' }}
              >
                 <Spin spinning={props.vdcore.loading} style={{ height: 100, top: 'calc(50% - 100px)' }}>
-                    <div className="vdsite-designer-border" 
+                    <div className="vdsite-designer-border"
                         style={{ height:  props.vdcore.VDDesigner[props.vdcore.VDDesigner.activeSize].height ,
-                                 width:  props.vdcore.VDDesigner[props.vdcore.VDDesigner.activeSize].width 
+                                 width:  props.vdcore.VDDesigner[props.vdcore.VDDesigner.activeSize].width
                      }}>
                         <iframe className = "centen-VD"
                             name = "vdsite-designer"

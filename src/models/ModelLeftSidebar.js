@@ -680,7 +680,7 @@ export default {
                 message: '正在打包，请稍等...',
             });
 
-            var url = 'http://api.gospely.com/fs/packsrc?user=' + localStorage.user + '&application=' + localStorage.applicationId;
+            var url = 'http://api.gospely.com/fs/packsrc?token=' + localStorage.token + '&user=' + localStorage.user + '&application=' + localStorage.applicationId;
 
             window.open(url);
         },
