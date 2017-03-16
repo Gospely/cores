@@ -560,7 +560,7 @@ const Component = (props) => {
 								        	title="新建 自定义属性"
 								        	trigger="click"
 								      	>
-											<Button type="circle" size="small"><Icon type="plus" /></Button>
+											<Button type="circle" size="small"><Icon type="plus" style={{position: 'relative', top: '-2px'}} /></Button>
 								      	</Popover>
 									</FormItem>
 
@@ -1876,7 +1876,7 @@ const Component = (props) => {
 							<FormItem key={item.id} {...formItemLayout} label={item.desc}>
 								<Select
 								    multiple
-								    style={{ width: '100%' }}
+								    style={{ width: '100%', marginBottom: '5px'}}
 								    value={item.value}
 								    size="small"
 								    onChange={formProps.handleAttrFormSelectChange.bind(this, item, attrType)}
@@ -1897,7 +1897,7 @@ const Component = (props) => {
     					return (
 							<FormItem key={item.id} {...formItemLayout} label={item.desc}>
 								<Select
-								    style={{ width: '100%' }}
+								    style={{ width: '100%', marginBottom: '5px'}}
 								    value={item.value}
 								    size="small"
 							     	onChange={formProps.handleAttrFormSelectChange.bind(this, item, attrType)}
