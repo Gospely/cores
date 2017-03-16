@@ -985,7 +985,9 @@ export default {
 		    display: 'none'
 		},
 
-	    activeCtrl: {}
+	    activeCtrl: {},
+		heightUnit: 'px',
+		widthUnit: 'px'
 	},
 
 	reducers: {
@@ -1012,6 +1014,48 @@ export default {
 			state.defaultSelectedKeys = [""];
 			state.activeCtrlLvl = 0;
 			state.activeCtrlIndex = 1;
+			return {...state};
+		},
+		handleUnit(state, { payload: params }){
+
+			state[params.target] = params.value;
+
+			let currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
+			if (currentActiveCtrl.controller.attrs[0].children[2]) {
+  				var style = currentActiveCtrl.controller.attrs[0].children[2].value;
+				console.log(params);
+				console.log(style);
+				if(params.target == 'heightUnit'){
+					style = style.replace(/height: \d*(%|px);/,"height: " + currentActiveCtrl.controller.attrs[0].children[3].value + params.value + ";");
+				}
+				if(params.target == 'widthUnit') {
+					style = style.replace(/width: \d*(%|px);/,"width: " +currentActiveCtrl.controller.attrs[0].children[4].value + params.value + ";");
+				}
+				console.log(style);
+				currentActiveCtrl.controller.attrs[0].children[2].value = style;
+				window.VDDesignerFrame.postMessage({
+					VDAttrRefreshed: {
+						attrType: {
+							key: 'slider-setting'
+						},
+						attr: currentActiveCtrl.controller.attrs[0].children[2],
+						activeCtrl: currentActiveCtrl.controller
+					}
+				}, '*');
+				for (var i = 0; i < currentActiveCtrl.controller.children[1].children.length; i++) {
+					currentActiveCtrl.controller.children[1].children[i].children[0].attrs[0].children[2].value = style;
+					window.VDDesignerFrame.postMessage({
+						VDAttrRefreshed: {
+							attrType: {
+								key: 'slider-setting'
+							},
+							attr: currentActiveCtrl.controller.children[1].children[i].children[0].attrs[0].children[2],
+							activeCtrl: currentActiveCtrl.controller.children[1].children[i].children[0],
+						}
+					}, '*');
+				}
+  			}
+  			state.activeCtrl = currentActiveCtrl.controller;
 			return {...state};
 		},
 		editStyleNameA(state, { payload: params }) {
@@ -1951,10 +1995,10 @@ export default {
   			if (currentActiveCtrl.controller.attrs[0].children[2]) {
   				var style = currentActiveCtrl.controller.attrs[0].children[2].value;
 				if(targetAttr == 'height'){
-					style = style.replace(/height: \d*(%|p\*x);/,"height: " + params.newVal + ";");
+					style = style.replace(/height: \d*(%|px);/,"height: " + params.newVal + state.heightUnit + ";");
 				}
 				if(targetAttr == 'width') {
-					style = style.replace(/width: \d*(%|p\*x);/,"width: " + params.newVal + ";");
+					style = style.replace(/width: \d*(%|px);/,"width: " + params.newVal + state.widthUnit + ";");
 				}
 				console.log(style);
 				currentActiveCtrl.controller.attrs[0].children[2].value = style;

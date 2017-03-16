@@ -232,23 +232,15 @@ const Component = (props) => {
 
 
 
-            if(attrType.key == 'slider-setting'){
-
-                if(!/\d*(%|px|p|x)/.test(newVal)){
-                    message.error('请输入正确的数据格式');
-                }
-                if(/\d*(p|x)/.test(newVal)){
-                    newVal = newVal.replace('p', '');
-                    newVal = newVal.replace('x', '');
-                    newVal = newVal + "px"
-                }
-                if(!/\d*(%|px)/.test(newVal)){
-
-                    if(/\d*/.test(newVal)){
-                        newVal = newVal + "px";
-                    }
-                }
-            }
+            // if(attrType.key == 'slider-setting'){
+            //
+            //     if(item.name == 'height') {
+            //
+            //     }
+            //     if(item.name == 'width'){
+            //
+            //     }
+            // }
 
             props.dispatch({
                 type: 'vdCtrlTree/handleAttrFormChange',
@@ -1504,16 +1496,46 @@ const Component = (props) => {
                             },
                             handleSliderHeightAndWidth(item, value){
 
+                            },
+                            heightUnitChange(value) {
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleUnit',
+                                    payload: {
+                                        target: 'heightUnit',
+                                        value: value
+                                    }
+                                });
+                            },
+                            widthUnitChange(value) {
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleUnit',
+                                    payload: {
+                                        target: 'widthUnit',
+                                        value: value
+                                    }
+                                });
                             }
                         }
+                        const heightSelectAfter = (
+                          <Select defaultValue={props.vdCtrlTree.heightUnit} onChange={activeSliderProps.heightUnitChange} style={{ width: 70 }}>
+                                <Option value="%">%</Option>
+                                <Option value="px">px</Option>
+                          </Select>
+                        );
+                        const widthSelectAfter = (
+                          <Select defaultValue={props.vdCtrlTree.widthUnit} onChange={activeSliderProps.widthUnitChange} style={{ width: 70 }}>
+                                <Option value="%">%</Option>
+                                <Option value="px">px</Option>
+                          </Select>
+                        );
 	    				return (
 						    <Panel header={item.title} key={item.key}>
                             <Form className="form-no-margin-bottom">
                                <FormItem {...formItemLayout} label="高度">
-                                    <Input size="small" value={props.vdCtrlTree.activeCtrl.attrs[0].children[3].value} onChange={formProps.handleAttrFormInputChange.bind(this, props.vdCtrlTree.activeCtrl.attrs[0].children[3], attrType)}/>
+                                    <Input size="small" value={props.vdCtrlTree.activeCtrl.attrs[0].children[3].value} onChange={formProps.handleAttrFormInputChange.bind(this, props.vdCtrlTree.activeCtrl.attrs[0].children[3], attrType)} addonAfter={heightSelectAfter}/>
                                </FormItem>
                                <FormItem {...formItemLayout} label="宽度">
-                                    <Input size="small" value={props.vdCtrlTree.activeCtrl.attrs[0].children[4].value} onChange={formProps.handleAttrFormInputChange.bind(this, props.vdCtrlTree.activeCtrl.attrs[0].children[4], attrType)}/>
+                                    <Input size="small" value={props.vdCtrlTree.activeCtrl.attrs[0].children[4].value} onChange={formProps.handleAttrFormInputChange.bind(this, props.vdCtrlTree.activeCtrl.attrs[0].children[4], attrType)}  addonAfter={widthSelectAfter}/>
                                </FormItem>
                             </Form>
 						    	<Row style={{marginTop: '15px'}}>

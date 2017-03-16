@@ -3199,11 +3199,11 @@ export default {
                        },{
                            name: 'height',
                            id: '',
-                           value: '500px',
+                           value: '500',
                        },{
                            name: 'width',
                            id: '',
-                           value: '100%',
+                           value: '100',
                        }]
                    }],
                    children: [{
