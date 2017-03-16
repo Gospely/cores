@@ -1089,7 +1089,7 @@ export default {
 				state.appCreatingForm.framework = '';
 
 
-                if(params.value == 'html:latest' || params.value == 'wechat:latest' || params.value == 'vd:latest'){
+                if(params.value == 'html:latest' || params.value == 'wechat:latest' || params.value == 'vd:latest' || params.value == 'hybridapp:latest'){
                     state.appCreatingForm.isFront = true;
                     if(params.value == 'wechat:latest'){
                         state.appCreatingForm.useFramework = false;
