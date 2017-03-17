@@ -239,7 +239,7 @@ export default {
 				tmpColumns.push(tmpColumn);
 			};
 
-			alert(params.value);
+			// alert(params.value);
 
 			if (params.value !== '') {
 

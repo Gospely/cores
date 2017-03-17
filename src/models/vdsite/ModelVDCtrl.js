@@ -3636,7 +3636,10 @@ export default {
                            }
                            for (var i = 0; i < state.publicAttrs.length; i++) {
                                const attrs = state.publicAttrs[i];
-                               ctrl.attrs.push(attrs);
+                               if(ctrl.attrs.length <= 3){
+                                   ctrl.attrs.push(attrs);
+                               }
+
                            };
                        });
                    }
