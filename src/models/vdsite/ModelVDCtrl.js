@@ -1764,6 +1764,12 @@ export default {
                        children: [{
                            name: 'fade',
                            value: false,
+                       },{
+                           name: 'container',
+                           desc: '是否是容器',
+                           value: true,
+                           backend: true,
+                           isContainer: true
                        }]
                    }],
                    children: [{
@@ -2097,7 +2103,13 @@ export default {
                        attrs: [{
                            title: '导航菜单设置',
                            key: 'navbar-setting',
-                           children: []
+                           children: [{
+                               name: 'container',
+                               desc: '是否是容器',
+                               value: true,
+                               backend: true,
+                               isContainer: true
+                           }]
                        }],
                        children: [{
                            tag: 'div',
@@ -2107,7 +2119,13 @@ export default {
                            attrs: [{
                                title: '导航菜单设置',
                                key: 'navbar-setting',
-                               children: []
+                               children: [{
+                                   name: 'container',
+                                   desc: '是否是容器',
+                                   value: true,
+                                   backend: true,
+                                   isContainer: true
+                               }]
                            }],
                            children: [{
                                tag: 'button',
@@ -2250,7 +2268,13 @@ export default {
                            attrs: [{
                                title: '导航菜单设置',
                                key: 'navbar-setting',
-                               children: []
+                               children: [{
+                                   name: 'container',
+                                   desc: '是否是容器',
+                                   value: true,
+                                   backend: true,
+                                   isContainer: true
+                               }]
                            }],
                            children: [{
                                tag: 'ul',
@@ -2821,7 +2845,13 @@ export default {
                    attrs: [{
                        title: '下拉菜单设置',
                        key: 'dropdown-setting',
-                       children: []
+                       children: [{
+                           name: 'container',
+                           desc: '是否是容器',
+                           value: true,
+                           backend: true,
+                           isContainer: true
+                       }]
                    }],
                    children: [{
                        tag: 'button',
@@ -3199,11 +3229,17 @@ export default {
                        },{
                            name: 'height',
                            id: '',
-                           value: '500',
+                           value: '500px',
                        },{
                            name: 'width',
                            id: '',
-                           value: '100',
+                           value: '100%',
+                       },{
+                           name: 'container',
+                           desc: '是否是容器',
+                           value: true,
+                           backend: true,
+                           isContainer: true
                        }]
                    }],
                    children: [{
@@ -3276,6 +3312,12 @@ export default {
                                isAttr: true,
                                value: 'listbox',
                                id: ''
+                           },{
+                               name: 'container',
+                               desc: '是否是容器',
+                               value: true,
+                               backend: true,
+                               isContainer: true
                            }]
                        }],
                        children: [{
@@ -3286,7 +3328,13 @@ export default {
                            attrs: [{
                                title: '幻灯片设置',
                                key: 'slider-setting',
-                               children: []
+                               children: [{
+                                   name: 'container',
+                                   desc: '是否是容器',
+                                   value: true,
+                                   backend: true,
+                                   isContainer: true
+                               }]
                            }],
                            children: [{
                                tag: 'img',
@@ -3346,6 +3394,12 @@ export default {
                                        value: 'Slider 1',
                                        isHTML: true,
                                        id: ''
+                                   },{
+                                       name: 'container',
+                                       desc: '是否是容器',
+                                       value: true,
+                                       backend: true,
+                                       isContainer: true
                                    }]
                                }],
                            }]
@@ -3416,6 +3470,12 @@ export default {
                                        value: 'Slider 2',
                                        isHTML: true,
                                        id: ''
+                                   },{
+                                       name: 'container',
+                                       desc: '是否是容器',
+                                       value: true,
+                                       backend: true,
+                                       isContainer: true
                                    }]
                                }],
                            }]

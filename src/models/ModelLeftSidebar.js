@@ -680,7 +680,7 @@ export default {
                 message: '正在打包，请稍等...',
             });
 
-            var url = 'http://api.gospely.com/fs/packsrc?user=' + localStorage.user + '&application=' + localStorage.applicationId;
+            var url = 'http://api.gospely.com/fs/packsrc?token=' + localStorage.token + '&user=' + localStorage.user + '&application=' + localStorage.applicationId;
 
             window.open(url);
         },
@@ -1089,7 +1089,7 @@ export default {
 				state.appCreatingForm.framework = '';
 
 
-                if(params.value == 'html:latest' || params.value == 'wechat:latest' || params.value == 'vd:latest'){
+                if(params.value == 'html:latest' || params.value == 'wechat:latest' || params.value == 'vd:latest' || params.value == 'hybridapp:latest'){
                     state.appCreatingForm.isFront = true;
                     if(params.value == 'wechat:latest'){
                         state.appCreatingForm.useFramework = false;

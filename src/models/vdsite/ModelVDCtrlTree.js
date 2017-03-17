@@ -1024,11 +1024,11 @@ export default {
 			if (currentActiveCtrl.controller.attrs[0].children[2]) {
   				var style = currentActiveCtrl.controller.attrs[0].children[2].value;
 				console.log(params);
-				console.log(style);
-				if(params.target == 'heightUnit'){
+				console.log(stu);
+				if(params.target == 'height'){
 					style = style.replace(/height: \d*(%|px);/,"height: " + currentActiveCtrl.controller.attrs[0].children[3].value + params.value + ";");
 				}
-				if(params.target == 'widthUnit') {
+				if(params.target == 'width') {
 					style = style.replace(/width: \d*(%|px);/,"width: " +currentActiveCtrl.controller.attrs[0].children[4].value + params.value + ";");
 				}
 				console.log(style);
@@ -1236,10 +1236,7 @@ export default {
 				state.symbols.push(addController);
 
 				window.VDDesignerFrame.postMessage({
-					symbolsAdded: {
-						symbol: addController,
-						index: state.symbols.length - 1
-					}
+					symbolsAdded: addController
 				}, '*');
 			}
 

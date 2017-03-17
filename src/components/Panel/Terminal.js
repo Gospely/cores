@@ -277,6 +277,7 @@ class Terminal extends Component {
 					if(localStorage.version != 'null'){
 						socket.send('nvm use v' + localStorage.version + ' && clear && ' + self.props.ctx.devpanel.cmd + '\n');
 					}else {
+						socket.send('nvm use v6\n');
 						socket.send(self.props.ctx.devpanel.cmd);
 					}
 					// if(self.title.split('-')[0].trim() == '调试终端'){
