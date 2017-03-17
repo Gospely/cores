@@ -3,7 +3,16 @@ import { connect } from 'dva';
 
 import { Spin, Button, Modal } from 'antd';
 
+
+
 const Preview = (props) => {
+
+  window.onbeforeunload = function(){
+    
+      props.dispatch({
+        type: 'preview/hidePreview'
+      });    
+}
 
   const PreviewProps = {
 
