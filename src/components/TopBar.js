@@ -532,6 +532,11 @@ const LeftSidebar = (props) => {
 		//onClose: close
 
 	    createApp() {
+
+			props.dispatch({
+				type: 'sidebar/handleBtnCtrl',
+				payload: { value: true}
+			});
 			props.dispatch({
 				type: 'sidebar/createApp'
 			});
@@ -584,11 +589,6 @@ const LeftSidebar = (props) => {
 				});
     			window.reload = true
     			window.applicationId = application.id;
-				// if(application.image == 'vd:site') {
-				//
-				// 	console.log('');
-				// 	window.frames["vdsite-designer"].location.reload();
-				// }
 				console.log(application);
     			initApplication(application, props);
 	    	}
@@ -1193,7 +1193,7 @@ const LeftSidebar = (props) => {
 					    </Row>
 					</div>
 
-			  		<div style={{ marginTop: 32 }}>
+			  		<div style={{ marginTop: 32 }} hidden={!props.sidebar.appCreatingForm.useGit}>
 			  		    <Row>
 					      	<Col span={4} style={{textAlign: 'right'}}>
 					      		<span>从Git创建：</span>
@@ -1803,7 +1803,7 @@ const LeftSidebar = (props) => {
 				          {
 				            props.sidebar.currentAppCreatingStep === modalAppCreatorProps.appCreatingSteps.length - 1
 				            &&
-				            <Button hidden={!props.sidebar.appCreator.loading} type="primary" onClick={modalAppCreatorProps.createApp}>立即创建</Button>
+				            <Button hidden={!props.sidebar.appCreator.loading} disabled={props.sidebar.appCreator.btnCtrl} type="primary" onClick={modalAppCreatorProps.createApp}>立即创建</Button>
 				          }
 				          {
 				            props.sidebar.currentAppCreatingStep > 0
