@@ -3504,7 +3504,7 @@ export default {
                                name: 'data-slide',
                                isAttr: true,
                                attrName: 'data-slide',
-                               value: 'prev',
+                               value: 'next',
                                id: ''
                            }]
                        }],
@@ -3565,7 +3565,7 @@ export default {
                                name: 'data-slide',
                                isAttr: true,
                                attrName: 'data-slide',
-                               value: 'next',
+                               value: 'prev',
                                id: ''
                            }]
                        }],
