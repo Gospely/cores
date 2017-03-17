@@ -57,6 +57,14 @@ const initState = function (props, applicationId) {
                 type: 'sidebar/setActiveMenu',
                 payload: 'vdsite-controllers'
             });
+
+            props.dispatch({
+                type: 'vdstyles/applyCSSStyleIntoPage',
+                payload: {
+                    activeCtrl: props.vdCtrlTree.activeCtrl
+                }
+            });
+
         }
     };
 
