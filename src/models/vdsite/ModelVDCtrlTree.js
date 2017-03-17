@@ -993,7 +993,6 @@ export default {
 	reducers: {
 		initState(state, {payload: params}){
 
-			console.log(params);
 			state.activeCtrl = params.UIState.activeCtrl || {};
 			state.layout = params.UIState.layout || [];
 			state.layoutState = params.UIState.layoutState;

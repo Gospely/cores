@@ -14,6 +14,16 @@ $(function() {
 
 	}
 
+	//绑定键盘事件，在react中也有绑定，但有时会被拦截，故两边都绑定
+	// jq(window).off("keyup");
+ //    jq(window).on("keyup", function (e) {
+ //        e.stopPropagation();
+ //        e.preventDefault();
+ //        if (e.keyCode === 46) {
+ //            parentWindow.postMessage({ 'ctrlClicked': c }, "*");
+ //        }
+ //    })
+
 	var jq = jQuery.noConflict();
 
 	jQuery.fn.isChildOf = function(b) {
@@ -533,6 +543,21 @@ $(function() {
                             dndData.dragElem = elemToAdd;
                             dndData.ctrlToAddData = data.controller;
                         };
+
+                        setTimeout(function () {
+                        	var container = jq("#VDDesignerContainer");
+                        	var last = container.children().last();
+                        	if (last.outerHeight() + last.offset().top + 100 > jq(window).innerHeight()) {
+								container.css({
+									height: 'auto'
+								})
+							}else {
+								container.css({
+									height: '100%'
+								})
+							}
+                        }, 1000)
+                        
                     },
 
                     VDCtrlSelected: function() {
@@ -541,6 +566,7 @@ $(function() {
 
                     deleteCtrl: function () {
                     	jq('[vdid=' + data + ']').remove();
+                    	controllerOperations.changeContainerHeight('delete');
                     },
 
                     hideDesignerDraggerBorder: function () {
@@ -602,6 +628,7 @@ $(function() {
                         var parent = jq("[vdid=" + data.activeCtrlVdid + "]");
                         parent[data.type](elemToAdd);
                         controllerOperations.select(data.controller);
+                        controllerOperations.changeContainerHeight('add');
                     },
 
                     treeNodeDroped: function () {
@@ -846,6 +873,20 @@ $(function() {
                 });
 			},
 
+			changeContainerHeight: function (type) {
+				var container = jq("#VDDesignerContainer");
+				var last = container.children().last();
+				if (last.outerHeight() + last.offset().top + 100 > jq(window).innerHeight()) {
+					container.css({
+						height: 'auto'
+					})
+				}else {
+					container.css({
+						height: '100%'
+					})
+				}
+			},
+
 			desSelect: function (data) {
 			},
 
@@ -899,7 +940,11 @@ $(function() {
             		pastInside.removeClass('disabled')
             	}
 
-				if (target.parent().data("specialChild")) {
+            	if (!sessionStorage.copiedCtrl) {
+            		pastInside.addClass('disabled');
+            		pastBrother.addClass('disabled');
+            	}else {
+            		if (target.parent().data("specialChild")) {
 					var controller = JSON.parse(sessionStorage.copiedCtrl);
 					var specialChild = target.parent().data("specialChild");
 					var ctrlClass = controller.className.join(' ');
@@ -914,9 +959,10 @@ $(function() {
 						pastBrother.removeClass('disabled');
 					}
 
-				}else {
-					pastBrother.removeClass('disabled');
-				}
+					}else {
+						pastBrother.removeClass('disabled');
+					}
+            	}
 
             },
 
@@ -1051,6 +1097,7 @@ $(function() {
         		e.stopPropagation();
 
         		var target = jq(e.target);
+        		console.log(e.target)
         		var targetIsChild = target.isChildOf(dndData.dragElem);
         		var isContainer = target.data("container");
 
@@ -1191,13 +1238,19 @@ $(function() {
         			jq("#VDDesignerContainer").find("*").removeClass('illegalArea');
         			jq("#VDDesignerContainer").removeClass('illegalArea');
         			dndData.errorMessage = '非法位置';
+
+        			controllerOperations.changeContainerHeight('add');
+
         		}
 
         		if(guide.css("display") === 'none') {
+        			var container = jq("#VDDesignerContainer");
         			dndData.isMouseDown = false;
         			dndData.errorMessage = '非法位置';
-        			jq("#VDDesignerContainer").find("*").removeClass('illegalArea');
-        			jq("#VDDesignerContainer").removeClass('illegalArea');
+        			container.find("*").removeClass('illegalArea');
+        			container.removeClass('illegalArea');
+
+
 					return false;
 				}
 
