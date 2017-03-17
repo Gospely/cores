@@ -66,7 +66,7 @@ const initState = function (props, applicationId) {
     }else {
         initStateOperate.common();
     }
-    if(UIState.UIState.previewer.loaded){
+    if(UIState.UIState.previewer && UIState.UIState.previewer.loaded){
         props.dispatch({
             type: 'rightbar/setActiveMenu',
             payload: 'common-previewer'
