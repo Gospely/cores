@@ -50,21 +50,25 @@ const VDDesignerPanel = (props) => {
                     })
                 }, 2600)
 
-            }, 500);
-            $(window).off("keyup");
-            $(window).on("keyup", {props}, function (e) {
-                e.stopPropagation();
-                e.preventDefault();
 
-                if (e.keyCode === 46) {
-                    e.data.props.dispatch({
-                        type: 'vdCtrlTree/deleteCtrl',
-                        payload: {
-                            fromKeyboard: true
-                        }
-                    })
-                }
-            })
+                //绑定按键
+                $(window).off("keyup");
+                $(window).on("keyup", {props}, function (e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+
+                    if (e.keyCode === 46) {
+                        e.data.props.dispatch({
+                            type: 'vdCtrlTree/deleteCtrl',
+                            payload: {
+                                fromKeyboard: true
+                            }
+                        })
+                    }
+                })
+
+            }, 500);
+           
 
         },
     };
