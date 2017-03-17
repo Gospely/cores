@@ -328,7 +328,7 @@ export default {
 
                 if(result.data.fields.length >= 10){
                     notification.open({
-                        message: '创建的应用数已超出，请选择创建小程序应用'
+                        message: '您可以创建的应用数已达限额'
                     });
                     yield put({
                         type: 'handleAvailable',
