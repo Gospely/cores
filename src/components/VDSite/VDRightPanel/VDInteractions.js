@@ -23,6 +23,10 @@ const FormItem = Form.Item;
 
 const Component = (props) => {
 
+    let interactions = props.vdanimations.interactions;
+    let activeCtrlInteractionIndex = props.vdCtrlTree.activeCtrl.animationClassList[0].key;
+    // if (interactions) {}
+
     const formItemLayout = {
       	labelCol: { span: 8 },
       	wrapperCol: { span: 16 }
@@ -65,7 +69,7 @@ const Component = (props) => {
 
     		if(edit) {
     			setTimeout(function() {
-					$('#animate-previewer').animateCss(props.vdanimations.interactions[props.vdanimations.activeInteractionIndex].animate);
+					$('#animate-previewer').animateCss(interactions[props.vdanimations.activeInteractionIndex].animate);
     			}, 800);
     		}
 
@@ -78,7 +82,7 @@ const Component = (props) => {
 
 								<Col span={12} style={{paddingRight: '15px'}}>
 									<Select
-										value={edit ? props.vdanimations.interactions[props.vdanimations.activeInteractionIndex].name : props.vdanimations.newInteractionForm.name}
+										value={edit ? interactions[props.vdanimations.activeInteractionIndex].name : props.vdanimations.newInteractionForm.name}
 										size="small"
 									    onChange={handleChange.bind(this, 'name')}
 									>
@@ -116,7 +120,7 @@ const Component = (props) => {
 							<Row>
 								<Col span={12} style={{paddingRight: '15px'}}>
 									<Input
-										value={edit ? props.vdanimations.interactions[props.vdanimations.activeInteractionIndex].duration : props.vdanimations.newInteractionForm.duration}
+										value={edit ? interactions[props.vdanimations.activeInteractionIndex].duration : props.vdanimations.newInteractionForm.duration}
 									    onChange={handleChange.bind(this, 'duration')}
 										type="number" size="small" placeholder="单位:毫秒,可留空" />
 								</Col>
@@ -128,7 +132,7 @@ const Component = (props) => {
 								<Col span={12} style={{paddingRight: '15px'}}>								
 									<Select
 										size="small"
-										value={edit ? props.vdanimations.interactions[props.vdanimations.activeInteractionIndex].condition : props.vdanimations.newInteractionForm.condition}
+										value={edit ? interactions[props.vdanimations.activeInteractionIndex].condition : props.vdanimations.newInteractionForm.condition}
 									    onChange={handleChange.bind(this, 'condition')}
 									>
 								      	<Option value="load">页面加载</Option>
@@ -262,15 +266,15 @@ const Component = (props) => {
 	    		</Col>
 	    	</Row>
 
-      		<Menu className="interaction-list" selectedKeys={[props.vdCtrlTree.activeCtrl.animationClassList[0].key]} onSelect={handleInteractionOnSelect}>
+      		<Menu className="interaction-list" selectedKeys={[activeCtrlInteractionIndex]} onSelect={handleInteractionOnSelect}>
       			{
-      				props.vdanimations.interactions.map((interaction, interactionIndex) => {
+      				interactions.map((interaction, interactionIndex) => {
       					return (
 
 			      			<Menu.Item key={interaction.key}>
 			      				<Row>
 									<Col span={18}>
-					        			<Radio checked={props.vdCtrlTree.activeCtrl.animationClassList[0].key === interaction.key} 
+					        			<Radio checked={activeCtrlInteractionIndex === interaction.key} 
                                             style={radioStyle} value={interaction.key}>{interaction.name} - {interaction.condition}
                                         </Radio>
 									</Col>

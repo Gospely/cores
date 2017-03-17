@@ -1120,8 +1120,7 @@ export default {
 		removeStyleNameA(state, { payload: params }) {
 
 			const editStyleNameRec = (state, originStyleName, newStyleName, activePage) => {
-				let
-					controllers = state.layout[activePage.key];
+				let controllers = state.layout[activePage.key];
 
 				const loopControllers = function (controllers, level) {
 					level = level || 1;
@@ -2722,15 +2721,15 @@ export default {
 			return {...state};
 		},
 
-		handleDeleteCtrl(state, {payload: deleteKey}) {
+		handleDeleteCtrl(state, {payload: params}) {
 
-			let deleteParentInfo = VDTreeActions.getParentCtrlByKey(state, deleteKey, state.activePage),
+			let deleteParentInfo = params.deleteParentInfo,
 				deleteParentCtrl = deleteParentInfo.parentCtrl,
 				deleteIndex = deleteParentInfo.index;
 			deleteParentCtrl.children.splice(deleteIndex, 1);
 
 			window.VDDesignerFrame.postMessage({
-				deleteCtrl: deleteKey
+				deleteCtrl: params.deleteKey
 			}, '*');
 
 			if (deleteParentCtrl.children.length === 0) {
@@ -2892,7 +2891,14 @@ export default {
 			}
 
 			return {...state};
-		}
+		},
+
+		// handleRemoveInteraction(state, {payload: deletedInteraction}) {
+		// 	let vdids = deletedInteraction.vdid;
+		// 	for(let i = 0, len = vdids.length; i < len; i ++) {
+		// 		if (true) {}
+		// 	}
+		// }
 	},
 
 	effects: {
@@ -2912,7 +2918,8 @@ export default {
 
 		*deleteCtrl({payload: params}, {call, put, select}) {
 
-			let activeCtrl = yield select(state => state.vdCtrlTree.activeCtrl);
+			let vdCtrlTree = yield select(state => state.vdCtrlTree);
+			let activeCtrl = vdCtrlTree.activeCtrl;
 			let deleteKey;
 
 			if (params && params.isFromFrames) {
@@ -2928,23 +2935,28 @@ export default {
 				deleteKey = sessionStorage.currentSelectedConstructionKey;
 			}
 
+			let deleteParentInfo = VDTreeActions.getParentCtrlByKey(vdCtrlTree, deleteKey, vdCtrlTree.activePage);
+
 			yield put({
 				type: 'handleDeleteCtrl',
-				payload: deleteKey
+				payload: { deleteKey, deleteParentInfo }
 			})
 
 			yield put({
 				type: 'vdanimations/handleDeleteCtrl',
-				payload: deleteKey
+				payload: { deleteKey, deleteParentInfo }
 			})
 		},
 
 		*cutCtrl({payload: params}, {call, put, select}) {
- 			let activeCtrl = yield select(state => state.vdCtrlTree.activeCtrl);
+			let vdCtrlTree = yield select(state => state.vdCtrlTree);
+ 			let activeCtrl = vdCtrlTree.activeCtrl;
  			sessionStorage.copiedCtrl = JSON.stringify(activeCtrl);
+ 			let deleteKey = activeCtrl.vdid;
+ 			let deleteParentInfo = VDTreeActions.getParentCtrlByKey(vdCtrlTree, deleteKey, vdCtrlTree.activePage);
  			yield put ({
  				type: 'handleDeleteCtrl',
- 				payload: activeCtrl.vdid
+ 				payload: { deleteKey, deleteParentInfo }
  			})
   		}
 

@@ -60,8 +60,6 @@ var VDPackager = {
 
 	navigationSection();
 
-	console.log(jQuery.waypoint, '))))))))))))))))))')
-
 	jQuery.fn.extend({
 	    animateCss: function (animationName) {
 	        var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';

@@ -1705,6 +1705,10 @@ $(function() {
 
         		var target = jq(e.target);
 
+        		if (target.attr('id') === 'VDDesignerContainer') {
+        			return false;
+        		}
+
         		e.stopPropagation();
         		e.preventDefault();
 
