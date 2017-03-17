@@ -124,6 +124,12 @@ export default {
 			message: ''
 		},
 
+        saveBtn:{
+            key: 'saveBtn',
+            title: '保存',
+            iconType: 'check',
+        },
+
         modalPreview: {
             visible: false
         }
@@ -322,7 +328,7 @@ export default {
 
                 if(result.data.fields.length >= 10){
                     notification.open({
-                        message: '创建的应用数已超出，请选择创建小程序应用'
+                        message: '您可以创建的应用数已达限额'
                     });
                     yield put({
                         type: 'handleAvailable',
@@ -674,7 +680,7 @@ export default {
                 message: '正在打包，请稍等...',
             });
 
-            var url = 'http://api.gospely.com/fs/packsrc?user=' + localStorage.user + '&application=' + localStorage.applicationId;
+            var url = 'http://api.gospely.com/fs/packsrc?token=' + localStorage.token + '&user=' + localStorage.user + '&application=' + localStorage.applicationId;
 
             window.open(url);
         },
@@ -714,6 +720,13 @@ export default {
             state.sshKey = params.sshKey;
             return {...state};
         },
+        changeSaveBtnState(state, { payload: params }) {
+            state.saveBtn.key = params.key;
+            state.saveBtn.title = params.title;
+            state.saveBtn.iconType = params.iconType;
+            return {...state};
+        },
+
 		setProjectNameAvailabel(state, { payload: available }) {
 			state.appCreatingForm.isProjectNameAvailabel = available;
 			return {...state};
@@ -1076,7 +1089,7 @@ export default {
 				state.appCreatingForm.framework = '';
 
 
-                if(params.value == 'html:latest' || params.value == 'wechat:latest' || params.value == 'vd:latest'){
+                if(params.value == 'html:latest' || params.value == 'wechat:latest' || params.value == 'vd:latest' || params.value == 'hybridapp:latest'){
                     state.appCreatingForm.isFront = true;
                     if(params.value == 'wechat:latest'){
                         state.appCreatingForm.useFramework = false;

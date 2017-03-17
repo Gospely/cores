@@ -4,6 +4,10 @@ body,
     height: 100%;
 }
 
+.VDDesignerContainer {
+    margin-bottom: 200px;
+}
+
 html {
     overflow: auto;
 }

@@ -9,9 +9,9 @@ $(function() {
 		var target = jQuery(e.target);
 		target.animateCss(e.data.animate);
 		if (selected.offset().top === target.offset().top && selected.offset().left === target.offset().left) {
-			selected.animateCss(e.data.animate);			
+			selected.animateCss(e.data.animate);
 		}
-		
+
 	}
 
 	var jq = jQuery.noConflict();
@@ -33,8 +33,8 @@ $(function() {
     	ctx.fillStyle = "rgba(1, 1, 1, 1)";
     	ctx.globalCompositeOperation = 'destination-out';
     	ctx.fillRect(left, top, width, height);
-    	
-    	
+
+
     }
 
     var guide = jq("#vdInsertGuide");
@@ -415,6 +415,7 @@ $(function() {
 			},
 
 			generateCtrlTree: function(c) {
+
 				parentWindow.postMessage({ 'generateCtrlTree': c }, "*");
 			},
 
@@ -547,12 +548,12 @@ $(function() {
                     },
 
                     animateElement: function() {
-                    	
+
                     	var selected = jQuery("#vd-OutlineSelectedActiveNode");
                     	var target = jq('[vdid="' + data.id + '"]');
                     	target.animateCss(data.animateName);
                     	if (selected.offset().top === target.offset().top && selected.offset().left === target.offset().left) {
-							selected.animateCss(data.animateName);			
+							selected.animateCss(data.animateName);
 						}
                     },
 
@@ -562,6 +563,21 @@ $(function() {
                     },
 
                     symbolsAdded: function() {
+		        		var self = this;
+		        		var components = jq(parentWindow.document, parentWindow.document).find('.symbols-ctrl').eq(data.index);
+
+	        			jq(components).attr("draggable", true);
+	        			jq(components).on("dragstart", function (e) {
+			        		postMessageToFather.generateCtrlTree(parentWindow.VDDnddata);
+			        		e.stopPropagation();
+			        	});
+
+			        	jq(components).on("dragend", function (e) {
+			        		e.preventDefault();
+			        	});
+                    },
+
+                    initSymbols: function() {
 		        		var self = this;
 		        		var components = jq(parentWindow.document, parentWindow.document).find('.symbols-ctrl');
 
@@ -580,7 +596,7 @@ $(function() {
                     },
 
                     ctrlDataPasted: function () {
-                    	
+
                     	var elem = new ElemGenerator(data.controller);
                         var elemToAdd = jq(elem.createElement());
                         var parent = jq("[vdid=" + data.activeCtrlVdid + "]");
@@ -857,14 +873,14 @@ $(function() {
             },
 
             showRightClickMenu: function (e) {
-            	
+
             	var pastInside = jq("#vdPast, #vdPastPre");
             	var pastBrother = jq("#vdPastBefore, #vdPastAfter");
             	var target = jq(e.target);
             	var menu = jq("#vdRightClickMenu");
             	var left = e.pageX;
             	var top = e.pageY;
-            	
+
             	if (jq(window).width() - e.pageX < menu.outerWidth()) {
             		left = jq(window).width() - menu.outerWidth() - 10 + jq(window).scrollLeft();
             	}
@@ -891,7 +907,7 @@ $(function() {
 					if (typeof ctrlTag === 'object') {
 						ctrlTag = ctrlTag[0];
 					}
-					
+
 					if (ctrlClass.indexOf(specialChild.className) === -1 || specialChild.tag.indexOf(ctrlTag.toUpperCase()) === -1) {
 						pastBrother.addClass('disabled');
 					}else {
@@ -958,10 +974,10 @@ $(function() {
 
             applyScript: function (scriptText) {
             	var oldScript = jq('[sid="global-script"]').remove();
-            	
+
         		var script = jq('<script sid="global-script">' + scriptText + '</script>');
         		jq('body').append(script);
-        	
+
             },
 
             reload: function() {
@@ -1054,7 +1070,7 @@ $(function() {
         				}
         			}
         			findParent(target);
-        			
+
         		}
 
         		//当拖动容器时可能会出现自己append到自己里面去的情况，在此防止
@@ -1416,6 +1432,8 @@ $(function() {
 	                                    }
 									}
 
+								console.log(attr);
+
 								attrValue = getAttrValue(attrValue, this.controller.attrs[0].activeLinkType);
 
 	                            if(attrValue) {
@@ -1485,31 +1503,32 @@ $(function() {
             },
         	setAttribute: function () {
         		this.initElem();
-        		for(var i = 0, len = this.controller.attrs.length; i < len; i ++) {
-        			var attr = this.controller.attrs[i];
+				if(this.controller) {
+					for(var i = 0, len = this.controller.attrs.length; i < len; i ++) {
+	        			var attr = this.controller.attrs[i];
 
-                    if(attr.isAttrSetting) {
-                        //基础属性设置（无复杂交互）统一处理
-                        for (var j = 0; j < attr.children.length; j++) {
-                            var att = attr.children[j];
-                            this.setAttr(att);
-                        };
-                    }else {
+	                    if(attr.isAttrSetting) {
+	                        //基础属性设置（无复杂交互）统一处理
+	                        for (var j = 0; j < attr.children.length; j++) {
+	                            var att = attr.children[j];
+	                            this.setAttr(att);
+	                        };
+	                    }else {
 
-                        //调用所需要的属性设置类型
-                        var upperTypeName = this.transformTypeToUpper(attr.key);
+	                        //调用所需要的属性设置类型
+	                        var upperTypeName = this.transformTypeToUpper(attr.key);
 
-                        if(this['set' + upperTypeName]) {
-                            for (var j = 0; j < attr.children.length; j++) {
-                                var att = attr.children[j];
-                                this['set' + upperTypeName](att);
-                            };
-                        }
+	                        if(this['set' + upperTypeName]) {
+	                            for (var j = 0; j < attr.children.length; j++) {
+	                                var att = attr.children[j];
+	                                this['set' + upperTypeName](att);
+	                            };
+	                        }
 
-                    }
-        		}
-
-        		this.elem.attr('vdid', this.controller.vdid);
+	                    }
+	        		}
+	        		this.elem.attr('vdid', this.controller.vdid);
+				}
         	},
 
             setAttributeByAttr: function(attr, attrType) {
@@ -1624,7 +1643,7 @@ $(function() {
                     e.preventDefault();
                     var target = jq(e.target);
                     controllerOperations.select(target.data('controller'));
-                    
+
                     return false;
                 });
             },
@@ -1644,11 +1663,11 @@ $(function() {
         		var designerContainer = jq("#VDDesignerContainer");
 
         		designerContainer.on("mousedown", function (e) {
-        			
+
         			if (e.which === 1) {
         				self.onDown(e);
         			}
-        			
+
         		});
 
         		designerContainer.on("mouseenter", function (e) {

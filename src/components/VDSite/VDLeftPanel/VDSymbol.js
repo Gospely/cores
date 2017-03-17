@@ -21,6 +21,10 @@ const openNotificationWithIcon = (type, title, description) => (
 );
 const Component = (props) => {
 
+  window.VDDesignerFrame.postMessage({
+    initSymbols: {}
+  }, '*');
+
   const formItemLayout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 16 }
@@ -171,7 +175,7 @@ const Component = (props) => {
   }
 
   return (
-    <div>
+    <div style={{position: "absolute",left: "0px",width: "100%",height: "100%"}}>
 
       <Row>
         <Col span={4} offset={20}>

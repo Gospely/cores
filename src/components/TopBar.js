@@ -395,6 +395,35 @@ const LeftSidebar = (props) => {
 					})
 				}
 	        },
+
+	        saveBtn() {
+
+				props.dispatch({
+					type: 'UIState/writeConfig'
+				});
+	        	props.dispatch({
+	        		type: 'sidebar/changeSaveBtnState',
+	        		payload: {
+	        			key: '',
+				        title: '正在保存...',
+				        iconType: 'loading',
+	        		}
+	        	})
+
+	        	setTimeout(function recovery() {
+
+	        		props.dispatch({
+		        		type: 'sidebar/changeSaveBtnState',
+		        		payload: {
+		        			key: 'saveBtn',
+				            title: '保存',
+				            iconType: 'check',
+		        		}
+		        	})
+
+	        	},"2000");
+	        },
+
 			release() {
 
 			},
@@ -520,6 +549,8 @@ const LeftSidebar = (props) => {
 	    },
 
 	    confirmDeleteApp(application) {
+			window.disabled = true;
+			localStorage.image = '';
 			notification.open({
 				message: '正在删除应用，请稍等……',
 				title: '删除应用'
@@ -534,7 +565,7 @@ const LeftSidebar = (props) => {
 			props.dispatch({
 				type: 'sidebar/deleteApp',
 				payload: {application}
-			})
+			});
 	    },
 
 	    cancelDeleteApp() {
@@ -544,14 +575,22 @@ const LeftSidebar = (props) => {
 	    openApp(application) {
 	    	const swApp = (application) => {
 	    		window.location.hash = 'project/' + application.id;
-    			props.dispatch({
-    				type: 'devpanel/stopDocker',
-    				payload: { id: localStorage.applicationId, image: localStorage.image }
-    			});
+    			// props.dispatch({
+    			// 	type: 'devpanel/stopDocker',
+    			// 	payload: { id: localStorage.applicationId, image: localStorage.image }
+    			// });
+				props.dispatch({
+					type: 'vdctrl/initActiveState'
+				});
     			window.reload = true
     			window.applicationId = application.id;
+				// if(application.image == 'vd:site') {
+				//
+				// 	console.log('');
+				// 	window.frames["vdsite-designer"].location.reload();
+				// }
+				console.log(application);
     			initApplication(application, props);
-
 	    	}
 
         	if(location.hash.indexOf('project') != -1) {
@@ -700,6 +739,9 @@ const LeftSidebar = (props) => {
 
 		createAppFromModal() {
 			props.dispatch({
+				type: 'sidebar/initImages'
+			});
+			props.dispatch({
 				type: 'sidebar/handleAvailable',
 				payload: {
 					available: true,
@@ -708,9 +750,6 @@ const LeftSidebar = (props) => {
 			props.dispatch({
 				type: 'sidebar/showNewAppAndHideSwitch',
 			})
-			props.dispatch({
-				type: 'sidebar/initImages'
-			});
 		}
 	};
 
@@ -1154,7 +1193,7 @@ const LeftSidebar = (props) => {
 					    </Row>
 					</div>
 
-			  		<div style={{ marginTop: 32 }} hidden={!props.sidebar.appCreatingForm.useGit}>
+			  		<div style={{ marginTop: 32 }}>
 			  		    <Row>
 					      	<Col span={4} style={{textAlign: 'right'}}>
 					      		<span>从Git创建：</span>
@@ -1552,6 +1591,14 @@ const LeftSidebar = (props) => {
 			        <Menu.Item key="alignPhone" className='change-icon'>
 			        	<i className='change-vd-icon icon-bg-150'></i>
 			        </Menu.Item>
+			        <Menu.Item key={props.sidebar.saveBtn.key} placement="left" className='save-app-btn'>
+						<Tooltip placement="leftBottom" title={props.sidebar.saveBtn.title}>
+			          		<span>
+			          			<Icon type={props.sidebar.saveBtn.iconType} />
+			          			{props.sidebar.saveBtn.title}
+			          		</span>
+			          	</Tooltip>
+					</Menu.Item>
 					<Menu.Item key="preview" placement="left" className='preview-app-btn'>
 						<Tooltip placement="leftBottom" title="预览">
 			          		<Icon type="eye-o" />

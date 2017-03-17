@@ -40,12 +40,14 @@ const Component = (props) => {
 
  			const edit = () => {
 
+                console.log('edit classs');
+                console.log(styleName);
 	 			props.dispatch({
 	 				type: 'vdstyles/editStyleName',
 	 				payload: {
 	 					origin: styleName
 	 				}
-	 			}); 				
+	 			});
 
 	 			props.dispatch({
 	 				type: 'vdstyles/hideStyleManagerModifyPop'
@@ -79,11 +81,11 @@ const Component = (props) => {
  				payload: {
  					value: styleName
  				}
- 			}); 			
-
- 			props.dispatch({
- 				type: 'vdstyles/toggleStyleManagerModifyPop'
  			});
+
+ 		// 	props.dispatch({
+ 		// 		type: 'vdstyles/toggleStyleManagerModifyPop'
+ 		// 	});
  		}
 
  		let cnt = 0;
@@ -97,7 +99,7 @@ const Component = (props) => {
 		  					{styleName}
 		  				</Col>
 		  				<Col span={6}>
-		  				    <Popover visible={props.vdstyles.styleManager.modifyPop.visible} content={content(styleName)} title="修改名称" placement="left" trigger="click">
+		  				    <Popover  content={content(styleName)} title="修改名称" placement="left" trigger="click">
 		  				    	<a onClick={showModifyPop.bind(this, styleName)}><Icon type="edit" /></a>
 		  					</Popover>
 		  					<Popconfirm placement="left" title="确定删除这个类？" onConfirm={confirm.bind(this, styleName)} onCancel={cancel} okText="是" cancelText="否">

@@ -114,8 +114,7 @@ const Component = (props) => {
 
     const uploadButton = (
       <div style={{height: '100%'}}>
-        <Icon type="plus" style={{lineHeight: '2.2'}} />
-        <div className="ant-upload-text">上传</div>
+        <Icon type="plus" style={{lineHeight: '2.0'}} />
       </div>
     );
 

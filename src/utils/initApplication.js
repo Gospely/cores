@@ -9,6 +9,7 @@ const initApplication = function (application, props, flag){
 
     //清除定时器
     window.clearInterval(window.uistateSave)
+    window.VDDnddata = {};
     //断开上一个socket
     if(window.fileSocket != null && !flag) {
         window.fileSocket.emit('leave', localStorage.applicationId + localStorage.userName);
@@ -138,8 +139,33 @@ const initApplication = function (application, props, flag){
               tips: '打开应用中...'
             }
         });
+        if(localStorage.UIState){
 
+            var UIState = JSON.parse(localStorage.UIState);
+            console.log('initUIState ---------');
+            console.log(UIState);
+            if(UIState.applicationId == application.id){
+                initState(props, application.id);
+            }else {
+                props.dispatch({
+                    type: 'UIState/readConfig',
+                    payload: {
+                        id: application.id,
+                        ctx: props
+                    }
+                });
+            }
+        }else {
+            props.dispatch({
+                type: 'UIState/readConfig',
+                payload: {
+                    id: application.id,
+                    ctx: props
+                }
+            });
+        }
         window.isWeapp = false;
+
         // localStorage.defaultActiveKey = 'file';
         // localStorage.activeMenu = "setting";
 
@@ -161,20 +187,29 @@ const initApplication = function (application, props, flag){
             localStorage.version = 'null';
         }
 
-        props.dispatch({
-            type: 'devpanel/initPanel'
-        });
+        localStorage.currentProject = application.name;
+        localStorage.port = application.port;
+        localStorage.sshPort = application.sshPort;
+        localStorage.socketPort = application.socketPort;
+        localStorage.image = application.image;
+        localStorage.docker = application.docker;
+        localStorage.applicationId = application.id;
 
-        if (!props.sidebar.appCreatingForm.fromGit) {
+        document.title = localStorage.currentProject + ' - Gospel:先进的在线Web可视化集成开发环境';
+
+        var namespace = localStorage.user + localStorage.currentProject + '_' + localStorage.userName;
+        fileListen(props, namespace)
+
+        var command = JSON.parse(application.cmds);
+
+        if(command) {
+            //初始化命令
             props.dispatch({
-                type: 'file/fetchFileList'
+              type: 'sidebar/initRunCommond',
+              payload: { command: command.default, port: application.exposePort}
             });
+
         }
-
-        props.dispatch({
-            type: 'file/initFiles',
-        });
-
         props.dispatch({
           type: 'sidebar/hideModalSwitchApp'
         });
@@ -199,65 +234,6 @@ const initApplication = function (application, props, flag){
               }
             });
         }
-        props.dispatch({
-            type: 'devpanel/startDocker',
-            payload: { docker:  application.docker, id: application.id, ctx: props}
-        });
-        props.dispatch({
-            type: 'devpanel/handleImages',
-            payload: { id: application.image}
-        });
-
-        if(localStorage.UIState){
-
-            var UIState = JSON.parse(localStorage.UIState);
-
-            if(UIState.applicationId != application.id){
-
-                props.dispatch({
-                    type: 'UIState/readConfig',
-                    payload: {
-                        id: application.id,
-                        ctx: props
-                    }
-                });
-
-            }else{
-                initState(props, application.id);
-            }
-        }else {
-            props.dispatch({
-                type: 'UIState/readConfig',
-                payload: {
-                    id: application.id,
-                    ctx: props
-                }
-            });
-        }
-
-
-        localStorage.currentProject = application.name;
-        localStorage.port = application.port;
-        localStorage.sshPort = application.sshPort;
-        localStorage.socketPort = application.socketPort;
-        localStorage.image = application.image;
-        localStorage.docker = application.docker;
-        localStorage.applicationId = application.id;
-
-        var namespace = localStorage.user + localStorage.currentProject + '_' + localStorage.userName;
-        fileListen(props, namespace)
-
-        var command = JSON.parse(application.cmds);
-
-        if(command) {
-            //初始化命令
-            props.dispatch({
-              type: 'sidebar/initRunCommond',
-              payload: { command: command.default, port: application.exposePort}
-            });
-
-        }
-
         notification.open({
             message: '应用初始化成功'
         });
@@ -266,10 +242,17 @@ const initApplication = function (application, props, flag){
         });
     }
 
-    setTimeout(function(){
-        localStorage.flashState = 'true';
-    }, 10000);
-
+    props.dispatch({
+        type: 'devpanel/startDocker',
+        payload: { docker:  application.docker, id: application.id, ctx: props}
+    });
+    props.dispatch({
+        type: 'devpanel/handleImages',
+        payload: { id: application.image}
+    });
+    props.dispatch({
+        type: 'UIState/setDySaveEffects'
+    });
 }
 
 export default initApplication;

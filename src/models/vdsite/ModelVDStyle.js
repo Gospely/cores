@@ -64,6 +64,18 @@ export default {
 			visible: false,
 		},
 
+		boxShadowPane: {
+			visible: false,
+		},
+
+		textShadowPane: {
+			visible: false,
+		},
+
+		newStylePopover: {
+			visible: false,
+		},
+
 		boxShadow: {
 			'h-shadow': {
 				value: '',
@@ -1017,10 +1029,10 @@ export default {
 			key: 'hover',
 			name: '悬浮'
 		}, {
-			key: 'pressed',
+			key: 'active',
 			name: '按下'
 		}, {
-			key: 'focused',
+			key: 'focus',
 			name: '聚焦'
 		}],
 
@@ -1126,7 +1138,6 @@ export default {
 					origin: params.origin
 				}
 			});
-
 			yield put({
 				type: "removeStyleNameA",
 				payload: params
@@ -1142,6 +1153,26 @@ export default {
 			return {...state};
 		},
 
+		changeNewStylePopoverVisible(state, {payload: params }) {
+			state.newStylePopover.visible = !state.newStylePopover.visible
+			return {...state}
+		},
+
+		changeBoxShadowPaneVisible(state, { payload: params }) {
+			state.boxShadowPane.visible = !state.boxShadowPane.visible;
+			return {...state}
+		},
+
+		changeNewTranstionPane(state, { payload: params }) {
+			state.popover.newTransition.visible = !state.popover.newTransition.visible
+			return {...state}
+		},
+
+		changeTextShadowPaneVisible(state, { payload: params }) {
+			state.textShadowPane.visible = !state.textShadowPane.visible;
+			return {...state}
+		},
+
 		changeVDStylePaneSpinActive(state, { payload: params }) {
 			state.VDStylePaneSpinActive = params
 			return {...state};
@@ -1152,10 +1183,10 @@ export default {
 			return {...state};
 		},
 
-		toggleStyleManagerModifyPop(state, { payload: params }) {
-			state.styleManager.modifyPop.visible = !state.styleManager.modifyPop.visible;
-			return {...state};
-		},
+		// toggleStyleManagerModifyPop(state, { payload: params }) {
+		// 	state.styleManager.modifyPop.visible = params.value;
+		// 	return {...state};
+		// },
 
 		hideStyleManagerModifyPop(state, { payload: params }) {
 			state.styleManager.modifyPop.visible = false;
@@ -1163,6 +1194,9 @@ export default {
 		},
 
 		editStyleNameA(state, { payload: params }) {
+
+			console.log(params);
+			console.log(state.styleManager.modifyPop.value);
 			state.cssStyleLayout[state.styleManager.modifyPop.value] = state.cssStyleLayout[params.origin];
 			delete state.cssStyleLayout[params.origin];
 
@@ -1542,6 +1576,10 @@ export default {
 					let valueText = '';
 					for(let i = 0; i < childrenProps.length; i ++) {
 						let currentStyle = childrenProps[i];
+						if(!currentStyle.value) {
+							continue;
+						}
+
 						valueText += currentStyle.name + '(';
 						let values = currentStyle.value;
 
@@ -1573,7 +1611,12 @@ export default {
 						}
 					}
 
-					styleText += ':' + valueText + ';';
+					if(valueText != '') {
+						styleText += ':' + valueText + ';';
+					}else {
+						styleText = '';
+					}
+
 					return childrenProps.length ? styleText : '';
 				},
 
@@ -1584,6 +1627,10 @@ export default {
 					let valueText = '';
 					for(let i = 0, len = childrenProps.length; i < len; i ++) {
 						let currentStyle = childrenProps[i];
+
+						if(!currentStyle.value) {
+							continue;
+						}
 
 						var unitTable = {
 							blur: 'px',
@@ -1608,7 +1655,12 @@ export default {
 						}
 					}
 
-					styleText = styleText + ':' + valueText;
+					if(valueText != '') {
+						styleText = styleText + ':' + valueText;
+					}else {
+						styleText = '';
+					}
+
 
 					return childrenProps.length ? styleText : '';
 				}

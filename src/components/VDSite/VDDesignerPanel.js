@@ -26,6 +26,7 @@ const VDDesignerPanel = (props) => {
                     type: 'vdcore/handleLoading',
                     payload: true
                 });
+
                 setTimeout(function(){
                     window.VDDesignerFrame.postMessage({
                         pageSelected: props.vdCtrlTree.layout[props.vdCtrlTree.activePage.key]
@@ -34,7 +35,8 @@ const VDDesignerPanel = (props) => {
                         type: 'vdcore/handleLoading',
                         payload: false
                     });
-                }, 2500)
+                }, 2500);
+
                 //加载全局CSS
                 props.dispatch({
                     type: 'vdstyles/applyCSSStyleIntoPage',
@@ -43,12 +45,16 @@ const VDDesignerPanel = (props) => {
                     }
                 });
 
+
+                // window.VDDesignerFrame.postMessage({
+    	    	// 	pageSelected: props.vdCtrlTre.layout[props.vdCtrlTre.activePage.key]
+    	    	// }, '*');
                 //加载动画js
                 setTimeout(function(){
                     props.dispatch({
                         type: 'vdanimations/applyScriptIntoPage'
-                    })
-                }, 2600)
+                    });
+                }, 2600);
 
 
                 //绑定按键
@@ -76,18 +82,22 @@ const VDDesignerPanel = (props) => {
     return ( <div className = "designer-wrapper"
                   style = {{ height: '100%' }}
              >
-
-                    <iframe className = "centen-VD"
-                        name = "vdsite-designer"
-                        width = { props.vdcore.VDDesigner[props.vdcore.VDDesigner.activeSize].width }
-                        height = { props.vdcore.VDDesigner[props.vdcore.VDDesigner.activeSize].height }
-                        frameBorder = "0"
-                        src = "static/designer/vdsite/index.html"
-                        onLoad = { VDDesignerPanelProps.handleDesPanelLoaded }
-                    >
-                    </iframe>
-                    <Spin  spinning={props.vdcore.loading}  style={{ 'marginTop': '300px' }}>
-                <div id="closeVDLeftPanel" className='close-VD-left-panel'></div>
+                <Spin spinning={props.vdcore.loading} style={{ height: 100, top: 'calc(50% - 100px)' }}>
+                    <div className="vdsite-designer-border"
+                        style={{ height:  props.vdcore.VDDesigner[props.vdcore.VDDesigner.activeSize].height ,
+                                 width:  props.vdcore.VDDesigner[props.vdcore.VDDesigner.activeSize].width
+                     }}>
+                        <iframe className = "centen-VD"
+                            name = "vdsite-designer"
+                            width = '100%'
+                            height = '100%'
+                            frameBorder = "0"
+                            src = "static/designer/vdsite/index.html"
+                            onLoad = { VDDesignerPanelProps.handleDesPanelLoaded }
+                        >
+                        </iframe>
+                    </div>
+                    <div id="closeVDLeftPanel" className='close-VD-left-panel'></div>
                 </Spin>
             </div>
     );

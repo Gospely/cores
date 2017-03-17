@@ -66,10 +66,12 @@
 	}
 
 	.vdctrl-pane-wrapper .ant-collapse-content > .ant-collapse-content-box {
-		padding-bottom: 8px!important;
+		padding-bottom: 0px!important;
 		padding-top: 0px!important;
 	}
-
+	.vdctrl-pane-wrapper .ant-collapse-content > .ant-collapse-content-box .ant-row .ant-col-8 .anticons-list-item span{
+		padding-top: 10px;
+	}
 	.vdctrl-pane-wrapper .ant-collapse {
 		border: 0px;
 	}
@@ -3029,7 +3031,7 @@
 
 	.delete-app-btn {
 		position: absolute!important;
-		right: 74px;
+		right: 0px;
 	}
 
 	.delete-app-btn:hover {
@@ -3071,7 +3073,7 @@
 	    background-color: #fff;
 	    overflow: hidden;
 	    width: 100%;
-	    height: 60px;
+	    height: 80px;
 	    display: flex;
 	    justify-content: space-between;
 	    align-items: center;
@@ -3089,6 +3091,7 @@
 	    transform: scale(0.83);
 	    font-family: "Lucida Console", Consolas;
 	    white-space: nowrap;
+	    margin-bottom: 7px;
 	}
 
 	.symbol-list {
@@ -3216,7 +3219,7 @@
 	}
 
 	.bem-Frame_Body .ant-radio-button-wrapper {
-		padding: 0 12px!important;
+		padding: 0 10px!important;
 	}
 
 	.interaction-list .ant-menu-item {
@@ -3258,6 +3261,7 @@
 	    animation-fill-mode: forwards;
 	    -webkit-animation-duration: 0.5s;
 	    animation-duration: 0.5s;
+	    margin-bottom: 5px;
 	}
 
 	.grid-slider {
@@ -3362,9 +3366,19 @@
 		right: 124px;
 	}
 
+	.save-app-btn {
+		position: absolute!important;
+		right: 174px;
+	}
+
+	.save-app-btn:hover {
+		color: green!important;
+		border-color: green!important;
+	}
+
 	.releaseItem {
 		position: absolute!important;
-		right: 0px;
+		right: 50px;
 	}
 
 	.none-operation-obj {
@@ -3393,6 +3407,14 @@
 		max-height: 100vh!important;
 	}
 
+	#previewSpin .ant-spin-container {
+		height: 100%!important;
+	}
+
+	#previewSpin div:first-child {
+		height: 100%!important;
+	}
+
 	.background-setting-pane-img-preview {
 		width: 110px;
 	    height: 50px;
@@ -3419,4 +3441,41 @@
 	    right: 0px!important;
 	    top: 0px!important;
 	}
+
+	.ant-radio-button-wrapper {
+		padding: 0 10px!important;
+	}
+
+	.designer-wrapper .ant-spin-nested-loading, .designer-wrapper .ant-spin-container {
+		height: 100%;
+	}
+
+	.vdsite-designer-border {
+		-moz-box-shadow:0 0 10px #06c;
+        -webkit-box-shadow:0 0 10px #06c;
+        box-shadow:0 0 10px #06c;
+		position:absolute;
+		left:50%;
+		top:50%;
+		transform:translate(-50%,-50%);
+	}
+
+	.ant-select-selection--multiple .ant-select-selection__rendered {
+	    margin-bottom: 2px!important;
+	}
+
+	.ant-select-sm .ant-select-selection--multiple .ant-select-selection__rendered li {
+		height: 19px!important;
+		line-height: 19px!important;
+	}
+
+	.vdctrl-pane-wrapper .ant-collapse-content > .ant-collapse-content-box {
+	    margin-top: 5px!important;
+	    margin-bottom :5px;
+	}
+
+	textarea.ant-input {
+		margin-bottom :5px;
+	}
+
 }

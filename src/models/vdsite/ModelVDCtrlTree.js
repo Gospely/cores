@@ -985,14 +985,16 @@ export default {
 		    display: 'none'
 		},
 
-	    activeCtrl: {}
+	    activeCtrl: {},
+		heightUnit: 'px',
+		widthUnit: 'px'
 	},
 
 	reducers: {
 		initState(state, {payload: params}){
 
 			console.log(params);
-			state.activeCtrl = params.UIState.activeCtrl = {};
+			state.activeCtrl = params.UIState.activeCtrl || {};
 			state.layout = params.UIState.layout || [];
 			state.layoutState = params.UIState.layoutState;
 			state.activePage = params.UIState.activePage || {
@@ -1006,7 +1008,56 @@ export default {
 
 			return {...state};
 		},
+		initActiveState(state){
 
+			state.activeCtrl = {};
+			state.defaultSelectedKeys = [""];
+			state.activeCtrlLvl = 0;
+			state.activeCtrlIndex = 1;
+			return {...state};
+		},
+		handleUnit(state, { payload: params }){
+
+			state[params.target] = params.value;
+
+			let currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
+			if (currentActiveCtrl.controller.attrs[0].children[2]) {
+  				var style = currentActiveCtrl.controller.attrs[0].children[2].value;
+				console.log(params);
+				console.log(stu);
+				if(params.target == 'height'){
+					style = style.replace(/height: \d*(%|px);/,"height: " + currentActiveCtrl.controller.attrs[0].children[3].value + params.value + ";");
+				}
+				if(params.target == 'width') {
+					style = style.replace(/width: \d*(%|px);/,"width: " +currentActiveCtrl.controller.attrs[0].children[4].value + params.value + ";");
+				}
+				console.log(style);
+				currentActiveCtrl.controller.attrs[0].children[2].value = style;
+				window.VDDesignerFrame.postMessage({
+					VDAttrRefreshed: {
+						attrType: {
+							key: 'slider-setting'
+						},
+						attr: currentActiveCtrl.controller.attrs[0].children[2],
+						activeCtrl: currentActiveCtrl.controller
+					}
+				}, '*');
+				for (var i = 0; i < currentActiveCtrl.controller.children[1].children.length; i++) {
+					currentActiveCtrl.controller.children[1].children[i].children[0].attrs[0].children[2].value = style;
+					window.VDDesignerFrame.postMessage({
+						VDAttrRefreshed: {
+							attrType: {
+								key: 'slider-setting'
+							},
+							attr: currentActiveCtrl.controller.children[1].children[i].children[0].attrs[0].children[2],
+							activeCtrl: currentActiveCtrl.controller.children[1].children[i].children[0],
+						}
+					}, '*');
+				}
+  			}
+  			state.activeCtrl = currentActiveCtrl.controller;
+			return {...state};
+		},
 		editStyleNameA(state, { payload: params }) {
 
 			const editStyleNameRec = (state, originStyleName, newStyleName, activePage) => {
@@ -1078,6 +1129,10 @@ export default {
 						let currentControl = controllers[i];
 						if (currentControl.children) {
 							loopControllers(currentControl.children, level ++);
+						}
+
+						if(!currentControl.customClassName) {
+							continue;
 						}
 
 						var pos = currentControl.customClassName.indexOf(originStyleName);
@@ -1858,6 +1913,8 @@ export default {
     			}
 			}, '*');
 
+			console.log('generateCtrlTree================+++++++++++++++++', ctrl);
+
 			return {...state};
 		},
 
@@ -1938,10 +1995,10 @@ export default {
   			if (currentActiveCtrl.controller.attrs[0].children[2]) {
   				var style = currentActiveCtrl.controller.attrs[0].children[2].value;
 				if(targetAttr == 'height'){
-					style = style.replace(/height: \d*(%|px);/,"height: " + params.newVal + ";");
+					style = style.replace(/height: \d*(%|px);/,"height: " + params.newVal + state.heightUnit + ";");
 				}
 				if(targetAttr == 'width') {
-					style = style.replace(/width: \d*(%|px);/,"width: " + params.newVal + ";");
+					style = style.replace(/width: \d*(%|px);/,"width: " + params.newVal + state.widthUnit + ";");
 				}
 				console.log(style);
 				currentActiveCtrl.controller.attrs[0].children[2].value = style;
@@ -2560,15 +2617,15 @@ export default {
 			controller.parent = activeCtrl.vdid;
 			controller.isRoot = controller.isRoot;
 			if (!controller.isRoot) {
-				controller.root = activeCtrl.root;	
-				controller.parent = activeCtrl.parent;	
+				controller.root = activeCtrl.root;
+				controller.parent = activeCtrl.parent;
 			}
 			const loopAttr = (controller, wrapperVdid, activeCtrl) => {
 				controller.vdid = controller.key ? (controller.key + '-' + randomString(8, 10)) : randomString(8, 10);
 				controller.root = controller.root;
 				controller.isRoot = controller.isRoot;
 				controller.parent = controller.parent;
-				
+
 				for(let i = 0, len = controller.attrs.length; i < len; i ++) {
 					let tmpAttr = controller.attrs[i];
 					if (tmpAttr.key === 'basic') {
