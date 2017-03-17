@@ -1431,8 +1431,11 @@ const Component = (props) => {
                         const sliderProps = {
                             addSlider(){
 
+                                var sliderId = props.vdCtrlTree.activeCtrl.attrs[0].children[1].value;
+
                                 var slider = copyOperate.copyChildren(0, 'component','slider', 2);
                                 slider.attrs[0].children[1].value = props.vdCtrlTree.activeCtrl.children[0].children.length;
+                                slider.attrs[0].children[0].value = '#' + sliderId
                                 props.dispatch({
                                     type: 'vdCtrlTree/handleChildrenAdd',
                                     payload: {
@@ -1442,7 +1445,6 @@ const Component = (props) => {
                                         level: 2
                                     }
                                 });
-                                var content = copyOperate.copyChildren(0, 'component','slider', 2, [{ level:0, index: 1}]);
                                 var content = copyOperate.copyChildren(0, 'component','slider', 2, [{ level:0, index: 1}]);
                                 var style = 'height: '+ props.vdCtrlTree.activeCtrl.attrs[0].children[3].value + props.vdCtrlTree.heightUnit +'; width: ' + props.vdCtrlTree.activeCtrl.attrs[0].children[4].value + props.vdCtrlTree.widthUnit + ';'
                                 content.children[0].attrs[0].children[2].value = style;

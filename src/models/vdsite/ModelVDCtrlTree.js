@@ -987,7 +987,7 @@ export default {
 
 	    activeCtrl: {},
 		heightUnit: 'px',
-		widthUnit: 'px'
+		widthUnit: '%'
 	},
 
 	reducers: {
@@ -1903,6 +1903,23 @@ export default {
 			}
 
 			let tmpCtrl = loopAttr(deepCopiedController, deepCopiedController);
+			//slider唯一id设置
+			console.log('slider');
+			console.log(ctrl);
+			console.log(tmpCtrl);
+			if(ctrl.key == 'slider'){
+				console.log('slider');
+				var slider =  randomString(8, 10);
+				tmpCtrl.attrs[0].children[1].value = slider;
+				tmpCtrl.children[0].children[0].attrs[0].children[0].value = '#' + slider;
+				tmpCtrl.children[0].children[1].attrs[0].children[0].value = '#' + slider;
+
+				tmpCtrl.children[2].attrs[0].children[0].value = '#' + slider;
+				tmpCtrl.children[3].attrs[0].children[0].value = '#' + slider;
+				state.heightUnit = 'px';
+				state.widthUnit = '%';
+			}
+
 			let activeCtrl = VDTreeActions.getActiveCtrl(state);
 
 			VDDesignerFrame.postMessage({
