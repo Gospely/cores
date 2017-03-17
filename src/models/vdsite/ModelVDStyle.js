@@ -1576,6 +1576,10 @@ export default {
 					let valueText = '';
 					for(let i = 0; i < childrenProps.length; i ++) {
 						let currentStyle = childrenProps[i];
+						if(!currentStyle.value) {
+							continue;
+						}
+
 						valueText += currentStyle.name + '(';
 						let values = currentStyle.value;
 
@@ -1607,7 +1611,12 @@ export default {
 						}
 					}
 
-					styleText += ':' + valueText + ';';
+					if(valueText != '') {
+						styleText += ':' + valueText + ';';
+					}else {
+						styleText = '';
+					}
+
 					return childrenProps.length ? styleText : '';
 				},
 
@@ -1618,6 +1627,10 @@ export default {
 					let valueText = '';
 					for(let i = 0, len = childrenProps.length; i < len; i ++) {
 						let currentStyle = childrenProps[i];
+
+						if(!currentStyle.value) {
+							continue;
+						}
 
 						var unitTable = {
 							blur: 'px',
@@ -1642,7 +1655,12 @@ export default {
 						}
 					}
 
-					styleText = styleText + ':' + valueText;
+					if(valueText != '') {
+						styleText = styleText + ':' + valueText;
+					}else {
+						styleText = '';
+					}
+
 
 					return childrenProps.length ? styleText : '';
 				}
