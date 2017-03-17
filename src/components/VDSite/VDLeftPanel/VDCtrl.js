@@ -16,6 +16,8 @@ const Component = (props) => {
 
 	const VDControllersProps = {
 		onSelect(ctrl) {
+
+			console.log(ctrl);
 			var tmpKey = [],
 				tmpCtrl = ctrl;
 
@@ -33,6 +35,7 @@ const Component = (props) => {
 			}
 
 			window.VDDnddata = tmpCtrl;
+			console.log(tmpCtrl);
 		}
 	}
 	const panels = props.vdctrl.controllers.map((item, i) => {

@@ -3229,11 +3229,11 @@ export default {
                        },{
                            name: 'height',
                            id: '',
-                           value: '500px',
+                           value: '500',
                        },{
                            name: 'width',
                            id: '',
-                           value: '100%',
+                           value: '100',
                        },{
                            name: 'container',
                            desc: '是否是容器',
@@ -3504,7 +3504,7 @@ export default {
                                name: 'data-slide',
                                isAttr: true,
                                attrName: 'data-slide',
-                               value: 'prev',
+                               value: 'next',
                                id: ''
                            }]
                        }],
@@ -3565,7 +3565,7 @@ export default {
                                name: 'data-slide',
                                isAttr: true,
                                attrName: 'data-slide',
-                               value: 'next',
+                               value: 'prev',
                                id: ''
                            }]
                        }],

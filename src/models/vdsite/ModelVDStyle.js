@@ -1700,6 +1700,9 @@ export default {
 
 			var cssText = stylesGenerator(state.cssStyleLayout);
 
+			if(!window.VDDesignerFrame) {
+				return {...state};
+			}
 			window.VDDesignerFrame.postMessage({
 				applyCSSIntoPage: {
 					cssText: cssText,

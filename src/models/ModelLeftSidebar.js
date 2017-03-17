@@ -328,7 +328,7 @@ export default {
 
                 if(result.data.fields.length >= 10){
                     notification.open({
-                        message: '您可以创建的应用数已达限额'
+                        message: '创建的应用数已超出，请选择创建小程序应用'
                     });
                     yield put({
                         type: 'handleAvailable',
@@ -1089,7 +1089,7 @@ export default {
 				state.appCreatingForm.framework = '';
 
 
-                if(params.value == 'html:latest' || params.value == 'wechat:latest' || params.value == 'vd:latest' || params.value == 'hybridapp:latest'){
+                if(params.value == 'html:latest' || params.value == 'wechat:latest' || params.value == 'vd:latest'){
                     state.appCreatingForm.isFront = true;
                     if(params.value == 'wechat:latest'){
                         state.appCreatingForm.useFramework = false;

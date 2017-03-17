@@ -69,6 +69,11 @@ var VDPackager = {
 	    }
 	});
 
+	window.animationTrigger = function (e) {
+		var target = jQuery(e.target);
+		target.animateCss(e.data.animate);
+	}
+
 })();
 		`
 	},
@@ -115,6 +120,7 @@ var VDPackager = {
 	},
 
 	compileScripts (params) {
+		console.log(params.interaction.scriptText)
 		return this.htmlTpl.scripts + params.interaction.scriptText;
 	},
 
