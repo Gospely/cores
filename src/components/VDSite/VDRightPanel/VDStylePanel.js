@@ -300,7 +300,7 @@ const VDStylePanel = (props) => {
 							      <Tooltip placement="bottom" title="尽量避免使用关键字,详情可参照官方文档">
 							        <Icon type="question-circle-o" style={{position: 'relative', left: '34px', top: '2px'}}/>
 							      </Tooltip>
-							<Button onClick={onClick.bind(this)} onPressEnter={onClick} style={{float: 'right'}} size="small">添加并应用</Button>
+							<Button onClick={onClick.bind(this)} style={{float: 'right'}} size="small">添加并应用</Button>
 						</Col>
 					</Row>
 				);

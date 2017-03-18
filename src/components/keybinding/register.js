@@ -54,8 +54,6 @@ const HotKeyHandler = {
 			var keyCode = event.keyCode;
 			var exec = false;
 
-			console.log(keyCode);
-
 			for (var i = 0; i < HotKeyHandler.handlers.length; i++) {
 				var handler = HotKeyHandler.handlers[i];
 				var bool = true;
