@@ -1,11 +1,7 @@
-import React, {
-	PropTypes
-} from 'react';
+import React, {PropTypes} from 'react';
 import dva from 'dva';
 import randomString from '../../utils/randomString.js';
-import {
-	message
-} from 'antd';
+import {message} from 'antd';
 
 const methods = {
 	checkName(symbols, name) {
@@ -1003,7 +999,7 @@ export default {
 			}
 		},
 
-		initState(state, {payload: params}) {
+		initState(state, { payload: params}) {
 
 			state.activeCtrl = params.UIState.activeCtrl || {};
 			state.layout = params.UIState.layout || [];
@@ -1018,11 +1014,10 @@ export default {
 			state.defaultExpandedKeys = params.UIState.defaultExpandedKeys || [];
 			state.defaultSelectedKeys = params.UIState.defaultSelectedKeys || [''];
 
-			return {...state
-			};
+			return {...state};
 		},
 
-		handleUnit(state, {payload: params}) {
+		handleUnit(state, { payload: params}) {
 
 			state[params.target] = params.value;
 
@@ -1062,12 +1057,9 @@ export default {
 				}
 			}
 			state.activeCtrl = currentActiveCtrl.controller;
-			return {...state
-			};
+			return {...state};
 		},
-		editStyleNameA(state, {
-			payload: params
-		}) {
+		editStyleNameA(state, { payload: params}) {
 
 			const editStyleNameRec = (state, originStyleName, newStyleName, activePage) => {
 				let
@@ -1123,13 +1115,10 @@ export default {
 				state.activeCtrl.customClassName.push(params.newStyleName);
 			}
 
-			return {...state
-			};
+			return {...state};
 		},
 
-		removeStyleNameA(state, {
-			payload: params
-		}) {
+		removeStyleNameA(state, { payload: params}) {
 
 			const editStyleNameRec = (state, originStyleName, newStyleName, activePage) => {
 				let controllers = state.layout[activePage.key];
@@ -1194,13 +1183,10 @@ export default {
 				state.activeCtrl.customClassName.splice(pos, 1);
 			}
 
-			return {...state
-			};
+			return {...state};
 		},
 
-		showCtrlTreeContextMenu(state, {
-			payload: proxy
-		}) {
+		showCtrlTreeContextMenu(state, {payload: proxy}) {
 			return {...state,
 				constructionMenuStyle: {
 					position: 'fixed',
@@ -1222,19 +1208,13 @@ export default {
 			};
 		},
 
-		handleCurrentSymbolKey(state, {
-			payload: key
-		}) {
+		handleCurrentSymbolKey(state, {payload: key}) {
 			state.currentSymbolKey = key;
-			return {...state
-			};
+			return {...state};
 		},
-		handleSymbolNameChange(state, {
-			payload: value
-		}) {
+		handleSymbolNameChange(state, {payload: value}) {
 			state.symbolName = value;
-			return {...state
-			};
+			return {...state};
 		},
 		handleAddSymbol(state) {
 
@@ -1266,42 +1246,29 @@ export default {
 				}, '*');
 			}
 
-			return {...state
-			};
+			return {...state};
 		},
-		handlePopoverVisbile(state, {
-			payload: value
-		}) {
+		handlePopoverVisbile(state, {payload: value}) {
 
 			state.popoverVisible = value;
-			return {...state
-			};
+			return {...state};
 		},
-		handleEditPopoverVisbile(state, {
-			payload: value
-		}) {
+		handleEditPopoverVisbile(state, {payload: value}) {
 
 			state.editPopoverVisible = value;
-			return {...state
-			};
+			return {...state};
 		},
-		handleUpdateVisible(state, {
-			payload: value
-		}) {
+		handleUpdateVisible(state, {payload: value}) {
 
 			state.keyValeUpdateVisible = value;
-			return {...state
-			};
+			return {...state};
 		},
-		handleCreateVisible(state, {
-			payload: value
-		}) {
+		handleCreateVisible(state, {payload: value}) {
 
 			state.keyValeCreateVisible = value;
 			state.attr.html = '';
 			state.attr.value = '';
-			return {...state
-			};
+			return {...state};
 		},
 		editSymbol(state) {
 
@@ -1319,33 +1286,24 @@ export default {
 			state.symbolName = '';
 			state.currentSymbolKey = '';
 			state.editPopoverVisible = false;
-			return {...state
-			};
+			return {...state};
 		},
-		deleteSymbol(state, {
-			payload: key
-		}) {
+		deleteSymbol(state, {payload: key}) {
 			var index = methods.getSymbolIndexByKey(state.symbols, key);
 			if (index == undefined) {
 				openNotificationWithIcon('error', '删除失败,请重试');
 			} else {
 				state.symbols.splice(index, 1);
 			}
-			return {...state
-			};
+			return {...state};
 		},
-		handleSelectIndex(state, {
-			payload: index
-		}) {
+		handleSelectIndex(state, {payload: index}) {
 
 			console.log('handleSelectIndex');
 			state.selectIndex = index;
-			return {...state
-			};
+			return {...state};
 		},
-		handleChildrenAttrChange(state, {
-			payload: params
-		}) {
+		handleChildrenAttrChange(state, {payload: params}) {
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
 			if (params.attr.isTab) {
 				currentActiveCtrl.controller.children[0].children[state.selectIndex].children[0].attrs[0].children[4][params.attr.name] = params.attr.value;
@@ -1353,12 +1311,9 @@ export default {
 				currentActiveCtrl.controller.children[state.selectIndex].attrs[0].children[0][params.attr.name] = params.attr.value;
 			}
 			state.activeCtrl = currentActiveCtrl.controller;
-			return {...state
-			};
+			return {...state};
 		},
-		uploadBgImg(state, {
-			payload: params
-		}) {
+		uploadBgImg(state, {payload: params}) {
 
 			// var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
 			// console.log('uploadBgImg');
@@ -1371,12 +1326,9 @@ export default {
 					url: params.url
 				}
 			}, '*');
-			return {...state
-			}
+			return {...state}
 		},
-		uploadPreviewImg(state, {
-			payload: params
-		}) {
+		uploadPreviewImg(state, {payload: params}) {
 
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
 			if (currentActiveCtrl.controller.attrs[0].key == 'slider-setting') {
@@ -1406,21 +1358,15 @@ export default {
 				}, '*');
 			}
 
-			return {...state
-			}
+			return {...state}
 		},
 
-		handleAddChildrenAttr(state, {
-			payload: params
-		}) {
+		handleAddChildrenAttr(state, {payload: params}) {
 			state.attr[params.name] = params.value
-			return {...state
-			};
+			return {...state};
 		},
 		//当前活跃控件子删除    scasdsacsas
-		handleChildrenDelete(state, {
-			payload: params
-		}) {
+		handleChildrenDelete(state, {payload: params}) {
 
 			if (params.index == state.selectIndex) {
 
@@ -1456,12 +1402,9 @@ export default {
 				}
 			}, '*');
 
-			return {...state
-			};
+			return {...state};
 		},
-		handleComplextChildrenDelete(state, {
-			payload: params
-		}) {
+		handleComplextChildrenDelete(state, {payload: params}) {
 
 			var currentActiveCtrl,
 				target;
@@ -1521,12 +1464,9 @@ export default {
 					attrType: params.attrType
 				}
 			}, '*');
-			return {...state
-			};
+			return {...state};
 		},
-		handleComplexChildrenAdd(state, {
-			payload: params
-		}) {
+		handleComplexChildrenAdd(state, {payload: params}) {
 
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.parent, state.activePage);
 			const addChildrenByType = {
@@ -1558,13 +1498,10 @@ export default {
 					attrType: params.attrType
 				}
 			}, '*');
-			return {...state
-			};
+			return {...state};
 		},
 		//当前活跃控件 添加一个子控件
-		handleChildrenAdd(state, {
-			payload: params
-		}) {
+		handleChildrenAdd(state, {payload: params}) {
 
 			if (params.children.tag == 'option') {
 				params.children.attrs[0].children[0].html = state.attr.html;
@@ -1615,13 +1552,10 @@ export default {
 					attrType: params.attrType
 				}
 			}, '*');
-			return {...state
-			};
+			return {...state};
 		},
 		//当前活跃控件子控件更新
-		handleChildrenUpdate(state, {
-			payload: params
-		}) {
+		handleChildrenUpdate(state, {payload: params}) {
 
 			console.log(params);
 			state.keyValeUpdateVisible = false;
@@ -1635,13 +1569,10 @@ export default {
 					attrType: params.attrType
 				}
 			}, '*');
-			return {...state
-			};
+			return {...state};
 		},
 		//修改控件的Class
-		handleClassNameChange(state, {
-			payload: params
-		}) {
+		handleClassNameChange(state, {payload: params}) {
 
 			let currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage),
 				i = 0,
@@ -1687,13 +1618,10 @@ export default {
 					attrType: params.attrType
 				}
 			}, '*');
-			return {...state
-			};
+			return {...state};
 		},
 		//更改当前活跃ctrl
-		handleChangeCurrentCtrl(state, {
-			payload: params
-		}) {
+		handleChangeCurrentCtrl(state, {payload: params}) {
 
 			var parent = VDTreeActions.getCtrlByKey(state, state.activeCtrl.parent, state.activePage);
 
@@ -1729,12 +1657,9 @@ export default {
 					}
 				}, '*');
 			}
-			return {...state
-			};
+			return {...state};
 		},
-		handleActive(state, {
-			payload: params
-		}) {
+		handleActive(state, {payload: params}) {
 
 			//根据level获取要更改节点的父节点的数据结构
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage),
@@ -1811,12 +1736,9 @@ export default {
 				}
 			}, '*');
 			console.log(target);
-			return {...state
-			};
+			return {...state};
 		},
-		handleFade(state, {
-			payload: params
-		}) {
+		handleFade(state, {payload: params}) {
 
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
 			if (params.value) {
@@ -1861,8 +1783,7 @@ export default {
 			}
 			currentActiveCtrl.controller.attrs[0].children[0].value = params.value;
 			state.activeCtrl = currentActiveCtrl.controller;
-			return {...state
-			};
+			return {...state};
 		},
 		triggerMenu(state) {
 
@@ -1877,48 +1798,35 @@ export default {
 					},
 				}
 			}, '*');
-			return {...state
-			};
+			return {...state};
 		},
-		deletePage(state, {
-			payload: params
-		}) {
+		deletePage(state, {payload: params}) {
 			state.activeCtrl = {};
 			state.activePage.key = 'index.html';
 			delete state.layout[params.key];
 			window.VDDesignerFrame.postMessage({
 				pageSelected: state.layout[state.activePage.key]
 			}, '*');
-			return {...state
-			};
+			return {...state};
 		},
-		handlePreview(state, {
-			payload: params
-		}) {
+		handlePreview(state, {payload: params}) {
 
 			state.previewImage = params.previewImage;
 			state.previewVisible = params.previewVisible;
-			return {...state
-			};
+			return {...state};
 		},
 
-		handleChange(state, {
-			payload: fileList
-		}) {
+		handleChange(state, {payload: fileList}) {
 			state.fileList = fileList;
-			return {...state
-			};
+			return {...state};
 		},
 
 		handleCancel(state) {
 			state.previewVisible = false;
-			return {...state
-			};
+			return {...state};
 		},
 
-		generateCtrlTree(state, {
-			payload: ctrl
-		}) {
+		generateCtrlTree(state, {payload: ctrl}) {
 			let controller = ctrl.details;
 
 			// const specialAttrList = ['custom-attr', 'link-setting', 'list-setting', 'heading-type', 'image-setting', 'select-setting'];
@@ -2032,8 +1940,7 @@ export default {
 
 			console.log('generateCtrlTree================+++++++++++++++++', ctrl);
 
-			return {...state
-			};
+			return {...state};
 		},
 
 		// handleElemAdded(state, { payload: params }) {
@@ -2045,38 +1952,28 @@ export default {
 		// 	return {...state};
 		// },
 
-		setActivePage(state, {
-			payload: params
-		}) {
+		setActivePage(state, {payload: params}) {
 
 			state.activePage.key = params.activePage.key;
 			window.VDDesignerFrame.postMessage({
 				pageSelected: state.layout[params.activePage.key]
 			}, '*');
-			return {...state
-			};
+			return {...state};
 		},
 
-		handleTreeExpaned(state, {
-			payload: expandedKeys
-		}) {
+		handleTreeExpaned(state, {payload: expandedKeys}) {
 			return {...state,
 				expandedKeys: expandedKeys,
 				autoExpandParent: false
 			};
 		},
 
-		setActiveCtrlInTree(state, {
-			payload: params
-		}) {
+		setActiveCtrlInTree(state, {payload: params}) {
 			state.defaultSelectedKeys = params;
-			return {...state
-			};
+			return {...state};
 		},
 
-		ctrlSelected(state, {
-			payload: data
-		}) {
+		ctrlSelected(state, {payload: data}) {
 
 			if (data.unCtrl) {
 				console.log('unCtrl');
@@ -2095,12 +1992,9 @@ export default {
 
 			console.log(state.activeCtrl);
 
-			return {...state
-			};
+			return {...state};
 		},
-		handleAttrFormChangeA(state, {
-			payload: params
-		}) {
+		handleAttrFormChangeA(state, {payload: params}) {
 
 			let currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
 
@@ -2158,12 +2052,9 @@ export default {
 				}
 			}
 			state.activeCtrl = currentActiveCtrl.controller;
-			return {...state
-			};
+			return {...state};
 		},
-		handleAttrFormChangeNotRefreshActiveCtrl(state, {
-			payload: params
-		}) {
+		handleAttrFormChangeNotRefreshActiveCtrl(state, {payload: params}) {
 
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, params.target, state.activePage);
 			if (params.attrName === 'id') {
@@ -2179,12 +2070,9 @@ export default {
 					attr: attr
 				}
 			}, '*');
-			return {...state
-			};
+			return {...state};
 		},
-		handleAttrRefreshed(state, {
-			payload: params
-		}) {
+		handleAttrRefreshed(state, {payload: params}) {
 
 			//判断是否需要切换标签
 			if (params.attrType.isChangeTag && params.attr.name == 'tag') {
@@ -2202,13 +2090,10 @@ export default {
 			window.VDDesignerFrame.postMessage({
 				VDAttrRefreshed: params
 			}, '*');
-			return {...state
-			};
+			return {...state};
 		},
 
-		handleCustomAttrRemoved(state, {
-			payload: params
-		}) {
+		handleCustomAttrRemoved(state, {payload: params}) {
 			var attrName = state.activeCtrl.attrs[params.attrTypeIndex].children[params.index].key;
 			state.activeCtrl.attrs[params.attrTypeIndex].children.splice(params.index, 1);
 			window.VDDesignerFrame.postMessage({
@@ -2221,13 +2106,10 @@ export default {
 					attrType: params.attrType
 				}
 			}, '*');
-			return {...state
-			};
+			return {...state};
 		},
 
-		handleCustomAttrInputChange(state, {
-			payload: params
-		}) {
+		handleCustomAttrInputChange(state, {payload: params}) {
 
 			state.activeCtrl.attrs[params.attrTypeIndex].children[params.customAttrIndex][params.attrName] = params.value
 			window.VDDesignerFrame.postMessage({
@@ -2244,13 +2126,10 @@ export default {
 				}
 			}, '*');
 
-			return {...state
-			};
+			return {...state};
 		},
 
-		saveCustomAttr(state, {
-			payload: params
-		}) {
+		saveCustomAttr(state, {payload: params}) {
 
 			state.activeCtrl.attrs[params.attrTypeIndex].children.push({
 				key: params.key,
@@ -2271,14 +2150,11 @@ export default {
 				}
 			}, '*');
 
-			return {...state
-			};
+			return {...state};
 		},
 
 		//栅格数变化
-		handleColumnCountChange(state, {
-			payload: params
-		}) {
+		handleColumnCountChange(state, {payload: params}) {
 			console.log(params)
 			let column = params.column;
 			let currentRootVdid = params.currentRootVdid;
@@ -2426,13 +2302,10 @@ export default {
 			state.defaultSelectedKeys = [currentColumsInfo.vdid];
 			console.log(currentColums)
 
-			return {...state
-			};
+			return {...state};
 		},
 
-		shrinkLeftColumn(state, {
-			payload: params
-		}) {
+		shrinkLeftColumn(state, {payload: params}) {
 
 			let currentRootVdid = state.activeCtrl.root,
 				currentColums = VDTreeActions.getCtrlByKey(state, currentRootVdid, state.activePage);
@@ -2499,14 +2372,11 @@ export default {
 				changClassName(currentColums.children[params.index + 1].className, 'col-md-' + (needChangeAttr[params.index + 1].value));
 			}
 
-			return {...state
-			};
+			return {...state};
 
 		},
 
-		expandLeftColumn(state, {
-			payload: params
-		}) {
+		expandLeftColumn(state, {payload: params}) {
 
 
 			let currentRootVdid = state.activeCtrl.root,
@@ -2573,13 +2443,10 @@ export default {
 				changClassName(currentColums.children[params.index + 1].className, 'col-md-' + (needChangeAttr[params.index + 1].value));
 			}
 
-			return {...state
-			};
-		},
-
-		modifyCustomAttr(state, { payload: params }) {
 			return {...state};
 		},
+
+		modifyCustomAttr(state, { payload: params }) {return {...state};},
 
 		setActiveStyle(state, { payload: activeStyle }) {
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
@@ -2682,8 +2549,7 @@ export default {
 				}, "*")
 			}
 
-			return {...state
-			};
+			return {...state};
 		},
 
 		changeCustomClass(state, { payload: params }) {
@@ -2728,8 +2594,7 @@ export default {
 				}, '*');
 			}
 
-			return {...state
-			};
+			return {...state};
 		},
 
 		handleLinkSettingTypeChange(state, { payload: params }) {
@@ -2764,8 +2629,7 @@ export default {
 				pageSelected: state.layout[pageInfo.key]
 			}, '*');
 
-			return {...state
-			};
+			return {...state};
 		},
 
 		copyCtrl(state, { payload: params }) {
@@ -2774,8 +2638,7 @@ export default {
 				sessionStorage.copiedCtrl = JSON.stringify(state.activeCtrl);
 			}
 
-			return {...state};
-		},
+			return {...state};},
 
 		pastCtrl(state, { payload: params }) {
 
@@ -2967,8 +2830,7 @@ export default {
 				}, '*');
 			}
 
-			return {...state
-			};
+			return {...state};
 		},
 
 		ctrlMovedAndDroped(state, { payload: params }) {
@@ -3044,8 +2906,7 @@ export default {
 			}
 			state.autoExpandParent = true;
 
-			return {...state
-			};
+			return {...state};
 		},
 
 		handleInteractionOnSelect(state, { payload: params }) {
@@ -3066,8 +2927,7 @@ export default {
 				}, '*');
 			}
 
-			return {...state
-			};
+			return {...state};
 		},
 
 		// handleRemoveInteraction(state, {payload: deletedInteraction}) {
