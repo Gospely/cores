@@ -531,6 +531,7 @@ export default {
 
 		handleNewInteractionFormChange(state, { payload: params }) {
 
+			let editOldInteractionForm = state.editOldInteractionForm;
 			if (params.edit) {
 
 				if (params.attrName === 'condition') {

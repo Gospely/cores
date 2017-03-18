@@ -59,25 +59,34 @@ const keyConfig = {
 			mainKey: ['ctrl+c','command+c'],
 			handler: function(props){
 
+				if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
+					return true;
+				}
+
 				if(localStorage.image === 'vd:site') {
 					props.dispatch({
 						type: 'vdCtrlTree/copyCtrl'
 					})
 
 				}
-			}
+			},
+			isStop: true
 		},
 		{
 			mainKey: ['ctrl+x','command+x'],
 			handler: function(props){
 
+				if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
+					return true;
+				}
 				if(localStorage.image === 'vd:site') {
 					props.dispatch({
 						type: 'vdCtrlTree/cutCtrl'
 					})
 
 				}
-			}
+			},
+			isStop: true
 		},
 		{
 			mainKey: ['delete','fn+delete'],
@@ -96,8 +105,10 @@ const keyConfig = {
 		},
 		{
 			mainKey: ['ctrl+v','command+v'],
-			handler: function(props){
-				
+			handler: function(props, event){
+				if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
+					return true;
+				}
 				if(localStorage.image === 'vd:site') {
 					props.dispatch({
 						type: 'vdCtrlTree/pastCtrl',
@@ -107,7 +118,8 @@ const keyConfig = {
 					})
 
 				}
-			}
+			},
+			isStop: true
 		},
 		{
 			mainKey: ['option+shift+n', 'alt+shift+n'],
