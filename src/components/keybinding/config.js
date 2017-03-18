@@ -181,7 +181,7 @@ const keyConfig = {
 			mainKey: ['alt+,','option+,'],
 			handler: function(props){
 				props.dispatch({
-					type: 'rightbar/setActiveMenu',
+					type: 'sidebar/setActiveMenu',
 					payload: 'setting'
 				});
 				props.dispatch({
