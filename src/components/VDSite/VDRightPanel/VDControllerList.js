@@ -216,6 +216,7 @@ const Component = (props) => {
         		onDragOver={ctrlPros.onDragOver}
         		onDragStart={ctrlPros.onDragStart}
         		onDragLeave={ctrlPros.onDragLeave}
+        		selectedKeys={props.vdCtrlTree.defaultSelectedKeys}
       		>
       			{loopControllerTree(activeControllerTree)}
       		</Tree>

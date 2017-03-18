@@ -54,6 +54,13 @@ const VDDesignerPanel = (props) => {
                     props.dispatch({
                         type: 'vdanimations/applyScriptIntoPage'
                     });
+
+                    props.vdCtrlTree.activeCtrl.vdid && window.VDDesignerFrame.postMessage({
+                        VDCtrlSelected: {
+                            vdid: props.vdCtrlTree.activeCtrl.vdid,
+                            isFromCtrlTree: true
+                        }
+                    }, '*');
                 }, 2600);
 
 
@@ -63,7 +70,7 @@ const VDDesignerPanel = (props) => {
                 $(window).on("keyup", {props}, function (e) {
                     e.stopPropagation();
                     e.preventDefault();
-                    console.log(e.keyCode)
+                    console.log(e.keyCode, e.ctrlKey, e.shiftKey, e.altKey, e.commandKey)
                     if (e.keyCode === 46) {
                         e.data.props.dispatch({
                             type: 'vdCtrlTree/deleteCtrl',

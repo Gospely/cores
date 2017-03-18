@@ -56,6 +56,33 @@ const keyConfig = {
 			}
 		},
 		{
+			mainKey: ['ctrl+c','command+c'],
+			handler: function(props){
+
+				if(localStorage.image === 'vd:site') {
+					props.dispatch({
+						type: 'vdCtrlTree/copyCtrl'
+					})
+
+				}
+			}
+		},
+		{
+			mainKey: ['ctrl+v','command+v'],
+			handler: function(props){
+				
+				if(localStorage.image === 'vd:site') {
+					props.dispatch({
+						type: 'vdCtrlTree/pastCtrl',
+						payload: {
+							type: 'after'
+						}
+					})
+
+				}
+			}
+		},
+		{
 			mainKey: ['option+shift+n', 'alt+shift+n'],
 			handler: function (props) {
 				console.log('option + shift n');

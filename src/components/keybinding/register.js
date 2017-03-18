@@ -26,7 +26,7 @@ const HotKeyHandler = {
 				if(keys.length == 2){
 					HotKeyHandler.register(key,keymap[keys[0]],null,keymap[keys[1]], config.handler);
 				}
-				if(keys.length ==3 ){
+				if(keys.length == 3 ){
 					HotKeyHandler.register(key,keymap[keys[0]],keymap[keys[1]],keymap[keys[2]],config.handler);
 				}
 			});
@@ -53,6 +53,8 @@ const HotKeyHandler = {
 			//获取键值
 			var keyCode = event.keyCode;
 			var exec = false;
+
+			console.log(keyCode);
 
 			for (var i = 0; i < HotKeyHandler.handlers.length; i++) {
 				var handler = HotKeyHandler.handlers[i];
@@ -91,7 +93,7 @@ const HotKeyHandler = {
 				}
 			}
 			if(keyCode == keymap['ctrl'] || keyCode == keymap['command']){
-				HotKeyHandler.currentMainKey=keyCode;
+				HotKeyHandler.currentMainKey = keyCode;
 			}
 			if(keyCode == keymap['shift']){
 				HotKeyHandler.currentSecondKey = keyCode;

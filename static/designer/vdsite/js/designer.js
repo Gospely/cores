@@ -9,6 +9,9 @@ $(function() {
 		var target = jQuery(e.target);
 		target.animateCss(e.data.animate);
 		if (selected.offset().top === target.offset().top && selected.offset().left === target.offset().left) {
+			selected.css({
+				animationDuration: target.css("animationDuration")
+			});
 			selected.animateCss(e.data.animate);
 		}
 
@@ -43,8 +46,6 @@ $(function() {
     	ctx.fillStyle = "rgba(1, 1, 1, 1)";
     	ctx.globalCompositeOperation = 'destination-out';
     	ctx.fillRect(left, top, width, height);
-
-
     }
 
     var guide = jq("#vdInsertGuide");
@@ -547,6 +548,15 @@ $(function() {
                         setTimeout(function () {
                         	var container = jq("#VDDesignerContainer");
                         	var last = container.children().last();
+                        	
+                        	if (!last || last.length === 0) {
+								container.css({
+									height: '100%'
+								});
+
+								return;
+							}
+
                         	if (last.outerHeight() + last.offset().top + 100 > jq(window).innerHeight()) {
 								container.css({
 									height: 'auto'
@@ -556,7 +566,7 @@ $(function() {
 									height: '100%'
 								})
 							}
-                        }, 1000)
+                        }, 500)
                         
                     },
 
@@ -579,6 +589,9 @@ $(function() {
                     	var target = jq('[vdid="' + data.id + '"]');
                     	target.animateCss(data.animateName);
                     	if (selected.offset().top === target.offset().top && selected.offset().left === target.offset().left) {
+							selected.css({
+								animationDuration: target.css("animationDuration")
+							});
 							selected.animateCss(data.animateName);
 						}
                     },
@@ -876,6 +889,13 @@ $(function() {
 			changeContainerHeight: function (type) {
 				var container = jq("#VDDesignerContainer");
 				var last = container.children().last();
+
+				if (!last || last.length === 0) {
+					container.css({
+						height: '100%'
+					});
+					return;
+				}
 				if (last.outerHeight() + last.offset().top + 100 > jq(window).innerHeight()) {
 					container.css({
 						height: 'auto'

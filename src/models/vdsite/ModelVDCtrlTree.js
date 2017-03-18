@@ -1003,16 +1003,17 @@ export default {
 			state.symbols = params.UIState.symbols || [];
 			state.activeCtrlLvl = params.UIState.activeCtrlLvl || 0;
 			state.activeCtrlIndex = params.UIState.activeCtrlIndex || 1;
-			state.defaultExpandedKeys = params.UIState.defaultExpandedKeys;
+			state.defaultExpandedKeys = params.UIState.defaultExpandedKeys || [];
+			state.defaultSelectedKeys = params.UIState.defaultSelectedKeys || [];
 
 			return {...state};
 		},
 		initActiveState(state){
 
-			state.activeCtrl = {};
-			state.defaultSelectedKeys = [""];
-			state.activeCtrlLvl = 0;
-			state.activeCtrlIndex = 1;
+			// state.activeCtrl = {};
+			// state.defaultSelectedKeys = [""];
+			// state.activeCtrlLvl = 0;
+			// state.activeCtrlIndex = 1;
 			return {...state};
 		},
 		handleUnit(state, { payload: params }){
@@ -2620,11 +2621,21 @@ export default {
 		},
 
 		copyCtrl(state, {payload: params}) {
-			sessionStorage.copiedCtrl = JSON.stringify(state.activeCtrl);
+
+			if (state.activeCtrl && state.activeCtrl !== 'none') {
+				sessionStorage.copiedCtrl = JSON.stringify(state.activeCtrl);	
+			}
+			
 			return {...state};
 		},
 
 		pastCtrl(state, {payload: params}) {
+
+			console.log(state.activeCtrl)
+			if (!sessionStorage.copiedCtrl || !state.activeCtrl || !state.activeCtrl.tag) {
+				return {...state};
+			}
+
 			let controller = JSON.parse(sessionStorage.copiedCtrl);
 			let activeCtrl = state.activeCtrl;
 
@@ -2896,7 +2907,7 @@ export default {
 			currentList.pop();
 			currentList.push(params);
 
-			if (params.key !== 'none') {
+			if (params.key !== 'none' && params.condition !== 'laod') {
 
 				window.VDDesignerFrame.postMessage({
 				animateElement: {
