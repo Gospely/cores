@@ -35,6 +35,11 @@ const Component = (props) => {
 				}
 
 				realSelectedCtrl = val[0];
+
+				console.log(realSelectedCtrl)
+				if (realSelectedCtrl.split('-') === 'body') {
+					return;
+				}
 				
 				window.VDDesignerFrame.postMessage({
 					VDCtrlSelected: {

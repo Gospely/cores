@@ -68,6 +68,18 @@ const keyConfig = {
 			}
 		},
 		{
+			mainKey: ['ctrl+x','command+x'],
+			handler: function(props){
+
+				if(localStorage.image === 'vd:site') {
+					props.dispatch({
+						type: 'vdCtrlTree/cutCtrl'
+					})
+
+				}
+			}
+		},
+		{
 			mainKey: ['ctrl+v','command+v'],
 			handler: function(props){
 				

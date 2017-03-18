@@ -1,9 +1,22 @@
-import React , {PropTypes} from 'react';
-import { connect } from 'dva';
+import React, {
+  PropTypes
+} from 'react';
+import {
+  connect
+} from 'dva';
 
-import { Button, Modal, Spin } from 'antd';
-import { Tabs, Icon } from 'antd';
-import { Tooltip } from 'antd';
+import {
+  Button,
+  Modal,
+  Spin
+} from 'antd';
+import {
+  Tabs,
+  Icon
+} from 'antd';
+import {
+  Tooltip
+} from 'antd';
 
 import VDAssets from './VDAssets.js';
 import VDControllerList from './VDControllerList.js';
@@ -19,22 +32,43 @@ let flag = false;
 
 const VDRightPanel = (props) => {
 
-    if (!flag) {
-      MessageHandeler.init(props);
+  if (!flag) {
+    MessageHandeler.init(props);
+  }
+
+  flag = true;
+
+  const onChange = (key) => {
+
+    props.dispatch({
+      type: 'vdcore/changeTabsPane',
+      payload: {
+        activeTabsPane: key,
+        linkTo: false,
+      }
+    });
+
+    if (key == 'controllers') {
+      props.dispatch({
+        type: 'vdCtrlTree/changeVDControllerListScroll',
+        payload: 'hidden'
+      })
+
+      setTimeout(function() {
+        props.dispatch({
+          type: 'vdCtrlTree/changeVDControllerListScroll',
+          payload: 'auto'
+        })
+      }, 400)
+
+    } else {
+      props.dispatch({
+        type: 'vdCtrlTree/changeVDControllerListScroll',
+        payload: 'hidden'
+      })
     }
 
-    flag = true;
-
-    const onChange = (key) => {
-      props.dispatch({
-        type: 'vdcore/changeTabsPane',
-        payload: {
-          activeTabsPane: key,
-          linkTo: false,
-
-        }
-      });
-    } 
+  }
 
   return (
     <Spin spinning={props.vdstyles.VDStylePaneSpinActive}>
@@ -57,7 +91,7 @@ const VDRightPanel = (props) => {
             <VDSettingPanel></VDSettingPanel>
           </TabPane>
 
-          <TabPane tab={
+          <TabPane style={{overflow: props.vdCtrlTree.VDControllerListScroll}} tab={
             <Tooltip placement="bottom" title="组件树">
               <Icon type="bars" />
             </Tooltip>} key='controllers'>
@@ -92,8 +126,18 @@ const VDRightPanel = (props) => {
 
 };
 
-function mapSateToProps({ vdCtrlTree, elemAdded, vdcore, vdstyles}) {
-  return { vdCtrlTree, elemAdded, vdcore, vdstyles};
+function mapSateToProps({
+  vdCtrlTree,
+  elemAdded,
+  vdcore,
+  vdstyles
+}) {
+  return {
+    vdCtrlTree,
+    elemAdded,
+    vdcore,
+    vdstyles
+  };
 }
 
 export default connect(mapSateToProps)(VDRightPanel);
