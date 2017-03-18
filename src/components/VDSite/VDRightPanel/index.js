@@ -1,22 +1,9 @@
-import React, {
-  PropTypes
-} from 'react';
-import {
-  connect
-} from 'dva';
+import React, {PropTypes} from 'react';
+import {connect} from 'dva';
 
-import {
-  Button,
-  Modal,
-  Spin
-} from 'antd';
-import {
-  Tabs,
-  Icon
-} from 'antd';
-import {
-  Tooltip
-} from 'antd';
+import {Button,Modal,Spin} from 'antd';
+import {Tabs,Icon} from 'antd';
+import {Tooltip} from 'antd';
 
 import VDAssets from './VDAssets.js';
 import VDControllerList from './VDControllerList.js';
@@ -59,7 +46,7 @@ const VDRightPanel = (props) => {
           type: 'vdCtrlTree/changeVDControllerListScroll',
           payload: 'auto'
         })
-      }, 400)
+      }, 800)
 
     } else {
       props.dispatch({
@@ -126,18 +113,8 @@ const VDRightPanel = (props) => {
 
 };
 
-function mapSateToProps({
-  vdCtrlTree,
-  elemAdded,
-  vdcore,
-  vdstyles
-}) {
-  return {
-    vdCtrlTree,
-    elemAdded,
-    vdcore,
-    vdstyles
-  };
+function mapSateToProps({vdCtrlTree,elemAdded,vdcore,vdstyles}) {
+  return { vdCtrlTree,elemAdded, vdcore,vdstyles };
 }
 
 export default connect(mapSateToProps)(VDRightPanel);
