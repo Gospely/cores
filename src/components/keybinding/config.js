@@ -80,6 +80,21 @@ const keyConfig = {
 			}
 		},
 		{
+			mainKey: ['delete','fn+delete'],
+			handler: function(props){
+
+				if(localStorage.image === 'vd:site') {
+					props.dispatch({
+						type: 'vdCtrlTree/deleteCtrl',
+						payload: {
+                            fromKeyboard: true
+                        }
+					})
+
+				}
+			}
+		},
+		{
 			mainKey: ['ctrl+v','command+v'],
 			handler: function(props){
 				
