@@ -638,8 +638,14 @@ $(function() {
 
                     	var elem = new ElemGenerator(data.controller);
                         var elemToAdd = jq(elem.createElement());
-                        var parent = jq("[vdid=" + data.activeCtrlVdid + "]");
-                        parent[data.type](elemToAdd);
+
+                        if (data.activeCtrlTag === 'body') {
+                        	jq("#VDDesignerContainer")[data.type](elemToAdd);
+                        }else {
+                        	var parent = jq("[vdid=" + data.activeCtrlVdid + "]");
+                        	parent[data.type](elemToAdd);
+                        }
+                        
                         controllerOperations.select(data.controller);
                         controllerOperations.changeContainerHeight('add');
                     },
@@ -1117,7 +1123,6 @@ $(function() {
         		e.stopPropagation();
 
         		var target = jq(e.target);
-        		console.log(e.target)
         		var targetIsChild = target.isChildOf(dndData.dragElem);
         		var isContainer = target.data("container");
 
@@ -1833,4 +1838,12 @@ window.onload = function () {
 	window.parent.postMessage({
 		allLoaded: {}
 	}, "*")
+
+	jQuery(document).on('keydown', function (e) {
+		e.stopPropagation();
+		e.preventDefault();
+		window.parent.postMessage({
+			keyDown: e.keyCode
+		}, "*")
+	})
 }

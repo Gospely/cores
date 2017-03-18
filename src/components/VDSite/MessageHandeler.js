@@ -73,6 +73,12 @@ export default {
 							isFromFrames: true
 						}
 					})
+				},
+
+				keyDown() {
+					let e = jQuery.Event("keydown");
+				    e.keyCode = data; //enter key
+				    jQuery(document).trigger(e);
 				}
 			}
 

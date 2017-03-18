@@ -2642,12 +2642,20 @@ export default {
 
 		pastCtrl(state, { payload: params }) {
 
-			if (!sessionStorage.copiedCtrl || !state.activeCtrl || !state.activeCtrl.tag) {
+			if (!sessionStorage.copiedCtrl) {
 				return {...state};
 			}
 
 			let controller = JSON.parse(sessionStorage.copiedCtrl);
 			let activeCtrl = state.activeCtrl;
+
+			if (state.layout[state.activePage.key][0].children.length === 0) {
+				//页面为空时的粘贴
+				params.type = 'append';
+				activeCtrl = state.layout[state.activePage.key][0];
+			}else if (!activeCtrl || !activeCtrl.tag) {
+				return {...state};
+			}
 
 			controller.vdid = controller.key ? (controller.key + '-' + randomString(8, 10)) : randomString(8, 10);
 			controller.parent = activeCtrl.vdid;
@@ -2730,11 +2738,12 @@ export default {
 				ctrlDataPasted: {
 					controller,
 					activeCtrlVdid: activeCtrl.vdid,
-					type: params.type
+					type: params.type,
+					activeCtrlTag: activeCtrl.tag
 				}
 			}, "*");
 
-			if ((params.type === 'append' || params.type === 'prepend') && activeCtrl.children.length === 1) {
+			if ((params.type === 'append' || params.type === 'prepend') && activeCtrl.children.length === 1 && activeCtrl.tag !== 'body') {
 				let index = activeCtrl.className.indexOf('vd-empty');
 				activeCtrl.className.splice(index, 1);
 				window.VDDesignerFrame.postMessage({
