@@ -1,3279 +1,3994 @@
 import React, {
-	PropTypes
+    PropTypes
 }
 from 'react';
 import dva from 'dva';
-import randomString from '../../utils/randomString.js';
 import {
-	message
+    Icon,
+    notification
 }
 from 'antd';
+import randomString from '../../utils/randomString.js';
+
+const openNotificationWithIcon = (type, title, description) => (
+    notification[type]({
+        message: title,
+        description: description,
+    })
+)
 
 const methods = {
-	checkName(symbols, name) {
+    checkName(symbols, name) {
+            for (var i = 0; i < symbols.length; i++) {
+                if (symbols[i].name == name) {
+                    return false;
+                }
+            }
+            return true;
+        },
+        getSymbolIndexByKey(symbols, key) {
 
-			for (var i = 0; i < symbols.length; i++) {
-				if (symbols[i].name == name) {
-					return false;
-				}
-			}
-			return true;
-		},
-		getSymbolIndexByKey(symbols, key) {
-
-			for (var i = 0; i < symbols.length; i++) {
-				if (symbols[i].key == key) {
-					return i;
-				}
-			}
-			return undefined;
-		}
-}
-const VDTreeActions = {
-	deepCopyObj(obj, result) {
-			result = result || {};
-			for (let key in obj) {
-				if (typeof obj[key] === 'object') {
-					result[key] = (obj[key].constructor === Array) ? [] : {};
-					VDTreeActions.deepCopyObj(obj[key], result[key]);
-				} else {
-					result[key] = obj[key];
-				}
-			}
-			return result;
-		},
-
-		getActiveCtrl(state) {
-			return state.activeCtrl;
-		},
-
-		getCtrlByKey(state, key, activePage) {
-			let obj = {
-					index: 0,
-					level: 1,
-					controller: undefined
-				},
-
-				controllers = state.layout[activePage.key];
-
-			const loopControllers = function(controllers, level) {
-				level = level || 1;
-				for (let i = 0; i < controllers.length; i++) {
-					let currentControl = controllers[i];
-					if (currentControl.children) {
-						loopControllers(currentControl.children, level++);
-					}
-					if (currentControl.vdid === key) {
-						obj.index = i;
-						obj.level = level;
-						obj.controller = currentControl;
-						break;
-					}
-				}
-				return obj;
-			}
-
-			return loopControllers(controllers, 1);
-		},
-
-		getParentCtrlByKey(state, key, activePage) {
-
-			let obj = {
-					index: 0,
-					level: 1,
-					controller: '',
-					parentCtrl: '',
-					parentIndex: ''
-				},
-
-				controllers = state.layout[activePage.key];
-
-			const loopControllers = function(controllers, level, parent, parentIndex) {
-				level = level || 1;
-				for (let i = 0; i < controllers.length; i++) {
-					let currentControl = controllers[i];
-					if (currentControl.children) {
-						loopControllers(currentControl.children, level++, currentControl, i);
-					}
-					if (currentControl.vdid == key) {
-						obj.index = i;
-						obj.level = level;
-						obj.controller = currentControl;
-						obj.parentCtrl = parent;
-						obj.parentIndex = parentIndex;
-						break;
-					}
-				}
-				return obj;
-			}
-
-			return loopControllers(controllers, 1, state.layout, 0);
-		},
-		getActiveControllerIndexAndLvlByKey(state, key, activePage) {
-			let obj = {
-				index: '',
-				level: 1,
-				controller: ''
-			};
-			let controllers = state.layout[activePage.key];
-			const loopControllers = function(controllers, level) {
-				level = level || 1;
-				for (let i = 0; i < controllers.length; i++) {
-					let currentControl = controllers[i];
-					if (currentControl.children) {
-						loopControllers(currentControl.children, level++);
-					}
-					if (currentControl.vdid == key) {
-						obj.index = i;
-						obj.level = level;
-						obj.controller = currentControl;
-						break;
-					}
-				}
-				return obj;
-			}
-			return loopControllers(controllers, 1);
-
-		},
-		setActiveCtrl(state, controllerIndex, controllerKey, level) {},
+            for (var i = 0; i < symbols.length; i++) {
+                if (symbols[i].key == key) {
+                    return i;
+                }
+            }
+            return undefined;
+        }
 }
 
 export default {
-	namespace: 'vdCtrlTree',
-	state: {
-		autoExpandParent: true,
-		defaultExpandedKeys: ["body-main"],
-		defaultSelectedKeys: [""],
-		expandedKeys: ["body-main"],
-		symbols: [],
-		icons: [
-			'fa fa-external-link',
-			'fa fa-font-awesome',
-			'fa fa-caret-down',
-			'fa fa-universal-access',
-			'fa fa-flag',
-			'fa fa-envelope',
-			'fa fa-search',
-			'fa fa-address-book',
-			'fa fa-address-book-o',
-			'fa fa-address-card',
-			'fa fa-address-card-o',
-			'fa fa-bandcamp',
-			'fa fa-bath',
-			'fa fa-bathtub',
-			'fa fa-drivers-license',
-			'fa fa-drivers-license-o',
-			'fa fa-eercast',
-			'fa fa-envelope-open',
-			'fa fa-envelope-open-o',
-			'fa fa-etsy',
-			'fa fa-free-code-camp',
-			'fa fa-grav',
-			'fa fa-handshake-o',
-			'fa fa-id-badge',
-			'fa fa-id-card',
-			'fa fa-id-card-o',
-			'fa fa-imdb',
-			'fa fa-linode',
-			'fa fa-meetup',
-			'fa fa-microchip',
-			'fa fa-podcast',
-			'fa fa-quora',
-			'fa fa-ravelry',
-			'fa fa-s15',
-			'fa fa-shower',
-			'fa fa-snowflake-o',
-			'fa fa-superpowers',
-			'fa fa-telegram',
-			'fa fa-thermometer',
-			'fa fa-thermometer-0',
-			'fa fa-thermometer-1',
-			'fa fa-thermometer-2',
-			'fa fa-thermometer-3',
-			'fa fa-thermometer-4',
-			'fa fa-thermometer-empty',
-			'fa fa-thermometer-full',
-			'fa fa-thermometer-half',
-			'fa fa-thermometer-quarter',
-			'fa fa-thermometer-three-quarters',
-			'fa fa-times-rectangle',
-			'fa fa-times-rectangle-o',
-			'fa fa-user-circle',
-			'fa fa-user-circle-o',
-			'fa fa-user-o',
-			'fa fa-vcard',
-			'fa fa-vcard-o',
-			'fa fa-window-close',
-			'fa fa-window-close-o',
-			'fa fa-window-maximize',
-			'fa fa-window-minimize',
-			'fa fa-window-restore',
-			'fa fa-wpexplorer',
-			'fa fa-adjust',
-			'fa fa-american-sign-language-interpreting',
-			'fa fa-anchor',
-			'fa fa-archive',
-			'fa fa-area-chart',
-			'fa fa-arrows',
-			'fa fa-arrows-h',
-			'fa fa-arrows-v',
-			'fa fa-asl-interpreting',
-			'fa fa-assistive-listening-systems',
-			'fa fa-asterisk',
-			'fa fa-at',
-			'fa fa-audio-description',
-			'fa fa-automobile',
-			'fa fa-balance-scale',
-			'fa fa-ban',
-			'fa fa-bank',
-			'fa fa-bar-chart',
-			'fa fa-bar-chart-o',
-			'fa fa-barcode',
-			'fa fa-bars',
-			'fa fa-battery',
-			'fa fa-battery-0',
-			'fa fa-battery-1',
-			'fa fa-battery-2',
-			'fa fa-battery-3',
-			'fa fa-battery-4',
-			'fa fa-battery-empty',
-			'fa fa-battery-full',
-			'fa fa-battery-half',
-			'fa fa-battery-quarter',
-			'fa fa-battery-three-quarters',
-			'fa fa-bed',
-			'fa fa-beer',
-			'fa fa-bell',
-			'fa fa-bell-o',
-			'fa fa-bell-slash',
-			'fa fa-bell-slash-o',
-			'fa fa-bicycle',
-			'fa fa-binoculars',
-			'fa fa-birthday-cake',
-			'fa fa-blind',
-			'fa fa-bluetooth',
-			'fa fa-bluetooth-b',
-			'fa fa-bolt',
-			'fa fa-bomb',
-			'fa fa-book',
-			'fa fa-bookmark',
-			'fa fa-bookmark-o',
-			'fa fa-braille',
-			'fa fa-briefcase',
-			'fa fa-bug',
-			'fa fa-building',
-			'fa fa-building-o',
-			'fa fa-bullhorn',
-			'fa fa-bullseye',
-			'fa fa-bus',
-			'fa fa-cab',
-			'fa fa-calculator',
-			'fa fa-calendar',
-			'fa fa-calendar-check-o',
-			'fa fa-calendar-minus-o',
-			'fa fa-calendar-o',
-			'fa fa-calendar-plus-o',
-			'fa fa-calendar-times-o',
-			'fa fa-camera',
-			'fa fa-camera-retro',
-			'fa fa-car',
-			'fa fa-caret-square-o-down',
-			'fa fa-caret-square-o-left',
-			'fa fa-caret-square-o-right',
-			'fa fa-caret-square-o-up',
-			'fa fa-cart-arrow-down',
-			'fa fa-cart-plus',
-			'fa fa-cc',
-			'fa fa-certificate',
-			'fa fa-check',
-			'fa fa-check-circle',
-			'fa fa-check-circle-o',
-			'fa fa-check-square',
-			'fa fa-check-square-o',
-			'fa fa-child',
-			'fa fa-circle',
-			'fa fa-circle-o',
-			'fa fa-circle-o-notch',
-			'fa fa-circle-thin',
-			'fa fa-clock-o',
-			'fa fa-clone',
-			'fa fa-close',
-			'fa fa-cloud',
-			'fa fa-cloud-download',
-			'fa fa-cloud-upload',
-			'fa fa-code',
-			'fa fa-code-fork',
-			'fa fa-coffee',
-			'fa fa-cog',
-			'fa fa-cogs',
-			'fa fa-comment',
-			'fa fa-comment-o',
-			'fa fa-commenting',
-			'fa fa-commenting-o',
-			'fa fa-comments',
-			'fa fa-comments-o',
-			'fa fa-compass',
-			'fa fa-copyright',
-			'fa fa-creative-commons',
-			'fa fa-credit-card',
-			'fa fa-credit-card-alt',
-			'fa fa-crop',
-			'fa fa-crosshairs',
-			'fa fa-cube',
-			'fa fa-cubes',
-			'fa fa-cutlery',
-			'fa fa-dashboard',
-			'fa fa-database',
-			'fa fa-deaf',
-			'fa fa-deafness',
-			'fa fa-desktop',
-			'fa fa-diamond',
-			'fa fa-dot-circle-o',
-			'fa fa-download',
-			'fa fa-edit',
-			'fa fa-ellipsis-h',
-			'fa fa-ellipsis-v',
-			'fa fa-envelope-o',
-			'fa fa-envelope-square',
-			'fa fa-eraser',
-			'fa fa-exchange',
-			'fa fa-exclamation',
-			'fa fa-exclamation-circle',
-			'fa fa-exclamation-triangle',
-			'fa fa-external-link-square',
-			'fa fa-eye',
-			'fa fa-eye-slash',
-			'fa fa-eyedropper',
-			'fa fa-fax',
-			'fa fa-feed',
-			'fa fa-female',
-			'fa fa-fighter-jet',
-			'fa fa-file-archive-o',
-			'fa fa-file-audio-o',
-			'fa fa-file-code-o',
-			'fa fa-file-excel-o',
-			'fa fa-file-image-o',
-			'fa fa-file-movie-o',
-			'fa fa-file-pdf-o',
-			'fa fa-file-photo-o',
-			'fa fa-file-picture-o',
-			'fa fa-file-powerpoint-o',
-			'fa fa-file-sound-o',
-			'fa fa-file-video-o',
-			'fa fa-file-word-o',
-			'fa fa-file-zip-o',
-			'fa fa-film',
-			'fa fa-filter',
-			'fa fa-fire',
-			'fa fa-fire-extinguisher',
-			'fa fa-flag-checkered',
-			'fa fa-flag-o',
-			'fa fa-flash',
-			'fa fa-flask',
-			'fa fa-folder',
-			'fa fa-folder-o',
-			'fa fa-folder-open',
-			'fa fa-folder-open-o',
-			'fa fa-frown-o',
-			'fa fa-futbol-o',
-			'fa fa-gamepad',
-			'fa fa-gavel',
-			'fa fa-gear',
-			'fa fa-gears',
-			'fa fa-gift',
-			'fa fa-glass',
-			'fa fa-globe',
-			'fa fa-graduation-cap',
-			'fa fa-group',
-			'fa fa-hand-grab-o',
-			'fa fa-hand-lizard-o',
-			'fa fa-hand-paper-o',
-			'fa fa-hand-peace-o',
-			'fa fa-hand-pointer-o',
-			'fa fa-hand-rock-o',
-			'fa fa-hand-scissors-o',
-			'fa fa-hand-spock-o',
-			'fa fa-hand-stop-o',
-			'fa fa-hard-of-hearing',
-			'fa fa-hashtag',
-			'fa fa-hdd-o',
-			'fa fa-headphones',
-			'fa fa-heart',
-			'fa fa-heart-o',
-			'fa fa-heartbeat',
-			'fa fa-history',
-			'fa fa-home',
-			'fa fa-hotel',
-			'fa fa-hourglass',
-			'fa fa-hourglass-1',
-			'fa fa-hourglass-2',
-			'fa fa-hourglass-3',
-			'fa fa-hourglass-end',
-			'fa fa-hourglass-half',
-			'fa fa-hourglass-o',
-			'fa fa-hourglass-start',
-			'fa fa-i-cursor',
-			'fa fa-image',
-			'fa fa-inbox',
-			'fa fa-industry',
-			'fa fa-info',
-			'fa fa-info-circle',
-			'fa fa-institution',
-			'fa fa-key',
-			'fa fa-keyboard-o',
-			'fa fa-language',
-			'fa fa-laptop',
-			'fa fa-leaf',
-			'fa fa-legal',
-			'fa fa-lemon-o',
-			'fa fa-level-down',
-			'fa fa-level-up',
-			'fa fa-life-bouy',
-			'fa fa-life-buoy',
-			'fa fa-life-ring',
-			'fa fa-life-saver',
-			'fa fa-lightbulb-o',
-			'fa fa-line-chart',
-			'fa fa-location-arrow',
-			'fa fa-lock',
-			'fa fa-low-vision',
-			'fa fa-magic',
-			'fa fa-magnet',
-			'fa fa-mail-forward',
-			'fa fa-mail-reply',
-			'fa fa-mail-reply-all',
-			'fa fa-male',
-			'fa fa-map',
-			'fa fa-map-marker',
-			'fa fa-map-o',
-			'fa fa-map-pin',
-			'fa fa-map-signs',
-			'fa fa-meh-o',
-			'fa fa-microphone',
-			'fa fa-microphone-slash',
-			'fa fa-minus',
-			'fa fa-minus-circle',
-			'fa fa-minus-square',
-			'fa fa-minus-square-o',
-			'fa fa-mobile',
-			'fa fa-mobile-phone',
-			'fa fa-money',
-			'fa fa-moon-o',
-			'fa fa-mortar-board',
-			'fa fa-motorcycle',
-			'fa fa-mouse-pointer',
-			'fa fa-music',
-			'fa fa-navicon',
-			'fa fa-newspaper-o',
-			'fa fa-object-group',
-			'fa fa-object-ungroup',
-			'fa fa-paint-brush',
-			'fa fa-paper-plane',
-			'fa fa-paper-plane-o',
-			'fa fa-paw',
-			'fa fa-pencil',
-			'fa fa-pencil-square',
-			'fa fa-pencil-square-o',
-			'fa fa-percent',
-			'fa fa-phone',
-			'fa fa-phone-square',
-			'fa fa-photo',
-			'fa fa-picture-o',
-			'fa fa-pie-chart',
-			'fa fa-plane',
-			'fa fa-plug',
-			'fa fa-plus',
-			'fa fa-plus-circle',
-			'fa fa-plus-square',
-			'fa fa-plus-square-o',
-			'fa fa-power-off',
-			'fa fa-print',
-			'fa fa-puzzle-piece',
-			'fa fa-qrcode',
-			'fa fa-question',
-			'fa fa-question-circle',
-			'fa fa-question-circle-o',
-			'fa fa-quote-left',
-			'fa fa-quote-right',
-			'fa fa-random',
-			'fa fa-recycle',
-			'fa fa-refresh',
-			'fa fa-registered',
-			'fa fa-remove',
-			'fa fa-reorder',
-			'fa fa-reply',
-			'fa fa-reply-all',
-			'fa fa-retweet',
-			'fa fa-road',
-			'fa fa-rocket',
-			'fa fa-rss',
-			'fa fa-rss-square',
-			'fa fa-search-minus',
-			'fa fa-search-plus',
-			'fa fa-send',
-			'fa fa-send-o',
-			'fa fa-server',
-			'fa fa-share',
-			'fa fa-share-alt',
-			'fa fa-share-alt-square',
-			'fa fa-share-square',
-			'fa fa-share-square-o',
-			'fa fa-shield',
-			'fa fa-ship',
-			'fa fa-shopping-bag',
-			'fa fa-shopping-basket',
-			'fa fa-shopping-cart',
-			'fa fa-sign-in',
-			'fa fa-sign-language',
-			'fa fa-sign-out',
-			'fa fa-signal',
-			'fa fa-signing',
-			'fa fa-sitemap',
-			'fa fa-sliders',
-			'fa fa-smile-o',
-			'fa fa-soccer-ball-o',
-			'fa fa-sort',
-			'fa fa-sort-alpha-asc',
-			'fa fa-sort-alpha-desc',
-			'fa fa-sort-amount-asc',
-			'fa fa-sort-amount-desc',
-			'fa fa-sort-asc',
-			'fa fa-sort-desc',
-			'fa fa-sort-down',
-			'fa fa-sort-numeric-asc',
-			'fa fa-sort-numeric-desc',
-			'fa fa-sort-up',
-			'fa fa-space-shuttle',
-			'fa fa-spinner',
-			'fa fa-spoon',
-			'fa fa-square',
-			'fa fa-square-o',
-			'fa fa-star',
-			'fa fa-star-half',
-			'fa fa-star-half-empty',
-			'fa fa-star-half-full',
-			'fa fa-star-half-o',
-			'fa fa-star-o',
-			'fa fa-sticky-note',
-			'fa fa-sticky-note-o',
-			'fa fa-street-view',
-			'fa fa-suitcase',
-			'fa fa-sun-o',
-			'fa fa-support',
-			'fa fa-tablet',
-			'fa fa-tachometer',
-			'fa fa-tag',
-			'fa fa-tags',
-			'fa fa-tasks',
-			'fa fa-taxi',
-			'fa fa-television',
-			'fa fa-terminal',
-			'fa fa-thumb-tack',
-			'fa fa-thumbs-down',
-			'fa fa-thumbs-o-down',
-			'fa fa-thumbs-o-up',
-			'fa fa-thumbs-up',
-			'fa fa-ticket',
-			'fa fa-times',
-			'fa fa-times-circle',
-			'fa fa-times-circle-o',
-			'fa fa-tint',
-			'fa fa-toggle-down',
-			'fa fa-toggle-left',
-			'fa fa-toggle-off',
-			'fa fa-toggle-on',
-			'fa fa-toggle-right',
-			'fa fa-toggle-up',
-			'fa fa-trademark',
-			'fa fa-trash',
-			'fa fa-trash-o',
-			'fa fa-tree',
-			'fa fa-trophy',
-			'fa fa-truck',
-			'fa fa-tty',
-			'fa fa-tv',
-			'fa fa-umbrella',
-			'fa fa-university',
-			'fa fa-unlock',
-			'fa fa-unlock-alt',
-			'fa fa-unsorted',
-			'fa fa-upload',
-			'fa fa-user',
-			'fa fa-user-plus',
-			'fa fa-user-secret',
-			'fa fa-user-times',
-			'fa fa-users',
-			'fa fa-video-camera',
-			'fa fa-volume-control-phone',
-			'fa fa-volume-down',
-			'fa fa-volume-off',
-			'fa fa-volume-up',
-			'fa fa-warning',
-			'fa fa-wheelchair',
-			'fa fa-wheelchair-alt',
-			'fa fa-wifi',
-			'fa fa-wrench',
-			'fa fa-hand-o-down',
-			'fa fa-hand-o-left',
-			'fa fa-hand-o-right',
-			'fa fa-hand-o-up',
-			'fa fa-ambulance',
-			'fa fa-subway',
-			'fa fa-train',
-			'fa fa-genderless',
-			'fa fa-intersex',
-			'fa fa-mars',
-			'fa fa-mars-double',
-			'fa fa-mars-stroke',
-			'fa fa-mars-stroke-h',
-			'fa fa-mars-stroke-v',
-			'fa fa-mercury',
-			'fa fa-neuter',
-			'fa fa-transgender',
-			'fa fa-transgender-alt',
-			'fa fa-venus',
-			'fa fa-venus-double',
-			'fa fa-venus-mars',
-			'fa fa-file',
-			'fa fa-file-o',
-			'fa fa-file-text',
-			'fa fa-file-text-o',
-			'fa fa-cc-amex',
-			'fa fa-cc-diners-club',
-			'fa fa-cc-discover',
-			'fa fa-cc-jcb',
-			'fa fa-cc-mastercard',
-			'fa fa-cc-paypal',
-			'fa fa-cc-stripe',
-			'fa fa-cc-visa',
-			'fa fa-google-wallet',
-			'fa fa-paypal',
-			'fa fa-bitcoin',
-			'fa fa-btc',
-			'fa fa-cny',
-			'fa fa-dollar',
-			'fa fa-eur',
-			'fa fa-euro',
-			'fa fa-gbp',
-			'fa fa-gg',
-			'fa fa-gg-circle',
-			'fa fa-ils',
-			'fa fa-inr',
-			'fa fa-jpy',
-			'fa fa-krw',
-			'fa fa-rmb',
-			'fa fa-rouble',
-			'fa fa-rub',
-			'fa fa-ruble',
-			'fa fa-rupee',
-			'fa fa-shekel',
-			'fa fa-sheqel',
-			'fa fa-try',
-			'fa fa-turkish-lira',
-			'fa fa-usd',
-			'fa fa-won',
-			'fa fa-yen',
-			'fa fa-align-center',
-			'fa fa-align-justify',
-			'fa fa-align-left',
-			'fa fa-align-right',
-			'fa fa-bold',
-			'fa fa-chain',
-			'fa fa-chain-broken',
-			'fa fa-clipboard',
-			'fa fa-columns',
-			'fa fa-copy',
-			'fa fa-cut',
-			'fa fa-dedent',
-			'fa fa-files-o',
-			'fa fa-floppy-o',
-			'fa fa-font',
-			'fa fa-header',
-			'fa fa-indent',
-			'fa fa-italic',
-			'fa fa-link',
-			'fa fa-list',
-			'fa fa-list-alt',
-			'fa fa-list-ol',
-			'fa fa-list-ul',
-			'fa fa-outdent',
-			'fa fa-paperclip',
-			'fa fa-paragraph',
-			'fa fa-paste',
-			'fa fa-repeat',
-			'fa fa-rotate-left',
-			'fa fa-rotate-right',
-			'fa fa-save',
-			'fa fa-scissors',
-			'fa fa-strikethrough',
-			'fa fa-subscript',
-			'fa fa-superscript',
-			'fa fa-table',
-			'fa fa-text-height',
-			'fa fa-text-width',
-			'fa fa-th',
-			'fa fa-th-large',
-			'fa fa-th-list',
-			'fa fa-underline',
-			'fa fa-undo',
-			'fa fa-unlink',
-			'fa fa-angle-double-down',
-			'fa fa-angle-double-left',
-			'fa fa-angle-double-right',
-			'fa fa-angle-double-up',
-			'fa fa-angle-down',
-			'fa fa-angle-left',
-			'fa fa-angle-right',
-			'fa fa-angle-up',
-			'fa fa-arrow-circle-down',
-			'fa fa-arrow-circle-left',
-			'fa fa-arrow-circle-o-down',
-			'fa fa-arrow-circle-o-left',
-			'fa fa-arrow-circle-o-right',
-			'fa fa-arrow-circle-o-up',
-			'fa fa-arrow-circle-right',
-			'fa fa-arrow-circle-up',
-			'fa fa-arrow-down',
-			'fa fa-arrow-left',
-			'fa fa-arrow-right',
-			'fa fa-arrow-up',
-			'fa fa-arrows-alt',
-			'fa fa-caret-left',
-			'fa fa-caret-right',
-			'fa fa-caret-up',
-			'fa fa-chevron-circle-down',
-			'fa fa-chevron-circle-left',
-			'fa fa-chevron-circle-right',
-			'fa fa-chevron-circle-up',
-			'fa fa-chevron-down',
-			'fa fa-chevron-left',
-			'fa fa-chevron-right',
-			'fa fa-chevron-up',
-			'fa fa-long-arrow-down',
-			'fa fa-long-arrow-left',
-			'fa fa-long-arrow-right',
-			'fa fa-long-arrow-up',
-			'fa fa-backward',
-			'fa fa-compress',
-			'fa fa-eject',
-			'fa fa-expand',
-			'fa fa-fast-backward',
-			'fa fa-fast-forward',
-			'fa fa-forward',
-			'fa fa-pause',
-			'fa fa-pause-circle',
-			'fa fa-pause-circle-o',
-			'fa fa-play',
-			'fa fa-play-circle',
-			'fa fa-play-circle-o',
-			'fa fa-step-backward',
-			'fa fa-step-forward',
-			'fa fa-stop',
-			'fa fa-stop-circle',
-			'fa fa-stop-circle-o',
-			'fa fa-youtube-play',
-			'fa fa-500px',
-			'fa fa-adn',
-			'fa fa-amazon',
-			'fa fa-android',
-			'fa fa-angellist',
-			'fa fa-apple',
-			'fa fa-behance',
-			'fa fa-behance-square',
-			'fa fa-bitbucket',
-			'fa fa-bitbucket-square',
-			'fa fa-black-tie',
-			'fa fa-buysellads',
-			'fa fa-chrome',
-			'fa fa-codepen',
-			'fa fa-codiepie',
-			'fa fa-connectdevelop',
-			'fa fa-contao',
-			'fa fa-css3',
-			'fa fa-dashcube',
-			'fa fa-delicious',
-			'fa fa-deviantart',
-			'fa fa-digg',
-			'fa fa-dribbble',
-			'fa fa-dropbox',
-			'fa fa-drupal',
-			'fa fa-edge',
-			'fa fa-empire',
-			'fa fa-envira',
-			'fa fa-expeditedssl',
-			'fa fa-fa',
-			'fa fa-facebook',
-			'fa fa-facebook-f',
-			'fa fa-facebook-official',
-			'fa fa-facebook-square',
-			'fa fa-firefox',
-			'fa fa-first-order',
-			'fa fa-flickr',
-			'fa fa-fonticons',
-			'fa fa-fort-awesome',
-			'fa fa-forumbee',
-			'fa fa-foursquare',
-			'fa fa-ge',
-			'fa fa-get-pocket',
-			'fa fa-git',
-			'fa fa-git-square',
-			'fa fa-github',
-			'fa fa-github-alt',
-			'fa fa-github-square',
-			'fa fa-gitlab',
-			'fa fa-gittip',
-			'fa fa-glide',
-			'fa fa-glide-g',
-			'fa fa-google',
-			'fa fa-google-plus',
-			'fa fa-google-plus-circle',
-			'fa fa-google-plus-official',
-			'fa fa-google-plus-square',
-			'fa fa-gratipay',
-			'fa fa-hacker-news',
-			'fa fa-houzz',
-			'fa fa-html5',
-			'fa fa-instagram',
-			'fa fa-internet-explorer',
-			'fa fa-ioxhost',
-			'fa fa-joomla',
-			'fa fa-jsfiddle',
-			'fa fa-lastfm',
-			'fa fa-lastfm-square',
-			'fa fa-leanpub',
-			'fa fa-linkedin',
-			'fa fa-linkedin-square',
-			'fa fa-linux',
-			'fa fa-maxcdn',
-			'fa fa-meanpath',
-			'fa fa-medium',
-			'fa fa-mixcloud',
-			'fa fa-modx',
-			'fa fa-odnoklassniki',
-			'fa fa-odnoklassniki-square',
-			'fa fa-opencart',
-			'fa fa-openid',
-			'fa fa-opera',
-			'fa fa-optin-monster',
-			'fa fa-pagelines',
-			'fa fa-pied-piper',
-			'fa fa-pied-piper-alt',
-			'fa fa-pied-piper-pp',
-			'fa fa-pinterest',
-			'fa fa-pinterest-p',
-			'fa fa-pinterest-square',
-			'fa fa-product-hunt',
-			'fa fa-qq',
-			'fa fa-ra',
-			'fa fa-rebel',
-			'fa fa-reddit',
-			'fa fa-reddit-alien',
-			'fa fa-reddit-square',
-			'fa fa-renren',
-			'fa fa-resistance',
-			'fa fa-safari',
-			'fa fa-scribd',
-			'fa fa-sellsy',
-			'fa fa-shirtsinbulk',
-			'fa fa-simplybuilt',
-			'fa fa-skyatlas',
-			'fa fa-skype',
-			'fa fa-slack',
-			'fa fa-slideshare',
-			'fa fa-snapchat',
-			'fa fa-snapchat-ghost',
-			'fa fa-snapchat-square',
-			'fa fa-soundcloud',
-			'fa fa-spotify',
-			'fa fa-stack-exchange',
-			'fa fa-stack-overflow',
-			'fa fa-steam',
-			'fa fa-steam-square',
-			'fa fa-stumbleupon',
-			'fa fa-stumbleupon-circle',
-			'fa fa-tencent-weibo',
-			'fa fa-themeisle',
-			'fa fa-trello',
-			'fa fa-tripadvisor',
-			'fa fa-tumblr',
-			'fa fa-tumblr-square',
-			'fa fa-twitch',
-			'fa fa-twitter',
-			'fa fa-twitter-square',
-			'fa fa-usb',
-			'fa fa-viacoin',
-			'fa fa-viadeo',
-			'fa fa-viadeo-square',
-			'fa fa-vimeo',
-			'fa fa-vimeo-square',
-			'fa fa-vine',
-			'fa fa-vk',
-			'fa fa-wechat',
-			'fa fa-weibo',
-			'fa fa-weixin',
-			'fa fa-whatsapp',
-			'fa fa-wikipedia-w',
-			'fa fa-windows',
-			'fa fa-wordpress',
-			'fa fa-wpbeginner',
-			'fa fa-wpforms',
-			'fa fa-xing',
-			'fa fa-xing-square',
-			'fa fa-y-combinator',
-			'fa fa-y-combinator-square',
-			'fa fa-yahoo',
-			'fa fa-yc',
-			'fa fa-yc-square',
-			'fa fa-yelp',
-			'fa fa-yoast',
-			'fa fa-youtube',
-			'fa fa-youtube-square',
-			'fa fa-h-square',
-			'fa fa-hospital-o',
-			'fa fa-medkit',
-			'fa fa-stethoscope',
-			'fa fa-user-md'
-		],
-		currentSymbolKey: '',
-		symbolName: '',
-		popoverVisible: false,
-		editPopoverVisible: false,
-		keyValeUpdateVisible: false,
-		keyValeCreateVisible: false,
-		selectIndex: 1,
-		attr: {
-			html: '',
-			value: ''
-		},
-		childrenCopy: '',
-		layout: {
-			'index.html': [{
-				className: [],
-				customClassName: [],
-				animationClassList: [{
-					animate: '',
-					name: 'None',
-					duration: '',
-					condition: 'none',
-					vdid: [],
-					key: 'none'
-				}],
-				id: '',
-				tag: 'body',
-				vdid: 'body-main',
-				ctrlName: 'body',
-				children: [],
-				attrs: []
-			}],
-		},
-
-		layoutState: {
-
-			// activeController: {
-			// 	index: 0,
-			// 	key: '',
-			// 	level: 3
-			// }
-		},
-
-		activeCtrlIndex: 0,
-		activeCtrlLvl: 1,
-
-		activePage: {
-			key: 'index.html'
-		},
-
-		constructionMenuStyle: {
-			position: 'fixed',
-			top: '',
-			left: '',
-			display: 'none'
-		},
-
-		activeCtrl: {},
-		heightUnit: 'px',
-		widthUnit: '%',
-		VDControllerListScroll: 'hidden'
-	},
-
-	reducers: {
-		changeVDControllerListScroll(state, {
-				payload: params
-			}) {
-				state.VDControllerListScroll = params;
-				return {...state
-				}
-			},
-
-			initState(state, {
-				payload: params
-			}) {
-
-				state.activeCtrl = params.UIState.activeCtrl || {};
-				state.layout = params.UIState.layout || [];
-				state.layoutState = params.UIState.layoutState;
-				state.activePage = params.UIState.activePage || {
-					key: 'index.html'
-				};
-				state.selectIndex = params.UIState.selectIndex || 0;
-				state.symbols = params.UIState.symbols || [];
-				state.activeCtrlLvl = params.UIState.activeCtrlLvl || 0;
-				state.activeCtrlIndex = params.UIState.activeCtrlIndex || 1;
-				state.defaultExpandedKeys = params.UIState.defaultExpandedKeys || [];
-				state.defaultSelectedKeys = params.UIState.defaultSelectedKeys || [''];
-
-				return {...state
-				};
-			},
-
-			handleUnit(state, {
-				payload: params
-			}) {
-
-				state[params.target] = params.value;
-
-				let currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid,
-					state.activePage);
-				if (currentActiveCtrl.controller.attrs[0].children[2]) {
-					var style = currentActiveCtrl.controller.attrs[0].children[2].value;
-					console.log(params);
-					console.log(stu);
-					if (params.target == 'height') {
-						style = style.replace(/height: \d*(%|px);/, "height: " +
-							currentActiveCtrl.controller.attrs[0].children[3].value + params.value +
-							";");
-					}
-					if (params.target == 'width') {
-						style = style.replace(/width: \d*(%|px);/, "width: " + currentActiveCtrl.controller
-							.attrs[0].children[4].value + params.value + ";");
-					}
-					console.log(style);
-					currentActiveCtrl.controller.attrs[0].children[2].value = style;
-					window.VDDesignerFrame.postMessage({
-						VDAttrRefreshed: {
-							attrType: {
-								key: 'slider-setting'
-							},
-							attr: currentActiveCtrl.controller.attrs[0].children[2],
-							activeCtrl: currentActiveCtrl.controller
-						}
-					}, '*');
-					for (var i = 0; i < currentActiveCtrl.controller.children[1].children.length; i++) {
-						currentActiveCtrl.controller.children[1].children[i].children[0].attrs[0]
-							.children[2].value = style;
-						window.VDDesignerFrame.postMessage({
-							VDAttrRefreshed: {
-								attrType: {
-									key: 'slider-setting'
-								},
-								attr: currentActiveCtrl.controller.children[1].children[i].children[0]
-									.attrs[0].children[2],
-								activeCtrl: currentActiveCtrl.controller.children[1].children[i].children[
-									0],
-							}
-						}, '*');
-					}
-				}
-				state.activeCtrl = currentActiveCtrl.controller;
-				return {...state
-				};
-			},
-			editStyleNameA(state, {
-				payload: params
-			}) {
-
-				const editStyleNameRec = (state, originStyleName, newStyleName, activePage) => {
-					let
-						controllers = state.layout[activePage.key];
-
-					const loopControllers = function(controllers, level) {
-						level = level || 1;
-						for (let i = 0; i < controllers.length; i++) {
-							let currentControl = controllers[i];
-							if (currentControl.children) {
-								loopControllers(currentControl.children, level++);
-							}
-
-							var pos = currentControl.customClassName.indexOf(originStyleName);
-
-							if (pos != -1) {
-								currentControl.customClassName.splice(pos, 1);
-								currentControl.customClassName.push(newStyleName);
-
-								//通知dom更新
-								window.VDDesignerFrame.postMessage({
-									styleNameEdited: {
-										vdid: currentControl.vdid,
-										originStyleName,
-										newStyleName
-									}
-								}, '*');
-
-							}
-
-							if (currentControl.activeStyle == originStyleName) {
-								currentControl.activeStyle = newStyleName;
-							}
-
-						}
-					}
-
-					loopControllers(controllers, 1);
-				};
-
-				//更新所有组件树
-				editStyleNameRec(state, params.origin, params.newStyleName, state.activePage);
-
-				//更新activeCtrl
-				if (state.activeCtrl.activeStyle == params.origin) {
-					state.activeCtrl.activeStyle = params.newStyleName;
-				}
-
-				var pos = state.activeCtrl.customClassName.indexOf(params.origin);
-
-				if (pos != -1) {
-					state.activeCtrl.customClassName.splice(pos, 1);
-					state.activeCtrl.customClassName.push(params.newStyleName);
-				}
-
-				return {...state
-				};
-			},
-
-			removeStyleNameA(state, {
-				payload: params
-			}) {
-
-				const editStyleNameRec = (state, originStyleName, newStyleName, activePage) => {
-					let controllers = state.layout[activePage.key];
-
-					const loopControllers = function(controllers, level) {
-						level = level || 1;
-						for (let i = 0; i < controllers.length; i++) {
-							let currentControl = controllers[i];
-							if (currentControl.children) {
-								loopControllers(currentControl.children, level++);
-							}
-
-							if (!currentControl.customClassName) {
-								continue;
-							}
-
-							var pos = currentControl.customClassName.indexOf(originStyleName);
-
-							if (pos != -1) {
-								currentControl.customClassName.splice(pos, 1);
-
-								//通知dom更新
-								window.VDDesignerFrame.postMessage({
-									styleNameEdited: {
-										vdid: currentControl.vdid,
-										originStyleName,
-										newStyleName: ''
-									}
-								}, '*');
-
-							}
-
-							if (currentControl.activeStyle == originStyleName) {
-								if (currentControl.customClassName[pos - 1]) {
-									currentControl.activeStyle = currentControl.customClassName[pos - 1];
-								} else {
-									currentControl.activeStyle = '';
-								}
-							}
-
-						}
-					}
-
-					loopControllers(controllers, 1);
-				};
-
-				//更新所有组件树
-				editStyleNameRec(state, params.origin, params.newStyleName, state.activePage);
-
-				//更新activeCtrl
-				if (state.activeCtrl.activeStyle == params.origin) {
-					if (state.activeCtrl.customClassName[pos - 1]) {
-						state.activeCtrl.activeStyle = state.activeCtrl.customClassName[pos - 1];
-					} else {
-						state.activeCtrl.activeStyle = '';
-					}
-				}
-
-				var pos = state.activeCtrl.customClassName.indexOf(params.origin);
-
-				if (pos != -1) {
-					state.activeCtrl.customClassName.splice(pos, 1);
-				}
-
-				return {...state
-				};
-			},
-
-			showCtrlTreeContextMenu(state, {
-				payload: proxy
-			}) {
-				return {...state,
-					constructionMenuStyle: {
-						position: 'fixed',
-						display: 'block',
-						left: proxy.event.pageX,
-						top: proxy.event.pageY,
-					}
-				};
-			},
-
-			hideCtrlTreeContextMenu(state) {
-				return {...state,
-					constructionMenuStyle: {
-						position: 'fixed',
-						display: 'none',
-						left: 0,
-						top: 0,
-					}
-				};
-			},
-
-			handleCurrentSymbolKey(state, {
-				payload: key
-			}) {
-				state.currentSymbolKey = key;
-				return {...state
-				};
-			},
-			handleSymbolNameChange(state, {
-				payload: value
-			}) {
-				state.symbolName = value;
-				return {...state
-				};
-			},
-			handleAddSymbol(state) {
-
-				if (!methods.checkName(state.symbols, state.symbolName)) {
-					openNotificationWithIcon('info', '该控件名已被占用，请重新输入');
-					return {...state
-					};
-				} else {
-
-					if (!state.activeCtrl.tag) {
-						message.error('请选择一个控件或添加一个控件再进行操作');
-						return {...state
-						};
-					}
-
-					var addController = {
-						name: localStorage.symbolName,
-						key: randomString(8, 10),
-						controllers: {
-							details: state.activeCtrl
-						}
-					}
-					state.popoverVisible = false;
-					state.symbolName = '';
-					state.symbols.push(addController);
-
-					window.VDDesignerFrame.postMessage({
-						symbolsAdded: addController
-					}, '*');
-				}
-
-				return {...state
-				};
-			},
-			handlePopoverVisbile(state, {
-				payload: value
-			}) {
-
-				state.popoverVisible = value;
-				return {...state
-				};
-			},
-			handleEditPopoverVisbile(state, {
-				payload: value
-			}) {
-
-				state.editPopoverVisible = value;
-				return {...state
-				};
-			},
-			handleUpdateVisible(state, {
-				payload: value
-			}) {
-
-				state.keyValeUpdateVisible = value;
-				return {...state
-				};
-			},
-			handleCreateVisible(state, {
-				payload: value
-			}) {
-
-				state.keyValeCreateVisible = value;
-				state.attr.html = '';
-				state.attr.value = '';
-				return {...state
-				};
-			},
-			editSymbol(state) {
-
-				if (!methods.checkName(state.symbols, state.symbolName)) {
-					openNotificationWithIcon('info', '控件名已被占用');
-				} else {
-					var index = methods.getSymbolIndexByKey(state.symbols, state.currentSymbolKey);
-
-					if (index == undefined) {
-						openNotificationWithIcon('error', '修改错误,请重试');
-					} else {
-						state.symbols[index].name = state.symbolName;
-					}
-				}
-				state.symbolName = '';
-				state.currentSymbolKey = '';
-				state.editPopoverVisible = false;
-				return {...state
-				};
-			},
-			deleteSymbol(state, {
-				payload: key
-			}) {
-				var index = methods.getSymbolIndexByKey(state.symbols, key);
-				if (index == undefined) {
-					openNotificationWithIcon('error', '删除失败,请重试');
-				} else {
-					state.symbols.splice(index, 1);
-				}
-				return {...state
-				};
-			},
-			handleSelectIndex(state, {
-				payload: index
-			}) {
-
-				console.log('handleSelectIndex');
-				state.selectIndex = index;
-				return {...state
-				};
-			},
-			handleChildrenAttrChange(state, {
-				payload: params
-			}) {
-				var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid,
-					state.activePage);
-				if (params.attr.isTab) {
-					currentActiveCtrl.controller.children[0].children[state.selectIndex].children[
-						0].attrs[0].children[4][params.attr.name] = params.attr.value;
-				} else {
-					currentActiveCtrl.controller.children[state.selectIndex].attrs[0].children[
-						0][params.attr.name] = params.attr.value;
-				}
-				state.activeCtrl = currentActiveCtrl.controller;
-				return {...state
-				};
-			},
-			uploadBgImg(state, {
-				payload: params
-			}) {
-
-				// var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
-				// console.log('uploadBgImg');
-				// 	currentActiveCtrl.controller.attrs[0].children[0].fileInfo = [params];
-				// 	var url = currentActiveCtrl.controller.attrs[0].children[0].fileInfo.url
-				// url = params.url;
-
-				window.postMessage({
-					fetchImgFromSrc: {
-						url: params.url
-					}
-				}, '*');
-				return {...state
-				}
-			},
-			uploadPreviewImg(state, {
-				payload: params
-			}) {
-
-				var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid,
-					state.activePage);
-				if (currentActiveCtrl.controller.attrs[0].key == 'slider-setting') {
-					var activeCtrl = currentActiveCtrl.controller.children[1].children[state.selectIndex]
-						.children[0];
-					console.log(activeCtrl);
-					currentActiveCtrl.controller.children[1].children[state.selectIndex].children[
-						0].attrs[0].children[0].value = params.url
-					url = params.url;
-
-					window.VDDesignerFrame.postMessage({
-						uploadImgRefreshed: {
-							activeCtrl: activeCtrl,
-							url: url
-						}
-					}, '*');
-				} else {
-					currentActiveCtrl.controller.attrs[0].children[0].fileInfo = [params];
-					currentActiveCtrl.controller.attrs[0].children[0].value = params.url;
-					console.log(currentActiveCtrl.controller);
-					state.activeCtrl = currentActiveCtrl.controller;
-					var url = currentActiveCtrl.controller.attrs[0].children[0].fileInfo[0].url,
-						activeCtrl = currentActiveCtrl.controller;
-					window.VDDesignerFrame.postMessage({
-						uploadImgRefreshed: {
-							activeCtrl: activeCtrl,
-							url: url
-						}
-					}, '*');
-				}
-
-				return {...state
-				}
-			},
-
-			handleAddChildrenAttr(state, {
-				payload: params
-			}) {
-				state.attr[params.name] = params.value
-				return {...state
-				};
-			},
-			//当前活跃控件子删除    scasdsacsas
-			handleChildrenDelete(state, {
-				payload: params
-			}) {
-
-				if (params.index == state.selectIndex) {
-
-					if (params.index == 0) {
-						state.selectIndex = 1;
-					}
-					state.selectIndex = params.index - 1;
-				}
-
-				var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid,
-					state.activePage);
-				var children = params.children;
-				var parentCtrl = currentActiveCtrl.controller;
-
-				var i = 0;
-
-				function childrenDeleteBylevel(parent) {
-					i++;
-					if (i < params.level) {
-						childrenDeleteBylevel(parent.children[0]);
-					} else {
-						parent.children.splice(params.index, 1);
-						if (parent.children == null || parent.children == undefined) {
-							parent.children = [];
-						}
-					}
-				}
-				childrenDeleteBylevel(parentCtrl)
-				state.activeCtrl = currentActiveCtrl.controller;
-				window.VDDesignerFrame.postMessage({
-					VDChildrenDelete: {
-						activeCtrl: children,
-						attrType: params.attrType
-					}
-				}, '*');
-
-				return {...state
-				};
-			},
-			handleComplextChildrenDelete(state, {
-				payload: params
-			}) {
-
-				var currentActiveCtrl,
-					target;
-				const deleteChildrenByType = {
-					'navbar-drop-down' () {
-						target = state.activeCtrl.parent;
-						var parent = VDTreeActions.getCtrlByKey(state, state.activeCtrl.parent,
-							state.activePage).controller.parent;
-						currentActiveCtrl = VDTreeActions.getCtrlByKey(state, parent, state.activePage);
-						state.activeCtrl = currentActiveCtrl.controller;
-					},
-					'slider-delete' () {
-						target = params.target,
-							currentActiveCtrl = VDTreeActions.getCtrlByKey(state, params.parent,
-								state.activePage);
-						var root = VDTreeActions.getCtrlByKey(state, currentActiveCtrl.controller
-							.root, state.activePage).controller;
-
-						window.VDDesignerFrame.postMessage({
-							VDChildrenDelete: {
-								activeCtrl: {
-									vdid: root.children[0].children[params.index].vdid
-								},
-								attrType: params.attrType
-							}
-						}, '*');
-						root.children[0].children.splice(params.index, 1);
-						for (var i = 0; i < root.children[0].children.length; i++) {
-							root.children[0].children[i].attrs[0].children[1].value = i;
-							window.VDDesignerFrame.postMessage({
-								VDAttrRefreshed: {
-									attrType: {
-										key: 'slider-setting'
-									},
-									attr: root.children[0].children[i].attrs[0].children[1],
-									activeCtrl: root.children[0].children[i]
-								}
-							}, '*');
-
-						}
-						console.log('root');
-						console.log(root);
-					}
-				}
-				state.selectIndex = 0;
-				deleteChildrenByType[params.type]();
-
-				for (var i = 0; i < currentActiveCtrl.controller.children.length; i++) {
-
-					if (currentActiveCtrl.controller.children[i].vdid == target) {
-						currentActiveCtrl.controller.children.splice(i, 1);
-					}
-				}
-				state.activeCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid,
-					state.activePage).controller;
-				window.VDDesignerFrame.postMessage({
-					VDChildrenDelete: {
-						activeCtrl: {
-							vdid: target
-						},
-						attrType: params.attrType
-					}
-				}, '*');
-				return {...state
-				};
-			},
-			handleComplexChildrenAdd(state, {
-				payload: params
-			}) {
-
-				var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.parent,
-					state.activePage);
-				const addChildrenByType = {
-
-					'navbar-drop-down' () {
-						var parent = currentActiveCtrl.controller.children[1];
-						params.children.parent = parent.vdid;
-						if (parent.children) {
-							parent.children.push(params.children);
-						} else {
-							var chidren = new Array();
-							chidren.push(params.children);
-							parent.children = children;
-						}
-						return parent;
-					}
-				}
-				addChildrenByType[params.type]();
-
-				window.VDDesignerFrame.postMessage({
-					VDAttrRefreshed: {
-						activeCtrl: state.activeCtrl,
-						attr: {
-							attrName: 'children',
-							action: 'add',
-							children: params.children,
-							parent: params.children.parent
-						},
-						attrType: params.attrType
-					}
-				}, '*');
-				return {...state
-				};
-			},
-			//当前活跃控件 添加一个子控件
-			handleChildrenAdd(state, {
-				payload: params
-			}) {
-
-				if (params.children.tag == 'option') {
-					params.children.attrs[0].children[0].html = state.attr.html;
-					params.children.attrs[0].children[0].value = state.attr.value;
-				}
-
-				params.children.root = state.activeCtrl.root;
-				var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid,
-					state.activePage);
-				var parentCtrl = currentActiveCtrl.controller;
-				var parentCtrlVdid;
-				var i = 0;
-
-				function childrenAddBylevel(parent) {
-					let parentIndex = 0;
-					for (var j = 0; j < params.levelsInfo.length; j++) {
-						if (i == params.levelsInfo[j].level) {
-							parentIndex = params.levelsInfo[j].index;
-						}
-					}
-					i++;
-					if (i < params.level) {
-						childrenAddBylevel(parent.children[parentIndex]);
-					} else {
-						parentCtrlVdid = parent.vdid;
-						params.children.parent = parentCtrlVdid;
-						if (parent.children) {
-							parent.children.push(params.children);
-						} else {
-							var chidren = new Array();
-							chidren.push(params.children);
-							parent.children = children;
-						}
-					}
-				}
-				childrenAddBylevel(parentCtrl);
-
-				state.activeCtrl = currentActiveCtrl.controller;
-				state.keyValeCreateVisible = false;
-				window.VDDesignerFrame.postMessage({
-					VDAttrRefreshed: {
-						activeCtrl: state.activeCtrl,
-						attr: {
-							attrName: 'children',
-							action: 'add',
-							children: params.children,
-							parent: parentCtrlVdid
-						},
-						attrType: params.attrType
-					}
-				}, '*');
-				return {...state
-				};
-			},
-			//当前活跃控件子控件更新
-			handleChildrenUpdate(state, {
-				payload: params
-			}) {
-
-				console.log(params);
-				state.keyValeUpdateVisible = false;
-				window.VDDesignerFrame.postMessage({
-					VDAttrRefreshed: {
-						activeCtrl: state.activeCtrl,
-						attr: {
-							attrName: 'children',
-							action: 'update'
-						},
-						attrType: params.attrType
-					}
-				}, '*');
-				return {...state
-				};
-			},
-			//修改控件的Class
-			handleClassNameChange(state, {
-				payload: params
-			}) {
-
-				let currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid,
-						state.activePage),
-					i = 0,
-					target;
-
-				function changeClassNameByLevel(parent) {
-
-					let parentIndex = 0;
-					for (var j = 0; j < params.levelsInfo.length; j++) {
-						if (i == params.levelsInfo[j].level) {
-							parentIndex = params.levelsInfo[j].index;
-						}
-					}
-					i++;
-					if (i < params.level) {
-						changeClassNameByLevel(parent.children[parentIndex]);
-					} else {
-						if (parent.children) {
-							target = parent.children[parentIndex]
-						}
-					}
-				}
-				changeClassNameByLevel(currentActiveCtrl.controller);
-				if (!target) {
-					target = currentActiveCtrl.controller;
-					target.attrs[0].children[params.index].value = params.replacement;
-				}
-				for (var k = 0; k < target.className.length; k++) {
-					if (target.className[k] == params.remove) {
-						target.className.splice(k, 1, params.replacement)
-					}
-				}
-				window.VDDesignerFrame.postMessage({
-					VDAttrRefreshed: {
-						activeCtrl: state.activeCtrl,
-						attr: {
-							action: 'replaceClass',
-							attrName: 'classOperate',
-							remove: params.remove,
-							replacement: params.replacement,
-							target: target,
-						},
-						attrType: params.attrType
-					}
-				}, '*');
-				return {...state
-				};
-			},
-			//更改当前活跃ctrl
-			handleChangeCurrentCtrl(state, {
-				payload: params
-			}) {
-
-				var parent = VDTreeActions.getCtrlByKey(state, state.activeCtrl.parent,
-					state.activePage);
-
-				if (params.toDropDown) {
-					params.parent = parent.controller.parent,
-						params.replacement.vdid = parent.controller.vdid;
-					params.replacement.children[0].parent = parent.controller.vdid;
-					parent.controller.children = [];
-					for (var i = 0; i < params.replacement.children.length; i++) {
-						parent.controller.children.push(params.replacement.children[i]);
-					}
-					state.activeCtrl = params.replacement.children[0];
-					window.VDDesignerFrame.postMessage({
-						VDAttrRefreshed: {
-							activeCtrl: params.replacement,
-							attr: {
-								attrName: 'children',
-								action: 'update'
-							},
-						}
-					}, '*');
-				} else {
-					parent.controller.children = [];
-					parent.controller.children.push(params.replacement);
-					state.activeCtrl = params.replacement;
-					window.VDDesignerFrame.postMessage({
-						VDAttrRefreshed: {
-							activeCtrl: state.activeCtrl,
-							attr: {
-								attrName: 'replaceElem',
-								parent: parent.controller.vdid
-							},
-						}
-					}, '*');
-				}
-				return {...state
-				};
-			},
-			handleActive(state, {
-				payload: params
-			}) {
-
-				//根据level获取要更改节点的父节点的数据结构
-				var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid,
-						state.activePage),
-					i = 0,
-					target;
-
-				function findParent(parent) {
-
-					let parentIndex = 0;
-					for (var j = 0; j < params.levelsInfo.length; j++) {
-						if (i == params.levelsInfo[j].level) {
-							parentIndex = params.levelsInfo[j].index;
-							if (params.action == 'tab') {
-								console.log(parent);
-								for (var k = 0; k < parent.children.length; k++) {
-									for (var m = 0; m < parent.children[k].children[0].className.length; m++) {
-										if (parent.children[k].children[0].className[m] == 'active') {
-											parent.children[k].children[0].className.splice(m, 1);
-										}
-									}
-								}
-							}
-						}
-					}
-					i++;
-					if (i < params.level) {
-						findParent(parent.children[parentIndex]);
-					} else {
-						//切换active
-						for (var j = 0; j < parent.children.length; j++) {
-							for (var k = 0; k < parent.children[j].className.length; k++) {
-
-								if (parent.children[j].className[k] == 'active') {
-									parent.children[j].className.splice(k, 1);
-									if (params.action == 'next') {
-										if (j == parent.children.length - 1) {
-											params.index = 0;
-										} else {
-											params.index = j + 1;
-										}
-									}
-									if (params.action == 'last') {
-										if (j == 0) {
-											params.index = parent.children.length - 1;
-										} else {
-											params.index = j - 1;
-										}
-									}
-									break;
-								}
-							}
-						}
-						console.log('handleActive ssss');
-						console.log(parent);
-						console.log(target);
-						target = parent.children[params.index];
-						target.className.push('active');
-					}
-				}
-				findParent(currentActiveCtrl.controller);
-				state.activeCtrl = currentActiveCtrl.controller;
-				console.log(state.activeCtrl);
-				state.selectIndex = params.index;
-				window.VDDesignerFrame.postMessage({
-					VDAttrRefreshed: {
-						activeCtrl: target,
-						attr: {
-							attrName: 'children',
-							action: 'changeActive',
-							index: params.index,
-							parent: target.parent,
-							type: params.action
-						},
-					}
-				}, '*');
-				console.log(target);
-				return {...state
-				};
-			},
-			handleFade(state, {
-				payload: params
-			}) {
-
-				var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid,
-					state.activePage);
-				if (params.value) {
-					for (var i = 0; i < currentActiveCtrl.controller.children[1].children.length; i++) {
-
-						currentActiveCtrl.controller.children[1].children[i].className.push(
-							'fade');
-					}
-					window.VDDesignerFrame.postMessage({
-						VDAttrRefreshed: {
-							activeCtrl: state.activeCtrl,
-							attr: {
-								attrName: 'children',
-								action: 'update'
-							},
-							attrType: params.attrType
-						}
-					}, '*');
-
-				} else {
-					for (var i = 0; i < currentActiveCtrl.controller.children[1].children.length; i++) {
-
-						for (var j = 0; j < currentActiveCtrl.controller.children[1].children[i].className
-							.length; j++) {
-							if (currentActiveCtrl.controller.children[1].children[i].className[j] ==
-								'fade') {
-								console.log('splice');
-								currentActiveCtrl.controller.children[1].children[i].className.splice(j,
-									1);
-								break;
-							}
-						}
-					}
-					window.VDDesignerFrame.postMessage({
-						VDAttrRefreshed: {
-							activeCtrl: state.activeCtrl,
-							attr: {
-								action: 'batchClassRemove',
-								attrName: 'classOperate',
-								parent: currentActiveCtrl.controller.children[1].vdid,
-								targetClass: 'fade',
-							},
-							attrType: params.attrType
-						}
-					}, '*');
-				}
-				currentActiveCtrl.controller.attrs[0].children[0].value = params.value;
-				state.activeCtrl = currentActiveCtrl.controller;
-				return {...state
-				};
-			},
-			triggerMenu(state) {
-
-				console.log('triggerMenu');
-				window.VDDesignerFrame.postMessage({
-					VDAttrRefreshed: {
-						activeCtrl: state.activeCtrl,
-						attr: {
-							action: 'triggerMenu',
-							attrName: 'scriptOperate',
-							target: state.activeCtrl.children[0].children[1].vdid,
-						},
-					}
-				}, '*');
-				return {...state
-				};
-			},
-			deletePage(state, {
-				payload: params
-			}) {
-				state.activeCtrl = {};
-				state.activePage.key = 'index.html';
-				delete state.layout[params.key];
-				window.VDDesignerFrame.postMessage({
-					pageSelected: state.layout[state.activePage.key]
-				}, '*');
-				return {...state
-				};
-			},
-			handlePreview(state, {
-				payload: params
-			}) {
-
-				state.previewImage = params.previewImage;
-				state.previewVisible = params.previewVisible;
-				return {...state
-				};
-			},
-
-			handleChange(state, {
-				payload: fileList
-			}) {
-				state.fileList = fileList;
-				return {...state
-				};
-			},
-
-			handleCancel(state) {
-				state.previewVisible = false;
-				return {...state
-				};
-			},
-
-			generateCtrlTree(state, {
-				payload: ctrl
-			}) {
-				let controller = ctrl.details;
-
-				// const specialAttrList = ['custom-attr', 'link-setting', 'list-setting', 'heading-type', 'image-setting', 'select-setting'];
-
-				let deepCopiedController = VDTreeActions.deepCopyObj(controller);
-				deepCopiedController.vdid = deepCopiedController.key ? (
-					deepCopiedController.key + '-' + randomString(8, 10)) : randomString(8,
-					10);
-				let root = deepCopiedController.vdid;
-
-				let animationClassList = [{
-					animate: '',
-					name: 'None',
-					duration: '',
-					condition: 'none',
-					vdid: [],
-					key: 'none'
-				}];
-
-				const loopAttr = (controller, parent) => {
-
-					let childCtrl = {},
-						tmpAttr = {},
-						ctrl = {};
-
-					tmpAttr = controller.attrs;
-					for (let i = 0, len = tmpAttr.length; i < len; i++) {
-						// if(specialAttrList.indexOf(tmpAttr[i].key) !== -1) {
-						// 	continue;
-						// }
-						for (var j = 0; j < tmpAttr[i].children.length; j++) {
-							var attr = tmpAttr[i].children[j];
-							attr['id'] = randomString(8, 10);
-						};
-					}
-					if (controller.vdid == parent.vdid) {
-						ctrl = {
-							vdid: root,
-							attrs: tmpAttr,
-							tag: controller.tag,
-							className: controller.className,
-							customClassName: [],
-							animationClassList: controller.animationClassList ||
-								animationClassList,
-							activeStyle: '',
-							children: [],
-							isRander: controller.isRander || '',
-							ignore: controller.ignore || false,
-							root: root || '',
-							isRoot: true,
-							unCtrl: controller.unCtrl,
-							isBeforeHTMLValue: controller.isBeforeHTMLValue || false
-						};
-					} else {
-						ctrl = {
-							vdid: controller.key ? (controller.key + '-' + randomString(8, 10)) : randomString(
-								8, 10),
-							attrs: tmpAttr,
-							tag: controller.tag,
-							className: controller.className,
-							customClassName: [],
-							animationClassList: controller.animationClassList ||
-								animationClassList,
-							activeStyle: '',
-							children: [],
-							isRander: controller.isRander || '',
-							ignore: controller.ignore || false,
-							root: root || '',
-							parent: parent.vdid,
-							unCtrl: controller.unCtrl,
-							isBeforeHTMLValue: controller.isBeforeHTMLValue || false
-						};
-					}
-
-					if (controller.children) {
-						for (var i = 0; i < controller.children.length; i++) {
-							var currentCtrl = controller.children[i];
-							childCtrl = loopAttr(currentCtrl, ctrl);
-							ctrl.children.push(childCtrl);
-						};
-					} else {
-						ctrl.children = undefined;
-					}
-
-					state.defaultSelectedKeys = [ctrl.vdid];
-
-					return ctrl;
-				}
-
-				let tmpCtrl = loopAttr(deepCopiedController, deepCopiedController);
-				//slider唯一id设置
-				console.log('slider');
-				console.log(ctrl);
-				console.log(tmpCtrl);
-				if (ctrl.key == 'slider') {
-					console.log('slider');
-					var slider = randomString(8, 10);
-					tmpCtrl.attrs[0].children[1].value = slider;
-					tmpCtrl.children[0].children[0].attrs[0].children[0].value = '#' + slider;
-					tmpCtrl.children[0].children[1].attrs[0].children[0].value = '#' + slider;
-
-					tmpCtrl.children[2].attrs[0].children[0].value = '#' + slider;
-					tmpCtrl.children[3].attrs[0].children[0].value = '#' + slider;
-					state.heightUnit = 'px';
-					state.widthUnit = '%';
-				}
-
-				let activeCtrl = VDTreeActions.getActiveCtrl(state);
-
-				VDDesignerFrame.postMessage({
-					ctrlTreeGenerated: {
-						controller: tmpCtrl,
-						activeCtrl
-					}
-				}, '*');
-
-				console.log('generateCtrlTree================+++++++++++++++++', ctrl);
-
-				return {...state
-				};
-			},
-
-			// handleElemAdded(state, { payload: params }) {
-			// 	// state.layout[params.activePage][0].children.push(params.ctrl);
-			// 	state.activeCtrl = params.ctrl;
-			// 	var ctrlInfo = VDTreeActions.getActiveControllerIndexAndLvlByKey(state, params.ctrl.vdid, state.activePage);
-			// 	state.activeCtrlIndex = ctrlInfo.index;
-			// 	state.activeCtrlLvl = ctrlInfo.level;
-			// 	return {...state};
-			// },
-
-			setActivePage(state, {
-				payload: params
-			}) {
-
-				state.activePage.key = params.activePage.key;
-				window.VDDesignerFrame.postMessage({
-					pageSelected: state.layout[params.activePage.key]
-				}, '*');
-				return {...state
-				};
-			},
-
-			handleTreeExpaned(state, {
-				payload: expandedKeys
-			}) {
-				return {...state,
-					expandedKeys: expandedKeys,
-						autoExpandParent: false
-				};
-			},
-
-			setActiveCtrlInTree(state, {
-				payload: params
-			}) {
-				state.defaultSelectedKeys = params;
-				return {...state
-				};
-			},
-
-			ctrlSelected(state, {
-				payload: data
-			}) {
-
-				if (data.unCtrl) {
-					console.log('unCtrl');
-					let currentActiveCtrl = VDTreeActions.getActiveControllerIndexAndLvlByKey(
-						state, data.root, state.activePage);
-					state.activeCtrl = currentActiveCtrl.controller;
-					state.activeCtrlIndex = currentActiveCtrl.index;
-					state.activeCtrlLvl = currentActiveCtrl.level;
-					state.defaultSelectedKeys = [data.root];
-				} else {
-					let ctrlInfo = VDTreeActions.getActiveControllerIndexAndLvlByKey(state,
-						data.vdid, state.activePage);
-					state.activeCtrl = ctrlInfo.controller;
-					state.activeCtrlIndex = ctrlInfo.index;
-					state.activeCtrlLvl = ctrlInfo.level;
-					state.defaultSelectedKeys = [data.vdid];
-				}
-
-				console.log(state.activeCtrl);
-
-				return {...state
-				};
-			},
-			handleAttrFormChangeA(state, {
-				payload: params
-			}) {
-
-				let currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid,
-					state.activePage);
-
-				var ctrlAttrs = currentActiveCtrl.controller.attrs;
-				console.log(currentActiveCtrl);
-				var targetAttr;
-				for (var i = 0; i < ctrlAttrs.length; i++) {
-					for (var j = 0; j < ctrlAttrs[i].children.length; j++) {
-						var attr = ctrlAttrs[i].children[j];
-						var flag = false;
-						if (attr.id == params.attrId) {
-							targetAttr = attr.name;
-							attr.value = params.newVal;
-							flag = true;
-							if (attr.attrName === 'id') {
-								currentActiveCtrl.controller.id = params.newVal;
-							}
-							break;
-						}
-						if (flag) {
-							break;
-						}
-					};
-				};
-
-				if (currentActiveCtrl.controller.attrs[0].children[2]) {
-					var style = currentActiveCtrl.controller.attrs[0].children[2].value;
-					if (targetAttr == 'height') {
-						style = style.replace(/height: \d*(%|px);/, "height: " + params.newVal +
-							state.heightUnit + ";");
-					}
-					if (targetAttr == 'width') {
-						style = style.replace(/width: \d*(%|px);/, "width: " + params.newVal +
-							state.widthUnit + ";");
-					}
-					console.log(style);
-					currentActiveCtrl.controller.attrs[0].children[2].value = style;
-					window.VDDesignerFrame.postMessage({
-						VDAttrRefreshed: {
-							attrType: params.attrType,
-							attr: currentActiveCtrl.controller.attrs[0].children[2],
-							activeCtrl: currentActiveCtrl.controller
-						}
-					}, '*');
-				}
-
-				if (params.attrType.key == 'slider-setting') {
-					for (var i = 0; i < currentActiveCtrl.controller.children[1].children.length; i++) {
-						currentActiveCtrl.controller.children[1].children[i].children[0].attrs[0]
-							.children[2].value = style;
-						window.VDDesignerFrame.postMessage({
-							VDAttrRefreshed: {
-								attrType: params.attrType,
-								attr: currentActiveCtrl.controller.children[1].children[i].children[0]
-									.attrs[0].children[2],
-								activeCtrl: currentActiveCtrl.controller.children[1].children[i].children[
-									0],
-							}
-						}, '*');
-					}
-				}
-				state.activeCtrl = currentActiveCtrl.controller;
-				return {...state
-				};
-			},
-			handleAttrFormChangeNotRefreshActiveCtrl(state, {
-				payload: params
-			}) {
-
-				var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, params.target,
-					state.activePage);
-				if (params.attrName === 'id') {
-					currentActiveCtrl.controller.id = params.newVal;
-				}
-				var attr = currentActiveCtrl.controller.attrs[0].children[params.index];
-				console.log(attr);
-				attr.value = params.newVal;
-				window.VDDesignerFrame.postMessage({
-					VDAttrRefreshed: {
-						activeCtrl: currentActiveCtrl.controller,
-						attrType: params.attrType,
-						attr: attr
-					}
-				}, '*');
-				return {...state
-				};
-			},
-			handleAttrRefreshed(state, {
-				payload: params
-			}) {
-
-				//判断是否需要切换标签
-				if (params.attrType.isChangeTag && params.attr.name == 'tag') {
-					var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl
-						.vdid, state.activePage);
-					currentActiveCtrl.controller.attrs.tag = params.attr.value;
-					state.activeCtrl = currentActiveCtrl.controller;
-					params.activeCtrl.tag = params.attr.value;
-				}
-				if (params.attr.isStyle) {
-					var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl
-						.vdid, state.activePage);
-					state.activeCtrl.attrs[currentActiveCtrl.index].children[currentActiveCtrl
-						.level - 1].value = params.attr.value;
-					params.activeCtrl.attrs[currentActiveCtrl.index].children[
-						currentActiveCtrl.level - 1].value = params.attr.value;
-					state.activeCtrl = currentActiveCtrl.controller;
-				}
-				window.VDDesignerFrame.postMessage({
-					VDAttrRefreshed: params
-				}, '*');
-				return {...state
-				};
-			},
-
-			handleCustomAttrRemoved(state, {
-				payload: params
-			}) {
-				var attrName = state.activeCtrl.attrs[params.attrTypeIndex].children[params
-					.index].key;
-				state.activeCtrl.attrs[params.attrTypeIndex].children.splice(params.index,
-					1);
-				window.VDDesignerFrame.postMessage({
-					VDAttrRefreshed: {
-						activeCtrl: state.activeCtrl,
-						attr: {
-							attrName: attrName,
-							action: 'remove'
-						},
-						attrType: params.attrType
-					}
-				}, '*');
-				return {...state
-				};
-			},
-
-			handleCustomAttrInputChange(state, {
-				payload: params
-			}) {
-
-				state.activeCtrl.attrs[params.attrTypeIndex].children[params.customAttrIndex]
-					[params.attrName] = params.value
-				window.VDDesignerFrame.postMessage({
-					VDAttrRefreshed: {
-						activeCtrl: state.activeCtrl,
-						attr: {
-							value: params.value,
-							index: params.index,
-							attrName: params.attrName,
-							attrTypeIndex: params.attrTypeIndex,
-							action: 'modify'
-						},
-						attrType: params.attrType
-					}
-				}, '*');
-
-				return {...state
-				};
-			},
-
-			saveCustomAttr(state, {
-				payload: params
-			}) {
-
-				state.activeCtrl.attrs[params.attrTypeIndex].children.push({
-					key: params.key,
-					value: params.value
-				});
-
-				window.VDDesignerFrame.postMessage({
-					VDAttrRefreshed: {
-						activeCtrl: state.activeCtrl,
-						attr: {
-							value: {
-								key: params.key,
-								value: params.value
-							},
-							action: 'add'
-						},
-						attrType: params.attrType
-					}
-				}, '*');
-
-				return {...state
-				};
-			},
-
-			//栅格数变化
-			handleColumnCountChange(state, {
-				payload: params
-			}) {
-				console.log(params)
-				let column = params.column;
-				let currentRootVdid = params.currentRootVdid;
-				let tmpColumns = params.tmpColumns;
-
-				let colClass = 'col-md-' + tmpColumns[0].value;
-
-				let currentColumsInfo = VDTreeActions.getCtrlByKey(state, currentRootVdid,
-					state.activePage);
-				let currentColums = currentColumsInfo.controller //当前的栅格
-				let currentCount = currentColums.attrs[0].children[0].value; //当前栅格里面的格子数
-				let changCount = params.value - currentCount;
-
-				currentColums.attrs[0].children[0].value = params.value;
-				currentColums.attrs[0].children[1].value = tmpColumns;
-
-				//改变className及其属性值
-				let changClassName = function() {
-					for (let i = 0; i < currentColums.children.length; i++) {
-
-						let currentChild = currentColums.children[i];
-
-						currentChild.attrs[0].children[0].value = params.value;
-						currentChild.attrs[0].children[1].value = tmpColumns;
-
-						let originalClassName = currentChild.className;
-						for (let j = 0; j < originalClassName.length; j++) {
-							if (originalClassName[j].indexOf('col-md-') !== -1) {
-								originalClassName[j] = colClass;
-								break;
-							}
-						}
-					}
-				}
-
-				let deepCopiedController = VDTreeActions.deepCopyObj(column);
-
-				if (changCount > 0) {
-
-					let animationClassList = [{
-						animate: '',
-						name: 'None',
-						duration: '',
-						condition: 'none',
-						vdid: [],
-						key: 'none'
-					}];
-
-					const loopAttr = (controller) => {
-
-						let childCtrl = {},
-							tmpAttr = {},
-							ctrl = {};
-
-						tmpAttr = controller.attrs;
-						for (let i = 0, len = tmpAttr.length; i < len; i++) {
-							for (var j = 0; j < tmpAttr[i].children.length; j++) {
-								var attr = tmpAttr[i].children[j];
-								attr['id'] = randomString(8, 10);
-							};
-						}
-
-						tmpAttr[0].children[0].value = params.value;
-						tmpAttr[0].children[1].value = tmpColumns;
-
-						ctrl = {
-							vdid: controller.key ? (controller.key + '-' + randomString(8, 10)) : randomString(
-								8, 10),
-							attrs: tmpAttr,
-							tag: controller.tag,
-							className: controller.className,
-							customClassName: [],
-							animationClassList: controller.animationClassList ||
-								animationClassList,
-							activeStyle: '',
-							children: [],
-							isRander: controller.isRander || '',
-							ignore: controller.ignore || false,
-							root: currentRootVdid || '',
-							parent: currentRootVdid,
-							unCtrl: false,
-						};
-
-
-						if (controller.children) {
-							for (var i = 0; i < controller.children.length; i++) {
-								var currentCtrl = controller.children[i];
-								childCtrl = loopAttr(currentCtrl, ctrl);
-								ctrl.children.push(childCtrl);
-							};
-						} else {
-							ctrl.children = undefined;
-						}
-
-						return ctrl;
-					}
-
-					changClassName();
-
-					let addedColumn = [];
-
-					for (let i = 0; i < changCount; i++) {
-						let tmpCtrl = loopAttr(deepCopiedController);
-						tmpCtrl.className = ['vd-empty', colClass];
-						currentColums.children.push(tmpCtrl);
-						addedColumn.push(tmpCtrl)
-					}
-
-					window.VDDesignerFrame.postMessage({
-						VDAttrRefreshed: {
-							activeCtrl: currentColums,
-							attr: {
-								attrName: 'columns',
-								action: 'add',
-								column: addedColumn,
-								parent: currentRootVdid,
-								count: changCount,
-								colClass: colClass
-							},
-							attrType: params.attrType
-						}
-					}, '*');
-				} else {
-					for (let i = 0; i < -changCount; i++) {
-						currentColums.children.pop();
-					}
-					changClassName();
-					window.VDDesignerFrame.postMessage({
-						VDAttrRefreshed: {
-							activeCtrl: currentColums,
-							attr: {
-								attrName: 'columns',
-								action: 'delete',
-								column: '',
-								parent: currentRootVdid,
-								count: -changCount,
-								colClass: colClass
-							}
-						}
-					}, '*');
-				}
-
-				// let actrl = VDTreeActions.getActiveControllerIndexAndLvlByKey(state, currentRootVdid, state.activePage);
-				// state.activeCtrl = currentColums;
-				state.activeCtrl = currentColums;
-				state.activeCtrlIndex = currentColumsInfo.index;
-				state.activeCtrlLvl = currentColumsInfo.level;
-				state.defaultSelectedKeys = [currentColumsInfo.vdid];
-				console.log(currentColums)
-
-				return {...state
-				};
-			},
-
-			shrinkLeftColumn(state, {
-				payload: params
-			}) {
-
-				let currentRootVdid = state.activeCtrl.root,
-					currentColums = VDTreeActions.getCtrlByKey(state, currentRootVdid, state.activePage);
-				currentColums = currentColums.controller;
-
-				let needChangeAttr = currentColums.attrs[0].children[1].value;
-
-				let changClassName = (classNames, className) => {
-					for (let i = 0; i < classNames.length; i++) {
-						if (classNames[i].indexOf('col-md-') !== -1) {
-							classNames[i] = className;
-						}
-					}
-				}
-
-				if (needChangeAttr[params.index].value > 1) {
-					window.VDDesignerFrame.postMessage({
-						VDAttrRefreshed: {
-							activeCtrl: currentColums.children[params.index],
-							attr: {
-								attrName: 'classOperate',
-								action: 'replaceClass',
-								remove: 'col-md-' + (needChangeAttr[params.index].value),
-								replacement: 'col-md-' + (needChangeAttr[params.index].value - 1),
-								target: {
-									vdid: currentColums.children[params.index].vdid
-								}
-							}
-						}
-					}, '*');
-
-					needChangeAttr[params.index].span -= 2;
-					needChangeAttr[params.index].value -= 1;
-					for (let i = 0; i < currentColums.children.length; i++) {
-						currentColums.children[i].attrs[0].children[1].value[params.index].span =
-							needChangeAttr[params.index].span;
-						currentColums.children[i].attrs[0].children[1].value[params.index].value =
-							needChangeAttr[params.index].value;
-					}
-
-					changClassName(currentColums.children[params.index].className, 'col-md-' +
-						(needChangeAttr[params.index].value));
-
-					window.VDDesignerFrame.postMessage({
-						VDAttrRefreshed: {
-							activeCtrl: currentColums.children[params.index + 1],
-							attr: {
-								attrName: 'classOperate',
-								action: 'replaceClass',
-								remove: 'col-md-' + (needChangeAttr[params.index + 1].value),
-								replacement: 'col-md-' + (needChangeAttr[params.index + 1].value + 1),
-								target: {
-									vdid: currentColums.children[params.index + 1].vdid
-								}
-							}
-						}
-					}, '*');
-
-					needChangeAttr[params.index + 1].span += 2;
-					needChangeAttr[params.index + 1].value += 1;
-
-					for (let i = 0; i < currentColums.children.length; i++) {
-						currentColums.children[i].attrs[0].children[1].value[params.index + 1].span =
-							needChangeAttr[params.index + 1].span;
-						currentColums.children[i].attrs[0].children[1].value[params.index + 1].value =
-							needChangeAttr[params.index + 1].value;
-					}
-
-					changClassName(currentColums.children[params.index + 1].className,
-						'col-md-' + (needChangeAttr[params.index + 1].value));
-				}
-
-				return {...state
-				};
-
-			},
-
-			expandLeftColumn(state, {
-				payload: params
-			}) {
-
-
-				let currentRootVdid = state.activeCtrl.root,
-					currentColums = VDTreeActions.getCtrlByKey(state, currentRootVdid, state.activePage);
-				currentColums = currentColums.controller //当前的栅格
-
-				let needChangeAttr = currentColums.attrs[0].children[1].value;
-
-				let changClassName = (classNames, className) => {
-					for (let i = 0; i < classNames.length; i++) {
-						if (classNames[i].indexOf('col-md-') !== -1) {
-							classNames[i] = className;
-						}
-					}
-				}
-
-				if (needChangeAttr[params.index + 1].value > 1) {
-					window.VDDesignerFrame.postMessage({
-						VDAttrRefreshed: {
-							activeCtrl: currentColums.children[params.index],
-							attr: {
-								attrName: 'classOperate',
-								action: 'replaceClass',
-								remove: 'col-md-' + (needChangeAttr[params.index].value),
-								replacement: 'col-md-' + (needChangeAttr[params.index].value + 1),
-								target: {
-									vdid: currentColums.children[params.index].vdid
-								}
-							}
-						}
-					}, '*');
-					//
-					needChangeAttr[params.index].span += 2;
-					needChangeAttr[params.index].value += 1;
-
-					for (let i = 0; i < currentColums.children.length; i++) {
-						currentColums.children[i].attrs[0].children[1].value[params.index].span =
-							needChangeAttr[params.index].span;
-						currentColums.children[i].attrs[0].children[1].value[params.index].value =
-							needChangeAttr[params.index].value;
-					}
-					changClassName(currentColums.children[params.index].className, 'col-md-' +
-						(needChangeAttr[params.index].value));
-
-					window.VDDesignerFrame.postMessage({
-						VDAttrRefreshed: {
-							activeCtrl: currentColums.children[params.index + 1],
-							attr: {
-								attrName: 'classOperate',
-								action: 'replaceClass',
-								remove: 'col-md-' + (needChangeAttr[params.index + 1].value),
-								replacement: 'col-md-' + (needChangeAttr[params.index + 1].value - 1),
-								target: {
-									vdid: currentColums.children[params.index + 1].vdid
-								}
-							}
-						}
-					}, '*');
-					needChangeAttr[params.index + 1].span -= 2;
-					needChangeAttr[params.index + 1].value -= 1;
-
-					for (let i = 0; i < currentColums.children.length; i++) {
-						currentColums.children[i].attrs[0].children[1].value[params.index + 1].span =
-							needChangeAttr[params.index + 1].span;
-						currentColums.children[i].attrs[0].children[1].value[params.index + 1].value =
-							needChangeAttr[params.index + 1].value;
-					}
-
-					changClassName(currentColums.children[params.index + 1].className,
-						'col-md-' + (needChangeAttr[params.index + 1].value));
-				}
-
-				return {...state
-				};
-			},
-
-			modifyCustomAttr(state, {
-				payload: params
-			}) {
-				return {...state
-				};
-			},
-
-			setActiveStyle(state, {
-				payload: activeStyle
-			}) {
-				var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid,
-					state.activePage);
-				currentActiveCtrl.controller.activeStyle = activeStyle;
-				state.activeCtrl = currentActiveCtrl.controller;
-				return {...state
-				};
-			},
-
-			handleTreeNodeDrop(state, {
-				payload: info
-			}) {
-				const dropKey = info.node.props.eventKey;
-				const dragKey = info.dragNode.props.eventKey;
-				// const dragNodesKeys = info.dragNodesKeys;
-				const loop = (data, key, parent, callback) => {
-					data.forEach((item, index, arr) => {
-						if (item.vdid === key) {
-							return callback(item, index, arr, parent);
-						}
-						if (item.children) {
-							return loop(item.children, key, item, callback);
-						}
-					});
-				};
-
-				const data = state.layout[state.activePage.key];
-				let dragObj;
-				loop(data, dragKey, state.layout, (item, index, arr, parent) => {
-					arr.splice(index, 1);
-					if (arr.length === 0 && parent.tag !== 'body') {
-						parent.className.push("vd-empty");
-						window.VDDesignerFrame.postMessage({
-							VDAttrRefreshed: {
-								activeCtrl: state.activeCtrl,
-								attr: {
-									action: 'replaceClass',
-									attrName: 'classOperate',
-									remove: '',
-									replacement: 'vd-empty',
-									target: {
-										vdid: parent.vdid
-									},
-									needSelect: true
-								},
-								attrType: ''
-							}
-						}, '*');
-					}
-
-					dragObj = item;
-				});
-				if (info.dropToGap) {
-					let ar;
-					let i;
-					loop(data, dropKey, state.layout, (item, index, arr) => {
-						ar = arr;
-						i = index;
-					});
-					ar.splice(i, 0, dragObj);
-
-					VDDesignerFrame.postMessage({
-						treeNodeDroped: {
-							target: dropKey,
-							dragNode: dragKey,
-							type: 'before'
-						}
-					}, "*")
-
-				} else {
-					loop(data, dropKey, state.layout, (item) => {
-						item.children = item.children || [];
-						if (item.children.length === 0) {
-							item.className.splice(item.className.indexOf('vd-empty'), 1);
-							window.VDDesignerFrame.postMessage({
-								VDAttrRefreshed: {
-									activeCtrl: state.activeCtrl,
-									attr: {
-										action: 'replaceClass',
-										attrName: 'classOperate',
-										remove: 'vd-empty',
-										replacement: '',
-										target: {
-											vdid: item.vdid
-										},
-										needSelect: true
-									},
-									attrType: ''
-								}
-							}, '*');
-						}
-
-						item.children.push(dragObj);
-					});
-
-					VDDesignerFrame.postMessage({
-						treeNodeDroped: {
-							target: dropKey,
-							dragNode: dragKey,
-							type: 'append'
-						}
-					}, "*")
-				}
-
-				return {...state
-				};
-			},
-
-			changeCustomClass(state, {
-				payload: params
-			}) {
-				var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid,
-					state.activePage);
-
-				if (!currentActiveCtrl.controller) {
-					message.error('请先添加控件再进行操作！');
-					return {...state
-					};
-				}
-
-				var className = '';
-
-				if (params.push) {
-					if (typeof params.value == 'string') {
-						params.value = [params.value];
-					}
-					currentActiveCtrl.controller.customClassName.push(params.value[0]);
-					currentActiveCtrl.controller.activeStyle = params.value[params.value.length -
-						1];
-					className = params.value[0];
-				} else {
-					currentActiveCtrl.controller.customClassName = params.value;
-					currentActiveCtrl.controller.activeStyle = params.value[params.value.length -
-						1];
-					className = params.value;
-				}
-
-				state.activeCtrl = currentActiveCtrl.controller;
-
-				if (!params.dontChangeAttr) {
-					window.VDDesignerFrame.postMessage({
-						VDAttrRefreshed: {
-							activeCtrl: state.activeCtrl,
-							attr: {
-								attrName: 'class',
-								action: 'remove',
-								value: className
-							},
-							attrType: {
-								key: 'className'
-							}
-						}
-					}, '*');
-				}
-
-				return {...state
-				};
-			},
-
-			handleLinkSettingTypeChange(state, {
-				payload: params
-			}) {
-				params.item.activeLinkType = params.value;
-				return {...state
-				};
-			},
-
-			addPageToLayout(state, {
-				payload: params
-			}) {
-				var pageInfo = params.page;
-
-				state.layout[pageInfo.key] = [{
-					className: [],
-					id: '',
-					tag: 'body',
-					vdid: 'body-' + randomString(8, 10),
-					ctrlName: 'body',
-					children: [],
-					customClassName: [],
-					animationClassList: [{
-						animate: '',
-						name: 'None',
-						duration: '',
-						condition: 'none',
-						vdid: [],
-						key: 'none'
-					}],
-					attrs: []
-				}];
-				state.activePage.key = pageInfo.key;
-
-				window.VDDesignerFrame.postMessage({
-					pageSelected: state.layout[pageInfo.key]
-				}, '*');
-
-				return {...state
-				};
-			},
-
-			copyCtrl(state, {
-				payload: params
-			}) {
-
-				if (state.activeCtrl && state.activeCtrl !== 'none') {
-					sessionStorage.copiedCtrl = JSON.stringify(state.activeCtrl);
-				}
-
-				return {...state
-				};
-			},
-
-			pastCtrl(state, {
-				payload: params
-			}) {
-
-				if (!sessionStorage.copiedCtrl || !state.activeCtrl || !state.activeCtrl.tag) {
-					return {...state
-					};
-				}
-
-				let controller = JSON.parse(sessionStorage.copiedCtrl);
-				let activeCtrl = state.activeCtrl;
-
-				controller.vdid = controller.key ? (controller.key + '-' + randomString(8,
-					10)) : randomString(8, 10);
-				controller.parent = activeCtrl.vdid;
-				controller.isRoot = controller.isRoot;
-				if (!controller.isRoot) {
-					controller.root = activeCtrl.root;
-					controller.parent = activeCtrl.parent;
-				}
-				const loopAttr = (controller, wrapperVdid, activeCtrl) => {
-					controller.vdid = controller.key ? (controller.key + '-' + randomString(8,
-						10)) : randomString(8, 10);
-					controller.root = controller.root;
-					controller.isRoot = controller.isRoot;
-					controller.parent = controller.parent;
-
-					for (let i = 0, len = controller.attrs.length; i < len; i++) {
-						let tmpAttr = controller.attrs[i];
-						if (tmpAttr.key === 'basic') {
-							for (let j = 0; j < tmpAttr.children.length; j++) {
-								if (tmpAttr.children[j].name === 'id') {
-									tmpAttr.children[j].value = '';
-								}
-							}
-						}
-						for (let j = 0; j < tmpAttr.children.length; j++) {
-							let attr = tmpAttr.children[j];
-							attr['id'] = randomString(8, 10);
-						};
-					}
-
-					if (controller.children && controller.children.length) {
-						for (let i = 0; i < controller.children.length; i++) {
-							loopAttr(controller.children[i], wrapperVdid, activeCtrl);
-						}
-					}
-
-				}
-
-				loopAttr(controller, controller.vdid, activeCtrl);
-
-				const pastHandler = {
-					append(activeCtrl, controller) {
-							activeCtrl.children = activeCtrl.children || [];
-							activeCtrl.children.push(controller);
-							if (state.expandedKeys.indexOf(activeCtrl.vdid) === -1) {
-								state.expandedKeys.push(activeCtrl.vdid);
-								state.autoExpandParent = true;
-							}
-						},
-
-						prepend(activeCtrl, controller) {
-							activeCtrl.children = activeCtrl.children || [];
-							activeCtrl.children.splice(0, 0, controller);
-							if (state.expandedKeys.indexOf(activeCtrl.vdid) === -1) {
-								state.expandedKeys.push(activeCtrl.vdid);
-								state.autoExpandParent = true;
-							}
-						},
-
-						after(activeCtrl, controller) {
-							let parentInfo = VDTreeActions.getParentCtrlByKey(state, activeCtrl.vdid,
-								state.activePage);
-							parentInfo.parentCtrl.children.splice(parentInfo.index + 1, 0,
-								controller);
-							if (state.expandedKeys.indexOf(parentInfo.parentCtrl.vdid) === -1) {
-								state.expandedKeys.push(parentInfo.parentCtrl.vdid);
-								state.autoExpandParent = true;
-							}
-						},
-
-						before(activeCtrl, controller) {
-							let parentInfo = VDTreeActions.getParentCtrlByKey(state, activeCtrl.vdid,
-								state.activePage);
-							parentInfo.parentCtrl.children.splice(parentInfo.index, 0, controller);
-							if (state.expandedKeys.indexOf(parentInfo.parentCtrl.vdid) === -1) {
-								state.expandedKeys.push(parentInfo.parentCtrl.vdid);
-								state.autoExpandParent = true;
-							}
-						}
-				}
-				pastHandler[params.type](activeCtrl, controller);
-
-				VDDesignerFrame.postMessage({
-					ctrlDataPasted: {
-						controller,
-						activeCtrlVdid: activeCtrl.vdid,
-							type: params.type
-					}
-				}, "*");
-
-				if ((params.type === 'append' || params.type === 'prepend') && activeCtrl.children
-					.length === 1) {
-					let index = activeCtrl.className.indexOf('vd-empty');
-					activeCtrl.className.splice(index, 1);
-					window.VDDesignerFrame.postMessage({
-						VDAttrRefreshed: {
-							activeCtrl: state.activeCtrl,
-							attr: {
-								action: 'replaceClass',
-								attrName: 'classOperate',
-								remove: 'vd-empty',
-								replacement: '',
-								target: {
-									vdid: activeCtrl.vdid
-								},
-								needSelect: true
-							},
-							attrType: ''
-						}
-					}, '*');
-				}
-
-				return {...state
-				};
-			},
-
-			handleDeleteCtrl(state, {
-				payload: params
-			}) {
-
-				let deleteParentInfo = params.deleteParentInfo,
-					deleteParentCtrl = deleteParentInfo.parentCtrl,
-					deleteIndex = deleteParentInfo.index;
-				deleteParentCtrl.children.splice(deleteIndex, 1);
-
-				window.VDDesignerFrame.postMessage({
-					deleteCtrl: params.deleteKey
-				}, '*');
-
-				if (deleteParentCtrl.children.length === 0) {
-
-					let expandedKeysIndex = state.expandedKeys.indexOf(deleteParentCtrl.vdid);
-					if (expandedKeysIndex !== -1) {
-						state.expandedKeys.splice(expandedKeysIndex, 1);
-					}
-
-					if (deleteParentCtrl.vdid.split('-')[0] === 'body') {
-						state.activeCtrl = 'none';
-						state.activeCtrlIndex = 'none';
-						state.activeCtrlLvl = 'none';
-						state.defaultSelectedKeys = ['none'];
-					} else {
-						state.activeCtrl = deleteParentCtrl;
-						state.activeCtrlIndex = deleteParentInfo.parentIndex;
-						state.activeCtrlLvl = deleteParentInfo.level - 1;
-						state.defaultSelectedKeys = [deleteParentCtrl.vdid];
-
-						window.VDDesignerFrame.postMessage({
-							VDAttrRefreshed: {
-								activeCtrl: '',
-								attr: {
-									action: 'replaceClass',
-									attrName: 'classOperate',
-									remove: '',
-									replacement: 'vd-empty',
-									target: {
-										vdid: deleteParentCtrl.vdid
-									},
-								},
-								attrType: ''
-							}
-						}, '*');
-						deleteParentCtrl.className.push('vd-empty');
-					}
-
-				} else if (typeof deleteParentCtrl.children[deleteIndex] !== 'undefined') {
-					state.activeCtrl = deleteParentCtrl.children[deleteIndex];
-					state.activeCtrlIndex = deleteIndex
-					state.activeCtrlLvl = deleteParentInfo.level;
-					state.defaultSelectedKeys = [state.activeCtrl.vdid];
-				} else {
-					state.activeCtrl = deleteParentCtrl.children[deleteIndex - 1];
-					state.activeCtrlIndex = deleteIndex - 1
-					state.activeCtrlLvl = deleteParentInfo.level;
-					state.defaultSelectedKeys = [state.activeCtrl.vdid];
-				}
-
-				if (state.activeCtrl !== 'none') {
-					window.VDDesignerFrame.postMessage({
-						VDCtrlSelected: {
-							vdid: state.defaultSelectedKeys,
-							isFromCtrlTree: true
-						}
-					}, '*');
-				} else {
-					window.VDDesignerFrame.postMessage({
-						hideDesignerDraggerBorder: {}
-					}, '*');
-				}
-
-				return {...state
-				};
-			},
-
-			ctrlMovedAndDroped(state, {
-				payload: params
-			}) {
-				let moveCtrl, children, newParent;
-				if (params.dropTargetVdid) {
-					let newParentInfo = VDTreeActions.getCtrlByKey(state, params.dropTargetVdid,
-						state.activePage);
-					newParent = newParentInfo.controller;
-					newParent.children = newParent.children || [];
-					children = newParent.children;
-					if (children.length === 0) {
-						window.VDDesignerFrame.postMessage({
-							VDAttrRefreshed: {
-								activeCtrl: '',
-								attr: {
-									action: 'replaceClass',
-									attrName: 'classOperate',
-									remove: 'vd-empty',
-									replacement: '',
-									target: {
-										vdid: newParent.vdid
-									},
-									needSelect: true
-								},
-								attrType: ''
-							}
-						}, '*');
-						let index = newParent.className.indexOf('vd-empty');
-						newParent.className.splice(index, 1);
-					}
-
-					state.activeCtrlLvl = newParentInfo.level + 1;
-				} else {
-					newParent = state.layout[state.activePage.key][0];
-					children = newParent.children;
-					state.activeCtrlLvl = 2
-				}
-
-				if (params.isFromSelf) {
-					let originalParentInfo = VDTreeActions.getParentCtrlByKey(state, params.moveElemVdid,
-						state.activePage);
-					let originalParentChildren = originalParentInfo.parentCtrl.children;
-					moveCtrl = originalParentChildren.splice(originalParentInfo.index, 1);
-					if (originalParentChildren.length === 0 && !(newParent && newParent.vdid ===
-							originalParentInfo.parentCtrl.vdid)) {
-						window.VDDesignerFrame.postMessage({
-							VDAttrRefreshed: {
-								activeCtrl: '',
-								attr: {
-									action: 'replaceClass',
-									attrName: 'classOperate',
-									remove: '',
-									replacement: 'vd-empty',
-									target: {
-										vdid: originalParentInfo.parentCtrl.vdid
-									},
-									needSelect: true
-								},
-								attrType: ''
-							}
-						}, '*');
-						originalParentInfo.parentCtrl.className.push('vd-empty');
-					}
-
-				} else {
-					moveCtrl = [params.ctrl];
-				}
-				children.splice(params.index, 0, moveCtrl[0]);
-				state.activeCtrl = moveCtrl[0];
-				state.activeCtrlIndex = params.index;
-				state.defaultSelectedKeys = [moveCtrl[0].vdid];
-
-				let newParentVdid = newParent.vdid;
-				if (state.expandedKeys.indexOf(newParentVdid) === -1) {
-					state.expandedKeys.push(newParentVdid);
-				}
-				state.autoExpandParent = true;
-
-				return {...state
-				};
-			},
-
-			handleInteractionOnSelect(state, {
-				payload: params
-			}) {
-
-				//加动画类
-
-				let currentList = state.activeCtrl.animationClassList;
-				currentList.pop();
-				currentList.push(params);
-
-				if (params.key !== 'none' && params.condition !== 'laod') {
-
-					window.VDDesignerFrame.postMessage({
-						animateElement: {
-							id: state.activeCtrl.vdid,
-							animateName: params.animate
-						}
-					}, '*');
-				}
-
-				return {...state
-				};
-			},
-
-			// handleRemoveInteraction(state, {payload: deletedInteraction}) {
-			// 	let vdids = deletedInteraction.vdid;
-			// 	for(let i = 0, len = vdids.length; i < len; i ++) {
-			// 		if (true) {}
-			// 	}
-			// }
-	},
-
-	effects: {
-
-		* handleAttrFormChange({
-				payload: params
-			}, {
-				call, put, select
-			}) {
-				var activePage = yield select(state => state.vdpm.activePage);
-				yield put({
-					type: 'handleAttrFormChangeA',
-					payload: {
-						newVal: params.newVal,
-						attrId: params.attrId,
-						attrType: params.attrType,
-						activePage: activePage
-					}
-				})
-			},
-
-			* deleteCtrl({
-				payload: params
-			}, {
-				call, put, select
-			}) {
-
-				let vdCtrlTree = yield select(state => state.vdCtrlTree);
-				let activeCtrl = vdCtrlTree.activeCtrl;
-				let deleteKey;
-
-				if (params && params.isFromFrames) {
-					deleteKey = activeCtrl.vdid;
-				} else if (params && params.fromKeyboard) {
-					deleteKey = activeCtrl.vdid;
-
-					if (!deleteKey) {
-						return false;
-					}
-
-				} else {
-					deleteKey = sessionStorage.currentSelectedConstructionKey;
-				}
-
-				let deleteParentInfo = VDTreeActions.getParentCtrlByKey(vdCtrlTree,
-					deleteKey, vdCtrlTree.activePage);
-
-				yield put({
-					type: 'handleDeleteCtrl',
-					payload: {
-						deleteKey,
-						deleteParentInfo
-					}
-				})
-
-				yield put({
-					type: 'vdanimations/handleDeleteCtrl',
-					payload: {
-						deleteKey,
-						deleteParentInfo
-					}
-				})
-			},
-
-			* cutCtrl({
-				payload: params
-			}, {
-				call, put, select
-			}) {
-
-				let vdCtrlTree = yield select(state => state.vdCtrlTree);
-				let activeCtrl = vdCtrlTree.activeCtrl;
-				if (!activeCtrl || !activeCtrl.tag) {
-					return;
-				}
-				sessionStorage.copiedCtrl = JSON.stringify(activeCtrl);
-				let deleteKey = activeCtrl.vdid;
-				let deleteParentInfo = VDTreeActions.getParentCtrlByKey(vdCtrlTree,
-					deleteKey, vdCtrlTree.activePage);
-				yield put({
-					type: 'handleDeleteCtrl',
-					payload: {
-						deleteKey,
-						deleteParentInfo
-					}
-				})
-			}
-
-	}
+    namespace: 'vdctrl',
+    state: {
+
+        specialAttrList: ['custom-attr', 'link-setting', 'list-setting',
+            'heading-type', 'image-setting', 'select-setting',
+            'tabs-setting', 'navbar-setting', 'dropdown-setting',
+            'slider-setting', 'columns-setting', 'icon-setting'
+        ],
+        commonAttrList: [],
+        symbols: [],
+        currentSymbolKey: '',
+        symbolName: '',
+        popoverVisible: false,
+        editPopoverVisible: false,
+        keyValeUpdateVisible: false,
+        keyValeCreateVisible: false,
+        publicAttrs: [{
+            title: '基础设置',
+            key: 'basic',
+            children: [{
+                name: 'id',
+                desc: 'id',
+                type: 'input',
+                isAttr: true,
+                isScrollFlag: true,
+                attrName: 'id',
+                value: '',
+                id: ''
+            }, {
+                name: 'class',
+                desc: '可见性',
+                isScreenSetting: true,
+                type: 'multipleSelect',
+                value: [],
+                valueList: [{
+                    name: 'block (≥1200px)',
+                    value: 'visible-lg-block'
+                }, {
+                    name: 'block (≥992px)',
+                    value: 'visible-md-block'
+                }, {
+                    name: 'block (≥768px)',
+                    value: 'visible-sm-block'
+                }, {
+                    name: 'block (<768px)',
+                    value: 'visible-xs-block'
+                }, {
+                    name: 'inline (≥1200px)',
+                    value: 'visible-lg-inline'
+                }, {
+                    name: 'inline (≥992px)',
+                    value: 'visible-md-inline'
+                }, {
+                    name: 'inline (≥768px)',
+                    value: 'visible-sm-inline'
+                }, {
+                    name: 'inline (<768px)',
+                    value: 'visible-xs-inline'
+                }, {
+                    name: 'inline-block (≥1200px)',
+                    value: 'visible-lg-inline-block'
+                }, {
+                    name: 'inline-block (≥992px)',
+                    value: 'visible-md-inline-block'
+                }, {
+                    name: 'inline-block (≥768px)',
+                    value: 'visible-sm-inline-block'
+                }, {
+                    name: 'inline-block (<768px)',
+                    value: 'visible-xs-inline-block'
+                }],
+                id: ''
+            }]
+        }, {
+            title: '自定义属性',
+            key: 'custom-attr',
+            children: []
+        }],
+
+        controllers: [{
+            name: "布局",
+            key: 'layout',
+            content: [{
+                icon: `<svg width="62" height="50" viewBox="0 0 62 50" className="bem-Svg"  style={{'transform': 'translate(0px, 0px)'}}><path opacity=".25" fill="currentColor" d="M59 1H3c-1.1 0-2 .9-2 2v44c0 1.1.9 2 2 2h56c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zM14.5 3c.8 0 1.5.7 1.5 1.5S15.3 6 14.5 6 13 5.3 13 4.5 13.7 3 14.5 3zm-5 0c.8 0 1.5.7 1.5 1.5S10.3 6 9.5 6 8 5.3 8 4.5 8.7 3 9.5 3zm-5 0C5.3 3 6 3.7 6 4.5S5.3 6 4.5 6 3 5.3 3 4.5 3.7 3 4.5 3zM59 47H3V8h56v39z"></path><path opacity=".2" fill="currentColor" d="M5 10h52v16H5z"></path><g fill="currentColor"><path d="M5 10h2v4H5zm50 0h2v4h-2zM7 10h2v2H7zm16 0h4v2h-4zm-6 0h4v2h-4zm-6 0h4v2h-4zm18 0h4v2h-4zm6 0h4v2h-4zm6 0h4v2h-4zM23 24h4v2h-4zm-6 0h4v2h-4zm-6 0h4v2h-4zm18 0h4v2h-4zm6 0h4v2h-4zm6 0h4v2h-4zm6-14h4v2h-4zm0 14h4v2h-4z"></path><path d="M53 10h4v2h-4zm2 12h2v4h-2zM5 22h2v4H5zm0-6h2v4H5zm50 0h2v4h-2zm-2 8h2v2h-2z"></path><path d="M5 24h4v2H5z"></path></g><g opacity=".3" fill="currentColor"><path d="M5 29h2v4H5zm50 0h2v4h-2zM7 29h2v2H7zm16 0h4v2h-4zm-6 0h4v2h-4zm-6 0h4v2h-4zm18 0h4v2h-4zm6 0h4v2h-4zm6 0h4v2h-4zM23 43h4v2h-4zm-6 0h4v2h-4zm-6 0h4v2h-4zm18 0h4v2h-4zm6 0h4v2h-4zm6 0h4v2h-4zm6-14h4v2h-4zm0 14h4v2h-4z"></path><path d="M53 29h4v2h-4zm2 12h2v4h-2zM5 41h2v4H5zm0-6h2v4H5zm50 0h2v4h-2zm-2 8h2v2h-2z"></path><path d="M5 43h4v2H5z"></path></g><path opacity=".4" d="M57 10v16H5V10h52m1-1H4v18h54V9z"></path></svg>`,
+                name: '区段',
+                key: 'section',
+                details: {
+                    tag: 'section',
+                    className: ['vd-empty'],
+                    attrs: [{
+                        title: '属性设置',
+                        key: 'section-attr',
+                        isAttrSetting: true,
+                        isChangeTag: true,
+                        children: [{
+                            name: 'tag',
+                            desc: '标签',
+                            type: 'select',
+                            value: ['section'],
+                            valueList: ['div',
+                                'header',
+                                'footer',
+                                'nav',
+                                'main',
+                                'section',
+                                'article',
+                                'a',
+                                'address',
+                                'figure'
+                            ],
+                            id: '',
+                            isTag: true
+                        }, {
+                            name: 'container',
+                            desc: '是否是容器',
+                            value: true,
+                            backend: true,
+                            isContainer: true
+                        }]
+                    }]
+                }
+            }, {
+                icon: `<svg width="62" height="50" viewBox="0 0 62 50" className="bem-Svg" style={{'transform': 'translate(0px, 0px)'}}><path opacity=".2" fill="currentColor" d="M14 10h34v34H14z"></path><g fill="currentColor"><path d="M14 10h2v4h-2zm32 0h2v4h-2zm-30 0h2v2h-2zm10 0h4v2h-4zm-6 0h4v2h-4zm12 0h4v2h-4zm-6 32h4v2h-4zm-6 0h4v2h-4zm12 0h4v2h-4zm6-32h4v2h-4zm0 32h4v2h-4z"></path><path d="M44 10h4v2h-4zm2 30h2v4h-2zm-32 0h2v4h-2zm0-18h2v4h-2zm0-6h2v4h-2zm32 6h2v4h-2zm-32 6h2v4h-2zm32 0h2v4h-2zm-32 6h2v4h-2zm32 0h2v4h-2zm0-18h2v4h-2zm-2 26h2v2h-2z"></path><path d="M14 42h4v2h-4z"></path></g><path opacity=".25" fill="currentColor" d="M59 1H3c-1.1 0-2 .9-2 2v44c0 1.1.9 2 2 2h56c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zM14.5 3c.8 0 1.5.7 1.5 1.5S15.3 6 14.5 6 13 5.3 13 4.5 13.7 3 14.5 3zm-5 0c.8 0 1.5.7 1.5 1.5S10.3 6 9.5 6 8 5.3 8 4.5 8.7 3 9.5 3zm-5 0C5.3 3 6 3.7 6 4.5S5.3 6 4.5 6 3 5.3 3 4.5 3.7 3 4.5 3zM59 47H3V8h56v39z"></path><path opacity=".4" d="M48 10v34H14V10h34m1-1H13v36h36V9z"></path></svg>`,
+                name: '容器',
+                key: 'container',
+                details: {
+                    tag: 'div',
+                    className: ['vd-container', 'vd-empty'],
+                    attrs: [{
+                        title: '属性设置',
+                        key: 'container-attr',
+                        isChangeTag: true,
+                        isAttrSetting: true,
+                        children: [{
+                            name: 'tag',
+                            desc: '标签',
+                            type: 'select',
+                            value: ['section'],
+                            isTag: true,
+                            valueList: ['div',
+                                'header',
+                                'footer',
+                                'nav',
+                                'main',
+                                'section',
+                                'article',
+                                'a',
+                                'address',
+                                'figure'
+                            ],
+                            id: ''
+                        }, {
+                            name: 'container',
+                            desc: '是否是容器',
+                            value: true,
+                            backend: true,
+                            isContainer: true
+                        }]
+                    }]
+                }
+            }, {
+                icon: `<svg width="62" height="50" viewBox="0 0 62 50" className="bem-Svg" style={{'transform': 'translate(0px, 0px)'}}><path opacity=".2" fill="currentColor" d="M14 10h16v34H14zm19 0h16v34H33z"></path><g fill="currentColor"><path d="M14 10h2v4h-2zm14 0h2v4h-2zm-12 0h2v2h-2zm4 0h4v2h-4zm0 32h4v2h-4z"></path><path d="M26 10h4v2h-4zm2 30h2v4h-2zm-14 0h2v4h-2zm0-18h2v4h-2zm0-6h2v4h-2zm14 6h2v4h-2zm-14 6h2v4h-2zm14 0h2v4h-2zm-14 6h2v4h-2zm14 0h2v4h-2zm0-18h2v4h-2zm-2 26h2v2h-2z"></path><path d="M14 42h4v2h-4zm19-32h2v4h-2zm14 0h2v4h-2zm-12 0h2v2h-2zm4 0h4v2h-4zm0 32h4v2h-4z"></path><path d="M45 10h4v2h-4zm2 30h2v4h-2zm-14 0h2v4h-2zm0-18h2v4h-2zm0-6h2v4h-2zm14 6h2v4h-2zm-14 6h2v4h-2zm14 0h2v4h-2zm-14 6h2v4h-2zm14 0h2v4h-2zm0-18h2v4h-2zm-2 26h2v2h-2z"></path><path d="M33 42h4v2h-4z"></path></g><path opacity=".25" fill="currentColor" d="M59 1H3c-1.1 0-2 .9-2 2v44c0 1.1.9 2 2 2h56c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zM14.5 3c.8 0 1.5.7 1.5 1.5S15.3 6 14.5 6 13 5.3 13 4.5 13.7 3 14.5 3zm-5 0c.8 0 1.5.7 1.5 1.5S10.3 6 9.5 6 8 5.3 8 4.5 8.7 3 9.5 3zm-5 0C5.3 3 6 3.7 6 4.5S5.3 6 4.5 6 3 5.3 3 4.5 3.7 3 4.5 3zM59 47H3V8h56v39z"></path><path opacity=".4" d="M30 10v34H14V10h16m1-1H13v36h18V9zm18 1v34H33V10h16m1-1H32v36h18V9z"></path></svg>`,
+                name: '栅格',
+                key: 'columns',
+                details: {
+                    tag: 'div',
+                    className: ['row'],
+                    attrs: [{
+                        title: '栅格设置',
+                        key: 'columns-setting',
+                        children: [{
+                            name: 'columns-count',
+                            desc: '栅格个数',
+                            value: 2,
+                            id: ''
+                        }, {
+                            name: 'columns-col-layout',
+                            desc: '每个栅格占的col数',
+                            value: [{
+                                span: 12,
+                                value: 6
+                            }, {
+                                span: 12,
+                                value: 6
+                            }],
+                            id: ''
+                        }]
+                    }],
+                    children: [{
+                        tag: 'div',
+                        className: ['vd-empty',
+                            'col-md-6'
+                        ],
+                        unActive: true,
+                        attrs: [{
+                            title: '栅格设置',
+                            key: 'columns-setting',
+                            children: [{
+                                name: 'columns-count',
+                                desc: '栅格个数',
+                                value: 2,
+                                id: ''
+                            }, {
+                                name: 'columns-col-layout',
+                                desc: '每个栅格占的col数',
+                                value: [{
+                                    span: 12,
+                                    value: 6
+                                }, {
+                                    span: 12,
+                                    value: 6
+                                }],
+                                id: ''
+                            }]
+                        }, {
+                            title: '属性设置',
+                            key: 'columns-attr',
+                            isAttrSetting: true,
+                            children: [{
+                                name: 'container',
+                                desc: '是否是容器',
+                                value: true,
+                                backend: true,
+                                isContainer: true
+                            }]
+                        }]
+                    }, {
+                        tag: 'div',
+                        className: ['vd-empty',
+                            'col-md-6'
+                        ],
+                        unActive: true,
+                        attrs: [{
+                            title: '栅格设置',
+                            key: 'columns-setting',
+                            children: [{
+                                name: 'columns-count',
+                                desc: '栅格个数',
+                                value: 2,
+                                id: ''
+                            }, {
+                                name: 'columns-col-layout',
+                                desc: '每个栅格占的col数',
+                                value: [{
+                                    span: 12,
+                                    value: 6
+                                }, {
+                                    span: 12,
+                                    value: 6
+                                }],
+                                id: ''
+                            }]
+                        }, {
+                            title: '属性设置',
+                            key: 'columns-attr',
+                            isAttrSetting: true,
+                            children: [{
+                                name: 'container',
+                                desc: '是否是容器',
+                                value: true,
+                                backend: true,
+                                isContainer: true
+                            }]
+                        }]
+                    }]
+                },
+            }]
+        }, {
+            name: "基础组件",
+            key: 'basic',
+            content: [{
+                icon: `<svg width="36" height="36" viewBox="0 0 36 36" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".2" fill="currentColor" d="M1 1h34v34H1z"></path><g fill="currentColor"><path d="M1 1h2v4H1zm32 0h2v4h-2zM3 1h2v2H3zm10 0h4v2h-4zM7 1h4v2H7zm12 0h4v2h-4zm-6 32h4v2h-4zm-6 0h4v2H7zm12 0h4v2h-4zm6-32h4v2h-4zm0 32h4v2h-4z"></path><path d="M31 1h4v2h-4zm2 30h2v4h-2zM1 31h2v4H1zm0-18h2v4H1zm0-6h2v4H1zm32 6h2v4h-2zM1 19h2v4H1zm32 0h2v4h-2zM1 25h2v4H1zm32 0h2v4h-2zm0-18h2v4h-2zm-2 26h2v2h-2z"></path><path d="M1 33h4v2H1z"></path></g><path opacity=".4" d="M35 1v34H1V1h34m1-1H0v36h36V0z"></path></svg>`,
+                name: 'div块',
+                key: 'div-block',
+                details: {
+                    tag: 'div',
+                    className: ['vd-empty'],
+                    attrs: [{
+                        title: '属性设置',
+                        key: 'div-block-attr',
+                        isChangeTag: true,
+                        isAttrSetting: true,
+                        children: [{
+                            name: 'tag',
+                            desc: '标签',
+                            type: 'select',
+                            value: ['div'],
+                            valueList: ['div',
+                                'header',
+                                'footer',
+                                'nav',
+                                'main',
+                                'section',
+                                'article',
+                                'a',
+                                'address',
+                                'figure'
+                            ],
+                            id: ''
+                        }, {
+                            name: 'container',
+                            desc: '是否是容器',
+                            value: true,
+                            backend: true,
+                            isContainer: true
+                        }]
+                    }]
+                }
+            }, {
+                icon: `<svg width="36" height="36" viewBox="0 0 36 36" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".2" fill="currentColor" d="M1 1h34v34H1z"></path><g fill="currentColor"><path d="M1 1h2v4H1zm32 0h2v4h-2zM3 1h2v2H3zm10 0h4v2h-4zM7 1h4v2H7zm12 0h4v2h-4zm-6 32h4v2h-4zm-6 0h4v2H7zm12 0h4v2h-4zm6-32h4v2h-4zm0 32h4v2h-4z"></path><path d="M31 1h4v2h-4zm2 30h2v4h-2zM1 31h2v4H1zm0-18h2v4H1zm0-6h2v4H1zm32 6h2v4h-2zM1 19h2v4H1zm32 0h2v4h-2zM1 25h2v4H1zm32 0h2v4h-2zm0-18h2v4h-2zm-2 26h2v2h-2z"></path><path d="M1 33h4v2H1z"></path></g><path opacity=".4" d="M35 1v34H1V1h34m1-1H0v36h36V0z"></path><path opacity=".5" fill="currentColor" d="M13.6 27c-1.2 0-2.4-.5-3.2-1.3-.9-.9-1.3-2-1.3-3.2 0-1.2.5-2.4 1.3-3.2l3.2-3.2c.3-.3.7-.6 1-.8.7-.4 1.4-.6 2.2-.6 1.5 0 2.8.7 3.7 1.9l-1.3 1.3c-.5-.8-1.4-1.4-2.4-1.4-.2 0-.4 0-.6.1-.5.1-1 .4-1.3.7l-3.2 3.2c-.5.5-.8 1.2-.8 2 0 .7.3 1.4.8 2 .5.5 1.2.8 2 .8.7 0 1.4-.3 2-.8l.9-.9c.7.3 1.4.4 2.2.4L17 25.8c-1.1.7-2.2 1.2-3.4 1.2zm5.1-5.1c-.4 0-.7 0-1.1-.1-.8-.2-1.6-.6-2.2-1.2l-.5-.5 1.3-1.3c.1.2.3.4.4.5.5.5 1.2.8 2 .8.7 0 1.4-.3 2-.8l3.2-3.2c.5-.5.8-1.2.8-2 0-.7-.3-1.4-.8-2-.5-.5-1.2-.8-2-.8-.7 0-1.4.3-2 .8l-.7.9c-.7-.3-1.4-.4-2.2-.4l1.8-1.8c.9-.9 2-1.3 3.2-1.3 1.2 0 2.4.5 3.2 1.3.9.9 1.3 2 1.3 3.2s-.5 2.4-1.3 3.2l-3.2 3.2c-.3.3-.7.6-1 .8-.7.5-1.4.7-2.2.7z"></path></svg>`,
+                name: '链接块',
+                key: 'link-block',
+                details: {
+                    tag: 'a',
+                    className: ['vd-empty'],
+                    attrs: [{
+                        title: '链接设置',
+                        key: 'link-setting',
+                        activeLinkType: 'link',
+                        activeLinkType: 'link',
+                        children: [{
+                            name: 'src',
+                            desc: '跳转链接',
+                            type: 'input',
+                            value: '',
+                            isAttr: true,
+                            attrName: 'href',
+                            id: '',
+                            attrType: 'link'
+                        }, {
+                            name: 'src',
+                            desc: '跳转邮箱',
+                            type: 'input',
+                            value: '',
+                            isAttr: true,
+                            attrName: 'href',
+                            id: '',
+                            attrType: 'mail'
+                        }, {
+                            name: 'src',
+                            desc: '跳转电话',
+                            type: 'input',
+                            value: '',
+                            isAttr: true,
+                            attrName: 'href',
+                            id: '',
+                            attrType: 'phone'
+                        }, {
+                            name: 'src',
+                            desc: '跳转页面',
+                            type: 'select',
+                            value: '',
+                            isAttr: true,
+                            attrName: 'href',
+                            id: '',
+                            attrType: 'page'
+                        }, {
+                            name: 'src',
+                            desc: '跳转元素',
+                            type: 'select',
+                            value: '',
+                            isAttr: true,
+                            attrName: 'href',
+                            id: '',
+                            attrType: 'section'
+                        }, {
+                            name: 'target',
+                            desc: '新窗口打开',
+                            type: 'toggle',
+                            value: false,
+                            isAttr: true,
+                            attrName: 'target',
+                            id: ''
+                        }]
+                    }, {
+                        title: '属性设置',
+                        key: 'link-block-attr',
+                        isAttrSetting: true,
+                        children: [{
+                            name: 'value',
+                            desc: '按钮值',
+                            type: 'input',
+                            value: '按钮',
+                            isHTML: true,
+                            id: ''
+                        }, {
+                            name: 'container',
+                            desc: '是否是容器',
+                            value: true,
+                            backend: true,
+                            isContainer: true
+                        }]
+                    }]
+                }
+            }, {
+                icon: `<svg width="59" height="31" viewBox="0 0 59 31" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".4" d="M56 0H3C1.3 0 0 1.3 0 3v25c0 1.7 1.3 3 3 3h53c1.7 0 3-1.3 3-3V3c0-1.7-1.3-3-3-3z"></path><path fill="currentColor" d="M10 16.7H8.8v1.6H10c.6 0 .8-.4.8-.8s-.2-.8-.8-.8zm29.8-2.9c-1.2 0-2.1 1-2.1 2.3 0 1.3.9 2.4 2.1 2.4 1.2 0 2.1-1 2.1-2.4.1-1.4-.9-2.3-2.1-2.3zm-29.3.7c0-.4-.2-.7-.7-.7h-1v1.4h1c.5 0 .7-.4.7-.7zM56 1H3c-1.1 0-2 .9-2 2v25c0 1.1.9 2 2 2h53c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zM9.8 20H6.9v-7.9h2.9c1.6 0 2.7.7 2.7 2.1 0 .7-.3 1.3-.9 1.7.9.3 1.2 1.1 1.2 1.8 0 1.7-1.4 2.3-3 2.3zm10.8-2.9c0 1.8-1.3 3-3.3 3-2 0-3.3-1.3-3.3-3v-5h2v5c0 .8.5 1.3 1.4 1.3s1.4-.4 1.4-1.3v-5h1.9v5zm7.6-3.3h-2.4V20h-1.9v-6.2h-2.4v-1.7h6.7v1.7zm7.1 0h-2.4V20H31v-6.2h-2.4v-1.7h6.7v1.7zm4.5 6.3c-2.4 0-4.1-1.8-4.1-4.1s1.7-4 4.1-4c2.4 0 4.1 1.8 4.1 4 .1 2.3-1.7 4.1-4.1 4.1zm12.1-.1H50l-2.2-3.7c-.3-.5-.7-1.3-.7-1.3s.1.8.1 1.3V20h-1.9v-7.9h1.9l2.2 3.7c.3.5.7 1.3.7 1.3s-.1-.8-.1-1.3v-3.7h1.9V20z"></path></svg>`,
+                name: '按钮',
+                key: 'button',
+                details: {
+                    tag: 'a',
+                    className: ['btn', 'btn-default'],
+                    attrs: [{
+                        title: '链接设置',
+                        key: 'link-setting',
+                        activeLinkType: 'link',
+                        children: [{
+                            name: 'src',
+                            desc: '跳转链接',
+                            type: 'input',
+                            value: '',
+                            isAttr: true,
+                            attrName: 'href',
+                            id: '',
+                            attrType: 'link'
+                        }, {
+                            name: 'src',
+                            desc: '跳转邮箱',
+                            type: 'input',
+                            value: '',
+                            isAttr: true,
+                            attrName: 'href',
+                            id: '',
+                            attrType: 'mail'
+                        }, {
+                            name: 'src',
+                            desc: '跳转电话',
+                            type: 'input',
+                            value: '',
+                            isAttr: true,
+                            attrName: 'href',
+                            id: '',
+                            attrType: 'phone'
+                        }, {
+                            name: 'src',
+                            desc: '跳转页面',
+                            type: 'select',
+                            value: '',
+                            isAttr: true,
+                            attrName: 'href',
+                            id: '',
+                            attrType: 'page'
+                        }, {
+                            name: 'src',
+                            desc: '跳转元素',
+                            type: 'select',
+                            value: '',
+                            isAttr: true,
+                            attrName: 'href',
+                            id: '',
+                            attrType: 'section'
+                        }, {
+                            name: 'target',
+                            desc: '新窗口打开',
+                            type: 'toggle',
+                            value: false,
+                            isAttr: true,
+                            attrName: 'target',
+                            id: ''
+                        }]
+                    }, {
+                        title: '属性设置',
+                        key: 'button-attr',
+                        isAttrSetting: true,
+                        children: [{
+                            name: 'value',
+                            desc: '按钮值',
+                            type: 'input',
+                            value: '按钮',
+                            isHTML: true,
+                            id: ''
+                        }]
+                    }]
+                }
+            }, {
+                icon: `<svg width="48" height="36" viewBox="0 0 48 36" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".2" fill="currentColor" d="M1 1h46v34H1z"></path><g fill="currentColor"><path d="M1 1h2v4H1zm44 0h2v4h-2zM3 1h2v2H3zm10 0h4v2h-4zM7 1h4v2H7zm12 0h4v2h-4zm-6 32h4v2h-4zm-6 0h4v2H7zm12 0h4v2h-4zm6-32h4v2h-4zm0 32h4v2h-4zm6-32h4v2h-4zm0 32h4v2h-4zm6-32h4v2h-4zm0 32h4v2h-4z"></path><path d="M43 1h4v2h-4zm2 30h2v4h-2zM1 31h2v4H1zm0-18h2v4H1zm0-6h2v4H1zm44 6h2v4h-2zM1 19h2v4H1zm44 0h2v4h-2zM1 25h2v4H1zm44 0h2v4h-2zm0-18h2v4h-2zm-2 26h2v2h-2z"></path><path d="M1 33h4v2H1z"></path></g><path opacity=".5" fill="currentColor" d="M18 14v-4h20v4H18m-2-6v8h24V8M18 26v-4h20v4H18m-2-6v8h24v-8"></path><circle fill="currentColor" cx="10" cy="12" r="2" opacity=".5"></circle><circle fill="currentColor" cx="10" cy="24" r="2" opacity=".5"></circle><path opacity=".4" d="M47 1v34H1V1h46m1-1H0v36h48V0z"></path></svg>`,
+                name: '列表',
+                key: 'list',
+                details: {
+                    tag: 'ul',
+                    className: ['list-group'],
+                    attrs: [{
+                        title: '属性设置',
+                        key: 'list-attr',
+                        isAttrSetting: true,
+                        children: [{
+                            name: 'tag',
+                            desc: '标签',
+                            value: 'ul',
+                            isTag: true,
+                        }, {
+                            name: 'list-style',
+                            desc: '有无序号',
+                            value: 'circle inside',
+                            isStyle: true
+                        }, {
+                            name: 'container',
+                            desc: '是否是容器',
+                            value: true,
+                            backend: true,
+                            isContainer: true
+                        }, {
+                            name: 'specialChild',
+                            desc: '指定的子元素',
+                            value: {
+                                tag: ['LI'],
+                                className: 'list-group-item',
+                                errorMessage: '列表容器只能放列表项'
+                            },
+                            backend: true,
+                            isSpecialChild: true
+                        }]
+                    }, {
+                        title: '列表设置',
+                        key: 'list-setting',
+                        isChangeTag: true,
+                        children: []
+                    }],
+                    children: [{
+                        tag: 'li',
+                        className: ['list-group-item',
+                            'vd-empty'
+                        ],
+                        attrs: [{
+                            isAttrSetting: true,
+                            title: '属性设置',
+                            key: 'list-item-attr',
+                            children: [{
+                                name: 'specialParent',
+                                desc: '必需放入list容器内',
+                                value: {
+                                    tag: [
+                                        'UL',
+                                        'OL'
+                                    ],
+                                    className: 'list-group',
+                                    errorMessage: '列表项只能放入列表容器内'
+                                },
+                                isSpecialParent: true,
+                                backend: true
+                            }, {
+                                name: 'container',
+                                desc: '是否是容器',
+                                value: true,
+                                backend: true,
+                                isContainer: true
+                            }]
+                        }]
+                    }, {
+                        tag: 'li',
+                        className: ['list-group-item',
+                            'vd-empty'
+                        ],
+                        attrs: [{
+                            title: '属性设置',
+                            key: 'list-item-attr',
+                            isAttrSetting: true,
+                            children: [{
+                                name: 'specialParent',
+                                desc: '必需放入list容器内',
+                                value: {
+                                    tag: [
+                                        'UL',
+                                        'OL'
+                                    ],
+                                    className: 'list-group',
+                                    errorMessage: '列表项只能放入列表容器内'
+                                },
+                                isSpecialParent: true,
+                                backend: true
+                            }, {
+                                name: 'container',
+                                desc: '是否是容器',
+                                value: true,
+                                backend: true,
+                                isContainer: true
+                            }]
+                        }]
+                    }, {
+                        tag: 'li',
+                        className: ['list-group-item',
+                            'vd-empty'
+                        ],
+                        attrs: [{
+                            title: '属性设置',
+                            key: 'list-item-attr',
+                            isAttrSetting: true,
+                            children: [{
+                                name: 'specialParent',
+                                desc: '必需放入list容器内',
+                                value: {
+                                    tag: [
+                                        'UL',
+                                        'OL'
+                                    ],
+                                    className: 'list-group',
+                                    errorMessage: '列表项只能放入列表容器内'
+                                },
+                                isSpecialParent: true,
+                                backend: true
+                            }, {
+                                name: 'container',
+                                desc: '是否是容器',
+                                value: true,
+                                backend: true,
+                                isContainer: true
+                            }]
+                        }]
+                    }]
+                }
+            }, {
+                icon: `<svg width="48" height="36" viewBox="0 0 48 36" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><g opacity=".3" fill="currentColor"><path d="M1 1h2v4H1zm44 0h2v4h-2zM3 1h2v2H3zm10 0h4v2h-4zM7 1h4v2H7zm12 0h4v2h-4zm-6 32h4v2h-4zm-6 0h4v2H7zm12 0h4v2h-4zm6-32h4v2h-4zm0 32h4v2h-4zm6-32h4v2h-4zm0 32h4v2h-4zm6-32h4v2h-4zm0 32h4v2h-4z"></path><path d="M43 1h4v2h-4zm2 30h2v4h-2zM1 31h2v4H1zm0-18h2v4H1zm0-6h2v4H1zm44 6h2v4h-2zM1 19h2v4H1zm44 0h2v4h-2zM1 25h2v4H1zm44 0h2v4h-2zm0-18h2v4h-2zm-2 26h2v2h-2z"></path><path d="M1 33h4v2H1z"></path></g><circle cx="9" cy="12" r="3" opacity=".4"></circle><circle fill="currentColor" cx="9" cy="12" r="2"></circle><circle cx="9" cy="24" r="3" opacity=".4"></circle><circle fill="currentColor" cx="9" cy="24" r="2"></circle><path fill="currentColor" d="M38 10v4H18v-4h20m2-2H16v8h24V8z"></path><path opacity=".2" fill="currentColor" d="M18 10h20v4H18z"></path><path opacity=".4" d="M40 8v8H16V8h24m1-1H15v10h26V7z"></path><path fill="currentColor" d="M38 22v4H18v-4h20m2-2H16v8h24v-8z"></path><path opacity=".2" fill="currentColor" d="M18 22h20v4H18z"></path><path opacity=".4" d="M40 20v8H16v-8h24m1-1H15v10h26V19z"></path></svg>`,
+                name: '列表项',
+                key: 'list-item',
+                details: {
+                    tag: 'li',
+                    className: ['list-group-item', 'vd-empty'],
+                    attrs: [{
+                        title: '属性设置',
+                        key: 'list-item-attr',
+                        isAttrSetting: true,
+                        children: [{
+                            name: 'specialParent',
+                            desc: '必需放入list容器内',
+                            value: {
+                                tag: ['UL',
+                                    'OL'
+                                ],
+                                className: 'list-group',
+                                errorMessage: '列表项只能放入列表容器内'
+                            },
+                            isSpecialParent: true,
+                            backend: true
+                        }, {
+                            name: 'container',
+                            desc: '是否是容器',
+                            value: true,
+                            backend: true,
+                            isContainer: true
+                        }]
+                    }]
+
+                }
+            }]
+        }, {
+            name: "段落",
+            key: 'typo',
+            content: [{
+                icon: `<svg width="60" height="32" viewBox="0 0 60 32" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".4" d="M6.9 5.5H4V1.2H.4V13H4V9h2.9v4h3.7V1.2H6.9v4.3zm26.6-1.8c-.4-.2-.9-.2-1.4-.2-1.3 0-2.4.4-3.3 1.3-.5.5-.9 1.1-1.1 1.8-.1-1-.5-1.7-1.2-2.2-.7-.6-1.7-.9-2.8-.9-1.4 0-2.6.4-3.7 1.3l-.7.6.6.8.7 1-.2.1c-.2.1-.3.2-.4.3-.1-1.2-.5-2.2-1.4-3-.9-.8-2-1.2-3.2-1.2-1.3 0-2.4.4-3.3 1.3-1 .9-1.4 2.1-1.4 3.5 0 1.5.5 2.6 1.4 3.5.9.9 2 1.3 3.4 1.3 1.6 0 2.9-.5 3.9-1.6l.3-.3V11c.2.4.4.8.8 1 .7.6 1.6.9 2.6.9.5 0 1-.1 1.5-.2v.3H28v-2.9c-.1-.2-.1-.4-.1-.5.2.9.6 1.6 1.2 2.2.9.9 2 1.4 3.2 1.4.6 0 1.1-.1 1.5-.3v.1H37V.6h-3.6v3.1zm-14.4 6.4L19 10h.1v-.3c0 .2 0 .4.1.6 0 0-.1-.1-.1-.2zm4.2-.3c-.3 0-.5-.1-.6-.1.1 0 .3-.1.7-.1h.6c-.3.1-.5.2-.7.2zm9.8-.4c-.2.3-.5.4-.8.4-.4 0-.6-.1-.9-.4-.3-.3-.4-.6-.4-1 0-.5.1-.8.4-1.1.3-.3.5-.4.9-.4.3 0 .6.1.8.4.3.3.4.6.4 1.1 0 .4-.1.7-.4 1zM40.5 1c-.4-.4-.9-.6-1.4-.6-.5 0-1 .2-1.4.6-.4.4-.6.9-.6 1.4 0 .4.1.8.4 1.2h-.2V13h3.6V3.6h-.2c.3-.3.4-.7.4-1.2 0-.6-.2-1.1-.6-1.4zm15 2.6v.1c-.4-.2-.9-.2-1.4-.2-1.3 0-2.3.5-3.2 1.4-.5.5-.8 1.1-1 1.8-.1-.8-.5-1.5-1-2.1-.7-.7-1.6-1.1-2.7-1.1-.5 0-1 .1-1.5.3v-.2h-3.6V13h3.6V8c0-.6.2-.8.3-.8.2-.2.5-.3.7-.3.4 0 .7 0 .7 1.1v5H50V9.8c-.1-.2-.1-.3-.1-.5.2.8.5 1.5 1.1 2.1.1.2.3.3.5.4l-.3.5-.7 1.2-.5.8.7.6c1.1.8 2.3 1.3 3.7 1.3 1.4 0 2.5-.4 3.4-1.3.9-.9 1.4-2.1 1.4-3.7V3.6h-3.7zm-.3 5.3c-.2.2-.5.3-.8.3-.4 0-.6-.2-.8-.3-.2-.3-.3-.6-.3-.9 0-.4.1-.7.3-1 .2-.2.4-.3.7-.3.4 0 .6.1.8.3.2.3.3.6.3 1 .1.4 0 .7-.2.9z"></path><g fill="currentColor"><path d="M1.4 12V2.2H3v4.2h4.9V2.2h1.7V12H7.9V8H3v4H1.4z"></path><path d="M1.4 12V2.2H3v4.2h4.9V2.2h1.7V12H7.9V8H3v4H1.4zm17.5-3h-5.8c0 .5.3 1 .7 1.3.5.3 1 .5 1.6.5.9 0 1.6-.3 2.1-.9l.9 1c-.8.8-1.8 1.2-3.1 1.2-1 0-1.9-.3-2.7-1s-1.1-1.6-1.1-2.8c0-1.2.4-2.1 1.1-2.8.7-.7 1.6-1 2.6-1s1.9.3 2.6.9 1.1 1.5 1.1 2.5V9zm-5.8-1.3h4.3c0-.6-.2-1.1-.6-1.4-.4-.3-.9-.5-1.4-.5s-1.2.2-1.6.5c-.5.4-.7.8-.7 1.4z"></path><path d="M18.9 9h-5.8c0 .5.3 1 .7 1.3.5.3 1 .5 1.6.5.9 0 1.6-.3 2.1-.9l.9 1c-.8.8-1.8 1.2-3.1 1.2-1 0-1.9-.3-2.7-1s-1.1-1.6-1.1-2.8c0-1.2.4-2.1 1.1-2.8.7-.7 1.6-1 2.6-1s1.9.3 2.6.9 1.1 1.5 1.1 2.5V9zm-5.8-1.3h4.3c0-.6-.2-1.1-.6-1.4-.4-.3-.9-.5-1.4-.5s-1.2.2-1.6.5c-.5.4-.7.8-.7 1.4zM26.7 12h-1.4v-1c-.6.7-1.4 1.1-2.5 1.1-.8 0-1.4-.2-1.9-.7s-.8-1-.8-1.8.3-1.3.8-1.6c.5-.4 1.3-.5 2.2-.5h2v-.3c0-1-.6-1.5-1.7-1.5-.7 0-1.4.3-2.2.8l-.7-1c.9-.7 1.9-1.1 3.1-1.1.9 0 1.6.2 2.1.7s.8 1.1.8 2.1V12zm-1.6-2.8v-.6h-1.8c-1.1 0-1.7.4-1.7 1.1 0 .4.1.6.4.8.3.2.7.3 1.2.3s.9-.1 1.3-.4c.4-.3.6-.7.6-1.2z"></path><path d="M26.7 12h-1.4v-1c-.6.7-1.4 1.1-2.5 1.1-.8 0-1.4-.2-1.9-.7s-.8-1-.8-1.8.3-1.3.8-1.6c.5-.4 1.3-.5 2.2-.5h2v-.3c0-1-.6-1.5-1.7-1.5-.7 0-1.4.3-2.2.8l-.7-1c.9-.7 1.9-1.1 3.1-1.1.9 0 1.6.2 2.1.7s.8 1.1.8 2.1V12zm-1.6-2.8v-.6h-1.8c-1.1 0-1.7.4-1.7 1.1 0 .4.1.6.4.8.3.2.7.3 1.2.3s.9-.1 1.3-.4c.4-.3.6-.7.6-1.2zm4.4 1.8c-.7-.7-1-1.6-1-2.8s.4-2.1 1.1-2.8c.7-.7 1.6-1 2.6-1s1.8.4 2.4 1.3V1.6H36V12h-1.6v-1.1c-.6.8-1.4 1.2-2.5 1.2-.9 0-1.7-.3-2.4-1.1zm.5-2.7c0 .7.2 1.3.7 1.7.5.4 1 .7 1.6.7.6 0 1.1-.2 1.6-.7.4-.5.6-1 .6-1.7s-.2-1.3-.6-1.8c-.4-.5-1-.7-1.6-.7s-1.2.2-1.7.7c-.4.5-.6 1.1-.6 1.8z"></path><path d="M29.5 11c-.7-.7-1-1.6-1-2.8s.4-2.1 1.1-2.8c.7-.7 1.6-1 2.6-1s1.8.4 2.4 1.3V1.6H36V12h-1.6v-1.1c-.6.8-1.4 1.2-2.5 1.2-.9 0-1.7-.3-2.4-1.1zm.5-2.7c0 .7.2 1.3.7 1.7.5.4 1 .7 1.6.7.6 0 1.1-.2 1.6-.7.4-.5.6-1 .6-1.7s-.2-1.3-.6-1.8c-.4-.5-1-.7-1.6-.7s-1.2.2-1.7.7c-.4.5-.6 1.1-.6 1.8zm8.4-5.2c-.2-.2-.3-.4-.3-.7s.1-.5.3-.7c.2-.2.4-.3.7-.3s.5.1.7.3.3.4.3.7-.1.5-.3.7c-.2.2-.4.3-.7.3s-.5-.1-.7-.3zm1.5 8.9h-1.6V4.6h1.6V12z"></path><path d="M38.4 3.1c-.2-.2-.3-.4-.3-.7s.1-.5.3-.7c.2-.2.4-.3.7-.3s.5.1.7.3.3.4.3.7-.1.5-.3.7c-.2.2-.4.3-.7.3s-.5-.1-.7-.3zm1.5 8.9h-1.6V4.6h1.6V12zm3.8-4v4h-1.6V4.6h1.6V6c.3-.5.6-.8 1-1.1.4-.3.9-.4 1.4-.4.8 0 1.5.3 2 .8.6.4.9 1.2.9 2.1V12h-1.6V7.9c0-1.4-.6-2.1-1.7-2.1-.5 0-1 .2-1.4.5-.4.5-.6 1-.6 1.7z"></path><path d="M43.7 8v4h-1.6V4.6h1.6V6c.3-.5.6-.8 1-1.1.4-.3.9-.4 1.4-.4.8 0 1.5.3 2 .8.6.4.9 1.2.9 2.1V12h-1.6V7.9c0-1.4-.6-2.1-1.7-2.1-.5 0-1 .2-1.4.5-.4.5-.6 1-.6 1.7zm14.4-3.4V11c0 1.3-.4 2.3-1.1 3s-1.6 1-2.8 1-2.1-.3-3-1l.7-1.2c.7.6 1.5.8 2.2.8.7 0 1.3-.2 1.8-.6s.7-1 .7-1.8v-1c-.2.4-.6.8-1 1.1-.4.3-.9.4-1.5.4-1 0-1.8-.3-2.4-1-.6-.7-1-1.5-1-2.6 0-1 .3-1.9 1-2.6.6-.7 1.4-1 2.4-1s1.8.4 2.4 1.2V4.6h1.6zM52.2 8c0 .6.2 1.1.6 1.6s.9.7 1.5.7 1.2-.2 1.6-.6c.4-.4.6-1 .6-1.6 0-.6-.2-1.2-.6-1.6s-.9-.8-1.6-.8-1.1.2-1.5.7c-.4.4-.6 1-.6 1.6z"></path><path d="M58.1 4.6V11c0 1.3-.4 2.3-1.1 3s-1.6 1-2.8 1-2.1-.3-3-1l.7-1.2c.7.6 1.5.8 2.2.8.7 0 1.3-.2 1.8-.6s.7-1 .7-1.8v-1c-.2.4-.6.8-1 1.1-.4.3-.9.4-1.5.4-1 0-1.8-.3-2.4-1-.6-.7-1-1.5-1-2.6 0-1 .3-1.9 1-2.6.6-.7 1.4-1 2.4-1s1.8.4 2.4 1.2V4.6h1.6zM52.2 8c0 .6.2 1.1.6 1.6s.9.7 1.5.7 1.2-.2 1.6-.6c.4-.4.6-1 .6-1.6 0-.6-.2-1.2-.6-1.6s-.9-.8-1.6-.8-1.1.2-1.5.7c-.4.4-.6 1-.6 1.6z"></path></g><path fill="currentColor" d="M1 17v2h57v-2H1zm55 4H1v2h55v-2zM1 27h56v-2H1v2zm0 4h27v-2H1v2z" opacity=".25"></path></svg>`,
+                name: '头部',
+                key: 'heading',
+                details: {
+                    tag: 'h1',
+                    className: [],
+                    attrs: [{
+                        title: '属性设置',
+                        key: 'h1-attr',
+                        isAttrSetting: true,
+                        isChangeTag: true,
+                        children: [{
+                            name: 'innerHTML',
+                            desc: '文本内容',
+                            type: 'input',
+                            value: '标题',
+                            isHTML: true,
+                            id: ''
+                        }, {
+                            name: 'tag',
+                            desc: '标签',
+                            type: 'select',
+                            value: 'h1',
+                            isTag: true,
+                            valueList: ['h1',
+                                'h2', 'h3',
+                                'h4', 'h5',
+                                'h6'
+                            ],
+                            id: ''
+                        }]
+                    }]
+                }
+            }, {
+                icon: `<svg width="59" height="16" viewBox="0 0 59 16" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".4" d="M0 0v16h29v-4h29V8h-1V4h2V0H0zm1 7h55H1zm57-4H1h57z"></path><path fill="currentColor" d="M1 1v2h57V1H1zm55 4H1v2h55V5zM1 11h56V9H1v2zm0 4h27v-2H1v2z"></path></svg>`,
+                name: '段落',
+                key: 'paragraph',
+                details: {
+                    tag: 'p',
+                    className: ['text-muted'],
+                    attrs: [{
+                        title: '属性设置',
+                        key: 'paragraph-attr',
+                        isAttrSetting: true,
+                        children: [{
+                            name: 'innerHTML',
+                            desc: '文本内容',
+                            type: 'input',
+                            props: {
+                                type: 'textarea'
+                            },
+                            value: '这是一个段落',
+                            isHTML: true,
+                            id: ''
+                        }, {
+                            name: 'container',
+                            desc: '是否是容器',
+                            value: true,
+                            backend: true,
+                            isContainer: true
+                        }]
+                    }]
+                }
+            }, {
+                icon: `<svg width="31" height="19" viewBox="0 0 31 19" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".4" d="M11.3 1c-.4-.4-.9-.6-1.4-.6-.5 0-1 .2-1.4.6-.4.3-.6.8-.6 1.4 0 .4.1.8.4 1.2h-.2v5.9H4V1.2H.4V13h11.3V3.6h-.2c.3-.3.4-.7.4-1.2-.1-.6-.3-1.1-.6-1.4zm-3.8 9.4H3V2.2H1.4V12 2.2H3v8.2h4.5zm2.9-7.3c-.2.1-.4.2-.6.2.3.1.5 0 .6-.2zM9.2 1.7c.1-.1.2-.1.2-.2-.1 0-.2.1-.2.2zm0 1.4c.2.2.3.2.5.3-.2-.1-.4-.2-.5-.3-.1-.1-.2-.2-.2-.3 0 .1.1.2.2.3zm1.4 1.5H9.1V12 4.6h1.5zm.1-1.7c.1-.2.2-.3.2-.5s-.1-.4-.2-.6c.1.2.2.3.2.5-.1.3-.1.4-.2.6zm6.2.5c-.5 0-1 .1-1.5.3v-.1h-3.6V13h3.6V8c0-.6.2-.8.3-.8.2-.2.5-.3.7-.3.4 0 .7 0 .7 1.1v5h3.6V7.4c0-1.2-.4-2.2-1.1-2.9-.6-.7-1.6-1.1-2.7-1.1zm-2.4 1.2h-1.6V12 4.6h1.6zm0 1.3c.1-.2.2-.4.4-.5-.2.1-.3.3-.4.5zm2 0c-.4 0-.7.1-1 .3.2-.3.6-.3 1-.3s.8.1 1.1.3c-.3-.2-.7-.3-1.1-.3zm2.5-.7c.2.2.3.3.4.5-.1-.2-.3-.3-.4-.5zm8 2.4l2.3-2.4 1.6-1.7h-4.8l-.3.3-1.3 1.4V.6h-3.6V13h3.6v-2.7l1.5 2.2.3.4h4.3l-1.1-1.6L27 7.6zm-3.5-6v6.1-6.1zm0 8.3V12 9.9zm1.1-1.2l.9 1.4-.9-1.4zm.2-2.3l1.7-1.8h2-2l-1.7 1.8z"></path><g fill="currentColor"><path d="M1.4 12V2.2H3v8.2h4.5V12H1.4z"></path><path d="M1.4 12V2.2H3v8.2h4.5V12H1.4zm7.8-8.9c-.2-.2-.3-.5-.3-.7s.1-.5.3-.7c.2-.2.4-.3.7-.3s.5.1.7.3.3.4.3.7-.1.5-.3.7c-.2.2-.4.3-.7.3s-.5-.1-.7-.3zm1.4 8.9H9.1V4.6h1.6V12z"></path><path d="M9.2 3.1c-.2-.2-.3-.5-.3-.7s.1-.5.3-.7c.2-.2.4-.3.7-.3s.5.1.7.3.3.4.3.7-.1.5-.3.7c-.2.2-.4.3-.7.3s-.5-.1-.7-.3zm1.4 8.9H9.1V4.6h1.6V12zm3.9-4v4h-1.6V4.6h1.6V6c.3-.5.6-.8 1-1.1.4-.3.9-.4 1.4-.4.8 0 1.5.3 2 .8s.8 1.3.8 2.2V12h-1.6V7.9c0-1.4-.6-2.1-1.7-2.1-.5 0-1 .2-1.4.5-.3.5-.5 1-.5 1.7z"></path><path d="M14.5 8v4h-1.6V4.6h1.6V6c.3-.5.6-.8 1-1.1.4-.3.9-.4 1.4-.4.8 0 1.5.3 2 .8s.8 1.3.8 2.2V12h-1.6V7.9c0-1.4-.6-2.1-1.7-2.1-.5 0-1 .2-1.4.5-.3.5-.5 1-.5 1.7zm9 4h-1.6V1.6h1.6v6.1l3-3.2h2l-2.8 3 3 4.5h-1.9l-2.2-3.3-1.1 1.1V12z"></path><path d="M23.5 12h-1.6V1.6h1.6v6.1l3-3.2h2l-2.8 3 3 4.5h-1.9l-2.2-3.3-1.1 1.1V12z"></path></g><g opacity=".4"><path d="M1 18v-2h29v2H1m30-3H0v4h31v-4"></path><path d="M1 16h29v2H1z"></path></g><path fill="currentColor" d="M1 16h29v2H1z"></path></svg>`,
+                name: '文本链接',
+                key: 'text-link',
+                details: {
+                    tag: 'a',
+                    className: [],
+                    attrs: [{
+                        title: '链接设置',
+                        key: 'link-setting',
+                        activeLinkType: 'link',
+                        children: [{
+                            name: 'src',
+                            desc: '跳转链接',
+                            type: 'input',
+                            value: '',
+                            isAttr: true,
+                            attrName: 'href',
+                            id: '',
+                            attrType: 'link'
+                        }, {
+                            name: 'src',
+                            desc: '跳转邮箱',
+                            type: 'input',
+                            value: '',
+                            isAttr: true,
+                            attrName: 'href',
+                            id: '',
+                            attrType: 'mail'
+                        }, {
+                            name: 'src',
+                            desc: '跳转电话',
+                            type: 'input',
+                            value: '',
+                            isAttr: true,
+                            attrName: 'href',
+                            id: '',
+                            attrType: 'phone'
+                        }, {
+                            name: 'src',
+                            desc: '跳转页面',
+                            type: 'select',
+                            value: '',
+                            isAttr: true,
+                            attrName: 'href',
+                            id: '',
+                            attrType: 'page'
+                        }, {
+                            name: 'src',
+                            desc: '跳转元素',
+                            type: 'select',
+                            value: '',
+                            isAttr: true,
+                            attrName: 'href',
+                            id: '',
+                            attrType: 'section'
+                        }, {
+                            name: 'target',
+                            desc: '新窗口打开',
+                            type: 'toggle',
+                            value: false,
+                            isAttr: true,
+                            isTarget: true,
+                            attrName: 'target',
+                            id: ''
+                        }, {
+                            name: 'innerHTML',
+                            desc: '显示文本',
+                            type: 'toggle',
+                            value: '这是一个链接',
+                            isHTML: true,
+                            id: ''
+                        }]
+                    }, {
+                        title: '属性设置',
+                        key: 'text-link-attr',
+                        isAttrSetting: true,
+                        children: [{
+                            name: 'innerHTML',
+                            desc: '文本内容',
+                            type: 'input',
+                            value: '这是一个链接',
+                            isHTML: true,
+                            id: ''
+                        }]
+                    }]
+                }
+            }, {
+                icon: `<svg width="33" height="13" viewBox="0 0 33 13" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".4" d="M10 .2H.4v3.5h3V12h3.7V3.7h3V.2zm22.4 9.7l-.6-1.1-.7-1.2-.9 1-.2.2v-3h2V2.6h-2V.2h-3.6v2.3H23l-.3.5-.8 1.2-.8-1.2-.3-.5h-4.4l.8 1.2-.2-.2c-.9-.8-2-1.2-3.2-1.2-1.3 0-2.4.4-3.3 1.3-1 .9-1.4 2.1-1.4 3.5 0 1.5.5 2.6 1.4 3.5.9.9 2.1 1.3 3.4 1.3 1.1 0 2.1-.3 2.9-.8l-.5.9h4.3l.3-.4.9-1.3 1 1.3.3.4h4.4l-1.1-1.6L24 7.2l1.3-1.8v.5h.9v2.7c0 1.1.3 1.9 1 2.6.7.6 1.5 1 2.4 1 .9 0 1.8-.3 2.5-1l.6-.5-.3-.8zM18 9.5l-.3-.3-.2-.2h.9l-.4.5zm.5-.7V6.9c0-.7-.1-1.3-.3-1.8l1.5 2.2-1.2 1.5zm6.8-5.2l-2.5 3.6 2.5-3.6z"></path><path d="M6.1 2.7V11H4.4V2.7h-3V1.2H9v1.5H6.1zM17.5 8h-5.8c0 .5.3 1 .7 1.3.5.3 1 .5 1.6.5.9 0 1.6-.3 2.1-.9l.9 1c-.8.8-1.8 1.2-3.1 1.2-1 0-1.9-.3-2.7-1s-1.1-1.6-1.1-2.8c0-1.2.4-2.1 1.1-2.8.7-.7 1.6-1 2.6-1s1.9.3 2.6.9 1.1 1.5 1.1 2.5V8zm-5.8-1.3H16c0-.6-.2-1.1-.6-1.4-.4-.3-.9-.5-1.5-.5s-1.1.2-1.5.5c-.5.4-.7.8-.7 1.4zm8.6-3.1L21.9 6l1.7-2.5h1.9l-2.6 3.6 2.7 3.8h-1.9l-1.8-2.5-1.8 2.6h-1.8l2.6-3.8-2.5-3.7h1.9zm8.5 1.2v3.8c0 .4.1.6.3.8.2.2.4.3.8.3s.7-.2 1-.5l.6 1.1c-.6.5-1.2.7-1.8.7-.7 0-1.2-.2-1.7-.7-.5-.5-.7-1.1-.7-1.9V4.8h-.9V3.6h.9V1.2h1.6v2.3h2v1.3h-2.1z" fill="currentColor"></path></svg>`,
+                name: '文本块',
+                key: 'text-block',
+                details: {
+                    tag: 'div',
+                    className: [],
+                    attrs: [{
+                        title: '属性设置',
+                        key: 'text-block-attr',
+                        isChangeTag: true,
+                        children: [{
+                            name: 'tag',
+                            desc: '标签',
+                            type: 'select',
+                            value: 'h1',
+                            isTag: true,
+                            valueList: ['h1',
+                                'h2', 'h3',
+                                'h4', 'h5',
+                                'h6'
+                            ],
+                            id: ''
+                        }]
+                    }],
+                    children: [{
+                        tag: 'p',
+                        className: ['text-muted'],
+                        attrs: [{
+                            title: '属性设置',
+                            key: 'p-attr',
+                            isAttrSetting: true,
+                            children: [{
+                                name: 'innerHTML',
+                                desc: '文本内容',
+                                type: 'input',
+                                props: {
+                                    type: 'textarea'
+                                },
+                                value: '这是一个文本块',
+                                isHTML: true,
+                                id: ''
+                            }, {
+                                name: 'container',
+                                desc: '是否是容器',
+                                value: true,
+                                backend: true,
+                                isContainer: true
+                            }]
+                        }]
+                    }]
+                }
+            }, {
+                icon: `<svg width="56" height="29" viewBox="0 0 56 29" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".4" d="M56 17v-4h-2V9H22v8H0v12h36v-4h19v-4h-1v-4h2zm-1-3v2-2zm-32 0v2-2zm-4.1 2l.8.2.3-.7.8-1.7.5-1-1-.4c-1.1-.4-2-1.3-2.4-2.3H21V0H11v6.5c0 4.9 3 8.5 7.9 9.5zm-2.2-7H20h-3.3zm-8.8 7l.8.2.3-.8.8-1.7.5-1-1-.4c-1.1-.4-2-1.3-2.4-2.3H10V0H0v6.5C0 11.4 3 15 7.9 16zm1-2.7l-.5 1 .5-1C7.7 12.8 6.7 12 6.2 11c.5 1 1.5 1.8 2.7 2.3zM5.7 9H9V1v8H5.7z"></path><path fill="currentColor" d="M23 14v2h32v-2H23zm30 4H1v2h52v-2zm0-8H23v2h30v-2zM1 24h53v-2H1v2zm0 4h34v-2H1v2zM1 6.5c0 4.6 2.9 7.7 7.1 8.5l.8-1.7c-2-.8-3.2-2.5-3.2-4.3H9V1H1v5.5zM20 1h-8v5.5c0 4.6 2.9 7.7 7.1 8.5l.8-1.7c-1.9-.7-3.2-2.5-3.2-4.3H20V1z"></path></svg>`,
+                name: '引用',
+                key: 'block-quote',
+                details: {
+                    tag: 'blockquote',
+                    className: ['highlight'],
+                    attrs: [{
+                        title: '属性设置',
+                        key: 'block-quote-attr',
+                        isAttrSetting: true,
+                        children: [{
+                            name: 'innerHTML',
+                            desc: '文本内容',
+                            type: 'input',
+                            props: {
+                                type: 'textarea'
+                            },
+                            value: '这是一个引用块',
+                            isHTML: true,
+                            id: ''
+                        }]
+                    }]
+                }
+            }, {
+                icon: `<svg width="55" height="33" viewBox="0 0 55 33" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".4" d="M45 1H25v6h20V1zm-1 1H26v4h18-18V2h18zM20 19c1.7 0 3-1.3 3-3V3c0-1.7-1.3-3-3-3H3C1.3 0 0 1.3 0 3v13c0 1.7 1.3 3 3 3h17zm2-16c0-.5-.2-.9-.5-1.3.3.4.5.8.5 1.3zm-7.5 4.7l-4.1 4.5 4.1-4.5zm-4 5.9l3.9-4.3L18 14h-7.9l.4-.4zm-3.2-1.9L9 13.6l.4.4H5.2l2.1-2.3zm-1.2-.2l1.1-1.3-1.1 1.3zm2.4.1l1.2 1.3-1.2-1.3zM9 6c0-.7-.4-1.3-.9-1.7.5.4.9 1 .9 1.7zM7 5c.6 0 1 .4 1 1s-.4 1-1 1-1-.4-1-1 .4-1 1-1zm-1-.7c-.6.3-1 1-1 1.7 0 1.1.9 2 2 2 .7 0 1.2-.3 1.6-.8-.4.5-.9.8-1.6.8-1.1 0-2-.9-2-2 0-.7.4-1.4 1-1.7zM3 15h17l-4.5-6 4.5 6H3zm-2 1V3c0-.5.2-.9.5-1.3-.3.4-.5.8-.5 1.3v13c0 .6.2 1.1.6 1.4-.4-.4-.6-.9-.6-1.4zm2 2h17c.4 0 .8-.1 1.1-.3-.3.2-.7.3-1.1.3H3zm22-9v12H1v12h34v-4h17v-4h2v-4h-2v-4h2v-4h1V9H25zm1 9v2h25-25v-2zM2 26v2-2zm32 6H2v-2 2h32zm19-10H2v2h51H2v-2h51zm0-8H26v2-2h27zm1-2H26v-2h28v2zm0-2H26v2h28v-2z"></path><path fill="currentColor" d="M26 10v2h28v-2H26zm0 6h27v-2H26v2zM44 2H26v4h18V2zm7 16H26v2h25v-2zM2 28h49v-2H2v2zm0-4h51v-2H2v2zm0 8h32v-2H2v2zm18-14c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2H3c-1.1 0-2 .9-2 2v13c0 1.1.9 2 2 2h17zM7 4c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm.3 6.3L9.8 13l4.7-5.2L20 15H3l4.3-4.7z"></path></svg>`,
+                name: '富文本',
+                key: 'rich-text',
+                details: {
+                    tag: 'div',
+                    className: [],
+                    attrs: [],
+                    children: [{
+                        tag: 'h1',
+                        className: [],
+                        attrs: [{
+                            title: '属性设置',
+                            key: 'h1-attr',
+                            isAttrSetting: true,
+                            isChangeTag: true,
+                            children: [{
+                                name: 'innerHTML',
+                                desc: '文本内容',
+                                type: 'input',
+                                value: '标题',
+                                isHTML: true,
+                                id: ''
+                            }, {
+                                name: 'tag',
+                                desc: '标签',
+                                type: 'select',
+                                value: 'h1',
+                                isTag: true,
+                                valueList: [
+                                    'h1',
+                                    'h2',
+                                    'h3',
+                                    'h4',
+                                    'h5',
+                                    'h6'
+                                ],
+                                id: ''
+                            }]
+                        }]
+                    }, {
+                        tag: 'p',
+                        className: ['text-muted'],
+                        attrs: [{
+                            title: '属性设置',
+                            key: 'p-attr',
+                            isAttrSetting: true,
+                            children: [{
+                                name: 'innerHTML',
+                                desc: '文本内容',
+                                type: 'input',
+                                props: {
+                                    type: 'textarea'
+                                },
+                                value: '这是一个文本块',
+                                isHTML: true,
+                                id: ''
+                            }, {
+                                name: 'container',
+                                desc: '是否是容器',
+                                value: true,
+                                backend: true,
+                                isContainer: true
+                            }]
+                        }]
+                    }, {
+                        tag: 'p',
+                        className: ['text-muted'],
+                        attrs: [{
+                            title: '属性设置',
+                            key: 'p-attr',
+                            isAttrSetting: true,
+                            children: [{
+                                name: 'innerHTML',
+                                desc: '文本内容',
+                                type: 'input',
+                                props: {
+                                    type: 'textarea'
+                                },
+                                value: '这是另一个文本块',
+                                isHTML: true,
+                                id: ''
+                            }, {
+                                name: 'container',
+                                desc: '是否是容器',
+                                value: true,
+                                backend: true,
+                                isContainer: true
+                            }]
+                        }]
+                    }]
+                }
+            }]
+        }, {
+            name: "媒体",
+            key: 'media',
+            content: [{
+                icon: `<svg width="50" height="37" viewBox="0 0 50 37" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".4" d="M47 0H3C1.3 0 0 1.3 0 3v31c0 1.7 1.3 3 3 3h44c1.7 0 3-1.3 3-3V3c0-1.7-1.3-3-3-3zm0 36H3c-.8 0-1.4-.5-1.8-1.1.4.6 1 1.1 1.8 1.1h44zM16 12.5c0 1.4-1.1 2.5-2.5 2.5S11 13.9 11 12.5s1.1-2.5 2.5-2.5 2.5 1.1 2.5 2.5zm-3.9 3.2s-.1 0-.1-.1l.1.1zm11.2 8.4l.7-.8 6.9-7.9 9 13.7H12.4l7.5-8.5 2.7 2.7.7.8zM41.8 30l-8.4-12.7L41.8 30zm-18.5-7.4l3.5-4-3.5 4zm-3.4-3.5l-4.4 5 4.4-5 1 1-1-1zM13.5 9c-1.9 0-3.5 1.6-3.5 3.5 0 1.2.6 2.3 1.5 2.9-.9-.6-1.5-1.7-1.5-2.9 0-1.9 1.6-3.5 3.5-3.5.5 0 .9.1 1.4.3-.5-.2-.9-.3-1.4-.3zM49 3v-.4c-.2-.9-1-1.6-2-1.6H3h44c1 0 1.8.7 2 1.6V3z"></path><path fill="currentColor" d="M47 1H3c-1.1 0-2 .9-2 2v31c0 1.1.9 2 2 2h44c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zM13.5 9c1.9 0 3.5 1.6 3.5 3.5S15.4 16 13.5 16 10 14.4 10 12.5 11.6 9 13.5 9zm-3.3 21l9.6-10.9 3.4 3.5 7.7-8.9L41.8 30H10.2z"></path></svg>`,
+                name: '图片',
+                key: 'image',
+                details: {
+                    tag: 'img',
+                    className: ['img-rounded'],
+                    attrs: [{
+                        title: '图片设置',
+                        key: 'image-setting',
+                        children: [{
+                            name: 'src',
+                            desc: '图片地址',
+                            type: 'input',
+                            value: '',
+                            isAttr: true,
+                            attrName: 'src',
+                            id: '',
+                            fileInfo: [{
+                                uid: -1,
+                                name: 'image-placeholder.svg',
+                                states: 'done',
+                                url: placeholderImgBase64,
+                                thumbUrl: placeholderImgBase64,
+                            }]
+                        }, {
+                            name: 'alt',
+                            desc: '替换文本',
+                            type: 'input',
+                            value: '',
+                            isAttr: true,
+                            attrName: 'alt'
+                        }, {
+                            name: 'width',
+                            desc: '宽度',
+                            type: 'input',
+                            value: 150,
+                            isAttr: true,
+                            attrName: 'width'
+                        }, {
+                            name: 'height',
+                            desc: '高度',
+                            type: 'input',
+                            value: 150,
+                            isAttr: true,
+                            attrName: 'height'
+                        }, {
+                            name: 'image_placeholder',
+                            desc: '占位图片',
+                            type: 'input',
+                            value: placeholderImgBase64,
+                            isImagePlaceholder: true
+                        }]
+                    }]
+                }
+            }, {
+                icon: `<svg width="50" height="37" viewBox="0 0 50 37" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".4" d="M47 0H3C1.3 0 0 1.3 0 3v31c0 1.7 1.3 3 3 3h44c1.7 0 3-1.3 3-3V3c0-1.7-1.3-3-3-3zm-9 13.7v9.6l-6-3.4v-2.8l6-3.4zM39 25l-3.6-2 3.6 2zM13 14c0-.6.4-1 1-1h13c.6 0 1 .4 1 1v9c0 .6-.4 1-1 1H14c-.6 0-1-.4-1-1v-9zm1 11h13c.9 0 1.7-.6 1.9-1.5-.2.8-1 1.5-1.9 1.5H14c-.6 0-1.1-.2-1.4-.6.3.4.9.6 1.4.6zm14.7-12.1c-.1-.1-.2-.2-.2-.3 0 .1.1.2.2.3.2.3.3.7.3 1.1 0-.4-.1-.8-.3-1.1zM1 3c0-.2 0-.3.1-.5-.1.2-.1.3-.1.5zm.1 31.5c-.1-.1-.1-.3-.1-.5 0 .2 0 .4.1.5z"></path><path fill="currentColor" d="M47 1H3c-1.1 0-2 .9-2 2v31c0 1.1.9 2 2 2h44c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zM29 23c0 1.1-.9 2-2 2H14c-1.1 0-2-.9-2-2v-9c0-1.1.9-2 2-2h13c1.1 0 2 .9 2 2v9zm10 2l-8-4.5v-4l8-4.5v13z"></path></svg>`,
+                name: '视频',
+                key: 'video',
+                details: {
+                    tag: 'video',
+                    className: [],
+                    attrs: [{
+                        title: '属性设置',
+                        key: 'video-attr',
+                        isAttrSetting: true,
+                        children: [{
+                            name: 'src',
+                            desc: '链接',
+                            type: 'input',
+                            value: '',
+                            id: '',
+                            isAttr: true,
+                            attrName: 'src'
+                        }, {
+                            name: 'width',
+                            desc: '宽度',
+                            type: 'input',
+                            value: 400,
+                            isAttr: true,
+                            attrName: 'width'
+                        }, {
+                            name: 'height',
+                            desc: '高度',
+                            type: 'input',
+                            value: 200,
+                            isAttr: true,
+                            attrName: 'height',
+                        }, {
+                            name: 'controls',
+                            desc: '显示控件',
+                            value: true,
+                            type: 'toggle',
+                            attrName: 'controls',
+                            isToggleAttr: true
+                        }, {
+                            name: 'loop',
+                            desc: '循环播放',
+                            value: true,
+                            type: 'toggle',
+                            attrName: 'loop',
+                            isToggleAttr: true
+                        }, {
+                            name: 'autoplay',
+                            desc: '自动播放',
+                            value: true,
+                            type: 'toggle',
+                            attrName: 'autoplay',
+                            isToggleAttr: true
+                        }, {
+                            name: 'poster',
+                            desc: '播放前的显示图片',
+                            type: 'input',
+                            value: 'https://d3e54v103j8qbb.cloudfront.net/static/video-placeholder.v1.svg',
+                            attrName: 'poster',
+                            isAttr: true,
+                        }]
+                    }]
+                }
+            }, {
+                icon: `<svg width="50" height="37" viewBox="0 0 50 37" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".4" d="M47 0H3C1.3 0 0 1.3 0 3v31c0 1.7 1.3 3 3 3h44c1.7 0 3-1.3 3-3V3c0-1.7-1.3-3-3-3zm0 36H3c-.8 0-1.4-.5-1.8-1.1.4.6 1 1.1 1.8 1.1h44zM16 12.5c0 1.4-1.1 2.5-2.5 2.5S11 13.9 11 12.5s1.1-2.5 2.5-2.5 2.5 1.1 2.5 2.5zm-3.9 3.2s-.1 0-.1-.1l.1.1zm11.2 8.4l.7-.8 6.9-7.9 9 13.7H12.4l7.5-8.5 2.7 2.7.7.8zM41.8 30l-8.4-12.7L41.8 30zm-18.5-7.4l3.5-4-3.5 4zm-3.4-3.5l-4.4 5 4.4-5 1 1-1-1zM13.5 9c-1.9 0-3.5 1.6-3.5 3.5 0 1.2.6 2.3 1.5 2.9-.9-.6-1.5-1.7-1.5-2.9 0-1.9 1.6-3.5 3.5-3.5.5 0 .9.1 1.4.3-.5-.2-.9-.3-1.4-.3zM49 3v-.4c-.2-.9-1-1.6-2-1.6H3h44c1 0 1.8.7 2 1.6V3z"></path><path fill="currentColor" d="M47 1H3c-1.1 0-2 .9-2 2v31c0 1.1.9 2 2 2h44c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zM13.5 9c1.9 0 3.5 1.6 3.5 3.5S15.4 16 13.5 16 10 14.4 10 12.5 11.6 9 13.5 9zm-3.3 21l9.6-10.9 3.4 3.5 7.7-8.9L41.8 30H10.2z"></path></svg>`,
+                name: '图标',
+                key: 'icon',
+                details: {
+                    tag: 'i',
+                    className: ['fa', 'fa-picture-o', 'fa-2x'],
+                    attrs: [{
+                        title: '图标设置',
+                        key: 'icon-setting',
+                        children: [{
+                            name: 'aria-hidden',
+                            value: true,
+                            attrName: 'aria-hidden',
+                            isAttr: true
+                        }, {
+                            name: 'currentIcon',
+                            value: 'fa-picture-o'
+                        }, {
+                            name: 'currentSize',
+                            value: 'fa-2x'
+                        }, {
+                            name: 'spin',
+                            value: ''
+                        }]
+                    }]
+                }
+            }]
+        }, {
+            name: "表单",
+            key: 'forms',
+            content: [{
+                icon: `<svg width="41" height="39" viewBox="0 0 41 39" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path fill="currentColor" d="M38 3v7H3V3h35m2-2H1v11h39V1z"></path><path opacity=".2" fill="currentColor" d="M3 3h35v7H3z"></path><path opacity=".4" d="M40 1v11H1V1h39m1-1H0v13h41V0z"></path><path fill="currentColor" d="M38 18v7H3v-7h35m2-2H1v11h39V16z"></path><path opacity=".2" fill="currentColor" d="M3 18h35v7H3z"></path><path opacity=".4" d="M40 16v11H1V16h39m1-1H0v13h41V15zM19 30H3c-1.7 0-3 1.3-3 3v3c0 1.7 1.3 3 3 3h16c1.7 0 3-1.3 3-3v-3c0-1.7-1.3-3-3-3z"></path><path fill="currentColor" d="M19 31H3c-1.1 0-2 .9-2 2v3c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-3c0-1.1-.9-2-2-2z"></path></svg>`,
+                name: '表单块',
+                key: 'form-block',
+                details: {
+                    tag: 'form',
+                    className: [],
+                    attrs: [{
+                        title: '表单设置',
+                        key: 'form-setting',
+                        children: [{
+                            name: 'state',
+                            desc: '链接',
+                            type: 'radio',
+                            value: 'normal',
+                            children: [{
+                                name: '正常',
+                                value: 'normal'
+                            }, {
+                                name: '成功',
+                                value: 'success'
+                            }, {
+                                name: '报错',
+                                value: 'error'
+                            }],
+                            id: ''
+                        }, {
+                            name: 'form-name',
+                            desc: '表单名称',
+                            type: 'input',
+                            value: '',
+                            props: {
+                                placeholder: 'e.g http://baidu.com'
+                            },
+                            id: ''
+                        }, {
+                            name: 'redirect-url',
+                            desc: '请求地址',
+                            type: 'input',
+                            value: '',
+                            props: {
+                                placeholder: 'e.g http://baidu.com'
+                            },
+                            id: ''
+                        }, {
+                            name: 'action',
+                            desc: '动作',
+                            type: 'input',
+                            value: '',
+                            props: {
+                                placeholder: 'e.g http://baidu.com'
+                            },
+                            id: ''
+                        }, {
+                            name: 'action',
+                            desc: '动作',
+                            type: 'select',
+                            value: 'get',
+                            children: ['get',
+                                'post'
+                            ],
+                            id: ''
+                        }],
+                        children: [{
+                            tag: 'label',
+                            className: [],
+                            attrs: []
+                        }]
+                    }],
+
+                    children: [{
+                        tag: 'div',
+                        className: ['form-group'],
+                        attrs: [{
+                            title: '属性设置',
+                            key: 'label-attr',
+                            isAttrSetting: true,
+                            children: []
+                        }],
+                        children: [{
+                            tag: 'label',
+                            className: [],
+                            attrs: [{
+                                title: '属性设置',
+                                key: 'label-attr',
+                                isAttrSetting: true,
+                                children: [{
+                                    name: 'innerHTML',
+                                    desc: '名称',
+                                    type: 'input',
+                                    value: '姓名',
+                                    id: '',
+                                    isHTML: true,
+                                }]
+                            }]
+                        }, {
+                            tag: 'input',
+                            className: [
+                                'form-control'
+                            ],
+                            attrs: [{
+                                title: '属性设置',
+                                key: 'input-attr',
+                                isAttrSetting: true,
+                                children: [{
+                                    name: 'name',
+                                    desc: '名称',
+                                    type: 'input',
+                                    value: '',
+                                    isAttr: true,
+                                    attrName: 'value',
+                                    props: {
+                                        placeholder: '输入名称'
+                                    },
+                                    id: ''
+                                }, {
+                                    name: 'placeholder',
+                                    desc: '占位字符',
+                                    type: 'input',
+                                    value: '输入姓名',
+                                    isAttr: true,
+                                    attrName: 'placeholder',
+                                    props: {
+                                        placeholder: '输入占位字符'
+                                    },
+                                    id: ''
+                                }, {
+                                    name: 'input-type',
+                                    desc: '类型',
+                                    type: 'select',
+                                    value: 'input',
+                                    isAttr: true,
+                                    attrName: 'type',
+                                    valueList: [
+                                        'input',
+                                        'email',
+                                        'password',
+                                        'number',
+                                        'tel'
+                                    ],
+                                    id: ''
+                                }, {
+                                    name: 'autofocus',
+                                    desc: '自动聚焦',
+                                    type: 'toggle',
+                                    isToggleAttr: true,
+                                    value: true,
+                                    id: '',
+                                    attrName: 'autofocus'
+                                }, {
+                                    name: 'required',
+                                    desc: '是否必填',
+                                    type: 'toggle',
+                                    isToggleAttr: true,
+                                    value: false,
+                                    id: '',
+                                    attrName: 'required'
+                                }]
+                            }]
+                        }]
+                    }, {
+                        tag: 'div',
+                        className: ['form-group'],
+                        attrs: [{
+                            title: '属性设置',
+                            key: 'label-attr',
+                            isAttrSetting: true,
+                            children: []
+                        }],
+                        children: [{
+                            tag: 'label',
+                            className: [],
+                            attrs: [{
+                                title: '属性设置',
+                                key: 'label-attr',
+                                isAttrSetting: true,
+                                children: [{
+                                    name: 'innerHTML',
+                                    desc: '名称',
+                                    type: 'input',
+                                    value: '邮箱',
+                                    id: '',
+                                    isHTML: true,
+                                }]
+                            }]
+                        }, {
+                            tag: 'input',
+                            className: [
+                                'form-control'
+                            ],
+                            attrs: [{
+                                title: '属性设置',
+                                key: 'input-attr',
+                                isAttrSetting: true,
+                                children: [{
+                                    name: 'name',
+                                    desc: '名称',
+                                    type: 'input',
+                                    value: '',
+                                    isAttr: true,
+                                    attrName: 'value',
+                                    props: {
+                                        placeholder: '输入名称'
+                                    },
+                                    id: ''
+                                }, {
+                                    name: 'placeholder',
+                                    desc: '占位字符',
+                                    type: 'input',
+                                    value: '输入邮箱',
+                                    isAttr: true,
+                                    attrName: 'placeholder',
+                                    props: {
+                                        placeholder: '输入占位字符'
+                                    },
+                                    id: ''
+                                }, {
+                                    name: 'input-type',
+                                    desc: '类型',
+                                    type: 'select',
+                                    value: 'input',
+                                    isAttr: true,
+                                    attrName: 'type',
+                                    valueList: [
+                                        'input',
+                                        'email',
+                                        'password',
+                                        'number',
+                                        'tel'
+                                    ],
+                                    id: ''
+                                }, {
+                                    name: 'autofocus',
+                                    desc: '自动聚焦',
+                                    type: 'toggle',
+                                    isToggleAttr: true,
+                                    value: true,
+                                    id: '',
+                                    attrName: 'autofocus'
+                                }, {
+                                    name: 'required',
+                                    desc: '是否必填',
+                                    type: 'toggle',
+                                    isToggleAttr: true,
+                                    value: false,
+                                    id: '',
+                                    attrName: 'required'
+                                }]
+                            }]
+                        }]
+                    }, {
+                        tag: 'input',
+                        className: ['btn',
+                            'btn-default'
+                        ],
+                        attrs: [{
+                            title: '属性设置',
+                            key: 'textarea-attr',
+                            isAttrSetting: true,
+                            children: [{
+                                name: 'button-text',
+                                desc: '文本名称',
+                                type: 'input',
+                                value: '提交',
+                                props: {
+                                    placeholder: '输入名称'
+                                },
+                                id: '',
+                                isAttr: true,
+                                attrName: 'value'
+                            }, {
+                                name: 'type',
+                                desc: '类型',
+                                value: 'submit',
+                                props: {
+                                    placeholder: '输入名称'
+                                },
+                                id: '',
+                                isAttr: true,
+                                attrName: 'type'
+                            }]
+                        }]
+                    }]
+                }
+            }, {
+                icon: `<svg width="38" height="14" viewBox="0 0 38 14" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".4" d="M12.1 3.4c-1.4 0-2.6.4-3.7 1.3l-.7.6.6.8.7 1-.2.1c-.8.5-1.2 1.3-1.3 2.2H4V1.2H.4V13h8.1v-.9c-.1-.1-.1-.2-.2-.2l.3.3c.7.6 1.6.9 2.6.9.5 0 1-.1 1.5-.2v.1h3.4V7.2c0-1.3-.4-2.2-1.2-2.9-.8-.6-1.7-.9-2.8-.9zm-.4 6.4c-.3 0-.5-.1-.6-.1.1 0 .3-.1.7-.1h.6c-.3.1-.5.2-.7.2zM34.3.6v5.6c-.2-.6-.6-1.2-1.1-1.6-.9-.8-2-1.2-3.2-1.2-1.3 0-2.4.4-3.3 1.3-.5.4-.9 1-1.1 1.6-.2-.6-.6-1.1-1-1.6-.9-.9-2-1.3-3.3-1.3-.5 0-1 .1-1.4.3V.6h-3.6V13h3.6v-.2c.5.2 1 .3 1.5.3 1.2 0 2.3-.5 3.2-1.4.4-.4.8-1 1-1.5-.1-.2-.1-.4-.2-.6.2.9.6 1.6 1.2 2.2.9.9 2.1 1.3 3.4 1.3 1.6 0 2.9-.5 3.9-1.6l.5-.5v2H38V.6h-3.7zM21.9 9.3c-.3.3-.6.4-.9.4-.3 0-.6-.1-.8-.4-.3-.3-.4-.6-.4-1.1 0-.5.1-.8.4-1.1.2-.3.5-.4.8-.4.4 0 .6.1.9.4.3.3.4.6.4 1.1 0 .5-.1.9-.4 1.1zm12.4 1.4l-.5-.5-.2-.2h.7v.7z"></path><path d="M1.4 12V2.2H3v8.2h4.5V12H1.4zm13.7 0h-1.4v-1c-.6.7-1.4 1.1-2.5 1.1-.8 0-1.4-.2-1.9-.7s-.8-1-.8-1.8.3-1.3.8-1.6c.5-.4 1.3-.5 2.2-.5h2v-.3c0-1-.6-1.5-1.7-1.5-.7 0-1.4.3-2.2.8l-.6-1c.9-.7 1.9-1.1 3.1-1.1.9 0 1.6.2 2.1.7s.8 1.1.8 2.1V12zm-1.6-2.8v-.6h-1.8c-1.1 0-1.7.4-1.7 1.1 0 .4.1.6.4.8.3.2.7.3 1.2.3s.9-.1 1.3-.4c.4-.3.6-.7.6-1.2zm7.8-4.8c1 0 1.9.3 2.6 1 .7.7 1.1 1.6 1.1 2.8 0 1.1-.4 2.1-1.1 2.8-.7.7-1.5 1.1-2.5 1.1-.9 0-1.8-.4-2.5-1.2V12h-1.6V1.6h1.6v4.2c.6-.9 1.4-1.4 2.4-1.4zm-2.5 3.9c0 .7.2 1.3.6 1.7.4.5 1 .7 1.6.7s1.2-.2 1.6-.7.7-1 .7-1.7-.2-1.3-.6-1.8c-.4-.5-1-.7-1.6-.7-.6 0-1.2.2-1.6.7-.5.5-.7 1.1-.7 1.8zm14.8.7h-5.8c0 .5.3 1 .7 1.3.5.3 1 .5 1.6.5.9 0 1.6-.3 2.1-.9l.9 1c-.8.8-1.8 1.2-3.1 1.2-1 0-1.9-.3-2.7-1s-1.1-1.6-1.1-2.8c0-1.2.4-2.1 1.1-2.8.7-.7 1.6-1 2.6-1s1.9.3 2.6.9 1.1 1.5 1.1 2.5V9zm-5.8-1.3H32c0-.6-.2-1.1-.6-1.4-.3-.3-.8-.5-1.4-.5s-1.1.2-1.5.5c-.5.4-.7.8-.7 1.4zm9.1 4.3h-1.6V1.6h1.6V12z" fill="currentColor"></path></svg>`,
+                name: '标签',
+                key: 'label',
+                details: {
+                    tag: 'label',
+                    className: [],
+                    attrs: [{
+                        title: '属性设置',
+                        key: 'label-attr',
+                        isAttrSetting: true,
+                        children: [{
+                            name: 'innerHTML',
+                            desc: '名称',
+                            type: 'input',
+                            value: '标签',
+                            id: '',
+                            isHTML: true,
+                        }]
+                    }]
+                }
+            }, {
+                icon: `<svg width="48" height="21" viewBox="0 0 48 21" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path fill="currentColor" d="M45 3v15H3V3h42m2-2H1v19h46V1z"></path><path opacity=".2" fill="currentColor" d="M3 3h42v15H3z"></path><path opacity=".4" d="M47 1v19H1V1h46m1-1H0v21h48V0z"></path><path opacity=".5" fill="currentColor" d="M7 6h2v9H7z"></path></svg>`,
+                name: '输入框',
+                key: 'input',
+                details: {
+                    tag: 'input',
+                    className: ['form-control'],
+                    attrs: [{
+                        title: '属性设置',
+                        key: 'input-attr',
+                        isAttrSetting: true,
+                        children: [{
+                            name: 'name',
+                            desc: '名称',
+                            type: 'input',
+                            value: '',
+                            props: {
+                                placeholder: '输入名称'
+                            },
+                            id: '',
+                            isAttr: true,
+                            attrName: 'namw'
+                        }, {
+                            name: 'placeholder',
+                            desc: '占位字符',
+                            type: 'input',
+                            value: '占位字符',
+                            props: {
+                                placeholder: '输入占位字符'
+                            },
+                            id: '',
+                            isAttr: true,
+                            attrName: 'placeholder'
+                        }, {
+                            name: 'input-type',
+                            desc: '类型',
+                            type: 'select',
+                            value: 'input',
+                            valueList: ['input',
+                                'email',
+                                'password',
+                                'number',
+                                'tel'
+                            ],
+                            id: '',
+                            isAttr: true,
+                            attrName: 'type'
+                        }, {
+                            name: 'readonly',
+                            desc: '只读',
+                            type: 'toggle',
+                            value: false,
+                            id: '',
+                            isToggleAttr: true,
+                            attrName: 'readonly'
+                        }, {
+                            name: 'autofocus',
+                            desc: '自动聚焦',
+                            type: 'toggle',
+                            isToggleAttr: true,
+                            value: true,
+                            id: '',
+                            attrName: 'autofocus'
+                        }, {
+                            name: 'required',
+                            desc: '是否必填',
+                            type: 'toggle',
+                            isToggleAttr: true,
+                            value: false,
+                            id: '',
+                            attrName: 'required'
+                        }]
+                    }]
+                }
+            }, {
+                icon: `<svg width="50" height="32" viewBox="0 0 50 32" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path fill="currentColor" d="M47 3v26H3V3h44m2-2H1v30h48V1z"></path><path opacity=".2" fill="currentColor" d="M3 3h44v26H3z"></path><path opacity=".4" d="M49 1v30H1V1h48m1-1H0v32h50V0z"></path><path opacity=".5" fill="currentColor" d="M7 6h2v9H7zm29.3 20h1.4l6.3-6.3v-1.4L36.3 26zm4.4 0l3.3-3.3v-1.4L39.3 26h1.4zm3 0l.3-.3v-1.4L42.3 26h1.4z"></path></svg>`,
+                name: '文本域',
+                key: 'textarea',
+                setAttribute: true,
+                details: {
+                    tag: 'textarea',
+                    className: ['form-control'],
+                    attrs: [{
+                        title: '属性设置',
+                        key: 'textarea-attr',
+                        isAttrSetting: true,
+                        children: [{
+                            name: 'name',
+                            desc: '名称',
+                            type: 'input',
+                            value: '',
+                            props: {
+                                placeholder: '输入名称'
+                            },
+                            id: '',
+                            isAttr: true,
+                            attrName: 'value'
+                        }, {
+                            name: 'placeholder',
+                            desc: '占位字符',
+                            type: 'input',
+                            value: '请输入文本',
+                            props: {
+                                placeholder: '输入占位字符'
+                            },
+                            id: '',
+                            isAttr: true,
+                            attrName: 'placeholder'
+                        }, {
+                            name: 'readonly',
+                            desc: '只读',
+                            type: 'toggle',
+                            value: false,
+                            id: '',
+                            isToggleAttr: true,
+                            attrName: 'readonly'
+                        }, {
+                            name: 'required',
+                            desc: '是否必填',
+                            type: 'toggle',
+                            isToggleAttr: true,
+                            value: false,
+                            id: '',
+                            attrName: 'required'
+                        }, {
+                            name: 'autofocus',
+                            desc: '自动聚焦',
+                            type: 'toggle',
+                            isToggleAttr: true,
+                            value: true,
+                            id: '',
+                            attrName: 'autofocus'
+                        }, {
+                            name: 'cols',
+                            desc: '列',
+                            type: 'input',
+                            isAttr: true,
+                            value: '80',
+                            id: '',
+                            attrName: 'cols'
+                        }, {
+                            name: 'rows',
+                            desc: '行',
+                            type: 'input',
+                            isAttr: true,
+                            value: '5',
+                            id: '',
+                            attrName: 'rows'
+                        }]
+                    }]
+                }
+            }, {
+                icon: `<svg width="28" height="24" viewBox="0 0 28 24" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".2" fill="currentColor" d="M3 1h22v22H3z"></path><path opacity=".4" d="M25 1v22H3V1h22m1-1H2v24h24V0z"></path><path fill="currentColor" d="M3 1v22h22V7.3c-.7.7-1.3 1.4-2 2.2V21H5V3h18c.6-.5 1.3-.9 2-1.4V1H3zm20 5.3c.6-.5 1.3-.9 2-1.4V4c-.7.7-1.3 1.5-2 2.3z"></path><path fill="currentColor" d="M7.4 10.7l1.7-1.6c2 1 3.3 1.7 5.5 3.3 4.2-4.8 7-7.2 12.2-10.5l.6 1.3c-4.3 3.7-7.4 7.9-11.9 16-2.8-3.2-4.7-5.3-8.1-8.5z"></path></svg>`,
+                name: '多选框',
+                key: 'checkbox',
+                details: {
+                    tag: 'div',
+                    className: ['checkbox'],
+                    attrs: [{
+                        title: '属性设置',
+                        key: 'checkbox-attr',
+                        children: []
+                    }],
+                    children: [{
+                        tag: 'label',
+                        className: [],
+                        attrs: [{
+                            title: '属性设置',
+                            key: 'label-attr',
+                            isAttrSetting: true,
+                            children: [{
+                                name: 'innerHTML',
+                                desc: '名称',
+                                type: 'input',
+                                value: '多选框',
+                                id: '',
+                                isHTML: true,
+                            }]
+                        }],
+                        children: [{
+                            tag: 'input',
+                            className: [],
+                            isBeforeHTMLValue: true,
+                            attrs: [{
+                                title: '属性设置',
+                                key: 'checkbox-attr',
+                                isAttrSetting: true,
+                                children: [{
+                                    name: 'checked',
+                                    desc: '默认选中',
+                                    type: 'toggle',
+                                    value: true,
+                                    props: {
+                                        placeholder: '输入名称'
+                                    },
+                                    id: '',
+                                    isToggleAttr: true,
+                                    attrName: 'checked'
+                                }, {
+                                    name: 'type',
+                                    desc: '类型',
+                                    value: 'checkbox',
+                                    props: {
+                                        placeholder: '输入名称'
+                                    },
+                                    id: '',
+                                    isAttr: true,
+                                    attrName: 'type'
+                                }]
+                            }]
+                        }]
+                    }]
+                }
+            }, {
+                icon: `<svg width="26" height="26" viewBox="0 0 26 26" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><circle opacity=".2" fill="currentColor" cx="13" cy="13" r="10.6"></circle><path d="M13 0c7.2 0 13 5.8 13 13s-5.8 13-13 13S0 20.2 0 13 5.8 0 13 0m0 1C6.4 1 1 6.4 1 13s5.4 12 12 12 12-5.4 12-12S19.6 1 13 1z" opacity=".4"></path><path fill="currentColor" d="M13 3.5c5.2 0 9.5 4.3 9.5 9.5s-4.3 9.5-9.5 9.5-9.5-4.3-9.5-9.5S7.8 3.5 13 3.5M13 1C6.4 1 1 6.4 1 13s5.4 12 12 12 12-5.4 12-12S19.6 1 13 1z"></path><circle fill="currentColor" cx="13" cy="13" r="5"></circle></svg>`,
+                name: '单选框',
+                key: 'radio-button',
+                details: {
+                    tag: 'div',
+                    attrs: [{
+                        title: '属性设置',
+                        key: 'checkbox-attr',
+                        children: []
+                    }],
+                    className: ['radio'],
+                    children: [{
+                        tag: 'label',
+                        className: [],
+                        attrs: [{
+                            title: '属性设置',
+                            key: 'label-attr',
+                            isAttrSetting: true,
+                            children: [{
+                                name: 'innerHTML',
+                                desc: '名称',
+                                type: 'input',
+                                value: '单选框',
+                                id: '',
+                                isHTML: true,
+                            }]
+                        }],
+                        children: [{
+                            tag: 'input',
+                            className: [],
+                            isBeforeHTMLValue: true,
+                            attrs: [{
+                                title: '属性设置',
+                                key: 'radio-attr',
+                                isAttrSetting: true,
+                                children: [{
+                                    name: 'radio-value',
+                                    desc: '是否选中',
+                                    type: 'toggle',
+                                    value: false,
+                                    props: {
+                                        placeholder: '输入名称'
+                                    },
+                                    id: '',
+                                    isAttr: true,
+                                    attrName: 'checked'
+                                }, {
+                                    name: 'type',
+                                    desc: '类型',
+                                    value: 'radio',
+                                    props: {
+                                        placeholder: '输入名称'
+                                    },
+                                    id: '',
+                                    isAttr: true,
+                                    attrName: 'type'
+                                }]
+                            }]
+                        }]
+                    }]
+                }
+            }, {
+                icon: `<svg width="60" height="23" viewBox="0 0 60 23" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".4" d="M57 0H3C1.3 0 0 1.3 0 3v17c0 1.7 1.3 3 3 3h54c1.7 0 3-1.3 3-3V3c0-1.7-1.3-3-3-3zM32 13H8v-2h24v2z"></path><path fill="currentColor" d="M57 1H3c-1.1 0-2 .9-2 2v17c0 1.1.9 2 2 2h54c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zM32 13H8v-2h24v2zm17 1l-4-4h8l-4 4z"></path><path opacity=".75" fill="currentColor" d="M8 11h24v2H8z"></path></svg>`,
+                name: '选择框',
+                key: 'select',
+                details: {
+                    tag: 'select',
+                    className: ['vd-select', 'form-control'],
+                    attrs: [{
+                        title: '选择框设置',
+                        key: 'select-setting',
+                        children: [{
+                            name: 'name',
+                            desc: '名称',
+                            type: 'input',
+                            value: '',
+                            props: {
+                                placeholder: '输入名称'
+                            },
+                            id: '',
+                            isAttr: true,
+                            attrName: 'name'
+                        }, {
+                            name: 'multiple',
+                            desc: '允许多选',
+                            type: 'toggle',
+                            value: false,
+                            isToggleAttr: true,
+                            attrName: 'multiple',
+                            id: '',
+                        }]
+                    }],
+                    children: [{
+                        tag: 'option',
+                        className: [],
+                        unActive: true,
+                        unCtrl: true,
+                        attrs: [{
+                            title: '选项设置',
+                            key: 'options-setting',
+                            isAttrSetting: true,
+                            children: [{
+                                name: 'option',
+                                desc: '选项',
+                                type: 'toggle',
+                                value: '1',
+                                isAttr: true,
+                                isHTML: true,
+                                html: '选项一',
+                                attrName: 'value',
+                                id: '',
+                            }]
+                        }],
+                    }, {
+                        tag: 'option',
+                        className: [],
+                        unActive: true,
+                        unCtrl: true,
+                        attrs: [{
+                            title: '选项设置',
+                            key: 'options-setting',
+                            isAttrSetting: true,
+                            children: [{
+                                name: 'option',
+                                desc: '选项',
+                                type: 'toggle',
+                                value: '2',
+                                isAttr: true,
+                                isHTML: true,
+                                html: '选项二',
+                                attrName: 'value',
+                                id: '',
+                            }]
+                        }],
+                    }]
+                }
+            }, {
+                icon: `<svg width="59" height="31" viewBox="0 0 59 31" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".4" d="M56 0H3C1.3 0 0 1.3 0 3v25c0 1.7 1.3 3 3 3h53c1.7 0 3-1.3 3-3V3c0-1.7-1.3-3-3-3z"></path><path fill="currentColor" d="M27 15.3c.2-.1.3-.3.3-.7s-.1-.6-.3-.7c-.2-.1-.6-.2-1.1-.2h-.8v1.7h.8c.5 0 .9 0 1.1-.1zM56 1H3c-1.1 0-2 .9-2 2v25c0 1.1.9 2 2 2h53c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zM12.9 19.4c-.5.4-1.2.6-2 .6-1.2 0-2.3-.5-3.3-1.4l1-1.3c.8.7 1.6 1.1 2.3 1.1.3 0 .6-.1.7-.2.2-.1.3-.3.3-.5s-.1-.4-.3-.5c-.2-.1-.6-.3-1.1-.4-.9-.2-1.5-.5-2-.8s-.6-.9-.6-1.6c0-.7.3-1.3.8-1.7.5-.4 1.2-.6 2-.6.5 0 1 .1 1.5.3.5.2 1 .4 1.3.7l-.9 1.3c-.7-.5-1.4-.8-2.1-.8-.3 0-.5.1-.7.2s-.2.3-.2.5.1.4.3.5c.2.1.7.3 1.4.5s1.3.4 1.7.8c.4.4.6.9.6 1.6.1.8-.2 1.3-.7 1.7zm8.7-2.8c0 1.1-.3 2-.9 2.6s-1.4.9-2.4.9-1.8-.3-2.4-.9c-.6-.6-.9-1.5-.9-2.6v-4.3h1.7v4.2c0 .6.1 1.1.4 1.5.3.4.7.5 1.2.5s.9-.2 1.1-.5.4-.8.4-1.5v-4.2h1.7v4.3zm7.4 2.7c-.4.5-1.2.7-2.2.7h-3.4v-7.7h3c.5 0 1 .1 1.3.2.4.1.7.3.9.5.3.4.5.8.5 1.3 0 .6-.2 1-.6 1.3-.1.1-.2.2-.3.2-.1 0-.1.1-.3.1.5.1.9.3 1.1.6s.4.7.4 1.2c.1.7 0 1.2-.4 1.6zm10.6.7h-1.7v-4.8l-2.1 4.2h-1l-2.1-4.2V20H31v-7.7h2.3l2 4.2 2-4.2h2.3V20zm3.6 0h-1.7v-7.7h1.7V20zm7.3-6.2h-2.2V20h-1.7v-6.2h-2.2v-1.5h6.1v1.5zm-23.1 3.1c-.3-.1-.7-.2-1.2-.2h-1v1.8h1.2c.5 0 .9-.1 1.1-.2s.4-.4.4-.7-.3-.5-.5-.7z"></path></svg>`,
+                name: '提交按钮',
+                key: 'form-button',
+                details: {
+                    tag: 'input',
+                    className: ['btn', 'btn-default'],
+                    attrs: [{
+                        title: '属性设置',
+                        key: 'textarea-attr',
+                        isAttrSetting: true,
+                        children: [{
+                            name: 'button-text',
+                            desc: '文本名称',
+                            type: 'input',
+                            value: '提交',
+                            props: {
+                                placeholder: '输入名称'
+                            },
+                            id: '',
+                            isAttr: true,
+                            attrName: 'value'
+                        }, {
+                            name: 'type',
+                            desc: '类型',
+                            value: 'submit',
+                            props: {
+                                placeholder: '输入名称'
+                            },
+                            id: '',
+                            isAttr: true,
+                            attrName: 'type'
+                        }]
+                    }]
+                }
+            }]
+        }, {
+            name: "组件",
+            key: 'components',
+            content: [{
+                icon: `<svg width="53" height="39" viewBox="0 0 53 39" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path fill="currentColor" d="M3 10h47v26H3z" opacity=".2"></path><path fill="currentColor" d="M50 10v26H3V10h47m2-2H1v30h51V8z"></path><path d="M10 22h32v2H10zm0-4h32v2H10zm0 8h15v2H10z" fill="currentColor"></path><path opacity=".4" d="M45 7V1.8c0-1-.8-1.8-1.8-1.8H31.8c-1 0-1.8.8-1.8 1.8 0-1-.8-1.8-1.8-1.8H16.8c-1 0-1.8.8-1.8 1.8 0-1-.8-1.8-1.8-1.8H1.8C.8 0 0 .8 0 1.8V39h53V7h-8zM31 1.8c0-.4.4-.8.8-.8h11.4c.4 0 .8.4.8.8V6H31V1.8zm-15 0c0-.4.4-.8.8-.8h11.4c.4 0 .8.4.8.8V6H16V1.8zm-15 0c0-.4.4-.8.8-.8h11.4c.4 0 .8.4.8.8V7H1V1.8zM52 38H1V8h51v30z"></path><path fill="currentColor" d="M13.2 1H1.8c-.4 0-.8.4-.8.8V8h13V1.8c0-.4-.4-.8-.8-.8zm15 0H16.8c-.4 0-.8.4-.8.8V6h13V1.8c0-.4-.4-.8-.8-.8zm15 0H31.8c-.4 0-.8.4-.8.8V6h13V1.8c0-.4-.4-.8-.8-.8z"></path></svg>`,
+                name: '标签页',
+                key: 'tabs',
+                details: {
+                    tag: 'div',
+                    className: [],
+                    attrs: [{
+                        title: '标签页设置',
+                        key: 'tabs-setting',
+                        children: [{
+                            name: 'fade',
+                            value: false,
+                        }, {
+                            name: 'container',
+                            desc: '是否是容器',
+                            value: true,
+                            backend: true,
+                            isContainer: true
+                        }]
+                    }],
+                    children: [{
+                        tag: 'ul',
+                        unActive: true,
+                        unCtrl: true,
+                        className: ['nav', 'nav-tabs'],
+                        attrs: [{
+                            title: '标签页设置',
+                            key: 'tabs-setting',
+                            children: [{
+                                name: 'role',
+                                value: 'tablist',
+                                isAttr: true,
+                                attrName: 'role',
+                            }]
+                        }],
+                        children: [{
+                            tag: 'li',
+                            className: [''],
+                            unActive: true,
+                            unCtrl: true,
+                            attrs: [{
+                                title: '标签页设置',
+                                key: 'tabs-setting',
+                                children: [{
+                                    name: 'role',
+                                    desc: 'presentation',
+                                    value: 'presentation',
+                                    isAttr: true,
+                                    attrName: 'role',
+                                    id: ''
+                                }, {
+                                    name: 'target',
+                                    desc: '新窗口打开',
+                                    type: 'toggle',
+                                    value: false,
+                                    isAttr: true,
+                                    attrName: 'target',
+                                    id: ''
+                                }]
+                            }],
+                            children: [{
+                                tag: 'a',
+                                unActive: true,
+                                unCtrl: true,
+                                className: [
+                                    'tab-pane'
+                                ],
+                                attrs: [{
+                                    title: '标签页设置',
+                                    key: 'tabs-setting',
+                                    children: [{
+                                        name: 'href',
+                                        value: '#tab1',
+                                        isAttr: true,
+                                        attrName: 'href',
+                                        id: ''
+                                    }, {
+                                        name: 'aria-controls',
+                                        value: 'tab1',
+                                        isAttr: true,
+                                        attrName: 'aria-controls',
+                                        id: ''
+                                    }, {
+                                        name: 'role',
+                                        value: 'tab',
+                                        isAttr: true,
+                                        attrName: 'role',
+                                        id: ''
+                                    }, {
+                                        name: 'data-toggle',
+                                        value: 'tab',
+                                        isAttr: true,
+                                        attrName: 'data-toggle',
+                                        id: ''
+                                    }, {
+                                        name: 'innerHTML',
+                                        isHTML: true,
+                                        value: 'Tab 1'
+                                    }]
+                                }],
+                            }]
+                        }, {
+                            tag: 'li',
+                            className: [
+                                'active'
+                            ],
+                            unActive: true,
+                            unCtrl: true,
+                            attrs: [{
+                                title: '标签页设置',
+                                key: 'tabs-setting',
+                                children: [{
+                                    name: 'role',
+                                    desc: 'presentation',
+                                    value: 'presentation',
+                                    isAttr: true,
+                                    attrName: 'role',
+                                    id: ''
+                                }, {
+                                    name: 'target',
+                                    desc: '新窗口打开',
+                                    type: 'toggle',
+                                    value: false,
+                                    isAttr: true,
+                                    attrName: 'target',
+                                    id: ''
+                                }]
+                            }],
+                            children: [{
+                                tag: 'a',
+                                unActive: true,
+                                unCtrl: true,
+                                className: [
+                                    'tab-pane'
+                                ],
+                                attrs: [{
+                                    title: '标签页设置',
+                                    key: 'tabs-setting',
+                                    children: [{
+                                        name: 'href',
+                                        value: '#tab2',
+                                        isAttr: true,
+                                        attrName: 'href',
+                                        id: ''
+                                    }, {
+                                        name: 'aria-controls',
+                                        value: 'tab2',
+                                        isAttr: true,
+                                        attrName: 'aria-controls',
+                                        id: ''
+                                    }, {
+                                        name: 'role',
+                                        value: 'tab',
+                                        isAttr: true,
+                                        attrName: 'role',
+                                        id: ''
+                                    }, {
+                                        name: 'data-toggle',
+                                        value: 'tab',
+                                        isAttr: true,
+                                        attrName: 'data-toggle',
+                                        id: ''
+                                    }, {
+                                        name: 'innerHTML',
+                                        isHTML: true,
+                                        value: 'Tab 2'
+                                    }]
+                                }],
+                            }]
+                        }, {
+                            tag: 'li',
+                            className: [''],
+                            unActive: true,
+                            unCtrl: true,
+                            attrs: [{
+                                title: '标签页设置',
+                                key: 'tabs-setting',
+                                children: [{
+                                    name: 'role',
+                                    desc: 'presentation',
+                                    value: 'presentation',
+                                    isAttr: true,
+                                    attrName: 'role',
+                                    id: ''
+                                }, {
+                                    name: 'target',
+                                    desc: '新窗口打开',
+                                    type: 'toggle',
+                                    value: false,
+                                    isAttr: true,
+                                    attrName: 'target',
+                                    id: ''
+                                }]
+                            }],
+                            children: [{
+                                tag: 'a',
+                                unActive: true,
+                                unCtrl: true,
+                                className: [
+                                    'tab-pane'
+                                ],
+                                attrs: [{
+                                    title: '标签页设置',
+                                    key: 'tabs-setting',
+                                    children: [{
+                                        name: 'href',
+                                        value: '#tab3',
+                                        isAttr: true,
+                                        attrName: 'href',
+                                        id: ''
+                                    }, {
+                                        name: 'aria-controls',
+                                        value: 'tab3',
+                                        isAttr: true,
+                                        attrName: 'aria-controls',
+                                        id: ''
+                                    }, {
+                                        name: 'role',
+                                        value: 'tab',
+                                        isAttr: true,
+                                        attrName: 'role',
+                                        id: ''
+                                    }, {
+                                        name: 'data-toggle',
+                                        value: 'tab',
+                                        isAttr: true,
+                                        attrName: 'data-toggle',
+                                        id: ''
+                                    }, {
+                                        name: 'innerHTML',
+                                        isHTML: true,
+                                        value: 'Tab 3'
+                                    }]
+                                }],
+                            }]
+                        }]
+                    }, {
+                        tag: 'div',
+                        unActive: true,
+                        unCtrl: true,
+                        className: ['tab-content'],
+                        attrs: [{
+                            title: '标签页设置',
+                            key: 'tabs-setting',
+                            children: [{
+                                name: 'specialChild',
+                                desc: '指定的子元素',
+                                value: {
+                                    tag: [
+                                        'div'
+                                    ],
+                                    className: 'tab-pane',
+                                    errorMessage: '无法放置'
+                                },
+                                backend: true,
+                                isSpecialChild: true
+                            }]
+                        }],
+                        children: [{
+                            tag: 'div',
+                            unActive: true,
+                            unCtrl: true,
+                            className: [
+                                'vd-empty',
+                                'tab-pane'
+                            ],
+                            children: [],
+                            attrs: [{
+                                title: '标签页设置',
+                                key: 'tabs-setting',
+                                children: [{
+                                    name: 'id',
+                                    value: 'tab1',
+                                    isAttr: true,
+                                    attrName: 'id'
+                                }, {
+                                    name: 'role',
+                                    value: 'tabpanel',
+                                    isAttr: true,
+                                    attrName: 'role'
+                                }, {
+                                    name: 'container',
+                                    desc: '是否是容器',
+                                    value: true,
+                                    backend: true,
+                                    isContainer: true
+                                }]
+                            }]
+                        }, {
+                            tag: 'div',
+                            unActive: true,
+                            unCtrl: true,
+                            className: [
+                                'vd-empty',
+                                'tab-pane',
+                                'in',
+                                'active'
+                            ],
+                            children: [],
+                            attrs: [{
+                                title: '标签页设置',
+                                key: 'tabs-setting',
+                                children: [{
+                                    name: 'id',
+                                    value: 'tab2',
+                                    isAttr: true,
+                                    attrName: 'id'
+                                }, {
+                                    name: 'role',
+                                    value: 'tabpanel',
+                                    isAttr: true,
+                                    attrName: 'role'
+                                }, {
+                                    name: 'container',
+                                    desc: '是否是容器',
+                                    value: true,
+                                    backend: true,
+                                    isContainer: true
+                                }]
+                            }]
+                        }, {
+                            tag: 'div',
+                            className: [
+                                'vd-empty',
+                                'tab-pane'
+                            ],
+                            unCtrl: true,
+                            children: [],
+                            attrs: [{
+                                title: '标签页设置',
+                                key: 'tabs-setting',
+                                children: [{
+                                    name: 'id',
+                                    value: 'tab3',
+                                    isAttr: true,
+                                    attrName: 'id'
+                                }, {
+                                    name: 'role',
+                                    value: 'tabpanel',
+                                    isAttr: true,
+                                    attrName: 'role'
+                                }, {
+                                    name: 'container',
+                                    desc: '是否是容器',
+                                    value: true,
+                                    backend: true,
+                                    isContainer: true
+                                }]
+                            }]
+                        }]
+                    }]
+                }
+            }, {
+                icon: `<svg width="64" height="22" viewBox="0 0 64 22" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".4" d="M61 0H3C1.3 0 0 1.3 0 3v16c0 1.7 1.3 3 3 3h58c1.7 0 3-1.3 3-3V3c0-1.7-1.3-3-3-3zM15 11v4h-1v-.2c0-1.5-1.1-2.8-2.5-2.8S9 13.3 9 14.8v.2H8v-4h-.4l3.9-3.6 3.9 3.6H15zm-5 3.8v-.4.4zm1.5-1.8h.3-.3c-.4 0-.7.2-.9.4.2-.2.5-.4.9-.4zM63 3c0-1.1-.9-2-2-2H3h58c1.1 0 2 .9 2 2z"></path><path fill="currentColor" d="M61 1H3c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h58c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zM16 12v4h-3v-1.2c0-1-.7-1.8-1.5-1.8s-1.5.8-1.5 1.8V16H7v-4H5l6.5-6 6.5 6h-2zm42 4H48v-2h10v2zm0-4H48v-2h10v2zm0-4H48V6h10v2z"></path></svg>`,
+                name: '导航菜单',
+                key: 'navbar',
+                details: {
+                    tag: 'nav',
+                    className: ['navbar', 'navbar-default'],
+                    attrs: [{
+                        title: '导航菜单设置',
+                        key: 'navbar-setting',
+                        children: []
+                    }],
+                    children: [{
+                        tag: 'div',
+                        className: ['container-fluid'],
+                        unActive: true,
+                        unCtrl: true,
+                        attrs: [{
+                            title: '导航菜单设置',
+                            key: 'navbar-setting',
+                            children: [{
+                                name: 'container',
+                                desc: '是否是容器',
+                                value: true,
+                                backend: true,
+                                isContainer: true
+                            }]
+                        }],
+                        children: [{
+                            tag: 'div',
+                            unActive: true,
+                            unCtrl: true,
+                            className: [
+                                'navbar-header'
+                            ],
+                            attrs: [{
+                                title: '导航菜单设置',
+                                key: 'navbar-setting',
+                                children: [{
+                                    name: 'container',
+                                    desc: '是否是容器',
+                                    value: true,
+                                    backend: true,
+                                    isContainer: true
+                                }]
+                            }],
+                            children: [{
+                                tag: 'button',
+                                className: [
+                                    'navbar-toggle',
+                                    'collapsed'
+                                ],
+                                unActive: true,
+                                unCtrl: true,
+                                attrs: [{
+                                    title: '导航菜单设置',
+                                    key: 'navbar-setting',
+                                    children: [{}]
+                                }],
+                                children: [{
+                                    tag: 'span',
+                                    className: [
+                                        'sr-only'
+                                    ],
+                                    unActive: true,
+                                    unCtrl: true,
+                                    attrs: [{
+                                        title: '导航菜单设置',
+                                        key: 'navbar-setting',
+                                        children: []
+                                    }]
+                                }, {
+                                    tag: 'span',
+                                    className: [
+                                        'icon-bar'
+                                    ],
+                                    unActive: true,
+                                    unCtrl: true,
+                                    attrs: [{
+                                        title: '导航菜单设置',
+                                        key: 'navbar-setting',
+                                        children: []
+                                    }]
+                                }, {
+                                    tag: 'span',
+                                    className: [
+                                        'icon-bar'
+                                    ],
+                                    unActive: true,
+                                    unCtrl: true,
+                                    attrs: [{
+                                        title: '导航菜单设置',
+                                        key: 'navbar-setting',
+                                        children: []
+                                    }]
+                                }, {
+                                    tag: 'span',
+                                    className: [
+                                        'icon-bar'
+                                    ],
+                                    unActive: true,
+                                    unCtrl: true,
+                                    attrs: [{
+                                        title: '导航菜单设置',
+                                        key: 'navbar-setting',
+                                        children: []
+                                    }]
+                                }]
+                            }, {
+                                tag: 'a',
+                                className: [
+                                    'navbar-brand'
+                                ],
+                                attrs: [{
+                                    title: '导航菜单链接设置',
+                                    key: 'link-setting',
+                                    activeLinkType: 'link',
+                                    deleteAble: true,
+                                    children: [{
+                                        name: 'src',
+                                        desc: '跳转链接',
+                                        type: 'input',
+                                        value: '',
+                                        isAttr: true,
+                                        attrName: 'href',
+                                        id: '',
+                                        attrType: 'link'
+                                    }, {
+                                        name: 'src',
+                                        desc: '跳转邮箱',
+                                        type: 'input',
+                                        value: '',
+                                        isAttr: true,
+                                        attrName: 'href',
+                                        id: '',
+                                        attrType: 'mail'
+                                    }, {
+                                        name: 'src',
+                                        desc: '跳转电话',
+                                        type: 'input',
+                                        value: '',
+                                        isAttr: true,
+                                        attrName: 'href',
+                                        id: '',
+                                        attrType: 'phone'
+                                    }, {
+                                        name: 'src',
+                                        desc: '跳转页面',
+                                        type: 'select',
+                                        value: '',
+                                        isAttr: true,
+                                        attrName: 'href',
+                                        id: '',
+                                        attrType: 'page'
+                                    }, {
+                                        name: 'src',
+                                        desc: '跳转元素',
+                                        type: 'select',
+                                        value: '',
+                                        isAttr: true,
+                                        attrName: 'href',
+                                        id: '',
+                                        attrType: 'section'
+                                    }, {
+                                        name: 'target',
+                                        desc: '新窗口打开',
+                                        type: 'toggle',
+                                        value: false,
+                                        isAttr: true,
+                                        attrName: 'target',
+                                        id: ''
+                                    }, {
+                                        name: 'innerHTML',
+                                        desc: '显示文本',
+                                        type: 'input',
+                                        value: 'Brand',
+                                        isHTML: true,
+                                        id: ''
+                                    }]
+                                }, {
+                                    title: '属性设置',
+                                    key: 'button-attr',
+                                    isAttrSetting: true,
+                                    children: [{
+                                        name: 'value',
+                                        desc: '导航菜单值',
+                                        type: 'input',
+                                        value: '导航菜单',
+                                        isHTML: true,
+                                        id: ''
+                                    }]
+                                }]
+                            }]
+                        }, {
+                            tag: 'div',
+                            unActive: true,
+                            unCtrl: true,
+                            className: [
+                                'collapse',
+                                'navbar-collapse'
+                            ],
+                            attrs: [{
+                                title: '导航菜单设置',
+                                key: 'navbar-setting',
+                                children: [{
+                                    name: 'container',
+                                    desc: '是否是容器',
+                                    value: true,
+                                    backend: true,
+                                    isContainer: true
+                                }]
+                            }],
+                            children: [{
+                                tag: 'ul',
+                                unCtrl: true,
+                                unActive: true,
+                                className: [
+                                    'nav',
+                                    'navbar-nav',
+                                    'navbar-right'
+                                ],
+                                attrs: [{
+                                    title: '导航菜单设置',
+                                    key: 'navbar-setting',
+                                    children: []
+                                }],
+                                children: [{
+                                    tag: 'li',
+                                    unActive: true,
+                                    className: [],
+                                    attrs: [{
+                                        title: '导航菜单设置',
+                                        key: 'navbar-setting',
+                                        children: []
+                                    }],
+                                    children: [{
+                                        tag: 'a',
+                                        className: [],
+                                        attrs: [{
+                                            title: '导航菜单链接设置',
+                                            key: 'link-setting',
+                                            activeLinkType: 'link',
+                                            deleteAble: true,
+                                            changeDropDown: true,
+                                            children: [{
+                                                name: 'src',
+                                                desc: '跳转链接',
+                                                type: 'input',
+                                                value: '',
+                                                isAttr: true,
+                                                attrName: 'href',
+                                                id: '',
+                                                attrType: 'link'
+                                            }, {
+                                                name: 'src',
+                                                desc: '跳转邮箱',
+                                                type: 'input',
+                                                value: '',
+                                                isAttr: true,
+                                                attrName: 'href',
+                                                id: '',
+                                                attrType: 'mail'
+                                            }, {
+                                                name: 'src',
+                                                desc: '跳转电话',
+                                                type: 'input',
+                                                value: '',
+                                                isAttr: true,
+                                                attrName: 'href',
+                                                id: '',
+                                                attrType: 'phone'
+                                            }, {
+                                                name: 'src',
+                                                desc: '跳转页面',
+                                                type: 'select',
+                                                value: '',
+                                                isAttr: true,
+                                                attrName: 'href',
+                                                id: '',
+                                                attrType: 'page'
+                                            }, {
+                                                name: 'src',
+                                                desc: '跳转元素',
+                                                type: 'select',
+                                                value: '',
+                                                isAttr: true,
+                                                attrName: 'href',
+                                                id: '',
+                                                attrType: 'section'
+                                            }, {
+                                                name: 'target',
+                                                desc: '新窗口打开',
+                                                type: 'toggle',
+                                                value: false,
+                                                isAttr: true,
+                                                attrName: 'target',
+                                                id: ''
+                                            }, {
+                                                name: 'innerHTML',
+                                                desc: '显示文本',
+                                                value: '菜单',
+                                                isHTML: true,
+                                                id: ''
+                                            }]
+                                        }, {
+                                            title: '属性设置',
+                                            key: 'button-attr',
+                                            isAttrSetting: true,
+                                            children: [{
+                                                name: 'value',
+                                                desc: '导航菜单值',
+                                                type: 'input',
+                                                value: '导航菜单',
+                                                isHTML: true,
+                                                id: ''
+                                            }]
+                                        }]
+                                    }]
+                                }, {
+                                    tag: 'li',
+                                    unActive: true,
+                                    className: [],
+                                    attrs: [{
+                                        title: '导航菜单设置',
+                                        key: 'navbar-setting',
+                                        children: []
+                                    }],
+                                    children: [{
+                                        tag: 'a',
+                                        className: [],
+                                        attrs: [{
+                                            title: '导航菜单链接设置',
+                                            key: 'link-setting',
+                                            activeLinkType: 'link',
+                                            changeDropDown: true,
+                                            deleteAble: true,
+                                            children: [{
+                                                name: 'src',
+                                                desc: '跳转链接',
+                                                type: 'input',
+                                                value: '',
+                                                isAttr: true,
+                                                attrName: 'href',
+                                                id: '',
+                                                attrType: 'link'
+                                            }, {
+                                                name: 'src',
+                                                desc: '跳转邮箱',
+                                                type: 'input',
+                                                value: '',
+                                                isAttr: true,
+                                                attrName: 'href',
+                                                id: '',
+                                                attrType: 'mail'
+                                            }, {
+                                                name: 'src',
+                                                desc: '跳转电话',
+                                                type: 'input',
+                                                value: '',
+                                                isAttr: true,
+                                                attrName: 'href',
+                                                id: '',
+                                                attrType: 'phone'
+                                            }, {
+                                                name: 'src',
+                                                desc: '跳转页面',
+                                                type: 'select',
+                                                value: '',
+                                                isAttr: true,
+                                                attrName: 'href',
+                                                id: '',
+                                                attrType: 'page'
+                                            }, {
+                                                name: 'src',
+                                                desc: '跳转元素',
+                                                type: 'select',
+                                                value: '',
+                                                isAttr: true,
+                                                attrName: 'href',
+                                                id: '',
+                                                attrType: 'section'
+                                            }, {
+                                                name: 'target',
+                                                desc: '新窗口打开',
+                                                type: 'toggle',
+                                                value: false,
+                                                isAttr: true,
+                                                attrName: 'target',
+                                                id: ''
+                                            }, {
+                                                name: 'innerHTML',
+                                                desc: '显示文本',
+                                                value: '菜单',
+                                                isHTML: true,
+                                                id: ''
+                                            }]
+                                        }, {
+                                            title: '属性设置',
+                                            key: 'button-attr',
+                                            isAttrSetting: true,
+                                            children: [{
+                                                name: 'value',
+                                                desc: '导航菜单值',
+                                                type: 'input',
+                                                value: '导航菜单',
+                                                isHTML: true,
+                                                id: ''
+                                            }]
+                                        }]
+                                    }]
+                                }, {
+                                    tag: 'li',
+                                    unActive: true,
+                                    className: [
+                                        'dropdown'
+                                    ],
+                                    attrs: [{
+                                        title: '导航菜单设置',
+                                        key: 'navbar-dropdown-setting',
+                                        children: []
+                                    }],
+                                    children: [{
+                                        tag: 'a',
+                                        className: [
+                                            'dropdown-toggle'
+                                        ],
+                                        attrs: [{
+                                            title: '导航菜单设置',
+                                            isAttrSetting: true,
+                                            key: 'navbar-dropdown-setting',
+                                            children: [{
+                                                name: 'innerHTML',
+                                                desc: '显示文本',
+                                                value: '下拉菜单',
+                                                type: 'input',
+                                                isHTML: true,
+                                                id: ''
+                                            }, {
+                                                name: 'data-toggle',
+                                                desc: '显示文本',
+                                                value: 'dropdown',
+                                                isAttr: true,
+                                                id: '',
+                                                attrName: 'data-toggle'
+                                            }, {
+                                                name: 'role',
+                                                desc: '显示文本',
+                                                value: 'button',
+                                                isAttr: true,
+                                                id: '',
+                                                attrName: 'role'
+                                            }, {
+                                                name: 'aria-haspopup',
+                                                desc: '显示文本',
+                                                value: true,
+                                                isAttr: true,
+                                                id: '',
+                                                attrName: 'aria-haspopup'
+                                            }, {
+                                                name: 'aria-expanded',
+                                                desc: '是否展开',
+                                                value: false,
+                                                isAttr: true,
+                                                type: 'toggle',
+                                                isToggleAttr: true,
+                                                isSetVal: true,
+                                                id: '',
+                                                attrName: 'aria-expanded'
+                                            }, {
+                                                name: 'switchType',
+                                                desc: '删除',
+                                                type: 'switchType',
+                                                id: '',
+                                            }, {
+                                                name: 'addBtn',
+                                                desc: '加一个',
+                                                level: 6,
+                                                levelsInfo: [{
+                                                    level: 1,
+                                                    index: 1
+                                                }, {
+                                                    level: 3,
+                                                    index: 2
+                                                }, {
+                                                    level: 4,
+                                                    index: 1
+                                                }],
+                                                type: 'buttonAdd',
+                                                id: '',
+                                            }, {
+                                                name: 'buttonDelete',
+                                                desc: '删除',
+                                                type: 'buttonDelete',
+                                                id: '',
+                                            }]
+                                        }],
+                                        children: [{
+                                            tag: 'span',
+                                            className: [
+                                                'caret'
+                                            ],
+                                            attrs: [{
+                                                title: '导航菜单设置',
+                                                key: 'navbar-setting',
+                                                children: []
+                                            }]
+                                        }]
+                                    }, {
+                                        tag: 'ul',
+                                        className: [
+                                            'dropdown-menu'
+                                        ],
+                                        attrs: [{
+                                            title: '导航菜单设置',
+                                            key: 'navbar-setting',
+                                            children: []
+                                        }],
+                                        children: [{
+                                            tag: 'li',
+                                            className: [],
+                                            attrs: [{
+                                                title: '导航菜单设置',
+                                                key: 'navbar-setting',
+                                                children: []
+                                            }],
+                                            children: [{
+                                                tag: 'a',
+                                                className: [],
+                                                attrs: [{
+                                                    title: '导航菜单链接设置',
+                                                    key: 'link-setting',
+                                                    activeLinkType: 'link',
+                                                    deleteAble: true,
+                                                    children: [{
+                                                        name: 'src',
+                                                        desc: '跳转链接',
+                                                        type: 'input',
+                                                        value: '',
+                                                        isAttr: true,
+                                                        attrName: 'href',
+                                                        id: '',
+                                                        attrType: 'link'
+                                                    }, {
+                                                        name: 'src',
+                                                        desc: '跳转邮箱',
+                                                        type: 'input',
+                                                        value: '',
+                                                        isAttr: true,
+                                                        attrName: 'href',
+                                                        id: '',
+                                                        attrType: 'mail'
+                                                    }, {
+                                                        name: 'src',
+                                                        desc: '跳转电话',
+                                                        type: 'input',
+                                                        value: '',
+                                                        isAttr: true,
+                                                        attrName: 'href',
+                                                        id: '',
+                                                        attrType: 'phone'
+                                                    }, {
+                                                        name: 'src',
+                                                        desc: '跳转页面',
+                                                        type: 'select',
+                                                        value: '',
+                                                        isAttr: true,
+                                                        attrName: 'href',
+                                                        id: '',
+                                                        attrType: 'page'
+                                                    }, {
+                                                        name: 'src',
+                                                        desc: '跳转元素',
+                                                        type: 'select',
+                                                        value: '',
+                                                        isAttr: true,
+                                                        attrName: 'href',
+                                                        id: '',
+                                                        attrType: 'section'
+                                                    }, {
+                                                        name: 'target',
+                                                        desc: '新窗口打开',
+                                                        type: 'toggle',
+                                                        value: false,
+                                                        isAttr: true,
+                                                        attrName: 'target',
+                                                        id: ''
+                                                    }, {
+                                                        name: 'innerHTML',
+                                                        desc: '显示文本',
+                                                        value: '菜单',
+                                                        isHTML: true,
+                                                        id: ''
+                                                    }]
+                                                }, {
+                                                    title: '属性设置',
+                                                    key: 'button-attr',
+                                                    isAttrSetting: true,
+                                                    children: [{
+                                                        name: 'value',
+                                                        desc: '导航菜单值',
+                                                        type: 'input',
+                                                        value: '导航菜单',
+                                                        isHTML: true,
+                                                        id: ''
+                                                    }]
+                                                }]
+                                            }]
+                                        }, {
+                                            tag: 'li',
+                                            unActive: true,
+                                            className: [],
+                                            attrs: [{
+                                                title: '导航菜单设置',
+                                                key: 'navbar-setting',
+                                                children: []
+                                            }],
+                                            children: [{
+                                                tag: 'a',
+                                                className: [],
+                                                attrs: [{
+                                                    title: '导航菜单链接设置',
+                                                    key: 'link-setting',
+                                                    activeLinkType: 'link',
+                                                    deleteAble: true,
+                                                    children: [{
+                                                        name: 'src',
+                                                        desc: '跳转链接',
+                                                        type: 'input',
+                                                        value: '',
+                                                        isAttr: true,
+                                                        attrName: 'href',
+                                                        id: '',
+                                                        attrType: 'link'
+                                                    }, {
+                                                        name: 'src',
+                                                        desc: '跳转邮箱',
+                                                        type: 'input',
+                                                        value: '',
+                                                        isAttr: true,
+                                                        attrName: 'href',
+                                                        id: '',
+                                                        attrType: 'mail'
+                                                    }, {
+                                                        name: 'src',
+                                                        desc: '跳转电话',
+                                                        type: 'input',
+                                                        value: '',
+                                                        isAttr: true,
+                                                        attrName: 'href',
+                                                        id: '',
+                                                        attrType: 'phone'
+                                                    }, {
+                                                        name: 'src',
+                                                        desc: '跳转页面',
+                                                        type: 'select',
+                                                        value: '',
+                                                        isAttr: true,
+                                                        attrName: 'href',
+                                                        id: '',
+                                                        attrType: 'page'
+                                                    }, {
+                                                        name: 'src',
+                                                        desc: '跳转元素',
+                                                        type: 'select',
+                                                        value: '',
+                                                        isAttr: true,
+                                                        attrName: 'href',
+                                                        id: '',
+                                                        attrType: 'section'
+                                                    }, {
+                                                        name: 'target',
+                                                        desc: '新窗口打开',
+                                                        type: 'toggle',
+                                                        value: false,
+                                                        isAttr: true,
+                                                        attrName: 'target',
+                                                        id: ''
+                                                    }, {
+                                                        name: 'innerHTML',
+                                                        desc: '显示文本',
+                                                        value: '菜单',
+                                                        isHTML: true,
+                                                        id: ''
+                                                    }]
+                                                }, {
+                                                    title: '属性设置',
+                                                    key: 'button-attr',
+                                                    isAttrSetting: true,
+                                                    children: [{
+                                                        name: 'value',
+                                                        desc: '导航菜单值',
+                                                        type: 'input',
+                                                        value: '导航菜单',
+                                                        isHTML: true,
+                                                        id: ''
+                                                    }]
+                                                }]
+                                            }]
+                                        }, {
+                                            tag: 'li',
+                                            unActive: true,
+                                            className: [],
+                                            attrs: [{
+                                                title: '导航菜单设置',
+                                                key: 'navbar-setting',
+                                                children: []
+                                            }],
+                                            children: [{
+                                                tag: 'a',
+                                                className: [],
+                                                attrs: [{
+                                                    title: '导航菜单链接设置',
+                                                    key: 'link-setting',
+                                                    activeLinkType: 'link',
+                                                    deleteAble: true,
+                                                    children: [{
+                                                        name: 'src',
+                                                        desc: '跳转链接',
+                                                        type: 'input',
+                                                        value: '',
+                                                        isAttr: true,
+                                                        attrName: 'href',
+                                                        id: '',
+                                                        attrType: 'link'
+                                                    }, {
+                                                        name: 'src',
+                                                        desc: '跳转邮箱',
+                                                        type: 'input',
+                                                        value: '',
+                                                        isAttr: true,
+                                                        attrName: 'href',
+                                                        id: '',
+                                                        attrType: 'mail'
+                                                    }, {
+                                                        name: 'src',
+                                                        desc: '跳转电话',
+                                                        type: 'input',
+                                                        value: '',
+                                                        isAttr: true,
+                                                        attrName: 'href',
+                                                        id: '',
+                                                        attrType: 'phone'
+                                                    }, {
+                                                        name: 'src',
+                                                        desc: '跳转页面',
+                                                        type: 'select',
+                                                        value: '',
+                                                        isAttr: true,
+                                                        attrName: 'href',
+                                                        id: '',
+                                                        attrType: 'page'
+                                                    }, {
+                                                        name: 'src',
+                                                        desc: '跳转元素',
+                                                        type: 'select',
+                                                        value: '',
+                                                        isAttr: true,
+                                                        attrName: 'href',
+                                                        id: '',
+                                                        attrType: 'section'
+                                                    }, {
+                                                        name: 'target',
+                                                        desc: '新窗口打开',
+                                                        type: 'toggle',
+                                                        value: false,
+                                                        isAttr: true,
+                                                        attrName: 'target',
+                                                        id: ''
+                                                    }, {
+                                                        name: 'innerHTML',
+                                                        desc: '显示文本',
+                                                        value: '菜单',
+                                                        isHTML: true,
+                                                        id: ''
+                                                    }]
+                                                }, {
+                                                    title: '属性设置',
+                                                    key: 'button-attr',
+                                                    isAttrSetting: true,
+                                                    children: [{
+                                                        name: 'value',
+                                                        desc: '导航菜单值',
+                                                        type: 'input',
+                                                        value: '导航菜单',
+                                                        isHTML: true,
+                                                        id: ''
+                                                    }]
+                                                }]
+                                            }]
+                                        }]
+                                    }]
+                                }]
+                            }]
+                        }]
+                    }]
+                }
+            }, {
+                icon: `<svg width="59" height="30" viewBox="0 0 59 30" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".4" d="M56 0H3C1.3 0 0 1.3 0 3v24c0 1.7 1.3 3 3 3h53c1.7 0 3-1.3 3-3V3c0-1.7-1.3-3-3-3z"></path><path fill="currentColor" d="M33.4 13.9c-.4 0-.8.2-1.1.5-.3.3-.4.8-.4 1.3s.1 1 .4 1.3c.3.3.6.5 1.1.5s.8-.2 1.1-.5c.3-.3.5-.8.5-1.3s-.2-1-.5-1.3c-.4-.3-.7-.5-1.1-.5zM56 1H3c-1.1 0-2 .9-2 2v24c0 1.1.9 2 2 2h53c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zM14.5 17.9c-.8.8-2 1.1-3.6 1.1H8v-8.4h3c1.5 0 2.6.4 3.4 1.1.8.7 1.2 1.8 1.2 3.1s-.4 2.3-1.1 3.1zm6.1-3.8c-.5 0-.9.2-1.2.6s-.4.9-.4 1.5V19h-1.8v-6.5H19v.9c.2-.3.5-.5.9-.7.3-.2.7-.3 1.1-.3v1.7h-.4zm7 4c-.6.6-1.5 1-2.4 1-1 0-1.8-.3-2.4-1-.6-.6-1-1.4-1-2.4 0-.9.3-1.7 1-2.4.6-.6 1.5-1 2.4-1 1 0 1.8.3 2.4 1 .6.6 1 1.4 1 2.4s-.3 1.8-1 2.4zm8.2 0c-.6.6-1.3 1-2.1 1s-1.4-.3-1.9-.9v3.2H30v-8.8h1.8v.7c.6-.6 1.2-.8 2-.8s1.4.3 2 .9.9 1.4.9 2.4-.3 1.7-.9 2.3zm11.7.9l-4.2-4.3 1.4-1.3 2.8 2.9 2.8-2.9 1.4 1.3-4.2 4.3zm-36.6-6.8h-1v5.1h1.2c.9 0 1.5-.2 2-.6.5-.4.7-1.1.7-1.9 0-.8-.2-1.5-.7-1.9-.5-.4-1.2-.7-2.2-.7zM25.2 14c-.5 0-.9.2-1.2.5s-.5.8-.5 1.3.2 1 .5 1.3c.3.3.7.5 1.2.5s.9-.2 1.2-.5c.3-.3.5-.8.5-1.3s-.2-1-.5-1.3-.7-.5-1.2-.5z"></path></svg>`,
+                name: '下拉菜单',
+                key: 'dropdown',
+                details: {
+                    tag: 'div',
+                    unActive: true,
+                    className: ['dropdown'],
+                    attrs: [{
+                        title: '下拉菜单设置',
+                        key: 'dropdown-setting',
+                        children: [{
+                            name: 'container',
+                            desc: '是否是容器',
+                            value: true,
+                            backend: true,
+                            isContainer: true
+                        }]
+                    }],
+                    children: [{
+                        tag: 'button',
+                        className: ['btn btn-default',
+                            'dropdown-toggle'
+                        ],
+                        unActive: true,
+                        attrs: [{
+                            title: '下拉菜单设置',
+                            key: 'btn-dropdown',
+                            isAttrSetting: true,
+                            children: [{
+                                name: 'innerHTML',
+                                desc: '显示文本',
+                                value: '菜单',
+                                type: 'input',
+                                isHTML: true,
+                                id: ''
+                            }, {
+                                name: 'data-toggle',
+                                desc: '显示文本',
+                                value: 'dropdown',
+                                isAttr: true,
+                                id: '',
+                                attrName: 'data-toggle'
+                            }, {
+                                name: 'role',
+                                desc: '显示文本',
+                                value: 'button',
+                                isAttr: true,
+                                id: '',
+                                attrName: 'role'
+                            }, {
+                                name: 'aria-haspopup',
+                                desc: '显示文本',
+                                value: true,
+                                isAttr: true,
+                                id: '',
+                                attrName: 'aria-haspopup'
+                            }, {
+                                name: 'aria-expanded',
+                                desc: '是否展开',
+                                value: false,
+                                isAttr: true,
+                                type: 'toggle',
+                                isToggleAttr: true,
+                                isSetVal: true,
+                                id: '',
+                                attrName: 'aria-expanded'
+                            }]
+                        }],
+                        children: [{
+                            tag: 'span',
+                            className: ['caret'],
+                            unActive: true,
+                            attrs: [{
+                                title: '下拉菜单设置',
+                                key: 'dropdown-setting',
+                                children: []
+                            }]
+                        }]
+                    }, {
+                        tag: 'ul',
+                        className: ['dropdown-menu'],
+                        unActive: true,
+                        attrs: [{
+                            title: '下拉菜单设置',
+                            key: 'dropdown-setting',
+                            children: []
+                        }],
+                        children: [{
+                            tag: 'li',
+                            className: [],
+                            unActive: true,
+                            attrs: [{
+                                title: '下拉菜单设置',
+                                key: 'dropdown-setting',
+                                children: []
+                            }],
+                            children: [{
+                                tag: 'a',
+                                className: [],
+                                unActive: true,
+                                attrs: [{
+                                    title: '下拉菜单链接设置',
+                                    key: 'link-setting',
+                                    activeLinkType: 'link',
+                                    deleteAble: true,
+                                    children: [{
+                                        name: 'src',
+                                        desc: '跳转链接',
+                                        type: 'input',
+                                        value: '',
+                                        isAttr: true,
+                                        attrName: 'href',
+                                        id: '',
+                                        attrType: 'link'
+                                    }, {
+                                        name: 'src',
+                                        desc: '跳转邮箱',
+                                        type: 'input',
+                                        value: '',
+                                        isAttr: true,
+                                        attrName: 'href',
+                                        id: '',
+                                        attrType: 'mail'
+                                    }, {
+                                        name: 'src',
+                                        desc: '跳转电话',
+                                        type: 'input',
+                                        value: '',
+                                        isAttr: true,
+                                        attrName: 'href',
+                                        id: '',
+                                        attrType: 'phone'
+                                    }, {
+                                        name: 'src',
+                                        desc: '跳转页面',
+                                        type: 'select',
+                                        value: '',
+                                        isAttr: true,
+                                        attrName: 'href',
+                                        id: '',
+                                        attrType: 'page'
+                                    }, {
+                                        name: 'src',
+                                        desc: '跳转元素',
+                                        type: 'select',
+                                        value: '',
+                                        isAttr: true,
+                                        attrName: 'href',
+                                        id: '',
+                                        attrType: 'section'
+                                    }, {
+                                        name: 'target',
+                                        desc: '新窗口打开',
+                                        type: 'toggle',
+                                        value: false,
+                                        isAttr: true,
+                                        attrName: 'target',
+                                        id: ''
+                                    }, {
+                                        name: 'innerHTML',
+                                        desc: '显示文本',
+                                        value: '菜单',
+                                        isHTML: true,
+                                        id: ''
+                                    }]
+                                }, {
+                                    title: '属性设置',
+                                    key: 'button-attr',
+                                    isAttrSetting: true,
+                                    children: [{
+                                        name: 'value',
+                                        desc: '菜单值',
+                                        type: 'input',
+                                        value: '菜单',
+                                        isHTML: true,
+                                        id: ''
+                                    }]
+                                }]
+                            }]
+                        }, {
+                            tag: 'li',
+                            className: [],
+                            attrs: [{
+                                title: '下拉菜单设置',
+                                key: 'dropdown-setting',
+                                unActive: true,
+                                deleteAble: true,
+                                children: []
+                            }],
+                            children: [{
+                                tag: 'a',
+                                className: [],
+                                unActive: true,
+                                attrs: [{
+                                    title: '下拉菜单链接设置',
+                                    key: 'link-setting',
+                                    activeLinkType: 'link',
+                                    deleteAble: true,
+                                    children: [{
+
+                                        name: 'src',
+                                        desc: '跳转链接',
+                                        type: 'input',
+                                        value: '',
+                                        isAttr: true,
+                                        attrName: 'href',
+                                        id: '',
+                                        attrType: 'link'
+                                    }, {
+                                        name: 'src',
+                                        desc: '跳转邮箱',
+                                        type: 'input',
+                                        value: '',
+                                        isAttr: true,
+                                        attrName: 'href',
+                                        id: '',
+                                        attrType: 'mail'
+                                    }, {
+                                        name: 'src',
+                                        desc: '跳转电话',
+                                        type: 'input',
+                                        value: '',
+                                        isAttr: true,
+                                        attrName: 'href',
+                                        id: '',
+                                        attrType: 'phone'
+                                    }, {
+                                        name: 'src',
+                                        desc: '跳转页面',
+                                        type: 'select',
+                                        value: '',
+                                        isAttr: true,
+                                        attrName: 'href',
+                                        id: '',
+                                        attrType: 'page'
+                                    }, {
+                                        name: 'src',
+                                        desc: '跳转元素',
+                                        type: 'select',
+                                        value: '',
+                                        isAttr: true,
+                                        attrName: 'href',
+                                        id: '',
+                                        attrType: 'section'
+                                    }, {
+                                        name: 'target',
+                                        desc: '新窗口打开',
+                                        type: 'toggle',
+                                        value: false,
+                                        isAttr: true,
+                                        attrName: 'target',
+                                        id: ''
+                                    }, {
+                                        name: 'innerHTML',
+                                        desc: '显示文本',
+                                        value: '菜单',
+                                        isHTML: true,
+                                        id: ''
+                                    }]
+                                }, {
+                                    title: '属性设置',
+                                    key: 'button-attr',
+                                    isAttrSetting: true,
+                                    children: [{
+                                        name: 'value',
+                                        desc: '菜单值',
+                                        type: 'input',
+                                        value: '菜单',
+                                        isHTML: true,
+                                        id: ''
+                                    }]
+                                }]
+                            }]
+                        }, {
+                            tag: 'li',
+                            className: [],
+                            unActive: true,
+                            attrs: [{
+                                title: '下拉菜单设置',
+                                key: 'dropdown-setting',
+                                children: []
+                            }],
+                            children: [{
+                                tag: 'a',
+                                className: [],
+                                unActive: true,
+                                attrs: [{
+                                    title: '下拉菜单链接设置',
+                                    key: 'link-setting',
+                                    activeLinkType: 'link',
+                                    deleteAble: true,
+                                    children: [{
+                                        name: 'src',
+                                        desc: '跳转链接',
+                                        type: 'input',
+                                        value: '',
+                                        isAttr: true,
+                                        attrName: 'href',
+                                        id: '',
+                                        attrType: 'link'
+                                    }, {
+                                        name: 'src',
+                                        desc: '跳转邮箱',
+                                        type: 'input',
+                                        value: '',
+                                        isAttr: true,
+                                        attrName: 'href',
+                                        id: '',
+                                        attrType: 'mail'
+                                    }, {
+                                        name: 'src',
+                                        desc: '跳转电话',
+                                        type: 'input',
+                                        value: '',
+                                        isAttr: true,
+                                        attrName: 'href',
+                                        id: '',
+                                        attrType: 'phone'
+                                    }, {
+                                        name: 'src',
+                                        desc: '跳转页面',
+                                        type: 'select',
+                                        value: '',
+                                        isAttr: true,
+                                        attrName: 'href',
+                                        id: '',
+                                        attrType: 'page'
+                                    }, {
+                                        name: 'src',
+                                        desc: '跳转元素',
+                                        type: 'select',
+                                        value: '',
+                                        isAttr: true,
+                                        attrName: 'href',
+                                        id: '',
+                                        attrType: 'section'
+                                    }, {
+                                        name: 'target',
+                                        desc: '新窗口打开',
+                                        type: 'toggle',
+                                        value: false,
+                                        isAttr: true,
+                                        attrName: 'target',
+                                        id: ''
+                                    }, {
+                                        name: 'innerHTML',
+                                        desc: '显示文本',
+                                        value: '菜单',
+                                        isHTML: true,
+                                        id: ''
+                                    }, ]
+                                }, {
+                                    title: '属性设置',
+                                    key: 'button-attr',
+                                    isAttrSetting: true,
+                                    children: [{
+                                        name: 'value',
+                                        desc: '菜单值',
+                                        type: 'input',
+                                        value: '菜单',
+                                        isHTML: true,
+                                        id: ''
+                                    }]
+                                }]
+                            }]
+                        }]
+                    }]
+                }
+            }, {
+                icon: `<svg width="50" height="37" viewBox="0 0 50 37" className="bem-Svg " style={{display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".4" d="M47 0H3C1.3 0 0 1.3 0 3v31c0 1.7 1.3 3 3 3h44c1.7 0 3-1.3 3-3V3c0-1.7-1.3-3-3-3z"></path><path fill="currentColor" d="M47 1H3c-1.1 0-2 .9-2 2v31c0 1.1.9 2 2 2h44c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zM8.8 23.1l-4.7-4.7 4.7-4.7 1.4 1.4L7 18.5l3.2 3.2-1.4 1.4zM19 33c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm6 0c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm6 0c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm10.2-9.9l-1.4-1.4 3.2-3.2-3.2-3.2 1.4-1.4 4.7 4.7-4.7 4.5z"></path></svg>`,
+                name: '幻灯片',
+                key: 'slider',
+                details: {
+                    tag: 'div',
+                    className: ['carousel', 'slide'],
+                    attrs: [{
+                        title: '幻灯片设置',
+                        key: 'slider-setting',
+                        children: [{
+                            name: 'data-ride',
+                            id: '',
+                            isAttr: true,
+                            value: 'carousel',
+                            attrName: 'data-ride'
+                        }, {
+                            name: 'id',
+                            id: '',
+                            isAttr: true,
+                            value: 'carousel-example-generic',
+                            attrName: 'id'
+                        }, {
+                            name: 'style',
+                            id: '',
+                            isAttr: true,
+                            value: 'height: 500px; width: 100%;',
+                            attrName: 'style'
+                        }, {
+                            name: 'height',
+                            id: '',
+                            value: '500',
+                        }, {
+                            name: 'width',
+                            id: '',
+                            value: '100',
+                        }, {
+                            name: 'container',
+                            desc: '是否是容器',
+                            value: true,
+                            backend: true,
+                            isContainer: true
+                        }]
+                    }],
+                    children: [{
+                        tag: 'ol',
+                        unActive: true,
+                        className: [
+                            'carousel-indicators'
+                        ],
+                        attrs: [{
+                            title: '幻灯片设置',
+                            key: 'slider-setting',
+                            unActive: true,
+                            unCtrl: true,
+                            children: []
+                        }],
+                        children: [{
+                            tag: 'li',
+                            unActive: true,
+                            unCtrl: true,
+                            className: [''],
+                            attrs: [{
+                                title: '幻灯片设置',
+                                key: 'slider-setting',
+                                children: [{
+                                    name: 'data-target',
+                                    attrName: 'data-target',
+                                    isAttr: true,
+                                    value: '#carousel-example-generic',
+                                    id: ''
+                                }, {
+                                    name: 'data-slide-to',
+                                    attrName: 'data-slide-to',
+                                    isAttr: true,
+                                    value: '0',
+                                    id: ''
+                                }]
+                            }, ]
+                        }, {
+                            tag: 'li',
+                            unActive: true,
+                            unCtrl: true,
+                            className: [
+                                'active'
+                            ],
+                            attrs: [{
+                                title: '幻灯片设置',
+                                key: 'slider-setting',
+                                children: [{
+                                    name: 'data-target',
+                                    attrName: 'data-target',
+                                    isAttr: true,
+                                    value: '#carousel-example-generic',
+                                    id: ''
+                                }, {
+                                    name: 'data-slide-to',
+                                    attrName: 'data-slide-to',
+                                    isAttr: true,
+                                    value: '1',
+                                    id: ''
+                                }]
+                            }]
+                        }]
+                    }, {
+                        tag: 'div',
+                        unActive: true,
+                        unCtrl: true,
+                        className: ['carousel-inner'],
+                        attrs: [{
+                            title: '幻灯片设置',
+                            key: 'slider-setting',
+                            children: [{
+                                name: 'role',
+                                attrName: 'role',
+                                isAttr: true,
+                                value: 'listbox',
+                                id: ''
+                            }, {
+                                name: 'container',
+                                desc: '是否是容器',
+                                value: true,
+                                backend: true,
+                                isContainer: true
+                            }]
+                        }],
+                        children: [{
+                            tag: 'div',
+                            unActive: true,
+                            unCtrl: true,
+                            className: ['item'],
+                            attrs: [{
+                                title: '幻灯片设置',
+                                key: 'slider-setting',
+                                children: [{
+                                    name: 'container',
+                                    desc: '是否是容器',
+                                    value: true,
+                                    backend: true,
+                                    isContainer: true
+                                }]
+                            }],
+                            children: [{
+                                tag: 'img',
+                                className: [
+                                    ''
+                                ],
+                                unActive: true,
+                                unCtrl: true,
+                                attrs: [{
+                                    title: '图片设置',
+                                    key: 'slider-setting',
+                                    children: [{
+                                        name: 'src',
+                                        desc: '图片地址',
+                                        type: 'input',
+                                        value: 'https://d3e54v103j8qbb.cloudfront.net/img/image-placeholder.svg',
+                                        isAttr: true,
+                                        attrName: 'src',
+                                        id: '',
+                                        fileInfo: [{
+                                            uid:
+                                                -
+                                                1,
+                                            name: 'image-placeholder.svg',
+                                            states: 'done',
+                                            url: "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTQwcHgiIGhlaWdodD0iMTQwcHgiIHZpZXdCb3g9IjAgMCAxNDAgMTQwIiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogIDxnPgogICAgICA8cmVjdCBpZD0iUmVjdGFuZ2xlIiBmaWxsPSIjRTBFMEUwIiB4PSIwIiB5PSIwIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCI+PC9yZWN0PgogICAgICA8cGF0aCBkPSJNOTIsODggTDQ4LDg4IEM0Ni45LDg4IDQ2LDg3LjEgNDYsODYgTDQ2LDU0IEM0Niw1Mi45IDQ2LjksNTIgNDgsNTIgTDkyLDUyIEM5My4xLDUyIDk0LDUyLjkgOTQsNTQgTDk0LDg2IEM5NCw4Ny4xIDkzLjEsODggOTIsODggWiBNNjguMjgwNSw3My41NzI1IEw2NC44NjU1LDcwLjA1MTUgTDU1LjIyOTUsODAuOTk5NSBMODUuMzQ5NSw4MC45OTk1IEw3NC41NjQ1LDY0LjY0NDUgTDY4LjI4MDUsNzMuNTcyNSBaIE02Mi45MTg1LDY0LjUyMzUgQzYyLjkxODUsNjIuNDI5NSA2MS4yMjA1LDYwLjczMjUgNTkuMTI2NSw2MC43MzI1IEM1Ny4wMzU1LDYwLjczMjUgNTUuMzM2NSw2Mi40Mjk1IDU1LjMzNjUsNjQuNTIzNSBDNTUuMzM2NSw2Ni42MTY1IDU3LjAzNTUsNjguMzEzNSA1OS4xMjY1LDY4LjMxMzUgQzYxLjIyMDUsNjguMzEzNSA2Mi45MTg1LDY2LjYxNjUgNjIuOTE4NSw2NC41MjM1IFoiIGlkPSJDb21iaW5lZC1TaGFwZSIgZmlsbD0iI0MyQzJDMiI+PC9wYXRoPgogIDwvZz4KPC9zdmc+",
+                                            thumbUrl: "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTQwcHgiIGhlaWdodD0iMTQwcHgiIHZpZXdCb3g9IjAgMCAxNDAgMTQwIiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogIDxnPgogICAgICA8cmVjdCBpZD0iUmVjdGFuZ2xlIiBmaWxsPSIjRTBFMEUwIiB4PSIwIiB5PSIwIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCI+PC9yZWN0PgogICAgICA8cGF0aCBkPSJNOTIsODggTDQ4LDg4IEM0Ni45LDg4IDQ2LDg3LjEgNDYsODYgTDQ2LDU0IEM0Niw1Mi45IDQ2LjksNTIgNDgsNTIgTDkyLDUyIEM5My4xLDUyIDk0LDUyLjkgOTQsNTQgTDk0LDg2IEM5NCw4Ny4xIDkzLjEsODggOTIsODggWiBNNjguMjgwNSw3My41NzI1IEw2NC44NjU1LDcwLjA1MTUgTDU1LjIyOTUsODAuOTk5NSBMODUuMzQ5NSw4MC45OTk1IEw3NC41NjQ1LDY0LjY0NDUgTDY4LjI4MDUsNzMuNTcyNSBaIE02Mi45MTg1LDY0LjUyMzUgQzYyLjkxODUsNjIuNDI5NSA2MS4yMjA1LDYwLjczMjUgNTkuMTI2NSw2MC43MzI1IEM1Ny4wMzU1LDYwLjczMjUgNTUuMzM2NSw2Mi40Mjk1IDU1LjMzNjUsNjQuNTIzNSBDNTUuMzM2NSw2Ni42MTY1IDU3LjAzNTUsNjguMzEzNSA1OS4xMjY1LDY4LjMxMzUgQzYxLjIyMDUsNjguMzEzNSA2Mi45MTg1LDY2LjYxNjUgNjIuOTE4NSw2NC41MjM1IFoiIGlkPSJDb21iaW5lZC1TaGFwZSIgZmlsbD0iI0MyQzJDMiI+PC9wYXRoPgogIDwvZz4KPC9zdmc+"
+                                        }]
+                                    }, {
+                                        name: 'alt',
+                                        desc: '替换文本',
+                                        type: 'input',
+                                        value: '',
+                                        isAttr: true,
+                                        attrName: 'alt'
+                                    }, {
+                                        name: 'style',
+                                        id: '',
+                                        isAttr: true,
+                                        value: 'height: 500px; width: 100%',
+                                        attrName: 'style'
+                                    }, {
+                                        name: 'image_placeholder',
+                                        desc: '占位图片',
+                                        type: 'input',
+                                        value: '',
+                                        isImagePlaceholder: true
+                                    }]
+                                }]
+                            }, {
+                                tag: 'div',
+                                className: [
+                                    'carousel-caption'
+                                ],
+                                attrs: [{
+                                    title: '幻灯片设置',
+                                    key: 'slider-label-setting',
+                                    isAttrSetting: true,
+                                    children: [{
+                                        name: 'innerHTML',
+                                        desc: '替换文本',
+                                        type: 'input',
+                                        value: 'Slider 1',
+                                        isHTML: true,
+                                        id: ''
+                                    }, {
+                                        name: 'container',
+                                        desc: '是否是容器',
+                                        value: true,
+                                        backend: true,
+                                        isContainer: true
+                                    }]
+                                }],
+                            }]
+                        }, {
+                            tag: 'div',
+                            unActive: true,
+                            className: ['item',
+                                'active'
+                            ],
+                            attrs: [{
+                                title: '幻灯片设置',
+                                key: 'slider-setting',
+                                children: []
+                            }],
+                            children: [{
+                                tag: 'img',
+                                unActive: true,
+                                unCtrl: true,
+                                className: [
+                                    ''
+                                ],
+                                attrs: [{
+                                    title: '图片设置',
+                                    key: 'slider-setting',
+                                    children: [{
+                                        name: 'src',
+                                        desc: '图片地址',
+                                        type: 'input',
+                                        value: placeholderImgBase64,
+                                        isAttr: true,
+                                        attrName: 'src',
+                                        id: '',
+                                        fileInfo: [{
+                                            uid:
+                                                -
+                                                1,
+                                            name: 'image-placeholder.svg',
+                                            states: 'done',
+                                            url: placeholderImgBase64,
+                                            thumbUrl: placeholderImgBase64
+                                        }]
+                                    }, {
+                                        name: 'alt',
+                                        desc: '替换文本',
+                                        type: 'input',
+                                        value: '',
+                                        isAttr: true,
+                                        attrName: 'alt'
+                                    }, {
+                                        name: 'style',
+                                        id: '',
+                                        isAttr: true,
+                                        value: 'height: 500px; width: 100%',
+                                        attrName: 'style'
+                                    }, {
+                                        name: 'image_placeholder',
+                                        desc: '占位图片',
+                                        type: 'input',
+                                        value: placeholderImgBase64,
+                                        isImagePlaceholder: true
+                                    }]
+                                }]
+                            }, {
+                                tag: 'div',
+                                className: [
+                                    'carousel-caption'
+                                ],
+                                attrs: [{
+                                    title: '幻灯片设置',
+                                    key: 'slider-label-setting',
+                                    isAttrSetting: true,
+                                    children: [{
+                                        name: 'innerHTML',
+                                        desc: '替换文本',
+                                        type: 'input',
+                                        value: 'Slider 2',
+                                        isHTML: true,
+                                        id: ''
+                                    }, {
+                                        name: 'container',
+                                        desc: '是否是容器',
+                                        value: true,
+                                        backend: true,
+                                        isContainer: true
+                                    }]
+                                }],
+                            }]
+                        }]
+                    }, {
+                        tag: 'a',
+                        unActive: true,
+                        unCtrl: true,
+                        className: ['right',
+                            'carousel-control'
+                        ],
+                        attrs: [{
+                            title: '幻灯片设置',
+                            key: 'slider-setting',
+                            children: [{
+                                name: 'href',
+                                isAttr: true,
+                                attrName: 'href',
+                                value: '#carousel-example-generic',
+                                id: ''
+                            }, {
+                                name: 'role',
+                                isAttr: true,
+                                attrName: 'role',
+                                value: 'button',
+                                id: ''
+                            }, {
+                                name: 'data-slide',
+                                isAttr: true,
+                                attrName: 'data-slide',
+                                value: 'next',
+                                id: ''
+                            }]
+                        }],
+                        children: [{
+                            tag: 'i',
+                            unActive: true,
+                            unCtrl: true,
+                            className: [
+                                'glyphicon-chevron-right',
+                                'fa',
+                                'fa-2x',
+                                'fa-fast-forward'
+                            ],
+                            attrs: [{
+                                title: '幻灯片设置',
+                                key: 'slider-setting',
+                                children: [{
+                                    name: 'aria-hidden',
+                                    value: true,
+                                    attrName: 'aria-hidden',
+                                    isAttr: true,
+                                    id: ''
+                                }]
+                            }]
+                        }, {
+                            tag: 'span',
+                            unActive: true,
+                            unCtrl: true,
+                            className: [
+                                'sr-only'
+                            ],
+                            attrs: [{
+                                title: '幻灯片设置',
+                                key: 'slider-setting',
+                                children: [{
+                                    name: 'innerHTML',
+                                    value: '上一张',
+                                    attrName: 'aria-hidden',
+                                    isHTML: true,
+                                    id: ''
+                                }]
+                            }]
+                        }]
+                    }, {
+                        tag: 'a',
+                        unActive: true,
+                        unCtrl: true,
+                        className: ['left',
+                            'carousel-control'
+                        ],
+                        attrs: [{
+                            title: '幻灯片设置',
+                            key: 'slider-setting',
+                            children: [{
+                                name: 'href',
+                                isAttr: true,
+                                attrName: 'href',
+                                value: '#carousel-example-generic',
+                                id: ''
+                            }, {
+                                name: 'role',
+                                isAttr: true,
+                                attrName: 'role',
+                                value: 'button',
+                                id: ''
+                            }, {
+                                name: 'data-slide',
+                                isAttr: true,
+                                attrName: 'data-slide',
+                                value: 'prev',
+                                id: ''
+                            }]
+                        }],
+                        children: [{
+                            tag: 'i',
+                            unActive: true,
+                            unCtrl: true,
+                            className: [
+                                'glyphicon-chevron-left',
+                                'fa',
+                                'fa-2x',
+                                'fa-fast-backward'
+                            ],
+                            attrs: [{
+                                title: '幻灯片设置',
+                                key: 'slider-setting',
+                                children: [{
+                                    name: 'aria-hidden',
+                                    value: true,
+                                    attrName: 'aria-hidden',
+                                    isAttr: true,
+                                    id: ''
+                                }]
+                            }]
+                        }, {
+                            tag: 'span',
+                            unActive: true,
+                            unCtrl: true,
+                            className: [
+                                'sr-only'
+                            ],
+                            attrs: [{
+                                title: '幻灯片设置',
+                                key: 'slider-setting',
+                                children: [{
+                                    name: 'innerHTML',
+                                    value: '下一张',
+                                    attrName: 'aria-hidden',
+                                    isHTML: true,
+                                    id: ''
+                                }]
+                            }]
+                        }]
+                    }]
+                }
+            }]
+        }]
+    },
+
+    subscriptions: {
+
+        setup({
+            dispatch,
+            history
+        }) {
+            history.listen(({
+                pathname
+            }) => {
+                dispatch({
+                    type: 'appendPublicAttrsToCtrlList'
+                })
+            });
+        }
+
+    },
+
+    reducers: {
+
+        appendPublicAttrsToCtrlList(state) {
+
+                const push = (controllersList) => {
+                    controllersList.map((item, index) => {
+                        const controllers = item.content;
+
+                        const rec = (controllers) => {
+                            controllers.map((ctrl, j) => {
+                                ctrl = ctrl.details ||
+                                    ctrl;
+                                if (ctrl.children) {
+                                    rec(ctrl.children);
+                                }
+                                for (var i = 0; i <
+                                    state.publicAttrs.length; i++
+                                ) {
+                                    const attrs = state
+                                        .publicAttrs[i];
+                                    if (ctrl.attrs.length <=
+                                        3) {
+                                        ctrl.attrs.push(
+                                            attrs);
+                                    }
+
+                                };
+                            });
+                        }
+
+                        rec(controllers);
+
+                    });
+                }
+
+                push(state.controllers);
+
+                return {...state
+                };
+            },
+
+            handleCurrentSymbolKey(state, {
+                payload: key
+            }) {
+                state.currentSymbolKey = key;
+                return {...state
+                };
+            },
+            handleSymbolNameChange(state, {
+                payload: value
+            }) {
+                state.symbolName = value;
+                return {...state
+                };
+            },
+            handleAddSymbol(state, {
+                payload: activeCtrl
+            }) {
+
+                if (!methods.checkName(state.symbols, state.symbolName)) {
+                    openNotificationWithIcon('info', '控件名已被占用');
+                } else {
+                    var addController = {
+                        name: localStorage.symbolName,
+                        key: randomString(8, 10),
+                        controllers: [activeCtrl]
+                    }
+                    state.popoverVisible = false;
+                    state.symbolName = '';
+                    state.symbols.push(addController);
+                }
+                return {...state
+                };
+            },
+            handlePopoverVisbile(state, {
+                payload: value
+            }) {
+
+                state.popoverVisible = value;
+                return {...state
+                };
+            },
+            handleEditPopoverVisbile(state, {
+                payload: value
+            }) {
+
+                state.editPopoverVisible = value;
+                return {...state
+                };
+            },
+            handleUpdateVisible(state, {
+                payload: value
+            }) {
+
+                state.keyValeUpdateVisible = value;
+                return {...state
+                };
+            },
+            handleCreateVisible(state, {
+                payload: value
+            }) {
+
+                state.keyValeCreateVisible = value;
+                return {...state
+                };
+            },
+            editSymbol(state) {
+
+                if (!methods.checkName(state.symbols, state.symbolName)) {
+                    openNotificationWithIcon('info', '控件名已被占用');
+                } else {
+                    var index = methods.getSymbolIndexByKey(state.symbols,
+                        state.currentSymbolKey);
+
+                    if (index == undefined) {
+                        openNotificationWithIcon('error', '修改错误,请重试');
+                    } else {
+                        state.symbols[index].name = state.symbolName;
+                    }
+                }
+                state.symbolName = '';
+                state.currentSymbolKey = '';
+                state.editPopoverVisible = false;
+                return {...state
+                };
+            },
+            deleteSymbol(state, {
+                payload: key
+            }) {
+
+                var index = methods.getSymbolIndexByKey(state.symbols, key);
+                if (index == undefined) {
+                    openNotificationWithIcon('error', '删除失败,请重试');
+                } else {
+                    state.symbols.splice(index, 1);
+                }
+                return {...state
+                };
+            }
+    },
+
+    effects: {
+
+        * addSymbol(payload, {
+            call,
+            put,
+            select
+        }) {
+            var activeCtrl = yield select(state => state.vdCtrlTree.activeCtrl);
+            yield put({
+                type: "handleAddSymbol",
+                payload: {
+                    activeCtrl
+                }
+            });
+        }
+
+    }
 
 }
