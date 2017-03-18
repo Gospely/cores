@@ -30,8 +30,12 @@ const Component = (props) => {
 	var ctrlPros = {
 			onSelect (val, e) {
 
-				realSelectedCtrl = val[0];
+				if(val.length === 0){
+					return false;
+				}
 
+				realSelectedCtrl = val[0];
+				
 				window.VDDesignerFrame.postMessage({
 					VDCtrlSelected: {
 						vdid: realSelectedCtrl,
