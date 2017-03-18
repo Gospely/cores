@@ -36,8 +36,7 @@ const Component = (props) => {
 
 				realSelectedCtrl = val[0];
 
-				console.log(realSelectedCtrl)
-				if (realSelectedCtrl.split('-') === 'body') {
+				if (realSelectedCtrl.split('-')[0]=== 'body') {
 					return;
 				}
 				
