@@ -1099,6 +1099,8 @@ export default {
                     if(params.value == 'vd:latest'){
                         console.log('git disabled');
                         state.appCreatingForm.useGit = false;
+                    }else {
+                        state.appCreatingForm.useGit = true;
                     }
                     state.appCreatingForm.databaseShow = '该类型项目暂时不支持创建本地数据库';
                 }else{

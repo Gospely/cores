@@ -1021,7 +1021,7 @@ export default {
 			return {...state
 			};
 		},
-		
+
 		handleUnit(state, {payload: params}) {
 
 			state[params.target] = params.value;
@@ -2771,9 +2771,9 @@ export default {
 		copyCtrl(state, { payload: params }) {
 
 			if (state.activeCtrl && state.activeCtrl !== 'none') {
-				sessionStorage.copiedCtrl = JSON.stringify(state.activeCtrl);	
+				sessionStorage.copiedCtrl = JSON.stringify(state.activeCtrl);
 			}
-			
+
 			return {...state};
 		},
 
