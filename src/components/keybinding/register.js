@@ -79,6 +79,9 @@ const HotKeyHandler = {
 						bool = bool && false;
 					}
 				}
+				if(!handler.mainKey && !handler.secondKey && handler.key == keyCode){
+					bool = bool && true;
+				}
 				if(handler.key != null) {
 					if(handler.key == keyCode){
 						bool = bool && true;
