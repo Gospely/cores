@@ -98,7 +98,7 @@ export default {
 			},
 
 			color: {
-				value: ''
+				value: '#e9e9e9'
 			},
 
 			inset: {
@@ -117,7 +117,7 @@ export default {
 				value: ''
 			},
 			color: {
-				value: ''
+				value: '#e9e9e9'
 			}
 		},
 
@@ -737,7 +737,7 @@ export default {
 				clear: '',
 				position: '',
 				'font-family': '',
-				color: '',
+				color: '#000000',
 				'font-weight': '',
 				'font-style': '',
 				'text-indent': '',
@@ -821,7 +821,7 @@ export default {
 						'h-shadow': '2',
 						'v-shadow': '2',
 						blur: '5',
-						color: ''
+						color: '#dfdfdf'
 					}]
 				},
 
@@ -907,7 +907,7 @@ export default {
 			clear: '',
 			position: '',
 			'font-family': '',
-			color: '',
+			color: '#000000',
 			'font-weight': '',
 			'font-style': '',
 			'text-indent': '',
@@ -1349,7 +1349,7 @@ export default {
 					},
 
 					color: {
-						value: ''
+						value: '#e9e9e9'
 					},
 
 					inset: {
@@ -1377,7 +1377,7 @@ export default {
 					},
 
 					color: {
-						value: ''
+						value: '#e9e9e9'
 					}
 				}
 			}
