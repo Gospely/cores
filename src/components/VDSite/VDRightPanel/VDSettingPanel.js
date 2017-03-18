@@ -38,6 +38,16 @@ const Component = (props) => {
       	labelCol: { span: 8 },
       	wrapperCol: { span: 16 }
     };
+
+    let animationClassList = [{
+        animate: '',
+        name: 'None',
+        duration: '',
+        condition: 'none',
+        vdid: [],
+        key: 'none'
+    }];
+    
     const vdCtrlOperate = {
         /**
          * 查找当前活跃控件的配置数据
@@ -73,6 +83,7 @@ const Component = (props) => {
             }
             return result;
         },
+
         loopAttr(controller, root, parent) {
 
             // console.log(root);
@@ -101,7 +112,8 @@ const Component = (props) => {
                 ignore: controller.ignore || false,
                 parent: parent.vdid || '',
                 root: root || '',
-                unCtrl: controller.unCtrl
+                unCtrl: controller.unCtrl,
+                animationClassList: controller.animationClassList || animationClassList
             };
             if(controller.children) {
                 for (var i = 0; i < controller.children.length; i++) {

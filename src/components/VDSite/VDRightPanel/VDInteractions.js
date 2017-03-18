@@ -23,6 +23,12 @@ const FormItem = Form.Item;
 
 const Component = (props) => {
 
+    if (!props.vdCtrlTree.activeCtrl || !props.vdCtrlTree.activeCtrl.tag) {
+        return (
+            <div className="none-operation-obj">暂无操作对象</div>
+        )
+    }
+
     let interactions = props.vdanimations.interactions;
     let activeCtrlInteractionIndex = props.vdCtrlTree.activeCtrl.animationClassList[0].key;
     // if (interactions) {}
@@ -231,12 +237,6 @@ const Component = (props) => {
                 vdid: props.vdCtrlTree.activeCtrl.vdid
     		}
     	});
-    }
-
-    if (!props.vdCtrlTree.activeCtrl || !props.vdCtrlTree.activeCtrl.tag) {
-        return (
-            <div className="none-operation-obj">暂无操作对象</div>
-        )
     }
 
   	return (

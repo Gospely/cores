@@ -35,6 +35,11 @@ const Component = (props) => {
 				}
 
 				realSelectedCtrl = val[0];
+
+				console.log(realSelectedCtrl)
+				if (realSelectedCtrl.split('-') === 'body') {
+					return;
+				}
 				
 				window.VDDesignerFrame.postMessage({
 					VDCtrlSelected: {
@@ -216,6 +221,7 @@ const Component = (props) => {
         		onDragOver={ctrlPros.onDragOver}
         		onDragStart={ctrlPros.onDragStart}
         		onDragLeave={ctrlPros.onDragLeave}
+        		selectedKeys={props.vdCtrlTree.defaultSelectedKeys}
       		>
       			{loopControllerTree(activeControllerTree)}
       		</Tree>

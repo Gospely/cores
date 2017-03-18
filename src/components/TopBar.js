@@ -584,9 +584,7 @@ const LeftSidebar = (props) => {
     			// 	type: 'devpanel/stopDocker',
     			// 	payload: { id: localStorage.applicationId, image: localStorage.image }
     			// });
-				props.dispatch({
-					type: 'vdctrl/initActiveState'
-				});
+				
     			window.reload = true
     			window.applicationId = application.id;
 				console.log(application);

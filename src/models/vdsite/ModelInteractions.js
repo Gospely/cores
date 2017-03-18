@@ -17,9 +17,22 @@ const vdanimationActions = {
 					scriptText += `\n	jQuery('[vdid="${currentVdid[j]}"]').on('mouseleave', {animate: '${animate}'} ,animationTrigger);`
 					if (duration) {
 						scriptText += `\n	jQuery('[vdid="${currentVdid[j]}"]').css({
-			animationDuration: '${duration}ms'
-		});`
+		animationDuration: '${duration}ms'
+	});`
 					}
+				}
+			},
+
+			'load'(currentVdid, animate, duration) {
+				for(let j = 0; j < currentVdid.length; j ++) {
+
+					scriptText += `\n	jQuery('[vdid="${currentVdid[j]}"]').animateCss('${animate}')`;
+					if (duration) {
+						scriptText += `\n	jQuery('[vdid="${currentVdid[j]}"]').css({
+		animationDuration: '${duration}ms'
+	});`
+					}
+
 				}
 			},
 
@@ -29,8 +42,8 @@ const vdanimationActions = {
 					scriptText += `\n	jQuery('[vdid="${currentVdid[j]}"]').on('click', {animate: '${animate}'} ,animationTrigger);`
 					if (duration) {
 						scriptText += `\n	jQuery('[vdid="${currentVdid[j]}"]').css({
-			animationDuration: '${duration}ms'
-		});`
+		animationDuration: '${duration}ms'
+	});`
 					}
 				}
 			},
