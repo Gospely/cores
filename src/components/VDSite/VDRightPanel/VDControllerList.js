@@ -39,7 +39,7 @@ const Component = (props) => {
 				if (realSelectedCtrl.split('-')[0]=== 'body') {
 					return;
 				}
-				
+
 				window.VDDesignerFrame.postMessage({
 					VDCtrlSelected: {
 						vdid: realSelectedCtrl,
@@ -48,7 +48,7 @@ const Component = (props) => {
 				}, '*');
 
 				var ctrl = e.selectedNodes ? JSON.parse(e.selectedNodes[0].props.ctrl) : JSON.parse(e.node.props.ctrl);
-
+                ctrl.dblclick = true;
 				props.dispatch({
 					type: "vdCtrlTree/ctrlSelected",
 					payload: ctrl
