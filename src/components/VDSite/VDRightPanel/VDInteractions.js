@@ -30,7 +30,7 @@ const Component = (props) => {
     }
 
     let interactions = props.vdanimations.interactions;
-    let activeCtrlInteractionIndex = props.vdCtrlTree.activeCtrl.animationClassList[0].key;
+    let activeCtrlInteractionKey = props.vdCtrlTree.activeCtrl.animationClassList[0].key;
     // if (interactions) {}
 
     const formItemLayout = {
@@ -191,16 +191,6 @@ const Component = (props) => {
     			type: 'vdanimations/showInteractionEditor',
                 payload: interactionIndex
     		});
-
-            // console.log(props.vdCtrlTree.activeCtrl)
-            
-    		// props.dispatch({
-    		// 	type: 'vdanimations/setActiveInteraction',
-    		// 	payload: {
-      //               interactionIndex,
-      //               vdid: props.vdCtrlTree.activeCtrl.vdid
-      //           }
-    		// });
     	},
 
     	handleOk () {
@@ -236,7 +226,7 @@ const Component = (props) => {
     		type: 'vdanimations/handleInteractionOnSelect',
     		payload: {
     			key: parseInt(key),
-                vdid: props.vdCtrlTree.activeCtrl.vdid
+                ctrl: props.vdCtrlTree.activeCtrl
     		}
     	});
     }
@@ -268,7 +258,7 @@ const Component = (props) => {
 	    		</Col>
 	    	</Row>
 
-      		<Menu className="interaction-list" selectedKeys={[activeCtrlInteractionIndex]} onSelect={handleInteractionOnSelect}>
+      		<Menu className="interaction-list" selectedKeys={[activeCtrlInteractionKey]} onSelect={handleInteractionOnSelect}>
       			{
       				interactions.map((interaction, interactionIndex) => {
       					return (
@@ -276,7 +266,7 @@ const Component = (props) => {
 			      			<Menu.Item key={interaction.key}>
 			      				<Row>
 									<Col span={18}>
-					        			<Radio checked={activeCtrlInteractionIndex === interaction.key} 
+					        			<Radio checked={activeCtrlInteractionKey === interaction.key} 
                                             style={radioStyle} value={interaction.key}>{interaction.name} - {interaction.condition}
                                         </Radio>
 									</Col>
