@@ -2018,7 +2018,7 @@ const Component = (props) => {
     	});
     }
 
-    const settingPanelDefaultActiveKey = ['container-attr', 'div-block-attr', 'list-attr', 'list-item-attr', 'h1-attr', 'paragraph-attr', 'text-link-attr', 'text-block-attr', 'blick-quote-attr', 'p-attr', 'video-attr', 'form-setting', 'label-attr', 'input-attr', 'textarea-attr', 'checkbox-attr', 'radio-attr', 'options-setting', 'slider-setting', 'section-attr', 'button-attr', 'link-block-attr','navbar-dropdown-setting','dropdown-setting', 'block-quote-attr', 'slider-label-setting', 'unctrl-setting'];
+    const settingPanelDefaultActiveKey = ['container-attr', 'div-block-attr', 'list-attr', 'list-item-attr', 'h1-attr', 'paragraph-attr', 'text-link-attr', 'text-block-attr', 'blick-quote-attr', 'p-attr', 'video-attr', 'form-setting', 'label-attr', 'input-attr', 'textarea-attr', 'checkbox-attr', 'radio-attr', 'options-setting', 'slider-setting', 'section-attr', 'button-attr', 'link-block-attr','navbar-dropdown-setting','dropdown-setting', 'block-quote-attr', 'slider-label-setting', 'unctrl-setting', 'btn-dropdown'];
 
     for (var i = 0; i < specialAttrList.length; i++) {
     	var attr = specialAttrList[i];
