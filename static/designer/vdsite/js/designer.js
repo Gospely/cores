@@ -1093,6 +1093,12 @@ $(function() {
         		self.onEnter(e);
         	})
 
+        	jq(self.containerSelector).on("dragleave", function (e) {
+        		dndData.isMouseDown = false;
+        		console.log('|||||||||||||||||')
+        		controllerOperations.hideDesignerDraggerBorder();
+        	})
+
         }
 
         DndInitialization.prototype = {
