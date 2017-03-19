@@ -72,12 +72,12 @@ const Component = (props) => {
     				}
     			});
     		}
-
-    		if(edit) {
-    			setTimeout(function() {
-					$('#animate-previewer').animateCss(interactions[props.vdanimations.activeInteractionIndex].animate);
-    			}, 800);
-    		}
+     //        console.log('}}}}}}}}}}}}}}}')
+    	// 	if(edit) {
+    	// 		setTimeout(function() {
+					// $('#animate-previewer').animateCss(interactions[props.vdanimations.activeInteractionIndex].animate);
+    	// 		}, 800);
+    	// 	}
 
     		return (
 	    		<div>
@@ -88,7 +88,7 @@ const Component = (props) => {
 
 								<Col span={12} style={{paddingRight: '15px'}}>
 									<Select
-										value={edit ? interactions[props.vdanimations.activeInteractionIndex].name : props.vdanimations.newInteractionForm.name}
+										value={edit ? props.vdanimations.editOldInteractionForm.name : props.vdanimations.newInteractionForm.name}
 										size="small"
 									    onChange={handleChange.bind(this, 'name')}
 									>
@@ -126,9 +126,9 @@ const Component = (props) => {
 							<Row>
 								<Col span={12} style={{paddingRight: '15px'}}>
 									<Input
-										value={edit ? interactions[props.vdanimations.activeInteractionIndex].duration : props.vdanimations.newInteractionForm.duration}
+										value={edit ? props.vdanimations.editOldInteractionForm.duration : props.vdanimations.newInteractionForm.duration}
 									    onChange={handleChange.bind(this, 'duration')}
-										type="number" size="small" placeholder="单位:毫秒,可留空" />
+										type="number" size="small" placeholder="单位:毫秒" />
 								</Col>
 							</Row>
 						</FormItem>
@@ -138,7 +138,7 @@ const Component = (props) => {
 								<Col span={12} style={{paddingRight: '15px'}}>								
 									<Select
 										size="small"
-										value={edit ? interactions[props.vdanimations.activeInteractionIndex].condition : props.vdanimations.newInteractionForm.condition}
+										value={edit ? props.vdanimations.editOldInteractionForm.condition : props.vdanimations.newInteractionForm.condition}
 									    onChange={handleChange.bind(this, 'condition')}
 									>
 								      	<Option value="load">页面加载</Option>
@@ -157,10 +157,7 @@ const Component = (props) => {
     	handleOk () {
 
     		props.dispatch({
-    			type: 'vdanimations/saveInteraction',
-                payload: {
-                    vdid: props.vdCtrlTree.activeCtrl.vdid
-                }
+    			type: 'vdanimations/saveInteraction'
     		});
 
     		props.dispatch({
@@ -188,10 +185,13 @@ const Component = (props) => {
 			return interactionCreator.content(true);
     	},
 
-    	modifyInteraction (interactionIndex) {
+    	modifyInteraction (interactionIndex, proxy) {
+            proxy.stopPropagation();
     		props.dispatch({
-    			type: 'vdanimations/toggleInteactionEditor'
+    			type: 'vdanimations/showInteractionEditor',
+                payload: interactionIndex
     		});
+
             // console.log(props.vdCtrlTree.activeCtrl)
             
     		// props.dispatch({
@@ -205,13 +205,15 @@ const Component = (props) => {
 
     	handleOk () {
     		props.dispatch({
-    			type: 'vdanimations/hideInteractionEditor'
+    			type: 'vdanimations/hideInteractionEditor',
+                payload: true
     		});
     	},
 
     	handleCancel () {
     		props.dispatch({
-    			type: 'vdanimations/hideInteractionEditor'
+    			type: 'vdanimations/hideInteractionEditor',
+                payload: false
     		});
     	}
     }
@@ -252,7 +254,7 @@ const Component = (props) => {
           				onOk={interactionCreator.handleOk}
           				onCancel={interactionCreator.handleCancel}
         			>
-        				{interactionCreator.content()}
+        				{interactionCreator.content(false)}
         			</Modal>
 
 					<Modal title="编辑 交互动画"
@@ -282,7 +284,7 @@ const Component = (props) => {
                                         interaction.key !== 'none' && (<Col span={6} style={{textAlign: 'right'}}>
 							            <Icon onClick={interactionEditor.modifyInteraction.bind(this, interactionIndex)} type="edit" />
 							                <Popconfirm title="确认删除吗？" placement="left" onConfirm={onConfirmRemoveThisInteraction.bind(this, interactionIndex)} okText="确定" cancelText="取消">
-											     <Icon type="delete" />
+											     <Icon type="delete" onClick={(proxy) => {proxy.stopPropagation()}} />
 										    </Popconfirm>
 									   </Col>)
                                     }

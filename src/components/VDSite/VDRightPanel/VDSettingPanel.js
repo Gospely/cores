@@ -47,7 +47,7 @@ const Component = (props) => {
         vdid: [],
         key: 'none'
     }];
-    
+
     const vdCtrlOperate = {
         /**
          * 查找当前活跃控件的配置数据

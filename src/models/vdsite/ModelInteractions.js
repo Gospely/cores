@@ -25,7 +25,6 @@ const vdanimationActions = {
 
 			'load'(currentVdid, animate, duration) {
 				for(let j = 0; j < currentVdid.length; j ++) {
-
 					scriptText += `\n	jQuery('[vdid="${currentVdid[j]}"]').animateCss('${animate}')`;
 					if (duration) {
 						scriptText += `\n	jQuery('[vdid="${currentVdid[j]}"]').css({
@@ -100,7 +99,20 @@ const vdanimationActions = {
 		scriptText += `\n})()`;
 
 		return scriptText;
-	}
+	},
+
+	deepCopyObj(obj, result) {
+		result = result || {};
+		for (let key in obj) {
+			if (typeof obj[key] === 'object') {
+				result[key] = (obj[key].constructor === Array) ? [] : {};
+				vdanimationActions.deepCopyObj(obj[key], result[key]);
+			} else {
+				result[key] = obj[key];
+			}
+		}
+		return result;
+	},
 }
 
 export default {
@@ -365,10 +377,10 @@ export default {
 		}],
 
 		newInteractionForm: {
-			name: '',
-			animate: '',
-			duration: '',
-			condition: 'load',
+			name: '弹跳',
+			animate: 'bounce',
+			duration: '1000',
+			condition: 'click',
 			vdid: []
 		},
 
@@ -386,14 +398,14 @@ export default {
 		}, {
 			animate: 'bounce',
 			name: '弹跳',
-			duration: '',
+			duration: '1000',
 			condition: 'click',
 			vdid: [],
 			key: '456'
 		}, {
 			animate: 'bounceIn',
 			name: '弹跳进入',
-			duration: '',
+			duration: '1000',
 			condition: 'hover',
 			vdid: [],
 			key: '789'
@@ -412,7 +424,11 @@ export default {
 
 		activeInteraction: 0,
 
-		activeInteractionIndex: 0
+		activeInteractionIndex: 0,
+
+		editOldInteractionForm: {},
+		editingScriptText: ``,
+		editingInteractionIndex: 0
 
 	},
 
@@ -464,7 +480,6 @@ export default {
 		initState(state, { payload: params }){
 
 			state.newInteractionForm = params.UIState.newInteractionForm;
-			state.interactionModifierForm = params.UIState.interactionModifierForm;
 			state.interactions = params.UIState.interactions;
 			state.activeInteraction = params.UIState.activeInteraction;
 			state.activeInteractionIndex = params.UIState.activeInteractionIndex;
@@ -529,18 +544,30 @@ export default {
 
 		handleNewInteractionFormChange(state, { payload: params }) {
 
-			if(!params.edit) {
-				state.newInteractionForm[params.attrName] = params.value;
+			if (params.edit) {
 
+				if (params.attrName === 'condition') {
+					if (editOldInteractionForm.condition === 'click') {
+						for(let i = 0; i < editOldInteractionForm.vdid.length; i ++) {
+							state.editingScriptText += `\n	jQuery('[vdid="${editOldInteractionForm.vdid[i]}"]').off('click', animationTrigger);`
+						}
+					}if (editOldInteractionForm.condition === 'hover') {
+						for(let i = 0; i < editOldInteractionForm.vdid.length; i ++) {
+							state.editingScriptText += `\n	jQuery('[vdid="${editOldInteractionForm.vdid[i]}"]').off('mouseenter' ,animationTrigger);`
+							state.editingScriptText += `\n	jQuery('[vdid="${editOldInteractionForm.vdid[i]}"]').off('mouseleave' ,animationTrigger);`
+						}
+					}
+				}
+
+				state.editOldInteractionForm[params.attrName] = params.value;
+				if(params.attrName == 'name') {
+					state.editOldInteractionForm.animate = params.animate;
+				}
+
+			}else {
+				state.newInteractionForm[params.attrName] = params.value;
 				if(params.attrName == 'name') {
 					state.newInteractionForm.animate = params.animate;
-				}
-			}else {
-				var activeInteraction = state.interactions[state.activeInteractionIndex];
-				activeInteraction[params.attrName] = params.value
-
-				if(params.attrName == 'name') {
-					activeInteraction.animate = params.animate;
 				}
 			}
 
@@ -555,28 +582,40 @@ export default {
 
 			state.newInteractionForm.key = randomString(8, 10);
 			state.interactions.push(state.newInteractionForm);
+			let oldNewInteractionForm = state.newInteractionForm;
 			state.newInteractionForm = {
-				name: '',
-				animate: '',
-				duration: '',
-				condition: 'load',
-				vdid: [params.vdid]
+				name: oldNewInteractionForm.name,
+				animate: oldNewInteractionForm.animation,
+				duration: oldNewInteractionForm.duration,
+				condition: oldNewInteractionForm.condition,
+				vdid: []
 			}
 			return {...state};
 		},
 
-		toggleInteactionEditor(state) {
-			state.interactionModifierForm.visible = !state.interactionModifierForm.visible;
-			return {...state};
-		},
-
-		showInteractionEditor(state) {
+		showInteractionEditor(state, {payload: interactionIndex}) {
 			state.interactionModifierForm.visible = true;
+			state.editOldInteractionForm = vdanimationActions.deepCopyObj(state.interactions[interactionIndex]);
+			state.editingInteractionIndex = interactionIndex;
 			return {...state};
 		},
 
-		hideInteractionEditor(state) {
+		hideInteractionEditor(state, {payload: isSave}) {
 			state.interactionModifierForm.visible = false;
+			if (isSave) {
+				state.interactions[state.editingInteractionIndex] = state.editOldInteractionForm;
+
+				let script = `\n(function () {`;
+				script += state.editingScriptText;
+				script += vdanimationActions.writeScript(state);
+				state.editingScriptText = ``;
+				window.VDDesignerFrame.postMessage({
+					applyScriptIntoPage: script
+				}, "*");
+
+				state.scriptText = script;
+
+			}
 			return {...state};
 		},
 
@@ -617,7 +656,7 @@ export default {
 
 		handleRemoveInteraction(state, {payload: index}) {
 			let script = `\n(function () {`;
-			let deleteAnimation = state.interactions.splice(params.index, 1)[0];
+			let deleteAnimation = state.interactions.splice(index, 1)[0];
 
 			if (deleteAnimation.condition === 'click') {
 				for(let i = 0; i < deleteAnimation.vdid.length; i ++) {
