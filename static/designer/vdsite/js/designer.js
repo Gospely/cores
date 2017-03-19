@@ -254,6 +254,11 @@ $(function() {
 			dndData.actionBeforeMove(e, target);
 
 			var lastChild = target.children().last();
+
+			if (lastChild.length && lastChild.attr('id') === 'vdInsertGuideHidden') {
+        		lastChild = lastChild.prev();
+        	}
+
 			var lastPosition = 0;
         	if (lastChild.length) {
         		lastPosition = lastChild.offset().top + lastChild.outerHeight()
@@ -460,6 +465,10 @@ $(function() {
 
 			deleteCtrl: function (c) {
 				parentWindow.postMessage({ 'deleteCtrl' : c }, "*");
+			},
+
+			ctrlDomPasted: function (c) {
+				parentWindow.postMessage({ 'ctrlDomPasted' : c }, "*");
 			}
 
 		};
@@ -576,7 +585,7 @@ $(function() {
 
                     deleteCtrl: function () {
                     	jq('[vdid=' + data + ']').remove();
-                    	controllerOperations.changeContainerHeight('delete');
+                    	controllerOperations.changeContainerHeight();
                     },
 
                     hideDesignerDraggerBorder: function () {
@@ -647,7 +656,9 @@ $(function() {
                         }
 
                         controllerOperations.select(data.controller);
-                        controllerOperations.changeContainerHeight('add');
+                        controllerOperations.changeContainerHeight();
+
+                        postMessageToFather.ctrlDomPasted(data.controller);
                     },
 
                     treeNodeDroped: function () {
@@ -892,7 +903,7 @@ $(function() {
                 });
 			},
 
-			changeContainerHeight: function (type) {
+			changeContainerHeight: function () {
 				var container = jq("#VDDesignerContainer");
 				var last = container.children().last();
 
@@ -1095,8 +1106,9 @@ $(function() {
 
         	jq(self.containerSelector).on("dragleave", function (e) {
         		dndData.isMouseDown = false;
-        		console.log('|||||||||||||||||')
         		controllerOperations.hideDesignerDraggerBorder();
+        		jq("#VDDesignerContainer").find("*").removeClass('illegalArea');
+        		jq("#VDDesignerContainer").removeClass('illegalArea');
         	})
 
         }
@@ -1272,7 +1284,7 @@ $(function() {
         			jq("#VDDesignerContainer").removeClass('illegalArea');
         			dndData.errorMessage = '非法位置';
 
-        			controllerOperations.changeContainerHeight('add');
+        			controllerOperations.changeContainerHeight();
 
         		}
 

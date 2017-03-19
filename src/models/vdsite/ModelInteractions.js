@@ -667,6 +667,39 @@ export default {
 			return {...state};
 		},
 
+		handlePastCtrl(state, { payload: params }) {
+
+			let loopData = (ctrl) => {
+				let interaction = ctrl.animationClassList[0];
+				let interactionKey = interaction.key;
+				for(let i = 0, len = state.interactions.length; i < len; i ++) {
+					let currentInteraction = state.interactions[i];
+					if (currentInteraction.key === interactionKey) {
+						currentInteraction.vdid.push(ctrl.vdid);
+						break;
+					}
+				}
+				if (ctrl.children) {
+					for(let i = 0, len = ctrl.children.length; i < len; i ++) {
+						loopData(ctrl.children[i]);
+					}
+				}
+			}
+
+			loopData(params);
+
+			let script = `\n(function () {`;
+			script += vdanimationActions.writeScript(state);
+
+			window.VDDesignerFrame.postMessage({
+				applyScriptIntoPage: script
+			}, "*");
+
+			state.scriptText = script;
+
+			return {...state};
+		},
+
 		setActiveInteraction(state, { payload: params }) {
 
 			let ctrlVdid = params.ctrl.vdid;

@@ -79,6 +79,13 @@ export default {
 					let e = jQuery.Event("keydown");
 				    e.keyCode = data; //enter key
 				    jQuery(document).trigger(e);
+				},
+
+				ctrlDomPasted() {
+					props.dispatch({
+						type: 'vdanimations/handlePastCtrl',
+						payload: data
+					})
 				}
 			}
 
