@@ -70,6 +70,27 @@ const VDTreeActions = {
 		return loopControllers(controllers, 1);
 	},
 
+	loopAllApp(state, callback) {
+		for(let page in state.layout) {
+
+			let loop = (data) => {
+				for(let i = 0, len = data.length; i < len; i ++ ) {
+
+					if (data[i].children) {
+						loop(data[i].children);
+					}
+
+					if(!callback(data[i])) {
+						break;
+					}
+				}
+			}
+			
+			loop(state.layout[page])	
+		}
+
+	},
+
 	getParentCtrlByKey(state, key, activePage) {
 
 		let obj = {
@@ -1975,7 +1996,7 @@ export default {
 
 		ctrlSelected(state, {payload: data}) {
 
-			if (data.unCtrl) {
+			if (data.unCtrl && !data.dblclick) {
 				console.log('unCtrl');
 				let currentActiveCtrl = VDTreeActions.getActiveControllerIndexAndLvlByKey(state, data.root, state.activePage);
 				state.activeCtrl = currentActiveCtrl.controller;
@@ -2939,12 +2960,31 @@ export default {
 			return {...state};
 		},
 
-		// handleRemoveInteraction(state, {payload: deletedInteraction}) {
-		// 	let vdids = deletedInteraction.vdid;
-		// 	for(let i = 0, len = vdids.length; i < len; i ++) {
-		// 		if (true) {}
-		// 	}
-		// }
+		handleRemoveInteraction(state, {payload: deletedInteraction}) {
+			let vdids = deletedInteraction.vdid;
+
+			VDTreeActions.loopAllApp(state, (ctrl) => {
+				let index = vdids.indexOf(ctrl.vdid);
+				if (index !== -1) {
+					ctrl.animationClassList[0] = {
+						animate: '',
+						name: 'None',
+						duration: '',
+						condition: 'none',
+						vdid: [],
+						key: 'none'
+					}
+					vdids.splice(index, 1);
+					if (vdids.length === 0) {
+						return false;
+					}
+					return true;
+				}
+				return true;
+			})
+
+			return {...state};
+		}
 	},
 
 	effects: {

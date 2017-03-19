@@ -57,13 +57,13 @@ const vdanimationActions = {
 
 			//scroll写进一个函数，方便解绑
 			'scrollSpecialHandler' (scrollAnimations) {
+				scriptText += `\n	jQuery(window).off('scroll');`;
+				scriptText += `\n	jQuery(window).on('scroll', function (e) {`;
 				for(let i = 0; i < scrollAnimations.length; i ++) {
 					let currentVdid = scrollAnimations[i].currentVdid;
 					let animate = scrollAnimations[i].animate;
 					let duration = scrollAnimations[i].duration;
-
-					scriptText += `\n	jQuery(window).off('scroll');`;
-					scriptText += `\n	jQuery(window).on('scroll', function (e) {`;
+					
 					for(let j = 0; j < currentVdid.length; j ++) {
 
 						scriptText += `\n		var elem${j} = jQuery('[vdid="${currentVdid[j]}"]');
@@ -90,10 +90,13 @@ const vdanimationActions = {
 
 			if (currentVdid.length !== 0) {
 				handlers[currentInteraction.condition](currentVdid, currentInteraction.animate, currentInteraction.duration);
-				handlers.scrollSpecialHandler(scrollAnimations);
+				
 			}
 			
-				
+		}
+
+		if(scrollAnimations.length) {
+			handlers.scrollSpecialHandler(scrollAnimations);
 		}
 
 		scriptText += `\n})()`;
@@ -420,8 +423,6 @@ export default {
 
 		scriptText: '',
 
-		needOffEffects: [],
-
 		activeInteraction: 0,
 
 		activeInteractionIndex: 0,
@@ -432,21 +433,11 @@ export default {
 
 	},
 
-	// subscriptions: {
-
-	//     setup({ dispatch, history }) {
-	// 	    history.listen(({ pathname }) => {
-	// 	    	dispatch({
-	// 	    		type: 'setActiveInteraction'
-	// 	    	})
-	// 	    }
-	// 	}
-	// },
-
 	effects: {
 
 		*handleInteractionOnSelect({payload: params}, {call, put, select}) {
-			var interactions = yield select(state => state.vdanimations.interactions);
+			let interactions = yield select(state => state.vdanimations.interactions);
+			let ctrl = vdanimationActions.deepCopyObj(params.ctrl);
 			yield put({
 				type: 'vdCtrlTree/handleInteractionOnSelect',
 				payload: interactions[params.key]
@@ -456,16 +447,17 @@ export default {
 				type: 'setActiveInteraction',
 				payload: {
 					interactionIndex: params.key,
-					vdid: params.vdid
+					ctrl: ctrl
 				}
 			})
 		},
 
 		*removeInteraction({payload: index}, {call, put, select}) {
 			let deletedInteraction = yield select(state => state.vdanimations.interactions[index]);
+			let deletedInteractionCopied = vdanimationActions.deepCopyObj(deletedInteraction);
 			yield put({
 				type: 'vdCtrlTree/handleRemoveInteraction',
-				payload: deletedInteraction
+				payload: deletedInteractionCopied
 			})
 			yield put({
 				type: 'handleRemoveInteraction',
@@ -495,11 +487,6 @@ export default {
 			}, "*");
 			return {...state};
 		},
-
-		// handleRemoveInteraction(state, { payload: index }) {
-		// 	state.interactions.splice(index, 1);
-		// 	return {...state};
-		// },
 
 		showInteractionCreator(state, { payload: fileList }) {
 			state.interactionCreator.modalCreator.visible = true;
@@ -674,51 +661,55 @@ export default {
 			window.VDDesignerFrame.postMessage({
 				applyScriptIntoPage: script
 			}, "*");
+
 			state.scriptText = script;
 			return {...state};
 		},
 
 		setActiveInteraction(state, { payload: params }) {
 
-			let prevActiveInteraction = state.interactions[state.activeInteractionIndex];
-			let prevVdids = prevActiveInteraction.vdid;
-			let prevIndex = prevVdids.indexOf(params.vdid);
-			
-			if (prevActiveInteraction.condition !== 'none') {
-				state.needOffEffects.push({
-					vdid: params.vdid,
-					condition: prevActiveInteraction.condition
-				});
-			}
+			let ctrlVdid = params.ctrl.vdid;
+			let prevActiveInteraction;
+			let prevInteractionKey = params.ctrl.animationClassList[0].key;
 
-			let scriptText = `\n(function () {`;
-
-			for(let i = 0; i < state.needOffEffects.length; i ++) {
-				let currentOff = state.needOffEffects[i];
-				if (currentOff.condition === 'hover') {
-					scriptText += `\n	jQuery('[vdid="${currentOff.vdid}"]').off('mouseenter' ,animationTrigger);`
-					scriptText += `\n	jQuery('[vdid="${currentOff.vdid}"]').off('mouseleave' ,animationTrigger);`
-				}else if (currentOff.condition === 'click') {
-					scriptText += `\n	jQuery('[vdid="${currentOff.vdid}"]').off('click', animationTrigger);`
+			for(let i = 0; i < state.interactions.length; i ++) {
+				let currentInteraction = state.interactions[i];
+				if (currentInteraction.key === prevInteractionKey) {
+					prevActiveInteraction = currentInteraction;
+					break;
 				}
 			}
+			
+			let prevVdids = prevActiveInteraction.vdid;
+			let prevIndex = prevVdids.indexOf(ctrlVdid);
+			let prevCondition = prevActiveInteraction.condition;
+			let scriptText = `\n(function () {`;
 
 			if (prevIndex !== -1) {
+
+				if (prevCondition !== 'none') {
+					if (prevCondition === 'hover') {
+						scriptText += `\n	jQuery('[vdid="${ctrlVdid}"]').off('mouseenter' ,animationTrigger);`
+						scriptText += `\n	jQuery('[vdid="${ctrlVdid}"]').off('mouseleave' ,animationTrigger);`
+					}else if (prevCondition === 'click') {
+						scriptText += `\n	jQuery('[vdid="${ctrlVdid}"]').off('click', animationTrigger);`
+					}
+				}
+
 				prevVdids.splice(prevIndex, 1);
 			}
 			
 			state.activeInteractionIndex = params.interactionIndex;
-			state.interactions[state.activeInteractionIndex].vdid.push(params.vdid);
+			state.interactions[state.activeInteractionIndex].vdid.push(ctrlVdid);
 			
 			scriptText += vdanimationActions.writeScript(state);
 			
 			window.VDDesignerFrame.postMessage({
 				applyScriptIntoPage: scriptText
 			}, "*");
+
 			state.scriptText = scriptText;
 			
-			state.needOffEffects = [];
-
 			return {...state};
 		}
 

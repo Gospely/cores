@@ -548,7 +548,7 @@ $(function() {
                         setTimeout(function () {
                         	var container = jq("#VDDesignerContainer");
                         	var last = container.children().last();
-                        	
+
                         	if (!last || last.length === 0) {
 								container.css({
 									height: '100%'
@@ -567,7 +567,7 @@ $(function() {
 								})
 							}
                         }, 500)
-                        
+
                     },
 
                     VDCtrlSelected: function() {
@@ -645,7 +645,7 @@ $(function() {
                         	var parent = jq("[vdid=" + data.activeCtrlVdid + "]");
                         	parent[data.type](elemToAdd);
                         }
-                        
+
                         controllerOperations.select(data.controller);
                         controllerOperations.changeContainerHeight('add');
                     },
@@ -917,6 +917,8 @@ $(function() {
 			},
 
             select: function(data, notPostMessage) {
+
+				console.log(data);
             	jq("#vdRightClickMenu").hide();
 				if(data) {
 
@@ -1566,11 +1568,12 @@ $(function() {
 				this.setAttr(attr);
 			},
 			setSliderSetting: function(attr){
-
 				this.setAttr(attr);
 			},
 			setIconSetting: function(attr){
-
+				this.setAttr(attr);
+			},
+			setUnctrlSetting(attr){
 				this.setAttr(attr);
 			},
             transformTypeToUpper: function(type) {
@@ -1722,11 +1725,24 @@ $(function() {
             listenClick: function() {
                 var self = this;
                 this.elem.click(function(e) {
+
                     e.stopPropagation();
                     e.preventDefault();
                     var target = jq(e.target);
-                    controllerOperations.select(target.data('controller'));
+					var data = target.data('controller');
+					data.dblclick = false;
+                    controllerOperations.select(data);
 
+                    return false;
+                });
+				this.elem.dblclick(function(e) {
+
+                    e.stopPropagation();
+                    e.preventDefault();
+                    var target = jq(e.target);
+					var data = target.data('controller');
+					data.dblclick = true;
+                    controllerOperations.select(data);
                     return false;
                 });
             },
