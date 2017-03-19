@@ -1415,15 +1415,20 @@ $(function() {
 						var childrens = this.elem.children();
 						console.log(childrens);
 						this.elem.html('');
-						if(childrens){
-							for (var i = 0; i < childrens.length; i++) {
-								this.elem.append(childrens[i]);
-							}
-							this.elem.innerText = '';
-							this.elem.append(attr.value);
-						}else {
+						if(attr.desc == '文本内容') {
 							this.elem.html(attr.value);
+						}else{
+							if(childrens){
+								for (var i = 0; i < childrens.length; i++) {
+									this.elem.append(childrens[i]);
+							}
+								this.elem.innerText = '';
+								this.elem.append(attr.value);
+							}else {
+								this.elem.html(attr.value);
+							}
 						}
+						
 					}
 
                 }
