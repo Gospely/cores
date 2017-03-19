@@ -1975,7 +1975,7 @@ export default {
 
 		ctrlSelected(state, {payload: data}) {
 
-			if (data.unCtrl) {
+			if (data.unCtrl && !data.dblclick) {
 				console.log('unCtrl');
 				let currentActiveCtrl = VDTreeActions.getActiveControllerIndexAndLvlByKey(state, data.root, state.activePage);
 				state.activeCtrl = currentActiveCtrl.controller;

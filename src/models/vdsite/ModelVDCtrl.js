@@ -1694,7 +1694,7 @@ export default {
             unCtrl: true,
             attrs: [{
               title: '选项设置',
-              key: 'options-setting',
+              key: 'unctrl-setting',
               isAttrSetting: true,
               children: [{
                 name: 'option',
@@ -1777,7 +1777,7 @@ export default {
             className: ['nav', 'nav-tabs'],
             attrs: [{
               title: '标签页设置',
-              key: 'tabs-setting',
+              key: 'unctrl-setting',
               children: [{
                 name: 'role',
                 value: 'tablist',
@@ -1792,7 +1792,7 @@ export default {
               unCtrl: true,
               attrs: [{
                 title: '标签页设置',
-                key: 'tabs-setting',
+                key: 'unctrl-setting',
                 children: [{
                   name: 'role',
                   desc: 'presentation',
@@ -1817,7 +1817,7 @@ export default {
                 className: ['tab-pane'],
                 attrs: [{
                   title: '标签页设置',
-                  key: 'tabs-setting',
+                  key: 'unctrl-setting',
                   children: [{
                     name: 'href',
                     value: '#tab1',
@@ -1856,7 +1856,7 @@ export default {
               unCtrl: true,
               attrs: [{
                 title: '标签页设置',
-                key: 'tabs-setting',
+                key: 'unctrl-setting',
                 children: [{
                   name: 'role',
                   desc: 'presentation',
@@ -1881,7 +1881,7 @@ export default {
                 className: ['tab-pane'],
                 attrs: [{
                   title: '标签页设置',
-                  key: 'tabs-setting',
+                  key: 'unctrl-setting',
                   children: [{
                     name: 'href',
                     value: '#tab2',
@@ -1920,7 +1920,7 @@ export default {
               unCtrl: true,
               attrs: [{
                 title: '标签页设置',
-                key: 'tabs-setting',
+                key: 'unctrl-setting',
                 children: [{
                   name: 'role',
                   desc: 'presentation',
@@ -1945,7 +1945,7 @@ export default {
                 className: ['tab-pane'],
                 attrs: [{
                   title: '标签页设置',
-                  key: 'tabs-setting',
+                  key: 'unctrl-setting',
                   children: [{
                     name: 'href',
                     value: '#tab3',
@@ -1985,7 +1985,7 @@ export default {
             className: ['tab-content'],
             attrs: [{
               title: '标签页设置',
-              key: 'tabs-setting',
+              key: 'unctrl-setting',
               children: [{
                 name: 'specialChild',
                 desc: '指定的子元素',
@@ -2006,7 +2006,7 @@ export default {
               children: [],
               attrs: [{
                 title: '标签页设置',
-                key: 'tabs-setting',
+                key: 'unctrl-setting',
                 children: [{
                   name: 'id',
                   value: 'tab1',
@@ -2033,7 +2033,7 @@ export default {
               children: [],
               attrs: [{
                 title: '标签页设置',
-                key: 'tabs-setting',
+                key: 'unctrl-setting',
                 children: [{
                   name: 'id',
                   value: 'tab2',
@@ -2059,7 +2059,7 @@ export default {
               children: [],
               attrs: [{
                 title: '标签页设置',
-                key: 'tabs-setting',
+                key: 'unctrl-setting',
                 children: [{
                   name: 'id',
                   value: 'tab3',
@@ -2100,7 +2100,7 @@ export default {
             unCtrl: true,
             attrs: [{
               title: '导航菜单设置',
-              key: 'navbar-setting',
+              key: 'unctrl-setting',
               children: [{
                 name: 'container',
                 desc: '是否是容器',
@@ -2116,7 +2116,7 @@ export default {
               className: ['navbar-header'],
               attrs: [{
                 title: '导航菜单设置',
-                key: 'navbar-setting',
+                key: 'unctrl-setting',
                 children: [{
                   name: 'container',
                   desc: '是否是容器',
@@ -2132,7 +2132,7 @@ export default {
                 unCtrl: true,
                 attrs: [{
                   title: '导航菜单设置',
-                  key: 'navbar-setting',
+                  key: 'unctrl-setting',
                   children: [{}]
                 }],
                 children: [{
@@ -2142,6 +2142,26 @@ export default {
                   unCtrl: true,
                   attrs: [{
                     title: '导航菜单设置',
+                    key: 'unctrl-setting',
+                    children: []
+                  }]
+                }, {
+                  tag: 'span',
+                  className: ['icon-bar'],
+                  unActive: true,
+                  unCtrl: true,
+                  attrs: [{
+                    title: '导航菜单设置',
+                    key: 'unctrl-setting',
+                    children: []
+                  }]
+                }, {
+                  tag: 'span',
+                  className: ['icon-bar'],
+                  unActive: true,
+                  unCtrl: true,
+                  attrs: [{
+                    title: 'unctrl-setting',
                     key: 'navbar-setting',
                     children: []
                   }]
@@ -2152,27 +2172,7 @@ export default {
                   unCtrl: true,
                   attrs: [{
                     title: '导航菜单设置',
-                    key: 'navbar-setting',
-                    children: []
-                  }]
-                }, {
-                  tag: 'span',
-                  className: ['icon-bar'],
-                  unActive: true,
-                  unCtrl: true,
-                  attrs: [{
-                    title: '导航菜单设置',
-                    key: 'navbar-setting',
-                    children: []
-                  }]
-                }, {
-                  tag: 'span',
-                  className: ['icon-bar'],
-                  unActive: true,
-                  unCtrl: true,
-                  attrs: [{
-                    title: '导航菜单设置',
-                    key: 'navbar-setting',
+                    key: 'unctrl-setting',
                     children: []
                   }]
                 }]
@@ -2266,7 +2266,7 @@ export default {
               className: ['collapse', 'navbar-collapse'],
               attrs: [{
                 title: '导航菜单设置',
-                key: 'navbar-setting',
+                key: 'unctrl-setting',
                 children: [{
                   name: 'container',
                   desc: '是否是容器',
@@ -2282,7 +2282,7 @@ export default {
                 className: ['nav', 'navbar-nav', 'navbar-right'],
                 attrs: [{
                   title: '导航菜单设置',
-                  key: 'navbar-setting',
+                  key: 'unctrl-setting',
                   children: []
                 }],
                 children: [{
@@ -3261,12 +3261,11 @@ export default {
           children: [{
             tag: 'ol',
             unActive: true,
+            unCtrl: true,
             className: ['carousel-indicators'],
             attrs: [{
               title: '幻灯片设置',
-              key: 'slider-setting',
-              unActive: true,
-              unCtrl: true,
+              key: 'unctrl-setting',
               children: []
             }],
             children: [{
@@ -3276,7 +3275,7 @@ export default {
               className: [''],
               attrs: [{
                 title: '幻灯片设置',
-                key: 'slider-setting',
+                key: 'unctrl-setting',
                 children: [{
                   name: 'data-target',
                   attrName: 'data-target',
@@ -3298,7 +3297,7 @@ export default {
               className: ['active'],
               attrs: [{
                 title: '幻灯片设置',
-                key: 'slider-setting',
+                key: 'unctrl-setting',
                 children: [{
                   name: 'data-target',
                   attrName: 'data-target',
@@ -3321,7 +3320,7 @@ export default {
             className: ['carousel-inner'],
             attrs: [{
               title: '幻灯片设置',
-              key: 'slider-setting',
+              key: 'unctrl-setting',
               children: [{
                 name: 'role',
                 attrName: 'role',
@@ -3343,7 +3342,7 @@ export default {
               className: ['item'],
               attrs: [{
                 title: '幻灯片设置',
-                key: 'slider-setting',
+                key: 'unctrl-setting',
                 children: [{
                   name: 'container',
                   desc: '是否是容器',
@@ -3359,7 +3358,7 @@ export default {
                 unCtrl: true,
                 attrs: [{
                   title: '图片设置',
-                  key: 'slider-setting',
+                  key: 'unctrl-setting',
                   children: [{
                     name: 'src',
                     desc: '图片地址',
@@ -3435,7 +3434,7 @@ export default {
                 className: [''],
                 attrs: [{
                   title: '图片设置',
-                  key: 'slider-setting',
+                  key: 'unctrl-setting',
                   children: [{
                     name: 'src',
                     desc: '图片地址',
@@ -3503,7 +3502,7 @@ export default {
             className: ['right', 'carousel-control'],
             attrs: [{
               title: '幻灯片设置',
-              key: 'slider-setting',
+              key: 'unctrl-setting',
               children: [{
                 name: 'href',
                 isAttr: true,
@@ -3531,7 +3530,7 @@ export default {
               className: ['glyphicon-chevron-right', 'fa', 'fa-2x', 'fa-fast-forward'],
               attrs: [{
                 title: '幻灯片设置',
-                key: 'slider-setting',
+                key: 'icon-setting',
                 children: [{
                   name: 'aria-hidden',
                   value: true,
@@ -3547,7 +3546,7 @@ export default {
               className: ['sr-only'],
               attrs: [{
                 title: '幻灯片设置',
-                key: 'slider-setting',
+                key: 'unctrl-setting',
                 children: [{
                   name: 'innerHTML',
                   value: '上一张',
@@ -3564,7 +3563,7 @@ export default {
             className: ['left', 'carousel-control'],
             attrs: [{
               title: '幻灯片设置',
-              key: 'slider-setting',
+              key: 'unctrl-setting',
               children: [{
                 name: 'href',
                 isAttr: true,
@@ -3592,7 +3591,7 @@ export default {
               className: ['glyphicon-chevron-left', 'fa', 'fa-2x', 'fa-fast-backward'],
               attrs: [{
                 title: '幻灯片设置',
-                key: 'slider-setting',
+                key: 'icon-setting',
                 children: [{
                   name: 'aria-hidden',
                   value: true,
@@ -3608,7 +3607,7 @@ export default {
               className: ['sr-only'],
               attrs: [{
                 title: '幻灯片设置',
-                key: 'slider-setting',
+                key: 'unctrl-setting',
                 children: [{
                   name: 'innerHTML',
                   value: '下一张',
