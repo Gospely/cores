@@ -18,29 +18,29 @@ const HotKeyHandler = {
 		configs.bindKey.map(config => {
 
 			config.mainKey.map(key =>{
-
 				var keys = key.split('+');
 				if(keys.length == 1){
-					HotKeyHandler.register(key,null,keymap[keys[0]],config.handler);
+					HotKeyHandler.register(key,null,keymap[keys[0]],config.handler, config.isStop);
 				}
 				if(keys.length == 2){
-					HotKeyHandler.register(key,keymap[keys[0]],null,keymap[keys[1]], config.handler);
+					HotKeyHandler.register(key,keymap[keys[0]],null,keymap[keys[1]], config.handler, config.isStop);
 				}
 				if(keys.length == 3 ){
-					HotKeyHandler.register(key,keymap[keys[0]],keymap[keys[1]],keymap[keys[2]],config.handler);
+					HotKeyHandler.register(key,keymap[keys[0]],keymap[keys[1]],keymap[keys[2]],config.handler, config.isStop);
 				}
 			});
 		});
 	},
 
-	register: function(shortcuts, mainKey,secondKey,key,func) {
+	register: function(shortcuts, mainKey,secondKey,key,func, isStop) {
 
 		HotKeyHandler.handlers.push({
 			shortcuts: shortcuts,
 			mainKey: mainKey,
 			secondKey: secondKey,
 			key: key,
-			func: func
+			func: func,
+			isStop: isStop
 		});
 
 		document.onkeyup = function(e) {
@@ -84,8 +84,11 @@ const HotKeyHandler = {
 					if(handler.key == keyCode){
 						bool = bool && true;
 						if(bool){
-							handler.func(HotKeyHandler.props);
+							handler.func(HotKeyHandler.props, event);
 							exec = true;
+
+							exec = !handler.isStop && exec;
+
 							return !exec;
 						}
 					}else{
