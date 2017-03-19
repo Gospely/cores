@@ -534,18 +534,18 @@ export default {
 			let editOldInteractionForm = state.editOldInteractionForm;
 			if (params.edit) {
 
-				if (params.attrName === 'condition') {
-					if (editOldInteractionForm.condition === 'click') {
-						for(let i = 0; i < editOldInteractionForm.vdid.length; i ++) {
-							state.editingScriptText += `\n	jQuery('[vdid="${editOldInteractionForm.vdid[i]}"]').off('click', animationTrigger);`
-						}
-					}if (editOldInteractionForm.condition === 'hover') {
-						for(let i = 0; i < editOldInteractionForm.vdid.length; i ++) {
-							state.editingScriptText += `\n	jQuery('[vdid="${editOldInteractionForm.vdid[i]}"]').off('mouseenter' ,animationTrigger);`
-							state.editingScriptText += `\n	jQuery('[vdid="${editOldInteractionForm.vdid[i]}"]').off('mouseleave' ,animationTrigger);`
-						}
+				// if (params.attrName === 'condition') {
+				if (editOldInteractionForm.condition === 'click') {
+					for(let i = 0; i < editOldInteractionForm.vdid.length; i ++) {
+						state.editingScriptText += `\n	jQuery('[vdid="${editOldInteractionForm.vdid[i]}"]').off('click', animationTrigger);`
+					}
+				}if (editOldInteractionForm.condition === 'hover') {
+					for(let i = 0; i < editOldInteractionForm.vdid.length; i ++) {
+						state.editingScriptText += `\n	jQuery('[vdid="${editOldInteractionForm.vdid[i]}"]').off('mouseenter' ,animationTrigger);`
+						state.editingScriptText += `\n	jQuery('[vdid="${editOldInteractionForm.vdid[i]}"]').off('mouseleave' ,animationTrigger);`
 					}
 				}
+				// }
 
 				state.editOldInteractionForm[params.attrName] = params.value;
 				if(params.attrName == 'name') {
