@@ -77,7 +77,7 @@ const VDTreeActions = {
 				for(let i = 0, len = data.length; i < len; i ++ ) {
 
 					if (data[i].children) {
-						loop(data.children);
+						loop(data[i].children);
 					}
 
 					if(!callback(data[i])) {
@@ -86,7 +86,7 @@ const VDTreeActions = {
 				}
 			}
 			
-			loop(page)	
+			loop(state.layout[page])	
 		}
 
 	},
@@ -2966,7 +2966,7 @@ export default {
 			VDTreeActions.loopAllApp(state, (ctrl) => {
 				let index = vdids.indexOf(ctrl.vdid);
 				if (index !== -1) {
-					ctrl.animationClassList = {
+					ctrl.animationClassList[0] = {
 						animate: '',
 						name: 'None',
 						duration: '',

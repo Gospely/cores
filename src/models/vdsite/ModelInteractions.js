@@ -454,9 +454,10 @@ export default {
 
 		*removeInteraction({payload: index}, {call, put, select}) {
 			let deletedInteraction = yield select(state => state.vdanimations.interactions[index]);
+			let deletedInteractionCopied = vdanimationActions.deepCopyObj(deletedInteraction);
 			yield put({
 				type: 'vdCtrlTree/handleRemoveInteraction',
-				payload: deletedInteraction
+				payload: deletedInteractionCopied
 			})
 			yield put({
 				type: 'handleRemoveInteraction',
