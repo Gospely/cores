@@ -11,60 +11,60 @@ const SaveAsMould = (props) => {
 
     hide () {
       props.dispatch({
-        type: 'sidebar/changeSaveAsMouldeVisible',
+        type: 'vdcore/changeSaveAsMouldeVisible',
         payload: {
               visible:false,
               confirmLoading:false
           }
       });
     },
-    
+
     handleOk () {
       props.dispatch({
-        type: 'sidebar/changeSaveAsMouldeVisible',
+        type: 'vdcore/changeSaveAsMouldeVisible',
         payload: {
               visible:true,
               confirmLoading:true
           }
       })
+      props.dispatch({
+        type: 'vdcore/saveTemplate',
+      })
 
-      setTimeout(() => {
+  },
+    onChange(e){
+
         props.dispatch({
-          type: 'sidebar/changeSaveAsMouldeVisible',
-          payload: {
-              visible:false,
-              confirmLoading:false
-          }
+            type: 'vdcore/changesaveAsMouldState',
+            payload: e.target.value
         });
-      }, 2000);
     }
-
   };
 
   return (
-    
+
       <div>
             <Modal
               title="设置为模板"
-              visible={props.sidebar.saveAsMouldModal.visible}
+              visible={props.vdcore.saveAsMouldModal.visible}
               wrapClassName="saveAsMould-wrapper"
               onOk={SaveAsMouldProps.handleOk}
               onCancel={SaveAsMouldProps.hide}
-              confirmLoading={props.sidebar.saveAsMouldModal.confirmLoading}
+              confirmLoading={props.vdcore.saveAsMouldModal.confirmLoading}
             >
               <div>
-                <Input placeholder="设置模板名" />
+                <Input placeholder="设置模板名" onChange={SaveAsMouldProps.onChange} value={props.vdcore.saveAsMouldModal.name}/>
               </div>
-              
+
             </Modal>
       </div>
-      
+
   );
 
 };
 
-function mapSateToProps({ sidebar }) {
-  return { sidebar };
+function mapSateToProps({ vdcore }) {
+  return { vdcore };
 }
 
 export default connect(mapSateToProps)(SaveAsMould);

@@ -429,11 +429,14 @@ const LeftSidebar = (props) => {
 	        saveAsMould() {
 
 				props.dispatch({
-		          type: 'sidebar/changeSaveAsMouldeVisible',
+		          type: 'vdcore/changeSaveAsMouldeVisible',
 		          payload: {
 		              visible: true,
 		              confirmLoading: false
 		          }
+		        });
+				props.dispatch({
+		          type: 'vdcore/getTemplate',
 		        });
 	        },
 
@@ -597,7 +600,7 @@ const LeftSidebar = (props) => {
     			// 	type: 'devpanel/stopDocker',
     			// 	payload: { id: localStorage.applicationId, image: localStorage.image }
     			// });
-				
+
     			window.reload = true
     			window.applicationId = application.id;
 				console.log(application);

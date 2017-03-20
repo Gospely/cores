@@ -15,6 +15,11 @@ export default {
 		customAttr: {
 			visible: false
 		},
+		saveAsMouldModal: {
+			visible: false,
+			confirmLoading: false,
+			name: ''
+		},
 		loading: false,
 		linkSetting: {
 			list: [{
@@ -219,6 +224,59 @@ export default {
 			});
 
 		},
+		*saveTemplate( { payload: params },  { call, put, select }) {
+
+			var layout = yield select(state => state.vdCtrlTree.layout),
+				pages = yield select(state => state.vdpm.pageList),
+				css = yield select(state => state.vdstyles.cssStyleLayout),
+				currPage = yield select(state => state.vdpm.currentActivePageListItem),
+				name = yield select(state => state.vdcore.saveAsMouldModal.name),
+				interaction = yield select(state => state.vdanimations);
+
+			var struct = VDPackager.pack({layout, pages, css, interaction});
+			console.log(name);
+			struct.folder = localStorage.dir;
+			struct.isBeautify = true;
+			struct.creator = localStorage.user;
+			struct.name = name;
+			struct.application = localStorage.applicationId;
+			//struct.type = 'custom';
+			var packResult = yield request('vdsite/template', {
+				method: 'POST',
+				headers: {
+					"Content-Type": "application/json;charset=UTF-8",
+				},
+				body: JSON.stringify(struct)
+			});
+			console.log(packResult);
+			yield put({
+				type: 'changeSaveAsMouldeVisible',
+				payload: {
+				   visible:false,
+				   confirmLoading:false
+				}
+			});
+		},
+		*getTemplate({ payload: params }, { call, put, select }){
+
+			var packResult = yield request('vdsite/template?application=' + localStorage.applicationId, {
+				method: 'get',
+			});
+			console.log(packResult);
+
+			if(packResult.data.fields.length > 0){
+				yield put({
+					type: 'changesaveAsMouldState',
+					payload: packResult.data.fields[0].name
+				});
+			}else {
+				yield put({
+					type: 'changesaveAsMouldState',
+					payload: ''
+				});
+			}
+
+		},
 		*columnCountChange({ payload: params }, { call, put, select }) {
 
 			//生成对应栅格的格数 col 等
@@ -402,8 +460,20 @@ export default {
 			state.columnSlider.columns = params.tmpColumns;
 
 			return {...state};
-		}
+		},
+		changeSaveAsMouldeVisible(state, { payload: params}) {
+			state.saveAsMouldModal.visible = params.visible
+			state.saveAsMouldModal.confirmLoading = params.confirmLoading
+			return {...state}
+		},
+		changesaveAsMouldState(state, { payload: value }) {
 
+			// state.saveAsMould.key = params.key;
+			// state.saveAsMould.title = params.title;
+			// state.saveAsMould.iconType = params.iconType;
+			state.saveAsMouldModal.name = value;
+			return {...state};
+		},
 	}
 
 }
