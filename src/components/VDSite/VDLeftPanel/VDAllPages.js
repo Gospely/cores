@@ -121,7 +121,6 @@ const Component = (props) => {
 		},
 		delete(item){
 
-			console.log(item);
 			if(item.key == 'index.html'){
 				message.error('主页面不能删除');
 				return;

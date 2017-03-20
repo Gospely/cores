@@ -15,7 +15,6 @@ const Component = (props) => {
 
     const vdpagesProps = {
         setUnVisible (){
-            console.log('click pages');
             props.dispatch({
     			type: 'vdpm/handleNewPageVisible',
     			payload: { value: false}

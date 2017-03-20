@@ -7,7 +7,7 @@ import config from '../keybinding/config.js';
 const CommandPanel = (props) => {
 
 	const doThisCommand = () => {
-		console.log(props.commandpanel.currentIndex, props.commandpanel.currentKey)
+	
 	};
 
 	const commandProps = {
@@ -18,12 +18,10 @@ const CommandPanel = (props) => {
 		},
 
 		useThisCommand(key) {
-			console.log(key);
 			var split = key.split(' / '),
 				command = split[1].replace(new RegExp('-', 'gm'), '+').toLowerCase();
 			for(var i = 0; i< config.bindKey.length; i++){
 				for (var j = 0; j < config.bindKey[i].mainKey.length; j++) {
-					console.log(config.bindKey[i].mainKey[j]);
 					if(config.bindKey[i].mainKey[j] == command){
 						config.bindKey[i].handler(props);
 						props.dispatch({
