@@ -235,8 +235,6 @@ export default {
 
 			var struct = VDPackager.pack({layout, pages, css, interaction});
 			console.log(name);
-			struct.folder = localStorage.dir;
-			struct.isBeautify = true;
 			struct.creator = localStorage.user;
 			struct.name = name;
 			struct.application = localStorage.applicationId;
