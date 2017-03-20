@@ -47,7 +47,6 @@ const Component = (props) => {
          });
      },
      addSymbol(){
-         console.log('add');
          if(props.vdCtrlTree.symbolName == '' || props.vdCtrlTree.symbolName == null ){
              openNotificationWithIcon('info', '请输入控件名');
              return;

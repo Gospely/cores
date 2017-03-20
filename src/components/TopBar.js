@@ -374,14 +374,11 @@ const LeftSidebar = (props) => {
 	        },
 
 	        preview() {
-	        	//console.log(props.preview.spinVisible);
 	        	props.dispatch({
 	        		type: 'preview/showSpin',
 	        		payload: true
 	        	})
 				//vdsite 预览
-				console.log('showPreview');
-				console.log(props.vdpm.currentActivePageListItem);
 				if(localStorage.image == 'vd:site'){
 
 					props.dispatch({
@@ -600,7 +597,6 @@ const LeftSidebar = (props) => {
 				
     			window.reload = true
     			window.applicationId = application.id;
-				console.log(application);
     			initApplication(application, props);
 	    	}
 
@@ -1523,8 +1519,6 @@ const LeftSidebar = (props) => {
 
 					const eventHandle ={
 						deploy() {
-
-							console.log('release');
 							props.dispatch({
 								type: 'vdcore/deploy'
 							});
@@ -1790,7 +1784,6 @@ const LeftSidebar = (props) => {
 		aceHeight: (parseInt(document.body.clientHeight) - 300),
 
 		handleCodePreviewerChanged (value) {
-			console.log(value);
 		}
 	}
 

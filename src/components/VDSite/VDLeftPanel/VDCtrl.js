@@ -17,13 +17,9 @@ const Component = (props) => {
 	const VDControllersProps = {
 		onSelect(ctrl) {
 
-			console.log(ctrl);
 			var tmpKey = [],
 				tmpCtrl = ctrl;
-
-			console.log(tmpCtrl.details);
 			if(tmpCtrl.details) {
-				console.log(tmpCtrl.details.attrs);
 				for (var i = 0; i < tmpCtrl.details.attrs.length; i++) {
 					var attr = tmpCtrl.details.attrs[i];
 					if(tmpKey.indexOf(attr.key) == -1) {
@@ -35,13 +31,9 @@ const Component = (props) => {
 			}
 
 			window.VDDnddata = tmpCtrl;
-			console.log(tmpCtrl);
 		}
 	}
 	const panels = props.vdctrl.controllers.map((item, i) => {
-
-		console.log(item);
-		console.log(i);
 		if(item.content) {
 			const
 				contentLength = item.content.length,
