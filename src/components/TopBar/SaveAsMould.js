@@ -50,6 +50,7 @@ const SaveAsMould = (props) => {
               wrapClassName="saveAsMould-wrapper"
               onOk={SaveAsMouldProps.handleOk}
               onCancel={SaveAsMouldProps.hide}
+              okText="保存"
               confirmLoading={props.vdcore.saveAsMouldModal.confirmLoading}
             >
               <div>
