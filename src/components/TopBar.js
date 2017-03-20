@@ -21,6 +21,8 @@ import { Cascader } from 'antd';
 
 import Preview from './TopBar/Preview.js';
 
+import SaveAsMould from './TopBar/SaveAsMould.js';
+
 import { Steps } from 'antd';
 import { Progress, Popover } from 'antd';
 
@@ -422,6 +424,17 @@ const LeftSidebar = (props) => {
 		        	})
 
 	        	},"2000");
+	        },
+
+	        saveAsMould() {
+
+				props.dispatch({
+		          type: 'sidebar/changeSaveAsMouldeVisible',
+		          payload: {
+		              visible: true,
+		              confirmLoading: false
+		          }
+		        });
 	        },
 
 			release() {
@@ -1597,6 +1610,14 @@ const LeftSidebar = (props) => {
 			          		</span>
 			          	</Tooltip>
 					</Menu.Item>
+			        <Menu.Item key='saveAsMould' placement="left" className='saveasmould-app-btn'>
+			        	<Tooltip placement="leftBottom" title='保存为模板'>
+			          		<span>
+			          			<Icon type='check-square-o' />
+			          			保存为模板
+			          		</span>
+		          		</Tooltip>
+					</Menu.Item>
 					<Menu.Item key="preview" placement="left" className='preview-app-btn'>
 						<Tooltip placement="leftBottom" title="预览">
 			          		<Icon type="eye-o" />
@@ -2013,6 +2034,8 @@ const LeftSidebar = (props) => {
 		    <Dashboard></Dashboard>
 
 	    	<Preview></Preview>
+
+	    	<SaveAsMould></SaveAsMould>
 
 			<Modal width="30%"  title="意见建议" visible={props.sidebar.modalFeedback.visible}
 	          	onOk={feedbackProps.submit} onCancel={feedbackProps.hideModal}

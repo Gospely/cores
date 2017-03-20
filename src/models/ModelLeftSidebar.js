@@ -130,6 +130,11 @@ export default {
             iconType: 'check',
         },
 
+        saveAsMouldModal: {
+            visible: false,
+            confirmLoading: false
+        },
+
         modalPreview: {
             visible: false
         }
@@ -724,6 +729,18 @@ export default {
             state.saveBtn.key = params.key;
             state.saveBtn.title = params.title;
             state.saveBtn.iconType = params.iconType;
+            return {...state};
+        },
+        changeSaveAsMouldeVisible(state, { payload: params}) {
+            state.saveAsMouldModal.visible = params.visible
+            state.saveAsMouldModal.confirmLoading = params.confirmLoading
+            return {...state}
+        },
+
+        changesaveAsMouldState(state, { payload: params }) {
+            state.saveAsMould.key = params.key;
+            state.saveAsMould.title = params.title;
+            state.saveAsMould.iconType = params.iconType;
             return {...state};
         },
 
