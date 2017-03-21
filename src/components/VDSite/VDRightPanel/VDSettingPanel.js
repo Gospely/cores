@@ -1058,14 +1058,9 @@ const Component = (props) => {
                                     payload: index
                                 });
                             },
-                            hidePopover(){
-                                setTimeout(function(){
-                                    props.dispatch({
-                                        type: 'vdCtrlTree/handleUpdateVisible',
-                                        payload: false
-                                    });
-                                }, 10)
-                            }
+                            hidePopover(e){
+                                e.stopPropagation();
+                            },
 					    }
                         const keyValues = props.vdCtrlTree.activeCtrl.children.map((item, index) =>{
 
@@ -1185,14 +1180,14 @@ const Component = (props) => {
                                     type: 'vdCtrlTree/handleSelectIndex',
                                     payload: index
                                 });
+
+                                props.dispatch({
+                                    type: 'vdCtrlTree/handleUpdateVisible',
+                                    payload: !props.vdCtrlTree.keyValeUpdateVisible
+                                });
                             },
-                            hidePopover(){
-                                setTimeout(function(){
-                                    props.dispatch({
-                                        type: 'vdCtrlTree/handleUpdateVisible',
-                                        payload: false
-                                    });
-                                }, 10)
+                            hidePopover(e){
+                                e.stopPropagation();
                             },
                             addTabs(){
 
@@ -1222,7 +1217,7 @@ const Component = (props) => {
                                 });
 
                             },
-                            chooseTab(item, index){
+                            chooseTab(item, index ,e){
 
                                 //改变active tab 对应的panel active
 
@@ -1242,6 +1237,7 @@ const Component = (props) => {
                                         index: index
                                     }
                                 });
+                                 e.stopPropagation();
                             },
                             handleFade(e){
                                 props.dispatch({
@@ -1256,12 +1252,12 @@ const Component = (props) => {
 
                             return (
                                 <li className="ant-dropdown-menu-item" role="menuitem" key={index} onClick={tabSettingProps.chooseTab.bind(this,item, index)}>
-                                <Row>
+                                <Row >
                                   <Col span={15}>
                                     <p>{item.children[0].attrs[0].children[4].value}</p>
                                   </Col>
                                   <Col span={3}>
-                                    <Radio onClick={tabSettingProps.hidePopover} checked={index == props.vdCtrlTree.selectIndex}></Radio>
+                                    <Radio onChange={tabSettingProps.hidePopover} checked={index == props.vdCtrlTree.selectIndex}></Radio>
                                   </Col>
                                   <Col span={3}>
                                         <Icon type="edit" onClick={tabSettingProps.editKeyValue.bind(this, index)}/>

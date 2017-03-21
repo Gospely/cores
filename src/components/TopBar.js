@@ -1584,19 +1584,19 @@ const LeftSidebar = (props) => {
 						<Icon type="smile-o" />
 						反馈建议
 			        </Menu.Item>
-			        <Menu.Item key="PC" className='change-icon' style={{marginLeft: '170px'}}>
+			        <Menu.Item key="PC" className='change-icon' style={{position: 'fixed', left: '36%'}}>
 			        	<i className='change-vd-icon icon-bg-0'></i>
 			        </Menu.Item>
-			        <Menu.Item key="verticalTablet" className='change-icon'>
+			        <Menu.Item key="verticalTablet" className='change-icon' style={{position: 'fixed', left: '38%'}}>
 			        	<i className='change-vd-icon icon-bg-36'></i>
 			        </Menu.Item>
-			        <Menu.Item key="alignTablet" className='change-icon'>
+			        <Menu.Item key="alignTablet" className='change-icon' style={{position: 'fixed', left: '40%'}}>
 			        	<i className='change-vd-icon icon-bg-75'></i>
 			        </Menu.Item>
-			        <Menu.Item key="verticalPhone" className='change-icon'>
+			        <Menu.Item key="verticalPhone" className='change-icon' style={{position: 'fixed', left: '42%'}}>
 			        	<i className='change-vd-icon icon-bg-113'></i>
 			        </Menu.Item>
-			        <Menu.Item key="alignPhone" className='change-icon'>
+			        <Menu.Item key="alignPhone" className='change-icon' style={{position: 'fixed', left: '44%'}}>
 			        	<i className='change-vd-icon icon-bg-150'></i>
 			        </Menu.Item>
 			        <Menu.Item key={props.sidebar.saveBtn.key} placement="left" className='save-app-btn'>

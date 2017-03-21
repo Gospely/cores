@@ -1996,6 +1996,8 @@ export default {
 
 		ctrlSelected(state, {payload: data}) {
 
+			console.log(new Date().getTime())
+
 			if (data.unCtrl && !data.dblclick) {
 				console.log('unCtrl');
 				let currentActiveCtrl = VDTreeActions.getActiveControllerIndexAndLvlByKey(state, data.root, state.activePage);
@@ -2010,6 +2012,7 @@ export default {
 				state.activeCtrlLvl = ctrlInfo.level;
 				state.defaultSelectedKeys = [data.vdid];
 			}
+			console.log(new Date().getTime())
 
 			console.log(state.activeCtrl);
 
