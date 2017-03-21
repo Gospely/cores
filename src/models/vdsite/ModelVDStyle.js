@@ -426,6 +426,9 @@ export default {
 				},
 				'background-image': {
 					important: false
+				},
+				'background-attachment': {
+					important: false
 				}
 			}
 		},
@@ -719,6 +722,9 @@ export default {
 				important: false
 			},
 			'background-image': {
+				important: false
+			},
+			'background-attachment': {
 				important: false
 			}
 		},
