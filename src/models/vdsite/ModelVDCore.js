@@ -238,6 +238,7 @@ export default {
 			struct.creator = localStorage.user;
 			struct.name = name;
 			struct.application = localStorage.applicationId;
+			struct.url = 'http://' +  localStorage.domain;
 			//struct.type = 'custom';
 			var packResult = yield request('vdsite/template', {
 				method: 'POST',
