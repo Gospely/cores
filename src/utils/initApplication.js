@@ -148,6 +148,13 @@ const initApplication = function (application, props, flag){
                 initState(props, application.id);
             }else {
                 props.dispatch({
+                    type: 'vdcore/handleLoading',
+                    payload: true
+                });
+                if(window.frames["vdsite-designer"]){
+                    window.frames["vdsite-designer"].location.reload();
+                }
+                props.dispatch({
                     type: 'UIState/readConfig',
                     payload: {
                         id: application.id,
@@ -156,6 +163,13 @@ const initApplication = function (application, props, flag){
                 });
             }
         }else {
+            props.dispatch({
+                type: 'vdcore/handleLoading',
+                payload: true
+            });
+            if(window.frames["vdsite-designer"]){
+                window.frames["vdsite-designer"].location.reload();
+            }
             props.dispatch({
                 type: 'UIState/readConfig',
                 payload: {

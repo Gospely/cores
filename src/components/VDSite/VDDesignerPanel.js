@@ -22,19 +22,10 @@ const VDDesignerPanel = (props) => {
                     }
                 }, '*');
 
-                props.dispatch({
-                    type: 'vdcore/handleLoading',
-                    payload: true
-                });
-
                 setTimeout(function(){
                     window.VDDesignerFrame.postMessage({
                         pageSelected: props.vdCtrlTree.layout[props.vdCtrlTree.activePage.key]
                     }, '*');
-                    props.dispatch({
-                        type: 'vdcore/handleLoading',
-                        payload: false
-                    });
                 }, 2500);
 
                 //加载全局CSS
@@ -82,7 +73,7 @@ const VDDesignerPanel = (props) => {
                 // })
 
             }, 500);
-           
+
 
         },
     };

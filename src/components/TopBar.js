@@ -597,7 +597,9 @@ const LeftSidebar = (props) => {
     			// 	type: 'devpanel/stopDocker',
     			// 	payload: { id: localStorage.applicationId, image: localStorage.image }
     			// });
-
+				if(application.image == "vd:site" && localStorage.image == "vd:site") {
+					window.frames["vdsite-designer"].location.reload();
+				}
     			window.reload = true
     			window.applicationId = application.id;
     			initApplication(application, props);

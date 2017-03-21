@@ -27,6 +27,9 @@ const initState = function (props, applicationId) {
         },
         'vd': function(){
 
+            if(window.frames["vdsite-designer"]){
+                window.frames["vdsite-designer"].location.reload();
+            }
             props.dispatch({
                 type: 'vdpm/initState',
                 payload: { UIState: UIState.UIState.vdpm }
@@ -64,7 +67,7 @@ const initState = function (props, applicationId) {
                     activeCtrl: props.vdCtrlTree.activeCtrl
                 }
             });
-
+            console.log('handleLoading');
         }
     };
 
@@ -87,6 +90,7 @@ const initState = function (props, applicationId) {
             payload: { UIState: UIState.UIState.previewer }
         });
     }
+
     setTimeout(function(){
         localStorage.flashState = true;
     }, 1000)

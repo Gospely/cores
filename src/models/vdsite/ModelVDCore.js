@@ -397,6 +397,7 @@ export default {
 		initState(state, {payload: params}){
 
 			state.VDDesigner = params.UIState.VDDesigner || state.VDDesigner;
+			state.loading = false;
 			return  {...state};
 		},
 
