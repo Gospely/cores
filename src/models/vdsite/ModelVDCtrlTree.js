@@ -85,8 +85,8 @@ const VDTreeActions = {
 					}
 				}
 			}
-			
-			loop(state.layout[page])	
+
+			loop(state.layout[page])
 		}
 
 	},

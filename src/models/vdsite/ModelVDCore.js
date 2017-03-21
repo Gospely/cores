@@ -235,11 +235,10 @@ export default {
 
 			var struct = VDPackager.pack({layout, pages, css, interaction});
 			console.log(name);
-			struct.folder = localStorage.dir;
-			struct.isBeautify = true;
 			struct.creator = localStorage.user;
 			struct.name = name;
 			struct.application = localStorage.applicationId;
+			struct.url = 'http://' +  localStorage.domain;
 			//struct.type = 'custom';
 			var packResult = yield request('vdsite/template', {
 				method: 'POST',
