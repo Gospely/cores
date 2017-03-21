@@ -1414,6 +1414,9 @@ export default {
 					}
 				}
 			}
+			if(params.attrType.key = 'tabs-setting'){
+				currentActiveCtrl.controller.children[1].children.splice(params.index, 1);
+			}
 			childrenDeleteBylevel(parentCtrl)
 			state.activeCtrl = currentActiveCtrl.controller;
 			window.VDDesignerFrame.postMessage({
@@ -1996,8 +1999,6 @@ export default {
 
 		ctrlSelected(state, {payload: data}) {
 
-			console.log(new Date().getTime())
-
 			if (data.unCtrl && !data.dblclick) {
 				console.log('unCtrl');
 				let currentActiveCtrl = VDTreeActions.getActiveControllerIndexAndLvlByKey(state, data.root, state.activePage);
@@ -2012,7 +2013,6 @@ export default {
 				state.activeCtrlLvl = ctrlInfo.level;
 				state.defaultSelectedKeys = [data.vdid];
 			}
-			console.log(new Date().getTime())
 
 			console.log(state.activeCtrl);
 
