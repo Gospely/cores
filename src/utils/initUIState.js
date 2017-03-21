@@ -27,9 +27,6 @@ const initState = function (props, applicationId) {
         },
         'vd': function(){
 
-            if(window.frames["vdsite-designer"]){
-                window.frames["vdsite-designer"].location.reload();
-            }
             props.dispatch({
                 type: 'vdpm/initState',
                 payload: { UIState: UIState.UIState.vdpm }
@@ -68,6 +65,16 @@ const initState = function (props, applicationId) {
                 }
             });
             console.log('handleLoading');
+
+            if(window.frames["vdsite-designer"]){
+                window.frames["vdsite-designer"].location.reload();
+            }
+            setTimeout(function(){
+                props.dispatch({
+                    type: 'vdcore/handleLoading',
+                    payload: false
+                });
+            }, 3000)
         }
     };
 

@@ -22,6 +22,7 @@ const VDDesignerPanel = (props) => {
                     }
                 }, '*');
 
+
                 setTimeout(function(){
                     window.VDDesignerFrame.postMessage({
                         pageSelected: props.vdCtrlTree.layout[props.vdCtrlTree.activePage.key]

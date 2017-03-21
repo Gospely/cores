@@ -151,9 +151,9 @@ const initApplication = function (application, props, flag){
                     type: 'vdcore/handleLoading',
                     payload: true
                 });
-                if(window.frames["vdsite-designer"]){
-                    window.frames["vdsite-designer"].location.reload();
-                }
+                // if(window.frames["vdsite-designer"]){
+                //     window.frames["vdsite-designer"].location.reload();
+                // }
                 props.dispatch({
                     type: 'UIState/readConfig',
                     payload: {
@@ -167,9 +167,9 @@ const initApplication = function (application, props, flag){
                 type: 'vdcore/handleLoading',
                 payload: true
             });
-            if(window.frames["vdsite-designer"]){
-                window.frames["vdsite-designer"].location.reload();
-            }
+            // if(window.frames["vdsite-designer"]){
+            //     window.frames["vdsite-designer"].location.reload();
+            // }
             props.dispatch({
                 type: 'UIState/readConfig',
                 payload: {
