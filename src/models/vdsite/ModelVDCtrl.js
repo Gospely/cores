@@ -1296,7 +1296,7 @@ export default {
                                     desc: '自动聚焦',
                                     type: 'toggle',
                                     isToggleAttr: true,
-                                    value: true,
+                                    value: false,
                                     id: '',
                                     attrName: 'autofocus'
                                 }, {
@@ -1386,7 +1386,7 @@ export default {
                                     desc: '自动聚焦',
                                     type: 'toggle',
                                     isToggleAttr: true,
-                                    value: true,
+                                    value: false,
                                     id: '',
                                     attrName: 'autofocus'
                                 }, {
@@ -1515,7 +1515,7 @@ export default {
                             desc: '自动聚焦',
                             type: 'toggle',
                             isToggleAttr: true,
-                            value: true,
+                            value: false,
                             id: '',
                             attrName: 'autofocus'
                         }, {
@@ -1584,7 +1584,7 @@ export default {
                             desc: '自动聚焦',
                             type: 'toggle',
                             isToggleAttr: true,
-                            value: true,
+                            value: false,
                             id: '',
                             attrName: 'autofocus'
                         }, {
@@ -1856,7 +1856,7 @@ export default {
                         key: 'tabs-setting',
                         children: [{
                             name: 'fade',
-                            value: false,
+                            value: true,
                         }, {
                             name: 'container',
                             desc: '是否是容器',
