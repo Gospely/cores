@@ -1108,9 +1108,34 @@ export default {
 		},
 
 		*handleClassChange({ payload: params }, { call, put, select }) {
+
 			var activeCtrl = yield select(state => state.vdCtrlTree.activeCtrl),
 				activeCtrlCustomClass = activeCtrl.customClassName;
+				console.log(params.value,activeCtrlCustomClass)
 
+				for(var i = 0; i < activeCtrlCustomClass.length; i++ ){
+
+					console.log(activeCtrlCustomClass[i])
+					console.log(params.value,activeCtrlCustomClass)
+					if(activeCtrlCustomClass[i].indexOf(":") > 0) {
+						var isExit = false;
+						console.log("dsadasdassa",activeCtrlCustomClass[i])
+						console.log(params.value,activeCtrlCustomClass)
+
+						for (var j = 0 ; j < params.value.length; j++) {
+							if(params.value[j] == activeCtrlCustomClass[i])
+								isExit = isExit || false;
+							isExit = isExit || true;
+						}
+						if(isExit) {
+							console.log("dsadasdassa",activeCtrlCustomClass[i])
+							yield put({
+								type: 'deleteStateClass',
+								payload: activeCtrlCustomClass[i]
+							});
+						}
+					}
+				}
 			yield put({
 				type: "vdCtrlTree/changeCustomClass",
 				payload: params
@@ -1262,6 +1287,20 @@ export default {
 		handleCSSStateChange(state, { payload: params }) {
 			state.activeCSSState = params.selectedKeys;
 			state.activeCSSStateName = params.stateName;
+			return {...state};
+		},
+		deleteStateClass(state, { payload: value}){
+			console.log("value",value)
+			 console.log(state.cssStyleLayout);
+			 // delete state.cssStyleLayout[params.origin];
+			for(var key in state.cssStyleLayout){
+				
+				console.log(key)
+				if(key == value){
+
+					delete state.cssStyleLayout[value];
+				}
+			}
 			return {...state};
 		},
 

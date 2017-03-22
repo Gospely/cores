@@ -1553,6 +1553,7 @@ const VDStylePanel = (props) => {
     const cssClassProps = {
 
     	onClassNameSelectChange (selected) {
+    		console.log('++++++++++++++++++',selected)
     		props.dispatch({
     			type: 'vdstyles/handleClassChange',
     			payload: {
