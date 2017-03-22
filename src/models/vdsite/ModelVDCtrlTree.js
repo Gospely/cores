@@ -50,24 +50,24 @@ const VDTreeActions = {
 
 			controllers = state.layout[activePage.key];
 
-		const loopControllers = function(controllers, level) {
+		const loopControllers = function(controllers, level, obj) {
 			level = level || 1;
 			for (let i = 0; i < controllers.length; i++) {
 				let currentControl = controllers[i];
-				if (currentControl.children) {
-					loopControllers(currentControl.children, level++);
-				}
+
 				if (currentControl.vdid === key) {
 					obj.index = i;
 					obj.level = level;
 					obj.controller = currentControl;
-					break;
+					return obj;
+				}
+				if (currentControl.children) {
+					return loopControllers(currentControl.children, level++, obj);
 				}
 			}
-			return obj;
 		}
 
-		return loopControllers(controllers, 1);
+		return loopControllers(controllers, 1, {});
 	},
 
 	loopAllApp(state, callback) {
