@@ -1649,10 +1649,11 @@ export default {
 
 						if(currentStyle.name == 'rotate') {
 							unit = 'deg';
+							values.splice(1,1);
 						}
 
 						if(currentStyle.name == 'skew') {
-							unit = 'px';
+							unit = 'deg';
 						}
 
 						valueText += values[0] + unit;
