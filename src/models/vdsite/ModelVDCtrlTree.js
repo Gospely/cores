@@ -42,32 +42,34 @@ const VDTreeActions = {
 	},
 
 	getCtrlByKey(state, key, activePage) {
-		let obj = {
-				index: 0,
-				level: 1,
-				controller: undefined
-			},
+		// let obj = {
+		// 		index: 0,
+		// 		level: 1,
+		// 		controller: undefined
+		// 	},
+		//
+		// 	controllers = state.layout[activePage.key];
+		//
+		// const loopControllers = function(controllers, level) {
+		// 	level = level || 1;
+		// 	for (let i = 0; i < controllers.length; i++) {
+		// 		let currentControl = controllers[i];
+		// 		if (currentControl.children) {
+		// 			loopControllers(currentControl.children, level++);
+		// 		}
+		// 		if (currentControl.vdid === key) {
+		// 			obj.index = i;
+		// 			obj.level = level;
+		// 			obj.controller = currentControl;
+		// 			break;
+		// 		}
+		// 	}
+		// 	return obj;
+		// }
 
-			controllers = state.layout[activePage.key];
+		return state.nodes[activePage.key][key];
 
-		const loopControllers = function(controllers, level) {
-			level = level || 1;
-			for (let i = 0; i < controllers.length; i++) {
-				let currentControl = controllers[i];
-				if (currentControl.children) {
-					loopControllers(currentControl.children, level++);
-				}
-				if (currentControl.vdid === key) {
-					obj.index = i;
-					obj.level = level;
-					obj.controller = currentControl;
-					break;
-				}
-			}
-			return obj;
-		}
-
-		return loopControllers(controllers, 1);
+		// return loopControllers(controllers, 1);
 	},
 
 	loopAllApp(state, callback) {
@@ -125,29 +127,33 @@ const VDTreeActions = {
 		return loopControllers(controllers, 1, state.layout, 0);
 	},
 	getActiveControllerIndexAndLvlByKey(state, key, activePage) {
-		let obj = {
-			index: '',
-			level: 1,
-			controller: ''
-		};
-		let controllers = state.layout[activePage.key];
-		const loopControllers = function(controllers, level) {
-			level = level || 1;
-			for (let i = 0; i < controllers.length; i++) {
-				let currentControl = controllers[i];
-				if (currentControl.children) {
-					loopControllers(currentControl.children, level++);
-				}
-				if (currentControl.vdid == key) {
-					obj.index = i;
-					obj.level = level;
-					obj.controller = currentControl;
-					break;
-				}
-			}
-			return obj;
-		}
-		return loopControllers(controllers, 1);
+		// let obj = {
+		// 	index: '',
+		// 	level: 1,
+		// 	controller: ''
+		// };
+		// let controllers = state.layout[activePage.key];
+		// const loopControllers = function(controllers, level) {
+		// 	level = level || 1;
+		// 	for (let i = 0; i < controllers.length; i++) {
+		// 		let currentControl = controllers[i];
+		// 		if (currentControl.children) {
+		// 			loopControllers(currentControl.children, level++);
+		// 		}
+		// 		if (currentControl.vdid == key) {
+		// 			obj.index = i;
+		// 			obj.level = level;
+		// 			obj.controller = currentControl;
+		// 			break;
+		// 		}
+		// 	}
+		// 	return obj;
+		// }
+		// return loopControllers(controllers, 1);
+		console.log(key);
+		console.log(activePage);
+		console.log(state.nodes);
+		return state.nodes[activePage.key][key];
 
 	},
 	setActiveCtrl(state, controllerIndex, controllerKey, level) {},
@@ -161,6 +167,9 @@ export default {
 		defaultSelectedKeys: [""],
 		expandedKeys: ["body-main"],
 		symbols: [],
+		nodes:{
+
+		},
 		icons: [
 			'fa fa-external-link',
 			'fa fa-font-awesome',
@@ -1035,6 +1044,27 @@ export default {
 			state.defaultExpandedKeys = params.UIState.defaultExpandedKeys || [];
 			state.defaultSelectedKeys = params.UIState.defaultSelectedKeys || [''];
 
+			const initNodes = function(key,target){
+				state.nodes[key][target.vdid] = target;
+				if(target.children){
+					for (var i = 0; i < target.children.length; i++) {
+						if(target.children[i]){
+							initNodes(key, target.children[i]);
+						}
+					}
+				}
+			}
+			for (var key in state.layout) {
+				console.log(state.layout);
+				for (var i = 0; i < state.layout[key].length; i++) {
+					state.nodes[key] = {};
+					console.log(state.layout[key][i]);
+					if(state.layout[key][i]){
+						initNodes(key, state.layout[key][i])
+					}
+				}
+			}
+
 			return {...state};
 		},
 
@@ -1043,41 +1073,41 @@ export default {
 			state[params.target] = params.value;
 
 			let currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
-			if (currentActiveCtrl.controller.attrs[0].children[2]) {
-				var style = currentActiveCtrl.controller.attrs[0].children[2].value;
+			if (currentActiveCtrl.attrs[0].children[2]) {
+				var style = currentActiveCtrl.attrs[0].children[2].value;
 				console.log(params);
 				console.log(stu);
 				if (params.target == 'height') {
-					style = style.replace(/height: \d*(%|px);/, "height: " + currentActiveCtrl.controller.attrs[0].children[3].value + params.value + ";");
+					style = style.replace(/height: \d*(%|px);/, "height: " + currentActiveCtrl.attrs[0].children[3].value + params.value + ";");
 				}
 				if (params.target == 'width') {
-					style = style.replace(/width: \d*(%|px);/, "width: " + currentActiveCtrl.controller.attrs[0].children[4].value + params.value + ";");
+					style = style.replace(/width: \d*(%|px);/, "width: " + currentActiveCtrl.attrs[0].children[4].value + params.value + ";");
 				}
 				console.log(style);
-				currentActiveCtrl.controller.attrs[0].children[2].value = style;
+				currentActiveCtrl.attrs[0].children[2].value = style;
 				window.VDDesignerFrame.postMessage({
 					VDAttrRefreshed: {
 						attrType: {
 							key: 'slider-setting'
 						},
-						attr: currentActiveCtrl.controller.attrs[0].children[2],
-						activeCtrl: currentActiveCtrl.controller
+						attr: currentActiveCtrl.attrs[0].children[2],
+						activeCtrl: currentActiveCtrl
 					}
 				}, '*');
-				for (var i = 0; i < currentActiveCtrl.controller.children[1].children.length; i++) {
-					currentActiveCtrl.controller.children[1].children[i].children[0].attrs[0].children[2].value = style;
+				for (var i = 0; i < currentActiveCtrl.children[1].children.length; i++) {
+					currentActiveCtrl.children[1].children[i].children[0].attrs[0].children[2].value = style;
 					window.VDDesignerFrame.postMessage({
 						VDAttrRefreshed: {
 							attrType: {
 								key: 'slider-setting'
 							},
-							attr: currentActiveCtrl.controller.children[1].children[i].children[0].attrs[0].children[2],
-							activeCtrl: currentActiveCtrl.controller.children[1].children[i].children[0],
+							attr: currentActiveCtrl.children[1].children[i].children[0].attrs[0].children[2],
+							activeCtrl: currentActiveCtrl.children[1].children[i].children[0],
 						}
 					}, '*');
 				}
 			}
-			state.activeCtrl = currentActiveCtrl.controller;
+			state.activeCtrl = currentActiveCtrl;
 			return {...state};
 		},
 		editStyleNameA(state, { payload: params}) {
@@ -1327,19 +1357,19 @@ export default {
 		handleChildrenAttrChange(state, {payload: params}) {
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
 			if (params.attr.isTab) {
-				currentActiveCtrl.controller.children[0].children[state.selectIndex].children[0].attrs[0].children[4][params.attr.name] = params.attr.value;
+				currentActiveCtrl.children[0].children[state.selectIndex].children[0].attrs[0].children[4][params.attr.name] = params.attr.value;
 			} else {
-				currentActiveCtrl.controller.children[state.selectIndex].attrs[0].children[0][params.attr.name] = params.attr.value;
+				currentActiveCtrl.children[state.selectIndex].attrs[0].children[0][params.attr.name] = params.attr.value;
 			}
-			state.activeCtrl = currentActiveCtrl.controller;
+			state.activeCtrl = currentActiveCtrl;
 			return {...state};
 		},
 		uploadBgImg(state, {payload: params}) {
 
 			// var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
 			// console.log('uploadBgImg');
-			// 	currentActiveCtrl.controller.attrs[0].children[0].fileInfo = [params];
-			// 	var url = currentActiveCtrl.controller.attrs[0].children[0].fileInfo.url
+			// 	currentActiveCtrl.attrs[0].children[0].fileInfo = [params];
+			// 	var url = currentActiveCtrl.attrs[0].children[0].fileInfo.url
 			// url = params.url;
 
 			window.postMessage({
@@ -1352,10 +1382,10 @@ export default {
 		uploadPreviewImg(state, {payload: params}) {
 
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
-			if (currentActiveCtrl.controller.attrs[0].key == 'slider-setting') {
-				var activeCtrl = currentActiveCtrl.controller.children[1].children[state.selectIndex].children[0];
+			if (currentActiveCtrl.attrs[0].key == 'slider-setting') {
+				var activeCtrl = currentActiveCtrl.children[1].children[state.selectIndex].children[0];
 				console.log(activeCtrl);
-				currentActiveCtrl.controller.children[1].children[state.selectIndex].children[0].attrs[0].children[0].value = params.url
+				currentActiveCtrl.children[1].children[state.selectIndex].children[0].attrs[0].children[0].value = params.url
 				url = params.url;
 
 				window.VDDesignerFrame.postMessage({
@@ -1365,12 +1395,12 @@ export default {
 					}
 				}, '*');
 			} else {
-				currentActiveCtrl.controller.attrs[0].children[0].fileInfo = [params];
-				currentActiveCtrl.controller.attrs[0].children[0].value = params.url;
-				console.log(currentActiveCtrl.controller);
-				state.activeCtrl = currentActiveCtrl.controller;
-				var url = currentActiveCtrl.controller.attrs[0].children[0].fileInfo[0].url,
-					activeCtrl = currentActiveCtrl.controller;
+				currentActiveCtrl.attrs[0].children[0].fileInfo = [params];
+				currentActiveCtrl.attrs[0].children[0].value = params.url;
+				console.log(currentActiveCtrl);
+				state.activeCtrl = currentActiveCtrl;
+				var url = currentActiveCtrl.attrs[0].children[0].fileInfo[0].url,
+					activeCtrl = currentActiveCtrl;
 				window.VDDesignerFrame.postMessage({
 					uploadImgRefreshed: {
 						activeCtrl: activeCtrl,
@@ -1399,7 +1429,7 @@ export default {
 
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
 			var children = params.children;
-			var parentCtrl = currentActiveCtrl.controller;
+			var parentCtrl = currentActiveCtrl;
 
 			var i = 0;
 
@@ -1415,10 +1445,10 @@ export default {
 				}
 			}
 			if(params.attrType.key = 'tabs-setting'){
-				currentActiveCtrl.controller.children[1].children.splice(params.index, 1);
+				currentActiveCtrl.children[1].children.splice(params.index, 1);
 			}
 			childrenDeleteBylevel(parentCtrl)
-			state.activeCtrl = currentActiveCtrl.controller;
+			state.activeCtrl = currentActiveCtrl;
 			window.VDDesignerFrame.postMessage({
 				VDChildrenDelete: {
 					activeCtrl: children,
@@ -1435,14 +1465,14 @@ export default {
 			const deleteChildrenByType = {
 				'navbar-drop-down' () {
 					target = state.activeCtrl.parent;
-					var parent = VDTreeActions.getCtrlByKey(state, state.activeCtrl.parent, state.activePage).controller.parent;
+					var parent = VDTreeActions.getCtrlByKey(state, state.activeCtrl.parent, state.activePage).parent;
 					currentActiveCtrl = VDTreeActions.getCtrlByKey(state, parent, state.activePage);
-					state.activeCtrl = currentActiveCtrl.controller;
+					state.activeCtrl = currentActiveCtrl;
 				},
 				'slider-delete' () {
 					target = params.target,
 						currentActiveCtrl = VDTreeActions.getCtrlByKey(state, params.parent, state.activePage);
-					var root = VDTreeActions.getCtrlByKey(state, currentActiveCtrl.controller.root, state.activePage).controller;
+					var root = VDTreeActions.getCtrlByKey(state, currentActiveCtrl.root, state.activePage);
 
 					window.VDDesignerFrame.postMessage({
 						VDChildrenDelete: {
@@ -1473,13 +1503,13 @@ export default {
 			state.selectIndex = 0;
 			deleteChildrenByType[params.type]();
 
-			for (var i = 0; i < currentActiveCtrl.controller.children.length; i++) {
+			for (var i = 0; i < currentActiveCtrl.children.length; i++) {
 
-				if (currentActiveCtrl.controller.children[i].vdid == target) {
-					currentActiveCtrl.controller.children.splice(i, 1);
+				if (currentActiveCtrl.children[i].vdid == target) {
+					currentActiveCtrl.children.splice(i, 1);
 				}
 			}
-			state.activeCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage).controller;
+			state.activeCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
 			window.VDDesignerFrame.postMessage({
 				VDChildrenDelete: {
 					activeCtrl: {
@@ -1496,7 +1526,7 @@ export default {
 			const addChildrenByType = {
 
 				'navbar-drop-down' () {
-					var parent = currentActiveCtrl.controller.children[1];
+					var parent = currentActiveCtrl.children[1];
 					params.children.parent = parent.vdid;
 					if (parent.children) {
 						parent.children.push(params.children);
@@ -1534,7 +1564,7 @@ export default {
 
 			params.children.root = state.activeCtrl.root;
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
-			var parentCtrl = currentActiveCtrl.controller;
+			var parentCtrl = currentActiveCtrl;
 			var parentCtrlVdid;
 			var i = 0;
 
@@ -1562,7 +1592,7 @@ export default {
 			}
 			childrenAddBylevel(parentCtrl);
 
-			state.activeCtrl = currentActiveCtrl.controller;
+			state.activeCtrl = currentActiveCtrl;
 			state.keyValeCreateVisible = false;
 			window.VDDesignerFrame.postMessage({
 				VDAttrRefreshed: {
@@ -1619,9 +1649,9 @@ export default {
 					}
 				}
 			}
-			changeClassNameByLevel(currentActiveCtrl.controller);
+			changeClassNameByLevel(currentActiveCtrl);
 			if (!target) {
-				target = currentActiveCtrl.controller;
+				target = currentActiveCtrl;
 				target.attrs[0].children[params.index].value = params.replacement;
 			}
 			for (var k = 0; k < target.className.length; k++) {
@@ -1650,12 +1680,12 @@ export default {
 			var parent = VDTreeActions.getCtrlByKey(state, state.activeCtrl.parent, state.activePage);
 
 			if (params.toDropDown) {
-				params.parent = parent.controller.parent,
-					params.replacement.vdid = parent.controller.vdid;
-				params.replacement.children[0].parent = parent.controller.vdid;
-				parent.controller.children = [];
+				params.parent =parent.parent,
+					params.replacement.vdid =parent.vdid;
+				params.replacement.children[0].parent =parent.vdid;
+				parent.children = [];
 				for (var i = 0; i < params.replacement.children.length; i++) {
-					parent.controller.children.push(params.replacement.children[i]);
+					parent.children.push(params.replacement.children[i]);
 				}
 				state.activeCtrl = params.replacement.children[0];
 				window.VDDesignerFrame.postMessage({
@@ -1668,15 +1698,15 @@ export default {
 					}
 				}, '*');
 			} else {
-				parent.controller.children = [];
-				parent.controller.children.push(params.replacement);
+				parent.children = [];
+				parent.children.push(params.replacement);
 				state.activeCtrl = params.replacement;
 				window.VDDesignerFrame.postMessage({
 					VDAttrRefreshed: {
 						activeCtrl: state.activeCtrl,
 						attr: {
 							attrName: 'replaceElem',
-							parent: parent.controller.vdid
+							parent:parent.vdid
 						},
 					}
 				}, '*');
@@ -1743,8 +1773,8 @@ export default {
 					target.className.push('active');
 				}
 			}
-			findParent(currentActiveCtrl.controller);
-			state.activeCtrl = currentActiveCtrl.controller;
+			findParent(currentActiveCtrl);
+			state.activeCtrl = currentActiveCtrl;
 			console.log(state.activeCtrl);
 			state.selectIndex = params.index;
 			window.VDDesignerFrame.postMessage({
@@ -1766,9 +1796,9 @@ export default {
 
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
 			if (params.value) {
-				for (var i = 0; i < currentActiveCtrl.controller.children[1].children.length; i++) {
+				for (var i = 0; i < currentActiveCtrl.children[1].children.length; i++) {
 
-					currentActiveCtrl.controller.children[1].children[i].className.push('fade');
+					currentActiveCtrl.children[1].children[i].className.push('fade');
 				}
 				window.VDDesignerFrame.postMessage({
 					VDAttrRefreshed: {
@@ -1782,12 +1812,12 @@ export default {
 				}, '*');
 
 			} else {
-				for (var i = 0; i < currentActiveCtrl.controller.children[1].children.length; i++) {
+				for (var i = 0; i < currentActiveCtrl.children[1].children.length; i++) {
 
-					for (var j = 0; j < currentActiveCtrl.controller.children[1].children[i].className.length; j++) {
-						if (currentActiveCtrl.controller.children[1].children[i].className[j] == 'fade') {
+					for (var j = 0; j < currentActiveCtrl.children[1].children[i].className.length; j++) {
+						if (currentActiveCtrl.children[1].children[i].className[j] == 'fade') {
 							console.log('splice');
-							currentActiveCtrl.controller.children[1].children[i].className.splice(j, 1);
+							currentActiveCtrl.children[1].children[i].className.splice(j, 1);
 							break;
 						}
 					}
@@ -1798,15 +1828,15 @@ export default {
 						attr: {
 							action: 'batchClassRemove',
 							attrName: 'classOperate',
-							parent: currentActiveCtrl.controller.children[1].vdid,
+							parent: currentActiveCtrl.children[1].vdid,
 							targetClass: 'fade',
 						},
 						attrType: params.attrType
 					}
 				}, '*');
 			}
-			currentActiveCtrl.controller.attrs[0].children[0].value = params.value;
-			state.activeCtrl = currentActiveCtrl.controller;
+			currentActiveCtrl.attrs[0].children[0].value = params.value;
+			state.activeCtrl = currentActiveCtrl;
 			return {...state};
 		},
 		triggerMenu(state) {
@@ -1852,7 +1882,9 @@ export default {
 
 		generateCtrlTree(state, {payload: ctrl}) {
 			let controller = ctrl.details;
-
+			if(!state.nodes[state.activePage.key]){
+				state.nodes[state.activePage.key] = {};
+			}
 			// const specialAttrList = ['custom-attr', 'link-setting', 'list-setting', 'heading-type', 'image-setting', 'select-setting'];
 
 			let deepCopiedController = VDTreeActions.deepCopyObj(controller);
@@ -1919,7 +1951,7 @@ export default {
 						isBeforeHTMLValue: controller.isBeforeHTMLValue || false
 					};
 				}
-
+				state.nodes[state.activePage.key][ctrl.vdid] = ctrl;
 				if (controller.children) {
 					for (var i = 0; i < controller.children.length; i++) {
 						var currentCtrl = controller.children[i];
@@ -2002,26 +2034,28 @@ export default {
 			if (data.unCtrl && !data.dblclick) {
 				console.log('unCtrl');
 				let currentActiveCtrl = VDTreeActions.getActiveControllerIndexAndLvlByKey(state, data.root, state.activePage);
-				state.activeCtrl = currentActiveCtrl.controller;
+				state.activeCtrl = currentActiveCtrl;
 				state.activeCtrlIndex = currentActiveCtrl.index;
 				state.activeCtrlLvl = currentActiveCtrl.level;
 				state.defaultSelectedKeys = [data.root];
 			} else {
 				let ctrlInfo = VDTreeActions.getActiveControllerIndexAndLvlByKey(state, data.vdid, state.activePage);
-				state.activeCtrl = ctrlInfo.controller;
+				state.activeCtrl = ctrlInfo;
 				state.activeCtrlIndex = ctrlInfo.index;
 				state.activeCtrlLvl = ctrlInfo.level;
 				state.defaultSelectedKeys = [data.vdid];
 			}
-
+			console.log('ctrlSelected');
 			console.log(state.activeCtrl);
 			console.log(new Date().getTime());
+			return {...state};
 		},
 		handleAttrFormChangeA(state, {payload: params}) {
 
 			let currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
-
-			var ctrlAttrs = currentActiveCtrl.controller.attrs;
+			console.log(currentActiveCtrl);
+			console.log(state.nodes);
+			var ctrlAttrs = currentActiveCtrl.attrs;
 			console.log(currentActiveCtrl);
 			var targetAttr;
 			for (var i = 0; i < ctrlAttrs.length; i++) {
@@ -2033,7 +2067,7 @@ export default {
 						attr.value = params.newVal;
 						flag = true;
 						if (attr.attrName === 'id') {
-							currentActiveCtrl.controller.id = params.newVal;
+							currentActiveCtrl.id = params.newVal;
 						}
 						break;
 					}
@@ -2043,8 +2077,8 @@ export default {
 				};
 			};
 
-			if (currentActiveCtrl.controller.attrs[0].children[2]) {
-				var style = currentActiveCtrl.controller.attrs[0].children[2].value;
+			if (currentActiveCtrl.attrs[0].children[2]) {
+				var style = currentActiveCtrl.attrs[0].children[2].value;
 				if (targetAttr == 'height') {
 					style = style.replace(/height: \d*(%|px);/, "height: " + params.newVal + state.heightUnit + ";");
 				}
@@ -2052,43 +2086,43 @@ export default {
 					style = style.replace(/width: \d*(%|px);/, "width: " + params.newVal + state.widthUnit + ";");
 				}
 				console.log(style);
-				currentActiveCtrl.controller.attrs[0].children[2].value = style;
+				currentActiveCtrl.attrs[0].children[2].value = style;
 				window.VDDesignerFrame.postMessage({
 					VDAttrRefreshed: {
 						attrType: params.attrType,
-						attr: currentActiveCtrl.controller.attrs[0].children[2],
-						activeCtrl: currentActiveCtrl.controller
+						attr: currentActiveCtrl.attrs[0].children[2],
+						activeCtrl: currentActiveCtrl
 					}
 				}, '*');
 			}
 
 			if (params.attrType.key == 'slider-setting') {
-				for (var i = 0; i < currentActiveCtrl.controller.children[1].children.length; i++) {
-					currentActiveCtrl.controller.children[1].children[i].children[0].attrs[0].children[2].value = style;
+				for (var i = 0; i < currentActiveCtrl.children[1].children.length; i++) {
+					currentActiveCtrl.children[1].children[i].children[0].attrs[0].children[2].value = style;
 					window.VDDesignerFrame.postMessage({
 						VDAttrRefreshed: {
 							attrType: params.attrType,
-							attr: currentActiveCtrl.controller.children[1].children[i].children[0].attrs[0].children[2],
-							activeCtrl: currentActiveCtrl.controller.children[1].children[i].children[0],
+							attr: currentActiveCtrl.children[1].children[i].children[0].attrs[0].children[2],
+							activeCtrl: currentActiveCtrl.children[1].children[i].children[0],
 						}
 					}, '*');
 				}
 			}
-			state.activeCtrl = currentActiveCtrl.controller;
+			state.activeCtrl = currentActiveCtrl;
 			return {...state};
 		},
 		handleAttrFormChangeNotRefreshActiveCtrl(state, {payload: params}) {
 
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, params.target, state.activePage);
 			if (params.attrName === 'id') {
-				currentActiveCtrl.controller.id = params.newVal;
+				currentActiveCtrl.id = params.newVal;
 			}
-			var attr = currentActiveCtrl.controller.attrs[0].children[params.index];
+			var attr = currentActiveCtrl.attrs[0].children[params.index];
 			console.log(attr);
 			attr.value = params.newVal;
 			window.VDDesignerFrame.postMessage({
 				VDAttrRefreshed: {
-					activeCtrl: currentActiveCtrl.controller,
+					activeCtrl: currentActiveCtrl,
 					attrType: params.attrType,
 					attr: attr
 				}
@@ -2100,15 +2134,15 @@ export default {
 			//判断是否需要切换标签
 			if (params.attrType.isChangeTag && params.attr.name == 'tag') {
 				var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
-				currentActiveCtrl.controller.attrs.tag = params.attr.value;
-				state.activeCtrl = currentActiveCtrl.controller;
+				currentActiveCtrl.attrs.tag = params.attr.value;
+				state.activeCtrl = currentActiveCtrl;
 				params.activeCtrl.tag = params.attr.value;
 			}
 			if (params.attr.isStyle) {
 				var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
 				state.activeCtrl.attrs[currentActiveCtrl.index].children[currentActiveCtrl.level - 1].value = params.attr.value;
 				params.activeCtrl.attrs[currentActiveCtrl.index].children[currentActiveCtrl.level - 1].value = params.attr.value;
-				state.activeCtrl = currentActiveCtrl.controller;
+				state.activeCtrl = currentActiveCtrl;
 			}
 			window.VDDesignerFrame.postMessage({
 				VDAttrRefreshed: params
@@ -2186,7 +2220,7 @@ export default {
 			let colClass = 'col-md-' + tmpColumns[0].value;
 
 			let currentColumsInfo = VDTreeActions.getCtrlByKey(state, currentRootVdid, state.activePage);
-			let currentColums = currentColumsInfo.controller //当前的栅格
+			let currentColums = currentColumsInfo //当前的栅格
 			let currentCount = currentColums.attrs[0].children[0].value; //当前栅格里面的格子数
 			let changCount = params.value - currentCount;
 
@@ -2332,7 +2366,7 @@ export default {
 
 			let currentRootVdid = state.activeCtrl.root,
 				currentColums = VDTreeActions.getCtrlByKey(state, currentRootVdid, state.activePage);
-			currentColums = currentColums.controller;
+			currentColums = currentColums;
 
 			let needChangeAttr = currentColums.attrs[0].children[1].value;
 
@@ -2404,7 +2438,7 @@ export default {
 
 			let currentRootVdid = state.activeCtrl.root,
 				currentColums = VDTreeActions.getCtrlByKey(state, currentRootVdid, state.activePage);
-			currentColums = currentColums.controller //当前的栅格
+			currentColums = currentColums //当前的栅格
 
 			let needChangeAttr = currentColums.attrs[0].children[1].value;
 
@@ -2473,8 +2507,8 @@ export default {
 
 		setActiveStyle(state, { payload: activeStyle }) {
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
-			currentActiveCtrl.controller.activeStyle = activeStyle;
-			state.activeCtrl = currentActiveCtrl.controller;
+			currentActiveCtrl.activeStyle = activeStyle;
+			state.activeCtrl = currentActiveCtrl;
 			return {...state
 			};
 		},
@@ -2578,7 +2612,7 @@ export default {
 		changeCustomClass(state, { payload: params }) {
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
 
-			if (!currentActiveCtrl.controller) {
+			if (!currentActiveCtrl) {
 				message.error('请先添加控件再进行操作！');
 				return {...state
 				};
@@ -2590,16 +2624,16 @@ export default {
 				if (typeof params.value == 'string') {
 					params.value = [params.value];
 				}
-				currentActiveCtrl.controller.customClassName.push(params.value[0]);
-				currentActiveCtrl.controller.activeStyle = params.value[params.value.length - 1];
+				currentActiveCtrl.customClassName.push(params.value[0]);
+				currentActiveCtrl.activeStyle = params.value[params.value.length - 1];
 				className = params.value[0];
 			} else {
-				currentActiveCtrl.controller.customClassName = params.value;
-				currentActiveCtrl.controller.activeStyle = params.value[params.value.length - 1];
+				currentActiveCtrl.customClassName = params.value;
+				currentActiveCtrl.activeStyle = params.value[params.value.length - 1];
 				className = params.value;
 			}
 
-			state.activeCtrl = currentActiveCtrl.controller;
+			state.activeCtrl = currentActiveCtrl;
 
 			if (!params.dontChangeAttr) {
 				window.VDDesignerFrame.postMessage({
@@ -2869,7 +2903,7 @@ export default {
 			let moveCtrl, children, newParent;
 			if (params.dropTargetVdid) {
 				let newParentInfo = VDTreeActions.getCtrlByKey(state, params.dropTargetVdid, state.activePage);
-				newParent = newParentInfo.controller;
+				newParent = newParentInfo;
 				newParent.children = newParent.children || [];
 				children = newParent.children;
 				if (children.length === 0) {
