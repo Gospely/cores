@@ -887,6 +887,7 @@ export default {
             state.modifyGitOriginInput.isGit = params.isGit;
             state.modifyGitConfigInput.userName = params.userName,
             state.modifyGitConfigInput.email = params.email;
+            state.modifyGitConfigInput.password = params.password;
             return {...state};
         },
 		showModalModifyGitOrgin(state) {

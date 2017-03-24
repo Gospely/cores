@@ -235,6 +235,7 @@ const initApplication = function (application, props, flag){
                   isGit: false,
                   userName: application.gitUser,
                   email: application.gitEmail,
+                  password: application.gitPassword
               }
             });
         }else {
@@ -245,7 +246,7 @@ const initApplication = function (application, props, flag){
                   isGit: true,
                   userName: application.gitUser,
                   email: application.gitEmail,
-                  password: application.password
+                  password: application.gitPassword
               }
             });
         }

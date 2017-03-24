@@ -4,6 +4,7 @@ const fileListen = function (props, namespace) {
 
 		change: function() {
 
+			console.log('change');
 			props.dispatch({
 	            type: 'cpre/setLoading'
 	        });
@@ -18,11 +19,13 @@ const fileListen = function (props, namespace) {
 			});
 		},
 		add: function() {
+			console.log('add');
 			props.dispatch({
 				type: 'file/fetchFileList'
 			});
 		},
 		addDir: function() {
+			console.log('addDir');
 			props.dispatch({
 				type: 'file/fetchFileList'
 			});
