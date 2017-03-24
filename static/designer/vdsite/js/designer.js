@@ -99,18 +99,18 @@ $(function() {
 				var parentClass = guideHidden.parent()[0].className;
 				var parentTag = guideHidden.parent()[0].tagName;
 
-				jq("#VDDesignerContainer").addClass('illegalArea');
-				jq("#VDDesignerContainer").find("*").addClass('illegalArea');
-				jq("#VDDesignerContainer").find("*").each(function () {
-					var $this = jq(this);
-						if (this.className.indexOf(specialClassName) !== -1) {
-							console.log('remove')
-							$this.removeClass('illegalArea');
-							$this.find('*').removeClass('illegalArea');
-					}
-				})
-				// var parent = guideHidden.parent();
-				// drawCanvas(parent.offset().left, parent.offset().top, parent.outerWidth(), parent.outerHeight());
+				// jq("#VDDesignerContainer").addClass('illegalArea');
+				// jq("#VDDesignerContainer").find("*").addClass('illegalArea');
+				// jq("#VDDesignerContainer").find("*").each(function () {
+				// 	var $this = jq(this);
+				// 		if (this.className.indexOf(specialClassName) !== -1) {
+				// 			console.log('remove')
+				// 			// $this.removeClass('illegalArea');
+				// 			// $this.find('*').removeClass('illegalArea');
+				// 	}
+				// })
+				var parent = guideHidden.parent();
+				drawCanvas(parent.offset().left, parent.offset().top, parent.outerWidth(), parent.outerHeight());
 
 				if (parentClass.indexOf(specialClassName) === -1 || specialTag.indexOf(parentTag) === -1) {
 					return [false, specialParent.errorMessage];
@@ -1108,8 +1108,8 @@ $(function() {
         	jq(self.containerSelector).on("dragleave", function (e) {
         		dndData.isMouseDown = false;
         		controllerOperations.hideDesignerDraggerBorder();
-        		jq("#VDDesignerContainer").find("*").removeClass('illegalArea');
-        		jq("#VDDesignerContainer").removeClass('illegalArea');
+        		// jq("#VDDesignerContainer").find("*").removeClass('illegalArea');
+        		// jq("#VDDesignerContainer").removeClass('illegalArea');
         	})
 
         }
@@ -1281,8 +1281,8 @@ $(function() {
 
         			dndData.isMouseDown = false;
         			controllerOperations.showDesignerDraggerBorder(dragElem);
-        			jq("#VDDesignerContainer").find("*").removeClass('illegalArea');
-        			jq("#VDDesignerContainer").removeClass('illegalArea');
+        			// jq("#VDDesignerContainer").find("*").removeClass('illegalArea');
+        			// jq("#VDDesignerContainer").removeClass('illegalArea');
         			dndData.errorMessage = '非法位置';
 
         			controllerOperations.changeContainerHeight();
@@ -1293,15 +1293,15 @@ $(function() {
         			var container = jq("#VDDesignerContainer");
         			dndData.isMouseDown = false;
         			dndData.errorMessage = '非法位置';
-        			container.find("*").removeClass('illegalArea');
-        			container.removeClass('illegalArea');
+        			// container.find("*").removeClass('illegalArea');
+        			// container.removeClass('illegalArea');
 
 
 					return false;
 				}
 
-				jq("#VDDesignerContainer").find("*").removeClass('illegalArea');
-				jq("#VDDesignerContainer").removeClass('illegalArea');
+				// jq("#VDDesignerContainer").find("*").removeClass('illegalArea');
+				// jq("#VDDesignerContainer").removeClass('illegalArea');
         		controllerOperations.hideDesignerDraggerBorder();
 
         		if (guide.hasClass("error")) {
@@ -1313,8 +1313,8 @@ $(function() {
         			dndData.isMouseDown = false;
         			dndData.errorMessage = '非法位置';
         			controllerOperations.showDesignerDraggerBorder(dragElem);
-        			jq("#VDDesignerContainer").find("*").removeClass('illegalArea');
-        			jq("#VDDesignerContainer").removeClass('illegalArea');
+        			// jq("#VDDesignerContainer").find("*").removeClass('illegalArea');
+        			// jq("#VDDesignerContainer").removeClass('illegalArea');
 					return false;
         		}
 
