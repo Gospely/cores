@@ -109,8 +109,9 @@ $(function() {
 				// 			// $this.find('*').removeClass('illegalArea');
 				// 	}
 				// })
-				var parent = guideHidden.parent();
-				drawCanvas(parent.offset().left, parent.offset().top, parent.outerWidth(), parent.outerHeight());
+				// var parent = guideHidden.parent();
+				// console.log(parent)
+				// drawCanvas(parent.offset().left, parent.offset().top, parent.outerWidth(), parent.outerHeight());
 
 				if (parentClass.indexOf(specialClassName) === -1 || specialTag.indexOf(parentTag) === -1) {
 					return [false, specialParent.errorMessage];
