@@ -928,7 +928,8 @@ $(function() {
 			},
 
             select: function(data, notPostMessage) {
-
+				
+				console.log(new Date().getTime());
 				console.log(data);
             	jq("#vdRightClickMenu").hide();
 				if(data) {
@@ -1433,7 +1434,6 @@ $(function() {
 						this.elem.html(attr.html);
 					}else{
 						var childrens = this.elem.children();
-						console.log(childrens);
 						this.elem.html('');
 						if(attr.desc == '文本内容') {
 							this.elem.html(attr.value);
@@ -1448,7 +1448,7 @@ $(function() {
 								this.elem.html(attr.value);
 							}
 						}
-						
+
 					}
 
                 }
@@ -1741,6 +1741,9 @@ $(function() {
             },
 
             listenClick: function() {
+
+				// console.log('click');
+				// console.log(new Date().getTime());
                 var self = this;
                 this.elem.click(function(e) {
 

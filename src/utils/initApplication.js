@@ -182,7 +182,7 @@ const initApplication = function (application, props, flag){
 
         // localStorage.defaultActiveKey = 'file';
         // localStorage.activeMenu = "setting";
-
+        console.log('application', application);
         localStorage.dir = localStorage.user + '/' + application.docker.replace('gospel_project_', '') + "/";
         localStorage.currentFolder = localStorage.user + '/' + application.name + '_' + localStorage.userName;
         localStorage.baseURL = 'http://' + ( localStorage.host ) + ':9999/';
@@ -234,7 +234,7 @@ const initApplication = function (application, props, flag){
                   gitOrigin: application.git,
                   isGit: false,
                   userName: application.gitUser,
-                  email: application.gitEmail
+                  email: application.gitEmail,
               }
             });
         }else {
@@ -244,7 +244,8 @@ const initApplication = function (application, props, flag){
                   gitOrigin: application.git,
                   isGit: true,
                   userName: application.gitUser,
-                  email: application.gitEmail
+                  email: application.gitEmail,
+                  password: application.password
               }
             });
         }

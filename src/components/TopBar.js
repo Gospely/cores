@@ -186,7 +186,7 @@ const LeftSidebar = (props) => {
 		    },
 
 	        commit() {
-	        	if(!props.sidebar.modifyGitOriginInput.isGit) {
+	        	if(props.sidebar.modifyGitOriginInput.password =='') {
 					message.error('您尚未添加git源，请先添加');
 
 		        	props.dispatch({
@@ -202,7 +202,8 @@ const LeftSidebar = (props) => {
 	        },
 
 	        'push'() {
-	        	if(!props.sidebar.modifyGitOriginInput.isGit) {
+				console.log(props.sidebar.modifyGitConfigInput.password);
+	        	if(!props.sidebar.modifyGitOriginInput.password == '') {
 					message.error('您尚未添加git源，请先添加');
 					props.dispatch({
 						type: 'sidebar/showModalModifyGitOrgin'

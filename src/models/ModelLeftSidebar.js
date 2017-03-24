@@ -224,7 +224,8 @@ export default {
       				id: localStorage.applicationId,
       				git: git,
                     user: config.userName,
-                    email: config.email
+                    email: config.email,
+                    password: config.password
       			})
       		});
 
