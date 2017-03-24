@@ -889,7 +889,8 @@ $(function() {
 			},
 
 			showDesignerDraggerBorder: function (target) {
-
+				console.log('showDesignerDraggerBorder');
+				console.log(new Date().getTime());
                 if(target.length === 0) {
                     return false;
                 }
@@ -901,6 +902,7 @@ $(function() {
                     height: target.outerHeight(),
                     display: 'block'
                 });
+				console.log(new Date().getTime());
 			},
 
 			changeContainerHeight: function () {
@@ -928,7 +930,7 @@ $(function() {
 			},
 
             select: function(data, notPostMessage) {
-				
+
 				console.log(new Date().getTime());
 				console.log(data);
             	jq("#vdRightClickMenu").hide();

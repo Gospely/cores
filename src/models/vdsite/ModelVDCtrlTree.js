@@ -2016,6 +2016,7 @@ export default {
 
 			console.log(state.activeCtrl);
 			console.log(new Date().getTime());
+			return {...state};
 		},
 		handleAttrFormChangeA(state, {payload: params}) {
 
