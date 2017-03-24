@@ -1384,7 +1384,7 @@ const VDStylePanel = (props) => {
 									<Input onPressEnter={saveTransform} type="number" size="small" onChange={handleTransformInputChange.bind(this, 'x')} value={props.vdstyles.transformSetting.x}/>
 								</Col>
 								<Col span={6} style={{textAlign: 'right'}}>
-									px
+									倍率
 								</Col>
 							</Row>
 						</FormItem>
@@ -1395,7 +1395,7 @@ const VDStylePanel = (props) => {
 									<Input onPressEnter={saveTransform} type="number" size="small" onChange={handleTransformInputChange.bind(this, 'y')} value={props.vdstyles.transformSetting.y}/>
 								</Col>
 								<Col span={6} style={{textAlign: 'right'}}>
-									px
+									倍率
 								</Col>
 							</Row>
 						</FormItem>
@@ -1405,21 +1405,10 @@ const VDStylePanel = (props) => {
 			    </TabPane>
 			    <TabPane tab="旋转" key="rotate" style={{padding: 10}}>
 			      	<Form className="form-no-margin-bottom">
-						<FormItem {...formItemLayout} label="x轴">
+						<FormItem {...formItemLayout} label="旋转角度">
 							<Row>
 								<Col span={18} style={{paddingRight: '15px'}}>
 									<Input onPressEnter={saveTransform} type="number" size="small" onChange={handleTransformInputChange.bind(this, 'x')} value={props.vdstyles.transformSetting.x}/>
-								</Col>
-								<Col span={6} style={{textAlign: 'right'}}>
-									deg
-								</Col>
-							</Row>
-						</FormItem>
-
-						<FormItem {...formItemLayout} label="y轴">
-							<Row>
-								<Col span={18} style={{paddingRight: '15px'}}>
-									<Input onPressEnter={saveTransform} type="number" size="small" onChange={handleTransformInputChange.bind(this, 'y')} value={props.vdstyles.transformSetting.y}/>
 								</Col>
 								<Col span={6} style={{textAlign: 'right'}}>
 									deg
@@ -1437,7 +1426,7 @@ const VDStylePanel = (props) => {
 									<Input onPressEnter={saveTransform} type="number" size="small" onChange={handleTransformInputChange.bind(this, 'x')} value={props.vdstyles.transformSetting.x}/>
 								</Col>
 								<Col span={6} style={{textAlign: 'right'}}>
-									px
+									deg
 								</Col>
 							</Row>
 						</FormItem>
@@ -1448,7 +1437,7 @@ const VDStylePanel = (props) => {
 									<Input onPressEnter={saveTransform} type="number" size="small" onChange={handleTransformInputChange.bind(this, 'y')} value={props.vdstyles.transformSetting.y}/>
 								</Col>
 								<Col span={6} style={{textAlign: 'right'}}>
-									px
+									deg
 								</Col>
 							</Row>
 						</FormItem>
@@ -1553,6 +1542,7 @@ const VDStylePanel = (props) => {
     const cssClassProps = {
 
     	onClassNameSelectChange (selected) {
+    		console.log('++++++++++++++++++',selected)
     		props.dispatch({
     			type: 'vdstyles/handleClassChange',
     			payload: {
