@@ -31,6 +31,7 @@ const Component = (props) => {
 			}
 
 			window.VDDnddata = tmpCtrl;
+
 		}
 	}
 	const panels = props.vdctrl.controllers.map((item, i) => {
