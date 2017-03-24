@@ -118,9 +118,15 @@ export default {
 			state.pageManager.updatePopoverVisible = !state.pageManager.updatePopoverVisible;
 			return { ...state};
 		},
-        visibleChange(state){
+        visibleChange(state, {payload: params }){
 
-            state.pageManager.updatePopoverVisible = true;
+        	console.log(params);
+        	if(params == false){
+        		state.pageManager.updatePopoverVisible = params;
+        	}else{
+	            state.pageManager.updatePopoverVisible = true;
+        	}
+
             return { ...state};
         },
 		handleRreeSelect(state, { payload: params }){

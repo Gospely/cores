@@ -241,7 +241,7 @@ const VDStylePanel = (props) => {
 						}
 					}
 
-
+					console.log("------...",props.vdCtrlTree.activeCtrl.activeStyle)
 					props.dispatch({
 						type: 'vdstyles/addStyle',
 						payload: {
@@ -1575,7 +1575,7 @@ const VDStylePanel = (props) => {
 						payload: props.vdCtrlTree.activeCtrl.activeStyle.split(':')[0]
 					});
     			}else {
-
+    				console("++++---------q",props.vdCtrlTree.activeCtrl.activeStyle)
 	    			props.dispatch({
 	    				type: 'vdstyles/addStyle',
 	    				payload: {
