@@ -38,6 +38,10 @@ const leftSidebar = (props) => {
 			type: 'vdpm/handleNewFolderVisible',
 			payload: { value: false}
 		});
+		props.dispatch({
+			type: 'vdpm/visibleChange',
+			payload: false
+		});
 	}
 
 	var styles = {

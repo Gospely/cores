@@ -40,7 +40,7 @@ const Component = (props) => {
 				payload: key
 			});
 		},
-		visibleChange(){
+		visibleChange(e){
 			// setTimeout(function(){
 			// 	console.log('key' + localStorage.popoverKey);
 			// 	if(localStorage.popoverKay == props.vdpm.currentActivePageListItem && !props.vdpm.pageManager.updatePopoverVisible){
@@ -52,6 +52,8 @@ const Component = (props) => {
 			props.dispatch({
 				type: 'vdpm/handleUpdatePopoverVisible',
 			});
+
+			e.stopPropagation();
 		}
 	}
 	const formItemProps = {
@@ -141,7 +143,28 @@ const Component = (props) => {
 					fileName: item.key
 				}
 			});
+		},
 
+		deletePopoverVisibleChange(item, e){
+			if(props.vdpm.currentActivePageListItem != item.key){
+				// props.dispatch({
+				// 	type: 'vdpm/savePage',
+				// 	payload: props.vdpm.currentActivePageListItem
+				// });
+			}
+			if(!item.children){
+				props.dispatch({
+					type: 'vdpm/setCurrentActivePageListItem',
+					payload: item.key
+				});
+			}
+			
+
+			if(item.key == 'index.html'){
+				message.error('主页面不能删除');
+				return;
+			}
+			e.stopPropagation()
 		},
 	}
   const formItemLayout = {
@@ -243,7 +266,7 @@ const Component = (props) => {
     				  <Col span={4}>
 						  <Popconfirm title="确认删除吗？" onConfirm={formItemProps.delete.bind(this, item)} okText="确定" cancelText="取消">
 	    					<Tooltip placement="top" title="删除文件夹">
-	    						<Icon type="delete" />
+	    						<Icon type="delete" onClick={formItemProps.deletePopoverVisibleChange.bind(this, item)} />
 	    					</Tooltip>
 						  </Popconfirm>
     				  </Col>
@@ -262,7 +285,7 @@ const Component = (props) => {
     					  <Col span={2}>
 						   <Popconfirm title="确认删除吗？" onConfirm={formItemProps.delete.bind(this, item)} okText="确定" cancelText="取消">
 	    						<Tooltip placement="top" title="删除文件">
-	    							<Icon type="delete" />
+	    							<Icon type="delete" onClick={formItemProps.deletePopoverVisibleChange.bind(this, item)} />
 	    						</Tooltip>
 							</Popconfirm>
     					  </Col>
