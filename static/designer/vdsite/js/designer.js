@@ -1341,6 +1341,7 @@ $(function() {
         	this.controller = params;
         	this.tag = typeof this.controller.tag == 'object' ? this.controller.tag[0] : this.controller.tag;
         	this.elemLoaded = false;
+        	this.makeElemAddedDraggable();
         	return this;
         }
 
@@ -1710,8 +1711,6 @@ $(function() {
                 this.listenHover();
                 this.listenClick();
                 this.listenContextmenu();
-
-                this.makeElemAddedDraggable();
 
                 return component;
         	},
