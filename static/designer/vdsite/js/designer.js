@@ -1785,7 +1785,7 @@ $(function() {
 				console.log('listenContextmenu');
             	this.elem.contextmenu(function (e) {
             		e.preventDefault();
-            		//controllerOperations.select(jq(e.target).data('controller'));
+            		controllerOperations.select(jq(e.target).data('controller'));
             		controllerOperations.showRightClickMenu(e);
             	})
             },
