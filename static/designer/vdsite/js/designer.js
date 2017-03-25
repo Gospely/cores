@@ -693,7 +693,9 @@ $(function() {
 
 		//右键菜单
 		var rightClickMenu = function () {
+			console.log('register..........................................');
 	    	jq("#vdCopy").click(function (e) {
+				console.log('copy');
 		    	e.stopPropagation();
 		    	e.preventDefault();
 		    	postMessageToFather.copyCtrl({});
@@ -766,6 +768,7 @@ $(function() {
 				elem.removeClass(attr.remove);
 				elem.addClass(attr.replacement);
 				if (attr.needSelect) {
+					console.log('replaceClass');
 					controllerOperations.showDesignerDraggerBorder(dndData.dragElem);
 				}
 
@@ -943,7 +946,7 @@ $(function() {
 
                     notPostMessage = notPostMessage || false;
                     var currentCtrl = jq('[vdid=' + data.vdid + ']');
-
+					console.log('select');
 	                controllerOperations.showDesignerDraggerBorder(currentCtrl);
                     if(data.isFromCtrlTree) {
                         data = currentCtrl.data('controller');
@@ -957,6 +960,7 @@ $(function() {
 
             showRightClickMenu: function (e) {
 
+				console.log('showRightClickMenu begin');
             	var pastInside = jq("#vdPast, #vdPastPre");
             	var pastBrother = jq("#vdPastBefore, #vdPastAfter");
             	var target = jq(e.target);
@@ -1005,7 +1009,7 @@ $(function() {
 						pastBrother.removeClass('disabled');
 					}
             	}
-
+				console.log('showRightClickMenu end');
             },
 
             refreshData: function (rootVdid, rootData, childrenData) {
@@ -1282,6 +1286,7 @@ $(function() {
         		let handler = function () {
 
         			dndData.isMouseDown = false;
+					console.log('onDrop');
         			controllerOperations.showDesignerDraggerBorder(dragElem);
         			// jq("#VDDesignerContainer").find("*").removeClass('illegalArea');
         			// jq("#VDDesignerContainer").removeClass('illegalArea');
@@ -1314,6 +1319,7 @@ $(function() {
 
         			dndData.isMouseDown = false;
         			dndData.errorMessage = '非法位置';
+					console.log('hasClass');
         			controllerOperations.showDesignerDraggerBorder(dragElem);
         			// jq("#VDDesignerContainer").find("*").removeClass('illegalArea');
         			// jq("#VDDesignerContainer").removeClass('illegalArea');
@@ -1770,9 +1776,10 @@ $(function() {
             },
 
             listenContextmenu: function () {
+				console.log('listenContextmenu');
             	this.elem.contextmenu(function (e) {
             		e.preventDefault();
-            		controllerOperations.select(jq(e.target).data('controller'));
+            		//controllerOperations.select(jq(e.target).data('controller'));
             		controllerOperations.showRightClickMenu(e);
             	})
             },
