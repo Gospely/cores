@@ -509,11 +509,15 @@ $(function() {
 
                     VDAttrRefreshed: function() {
                         controllerOperations.refreshCtrl(data.activeCtrl, data.attr, data.attrType);
+						console.log('VDAttrRefreshed');
                         controllerOperations.select(data.activeCtrl, true);
                     },
 
                     applyCSSIntoPage: function() {
+
+						console.log('applyCSSIntoPage');
                         pageOperations.applyCSS(data.cssText);
+
                         if (data.activeCtrl.tag) {
                         	controllerOperations.select(data.activeCtrl, true);
                         }
@@ -581,6 +585,7 @@ $(function() {
                     },
 
                     VDCtrlSelected: function() {
+						console.log('VDCtrlSelected');
                         controllerOperations.select(data, true);
                     },
 
@@ -655,7 +660,7 @@ $(function() {
                         	var parent = jq("[vdid=" + data.activeCtrlVdid + "]");
                         	parent[data.type](elemToAdd);
                         }
-
+						console.log('ctrlDataPasted');
                         controllerOperations.select(data.controller);
                         controllerOperations.changeContainerHeight();
 
@@ -1750,7 +1755,7 @@ $(function() {
 
             listenClick: function() {
 
-				// console.log('click');
+				console.log('listenClick');
 				// console.log(new Date().getTime());
                 var self = this;
                 this.elem.click(function(e) {
