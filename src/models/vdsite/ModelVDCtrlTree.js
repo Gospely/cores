@@ -1012,12 +1012,10 @@ export default {
 	},
 
 	reducers: {
-		changeVDControllerListScroll(state, {
-			payload: params
-		}) {
-			state.VDControllerListScroll = params;
-			return {...state
-			}
+		changeVDControllerListScroll(state, {payload: params}) {
+			state.VDControllerListScroll = params.hidden;
+			state.linkTo = params.linkTo;
+			return {...state}
 		},
 
 		initState(state, { payload: params}) {
