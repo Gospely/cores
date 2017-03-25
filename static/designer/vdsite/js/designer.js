@@ -1355,7 +1355,11 @@ $(function() {
         	this.controller = params;
         	this.tag = typeof this.controller.tag == 'object' ? this.controller.tag[0] : this.controller.tag;
         	this.elemLoaded = false;
-        	this.makeElemAddedDraggable();
+			var designerContainer = jq("#VDDesignerContainer");
+
+			if(!designerContainer.data('register')){
+				this.makeElemAddedDraggable();
+			}
         	return this;
         }
 
@@ -1721,11 +1725,12 @@ $(function() {
                     };
 
                 }
-
-                this.listenHover();
-                this.listenClick();
-                this.listenContextmenu();
-
+				if(!this.elem.data('isRegister')){
+					this.listenHover();
+	                this.listenClick();
+	                this.listenContextmenu();
+					this.elem.data('isRegister', 'true')
+				}
                 return component;
         	},
 
@@ -1792,6 +1797,7 @@ $(function() {
 
         	makeElemAddedDraggable: function () {
 
+				console.log('makeElemAddedDraggable');
         		var self = this;
 
         		var designerContainer = jq("#VDDesignerContainer");
@@ -1819,7 +1825,7 @@ $(function() {
         		designerContainer.on("mouseup", function (e) {
         			self.onUp(e);
         		});
-
+				designerContainer.data('register', true);
         	},
 
         	onMove: function (e) {
