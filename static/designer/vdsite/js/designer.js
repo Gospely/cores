@@ -1721,11 +1721,12 @@ $(function() {
                     };
 
                 }
-
-                this.listenHover();
-                this.listenClick();
-                this.listenContextmenu();
-
+				if(!this.elem.data('isRegister')){
+					this.listenHover();
+	                this.listenClick();
+	                this.listenContextmenu();
+					this.elem.data('isRegister', 'true')
+				}
                 return component;
         	},
 
