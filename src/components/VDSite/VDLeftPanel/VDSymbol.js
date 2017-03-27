@@ -174,7 +174,7 @@ const Component = (props) => {
   }
 
   return (
-    <div style={{position: "absolute",left: "0px",width: "100%",height: "100%"}}>
+    <div id="symbol-panel" style={{position: "absolute",left: "0px",width: "100%",height: "100%"}}>
 
       <Row>
         <Col span={4} offset={20}>

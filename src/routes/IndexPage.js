@@ -305,6 +305,7 @@ function IndexPage(props) {
         let todo = () => {
             let vdsiteCtrlBtn = $("#vdsiteCtrlBtn");
             let vdsitePagesBtn = $("#vdsitePagesBtn");
+            let vdsiteCollectionsBtn = $('#vdsiteCollectionsBtn');
             let closeVdLeftPanel = $("#closeVDLeftPanel");
             if (vdsitePagesBtn.length && vdsitePagesBtn.length) {
                 clearInterval(interval);
@@ -343,6 +344,7 @@ function IndexPage(props) {
                 }
                 showPanel(vdsiteCtrlBtn);
                 showPanel(vdsitePagesBtn);
+                showPanel(vdsiteCollectionsBtn);
             }
         }
         let interval = setInterval(todo, 500);
