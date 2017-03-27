@@ -3,6 +3,8 @@ import dva from 'dva';
 import randomString from '../../utils/randomString.js';
 import {message} from 'antd';
 
+////////////
+
 const methods = {
 	checkName(symbols, name) {
 
