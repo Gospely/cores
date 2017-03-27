@@ -297,11 +297,11 @@ function IndexPage(props) {
                 </SplitPane>
             );
         }
-        
+
     }
 
     if (localStorage.image === 'vd:site') {
-        
+
         let todo = () => {
             let vdsiteCtrlBtn = $("#vdsiteCtrlBtn");
             let vdsitePagesBtn = $("#vdsitePagesBtn");
@@ -339,14 +339,14 @@ function IndexPage(props) {
                             })
                         }
                     })
-                    
+
                 }
                 showPanel(vdsiteCtrlBtn);
                 showPanel(vdsitePagesBtn);
             }
         }
         let interval = setInterval(todo, 500);
-    
+
     }
 
     const wholePageLayoutGenerator = () => {
@@ -374,7 +374,7 @@ function IndexPage(props) {
             wholePageLayout = (
                 <Row>
                     <Col span={19}>
-                    {tpl}  
+                    {tpl}
                     </Col>
                     <Col span={5}>
                         <VDRightPanel></VDRightPanel>
@@ -389,9 +389,6 @@ function IndexPage(props) {
     return (
             <Spin tip={props.devpanel.loading.tips} spinning={props.devpanel.loading.isLoading}>
                 <div className = "body" style={{height: '100vh'}}>
-                    <div
-                        hidden='true'
-                        id="git-terminal"></div>
                     <div id="git-show"></div>
                     {wholePageLayoutGenerator()}
                 </div>
