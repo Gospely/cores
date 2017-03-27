@@ -62,14 +62,14 @@ const VDRightPanel = (props) => {
       <div id="VDRightPanel" className="vd-right-panel">
 
         <Tabs onChange={onChange} activeKey={props.vdcore.rightTabsPane.activeTabsPane}>
-         
+
           <TabPane tab={
             <Tooltip placement="bottom" title="样式">
               <Icon type="edit" />
             </Tooltip>} key='style'>
               <VDStylePanel></VDStylePanel>
           </TabPane>
-          
+
 
           <TabPane tab={
             <Tooltip placement="bottom" title="组件设置">
