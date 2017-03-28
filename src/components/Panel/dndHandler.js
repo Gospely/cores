@@ -87,6 +87,7 @@ export default {
 						initApplication(application,props);
 					}else{
 						localStorage.clear();
+						window.applicationId = null;
 						window.location.href = window.location.origin;
 					}
 

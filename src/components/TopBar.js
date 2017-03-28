@@ -47,9 +47,8 @@ const LeftSidebar = (props) => {
 
 	dndHandler.init(props);
 	keyRegister.init(props);
-	if(!window.socket){
+	if(!window.socket && window.applicationId){
 		gitTerminal(props);
-
 	}
 
 	var styles = {
@@ -637,7 +636,10 @@ const LeftSidebar = (props) => {
     			// 	payload: { id: localStorage.applicationId, image: localStorage.image }
     			// });
 				if(application.image == "vd:site" && localStorage.image == "vd:site") {
-					window.frames["vdsite-designer"].location.reload();
+
+					if(window.frames["vdsite-designer"]){
+						window.frames["vdsite-designer"].location.reload();
+					}
 				}
     			window.reload = true
     			window.applicationId = application.id;
@@ -1058,7 +1060,23 @@ const LeftSidebar = (props) => {
 				}
 
 			}
+			console.log(s);
+			if(s == 'databaseAccount'){
 
+				if(!/^[a-z]*$/.test(dom.target.value)){
+					notification['warning']({
+						message: '数据库用户名只支持小写英文名',
+						description: '请重新输入'
+					});
+					props.dispatch({
+						type: 'sidebar/checkProjectAvailable',
+						payload: {
+							name:  ''
+						}
+					});
+					return;
+				}
+			}
 			if(s == 'appName') {
 
 				for(var i = 0; i < 10; i++) {
@@ -1079,8 +1097,7 @@ const LeftSidebar = (props) => {
 						return false;
 					}
 				}
-
-				const illegalLetter = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '+', '=', '[', ']',
+				const illegalLetter = ['!',' ', '@', '#', '$', '%', '^', '&', '*', '(', ')', '+', '=', '[', ']',
 									'{', '}', '\\', '|', ':', ';', '\'', '"', '<', '>', ',', '.', '/', '?'];
 				let theCurrentLetter = dom.target.value.replace(props.sidebar.appCreatingForm.appName, '');
 				if(illegalLetter.indexOf(theCurrentLetter) !== -1) {
