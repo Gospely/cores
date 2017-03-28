@@ -5,13 +5,13 @@ import { Spin, Button, Modal, Input } from 'antd';
 
 
 
-const SaveAsMould = (props) => {
+const SaveAsTemplate = (props) => {
 
-  const SaveAsMouldProps = {
+  const SaveAsTemplateProps = {
 
     hide () {
       props.dispatch({
-        type: 'vdcore/changeSaveAsMouldeVisible',
+        type: 'vdcore/changeSaveAsTemplateVisible',
         payload: {
               visible:false,
               confirmLoading:false
@@ -21,7 +21,7 @@ const SaveAsMould = (props) => {
 
     handleOk () {
       props.dispatch({
-        type: 'vdcore/changeSaveAsMouldeVisible',
+        type: 'vdcore/changeSaveAsTemplateVisible',
         payload: {
               visible:true,
               confirmLoading:true
@@ -35,7 +35,7 @@ const SaveAsMould = (props) => {
     onChange(e){
 
         props.dispatch({
-            type: 'vdcore/changesaveAsMouldState',
+            type: 'vdcore/changesaveAsTemplateState',
             payload: e.target.value
         });
     }
@@ -46,16 +46,16 @@ const SaveAsMould = (props) => {
       <div>
             <Modal
               title="设置为模板"
-              visible={props.vdcore.saveAsMouldModal.visible}
-              wrapClassName="saveAsMould-wrapper"
-              onOk={SaveAsMouldProps.handleOk}
-              onCancel={SaveAsMouldProps.hide}
+              visible={props.vdcore.saveAsTemplateModal.visible}
+              wrapClassName="saveAstemplate-wrapper"
+              onOk={SaveAsTemplateProps.handleOk}
+              onCancel={SaveAsTemplateProps.hide}
               okText="保存"
-              confirmLoading={props.vdcore.saveAsMouldModal.confirmLoading}
+              confirmLoading={props.vdcore.saveAsTemplateModal.confirmLoading}
             >
               <div>
-                <Input placeholder="设置模板名" onChange={SaveAsMouldProps.onChange} value={props.vdcore.saveAsMouldModal.name}/>
-                <img src={props.vdcore.saveAsMouldModal.previewUrl} style={{width:'300px', height:'300px'}} />
+                <Input placeholder="设置模板名" onChange={SaveAsTemplateProps.onChange} value={props.vdcore.saveAsTemplateModal.name}/>
+                <img src={props.vdcore.saveAsTemplateModal.previewUrl} style={{width:'300px', height:'300px'}} />
               </div>
 
             </Modal>
@@ -69,4 +69,4 @@ function mapSateToProps({ vdcore }) {
   return { vdcore };
 }
 
-export default connect(mapSateToProps)(SaveAsMould);
+export default connect(mapSateToProps)(SaveAsTemplate);
