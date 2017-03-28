@@ -1547,6 +1547,7 @@ export default {
 				'box-shadow'(currentStyleParent, unit) {
 					unit = unit || 'px';
 					let styleText = 'box-shadow';
+					let compatible = ['-ms-','-moz-','-webkit-','-o-'];
 					let childrenProps = currentStyleParent.childrenProps;
 					let valueText = '';
 					for(let i = 0; i < childrenProps.length; i ++) {
@@ -1566,14 +1567,18 @@ export default {
 						}
 					}
 
-					styleText += ':' + valueText + ';';
-					return childrenProps.length ? styleText : '';
+					for(let j=0; j < compatible.length; j++){
+						compatible[j] += styleText+':' + valueText + ';';
+					}
+
+					return childrenProps.length ? compatible.join(" ") : '';
 
 				},
 
 				'text-shadow'(currentStyleParent, unit) {
 					unit = unit || 'px';
 					let styleText = 'text-shadow';
+					let compatible = ['-ms-','-moz-','-webkit-','-o-'];
 					let childrenProps = currentStyleParent.childrenProps;
 					let valueText = '';
 					for(let i = 0; i < childrenProps.length; i ++) {
@@ -1594,15 +1599,20 @@ export default {
 
 					}
 
-					styleText += ':' + valueText + ';';
-					return childrenProps.length ? styleText : '';
+					for(let j=0; j < compatible.length; j++){
+						compatible[j] += styleText+':' + valueText + ';';
+					}
+
+					return childrenProps.length ? compatible.join(" ") : '';
 				},
 
 				transition(currentStyleParent, unit) {
 					unit = unit || 's';
+					let compatible = ['-ms-','-moz-','-webkit-','-o-'];
 					let styleText = 'transition';
 					let childrenProps = currentStyleParent.childrenProps;
 					let valueText = '';
+
 					for(let i = 0; i < childrenProps.length; i ++) {
 						let currentStyle = childrenProps[i];
 						for(let property in currentStyle) {
@@ -1621,13 +1631,17 @@ export default {
 
 					}
 
-					styleText += ':' + valueText + ';';
-					return childrenProps.length ? styleText : '';
+					for(let j=0; j < compatible.length; j++){
+						compatible[j] += styleText+':' + valueText + ';';
+					}
+
+					return childrenProps.length ? compatible.join(" ") : '';
 				},
 
 				transform(currentStyleParent, unit) {
 					unit = unit || '';
 					let styleText = 'transform';
+					let compatible = ['-ms-','-moz-','-webkit-','-o-'];
 					let childrenProps = currentStyleParent.childrenProps;
 					let valueText = '';
 					for(let i = 0; i < childrenProps.length; i ++) {
@@ -1668,19 +1682,23 @@ export default {
 						}
 					}
 
-					if(valueText != '') {
-						styleText += ':' + valueText + ';';
-					}else {
-						styleText = '';
+					for(let j=0; j < compatible.length; j++){
+
+						if(valueText != '') {
+							compatible[j] += styleText+':' + valueText + ';';
+						}else {
+							compatible[j] = '';
+						}
 					}
 
-					return childrenProps.length ? styleText : '';
+					return childrenProps.length ? compatible.join(" ") : '';
 				},
 
 				filter(currentStyleParent, unit) {
 					unit = unit || '';
 					let childrenProps = currentStyleParent.childrenProps;
 					let styleText = 'filter';
+					let compatible = ['-ms-','-moz-','-webkit-','-o-'];
 					let valueText = '';
 					for(let i = 0, len = childrenProps.length; i < len; i ++) {
 						let currentStyle = childrenProps[i];
@@ -1712,14 +1730,16 @@ export default {
 						}
 					}
 
-					if(valueText != '') {
-						styleText = styleText + ':' + valueText;
-					}else {
-						styleText = '';
+					for(let j=0; j < compatible.length; j++){
+
+						if(valueText != '') {
+							compatible[j] += styleText+':' + valueText + ';';
+						}else {
+							compatible[j] = '';
+						}
 					}
 
-
-					return childrenProps.length ? styleText : '';
+					return childrenProps.length ? compatible.join(" ") : '';
 				}
 
 

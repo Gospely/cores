@@ -18,7 +18,8 @@ export default {
 		saveAsMouldModal: {
 			visible: false,
 			confirmLoading: false,
-			name: ''
+			name: '',
+			previewUrl: ''
 		},
 		loading: false,
 		linkSetting: {
@@ -383,6 +384,11 @@ export default {
 	},
 
 	reducers: {
+
+		saveAsMouldePreviewUrl(state, { payload: params}){
+			state.saveAsMouldModal.previewUrl = params;
+			return {...state}
+		},
 
 		handleLoading(state, { payload: value}){
 

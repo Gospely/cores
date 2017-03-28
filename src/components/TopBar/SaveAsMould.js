@@ -55,6 +55,7 @@ const SaveAsMould = (props) => {
             >
               <div>
                 <Input placeholder="设置模板名" onChange={SaveAsMouldProps.onChange} value={props.vdcore.saveAsMouldModal.name}/>
+                <img src={props.vdcore.saveAsMouldModal.previewUrl} style={{width:'300px', height:'300px'}} />
               </div>
 
             </Modal>

@@ -81,6 +81,7 @@ const VDDesignerPanel = (props) => {
 
     return ( <div className = "designer-wrapper"
                   style = {{ height: '100%' }}
+                  id = "designer-wrapper"
              >
                 <Spin spinning={props.vdcore.loading} style={{ height: 100, top: 'calc(50% - 100px)' }}>
                     <div className="vdsite-designer-border"

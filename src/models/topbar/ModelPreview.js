@@ -36,6 +36,7 @@ export default {
           type: 'setSrc',
           payload: src
         });
+
       });
     }
 
@@ -108,9 +109,9 @@ effects:{
           payload: 'http://' + localStorage.domain + '/pages/' + currPage + "?t" + new Date(),
         });
 
-        yield put({
-          type: 'showPreview'
-        });
+        // yield put({
+        //   type: 'showPreview'
+        // });
     }
 }
 }
