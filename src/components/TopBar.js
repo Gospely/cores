@@ -23,6 +23,8 @@ import Preview from './TopBar/Preview.js';
 
 import SaveAsMould from './TopBar/SaveAsMould.js';
 
+import MouldStore from './TopBar/mouldStore.js';
+
 import { Steps } from 'antd';
 import { Progress, Popover } from 'antd';
 
@@ -371,6 +373,13 @@ const LeftSidebar = (props) => {
 	        	});
 	        },
 
+	        mouldStore(){
+				props.dispatch({
+					type: 'mouldStore/changeMouldStoreVisible',
+					payload: true
+				})
+	        },
+
 	        feedback () {
 	        	props.dispatch({
 	        		type: 'sidebar/showFeedback'
@@ -404,6 +413,9 @@ const LeftSidebar = (props) => {
 					props.dispatch({
 						type: 'preview/initPreviewer'
 					});
+					props.dispatch({
+						type: 'preview/showPreview'
+					})
 				}else {
 					props.dispatch({
 						type: 'preview/showPreview'
@@ -440,17 +452,35 @@ const LeftSidebar = (props) => {
 	        },
 
 	        saveAsMould() {
+				// props.dispatch({
+				// 		type: 'preview/setSrc',
+				// 		payload: 'http://' + localStorage.domain + '/pages/' + props.vdpm.currentActivePageListItem
+				// 	});
+				// props.dispatch({
+				// 	type: 'preview/initPreviewer'
+				// });
+	        	html2canvas($("#VDDesignerContainer",window.VDDesignerFrame.document),{
+	        		onrendered: function(canvas) {
+	        			var mouldPreviewUrl = canvas.toDataURL();
 
-				props.dispatch({
-		          type: 'vdcore/changeSaveAsMouldeVisible',
-		          payload: {
-		              visible: true,
-		              confirmLoading: false
-		          }
-		        });
-				props.dispatch({
-		          type: 'vdcore/getTemplate',
-		        });
+	        			props.dispatch({
+				          type: 'vdcore/changeSaveAsMouldeVisible',
+				          payload: {
+				              visible: true,
+				              confirmLoading: false
+				          }
+				        });
+						props.dispatch({
+				          type: 'vdcore/getTemplate',
+				        });
+				        props.dispatch({
+				        	type: 'vdcore/saveAsMouldePreviewUrl',
+				        	payload: mouldPreviewUrl
+				        })
+	        		}
+
+	        	});
+
 	        },
 
 			release() {
@@ -1613,6 +1643,10 @@ const LeftSidebar = (props) => {
 						<Icon type="laptop" />
 		        		控制台
 			        </Menu.Item>
+			        <Menu.Item key="mouldStore">
+			        	<Icon type="shopping-cart" />
+						模板商城
+			        </Menu.Item>
 					<Menu.Item key="feedback">
 						<Icon type="smile-o" />
 						反馈建议
@@ -1644,7 +1678,7 @@ const LeftSidebar = (props) => {
 			        	<Tooltip placement="leftBottom" title='保存为模板'>
 			          		<span>
 			          			<Icon type='check-square-o' />
-			          			保存为模板
+			          			保存至模板商城
 			          		</span>
 		          		</Tooltip>
 					</Menu.Item>
@@ -2065,6 +2099,8 @@ const LeftSidebar = (props) => {
 	    	<Preview></Preview>
 
 	    	<SaveAsMould></SaveAsMould>
+
+	    	<MouldStore></MouldStore>
 
 			<Modal width="30%"  title="意见建议" visible={props.sidebar.modalFeedback.visible}
 	          	onOk={feedbackProps.submit} onCancel={feedbackProps.hideModal}

@@ -12,7 +12,7 @@ const Preview = (props) => {
       props.dispatch({
         type: 'preview/hidePreview'
       });    
-}
+  }
 
   const PreviewProps = {
 
@@ -28,6 +28,7 @@ const Preview = (props) => {
         type: 'preview/hideSpin',
         payload: false
       })
+      window.previewFrame = window.frames["gospel-designer"]
     }
 
   };
