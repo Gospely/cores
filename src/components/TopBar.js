@@ -47,6 +47,10 @@ const LeftSidebar = (props) => {
 
 	dndHandler.init(props);
 	keyRegister.init(props);
+	if(!window.socket){
+		gitTerminal(props);
+
+	}
 
 	var styles = {
 		sidebar: {
@@ -318,10 +322,19 @@ const LeftSidebar = (props) => {
 
 	        pause() {
 
+				notification.open({
+		            message: '正在停止...'
+		        });
 				if(localStorage.debugType == 'shell') {
 					var kill = "kill -9 $(netstat -tlnp | grep "+ localStorage.exposePort +" |awk '{print $7}' | awk -F '/' '{print $1}')\n"
 					window.socket.send(kill);
 				}
+				setTimeout(function(){
+					notification.open({
+			            message: '停止成功'
+			        });
+				}, 500)
+
 	        },
 
 

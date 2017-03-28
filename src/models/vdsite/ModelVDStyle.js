@@ -1112,7 +1112,7 @@ export default {
 			var activeCtrl = yield select(state => state.vdCtrlTree.activeCtrl),
 				activeCtrlCustomClass = activeCtrl.customClassName;
 				console.log(params.value,activeCtrlCustomClass)
-				
+
 				if(Object.prototype.toString.call(params.value) === '[object Array]'){
 					for(var i = 0; i < activeCtrlCustomClass.length; i++ ){
 
@@ -1128,7 +1128,7 @@ export default {
 									isExit = true;
 									break;
 								}
-									
+
 							}
 							if(!isExit) {
 								console.log("dsadasdassa",activeCtrlCustomClass[i])
@@ -1146,7 +1146,7 @@ export default {
 						}
 					}
 				}
-				
+
 			yield put({
 				type: "vdCtrlTree/changeCustomClass",
 				payload: params
@@ -1305,7 +1305,7 @@ export default {
 			 console.log(state.cssStyleLayout);
 			 // delete state.cssStyleLayout[params.origin];
 			for(var key in state.cssStyleLayout){
-				
+
 				console.log(key)
 				if(key == value){
 

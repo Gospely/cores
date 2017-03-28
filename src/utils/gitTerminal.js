@@ -28,8 +28,8 @@ const createTerminal = function(props) {
         term = new Xterm({
             cursorBlink: false
         });
-    var terminalContainer = document.getElementById("git-terminal");
-    var show = document.getElementById("git-show");
+    // var terminalContainer = document.getElementById("git-terminal");
+    // // var show = document.getElementById("git-show");
 
     function setTerminalSize() {
 
@@ -41,15 +41,15 @@ const createTerminal = function(props) {
 
         var cols = 16,
             rows = 1,
-            width =  '100px',
-            height = '100x';
+            width =  '0px',
+            height = '0x';
 
-        terminalContainer.style.width = width;
-        terminalContainer.style.height = height;
-        term.resize(cols, rows);
+        // terminalContainer.style.width = width;
+        // terminalContainer.style.height = height;
+        //term.resize(cols, rows);
     }
 
-    term.open(terminalContainer);
+    //term.open(terminalContainer);
     window.term = term;
     fetch(baseUrl + '/terminals?cols=' + 1 + '&rows=' + 2, {
         method: 'POST',
@@ -124,9 +124,6 @@ const createTerminal = function(props) {
         term.attach(socket);
         window.gitOrigin = true;
         socket.send("cd /root/workspace\n");
-        notification.open({
-            message: 'git 设置服务已启动'
-        });
         term._initialized = true;
     }
 }

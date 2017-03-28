@@ -12,8 +12,19 @@ const TabPane = Tabs.TabPane;
 
 const Component = (props) => {
 
+  const onTabClick = (item) => {
+    if(item == 'symbol') {
+      $('#symbol-panel').show();
+    }
+
+    if(item == 'ctrl') {
+      $('#symbol-panel').hide();
+    }
+
+  }
+
   return (
-  	<Tabs defaultActiveKey="ctrl">
+  	<Tabs onTabClick={onTabClick} defaultActiveKey="ctrl">
     	<TabPane tab="控件" key="ctrl">
     		<VDCtrl></VDCtrl>
     	</TabPane>
