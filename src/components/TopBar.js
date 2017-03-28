@@ -47,9 +47,8 @@ const LeftSidebar = (props) => {
 
 	dndHandler.init(props);
 	keyRegister.init(props);
-	if(!window.socket){
+	if(!window.socket && window.applicationId){
 		gitTerminal(props);
-
 	}
 
 	var styles = {
@@ -644,7 +643,10 @@ const LeftSidebar = (props) => {
     			// 	payload: { id: localStorage.applicationId, image: localStorage.image }
     			// });
 				if(application.image == "vd:site" && localStorage.image == "vd:site") {
-					window.frames["vdsite-designer"].location.reload();
+
+					if(window.frames["vdsite-designer"]){
+						window.frames["vdsite-designer"].location.reload();
+					}
 				}
     			window.reload = true
     			window.applicationId = application.id;
