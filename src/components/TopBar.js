@@ -1640,7 +1640,7 @@ const LeftSidebar = (props) => {
 			        </Menu.Item>
 			        <Menu.Item key="templateStore">
 			        	<Icon type="shopping-cart" />
-						模板商城
+						VD商城
 			        </Menu.Item>
 					<Menu.Item key="feedback">
 						<Icon type="smile-o" />
@@ -1673,7 +1673,7 @@ const LeftSidebar = (props) => {
 			        	<Tooltip placement="leftBottom" title='保存为模板'>
 			          		<span>
 			          			<Icon type='check-square-o' />
-			          			保存至模板商城
+			          			存至VD商城
 			          		</span>
 		          		</Tooltip>
 					</Menu.Item>
