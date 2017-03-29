@@ -15,7 +15,7 @@ export default {
 		customAttr: {
 			visible: false
 		},
-		saveAsMouldModal: {
+		saveAsTemplateModal: {
 			visible: false,
 			confirmLoading: false,
 			name: '',
@@ -231,7 +231,7 @@ export default {
 				pages = yield select(state => state.vdpm.pageList),
 				css = yield select(state => state.vdstyles.cssStyleLayout),
 				currPage = yield select(state => state.vdpm.currentActivePageListItem),
-				name = yield select(state => state.vdcore.saveAsMouldModal.name),
+				name = yield select(state => state.vdcore.saveAsTemplateModal.name),
 				interaction = yield select(state => state.vdanimations);
 
 			var struct = VDPackager.pack({layout, pages, css, interaction});
@@ -250,7 +250,7 @@ export default {
 			});
 			console.log(packResult);
 			yield put({
-				type: 'changeSaveAsMouldeVisible',
+				type: 'changeSaveAsTemplateVisible',
 				payload: {
 				   visible:false,
 				   confirmLoading:false
@@ -266,12 +266,12 @@ export default {
 
 			if(packResult.data.fields.length > 0){
 				yield put({
-					type: 'changesaveAsMouldState',
+					type: 'changesaveAsTemplateState',
 					payload: packResult.data.fields[0].name
 				});
 			}else {
 				yield put({
-					type: 'changesaveAsMouldState',
+					type: 'changesaveAsTemplateState',
 					payload: ''
 				});
 			}
@@ -385,8 +385,8 @@ export default {
 
 	reducers: {
 
-		saveAsMouldePreviewUrl(state, { payload: params}){
-			state.saveAsMouldModal.previewUrl = params;
+		saveAsTemplatePreviewUrl(state, { payload: params}){
+			state.saveAsTemplateModal.previewUrl = params;
 			return {...state}
 		},
 
@@ -467,17 +467,17 @@ export default {
 
 			return {...state};
 		},
-		changeSaveAsMouldeVisible(state, { payload: params}) {
-			state.saveAsMouldModal.visible = params.visible
-			state.saveAsMouldModal.confirmLoading = params.confirmLoading
+		changeSaveAsTemplateVisible(state, { payload: params}) {
+			state.saveAsTemplateModal.visible = params.visible
+			state.saveAsTemplateModal.confirmLoading = params.confirmLoading
 			return {...state}
 		},
-		changesaveAsMouldState(state, { payload: value }) {
+		changesaveAsTemplateState(state, { payload: value }) {
 
-			// state.saveAsMould.key = params.key;
-			// state.saveAsMould.title = params.title;
-			// state.saveAsMould.iconType = params.iconType;
-			state.saveAsMouldModal.name = value;
+			// state.saveAsTemplate.key = params.key;
+			// state.saveAsTemplate.title = params.title;
+			// state.saveAsTemplate.iconType = params.iconType;
+			state.saveAsTemplateModal.name = value;
 			return {...state};
 		},
 	}

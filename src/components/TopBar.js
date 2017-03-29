@@ -21,9 +21,9 @@ import { Cascader } from 'antd';
 
 import Preview from './TopBar/Preview.js';
 
-import SaveAsMould from './TopBar/SaveAsMould.js';
+import SaveAsTemplate from './TopBar/SaveAsTemplate.js';
 
-import MouldStore from './TopBar/mouldStore.js';
+import TemplateStore from './TopBar/TemplateStore.js';
 
 import { Steps } from 'antd';
 import { Progress, Popover } from 'antd';
@@ -372,10 +372,16 @@ const LeftSidebar = (props) => {
 	        	});
 	        },
 
-	        mouldStore(){
+	        templateStore(){
 				props.dispatch({
-					type: 'mouldStore/changeMouldStoreVisible',
+					type: 'templateStore/changeTemplateStoreVisible',
 					payload: true
+				})
+				props.dispatch({
+					type: 'templateStore/initTypesAndTemplates',
+				})
+				props.dispatch({
+					type: 'templateStore/initTemplates',
 				})
 	        },
 
@@ -450,20 +456,13 @@ const LeftSidebar = (props) => {
 	        	},"2000");
 	        },
 
-	        saveAsMould() {
-				// props.dispatch({
-				// 		type: 'preview/setSrc',
-				// 		payload: 'http://' + localStorage.domain + '/pages/' + props.vdpm.currentActivePageListItem
-				// 	});
-				// props.dispatch({
-				// 	type: 'preview/initPreviewer'
-				// });
+	        saveAsTemplate() {
 	        	html2canvas($("#VDDesignerContainer",window.VDDesignerFrame.document),{
 	        		onrendered: function(canvas) {
-	        			var mouldPreviewUrl = canvas.toDataURL();
+	        			var templatePreviewUrl = canvas.toDataURL();
 
 	        			props.dispatch({
-				          type: 'vdcore/changeSaveAsMouldeVisible',
+				          type: 'vdcore/changeSaveAsTemplateVisible',
 				          payload: {
 				              visible: true,
 				              confirmLoading: false
@@ -473,8 +472,8 @@ const LeftSidebar = (props) => {
 				          type: 'vdcore/getTemplate',
 				        });
 				        props.dispatch({
-				        	type: 'vdcore/saveAsMouldePreviewUrl',
-				        	payload: mouldPreviewUrl
+				        	type: 'vdcore/saveAsTemplatePreviewUrl',
+				        	payload: templatePreviewUrl
 				        })
 	        		}
 
@@ -1645,9 +1644,9 @@ const LeftSidebar = (props) => {
 						<Icon type="laptop" />
 		        		控制台
 			        </Menu.Item>
-			        <Menu.Item key="mouldStore">
+			        <Menu.Item key="templateStore">
 			        	<Icon type="shopping-cart" />
-						模板商城
+						VD商城
 			        </Menu.Item>
 					<Menu.Item key="feedback">
 						<Icon type="smile-o" />
@@ -2100,9 +2099,9 @@ const LeftSidebar = (props) => {
 
 	    	<Preview></Preview>
 
-	    	<SaveAsMould></SaveAsMould>
+	    	<SaveAsTemplate></SaveAsTemplate>
 
-	    	<MouldStore></MouldStore>
+	    	<TemplateStore></TemplateStore>
 
 			<Modal width="30%"  title="意见建议" visible={props.sidebar.modalFeedback.visible}
 	          	onOk={feedbackProps.submit} onCancel={feedbackProps.hideModal}

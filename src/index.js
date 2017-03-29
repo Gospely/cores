@@ -110,7 +110,7 @@ app.model(require('./models/vdsite/ModelVDStyle'));
 app.model(require('./models/vdsite/ModelVDCore'));
 app.model(require('./models/vdsite/ModelInteractions'));
 app.model(require('./models/topbar/ModelPreview'));
-app.model(require('./models/topbar/ModelMouldStore'));
+app.model(require('./models/topbar/ModelTemplateStore'));
 // 5. Router
 app.router(require('./router'));
 
