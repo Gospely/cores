@@ -900,6 +900,16 @@ export default {
 			}
 		},
 
+		mediaQuery: {
+			activeMedia: 'pc',
+
+			queryList: [{
+				
+			}, {
+
+			}]
+		},
+
 		cssStyleList: {
 			display: '',
 			width: '',

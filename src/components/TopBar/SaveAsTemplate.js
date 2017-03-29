@@ -3,8 +3,6 @@ import { connect } from 'dva';
 
 import { Spin, Button, Modal, Input } from 'antd';
 
-
-
 const SaveAsTemplate = (props) => {
 
   const SaveAsTemplateProps = {
@@ -45,19 +43,19 @@ const SaveAsTemplate = (props) => {
 
       <div>
             <Modal
-              title="设置为模板"
+              title="发布到商城"
               visible={props.vdcore.saveAsTemplateModal.visible}
-              wrapClassName="saveAstemplate-wrapper"
+              wrapClassName="saveAsMould-wrapper"
               onOk={SaveAsTemplateProps.handleOk}
               onCancel={SaveAsTemplateProps.hide}
               okText="保存"
               confirmLoading={props.vdcore.saveAsTemplateModal.confirmLoading}
             >
               <div>
-                <Input placeholder="设置模板名" onChange={SaveAsTemplateProps.onChange} value={props.vdcore.saveAsTemplateModal.name}/>
-                <img src={props.vdcore.saveAsTemplateModal.previewUrl} style={{width:'300px', height:'300px'}} />
+                <Input placeholder="项目名称" onChange={SaveAsTemplateProps.onChange} value={props.vdcore.saveAsTemplateModal.name} />
+                <Input type="textarea" placeholder="项目描述" style={{marginTop: '20px'}} />
+                <img src={props.vdcore.saveAsTemplateModal.previewUrl} style={{width:'100%', height:'300px', marginTop: '20px'}} />
               </div>
-
             </Modal>
       </div>
 

@@ -377,6 +377,12 @@ const LeftSidebar = (props) => {
 					type: 'templateStore/changeTemplateStoreVisible',
 					payload: true
 				})
+				props.dispatch({
+					type: 'templateStore/initTypesAndTemplates',
+				})
+				props.dispatch({
+					type: 'templateStore/initTemplates',
+				})
 	        },
 
 	        feedback () {
@@ -1669,11 +1675,11 @@ const LeftSidebar = (props) => {
 			          		</span>
 			          	</Tooltip>
 					</Menu.Item>
-			        <Menu.Item key='saveAsTemplate' placement="left" className='save-as-template-app-btn'>
-			        	<Tooltip placement="leftBottom" title='保存为模板'>
+			        <Menu.Item key='saveAsMould' placement="left" className='saveasmould-app-btn'>
+			        	<Tooltip placement="leftBottom" title='发布到商城'>
 			          		<span>
 			          			<Icon type='check-square-o' />
-			          			存至VD商城
+			          			发布到商城
 			          		</span>
 		          		</Tooltip>
 					</Menu.Item>
