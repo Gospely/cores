@@ -21,7 +21,7 @@ const MouldStore = (props) => {
 	return (
 		<div className="designer-wrapper">
 			<Modal
-			  title="Store|Gospel 模板商城 "
+			  title="Gospel 模板商城"
               wrapClassName="vertical-center-modal"
               visible={props.mouldStore.visible}
               wrapClassName="mould-wrapper"
@@ -38,8 +38,7 @@ const MouldStore = (props) => {
 							<div className="mould-store-search">
 								<Search
 								    placeholder="input search text"
-								    style={{ width: '30%' }}
-								  />
+								    style={{ width: '30%' }} />
 							</div>
 						</div>	
 					</div>
@@ -48,8 +47,7 @@ const MouldStore = (props) => {
 								<Menu
 									onClick={mouldStoreProps.handleClick}
 		      						mode="horizontal"
-		      						className="mould-store-menu"
-								>
+		      						className="mould-store-menu">
 									<Menu.Item key="free" className="mould-store-menu-item">
 										免费
 									</Menu.Item>

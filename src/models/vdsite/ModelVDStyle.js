@@ -901,7 +901,7 @@ export default {
 		},
 
 		mediaQuery: {
-			activeMedia: '',
+			activeMedia: 'pc',
 
 			queryList: [{
 				
