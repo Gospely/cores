@@ -377,6 +377,12 @@ const LeftSidebar = (props) => {
 					type: 'templateStore/changeTemplateStoreVisible',
 					payload: true
 				})
+				props.dispatch({
+					type: 'templateStore/initTypesAndTemplates',
+				})
+				props.dispatch({
+					type: 'templateStore/initTemplates',
+				})
 	        },
 
 	        feedback () {
