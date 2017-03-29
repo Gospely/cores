@@ -15,7 +15,7 @@ export default {
 		customAttr: {
 			visible: false
 		},
-		saveAsTemplateModal: {
+		TemplateSavingModal: {
 			visible: false,
 			confirmLoading: false,
 			name: '',
@@ -225,13 +225,13 @@ export default {
 			});
 
 		},
-		*saveTemplate( { payload: params },  { call, put, select }) {
+		*TemplateSaving( { payload: params },  { call, put, select }) {
 
 			var layout = yield select(state => state.vdCtrlTree.layout),
 				pages = yield select(state => state.vdpm.pageList),
 				css = yield select(state => state.vdstyles.cssStyleLayout),
 				currPage = yield select(state => state.vdpm.currentActivePageListItem),
-				name = yield select(state => state.vdcore.saveAsTemplateModal.name),
+				name = yield select(state => state.vdcore.TemplateSavingModal.name),
 				interaction = yield select(state => state.vdanimations);
 
 			var struct = VDPackager.pack({layout, pages, css, interaction});
@@ -250,7 +250,7 @@ export default {
 			});
 			console.log(packResult);
 			yield put({
-				type: 'changeSaveAsTemplateVisible',
+				type: 'changeTemplateSavingVisible',
 				payload: {
 				   visible:false,
 				   confirmLoading:false
@@ -266,12 +266,12 @@ export default {
 
 			if(packResult.data.fields.length > 0){
 				yield put({
-					type: 'changesaveAsTemplateState',
+					type: 'changeTemplateSavingState',
 					payload: packResult.data.fields[0].name
 				});
 			}else {
 				yield put({
-					type: 'changesaveAsTemplateState',
+					type: 'changeTemplateSavingState',
 					payload: ''
 				});
 			}
@@ -385,8 +385,8 @@ export default {
 
 	reducers: {
 
-		saveAsTemplatePreviewUrl(state, { payload: params}){
-			state.saveAsTemplateModal.previewUrl = params;
+		TemplateSavingPreviewUrl(state, { payload: params}){
+			state.TemplateSavingModal.previewUrl = params;
 			return {...state}
 		},
 
@@ -467,17 +467,17 @@ export default {
 
 			return {...state};
 		},
-		changeSaveAsTemplateVisible(state, { payload: params}) {
-			state.saveAsTemplateModal.visible = params.visible
-			state.saveAsTemplateModal.confirmLoading = params.confirmLoading
+		changeTemplateSavingVisible(state, { payload: params}) {
+			state.TemplateSavingModal.visible = params.visible
+			state.TemplateSavingModal.confirmLoading = params.confirmLoading
 			return {...state}
 		},
-		changesaveAsTemplateState(state, { payload: value }) {
+		changeTemplateSavingState(state, { payload: value }) {
 
-			// state.saveAsTemplate.key = params.key;
-			// state.saveAsTemplate.title = params.title;
-			// state.saveAsTemplate.iconType = params.iconType;
-			state.saveAsTemplateModal.name = value;
+			// state.TemplateSaving.key = params.key;
+			// state.TemplateSaving.title = params.title;
+			// state.TemplateSaving.iconType = params.iconType;
+			state.TemplateSavingModal.name = value;
 			return {...state};
 		},
 	}

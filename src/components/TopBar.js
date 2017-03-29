@@ -21,7 +21,7 @@ import { Cascader } from 'antd';
 
 import Preview from './TopBar/Preview.js';
 
-import SaveAsTemplate from './TopBar/SaveAsTemplate.js';
+import TemplateSaving from './TopBar/TemplateSaving.js';
 
 import TemplateStore from './TopBar/TemplateStore.js';
 
@@ -456,13 +456,13 @@ const LeftSidebar = (props) => {
 	        	},"2000");
 	        },
 
-	        saveAsTemplate() {
+	        TemplateSaving() {
 	        	html2canvas($("#VDDesignerContainer",window.VDDesignerFrame.document),{
 	        		onrendered: function(canvas) {
 	        			var templatePreviewUrl = canvas.toDataURL();
 
 	        			props.dispatch({
-				          type: 'vdcore/changeSaveAsTemplateVisible',
+				          type: 'vdcore/changeTemplateSavingVisible',
 				          payload: {
 				              visible: true,
 				              confirmLoading: false
@@ -472,7 +472,7 @@ const LeftSidebar = (props) => {
 				          type: 'vdcore/getTemplate',
 				        });
 				        props.dispatch({
-				        	type: 'vdcore/saveAsTemplatePreviewUrl',
+				        	type: 'vdcore/TemplateSavingPreviewUrl',
 				        	payload: templatePreviewUrl
 				        })
 	        		}
@@ -1675,7 +1675,7 @@ const LeftSidebar = (props) => {
 			          		</span>
 			          	</Tooltip>
 					</Menu.Item>
-			        <Menu.Item key='saveAsMould' placement="left" className='saveasmould-app-btn'>
+			        <Menu.Item key='TemplateSaving' placement="left" className='Template-Saving-app-btn'>
 			        	<Tooltip placement="leftBottom" title='发布到商城'>
 			          		<span>
 			          			<Icon type='check-square-o' />
@@ -2099,7 +2099,7 @@ const LeftSidebar = (props) => {
 
 	    	<Preview></Preview>
 
-	    	<SaveAsTemplate></SaveAsTemplate>
+	    	<TemplateSaving></TemplateSaving>
 
 	    	<TemplateStore></TemplateStore>
 

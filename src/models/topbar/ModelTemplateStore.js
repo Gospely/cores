@@ -11,9 +11,9 @@ export default {
 		weChatLink: placeholderImgBase64,
 		visible:false,
 		pay: 'weChat',
-<<<<<<< HEAD
 		selectTag: 'all',
 		selectTemplateValue: '',
+		types: [],
 		templateAttr:[{
 					imgUrl: placeholderImgBase64,
 					name: 'Evento',
@@ -65,10 +65,6 @@ export default {
 					weChatLink: placeholderImgBase64,
 					tag: ['CMS'],
 				}],
-=======
-		types: [],
-		templateAttr:[],
->>>>>>> ec16b5d34226f9f533807135202f2685adc7e40f
 	},
 
 	reducers: {
