@@ -61,12 +61,13 @@ export default {
 				templates = yield request('templates/?cur=1&limit=' + limit + '&show=id_name_price_description_type_author_url', {
 					method: 'get',
 				});
+				templates = templates.data.fields;
 			}
 			yield put({
 				type: 'setTypesAndTemplates',
 				payload: {
 					types: types.data.fields,
-					templates: templates.data.fields
+					templates: templates
 				}
 			})
 		},

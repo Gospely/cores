@@ -90,7 +90,7 @@ const TemplateStore = (props) => {
 									  {item.name}
 									  </span>&nbsp;
 									  <span className="template-store-card-price">
-									  {item.price}
+									  ￥ {item.price}
 									  </span>
 								  </div>
 
