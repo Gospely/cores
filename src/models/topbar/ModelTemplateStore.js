@@ -12,6 +12,7 @@ export default {
 		visible:false,
 		pay: 'weChat',
 		selectTag: 'all',
+		selectTemplateValue: '',
 		templateAttr:[{
 					imgUrl: placeholderImgBase64,
 					name: 'Evento',
@@ -66,6 +67,10 @@ export default {
 	},
 
 	reducers: {
+		setSelectTemplateValue(state, {payload: value}) {
+			state.selectTemplateValue = value;
+			return {...state}
+		},
 
 		loadnumberAdd(state) {
 			state.loadnumber = state.loadnumber+4;

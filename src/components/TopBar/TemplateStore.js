@@ -58,6 +58,14 @@ const TemplateStore = (props) => {
 			})
 		},
 
+		selectTemplate(value) {
+			console.log(value);
+			props.dispatch({
+				type: 'templateStore/setSelectTemplateValue',
+				payload: value,
+			})
+		},
+
 		handleClick(activeMenu) {
 			console.log(activeMenu);
 			var handleActiveMenuEvent = {
@@ -95,10 +103,14 @@ const TemplateStore = (props) => {
 	};
 
 	const templateList= props.templateStore.templateAttr.map(function(item,index){
-
-
+							const selectValue = props.templateStore.selectTemplateValue;
+							const selectTag = props.templateStore.selectTag;
+							//const judge = true
 							for(let i = 0 ;i <item.tag.length ; i++){
-								if(props.templateStore.selectTag == "all" || item.tag[i] == props.templateStore.selectTag) {
+									// if( selectValue!= "" && item.tag[i].indexOf(selectValue) ==-1 ){
+									// 	 judge = false;
+									// }
+								if( selectTag == "all" || item.tag[i] == selectTag) {
 
 									  if(count < props.templateStore.loadnumber){
 									  			count++;
@@ -215,6 +227,7 @@ const TemplateStore = (props) => {
 								<Search
 								    placeholder="input search text"
 								    style={{ width: '30%' }}
+								    onSearch= {value => templateStoreProps.selectTemplate(value)}
 								  />
 							</div>
 						</div>	
