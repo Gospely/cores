@@ -1677,10 +1677,10 @@ const LeftSidebar = (props) => {
 			          	</Tooltip>
 					</Menu.Item>
 			        <Menu.Item key='saveAsMould' placement="left" className='saveasmould-app-btn'>
-			        	<Tooltip placement="leftBottom" title='保存为模板'>
+			        	<Tooltip placement="leftBottom" title='发布到商城'>
 			          		<span>
 			          			<Icon type='check-square-o' />
-			          			保存至模板商城
+			          			发布到商城
 			          		</span>
 		          		</Tooltip>
 					</Menu.Item>
