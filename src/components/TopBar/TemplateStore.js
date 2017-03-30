@@ -56,6 +56,9 @@ const TemplateStore = (props) => {
 			props.dispatch({
 				type: 'templateStore/loadnumberAdd',
 			})
+			props.dispatch({
+				type: 'templateStore/flashTemplates'
+			});
 		},
 
 		selectTemplate(value) {
@@ -84,93 +87,86 @@ const TemplateStore = (props) => {
 	const templateList= props.templateStore.templateAttr.map(function(item,index){
 							const selectValue = props.templateStore.selectTemplateValue;
 							const selectTag = props.templateStore.selectTag;
-							for(let i = 0 ;i <item.tag.length ; i++){
-								if( selectTag == "all" || item.tag[i] == selectTag) {
-									if(count < props.templateStore.loadnumber){
-												  count++;
-												  return (
-													  <div className="template-store-content-list" key={index}>
-														  <Row>
-															  <Col span={12} style={{ height:296}}>
-																  <img src={item.url} className="template-store-content-list-img" />
-															  </Col>
-															  <Col span={12} style={{ paddingLeft:20, paddingTop:20}}>
+							if(count < props.templateStore.loadnumber){
+										  count++;
+										  return (
+											  <div className="template-store-content-list" key={index}>
+												  <Row>
+													  <Col span={12} style={{ height:296}}>
+														  <img src={item.url} className="template-store-content-list-img" />
+													  </Col>
+													  <Col span={12} style={{ paddingLeft:20, paddingTop:20}}>
 
-																  <div className="template-store-card-header">
-																	  <span className="template-store-card-title">
-																	  {item.name}
-																	  </span>&nbsp;
-																	  <span className="template-store-card-price">
-																	  ￥ {item.price}
-																	  </span>
-																  </div>
+														  <div className="template-store-card-header">
+															  <span className="template-store-card-title">
+															  {item.name}
+															  </span>&nbsp;
+															  <span className="template-store-card-price">
+															  ￥ {item.price}
+															  </span>
+														  </div>
 
-																  <p className='template-author'>
-																	  {item.author}
-																  </p>
+														  <p className='template-author'>
+															  {item.author}
+														  </p>
+														  <div className="template-introduce">
+															  <p className="template-introduce-text">
+																{item.description}
+															  </p>
+															  <div className="template-introduce-text-fead"></div>
+														  </div>
 
+														  <div className="template-btn-box">
+															  <Button type="primary">预览模板</Button>
+															  {!(!item.visible || item.price == 0) && <Button onClick={templateStoreProps.buytemplate.bind(this,index)} type="primary">购买模板</Button>}
+															  {
+																  item.isBuy ?<Button type="primary">使用模板</Button> : <Button type="primary" disabled >使用模板</Button>
+															  }
+														  </div>
 
-																  <div className="template-introduce">
-																	  <p className="template-introduce-text">
-																		{item.description}
-																	  </p>
-																	  <div className="template-introduce-text-fead"></div>
-																  </div>
+													  </Col>
+												  </Row>
 
-																  <div className="template-btn-box">
-																	  <Button type="primary">预览模板</Button>
-																	  <Button onClick={templateStoreProps.buytemplate.bind(this,index)} type="primary">购买模板</Button>
-																	  {
-																		  item.isBuy ?<Button type="primary">使用模板</Button> : <Button type="primary" disabled >使用模板</Button>
-																	  }
-																  </div>
-
-															  </Col>
-														  </Row>
-
-														  <Modal
-															  title="Gospel | 购买模板"
-															  wrapClassName="vertical-center-modal"
-															  visible={item.buyTemplateVisible}
-															  onCancel={templateStoreProps.hideBuytemplate.bind(this,index)}
-															  footer={null}
-														  >
-															  <div className="buy-template-header">
-																  <div className="goods-name">
-																	  模板名称: {item.name}
-																  </div>
-																  <div className="goods-price">
-																	   模板价格: {item.price}
-																  </div>
-															  </div>
-
-															  <div className="buy-template-pay">
-																  <Radio.Group value={props.templateStore.pay} onChange={templateStoreProps.changePay}>
-																	  <Radio.Button className="buy-template-pay-btn"  value="weChat" >
-																		  <i className="fa fa-weixin" aria-hidden="true"></i>微信支付
-																	  </Radio.Button>
-																	  <Radio.Button className="buy-template-pay-btn" value="alipay" >
-																		  <i className="fa fa-paypal" aria-hidden="true"></i>支付宝
-																	  </Radio.Button>
-																  </Radio.Group>
-															  </div>
-
-															  <div className="templates-pay">
-																  { props.templateStore.pay == "weChat" ? <div>扫描二维码支付</div> : <div></div>}
-																  { props.templateStore.pay == "weChat" ? <img src={item.weChatLink} className="template-weChat-link" /> : <div></div>}
-															  </div>
-															  <div className="templates-pay-btn">
-																  <Button onClick={templateStoreProps.hideBuytemplate.bind(this,index)}>取消</Button>
-																  { props.templateStore.pay == "alipay" ? <Button>确认支付</Button> : <div></div>}
-															  </div>
-														  </Modal>
+												  <Modal
+													  title="Gospel | 购买模板"
+													  wrapClassName="vertical-center-modal"
+													  visible={item.buyTemplateVisible}
+													  onCancel={templateStoreProps.hideBuytemplate.bind(this,index)}
+													  footer={null}
+												  >
+													  <div className="buy-template-header">
+														  <div className="goods-name">
+															  模板名称: {item.name}
+														  </div>
+														  <div className="goods-price">
+															   模板价格: {item.price}
+														  </div>
 													  </div>
-												  )
-									}
-									
-								}
+
+													  <div className="buy-template-pay">
+														  <Radio.Group value={props.templateStore.pay} onChange={templateStoreProps.changePay}>
+															  <Radio.Button className="buy-template-pay-btn"  value="weChat" >
+																  <i className="fa fa-weixin" aria-hidden="true"></i>微信支付
+															  </Radio.Button>
+															  <Radio.Button className="buy-template-pay-btn" value="alipay" >
+																  <i className="fa fa-paypal" aria-hidden="true"></i>支付宝
+															  </Radio.Button>
+														  </Radio.Group>
+													  </div>
+
+													  <div className="templates-pay">
+														  { props.templateStore.pay == "weChat" ? <div>扫描二维码支付</div> : <div></div>}
+														  { props.templateStore.pay == "weChat" ? <img src={item.weChatLink} className="template-weChat-link" /> : <div></div>}
+													  </div>
+													  <div className="templates-pay-btn">
+														  <Button onClick={templateStoreProps.hideBuytemplate.bind(this,index)}>取消</Button>
+														  { props.templateStore.pay == "alipay" ? <Button>确认支付</Button> : <div></div>}
+													  </div>
+												  </Modal>
+											  </div>
+										  )
 							}
-							
+
 						})
 
 
@@ -222,9 +218,9 @@ const TemplateStore = (props) => {
 						</div>
 					</div>
 					<div className="template-store-content">
-						{templateList}
+						{ props.templateStore.templateAttr.length > 0 ? templateList : <Button className="load-more">暂无数据</Button>}
 					</div>
-					{ count < props.templateStore.loadnumber ? <div></div> :<Button onClick={templateStoreProps.loadMore} className="load-more">加载更多</Button>}
+					{ props.templateStore.templateAttr.length%props.templateStore.pageSize != 0 ? <div></div> :<Button onClick={templateStoreProps.loadMore} className="load-more">加载更多</Button>}
 
 				</div>
 
