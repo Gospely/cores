@@ -12,6 +12,7 @@ export default {
 		weChatLink: placeholderImgBase64,
 		visible:false,
 		pay: 'weChat',
+		wechat: 'http://www.baidu.com',
 		selectTemplateValue: '',
 		types: [],
 		query: '',
@@ -120,6 +121,13 @@ export default {
 					types: types,
 					templates: templates
 				}
+			})
+		},
+		*addOrders({payload: value}, {call, select,put}){
+
+			yield put({
+				type: 'templateStore/changePay',
+				payload: value
 			})
 		},
 		*searchTemplate({payload: value }, {call, select, put}){

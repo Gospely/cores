@@ -1,6 +1,7 @@
 import React , {propTypes} from 'react';
 import { connect } from 'dva';
 import { Spin, Button, Modal, Layout, Row, Col, Input, Menu, Radio } from 'antd';
+import QRCode from 'qrcode.react';
 
 const Search = Input.Search;
 
@@ -12,7 +13,7 @@ const TemplateStore = (props) => {
 		changePay(e){
 
 			props.dispatch({
-				type: 'templateStore/changePay',
+				type: 'templateStore/addOrders',
 				payload: e.target.value
 			})
 		},
@@ -146,7 +147,7 @@ const TemplateStore = (props) => {
 															  模板名称: {item.name}
 														  </div>
 														  <div className="goods-price">
-															   模板价格: {item.price == 0 ? '免费' : item.price}
+															   模板价格: ￥ {item.price == 0 ? '免费' : item.price}
 														  </div>
 													  </div>
 
@@ -163,11 +164,11 @@ const TemplateStore = (props) => {
 
 													  <div className="templates-pay">
 														  { props.templateStore.pay == "weChat" ? <div>扫描二维码支付</div> : <div></div>}
-														  { props.templateStore.pay == "weChat" ? <img src={item.weChatLink} className="template-weChat-link" /> : <div></div>}
+														  { props.templateStore.pay == "weChat" ? <div style={{'margin-top': '15px'}} ><QRCode value={props.templateStore.wechat}></QRCode></div> : <div></div>}
 													  </div>
-													  <div className="templates-pay-btn">
+													  <div className="templates-pay-btn" style={{'margin-top': '15px'}}>
 														  <Button onClick={templateStoreProps.hideBuytemplate.bind(this,index)}>取消</Button>
-														  { props.templateStore.pay == "alipay" ? <Button>确认支付</Button> : <div></div>}
+														  { props.templateStore.pay == "alipay" ? <Button type="primary" style={{'margin-left': '20px'}}>确认支付</Button> : <div></div>}
 													  </div>
 												  </Modal>
 											  </div>
