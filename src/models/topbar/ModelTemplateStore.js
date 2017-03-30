@@ -8,63 +8,14 @@ export default {
 
 	state: {
 		loadnumber:4,
+		pageSize: 4,
 		weChatLink: placeholderImgBase64,
 		visible:false,
 		pay: 'weChat',
-		selectTag: 'all',
 		selectTemplateValue: '',
 		types: [],
-		templateAttr:[{
-					imgUrl: placeholderImgBase64,
-					name: 'Evento',
-					price: '￥49',
-					author: '张三',
-					introduceText: '习近平指出，中尼友好合作符合两国和两国人民的根本利益。当前，中尼关系深入发展。两国保持了政府、政党等各层级密切往来，稳步推进互联互通、灾后重建、基础设施、人文交流等领域合作。我对此感到高兴。双方要继续一道努力，维护中尼关系发展积极势头，开创中尼友好合作新局面。',
-					isBuy: false,
-					buyTemplateVisible: false,
-					weChatLink: placeholderImgBase64,
-					tag: ['免费','CMS'],
-				},{
-					imgUrl: placeholderImgBase64,
-					name: 'Evento2',
-					price: '￥39',
-					author: '张三2',
-					introduceText: '习近平指出，中尼友好合作符合两国和两国人民的根本利益。当前，中尼关系深入发展。两国保持了政府、政党等各层级密切往来，稳步推进互联互通、灾后重建、基础设施、人文交流等领域合作。我对此感到高兴。双方要继续一道努力，维护中尼关系发展积极势头，开创中尼友好合作新局面。',
-					isBuy: false,
-					buyTemplateVisible: false,
-					weChatLink: placeholderImgBase64,
-					tag: ['CMS'],
-				},{
-					imgUrl: placeholderImgBase64,
-					name: 'Evento3',
-					price: '￥19',
-					author: '张三3',
-					introduceText: '习近平指出，中尼友好合作符合两国和两国人民的根本利益。当前，中尼关系深入发展。两国保持了政府、政党等各层级密切往来，稳步推进互联互通、灾后重建、基础设施、人文交流等领域合作。我对此感到高兴。双方要继续一道努力，维护中尼关系发展积极势头，开创中尼友好合作新局面。',
-					isBuy: false,
-					buyTemplateVisible: false,
-					weChatLink: placeholderImgBase64,
-					tag: ['CMS','折扣'],
-				},{
-					imgUrl: placeholderImgBase64,
-					name: 'Evento4',
-					price: '￥59',
-					author: '张三4',
-					introduceText: '习近平指出，中尼友好合作符合两国和两国人民的根本利益。当前，中尼关系深入发展。两国保持了政府、政党等各层级密切往来，稳步推进互联互通、灾后重建、基础设施、人文交流等领域合作。我对此感到高兴。双方要继续一道努力，维护中尼关系发展积极势头，开创中尼友好合作新局面。',
-					isBuy: false,
-					buyTemplateVisible: false,
-					weChatLink: placeholderImgBase64,
-					tag: ['CMS'],
-				},{
-					imgUrl: placeholderImgBase64,
-					name: 'Evento5',
-					price: '￥59',
-					author: '张三4',
-					introduceText: '习近平指出，中尼友好合作符合两国和两国人民的根本利益。当前，中尼关系深入发展。两国保持了政府、政党等各层级密切往来，稳步推进互联互通、灾后重建、基础设施、人文交流等领域合作。我对此感到高兴。双方要继续一道努力，维护中尼关系发展积极势头，开创中尼友好合作新局面。',
-					isBuy: false,
-					buyTemplateVisible: false,
-					weChatLink: placeholderImgBase64,
-					tag: ['CMS'],
-				}],
+		query: '',
+		templateAttr:[],
 	},
 
 	reducers: {
@@ -74,10 +25,14 @@ export default {
 		},
 
 		loadnumberAdd(state) {
-			state.loadnumber = state.loadnumber+4;
+			state.loadnumber = state.loadnumber + 4;
 			return {...state}
 		},
+		initLoadingNum(state) {
 
+			state.loadnumber = 4;
+			return {...state};
+		},
 		changeBuyTemplateVisible(state, { payload: parmas}) {
 			state.templateAttr[parmas.index].buyTemplateVisible = parmas.visible
 			return {...state}
@@ -100,10 +55,22 @@ export default {
 
 			console.log('setTypesAndTemplates');
 			console.log(params);
+			for (var i = 0; i < params.templates.length; i++) {
+				if(params.templates[i].creator == localStorage.user){
+					params.templates[i].visible = false;
+				}else {
+					params.templates[i].visible = true;
+				}
+			}
+			console.log(params);
+			state.templateAttr =  params.templates;
 			state.types = params.types;
-			state.templateAttr =  params.templates
 			return {...state};
-		}
+		},
+		setQuery(state, {payload: query}){
+			state.query = query;
+			return {...state};
+		},
 	},
 	effects:{
 		*initTypesAndTemplates({payload: params}, {call, select, put}){
@@ -111,10 +78,10 @@ export default {
 				method: 'get',
 			});
 			var templates = yield select(state=> state.templateStore.templateAttr);
-			var limit = yield select(state=> state.templateStore.loadnumber);
+			var limit = yield select(state=> state.templateStore.pageSize);
 			console.log(templates);
 			if(templates.length <= 0){
-				templates = yield request('templates/?cur=1&limit=' + limit + '&show=id_name_price_description_type_author_url', {
+				templates = yield request('templates/?cur=1&limit=' + limit + '&show=creator_id_name_price_description_type_author_url', {
 					method: 'get',
 				});
 				templates = templates.data.fields;
@@ -126,14 +93,98 @@ export default {
 					templates: templates
 				}
 			})
+			yield put({
+				type: 'initLoadingNum'
+			});
 		},
-		*flashTemplates({payload: parmas}, {call, select, put}){
+		*flashTemplates({payload: type}, {call, select, put}){
 
-			console.log(flashTemplates);
+			var templates = yield select(state=> state.templateStore.templateAttr);
+			var limit = yield select(state=> state.templateStore.pageSize);
+			var query = yield select(state=> state.templateStore.query);
+
+
+			var types = yield select(state=> state.templateStore.types);
+			var cur = Math.ceil((templates.length + limit) / limit);
+
+			var result = yield request('templates/?cur=' + cur + '&limit=' + limit + '&show=creator_id_name_price_description_type_author_url'+ query, {
+				method: 'get',
+			});
+			console.log(result);
+			for (var i = 0; i < result.data.fields.length; i++) {
+				templates.push(result.data.fields[i])
+			}
+			yield put({
+				type: 'setTypesAndTemplates',
+				payload: {
+					types: types,
+					templates: templates
+				}
+			})
 		},
-		*setSelectTagValue({payload: parmas}, {call, select, put}) {
+		*searchTemplate({payload: value }, {call, select, put}){
 
-			// var query =
+			var limit = yield select(state=> state.templateStore.pageSize);
+			var templates = yield select(state=> state.templateStore.templateAttr);
+			var types = yield select(state=> state.templateStore.types);
+
+			yield put({
+				type: 'initLoadingNum'
+			});
+			var query = '&likeq=' + value;
+
+			templates = yield request('templates/?cur=1&limit=' + limit + '&show=creator_id_name_price_description_type_author_url' + query, {
+				method: 'get',
+			});
+			templates = templates.data.fields;
+
+			yield put({
+				type: 'setTypesAndTemplates',
+				payload: {
+					templates: templates,
+					types: types
+				}
+			})
+			yield put({
+				type: 'setQuery',
+				payload: query,
+			})
+		},
+		*setSelectTagValue({payload: type}, {call, select, put}) {
+
+			console.log(type);
+
+			var limit = yield select(state=> state.templateStore.pageSize);
+			var templates = yield select(state=> state.templateStore.templateAttr);
+			var types = yield select(state=> state.templateStore.types);
+
+			var query = '';
+			if(type.key == 'all'){
+
+			}else if(type.key == 'mine'){
+				query = query + '&creator=' + localStorage.user;
+			}else if (type.key == 'free') {
+				query = query + '&price=0';
+			}else {
+				query = query + '&type=' + type.key;
+			}
+
+			templates = yield request('templates/?cur=1&limit=' + limit + '&show=creator_id_name_price_description_type_author_url' + query, {
+				method: 'get',
+			});
+			templates = templates.data.fields;
+			console.log(templates);
+			yield put({
+				type: 'setTypesAndTemplates',
+				payload: {
+					templates: templates,
+					types: types
+				}
+			})
+			yield put({
+				type: 'setQuery',
+				payload: query,
+			})
 		},
 	}
 }
