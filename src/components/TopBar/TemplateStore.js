@@ -102,7 +102,7 @@ const TemplateStore = (props) => {
 															  {item.name}
 															  </span>&nbsp;
 															  <span className="template-store-card-price">
-															  ￥ {item.price}
+															  ￥  {item.price == 0 ? '免费' : item.price}
 															  </span>
 														  </div>
 
@@ -139,7 +139,7 @@ const TemplateStore = (props) => {
 															  模板名称: {item.name}
 														  </div>
 														  <div className="goods-price">
-															   模板价格: {item.price}
+															   模板价格: {item.price == 0 ? '免费' : item.price}
 														  </div>
 													  </div>
 
@@ -220,7 +220,7 @@ const TemplateStore = (props) => {
 					<div className="template-store-content">
 						{ props.templateStore.templateAttr.length > 0 ? templateList : <Button className="load-more">暂无数据</Button>}
 					</div>
-					{ props.templateStore.templateAttr.length%props.templateStore.pageSize != 0 ? <div></div> :<Button onClick={templateStoreProps.loadMore} className="load-more">加载更多</Button>}
+					{props.templateStore.templateAttr.length == 0 || props.templateStore.templateAttr.length%props.templateStore.pageSize != 0 ? <div></div> :<Button onClick={templateStoreProps.loadMore} className="load-more">加载更多</Button>}
 
 				</div>
 

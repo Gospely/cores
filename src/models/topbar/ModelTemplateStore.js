@@ -8,7 +8,7 @@ export default {
 
 	state: {
 		loadnumber:4,
-		pageSize: 2,
+		pageSize: 4,
 		weChatLink: placeholderImgBase64,
 		visible:false,
 		pay: 'weChat',
@@ -54,6 +54,8 @@ export default {
 			for (var i = 0; i < params.templates.length; i++) {
 				if(params.templates[i].creator == localStorage.user){
 					params.templates[i].visible = false;
+				}else {
+					params.templates[i].visible = true;
 				}
 			}
 			console.log(params);
