@@ -32,7 +32,13 @@ const TemplateStore = (props) => {
 				payload: index
 			})
 		},
-
+		searchTemplate(value){
+			console.log('searchTemplate');
+			props.dispatch({
+				type: 'templateStore/searchTemplate',
+				payload: value
+			})
+		},
 		hideBuytemplate(index) {
 
 			props.dispatch({
@@ -63,6 +69,7 @@ const TemplateStore = (props) => {
 
 		selectTemplate(value) {
 			console.log(value);
+
 			props.dispatch({
 				type: 'templateStore/setSelectTemplateValue',
 				payload: value,
@@ -193,6 +200,7 @@ const TemplateStore = (props) => {
 								    placeholder="input search text"
 								    style={{ width: '30%' }}
 								    onSearch= {value => templateStoreProps.selectTemplate(value)}
+									onSearch={templateStoreProps.searchTemplate}
 								  />
 							</div>
 						</div>

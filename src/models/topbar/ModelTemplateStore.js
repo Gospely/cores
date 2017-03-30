@@ -25,10 +25,14 @@ export default {
 		},
 
 		loadnumberAdd(state) {
-			state.loadnumber = state.loadnumber+4;
+			state.loadnumber = state.loadnumber + 4;
 			return {...state}
 		},
+		initLoadingNum(state) {
 
+			state.loadnumber = 4;
+			return {...state};
+		},
 		changeBuyTemplateVisible(state, { payload: parmas}) {
 			state.templateAttr[parmas.index].buyTemplateVisible = parmas.visible
 			return {...state}
@@ -89,6 +93,9 @@ export default {
 					templates: templates
 				}
 			})
+			yield put({
+				type: 'initLoadingNum'
+			});
 		},
 		*flashTemplates({payload: type}, {call, select, put}){
 
@@ -113,6 +120,34 @@ export default {
 					types: types,
 					templates: templates
 				}
+			})
+		},
+		*searchTemplate({payload: value }, {call, select, put}){
+
+			var limit = yield select(state=> state.templateStore.pageSize);
+			var templates = yield select(state=> state.templateStore.templateAttr);
+			var types = yield select(state=> state.templateStore.types);
+
+			yield put({
+				type: 'initLoadingNum'
+			});
+			var query = '&likeq=' + value;
+
+			templates = yield request('templates/?cur=1&limit=' + limit + '&show=creator_id_name_price_description_type_author_url' + query, {
+				method: 'get',
+			});
+			templates = templates.data.fields;
+
+			yield put({
+				type: 'setTypesAndTemplates',
+				payload: {
+					templates: templates,
+					types: types
+				}
+			})
+			yield put({
+				type: 'setQuery',
+				payload: query,
 			})
 		},
 		*setSelectTagValue({payload: type}, {call, select, put}) {
