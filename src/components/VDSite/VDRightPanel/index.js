@@ -46,7 +46,7 @@ const VDRightPanel = (props) => {
           type: 'vdCtrlTree/changeVDControllerListScroll',
           payload: 'auto'
         })
-      }, 800)
+      }, 1000)
 
     } else {
       props.dispatch({

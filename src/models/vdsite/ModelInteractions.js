@@ -275,7 +275,7 @@ export default {
 				name: 'flipInX',
 				title: 'X轴立体翻转进入'
 			},{
-				name: 'flipIny',
+				name: 'flipInY',
 				title: 'Y轴立体翻转进入'
 			},{
 				name: 'flipOutX',
@@ -314,19 +314,19 @@ export default {
 		},{
 			name: '平面翻转退出',
 			children: [{
-				name: 'rotateIn',
+				name: 'rotateOut',
 				title: '平面翻转退出'
 			},{
-				name: 'rotateInDownLeft',
+				name: 'rotateOutDownLeft',
 				title: '左侧向下翻转退出'
 			},{
-				name: 'rotateInDownRight',
+				name: 'rotateOutDownRight',
 				title: '右侧向下翻转退出'
 			},{
-				name: 'rotateInUpLeft',
+				name: 'rotateOutUpLeft',
 				title: '左侧向上翻转退出'
 			},{
-				name: 'rotateInUpRight',
+				name: 'rotateOutUpRight',
 				title: '右侧向上翻转退出'
 			}]
 		},{
