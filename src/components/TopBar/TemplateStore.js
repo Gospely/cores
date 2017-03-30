@@ -128,7 +128,7 @@ const TemplateStore = (props) => {
 															  <Button type="primary">预览模板</Button>
 															  {!(!item.visible || item.price == 0) && <Button onClick={templateStoreProps.buytemplate.bind(this,index)} type="primary">购买模板</Button>}
 															  {
-																  item.isBuy ?<Button type="primary">使用模板</Button> : <Button type="primary" disabled >使用模板</Button>
+																  (!item.visible || item.price == 0) ?<Button type="primary">使用模板</Button> : <Button type="primary" disabled >使用模板</Button>
 															  }
 														  </div>
 
