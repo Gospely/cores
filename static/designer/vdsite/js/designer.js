@@ -978,7 +978,11 @@ $(function() {
             		left = jq(window).width() - menu.outerWidth() - 10 + jq(window).scrollLeft();
             	}
             	if (jq(window).height() - e.pageY < menu.outerHeight()) {
-            		top = jq(window).height() - menu.outerHeight() - 10 + jq(window).scrollTop();
+            		//top = jq(window).height() - menu.outerHeight() - 10 + jq(window).scrollTop();
+            		top = e.pageY;
+            		console.log(jq(window).height());
+            		console.log(menu.outerHeight());
+            		console.log(jq(window).scrollTop());
             	}
             	menu.css({
             		display: 'block',
