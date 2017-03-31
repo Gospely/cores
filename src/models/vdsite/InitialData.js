@@ -482,6 +482,40 @@ export default {
 			}
 		},
 
+	},
+
+	vdanimations: {
+
+		interactions: [{
+			animate: '',
+			name: 'None',
+			duration: '',
+			condition: 'none',
+			vdid: [],
+			key: 'none'
+		}, {
+			animate: 'bounce',
+			name: '弹跳',
+			duration: '1000',
+			condition: 'click',
+			vdid: [],
+			key: '456'
+		}, {
+			animate: 'bounceIn',
+			name: '弹跳进入',
+			duration: '1000',
+			condition: 'hover',
+			vdid: [],
+			key: '789'
+		}, {
+			animate: 'bounceIn',
+			name: '弹跳进入',
+			duration: '3000',
+			condition: 'scroll',
+			vdid: [],
+			key: '901'
+		}]
+ 
 	}
 
 }
