@@ -40,16 +40,11 @@ import ColorPicker from '../../Panel/ColorPicker.js';
 
 const VDStylePanel = (props) => {
 
-	console.log(props.vdCtrlTree.activeCtrl.tag);
 	if (!props.vdCtrlTree.activeCtrl.tag) {
 		return (
 			<div className="none-operation-obj">暂无操作对象</div>
 		)
 	}
-	console.log('props.vdstyles.cssStyleLayout');
-	console.log(props.vdCtrlTree.activeCtrl.activeStyle);
-	console.log(props.vdstyles.cssStyleLayout);
-	console.log(props.vdstyles.unitList);
 
 	var activeCSSStyleState = props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle],
 		  activeCSSUnitList = props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle];
@@ -182,7 +177,6 @@ const VDStylePanel = (props) => {
 		cssClassListForDropdown () {
 
 			const onSelect = (e) => {
-				console.log(e);
 				props.dispatch({
 					type: 'vdCtrlTree/setActiveStyle',
 					payload: e.selectedKeys[0]
@@ -212,8 +206,6 @@ const VDStylePanel = (props) => {
 				const keyWord = ['btn','navbar','dropup','label','table','glyphicon','lead']
 
 				const onClick = () => {
-					console.log(props.vdstyles.cssStyleLayout)
-
 					var patt = new RegExp(/^[a-zA-Z|\-|0-9]+$/),
 						regResult = patt.test(newStyleName);
 
@@ -241,7 +233,6 @@ const VDStylePanel = (props) => {
 						}
 					}
 
-					console.log("------...",props.vdCtrlTree.activeCtrl.activeStyle)
 					props.dispatch({
 						type: 'vdstyles/addStyle',
 						payload: {
@@ -266,9 +257,7 @@ const VDStylePanel = (props) => {
 
 					props.dispatch({
 						type: 'vdstyles/changeNewStylePopoverVisible'
-					})
-
-					console.log(props.vdCtrlTree.activeCtrl)
+					});
 				}
 
 				const handleNewStyleNameChange = (e) => {
@@ -335,14 +324,9 @@ const VDStylePanel = (props) => {
 
     	imageSetter () {
 
-    		console.log(props.vdstyles.cssStyleLayout)
-
     		var backgroundSizeParams = props.vdstyles.backgroundSetting.backgroundSize;
 
     		const handleBackgroundSizePositionChange = (cssProperty, parent, e) => {
-    			console.log(cssProperty);
-    			console.log(parent);
-
     			var val = e.target ? e.target.value : e;
 
     			handleStylesChange(cssProperty, parent, {
@@ -365,7 +349,6 @@ const VDStylePanel = (props) => {
     		const skipToImggallery = {
 
                 handleClick() {
-                	console.log(props.vdCtrlTree.activeCtrl.activeStyle);
                     props.dispatch({
 
                         type: 'vdcore/changeTabsPane',
@@ -824,8 +807,6 @@ const VDStylePanel = (props) => {
     		}
 
     		const activeProp = props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].state.activeProp;
-
-			console.log(props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].childrenProps, activeProp);
 
     		const handleBoxShadowEditorChange = (property, e) => {
 
@@ -1542,7 +1523,6 @@ const VDStylePanel = (props) => {
     const cssClassProps = {
 
     	onClassNameSelectChange (selected) {
-    		console.log('++++++++++++++++++',selected)
     		props.dispatch({
     			type: 'vdstyles/handleClassChange',
     			payload: {

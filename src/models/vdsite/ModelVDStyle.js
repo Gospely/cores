@@ -804,7 +804,7 @@ export default {
 
 		addMediaQuery(state, { payload: params }) {
 
-			let isExists = false, activeIndex = 0;
+			let isExists = false, activeIndex = 0, activeMediaQuery;
 
 			for (let i = 0; i < state.mediaQuery.queryList.length; i++) {
 				let query = state.mediaQuery.queryList[i];
@@ -816,20 +816,20 @@ export default {
 			};
 
 			if(isExists) {
-				let activeMediaQuery = state.mediaQuery.queryList[activeIndex];
-				activeMediaQuery[params.style.styleName] = params.style.styles;
-
+				activeMediaQuery = state.mediaQuery.queryList[activeIndex];
 			}else {
 				state.mediaQuery.queryList.push({
 					maxWidth: params.maxWidth,
-					cssStyleLayout: {}
+					cssStyleLayout: {},
+					unitList: {}
 				});
 
-				let activeMediaQuery = state.mediaQuery.queryList[state.mediaQuery.queryList.length];
+				activeMediaQuery = state.mediaQuery.queryList[state.mediaQuery.queryList.length - 1];
+			}
 
-				if(params.style.styleName && params.style.styles) {
-					activeMediaQuery.cssStyleLayout[params.style.styleName] = params.style.styles;
-				}
+			if(params.style) {
+				activeMediaQuery.cssStyleLayout[params.style.styleName] = params.style.styles;
+				activeMediaQuery.unitList = params.unitList;
 			}
 
 			console.log(state.mediaQuery);
