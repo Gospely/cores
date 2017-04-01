@@ -75,7 +75,7 @@ const TemplateSaving = (props) => {
                 <p  style={{marginTop: '20px'}} >模板描述 :</p>
                 <Input type="textarea" placeholder="输入模板描述" onChange={TemplateSavingProps.onChange.bind(this,'description')} value={props.vdcore.TemplateSavingModal.description}/>
                 <p className="template-sort-select-input-label">模板分类:</p>
-                <Select style={{width: '25%', marginRight: '15%'}} onSelect={TemplateSavingProps.onChange.bind(this,'type')}>
+                <Select style={{width: '25%', marginRight: '15%'}} defaultValue={props.vdcore.TemplateSavingModal.type} onSelect={TemplateSavingProps.onChange.bind(this,'type')}>
                     {TemplateTypeList}
                 </Select>
                 <p className="template-sort-select-input-label">是否免费:</p>

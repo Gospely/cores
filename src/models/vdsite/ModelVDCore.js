@@ -297,6 +297,7 @@ export default {
 			struct.name = name;
 			struct.description = description;
 			struct.type = type;
+			struct.price = price;
 			struct.application = localStorage.applicationId;
 			struct.src = src;
 			//struct.type = 'custom';
@@ -319,26 +320,15 @@ export default {
 		},
 		*getTemplate({ payload: params }, { call, put, select }){
 
-			var packResult = yield request('vdsite/template?application=' + localStorage.applicationId, {
+			var packResult = yield request('templates/?cur=1&limit=1&application=' + localStorage.applicationId + '&show=id_name_description_type_price', {
 				method: 'get',
 			});
 			console.log(packResult);
 
 			if(packResult.data.fields.length > 0){
 				yield put({
-					type: 'changeTemplateSavingState',
-					payload: {
-						value: packResult.data.fields[0].name,
-						target: 'name'
-					}
-				});
-			}else {
-				yield put({
-					type: 'changeTemplateSavingState',
-					payload: {
-						value: '',
-						target: 'name'
-					}
+					type: 'initForm',
+					payload: packResult.data.fields[0]
 				});
 			}
 
@@ -553,6 +543,15 @@ export default {
 			state.TemplateSavingModal[params.target] = params.value;
 			return {...state};
 		},
+		initForm(state, {payload: params}){
+			console.log(params);
+			state.TemplateSavingModal.name = params.name;
+			state.TemplateSavingModal.price = params.price;
+			state.TemplateSavingModal.description = params.description;
+			state.TemplateSavingModal.type = params.type;
+			state.TemplateSavingModal.isFree = (params.price != 0);
+			return {...state};
+		}
 	}
 
 }
