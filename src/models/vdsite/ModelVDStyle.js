@@ -611,16 +611,16 @@ export default {
 		mediaQuery: {
 			queryList: [{
 				maxWidth: 0,
-				cssStyleLayout: []
+				cssStyleLayout: {}
 			}, {
 				maxWidth: 0,
-				cssStyleLayout: []
+				cssStyleLayout: {}
 			}, {
 				maxWidth: 0,
-				cssStyleLayout: []
+				cssStyleLayout: {}
 			}, {
 				maxWidth: 0,
-				cssStyleLayout: []
+				cssStyleLayout: {}
 			}]
 		},
 
@@ -798,6 +798,42 @@ export default {
 			state.cssPropertyUnits = initialData.vdstyles.cssPropertyUnits;
 			state.unitList = initialData.vdstyles.unitList;
 			state.cssStyleLayout = initialData.vdstyles.cssStyleLayout;
+			state.mediaQuery = initialData.vdstyles.mediaQuery;
+			return {...state};
+		},
+
+		addMediaQuery(state, { payload: params }) {
+
+			let isExists = false, activeIndex = 0;
+
+			for (let i = 0; i < state.mediaQuery.queryList.length; i++) {
+				let query = state.mediaQuery.queryList[i];
+				if(query.maxWidth == params.maxWidth) {
+					isExists = true;
+					activeIndex = i;
+					break;
+				}
+			};
+
+			if(isExists) {
+				let activeMediaQuery = state.mediaQuery.queryList[activeIndex];
+				activeMediaQuery[params.style.styleName] = params.style.styles;
+
+			}else {
+				state.mediaQuery.queryList.push({
+					maxWidth: params.maxWidth,
+					cssStyleLayout: {}
+				});
+
+				let activeMediaQuery = state.mediaQuery.queryList[state.mediaQuery.queryList.length];
+
+				if(params.style.styleName && params.style.styles) {
+					activeMediaQuery.cssStyleLayout[params.style.styleName] = params.style.styles;
+				}
+			}
+
+			console.log(state.mediaQuery);
+
 			return {...state};
 		},
 
