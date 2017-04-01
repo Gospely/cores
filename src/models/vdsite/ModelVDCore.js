@@ -12,16 +12,20 @@ export default {
 	namespace: 'vdcore',
 	state: {
 		accessVisible: false,
+		templateLoading: false,
 		customAttr: {
 			visible: false
 		},
-		TemplateType: ['one','two'],
+		TemplateType: [],
 		TemplateSavingModal: {
 			visible: false,
 			confirmLoading: false,
 			name: '',
+			type: '',
+			description:'',
 			previewUrl: '',
-			isFree: false
+			isFree: false,
+			price: 0
 		},
 		loading: false,
 		linkSetting: {
@@ -227,6 +231,22 @@ export default {
 			});
 
 		},
+		*initAddTemplatesFrom({ payload: params }, { call, put, select }){
+
+			var types = yield request('types/?parent=vd.type', {
+				method: 'get',
+			});
+
+			yield put({
+				  type: 'changeTemplateSavingVisible',
+				  payload: {
+					  visible: true,
+					  confirmLoading: false,
+					  types: types.data.fields,
+					  templateLoading: true
+				  }
+			});
+		},
 		*TemplateSaving( { payload: params },  { call, put, select }) {
 
 			var layout = yield select(state => state.vdCtrlTree.layout),
@@ -234,14 +254,51 @@ export default {
 				css = yield select(state => state.vdstyles.cssStyleLayout),
 				currPage = yield select(state => state.vdpm.currentActivePageListItem),
 				name = yield select(state => state.vdcore.TemplateSavingModal.name),
+				src = yield select(state => state.vdcore.TemplateSavingModal.previewUrl),
+				description = yield select(state => state.vdcore.TemplateSavingModal.description),
+				type = yield select(state => state.vdcore.TemplateSavingModal.type),
+				types = yield select(state => state.vdcore.TemplateType),
+				isFree = yield select(state => !state.vdcore.TemplateSavingModal.isFree),
+				price = yield select(state => state.vdcore.TemplateSavingModal.price),
 				interaction = yield select(state => state.vdanimations);
-
+			console.log('TemplateSaving', isFree);
+			if(isFree){
+				price = 0;
+			}else {
+				if(!isFree && !/^[1-9]\d*(\.\d+)?$/.test(price)){
+					message.error('请输入大于 0 的价格');
+					yield put({
+						type: 'changeTemplateSavingVisible',
+						payload: {
+						   visible:true,
+						   confirmLoading:false,
+						   types: types
+						}
+					});
+					return;
+				}
+			}
+			if(name == '' || description == '' || type == '' || price == ''){
+				message.error('请完善表单');
+				yield put({
+					type: 'changeTemplateSavingVisible',
+					payload: {
+					   visible:true,
+					   confirmLoading:false,
+					   types: types
+					}
+				});
+				return;
+			}
+			console.log(types);
 			var struct = VDPackager.pack({layout, pages, css, interaction});
 			console.log(name);
 			struct.creator = localStorage.user;
 			struct.name = name;
+			struct.description = description;
+			struct.type = type;
 			struct.application = localStorage.applicationId;
-			struct.url = 'http://' +  localStorage.domain;
+			struct.src = src;
 			//struct.type = 'custom';
 			var packResult = yield request('vdsite/template', {
 				method: 'POST',
@@ -255,7 +312,8 @@ export default {
 				type: 'changeTemplateSavingVisible',
 				payload: {
 				   visible:false,
-				   confirmLoading:false
+				   confirmLoading:false,
+				   types: types
 				}
 			});
 		},
@@ -269,12 +327,18 @@ export default {
 			if(packResult.data.fields.length > 0){
 				yield put({
 					type: 'changeTemplateSavingState',
-					payload: packResult.data.fields[0].name
+					payload: {
+						value: packResult.data.fields[0].name,
+						target: 'name'
+					}
 				});
 			}else {
 				yield put({
 					type: 'changeTemplateSavingState',
-					payload: ''
+					payload: {
+						value: '',
+						target: 'name'
+					}
 				});
 			}
 
@@ -391,6 +455,8 @@ export default {
 			return {...state}
 		},
 		TemplateSavingPreviewUrl(state, { payload: params}){
+
+			state.templateLoading = false;
 			state.TemplateSavingModal.previewUrl = params;
 			return {...state}
 		},
@@ -473,16 +539,18 @@ export default {
 			return {...state};
 		},
 		changeTemplateSavingVisible(state, { payload: params}) {
-			state.TemplateSavingModal.visible = params.visible
-			state.TemplateSavingModal.confirmLoading = params.confirmLoading
+			state.TemplateSavingModal.visible = params.visible;
+			state.TemplateSavingModal.confirmLoading = params.confirmLoading;
+			state.TemplateType = params.types || state.TemplateType;
+			state.templateLoading = params.templateLoading || false;
 			return {...state}
 		},
-		changeTemplateSavingState(state, { payload: value }) {
+		changeTemplateSavingState(state, { payload: params }) {
 
 			// state.TemplateSaving.key = params.key;
 			// state.TemplateSaving.title = params.title;
 			// state.TemplateSaving.iconType = params.iconType;
-			state.TemplateSavingModal.name = value;
+			state.TemplateSavingModal[params.target] = params.value;
 			return {...state};
 		},
 	}
