@@ -342,23 +342,40 @@ export default {
 
 			console.log(params);
 
-			var cores = yield select(state => state.vdcore);
+			if(params.activeSize == 'pc') {
+				return false;
+			}
+
+			let cores = yield select(state => state.vdcore),
+				vdstyles = yield select(state => state.vdstyles),
+				vdCtrlTree = yield select(state => state.vdCtrlTree);
+
+			let activeStyle = vdCtrlTree.activeCtrl.activeStyle;
 
 			let VDDesignerActiveSize = cores.VDDesigner.activeSize,
 				maxWidth = cores.VDDesigner[VDDesignerActiveSize].width;
 
+			//改变屏幕大小，增加一个queryList，用户改变样式时，继承活跃类名的上级属性然后做出相应更改
+
 			yield put({
 				type: 'vdstyles/addMediaQuery',
 				payload: {
-					maxWidth: maxWidth,
-					style: {
-						styleName: '',
-						styles: {
-
-						}
-					}
+					maxWidth: maxWidth
 				}
 			});
+
+			// yield put({
+			// 	type: 'vdstyles/addMediaQuery',
+			// 	payload: {
+			// 		maxWidth: maxWidth,
+			// 		style: {
+			// 			styleName: activeStyle,
+			// 			styles: vdstyles.cssStyleLayout[activeStyle]
+			// 		},
+			// 		unitList: vdstyles.unitList[activeStyle]
+			// 	}
+			// });
+
 		},
 
 		*columnCountChange({ payload: params }, { call, put, select }) {
