@@ -114,19 +114,16 @@ export default {
 
                 push(state.controllers);
 
-                return {...state
-                };
+                return {...state};
             },
 
             handleCurrentSymbolKey(state, {payload: key}) {
                 state.currentSymbolKey = key;
-                return {...state
-                };
+                return {...state};
             },
             handleSymbolNameChange(state, {payload: value}) {
                 state.symbolName = value;
-                return {...state
-                };
+                return {...state};
             },
             handleAddSymbol(state, {payload: activeCtrl}) {
 
@@ -142,32 +139,27 @@ export default {
                     state.symbolName = '';
                     state.symbols.push(addController);
                 }
-                return {...state
-                };
+                return {...state};
             },
             handlePopoverVisbile(state, {payload: value}) {
 
                 state.popoverVisible = value;
-                return {...state
-                };
+                return {...state};
             },
             handleEditPopoverVisbile(state, {payload: value}) {
 
                 state.editPopoverVisible = value;
-                return {...state
-                };
+                return {...state};
             },
             handleUpdateVisible(state, {payload: value}) {
 
                 state.keyValeUpdateVisible = value;
-                return {...state
-                };
+                return {...state};
             },
             handleCreateVisible(state, {payload: value}) {
 
                 state.keyValeCreateVisible = value;
-                return {...state
-                };
+                return {...state};
             },
             editSymbol(state) {
 
@@ -186,12 +178,9 @@ export default {
                 state.symbolName = '';
                 state.currentSymbolKey = '';
                 state.editPopoverVisible = false;
-                return {...state
-                };
+                return {...state};
             },
-            deleteSymbol(state, {
-                payload: key
-            }) {
+            deleteSymbol(state, { payload: key}) {
 
                 var index = methods.getSymbolIndexByKey(state.symbols, key);
                 if (index == undefined) {
@@ -199,8 +188,7 @@ export default {
                 } else {
                     state.symbols.splice(index, 1);
                 }
-                return {...state
-                };
+                return {...state};
             }
     },
 

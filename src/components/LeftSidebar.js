@@ -17,7 +17,7 @@ import computeDomHeight from '../utils/computeDomHeight'
 import VDControllers from './VDSite/VDLeftPanel/VDControllers.js';
 import VDPages from './VDSite/VDLeftPanel/VDPages.js';
 import VDCollections from './VDSite/VDLeftPanel/VDCollections.js';
-
+console.log('54684646',VDCollections)
 const TabPane = Tabs.TabPane;
 const Panel = Collapse.Panel;
 
@@ -188,7 +188,7 @@ const leftSidebar = (props) => {
 		return sidebarMenu;
 	}
 
-	let VDCollections = () => {
+	let VDCollectionsA = () => {
 		var sidebarMenu = [];
 
 		if(localStorage.image == 'vd:site') {
@@ -217,10 +217,11 @@ const leftSidebar = (props) => {
 		content[3] = settingLayoutComponent();
 		content[4] = VDControllersComponent();
 		content[5] = VDPagesComponent();
-		content[6] = VDCollections();
+		content[6] = VDCollectionsA();
 
 		for (var i = 0; i < content.length; i++) {
 			var c = content[i];
+			console.log('cccccccc',c)
 			if(c.length) {
 				content.splice(i, 1);
 			}
