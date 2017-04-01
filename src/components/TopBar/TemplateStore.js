@@ -226,9 +226,11 @@ const TemplateStore = (props) => {
 								</Menu>
 						</div>
 					</div>
-					<div className="template-store-content">
-						{ props.templateStore.templateAttr.length > 0 ? templateList : <Button className="load-more">暂无数据</Button>}
-					</div>
+					<Spin spinning={props.templateStore.isLoading}>
+						<div className="template-store-content">
+							{ props.templateStore.templateAttr.length > 0 ? templateList : <Button className="load-more">暂无数据</Button>}
+						</div>
+					</Spin>
 					{props.templateStore.templateAttr.length == 0 || props.templateStore.templateAttr.length%props.templateStore.pageSize != 0 ? <div></div> :<Button onClick={templateStoreProps.loadMore} className="load-more">加载更多</Button>}
 
 				</div>
