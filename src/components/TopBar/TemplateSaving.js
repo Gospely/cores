@@ -7,7 +7,7 @@ const TemplateSaving = (props) => {
 
       const TemplateTypeList = props.vdcore.TemplateType.map(function(item,index){
                               return (
-                                        <Option value={item}>{item}</Option>
+                                        <Select.Option value={item} key={index}>{item}</Select.Option>
                                     )
                                 })
   const TemplateSavingProps = {
