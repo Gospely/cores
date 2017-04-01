@@ -3,6 +3,8 @@ import dva from 'dva';
 import randomString from '../../utils/randomString.js';
 import {message} from 'antd';
 
+import initialData from './initialData.js';
+
 const methods = {
 	checkName(symbols, name) {
 
@@ -961,42 +963,12 @@ export default {
 			value: ''
 		},
 		childrenCopy: '',
-		layout: {
-			'index.html': [{
-				className: [],
-				customClassName: [],
-				animationClassList: [{
-					animate: '',
-					name: 'None',
-					duration: '',
-					condition: 'none',
-					vdid: [],
-					key: 'none'
-				}],
-				id: '',
-				tag: 'body',
-				vdid: 'body-main',
-				ctrlName: 'body',
-				children: [],
-				attrs: []
-			}],
-		},
-
-		layoutState: {
-
-			// activeController: {
-			// 	index: 0,
-			// 	key: '',
-			// 	level: 3
-			// }
-		},
+		layout: {},
 
 		activeCtrlIndex: 0,
 		activeCtrlLvl: 1,
 
-		activePage: {
-			key: 'index.html'
-		},
+		activePage: {},
 
 		constructionMenuStyle: {
 			position: 'fixed',
@@ -1011,7 +983,31 @@ export default {
 		VDControllerListScroll: 'hidden'
 	},
 
+    subscriptions: {
+
+        setup({ dispatch, history }) {
+            history.listen(({
+                pathname
+            }) => {
+                dispatch({
+                    type: 'getInitialData'
+                })
+            });
+        }
+
+    },	
+
 	reducers: {
+
+		getInitialData(state) {
+			state.defaultExpandedKeys = initialData.vdCtrlTree.defaultExpandedKeys;
+			state.expandedKeys = initialData.vdCtrlTree.expandedKeys;
+			state.activeCtrlIndex = initialData.vdCtrlTree.activeCtrlIndex;
+			state.activePage = initialData.vdCtrlTree.activePage;
+			state.layout = initialData.vdCtrlTree.layout;
+			return {...state};
+		},
+
 		changeVDControllerListScroll(state, {payload: params}) {
 			state.VDControllerListScroll = params;
 			state.linkTo = params.linkTo;
@@ -1022,7 +1018,6 @@ export default {
 
 			state.activeCtrl = params.UIState.activeCtrl || {};
 			state.layout = params.UIState.layout || [];
-			state.layoutState = params.UIState.layoutState;
 			state.activePage = params.UIState.activePage || {
 				key: 'index.html'
 			};

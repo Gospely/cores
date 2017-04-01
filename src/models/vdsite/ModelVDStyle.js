@@ -2,6 +2,8 @@ import React , {PropTypes} from 'react';
 import dva from 'dva';
 import { Icon, message } from 'antd';
 
+import initialData from './initialData.js';
+
 var deepCopyObj = function(obj, result) {
 	result = result || {};
 	for(let key in obj) {
@@ -1098,6 +1100,10 @@ export default {
 	      		dispatch({
 	      			type: 'appendStyleIntoOfficialStyle'
 	      		});
+
+	      		dispatch({
+	      			type: 'getInitialData'
+	      		});
 	      	});
 		}
 	},
@@ -1201,6 +1207,14 @@ export default {
 	},
 
 	reducers: {
+
+		getInitialData(state) {
+			state.cssStyleList = initialData.vdstyles.cssStyleList;
+			state.cssPropertyUnits = initialData.vdstyles.cssPropertyUnits;
+			state.unitList = initialData.vdstyles.unitList;
+			return {...state};
+		},
+
 		handleStyleManageModifierChange(state, { payload: params }) {
 			state.styleManager.modifyPop.value = params.value;
 			return {...state};

@@ -4,6 +4,8 @@ import { notification } from 'antd';
 
 import request from '../../utils/request.js';
 
+import initialData from './initialData.js';
+
 const openNotificationWithIcon = (type, title, description) => (
   notification[type]({
     message: title,
@@ -61,7 +63,28 @@ export default {
 		}]
 	},
 
+    subscriptions: {
+
+        setup({ dispatch, history }) {
+            history.listen(({
+                pathname
+            }) => {
+                dispatch({
+                    type: 'getInitialData'
+                })
+            });
+        }
+
+    },	
+
 	reducers: {
+
+		getInitialData(state) {
+			state.pageList = initialData.vdpm.pageList;
+			state.activePage = initialData.vdpm.activePage;
+			state.currentActivePageListItem = initialData.vdpm.currentActivePageListItem;
+			return {...state};
+		},
 
 		setCurrentActivePageListItem(state, { payload: key }) {
 
@@ -437,7 +460,8 @@ export default {
 		}
 	},
 	effects: {
-		*fetchFileList(payload, {call, put}) {
+
+		*fetchFileList(payload, { call, put }) {
 			if(location.hash.indexOf('project') != -1) {
 				// yield put({
 				// 	type: 'setTreeLoadingStatus',
