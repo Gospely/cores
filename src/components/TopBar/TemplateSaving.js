@@ -82,7 +82,9 @@ const TemplateSaving = (props) => {
                 <Switch defaultChecked={!props.vdcore.TemplateSavingModal.isFree} onChange={TemplateSavingProps.onChangeFree} style={{marginRight: '15%'}}/>
                 { props.vdcore.TemplateSavingModal.isFree ? <p className="template-sort-select-input-label"> 模板价格:</p> : <p></p>}
                 { props.vdcore.TemplateSavingModal.isFree ? <Input placeholder="输入模板价格" onChange={TemplateSavingProps.onChange.bind(this,'price')} value={props.vdcore.TemplateSavingModal.price}  style={{width:'30%', display: "inline-block"}} /> : <div></div>}
-                <img src={props.vdcore.TemplateSavingModal.previewUrl} style={{width:'100%', height:'300px', marginTop: '20px'}} />
+                <div style={{width:'100%', height:'300px', marginTop: '20px',overflow: 'hidden'}}>
+                    <img src={props.vdcore.TemplateSavingModal.previewUrl} style={{width:'100%'}} />
+                </div>
               </div>
               </Spin>
             </Modal>
