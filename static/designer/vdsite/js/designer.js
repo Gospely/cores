@@ -699,9 +699,7 @@ $(function() {
 
 		//右键菜单
 		var rightClickMenu = function () {
-			console.log('register..........................................');
 	    	jq("#vdCopy").click(function (e) {
-				console.log('copy');
 		    	e.stopPropagation();
 		    	e.preventDefault();
 		    	postMessageToFather.copyCtrl({});
@@ -898,8 +896,6 @@ $(function() {
 			},
 
 			showDesignerDraggerBorder: function (target) {
-				console.log('showDesignerDraggerBorder');
-				console.log(new Date().getTime());
                 if(target.length === 0) {
                     return false;
                 }
@@ -911,7 +907,6 @@ $(function() {
                     height: target.outerHeight(),
                     display: 'block'
                 });
-				console.log(new Date().getTime());
 			},
 
 			changeContainerHeight: function () {
@@ -966,7 +961,6 @@ $(function() {
 
             showRightClickMenu: function (e) {
 
-				console.log('showRightClickMenu begin');
             	var pastInside = jq("#vdPast, #vdPastPre");
             	var pastBrother = jq("#vdPastBefore, #vdPastAfter");
             	var target = jq(e.target);
@@ -1019,7 +1013,6 @@ $(function() {
 						pastBrother.removeClass('disabled');
 					}
             	}
-				console.log('showRightClickMenu end');
             },
 
             refreshData: function (rootVdid, rootData, childrenData) {
@@ -1764,7 +1757,6 @@ $(function() {
 
             listenClick: function() {
 
-				console.log('listenClick');
 				// console.log(new Date().getTime());
                 var self = this;
                 this.elem.click(function(e) {
@@ -1791,7 +1783,6 @@ $(function() {
             },
 
             listenContextmenu: function () {
-				console.log('listenContextmenu');
             	this.elem.contextmenu(function (e) {
             		e.preventDefault();
             		//controllerOperations.select(jq(e.target).data('controller'));
@@ -1801,7 +1792,6 @@ $(function() {
 
         	makeElemAddedDraggable: function () {
 
-				console.log('makeElemAddedDraggable');
         		var self = this;
 
         		var designerContainer = jq("#VDDesignerContainer");
