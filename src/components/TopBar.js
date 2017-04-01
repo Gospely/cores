@@ -1668,7 +1668,7 @@ const LeftSidebar = (props) => {
 			        	<i className='change-vd-icon icon-bg-150'></i>
 			        </Menu.Item>
 			        <Menu.Item key={props.sidebar.saveBtn.key} placement="left" className='save-app-btn'>
-						<Tooltip placement="leftBottom" title={props.sidebar.saveBtn.title}>
+						<Tooltip title={props.sidebar.saveBtn.title}>
 			          		<span>
 			          			<Icon type={props.sidebar.saveBtn.iconType} />
 			          			{props.sidebar.saveBtn.title}
@@ -1676,7 +1676,7 @@ const LeftSidebar = (props) => {
 			          	</Tooltip>
 					</Menu.Item>
 			        <Menu.Item key='TemplateSaving' placement="left" className='Template-Saving-app-btn'>
-			        	<Tooltip placement="leftBottom" title='发布到商城'>
+			        	<Tooltip title='发布到商城'>
 			          		<span>
 			          			<Icon type='check-square-o' />
 			          			发布到商城
@@ -1684,12 +1684,12 @@ const LeftSidebar = (props) => {
 		          		</Tooltip>
 					</Menu.Item>
 					<Menu.Item key="preview" placement="left" className='preview-app-btn'>
-						<Tooltip placement="leftBottom" title="预览">
+						<Tooltip title="预览">
 			          		<Icon type="eye-o" />
 			          	</Tooltip>
 					</Menu.Item>
 			        <Menu.Item key="delete" placement="left" className='delete-app-btn'>
-				      	<Tooltip placement="leftBottom" title="删除此应用">
+				      	<Tooltip title="删除此应用">
 			          		<Icon type="delete" />
 			          	</Tooltip>
 			        </Menu.Item>

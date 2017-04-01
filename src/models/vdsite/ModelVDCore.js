@@ -15,11 +15,13 @@ export default {
 		customAttr: {
 			visible: false
 		},
+		TemplateType: ['one','two'],
 		TemplateSavingModal: {
 			visible: false,
 			confirmLoading: false,
 			name: '',
-			previewUrl: ''
+			previewUrl: '',
+			isFree: false
 		},
 		loading: false,
 		linkSetting: {
@@ -384,7 +386,10 @@ export default {
 	},
 
 	reducers: {
-
+		changeTemplateIsFree(state){
+			state.TemplateSavingModal.isFree = !state.TemplateSavingModal.isFree;
+			return {...state}
+		},
 		TemplateSavingPreviewUrl(state, { payload: params}){
 			state.TemplateSavingModal.previewUrl = params;
 			return {...state}
