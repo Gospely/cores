@@ -459,12 +459,8 @@ const LeftSidebar = (props) => {
 	        TemplateSaving() {
 
     			props.dispatch({
-		          type: 'vdcore/changeTemplateSavingVisible',
-		          payload: {
-		              visible: true,
-		              confirmLoading: false
-		          }
-		        });
+					type: 'vdcore/initAddTemplatesFrom'
+				})
 	        	html2canvas($("#VDDesignerContainer",window.VDDesignerFrame.document),{
 	        		onrendered: function(canvas) {
 	        			var templatePreviewUrl = canvas.toDataURL();

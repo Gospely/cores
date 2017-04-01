@@ -424,6 +424,12 @@ export default {
 		}
 	},
 
-	unitList: {}
+	unitList: {},
+
+	cssStyleLayout: {},
+
+	mediaQuery: {
+		queryList: []
+	}
 
 }
