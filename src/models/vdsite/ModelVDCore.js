@@ -333,6 +333,34 @@ export default {
 			}
 
 		},
+
+		*changeVDSize({ payload: params }, { call, put, select }) {
+			yield put({
+				type: 'changeVDSizeA',
+				payload: params
+			});
+
+			console.log(params);
+
+			var cores = yield select(state => state.vdcore);
+
+			let VDDesignerActiveSize = cores.VDDesigner.activeSize,
+				maxWidth = cores.VDDesigner[VDDesignerActiveSize].width;
+
+			yield put({
+				type: 'vdstyles/addMediaQuery',
+				payload: {
+					maxWidth: maxWidth,
+					style: {
+						styleName: '',
+						styles: {
+
+						}
+					}
+				}
+			});
+		},
+
 		*columnCountChange({ payload: params }, { call, put, select }) {
 
 			//生成对应栅格的格数 col 等
@@ -434,7 +462,7 @@ export default {
 					value: params.value,
 					tmpColumns: tmpColumns
 				}
-			})
+			});
 
 		}
 	},
@@ -468,7 +496,7 @@ export default {
 			return  {...state};
 		},
 
-		changeVDSize(state, { payload: params }) {
+		changeVDSizeA(state, { payload: params }) {
 			state.VDDesigner.activeSize = params.VDSize;
 			return {...state};
 		},

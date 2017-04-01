@@ -426,6 +426,10 @@ export default {
 
 	unitList: {},
 
-	cssStyleLayout: {}
+	cssStyleLayout: {},
+
+	mediaQuery: {
+		queryList: []
+	}
 
 }
