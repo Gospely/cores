@@ -903,13 +903,18 @@ export default {
 		},
 
 		mediaQuery: {
-			activeMedia: 'pc',
-
 			queryList: [{
-				screenSize: '',
-				
+				maxWidth: 0,
+				cssStyleLayout: []
 			}, {
-
+				maxWidth: 0,
+				cssStyleLayout: []
+			}, {
+				maxWidth: 0,
+				cssStyleLayout: []
+			}, {
+				maxWidth: 0,
+				cssStyleLayout: []
 			}]
 		},
 
