@@ -3,9 +3,21 @@ import { connect } from 'dva';
 
 import { Button, Modal } from 'antd';
 import { Tabs, Icon } from 'antd';
-import { Tooltip } from 'antd';
-import { Collapse } from 'antd';
+import { Tooltip, Collapse } from 'antd';
+import { Popover, notification } from 'antd';
+
 import { Row, Col } from 'antd';
+
+import { Menu } from 'antd';
+const SubMenu = Menu.SubMenu;
+const MenuItemGroup = Menu.ItemGroup;
+
+import { TreeSelect, message } from 'antd';
+const TreeNode = TreeSelect.TreeNode;
+
+import { Form, Input, Cascader, Select, Checkbox, Popconfirm} from 'antd';
+const FormItem = Form.Item;
+const Option = Select.Option;
 
 const Panel = Collapse.Panel;
 const TabPane = Tabs.TabPane;
@@ -14,9 +26,50 @@ const TabPane = Tabs.TabPane;
 
 const Component = (props) => {
 
+	const collectionsProps = {
+			addNewCollections () {
+				props.dispatch({
+					type: 'vdCollections/setNewCollections'
+				})
+			}
+	}
+
+	const collectionsList = props.vdCollections.collections.map((item, index) =>{
+				return (
+				          <Row key={index} className="symbols-ctrl">
+				            <Col span={4}>
+				            	<Icon type="hdd" />
+				            </Col>
+				            <Col span={16} style={{paddingLeft: '10px'}} >
+				              <p>{item.name}</p>
+				            </Col>
+				            <Col span={2}>
+				              <Popconfirm title="确定要删除这个自定义组件吗？" okText="是" cancelText="否">
+				                <a href="#">
+				                  <Icon type="delete" />
+				                </a>
+				              </Popconfirm>
+				            </Col>
+				            <Col span={2}>
+				              <Icon type="edit"/>
+				            </Col>
+				          </Row>
+					)
+	})
+
   	return (
   		<div className="vdctrl-pane-wrapper">
-			vdcollections
+					<Collapse bordered={false} defaultActiveKey='collections-manager'>
+		    			<Panel header="数据集管理" key="collections-manager">
+				    			<Tooltip placement="left" title="添加数据集">
+									<Button className="collections-header-btn" onClick={collectionsProps.addNewCollections}><Icon type="plus"/></Button>
+								</Tooltip>
+							{collectionsList}
+		    			</Panel>
+					</Collapse>
+
+
+
   		</div>
   	);
 

@@ -1663,6 +1663,16 @@ const LeftSidebar = (props) => {
 			        <Menu.Item key="alignPhone" className='change-icon' style={{position: 'fixed', left: '47%'}}>
 			        	<i className='change-vd-icon icon-bg-150'></i>
 			        </Menu.Item>
+			        <Menu.Item key="delete" placement="left" className='delete-app-btn'>
+				      	<Tooltip title="删除此应用">
+			          		<Icon type="delete" />
+			          	</Tooltip>
+			        </Menu.Item>
+					<Menu.Item key="preview" placement="left" className='preview-app-btn'>
+						<Tooltip title="预览">
+			          		<Icon type="eye-o" />
+			          	</Tooltip>
+					</Menu.Item>
 			        <Menu.Item key={props.sidebar.saveBtn.key} placement="left" className='save-app-btn'>
 						<Tooltip title={props.sidebar.saveBtn.title}>
 			          		<span>
@@ -1679,17 +1689,6 @@ const LeftSidebar = (props) => {
 			          		</span>
 		          		</Tooltip>
 					</Menu.Item>
-					<Menu.Item key="preview" placement="left" className='preview-app-btn'>
-						<Tooltip title="预览">
-			          		<Icon type="eye-o" />
-			          	</Tooltip>
-					</Menu.Item>
-			        <Menu.Item key="delete" placement="left" className='delete-app-btn'>
-				      	<Tooltip title="删除此应用">
-			          		<Icon type="delete" />
-			          	</Tooltip>
-			        </Menu.Item>
-
 			        <Menu.Item key="release" className="releaseItem">
 						<Dropdown overlay={deployMenu}  trigger={['click']}>
 				    			<div style={{width: 60}}>
