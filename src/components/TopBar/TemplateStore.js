@@ -101,7 +101,9 @@ const TemplateStore = (props) => {
 											  <div className="template-store-content-list" key={index}>
 												  <Row>
 													  <Col span={12} style={{ height:296}}>
-														  <img src={item.src || item.url} className="template-store-content-list-img" />
+														  <div style={{width:'100%', height:'300px', marginTop: '20px',overflow: 'hidden'}}>
+															 <img src={item.src || item.url} className="template-store-content-list-img" />
+														  </div>
 													  </Col>
 													  <Col span={12} style={{ paddingLeft:20, paddingTop:20}}>
 
