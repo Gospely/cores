@@ -16,6 +16,7 @@ export default {
 		selectTemplateValue: '',
 		types: [],
 		query: '',
+		isLoading: false,
 		templateAttr:[],
 	},
 
@@ -52,6 +53,13 @@ export default {
 			state.pay = parmas;
 			return {...state}
 		},
+		hanleLoading(state, {payload: value}){
+
+			console.log('isLoading');
+			console.log(value);
+			state.isLoading = value;
+			return {...state};
+		},
 		setTypesAndTemplates(state, {payload: params}){
 
 			console.log('setTypesAndTemplates');
@@ -75,6 +83,11 @@ export default {
 	},
 	effects:{
 		*initTypesAndTemplates({payload: params}, {call, select, put}){
+
+			yield put({
+				type: 'hanleLoading',
+				payload: true
+			});
 			var types = yield request('types/?parent=vd.type', {
 				method: 'get',
 			});
@@ -88,18 +101,27 @@ export default {
 				templates = templates.data.fields;
 			}
 			yield put({
+				type: 'hanleLoading',
+				payload: false
+			});
+			yield put({
 				type: 'setTypesAndTemplates',
 				payload: {
 					types: types.data.fields,
 					templates: templates
 				}
 			})
+
 			yield put({
 				type: 'initLoadingNum'
 			});
 		},
 		*flashTemplates({payload: type}, {call, select, put}){
 
+			yield put({
+				type: 'hanleLoading',
+				payload: true
+			});
 			var templates = yield select(state=> state.templateStore.templateAttr);
 			var limit = yield select(state=> state.templateStore.pageSize);
 			var query = yield select(state=> state.templateStore.query);
@@ -115,6 +137,10 @@ export default {
 			for (var i = 0; i < result.data.fields.length; i++) {
 				templates.push(result.data.fields[i])
 			}
+			yield put({
+				type: 'hanleLoading',
+				payload: false
+			});
 			yield put({
 				type: 'setTypesAndTemplates',
 				payload: {
@@ -132,6 +158,10 @@ export default {
 		},
 		*searchTemplate({payload: value }, {call, select, put}){
 
+			yield put({
+				type: 'hanleLoading',
+				payload: true
+			});
 			var limit = yield select(state=> state.templateStore.pageSize);
 			var templates = yield select(state=> state.templateStore.templateAttr);
 			var types = yield select(state=> state.templateStore.types);
@@ -145,7 +175,10 @@ export default {
 				method: 'get',
 			});
 			templates = templates.data.fields;
-
+			yield put({
+				type: 'hanleLoading',
+				payload: false
+			});
 			yield put({
 				type: 'setTypesAndTemplates',
 				payload: {

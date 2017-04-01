@@ -12,6 +12,7 @@
     "classnames": "^2.2.5",
     "copy-webpack-plugin": "^4.0.1",
     "css2json": "0.0.4",
+    "dora-plugin-proxy": "^0.8.5",
     "dva": "^1.1.0",
     "dva-loading": "^0.2.0",
     "fetch": "^1.1.0",
