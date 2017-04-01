@@ -4,6 +4,28 @@ import { message, Modal } from 'antd';
 import request from '../../utils/request';
 import fetch from 'dva/fetch';
 import initialData from './initialData.js';
+import randomString from '../../utils/randomString.js';
+
+const methods = {
+	checkName(symbols, name) {
+
+		for (var i = 0; i < symbols.length; i++) {
+			if (symbols[i].name == name) {
+				return false;
+			}
+		}
+		return true;
+	},
+	getSymbolIndexByKey(symbols, key) {
+
+		for (var i = 0; i < symbols.length; i++) {
+			if (symbols[i].key == key) {
+				return i;
+			}
+		}
+		return undefined;
+	}
+}
 
 export default {
 	namespace: 'vdCollections',
@@ -26,8 +48,22 @@ export default {
         },
 
         setNewCollections(state) {
-        	state.collections.name = "NewCollections";
+        	let newCollections = {
+				name:"NewCollections",
+				key: randomString(8, 10),
+			}
+			state.collections.push(newCollections);
         	return {...state};
+        },
+
+        deleteCollections(state, {payload: key}) {
+			var index = methods.getSymbolIndexByKey(state.collections, key);
+			if (index == undefined) {
+				openNotificationWithIcon('error', '删除失败,请重试');
+			} else {
+				state.collections.splice(index, 1);
+			}
+			return {...state};
         }
 
 	},

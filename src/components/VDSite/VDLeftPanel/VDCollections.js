@@ -27,7 +27,17 @@ const TabPane = Tabs.TabPane;
 const Component = (props) => {
 
 	const collectionsProps = {
+
+			deleteCollections(item) {
+				console.log(item);
+				props.dispatch({
+					type: 'vdCollections/deleteCollections',
+					payload: item.key
+				})
+			}
+			,
 			addNewCollections () {
+				console.log(props.vdCollections.collections);
 				props.dispatch({
 					type: 'vdCollections/setNewCollections'
 				})
@@ -36,7 +46,7 @@ const Component = (props) => {
 
 	const collectionsList = props.vdCollections.collections.map((item, index) =>{
 				return (
-				          <Row key={index} className="symbols-ctrl">
+				          <Row key={index} className="collections-list">
 				            <Col span={4}>
 				            	<Icon type="hdd" />
 				            </Col>
@@ -44,7 +54,7 @@ const Component = (props) => {
 				              <p>{item.name}</p>
 				            </Col>
 				            <Col span={2}>
-				              <Popconfirm title="确定要删除这个自定义组件吗？" okText="是" cancelText="否">
+				              <Popconfirm title="确定要删除这个自定义组件吗？" onConfirm={collectionsProps.deleteCollections.bind(this,item)} okText="是" cancelText="否">
 				                <a href="#">
 				                  <Icon type="delete" />
 				                </a>
