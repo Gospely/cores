@@ -79,22 +79,31 @@ const VDDesignerPanel = (props) => {
         },
     };
 
+    const vdsiteDesignerBorderStyle = {
+        height: props.vdcore.VDDesigner[props.vdcore.VDDesigner.activeSize].height,
+        width: props.vdcore.VDDesigner[props.vdcore.VDDesigner.activeSize].width,
+        transform: 'translate(-50%, 0%)',
+        marginBottom: 0
+    }
+
+    vdsiteDesignerBorderStyle.transform = props.vdcore.VDDesigner.activeSize == 'pc' ? 'translate(-50%, 0%)' : 'translate(-50%, 15%)';
+
+    vdsiteDesignerBorderStyle.marginBottom = props.vdcore.VDDesigner.activeSize == 'pc' ? 0 : '15%';
+
     return ( <div className = "designer-wrapper"
-                  style = {{ height: '100%' }}
+                  style = {{ height: '100%', overflow: 'auto' }}
                   id = "designer-wrapper"
              >
-                <Spin spinning={props.vdcore.loading} style={{ height: 100, top: 'calc(50% - 100px)' }}>
+                <Spin spinning={props.vdcore.loading} style={{ height: 100, top: 'calc(100% - 50px)' }}>
                     <div className="vdsite-designer-border"
-                        style={{ height:  props.vdcore.VDDesigner[props.vdcore.VDDesigner.activeSize].height ,
-                                 width:  props.vdcore.VDDesigner[props.vdcore.VDDesigner.activeSize].width
-                     }}>
-                        <iframe className = "centen-VD"
-                            name = "vdsite-designer"
-                            width = '100%'
-                            height = '100%'
-                            frameBorder = "0"
-                            src = "static/designer/vdsite/index.html"
-                            onLoad = { VDDesignerPanelProps.handleDesPanelLoaded }
+                        style={vdsiteDesignerBorderStyle}>
+                        <iframe className="centen-VD"
+                            name="vdsite-designer"
+                            width={props.vdcore.VDDesigner[props.vdcore.VDDesigner.activeSize].width}
+                            height={props.vdcore.VDDesigner[props.vdcore.VDDesigner.activeSize].height}
+                            frameBorder="0"
+                            src="static/designer/vdsite/index.html"
+                            onLoad={ VDDesignerPanelProps.handleDesPanelLoaded }
                         >
                         </iframe>
                     </div>

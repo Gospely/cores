@@ -109,23 +109,23 @@ export default {
 			},
 
 			verticalTablet:{
-				width: '40%',
-				height: '90%'
+				width: '768px',
+				height: '1024px'
 			},
 
 			alignTablet: {
-				width: '68%',
-				height: '70%'
+				width: '1024px',
+				height: '768px'
 			},
 
 			verticalPhone: {
-				width: '23%',
-				height: '70%'
+				width: '375px',
+				height: '667px'
 			},
 
 			alignPhone: {
-				width: '40%',
-				height: '38%'
+				width: '667px',
+				height: '375px'
 			}
 		},
 
@@ -473,7 +473,7 @@ export default {
 		},
 		initState(state, {payload: params}){
 
-			state.VDDesigner = params.UIState.VDDesigner || state.VDDesigner;
+			// state.VDDesigner = params.UIState.VDDesigner || state.VDDesigner;
 			// state.loading = false;
 			return  {...state};
 		},
