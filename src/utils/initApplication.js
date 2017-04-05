@@ -3,8 +3,9 @@ import { message, notification } from 'antd';
 import request from './request';
 import config from '../configs'
 import fileListen from './fileListen';
-import initState from './initUIState';
-import initData from './initData';
+import initState from './initUIState'
+import initData from './initData'
+
 
 const initApplication = function (application, props, flag){
 
@@ -140,42 +141,7 @@ const initApplication = function (application, props, flag){
               tips: '打开应用中...'
             }
         });
-
-        window.isWeapp = false;
-
-        // localStorage.defaultActiveKey = 'file';
-        // localStorage.activeMenu = "setting";
-        console.log('application', application);
-        localStorage.dir = localStorage.user + '/' + application.docker.replace('gospel_project_', '') + "/";
-        localStorage.currentFolder = localStorage.user + '/' + application.name + '_' + localStorage.userName;
-        localStorage.baseURL = 'http://' + ( localStorage.host ) + ':9999/';
-        localStorage.sshKey = application.sshKey;
-        localStorage.exposePort = application.exposePort;
-
-        if((application.domain != null && application.domain != '') && !config.dev){
-            localStorage.domain = application.domain + '.gospely.com';
-        }else{
-            localStorage.domain = application.host + ':' + application.port;
-        }
-
-        if(application.version){
-            localStorage.version = application.version;
-        }else {
-            localStorage.version = 'null';
-        }
-
-        localStorage.currentProject = application.name;
-        localStorage.port = application.port;
-        localStorage.sshPort = application.sshPort;
-        localStorage.socketPort = application.socketPort;
-        localStorage.image = application.image;
-        localStorage.docker = application.docker;
-        localStorage.applicationId = application.id;
-
-        document.title = localStorage.currentProject + ' - Gospel:先进的在线Web可视化集成开发环境';
-
         if(!flag) {
-            console.log('initUIState vvvv');
             if(localStorage.UIState){
 
                 var UIState = JSON.parse(localStorage.UIState);
@@ -216,8 +182,44 @@ const initApplication = function (application, props, flag){
                 });
             }
         }else {
-            initData(props, application.id);
+            localStorage.image = application.image;
+            initData(props)
         }
+
+        window.isWeapp = false;
+
+        // localStorage.defaultActiveKey = 'file';
+        // localStorage.activeMenu = "setting";
+        console.log('application', application);
+        localStorage.dir = localStorage.user + '/' + application.docker.replace('gospel_project_', '') + "/";
+        localStorage.currentFolder = localStorage.user + '/' + application.name + '_' + localStorage.userName;
+        localStorage.baseURL = 'http://' + ( localStorage.host ) + ':9999/';
+        localStorage.sshKey = application.sshKey;
+        localStorage.exposePort = application.exposePort;
+
+        if((application.domain != null && application.domain != '') && !config.dev){
+            props.dispatch({
+                type: 'sidebar/getDomains'
+            })
+        }else{
+            localStorage.domain = application.host + ':' + application.port;
+        }
+
+        if(application.version){
+            localStorage.version = application.version;
+        }else {
+            localStorage.version = 'null';
+        }
+
+        localStorage.currentProject = application.name;
+        localStorage.port = application.port;
+        localStorage.sshPort = application.sshPort;
+        localStorage.socketPort = application.socketPort;
+        localStorage.image = application.image;
+        localStorage.docker = application.docker;
+        localStorage.applicationId = application.id;
+
+        document.title = localStorage.currentProject + ' - Gospel:先进的在线Web可视化集成开发环境';
 
         var namespace = localStorage.user + localStorage.currentProject + '_' + localStorage.userName;
         fileListen(props, namespace)
