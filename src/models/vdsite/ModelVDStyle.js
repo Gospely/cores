@@ -762,18 +762,12 @@ export default {
 
 			var activeCtrl = yield select(state => state.vdCtrlTree.activeCtrl),
 				activeCtrlCustomClass = activeCtrl.customClassName;
-				console.log(params.value,activeCtrlCustomClass)
 
 				if(Object.prototype.toString.call(params.value) === '[object Array]'){
 					for(var i = 0; i < activeCtrlCustomClass.length; i++ ){
 
-						console.log(activeCtrlCustomClass[i])
-						console.log(params.value,activeCtrlCustomClass)
 						if(activeCtrlCustomClass[i].indexOf(":") > 0) {
 							var isExit = false;
-							console.log("dsadasdassa",activeCtrlCustomClass[i])
-							console.log(params.value,activeCtrlCustomClass)
-
 							for (var j = 0 ; j < params.value.length; j++) {
 								if(params.value[j] == activeCtrlCustomClass[i]){
 									isExit = true;
@@ -782,7 +776,6 @@ export default {
 
 							}
 							if(!isExit) {
-								console.log("dsadasdassa",activeCtrlCustomClass[i])
 								yield put({
 									type: 'deleteStateClass',
 									payload: activeCtrlCustomClass[i]
@@ -1538,7 +1531,6 @@ export default {
 			var cssStyleLayout = styleAction.getCSSStyleLayoutByScreenSize(state);
 			var activeCSSLayout = cssStyleLayout[params.activeStyle];
 			if(activeCSSLayout) {
-				console.log('setActiveBoxShadow', activeCSSLayout);
 				if(activeCSSLayout[params.shadowType].childrenProps[params.cssPropertyIndex]) {
 					activeCSSLayout[params.shadowType].state.activeProp = params.cssPropertyIndex;
 				}
@@ -1552,7 +1544,6 @@ export default {
 			activeCSSLayout[params.shadowType].state.activeProp = activeCSSLayout[params.shadowType].childrenProps.length - 2;
 			activeCSSLayout[params.shadowType].state.activeProp = activeCSSLayout[params.shadowType].state.activeProp < 0 ? 0 : activeCSSLayout[params.shadowType].state.activeProp;
 			activeCSSLayout[params.shadowType].childrenProps.splice(params.cssPropertyIndex, 1);
-			console.log('removeThisShadow', activeCSSLayout);
 			message.success('删除成功');
 			return {...state};
 		},
@@ -1598,21 +1589,19 @@ export default {
 					var propertyParent = styleAction.findCSSPropertyByProperty(cssStyleLayout[activeStyleName], property);
 					if(typeof params.parent.index !== 'undefined') {
 						if(property === 'background-size') {
-							console.log('background-size', value);
 							if(params.parent.index == 2 || params.parent.index == 3) {
 								if(value){
-																	var constractIndex = params.parent.index == 2 ? 3 : 2;
-								propertyParent[property][0] = '';
-								propertyParent[property][1] = '';
-								propertyParent[property][constractIndex] = !value;
-								propertyParent[property][params.parent.index] = value;
-							}else{
-								propertyParent[property][0] = '';
-								propertyParent[property][1] = '';
-								//propertyParent[property][constractIndex] = !value;
-								propertyParent[property][params.parent.index] = value;
-							}
-
+									var constractIndex = params.parent.index == 2 ? 3 : 2;
+									propertyParent[property][0] = '';
+									propertyParent[property][1] = '';
+									propertyParent[property][constractIndex] = !value;
+									propertyParent[property][params.parent.index] = value;
+								}else{
+									propertyParent[property][0] = '';
+									propertyParent[property][1] = '';
+									//propertyParent[property][constractIndex] = !value;
+									propertyParent[property][params.parent.index] = value;
+								}
 							}else {
 								propertyParent[property][params.parent.index] = value;
 								propertyParent[property][2] = false;
@@ -1623,7 +1612,6 @@ export default {
 						}
 					}else if (property === 'background-position') {
 						let vals = value.split(' ');
-						console.log(propertyParent, property);
 						if(typeof propertyParent[property] == 'string') {
 							propertyParent[property] = [];
 						}
