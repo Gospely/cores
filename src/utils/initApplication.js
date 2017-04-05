@@ -3,7 +3,8 @@ import { message, notification } from 'antd';
 import request from './request';
 import config from '../configs'
 import fileListen from './fileListen';
-import initState from './initUIState'
+import initState from './initUIState';
+import initData from './initData';
 
 const initApplication = function (application, props, flag){
 
@@ -139,45 +140,7 @@ const initApplication = function (application, props, flag){
               tips: '打开应用中...'
             }
         });
-        if(localStorage.UIState){
 
-            var UIState = JSON.parse(localStorage.UIState);
-            console.log('initUIState ---------');
-            console.log(UIState);
-            if(UIState.applicationId == application.id){
-                initState(props, application.id);
-            }else {
-                props.dispatch({
-                    type: 'vdcore/handleLoading',
-                    payload: true
-                });
-                // if(window.frames["vdsite-designer"]){
-                //     window.frames["vdsite-designer"].location.reload();
-                // }
-                props.dispatch({
-                    type: 'UIState/readConfig',
-                    payload: {
-                        id: application.id,
-                        ctx: props
-                    }
-                });
-            }
-        }else {
-            props.dispatch({
-                type: 'vdcore/handleLoading',
-                payload: true
-            });
-            // if(window.frames["vdsite-designer"]){
-            //     window.frames["vdsite-designer"].location.reload();
-            // }
-            props.dispatch({
-                type: 'UIState/readConfig',
-                payload: {
-                    id: application.id,
-                    ctx: props
-                }
-            });
-        }
         window.isWeapp = false;
 
         // localStorage.defaultActiveKey = 'file';
@@ -210,6 +173,51 @@ const initApplication = function (application, props, flag){
         localStorage.applicationId = application.id;
 
         document.title = localStorage.currentProject + ' - Gospel:先进的在线Web可视化集成开发环境';
+
+        if(!flag) {
+            console.log('initUIState vvvv');
+            if(localStorage.UIState){
+
+                var UIState = JSON.parse(localStorage.UIState);
+                console.log('initUIState ---------');
+                console.log(UIState);
+                if(UIState.applicationId == application.id){
+                    initState(props, application.id);
+                }else {
+                    props.dispatch({
+                        type: 'vdcore/handleLoading',
+                        payload: true
+                    });
+                    // if(window.frames["vdsite-designer"]){
+                    //     window.frames["vdsite-designer"].location.reload();
+                    // }
+                    props.dispatch({
+                        type: 'UIState/readConfig',
+                        payload: {
+                            id: application.id,
+                            ctx: props
+                        }
+                    });
+                }
+            }else {
+                props.dispatch({
+                    type: 'vdcore/handleLoading',
+                    payload: true
+                });
+                // if(window.frames["vdsite-designer"]){
+                //     window.frames["vdsite-designer"].location.reload();
+                // }
+                props.dispatch({
+                    type: 'UIState/readConfig',
+                    payload: {
+                        id: application.id,
+                        ctx: props
+                    }
+                });
+            }
+        }else {
+            initData(props, application.id);
+        }
 
         var namespace = localStorage.user + localStorage.currentProject + '_' + localStorage.userName;
         fileListen(props, namespace)
