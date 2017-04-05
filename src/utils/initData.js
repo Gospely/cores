@@ -1,16 +1,10 @@
-const initState = function (props) {
+import initState from './initUIState'
+
+const initData = function (props, application) {
 
     const initDataOperate = {
         'common': function(){
-
-            if (!props.sidebar.appCreatingForm.fromGit) {
-                props.dispatch({
-                    type: 'file/fetchFileList'
-                });
-            }
-            props.dispatch({
-                type: 'file/initFiles',
-            });
+            initState(props, application);
         },
         'vd': function(){
             console.log('vd');
@@ -38,4 +32,4 @@ const initState = function (props) {
     }
 }
 
-export default initState;
+export default initData;
