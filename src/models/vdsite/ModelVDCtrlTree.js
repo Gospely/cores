@@ -1893,6 +1893,7 @@ export default {
 						root: root || '',
 						isRoot: true,
 						unCtrl: controller.unCtrl,
+						unActive: controller.unActive,
 						isBeforeHTMLValue: controller.isBeforeHTMLValue || false
 					};
 				} else {
@@ -1910,6 +1911,7 @@ export default {
 						root: root || '',
 						parent: parent.vdid,
 						unCtrl: controller.unCtrl,
+						unActive: controller.unActive,
 						isBeforeHTMLValue: controller.isBeforeHTMLValue || false
 					};
 				}
@@ -2250,7 +2252,8 @@ export default {
 						ignore: controller.ignore || false,
 						root: currentRootVdid || '',
 						parent: currentRootVdid,
-						unCtrl: false,
+						unCtrl: controller.unCtrl,
+						unActive: controller.unActive,
 					};
 
 
