@@ -83,7 +83,8 @@ const VDDesignerPanel = (props) => {
         height: props.vdcore.VDDesigner[props.vdcore.VDDesigner.activeSize].height,
         width: props.vdcore.VDDesigner[props.vdcore.VDDesigner.activeSize].width,
         transform: 'translate(-50%, 0%)',
-        marginBottom: 0
+        marginBottom: 0,
+        overflow:'hidden'
     }
 
     vdsiteDesignerBorderStyle.transform = props.vdcore.VDDesigner.activeSize == 'pc' ? 'translate(-50%, 0%)' : 'translate(-50%, 15%)';
