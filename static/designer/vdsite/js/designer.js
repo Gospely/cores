@@ -1132,6 +1132,9 @@ $(function() {
         			jq(this).attr("draggable", true);
         			jq(this).on("dragstart", function (e) {
 		        		postMessageToFather.generateCtrlTree(parentWindow.VDDnddata);
+
+		        		e.originalEvent.dataTransfer.setData("Text",'for compatible with firefox');//为兼容firfox必须设置这个
+
 		        		e.stopPropagation();
 		        	});
 
