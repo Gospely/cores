@@ -51,6 +51,7 @@ export default {
         	let newCollections = {
 				name:"NewCollections",
 				key: randomString(8, 10),
+				list:[]
 			}
 			state.collections.push(newCollections);
         	return {...state};
@@ -64,6 +65,26 @@ export default {
 				state.collections.splice(index, 1);
 			}
 			return {...state};
+        },
+
+        deleteCollectionsList(state, {payload: params}) {
+			var index = methods.getSymbolIndexByKey(state.collections[params.index].list, params.listKey);
+			if (index == undefined) {
+				openNotificationWithIcon('error', '删除失败,请重试');
+			} else {
+				state.collections[params.index].list.splice(index, 1);
+			}
+			return {...state};
+        },
+
+        changelistIsOpend(state, {payload: params}) {
+        	state.collections[params.index].list[params.listIndex].isOpend = params.isOpend
+        	return {...state}
+        },
+
+        changeIsRequired(state, {payload: params}) {
+        	state.collections[params.index].list[params.listIndex].isRequired = !state.collections[params.index].list[params.listIndex].isRequired
+        	return {...state}
         }
 
 	},

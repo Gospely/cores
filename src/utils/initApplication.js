@@ -141,6 +141,26 @@ const initApplication = function (application, props, flag){
               tips: '打开应用中...'
             }
         });
+        console.log('application', application);
+        localStorage.dir = localStorage.user + '/' + application.docker.replace('gospel_project_', '') + "/";
+        localStorage.currentFolder = localStorage.user + '/' + application.name + '_' + localStorage.userName;
+        localStorage.baseURL = 'http://' + ( localStorage.host ) + ':9999/';
+        localStorage.sshKey = application.sshKey;
+        localStorage.exposePort = application.exposePort;
+
+        if(application.version){
+            localStorage.version = application.version;
+        }else {
+            localStorage.version = 'null';
+        }
+
+        localStorage.currentProject = application.name;
+        localStorage.port = application.port;
+        localStorage.sshPort = application.sshPort;
+        localStorage.socketPort = application.socketPort;
+        localStorage.image = application.image;
+        localStorage.docker = application.docker;
+        localStorage.applicationId = application.id;
         if(!flag) {
             if(localStorage.UIState){
 
@@ -183,33 +203,14 @@ const initApplication = function (application, props, flag){
             }
         }else {
             localStorage.image = application.image;
-            initData(props)
+            initData(props, application.id)
         }
 
         window.isWeapp = false;
 
         // localStorage.defaultActiveKey = 'file';
         // localStorage.activeMenu = "setting";
-        console.log('application', application);
-        localStorage.dir = localStorage.user + '/' + application.docker.replace('gospel_project_', '') + "/";
-        localStorage.currentFolder = localStorage.user + '/' + application.name + '_' + localStorage.userName;
-        localStorage.baseURL = 'http://' + ( localStorage.host ) + ':9999/';
-        localStorage.sshKey = application.sshKey;
-        localStorage.exposePort = application.exposePort;
 
-        if(application.version){
-            localStorage.version = application.version;
-        }else {
-            localStorage.version = 'null';
-        }
-
-        localStorage.currentProject = application.name;
-        localStorage.port = application.port;
-        localStorage.sshPort = application.sshPort;
-        localStorage.socketPort = application.socketPort;
-        localStorage.image = application.image;
-        localStorage.docker = application.docker;
-        localStorage.applicationId = application.id;
 
         document.title = localStorage.currentProject + ' - Gospel:先进的在线Web可视化集成开发环境';
 
