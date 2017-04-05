@@ -39,6 +39,35 @@ var styleAction = {
 
 	findComplexCSSPropertyByProperty: function(sty) {
 
+	},
+
+	getUnitListByScreenSize: function(state) {
+
+		var screenSize = state.currentScreenSize;
+
+		if(screenSize === 0 || screenSize == '100%') {
+			return state.unitList;
+		}else {
+
+			var getActiveQuery = function(mediaQuery, screenSize) {
+				for (var i = 0; i < mediaQuery.length; i++) {
+					var query = mediaQuery[i];
+					if(query.maxWidth == screenSize) {
+						return query;
+					}
+				};
+			}
+
+			var activeQuery = getActiveQuery(state.mediaQuery.queryList, screenSize);
+
+			if(activeQuery) {
+				return activeQuery.unitList;
+			}else {
+				return false;
+			}
+
+		}
+
 	}
 }
 
@@ -893,14 +922,13 @@ export default {
 		},
 
 		editStyleNameA(state, { payload: params }) {
-
-			console.log(params);
-			console.log(state.styleManager.modifyPop.value);
 			state.cssStyleLayout[state.styleManager.modifyPop.value] = state.cssStyleLayout[params.origin];
 			delete state.cssStyleLayout[params.origin];
 
-			state.unitList[state.styleManager.modifyPop.value] = state.unitList[params.origin];
-			delete state.unitList[params.origin];
+			var unitList = styleAction.getUnitListByScreenSize(state);
+
+			unitList[state.styleManager.modifyPop.value] = unitList[params.origin];
+			delete unitList[params.origin];
 
 			for(var styleName in state.cssStyleLayout) {
 
@@ -909,7 +937,7 @@ export default {
 				for (var i = 0; i < status.length; i++) {
 					var stat = status[i];
 					if(styleName == params.origin + ':' + stat) {
-						state.unitList[state.styleManager.modifyPop.value + ':' + stat] = state.unitList[params.origin + ':' + stat];
+						unitList[state.styleManager.modifyPop.value + ':' + stat] = unitList[params.origin + ':' + stat];
 						delete params.origin + ':' + stat;
 					}
 				};
@@ -920,8 +948,11 @@ export default {
 		},
 
 		removeStyleNameA(state, { payload: params }) {
+
+			var unitList = styleAction.getUnitListByScreenSize(state);
+
 			delete state.cssStyleLayout[params.origin];
-			delete state.unitList[params.origin];
+			delete unitList[params.origin];
 
 			for(var styleName in state.cssStyleLayout) {
 
@@ -1005,17 +1036,14 @@ export default {
 				}
 			}
 
-			console.log('==================', state.cssStyleList);
-
 			var cssTpl = deepCopyObj(state.cssStyleList),
 				unitsTpl = deepCopyObj(state.cssPropertyUnits);
 
 			state.cssStyleLayout[state.activeStyle] = cssTpl;
-			console.log("addStyle");
-			state.unitList[state.activeStyle] = unitsTpl;
-			console.log(state);
-			console.log(state.cssStyleLayout);
-			console.log(state.unitList);
+
+			var unitList = styleAction.getUnitListByScreenSize(state);
+
+			unitList[state.activeStyle] = unitsTpl;
 			return {...state};
 		},
 
@@ -1107,12 +1135,17 @@ export default {
 				background(currentStyleParent, unit) {
 					unit = unit || '';
 					let styleText = '', important = '';
+					var unitList = styleAction.getUnitListByScreenSize(state);
 					for(let styleName in currentStyleParent) {
 						let currentStyleValue = currentStyleParent[styleName];
 
-						if(state.unitList[currentActiveRecStyleName][styleName]) {
-							unit = state.unitList[currentActiveRecStyleName][styleName].unit || '';
-							important = state.unitList[currentActiveRecStyleName][styleName].important ? '!important' : '';
+						if(!unitList[currentActiveRecStyleName]) {
+							continue;
+						}
+
+						if(unitList[currentActiveRecStyleName][styleName]) {
+							unit = unitList[currentActiveRecStyleName][styleName].unit || '';
+							important = unitList[currentActiveRecStyleName][styleName].important ? '!important' : '';
 						}
 
 						if (currentStyleValue !== '') {
@@ -1172,12 +1205,18 @@ export default {
 						unit = unit || '';
 						extraProperty = extraProperty;
 					}
+					var unitList = styleAction.getUnitListByScreenSize(state);
 					let styleText = '', important;
 					for(let styleName in currentStyleParent) {
 						if(styleName != extraProperty) {
-							if(state.unitList[currentActiveRecStyleName][styleName]) {
-								unit = state.unitList[currentActiveRecStyleName][styleName].unit || '';
-								important = state.unitList[currentActiveRecStyleName][styleName].important ? '!important' : '';
+
+							if(!unitList[currentActiveRecStyleName]) {
+								continue;
+							}
+
+							if(unitList[currentActiveRecStyleName][styleName]) {
+								unit = unitList[currentActiveRecStyleName][styleName].unit || '';
+								important = unitList[currentActiveRecStyleName][styleName].important ? '!important' : '';
 							}
 
 							let currentStyleValue = currentStyleParent[styleName];
@@ -1189,6 +1228,7 @@ export default {
 									styleText += styleName + ':' + currentStyleValue + unit + important + ';';
 								}
 							}
+
 						}
 						unit = '';
 					}
@@ -1401,7 +1441,7 @@ export default {
 
 
 			}
-			const stylesGenerator = (cssStyleLayout, mediaQuery) => {
+			const stylesGenerator = (cssStyleLayout, mediaQuery, ul) => {
 
 				var cssText = '';
 				for(var styleName in cssStyleLayout) {
@@ -1413,10 +1453,14 @@ export default {
 					for(var property in currentStyle) {
 						var currentTableStyle = currentStyle[property];
 						var unit = '', important = '';
-						if(state.unitList[styleName][property]) {
-							unit = state.unitList[styleName][property].unit || '';
-							important = state.unitList[styleName][property].important ? '!important' : '';
+
+						var unitList = ul || state.unitList[styleName][property];
+
+						if(unitList) {
+							unit = unitList.unit || '';
+							important = unitList.important ? '!important' : '';
 						}
+
 						if(currentTableStyle != '' && typeof currentTableStyle !== 'object') {
 							cssClass += property + ':' + currentTableStyle + unit + important + ';'
 						}else if (typeof currentTableStyle === 'object') {
@@ -1437,12 +1481,13 @@ export default {
 					for (var i = 0; i < mediaQuery.length; i++) {
 						var query = mediaQuery[i];
 						mediaHeader = mediaHeader.replace('==WIDTH==', query.maxWidth);
-						mediaContent = mediaHeader + stylesGenerator(query.cssStyleLayout) + '}';
+						mediaContent = mediaHeader + stylesGenerator(query.cssStyleLayout, undefined, query.unitList) + '}';
 						result += mediaContent;
 						mediaContent = '';
 						mediaHeader = '@media only screen and (max-width: ==WIDTH==) {';
-						console.log('============generateMediaQuery============', result);
 					};
+
+					return result;
 				}
 
 				if(mediaQuery) {
@@ -1707,13 +1752,15 @@ export default {
 		},
 
 		setThisPropertyImportant(state, { payload: params }) {
-			var activeCSSProperty = state.unitList[params.activeStyleName][params.property];
+			var unitList = styleAction.getUnitListByScreenSize(state);
+			var activeCSSProperty = unitList[params.activeStyleName][params.property];
 			activeCSSProperty.important = !activeCSSProperty.important;
 			return {...state};
 		},
 
 		changeActiveUnit(state, { payload: params }) {
-			state.unitList[params.activeStyleName][params.property].unit = params.value;
+			var unitList = styleAction.getUnitListByScreenSize(state);
+			unitList[params.activeStyleName][params.property].unit = params.value;
 			return {...state};
 		},
 
