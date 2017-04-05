@@ -197,14 +197,6 @@ const initApplication = function (application, props, flag){
         localStorage.sshKey = application.sshKey;
         localStorage.exposePort = application.exposePort;
 
-        if((application.domain != null && application.domain != '') && !config.dev){
-            props.dispatch({
-                type: 'sidebar/getDomains'
-            })
-        }else{
-            localStorage.domain = application.host + ':' + application.port;
-        }
-
         if(application.version){
             localStorage.version = application.version;
         }else {
@@ -222,7 +214,16 @@ const initApplication = function (application, props, flag){
         document.title = localStorage.currentProject + ' - Gospel:先进的在线Web可视化集成开发环境';
 
         var namespace = localStorage.user + localStorage.currentProject + '_' + localStorage.userName;
-        fileListen(props, namespace)
+        fileListen(props, namespace);
+        if((application.domain != null && application.domain != '') && !config.dev){
+            props.dispatch({
+                type: 'sidebar/getDomains'
+            })
+        }else{
+            localStorage.domain = application.host + ':' + application.port;
+        }
+
+
 
         var command = JSON.parse(application.cmds);
 

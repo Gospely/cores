@@ -719,9 +719,10 @@ export default {
             });
         },
         *getDomains({ payload: params }, {call, put, select}){
-            var domains = yield request("domains/?application=" + localStorage.applicationId +'&sub=' + true, {
+            var domains = yield request("domains/?application=" + localStorage.applicationId, {
                 method: 'GET',
             });
+            console.log(domains);
             localStorage.domain = domains.data.fields[0].subDomain + '.' + domains.data.fields[0].domain;
             yield put({
                 type: 'initDomains',
