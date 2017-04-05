@@ -94,7 +94,7 @@ const VDDesignerPanel = (props) => {
                   style = {{ height: '100%', overflow: 'auto' }}
                   id = "designer-wrapper"
              >
-                <Spin spinning={props.vdcore.loading} style={{ height: 100, top: 'calc(100% - 50px)' }}>
+                <Spin spinning={props.vdcore.loading} style={{ height: 100, top: '50%'}}>
                     <div className="vdsite-designer-border"
                         style={vdsiteDesignerBorderStyle}>
                         <iframe className="centen-VD"
