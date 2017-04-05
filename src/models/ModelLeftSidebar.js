@@ -35,6 +35,7 @@ export default {
         gitTabKey: '1',
         isHttp: true,
         sshKey: '',
+        domains: [],
         wechatSaveShow: false, //小程序设计保存modal
 
 		modifyGitOriginInput: {
@@ -717,13 +718,28 @@ export default {
                 type: 'setModifyGitOriginCompleted'
             });
         },
-
-
+        *getDomains({ payload: params }, {call, put, select}){
+            var domains = yield request("domains/?application=" + localStorage.applicationId, {
+                method: 'GET',
+            });
+            console.log(domains);
+            localStorage.domain = domains.data.fields[0].subDomain + '.' + domains.data.fields[0].domain;
+            yield put({
+                type: 'initDomains',
+                payload: {
+                    domains: domains.data.fields
+                }
+            })
+        }
 	},
 
 	reducers: {
         initKey(state,  { payload: params}) {
             state.sshKey = params.sshKey;
+            return {...state};
+        },
+        initDomains(state, { payload: params}){
+            state.domains = params.domains
             return {...state};
         },
         changeSaveBtnState(state, { payload: params }) {

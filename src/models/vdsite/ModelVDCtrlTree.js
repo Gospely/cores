@@ -995,7 +995,7 @@ export default {
             });
         }
 
-    },	
+    },
 
 	reducers: {
 
@@ -1005,6 +1005,7 @@ export default {
 			state.activeCtrlIndex = initialData.vdCtrlTree.activeCtrlIndex;
 			state.activePage = initialData.vdCtrlTree.activePage;
 			state.layout = initialData.vdCtrlTree.layout;
+			state.activeCtrl = {};
 			return {...state};
 		},
 

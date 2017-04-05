@@ -4,6 +4,8 @@ import request from './request';
 import config from '../configs'
 import fileListen from './fileListen';
 import initState from './initUIState'
+import initData from './initData'
+
 
 const initApplication = function (application, props, flag){
 
@@ -139,13 +141,50 @@ const initApplication = function (application, props, flag){
               tips: '打开应用中...'
             }
         });
-        if(localStorage.UIState){
+        console.log('application', application);
+        localStorage.dir = localStorage.user + '/' + application.docker.replace('gospel_project_', '') + "/";
+        localStorage.currentFolder = localStorage.user + '/' + application.name + '_' + localStorage.userName;
+        localStorage.baseURL = 'http://' + ( localStorage.host ) + ':9999/';
+        localStorage.sshKey = application.sshKey;
+        localStorage.exposePort = application.exposePort;
 
-            var UIState = JSON.parse(localStorage.UIState);
-            console.log('initUIState ---------');
-            console.log(UIState);
-            if(UIState.applicationId == application.id){
-                initState(props, application.id);
+        if(application.version){
+            localStorage.version = application.version;
+        }else {
+            localStorage.version = 'null';
+        }
+
+        localStorage.currentProject = application.name;
+        localStorage.port = application.port;
+        localStorage.sshPort = application.sshPort;
+        localStorage.socketPort = application.socketPort;
+        localStorage.image = application.image;
+        localStorage.docker = application.docker;
+        localStorage.applicationId = application.id;
+        if(!flag) {
+            if(localStorage.UIState){
+
+                var UIState = JSON.parse(localStorage.UIState);
+                console.log('initUIState ---------');
+                console.log(UIState);
+                if(UIState.applicationId == application.id){
+                    initState(props, application.id);
+                }else {
+                    props.dispatch({
+                        type: 'vdcore/handleLoading',
+                        payload: true
+                    });
+                    // if(window.frames["vdsite-designer"]){
+                    //     window.frames["vdsite-designer"].location.reload();
+                    // }
+                    props.dispatch({
+                        type: 'UIState/readConfig',
+                        payload: {
+                            id: application.id,
+                            ctx: props
+                        }
+                    });
+                }
             }else {
                 props.dispatch({
                     type: 'vdcore/handleLoading',
@@ -163,56 +202,29 @@ const initApplication = function (application, props, flag){
                 });
             }
         }else {
-            props.dispatch({
-                type: 'vdcore/handleLoading',
-                payload: true
-            });
-            // if(window.frames["vdsite-designer"]){
-            //     window.frames["vdsite-designer"].location.reload();
-            // }
-            props.dispatch({
-                type: 'UIState/readConfig',
-                payload: {
-                    id: application.id,
-                    ctx: props
-                }
-            });
+            localStorage.image = application.image;
+            initData(props, application.id)
         }
+
         window.isWeapp = false;
 
         // localStorage.defaultActiveKey = 'file';
         // localStorage.activeMenu = "setting";
-        console.log('application', application);
-        localStorage.dir = localStorage.user + '/' + application.docker.replace('gospel_project_', '') + "/";
-        localStorage.currentFolder = localStorage.user + '/' + application.name + '_' + localStorage.userName;
-        localStorage.baseURL = 'http://' + ( localStorage.host ) + ':9999/';
-        localStorage.sshKey = application.sshKey;
-        localStorage.exposePort = application.exposePort;
 
-        if((application.domain != null && application.domain != '') && !config.dev){
-            localStorage.domain = application.domain + '.gospely.com';
-        }else{
-            localStorage.domain = application.host + ':' + application.port;
-        }
-
-        if(application.version){
-            localStorage.version = application.version;
-        }else {
-            localStorage.version = 'null';
-        }
-
-        localStorage.currentProject = application.name;
-        localStorage.port = application.port;
-        localStorage.sshPort = application.sshPort;
-        localStorage.socketPort = application.socketPort;
-        localStorage.image = application.image;
-        localStorage.docker = application.docker;
-        localStorage.applicationId = application.id;
 
         document.title = localStorage.currentProject + ' - Gospel:先进的在线Web可视化集成开发环境';
 
         var namespace = localStorage.user + localStorage.currentProject + '_' + localStorage.userName;
-        fileListen(props, namespace)
+        fileListen(props, namespace);
+        if((application.domain != null && application.domain != '') && !config.dev){
+            props.dispatch({
+                type: 'sidebar/getDomains'
+            })
+        }else{
+            localStorage.domain = application.host + ':' + application.port;
+        }
+
+
 
         var command = JSON.parse(application.cmds);
 
