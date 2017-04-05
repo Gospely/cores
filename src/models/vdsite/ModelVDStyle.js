@@ -19,6 +19,15 @@ var deepCopyObj = function(obj, result) {
 
 window.deepCopyObj = deepCopyObj;
 
+var getActiveQuery = function(mediaQuery, screenSize) {
+	for (var i = 0; i < mediaQuery.length; i++) {
+		var query = mediaQuery[i];
+		if(query.maxWidth == screenSize) {
+			return query;
+		}
+	};
+}
+
 var styleAction = {
 
 	findCSSPropertyByProperty: function(stylesList, property) {
@@ -49,15 +58,6 @@ var styleAction = {
 			return state.unitList;
 		}else {
 
-			var getActiveQuery = function(mediaQuery, screenSize) {
-				for (var i = 0; i < mediaQuery.length; i++) {
-					var query = mediaQuery[i];
-					if(query.maxWidth == screenSize) {
-						return query;
-					}
-				};
-			}
-
 			var activeQuery = getActiveQuery(state.mediaQuery.queryList, screenSize);
 
 			if(activeQuery) {
@@ -68,6 +68,24 @@ var styleAction = {
 
 		}
 
+	},
+
+	getCSSStyleLayoutByScreenSize: function(state) {
+		var screenSize = state.currentScreenSize;
+
+		if(screenSize === 0 || screenSize == '100%') {
+			return state.cssStyleLayout;
+		}else {
+
+			var activeQuery = getActiveQuery(state.mediaQuery.queryList, screenSize);
+
+			if(activeQuery) {
+				return activeQuery.cssStyleLayout;
+			}else {
+				return false;
+			}
+
+		}
 	}
 }
 
@@ -922,15 +940,18 @@ export default {
 		},
 
 		editStyleNameA(state, { payload: params }) {
-			state.cssStyleLayout[state.styleManager.modifyPop.value] = state.cssStyleLayout[params.origin];
-			delete state.cssStyleLayout[params.origin];
+
+			var cssStyleLayout = styleAction.getCSSStyleLayoutByScreenSize(state);
+
+			cssStyleLayout[state.styleManager.modifyPop.value] = cssStyleLayout[params.origin];
+			delete cssStyleLayout[params.origin];
 
 			var unitList = styleAction.getUnitListByScreenSize(state);
 
 			unitList[state.styleManager.modifyPop.value] = unitList[params.origin];
 			delete unitList[params.origin];
 
-			for(var styleName in state.cssStyleLayout) {
+			for(var styleName in cssStyleLayout) {
 
 				var status = ['hover', 'focus', 'pressed','active'];
 
@@ -949,12 +970,13 @@ export default {
 
 		removeStyleNameA(state, { payload: params }) {
 
+			var cssStyleLayout = styleAction.getCSSStyleLayoutByScreenSize(state);
 			var unitList = styleAction.getUnitListByScreenSize(state);
 
-			delete state.cssStyleLayout[params.origin];
+			delete cssStyleLayout[params.origin];
 			delete unitList[params.origin];
 
-			for(var styleName in state.cssStyleLayout) {
+			for(var styleName in cssStyleLayout) {
 
 				var status = ['hover', 'focus', 'pressed','active'];
 
@@ -989,15 +1011,10 @@ export default {
 			return {...state};
 		},
 		deleteStateClass(state, { payload: value}){
-			console.log("value",value)
-			 console.log(state.cssStyleLayout);
-			 // delete state.cssStyleLayout[params.origin];
-			for(var key in state.cssStyleLayout){
-
-				console.log(key)
+			var cssStyleLayout = styleAction.getCSSStyleLayoutByScreenSize(state);
+			for(var key in cssStyleLayout){
 				if(key == value){
-
-					delete state.cssStyleLayout[value];
+					delete cssStyleLayout[value];
 				}
 			}
 			return {...state};
@@ -1027,7 +1044,9 @@ export default {
 			state.activeStyle = state.newStyleName;
 			state.newStyleName = '';
 
-			var activeCSSStyleLayout = state.cssStyleLayout[params.activeStyle];
+			var cssStyleLayout = styleAction.getCSSStyleLayoutByScreenSize(state);
+
+			var activeCSSStyleLayout = cssStyleLayout[params.activeStyle];
 
 			for(var cssStyle in activeCSSStyleLayout) {
 				if(cssStyle == state.activeStyle) {
@@ -1039,7 +1058,7 @@ export default {
 			var cssTpl = deepCopyObj(state.cssStyleList),
 				unitsTpl = deepCopyObj(state.cssPropertyUnits);
 
-			state.cssStyleLayout[state.activeStyle] = cssTpl;
+			cssStyleLayout[state.activeStyle] = cssTpl;
 
 			var unitList = styleAction.getUnitListByScreenSize(state);
 
@@ -1058,7 +1077,8 @@ export default {
 		},
 
 		saveBoxShadow(state, { payload: params }) {
-			var activeCSSStyleLayout = state.cssStyleLayout[params.activeStyle];
+			var cssStyleLayout = styleAction.getCSSStyleLayoutByScreenSize(state);
+			var activeCSSStyleLayout = cssStyleLayout[params.activeStyle];
 
 			var tmp = {};
 
@@ -1515,7 +1535,8 @@ export default {
 		},
 
 		setActiveBoxShadow(state, { payload: params }) {
-			var activeCSSLayout = state.cssStyleLayout[params.activeStyle];
+			var cssStyleLayout = styleAction.getCSSStyleLayoutByScreenSize(state);
+			var activeCSSLayout = cssStyleLayout[params.activeStyle];
 			if(activeCSSLayout) {
 				console.log('setActiveBoxShadow', activeCSSLayout);
 				if(activeCSSLayout[params.shadowType].childrenProps[params.cssPropertyIndex]) {
@@ -1526,7 +1547,8 @@ export default {
 		},
 
 		removeThisShadow(state, { payload: params }) {
-			var activeCSSLayout = state.cssStyleLayout[params.activeStyle];
+			var cssStyleLayout = styleAction.getCSSStyleLayoutByScreenSize(state);
+			var activeCSSLayout = cssStyleLayout[params.activeStyle];
 			activeCSSLayout[params.shadowType].state.activeProp = activeCSSLayout[params.shadowType].childrenProps.length - 2;
 			activeCSSLayout[params.shadowType].state.activeProp = activeCSSLayout[params.shadowType].state.activeProp < 0 ? 0 : activeCSSLayout[params.shadowType].state.activeProp;
 			activeCSSLayout[params.shadowType].childrenProps.splice(params.cssPropertyIndex, 1);
@@ -1545,14 +1567,16 @@ export default {
 					value = 'url("' + value + '")';
 				}
 
+				var cssStyleLayout = styleAction.getCSSStyleLayoutByScreenSize(state);
+
 				if(property == 'border-position' || property == 'border-radius-position') {
 
 					var parentType = property.split('-');
 					parentType.pop();
 					parentType = parentType.join('-');
 
-					const prevBorderPosition = state.cssStyleLayout[activeStyleName][parentType][property];
-					var activeBorderStyle = state.cssStyleLayout[activeStyleName][parentType];
+					const prevBorderPosition = cssStyleLayout[activeStyleName][parentType][property];
+					var activeBorderStyle = cssStyleLayout[activeStyleName][parentType];
 
 					//清除其它border类型，并根据现有propertyName重新生成样式
 
@@ -1571,7 +1595,7 @@ export default {
 				}
 
 				if(params.parent) {
-					var propertyParent = styleAction.findCSSPropertyByProperty(state.cssStyleLayout[activeStyleName], property);
+					var propertyParent = styleAction.findCSSPropertyByProperty(cssStyleLayout[activeStyleName], property);
 					if(typeof params.parent.index !== 'undefined') {
 						if(property === 'background-size') {
 							console.log('background-size', value);
@@ -1610,15 +1634,15 @@ export default {
 					}
 
 				}else {
-					state.cssStyleLayout[activeStyleName][property] = value;
+					cssStyleLayout[activeStyleName][property] = value;
 				}
 
 			return {...state};
 		},
 
 		handleBoxShadowStylesChange(state, { payload: params }) {
-
-			var cssProperty = state.cssStyleLayout[params.activeStyleName][params.parent];
+			var cssStyleLayout = styleAction.getCSSStyleLayoutByScreenSize(state);
+			var cssProperty = cssStyleLayout[params.activeStyleName][params.parent];
 			var activeProp = cssProperty.state.activeProp;
 			var childrenProps = cssProperty.childrenProps[activeProp];
 
@@ -1628,7 +1652,8 @@ export default {
 		},
 
 		handleFilterTypeChange(state, { payload: params }) {
-			var cssProperty = state.cssStyleLayout[params.activeStyleName]['filter'];
+			var cssStyleLayout = styleAction.getCSSStyleLayoutByScreenSize(state);
+			var cssProperty = cssStyleLayout[params.activeStyleName]['filter'];
 			cssProperty.state.activeFilter = params.index;
 			return {...state};
 		},
@@ -1639,7 +1664,8 @@ export default {
 		},
 
 		saveFilter(state, { payload: params }) {
-			var cssProperty = state.cssStyleLayout[params.activeStyleName]['filter'];
+			var cssStyleLayout = styleAction.getCSSStyleLayoutByScreenSize(state);
+			var cssProperty = cssStyleLayout[params.activeStyleName]['filter'];
 
 			if(state.filterSetting.value == '') {
 				message.error('请填写值！');
@@ -1663,7 +1689,8 @@ export default {
 		},
 
 		saveThisTransition(state, { payload: params }) {
-			var cssProperty = state.cssStyleLayout[params.activeStyleName]['transition'];
+			var cssStyleLayout = styleAction.getCSSStyleLayoutByScreenSize(state);
+			var cssProperty = cssStyleLayout[params.activeStyleName]['transition'];
 			cssProperty.childrenProps.push(state.transitionSetting);
 			state.transitionSetting = {
 				'transition-property': 'all',
@@ -1674,7 +1701,8 @@ export default {
 		},
 
 		saveTransform(state, { payload: params }) {
-			var cssProperty = state.cssStyleLayout[params.activeStyleName]['transform'];
+			var cssStyleLayout = styleAction.getCSSStyleLayoutByScreenSize(state);
+			var cssProperty = cssStyleLayout[params.activeStyleName]['transform'];
 			cssProperty.childrenProps.push({
 				name: state.transformSetting.name,
 				value: [state.transformSetting.x, state.transformSetting.y]
@@ -1695,19 +1723,22 @@ export default {
 		},
 
 		removeThisFilter(state, { payload: params }) {
-			var cssProperty = state.cssStyleLayout[params.activeStyleName]['filter'];
+			var cssStyleLayout = styleAction.getCSSStyleLayoutByScreenSize(state);
+			var cssProperty = cssStyleLayout[params.activeStyleName]['filter'];
 			cssProperty.childrenProps.splice(params.filterIndex, 1);
 			return {...state};
 		},
 
 		removeThisTransition(state, { payload: params }) {
-			var cssProperty = state.cssStyleLayout[params.activeStyleName]['transition'];
+			var cssStyleLayout = styleAction.getCSSStyleLayoutByScreenSize(state);
+			var cssProperty = cssStyleLayout[params.activeStyleName]['transition'];
 			cssProperty.childrenProps.splice(params.transitionIndex, 1);
 			return {...state};
 		},
 
 		removeThisTransform(state, { payload: params }) {
-			var cssProperty = state.cssStyleLayout[params.activeStyleName]['transform'];
+			var cssStyleLayout = styleAction.getCSSStyleLayoutByScreenSize(state);
+			var cssProperty = cssStyleLayout[params.activeStyleName]['transform'];
 			cssProperty.childrenProps.splice(params.transformIndex, 1);
 			return {...state};
 		},
@@ -1728,8 +1759,8 @@ export default {
 		},
 
 		setThisPropertyNull(state, { payload: params }) {
-			console.log(params);
-			var propertyParent = styleAction.findCSSPropertyByProperty(state.cssStyleLayout[params.activeStyleName], params.property);
+			var cssStyleLayout = styleAction.getCSSStyleLayoutByScreenSize(state);
+			var propertyParent = styleAction.findCSSPropertyByProperty(cssStyleLayout[params.activeStyleName], params.property);
 
 			var actions = {
 				'background-size' () {
@@ -1765,7 +1796,8 @@ export default {
 		},
 
 		setMarginCenter(state, { payload: params }) {
-			var cssProperty = state.cssStyleLayout[params.activeStyleName]['margin'];
+			var cssStyleLayout = styleAction.getCSSStyleLayoutByScreenSize(state);
+			var cssProperty = cssStyleLayout[params.activeStyleName]['margin'];
 			cssProperty[params.property] = params.checked;
 
 			if(params.checked) {
