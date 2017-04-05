@@ -1401,7 +1401,7 @@ export default {
 
 
 			}
-			const stylesGenerator = (cssStyleLayout) => {
+			const stylesGenerator = (cssStyleLayout, mediaQuery) => {
 
 				var cssText = '';
 				for(var styleName in cssStyleLayout) {
@@ -1427,12 +1427,34 @@ export default {
 					cssText += cssClass;
 				}
 
-				return cssText.toString();
+				var mediaCSSText = '';
+
+				var generateMediaQuery = () => {
+					var mediaHeader = '@media only screen and (max-width: ==WIDTH==) {',
+						mediaContent = '',
+						result = '';
+
+					for (var i = 0; i < mediaQuery.length; i++) {
+						var query = mediaQuery[i];
+						mediaHeader = mediaHeader.replace('==WIDTH==', query.maxWidth);
+						mediaContent = mediaHeader + stylesGenerator(query.cssStyleLayout) + '}';
+						result += mediaContent;
+						mediaContent = '';
+						mediaHeader = '@media only screen and (max-width: ==WIDTH==) {';
+						console.log('============generateMediaQuery============', result);
+					};
+				}
+
+				if(mediaQuery) {
+					mediaCSSText = generateMediaQuery(mediaQuery) || '';
+				}
+
+				return cssText.toString() + mediaCSSText.toString();
 			}
 
 			window.stylesGenerator = stylesGenerator;
 
-			var cssText = stylesGenerator(state.cssStyleLayout);
+			var cssText = stylesGenerator(state.cssStyleLayout, state.mediaQuery.queryList);
 
 			if(!window.VDDesignerFrame) {
 				return {...state};

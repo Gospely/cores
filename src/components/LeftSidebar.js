@@ -221,7 +221,6 @@ const leftSidebar = (props) => {
 
 		for (var i = 0; i < content.length; i++) {
 			var c = content[i];
-			console.log('cccccccc',c)
 			if(c.length) {
 				content.splice(i, 1);
 			}

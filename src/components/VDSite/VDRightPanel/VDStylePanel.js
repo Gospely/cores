@@ -51,9 +51,6 @@ const VDStylePanel = (props) => {
 	if(screenSize === 0 || screenSize == '100%') {
 		var activeCSSStyleState = props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle],
 			activeCSSUnitList = props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle];
-
-		console.log('activeCSSUnitList=======================', activeCSSStyleState, activeCSSUnitList);
-
 	}else {
 
 		var activeMediaQuery;
@@ -71,11 +68,7 @@ const VDStylePanel = (props) => {
 
 		var activeCSSStyleState = activeMediaQuery.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle],
 			activeCSSUnitList = activeMediaQuery.unitList[props.vdCtrlTree.activeCtrl.activeStyle];		
-
-		console.log('activeCSSUnitList=======================', activeCSSStyleState, activeCSSUnitList);
 	}
-
-	console.log('screenSize=========', screenSize);
 
 	const cssAction = {
 
