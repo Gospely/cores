@@ -46,8 +46,29 @@ const VDStylePanel = (props) => {
 		)
 	}
 
-	var activeCSSStyleState = props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle],
-		  activeCSSUnitList = props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle];
+	var screenSize = props.vdstyles.currentScreenSize;
+
+	if(screenSize === 0 || screenSize == '100%') {
+		var activeCSSStyleState = props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle],
+			activeCSSUnitList = props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle];
+	}else {
+
+		var activeMediaQuery;
+
+		var getActiveMediaQuery = (maxWidth) => {
+			for (var i = 0; i < props.vdstyles.mediaQuery.queryList.length; i++) {
+				var query = props.vdstyles.mediaQuery.queryList[i];
+				if(query.maxWidth == maxWidth) {
+					return query;
+				}
+			};
+		}
+
+		activeMediaQuery = getActiveMediaQuery(screenSize);
+
+		var activeCSSStyleState = activeMediaQuery.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle],
+			activeCSSUnitList = activeMediaQuery.unitList[props.vdCtrlTree.activeCtrl.activeStyle];		
+	}
 
 	const cssAction = {
 

@@ -342,7 +342,13 @@ export default {
 
 			console.log(params);
 
-			if(params.activeSize == 'pc') {
+			if(params.VDSize == 'pc') {
+				yield put({
+					type: 'vdstyles/setCurrentScreenSize',
+					payload: {
+						size: '100%'
+					}
+				});
 				return false;
 			}
 
@@ -357,24 +363,24 @@ export default {
 
 			//改变屏幕大小，增加一个queryList，用户改变样式时，继承活跃类名的上级属性然后做出相应更改
 
-			yield put({
-				type: 'vdstyles/addMediaQuery',
-				payload: {
-					maxWidth: maxWidth
-				}
-			});
-
 			// yield put({
 			// 	type: 'vdstyles/addMediaQuery',
 			// 	payload: {
-			// 		maxWidth: maxWidth,
-			// 		style: {
-			// 			styleName: activeStyle,
-			// 			styles: vdstyles.cssStyleLayout[activeStyle]
-			// 		},
-			// 		unitList: vdstyles.unitList[activeStyle]
+			// 		maxWidth: maxWidth
 			// 	}
 			// });
+
+			yield put({
+				type: 'vdstyles/addMediaQuery',
+				payload: {
+					maxWidth: maxWidth,
+					style: {
+						styleName: activeStyle,
+						styles: vdstyles.cssStyleLayout[activeStyle]
+					},
+					unitList: vdstyles.unitList[activeStyle]
+				}
+			});
 
 		},
 

@@ -676,7 +676,9 @@ export default {
 
 		},
 
-		VDStylePaneSpinActive: false
+		VDStylePaneSpinActive: false,
+
+		currentScreenSize: 0
 	},
 
 	subscriptions: {
@@ -802,9 +804,16 @@ export default {
 			return {...state};
 		},
 
+		setCurrentScreenSize(state, { payload: params }) {
+			state.currentScreenSize = params.size;
+			return {...state};
+		},
+
 		addMediaQuery(state, { payload: params }) {
 
 			let isExists = false, activeIndex = 0, activeMediaQuery;
+
+			state.currentScreenSize = params.maxWidth;
 
 			for (let i = 0; i < state.mediaQuery.queryList.length; i++) {
 				let query = state.mediaQuery.queryList[i];
@@ -828,8 +837,9 @@ export default {
 			}
 
 			if(params.style) {
-				activeMediaQuery.cssStyleLayout[params.style.styleName] = params.style.styles;
-				activeMediaQuery.unitList = params.unitList;
+				activeMediaQuery.cssStyleLayout[params.style.styleName] = deepCopyObj(params.style.styles);
+				activeMediaQuery.unitList[params.style.styleName] = deepCopyObj(params.unitList);
+				activeMediaQuery.cssStyleLayout[params.style.styleName].display = 'block';
 			}
 
 			console.log(state.mediaQuery);
@@ -1391,7 +1401,7 @@ export default {
 
 
 			}
-			const stylesGenerator = (cssStyleLayout) => {
+			const stylesGenerator = (cssStyleLayout, mediaQuery) => {
 
 				var cssText = '';
 				for(var styleName in cssStyleLayout) {
@@ -1417,12 +1427,34 @@ export default {
 					cssText += cssClass;
 				}
 
-				return cssText.toString();
+				var mediaCSSText = '';
+
+				var generateMediaQuery = () => {
+					var mediaHeader = '@media only screen and (max-width: ==WIDTH==) {',
+						mediaContent = '',
+						result = '';
+
+					for (var i = 0; i < mediaQuery.length; i++) {
+						var query = mediaQuery[i];
+						mediaHeader = mediaHeader.replace('==WIDTH==', query.maxWidth);
+						mediaContent = mediaHeader + stylesGenerator(query.cssStyleLayout) + '}';
+						result += mediaContent;
+						mediaContent = '';
+						mediaHeader = '@media only screen and (max-width: ==WIDTH==) {';
+						console.log('============generateMediaQuery============', result);
+					};
+				}
+
+				if(mediaQuery) {
+					mediaCSSText = generateMediaQuery(mediaQuery) || '';
+				}
+
+				return cssText.toString() + mediaCSSText.toString();
 			}
 
 			window.stylesGenerator = stylesGenerator;
 
-			var cssText = stylesGenerator(state.cssStyleLayout);
+			var cssText = stylesGenerator(state.cssStyleLayout, state.mediaQuery.queryList);
 
 			if(!window.VDDesignerFrame) {
 				return {...state};
