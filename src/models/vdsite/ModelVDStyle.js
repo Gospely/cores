@@ -676,7 +676,9 @@ export default {
 
 		},
 
-		VDStylePaneSpinActive: false
+		VDStylePaneSpinActive: false,
+
+		currentScreenSize: 0
 	},
 
 	subscriptions: {
@@ -802,9 +804,16 @@ export default {
 			return {...state};
 		},
 
+		setCurrentScreenSize(state, { payload: params }) {
+			state.currentScreenSize = params.size;
+			return {...state};
+		},
+
 		addMediaQuery(state, { payload: params }) {
 
 			let isExists = false, activeIndex = 0, activeMediaQuery;
+
+			state.currentScreenSize = params.maxWidth;
 
 			for (let i = 0; i < state.mediaQuery.queryList.length; i++) {
 				let query = state.mediaQuery.queryList[i];
@@ -828,8 +837,9 @@ export default {
 			}
 
 			if(params.style) {
-				activeMediaQuery.cssStyleLayout[params.style.styleName] = params.style.styles;
-				activeMediaQuery.unitList = params.unitList;
+				activeMediaQuery.cssStyleLayout[params.style.styleName] = deepCopyObj(params.style.styles);
+				activeMediaQuery.unitList[params.style.styleName] = deepCopyObj(params.unitList);
+				activeMediaQuery.cssStyleLayout[params.style.styleName].display = 'block';
 			}
 
 			console.log(state.mediaQuery);
