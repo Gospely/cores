@@ -54,7 +54,7 @@ const Component = (props) => {
 				              <p>{item.name}</p>
 				            </Col>
 				            <Col span={2}>
-				              <Popconfirm title="确定要删除这个自定义组件吗？" onConfirm={collectionsProps.deleteCollections.bind(this,item)} okText="是" cancelText="否">
+				              <Popconfirm title="确定要删除这个数据集吗？" onConfirm={collectionsProps.deleteCollections.bind(this,item)} okText="是" cancelText="否">
 				                <a href="#">
 				                  <Icon type="delete" />
 				                </a>

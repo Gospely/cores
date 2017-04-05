@@ -83,7 +83,8 @@ const VDDesignerPanel = (props) => {
         height: props.vdcore.VDDesigner[props.vdcore.VDDesigner.activeSize].height,
         width: props.vdcore.VDDesigner[props.vdcore.VDDesigner.activeSize].width,
         transform: 'translate(-50%, 0%)',
-        marginBottom: 0
+        marginBottom: 0,
+        overflow:'hidden'
     }
 
     vdsiteDesignerBorderStyle.transform = props.vdcore.VDDesigner.activeSize == 'pc' ? 'translate(-50%, 0%)' : 'translate(-50%, 15%)';
@@ -94,7 +95,7 @@ const VDDesignerPanel = (props) => {
                   style = {{ height: '100%', overflow: 'auto' }}
                   id = "designer-wrapper"
              >
-                <Spin spinning={props.vdcore.loading} style={{ height: 100, top: 'calc(100% - 50px)' }}>
+                <Spin spinning={props.vdcore.loading} style={{ height: 100, top: '50%'}}>
                     <div className="vdsite-designer-border"
                         style={vdsiteDesignerBorderStyle}>
                         <iframe className="centen-VD"
