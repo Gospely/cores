@@ -43,6 +43,23 @@ const leftSidebar = (props) => {
 			type: 'vdpm/visibleChange',
 			payload: false
 		});
+		props.dispatch({
+			type: 'vdCollections/changeCollectionsItemVisible',
+			payload: false
+		});
+		props.dispatch({
+			type: 'vdCollections/setCollectionsItem',
+			payload: {
+				item:{
+						list: []
+					},
+				index:-1 
+			}
+		});
+		props.dispatch({
+			type: 'vdCollections/changeCollectionsItemPreviewVisible',
+			payload: false
+		})
 	}
 
 	var styles = {
@@ -242,8 +259,8 @@ const leftSidebar = (props) => {
 
 }
 
-function mapStateToProps({ sidebar, devpanel, vdpm}) {
-  return { sidebar, devpanel, vdpm};
+function mapStateToProps({ sidebar, devpanel, vdpm, vdCollections}) {
+  return { sidebar, devpanel, vdpm, vdCollections};
 }
 
 export default connect(mapStateToProps)(leftSidebar);

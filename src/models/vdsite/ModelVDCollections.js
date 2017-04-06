@@ -32,6 +32,14 @@ export default {
 	state: {
 		collections: [],
 		listTypeIsOpend: false,
+		collectionsItem: {
+			list: []
+		},
+		collectionsIndex: '-1',
+		collectionsItemVisible: false,
+		collectionsItemPreviewVisible: false,
+		addStyle:"",
+		addInputStyle:"",
 	},
 	subscriptions: {
 		setup({ dispatch, history }) {
@@ -43,6 +51,45 @@ export default {
 		}
 	},
 	reducers: {
+		changeNameInputStyle(state, {payload: params}){
+			if(params){
+				state.addStyle = 'add-collections-style'
+				state.addInputStyle = 'add-collections-input-style'
+			}else{
+				state.addStyle = ''
+				state.addInputStyle = ''
+			}
+			
+			return {...state}
+		},
+		addStyle(state, {payload: params}){
+			state.collections[params.index].list[params.listIndex].addStyle = 'add-collections-style'
+			state.collections[params.index].list[params.listIndex].addInputStyle = 'add-collections-input-style'
+			return {...state}
+		},
+		removeStyle(state, {payload: params}){
+			state.collections[params.index].list[params.listIndex].addStyle = ''
+			state.collections[params.index].list[params.listIndex].addInputStyle = ''
+			return {...state}
+		},
+		changeCollectionsItemPreviewVisible(state, {payload: params}) {
+			if(params == undefined) {
+				state.collectionsItemPreviewVisible = !state.collectionsItemPreviewVisible
+			}else {
+				state.collectionsItemPreviewVisible = params;
+			}		
+			return {...state}
+		},
+		changeCollectionsItemVisible(state, {payload: params}) {
+			state.collectionsItemVisible = params;		
+			return {...state}
+		},
+
+		setCollectionsItem(state, {payload: params}) {
+			state.collectionsItem = params.item;
+			state.collectionsIndex = params.index;
+			return {...state}
+		},
 
 		changeListTypeIsOpend(state, {payload: params}) {
 			state.listTypeIsOpend = params;
@@ -95,6 +142,38 @@ export default {
         },
 
         addCollectionsList(state, {payload: params}) {
+        	let newOptionCollectionsList = {
+        		name: 'newList',
+				icon: params.icon,
+				isOpend: false,
+				key: randomString(8, 10),
+				label: '',
+				type: params.type,
+				helpText: '',
+				isRequired: false,
+				value:[],
+				addStyle:"",
+				addInputStyle:"",
+        	}
+
+        	let newCollectionsList = {
+        		name: 'newList',
+				icon: params.icon,
+				isOpend: false,
+				key: randomString(8, 10),
+				label: '',
+				type: params.type,
+				helpText: '',
+				isRequired: false,
+				addStyle:"",
+				addInputStyle:"",
+        	}
+
+        	if(params.type == 'option') {
+				state.collections[params.index].list.push(newOptionCollectionsList);
+        	}else {
+				state.collections[params.index].list.push(newCollectionsList);
+        	}
         	
         	return {...state}
         }
