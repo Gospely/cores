@@ -19,7 +19,7 @@ export default {
 			key: '9782',
 			label: '',
 			type: 'textarea',
-			helpText: '',
+			helpText: 'ssssss',
 			isRequired: false,
 		},{
 			name: '图片',
@@ -109,10 +109,13 @@ export default {
 			key: '9791',
 			label: '',
 			type: 'option',
+			value: [
+					'value1','value2'
+				],
 			helpText: '',
 			isRequired: false,
 		},{
-			name: '一级菜单',
+			name: 'Reference',
 			icon: 'database',
 			isOpend: false,
 			key: '9792',
@@ -121,7 +124,7 @@ export default {
 			helpText: '',
 			isRequired: false,
 		},{
-			name: '多级菜单',
+			name: 'Multi-Reference',
 			icon: 'database',
 			isOpend: false,
 			key: '9793',

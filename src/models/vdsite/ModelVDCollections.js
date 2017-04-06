@@ -95,6 +95,18 @@ export default {
         },
 
         addCollectionsList(state, {payload: params}) {
+        	let newOptionCollectionsList = {
+        		name: 'newList',
+				icon: params.icon,
+				isOpend: false,
+				key: randomString(8, 10),
+				label: '',
+				type: params.type,
+				helpText: '',
+				isRequired: false,
+				value:[],
+        	}
+
         	let newCollectionsList = {
         		name: 'newList',
 				icon: params.icon,
@@ -105,7 +117,13 @@ export default {
 				helpText: '',
 				isRequired: false,
         	}
-        	state.collections[params.index].list.push(newCollectionsList);
+
+        	if(params.type == 'option') {
+				state.collections[params.index].list.push(newOptionCollectionsList);
+        	}else {
+				state.collections[params.index].list.push(newCollectionsList);
+        	}
+        	
         	return {...state}
         }
 

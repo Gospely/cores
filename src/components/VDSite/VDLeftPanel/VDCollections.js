@@ -122,9 +122,19 @@ const Component = (props) => {
 	// 	
 	// },
 	
-	const collectionsList = props.vdCollections.collections.map((item, index) => {
+	const collections = props.vdCollections.collections.map((item, index) => {
 
 		const collectionsList = item.list.map((listItem, listIndex) => {
+			if(listItem.type == 'option') {
+				var CollectionsListOption = listItem.value.map((option,optionIndex) => {
+					return (
+							<div className="collections-list-option-list" key={optionIndex}>
+								{option}
+							</div>	
+						)
+				})
+			}
+
 			return (
 				<div className="collection-structure-list" key={listIndex}>
 					<Row>
@@ -184,6 +194,18 @@ const Component = (props) => {
 									</Row>
 								</div> : <div></div>
 							}
+
+							{listItem.type == "option" ?
+								<div className="collections-list-option">
+									{CollectionsListOption}
+									<div className="collections-list-option-list">
+										<a href="javascript:void(0)">
+											<Icon type="plus" /><span>添加下拉选项</span>
+										</a>
+									</div>
+								</div> : <div></div>
+
+							}
 							
 							<Checkbox onChange={collectionsProps.isRequired.bind(this,index,listIndex)}>是否必填</Checkbox>
 						</div>:<div></div>
@@ -191,8 +213,150 @@ const Component = (props) => {
 				</div>
 			)
 		})
+
+		const collectionsPreview = item.list.map((listItem, listIndex) => {
+
+			if(listItem.type == 'text' || listItem.type == 'link' || listItem.type == 'video' || listItem.type == 'Email' || listItem.type == 'phone'|| listItem.type == 'Multi-Reference'){
+				return (
+						<div className="collections-preview-name" key={listIndex}>
+							<p>{listItem.name}:</p>
+							<div className="collections-help-text">{listItem.helpText}</div>
+							<div className='collections-preview-input'></div>
+						</div>
+				)
+			}
+
+			if(listItem.type == 'textarea'){
+				return (
+					<div className="collections-preview-name" key={listIndex}>
+							<p>{listItem.name}:</p>
+							<div className="collections-help-text">{listItem.helpText}</div>
+							<div className='collections-preview-textarea'>
+								<div className="collections-preview-textarea-img ">
+									<Icon type="ellipsis" />
+								</div>
+							</div>
+					</div>
+				)
+			}
+
+			if(listItem.type == 'date'){
+				return (
+					<div className="collections-preview-name" key={listIndex}>
+							<p>{listItem.name}:</p>
+							<div className="collections-help-text">{listItem.helpText}</div>
+							<div className='collections-preview-input'>
+								<div className='collections-preview-textarea-date'>
+									<Icon type="calendar" />
+								</div>
+							</div>
+					</div>
+				)
+			}
+
+			if(listItem.type == 'image'){
+				return (
+					<div className="collections-preview-name" key={listIndex}>
+							<p>{listItem.name}:</p>
+							<div className="collections-help-text">{listItem.helpText}</div>
+							<div style={{lineHeight:125}} className='collections-preview-textarea'>
+								<i className="fa fa-picture-o fa-4x" aria-hidden="true"></i>
+							</div>
+					</div>
+				)
+			}
+
+			if(listItem.type == 'switch'){
+				return (
+					<div className="collections-preview-name" key={listIndex}>
+							<p>{listItem.name}:</p>
+							<div className="collections-help-text">{listItem.helpText}</div>
+							<div>
+								<svg className="collections-preview-textarea-sync" width="42" height="25" viewBox="0 0 42 25"><circle fill="currentColor" cx="29.5" cy="12.5" r="10.5" opacity=".25"></circle><path fill="currentColor" d="M37.963 20.267c.077-.083.154-.165.228-.25.15-.168.287-.34.42-.516a10.226 10.226 0 0 0 .59-.834 11.544 11.544 0 0 0 .52-.903c.08-.154.156-.312.228-.47a10.7 10.7 0 0 0 .216-.49c.07-.176.135-.357.198-.537.056-.158.11-.314.16-.475.06-.2.108-.405.157-.61.035-.15.075-.296.105-.447.046-.24.077-.48.11-.72.016-.128.04-.25.052-.38.037-.373.058-.75.058-1.13s-.02-.76-.057-1.13c-.012-.13-.036-.254-.053-.38-.032-.24-.063-.483-.11-.72-.03-.15-.07-.298-.106-.447-.05-.205-.098-.41-.158-.61-.05-.162-.106-.318-.16-.476-.063-.18-.125-.36-.197-.538a10.7 10.7 0 0 0-.214-.49 10.562 10.562 0 0 0-.503-.97 12.463 12.463 0 0 0-.586-.91 15.9 15.9 0 0 0-.25-.33 11.454 11.454 0 0 0-.415-.516c-.072-.085-.15-.167-.225-.25a15.95 15.95 0 0 0-.51-.528c-.058-.053-.117-.103-.17-.155a12.7 12.7 0 0 0-.636-.546l-.036-.028A11.44 11.44 0 0 0 31 1.11V1H12v.025C5.883 1.29 1 6.318 1 12.5s4.883 11.21 11 11.475V24h19v-.11a11.425 11.425 0 0 0 5.612-2.365l.037-.028a14.7 14.7 0 0 0 .63-.548c.055-.057.114-.107.17-.16a8.7 8.7 0 0 0 .51-.527zm.99-6.845c-.013.13-.036.255-.054.382-.028.17-.05.34-.08.506-.03.16-.076.32-.11.478-.036.126-.066.252-.1.375a9.12 9.12 0 0 1-.176.522c-.035.1-.07.198-.108.295a10.01 10.01 0 0 1-.237.54c-.038.08-.075.16-.115.24a9.96 9.96 0 0 1-.778 1.28c-.036.05-.073.097-.11.146a9.19 9.19 0 0 1-.43.534l-.09.1a9.76 9.76 0 0 1-.507.53l-.04.037a9.45 9.45 0 0 1-5.28 2.52l-.366.047a9.08 9.08 0 0 1-.877.046c-5.238 0-9.5-4.262-9.5-9.5S24.262 3 29.5 3c.296 0 .587.018.876.044l.365.048a9.45 9.45 0 0 1 5.287 2.52 9.702 9.702 0 0 1 .547.566c.03.032.063.065.093.1a9.54 9.54 0 0 1 .54.68 9.863 9.863 0 0 1 .776 1.28c.04.078.077.157.115.237.084.178.163.357.236.54.04.098.073.198.108.296.063.176.123.35.175.526.038.124.068.25.1.375.04.158.08.316.11.478.033.167.055.337.08.506.017.127.04.253.053.382a9.147 9.147 0 0 1 0 1.846zM12.63 22l-.544-.023C6.99 21.757 3 17.594 3 12.5S6.99 3.22 12.086 3l.416-.023L23.022 3C19.992 5.07 18 8.552 18 12.5s1.99 7.43 5.022 9.5H12.63z"></path></svg>
+								<span>NO</span>
+							</div>
+					</div>
+				)
+			}
+
+			if(listItem.type == 'option' || listItem.type == 'Reference'){
+				return (
+					<div className="collections-preview-name" key={listIndex}>
+							<p>{listItem.name}:</p>
+							<div className="collections-help-text">{listItem.helpText}</div>
+							<div className='collections-preview-input'>
+								<div className='collections-preview-textarea-option'>
+									<Icon type="down" />
+								</div>
+							</div>
+					</div>
+				)
+			}
+
+			if(listItem.type == 'color'){
+				return (
+					<div className="collections-preview-name" key={listIndex}>
+							<p>{listItem.name}:</p>
+							<div className="collections-help-text">{listItem.helpText}</div>
+							<div className='collections-preview-input'>
+								<div className='collections-preview-textarea-color'>
+									<i className="fa fa-tint" aria-hidden="true"></i>
+								</div>
+							</div>
+					</div>
+				)
+			}
+
+			if(listItem.type == 'number'){
+				return (
+					<div className="collections-preview-name" key={listIndex}>
+							<p>{listItem.name}:</p>
+							<div className="collections-help-text">{listItem.helpText}</div>
+							<div className='collections-preview-input'>
+								<div className='collections-preview-textarea-number'>
+									<div style={{width:15, height:15}}><Icon type="up" /></div>
+									<div style={{width:15, height:15}}><Icon type="down" /></div>
+								</div>
+							</div>
+					</div>
+				)
+			}
+
+					
+		})
+
+		const collectionsPreviewPopover = {
+			content: (
+					<div className='collections-preview-box'>
+						<div className='collections-preview-title'>
+							<i className="fa fa-file-text-o fa-3x" aria-hidden="true"></i>
+							<span className="collections-preview-title-text">数据集预览</span>
+						</div>
+						<div className="collections-preview-name">
+							<p>姓名:</p>
+							<div className='collections-preview-input'></div>
+						</div>
+						{collectionsPreview}	
+					</div>
+				)
+		}
 				
-		const collectionsPoppver = {
+		const collectionsPopover = {
+
+			title: (
+				<Row>
+					<Col span={20}>
+						{item.name}
+					</Col>
+					<Col span={4} style={{textAlign: 'right'}}>
+						<Popover className="collections-popover" placement="right" title={""} content={collectionsPreviewPopover.content} trigger="click">
+							<a href="#">
+								数据集预览<Icon type="double-right" />
+							</a>
+						</Popover>	
+					</Col>
+				</Row>
+			),
 		
 			content: (
 				<div className="collections-popover-content">
@@ -383,7 +547,7 @@ const Component = (props) => {
 				              </Popconfirm>
 				            </Col>
 				            <Col span={2}>
-								<Popover className="collections-popover" placement="right" title={item.name} content={collectionsPoppver.content} trigger="click">
+								<Popover className="collections-popover" placement="right" title={collectionsPopover.title} content={collectionsPopover.content} trigger="click">
 									<a href="#">
 				              			<Icon type="edit"/>
 			              			</a>
@@ -400,7 +564,7 @@ const Component = (props) => {
 				    			<Tooltip placement="left" title="添加数据集">
 									<Button className="collections-header-btn" onClick={collectionsProps.addNewCollections}><Icon type="plus"/></Button>
 								</Tooltip>
-							{collectionsList}
+							{collections}
 		    			</Panel>
 					</Collapse>
 
