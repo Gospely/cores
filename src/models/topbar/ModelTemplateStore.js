@@ -2,6 +2,8 @@ import dva from 'dva';
 import VDPackager from '../vdsite/VDPackager.js';
 import { message } from 'antd';
 import request from '../../utils/request.js';
+import uuid from 'node-uuid'
+import _md5 from 'md5'
 
 export default {
 	namespace: 'templateStore',
@@ -13,6 +15,7 @@ export default {
 		visible:false,
 		pay: 'weChat',
 		wechat: 'http://www.baidu.com',
+		alipay:'http://www.baidu.com',
 		selectTemplateValue: '',
 		types: [],
 		query: '',
@@ -80,6 +83,12 @@ export default {
 			state.query = query;
 			return {...state};
 		},
+		initPay(state, {payload: params}){
+
+			state.wechat = params.alipay;
+			state.wechat =  params.wechat;
+			return {...state};
+		}
 	},
 	effects:{
 		*initTypesAndTemplates({payload: params}, {call, select, put}){
@@ -147,13 +156,6 @@ export default {
 					types: types,
 					templates: templates
 				}
-			})
-		},
-		*addOrders({payload: value}, {call, select,put}){
-
-			yield put({
-				type: 'templateStore/changePay',
-				payload: value
 			})
 		},
 		*searchTemplate({payload: value }, {call, select, put}){
@@ -235,5 +237,47 @@ export default {
 				payload: query,
 			})
 		},
+		*addOrders({payload: parmas}, {call,select, put}){
+
+			yield put({
+				type: 'templateStore/changePay',
+				payload: value
+			})
+			var result = yield request('orders/?creator='+localStorage.user + '&products=' + parmas.templateId, {
+				method: 'get',
+			});
+			var alipay = '',
+				wechat = '';
+
+			if(result.data.fields.length < 1){
+				var order = {
+					creator: localStorage.user,
+					name: '模板购买',
+					orderNo:  _md5(uuid.v4()),
+					timeSize: 1,
+					timeUnit: "个",
+					products: parmas.templateId,
+					price: parmas.price,
+					unitPrice: parmas.price,
+					type: 'template'
+				}
+
+				result = yield request('orders', {
+					method: 'POST',
+					body: JSON.stringify(order)
+				})
+				console.log(result);
+			}else {
+				alipay = result.data.fields[0].alipay;
+				wechat = result.data.fields[0].wechat;
+			}
+			yield put({
+				type: 'initPay',
+				payload: {
+					alipay: alipay,
+					wechat: wechat,
+				}
+			})
+		}
 	}
 }
