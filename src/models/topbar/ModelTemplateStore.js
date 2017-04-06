@@ -190,11 +190,15 @@ export default {
 				type: 'setQuery',
 				payload: query,
 			})
+
 		},
 		*setSelectTagValue({payload: type}, {call, select, put}) {
 
 			console.log(type);
-
+			yield put({
+				type: 'hanleLoading',
+				payload: true
+			});
 			var limit = yield select(state=> state.templateStore.pageSize);
 			var templates = yield select(state=> state.templateStore.templateAttr);
 			var types = yield select(state=> state.templateStore.types);
@@ -222,6 +226,10 @@ export default {
 					types: types
 				}
 			})
+			yield put({
+				type: 'hanleLoading',
+				payload: false
+			});
 			yield put({
 				type: 'setQuery',
 				payload: query,
