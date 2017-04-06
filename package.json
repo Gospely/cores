@@ -28,7 +28,9 @@
     "react-dom": "^15.3.2",
     "react-monaco-editor": "^0.6.1",
     "react-split-pane": "^0.1.52",
-    "xterm": "^2.1.0"
+    "xterm": "^2.1.0",
+    "md5": "^2.2.1",
+    "node-uuid": "^1.4.7"
   },
   "devDependencies": {
     "atool-build": "^0.9.0",
