@@ -57,14 +57,14 @@ export default {
             history.listen(({
                 pathname
             }) => {
-                dispatch({
-                    type: 'appendPublicAttrsToCtrlList'
-                })
 
                 dispatch({
                     type: 'getInitialData'
-                })
+                });
 
+                dispatch({
+                    type: 'appendPublicAttrsToCtrlList'
+                });
             });
         }
 
@@ -81,115 +81,108 @@ export default {
 
         appendPublicAttrsToCtrlList(state) {
 
-                const push = (controllersList) => {
-                    controllersList.map((item, index) => {
-                        const controllers = item.content;
+            const push = (controllersList) => {
+                controllersList.map((item, index) => {
+                    const controllers = item.content;
 
-                        const rec = (controllers) => {
-                            controllers.map((ctrl, j) => {
-                                ctrl = ctrl.details ||
-                                    ctrl;
-                                if (ctrl.children) {
-                                    rec(ctrl.children);
+                    const rec = (controllers) => {
+                        controllers.map((ctrl, j) => {
+                            ctrl = ctrl.details || ctrl;
+                            if (ctrl.children) {
+                                rec(ctrl.children);
+                            }
+                            for (var i = 0; i < state.publicAttrs.length; i++ ) {
+                                const attrs = state.publicAttrs[i];
+                                if (ctrl.attrs.length <= 3) {
+                                    ctrl.attrs.push(attrs);
                                 }
-                                for (var i = 0; i <
-                                    state.publicAttrs.length; i++
-                                ) {
-                                    const attrs = state
-                                        .publicAttrs[i];
-                                    if (ctrl.attrs.length <=
-                                        3) {
-                                        ctrl.attrs.push(
-                                            attrs);
-                                    }
-
-                                };
-                            });
-                        }
-
-                        rec(controllers);
-
-                    });
-                }
-
-                push(state.controllers);
-
-                return {...state};
-            },
-
-            handleCurrentSymbolKey(state, {payload: key}) {
-                state.currentSymbolKey = key;
-                return {...state};
-            },
-            handleSymbolNameChange(state, {payload: value}) {
-                state.symbolName = value;
-                return {...state};
-            },
-            handleAddSymbol(state, {payload: activeCtrl}) {
-
-                if (!methods.checkName(state.symbols, state.symbolName)) {
-                    openNotificationWithIcon('info', '控件名已被占用');
-                } else {
-                    var addController = {
-                        name: localStorage.symbolName,
-                        key: randomString(8, 10),
-                        controllers: [activeCtrl]
+                            };
+                        });
                     }
-                    state.popoverVisible = false;
-                    state.symbolName = '';
-                    state.symbols.push(addController);
-                }
-                return {...state};
-            },
-            handlePopoverVisbile(state, {payload: value}) {
-
-                state.popoverVisible = value;
-                return {...state};
-            },
-            handleEditPopoverVisbile(state, {payload: value}) {
-
-                state.editPopoverVisible = value;
-                return {...state};
-            },
-            handleUpdateVisible(state, {payload: value}) {
-
-                state.keyValeUpdateVisible = value;
-                return {...state};
-            },
-            handleCreateVisible(state, {payload: value}) {
-
-                state.keyValeCreateVisible = value;
-                return {...state};
-            },
-            editSymbol(state) {
-
-                if (!methods.checkName(state.symbols, state.symbolName)) {
-                    openNotificationWithIcon('info', '控件名已被占用');
-                } else {
-                    var index = methods.getSymbolIndexByKey(state.symbols,
-                        state.currentSymbolKey);
-
-                    if (index == undefined) {
-                        openNotificationWithIcon('error', '修改错误,请重试');
-                    } else {
-                        state.symbols[index].name = state.symbolName;
-                    }
-                }
-                state.symbolName = '';
-                state.currentSymbolKey = '';
-                state.editPopoverVisible = false;
-                return {...state};
-            },
-            deleteSymbol(state, { payload: key}) {
-
-                var index = methods.getSymbolIndexByKey(state.symbols, key);
-                if (index == undefined) {
-                    openNotificationWithIcon('error', '删除失败,请重试');
-                } else {
-                    state.symbols.splice(index, 1);
-                }
-                return {...state};
+                    rec(controllers);
+                });
             }
+
+            push(state.controllers);
+
+            console.log('appendPublicAttrsToCtrlList', state.controllers, state.publicAttrs);
+
+            return {...state};
+        },
+
+        handleCurrentSymbolKey(state, {payload: key}) {
+            state.currentSymbolKey = key;
+            return {...state};
+        },
+        handleSymbolNameChange(state, {payload: value}) {
+            state.symbolName = value;
+            return {...state};
+        },
+        handleAddSymbol(state, {payload: activeCtrl}) {
+
+            if (!methods.checkName(state.symbols, state.symbolName)) {
+                openNotificationWithIcon('info', '控件名已被占用');
+            } else {
+                var addController = {
+                    name: localStorage.symbolName,
+                    key: randomString(8, 10),
+                    controllers: [activeCtrl]
+                }
+                state.popoverVisible = false;
+                state.symbolName = '';
+                state.symbols.push(addController);
+            }
+            return {...state};
+        },
+        handlePopoverVisbile(state, {payload: value}) {
+
+            state.popoverVisible = value;
+            return {...state};
+        },
+        handleEditPopoverVisbile(state, {payload: value}) {
+
+            state.editPopoverVisible = value;
+            return {...state};
+        },
+        handleUpdateVisible(state, {payload: value}) {
+
+            state.keyValeUpdateVisible = value;
+            return {...state};
+        },
+        handleCreateVisible(state, {payload: value}) {
+
+            state.keyValeCreateVisible = value;
+            return {...state};
+        },
+        editSymbol(state) {
+
+            if (!methods.checkName(state.symbols, state.symbolName)) {
+                openNotificationWithIcon('info', '控件名已被占用');
+            } else {
+                var index = methods.getSymbolIndexByKey(state.symbols,
+                    state.currentSymbolKey);
+
+                if (index == undefined) {
+                    openNotificationWithIcon('error', '修改错误,请重试');
+                } else {
+                    state.symbols[index].name = state.symbolName;
+                }
+            }
+            state.symbolName = '';
+            state.currentSymbolKey = '';
+            state.editPopoverVisible = false;
+            return {...state};
+        },
+        deleteSymbol(state, { payload: key}) {
+
+            var index = methods.getSymbolIndexByKey(state.symbols, key);
+            if (index == undefined) {
+                openNotificationWithIcon('error', '删除失败,请重试');
+            } else {
+                state.symbols.splice(index, 1);
+            }
+            return {...state};
+        }
     },
 
     effects: {

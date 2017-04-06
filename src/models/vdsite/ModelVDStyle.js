@@ -19,6 +19,15 @@ var deepCopyObj = function(obj, result) {
 
 window.deepCopyObj = deepCopyObj;
 
+var getActiveQuery = function(mediaQuery, screenSize) {
+	for (var i = 0; i < mediaQuery.length; i++) {
+		var query = mediaQuery[i];
+		if(query.maxWidth == screenSize) {
+			return query;
+		}
+	};
+}
+
 var styleAction = {
 
 	findCSSPropertyByProperty: function(stylesList, property) {
@@ -39,6 +48,44 @@ var styleAction = {
 
 	findComplexCSSPropertyByProperty: function(sty) {
 
+	},
+
+	getUnitListByScreenSize: function(state) {
+
+		var screenSize = state.currentScreenSize;
+
+		if(screenSize === 0 || screenSize == '100%') {
+			return state.unitList;
+		}else {
+
+			var activeQuery = getActiveQuery(state.mediaQuery.queryList, screenSize);
+
+			if(activeQuery) {
+				return activeQuery.unitList;
+			}else {
+				return false;
+			}
+
+		}
+
+	},
+
+	getCSSStyleLayoutByScreenSize: function(state) {
+		var screenSize = state.currentScreenSize;
+
+		if(screenSize === 0 || screenSize == '100%') {
+			return state.cssStyleLayout;
+		}else {
+
+			var activeQuery = getActiveQuery(state.mediaQuery.queryList, screenSize);
+
+			if(activeQuery) {
+				return activeQuery.cssStyleLayout;
+			}else {
+				return false;
+			}
+
+		}
 	}
 }
 
@@ -715,18 +762,12 @@ export default {
 
 			var activeCtrl = yield select(state => state.vdCtrlTree.activeCtrl),
 				activeCtrlCustomClass = activeCtrl.customClassName;
-				console.log(params.value,activeCtrlCustomClass)
 
 				if(Object.prototype.toString.call(params.value) === '[object Array]'){
 					for(var i = 0; i < activeCtrlCustomClass.length; i++ ){
 
-						console.log(activeCtrlCustomClass[i])
-						console.log(params.value,activeCtrlCustomClass)
 						if(activeCtrlCustomClass[i].indexOf(":") > 0) {
 							var isExit = false;
-							console.log("dsadasdassa",activeCtrlCustomClass[i])
-							console.log(params.value,activeCtrlCustomClass)
-
 							for (var j = 0 ; j < params.value.length; j++) {
 								if(params.value[j] == activeCtrlCustomClass[i]){
 									isExit = true;
@@ -735,7 +776,6 @@ export default {
 
 							}
 							if(!isExit) {
-								console.log("dsadasdassa",activeCtrlCustomClass[i])
 								yield put({
 									type: 'deleteStateClass',
 									payload: activeCtrlCustomClass[i]
@@ -894,22 +934,24 @@ export default {
 
 		editStyleNameA(state, { payload: params }) {
 
-			console.log(params);
-			console.log(state.styleManager.modifyPop.value);
-			state.cssStyleLayout[state.styleManager.modifyPop.value] = state.cssStyleLayout[params.origin];
-			delete state.cssStyleLayout[params.origin];
+			var cssStyleLayout = styleAction.getCSSStyleLayoutByScreenSize(state);
 
-			state.unitList[state.styleManager.modifyPop.value] = state.unitList[params.origin];
-			delete state.unitList[params.origin];
+			cssStyleLayout[state.styleManager.modifyPop.value] = cssStyleLayout[params.origin];
+			delete cssStyleLayout[params.origin];
 
-			for(var styleName in state.cssStyleLayout) {
+			var unitList = styleAction.getUnitListByScreenSize(state);
+
+			unitList[state.styleManager.modifyPop.value] = unitList[params.origin];
+			delete unitList[params.origin];
+
+			for(var styleName in cssStyleLayout) {
 
 				var status = ['hover', 'focus', 'pressed','active'];
 
 				for (var i = 0; i < status.length; i++) {
 					var stat = status[i];
 					if(styleName == params.origin + ':' + stat) {
-						state.unitList[state.styleManager.modifyPop.value + ':' + stat] = state.unitList[params.origin + ':' + stat];
+						unitList[state.styleManager.modifyPop.value + ':' + stat] = unitList[params.origin + ':' + stat];
 						delete params.origin + ':' + stat;
 					}
 				};
@@ -920,10 +962,14 @@ export default {
 		},
 
 		removeStyleNameA(state, { payload: params }) {
-			delete state.cssStyleLayout[params.origin];
-			delete state.unitList[params.origin];
 
-			for(var styleName in state.cssStyleLayout) {
+			var cssStyleLayout = styleAction.getCSSStyleLayoutByScreenSize(state);
+			var unitList = styleAction.getUnitListByScreenSize(state);
+
+			delete cssStyleLayout[params.origin];
+			delete unitList[params.origin];
+
+			for(var styleName in cssStyleLayout) {
 
 				var status = ['hover', 'focus', 'pressed','active'];
 
@@ -958,15 +1004,10 @@ export default {
 			return {...state};
 		},
 		deleteStateClass(state, { payload: value}){
-			console.log("value",value)
-			 console.log(state.cssStyleLayout);
-			 // delete state.cssStyleLayout[params.origin];
-			for(var key in state.cssStyleLayout){
-
-				console.log(key)
+			var cssStyleLayout = styleAction.getCSSStyleLayoutByScreenSize(state);
+			for(var key in cssStyleLayout){
 				if(key == value){
-
-					delete state.cssStyleLayout[value];
+					delete cssStyleLayout[value];
 				}
 			}
 			return {...state};
@@ -996,7 +1037,9 @@ export default {
 			state.activeStyle = state.newStyleName;
 			state.newStyleName = '';
 
-			var activeCSSStyleLayout = state.cssStyleLayout[params.activeStyle];
+			var cssStyleLayout = styleAction.getCSSStyleLayoutByScreenSize(state);
+
+			var activeCSSStyleLayout = cssStyleLayout[params.activeStyle];
 
 			for(var cssStyle in activeCSSStyleLayout) {
 				if(cssStyle == state.activeStyle) {
@@ -1005,17 +1048,14 @@ export default {
 				}
 			}
 
-			console.log('==================', state.cssStyleList);
-
 			var cssTpl = deepCopyObj(state.cssStyleList),
 				unitsTpl = deepCopyObj(state.cssPropertyUnits);
 
-			state.cssStyleLayout[state.activeStyle] = cssTpl;
-			console.log("addStyle");
-			state.unitList[state.activeStyle] = unitsTpl;
-			console.log(state);
-			console.log(state.cssStyleLayout);
-			console.log(state.unitList);
+			cssStyleLayout[state.activeStyle] = cssTpl;
+
+			var unitList = styleAction.getUnitListByScreenSize(state);
+
+			unitList[state.activeStyle] = unitsTpl;
 			return {...state};
 		},
 
@@ -1030,7 +1070,8 @@ export default {
 		},
 
 		saveBoxShadow(state, { payload: params }) {
-			var activeCSSStyleLayout = state.cssStyleLayout[params.activeStyle];
+			var cssStyleLayout = styleAction.getCSSStyleLayoutByScreenSize(state);
+			var activeCSSStyleLayout = cssStyleLayout[params.activeStyle];
 
 			var tmp = {};
 
@@ -1107,12 +1148,17 @@ export default {
 				background(currentStyleParent, unit) {
 					unit = unit || '';
 					let styleText = '', important = '';
+					var unitList = styleAction.getUnitListByScreenSize(state);
 					for(let styleName in currentStyleParent) {
 						let currentStyleValue = currentStyleParent[styleName];
 
-						if(state.unitList[currentActiveRecStyleName][styleName]) {
-							unit = state.unitList[currentActiveRecStyleName][styleName].unit || '';
-							important = state.unitList[currentActiveRecStyleName][styleName].important ? '!important' : '';
+						if(!unitList[currentActiveRecStyleName]) {
+							continue;
+						}
+
+						if(unitList[currentActiveRecStyleName][styleName]) {
+							unit = unitList[currentActiveRecStyleName][styleName].unit || '';
+							important = unitList[currentActiveRecStyleName][styleName].important ? '!important' : '';
 						}
 
 						if (currentStyleValue !== '') {
@@ -1172,12 +1218,18 @@ export default {
 						unit = unit || '';
 						extraProperty = extraProperty;
 					}
+					var unitList = styleAction.getUnitListByScreenSize(state);
 					let styleText = '', important;
 					for(let styleName in currentStyleParent) {
 						if(styleName != extraProperty) {
-							if(state.unitList[currentActiveRecStyleName][styleName]) {
-								unit = state.unitList[currentActiveRecStyleName][styleName].unit || '';
-								important = state.unitList[currentActiveRecStyleName][styleName].important ? '!important' : '';
+
+							if(!unitList[currentActiveRecStyleName]) {
+								continue;
+							}
+
+							if(unitList[currentActiveRecStyleName][styleName]) {
+								unit = unitList[currentActiveRecStyleName][styleName].unit || '';
+								important = unitList[currentActiveRecStyleName][styleName].important ? '!important' : '';
 							}
 
 							let currentStyleValue = currentStyleParent[styleName];
@@ -1189,6 +1241,7 @@ export default {
 									styleText += styleName + ':' + currentStyleValue + unit + important + ';';
 								}
 							}
+
 						}
 						unit = '';
 					}
@@ -1401,7 +1454,7 @@ export default {
 
 
 			}
-			const stylesGenerator = (cssStyleLayout, mediaQuery) => {
+			const stylesGenerator = (cssStyleLayout, mediaQuery, ul) => {
 
 				var cssText = '';
 				for(var styleName in cssStyleLayout) {
@@ -1413,10 +1466,14 @@ export default {
 					for(var property in currentStyle) {
 						var currentTableStyle = currentStyle[property];
 						var unit = '', important = '';
-						if(state.unitList[styleName][property]) {
-							unit = state.unitList[styleName][property].unit || '';
-							important = state.unitList[styleName][property].important ? '!important' : '';
+
+						var unitList = ul || state.unitList[styleName][property];
+
+						if(unitList) {
+							unit = unitList.unit || '';
+							important = unitList.important ? '!important' : '';
 						}
+
 						if(currentTableStyle != '' && typeof currentTableStyle !== 'object') {
 							cssClass += property + ':' + currentTableStyle + unit + important + ';'
 						}else if (typeof currentTableStyle === 'object') {
@@ -1437,12 +1494,13 @@ export default {
 					for (var i = 0; i < mediaQuery.length; i++) {
 						var query = mediaQuery[i];
 						mediaHeader = mediaHeader.replace('==WIDTH==', query.maxWidth);
-						mediaContent = mediaHeader + stylesGenerator(query.cssStyleLayout) + '}';
+						mediaContent = mediaHeader + stylesGenerator(query.cssStyleLayout, undefined, query.unitList) + '}';
 						result += mediaContent;
 						mediaContent = '';
 						mediaHeader = '@media only screen and (max-width: ==WIDTH==) {';
-						console.log('============generateMediaQuery============', result);
 					};
+
+					return result;
 				}
 
 				if(mediaQuery) {
@@ -1470,9 +1528,9 @@ export default {
 		},
 
 		setActiveBoxShadow(state, { payload: params }) {
-			var activeCSSLayout = state.cssStyleLayout[params.activeStyle];
+			var cssStyleLayout = styleAction.getCSSStyleLayoutByScreenSize(state);
+			var activeCSSLayout = cssStyleLayout[params.activeStyle];
 			if(activeCSSLayout) {
-				console.log('setActiveBoxShadow', activeCSSLayout);
 				if(activeCSSLayout[params.shadowType].childrenProps[params.cssPropertyIndex]) {
 					activeCSSLayout[params.shadowType].state.activeProp = params.cssPropertyIndex;
 				}
@@ -1481,11 +1539,11 @@ export default {
 		},
 
 		removeThisShadow(state, { payload: params }) {
-			var activeCSSLayout = state.cssStyleLayout[params.activeStyle];
+			var cssStyleLayout = styleAction.getCSSStyleLayoutByScreenSize(state);
+			var activeCSSLayout = cssStyleLayout[params.activeStyle];
 			activeCSSLayout[params.shadowType].state.activeProp = activeCSSLayout[params.shadowType].childrenProps.length - 2;
 			activeCSSLayout[params.shadowType].state.activeProp = activeCSSLayout[params.shadowType].state.activeProp < 0 ? 0 : activeCSSLayout[params.shadowType].state.activeProp;
 			activeCSSLayout[params.shadowType].childrenProps.splice(params.cssPropertyIndex, 1);
-			console.log('removeThisShadow', activeCSSLayout);
 			message.success('删除成功');
 			return {...state};
 		},
@@ -1500,14 +1558,16 @@ export default {
 					value = 'url("' + value + '")';
 				}
 
+				var cssStyleLayout = styleAction.getCSSStyleLayoutByScreenSize(state);
+
 				if(property == 'border-position' || property == 'border-radius-position') {
 
 					var parentType = property.split('-');
 					parentType.pop();
 					parentType = parentType.join('-');
 
-					const prevBorderPosition = state.cssStyleLayout[activeStyleName][parentType][property];
-					var activeBorderStyle = state.cssStyleLayout[activeStyleName][parentType];
+					const prevBorderPosition = cssStyleLayout[activeStyleName][parentType][property];
+					var activeBorderStyle = cssStyleLayout[activeStyleName][parentType];
 
 					//清除其它border类型，并根据现有propertyName重新生成样式
 
@@ -1526,24 +1586,22 @@ export default {
 				}
 
 				if(params.parent) {
-					var propertyParent = styleAction.findCSSPropertyByProperty(state.cssStyleLayout[activeStyleName], property);
+					var propertyParent = styleAction.findCSSPropertyByProperty(cssStyleLayout[activeStyleName], property);
 					if(typeof params.parent.index !== 'undefined') {
 						if(property === 'background-size') {
-							console.log('background-size', value);
 							if(params.parent.index == 2 || params.parent.index == 3) {
 								if(value){
-																	var constractIndex = params.parent.index == 2 ? 3 : 2;
-								propertyParent[property][0] = '';
-								propertyParent[property][1] = '';
-								propertyParent[property][constractIndex] = !value;
-								propertyParent[property][params.parent.index] = value;
-							}else{
-								propertyParent[property][0] = '';
-								propertyParent[property][1] = '';
-								//propertyParent[property][constractIndex] = !value;
-								propertyParent[property][params.parent.index] = value;
-							}
-
+									var constractIndex = params.parent.index == 2 ? 3 : 2;
+									propertyParent[property][0] = '';
+									propertyParent[property][1] = '';
+									propertyParent[property][constractIndex] = !value;
+									propertyParent[property][params.parent.index] = value;
+								}else{
+									propertyParent[property][0] = '';
+									propertyParent[property][1] = '';
+									//propertyParent[property][constractIndex] = !value;
+									propertyParent[property][params.parent.index] = value;
+								}
 							}else {
 								propertyParent[property][params.parent.index] = value;
 								propertyParent[property][2] = false;
@@ -1554,7 +1612,6 @@ export default {
 						}
 					}else if (property === 'background-position') {
 						let vals = value.split(' ');
-						console.log(propertyParent, property);
 						if(typeof propertyParent[property] == 'string') {
 							propertyParent[property] = [];
 						}
@@ -1565,15 +1622,15 @@ export default {
 					}
 
 				}else {
-					state.cssStyleLayout[activeStyleName][property] = value;
+					cssStyleLayout[activeStyleName][property] = value;
 				}
 
 			return {...state};
 		},
 
 		handleBoxShadowStylesChange(state, { payload: params }) {
-
-			var cssProperty = state.cssStyleLayout[params.activeStyleName][params.parent];
+			var cssStyleLayout = styleAction.getCSSStyleLayoutByScreenSize(state);
+			var cssProperty = cssStyleLayout[params.activeStyleName][params.parent];
 			var activeProp = cssProperty.state.activeProp;
 			var childrenProps = cssProperty.childrenProps[activeProp];
 
@@ -1583,7 +1640,8 @@ export default {
 		},
 
 		handleFilterTypeChange(state, { payload: params }) {
-			var cssProperty = state.cssStyleLayout[params.activeStyleName]['filter'];
+			var cssStyleLayout = styleAction.getCSSStyleLayoutByScreenSize(state);
+			var cssProperty = cssStyleLayout[params.activeStyleName]['filter'];
 			cssProperty.state.activeFilter = params.index;
 			return {...state};
 		},
@@ -1594,7 +1652,8 @@ export default {
 		},
 
 		saveFilter(state, { payload: params }) {
-			var cssProperty = state.cssStyleLayout[params.activeStyleName]['filter'];
+			var cssStyleLayout = styleAction.getCSSStyleLayoutByScreenSize(state);
+			var cssProperty = cssStyleLayout[params.activeStyleName]['filter'];
 
 			if(state.filterSetting.value == '') {
 				message.error('请填写值！');
@@ -1618,7 +1677,8 @@ export default {
 		},
 
 		saveThisTransition(state, { payload: params }) {
-			var cssProperty = state.cssStyleLayout[params.activeStyleName]['transition'];
+			var cssStyleLayout = styleAction.getCSSStyleLayoutByScreenSize(state);
+			var cssProperty = cssStyleLayout[params.activeStyleName]['transition'];
 			cssProperty.childrenProps.push(state.transitionSetting);
 			state.transitionSetting = {
 				'transition-property': 'all',
@@ -1629,7 +1689,8 @@ export default {
 		},
 
 		saveTransform(state, { payload: params }) {
-			var cssProperty = state.cssStyleLayout[params.activeStyleName]['transform'];
+			var cssStyleLayout = styleAction.getCSSStyleLayoutByScreenSize(state);
+			var cssProperty = cssStyleLayout[params.activeStyleName]['transform'];
 			cssProperty.childrenProps.push({
 				name: state.transformSetting.name,
 				value: [state.transformSetting.x, state.transformSetting.y]
@@ -1650,19 +1711,22 @@ export default {
 		},
 
 		removeThisFilter(state, { payload: params }) {
-			var cssProperty = state.cssStyleLayout[params.activeStyleName]['filter'];
+			var cssStyleLayout = styleAction.getCSSStyleLayoutByScreenSize(state);
+			var cssProperty = cssStyleLayout[params.activeStyleName]['filter'];
 			cssProperty.childrenProps.splice(params.filterIndex, 1);
 			return {...state};
 		},
 
 		removeThisTransition(state, { payload: params }) {
-			var cssProperty = state.cssStyleLayout[params.activeStyleName]['transition'];
+			var cssStyleLayout = styleAction.getCSSStyleLayoutByScreenSize(state);
+			var cssProperty = cssStyleLayout[params.activeStyleName]['transition'];
 			cssProperty.childrenProps.splice(params.transitionIndex, 1);
 			return {...state};
 		},
 
 		removeThisTransform(state, { payload: params }) {
-			var cssProperty = state.cssStyleLayout[params.activeStyleName]['transform'];
+			var cssStyleLayout = styleAction.getCSSStyleLayoutByScreenSize(state);
+			var cssProperty = cssStyleLayout[params.activeStyleName]['transform'];
 			cssProperty.childrenProps.splice(params.transformIndex, 1);
 			return {...state};
 		},
@@ -1683,8 +1747,8 @@ export default {
 		},
 
 		setThisPropertyNull(state, { payload: params }) {
-			console.log(params);
-			var propertyParent = styleAction.findCSSPropertyByProperty(state.cssStyleLayout[params.activeStyleName], params.property);
+			var cssStyleLayout = styleAction.getCSSStyleLayoutByScreenSize(state);
+			var propertyParent = styleAction.findCSSPropertyByProperty(cssStyleLayout[params.activeStyleName], params.property);
 
 			var actions = {
 				'background-size' () {
@@ -1707,18 +1771,21 @@ export default {
 		},
 
 		setThisPropertyImportant(state, { payload: params }) {
-			var activeCSSProperty = state.unitList[params.activeStyleName][params.property];
+			var unitList = styleAction.getUnitListByScreenSize(state);
+			var activeCSSProperty = unitList[params.activeStyleName][params.property];
 			activeCSSProperty.important = !activeCSSProperty.important;
 			return {...state};
 		},
 
 		changeActiveUnit(state, { payload: params }) {
-			state.unitList[params.activeStyleName][params.property].unit = params.value;
+			var unitList = styleAction.getUnitListByScreenSize(state);
+			unitList[params.activeStyleName][params.property].unit = params.value;
 			return {...state};
 		},
 
 		setMarginCenter(state, { payload: params }) {
-			var cssProperty = state.cssStyleLayout[params.activeStyleName]['margin'];
+			var cssStyleLayout = styleAction.getCSSStyleLayoutByScreenSize(state);
+			var cssProperty = cssStyleLayout[params.activeStyleName]['margin'];
 			cssProperty[params.property] = params.checked;
 
 			if(params.checked) {

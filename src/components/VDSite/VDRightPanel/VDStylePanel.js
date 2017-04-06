@@ -51,6 +51,9 @@ const VDStylePanel = (props) => {
 	if(screenSize === 0 || screenSize == '100%') {
 		var activeCSSStyleState = props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle],
 			activeCSSUnitList = props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle];
+
+		console.log('activeCSSStyleState=============', activeCSSStyleState);
+
 	}else {
 
 		var activeMediaQuery;
@@ -446,7 +449,7 @@ const VDStylePanel = (props) => {
 							      	<Form className="form-no-margin-bottom">
 										<FormItem {...formItemLayout} label="宽度">
 											<Input
-												value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['background']['background-size'][0]}
+												value={activeCSSStyleState['background']['background-size'][0]}
 												onChange={handleBackgroundSizePositionChange.bind(this, 'background-size', {parent: 'background', index: 0})} size="small" />
 										</FormItem>
 							      	</Form>
@@ -455,7 +458,7 @@ const VDStylePanel = (props) => {
 							      	<Form className="form-no-margin-bottom">
 										<FormItem {...formItemLayout} label="填充">
 											<Switch
-												checked={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['background']['background-size'][2]}
+												checked={activeCSSStyleState['background']['background-size'][2]}
 												onChange={handleBackgroundSizePositionChange.bind(this, 'background-size', {parent: 'background', index: 2})} size="small" />
 										</FormItem>
 							      	</Form>
@@ -469,7 +472,7 @@ const VDStylePanel = (props) => {
 							      	<Form className="form-no-margin-bottom">
 										<FormItem {...formItemLayout} label="高度">
 											<Input
-												value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['background']['background-size'][1]}
+												value={activeCSSStyleState['background']['background-size'][1]}
 												onChange={handleBackgroundSizePositionChange.bind(this, 'background-size', {parent: 'background', index: 1})} size="small" />
 										</FormItem>
 							      	</Form>
@@ -478,7 +481,7 @@ const VDStylePanel = (props) => {
 							      	<Form className="form-no-margin-bottom">
 										<FormItem {...formItemLayout} label="适应">
 											<Switch
-												checked={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['background']['background-size'][3]}
+												checked={activeCSSStyleState['background']['background-size'][3]}
 												onChange={handleBackgroundSizePositionChange.bind(this, 'background-size', {parent: 'background', index: 3})} size="small" />
 										</FormItem>
 							      	</Form>
@@ -549,12 +552,12 @@ const VDStylePanel = (props) => {
 									<Form className="form-no-margin-bottom">
 										<FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 18 }} label="top">
 											<Input
-												value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['background']['background-position'][0]}
+												value={activeCSSStyleState['background']['background-position'][0]}
 												onChange={handleBackgroundSizePositionChange.bind(this, 'background-position', {parent: 'background', index: 0})} size="small" />
 										</FormItem>
 										<FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 18 }} label="left">
 											<Input
-												value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['background']['background-position'][1]}
+												value={activeCSSStyleState['background']['background-position'][1]}
 												onChange={handleBackgroundSizePositionChange.bind(this, 'background-position', {parent: 'background', index: 1})} size="small" />
 										</FormItem>
 							      	</Form>
@@ -575,7 +578,7 @@ const VDStylePanel = (props) => {
 								)
 							}>
 
-					        <RadioGroup defaultValue="repeat" size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['background']['background-repeat']} onChange={handleStylesChange.bind(this, 'background-repeat', 'background')}>
+					        <RadioGroup defaultValue="repeat" size="small" value={activeCSSStyleState['background']['background-repeat']} onChange={handleStylesChange.bind(this, 'background-repeat', 'background')}>
 						      	<RadioButton value="repeat">
 			  		              	<Tooltip placement="top" title="repeat">
 										<Icon type="appstore-o" />
@@ -612,7 +615,7 @@ const VDStylePanel = (props) => {
 								)
 							}>
 
-					        <RadioGroup defaultValue="scroll" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['background']['background-attachment']} size="small" onChange={handleStylesChange.bind(this, 'background-attachment', 'background')}>
+					        <RadioGroup defaultValue="scroll" value={activeCSSStyleState['background']['background-attachment']} size="small" onChange={handleStylesChange.bind(this, 'background-attachment', 'background')}>
 						      	<RadioButton value="fixed">
 			  		              	<Tooltip placement="top" title="fixed">
 										<Icon type="check" />
@@ -827,7 +830,7 @@ const VDStylePanel = (props) => {
 
     		}
 
-    		const activeProp = props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].state.activeProp;
+    		const activeProp = activeCSSStyleState['box-shadow'].state.activeProp;
 
     		const handleBoxShadowEditorChange = (property, e) => {
 
@@ -850,7 +853,7 @@ const VDStylePanel = (props) => {
 						<FormItem {...formItemLayout} label="水平阴影">
 							<Row>
 						        <Col span={14} style={{paddingRight: '10px'}}>
-						          	<Input onPressEnter={saveBoxShadow} onChange={handleBoxShadowEditorChange.bind(this, 'h-shadow')} value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].childrenProps[activeProp]['h-shadow']} size="small"/>
+						          	<Input onPressEnter={saveBoxShadow} onChange={handleBoxShadowEditorChange.bind(this, 'h-shadow')} value={activeCSSStyleState['box-shadow'].childrenProps[activeProp]['h-shadow']} size="small"/>
 						        </Col>
 						        <Col span={4}>
 						        	PX
@@ -861,7 +864,7 @@ const VDStylePanel = (props) => {
 						<FormItem {...formItemLayout} label="垂直阴影">
 							<Row>
 						        <Col span={14} style={{paddingRight: '10px'}}>
-						          	<Input onPressEnter={saveBoxShadow} onChange={handleBoxShadowEditorChange.bind(this, 'v-shadow')} value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].childrenProps[activeProp]['v-shadow']} size="small"/>
+						          	<Input onPressEnter={saveBoxShadow} onChange={handleBoxShadowEditorChange.bind(this, 'v-shadow')} value={activeCSSStyleState['box-shadow'].childrenProps[activeProp]['v-shadow']} size="small"/>
 						        </Col>
 						        <Col span={4}>
 						        	PX
@@ -872,7 +875,7 @@ const VDStylePanel = (props) => {
 						<FormItem {...formItemLayout} label="模糊距离">
 							<Row>
 						        <Col span={14} style={{paddingRight: '10px'}}>
-						          	<Input onPressEnter={saveBoxShadow} onChange={handleBoxShadowEditorChange.bind(this, 'blur')} value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].childrenProps[activeProp]['blur']} size="small"/>
+						          	<Input onPressEnter={saveBoxShadow} onChange={handleBoxShadowEditorChange.bind(this, 'blur')} value={activeCSSStyleState['box-shadow'].childrenProps[activeProp]['blur']} size="small"/>
 						        </Col>
 						        <Col span={4}>
 						        	PX
@@ -883,7 +886,7 @@ const VDStylePanel = (props) => {
 						<FormItem {...formItemLayout} label="阴影尺寸">
 							<Row>
 						        <Col span={14} style={{paddingRight: '10px'}}>
-						          	<Input onPressEnter={saveBoxShadow} onChange={handleBoxShadowEditorChange.bind(this, 'spread')} value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].childrenProps[activeProp]['spread']} size="small"/>
+						          	<Input onPressEnter={saveBoxShadow} onChange={handleBoxShadowEditorChange.bind(this, 'spread')} value={activeCSSStyleState['box-shadow'].childrenProps[activeProp]['spread']} size="small"/>
 						        </Col>
 						        <Col span={4}>
 						        	PX
@@ -892,11 +895,11 @@ const VDStylePanel = (props) => {
 						</FormItem>
 
 						<FormItem {...formItemLayout} label="颜色">
-							<Input onPressEnter={saveBoxShadow} onChange={handleBoxShadowEditorChange.bind(this, 'color')} value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].childrenProps[activeProp]['color']} type="color" size="small" />
+							<Input onPressEnter={saveBoxShadow} onChange={handleBoxShadowEditorChange.bind(this, 'color')} value={activeCSSStyleState['box-shadow'].childrenProps[activeProp]['color']} type="color" size="small" />
 						</FormItem>
 
 						<FormItem {...formItemLayout} label="类型">
-					        <RadioGroup onChange={handleBoxShadowEditorChange.bind(this, 'inset')} value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].childrenProps[activeProp]['inset']} defaultValue="outset" size="small">
+					        <RadioGroup onChange={handleBoxShadowEditorChange.bind(this, 'inset')} value={activeCSSStyleState['box-shadow'].childrenProps[activeProp]['inset']} defaultValue="outset" size="small">
 						      	<RadioButton value="outset">
 									外阴影
 					      		</RadioButton>
@@ -1011,7 +1014,7 @@ const VDStylePanel = (props) => {
 				message.success('保存成功');
     		}
 
-    		const activeProp = props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['text-shadow'].state.activeProp;
+    		const activeProp = activeCSSStyleState['text-shadow'].state.activeProp;
 
     		const handleBoxShadowEditorChange = (property, e) => {
 
@@ -1034,7 +1037,7 @@ const VDStylePanel = (props) => {
 						<FormItem {...formItemLayout} label="水平阴影">
 							<Row>
 						        <Col span={14} style={{paddingRight: '10px'}}>
-						          	<Input onChange={handleBoxShadowEditorChange.bind(this, 'h-shadow')} value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['text-shadow'].childrenProps[activeProp]['h-shadow']} size="small"/>
+						          	<Input onChange={handleBoxShadowEditorChange.bind(this, 'h-shadow')} value={activeCSSStyleState['text-shadow'].childrenProps[activeProp]['h-shadow']} size="small"/>
 						        </Col>
 						        <Col span={4}>
 						        	PX
@@ -1045,7 +1048,7 @@ const VDStylePanel = (props) => {
 						<FormItem {...formItemLayout} label="垂直阴影">
 							<Row>
 						        <Col span={14} style={{paddingRight: '10px'}}>
-						          	<Input onChange={handleBoxShadowEditorChange.bind(this, 'v-shadow')} value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['text-shadow'].childrenProps[activeProp]['v-shadow']} size="small"/>
+						          	<Input onChange={handleBoxShadowEditorChange.bind(this, 'v-shadow')} value={activeCSSStyleState['text-shadow'].childrenProps[activeProp]['v-shadow']} size="small"/>
 						        </Col>
 						        <Col span={4}>
 						        	PX
@@ -1056,7 +1059,7 @@ const VDStylePanel = (props) => {
 						<FormItem {...formItemLayout} label="模糊距离">
 							<Row>
 						        <Col span={14} style={{paddingRight: '10px'}}>
-						          	<Input onChange={handleBoxShadowEditorChange.bind(this, 'blur')} value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['text-shadow'].childrenProps[activeProp]['blur']} size="small"/>
+						          	<Input onChange={handleBoxShadowEditorChange.bind(this, 'blur')} value={activeCSSStyleState['text-shadow'].childrenProps[activeProp]['blur']} size="small"/>
 						        </Col>
 						        <Col span={4}>
 						        	PX
@@ -1065,7 +1068,7 @@ const VDStylePanel = (props) => {
 						</FormItem>
 
 						<FormItem {...formItemLayout} label="颜色">
-							<Input onChange={handleBoxShadowEditorChange.bind(this, 'color')} value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['text-shadow'].childrenProps[activeProp]['color']} type="color" size="small" />
+							<Input onChange={handleBoxShadowEditorChange.bind(this, 'color')} value={activeCSSStyleState['text-shadow'].childrenProps[activeProp]['color']} type="color" size="small" />
 						</FormItem>
 
 						<Button onClick={saveBoxShadow} size="small">保存</Button>
@@ -1731,7 +1734,7 @@ const VDStylePanel = (props) => {
 							</div>
 							<div className="bem-Frame_Body" id="display-body">
 
-						        <RadioGroup defaultValue="block" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['display']} size="small" onChange={handleStylesChange.bind(this, 'display')}>
+						        <RadioGroup defaultValue="block" value={activeCSSStyleState['display']} size="small" onChange={handleStylesChange.bind(this, 'display')}>
 							      	<RadioButton value="block">
 				  		              	<Tooltip placement="top" title="block">
 							      			<svg width="18" height="14" viewBox="0 0 22 14" className="bem-Svg " style={{marginTop:'3px', display: 'block', transform: 'translate(0px, 0px)'}}><path opacity=".15" fill="currentColor" d="M19 3v8H3V3h16m1-1H2v10h18V2z"></path><path fill="currentColor" d="M19.8 1H2.2A1.2 1.2 0 0 0 1 2.2v9.6A1.2 1.2 0 0 0 2.2 13h17.6a1.2 1.2 0 0 0 1.2-1.2V2.2A1.2 1.2 0 0 0 19.8 1zm.2 11H2V2h18v10z"></path><path opacity=".35" fill="currentColor" d="M3 3h16v8H3z"></path></svg>
@@ -1781,7 +1784,7 @@ const VDStylePanel = (props) => {
 									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['padding-top'].unit, 'padding-top')}
 									size="small"
 									type="number"
-									value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['padding']['padding-top']}
+									value={activeCSSStyleState['padding']['padding-top']}
 									onChange={handleStylesChange.bind(this, 'padding-top')}/>
 							</FormItem>
 				      	</Form>
@@ -1800,7 +1803,7 @@ const VDStylePanel = (props) => {
 								<Input
 									type="number"
 									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['padding-bottom'].unit, 'padding-bottom')}
-								 	size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['padding']['padding-bottom']} onChange={handleStylesChange.bind(this, 'padding-bottom')}/>
+								 	size="small" value={activeCSSStyleState['padding']['padding-bottom']} onChange={handleStylesChange.bind(this, 'padding-bottom')}/>
 							</FormItem>
 				      	</Form>
 				  	</Col>
@@ -1823,7 +1826,7 @@ const VDStylePanel = (props) => {
 								<Input
 									type="number"
 									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['padding-left'].unit, 'padding-left')}
-								 	size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['padding']['padding-left']} onChange={handleStylesChange.bind(this, 'padding-left')}/>
+								 	size="small" value={activeCSSStyleState['padding']['padding-left']} onChange={handleStylesChange.bind(this, 'padding-left')}/>
 							</FormItem>
 				      	</Form>
 				  	</Col>
@@ -1841,7 +1844,7 @@ const VDStylePanel = (props) => {
 								<Input
 									type="number"
 									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['padding-right'].unit, 'padding-right')}
-									size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['padding']['padding-right']} onChange={handleStylesChange.bind(this, 'padding-right')}/>
+									size="small" value={activeCSSStyleState['padding']['padding-right']} onChange={handleStylesChange.bind(this, 'padding-right')}/>
 							</FormItem>
 				      	</Form>
 				  	</Col>
@@ -1852,11 +1855,11 @@ const VDStylePanel = (props) => {
 
 		      	<Form className="form-no-margin-bottom zindex-form">
 					<FormItem {...formItemLayout} label="居中">
-						<Switch onChange={setMarginCenter} value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['margin']['center']} size="small" />
+						<Switch onChange={setMarginCenter} value={activeCSSStyleState['margin']['center']} size="small" />
 					</FormItem>
 		      	</Form>
 
-		    	<Row hidden={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['margin']['margin-center']}>
+		    	<Row hidden={activeCSSStyleState['margin']['margin-center']}>
 
 				  	<Col span={12} style={{paddingRight: '5px'}}>
 				      	<Form className="form-no-margin-bottom">
@@ -1872,7 +1875,7 @@ const VDStylePanel = (props) => {
 								<Input
 									type="number"
 									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['margin-top'].unit, 'margin-top')}
-									size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['margin']['margin-top']} onChange={handleStylesChange.bind(this, 'margin-top')}/>
+									size="small" value={activeCSSStyleState['margin']['margin-top']} onChange={handleStylesChange.bind(this, 'margin-top')}/>
 							</FormItem>
 				      	</Form>
 				  	</Col>
@@ -1890,14 +1893,14 @@ const VDStylePanel = (props) => {
 								<Input
 									type="number"
 									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['margin-bottom'].unit, 'margin-bottom')}
-								 	size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['margin']['margin-bottom']} onChange={handleStylesChange.bind(this, 'margin-bottom')}/>
+								 	size="small" value={activeCSSStyleState['margin']['margin-bottom']} onChange={handleStylesChange.bind(this, 'margin-bottom')}/>
 							</FormItem>
 				      	</Form>
 				  	</Col>
 
 			  	</Row>
 
-		    	<Row hidden={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['margin']['margin-center']}>
+		    	<Row hidden={activeCSSStyleState['margin']['margin-center']}>
 
 				  	<Col span={12} style={{paddingRight: '5px'}}>
 				      	<Form className="form-no-margin-bottom">
@@ -1913,7 +1916,7 @@ const VDStylePanel = (props) => {
 								<Input
 									type="number"
 									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['margin-left'].unit, 'margin-left')}
-									size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['margin']['margin-left']} onChange={handleStylesChange.bind(this, 'margin-left')}/>
+									size="small" value={activeCSSStyleState['margin']['margin-left']} onChange={handleStylesChange.bind(this, 'margin-left')}/>
 							</FormItem>
 				      	</Form>
 				  	</Col>
@@ -1931,7 +1934,7 @@ const VDStylePanel = (props) => {
 								<Input
 									type="number"
 									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['margin-right'].unit, 'margin-right')}
-									size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['margin']['margin-right']} onChange={handleStylesChange.bind(this, 'margin-right')}/>
+									size="small" value={activeCSSStyleState['margin']['margin-right']} onChange={handleStylesChange.bind(this, 'margin-right')}/>
 							</FormItem>
 				      	</Form>
 				  	</Col>
@@ -1956,7 +1959,7 @@ const VDStylePanel = (props) => {
 								<Input
 									type="number"
 									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['width'].unit, 'width')}
-								 	size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['width']} onChange={handleStylesChange.bind(this, 'width')}/>
+								 	size="small" value={activeCSSStyleState['width']} onChange={handleStylesChange.bind(this, 'width')}/>
 							</FormItem>
 				      	</Form>
 				  	</Col>
@@ -1974,7 +1977,7 @@ const VDStylePanel = (props) => {
 								<Input
 									type="number"
 									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['height'].unit, 'height')}
-								 	size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['height']} onChange={handleStylesChange.bind(this, 'height')}/>
+								 	size="small" value={activeCSSStyleState['height']} onChange={handleStylesChange.bind(this, 'height')}/>
 							</FormItem>
 				      	</Form>
 				  	</Col>
@@ -1997,7 +2000,7 @@ const VDStylePanel = (props) => {
 								<Input
 									type="number"
 									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['max-width'].unit, 'max-width')}
-									size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['max-width']} onChange={handleStylesChange.bind(this, 'max-width')}/>
+									size="small" value={activeCSSStyleState['max-width']} onChange={handleStylesChange.bind(this, 'max-width')}/>
 							</FormItem>
 				      	</Form>
 				  	</Col>
@@ -2015,7 +2018,7 @@ const VDStylePanel = (props) => {
 								<Input
 									type="number"
 									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['min-width'].unit, 'min-width')}
-									size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['min-width']} onChange={handleStylesChange.bind(this, 'min-width')}/>
+									size="small" value={activeCSSStyleState['min-width']} onChange={handleStylesChange.bind(this, 'min-width')}/>
 							</FormItem>
 				      	</Form>
 				  	</Col>
@@ -2038,7 +2041,7 @@ const VDStylePanel = (props) => {
 								<Input
 									type="number"
 									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['max-height'].unit, 'max-height')}
-									size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['max-height']} onChange={handleStylesChange.bind(this, 'max-height')}/>
+									size="small" value={activeCSSStyleState['max-height']} onChange={handleStylesChange.bind(this, 'max-height')}/>
 							</FormItem>
 				      	</Form>
 				  	</Col>
@@ -2056,7 +2059,7 @@ const VDStylePanel = (props) => {
 								<Input
 									type="number"
 									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['min-height'].unit, 'min-height')}
-									size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['min-height']} onChange={handleStylesChange.bind(this, 'min-height')}/>
+									size="small" value={activeCSSStyleState['min-height']} onChange={handleStylesChange.bind(this, 'min-height')}/>
 							</FormItem>
 				      	</Form>
 				  	</Col>
@@ -2075,7 +2078,7 @@ const VDStylePanel = (props) => {
 										</Popconfirm>
 								)
 							}>
-				        <RadioGroup defaultValue="block" size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['float']} onChange={handleStylesChange.bind(this, 'float')}>
+				        <RadioGroup defaultValue="block" size="small" value={activeCSSStyleState['float']} onChange={handleStylesChange.bind(this, 'float')}>
 					      	<RadioButton value="none">
 		  		              	<Tooltip placement="top" title="none">
 									<Icon type="close" />
@@ -2105,7 +2108,7 @@ const VDStylePanel = (props) => {
 										</Popconfirm>
 								)
 							}>
-				        <RadioGroup defaultValue="block" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['clear']} size="small" onChange={handleStylesChange.bind(this, 'clear')}>
+				        <RadioGroup defaultValue="block" value={activeCSSStyleState['clear']} size="small" onChange={handleStylesChange.bind(this, 'clear')}>
 					      	<RadioButton value="none">
 		  		              	<Tooltip placement="top" title="none">
 									<Icon type="close" />
@@ -2142,7 +2145,7 @@ const VDStylePanel = (props) => {
 										</Popconfirm>
 								)
 							}>
-				        <RadioGroup defaultValue="block" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['overflow']} size="small" onChange={handleStylesChange.bind(this, 'overflow')}>
+				        <RadioGroup defaultValue="block" value={activeCSSStyleState['overflow']} size="small" onChange={handleStylesChange.bind(this, 'overflow')}>
 					      	<RadioButton value="visible">
 		  		              	<Tooltip placement="top" title="visible">
 									<Icon type="smile-o" />
@@ -2179,7 +2182,7 @@ const VDStylePanel = (props) => {
 										</Popconfirm>
 								)
 							}>
-				        <RadioGroup defaultValue="block" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['position']} size="small" onChange={handleStylesChange.bind(this, 'position')}>
+				        <RadioGroup defaultValue="block" value={activeCSSStyleState['position']} size="small" onChange={handleStylesChange.bind(this, 'position')}>
 					      	<RadioButton value="auto">
 		  		              	<Tooltip placement="top" title="auto">
 									<Icon type="check" />
@@ -2222,7 +2225,7 @@ const VDStylePanel = (props) => {
 								<Input
 									type="number"
 									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['top'].unit, 'top')}
-									size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['top']} onChange={handleStylesChange.bind(this, 'top')}/>
+									size="small" value={activeCSSStyleState['top']} onChange={handleStylesChange.bind(this, 'top')}/>
 							</FormItem>
 				      	</Form>
 				  	</Col>
@@ -2240,7 +2243,7 @@ const VDStylePanel = (props) => {
 								<Input
 									type="number"
 									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['left'].unit, 'left')}
-								 	size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['left']} onChange={handleStylesChange.bind(this, 'left')}/>
+								 	size="small" value={activeCSSStyleState['left']} onChange={handleStylesChange.bind(this, 'left')}/>
 							</FormItem>
 				      	</Form>
 				  	</Col>
@@ -2265,7 +2268,7 @@ const VDStylePanel = (props) => {
 								<Input
 									type="number"
 									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['bottom'].unit, 'bottom')}
-									size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['bottom']} onChange={handleStylesChange.bind(this, 'bottom')}/>
+									size="small" value={activeCSSStyleState['bottom']} onChange={handleStylesChange.bind(this, 'bottom')}/>
 							</FormItem>
 				      	</Form>
 				  	</Col>
@@ -2283,7 +2286,7 @@ const VDStylePanel = (props) => {
 								<Input
 									type="number"
 									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['right'].unit, 'right')}
-								 	size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['right']} onChange={handleStylesChange.bind(this, 'right')}/>
+								 	size="small" value={activeCSSStyleState['right']} onChange={handleStylesChange.bind(this, 'right')}/>
 							</FormItem>
 				      	</Form>
 				  	</Col>
@@ -2307,7 +2310,7 @@ const VDStylePanel = (props) => {
 							type="number"
 							max={65535}
 							min={-65535}
-						 	size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['z-index']} onChange={handleStylesChange.bind(this, 'z-index')}/>
+						 	size="small" value={activeCSSStyleState['z-index']} onChange={handleStylesChange.bind(this, 'z-index')}/>
 					</FormItem>
 		      	</Form>
 
@@ -2331,7 +2334,7 @@ const VDStylePanel = (props) => {
 										</Popconfirm>
 								)
 							}>
-	        				    <Select size="small" value="选择字体" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['font-family']} onChange={handleStylesChange.bind(this, 'font-family')}>
+	        				    <Select size="small" value="选择字体" value={activeCSSStyleState['font-family']} onChange={handleStylesChange.bind(this, 'font-family')}>
 					      			<Option key="sss" value="h1">h1</Option>
 					    		</Select>
 							</FormItem>
@@ -2348,7 +2351,7 @@ const VDStylePanel = (props) => {
 										</Popconfirm>
 								)
 							}>
-								<Input type="color" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['color']} size="small" onChange={handleStylesChange.bind(this, 'color')}/>
+								<Input type="color" value={activeCSSStyleState['color']} size="small" onChange={handleStylesChange.bind(this, 'color')}/>
 							</FormItem>
 						</Form>
 				  	</Col>
@@ -2368,7 +2371,7 @@ const VDStylePanel = (props) => {
 										</Popconfirm>
 								)
 							}>
-	        				    <Select size="small" value="选择" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['font-weight']} onChange={handleStylesChange.bind(this, 'font-weight')}>
+	        				    <Select size="small" value="选择" value={activeCSSStyleState['font-weight']} onChange={handleStylesChange.bind(this, 'font-weight')}>
 					      			<Option key="100" value="100">100 - 极细</Option>
 					      			<Option key="200" value="200">200 - 稍细</Option>
 					      			<Option key="300" value="300">300 - 细</Option>
@@ -2393,7 +2396,7 @@ const VDStylePanel = (props) => {
 								)
 							}>
 
-								<RadioGroup defaultValue="normal" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['font-style']} size="small" onChange={handleStylesChange.bind(this, 'font-style')}>
+								<RadioGroup defaultValue="normal" value={activeCSSStyleState['font-style']} size="small" onChange={handleStylesChange.bind(this, 'font-style')}>
 							      	<RadioButton value="normal">
 				  		              	<Tooltip placement="top" title="normal">
 											<i className="fa fa-font"></i>
@@ -2425,7 +2428,7 @@ const VDStylePanel = (props) => {
 										</Popconfirm>
 								)
 							}>
-								<Input type="text" size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['text-indent']} onChange={handleStylesChange.bind(this, 'text-indent')}/>
+								<Input type="text" size="small" value={activeCSSStyleState['text-indent']} onChange={handleStylesChange.bind(this, 'text-indent')}/>
 							</FormItem>
 					  	</Form>
 				  	</Col>
@@ -2442,7 +2445,7 @@ const VDStylePanel = (props) => {
 							}>
 								<Input
 									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['font-size'].unit, 'font-size')}
-								 	type="text" size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['font-size']} onChange={handleStylesChange.bind(this, 'font-size')}/>
+								 	type="text" size="small" value={activeCSSStyleState['font-size']} onChange={handleStylesChange.bind(this, 'font-size')}/>
 							</FormItem>
 				      	</Form>
 				  	</Col>
@@ -2462,7 +2465,7 @@ const VDStylePanel = (props) => {
 										</Popconfirm>
 								)
 							}>
-								<Input type="text" size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['line-height']} onChange={handleStylesChange.bind(this, 'line-height')}/>
+								<Input type="text" size="small" value={activeCSSStyleState['line-height']} onChange={handleStylesChange.bind(this, 'line-height')}/>
 							</FormItem>
 						</Form>
 				  	</Col>
@@ -2479,7 +2482,7 @@ const VDStylePanel = (props) => {
 							}>
 								<Input
 									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['letter-spacing'].unit, 'letter-spacing')}
-									type="text" size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['letter-spacing']} onChange={handleStylesChange.bind(this, 'letter-spacing')}/>
+									type="text" size="small" value={activeCSSStyleState['letter-spacing']} onChange={handleStylesChange.bind(this, 'letter-spacing')}/>
 							</FormItem>
 				      	</Form>
 				  	</Col>
@@ -2500,7 +2503,7 @@ const VDStylePanel = (props) => {
 								)
 							}>
 
-						<RadioGroup defaultValue="left" size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['text-align']} onChange={handleStylesChange.bind(this, 'text-align')}>
+						<RadioGroup defaultValue="left" size="small" value={activeCSSStyleState['text-align']} onChange={handleStylesChange.bind(this, 'text-align')}>
 					      	<RadioButton value="left">
 		  		              	<Tooltip placement="top" title="left">
 									<i className="fa fa-align-left"></i>
@@ -2535,7 +2538,7 @@ const VDStylePanel = (props) => {
 								)
 							}>
 
-						<RadioGroup defaultValue="left" size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['write-mode']} onChange={handleStylesChange.bind(this, 'write-mode')}>
+						<RadioGroup defaultValue="left" size="small" value={activeCSSStyleState['write-mode']} onChange={handleStylesChange.bind(this, 'write-mode')}>
 					      	<RadioButton value="lr-tb">
 		  		              	<Tooltip placement="top" title="从左到右">
 									<i className="fa fa-indent"></i>
@@ -2560,7 +2563,7 @@ const VDStylePanel = (props) => {
 								)
 							}>
 
-						<RadioGroup defaultValue="none" size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['text-decoration']} onChange={handleStylesChange.bind(this, 'text-decoration')}>
+						<RadioGroup defaultValue="none" size="small" value={activeCSSStyleState['text-decoration']} onChange={handleStylesChange.bind(this, 'text-decoration')}>
 					      	<RadioButton value="none">
 		  		              	<Tooltip placement="top" title="none">
 									<Icon type="close" />
@@ -2590,7 +2593,7 @@ const VDStylePanel = (props) => {
 								)
 							}>
 
-						<RadioGroup defaultValue="none" size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['text-transform']} onChange={handleStylesChange.bind(this, 'text-transform')}>
+						<RadioGroup defaultValue="none" size="small" value={activeCSSStyleState['text-transform']} onChange={handleStylesChange.bind(this, 'text-transform')}>
 					      	<RadioButton value="none">
 		  		              	<Tooltip placement="top" title="none">
 									<Icon type="close" />
@@ -2675,7 +2678,7 @@ const VDStylePanel = (props) => {
 							}>
 							<Row>
 								<Col span={12} style={{paddingRight: '10px', marginBottom:'5px'}}>
-									<Input type="color" size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['background']['background-color']} onChange={handleStylesChange.bind(this, 'background-color', 'background')}/>
+									<Input type="color" size="small" value={activeCSSStyleState['background']['background-color']} onChange={handleStylesChange.bind(this, 'background-color', 'background')}/>
 								</Col>
 								<Col span={12}>
 									<Button onClick={setBGAlpha} size="small" style={{paddingLeft: '10px', paddingRight: '10px', marginTop: '4px'}}>透明背景</Button>
@@ -2690,8 +2693,8 @@ const VDStylePanel = (props) => {
 
 		const bordersPanel = () => {
 
-			var borderPosition = props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['border']['border-position'];
-			var borderRadiusPosition = props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['border-radius']['border-radius-position']
+			var borderPosition = activeCSSStyleState['border']['border-position'];
+			var borderRadiusPosition = activeCSSStyleState['border-radius']['border-radius-position']
 
 			const handleBorderTypeChange = (position) => {
 				handleStylesChange('border-position', {
@@ -2781,7 +2784,7 @@ const VDStylePanel = (props) => {
 								<Input
 									type="number"
 									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle][borderPosition + '-width'].unit, borderPosition + '-width')}
-								 	size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['border'][borderPosition + '-width']} onChange={handleBorderInputChange.bind(this, 'width')}/>
+								 	size="small" value={activeCSSStyleState['border'][borderPosition + '-width']} onChange={handleBorderInputChange.bind(this, 'width')}/>
 							</FormItem>
 
 							<FormItem {...formItemLayout} label={
@@ -2793,7 +2796,7 @@ const VDStylePanel = (props) => {
 										</Popconfirm>
 								)
 							}>
-								<Input size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['border'][borderPosition + '-color']} onChange={handleBorderInputChange.bind(this, 'color')} type="color"/>
+								<Input size="small" value={activeCSSStyleState['border'][borderPosition + '-color']} onChange={handleBorderInputChange.bind(this, 'color')} type="color"/>
 							</FormItem>
 				    	</Form>
 					</Col>
@@ -2811,7 +2814,7 @@ const VDStylePanel = (props) => {
 								)
 							}>
 
-						<RadioGroup defaultValue="none" size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['border'][borderPosition + '-style']} onChange={handleBorderInputChange.bind(this, 'style')}>
+						<RadioGroup defaultValue="none" size="small" value={activeCSSStyleState['border'][borderPosition + '-style']} onChange={handleBorderInputChange.bind(this, 'style')}>
 					      	<RadioButton value="none">
 		  		              	<Tooltip placement="top" title="无">
 									<Icon type="close" />
@@ -2878,7 +2881,7 @@ const VDStylePanel = (props) => {
 							}>
 								<Input
 									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle][borderRadiusPosition + '-radius'].unit, borderRadiusPosition + '-radius')}
-									value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['border-radius'][borderRadiusPosition + '-radius']} size="small" onChange={handleBorderRadiusInputChange.bind(this, 'radius')} />
+									value={activeCSSStyleState['border-radius'][borderRadiusPosition + '-radius']} size="small" onChange={handleBorderRadiusInputChange.bind(this, 'radius')} />
 							</FormItem>
 				    	</Form>
 					</Col>
@@ -2934,7 +2937,7 @@ const VDStylePanel = (props) => {
 					</FormItem>
 					<FormItem wrapperCol={{ span: 24 }} style={{position: 'relative', top: -5}}>
 						{
-							props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['box-shadow'].childrenProps.map((cssProperty, cssPropertyIndex) => {
+							activeCSSStyleState['box-shadow'].childrenProps.map((cssProperty, cssPropertyIndex) => {
 								return (
 
 										<div key={cssPropertyIndex}  style={{border: '1px solid #d9d9d9', minHeight: 10, marginTop: '10px'}}>
@@ -2981,7 +2984,7 @@ const VDStylePanel = (props) => {
 					</FormItem>
 					<FormItem wrapperCol={{ span: 24 }} style={{position: 'relative', top: -5}}>
 						{
-							props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['text-shadow'].childrenProps.map((cssProperty, cssPropertyIndex) => {
+							activeCSSStyleState['text-shadow'].childrenProps.map((cssProperty, cssPropertyIndex) => {
 								return (
 							      	<Popover onVisibleChange={onVisibleChange.bind(this, cssPropertyIndex, 'text-shadow')} key={cssPropertyIndex} placement="left" title="编辑文字阴影" content={textShadowProps.modifyPopover()} trigger="click">
 
@@ -3072,7 +3075,7 @@ const VDStylePanel = (props) => {
 
 			      		<FormItem wrapperCol={{ span: 24 }} style={{position: 'relative', top: -5}}>
 			      			{
-			      				props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['transition'].childrenProps.map((cssProperty, cssPropertyIndex) => {
+			      				activeCSSStyleState['transition'].childrenProps.map((cssProperty, cssPropertyIndex) => {
 			      					return (
 										<div key={cssPropertyIndex} className="filter-list">
 											<Row>
@@ -3105,7 +3108,7 @@ const VDStylePanel = (props) => {
 
 			      		<FormItem wrapperCol={{ span: 24 }} style={{position: 'relative', top: -3}}>
 			      			{
-			      				props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['transform'].childrenProps.map((cssProperty, cssPropertyIndex) => {
+			      				activeCSSStyleState['transform'].childrenProps.map((cssProperty, cssPropertyIndex) => {
 			      					return (
 										<div key={cssPropertyIndex} className="filter-list">
 											<Row>
@@ -3129,7 +3132,7 @@ const VDStylePanel = (props) => {
 
 		const effectsPanel = () => {
 
-			var activeFilter = props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['filter'].state.activeFilter;
+			var activeFilter = activeCSSStyleState['filter'].state.activeFilter;
 
 			const effectsProps = {
 				newfilterEditor () {
@@ -3291,7 +3294,7 @@ const VDStylePanel = (props) => {
 							type: 'vdstyles/saveFilter',
 							payload: {
 								activeStyleName: props.vdCtrlTree.activeCtrl.activeStyle,
-								activeFilterName: props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['filter'].filters[activeFilter].cssProp
+								activeFilterName: activeCSSStyleState['filter'].filters[activeFilter].cssProp
 							}
 						});
 
@@ -3315,10 +3318,10 @@ const VDStylePanel = (props) => {
 			    				    placeholder="选择滤镜"
 			    				    optionFilterProp="children"
 			    				    filterOption={(input, option) => option.props.value.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-			    				    value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['filter'].filters[activeFilter].cssProp}
+			    				    value={activeCSSStyleState['filter'].filters[activeFilter].cssProp}
 			    				>
 			    				{
-			    					props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['filter'].filters.map((filter, filterIndex) => {
+			    					activeCSSStyleState['filter'].filters.map((filter, filterIndex) => {
 			    						return (
 				    				        <Option key={filter.cssProp} value={filter.cssProp}>{filter.name}</Option>
 			    						);
@@ -3327,7 +3330,7 @@ const VDStylePanel = (props) => {
 			    				</Select>
 			    			</FormItem>
 
-			    			{filterFormGenerator(props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['filter'].filters[activeFilter].cssProp)}
+			    			{filterFormGenerator(activeCSSStyleState['filter'].filters[activeFilter].cssProp)}
 
 			    			<Button onClick={saveFilter} size="small">保存</Button>
 
@@ -3379,7 +3382,7 @@ const VDStylePanel = (props) => {
   						<Row>
   					        <Col span={15} style={{paddingRight: '10px'}}>
   					          	<Input
-  					          	 	size="small" value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['opacity']} onChange={handleStylesChange.bind(this, 'opacity')}/>
+  					          	 	size="small" value={activeCSSStyleState['opacity']} onChange={handleStylesChange.bind(this, 'opacity')}/>
   					        </Col>
   					    </Row>
   					</FormItem>
@@ -3398,7 +3401,7 @@ const VDStylePanel = (props) => {
 
 		      		<FormItem wrapperCol={{ span: 24 }} style={{position: 'relative', top: -5}}>
 			      			{
-			      				props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['filter'].childrenProps.map((cssProperty, cssPropertyIndex) => {
+			      				activeCSSStyleState['filter'].childrenProps.map((cssProperty, cssPropertyIndex) => {
 			      					return (
 											<div className="filter-list" key={cssPropertyIndex}>
 												<Row>
@@ -3437,7 +3440,7 @@ const VDStylePanel = (props) => {
     										</Popover>}
     							size="small"
  								onChange={handleStylesChange.bind(this, 'cursor')}
-    							value={props.vdstyles.cssStyleLayout[props.vdCtrlTree.activeCtrl.activeStyle]['cursor']}
+    							value={activeCSSStyleState['cursor']}
 						/>
 					</FormItem>
 
