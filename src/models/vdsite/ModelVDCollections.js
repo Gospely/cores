@@ -31,6 +31,7 @@ export default {
 	namespace: 'vdCollections',
 	state: {
 		collections: [],
+		listTypeIsOpend: false,
 	},
 	subscriptions: {
 		setup({ dispatch, history }) {
@@ -42,6 +43,12 @@ export default {
 		}
 	},
 	reducers: {
+
+		changeListTypeIsOpend(state, {payload: params}) {
+			state.listTypeIsOpend = params;
+			return {...state}
+		},
+
         getInitialData(state) {
 			state.collections = initialData.vdCollections.collections;
             return {...state};
@@ -84,6 +91,11 @@ export default {
 
         changeIsRequired(state, {payload: params}) {
         	state.collections[params.index].list[params.listIndex].isRequired = !state.collections[params.index].list[params.listIndex].isRequired
+        	return {...state}
+        },
+
+        addCollectionsList(state, {payload: params}) {
+        	
         	return {...state}
         }
 
