@@ -12,6 +12,8 @@ export default {
 			type: 'text',
 			helpText: '',
 			isRequired: false,
+			addStyle:"",
+			addInputStyle:"",
 		},{
 			name: '富文本',
 			icon: 'copy',
@@ -21,6 +23,8 @@ export default {
 			type: 'textarea',
 			helpText: 'ssssss',
 			isRequired: false,
+			addStyle:"",
+			addInputStyle:"",
 		},{
 			name: '图片',
 			icon: 'picture',
@@ -30,6 +34,8 @@ export default {
 			type: 'image',
 			helpText: '',
 			isRequired: false,
+			addStyle:"",
+			addInputStyle:"",
 		},{
 			name: '视频',
 			icon: 'play-circle-o',
@@ -39,6 +45,8 @@ export default {
 			type: 'video',
 			helpText: '',
 			isRequired: false,
+			addStyle:"",
+			addInputStyle:"",
 		},{
 			name: '链接',
 			icon: 'link',
@@ -48,6 +56,8 @@ export default {
 			type: 'link',
 			helpText: '',
 			isRequired: false,
+			addStyle:"",
+			addInputStyle:"",
 		},{
 			name: '电子邮件',
 			icon: 'mail',
@@ -57,6 +67,8 @@ export default {
 			type: 'Email',
 			helpText: '',
 			isRequired: false,
+			addStyle:"",
+			addInputStyle:"",
 		},{
 			name: '电话号码',
 			icon: 'phone',
@@ -66,6 +78,8 @@ export default {
 			type: 'phone',
 			helpText: '',
 			isRequired: false,
+			addStyle:"",
+			addInputStyle:"",
 		},{
 			name: '纯数字',
 			icon: 'minus',
@@ -75,6 +89,8 @@ export default {
 			type: 'number',
 			helpText: '',
 			isRequired: false,
+			addStyle:"",
+			addInputStyle:"",
 		},{
 			name: '日历',
 			icon: 'calendar',
@@ -84,6 +100,8 @@ export default {
 			type: 'date',
 			helpText: '',
 			isRequired: false,
+			addStyle:"",
+			addInputStyle:"",
 		},{
 			name: '开关',
 			icon: 'sync',
@@ -93,6 +111,8 @@ export default {
 			type: 'switch',
 			helpText: '',
 			isRequired: false,
+			addStyle:"",
+			addInputStyle:"",
 		},{
 			name: '颜色',
 			icon: 'filter',
@@ -102,6 +122,8 @@ export default {
 			type: 'color',
 			helpText: '',
 			isRequired: false,
+			addStyle:"",
+			addInputStyle:"",
 		},{
 			name: '下拉选项',
 			icon: 'caret-down',
@@ -114,6 +136,8 @@ export default {
 				],
 			helpText: '',
 			isRequired: false,
+			addStyle:"",
+			addInputStyle:"",
 		},{
 			name: 'Reference',
 			icon: 'database',
@@ -123,6 +147,8 @@ export default {
 			type: 'Reference',
 			helpText: '',
 			isRequired: false,
+			addStyle:"",
+			addInputStyle:"",
 		},{
 			name: 'Multi-Reference',
 			icon: 'database',
@@ -132,6 +158,8 @@ export default {
 			type: 'Multi-Reference',
 			helpText: '',
 			isRequired: false,
+			addStyle:"",
+			addInputStyle:"",
 		}]
 	}]
 }
