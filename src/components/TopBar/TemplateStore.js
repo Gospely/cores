@@ -189,7 +189,7 @@ const TemplateStore = (props) => {
 	return (
 		<div className="designer-wrapper">
 			<Modal
-			  title="Store|Gospel 模板商城 "
+			  title="Gospel |模板商城 "
               wrapClassName="vertical-center-modal"
               visible={props.templateStore.visible}
               wrapClassName="template-wrapper"
@@ -205,8 +205,8 @@ const TemplateStore = (props) => {
 							</p>
 							<div className="template-store-search">
 								<Search
-								    placeholder="input search text"
-								    style={{ width: '30%' }}
+								    placeholder="输入搜索关键字"
+								    style={{ width: '60%' }}
 								    onSearch= {value => templateStoreProps.selectTemplate(value)}
 									onSearch={templateStoreProps.searchTemplate}
 								  />
