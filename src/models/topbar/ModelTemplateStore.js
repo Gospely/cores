@@ -1,7 +1,8 @@
 import dva from 'dva';
 import VDPackager from '../vdsite/VDPackager.js';
-import { message } from 'antd';
+import { message , notification} from 'antd';
 import request from '../../utils/request.js';
+import initData from '../../utils/initData'
 import uuid from 'node-uuid';
 import _md5 from 'md5';
 import config from '../../configs.js';
@@ -341,7 +342,7 @@ export default {
 			})
 		},
 		*createApp({payload: params}, {call, select, put}){
-
+			console.log(params);
 			yield put({
 				type: 'handleCreatLoading',
 				payload: true,
@@ -431,19 +432,19 @@ export default {
 					message: '创建应用成功，即将跳转',
 					title: '创建应用'
 				});
-
 				window.location.hash = 'project/' + result.data.fields.id;
+				initData(params.ctx, result.data.fields, createForm.layout)
 				//window.location.reload();
 
 			}else {
 
 				showConfirm(result.data);
 
-				yield put({
-					type: 'hideModalNewApp',
-				});
 			}
-
+			yield ({
+				type: 'changeTemplateStoreVisible',
+				payload: false
+			});
 			yield put({
 				type: 'handleCreatLoading',
 				payload: false,

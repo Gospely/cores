@@ -132,7 +132,10 @@ const TemplateStore = (props) => {
 		},
 		createApp(){
 			props.dispatch({
-				type: 'templateStore/createApp'
+				type: 'templateStore/createApp',
+				payload: {
+					ctx: props
+				}
 			})
 		}
 	};
@@ -328,8 +331,8 @@ const TemplateStore = (props) => {
 
 };
 
-function mapSateToProps({ templateStore }) {
-	return { templateStore };
+function mapSateToProps({ templateStore, vdstyles, vdCtrlTree, vdpm, vdcore }) {
+	return {  templateStore, vdstyles, vdCtrlTree, vdpm, vdcore  };
 }
 
 export default connect(mapSateToProps)(TemplateStore);
