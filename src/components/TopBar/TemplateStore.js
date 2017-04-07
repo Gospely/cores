@@ -13,21 +13,26 @@ const TemplateStore = (props) => {
 		changePay(e){
 
 			props.dispatch({
-				type: 'templateStore/addOrders',
+				type: 'templateStore/changePay',
 				payload: e.target.value
 			})
 		},
+		aliPay(){
+			window.open(props.templateStore.alipay);
+		},
+		buytemplate(item, index) {
 
-		buytemplate(index) {
-
+			props.dispatch({
+				type: 'templateStore/addOrders',
+				payload: item
+			})
 			props.dispatch({
 				type: 'templateStore/changeBuyTemplateVisible',
 				payload: {
-					visible:true,
+					visible: true,
 					index: index,
 				}
 			}),
-
 			props.dispatch({
 				type: 'templateStore/buyTemplate',
 				payload: index
@@ -38,6 +43,13 @@ const TemplateStore = (props) => {
 			props.dispatch({
 				type: 'templateStore/searchTemplate',
 				payload: value
+			})
+		},
+		reviewTemplate(item){
+
+			props.dispatch({
+				type: 'templateStore/reviewTemplate',
+				payload: item
 			})
 		},
 		hideBuytemplate(index) {
@@ -127,8 +139,8 @@ const TemplateStore = (props) => {
 														  </div>
 
 														  <div className="template-btn-box">
-															  <Button type="primary">预览模板</Button>
-															  {!(!item.visible || item.price == 0) && <Button onClick={templateStoreProps.buytemplate.bind(this,index)} type="primary">购买模板</Button>}
+															  <Button type="primary" onClick={templateStoreProps.reviewTemplate.bind(this, item)}>预览模板</Button>
+															  {!(!item.visible || item.price == 0) && <Button onClick={templateStoreProps.buytemplate.bind(this, item, index)} type="primary">购买模板</Button>}
 															  {
 																  (!item.visible || item.price == 0) ?<Button type="primary">使用模板</Button> : <Button type="primary" disabled >使用模板</Button>
 															  }
@@ -166,11 +178,11 @@ const TemplateStore = (props) => {
 
 													  <div className="templates-pay">
 														  { props.templateStore.pay == "weChat" ? <div>扫描二维码支付</div> : <div></div>}
-														  { props.templateStore.pay == "weChat" ? <div style={{'margin-top': '15px'}} ><QRCode value={props.templateStore.wechat}></QRCode></div> : <div></div>}
+														  { props.templateStore.pay == "weChat" ? <div style={{'marginTop': '15px'}} ><QRCode value={props.templateStore.wechat}></QRCode></div> : <div></div>}
 													  </div>
 													  <div className="templates-pay-btn" style={{'margin-top': '15px'}}>
 														  <Button onClick={templateStoreProps.hideBuytemplate.bind(this,index)}>取消</Button>
-														  { props.templateStore.pay == "alipay" ? <Button type="primary" style={{'margin-left': '20px'}}>确认支付</Button> : <div></div>}
+														  { props.templateStore.pay == "alipay" ? <Button type="primary" style={{'marginLeft': '20px'}} onClick={templateStoreProps.aliPay}>确认支付</Button> : <div></div>}
 													  </div>
 												  </Modal>
 											  </div>
@@ -228,8 +240,17 @@ const TemplateStore = (props) => {
 								</Menu>
 						</div>
 					</div>
+					<Modal
+						title="Gospel | 预览模板"
+						visible={props.templateStore.review}
+						onCancel={templateStoreProps.reviewTemplate}
+						footer={null}
+					>
+					<img src={props.templateStore.reviewUrl} />
+					</Modal>
 					<Spin spinning={props.templateStore.isLoading}>
 						<div className="template-store-content">
+
 							{ props.templateStore.templateAttr.length > 0 ? templateList : <Button className="load-more">暂无数据</Button>}
 						</div>
 					</Spin>
