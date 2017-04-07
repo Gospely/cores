@@ -38,22 +38,24 @@ export default {
 			state.loadnumber = 4;
 			return {...state};
 		},
-		changeBuyTemplateVisible(state, { payload: parmas}) {
-			state.templateAttr[parmas.index].buyTemplateVisible = parmas.visible
+		changeBuyTemplateVisible(state, { payload: params}) {
+
+			console.log(params);
+			state.templateAttr[params.index].buyTemplateVisible = params.visible
 			return {...state}
 		},
-		changeTemplateStoreVisible(state, { payload: parmas}) {
-			state.visible = parmas
+		changeTemplateStoreVisible(state, { payload: params}) {
+			state.visible = params
 			return {...state}
 		},
 
-		buyTemplate(state, { payload: parmas}) {
-			state.templateAttr[parmas].isBuy = true;
+		buyTemplate(state, { payload: params}) {
+			state.templateAttr[params].isBuy = true;
 			return {...state}
 		},
 
-		changePay(state, { payload: parmas}) {
-			state.pay = parmas;
+		changePay(state, { payload: params}) {
+			state.pay = params;
 			return {...state}
 		},
 		hanleLoading(state, {payload: value}){
@@ -85,7 +87,7 @@ export default {
 		},
 		initPay(state, {payload: params}){
 
-			state.wechat = params.alipay;
+			state.alipay = params.alipay;
 			state.wechat =  params.wechat;
 			return {...state};
 		}
@@ -237,17 +239,15 @@ export default {
 				payload: query,
 			})
 		},
-		*addOrders({payload: parmas}, {call,select, put}){
+		*addOrders({payload: params}, {call,select, put}){
 
-			yield put({
-				type: 'templateStore/changePay',
-				payload: value
-			})
-			var result = yield request('orders/?creator='+localStorage.user + '&products=' + parmas.templateId, {
+
+			var result = yield request('orders/?creator='+localStorage.user + '&products=' + params.id, {
 				method: 'get',
 			});
 			var alipay = '',
 				wechat = '';
+			console.log(result);
 
 			if(result.data.fields.length < 1){
 				var order = {
@@ -256,9 +256,9 @@ export default {
 					orderNo:  _md5(uuid.v4()),
 					timeSize: 1,
 					timeUnit: "个",
-					products: parmas.templateId,
-					price: parmas.price,
-					unitPrice: parmas.price,
+					products: params.id,
+					price: params.price,
+					unitPrice: params.price,
 					type: 'template'
 				}
 
