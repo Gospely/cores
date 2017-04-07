@@ -245,6 +245,7 @@ const TemplateStore = (props) => {
 						visible={props.templateStore.review}
 						onCancel={templateStoreProps.reviewTemplate}
 						footer={null}
+						wrapClassName="Template-store-review-modal"
 					>
 					<img src={props.templateStore.reviewUrl} />
 					</Modal>
