@@ -1000,7 +1000,9 @@ export default {
 
 	reducers: {
 
-		getInitialData(state) {
+		getInitialData(state, {payload: params}) {
+
+			console.log(initialData);
 			state.defaultExpandedKeys = initialData.vdCtrlTree.defaultExpandedKeys;
 			state.expandedKeys = initialData.vdCtrlTree.expandedKeys;
 			state.activeCtrlIndex = initialData.vdCtrlTree.activeCtrlIndex;
@@ -1032,7 +1034,17 @@ export default {
 
 			return {...state};
 		},
+		initLayout(state, {payload: params}){
 
+			state.layout = params.layout;
+			console.log('initLayout');
+			setTimeout(function(){
+				window.VDDesignerFrame.postMessage({
+					pageSelected: state.layout['index.html']
+				}, '*');
+			}, 2500);
+			return {...state};
+		},
 		handleUnit(state, { payload: params}) {
 
 			state[params.target] = params.value;

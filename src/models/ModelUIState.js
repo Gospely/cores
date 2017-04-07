@@ -83,7 +83,42 @@ export default {
 				});
 			});
 		},
+		*initConfig({payload: params}, { call, put, select}){
 
+			var configs = yield request('uistates?application=' + params.id, {
+				method: 'get'
+			});
+			if(!configs) {
+				message.error('读取配置失败');
+				return false;
+			}
+			console.log('get UIState from server');
+			var config = configs.data.fields[0];
+
+			var configTobeSaved = {
+				id: configs.data.fields[0].id,
+				configs: localStorage.UIState
+			}
+			var url = baseUrl.baseURL + "uistates";
+
+			var result = yield fetch(url, {
+				method: 'PUT',
+				headers: {
+					"Content-Type": "application/json;charset=UTF-8",
+					'Authorization': localStorage.token
+				},
+				body: JSON.stringify(configTobeSaved)
+			}).then(function() {
+				notification.open({
+					message: '保存成功'
+				});
+			}).catch(function() {
+				notification.open({
+					message: '保存失败'
+				});
+			});
+
+		},
 		*setDySaveEffects({ payload: params }, { call, put, select }) {
 
 			var dySave = yield select(state=> state.UIState.dySave),

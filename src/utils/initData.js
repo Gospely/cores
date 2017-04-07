@@ -1,6 +1,6 @@
 import initState from './initUIState'
 
-const initData = function (props, application) {
+const initData = function (props, application, layout) {
 
     const initDataOperate = {
         'common': function(){
@@ -20,7 +20,20 @@ const initData = function (props, application) {
             props.dispatch({
                 type: 'vdcore/getInitialData',
             });
-
+            if(layout){
+                console.log(layout);
+                var UIState = JSON.parse(localStorage.UIState);
+                UIState.applicationId = application.id;
+                UIState.UIState.vdCtrlTree.layout = layout;
+                console.log(UIState);
+                localStorage.UIState = JSON.stringify(UIState);
+                props.dispatch({
+                    type: 'UIState/initConfig',
+                    payload: {
+                        id: application.id
+                    }
+                })
+            }
         }
     };
 
