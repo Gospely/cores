@@ -163,6 +163,7 @@ export default {
 		defaultSelectedKeys: [""],
 		expandedKeys: ["body-main"],
 		symbols: [],
+		showLabel: '打开菜单',
 		icons: [
 			'fa fa-external-link',
 			'fa fa-font-awesome',
@@ -1806,6 +1807,7 @@ export default {
 		triggerMenu(state) {
 
 			console.log('triggerMenu');
+			state.showLabel = state.showLabel == '打开菜单' ? '关闭菜单' : '打开菜单';
 			window.VDDesignerFrame.postMessage({
 				VDAttrRefreshed: {
 					activeCtrl: state.activeCtrl,
@@ -1959,7 +1961,7 @@ export default {
 			}, '*');
 
 			console.log('generateCtrlTree================+++++++++++++++++', ctrl);
-
+			state.showLabel = '打开菜单';
 			return {...state};
 		},
 

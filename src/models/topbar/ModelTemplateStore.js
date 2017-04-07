@@ -2,8 +2,11 @@ import dva from 'dva';
 import VDPackager from '../vdsite/VDPackager.js';
 import { message } from 'antd';
 import request from '../../utils/request.js';
-import uuid from 'node-uuid'
-import _md5 from 'md5'
+import uuid from 'node-uuid';
+import _md5 from 'md5';
+import config from '../../configs.js';
+import { Modal } from 'antd';
+
 
 export default {
 	namespace: 'templateStore',
@@ -20,9 +23,15 @@ export default {
 		types: [],
 		query: '',
 		isLoading: false,
-		review: '',
+		review: false,
+		create: false,
 		reviewUrl: '',
 		templateAttr:[],
+		createForm: {
+			name: '',
+			layout: '',
+			loading: false
+		}
 	},
 
 	reducers: {
@@ -96,8 +105,35 @@ export default {
 		reviewTemplate(state, {payload: params}){
 
 			console.log(params);
-			state.review = ! state.review;
+			state.review = true;
 			state.reviewUrl = params.src || params.url;
+			return {...state};
+		},
+		hideReviewTemplate(state){
+
+			state.review = false;
+			return {...state};
+		},
+		hideCreateTemplateA(state,{payload: params}){
+
+			console.log(params);
+			state.create = !state.create;
+			state.createForm.loading = true;
+			if(params){
+				state.createForm.loading = false;
+				state.createForm.layout = params.layout;
+				state.create = true;
+			}
+			return {...state}
+		},
+		valueChange(state, {payload: value}){
+
+			state.createForm.name = value;
+			return {...state};
+		},
+		handleCreatLoading(state, {payload: value}){
+
+			state.createForm.loading = value;
 			return {...state};
 		}
 	},
@@ -287,6 +323,132 @@ export default {
 					wechat: wechat,
 				}
 			})
+		},
+		*hideCreateTemplate({payload: params}, {call, select, put}){
+
+			yield put({
+				type: 'hideCreateTemplateA',
+			})
+			var data = yield request('templates/' + params.id,{
+				method: 'GET'
+			});
+			console.log(data);
+			yield put({
+				type: 'hideCreateTemplateA',
+				payload: {
+					layout: data.data.fields.content
+				}
+			})
+		},
+		*createApp({payload: params}, {call, select, put}){
+
+			yield put({
+				type: 'handleCreatLoading',
+				payload: true,
+			})
+			var createForm = yield select(state=> state.templateStore.createForm);
+			console.log(createForm);
+			var form ={
+				name: createForm.name,
+				git: '',
+				fromGit: false,
+				languageType: "vd:latest",
+				languageVersion: '',
+				databaseType: '',
+				password: '',
+				dbUser: '',
+				framework: "vd:site",
+				creator: localStorage.user
+			};
+			const showConfirm = (data) => {
+				Modal.error({
+					title: '服务器提了一个问题',
+					content: '创建失败，请重试,' + data.message
+				});
+			}
+
+			const errorHandler = (response) => {
+				if (response.status >= 200 && response.status < 300) {
+					return response;
+				}
+				return {
+					data: {
+						message: '服务器提了一个问题',
+						code: 500
+					}
+				};
+			}
+
+			const parseJSON = (response) => {
+				return response.json();
+			}
+
+			const taskHandler = (data) => {
+
+				if(data.code == 200 || data.code == 1) {
+					if(data.message != null) {
+						message.success(data.message);
+					}
+				}else {
+					if(typeof data.length == 'number') {
+						return {
+							data: data
+						};
+					}
+					return {
+						data: {
+							message: '服务器提了一个问题' + data.message,
+							code: 500
+						}
+					};
+				}
+
+				return {
+					data: data
+				};
+			}
+
+			var url = 'applications';
+			var result = yield fetch(config.baseURL + url, {
+			   'headers': { 'Authorization': localStorage.token },
+				method:'POST',
+				body: JSON.stringify(form),
+			})
+			.then(errorHandler)
+			.then(parseJSON)
+			.then(taskHandler)
+			.catch(errorHandler);
+
+			if(result.data.code == 1){
+				yield put({
+					type: 'setAppCreatorCompleted'
+				});
+				yield put({
+					type: 'hideModalNewApp',
+				});
+
+				notification.open({
+					message: '创建应用成功，即将跳转',
+					title: '创建应用'
+				});
+
+				window.location.hash = 'project/' + result.data.fields.id;
+				//window.location.reload();
+
+			}else {
+
+				showConfirm(result.data);
+
+				yield put({
+					type: 'hideModalNewApp',
+				});
+			}
+
+			yield put({
+				type: 'handleCreatLoading',
+				payload: false,
+			})
+
 		}
 	}
 }

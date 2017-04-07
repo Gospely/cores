@@ -52,6 +52,28 @@ const TemplateStore = (props) => {
 				payload: item
 			})
 		},
+		hideReviewTemplate(item){
+
+			props.dispatch({
+				type: 'templateStore/hideReviewTemplate',
+			})
+		},
+		hideCreateTemplate(item){
+			console.log(item);
+			if(item && item.id) {
+				props.dispatch({
+					type: 'templateStore/hideCreateTemplate',
+					payload: {
+						id: item.id
+					}
+				})
+			}else {
+				props.dispatch({
+					type: 'templateStore/hideCreateTemplateA',
+				})
+			}
+
+		},
 		hideBuytemplate(index) {
 
 			props.dispatch({
@@ -94,6 +116,23 @@ const TemplateStore = (props) => {
 			props.dispatch({
 				type: 'templateStore/setSelectTagValue',
 				payload: activeMenu
+			})
+		},
+		valueChange(e){
+			console.log(e.target.value);
+			props.dispatch({
+				type: 'templateStore/valueChange',
+				payload: e.target.value
+			})
+		},
+		hanleCreate(){
+			props.dispatch({
+				type: 'templateStore/handleCreate',
+			})
+		},
+		createApp(){
+			props.dispatch({
+				type: 'templateStore/createApp'
 			})
 		}
 	};
@@ -142,7 +181,7 @@ const TemplateStore = (props) => {
 															  <Button type="primary" onClick={templateStoreProps.reviewTemplate.bind(this, item)}>预览模板</Button>
 															  {!(!item.visible || item.price == 0) && <Button onClick={templateStoreProps.buytemplate.bind(this, item, index)} type="primary">购买模板</Button>}
 															  {
-																  (!item.visible || item.price == 0) ?<Button type="primary">使用模板</Button> : <Button type="primary" disabled >使用模板</Button>
+																  (!item.visible || item.price == 0) ?<Button type="primary" onClick={templateStoreProps.hideCreateTemplate.bind(this, item)}>使用模板</Button> : <Button type="primary" disabled >使用模板</Button>
 															  }
 														  </div>
 
@@ -243,11 +282,34 @@ const TemplateStore = (props) => {
 					<Modal
 						title="Gospel | 预览模板"
 						visible={props.templateStore.review}
-						onCancel={templateStoreProps.reviewTemplate}
+						onCancel={templateStoreProps.hideReviewTemplate}
 						footer={null}
 						wrapClassName="Template-store-review-modal"
 					>
-					<img src={props.templateStore.reviewUrl} />
+						<div>
+							<img src={props.templateStore.reviewUrl} style={{'width': '100%'}}/>
+						</div>
+					</Modal>
+					<Modal
+						title="Gospel | 使用模板创建"
+						visible={props.templateStore.create}
+						onCancel={templateStoreProps.hideCreateTemplate}
+						footer={null}
+						 wrapClassName="vertical-center-modal"
+					>
+						<Spin spinning={props.templateStore.createForm.loading}>
+							<div style={{ marginTop: 32 }}>
+								<Row>
+									<Col span={4} style={{textAlign: 'right'}}>
+										<span>项目名称：</span>
+									</Col>
+									<Col span={18} style={{textAlign: 'left'}}>
+										<Input onChange={templateStoreProps.valueChange} value={props.templateStore.createForm.name}/>
+									</Col>
+								</Row>
+								 <Button  type="primary" onClick={templateStoreProps.createApp} style={{ marginTop: 32, marginLeft: 200 }}>立即创建</Button>
+							</div>
+							</Spin>
 					</Modal>
 					<Spin spinning={props.templateStore.isLoading}>
 						<div className="template-store-content">

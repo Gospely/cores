@@ -1739,24 +1739,24 @@ const Component = (props) => {
                                 });
                             },
                             openMenu(){
-                                if(props.vdcore.VDDesigner.activeSize != 'pc'){
+                                if(props.vdcore.VDDesigner.activeSize == 'pc' || props.vdcore.VDDesigner.activeSize == 'alignTablet'){
                                     props.dispatch({
                     	        		type: 'vdcore/changeVDSize',
                     	        		payload: {
                     	        			VDSize: 'verticalTablet'
                     	        		}
                     	        	});
-                                    props.dispatch({
-                    	        		type: 'vdCtrlTree/triggerMenu',
-                    	        	});
                                 }
+                                props.dispatch({
+                                    type: 'vdCtrlTree/triggerMenu',
+                                });
                             }
                         }
 	    				return (
 	    					<Panel header={item.title} key={item.key}>
 	                            <Row style={{marginTop: '15px'}}>
 	                                <Col span={12}>
-	                                    <Button size="small" onClick={navbarSettingProps.openMenu}><Icon type="bars" />打开菜单</Button>
+	                                    <Button size="small" onClick={navbarSettingProps.openMenu}><Icon type="bars" />{props.vdCtrlTree.showLabel}</Button>
 	                                </Col>
 	                                <Col span={12}>
                                         <Button size="small" onClick={formProps.childrenAdd.bind(this,0, 'components', 'navbar', 4, [{level: 1,index:1}])}><Icon type="plus" />新增菜单</Button></Col>

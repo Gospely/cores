@@ -262,7 +262,7 @@ export default {
 				price = yield select(state => state.vdcore.TemplateSavingModal.price),
 				interaction = yield select(state => state.vdanimations);
 			console.log('TemplateSaving', isFree);
-			if(isFree){
+			if(!isFree){
 				price = 0;
 			}else {
 				if(!isFree && !/^[1-9]\d*(\.\d+)?$/.test(price)){
