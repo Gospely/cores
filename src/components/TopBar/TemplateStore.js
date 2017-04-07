@@ -253,7 +253,9 @@ const TemplateStore = (props) => {
 						footer={null}
 						wrapClassName="Template-store-review-modal"
 					>
-					<img src={props.templateStore.reviewUrl} />
+						<div>
+							<img src={props.templateStore.reviewUrl} style={{'width': '100%'}}/>
+						</div>
 					</Modal>
 					<Spin spinning={props.templateStore.isLoading}>
 						<div className="template-store-content">
