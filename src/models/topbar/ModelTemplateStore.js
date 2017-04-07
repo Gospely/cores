@@ -20,6 +20,8 @@ export default {
 		types: [],
 		query: '',
 		isLoading: false,
+		review: '',
+		reviewUrl: '',
 		templateAttr:[],
 	},
 
@@ -89,6 +91,13 @@ export default {
 
 			state.alipay = params.alipay;
 			state.wechat =  params.wechat;
+			return {...state};
+		},
+		reviewTemplate(state, {payload: params}){
+
+			console.log(params);
+			state.review = ! state.review;
+			state.reviewUrl = params.src || params.url;
 			return {...state};
 		}
 	},

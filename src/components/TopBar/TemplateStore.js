@@ -45,6 +45,13 @@ const TemplateStore = (props) => {
 				payload: value
 			})
 		},
+		reviewTemplate(item){
+
+			props.dispatch({
+				type: 'templateStore/reviewTemplate',
+				payload: item
+			})
+		},
 		hideBuytemplate(index) {
 
 			props.dispatch({
@@ -132,7 +139,7 @@ const TemplateStore = (props) => {
 														  </div>
 
 														  <div className="template-btn-box">
-															  <Button type="primary">预览模板</Button>
+															  <Button type="primary" onClick={templateStoreProps.reviewTemplate.bind(this, item)}>预览模板</Button>
 															  {!(!item.visible || item.price == 0) && <Button onClick={templateStoreProps.buytemplate.bind(this, item, index)} type="primary">购买模板</Button>}
 															  {
 																  (!item.visible || item.price == 0) ?<Button type="primary">使用模板</Button> : <Button type="primary" disabled >使用模板</Button>
@@ -233,8 +240,17 @@ const TemplateStore = (props) => {
 								</Menu>
 						</div>
 					</div>
+					<Modal
+						title="Gospel | 预览模板"
+						visible={props.templateStore.review}
+						onCancel={templateStoreProps.reviewTemplate}
+						footer={null}
+					>
+					<img src={props.templateStore.reviewUrl} />
+					</Modal>
 					<Spin spinning={props.templateStore.isLoading}>
 						<div className="template-store-content">
+
 							{ props.templateStore.templateAttr.length > 0 ? templateList : <Button className="load-more">暂无数据</Button>}
 						</div>
 					</Spin>
