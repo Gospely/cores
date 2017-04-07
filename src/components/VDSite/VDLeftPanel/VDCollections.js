@@ -6,7 +6,7 @@ import { Tabs, Icon } from 'antd';
 import { Tooltip, Collapse, InputNumber } from 'antd';
 import { Popover, notification } from 'antd';
 
-import { Row, Col } from 'antd';
+import { Row, Col, Dropdown } from 'antd';
 
 import { Menu } from 'antd';
 const SubMenu = Menu.SubMenu;
@@ -24,7 +24,7 @@ const TabPane = Tabs.TabPane;
 const RadioGroup = Radio.Group;
 
 const formItemLayout = {
-      labelCol: {
+      nameCol: {
         xs: { span: 24 },
         sm: { span: 6 },
       },
@@ -32,8 +32,14 @@ const formItemLayout = {
         xs: { span: 24 },
         sm: { span: 14 },
       },
-    };
+};
 
+const openNotificationWithIcon = (type, title, description) => (
+	  notification[type]({
+	    message: title,
+	    description: description,
+	  })
+);
 
 // window.VDDnddata = '';
 
@@ -71,8 +77,23 @@ const Component = (props) => {
 
 			addNewCollections () {
 				console.log(props.vdCollections.collections);
+				const collections = props.vdCollections.collections;
+				const newCollectionsName = props.vdCollections.newCollectionsName;
+				for(let i=0;i < collections.length; i++) {
+
+					if(newCollectionsName == "" || newCollectionsName == null){
+				             openNotificationWithIcon('info', '请输入控件名');
+             				return;
+					}
+
+					if(collections[i].name == newCollectionsName) {
+						openNotificationWithIcon('info', '名称不能重复');
+             				return;
+					}
+				}
+
 				props.dispatch({
-					type: 'vdCollections/setNewCollections'
+					type: 'vdCollections/setNewCollections',
 				})
 
 				props.dispatch({
@@ -92,6 +113,27 @@ const Component = (props) => {
 
 				props.dispatch({
 					type: 'vdCollections/changeCollectionsItemPreviewVisible',
+					payload: false
+				})
+
+				props.dispatch({
+					type: 'vdCollections/newCollectionsPopoverVisibleChange'
+				})
+
+				props.dispatch({
+					type: 'vdCollections/getNewCollectionsName',
+					payload: ""
+				})
+			},
+
+			closePopover() {
+				props.dispatch({
+					type: 'vdCollections/changeCollectionsItemPreviewVisible',
+					payload: false
+				})
+
+				props.dispatch({
+					type: 'vdCollections/changeCollectionsItemVisible',
 					payload: false
 				})
 			},
@@ -157,6 +199,8 @@ const Component = (props) => {
 
 			getItem(item, index) {
 
+				console.log(item)
+
 				if(index == props.vdCollections.collectionsIndex){
 					props.dispatch({
 						type: 'vdCollections/changeCollectionsItemVisible',
@@ -170,6 +214,8 @@ const Component = (props) => {
 							index:-1 
 						}
 					})
+
+					console.log('123------',props.vdCollections.collectionsItem)
 					
 					props.dispatch({
 						type: 'vdCollections/changeCollectionsItemPreviewVisible',
@@ -189,6 +235,8 @@ const Component = (props) => {
 							index:index
 						}
 					})
+
+					console.log('123+++++',props.vdCollections.collectionsItem)
 
 					props.dispatch({
 						type: 'vdCollections/changeCollectionsItemPreviewVisible',
@@ -236,6 +284,51 @@ const Component = (props) => {
 
 			},
 
+			changeState(index,collectionsAttr,e) {
+				console.log(e.target.value)
+
+				props.dispatch({
+					type: 'vdCollections/changeState',
+					payload: {
+						index:index,
+						attr:collectionsAttr,
+						value:e.target.value,
+					}
+				})
+
+				console.log("collections",props.vdCollections.collections)
+			},
+
+			newCollectionsPopoverVisibleChange() {
+				props.dispatch({
+					type: 'vdCollections/newCollectionsPopoverVisibleChange'
+				})
+
+				props.dispatch({
+					type: 'vdCollections/getNewCollectionsName',
+					payload: ""
+				})
+			},
+
+			getNewCollectionsName(e) {
+				props.dispatch({
+					type: 'vdCollections/getNewCollectionsName',
+					payload: e.target.value
+				})
+			},
+
+			listItemAttrValueChange(index,listIndex,attr,e) {
+				props.dispatch({
+					type: 'vdCollections/listItemAttrValueChange',
+					payload: {
+						index:index,
+						listIndex:listIndex,
+						attr:attr,
+						value:e.target.value
+					}
+				})
+			}
+
 	}
 
 	const collectionsList = props.vdCollections.collectionsItem.list.map((listItem, listIndex) => {
@@ -248,7 +341,14 @@ const Component = (props) => {
 					)
 			})
 		}
-
+			
+		const ReferenceOptions = []
+			for(let i =0; i<props.vdCollections.collections.length; i++){
+				ReferenceOptions.push({
+					value:props.vdCollections.collections[i].name,
+					label:props.vdCollections.collections[i].name
+				})
+			}
 		return (
 			<div className="collection-structure-list" 
 				 onMouseMove={collectionsProps.addStyle.bind(this,props.vdCollections.collectionsIndex,listIndex)}
@@ -261,9 +361,11 @@ const Component = (props) => {
 					<Col span={6}>
 						{listItem.isOpend ? <Row>
 							<Col span={4}>
-								<a href="javascript:void(0)" onClick={collectionsProps.deleteList.bind(this,props.vdCollections.collectionsIndex,listItem)}>
-									<i className="fa fa-trash-o" aria-hidden="true"></i>
-								</a>
+								<Popconfirm title="确定删除?" onConfirm={collectionsProps.deleteList.bind(this,props.vdCollections.collectionsIndex,listItem)} okText="确定" cancelText="取消">
+									<a href="javascript:void(0)">
+										<i className="fa fa-trash-o" aria-hidden="true"></i>
+									</a>
+								</Popconfirm>
 							</Col>
 							<Col span={10}>
 								<Button type="primary" size='small' onClick={collectionsProps.listIsOpend.bind(this,props.vdCollections.collectionsIndex,listIndex,false)}>关闭</Button>
@@ -277,14 +379,14 @@ const Component = (props) => {
 				{listItem.isOpend ? 
 					<div className="collections-list-from">
 						<p>标签名 :</p>
-							<Input size="large" className="collections-poppver-input" defaultValue={listItem.label} />
+							<Input size="large" onChange={collectionsProps.listItemAttrValueChange.bind(this,props.vdCollections.collectionsIndex,listIndex,"name")} className="collections-poppver-input" defaultValue={listItem.name} />
 						<p>提示文本 :</p>
-							<Input size="large" className="collections-poppver-input" defaultValue={listItem.helpText}/><br/>
+							<Input size="large" onChange={collectionsProps.listItemAttrValueChange.bind(this,props.vdCollections.collectionsIndex,listIndex,"helpText")} className="collections-poppver-input" defaultValue={listItem.helpText}/><br/>
 
-						{listItem.type == "text" || listItem.type == "textarea"? 
+						{listItem.type == "text" || listItem.type == "textarea" ? 
 							<div style={{marginTop: 10}}>
 								<p>文本框类型 :</p>
-									<RadioGroup style={{marginTop:10}}>
+									<RadioGroup defaultValue={listItem.type} onChange={collectionsProps.listItemAttrValueChange.bind(this,props.vdCollections.collectionsIndex,listIndex,"type")} style={{marginTop:10}}>
 								        <Radio value='text'>普通文本框</Radio>
 								        <Radio value='textarea'>长文本框</Radio>
 							      	</RadioGroup>
@@ -323,8 +425,17 @@ const Component = (props) => {
 							</div> : <div></div>
 
 						}
-						
-						<Checkbox onChange={collectionsProps.isRequired.bind(this,props.vdCollections.collectionsIndex,listIndex)}>是否必填</Checkbox>
+
+						{listItem.type == "Reference" || listItem.type == "Multi-Reference" ? 
+							<div>
+								  <p>Collection:</p>
+								  <Cascader popupPlacement="bottomLeft" placeholder="选择对应数据集" options={ReferenceOptions}/>	
+							</div>  :<div></div>
+						}
+
+						{listItem.type == "date" ? <Checkbox>日期选择器</Checkbox> : <div></div>}
+
+						<Checkbox onChange={collectionsProps.isRequired.bind(this,props.vdCollections.collectionsIndex,listIndex)}>必填</Checkbox>
 					</div>:<div></div>
 				}	
 			</div>
@@ -467,7 +578,7 @@ const Component = (props) => {
 			title: (
 				<Row>
 					<Col span={20}>
-						{item.name}
+						{props.vdCollections.collectionsItem.name}
 					</Col>
 					<Col span={4} style={{textAlign: 'right'}} onClick={collectionsProps.changeCollectionsItemPreviewVisible}>
 						<Popover className="collections-popover" 
@@ -484,17 +595,15 @@ const Component = (props) => {
 					</Col>
 				</Row>
 			),
-		
+
 			content: (
 				<div className="collections-popover-content">
 					<h2>数据集设置</h2>
 						<p>数据集名称</p>
-							<Input size="large" className="collections-poppver-input" defaultValue={item.name} /><br/>
-							<Tag>{item.name} <Icon type="edit"/></Tag>
-							<Tag>{item.name}s <Icon type="edit"/></Tag><br/>
+							<Input size="large" onChange={collectionsProps.changeState.bind(this,index,'name')} className="collections-poppver-input" value={props.vdCollections.collectionsItem.name} /><br/>
 						<p style={{marginTop:'10px'}}>数据集 URL</p>
-							<Input size="large" className="collections-poppver-input" defaultValue={item.name} /><br/>
-							<Tag>Tag 1 <Icon type="edit"/></Tag><br/>
+							<Input size="large" className="collections-poppver-input" onChange={collectionsProps.changeState.bind(this,index,'url')} value={props.vdCollections.collectionsItem.url} /><br/>
+							<Tag><Icon type="link" />http://www.{props.vdCollections.collectionsItem.url}.com</Tag><br/>
 						<div className="collections-poppver-text">
 							<Icon type="file" /> <span style={{marginLeft: '10px'}}>在页面面板中为团队成员创建集合页面模板.</span>
 						</div>
@@ -600,7 +709,7 @@ const Component = (props) => {
 								<Col className="collection-structure-list-btn" onClick={collectionsProps.addCollectionsList.bind(this,index,'calendar','date')} span={6}>
 									<div className="collection-btn-content">
 										<div className="collection-btn-img">
-											<svg width="38" height="36" viewBox="0 0 38 36"><path fill="currentColor" fill-opacity=".25" d="M3 6h32v8H3z"></path><path fill="currentColor" d="M35 4h-7V1h-2v3H12V1h-2v3H3c-1.1 0-2 .9-2 2v27c0 1.1.9 2 2 2h32c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM3 6h7v3h2V6h14v3h2V6h7v8H3V6zm32 27H3V16h32v17z"></path></svg>
+											<svg width="38" height="36" viewBox="0 0 38 36"><path fill="currentColor" d="M3 6h32v8H3z"></path><path fill="currentColor" d="M35 4h-7V1h-2v3H12V1h-2v3H3c-1.1 0-2 .9-2 2v27c0 1.1.9 2 2 2h32c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM3 6h7v3h2V6h14v3h2V6h7v8H3V6zm32 27H3V16h32v17z"></path></svg>
 										</div>
 										<p className="collection-text">日历</p>
 									</div>
@@ -661,7 +770,7 @@ const Component = (props) => {
 
 		};
 
-	return (
+		return (
 	          <Row key={index} className="collections-list">
 	            <Col span={4}>
 	            	<Icon type="hdd" />
@@ -691,13 +800,28 @@ const Component = (props) => {
 		)
 	})
 
+	const newCollectionsPopover = {
+		content: (
+				<Row>
+			        <Col span={14}>
+			          <Input size="small" value={props.vdCollections.newCollectionsName} onPressEnter={collectionsProps.addNewCollections} placeholder="请输入数据集名称" onChange={collectionsProps.getNewCollectionsName.bind(this)} />
+			        </Col>
+			        <Col span={10} style={{textAlign: 'right'}}>
+			          <Button size="small" onClick={collectionsProps.addNewCollections} >添加</Button>
+			        </Col>
+			    </Row>
+			)
+	}
+
   	return (
   		<div className="vdctrl-pane-wrapper">
 					<Collapse bordered={false} defaultActiveKey='collections-manager'>
 		    			<Panel header="数据集管理" key="collections-manager">
+		    				<Popover placement="right" trigger={['click']} content={newCollectionsPopover.content} visible={props.vdCollections.newCollectionsPopoverVisible} onVisibleChange={collectionsProps.newCollectionsPopoverVisibleChange}>
 				    			<Tooltip placement="left" title="添加数据集">
-									<Button className="collections-header-btn" onClick={collectionsProps.addNewCollections}><Icon type="plus"/></Button>
+									<Button onClick={collectionsProps.closePopover} className="collections-header-btn"><Icon type="plus"/></Button>
 								</Tooltip>
+							</Popover>
 							{collections}
 		    			</Panel>
 					</Collapse>

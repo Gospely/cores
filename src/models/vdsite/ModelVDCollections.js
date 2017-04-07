@@ -31,13 +31,18 @@ export default {
 	namespace: 'vdCollections',
 	state: {
 		collections: [],
+		newCollectionsName:"",
 		listTypeIsOpend: false,
 		collectionsItem: {
+			name:'',
+			key: '',
+			url: '',
 			list: []
 		},
 		collectionsIndex: '-1',
 		collectionsItemVisible: false,
 		collectionsItemPreviewVisible: false,
+		newCollectionsPopoverVisible: false,
 		addStyle:"",
 		addInputStyle:"",
 	},
@@ -51,6 +56,25 @@ export default {
 		}
 	},
 	reducers: {
+		listItemAttrValueChange(state, {payload:params}) {
+			state.collections[params.index].list[params.listIndex][params.attr] = params.value
+			return {...state}
+		},
+		getNewCollectionsName(state, {payload: params}) {
+			state.newCollectionsName = params
+			return {...state}
+		},
+		newCollectionsPopoverVisibleChange(state) {
+			state.newCollectionsPopoverVisible = !state.newCollectionsPopoverVisible
+			return {...state}
+		},
+
+		changeState(state, {payload: params}){
+			console.log(state.collections[params.index][params.attr]);
+			console.log(params)
+			state.collectionsItem[params.attr] = params.value;
+			return {...state}
+		},
 		changeNameInputStyle(state, {payload: params}){
 			if(params){
 				state.addStyle = 'add-collections-style'
@@ -88,6 +112,7 @@ export default {
 		setCollectionsItem(state, {payload: params}) {
 			state.collectionsItem = params.item;
 			state.collectionsIndex = params.index;
+			console.log("+++----",state.collectionsItem)
 			return {...state}
 		},
 
@@ -101,11 +126,12 @@ export default {
             return {...state};
         },
 
-        setNewCollections(state) {
+        setNewCollections(state, {payload: params}) {
         	let newCollections = {
-				name:"NewCollections",
+				name:state.newCollectionsName,
 				key: randomString(8, 10),
-				list:[]
+				list:[],
+				url:"",
 			}
 			state.collections.push(newCollections);
         	return {...state};
@@ -170,9 +196,9 @@ export default {
         	}
 
         	if(params.type == 'option') {
-				state.collections[params.index].list.push(newOptionCollectionsList);
+				state.collectionsItem.list.push(newOptionCollectionsList);
         	}else {
-				state.collections[params.index].list.push(newCollectionsList);
+				state.collectionsItem.list.push(newCollectionsList);
         	}
         	
         	return {...state}
