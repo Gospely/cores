@@ -94,7 +94,7 @@ export default {
 					id: localStorage.uistateId,
 					configs: localStorage.UIState
 				}
-				if(dySave) {
+				if(dySave && localStorage.flashState == 'true') {
 						var url = baseUrl.baseURL + "uistates";
 						fetch(url, {
 							method: 'PUT',

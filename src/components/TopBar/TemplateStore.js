@@ -52,6 +52,12 @@ const TemplateStore = (props) => {
 				payload: item
 			})
 		},
+		hideReviewTemplate(item){
+
+			props.dispatch({
+				type: 'templateStore/hideReviewTemplate',
+			})
+		},
 		hideBuytemplate(index) {
 
 			props.dispatch({
@@ -243,8 +249,9 @@ const TemplateStore = (props) => {
 					<Modal
 						title="Gospel | 预览模板"
 						visible={props.templateStore.review}
-						onCancel={templateStoreProps.reviewTemplate}
+						onCancel={templateStoreProps.hideReviewTemplate}
 						footer={null}
+						maskClosable="true"
 						wrapClassName="Template-store-review-modal"
 					>
 					<img src={props.templateStore.reviewUrl} />

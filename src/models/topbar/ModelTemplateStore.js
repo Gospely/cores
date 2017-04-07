@@ -96,8 +96,12 @@ export default {
 		reviewTemplate(state, {payload: params}){
 
 			console.log(params);
-			state.review = ! state.review;
+			state.review = true;
 			state.reviewUrl = params.src || params.url;
+			return {...state};
+		},
+		hideReviewTemplate(state){
+			state.review = false;
 			return {...state};
 		}
 	},
