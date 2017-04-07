@@ -1009,15 +1009,6 @@ export default {
 			state.activePage = initialData.vdCtrlTree.activePage;
 			state.layout = initialData.vdCtrlTree.layout;
 			state.activeCtrl = {};
-			if(params && params.layout){
-				state.layout = params.layout;
-				console.log('initLayout');
-				setTimeout(function(){
-					window.VDDesignerFrame.postMessage({
-						pageSelected: params.layout
-					}, '*');
-				}, 2500);
-			}
 			return {...state};
 		},
 
