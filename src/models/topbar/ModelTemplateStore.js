@@ -330,6 +330,8 @@ export default {
 					body: JSON.stringify(order)
 				})
 				console.log(result);
+				alipay = result.data.fields.alipay;
+				wechat = result.data.fields.wechat;
 			}else {
 				alipay = result.data.fields[0].alipay;
 				wechat = result.data.fields[0].wechat;
