@@ -28,6 +28,7 @@ export default {
 		isLoading: false,
 		review: false,
 		create: false,
+		isShow: false,
 		reviewUrl: '',
 		templateAttr:[],
 		tips: '请耐心等待...',
@@ -153,6 +154,11 @@ export default {
 
 			state.available = value;
 			return {...state};
+		},
+		handleShow(state, { payload: value}){
+
+			state.isShow = value;
+			return {...state};
 		}
 	},
 	effects:{
@@ -189,6 +195,10 @@ export default {
 			yield put({
 				type: 'initLoadingNum'
 			});
+			yield put({
+				type: 'handleShow',
+				payload: false
+			});
 		},
 		*flashTemplates({payload: type}, {call, select, put}){
 
@@ -210,6 +220,18 @@ export default {
 			console.log(result);
 			for (var i = 0; i < result.data.fields.length; i++) {
 				templates.push(result.data.fields[i])
+			}
+			console.log(result.data.length);
+			if(result.data.fields.length == 0){
+				yield put({
+					type: 'handleShow',
+					payload: true
+				});
+			}else {
+				yield put({
+					type: 'handleShow',
+					payload: false
+				});
 			}
 			yield put({
 				type: 'hanleLoading',
@@ -257,6 +279,10 @@ export default {
 				type: 'setQuery',
 				payload: query,
 			})
+			yield put({
+				type: 'handleShow',
+				payload: false
+			});
 
 		},
 		*setSelectTagValue({payload: type}, {call, select, put}) {
@@ -290,7 +316,7 @@ export default {
 				type: 'setTypesAndTemplates',
 				payload: {
 					templates: templates,
-					types: types
+					types: types,
 				}
 			})
 			yield put({
@@ -301,6 +327,10 @@ export default {
 				type: 'setQuery',
 				payload: query,
 			})
+			yield put({
+				type: 'handleShow',
+				payload: false
+			});
 		},
 		*addOrders({payload: params}, {call,select, put}){
 
