@@ -462,7 +462,7 @@ export default {
 				});
 
 				window.location.hash = 'project/' + result.data.fields.id;
-				initData(params.ctx, result.data.fields);
+				initData(params.ctx, result.data.fields.id);
 ;				//window.location.reload();
 				yield put({
 					type: 'handleTips',

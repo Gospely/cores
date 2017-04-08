@@ -319,7 +319,7 @@ const TemplateStore = (props) => {
 						footer={null}
 						 wrapClassName="vertical-center-modal"
 					>
-						<Spin spinning={props.templateStore.createForm.loading} tip={props.templateStore.tips}>
+						<Spin spinning={props.templateStore.createForm.loading} tip={props.templateStore.tips} style={{'marginBottom': '20px'}}>
 							<div style={{ marginTop: 32 }}>
 								<Row>
 									<Col span={4} style={{textAlign: 'right'}}>
@@ -329,7 +329,7 @@ const TemplateStore = (props) => {
 										<Input onChange={templateStoreProps.valueChange} value={props.templateStore.createForm.name}/>
 									</Col>
 								</Row>
-								 <Button disabled={!props.templateStore.available}  type="primary" onClick={templateStoreProps.createApp} style={{ marginTop: 32, marginLeft: 200 }}>立即创建</Button>
+								 <Button visible={!props.templateStore.createForm.loading} disabled={!props.templateStore.available}  type="primary" onClick={templateStoreProps.createApp} style={{ marginTop: 32, marginLeft: 200 }}>立即创建</Button>
 							</div>
 							</Spin>
 					</Modal>
