@@ -20,20 +20,12 @@ const initData = function (props, application, layout) {
             props.dispatch({
                 type: 'vdcore/getInitialData',
             });
-            if(layout){
-                console.log(layout);
-                var UIState = JSON.parse(localStorage.UIState);
-                UIState.applicationId = application.id;
-                UIState.UIState.vdCtrlTree.layout = layout;
-                console.log(UIState);
-                localStorage.UIState = JSON.stringify(UIState);
-                props.dispatch({
-                    type: 'UIState/initConfig',
-                    payload: {
-                        id: application.id
-                    }
-                })
-            }
+            props.dispatch({
+                type: 'UIState/initConfig',
+                payload: {
+                    id: application
+                }
+            })
         }
     };
 
