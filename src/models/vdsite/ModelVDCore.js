@@ -331,6 +331,10 @@ export default {
 					type: 'initForm',
 					payload: packResult.data.fields[0]
 				});
+			}else {
+				yield put({
+					type: 'initForm',
+				});
 			}
 
 		},
@@ -597,12 +601,15 @@ export default {
 		},
 		initForm(state, {payload: params}){
 			console.log(params);
-			state.TemplateSavingModal.name = params.name;
-			state.TemplateSavingModal.price = params.price;
-			state.TemplateSavingModal.description = params.description;
-			state.TemplateSavingModal.type = params.type;
-			state.TemplateSavingModal.isFree = (params.price != 0);
-				state.templateLoading = false;
+			if(params){
+				state.TemplateSavingModal.name = params.name;
+				state.TemplateSavingModal.price = params.price;
+				state.TemplateSavingModal.description = params.description;
+				state.TemplateSavingModal.type = params.type;
+				state.TemplateSavingModal.isFree = (params.price != 0);
+			}
+
+			state.templateLoading = false;
 			return {...state};
 		}
 	}
