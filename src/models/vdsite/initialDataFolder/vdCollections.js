@@ -4,6 +4,14 @@ export default {
 		name:'test1',
 		key: '9564',
 		url: 'gospel',
+		collectionsItemList: [{
+			name: 'itemOne',
+			status: '',
+			created: '',
+			modified: '',
+			published: '',
+			content: []
+		}],
 		list:[{
 			name: '纯文本',
 			icon: 'file-text',

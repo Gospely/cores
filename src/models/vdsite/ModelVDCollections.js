@@ -34,10 +34,14 @@ export default {
 		newCollectionsName:"",
 		listTypeIsOpend: false,
 		collectionsItem: {
-			name:'1',
-			key: '2',
-			url: '3',
-			list: []
+			name:'',
+			key: '',
+			url: '',
+			collectionsItemList: [{
+
+			}],
+			list: [],
+			//leftSidebar.js
 		},
 		collectionsIndex: '-1',
 		collectionsItemVisible: false,
@@ -45,6 +49,7 @@ export default {
 		newCollectionsPopoverVisible: false,
 		collectionsItemlistVisible: false,
 		addOptionValue:false,
+		itemListPopoverLayout: false,
 		addStyle:"",
 		addInputStyle:"",
 	},
@@ -133,6 +138,7 @@ export default {
 
 		setCollectionsItem(state, {payload: params}) {
 			if(params.item != "") {
+				console.log("555666",params.item)
 				state.collectionsItem = params.item;
 			}
 			state.collectionsIndex = params.index;
@@ -156,6 +162,9 @@ export default {
 				key: randomString(8, 10),
 				list:[],
 				url:"",
+				collectionsItemList: [{
+
+				}],
 			}
 			state.collections.push(newCollections);
         	return {...state};

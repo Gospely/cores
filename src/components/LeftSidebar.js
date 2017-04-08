@@ -51,7 +51,12 @@ const leftSidebar = (props) => {
 			type: 'vdCollections/setCollectionsItem',
 			payload: {
 				item:{
-						list: []
+						name:'',
+						key: '',
+						url: '',
+						collectionsItemList: [{
+						}],
+						list: [],
 					},
 				index:-1 
 			}
