@@ -255,6 +255,12 @@ export default {
 					initApplication(data, props, false);
 				},
 
+				closeDashModel () {
+					props.dispatch({
+						type: 'dashboard/hideDash'
+					})
+				},
+
 				commonPreviewerLoaded () {
 					props.dispatch({
 						type: 'cpre/setLoaded'
