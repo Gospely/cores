@@ -300,7 +300,7 @@ export default {
 			if(type.key == 'all'){
 
 			}else if(type.key == 'mine'){
-				query = query + '&creator=' + localStorage.user;
+				query = query + '&owner=' + localStorage.user;
 			}else if (type.key == 'free') {
 				query = query + '&price=0';
 			}else {
