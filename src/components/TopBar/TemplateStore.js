@@ -1,6 +1,6 @@
 import React , {propTypes} from 'react';
 import { connect } from 'dva';
-import { Spin, Button, Modal, Layout, Row, Col, Input, Menu, Radio } from 'antd';
+import { Spin, Button, Modal, Layout, Row, Col, Input, Menu, Radio, message, notification} from 'antd';
 import QRCode from 'qrcode.react';
 
 const Search = Input.Search;
@@ -59,6 +59,11 @@ const TemplateStore = (props) => {
 			})
 		},
 		hideCreateTemplate(item){
+
+			if(props.templateStore.createForm.loading){
+
+				message.error('创建中，无法取消')
+			}
 			props.dispatch({
 				type: 'templateStore/hideCreateTemplate',
 			})
@@ -117,9 +122,25 @@ const TemplateStore = (props) => {
 		},
 		valueChange(e){
 			console.log(e.target.value);
+			const illegalLetter = ['!',' ', '@', '#', '$', '%', '^', '&', '*', '(', ')', '+', '=', '[', ']',
+								'{', '}', '\\', '|', ':', ';', '\'', '"', '<', '>', ',', '.', '/', '?'];
+			let theCurrentLetter = e.target.value.replace(props.templateStore.createForm.name, '');
+			if(illegalLetter.indexOf(theCurrentLetter) !== -1) {
+				notification['warning']({
+					message: '请勿输入非法字符: \' ' + theCurrentLetter + ' \'',
+					description: '请重新输入'
+				});
+				return false;
+			}
 			props.dispatch({
 				type: 'templateStore/valueChange',
 				payload: e.target.value
+			})
+			props.dispatch({
+				type: 'templateStore/checkProjectAvailable',
+				payload: {
+					name: e.target.value
+				}
 			})
 		},
 		hanleCreate(){
@@ -234,7 +255,6 @@ const TemplateStore = (props) => {
 
 	return (
 		<div className="designer-wrapper">
-			<Spin spinning={props.templateStore.createForm.loading} tip={props.templateStore.tips}>
 			<Modal
 			  title="Gospel |模板商城 "
               wrapClassName="vertical-center-modal"
@@ -298,6 +318,7 @@ const TemplateStore = (props) => {
 						footer={null}
 						 wrapClassName="vertical-center-modal"
 					>
+						<Spin spinning={props.templateStore.createForm.loading} tip={props.templateStore.tips}>
 							<div style={{ marginTop: 32 }}>
 								<Row>
 									<Col span={4} style={{textAlign: 'right'}}>
@@ -307,8 +328,9 @@ const TemplateStore = (props) => {
 										<Input onChange={templateStoreProps.valueChange} value={props.templateStore.createForm.name}/>
 									</Col>
 								</Row>
-								 <Button  type="primary" onClick={templateStoreProps.createApp} style={{ marginTop: 32, marginLeft: 200 }}>立即创建</Button>
+								 <Button disabled={!props.templateStore.available}  type="primary" onClick={templateStoreProps.createApp} style={{ marginTop: 32, marginLeft: 200 }}>立即创建</Button>
 							</div>
+							</Spin>
 					</Modal>
 					<Spin spinning={props.templateStore.isLoading}>
 						<div className="template-store-content">
@@ -322,7 +344,6 @@ const TemplateStore = (props) => {
 
 
 			</Modal>
-			</Spin>
 		</div>
 	);
 

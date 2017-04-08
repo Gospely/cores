@@ -36,6 +36,7 @@ export default {
 			layout: '',
 			loading: false
 		},
+		available: false,
 		selectId: ''
 	},
 
@@ -146,6 +147,11 @@ export default {
 		handleTips(state, {payload: value}){
 
 			state.tips = value;
+			return {...state};
+		},
+		setProjectNameAvailabel(state, {payload: value}){
+
+			state.available = value;
 			return {...state};
 		}
 	},
@@ -336,7 +342,31 @@ export default {
 				}
 			})
 		},
+		*checkProjectAvailable( { payload: params }, { call, put, select }) {
 
+			var available = true;
+			var url = 'applications/validator?name=' + params.name + '&userName=' + localStorage.userName + '&creator=' + localStorage.user;
+
+			var result = yield request(url, {
+				method: 'get',
+			});
+			if(result.data.code == 1){
+				available = true;
+			}else{
+				available = false;
+			}
+			yield put({
+				type: 'setProjectNameAvailabel',
+				payload: available
+			});
+
+			if(!available) {
+				notification.open({
+					message: params.name + '与已有项目重复，请重新填写'
+				});
+			}
+
+		},
 		*createApp({payload: params}, {call, select, put}){
 			console.log(params);
 			yield put({
@@ -447,17 +477,13 @@ export default {
 					payload: false,
 				})
 				yield put({
+					type: 'hideCreateTemplate',
+				})
+
+				yield put({
 					type: 'changeTemplateStoreVisible',
 					payload: false
 				});
-				yield put({
-					type: 'hideCreateTemplate',
-					payload: false
-				})
-				yield put({
-					type: 'handleCreatLoading',
-					payload: false,
-				})
 				console.log(data);
 				var UIState = JSON.parse(data.data.fields.content);
 				console.log(UIState);
