@@ -28,6 +28,23 @@ var getActiveQuery = function(mediaQuery, screenSize) {
 	};
 }
 
+var isObjEqual = (obj1, obj2) => {
+	for(let pro in obj1) {
+		if (typeof obj1[pro] === 'object') {
+			let res = isObjEqual(obj1[pro], obj2[pro]);
+			if(res !== undefined) {
+				return res;
+			}
+		}else {
+			if (obj1[pro] !== obj2[pro]) {
+				return false;
+			}
+		}
+	}
+	return true;
+
+}
+
 var styleAction = {
 
 	findCSSPropertyByProperty: function(stylesList, property) {
@@ -877,12 +894,21 @@ export default {
 			}
 
 			if(params.style) {
-				activeMediaQuery.cssStyleLayout[params.style.styleName] = deepCopyObj(params.style.styles);
-				activeMediaQuery.unitList[params.style.styleName] = deepCopyObj(params.unitList);
-				activeMediaQuery.cssStyleLayout[params.style.styleName].display = 'block';
+				let cssStyleLayout = deepCopyObj(params.style.styles),
+					unitList = deepCopyObj(params.unitList);
+				if (!isExists) {
+					activeMediaQuery.cssStyleLayout[params.style.styleName] = cssStyleLayout;	
+					activeMediaQuery.unitList[params.style.styleName] = unitList;
+				}else {
+					for(let property in activeMediaQuery.cssStyleLayout[params.style.styleName]) {
+						let currentValue = activeMediaQuery.cssStyleLayout[params.style.styleName][property];
+						if (currentValue == '') {
+							currentValue = cssStyleLayout[property];
+						}
+					}
+				}
+				
 			}
-
-			console.log(state.mediaQuery);
 
 			return {...state};
 		},
@@ -1142,7 +1168,6 @@ export default {
 		},
 
 		applyCSSStyleIntoPage(state, { payload: params }) {
-
 			var currentActiveRecStyleName = '';
 
 			var specialStyle = {
@@ -1455,10 +1480,11 @@ export default {
 
 
 			}
-			const stylesGenerator = (cssStyleLayout, mediaQuery, ul) => {
+			const stylesGenerator = (cssStyleLayout, mediaQuery, ul, normalStyleLayout) => {
 
 				var cssText = '';
 				for(var styleName in cssStyleLayout) {
+
 					var currentStyle = cssStyleLayout[styleName],
 						cssClass = '.' + styleName + '{';
 
@@ -1466,9 +1492,16 @@ export default {
 
 					for(var property in currentStyle) {
 						var currentTableStyle = currentStyle[property];
+
 						var unit = '', important = '';
 
-						var unitList = ul || state.unitList[styleName][property];
+						var unitList;
+						if (ul) {
+							unitList = ul[styleName][property];
+						}else {
+							unitList = state.unitList[styleName][property];
+						}
+						// var unitList = (ul && ul[property]) || state.unitList[styleName][property];
 
 						if(unitList) {
 							unit = unitList.unit || '';
@@ -1476,9 +1509,19 @@ export default {
 						}
 
 						if(currentTableStyle != '' && typeof currentTableStyle !== 'object') {
-							cssClass += property + ':' + currentTableStyle + unit + important + ';'
+
+							if (!normalStyleLayout) {
+								cssClass += property + ':' + currentTableStyle + unit + important + ';'	
+							}else if (normalStyleLayout[styleName][property] !== currentTableStyle) {
+								cssClass += property + ':' + currentTableStyle + unit + important + ';'
+							}
+
 						}else if (typeof currentTableStyle === 'object') {
-							cssClass += specialStyle[property](currentTableStyle);
+							if (!normalStyleLayout) {
+								cssClass += specialStyle[property](currentTableStyle);
+							}else if (!isObjEqual(currentTableStyle, normalStyleLayout[styleName][property])) {
+								cssClass += specialStyle[property](currentTableStyle);
+							}
 						}
 					}
 					cssClass += '}';
@@ -1487,15 +1530,16 @@ export default {
 
 				var mediaCSSText = '';
 
-				var generateMediaQuery = () => {
+				var generateMediaQuery = (mediaQuery) => {
 					var mediaHeader = '@media only screen and (max-width: ==WIDTH==) {',
 						mediaContent = '',
 						result = '';
 
 					for (var i = 0; i < mediaQuery.length; i++) {
 						var query = mediaQuery[i];
+						normalStyleLayout = state.cssStyleLayout;
 						mediaHeader = mediaHeader.replace('==WIDTH==', query.maxWidth);
-						mediaContent = mediaHeader + stylesGenerator(query.cssStyleLayout, undefined, query.unitList) + '}';
+						mediaContent = mediaHeader + stylesGenerator(query.cssStyleLayout, undefined, query.unitList, normalStyleLayout) + '}';
 						result += mediaContent;
 						mediaContent = '';
 						mediaHeader = '@media only screen and (max-width: ==WIDTH==) {';
@@ -1781,6 +1825,7 @@ export default {
 		changeActiveUnit(state, { payload: params }) {
 			var unitList = styleAction.getUnitListByScreenSize(state);
 			unitList[params.activeStyleName][params.property].unit = params.value;
+			
 			return {...state};
 		},
 

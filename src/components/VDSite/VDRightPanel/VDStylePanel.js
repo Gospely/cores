@@ -95,7 +95,7 @@ const VDStylePanel = (props) => {
 					activeStyleName: props.vdCtrlTree.activeCtrl.activeStyle
 				}
 			});
-
+			
 			props.dispatch({
 				type: 'vdstyles/applyCSSStyleIntoPage',
 				payload: {
@@ -1781,7 +1781,7 @@ const VDStylePanel = (props) => {
 								)
 							}>
 								<Input
-									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['padding-top'].unit, 'padding-top')}
+									addonAfter={unitAfter(activeCSSUnitList['padding-top'].unit, 'padding-top')}
 									size="small"
 									type="number"
 									value={activeCSSStyleState['padding']['padding-top']}
@@ -1802,7 +1802,7 @@ const VDStylePanel = (props) => {
 							}>
 								<Input
 									type="number"
-									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['padding-bottom'].unit, 'padding-bottom')}
+									addonAfter={unitAfter(activeCSSUnitList['padding-bottom'].unit, 'padding-bottom')}
 								 	size="small" value={activeCSSStyleState['padding']['padding-bottom']} onChange={handleStylesChange.bind(this, 'padding-bottom')}/>
 							</FormItem>
 				      	</Form>
@@ -1825,7 +1825,7 @@ const VDStylePanel = (props) => {
 							}>
 								<Input
 									type="number"
-									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['padding-left'].unit, 'padding-left')}
+									addonAfter={unitAfter(activeCSSUnitList['padding-left'].unit, 'padding-left')}
 								 	size="small" value={activeCSSStyleState['padding']['padding-left']} onChange={handleStylesChange.bind(this, 'padding-left')}/>
 							</FormItem>
 				      	</Form>
@@ -1843,7 +1843,7 @@ const VDStylePanel = (props) => {
 							}>
 								<Input
 									type="number"
-									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['padding-right'].unit, 'padding-right')}
+									addonAfter={unitAfter(activeCSSUnitList['padding-right'].unit, 'padding-right')}
 									size="small" value={activeCSSStyleState['padding']['padding-right']} onChange={handleStylesChange.bind(this, 'padding-right')}/>
 							</FormItem>
 				      	</Form>
@@ -1874,7 +1874,7 @@ const VDStylePanel = (props) => {
 							}>
 								<Input
 									type="number"
-									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['margin-top'].unit, 'margin-top')}
+									addonAfter={unitAfter(activeCSSUnitList['margin-top'].unit, 'margin-top')}
 									size="small" value={activeCSSStyleState['margin']['margin-top']} onChange={handleStylesChange.bind(this, 'margin-top')}/>
 							</FormItem>
 				      	</Form>
@@ -1892,7 +1892,7 @@ const VDStylePanel = (props) => {
 							}>
 								<Input
 									type="number"
-									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['margin-bottom'].unit, 'margin-bottom')}
+									addonAfter={unitAfter(activeCSSUnitList['margin-bottom'].unit, 'margin-bottom')}
 								 	size="small" value={activeCSSStyleState['margin']['margin-bottom']} onChange={handleStylesChange.bind(this, 'margin-bottom')}/>
 							</FormItem>
 				      	</Form>
@@ -1915,7 +1915,7 @@ const VDStylePanel = (props) => {
 							}>
 								<Input
 									type="number"
-									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['margin-left'].unit, 'margin-left')}
+									addonAfter={unitAfter(activeCSSUnitList['margin-left'].unit, 'margin-left')}
 									size="small" value={activeCSSStyleState['margin']['margin-left']} onChange={handleStylesChange.bind(this, 'margin-left')}/>
 							</FormItem>
 				      	</Form>
@@ -1933,7 +1933,7 @@ const VDStylePanel = (props) => {
 							}>
 								<Input
 									type="number"
-									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['margin-right'].unit, 'margin-right')}
+									addonAfter={unitAfter(activeCSSUnitList['margin-right'].unit, 'margin-right')}
 									size="small" value={activeCSSStyleState['margin']['margin-right']} onChange={handleStylesChange.bind(this, 'margin-right')}/>
 							</FormItem>
 				      	</Form>
@@ -1958,7 +1958,7 @@ const VDStylePanel = (props) => {
 							}>
 								<Input
 									type="number"
-									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['width'].unit, 'width')}
+									addonAfter={unitAfter(activeCSSUnitList['width'].unit, 'width')}
 								 	size="small" value={activeCSSStyleState['width']} onChange={handleStylesChange.bind(this, 'width')}/>
 							</FormItem>
 				      	</Form>
@@ -1976,7 +1976,7 @@ const VDStylePanel = (props) => {
 							}>
 								<Input
 									type="number"
-									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['height'].unit, 'height')}
+									addonAfter={unitAfter(activeCSSUnitList['height'].unit, 'height')}
 								 	size="small" value={activeCSSStyleState['height']} onChange={handleStylesChange.bind(this, 'height')}/>
 							</FormItem>
 				      	</Form>
@@ -1999,7 +1999,7 @@ const VDStylePanel = (props) => {
 							}>
 								<Input
 									type="number"
-									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['max-width'].unit, 'max-width')}
+									addonAfter={unitAfter(activeCSSUnitList['max-width'].unit, 'max-width')}
 									size="small" value={activeCSSStyleState['max-width']} onChange={handleStylesChange.bind(this, 'max-width')}/>
 							</FormItem>
 				      	</Form>
@@ -2017,7 +2017,7 @@ const VDStylePanel = (props) => {
 							}>
 								<Input
 									type="number"
-									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['min-width'].unit, 'min-width')}
+									addonAfter={unitAfter(activeCSSUnitList['min-width'].unit, 'min-width')}
 									size="small" value={activeCSSStyleState['min-width']} onChange={handleStylesChange.bind(this, 'min-width')}/>
 							</FormItem>
 				      	</Form>
@@ -2040,7 +2040,7 @@ const VDStylePanel = (props) => {
 							}>
 								<Input
 									type="number"
-									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['max-height'].unit, 'max-height')}
+									addonAfter={unitAfter(activeCSSUnitList['max-height'].unit, 'max-height')}
 									size="small" value={activeCSSStyleState['max-height']} onChange={handleStylesChange.bind(this, 'max-height')}/>
 							</FormItem>
 				      	</Form>
@@ -2058,7 +2058,7 @@ const VDStylePanel = (props) => {
 							}>
 								<Input
 									type="number"
-									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['min-height'].unit, 'min-height')}
+									addonAfter={unitAfter(activeCSSUnitList['min-height'].unit, 'min-height')}
 									size="small" value={activeCSSStyleState['min-height']} onChange={handleStylesChange.bind(this, 'min-height')}/>
 							</FormItem>
 				      	</Form>
@@ -2224,7 +2224,7 @@ const VDStylePanel = (props) => {
 							}>
 								<Input
 									type="number"
-									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['top'].unit, 'top')}
+									addonAfter={unitAfter(activeCSSUnitList['top'].unit, 'top')}
 									size="small" value={activeCSSStyleState['top']} onChange={handleStylesChange.bind(this, 'top')}/>
 							</FormItem>
 				      	</Form>
@@ -2242,7 +2242,7 @@ const VDStylePanel = (props) => {
 							}>
 								<Input
 									type="number"
-									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['left'].unit, 'left')}
+									addonAfter={unitAfter(activeCSSUnitList['left'].unit, 'left')}
 								 	size="small" value={activeCSSStyleState['left']} onChange={handleStylesChange.bind(this, 'left')}/>
 							</FormItem>
 				      	</Form>
@@ -2267,7 +2267,7 @@ const VDStylePanel = (props) => {
 							}>
 								<Input
 									type="number"
-									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['bottom'].unit, 'bottom')}
+									addonAfter={unitAfter(activeCSSUnitList['bottom'].unit, 'bottom')}
 									size="small" value={activeCSSStyleState['bottom']} onChange={handleStylesChange.bind(this, 'bottom')}/>
 							</FormItem>
 				      	</Form>
@@ -2285,7 +2285,7 @@ const VDStylePanel = (props) => {
 							}>
 								<Input
 									type="number"
-									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['right'].unit, 'right')}
+									addonAfter={unitAfter(activeCSSUnitList['right'].unit, 'right')}
 								 	size="small" value={activeCSSStyleState['right']} onChange={handleStylesChange.bind(this, 'right')}/>
 							</FormItem>
 				      	</Form>
@@ -2444,7 +2444,7 @@ const VDStylePanel = (props) => {
 								)
 							}>
 								<Input
-									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['font-size'].unit, 'font-size')}
+									addonAfter={unitAfter(activeCSSUnitList['font-size'].unit, 'font-size')}
 								 	type="text" size="small" value={activeCSSStyleState['font-size']} onChange={handleStylesChange.bind(this, 'font-size')}/>
 							</FormItem>
 				      	</Form>
@@ -2481,7 +2481,7 @@ const VDStylePanel = (props) => {
 								)
 							}>
 								<Input
-									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle]['letter-spacing'].unit, 'letter-spacing')}
+									addonAfter={unitAfter(activeCSSUnitList['letter-spacing'].unit, 'letter-spacing')}
 									type="text" size="small" value={activeCSSStyleState['letter-spacing']} onChange={handleStylesChange.bind(this, 'letter-spacing')}/>
 							</FormItem>
 				      	</Form>
@@ -2783,7 +2783,7 @@ const VDStylePanel = (props) => {
 							}>
 								<Input
 									type="number"
-									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle][borderPosition + '-width'].unit, borderPosition + '-width')}
+									addonAfter={unitAfter(activeCSSUnitList[borderPosition + '-width'].unit, borderPosition + '-width')}
 								 	size="small" value={activeCSSStyleState['border'][borderPosition + '-width']} onChange={handleBorderInputChange.bind(this, 'width')}/>
 							</FormItem>
 
@@ -2880,7 +2880,7 @@ const VDStylePanel = (props) => {
 								)
 							}>
 								<Input
-									addonAfter={unitAfter(props.vdstyles.unitList[props.vdCtrlTree.activeCtrl.activeStyle][borderRadiusPosition + '-radius'].unit, borderRadiusPosition + '-radius')}
+									addonAfter={unitAfter(activeCSSUnitList[borderRadiusPosition + '-radius'].unit, borderRadiusPosition + '-radius')}
 									value={activeCSSStyleState['border-radius'][borderRadiusPosition + '-radius']} size="small" onChange={handleBorderRadiusInputChange.bind(this, 'radius')} />
 							</FormItem>
 				    	</Form>

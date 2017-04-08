@@ -2010,7 +2010,6 @@ export default {
 		ctrlSelected(state, {payload: data}) {
 
 			if (data.unCtrl && !data.dblclick) {
-				console.log('unCtrl');
 				let currentActiveCtrl = VDTreeActions.getActiveControllerIndexAndLvlByKey(state, data.root, state.activePage);
 				state.activeCtrl = currentActiveCtrl.controller;
 				state.activeCtrlIndex = currentActiveCtrl.index;
@@ -2024,8 +2023,11 @@ export default {
 				state.defaultSelectedKeys = [data.vdid];
 			}
 
-			console.log(state.activeCtrl);
-			console.log(new Date().getTime());
+			if (state.expandedKeys.indexOf(state.activeCtrl.vdid) === -1) {
+				state.expandedKeys.push(state.activeCtrl.vdid);
+			}
+			state.autoExpandParent = true;
+
 			return {...state};
 		},
 		handleAttrFormChangeA(state, {payload: params}) {
@@ -2736,8 +2738,9 @@ export default {
 					activeCtrl.children.push(controller);
 					if (state.expandedKeys.indexOf(activeCtrl.vdid) === -1) {
 						state.expandedKeys.push(activeCtrl.vdid);
-						state.autoExpandParent = true;
+						
 					}
+					state.autoExpandParent = true;
 				},
 
 				prepend(activeCtrl, controller) {
@@ -2745,8 +2748,9 @@ export default {
 					activeCtrl.children.splice(0, 0, controller);
 					if (state.expandedKeys.indexOf(activeCtrl.vdid) === -1) {
 						state.expandedKeys.push(activeCtrl.vdid);
-						state.autoExpandParent = true;
+						
 					}
+					state.autoExpandParent = true;
 				},
 
 				after(activeCtrl, controller) {
@@ -2754,8 +2758,9 @@ export default {
 					parentInfo.parentCtrl.children.splice(parentInfo.index + 1, 0, controller);
 					if (state.expandedKeys.indexOf(parentInfo.parentCtrl.vdid) === -1) {
 						state.expandedKeys.push(parentInfo.parentCtrl.vdid);
-						state.autoExpandParent = true;
+						
 					}
+					state.autoExpandParent = true;
 				},
 
 				before(activeCtrl, controller) {
@@ -2763,8 +2768,9 @@ export default {
 					parentInfo.parentCtrl.children.splice(parentInfo.index, 0, controller);
 					if (state.expandedKeys.indexOf(parentInfo.parentCtrl.vdid) === -1) {
 						state.expandedKeys.push(parentInfo.parentCtrl.vdid);
-						state.autoExpandParent = true;
+						
 					}
+					state.autoExpandParent = true;
 				}
 			}
 			pastHandler[params.type](activeCtrl, controller);
