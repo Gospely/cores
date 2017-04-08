@@ -1,6 +1,6 @@
 import React , {propTypes} from 'react';
 import { connect } from 'dva';
-import { Spin, Button, Modal, Layout, Row, Col, Input, Menu, Radio } from 'antd';
+import { Spin, Button, Modal, Layout, Row, Col, Input, Menu, Radio, message, notification} from 'antd';
 import QRCode from 'qrcode.react';
 
 const Search = Input.Search;
@@ -59,20 +59,23 @@ const TemplateStore = (props) => {
 			})
 		},
 		hideCreateTemplate(item){
-			console.log(item);
-			if(item && item.id) {
-				props.dispatch({
-					type: 'templateStore/hideCreateTemplate',
-					payload: {
-						id: item.id
-					}
-				})
-			}else {
-				props.dispatch({
-					type: 'templateStore/hideCreateTemplateA',
-				})
-			}
 
+			if(props.templateStore.createForm.loading){
+
+				message.error('创建中，无法取消');
+				return;
+			}
+			props.dispatch({
+				type: 'templateStore/hideCreateTemplate',
+			})
+		},
+		handleCreateTemplate(item){
+			props.dispatch({
+				type: 'templateStore/handleCreateTemplate',
+				payload: {
+					id: item.id
+				}
+			})
 		},
 		hideBuytemplate(index) {
 
@@ -120,9 +123,25 @@ const TemplateStore = (props) => {
 		},
 		valueChange(e){
 			console.log(e.target.value);
+			const illegalLetter = ['!',' ', '@', '#', '$', '%', '^', '&', '*', '(', ')', '+', '=', '[', ']',
+								'{', '}', '\\', '|', ':', ';', '\'', '"', '<', '>', ',', '.', '/', '?'];
+			let theCurrentLetter = e.target.value.replace(props.templateStore.createForm.name, '');
+			if(illegalLetter.indexOf(theCurrentLetter) !== -1) {
+				notification['warning']({
+					message: '请勿输入非法字符: \' ' + theCurrentLetter + ' \'',
+					description: '请重新输入'
+				});
+				return false;
+			}
 			props.dispatch({
 				type: 'templateStore/valueChange',
 				payload: e.target.value
+			})
+			props.dispatch({
+				type: 'templateStore/checkProjectAvailable',
+				payload: {
+					name: e.target.value
+				}
 			})
 		},
 		hanleCreate(){
@@ -182,9 +201,9 @@ const TemplateStore = (props) => {
 
 														  <div className="template-btn-box">
 															  <Button type="primary" onClick={templateStoreProps.reviewTemplate.bind(this, item)}>预览模板</Button>
-															  {!(!item.visible || item.price == 0) && <Button onClick={templateStoreProps.buytemplate.bind(this, item, index)} type="primary">购买模板</Button>}
+															  {!(!item.visible || item.price == 0 || item.status == 2) && <Button onClick={templateStoreProps.buytemplate.bind(this, item, index)} type="primary">购买模板</Button>}
 															  {
-																  (!item.visible || item.price == 0) ?<Button type="primary" onClick={templateStoreProps.hideCreateTemplate.bind(this, item)}>使用模板</Button> : <Button type="primary" disabled >使用模板</Button>
+																  (!item.visible || item.price == 0 || item.status == 2) ?<Button type="primary" onClick={templateStoreProps.handleCreateTemplate.bind(this, item)}>使用模板</Button> : <Button type="primary" disabled >使用模板</Button>
 															  }
 														  </div>
 
@@ -300,7 +319,7 @@ const TemplateStore = (props) => {
 						footer={null}
 						 wrapClassName="vertical-center-modal"
 					>
-						<Spin spinning={props.templateStore.createForm.loading}>
+						<Spin spinning={props.templateStore.createForm.loading} tip={props.templateStore.tips} style={{'marginBottom': '20px'}}>
 							<div style={{ marginTop: 32 }}>
 								<Row>
 									<Col span={4} style={{textAlign: 'right'}}>
@@ -310,7 +329,7 @@ const TemplateStore = (props) => {
 										<Input onChange={templateStoreProps.valueChange} value={props.templateStore.createForm.name}/>
 									</Col>
 								</Row>
-								 <Button  type="primary" onClick={templateStoreProps.createApp} style={{ marginTop: 32, marginLeft: 200 }}>立即创建</Button>
+								 <Button visible={!props.templateStore.createForm.loading} disabled={!props.templateStore.available}  type="primary" onClick={templateStoreProps.createApp} style={{ marginTop: 32, marginLeft: 200 }}>立即创建</Button>
 							</div>
 							</Spin>
 					</Modal>
@@ -320,7 +339,7 @@ const TemplateStore = (props) => {
 							{ props.templateStore.templateAttr.length > 0 ? templateList : <Button className="load-more">暂无数据</Button>}
 						</div>
 					</Spin>
-					{props.templateStore.templateAttr.length == 0 || props.templateStore.templateAttr.length%props.templateStore.pageSize != 0 ? <div></div> :<Button onClick={templateStoreProps.loadMore} className="load-more">加载更多</Button>}
+					{props.templateStore.isShow || props.templateStore.templateAttr.length == 0 || props.templateStore.templateAttr.length%props.templateStore.pageSize != 0 ? <div></div> :<Button onClick={templateStoreProps.loadMore} className="load-more">加载更多</Button>}
 
 				</div>
 
@@ -331,8 +350,8 @@ const TemplateStore = (props) => {
 
 };
 
-function mapSateToProps({ templateStore, vdstyles, vdCtrlTree, vdpm, vdcore }) {
-	return {  templateStore, vdstyles, vdCtrlTree, vdpm, vdcore  };
+function mapSateToProps({ templateStore, vdstyles, vdCtrlTree, vdpm, vdcore, vdanimations, sidebar, UIState }) {
+	return {  templateStore, vdstyles, vdCtrlTree, vdpm, vdcore, vdanimations, sidebar, UIState };
 }
 
 export default connect(mapSateToProps)(TemplateStore);

@@ -15,13 +15,14 @@ const MenuItemGroup = Menu.ItemGroup;
 import { TreeSelect, message } from 'antd';
 const TreeNode = TreeSelect.TreeNode;
 
-import { Form, Input, Cascader, Select, Checkbox, Popconfirm, Radio} from 'antd';
+import { Form, Input, Cascader, Select, Checkbox, Popconfirm, Radio, Table} from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
 
 const Panel = Collapse.Panel;
 const TabPane = Tabs.TabPane;
 const RadioGroup = Radio.Group;
+const Search = Input.Search;
 
 const formItemLayout = {
       nameCol: {
@@ -63,7 +64,12 @@ const Component = (props) => {
 					type: 'vdCollections/setCollectionsItem',
 					payload: {
 						item:{
-							list: []
+							name:'',
+							key: '',
+							url: '',
+							collectionsItemList: [{
+							}],
+							list: [],
 						},
 						index:-1 
 					}
@@ -105,7 +111,13 @@ const Component = (props) => {
 					type: 'vdCollections/setCollectionsItem',
 					payload: {
 						item:{
-							list: []
+							name:'',
+							key: '',
+							url: '',
+							collectionsItemList: [{
+
+							}],
+							list: [],
 						},
 						index:-1 
 					}
@@ -227,7 +239,7 @@ const Component = (props) => {
 				console.log(item)
 
 				if(index == props.vdCollections.collectionsIndex){
-
+					console.log(props.vdCollections.collectionsItem)
 					props.dispatch({
 						type: 'vdCollections/setCollectionsItem',
 						payload: {
@@ -235,11 +247,12 @@ const Component = (props) => {
 							index:-1 
 						}
 					})
+					console.log(props.vdCollections.collectionsItem)
 					collectionsProps.closePopover()
 
 
 				}else{
-
+					console.log(props.vdCollections.collectionsItem)
 					props.dispatch({
 						type: 'vdCollections/setCollectionsItem',
 						payload: {
@@ -247,6 +260,7 @@ const Component = (props) => {
 							index:index
 						}
 					})
+					console.log(props.vdCollections.collectionsItem)
 					collectionsProps.opendPopover()
 
 				}
@@ -385,10 +399,10 @@ const Component = (props) => {
 				})
 
 				props.dispatch({
-						type: 'vdCollections/changeCollectionsItemVisible',
+					type: 'vdCollections/changeCollectionsItemVisible',
 					payload: false
 				})
-
+				console.log(props.vdCollections.collectionsItem)
 				props.dispatch({
 					type: 'vdCollections/setCollectionsItem',
 					payload: {
@@ -418,7 +432,7 @@ const Component = (props) => {
 				})
 
 				if(index == props.vdCollections.collectionsIndex){
-
+					console.log(props.vdCollections.collectionsItem)
 					props.dispatch({
 						type: 'vdCollections/setCollectionsItem',
 						payload: {
@@ -426,14 +440,14 @@ const Component = (props) => {
 							index:-1 
 						}
 					})
-
+					console.log(props.vdCollections.collectionsItem)
 					props.dispatch({
 						type: 'vdCollections/changeItemlistVisible',
 						payload:false
 					})
 
 				}else{
-
+					console.log(props.vdCollections.collectionsItem)
 					props.dispatch({
 						type: 'vdCollections/setCollectionsItem',
 						payload: {
@@ -441,7 +455,7 @@ const Component = (props) => {
 							index:index
 						}
 					})
-
+					console.log(props.vdCollections.collectionsItem)
 					props.dispatch({
 						type: 'vdCollections/changeItemlistVisible',
 						payload:true
@@ -695,8 +709,33 @@ const Component = (props) => {
 
 				
 	})
+
+	const collectionsItemListMap = props.vdCollections.collectionsItem.collectionsItemList.map((listItem, listIndex) => {
+		 return (
+
+				<Row key={listIndex} className="collections-table-list">
+							<Col style={{paddingLeft: "20px"}} span={10}>
+								{listItem.name}
+							</Col>
+							<Col span={3}>
+								{listItem.status}
+							</Col>
+							<Col span={3}>
+							{listItem.created}
+							</Col>
+							<Col span={3}>
+							{listItem.modified}
+							</Col>
+							<Col span={3}>
+							{listItem.published}
+							</Col>
+							<Col span={2}>
+							</Col>
+				</Row>
+		 	)
+	})
 	
-	const collections = props.vdCollections.collections.map((item, index) => {
+	const collectionsItemList = props.vdCollections.collections.map((item, index) => {
 
 		const collectionsPreviewPopover = {
 			content: (
@@ -913,15 +952,84 @@ const Component = (props) => {
 
 		};
 
-		const collectionsListPopover= {
-			title: (
-					<Row>
-					</Row>
+		const collectionsItemListPopover= {
+			title: ( 
+				<div>
+					{ props.vdCollections.itemListPopoverLayout ? 
+						<Row>
+							<Col style={{paddingLeft: "20px"}} span={9}>
+								{props.vdCollections.collectionsItem.name}
+							</Col>
+							<Col span={8}>
+								  <Search placeholder="input search text" style={{ width: "100%" }} onSearch={value => console.log(value)} />
+							</Col>
+							<Col span={2}>
+								<Button className="collections-items-popover-title-setting-btn">
+									<Icon type="setting" /> Settings
+								</Button>
+							</Col>
+							<Col span={4} style={{padding: "0 20px"}}>
+								<Button className="collections-items-popover-title-add-btn">
+									<Icon type="plus" /> New {props.vdCollections.collectionsItem.name}
+								</Button>
+							</Col>
+							<Col span={1}>
+							</Col>
+						</Row> 
+						:
+						<Row>
+							<Col style={{paddingLeft: "10px"}} span={10}>
+								{props.vdCollections.collectionsItem.name}
+							</Col>
+							<Col span={6}>
+								  <Search placeholder="input search text" style={{ width: "100%" }} onSearch={value => console.log(value)} />
+							</Col>
+							<Col span={3} style={{marginLeft: "20px"}}>
+								<Button className="collections-items-popover-title-setting-btn">
+									<Icon type="setting" /> Settings
+								</Button>
+							</Col>
+							<Col span={4} style={{padding: "0 20px"}}>
+								<Button className="collections-items-popover-title-add-btn">
+									<Icon type="plus" /> New {props.vdCollections.collectionsItem.name}
+								</Button>
+							</Col>
+							<Col span={1}>
+							</Col>
+						</Row>
+					}
+				</div>	
 				),
 
 			content: (
-					<div className="collections-items">
-						123
+					<div className="collections-items-popover-max-content">
+						{props.vdCollections.collectionsItem.collectionsItemList != "" ? 
+							<div>
+								<Row className="collections-table-title">
+									<Col style={{paddingLeft: "20px"}} span={10}>
+										NAME
+									</Col>
+									<Col span={3}>
+										STAUS
+									</Col>
+									<Col span={3}>
+									CREATED
+									</Col>
+									<Col span={3}>
+									MODIFIED
+									</Col>
+									<Col span={3}>
+									PUBLISHED
+									</Col>
+									<Col span={2}>
+									</Col>
+								</Row> 
+									{collectionsItemListMap}
+							</div>
+							:
+							<div>
+								
+							</div>}
 					</div>
 				)
 		}
@@ -929,7 +1037,7 @@ const Component = (props) => {
 		return (
 	
 	          <Row   key={index} className="collections-list">
-	          	<Col span={19} onClick={collectionsProps.changeItemlistVisible.bind(this,item,index)}>
+	          	<Col className="collections-icon-and-name" span={19} onClick={collectionsProps.changeItemlistVisible.bind(this,item,index)}>
 	            	<Row>
 	            		<Col span={6}>
 			            	<Icon type="hdd" />
@@ -962,10 +1070,10 @@ const Component = (props) => {
 			            </Col>
 	            	</Row>
 	            </Col>
-				<Popover className="collections-items"
+				<Popover overlayClassName="collections-items-popover"
 				 placement="right"
-				 title={props.vdCollections.collectionsItem.name}
-				 content={collectionsListPopover.content}	
+				 title={collectionsItemListPopover.title}
+				 content={collectionsItemListPopover.content}	
 				 trigger="click" 
 				 visible={props.vdCollections.collectionsItemlistVisible}
 				>
@@ -999,7 +1107,7 @@ const Component = (props) => {
 									<Button onClick={collectionsProps.closePopover} className="collections-header-btn"><Icon type="plus"/></Button>
 								</Tooltip>
 							</Popover>
-							{collections}
+							{collectionsItemList}
 		    			</Panel>
 					</Collapse>
   		</div>
