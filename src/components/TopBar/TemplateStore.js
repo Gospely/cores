@@ -201,9 +201,9 @@ const TemplateStore = (props) => {
 
 														  <div className="template-btn-box">
 															  <Button type="primary" onClick={templateStoreProps.reviewTemplate.bind(this, item)}>预览模板</Button>
-															  {!(!item.visible || item.price == 0) && <Button onClick={templateStoreProps.buytemplate.bind(this, item, index)} type="primary">购买模板</Button>}
+															  {!(!item.visible || item.price == 0 || item.status == 2) && <Button onClick={templateStoreProps.buytemplate.bind(this, item, index)} type="primary">购买模板</Button>}
 															  {
-																  (!item.visible || item.price == 0) ?<Button type="primary" onClick={templateStoreProps.handleCreateTemplate.bind(this, item)}>使用模板</Button> : <Button type="primary" disabled >使用模板</Button>
+																  (!item.visible || item.price == 0 || item.status == 2) ?<Button type="primary" onClick={templateStoreProps.handleCreateTemplate.bind(this, item)}>使用模板</Button> : <Button type="primary" disabled >使用模板</Button>
 															  }
 														  </div>
 

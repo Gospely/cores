@@ -175,7 +175,7 @@ export default {
 			var limit = yield select(state=> state.templateStore.pageSize);
 			console.log(templates);
 			if(templates.length <= 0){
-				templates = yield request('templates/?cur=1&limit=' + limit + '&show=creator_id_name_price_description_type_author_url_src', {
+				templates = yield request('templates/?cur=1&limit=' + limit + '&creator=' + localStorage.user, {
 					method: 'get',
 				});
 				templates = templates.data.fields;
@@ -214,7 +214,7 @@ export default {
 			var types = yield select(state=> state.templateStore.types);
 			var cur = Math.ceil((templates.length + limit) / limit);
 
-			var result = yield request('templates/?cur=' + cur + '&limit=' + limit + '&show=creator_id_name_price_description_type_author_url_src'+ query, {
+			var result = yield request('templates/?cur=' + cur + '&limit=' + limit + '&creator=' + localStorage.user+ query, {
 				method: 'get',
 			});
 			console.log(result);
@@ -260,7 +260,7 @@ export default {
 			});
 			var query = '&likeq=' + value;
 
-			templates = yield request('templates/?cur=1&limit=' + limit + '&show=creator_id_name_price_description_type_author_url_src' + query, {
+			templates = yield request('templates/?cur=1&limit=' + limit + '&creator=' + localStorage.user + query, {
 				method: 'get',
 			});
 			templates = templates.data.fields;
@@ -307,7 +307,7 @@ export default {
 				query = query + '&type=' + type.key;
 			}
 
-			templates = yield request('templates/?cur=1&limit=' + limit + '&show=creator_id_name_price_description_type_author_url_src' + query, {
+			templates = yield request('templates/?cur=1&limit=' + limit + '&creator=' + localStorage.user + query, {
 				method: 'get',
 			});
 			templates = templates.data.fields;
