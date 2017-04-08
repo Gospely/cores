@@ -54,15 +54,22 @@ const leftSidebar = (props) => {
 						name:'',
 						key: '',
 						url: '',
-						collectionsItemList: [{
-						}],
+						collectionsItemList: [],
 						list: [],
 					},
 				index:-1 
 			}
 		});
 		props.dispatch({
+			type: 'vdCollections/changeItemlistVisible',
+			payload:false
+		})
+		props.dispatch({
 			type: 'vdCollections/changeCollectionsItemPreviewVisible',
+			payload: false
+		})
+		props.dispatch({
+			type: 'vdCollections/changeItemListPopoverLayout',
 			payload: false
 		})
 	}

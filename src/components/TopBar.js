@@ -1678,7 +1678,6 @@ const LeftSidebar = (props) => {
 						<Tooltip title={props.sidebar.saveBtn.title}>
 			          		<span>
 			          			<Icon type={props.sidebar.saveBtn.iconType} />
-			          			{props.sidebar.saveBtn.title}
 			          		</span>
 			          	</Tooltip>
 					</Menu.Item>
