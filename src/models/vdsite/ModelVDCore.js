@@ -262,7 +262,7 @@ export default {
 				price = yield select(state => state.vdcore.TemplateSavingModal.price),
 				interaction = yield select(state => state.vdanimations);
 			console.log('TemplateSaving', isFree);
-			if(!isFree){
+			if(isFree){
 				price = 0;
 			}else {
 				if(!isFree && !/^[1-9]\d*(\.\d+)?$/.test(price)){
@@ -278,7 +278,8 @@ export default {
 					return;
 				}
 			}
-			if(name == '' || description == '' || type == '' || price == ''){
+			console.log(name, description, type,price);
+			if(name == '' || description == '' || type == ''){
 				message.error('请完善表单');
 				yield put({
 					type: 'changeTemplateSavingVisible',

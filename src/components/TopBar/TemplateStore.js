@@ -62,7 +62,8 @@ const TemplateStore = (props) => {
 
 			if(props.templateStore.createForm.loading){
 
-				message.error('创建中，无法取消')
+				message.error('创建中，无法取消');
+				return;
 			}
 			props.dispatch({
 				type: 'templateStore/hideCreateTemplate',
