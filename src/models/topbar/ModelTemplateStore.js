@@ -28,6 +28,7 @@ export default {
 		isLoading: false,
 		review: false,
 		create: false,
+		isShow: false,
 		reviewUrl: '',
 		templateAttr:[],
 		tips: '请耐心等待...',
@@ -153,6 +154,11 @@ export default {
 
 			state.available = value;
 			return {...state};
+		},
+		handleShow(state, { payload: value}){
+
+			state.isShow = value;
+			return {...state};
 		}
 	},
 	effects:{
@@ -169,7 +175,7 @@ export default {
 			var limit = yield select(state=> state.templateStore.pageSize);
 			console.log(templates);
 			if(templates.length <= 0){
-				templates = yield request('templates/?cur=1&limit=' + limit + '&show=creator_id_name_price_description_type_author_url_src', {
+				templates = yield request('templates/?cur=1&limit=' + limit + '&creator=' + localStorage.user, {
 					method: 'get',
 				});
 				templates = templates.data.fields;
@@ -189,6 +195,10 @@ export default {
 			yield put({
 				type: 'initLoadingNum'
 			});
+			yield put({
+				type: 'handleShow',
+				payload: false
+			});
 		},
 		*flashTemplates({payload: type}, {call, select, put}){
 
@@ -204,12 +214,24 @@ export default {
 			var types = yield select(state=> state.templateStore.types);
 			var cur = Math.ceil((templates.length + limit) / limit);
 
-			var result = yield request('templates/?cur=' + cur + '&limit=' + limit + '&show=creator_id_name_price_description_type_author_url_src'+ query, {
+			var result = yield request('templates/?cur=' + cur + '&limit=' + limit + '&creator=' + localStorage.user+ query, {
 				method: 'get',
 			});
 			console.log(result);
 			for (var i = 0; i < result.data.fields.length; i++) {
 				templates.push(result.data.fields[i])
+			}
+			console.log(result.data.length);
+			if(result.data.fields.length == 0){
+				yield put({
+					type: 'handleShow',
+					payload: true
+				});
+			}else {
+				yield put({
+					type: 'handleShow',
+					payload: false
+				});
 			}
 			yield put({
 				type: 'hanleLoading',
@@ -238,7 +260,7 @@ export default {
 			});
 			var query = '&likeq=' + value;
 
-			templates = yield request('templates/?cur=1&limit=' + limit + '&show=creator_id_name_price_description_type_author_url_src' + query, {
+			templates = yield request('templates/?cur=1&limit=' + limit + '&creator=' + localStorage.user + query, {
 				method: 'get',
 			});
 			templates = templates.data.fields;
@@ -257,6 +279,10 @@ export default {
 				type: 'setQuery',
 				payload: query,
 			})
+			yield put({
+				type: 'handleShow',
+				payload: false
+			});
 
 		},
 		*setSelectTagValue({payload: type}, {call, select, put}) {
@@ -274,14 +300,14 @@ export default {
 			if(type.key == 'all'){
 
 			}else if(type.key == 'mine'){
-				query = query + '&creator=' + localStorage.user;
+				query = query + '&owner=' + localStorage.user;
 			}else if (type.key == 'free') {
 				query = query + '&price=0';
 			}else {
 				query = query + '&type=' + type.key;
 			}
 
-			templates = yield request('templates/?cur=1&limit=' + limit + '&show=creator_id_name_price_description_type_author_url_src' + query, {
+			templates = yield request('templates/?cur=1&limit=' + limit + '&creator=' + localStorage.user + query, {
 				method: 'get',
 			});
 			templates = templates.data.fields;
@@ -290,7 +316,7 @@ export default {
 				type: 'setTypesAndTemplates',
 				payload: {
 					templates: templates,
-					types: types
+					types: types,
 				}
 			})
 			yield put({
@@ -301,6 +327,10 @@ export default {
 				type: 'setQuery',
 				payload: query,
 			})
+			yield put({
+				type: 'handleShow',
+				payload: false
+			});
 		},
 		*addOrders({payload: params}, {call,select, put}){
 

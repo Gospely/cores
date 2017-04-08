@@ -201,9 +201,9 @@ const TemplateStore = (props) => {
 
 														  <div className="template-btn-box">
 															  <Button type="primary" onClick={templateStoreProps.reviewTemplate.bind(this, item)}>预览模板</Button>
-															  {!(!item.visible || item.price == 0) && <Button onClick={templateStoreProps.buytemplate.bind(this, item, index)} type="primary">购买模板</Button>}
+															  {!(!item.visible || item.price == 0 || item.status == 2) && <Button onClick={templateStoreProps.buytemplate.bind(this, item, index)} type="primary">购买模板</Button>}
 															  {
-																  (!item.visible || item.price == 0) ?<Button type="primary" onClick={templateStoreProps.handleCreateTemplate.bind(this, item)}>使用模板</Button> : <Button type="primary" disabled >使用模板</Button>
+																  (!item.visible || item.price == 0 || item.status == 2) ?<Button type="primary" onClick={templateStoreProps.handleCreateTemplate.bind(this, item)}>使用模板</Button> : <Button type="primary" disabled >使用模板</Button>
 															  }
 														  </div>
 
@@ -339,7 +339,7 @@ const TemplateStore = (props) => {
 							{ props.templateStore.templateAttr.length > 0 ? templateList : <Button className="load-more">暂无数据</Button>}
 						</div>
 					</Spin>
-					{props.templateStore.templateAttr.length == 0 || props.templateStore.templateAttr.length%props.templateStore.pageSize != 0 ? <div></div> :<Button onClick={templateStoreProps.loadMore} className="load-more">加载更多</Button>}
+					{props.templateStore.isShow || props.templateStore.templateAttr.length == 0 || props.templateStore.templateAttr.length%props.templateStore.pageSize != 0 ? <div></div> :<Button onClick={templateStoreProps.loadMore} className="load-more">加载更多</Button>}
 
 				</div>
 
