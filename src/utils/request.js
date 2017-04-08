@@ -63,7 +63,7 @@ function checkResData(data) {
  * @return {object}           An object containing either "data" or "err"
  */
 export default function request(url, options) {
-    if(url.split('?')[0] == 'applications' || url.split('?')[0] == 'applications'){
+    if(url.split('?')[0] == 'applications' || url.split('?')[0] == 'applications' || url.split('?')[0] =='templates' ||  url.split('?')[0] =='vdsite/template'){
         url = configs.baseURL + url;
     }else{
         url = (localStorage.baseURL || configs.baseURL) + url;

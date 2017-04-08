@@ -1,6 +1,9 @@
-const initState = function (props, applicationId) {
+const initState = function (props, applicationId, layout) {
 
     var UIState = JSON.parse(localStorage.UIState);
+    if(layout){
+        UIState = layout;
+    }
     const initStateOperate = {
         'common': function(){
             props.dispatch({
@@ -75,6 +78,15 @@ const initState = function (props, applicationId) {
                     payload: false
                 });
             }, 3000)
+
+            if(layout){
+                props.dispatch({
+                    type: 'UIState/initConfig',
+                    payload: {
+                        id: applicationId
+                    }
+                })
+            }
         }
     };
 

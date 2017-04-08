@@ -2,7 +2,9 @@ import dva from 'dva';
 import VDPackager from '../vdsite/VDPackager.js';
 import { message , notification} from 'antd';
 import request from '../../utils/request.js';
+import initUIState from '../../utils/initUIState'
 import initData from '../../utils/initData'
+
 import uuid from 'node-uuid';
 import _md5 from 'md5';
 import config from '../../configs.js';
@@ -28,11 +30,14 @@ export default {
 		create: false,
 		reviewUrl: '',
 		templateAttr:[],
+		tips: '请耐心等待...',
 		createForm: {
 			name: '',
 			layout: '',
 			loading: false
-		}
+		},
+		available: false,
+		selectId: ''
 	},
 
 	reducers: {
@@ -115,16 +120,15 @@ export default {
 			state.review = false;
 			return {...state};
 		},
-		hideCreateTemplateA(state,{payload: params}){
+		hideCreateTemplate(state,{payload: params}){
 
-			console.log(params);
 			state.create = !state.create;
-			state.createForm.loading = true;
-			if(params){
-				state.createForm.loading = false;
-				state.createForm.layout = params.layout;
-				state.create = true;
-			}
+			return {...state}
+		},
+		handleCreateTemplate(state,{payload: params}){
+
+			state.selectId = params.id;
+			state.create = true;
 			return {...state}
 		},
 		valueChange(state, {payload: value}){
@@ -135,6 +139,19 @@ export default {
 		handleCreatLoading(state, {payload: value}){
 
 			state.createForm.loading = value;
+			if(value = false){
+				state.tips = '请耐心等待...'
+			}
+			return {...state};
+		},
+		handleTips(state, {payload: value}){
+
+			state.tips = value;
+			return {...state};
+		},
+		setProjectNameAvailabel(state, {payload: value}){
+
+			state.available = value;
 			return {...state};
 		}
 	},
@@ -313,6 +330,8 @@ export default {
 					body: JSON.stringify(order)
 				})
 				console.log(result);
+				alipay = result.data.fields.alipay;
+				wechat = result.data.fields.wechat;
 			}else {
 				alipay = result.data.fields[0].alipay;
 				wechat = result.data.fields[0].wechat;
@@ -325,21 +344,30 @@ export default {
 				}
 			})
 		},
-		*hideCreateTemplate({payload: params}, {call, select, put}){
+		*checkProjectAvailable( { payload: params }, { call, put, select }) {
 
-			yield put({
-				type: 'hideCreateTemplateA',
-			})
-			var data = yield request('templates/' + params.id,{
-				method: 'GET'
+			var available = true;
+			var url = 'applications/validator?name=' + params.name + '&userName=' + localStorage.userName + '&creator=' + localStorage.user;
+
+			var result = yield request(url, {
+				method: 'get',
 			});
-			console.log(data);
+			if(result.data.code == 1){
+				available = true;
+			}else{
+				available = false;
+			}
 			yield put({
-				type: 'hideCreateTemplateA',
-				payload: {
-					layout: data.data.fields.content
-				}
-			})
+				type: 'setProjectNameAvailabel',
+				payload: available
+			});
+
+			if(!available) {
+				notification.open({
+					message: params.name + '与已有项目重复，请重新填写'
+				});
+			}
+
 		},
 		*createApp({payload: params}, {call, select, put}){
 			console.log(params);
@@ -347,7 +375,9 @@ export default {
 				type: 'handleCreatLoading',
 				payload: true,
 			})
+
 			var createForm = yield select(state=> state.templateStore.createForm);
+			var selectId = yield select(state=> state.templateStore.selectId);
 			console.log(createForm);
 			var form ={
 				name: createForm.name,
@@ -429,22 +459,47 @@ export default {
 				});
 
 				notification.open({
-					message: '创建应用成功，即将跳转',
+					message: '创建应用成功，即将加加载新项目....',
 					title: '创建应用'
 				});
+
 				window.location.hash = 'project/' + result.data.fields.id;
-				initData(params.ctx, result.data.fields, createForm.layout)
-				//window.location.reload();
+				initData(params.ctx, result.data.fields.id);
+;				//window.location.reload();
+				yield put({
+					type: 'handleTips',
+					payload: '正在初始化应用'
+				})
+				var data = yield request('templates/' + selectId,{
+					method: 'GET'
+				});
+
+				yield put({
+					type: 'handleCreatLoading',
+					payload: false,
+				})
+				yield put({
+					type: 'hideCreateTemplate',
+				})
+
+				yield put({
+					type: 'changeTemplateStoreVisible',
+					payload: false
+				});
+				console.log(data);
+				var UIState = JSON.parse(data.data.fields.content);
+				console.log(UIState);
+				console.log(result.data.fields.id);
+				UIState.applicationId = result.data.fields.id;
+				console.log(UIState);
+				initUIState(params.ctx, result.data.fields.id, UIState);
 
 			}else {
 
 				showConfirm(result.data);
 
 			}
-			yield ({
-				type: 'changeTemplateStoreVisible',
-				payload: false
-			});
+
 			yield put({
 				type: 'handleCreatLoading',
 				payload: false,
