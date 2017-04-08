@@ -258,7 +258,7 @@ const TemplateStore = (props) => {
 		<div className="designer-wrapper">
 			<Modal
 			  title="Gospel |模板商城 "
-              wrapClassName="vertical-center-modal"
+              wrapClassName="template-store-modal"
               visible={props.templateStore.visible}
               wrapClassName="template-wrapper"
               onCancel={templateStoreProps.hide}
