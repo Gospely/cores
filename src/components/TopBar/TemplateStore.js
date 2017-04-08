@@ -59,20 +59,17 @@ const TemplateStore = (props) => {
 			})
 		},
 		hideCreateTemplate(item){
-			console.log(item);
-			if(item && item.id) {
-				props.dispatch({
-					type: 'templateStore/hideCreateTemplate',
-					payload: {
-						id: item.id
-					}
-				})
-			}else {
-				props.dispatch({
-					type: 'templateStore/hideCreateTemplateA',
-				})
-			}
-
+			props.dispatch({
+				type: 'templateStore/hideCreateTemplate',
+			})
+		},
+		handleCreateTemplate(item){
+			props.dispatch({
+				type: 'templateStore/handleCreateTemplate',
+				payload: {
+					id: item.id
+				}
+			})
 		},
 		hideBuytemplate(index) {
 
@@ -184,7 +181,7 @@ const TemplateStore = (props) => {
 															  <Button type="primary" onClick={templateStoreProps.reviewTemplate.bind(this, item)}>预览模板</Button>
 															  {!(!item.visible || item.price == 0) && <Button onClick={templateStoreProps.buytemplate.bind(this, item, index)} type="primary">购买模板</Button>}
 															  {
-																  (!item.visible || item.price == 0) ?<Button type="primary" onClick={templateStoreProps.hideCreateTemplate.bind(this, item)}>使用模板</Button> : <Button type="primary" disabled >使用模板</Button>
+																  (!item.visible || item.price == 0) ?<Button type="primary" onClick={templateStoreProps.handleCreateTemplate.bind(this, item)}>使用模板</Button> : <Button type="primary" disabled >使用模板</Button>
 															  }
 														  </div>
 
@@ -237,6 +234,7 @@ const TemplateStore = (props) => {
 
 	return (
 		<div className="designer-wrapper">
+			<Spin spinning={props.templateStore.createForm.loading} tip={props.templateStore.tips}>
 			<Modal
 			  title="Gospel |模板商城 "
               wrapClassName="vertical-center-modal"
@@ -300,7 +298,6 @@ const TemplateStore = (props) => {
 						footer={null}
 						 wrapClassName="vertical-center-modal"
 					>
-						<Spin spinning={props.templateStore.createForm.loading}>
 							<div style={{ marginTop: 32 }}>
 								<Row>
 									<Col span={4} style={{textAlign: 'right'}}>
@@ -312,7 +309,6 @@ const TemplateStore = (props) => {
 								</Row>
 								 <Button  type="primary" onClick={templateStoreProps.createApp} style={{ marginTop: 32, marginLeft: 200 }}>立即创建</Button>
 							</div>
-							</Spin>
 					</Modal>
 					<Spin spinning={props.templateStore.isLoading}>
 						<div className="template-store-content">
@@ -326,13 +322,14 @@ const TemplateStore = (props) => {
 
 
 			</Modal>
+			</Spin>
 		</div>
 	);
 
 };
 
-function mapSateToProps({ templateStore, vdstyles, vdCtrlTree, vdpm, vdcore }) {
-	return {  templateStore, vdstyles, vdCtrlTree, vdpm, vdcore  };
+function mapSateToProps({ templateStore, vdstyles, vdCtrlTree, vdpm, vdcore, vdanimations, sidebar, UIState }) {
+	return {  templateStore, vdstyles, vdCtrlTree, vdpm, vdcore, vdanimations, sidebar, UIState };
 }
 
 export default connect(mapSateToProps)(TemplateStore);

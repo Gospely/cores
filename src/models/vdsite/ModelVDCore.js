@@ -291,7 +291,7 @@ export default {
 				return;
 			}
 			console.log(types);
-			var struct = VDPackager.pack({layout, pages, css, interaction});
+			var struct = JSON.parse(localStorage.UIState);
 			console.log(name);
 			struct.creator = localStorage.user;
 			struct.name = name;
@@ -601,6 +601,7 @@ export default {
 			state.TemplateSavingModal.description = params.description;
 			state.TemplateSavingModal.type = params.type;
 			state.TemplateSavingModal.isFree = (params.price != 0);
+				state.templateLoading = false;
 			return {...state};
 		}
 	}

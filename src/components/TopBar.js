@@ -373,6 +373,7 @@ const LeftSidebar = (props) => {
 	        },
 
 	        templateStore(){
+
 				props.dispatch({
 					type: 'templateStore/changeTemplateStoreVisible',
 					payload: true
@@ -613,7 +614,7 @@ const LeftSidebar = (props) => {
 				message: '正在删除应用，请稍等……',
 				title: '删除应用'
 			});
-			if(localStorage.applicationId == application){
+			if(localStorage.applicationId == application && localStorage.image != 'vd:site'){
 				localStorage.clear;
 				window.location.hash = '#/'
 				props.dispatch({

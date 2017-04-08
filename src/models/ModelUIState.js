@@ -94,7 +94,7 @@ export default {
 			}
 			console.log('get UIState from server');
 			var config = configs.data.fields[0];
-
+			localStorage.uistateId = configs.data.fields[0].id;
 			var configTobeSaved = {
 				id: configs.data.fields[0].id,
 				configs: localStorage.UIState
