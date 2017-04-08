@@ -136,6 +136,11 @@ const Component = (props) => {
 					type: 'vdCollections/changeCollectionsItemVisible',
 					payload: false
 				})
+
+				props.dispatch({
+					type: 'vdCollections/changeItemlistVisible',
+					payload: false
+				})
 			},
 
 			listIsOpend(index,listIndex,isOpend) {
@@ -197,15 +202,31 @@ const Component = (props) => {
 				})			
 			},
 
+			opendPopover() {
+				props.dispatch({
+					type: 'vdCollections/changeCollectionsItemVisible',
+					payload: true
+				})
+
+				props.dispatch({
+					type: 'vdCollections/changeItemlistVisible',
+					payload: false
+				})
+
+				setTimeout(function() {
+					props.dispatch({
+						type: 'vdCollections/changeCollectionsItemPreviewVisible',
+						payload: true
+					})
+		        }, 1)
+
+			},
+
 			getItem(item, index) {
 
 				console.log(item)
 
 				if(index == props.vdCollections.collectionsIndex){
-					props.dispatch({
-						type: 'vdCollections/changeCollectionsItemVisible',
-						payload: false
-					})
 
 					props.dispatch({
 						type: 'vdCollections/setCollectionsItem',
@@ -214,19 +235,10 @@ const Component = (props) => {
 							index:-1 
 						}
 					})
+					collectionsProps.closePopover()
 
-					console.log('123------',props.vdCollections.collectionsItem)
-					
-					props.dispatch({
-						type: 'vdCollections/changeCollectionsItemPreviewVisible',
-						payload: false
-					})
 
 				}else{
-					props.dispatch({
-						type: 'vdCollections/changeCollectionsItemVisible',
-						payload: true
-					})
 
 					props.dispatch({
 						type: 'vdCollections/setCollectionsItem',
@@ -235,13 +247,8 @@ const Component = (props) => {
 							index:index
 						}
 					})
+					collectionsProps.opendPopover()
 
-					console.log('123+++++',props.vdCollections.collectionsItem)
-
-					props.dispatch({
-						type: 'vdCollections/changeCollectionsItemPreviewVisible',
-						payload: false
-					})
 				}
 			},
 
@@ -318,22 +325,145 @@ const Component = (props) => {
 			},
 
 			listItemAttrValueChange(index,listIndex,attr,e) {
+
+				if(attr == "maxText" || attr == "minText") {
+					props.dispatch({
+						type: 'vdCollections/listItemAttrValueChange',
+						payload: {
+							index:index,
+							listIndex:listIndex,
+							attr:attr,
+							value:e
+						}
+					})
+				}else {
+					props.dispatch({
+						type: 'vdCollections/listItemAttrValueChange',
+						payload: {
+							index:index,
+							listIndex:listIndex,
+							attr:attr,
+							value:e.target.value
+						}
+					})
+				}
+
+			},
+
+			changeAddOptionValueBox() {
 				props.dispatch({
-					type: 'vdCollections/listItemAttrValueChange',
+					type: 'vdCollections/changeAddOptionValueBoxVisible'
+				})
+			},
+
+			addOptionValue(index,listIndex,e){
+
+				if(e.target.value == "" || e.target.value == null){
+					message.error('不能为空');
+     				return;
+				}
+
+				props.dispatch({
+					type: 'vdCollections/addOptionValue',
 					payload: {
 						index:index,
 						listIndex:listIndex,
-						attr:attr,
 						value:e.target.value
 					}
 				})
+
+				props.dispatch({
+					type: 'vdCollections/changeAddOptionValueBoxVisible'
+				})
+			},
+
+			popoveDeleteCollections(index) {
+
+				props.dispatch({
+					type: 'vdCollections/popoveDeleteCollections',
+					payload: index,
+				})
+
+				props.dispatch({
+						type: 'vdCollections/changeCollectionsItemVisible',
+					payload: false
+				})
+
+				props.dispatch({
+					type: 'vdCollections/setCollectionsItem',
+					payload: {
+						item:"",
+						index:-1 
+					}
+				})
+
+				console.log('123------',props.vdCollections.collectionsItem)
+				
+				props.dispatch({
+					type: 'vdCollections/changeCollectionsItemPreviewVisible',
+					payload: false
+				})
+			},
+
+			changeItemlistVisible(item,index) {
+
+				props.dispatch({
+					type: 'vdCollections/changeCollectionsItemPreviewVisible',
+					payload: false
+				})
+
+				props.dispatch({
+					type: 'vdCollections/changeCollectionsItemVisible',
+					payload: false
+				})
+
+				if(index == props.vdCollections.collectionsIndex){
+
+					props.dispatch({
+						type: 'vdCollections/setCollectionsItem',
+						payload: {
+							item:item,
+							index:-1 
+						}
+					})
+
+					props.dispatch({
+						type: 'vdCollections/changeItemlistVisible',
+						payload:false
+					})
+
+				}else{
+
+					props.dispatch({
+						type: 'vdCollections/setCollectionsItem',
+						payload: {
+							item:item,
+							index:index
+						}
+					})
+
+					props.dispatch({
+						type: 'vdCollections/changeItemlistVisible',
+						payload:true
+					})
+
+
+				}
 			}
+
 
 	}
 
+	const collectionsName = props.vdCollections.collections.map((item, index) => {
+			return (
+					<Option key={index} value={item.name}>{item.name}</Option>
+				)
+    })
+
 	const collectionsList = props.vdCollections.collectionsItem.list.map((listItem, listIndex) => {
+
 		if(listItem.type == 'option') {
-			var CollectionsListOption = listItem.value.map((option,optionIndex) => {
+			var CollectionsListOption = listItem.optionValue.map((option,optionIndex) => {
 				return (
 						<div className="collections-list-option-list" key={optionIndex}>
 							{option}
@@ -341,14 +471,25 @@ const Component = (props) => {
 					)
 			})
 		}
+
+		const addOptionValue = (
+				<div>
+
+					{props.vdCollections.addOptionValue ?
+						<div  className="collections-list-option-list">
+								<Input onPressEnter={collectionsProps.addOptionValue.bind(this,props.vdCollections.collectionsIndex,listIndex)} onBlur={collectionsProps.addOptionValue.bind(this,props.vdCollections.collectionsIndex,listIndex)} className="add-option-value-input" placeholder="下拉选项" />
+						</div> 
+						: 
+						<div  className="collections-list-option-list" onClick={collectionsProps.changeAddOptionValueBox}>
+							<a href="javascript:void(0)">
+								<Icon type="plus" /><span>添加下拉选项</span>
+							</a>
+						</div>
+					}
+
+				</div>
+			)
 			
-		const ReferenceOptions = []
-			for(let i =0; i<props.vdCollections.collections.length; i++){
-				ReferenceOptions.push({
-					value:props.vdCollections.collections[i].name,
-					label:props.vdCollections.collections[i].name
-				})
-			}
 		return (
 			<div className="collection-structure-list" 
 				 onMouseMove={collectionsProps.addStyle.bind(this,props.vdCollections.collectionsIndex,listIndex)}
@@ -393,7 +534,7 @@ const Component = (props) => {
 							</div>: <div></div>
 						}
 
-						{listItem.type == "text" ? 
+						{listItem.type == "text" || listItem.type == "textarea" ? 
 							<div style={{marginTop:10, marginBottom:10}}>
 								<Row>
 									<Col span={12}>
@@ -405,10 +546,10 @@ const Component = (props) => {
 								</Row>
 								<Row style={{marginTop:10}}>
 									<Col span={12}>
-									<InputNumber min={0} max={1000} defaultValue={0} style={{width: '85%'}}/>
+									<InputNumber onChange={collectionsProps.listItemAttrValueChange.bind(this,props.vdCollections.collectionsIndex,listIndex,"minText")} min={0} max={1000} defaultValue={0} style={{width: '85%'}}/>
 									</Col>
 									<Col span={12}>
-									<InputNumber min={0} max={1000} defaultValue={0} style={{width: '85%'}}/>
+									<InputNumber onChange={collectionsProps.listItemAttrValueChange.bind(this,props.vdCollections.collectionsIndex,listIndex,"maxText")} min={0} max={1000} defaultValue={0} style={{width: '85%'}}/>
 									</Col>
 								</Row>
 							</div> : <div></div>
@@ -417,11 +558,8 @@ const Component = (props) => {
 						{listItem.type == "option" ?
 							<div className="collections-list-option">
 								{CollectionsListOption}
-								<div className="collections-list-option-list">
-									<a href="javascript:void(0)">
-										<Icon type="plus" /><span>添加下拉选项</span>
-									</a>
-								</div>
+								{addOptionValue}
+
 							</div> : <div></div>
 
 						}
@@ -429,7 +567,10 @@ const Component = (props) => {
 						{listItem.type == "Reference" || listItem.type == "Multi-Reference" ? 
 							<div>
 								  <p>Collection:</p>
-								  <Cascader popupPlacement="bottomLeft" placeholder="选择对应数据集" options={ReferenceOptions}/>	
+								        <Select style={{width: '100%',marginBottom:'10px'}} defaultValue="Option">
+									        <Option value="Option">选择对应数据集</Option>
+									        {collectionsName}
+								        </Select>	
 							</div>  :<div></div>
 						}
 
@@ -764,39 +905,75 @@ const Component = (props) => {
 								 </div>}	
 					</div>
 					<Button type="primary" style={{marginRight:20}}>保存数据集</Button>
-					<Button type="danger">删除数据集</Button>
+					<Popconfirm title="确定要删除这个数据集吗？" onConfirm={collectionsProps.popoveDeleteCollections.bind(this,props.vdCollections.collectionsIndex)} okText="是" cancelText="否">
+						<Button type="danger">删除数据集</Button>
+					</Popconfirm>	
 				</div>
 			)
 
 		};
 
+		const collectionsListPopover= {
+			title: (
+					<Row>
+					</Row>
+				),
+
+			content: (
+					<div className="collections-items">
+						123
+					</div>
+				)
+		}
+
 		return (
-	          <Row key={index} className="collections-list">
+	
+	          <Row   key={index} className="collections-list">
+	          	<Col span={19} onClick={collectionsProps.changeItemlistVisible.bind(this,item,index)}>
+	            	<Row>
+	            		<Col span={6}>
+			            	<Icon type="hdd" />
+			            </Col>
+			            <Col span={18} style={{paddingLeft: '10px'}} >
+			              <p>{item.name}</p>
+			            </Col>
+	            	</Row>
+	            </Col>
+	            
 	            <Col span={4}>
-	            	<Icon type="hdd" />
+	            	<Row>
+	            		<Col span={12}>
+			              <Popconfirm title="确定要删除这个数据集吗？" onConfirm={collectionsProps.deleteCollections.bind(this,item)} okText="是" cancelText="否">
+			                <a href="#">
+			                  <Icon type="delete" />
+			                </a>
+			              </Popconfirm>
+			            </Col>
+			            <Col span={12} onClick={collectionsProps.getItem.bind(this,item,index)}>
+							<Popover className="collections-popover" 
+									 placement="right" title={collectionsPopover.title} 	
+									 content={collectionsPopover.content} 
+									 trigger="click" 
+									 visible={props.vdCollections.collectionsItemVisible}>
+								<a href="#">
+			              			<Icon type="edit"/>
+		              			</a>
+		              		</Popover>
+			            </Col>
+	            	</Row>
 	            </Col>
-	            <Col span={16} style={{paddingLeft: '10px'}} >
-	              <p>{item.name}</p>
-	            </Col>
-	            <Col span={2}>
-	              <Popconfirm title="确定要删除这个数据集吗？" onConfirm={collectionsProps.deleteCollections.bind(this,item)} okText="是" cancelText="否">
-	                <a href="#">
-	                  <Icon type="delete" />
-	                </a>
-	              </Popconfirm>
-	            </Col>
-	            <Col span={2} onClick={collectionsProps.getItem.bind(this,item,index)}>
-					<Popover className="collections-popover" 
-							 placement="right" title={collectionsPopover.title} 	
-							 content={collectionsPopover.content} 
-							 trigger="click" 
-							 visible={props.vdCollections.collectionsItemVisible}>
-						<a href="#">
-	              			<Icon type="edit"/>
-              			</a>
-              		</Popover>
-	            </Col>
-	          </Row>
+				<Popover className="collections-items"
+				 placement="right"
+				 title={props.vdCollections.collectionsItem.name}
+				 content={collectionsListPopover.content}	
+				 trigger="click" 
+				 visible={props.vdCollections.collectionsItemlistVisible}
+				>
+		            <Col span={1}>
+		            </Col>
+                </Popover>
+	         </Row>
+	           
 		)
 	})
 
@@ -825,9 +1002,6 @@ const Component = (props) => {
 							{collections}
 		    			</Panel>
 					</Collapse>
-
-
-
   		</div>
   	);
 

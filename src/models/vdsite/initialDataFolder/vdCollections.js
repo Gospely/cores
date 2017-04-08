@@ -14,6 +14,8 @@ export default {
 			isRequired: false,
 			addStyle:"",
 			addInputStyle:"",
+			maxText:10000,
+			minText:0,
 		},{
 			name: '富文本',
 			icon: 'copy',
@@ -24,6 +26,8 @@ export default {
 			isRequired: false,
 			addStyle:"",
 			addInputStyle:"",
+			maxText:1000,
+			minText:0,
 		},{
 			name: '图片',
 			icon: 'picture',
@@ -94,6 +98,7 @@ export default {
 			isRequired: false,
 			addStyle:"",
 			addInputStyle:"",
+			havingDateComponent:false,
 		},{
 			name: '开关',
 			icon: 'sync',
@@ -120,7 +125,7 @@ export default {
 			isOpend: false,
 			key: '9791',
 			type: 'option',
-			value: [
+			optionValue: [
 					'value1','value2'
 				],
 			helpText: '',

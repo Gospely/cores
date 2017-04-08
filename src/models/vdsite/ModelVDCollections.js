@@ -34,15 +34,17 @@ export default {
 		newCollectionsName:"",
 		listTypeIsOpend: false,
 		collectionsItem: {
-			name:'',
-			key: '',
-			url: '',
+			name:'1',
+			key: '2',
+			url: '3',
 			list: []
 		},
 		collectionsIndex: '-1',
 		collectionsItemVisible: false,
 		collectionsItemPreviewVisible: false,
 		newCollectionsPopoverVisible: false,
+		collectionsItemlistVisible: false,
+		addOptionValue:false,
 		addStyle:"",
 		addInputStyle:"",
 	},
@@ -56,6 +58,26 @@ export default {
 		}
 	},
 	reducers: {
+		changeItemlistVisible (state, {payload:params}) {
+			if(params == undefined) {
+				state.collectionsItemlistVisible = !state.collectionsItemlistVisible
+			}else {
+				state.collectionsItemlistVisible = params
+			}
+			return {...state}
+		},
+		popoveDeleteCollections(state, {payload:index}){
+			state.collections.splice(index, 1);
+			return {...state}
+		},
+		addOptionValue(state, {payload:params}){
+			state.collections[params.index].list[params.listIndex].optionValue.push(params.value)
+			return {...state}
+		},
+		changeAddOptionValueBoxVisible(state){
+			state.addOptionValue = !state.addOptionValue
+			return {...state}
+		},
 		listItemAttrValueChange(state, {payload:params}) {
 			state.collections[params.index].list[params.listIndex][params.attr] = params.value
 			return {...state}
@@ -110,7 +132,9 @@ export default {
 		},
 
 		setCollectionsItem(state, {payload: params}) {
-			state.collectionsItem = params.item;
+			if(params.item != "") {
+				state.collectionsItem = params.item;
+			}
 			state.collectionsIndex = params.index;
 			console.log("+++----",state.collectionsItem)
 			return {...state}
@@ -168,37 +192,64 @@ export default {
         },
 
         addCollectionsList(state, {payload: params}) {
-        	let newOptionCollectionsList = {
-        		name: 'newList',
-				icon: params.icon,
-				isOpend: false,
-				key: randomString(8, 10),
-				label: '',
-				type: params.type,
-				helpText: '',
-				isRequired: false,
-				value:[],
-				addStyle:"",
-				addInputStyle:"",
-        	}
-
-        	let newCollectionsList = {
-        		name: 'newList',
-				icon: params.icon,
-				isOpend: false,
-				key: randomString(8, 10),
-				label: '',
-				type: params.type,
-				helpText: '',
-				isRequired: false,
-				addStyle:"",
-				addInputStyle:"",
-        	}
 
         	if(params.type == 'option') {
-				state.collectionsItem.list.push(newOptionCollectionsList);
-        	}else {
-				state.collectionsItem.list.push(newCollectionsList);
+				state.collectionsItem.list.push({
+								        		name: 'newList',
+												icon: params.icon,
+												isOpend: false,
+												key: randomString(8, 10),
+												label: '',
+												type: params.type,
+												helpText: '',
+												isRequired: false,
+												optionValue:[],
+												addStyle:"",
+												addInputStyle:"",
+								        	});
+        	}else if(params.type == 'text' || params.type == 'textarea'){
+				state.collectionsItem.list.push({
+								        		name: 'newList',
+												icon: params.icon,
+												isOpend: false,
+												key: randomString(8, 10),
+												label: '',
+												type: params.type,
+												helpText: '',
+												isRequired: false,
+												addStyle:"",
+												addInputStyle:"",
+												maxText:1000,
+												minText:0,
+								        	});
+        	}else if(params.type == 'date'){
+        		state.collectionsItem.list.push({
+								        		name: 'newList',
+												icon: params.icon,
+												isOpend: false,
+												key: randomString(8, 10),
+												label: '',
+												type: params.type,
+												helpText: '',
+												isRequired: false,
+												addStyle:"",
+												addInputStyle:"",
+												havingDateComponent:false,
+								        	});
+						
+        	}else{
+				state.collectionsItem.list.push({
+								        		name: 'newList',
+												icon: params.icon,
+												isOpend: false,
+												key: randomString(8, 10),
+												label: '',
+												type: params.type,
+												helpText: '',
+												isRequired: false,
+												addStyle:"",
+												addInputStyle:"",
+								        	});
         	}
         	
         	return {...state}
