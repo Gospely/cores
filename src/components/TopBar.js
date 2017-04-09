@@ -607,12 +607,13 @@ const LeftSidebar = (props) => {
 
 	    confirmDeleteApp(application) {
 			window.disabled = true;
-			localStorage.image = '';
 			notification.open({
 				message: '正在删除应用，请稍等……',
 				title: '删除应用'
 			});
-			if(localStorage.applicationId == application && localStorage.image != 'vd:site'){
+			console.log(localStorage.applicationId);
+			console.log(application);
+			if(localStorage.applicationId == application){
 				localStorage.clear;
 				window.location.hash = '#/'
 				props.dispatch({
@@ -623,6 +624,14 @@ const LeftSidebar = (props) => {
 				type: 'sidebar/deleteApp',
 				payload: {application}
 			});
+
+			if(localStorage.image == 'vd:site'){
+
+				props.dispatch({
+					type: 'sidebar/setActiveMenu',
+					payload: 'vdsite-controllers'
+				});
+			}
 	    },
 
 	    cancelDeleteApp() {

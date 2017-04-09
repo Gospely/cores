@@ -65,7 +65,7 @@ const vdanimationActions = {
 					let currentVdid = scrollAnimations[i].currentVdid;
 					let animate = scrollAnimations[i].animate;
 					let duration = scrollAnimations[i].duration;
-					
+
 					for(let j = 0; j < currentVdid.length; j ++) {
 
 						scriptText += `\n		var elem${j} = jQuery('[vdid="${currentVdid[j]}"]');
@@ -81,20 +81,20 @@ const vdanimationActions = {
 					}
 					scriptText += `\n	});`;
 				}
-				
+
 			}
 		}
 
 		for(let i = 1; i < state.interactions.length; i ++) {
 			let currentInteraction = state.interactions[i];
-			
+
 			let currentVdid = currentInteraction.vdid
 
 			if (currentVdid.length !== 0) {
 				handlers[currentInteraction.condition](currentVdid, currentInteraction.animate, currentInteraction.duration);
-				
+
 			}
-			
+
 		}
 
 		if(scrollAnimations.length) {
@@ -215,7 +215,7 @@ export default {
 	      		});
 	      	});
 		}
-	},	
+	},
 
 	reducers: {
 
@@ -234,7 +234,7 @@ export default {
 			state.interactionCreator = params.UIState.interactionCreator;
 			state.animations = params.UIState.animations;
 			state.scriptText = params.UIState.scriptText;
-			
+
 			return {...state};
 		},
 		applyScriptIntoPage(state) {
@@ -368,7 +368,7 @@ export default {
 			let deleteCtrl = params.deleteParentInfo.controller;
 			let deleteAnimationKey = deleteCtrl.animationClassList[0].key;
 			let interactions = state.interactions;
-			
+
 			if (deleteAnimationKey !== 'none') {
 
 				for(let i = 0, len = interactions.length; i < len; i ++) {
@@ -412,7 +412,7 @@ export default {
 					script += `\n	jQuery('[vdid="${deleteAnimation.vdid[i]}"]').off('mouseleave' ,animationTrigger);`
 				}
 			}
-			
+
 			script += vdanimationActions.writeScript(state);
 
 			window.VDDesignerFrame.postMessage({
@@ -469,7 +469,7 @@ export default {
 					break;
 				}
 			}
-			
+
 			let prevVdids = prevActiveInteraction.vdid;
 			let prevIndex = prevVdids.indexOf(ctrlVdid);
 			let prevCondition = prevActiveInteraction.condition;
@@ -488,18 +488,18 @@ export default {
 
 				prevVdids.splice(prevIndex, 1);
 			}
-			
+
 			state.activeInteractionIndex = params.interactionIndex;
 			state.interactions[state.activeInteractionIndex].vdid.push(ctrlVdid);
-			
+
 			scriptText += vdanimationActions.writeScript(state);
-			
+
 			window.VDDesignerFrame.postMessage({
 				applyScriptIntoPage: scriptText
 			}, "*");
 
 			state.scriptText = scriptText;
-			
+
 			return {...state};
 		}
 
