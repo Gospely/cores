@@ -126,14 +126,12 @@ const Component = (props) => {
   };
 
   const setVDDnddata = (data) => {
-    console.log('setVDDnddata====', data);
     window.VDDnddata = data;
   }
 
   const symbols = () => {
 
     var sys = props.vdCtrlTree.symbols.map((item, index) => {
-        console.log(props.vdCtrlTree.symbols);
       return (
         <Menu.Item key={index} className="symbols-ctrl" onMouseDown={setVDDnddata(item.controllers)}>
           <Row>
@@ -159,7 +157,6 @@ const Component = (props) => {
     });
 
     const onSymbolMenuSelect = ({ item, key, selectedKeys }) => {
-      console.log(item, key, selectedKeys);
     }
 
     return(

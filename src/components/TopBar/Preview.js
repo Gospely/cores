@@ -23,7 +23,6 @@ const Preview = (props) => {
     },
 
     hideSpin () {
-      console.log('onload');
       props.dispatch({
         type: 'preview/hideSpin',
         payload: false

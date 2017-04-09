@@ -72,7 +72,6 @@ const Component = (props) => {
     				}
     			});
     		}
-     //        console.log('}}}}}}}}}}}}}}}')
     	// 	if(edit) {
     	// 		setTimeout(function() {
 					// $('#animate-previewer').animateCss(interactions[props.vdanimations.activeInteractionIndex].animate);

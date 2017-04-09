@@ -184,7 +184,7 @@ const leftSidebar = (props) => {
 	    	sidebarMenu = (
 	    		<TabPane style={styles.tab}
 	    			tab={<span id="vdsiteCtrlBtn" style={styles.span}>
-	    				<Icon style={styles.icon} type="plus" />控件
+	    				<Icon style={styles.icon} type="inbox" />控件
 	    			</span>} key="vdsite-controllers"
 	    			disabled={window.disabled}
 	    		>

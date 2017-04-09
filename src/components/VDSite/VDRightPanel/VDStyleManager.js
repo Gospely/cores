@@ -40,8 +40,6 @@ const Component = (props) => {
 
  			const edit = () => {
 
-                console.log('edit classs');
-                console.log(styleName);
 	 			props.dispatch({
 	 				type: 'vdstyles/editStyleName',
 	 				payload: {

@@ -42,7 +42,6 @@ const Component = (props) => {
 		},
 		visibleChange(e){
 			// setTimeout(function(){
-			// 	console.log('key' + localStorage.popoverKey);
 			// 	if(localStorage.popoverKay == props.vdpm.currentActivePageListItem && !props.vdpm.pageManager.updatePopoverVisible){
 			// 		props.dispatch({
 			// 			type: 'vdpm/handleUpdatePopoverVisible',

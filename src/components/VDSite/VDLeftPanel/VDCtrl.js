@@ -51,7 +51,7 @@ const Component = (props) => {
 									    	<Col key={ctrl.key} span={8}>
 									    		<div className="anticons-list-item" onMouseDown={VDControllersProps.onSelect.bind(this, ctrl)}>
 									    			<span dangerouslySetInnerHTML={{__html: ctrl.icon}}></span>
-									    			<div style={{transform: 'none', '-webkit-transform': 'none', '-ms-transform': 'none'}} className="anticon-class">{ctrl.name}</div>
+									    			<div className="anticon-class vdctrl-anticon-class">{ctrl.name}</div>
 									    		</div>
 									    	</Col>
 										);
