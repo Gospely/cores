@@ -299,7 +299,8 @@ export default {
 			struct.price = price;
 			struct.application = localStorage.applicationId;
 			struct.src = src;
-			struct.url = 'http://' + localStorage.domain
+			struct.userName = localStorage.userName;
+			struct.url = 'http://' + localStorage.domain;
 			//struct.type = 'custom';
 			var packResult = yield request('vdsite/template', {
 				method: 'POST',
