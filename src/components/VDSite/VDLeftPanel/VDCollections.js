@@ -8,6 +8,9 @@ import { Popover, notification } from 'antd';
 
 import { Row, Col, Dropdown } from 'antd';
 
+import { Editor } from 'react-draft-wysiwyg';
+import '../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+
 import { Menu } from 'antd';
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
@@ -984,6 +987,34 @@ const Component = (props) => {
 			)
 
 		};
+
+		const collectionsItemListContentPreivewContent = props.vdCollections.collectionsItemListContent.content.map((item, index) => {
+
+			if(item.type == "text") {
+				return (
+					<div className="content-list" key={index}>
+						<p>{item.name} :</p>
+						<div className="collections-help-text">{item.helpText}</div>
+						<Input />
+					</div>
+				)
+			}
+
+			if(item.type == "textarea") {
+				return (
+					<div className="content-list" key={index}>
+						<p>{item.name}</p>
+						<div className="collections-help-text">{item.helpText}</div>
+						<Editor 
+							editorClassName="collections-editor"
+							toolbarClassName="collections-editor-toolbar"
+							locale="zh"
+						/>
+					</div>
+				)
+			}
+			
+		})
 		const collectionsItemListContentPreivewPopover = {
 			title: (
 					<Row>
@@ -1010,6 +1041,12 @@ const Component = (props) => {
 
 			content: (
 					<div className="collections-Item-List-Content-Preivew-Popover-content">
+						<div className="content-list">
+							<p style={{marginBottom: "15px"}}>名称 :</p>
+							<Input style={{marginBottom: "15px"}} />
+							<Tag><Icon type="link" />http://{props.vdCollections.collectionsItem.name}</Tag>
+						</div>
+						{collectionsItemListContentPreivewContent}
 					</div>
 				)
 

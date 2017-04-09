@@ -25,14 +25,18 @@ const VDRightPanel = (props) => {
 
   flag = true;
 
-  const onChange = (key) => {
-
+  const onChange = (key) => { 
     props.dispatch({
       type: 'vdcore/changeTabsPane',
       payload: {
         activeTabsPane: key,
         linkTo: false,
       }
+    });
+
+    props.dispatch({
+      type: 'vdstyles/changeVDStylePaneSpinActive',
+      payload: false,
     });
 
     if (key == 'controllers') {
@@ -69,8 +73,6 @@ const VDRightPanel = (props) => {
             </Tooltip>} key='style'>
               <VDStylePanel></VDStylePanel>
           </TabPane>
-
-
           <TabPane tab={
             <Tooltip placement="bottom" title="组件设置">
               <Icon type="setting" />
