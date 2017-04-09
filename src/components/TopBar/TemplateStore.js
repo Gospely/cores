@@ -73,7 +73,7 @@ const TemplateStore = (props) => {
 			props.dispatch({
 				type: 'templateStore/handleCreateTemplate',
 				payload: {
-					id: item.id
+					item: item
 				}
 			})
 		},

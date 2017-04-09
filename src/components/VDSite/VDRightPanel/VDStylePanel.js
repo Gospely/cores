@@ -2319,6 +2319,18 @@ const VDStylePanel = (props) => {
 		}
 
 		const typoPanel = () => {
+
+			const fonts = ['Georgia', 'Impact', 'Verdana', 'Trebuchet MS', '微软雅黑', 
+							'宋体', '黑体', 'Arial', 'Arial Black', 'Arial Narrow', 'Comic Sans MS', 'Tahoma', 
+							'Time News Roman', 'Courier', 'Courier New', 
+							'Hei', 'Monaco', 'simhei', 'MingLiU', 'PMingLiU', 'MS UI Gothic', 'Lucida Sans Unicode', 
+							'Lucida Console', 'Garamond', 'MS Sans Serif', 'MS Serif', 'Palatino Linotype', 'Symbol',
+							'Bookman Old Style'];
+			const generatFontOption = (fonts) => {
+				return fonts.map((font) => ((<Option key={font} value={font}>{font}</Option>)));
+			}
+
+
 			return (
 		    <Panel header="字体" key="typo">
 		    	<Row>
@@ -2335,7 +2347,7 @@ const VDStylePanel = (props) => {
 								)
 							}>
 	        				    <Select size="small" value="选择字体" value={activeCSSStyleState['font-family']} onChange={handleStylesChange.bind(this, 'font-family')}>
-					      			<Option key="sss" value="h1">h1</Option>
+					      			{generatFontOption(fonts)}
 					    		</Select>
 							</FormItem>
 				      	</Form>
