@@ -495,13 +495,16 @@ export default {
 
 				window.location.hash = 'project/' + result.data.fields.id;
 				initData(params.ctx, result.data.fields.id);
+				debugger;
 				yield request('vdsite/static?creator=' + localStorage.user + '&template=' + selectId.application +'&folder=' + result.data.fields.docker.replace('gospel_project_', '') + '&host=' + localStorage.host ,{
 					method: 'GET'
 				});
 				//window.location.reload();
-				props.dispatch({
-	                type: 'sidebar/getDomains'
-	            })
+				localStorage.applicationId = result.data.fields.id;
+				var domains = yield request("domains/?application=" + result.data.fields.id, {
+					method: 'GET',
+				});
+				localStorage.domain = domains.data.fields[0].subDomain + '.' + domains.data.fields[0].domain;
 
 				yield put({
 					type: 'handleTips',
