@@ -61,7 +61,6 @@ app.use({
 			console.log('flashState');
 			var state = app._store.getState();
 			var UIState = packUIStage(state);
-			console.log(state.vdCtrlTree.activeCtrl);
 			var state = {
 				applicationId: localStorage.applicationId,
 				UIState: UIState,

@@ -156,7 +156,11 @@ const LeftSidebar = (props) => {
 	        'switch'() {
 
 	        	// if(location.hash.indexOf('project') != -1) {
-
+				console.log(props.vdcore.loading);
+				if(props.vdcore.loading){
+					message.error('项目加载中,不能切换')
+					return;
+				}
 				props.dispatch({
 	            	type: 'sidebar/showModalSwitchApp'
 	          	});
