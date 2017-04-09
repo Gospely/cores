@@ -58,7 +58,6 @@ export default {
 		},
 		changeBuyTemplateVisible(state, { payload: params}) {
 
-			console.log(params);
 			state.templateAttr[params.index].buyTemplateVisible = params.visible
 			return {...state}
 		},
@@ -78,15 +77,11 @@ export default {
 		},
 		hanleLoading(state, {payload: value}){
 
-			console.log('isLoading');
-			console.log(value);
 			state.isLoading = value;
 			return {...state};
 		},
 		setTypesAndTemplates(state, {payload: params}){
 
-			console.log('setTypesAndTemplates');
-			console.log(params);
 			for (var i = 0; i < params.templates.length; i++) {
 				if(params.templates[i].creator == localStorage.user){
 					params.templates[i].visible = false;
@@ -94,7 +89,6 @@ export default {
 					params.templates[i].visible = true;
 				}
 			}
-			console.log(params);
 			state.templateAttr =  params.templates;
 			state.types = params.types;
 			return {...state};
@@ -111,7 +105,6 @@ export default {
 		},
 		reviewTemplate(state, {payload: params}){
 
-			console.log(params);
 			state.review = true;
 			state.reviewUrl = params.src || params.url;
 			return {...state};
@@ -173,7 +166,6 @@ export default {
 			});
 			var templates = yield select(state=> state.templateStore.templateAttr);
 			var limit = yield select(state=> state.templateStore.pageSize);
-			console.log(templates);
 			if(templates.length <= 0){
 				templates = yield request('templates/?cur=1&limit=' + limit + '&creator=' + localStorage.user, {
 					method: 'get',
@@ -217,11 +209,9 @@ export default {
 			var result = yield request('templates/?cur=' + cur + '&limit=' + limit + '&creator=' + localStorage.user+ query, {
 				method: 'get',
 			});
-			console.log(result);
 			for (var i = 0; i < result.data.fields.length; i++) {
 				templates.push(result.data.fields[i])
 			}
-			console.log(result.data.length);
 			if(result.data.fields.length == 0){
 				yield put({
 					type: 'handleShow',
@@ -287,7 +277,6 @@ export default {
 		},
 		*setSelectTagValue({payload: type}, {call, select, put}) {
 
-			console.log(type);
 			yield put({
 				type: 'hanleLoading',
 				payload: true
@@ -311,7 +300,6 @@ export default {
 				method: 'get',
 			});
 			templates = templates.data.fields;
-			console.log(templates);
 			yield put({
 				type: 'setTypesAndTemplates',
 				payload: {
@@ -340,7 +328,6 @@ export default {
 			});
 			var alipay = '',
 				wechat = '';
-			console.log(result);
 
 			if(result.data.fields.length < 1){
 				var order = {
@@ -359,7 +346,6 @@ export default {
 					method: 'POST',
 					body: JSON.stringify(order)
 				})
-				console.log(result);
 				alipay = result.data.fields.alipay;
 				wechat = result.data.fields.wechat;
 			}else {
@@ -400,7 +386,6 @@ export default {
 
 		},
 		*createApp({payload: params}, {call, select, put}){
-			console.log(params);
 			yield put({
 				type: 'handleCreatLoading',
 				payload: true,
@@ -408,7 +393,6 @@ export default {
 
 			var createForm = yield select(state=> state.templateStore.createForm);
 			var selectId = yield select(state=> state.templateStore.selectId);
-			console.log(createForm);
 			var form ={
 				name: createForm.name,
 				git: '',
@@ -526,14 +510,9 @@ export default {
 					type: 'changeTemplateStoreVisible',
 					payload: false
 				});
-				console.log(data);
 				data.data.fields.content = data.data.fields.content.replace(new RegExp(selectId.url, 'gm'), 'http://' + localStorage.domain);
-				console.log(data.data.fields);
 				var UIState = JSON.parse(data.data.fields.content);
-				console.log(UIState);
-				console.log(result.data.fields.id);
 				UIState.applicationId = result.data.fields.id;
-				console.log(UIState);
 				initUIState(params.ctx, result.data.fields.id, UIState);
 
 			}else {

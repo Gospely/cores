@@ -37,9 +37,6 @@ const TemplateSaving = (props) => {
 
   },
     onChange(s,e){
-
-        console.log(e);
-        console.log(s);
         var value = e.target ? e.target.value: e;
         props.dispatch({
             type: 'vdcore/changeTemplateSavingState',
