@@ -1004,6 +1004,17 @@ const Component = (props) => {
 				)
 			}
 			
+			if(item.type == "image") {
+				return (
+					<div className="content-list" key={index}>
+						<p>{item.name} :</p>
+						<div className="collections-help-text">{item.helpText}</div>
+						<Input />
+					</div>
+				)
+			}
+
+			
 		})
 		const collectionsItemListContentPreivewPopover = {
 			title: (
