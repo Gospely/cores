@@ -7,7 +7,6 @@ const initData = function (props, application, layout) {
             initState(props, application);
         },
         'vd': function(){
-            console.log('vd');
             props.dispatch({
                 type: 'vdpm/getInitialData',
             });
@@ -29,7 +28,6 @@ const initData = function (props, application, layout) {
         }
     };
 
-    console.log('initData');
     if(initDataOperate[localStorage.image.split(':')[0]]){
         initDataOperate[localStorage.image.split(':')[0]]();
     }else {

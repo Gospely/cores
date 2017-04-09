@@ -1012,7 +1012,6 @@ export default {
 
 		initState(state, { payload: params}){
 
-			console.log(params);
 			state.backgroundSetting = params.UIState.backgroundSetting || state.backgroundSetting;
 			state.cssStyleList = params.UIState.cssStyleList || state.cssStyleList;
 			state.boxShadow = params.UIState.boxShadow || state.boxShadow;

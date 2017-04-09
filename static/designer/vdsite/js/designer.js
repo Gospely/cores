@@ -104,13 +104,11 @@ $(function() {
 				// jq("#VDDesignerContainer").find("*").each(function () {
 				// 	var $this = jq(this);
 				// 		if (this.className.indexOf(specialClassName) !== -1) {
-				// 			console.log('remove')
 				// 			// $this.removeClass('illegalArea');
 				// 			// $this.find('*').removeClass('illegalArea');
 				// 	}
 				// })
 				// var parent = guideHidden.parent();
-				// console.log(parent)
 				// drawCanvas(parent.offset().left, parent.offset().top, parent.outerWidth(), parent.outerHeight());
 
 				if (parentClass.indexOf(specialClassName) === -1 || specialTag.indexOf(parentTag) === -1) {
@@ -486,7 +484,6 @@ $(function() {
 
                 var evtAction = {
                     ctrlTreeGenerated: function() {
-                    	console.log('ctrlTreeGenerated');
                         var elem = new ElemGenerator(data.controller);
                         var elemToAdd = jq(elem.createElement());
                         dndData.elemToAdd = elemToAdd;
@@ -501,21 +498,15 @@ $(function() {
                     },
 
                     uploadImgRefreshed: function(){
-                    	console.log(data);
-                    	console.log(data.activeCtrl.vdid);
-
                     	jq('[vdid="'+ data.activeCtrl.vdid + '"]').attr('src', data.url);
                     },
 
                     VDAttrRefreshed: function() {
                         controllerOperations.refreshCtrl(data.activeCtrl, data.attr, data.attrType);
-						console.log('VDAttrRefreshed');
                         controllerOperations.select(data.activeCtrl, true);
                     },
 
                     applyCSSIntoPage: function() {
-
-						console.log('applyCSSIntoPage');
                         pageOperations.applyCSS(data.cssText);
 
                         if (data.activeCtrl.tag) {
@@ -528,22 +519,18 @@ $(function() {
                     },
 
 					VDChildrenDelete: function(){
-						console.log('delete children');
 						controllerOperations.deleteChildren(data.activeCtrl, data.attrType);
 					},
 
 					VDChildrenAdd: function(){
-						console.log('add children');
 						controllerOperations.addChildren(data.activeCtrl, data.attrType);
 					},
 
 					VDChildrenUpdate: function(){
-						console.log('update children');
 						controllerOperations.updateChildren(data.activeCtrl, data.attrType);
 					},
 
                     pageSelected: function() {
-                    	console.log('======pageSelected', data);
                     	var VDDesignerContainer = jq('#VDDesignerContainer');
                        	VDDesignerContainer.html('');
                         controllerOperations.hideDesignerDraggerBorder();
@@ -585,7 +572,6 @@ $(function() {
                     },
 
                     VDCtrlSelected: function() {
-						console.log('VDCtrlSelected');
                         controllerOperations.select(data, true);
                     },
 
@@ -660,7 +646,6 @@ $(function() {
                         	var parent = jq("[vdid=" + data.activeCtrlVdid + "]");
                         	parent[data.type](elemToAdd);
                         }
-						console.log('ctrlDataPasted');
                         controllerOperations.select(data.controller);
                         controllerOperations.changeContainerHeight();
 
@@ -772,7 +757,6 @@ $(function() {
 				elem.removeClass(attr.remove);
 				elem.addClass(attr.replacement);
 				if (attr.needSelect) {
-					console.log('replaceClass');
 					controllerOperations.showDesignerDraggerBorder(dndData.dragElem);
 				}
 
@@ -818,7 +802,6 @@ $(function() {
 			//将要设置为active的children
 			changeActive: function(activeCtrl , attr){
 
-				console.log('changeActive');
 				var elem = jq('[vdid='+ attr.parent + ']');
 				var childrens = elem.children('.active');
 				if(attr.type == 'tab'){
@@ -935,8 +918,6 @@ $(function() {
 
             select: function(data, notPostMessage) {
 
-				console.log(new Date().getTime());
-				console.log(data);
             	jq("#vdRightClickMenu").hide();
 				if(data) {
 
@@ -947,7 +928,6 @@ $(function() {
 
                     notPostMessage = notPostMessage || false;
                     var currentCtrl = jq('[vdid=' + data.vdid + ']');
-					console.log('select');
 	                controllerOperations.showDesignerDraggerBorder(currentCtrl);
                     if(data.isFromCtrlTree) {
                         data = currentCtrl.data('controller');
@@ -974,9 +954,6 @@ $(function() {
             	if (jq(window).height() - e.pageY < menu.outerHeight()) {
             		//top = jq(window).height() - menu.outerHeight() - 10 + jq(window).scrollTop();
             		top = e.pageY;
-            		console.log(jq(window).height());
-            		console.log(menu.outerHeight());
-            		console.log(jq(window).scrollTop());
             	}
             	menu.css({
             		display: 'block',
@@ -1087,7 +1064,6 @@ $(function() {
             //     key: ''
             // });
 
-            // console.log('点击事件')
             jq("#vdRightClickMenu").hide();
 
         });
@@ -1292,7 +1268,6 @@ $(function() {
         		let handler = function () {
 
         			dndData.isMouseDown = false;
-					console.log('onDrop');
         			controllerOperations.showDesignerDraggerBorder(dragElem);
         			// jq("#VDDesignerContainer").find("*").removeClass('illegalArea');
         			// jq("#VDDesignerContainer").removeClass('illegalArea');
@@ -1325,7 +1300,6 @@ $(function() {
 
         			dndData.isMouseDown = false;
         			dndData.errorMessage = '非法位置';
-					console.log('hasClass');
         			controllerOperations.showDesignerDraggerBorder(dragElem);
         			// jq("#VDDesignerContainer").find("*").removeClass('illegalArea');
         			// jq("#VDDesignerContainer").removeClass('illegalArea');
@@ -1554,8 +1528,6 @@ $(function() {
 	                                    }
 									}
 
-								console.log(attr);
-
 								attrValue = getAttrValue(attrValue, this.controller.attrs[0].activeLinkType);
 
 	                            if(attrValue) {
@@ -1760,7 +1732,6 @@ $(function() {
 
             listenClick: function() {
 
-				// console.log(new Date().getTime());
                 var self = this;
                 this.elem.click(function(e) {
 

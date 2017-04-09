@@ -35,7 +35,6 @@ $.fn.extend({
     }
 });
 
-console.log(document);
 // 1. 认证和状态同步
 auth();
 localStorage.flashState = 'false';
@@ -45,7 +44,6 @@ const app = dva({
 	initialState: {},
 
 	onError(e) {
-		console.log(e);
 	  	message.error(e.message);
 	}
 });

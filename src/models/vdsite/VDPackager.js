@@ -120,7 +120,6 @@ var VDPackager = {
 	},
 
 	compileScripts (params) {
-		console.log(params.interaction.scriptText)
 		return this.htmlTpl.scripts + params.interaction.scriptText;
 	},
 

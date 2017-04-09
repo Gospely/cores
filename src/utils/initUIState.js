@@ -34,8 +34,6 @@ const initState = function (props, applicationId, layout) {
                 type: 'vdpm/initState',
                 payload: { UIState: UIState.UIState.vdpm }
             });
-            console.log('vdCtrlTree/initState');
-            console.log('vdstyles/initState');
             props.dispatch({
                 type: 'vdstyles/initState',
                 payload: { UIState: UIState.UIState.vdstyles }
@@ -44,7 +42,6 @@ const initState = function (props, applicationId, layout) {
                 type: 'vdCtrlTree/initState',
                 payload: { UIState: UIState.UIState.vdCtrlTree }
             });
-            console.log('vdcore/initState');
             props.dispatch({
                 type: 'vdcore/initState',
                 payload: { UIState: UIState.UIState.vdcore }
@@ -67,7 +64,6 @@ const initState = function (props, applicationId, layout) {
                     activeCtrl: props.vdCtrlTree.activeCtrl
                 }
             });
-            console.log('handleLoading');
 
             if(window.frames["vdsite-designer"]){
                 window.frames["vdsite-designer"].location.reload();

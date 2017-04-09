@@ -55,13 +55,11 @@ export default {
       return {...state};
     },
     hideSpin(state, { payload: params}) {
-      console.log('hideSpin');
       state.spinVisible = params;
       return {...state};
     },
 
     showPreview(state) {
-      console.log(state.src);
       state.visible = true;
       sessionStorage.previewVisibe = true;
       return {...state};
@@ -90,8 +88,6 @@ effects:{
             interaction = yield select(state => state.vdanimations);
 
         var struct = VDPackager.pack({layout, pages, css, interaction});
-
-        console.log(struct);
 
         message.success('请稍等，正在准备预览……');
         struct.folder = localStorage.dir;

@@ -172,7 +172,6 @@ export default {
 					method: 'GET',
 				});
 				// if(res.data.code === -1){
-				// 	console.log(window.location.origin);
 				// 	window.location.href = window.location.origin;
 				// }
 			}
@@ -202,7 +201,6 @@ export default {
 			var res = yield request(url, {
 				method: 'GET',
 			});
-			console.log(res.data.fields.devType);
 			if(res.data.fields.devType == 'common'){
 				yield put({ type: "handleCommon" });
 			}
@@ -217,7 +215,6 @@ export default {
 		//获取界面初始化配置
 		*getConfig({ payload: params}, {call, put, select}){
 
-			console.log(params);
 			var configs = '',
 				config = '',
 				UIState = params.UIState;

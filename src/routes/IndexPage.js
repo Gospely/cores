@@ -130,7 +130,6 @@ function IndexPage(props) {
             localStorage.currentFileOperation = action;
 
             if (action == 'remove') {
-                console.log("remove");
                 localStorage.removeAction = JSON.stringify(removeAction);
                 editorId = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].activeEditor.id;
                 let currentTab = props.devpanel.panels.panes[paneKey.paneKey].tabs[targetKey - 1];

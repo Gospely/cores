@@ -276,7 +276,6 @@ export default {
 
   			openNotificationWithIcon('success', '正在commit...', '请稍候...');
             var message = yield select(state => state.sidebar.modalCommitInfo.title);
-            console.log(message);
       		var commitResult = yield request('git/commit/' + localStorage.applicationId +'?message=' + message, {
       			method: 'get',
       		});
@@ -722,7 +721,6 @@ export default {
             var domains = yield request("domains/?application=" + localStorage.applicationId, {
                 method: 'GET',
             });
-            console.log(domains);
             localStorage.domain = domains.data.fields[0].subDomain + '.' + domains.data.fields[0].domain;
             yield put({
                 type: 'initDomains',
@@ -899,7 +897,6 @@ export default {
             }
             state.modifyGitOriginInput.value = params.gitOrigin;
             state.modifyGitOriginInput.pushValue = params.gitOrigin;
-            console.log(params);
             state.modifyGitOriginInput.isGit = params.isGit;
             state.modifyGitConfigInput.userName = params.userName,
             state.modifyGitConfigInput.email = params.email;
@@ -1116,7 +1113,6 @@ export default {
 
 		handleInputChanged(state, { payload: params }) {
 
-            console.log(params);
 			state.appCreatingForm[params['input']] = params.value;
 
 			if(params['input'] == 'image') {
@@ -1132,7 +1128,6 @@ export default {
                         state.appCreatingForm.useFramework = true;
                     }
                     if(params.value == 'vd:latest'){
-                        console.log('git disabled');
                         state.appCreatingForm.useGit = false;
                     }else {
                         state.appCreatingForm.useGit = true;
