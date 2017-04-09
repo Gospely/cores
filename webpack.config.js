@@ -38,6 +38,15 @@ module.exports = function(webpackConfig, env) {
 
     }
 
+     // webpackConfig.plugins.push(
+     //      new CopyWebpackPlugin([
+     //        {
+     //          from: 'node_modules/react/min/vs',
+     //          to: 'vs',
+     //        }
+     //      ])
+     //    );
+
 
   // Support CSS Modules
   // Parse all less files as css module.
