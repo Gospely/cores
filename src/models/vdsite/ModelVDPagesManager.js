@@ -69,9 +69,9 @@ export default {
             history.listen(({
                 pathname
             }) => {
-                // dispatch({
-                //     type: 'getInitialData'
-                // })
+                dispatch({
+                    type: 'getInitialData'
+                })
             });
         }
 

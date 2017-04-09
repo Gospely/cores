@@ -752,9 +752,9 @@ export default {
 	      			type: 'appendStyleIntoOfficialStyle'
 	      		});
 
-				//    		dispatch({
-	      // 			type: 'getInitialData'
-				//    		});
+			   		dispatch({
+      					type: 'getInitialData'
+			   		});
 	      	});
 		}
 	},
