@@ -37,21 +37,31 @@ export default {
 			name:'',
 			key: '',
 			url: '',
-			collectionsItemList: [{
-
-			}],
+			collectionsItemList: [],
 			list: [],
 			//leftSidebar.js
+			//暂存collections
+		},
+		collectionsItemListContent: {
+			//暂存collectionsItemList
+			name: 'newItem',
+			status: '',
+			created: '',
+			modified: '',
+			published: '',
+			content: []
 		},
 		collectionsIndex: '-1',
 		collectionsItemVisible: false,
 		collectionsItemPreviewVisible: false,
 		newCollectionsPopoverVisible: false,
 		collectionsItemlistVisible: false,
+		collectionsItemListContentVisible: false,
 		addOptionValue:false,
 		itemListPopoverLayout: false,
 		addStyle:"",
 		addInputStyle:"",
+		isFinish:true,
 	},
 	subscriptions: {
 		setup({ dispatch, history }) {
@@ -63,12 +73,25 @@ export default {
 		}
 	},
 	reducers: {
+		setNewCollectionsList (state) {
+			state.collectionsItemListContent.content = state.collectionsItem.list
+			return {...state}
+		},
 		changeItemlistVisible (state, {payload:params}) {
 			if(params == undefined) {
 				state.collectionsItemlistVisible = !state.collectionsItemlistVisible
 			}else {
 				state.collectionsItemlistVisible = params
 			}
+			return {...state}
+		},
+		changeItemListPopoverLayout (state, {payload:params}) {
+			if(params == undefined) {
+				state.itemListPopoverLayout = !state.itemListPopoverLayout
+			}else {
+				state.itemListPopoverLayout = params
+			}
+			
 			return {...state}
 		},
 		popoveDeleteCollections(state, {payload:index}){
@@ -162,9 +185,7 @@ export default {
 				key: randomString(8, 10),
 				list:[],
 				url:"",
-				collectionsItemList: [{
-
-				}],
+				collectionsItemList: [],
 			}
 			state.collections.push(newCollections);
         	return {...state};

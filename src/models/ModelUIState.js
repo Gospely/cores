@@ -27,6 +27,7 @@ export default {
 
 		*readConfig({ payload: params }, { call, put, select }) {
 
+			window.canSave = false;
   			var configs = yield request('uistates?application=' + params.id, {
       			method: 'get'
       		});
@@ -41,6 +42,7 @@ export default {
 
 			if(params.ctx !=null && params.ctx != undefined){
 				initState(params.ctx, params.id);
+				window.canSave = true;
 			}
 			if(!config) {
 				config = {};
@@ -66,22 +68,25 @@ export default {
 			}
 			var url = baseUrl.baseURL + "uistates";
 
-			var result = yield fetch(url, {
-				method: 'PUT',
-				headers: {
-					"Content-Type": "application/json;charset=UTF-8",
-					'Authorization': localStorage.token
-				},
-				body: JSON.stringify(configTobeSaved)
-			}).then(function() {
-				notification.open({
-					message: '保存成功'
+			if(window.canSave){
+				var result = yield fetch(url, {
+					method: 'PUT',
+					headers: {
+						"Content-Type": "application/json;charset=UTF-8",
+						'Authorization': localStorage.token
+					},
+					body: JSON.stringify(configTobeSaved)
+				}).then(function() {
+					notification.open({
+						message: '保存成功'
+					});
+				}).catch(function() {
+					notification.open({
+						message: '保存失败'
+					});
 				});
-			}).catch(function() {
-				notification.open({
-					message: '保存失败'
-				});
-			});
+			}
+
 		},
 		*initConfig({payload: params}, { call, put, select}){
 
@@ -128,7 +133,7 @@ export default {
 					id: localStorage.uistateId,
 					configs: localStorage.UIState
 				}
-				if(dySave && localStorage.flashState == 'true') {
+				if(window.canSave && localStorage.flashState == 'true') {
 						var url = baseUrl.baseURL + "uistates";
 						fetch(url, {
 							method: 'PUT',

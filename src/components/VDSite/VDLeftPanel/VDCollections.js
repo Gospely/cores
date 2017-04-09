@@ -67,8 +67,7 @@ const Component = (props) => {
 							name:'',
 							key: '',
 							url: '',
-							collectionsItemList: [{
-							}],
+							collectionsItemList: [],
 							list: [],
 						},
 						index:-1 
@@ -114,9 +113,7 @@ const Component = (props) => {
 							name:'',
 							key: '',
 							url: '',
-							collectionsItemList: [{
-
-							}],
+							collectionsItemList: [],
 							list: [],
 						},
 						index:-1 
@@ -135,6 +132,11 @@ const Component = (props) => {
 				props.dispatch({
 					type: 'vdCollections/getNewCollectionsName',
 					payload: ""
+				})
+
+				props.dispatch({
+					type: 'vdCollections/changeItemListPopoverLayout',
+					payload: false
 				})
 			},
 
@@ -402,7 +404,7 @@ const Component = (props) => {
 					type: 'vdCollections/changeCollectionsItemVisible',
 					payload: false
 				})
-				console.log(props.vdCollections.collectionsItem)
+
 				props.dispatch({
 					type: 'vdCollections/setCollectionsItem',
 					payload: {
@@ -410,8 +412,6 @@ const Component = (props) => {
 						index:-1 
 					}
 				})
-
-				console.log('123------',props.vdCollections.collectionsItem)
 				
 				props.dispatch({
 					type: 'vdCollections/changeCollectionsItemPreviewVisible',
@@ -428,6 +428,11 @@ const Component = (props) => {
 
 				props.dispatch({
 					type: 'vdCollections/changeCollectionsItemVisible',
+					payload: false
+				})
+				
+				props.dispatch({
+					type: 'vdCollections/changeItemListPopoverLayout',
 					payload: false
 				})
 
@@ -463,9 +468,26 @@ const Component = (props) => {
 
 
 				}
-			}
+			},
 
+			clickItemList() {
+				props.dispatch({
+					type: 'vdCollections/changeItemListPopoverLayout'
+				})
 
+				console.log(props.vdCollections.collectionsItemListContentVisible)
+			},
+
+			setNewCollectionsList() {
+				props.dispatch({
+					type: 'vdCollections/setNewCollectionsList'
+				})
+
+				props.dispatch({
+					type: 'vdCollections/changeItemListPopoverLayout'
+				})
+
+			},
 	}
 
 	const collectionsName = props.vdCollections.collections.map((item, index) => {
@@ -711,27 +733,38 @@ const Component = (props) => {
 	})
 
 	const collectionsItemListMap = props.vdCollections.collectionsItem.collectionsItemList.map((listItem, listIndex) => {
-		 return (
 
-				<Row key={listIndex} className="collections-table-list">
-							<Col style={{paddingLeft: "20px"}} span={10}>
-								{listItem.name}
-							</Col>
-							<Col span={3}>
-								{listItem.status}
-							</Col>
-							<Col span={3}>
-							{listItem.created}
-							</Col>
-							<Col span={3}>
-							{listItem.modified}
-							</Col>
-							<Col span={3}>
-							{listItem.published}
-							</Col>
-							<Col span={2}>
-							</Col>
-				</Row>
+		 return (
+				<div key={listIndex}>
+					{props.vdCollections.itemListPopoverLayout ? 
+						<Row onClick={collectionsProps.clickItemList} className="collections-table-list">
+								<Col style={{paddingLeft: "20px"}} span={24}>
+									{listItem.name}
+								</Col>
+						</Row>
+						:
+						<Row onClick={collectionsProps.clickItemList} className="collections-table-list">
+								<Col style={{paddingLeft: "20px"}} span={10}>
+									{listItem.name}
+								</Col>
+								<Col span={3}>
+									{listItem.status}
+								</Col>
+								<Col span={3}>
+								{listItem.created}
+								</Col>
+								<Col span={3}>
+								{listItem.modified}
+								</Col>
+								<Col span={3}>
+								{listItem.published}
+								</Col>
+								<Col span={2}>
+								</Col>
+						</Row>
+					}
+					
+				</div>
 		 	)
 	})
 	
@@ -951,13 +984,43 @@ const Component = (props) => {
 			)
 
 		};
+		const collectionsItemListContentPreivewPopover = {
+			title: (
+					<Row>
+						<Col span={2}>
+							<Button onClick={collectionsProps.clickItemList}><Icon type="arrow-left" /></Button>
+						</Col>
+						<Col span={7}>
+							{props.vdCollections.collectionsItem.name}
+						</Col>
+						<Col span={7}>
+							status: <span style={{color: "#e89153"}}>{props.vdCollections.collectionsItemListContent.name}</span>
+						</Col>
+						<Col span={2}>
+							<Checkbox>Draft</Checkbox>
+						</Col>
+						<Col span={2}>
+							<Button>关闭</Button>
+						</Col>
+						<Col span={4}>
+							<Button>创建 {props.vdCollections.collectionsItemListContent.name}</Button>
+						</Col>
+					</Row>
+			),
+
+			content: (
+					<div className="collections-Item-List-Content-Preivew-Popover-content">
+					</div>
+				)
+
+		}
 
 		const collectionsItemListPopover= {
 			title: ( 
 				<div>
 					{ props.vdCollections.itemListPopoverLayout ? 
 						<Row>
-							<Col style={{paddingLeft: "20px"}} span={9}>
+							<Col style={{paddingLeft: "20px"}} span={8}>
 								{props.vdCollections.collectionsItem.name}
 							</Col>
 							<Col span={8}>
@@ -965,16 +1028,25 @@ const Component = (props) => {
 							</Col>
 							<Col span={2}>
 								<Button className="collections-items-popover-title-setting-btn">
-									<Icon type="setting" /> Settings
+									<Icon type="setting" />
 								</Button>
 							</Col>
-							<Col span={4} style={{padding: "0 20px"}}>
+							<Col onClick={collectionsProps.setNewCollectionsList} span={5} style={{padding: "0 20px"}}>
 								<Button className="collections-items-popover-title-add-btn">
-									<Icon type="plus" /> New {props.vdCollections.collectionsItem.name}
+									<Icon type="plus" /> New
 								</Button>
 							</Col>
-							<Col span={1}>
-							</Col>
+							<Popover
+								visible={props.vdCollections.itemListPopoverLayout}
+								overlayClassName="collections-items-popover"
+								placement="right"
+								title={collectionsItemListContentPreivewPopover.title}
+								content={collectionsItemListContentPreivewPopover.content}	
+								trigger="click"
+							>
+								<Col span={1}>
+								</Col>
+							</Popover>
 						</Row> 
 						:
 						<Row>
@@ -990,7 +1062,7 @@ const Component = (props) => {
 								</Button>
 							</Col>
 							<Col span={4} style={{padding: "0 20px"}}>
-								<Button className="collections-items-popover-title-add-btn">
+								<Button onClick={collectionsProps.setNewCollectionsList} className="collections-items-popover-title-add-btn">
 									<Icon type="plus" /> New {props.vdCollections.collectionsItem.name}
 								</Button>
 							</Col>
@@ -1002,35 +1074,54 @@ const Component = (props) => {
 				),
 
 			content: (
-					<div className="collections-items-popover-max-content">
-						{props.vdCollections.collectionsItem.collectionsItemList != "" ? 
-							<div>
-								<Row className="collections-table-title">
-									<Col style={{paddingLeft: "20px"}} span={10}>
-										NAME
-									</Col>
-									<Col span={3}>
-										STAUS
-									</Col>
-									<Col span={3}>
-									CREATED
-									</Col>
-									<Col span={3}>
-									MODIFIED
-									</Col>
-									<Col span={3}>
-									PUBLISHED
-									</Col>
-									<Col span={2}>
-									</Col>
-								</Row> 
-									{collectionsItemListMap}
-							</div>
-							:
-							<div>
-								
-							</div>}
-					</div>
+					<div>
+
+					{props.vdCollections.itemListPopoverLayout ? 
+						 <div className="collections-items-popover-min-content">
+						 	<div>
+									<Row className="collections-table-title">
+										<Col style={{paddingLeft: "20px"}} span={24}>
+											NAME
+										</Col>
+									</Row> 
+										{collectionsItemListMap}
+								</div>
+						 </div>	
+						 : 
+						 <div className="collections-items-popover-max-content">
+							{props.vdCollections.collectionsItem.collectionsItemList != "" ? 
+								<div>
+									<Row className="collections-table-title">
+										<Col style={{paddingLeft: "20px"}} span={10}>
+											NAME
+										</Col>
+										<Col span={3}>
+											STAUS
+										</Col>
+										<Col span={3}>
+										CREATED
+										</Col>
+										<Col span={3}>
+										MODIFIED
+										</Col>
+										<Col span={3}>
+										PUBLISHED
+										</Col>
+										<Col span={2}>
+										</Col>
+									</Row> 
+										{collectionsItemListMap}
+								</div>
+								:
+								<div className="clolections-no-items-box">
+									<h2>此数据集无应用</h2>
+									<p>创建数据集应用</p>
+									<Button>创建</Button>
+								</div>}
+						</div>
+					}
+					
+				</div>
 				)
 		}
 
@@ -1100,7 +1191,8 @@ const Component = (props) => {
 
   	return (
   		<div className="vdctrl-pane-wrapper">
-					<Collapse bordered={false} defaultActiveKey='collections-manager'>
+  			{props.vdCollections.isFinish ?
+  				<Collapse bordered={false} defaultActiveKey='collections-manager'>
 		    			<Panel header="数据集管理" key="collections-manager">
 		    				<Popover placement="right" trigger={['click']} content={newCollectionsPopover.content} visible={props.vdCollections.newCollectionsPopoverVisible} onVisibleChange={collectionsProps.newCollectionsPopoverVisibleChange}>
 				    			<Tooltip placement="left" title="添加数据集">
@@ -1109,7 +1201,12 @@ const Component = (props) => {
 							</Popover>
 							{collectionsItemList}
 		    			</Panel>
-					</Collapse>
+				</Collapse> 
+				:
+				<div style={{marginTop:"75%", textAlign:"center"}}>正在加急开发中...</div>
+
+  			}
+					
   		</div>
   	);
 

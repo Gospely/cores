@@ -24,6 +24,7 @@ export default {
 			addInputStyle:"",
 			maxText:10000,
 			minText:0,
+			value:'',
 		},{
 			name: '富文本',
 			icon: 'copy',
@@ -36,6 +37,7 @@ export default {
 			addInputStyle:"",
 			maxText:1000,
 			minText:0,
+			value:'',
 		},{
 			name: '图片',
 			icon: 'picture',
@@ -46,6 +48,7 @@ export default {
 			isRequired: false,
 			addStyle:"",
 			addInputStyle:"",
+			url:"",
 		},{
 			name: '视频',
 			icon: 'play-circle-o',
@@ -56,6 +59,7 @@ export default {
 			isRequired: false,
 			addStyle:"",
 			addInputStyle:"",
+			url:"",
 		},{
 			name: '链接',
 			icon: 'link',
@@ -66,6 +70,7 @@ export default {
 			isRequired: false,
 			addStyle:"",
 			addInputStyle:"",
+			url:"",
 		},{
 			name: '电子邮件',
 			icon: 'mail',
@@ -76,6 +81,7 @@ export default {
 			isRequired: false,
 			addStyle:"",
 			addInputStyle:"",
+			value:"",
 		},{
 			name: '电话号码',
 			icon: 'phone',
@@ -86,6 +92,7 @@ export default {
 			isRequired: false,
 			addStyle:"",
 			addInputStyle:"",
+			value:"",
 		},{
 			name: '纯数字',
 			icon: 'minus',
@@ -96,6 +103,7 @@ export default {
 			isRequired: false,
 			addStyle:"",
 			addInputStyle:"",
+			value:"",
 		},{
 			name: '日历',
 			icon: 'calendar',
@@ -107,6 +115,7 @@ export default {
 			addStyle:"",
 			addInputStyle:"",
 			havingDateComponent:false,
+			value:"",
 		},{
 			name: '开关',
 			icon: 'sync',
@@ -117,6 +126,7 @@ export default {
 			isRequired: false,
 			addStyle:"",
 			addInputStyle:"",
+			boolean:false,
 		},{
 			name: '颜色',
 			icon: 'filter',
@@ -127,6 +137,7 @@ export default {
 			isRequired: false,
 			addStyle:"",
 			addInputStyle:"",
+			value: '',
 		},{
 			name: '下拉选项',
 			icon: 'caret-down',
@@ -140,6 +151,7 @@ export default {
 			isRequired: false,
 			addStyle:"",
 			addInputStyle:"",
+			value: "",
 		},{
 			name: 'Reference',
 			icon: 'database',
@@ -150,6 +162,7 @@ export default {
 			isRequired: false,
 			addStyle:"",
 			addInputStyle:"",
+			value: "",
 		},{
 			name: 'Multi-Reference',
 			icon: 'database',
@@ -160,6 +173,7 @@ export default {
 			isRequired: false,
 			addStyle:"",
 			addInputStyle:"",
+			value: "",
 		}]
 	}]
 }
