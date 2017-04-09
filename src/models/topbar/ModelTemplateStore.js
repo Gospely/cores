@@ -128,7 +128,7 @@ export default {
 		},
 		handleCreateTemplate(state,{payload: params}){
 
-			state.selectId = params.id;
+			state.selectId = params.item;
 			state.create = true;
 			return {...state}
 		},
@@ -495,12 +495,19 @@ export default {
 
 				window.location.hash = 'project/' + result.data.fields.id;
 				initData(params.ctx, result.data.fields.id);
-;				//window.location.reload();
+				yield request('vdsite/static?creator=' + localStorage.user + '&template=' + selectId.application +'&folder=' + result.data.fields.docker.replace('gospel_project_', '') + '&host=' + localStorage.host ,{
+					method: 'GET'
+				});
+				//window.location.reload();
+				props.dispatch({
+	                type: 'sidebar/getDomains'
+	            })
+
 				yield put({
 					type: 'handleTips',
 					payload: '正在初始化应用'
 				})
-				var data = yield request('templates/' + selectId,{
+				var data = yield request('templates/' + selectId.id,{
 					method: 'GET'
 				});
 
@@ -517,6 +524,8 @@ export default {
 					payload: false
 				});
 				console.log(data);
+				data.data.fields.content = data.data.fields.content.replace(new RegExp(selectId.url, 'gm'), 'http://' + localStorage.domain);
+				console.log(data.data.fields);
 				var UIState = JSON.parse(data.data.fields.content);
 				console.log(UIState);
 				console.log(result.data.fields.id);

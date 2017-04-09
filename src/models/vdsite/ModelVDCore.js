@@ -301,6 +301,7 @@ export default {
 			struct.price = price;
 			struct.application = localStorage.applicationId;
 			struct.src = src;
+			struct.url = 'http://' + localStorage.domain
 			//struct.type = 'custom';
 			var packResult = yield request('vdsite/template', {
 				method: 'POST',
@@ -321,7 +322,7 @@ export default {
 		},
 		*getTemplate({ payload: params }, { call, put, select }){
 
-			var packResult = yield request('templates/?cur=1&limit=1&application=' + localStorage.applicationId + '&show=id_name_description_type_price', {
+			var packResult = yield request('templates/?cur=1&limit=1&application=' + localStorage.applicationId, {
 				method: 'get',
 			});
 			console.log(packResult);
