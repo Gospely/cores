@@ -58,7 +58,7 @@ export default {
 		weappCompilerModalVisible: false,
 
 		weappCompiler: {
-			current: 0, 
+			current: 0,
 			start: false,
 			steps: [{
 				title: '云编译',
