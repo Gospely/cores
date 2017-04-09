@@ -752,9 +752,9 @@ export default {
 	      			type: 'appendStyleIntoOfficialStyle'
 	      		});
 
-	      		dispatch({
-	      			type: 'getInitialData'
-	      		});
+				//    		dispatch({
+	      // 			type: 'getInitialData'
+				//    		});
 	      	});
 		}
 	},
@@ -897,7 +897,7 @@ export default {
 				let cssStyleLayout = deepCopyObj(params.style.styles),
 					unitList = deepCopyObj(params.unitList);
 				if (!isExists) {
-					activeMediaQuery.cssStyleLayout[params.style.styleName] = cssStyleLayout;	
+					activeMediaQuery.cssStyleLayout[params.style.styleName] = cssStyleLayout;
 					activeMediaQuery.unitList[params.style.styleName] = unitList;
 				}else {
 					for(let property in activeMediaQuery.cssStyleLayout[params.style.styleName]) {
@@ -907,7 +907,7 @@ export default {
 						}
 					}
 				}
-				
+
 			}
 
 			return {...state};
@@ -1510,7 +1510,7 @@ export default {
 						if(currentTableStyle != '' && typeof currentTableStyle !== 'object') {
 
 							if (!normalStyleLayout) {
-								cssClass += property + ':' + currentTableStyle + unit + important + ';'	
+								cssClass += property + ':' + currentTableStyle + unit + important + ';'
 							}else if (normalStyleLayout[styleName] && normalStyleLayout[styleName][property] !== currentTableStyle) {
 								cssClass += property + ':' + currentTableStyle + unit + important + ';'
 							}
@@ -1824,7 +1824,7 @@ export default {
 		changeActiveUnit(state, { payload: params }) {
 			var unitList = styleAction.getUnitListByScreenSize(state);
 			unitList[params.activeStyleName][params.property].unit = params.value;
-			
+
 			return {...state};
 		},
 

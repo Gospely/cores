@@ -990,9 +990,9 @@ export default {
             history.listen(({
                 pathname
             }) => {
-                dispatch({
-                    type: 'getInitialData'
-                })
+                // dispatch({
+                //     type: 'getInitialData'
+                // })
             });
         }
 
@@ -2707,7 +2707,7 @@ export default {
 					activeCtrl.children.push(controller);
 					if (state.expandedKeys.indexOf(activeCtrl.vdid) === -1) {
 						state.expandedKeys.push(activeCtrl.vdid);
-						
+
 					}
 					state.autoExpandParent = true;
 				},
@@ -2717,7 +2717,7 @@ export default {
 					activeCtrl.children.splice(0, 0, controller);
 					if (state.expandedKeys.indexOf(activeCtrl.vdid) === -1) {
 						state.expandedKeys.push(activeCtrl.vdid);
-						
+
 					}
 					state.autoExpandParent = true;
 				},
@@ -2727,7 +2727,7 @@ export default {
 					parentInfo.parentCtrl.children.splice(parentInfo.index + 1, 0, controller);
 					if (state.expandedKeys.indexOf(parentInfo.parentCtrl.vdid) === -1) {
 						state.expandedKeys.push(parentInfo.parentCtrl.vdid);
-						
+
 					}
 					state.autoExpandParent = true;
 				},
@@ -2737,7 +2737,7 @@ export default {
 					parentInfo.parentCtrl.children.splice(parentInfo.index, 0, controller);
 					if (state.expandedKeys.indexOf(parentInfo.parentCtrl.vdid) === -1) {
 						state.expandedKeys.push(parentInfo.parentCtrl.vdid);
-						
+
 					}
 					state.autoExpandParent = true;
 				}

@@ -10,6 +10,7 @@ import initData from './initData'
 const initApplication = function (application, props, flag){
 
     //清除定时器
+    console.log('initApplication');
     window.clearInterval(window.uistateSave)
     window.VDDnddata = {};
     //断开上一个socket

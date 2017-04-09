@@ -15,7 +15,7 @@ export default {
 		//监听页面刷新，保存最新的UI状态
 		window.addEventListener("beforeunload", (e) => {
 
-			if(localStorage.image == 'wechat:latest' || window.debug) {
+			if(localStorage.image == 'wechat:latest') {
 
 			}else{
 				props.dispatch({
@@ -38,15 +38,23 @@ export default {
 				return confirmationMessage;
 			}
 		});
-		//监听关闭页面，保存ui状态
-		window.addEventListener("unload", (evt) => {
-
+	//	监听关闭页面，保存ui状态
+		window.addEventListener("popstate", (evt) => {
+			console.log('ddd');
+			if(window.applicationId == localStorage.applicationId) {
+				console.log('write');
+				props.dispatch({
+					type: 'UIState/writeConfig'
+				});
+				window.history.forward(1);
+			}
 
 		});
 
 		//监听页面加载，获取刷新前的页面状态
 		window.addEventListener("load", (evt) => {
 
+			console.log('init');
 			var applicationId = window.applicationId;
 			if(localStorage.applicationId != null && localStorage.applicationId != '' && applicationId == null){
 				window.location.hash = 'project/' + localStorage.applicationId;
@@ -84,6 +92,7 @@ export default {
 					var application = data.fields;
 					if(data.fields != null){
 						// localStorage.UIState = '';
+
 						initApplication(application,props);
 					}else{
 						localStorage.clear();
