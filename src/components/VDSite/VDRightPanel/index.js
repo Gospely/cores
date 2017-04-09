@@ -25,43 +25,62 @@ const VDRightPanel = (props) => {
 
   flag = true;
 
+  const onTabClick = () => {
+    
+    // spinning = false;
+    
+  }
+
   const onChange = (key) => {
 
     props.dispatch({
-      type: 'vdcore/changeTabsPane',
-      payload: {
-        activeTabsPane: key,
-        linkTo: false,
-      }
-    });
-
-    if (key == 'controllers') {
+      type: 'vdstyles/changeVDStylePaneSpinActive',
+      payload: true
+    })
+    setTimeout(function () {
       props.dispatch({
-        type: 'vdCtrlTree/changeVDControllerListScroll',
-        payload: 'hidden'
-      })
+        type: 'vdcore/changeTabsPane',
+        payload: {
+          activeTabsPane: key,
+          linkTo: false,
+        }
+      });
 
-      setTimeout(function() {
+      if (key == 'controllers') {
         props.dispatch({
           type: 'vdCtrlTree/changeVDControllerListScroll',
-          payload: 'auto'
+          payload: 'hidden'
         })
-      }, 1000)
 
-    } else {
+        setTimeout(function() {
+          props.dispatch({
+            type: 'vdCtrlTree/changeVDControllerListScroll',
+            payload: 'auto'
+          })
+        }, 1000)
+
+      } else {
+        props.dispatch({
+          type: 'vdCtrlTree/changeVDControllerListScroll',
+          payload: 'hidden'
+        })
+      }
+    })
+    
+
+    setTimeout(function () {
       props.dispatch({
-        type: 'vdCtrlTree/changeVDControllerListScroll',
-        payload: 'hidden'
+        type: 'vdstyles/changeVDStylePaneSpinActive',
+        payload: false
       })
-    }
-
+    })
   }
 
   return (
     <Spin spinning={props.vdstyles.VDStylePaneSpinActive}>
       <div id="VDRightPanel" className="vd-right-panel">
 
-        <Tabs onChange={onChange} activeKey={props.vdcore.rightTabsPane.activeTabsPane}>
+        <Tabs onTabClick={onTabClick} onChange={onChange} activeKey={props.vdcore.rightTabsPane.activeTabsPane}>
 
           <TabPane tab={
             <Tooltip placement="bottom" title="样式">
