@@ -329,7 +329,7 @@ const TemplateStore = (props) => {
 										<Input onChange={templateStoreProps.valueChange} value={props.templateStore.createForm.name}/>
 									</Col>
 								</Row>
-								 <Button visible={!props.templateStore.createForm.loading} disabled={!props.templateStore.available}  type="primary" onClick={templateStoreProps.createApp} style={{ marginTop: 32, marginLeft: 200 }}>立即创建</Button>
+								 <Button disabled={!props.templateStore.available}  type="primary" onClick={templateStoreProps.createApp} style={{ marginTop: 32, marginLeft: 200 }}>立即创建</Button>
 							</div>
 							</Spin>
 					</Modal>
