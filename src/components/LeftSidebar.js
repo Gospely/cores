@@ -17,7 +17,6 @@ import computeDomHeight from '../utils/computeDomHeight'
 import VDControllers from './VDSite/VDLeftPanel/VDControllers.js';
 import VDPages from './VDSite/VDLeftPanel/VDPages.js';
 import VDCollections from './VDSite/VDLeftPanel/VDCollections.js';
-console.log('54684646',VDCollections)
 const TabPane = Tabs.TabPane;
 const Panel = Collapse.Panel;
 

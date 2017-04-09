@@ -61,7 +61,7 @@ export default {
 		itemListPopoverLayout: false,
 		addStyle:"",
 		addInputStyle:"",
-		isFinish:true,
+		isFinish:false,
 	},
 	subscriptions: {
 		setup({ dispatch, history }) {

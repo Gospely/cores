@@ -43,7 +43,6 @@ export default {
 
 					$("#closeVDLeftPanel").css({zIndex: '-1'})
 
-					console.log(data.closeVDLeftPanelDivId)
 				},
 
 				copyCtrl() {

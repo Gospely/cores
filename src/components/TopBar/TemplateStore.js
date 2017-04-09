@@ -39,7 +39,6 @@ const TemplateStore = (props) => {
 			})
 		},
 		searchTemplate(value){
-			console.log('searchTemplate');
 			props.dispatch({
 				type: 'templateStore/searchTemplate',
 				payload: value
@@ -106,7 +105,6 @@ const TemplateStore = (props) => {
 		},
 
 		selectTemplate(value) {
-			console.log(value);
 
 			props.dispatch({
 				type: 'templateStore/setSelectTemplateValue',
@@ -115,14 +113,12 @@ const TemplateStore = (props) => {
 		},
 
 		handleClick(activeMenu) {
-			console.log(activeMenu);
 			props.dispatch({
 				type: 'templateStore/setSelectTagValue',
 				payload: activeMenu
 			})
 		},
 		valueChange(e){
-			console.log(e.target.value);
 			const illegalLetter = ['!',' ', '@', '#', '$', '%', '^', '&', '*', '(', ')', '+', '=', '[', ']',
 								'{', '}', '\\', '|', ':', ';', '\'', '"', '<', '>', ',', '.', '/', '?'];
 			let theCurrentLetter = e.target.value.replace(props.templateStore.createForm.name, '');

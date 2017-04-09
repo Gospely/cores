@@ -104,9 +104,6 @@ export default {
             }
 
             push(state.controllers);
-
-            console.log('appendPublicAttrsToCtrlList', state.controllers, state.publicAttrs);
-
             return {...state};
         },
 
