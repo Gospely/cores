@@ -1512,14 +1512,14 @@ export default {
 
 							if (!normalStyleLayout) {
 								cssClass += property + ':' + currentTableStyle + unit + important + ';'	
-							}else if (normalStyleLayout[styleName][property] !== currentTableStyle) {
+							}else if (normalStyleLayout[styleName] && normalStyleLayout[styleName][property] !== currentTableStyle) {
 								cssClass += property + ':' + currentTableStyle + unit + important + ';'
 							}
 
 						}else if (typeof currentTableStyle === 'object') {
 							if (!normalStyleLayout) {
 								cssClass += specialStyle[property](currentTableStyle);
-							}else if (!isObjEqual(currentTableStyle, normalStyleLayout[styleName][property])) {
+							}else if (normalStyleLayout[styleName] && !isObjEqual(currentTableStyle, normalStyleLayout[styleName][property])) {
 								cssClass += specialStyle[property](currentTableStyle);
 							}
 						}
