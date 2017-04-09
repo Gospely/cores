@@ -69,13 +69,13 @@ export default {
             history.listen(({
                 pathname
             }) => {
-                dispatch({
-                    type: 'getInitialData'
-                })
+                // dispatch({
+                //     type: 'getInitialData'
+                // })
             });
         }
 
-    },	
+    },
 
 	reducers: {
 
@@ -444,7 +444,7 @@ export default {
 			}]};
 		},
 		initState(state, {payload: params}){
-            
+
             state.pageList = params.UIState.pageList || [];
             state.currentActivePageListItem = params.UIState.currentActivePageListItem || 'index.html';
             state.activePage = params.UIState.activePage || 'index.html';

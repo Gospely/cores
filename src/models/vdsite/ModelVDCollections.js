@@ -66,9 +66,9 @@ export default {
 	subscriptions: {
 		setup({ dispatch, history }) {
 			history.listen(({ pathname }) => {
-                dispatch({
-                    type: 'getInitialData'
-                })
+                // dispatch({
+                //     type: 'getInitialData'
+                // })
 			});
 		}
 	},
@@ -91,7 +91,7 @@ export default {
 			}else {
 				state.itemListPopoverLayout = params
 			}
-			
+
 			return {...state}
 		},
 		popoveDeleteCollections(state, {payload:index}){
@@ -131,7 +131,7 @@ export default {
 				state.addStyle = ''
 				state.addInputStyle = ''
 			}
-			
+
 			return {...state}
 		},
 		addStyle(state, {payload: params}){
@@ -149,11 +149,11 @@ export default {
 				state.collectionsItemPreviewVisible = !state.collectionsItemPreviewVisible
 			}else {
 				state.collectionsItemPreviewVisible = params;
-			}		
+			}
 			return {...state}
 		},
 		changeCollectionsItemVisible(state, {payload: params}) {
-			state.collectionsItemVisible = params;		
+			state.collectionsItemVisible = params;
 			return {...state}
 		},
 
@@ -262,7 +262,7 @@ export default {
 												addInputStyle:"",
 												havingDateComponent:false,
 								        	});
-						
+
         	}else{
 				state.collectionsItem.list.push({
 								        		name: 'newList',
@@ -277,7 +277,7 @@ export default {
 												addInputStyle:"",
 								        	});
         	}
-        	
+
         	return {...state}
         }
 
