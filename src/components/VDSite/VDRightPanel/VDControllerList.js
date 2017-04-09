@@ -81,7 +81,6 @@ const Component = (props) => {
 			},
 
 			onDragEnter (evt) {
-				// console.log(evt);
 			},
 
 			onDrop (info) {
@@ -131,7 +130,6 @@ const Component = (props) => {
 			},
 
 			onDragStart (info) {
-				// console.log(info.node.props.ctrl)
 				// let ctrl = JSON.parse(info.node.props.ctrl);
 				// for(let i = 0; i < ctrl.attrs.length; i ++) {
 				// 	if (ctrl.attrs[i].isAttrSetting) {

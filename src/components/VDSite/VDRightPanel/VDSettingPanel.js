@@ -55,8 +55,6 @@ const Component = (props) => {
         findCtrlOriginConfig(fatherKey, key){
 
             for (var i = 0; i < props.vdctrl.controllers.length; i++) {
-                // console.log(props.vdctrl.controllers[i].key);
-                // console.log(key);
                 if(props.vdctrl.controllers[i].key = fatherKey){
 
                     for (var j = 0; j < props.vdctrl.controllers[i].content.length; j++) {
@@ -86,14 +84,11 @@ const Component = (props) => {
 
         loopAttr(controller, root, parent) {
 
-            // console.log(root);
             let childCtrl = {},
                 tmpAttr = {},
                 ctrl = {};
 
             tmpAttr = controller.attrs;
-            console.log('loopAttr');
-            console.log(tmpAttr);
             for(let i = 0, len = tmpAttr.length; i < len; i ++) {
                 for (var j = 0; j < tmpAttr[i].children.length; j++) {
                     var attr = tmpAttr[i].children[j];
@@ -152,15 +147,11 @@ const Component = (props) => {
                     }
                     i++;
                     if(i < level){
-                        console.log(parent);
-                        console.log(comonIndex);
                         copyByLevel(parent.children[comonIndex]);
                     }else{
-                        console.log(parent);
                         result = vdCtrlOperate.deepCopyObj(parent.children[index], result)
                     }
                 }
-            console.log(parent);
             copyByLevel(parent);
             result = vdCtrlOperate.loopAttr(result, props.vdCtrlTree.activeCtrl.root, { vdid: undefined});
             return result;
@@ -176,7 +167,6 @@ const Component = (props) => {
                 if(sessionStorage.oldTime){
                     if(sessionStorage.newTime-sessionStorage.oldTime > 1500){
                         sessionStorage.oldTime = sessionStorage.newTime;
-                        console.log('dayu2');
                         if(attrType.key == 'link-setting'){
                             if(attrType.activeLinkType == 'link'){
                                 if(newVal != ""){
@@ -389,7 +379,6 @@ const Component = (props) => {
         //普通children添加逻辑,当前activeCtrl 下添加Child
         handleComplexChildrenAdd(fatherKey, key, item, type){
             //从配置中clone child的数据结构
-            console.log(item);
             let children = copyOperate.copyChildren(0, fatherKey, key, item.level, item.levelsInfo);
             props.dispatch({
                 type: 'vdCtrlTree/handleComplexChildrenAdd',
@@ -684,8 +673,6 @@ const Component = (props) => {
 					    const linkSettingProps = {
 
 					    	linkSettingTemplate: props.vdcore.linkSetting.list.map( (item, index) => {
-                                console.log('linkSetting');
-                                console.log(item);
 								return (
 									<RadioButton key={index} value={item.value}>
 						              	<Tooltip placement="top" title={item.tip}>

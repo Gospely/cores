@@ -56,8 +56,6 @@ const Component = (props) => {
 					payload: true
 				});
 
-				console.log($("#VDRightPanel"));
-
 				$("#VDRightPanel").ready(function(){
 						props.dispatch({
 						type: 'vdstyles/changeVDStylePaneSpinActive',
@@ -97,8 +95,6 @@ const Component = (props) => {
 			}
 		},
 		customRequest(image){
-			console.log('uploadImage');
-			console.log(image);
 			props.dispatch({
 				type: 'vdassets/uploadImage',
 				payload: image,

@@ -235,11 +235,11 @@ const TemplateStore = (props) => {
 
 													  <div className="templates-pay">
 														  { props.templateStore.pay == "weChat" ? <div>扫描二维码支付</div> : <div></div>}
-														  { props.templateStore.pay == "weChat" ? <div style={{'marginTop': '15px'}} ><QRCode value={props.templateStore.wechat}></QRCode></div> : <div></div>}
+														  { props.templateStore.pay == "weChat" ? <div style={{marginTop: '15px'}} ><QRCode value={props.templateStore.wechat}></QRCode></div> : <div></div>}
 													  </div>
-													  <div className="templates-pay-btn" style={{'margin-top': '15px'}}>
+													  <div className="templates-pay-btn" style={{marginTop: '15px'}}>
 														  <Button onClick={templateStoreProps.hideBuytemplate.bind(this,index)}>取消</Button>
-														  { props.templateStore.pay == "alipay" ? <Button type="primary" style={{'marginLeft': '20px'}} onClick={templateStoreProps.aliPay}>确认支付</Button> : <div></div>}
+														  { props.templateStore.pay == "alipay" ? <Button type="primary" style={{marginLeft: '20px'}} onClick={templateStoreProps.aliPay}>确认支付</Button> : <div></div>}
 													  </div>
 												  </Modal>
 											  </div>
@@ -315,7 +315,7 @@ const TemplateStore = (props) => {
 						footer={null}
 						 wrapClassName="vertical-center-modal"
 					>
-						<Spin spinning={props.templateStore.createForm.loading} tip={props.templateStore.tips} style={{'marginBottom': '20px'}}>
+						<Spin spinning={props.templateStore.createForm.loading} tip={props.templateStore.tips} style={{marginBottom: '20px'}}>
 							<div style={{ marginTop: 32 }}>
 								<Row>
 									<Col span={4} style={{textAlign: 'right'}}>

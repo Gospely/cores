@@ -259,7 +259,6 @@ export default {
 				isFree = yield select(state => !state.vdcore.TemplateSavingModal.isFree),
 				price = yield select(state => state.vdcore.TemplateSavingModal.price),
 				interaction = yield select(state => state.vdanimations);
-			console.log('TemplateSaving', isFree);
 			if(isFree){
 				price = 0;
 			}else {
@@ -276,7 +275,6 @@ export default {
 					return;
 				}
 			}
-			console.log(name, description, type,price);
 			if(name == '' || description == '' || type == ''){
 				message.error('请完善表单');
 				yield put({
@@ -289,9 +287,7 @@ export default {
 				});
 				return;
 			}
-			console.log(types);
 			var struct = JSON.parse(localStorage.UIState);
-			console.log(name);
 			struct.creator = localStorage.user;
 			struct.name = name;
 			struct.description = description;
@@ -309,7 +305,6 @@ export default {
 				},
 				body: JSON.stringify(struct)
 			});
-			console.log(packResult);
 			yield put({
 				type: 'changeTemplateSavingVisible',
 				payload: {
@@ -324,7 +319,6 @@ export default {
 			var packResult = yield request('templates/?cur=1&limit=1&application=' + localStorage.applicationId, {
 				method: 'get',
 			});
-			console.log(packResult);
 
 			if(packResult.data.fields.length > 0){
 				yield put({
@@ -345,7 +339,6 @@ export default {
 				payload: params
 			});
 
-			console.log(params);
 
 			if(params.VDSize == 'pc') {
 				yield put({
@@ -600,7 +593,6 @@ export default {
 			return {...state};
 		},
 		initForm(state, {payload: params}){
-			console.log(params);
 			if(params){
 				state.TemplateSavingModal.name = params.name;
 				state.TemplateSavingModal.price = params.price;

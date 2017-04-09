@@ -303,7 +303,6 @@ const Component = (props) => {
 			},
 
 			changeState(index,collectionsAttr,e) {
-				console.log(e.target.value)
 
 				props.dispatch({
 					type: 'vdCollections/changeState',
@@ -314,7 +313,6 @@ const Component = (props) => {
 					}
 				})
 
-				console.log("collections",props.vdCollections.collections)
 			},
 
 			newCollectionsPopoverVisibleChange() {
