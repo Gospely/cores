@@ -143,7 +143,6 @@ export default {
 		},
         visibleChange(state, {payload: params }){
 
-        	console.log(params);
         	if(params == false){
         		state.pageManager.updatePopoverVisible = params;
         	}else{
@@ -209,8 +208,6 @@ export default {
 
 			var tree = state.pageManager.treeSelect.value;
 			var bool = false;
-            console.log('tree');
-            console.log(tree);
 			if(tree != 'root') {
 				state.newPageFrom.key = tree + '/' + state.newPageFrom.name + '.html'
 				state.pageList = pushPage(state.pageList);

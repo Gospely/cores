@@ -191,8 +191,6 @@ const LeftSidebar = (props) => {
 		    },
 
 	        commit() {
-
-				console.log(props.sidebar.modifyGitConfigInput.password);
 	        	if(!props.sidebar.modifyGitConfigInput.password) {
 					message.error('您尚未添加git源，请先添加');
 
@@ -1063,7 +1061,6 @@ const LeftSidebar = (props) => {
 				}
 
 			}
-			console.log(s);
 			if(s == 'databaseAccount'){
 
 				if(!/^[a-z]*$/.test(dom.target.value)){

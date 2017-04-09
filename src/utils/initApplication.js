@@ -141,7 +141,6 @@ const initApplication = function (application, props, flag){
               tips: '打开应用中...'
             }
         });
-        console.log('application', application);
         localStorage.dir = localStorage.user + '/' + application.docker.replace('gospel_project_', '') + "/";
         localStorage.currentFolder = localStorage.user + '/' + application.name + '_' + localStorage.userName;
         localStorage.baseURL = 'http://' + ( localStorage.host ) + ':9999/';
@@ -165,8 +164,6 @@ const initApplication = function (application, props, flag){
             if(localStorage.UIState){
 
                 var UIState = JSON.parse(localStorage.UIState);
-                console.log('initUIState ---------');
-                console.log(UIState);
                 if(UIState.applicationId == application.id){
                     initState(props, application.id);
                 }else {

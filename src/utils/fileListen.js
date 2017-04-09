@@ -4,7 +4,6 @@ const fileListen = function (props, namespace) {
 
 		change: function() {
 
-			//console.log('change');
 			props.dispatch({
 	            type: 'cpre/setLoading'
 	        });
@@ -19,13 +18,11 @@ const fileListen = function (props, namespace) {
 			});
 		},
 		add: function() {
-			console.log('add');
 			props.dispatch({
 				type: 'file/fetchFileList'
 			});
 		},
 		addDir: function() {
-			console.log('addDir');
 			props.dispatch({
 				type: 'file/fetchFileList'
 			});
@@ -49,19 +46,13 @@ const fileListen = function (props, namespace) {
 	let socket = io(socketURL, {'reconnect':false,'auto connect':false} );
 
 	socket.on('message', function(data) {
-		//console.log(data);
 		var data = data.split('-:-');
 		fileListHandle[data[0]]();
 
 	})
 	socket.on('connections', function(data) {
-
-		//console.log(data);
-
 	})
 	socket.on('connect', function(data) {
-
-		//console.log('connect');
 
 		socket.emit( 'message', namespace)
 

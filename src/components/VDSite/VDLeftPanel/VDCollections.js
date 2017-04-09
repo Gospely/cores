@@ -52,7 +52,6 @@ const Component = (props) => {
 	const collectionsProps = {
 
 			deleteCollections(item) {
-				console.log(item);
 				props.dispatch({
 					type: 'vdCollections/deleteCollections',
 					payload: item.key
@@ -84,7 +83,6 @@ const Component = (props) => {
 			},
 
 			addNewCollections () {
-				console.log(props.vdCollections.collections);
 				const collections = props.vdCollections.collections;
 				const newCollectionsName = props.vdCollections.newCollectionsName;
 				for(let i=0;i < collections.length; i++) {
@@ -161,7 +159,6 @@ const Component = (props) => {
 			},
 
 			listIsOpend(index,listIndex,isOpend) {
-				console.log(listIndex,index,isOpend);
 				props.dispatch({
 					type: 'vdCollections/changelistIsOpend',
 					payload: {
@@ -241,10 +238,8 @@ const Component = (props) => {
 
 			getItem(item, index) {
 
-				console.log(item)
 
 				if(index == props.vdCollections.collectionsIndex){
-					console.log(props.vdCollections.collectionsItem)
 					props.dispatch({
 						type: 'vdCollections/setCollectionsItem',
 						payload: {
@@ -252,12 +247,10 @@ const Component = (props) => {
 							index:-1 
 						}
 					})
-					console.log(props.vdCollections.collectionsItem)
 					collectionsProps.closePopover()
 
 
 				}else{
-					console.log(props.vdCollections.collectionsItem)
 					props.dispatch({
 						type: 'vdCollections/setCollectionsItem',
 						payload: {
@@ -265,7 +258,6 @@ const Component = (props) => {
 							index:index
 						}
 					})
-					console.log(props.vdCollections.collectionsItem)
 					collectionsProps.opendPopover()
 
 				}

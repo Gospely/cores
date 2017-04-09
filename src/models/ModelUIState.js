@@ -35,7 +35,6 @@ export default {
   				message.error('读取配置失败');
   				return false;
   			}
-			console.log('get UIState from server');
 			var config = configs.data.fields[0];
 			localStorage.uistateId = config.id;
 			localStorage.UIState = config.configs;
@@ -127,7 +126,6 @@ export default {
 
 			var dySave = yield select(state=> state.UIState.dySave),
 				gap = yield select(state => state.UIState.gap);
-			console.log('setDySaveEffects');
 			function cb() {
 				var configTobeSaved = {
 					id: localStorage.uistateId,

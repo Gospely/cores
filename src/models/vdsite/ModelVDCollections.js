@@ -120,8 +120,6 @@ export default {
 		},
 
 		changeState(state, {payload: params}){
-			console.log(state.collections[params.index][params.attr]);
-			console.log(params)
 			state.collectionsItem[params.attr] = params.value;
 			return {...state}
 		},
@@ -161,11 +159,9 @@ export default {
 
 		setCollectionsItem(state, {payload: params}) {
 			if(params.item != "") {
-				console.log("555666",params.item)
 				state.collectionsItem = params.item;
 			}
 			state.collectionsIndex = params.index;
-			console.log("+++----",state.collectionsItem)
 			return {...state}
 		},
 

@@ -1002,7 +1002,6 @@ export default {
 
 		getInitialData(state, {payload: params}) {
 
-			console.log(initialData);
 			state.defaultExpandedKeys = initialData.vdCtrlTree.defaultExpandedKeys;
 			state.expandedKeys = initialData.vdCtrlTree.expandedKeys;
 			state.activeCtrlIndex = initialData.vdCtrlTree.activeCtrlIndex;
@@ -1037,7 +1036,6 @@ export default {
 		initLayout(state, {payload: params}){
 
 			state.layout = params.layout;
-			console.log('initLayout');
 			setTimeout(function(){
 				window.VDDesignerFrame.postMessage({
 					pageSelected: state.layout['index.html']
@@ -1052,15 +1050,12 @@ export default {
 			let currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
 			if (currentActiveCtrl.controller.attrs[0].children[2]) {
 				var style = currentActiveCtrl.controller.attrs[0].children[2].value;
-				console.log(params);
-				console.log(stu);
 				if (params.target == 'height') {
 					style = style.replace(/height: \d*(%|px);/, "height: " + currentActiveCtrl.controller.attrs[0].children[3].value + params.value + ";");
 				}
 				if (params.target == 'width') {
 					style = style.replace(/width: \d*(%|px);/, "width: " + currentActiveCtrl.controller.attrs[0].children[4].value + params.value + ";");
 				}
-				console.log(style);
 				currentActiveCtrl.controller.attrs[0].children[2].value = style;
 				window.VDDesignerFrame.postMessage({
 					VDAttrRefreshed: {
@@ -1327,7 +1322,6 @@ export default {
 		},
 		handleSelectIndex(state, {payload: index}) {
 
-			console.log('handleSelectIndex');
 			state.selectIndex = index;
 			return {...state};
 		},
@@ -1344,7 +1338,6 @@ export default {
 		uploadBgImg(state, {payload: params}) {
 
 			// var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
-			// console.log('uploadBgImg');
 			// 	currentActiveCtrl.controller.attrs[0].children[0].fileInfo = [params];
 			// 	var url = currentActiveCtrl.controller.attrs[0].children[0].fileInfo.url
 			// url = params.url;
@@ -1361,7 +1354,6 @@ export default {
 			var currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
 			if (currentActiveCtrl.controller.attrs[0].key == 'slider-setting') {
 				var activeCtrl = currentActiveCtrl.controller.children[1].children[state.selectIndex].children[0];
-				console.log(activeCtrl);
 				currentActiveCtrl.controller.children[1].children[state.selectIndex].children[0].attrs[0].children[0].value = params.url
 				url = params.url;
 
@@ -1374,7 +1366,6 @@ export default {
 			} else {
 				currentActiveCtrl.controller.attrs[0].children[0].fileInfo = [params];
 				currentActiveCtrl.controller.attrs[0].children[0].value = params.url;
-				console.log(currentActiveCtrl.controller);
 				state.activeCtrl = currentActiveCtrl.controller;
 				var url = currentActiveCtrl.controller.attrs[0].children[0].fileInfo[0].url,
 					activeCtrl = currentActiveCtrl.controller;
@@ -1473,8 +1464,6 @@ export default {
 						}, '*');
 
 					}
-					console.log('root');
-					console.log(root);
 				}
 			}
 			state.selectIndex = 0;
@@ -1587,8 +1576,6 @@ export default {
 		},
 		//当前活跃控件子控件更新
 		handleChildrenUpdate(state, {payload: params}) {
-
-			console.log(params);
 			state.keyValeUpdateVisible = false;
 			window.VDDesignerFrame.postMessage({
 				VDAttrRefreshed: {
@@ -1704,7 +1691,6 @@ export default {
 					if (i == params.levelsInfo[j].level) {
 						parentIndex = params.levelsInfo[j].index;
 						if (params.action == 'tab') {
-							console.log(parent);
 							for (var k = 0; k < parent.children.length; k++) {
 								for (var m = 0; m < parent.children[k].children[0].className.length; m++) {
 									if (parent.children[k].children[0].className[m] == 'active') {
@@ -1743,16 +1729,12 @@ export default {
 							}
 						}
 					}
-					console.log('handleActive ssss');
-					console.log(parent);
-					console.log(target);
 					target = parent.children[params.index];
 					target.className.push('active');
 				}
 			}
 			findParent(currentActiveCtrl.controller);
 			state.activeCtrl = currentActiveCtrl.controller;
-			console.log(state.activeCtrl);
 			state.selectIndex = params.index;
 			window.VDDesignerFrame.postMessage({
 				VDAttrRefreshed: {
@@ -1766,7 +1748,6 @@ export default {
 					},
 				}
 			}, '*');
-			console.log(target);
 			return {...state};
 		},
 		handleFade(state, {payload: params}) {
@@ -1793,7 +1774,6 @@ export default {
 
 					for (var j = 0; j < currentActiveCtrl.controller.children[1].children[i].className.length; j++) {
 						if (currentActiveCtrl.controller.children[1].children[i].className[j] == 'fade') {
-							console.log('splice');
 							currentActiveCtrl.controller.children[1].children[i].className.splice(j, 1);
 							break;
 						}
@@ -1818,7 +1798,6 @@ export default {
 		},
 		triggerMenu(state) {
 
-			console.log('triggerMenu');
 			state.showLabel = state.showLabel == '打开菜单' ? '关闭菜单' : '打开菜单';
 			window.VDDesignerFrame.postMessage({
 				VDAttrRefreshed: {
@@ -1947,11 +1926,7 @@ export default {
 
 			let tmpCtrl = loopAttr(deepCopiedController, deepCopiedController);
 			//slider唯一id设置
-			console.log('slider');
-			console.log(ctrl);
-			console.log(tmpCtrl);
 			if (ctrl.key == 'slider') {
-				console.log('slider');
 				var slider = randomString(8, 10);
 				tmpCtrl.attrs[0].children[1].value = slider;
 				tmpCtrl.children[0].children[0].attrs[0].children[0].value = '#' + slider;
@@ -1972,7 +1947,6 @@ export default {
 				}
 			}, '*');
 
-			console.log('generateCtrlTree================+++++++++++++++++', ctrl);
 			state.showLabel = '打开菜单';
 			return {...state};
 		},
@@ -2035,7 +2009,6 @@ export default {
 			let currentActiveCtrl = VDTreeActions.getCtrlByKey(state, state.activeCtrl.vdid, state.activePage);
 
 			var ctrlAttrs = currentActiveCtrl.controller.attrs;
-			console.log(currentActiveCtrl);
 			var targetAttr;
 			for (var i = 0; i < ctrlAttrs.length; i++) {
 				for (var j = 0; j < ctrlAttrs[i].children.length; j++) {
@@ -2064,7 +2037,6 @@ export default {
 				if (targetAttr == 'width') {
 					style = style.replace(/width: \d*(%|px);/, "width: " + params.newVal + state.widthUnit + ";");
 				}
-				console.log(style);
 				currentActiveCtrl.controller.attrs[0].children[2].value = style;
 				window.VDDesignerFrame.postMessage({
 					VDAttrRefreshed: {
@@ -2097,7 +2069,6 @@ export default {
 				currentActiveCtrl.controller.id = params.newVal;
 			}
 			var attr = currentActiveCtrl.controller.attrs[0].children[params.index];
-			console.log(attr);
 			attr.value = params.newVal;
 			window.VDDesignerFrame.postMessage({
 				VDAttrRefreshed: {
@@ -2191,7 +2162,6 @@ export default {
 
 		//栅格数变化
 		handleColumnCountChange(state, {payload: params}) {
-			console.log(params)
 			let column = params.column;
 			let currentRootVdid = params.currentRootVdid;
 			let tmpColumns = params.tmpColumns;
@@ -2337,7 +2307,6 @@ export default {
 			state.activeCtrlIndex = currentColumsInfo.index;
 			state.activeCtrlLvl = currentColumsInfo.level;
 			state.defaultSelectedKeys = [currentColumsInfo.vdid];
-			console.log(currentColums)
 
 			return {...state};
 		},

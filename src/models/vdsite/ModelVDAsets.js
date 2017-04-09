@@ -15,8 +15,6 @@ export default {
 	subscriptions: {
 		setup({ dispatch, history }) {
 			history.listen(({ pathname }) => {
-
-				console.log("setup");
 				if(localStorage.image == "vd:site"){
 					dispatch({
 						type: 'fetchFileList'
@@ -46,7 +44,6 @@ export default {
 		list(state, {payload: images}){
 
 			state.fileList = images;
-			console.log(images);
 			return {...state};
 		},
 		setUploading(state){
@@ -77,9 +74,7 @@ export default {
 
 				return false;
 			}
-			console.log(fileList);
 			fileList = fileList.data;
-			console.log(fileList);
 			var images = new Array();
 			for (var i = 0; i < fileList.length; i++) {
 				if(fileList[i].text != '.gitkeep') {
@@ -98,8 +93,6 @@ export default {
 			yield put({type: 'setUploading'});
 			var formdata = new FormData();
       		formdata.append('folder',localStorage.dir);
-			console.log('uploadImage');
-			console.log(image);
       		formdata.append('fileUp',image.file);
 			formdata.append('remoteIp',localStorage.host);
 

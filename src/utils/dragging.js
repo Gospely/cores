@@ -88,7 +88,6 @@ const dragging = () => {
 
 						if(X - xPage <= 0) {
 
-							// console.log('moveX - prevMoveX = ', moveX - prevLeft);
 
 							if(xPage - X >= 15) {
 								// prevLeft = moveX;
@@ -100,7 +99,6 @@ const dragging = () => {
 								if(opt.onMoveToRight) {
 									opt.onMoveToRight();
 								}
-								console.log(xPage - X)
 							}
 
 						}else {

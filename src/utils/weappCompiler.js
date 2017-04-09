@@ -146,13 +146,11 @@ const weappCompiler = {
 	},
 
 	compile () {
-		console.log('==============================================weappCompiler==============================================')
 
 		let app = {},
 			appPages = {},
 			self = this;
 
-		console.log(self.layout);
 
 		app['app.json'] = self.compileAPPJSON({ string: true });
 		app['app.js'] = self.getAppjs();
@@ -168,13 +166,11 @@ const weappCompiler = {
 			app['templates'][key] = mainPage[key];
 		}
 
-		console.log(app);
 
         //
 
 		self.app = app;
 
-		console.log('==============================================weappCompiler==============================================')
 		return true;
 	},
 
@@ -193,7 +189,6 @@ const weappCompiler = {
 					if(currAttr.type != 'children') {
 						if(key == 'pages') {
 							appJSON[key] = currAttr.value;
-                            console.log(currAttr, currAttr.value);
 						}else {
 							appJSON[key] = currAttr._value;
 						}
@@ -619,13 +614,10 @@ const weappCompiler = {
 	getAppjs () {
 		return "App({ \
 		    onLaunch: function () { \
-		        console.log('App Launch') \
 		    }, \
 		    onShow: function () { \
-		        console.log('App Show') \
 		    }, \
 		    onHide: function () { \
-		        console.log('App Hide') \
 		    }, \
 		    globalData: { \
 		        hasLogin: false \
