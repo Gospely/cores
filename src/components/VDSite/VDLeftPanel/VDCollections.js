@@ -3,7 +3,7 @@ import { connect } from 'dva';
 
 import { Button, Modal, Tag } from 'antd';
 import { Tabs, Icon } from 'antd';
-import { Tooltip, Collapse, InputNumber } from 'antd';
+import { Tooltip, Collapse, InputNumber, Upload } from 'antd';
 import { Popover, notification } from 'antd';
 
 import { Row, Col, Dropdown } from 'antd';
@@ -1009,7 +1009,18 @@ const Component = (props) => {
 					<div className="content-list" key={index}>
 						<p>{item.name} :</p>
 						<div className="collections-help-text">{item.helpText}</div>
-						<Input />
+						<Upload
+							name='fileUp'
+			          		listType="picture-card"
+			          		//fileList={props.vdassets.fileList}
+			          		//onPreview={assetsProps.handlePreview}
+			          		//onChange={assetsProps.handleChange}
+							//customRequest={assetsProps.customRequest}
+        				>
+        		     			<div style={{height: '100%'}}>
+							        <Icon type="plus" style={{lineHeight: '2.0'}} />
+							    </div>
+        				</Upload>
 					</div>
 				)
 			}
