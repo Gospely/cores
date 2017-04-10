@@ -157,7 +157,7 @@ const LeftSidebar = (props) => {
 
 	        	// if(location.hash.indexOf('project') != -1) {
 				console.log(props.vdcore.loading);
-				if(props.vdcore.loading){
+				if(props.vdcore.loading && localStorage.image == 'vd:site'){
 					message.error('项目加载中,不能切换')
 					return;
 				}
