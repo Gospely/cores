@@ -8,7 +8,7 @@ import { Popover, notification } from 'antd';
 
 import { Row, Col, Dropdown } from 'antd';
 
-import { Editor } from 'react-draft-wysiwyg';
+import { Editor } from '../../../../node_modules/react-draft-wysiwyg';
 import '../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 import { Menu } from 'antd';
