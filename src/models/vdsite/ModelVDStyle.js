@@ -752,9 +752,11 @@ export default {
 	      			type: 'appendStyleIntoOfficialStyle'
 	      		});
 
-			   		dispatch({
-      					type: 'getInitialData'
-			   		});
+				if(!localStorage.canSetup || localStorage.canSetup == 'true'){
+					dispatch({
+						type: 'getInitialData'
+					})
+				}
 	      	});
 		}
 	},
