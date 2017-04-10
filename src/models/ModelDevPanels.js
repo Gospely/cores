@@ -763,7 +763,7 @@ export default {
 			activePane.editors[params.editorId] = editorObj;
 			activePane.activeEditor.id = params.editorId;
 			methods.getActiveTab(state,activePane).isSave = false;
-
+			methods.getActiveTab(state,activePane).content = params.value;
 			return {...state};
 		},
 
