@@ -66,7 +66,7 @@ const VDRightPanel = (props) => {
           payload: 'hidden'
         })
       }
-    })
+    }, 1)
     
 
     setTimeout(function () {
@@ -74,7 +74,7 @@ const VDRightPanel = (props) => {
         type: 'vdstyles/changeVDStylePaneSpinActive',
         payload: false
       })
-    })
+    }, 1)
   }
 
   return (
