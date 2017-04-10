@@ -479,7 +479,6 @@ export default {
 
 				window.location.hash = 'project/' + result.data.fields.id;
 				initData(params.ctx, result.data.fields.id);
-				debugger;
 				yield request('vdsite/static?creator=' + localStorage.user + '&template=' + selectId.application +'&folder=' + result.data.fields.docker.replace('gospel_project_', '') + '&host=' + localStorage.host ,{
 					method: 'GET'
 				});
@@ -510,11 +509,7 @@ export default {
 					type: 'changeTemplateStoreVisible',
 					payload: false
 				});
-				console.log(data.data.fields.content);
-				console.log(selectId.url);
 				data.data.fields.content = data.data.fields.content.replace(new RegExp(selectId.url, 'gm'), 'http://' + localStorage.domain);
-				console.log(data);
-				console.log(data.data.fields.content);
 				var UIState = JSON.parse(data.data.fields.content);
 				UIState.applicationId = result.data.fields.id;
 				initUIState(params.ctx, result.data.fields.id, UIState);

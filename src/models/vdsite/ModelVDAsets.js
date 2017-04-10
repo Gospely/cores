@@ -25,7 +25,10 @@ export default {
 		}
 	},
 	reducers: {
-
+		initState(state, { payload: params}){
+			state.fileList = [];
+			return {...state};
+		},
 		handlePreview(state, { payload: params }) {
 			state.previewImage = params.previewImage;
 			state.previewVisible = params.previewVisible;

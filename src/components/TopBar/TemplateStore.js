@@ -346,8 +346,8 @@ const TemplateStore = (props) => {
 
 };
 
-function mapSateToProps({ templateStore, vdstyles, vdCtrlTree, vdpm, vdcore, vdanimations, sidebar, UIState }) {
-	return {  templateStore, vdstyles, vdCtrlTree, vdpm, vdcore, vdanimations, sidebar, UIState };
+function mapSateToProps({ templateStore, vdstyles, vdCtrlTree, vdpm, vdcore, vdanimations, sidebar, UIState, vdassets }) {
+	return {  templateStore, vdstyles, vdCtrlTree, vdpm, vdcore, vdanimations, sidebar, UIState, vdassets };
 }
 
 export default connect(mapSateToProps)(TemplateStore);

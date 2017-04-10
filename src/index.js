@@ -58,7 +58,6 @@ app.use({
 
 		if(localStorage.flashState == 'true') {
 
-			console.log('flashState');
 			var state = app._store.getState();
 			var UIState = packUIStage(state);
 			var state = {
