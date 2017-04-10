@@ -1240,7 +1240,7 @@ const Component = (props) => {
 
   	return (
   		<div className="vdctrl-pane-wrapper">
-  			{props.vdCollections.isFinish ?
+  			{window.debug ?
   				<Collapse bordered={false} defaultActiveKey='collections-manager'>
 		    			<Panel header="数据集管理" key="collections-manager">
 		    				<Popover placement="right" trigger={['click']} content={newCollectionsPopover.content} visible={props.vdCollections.newCollectionsPopoverVisible} onVisibleChange={collectionsProps.newCollectionsPopoverVisibleChange}>

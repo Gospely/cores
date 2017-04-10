@@ -262,7 +262,7 @@ const Component = (props) => {
       				interactions.map((interaction, interactionIndex) => {
       					return (
 
-			      			<Menu.Item key={interaction.key}>
+			      			<Menu.Item key={interaction.key} style={{background:"#f7f7f7"}} >
 			      				<Row>
 									<Col span={18}>
 					        			<Radio checked={activeCtrlInteractionKey === interaction.key} 

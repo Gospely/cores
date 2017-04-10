@@ -119,6 +119,7 @@ const Component = (props) => {
 	 				<p style={{margin: 10}}>样式列表：</p>
 			  		<Menu
 			      		mode="inline"
+			      		style={{background:"#f7f7f7"}}
 			  		>
 			  			{MenuItems}
 					</Menu>
