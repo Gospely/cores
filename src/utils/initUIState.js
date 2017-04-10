@@ -47,6 +47,9 @@ const initState = function (props, applicationId, layout) {
                 payload: { UIState: UIState.UIState.vdcore }
             });
             props.dispatch({
+                type: 'vdassets/initState',
+            });
+            props.dispatch({
                 type: 'vdanimations/initState',
                 payload: { UIState: UIState.UIState.vdanimations }
             });
