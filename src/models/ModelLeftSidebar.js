@@ -1152,11 +1152,9 @@ export default {
                     //     state.appCreatingForm.useFramework = false;
                     // }else{
                     // }
-
-                    if(params.value != 'wechat:latest') {
-                        state.appCreatingForm.useFramework = true;
-                    }
-
+                }
+                if(params.value != 'wechat:latest') {
+                    state.appCreatingForm.useFramework = true;
                 }
 
 			}
