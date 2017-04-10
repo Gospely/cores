@@ -18,20 +18,20 @@ export default {
 			if(localStorage.image == 'wechat:latest' || window.debug) {
 
 			}else{
-				props.dispatch({
-					type: 'devpanel/stopDocker',
-					payload: { id: localStorage.applicationId, image: localStorage.image }
-				});
+				// props.dispatch({
+				// 	type: 'devpanel/stopDocker',
+				// 	payload: { id: localStorage.applicationId, image: localStorage.image }
+				// });
 				props.dispatch({
 					type: 'UIState/writeConfig'
 				});
-				setTimeout(function(){
-
-					props.dispatch({
-						type: 'devpanel/startDocker',
-						payload: { id: localStorage.applicationId}
-					}, 3000);
-				});
+				// setTimeout(function(){
+				//
+				// 	props.dispatch({
+				// 		type: 'devpanel/startDocker',
+				// 		payload: { id: localStorage.applicationId}
+				// 	}, 3000);
+				// });
 				var confirmationMessage = '确定离开此页吗？本页不需要刷新或后退';
 
 				(e || window.event).returnValue = confirmationMessage;     // Gecko and Trident
