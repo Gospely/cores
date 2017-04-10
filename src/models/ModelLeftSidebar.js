@@ -1146,12 +1146,14 @@ export default {
 
                 if(!window.debug) {
 
-                    if(params.value == 'vd:latest'){
-                        message.error('此功能未开放,正在开发');
-                        state.appCreatingForm.image = '';
-                        state.appCreatingForm.useFramework = false;
-                    }else{
-                        if(params.value != 'wechat:latest')
+                    // if(params.value == 'vd:latest'){
+                    //     message.error('此功能未开放,正在开发');
+                    //     state.appCreatingForm.image = '';
+                    //     state.appCreatingForm.useFramework = false;
+                    // }else{
+                    // }
+
+                    if(params.value != 'wechat:latest') {
                         state.appCreatingForm.useFramework = true;
                     }
 
