@@ -42,7 +42,19 @@ const VDStylePanel = (props) => {
 
 	if (!props.vdCtrlTree.activeCtrl.tag) {
 		return (
-			<div className="none-operation-obj">暂无操作对象</div>
+			<div className="none-operation-obj-a">
+				<Card style={{ width: 'auto', margin: '15px' }}>
+				    <div>您还未添加<Tag style={{marginLeft: '8px'}} color="#87d068"><span style={{color: 'rgb(255, 255, 255)'}}>控件</span></Tag>，可以点击左侧的“控件”然后选择一个控件并添加到设计区域。<p>添加完成后可以对元素进行以下操作：</p></div>
+				    <ol>
+				    	<li style={{margin:'2px'}}>1、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>元素位置</span></Tag>和<Tag color="cyan" style={{marginLeft: '8px'}}><span style={{color: 'rgb(255, 255, 255)'}}>大小</span></Tag></li>
+				    	<li style={{margin:'2px'}}>2、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>字体</span></Tag>操作</li>
+				    	<li style={{margin:'2px'}}>3、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>背景</span></Tag>操作</li>
+				    	<li style={{margin:'2px'}}>4、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>边框</span></Tag>操作</li>
+				    	<li style={{margin:'2px'}}>5、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>阴影</span></Tag>操作</li>
+				    	<li style={{margin:'2px'}}>6、<Tag color="cyan"><span style={{color: 'rgb(255, 255, 255)'}}>交互动画</span></Tag></li>
+				    </ol>
+				</Card>
+			</div>
 		)
 	}
 
