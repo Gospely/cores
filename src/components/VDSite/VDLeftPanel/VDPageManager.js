@@ -69,7 +69,10 @@ const Component = (props) => {
 
 		style: {
 	      	width: parseInt($(document).width()) / 2,
-	      	height: parseInt($(document).height()) - 50
+	      	height: parseInt($(document).height()) - 50,
+	      	overflow: "auto",
+	      	overflowY:"visible" ,
+	      	scrollbar: "width:0"
 		},
 		newFolderVisibleChange(value){
 
