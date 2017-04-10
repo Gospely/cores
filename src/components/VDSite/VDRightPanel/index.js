@@ -38,7 +38,7 @@ const VDRightPanel = (props) => {
       type: 'vdstyles/changeVDStylePaneSpinActive',
       payload: true
     })
-    setTimeout(function () {
+    // setTimeout(function () {
       props.dispatch({
         type: 'vdcore/changeTabsPane',
         payload: {
@@ -66,15 +66,15 @@ const VDRightPanel = (props) => {
           payload: 'hidden'
         })
       }
-    }, 1)
+    // }, 1)
     
 
-    setTimeout(function () {
+    // setTimeout(function () {
       props.dispatch({
         type: 'vdstyles/changeVDStylePaneSpinActive',
         payload: false
       })
-    }, 1)
+    // }, 1)
   }
 
   return (
