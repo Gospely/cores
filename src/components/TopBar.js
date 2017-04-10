@@ -918,7 +918,7 @@ const LeftSidebar = (props) => {
 				var title = '预览',
 	        		type = 'previewer',
 					url = 'http://' + localStorage.domain;
-        		props.dispatch({type: 'devpanel/add',payload: {title,type,url}});
+        			props.dispatch({type: 'devpanel/add',payload: {title,type,url}});
 			},
 			run() {
 				const debugType = {
@@ -2120,8 +2120,8 @@ const LeftSidebar = (props) => {
 
 }
 
-function mapStateToProps({ sidebar, editor, editorTop, rightbar, designer, attr ,devpanel, layout, cpre, vdpm, vdcore, vdCtrlTree, vdassets, vdanimations}) {
-  return { sidebar, editor, editorTop, rightbar, designer, attr ,devpanel, layout, cpre, vdpm, vdcore, vdCtrlTree, vdassets, vdanimations};
+function mapStateToProps({ sidebar, editor, editorTop, rightbar, designer, attr ,devpanel, layout, cpre, vdpm, vdcore, vdCtrlTree, vdassets, vdanimations, templateStore, dashboard}) {
+  return { sidebar, editor, editorTop, rightbar, designer, attr ,devpanel, layout, cpre, vdpm, vdcore, vdCtrlTree, vdassets, vdanimations, templateStore, dashboard};
 }
 
 export default connect(mapStateToProps)(LeftSidebar);
