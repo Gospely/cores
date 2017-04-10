@@ -15,7 +15,7 @@ export default {
 		//监听页面刷新，保存最新的UI状态
 		window.addEventListener("beforeunload", (e) => {
 
-			if(localStorage.image == 'wechat:latest') {
+			if(localStorage.image == 'wechat:latest' || window.debug) {
 
 			}else{
 				props.dispatch({
