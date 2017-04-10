@@ -40,12 +40,14 @@ export default {
 		});
 	//	监听关闭页面，保存ui状态
 		window.addEventListener("popstate", (evt) => {
-			console.log('ddd');
 			if(window.applicationId == localStorage.applicationId) {
-				console.log('write');
 				props.dispatch({
 					type: 'UIState/writeConfig'
 				});
+				localStorage.canSetup = false;
+				setTimeout(function(){
+					localStorage.canSetup = true;
+				}, 4000);
 				window.history.forward(1);
 			}
 

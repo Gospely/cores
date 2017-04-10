@@ -29,7 +29,6 @@ function IndexPage(props) {
     if (props.query == '?from=dash') {
         window.reload = true;
     }
-    console.log('reload');
     if (props.params.id == localStorage.applicationId) {
         window.reload = false;
     } else {
