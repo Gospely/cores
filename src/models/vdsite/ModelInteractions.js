@@ -69,7 +69,7 @@ const vdanimationActions = {
 					for(let j = 0; j < currentVdid.length; j ++) {
 
 						scriptText += `\n		var elem${j} = jQuery('[vdid="${currentVdid[j]}"]');
-		if (elem${j}.offset().top - jQuery(window).scrollTop() <= jQuery(window).innerHeight()) {
+		if (elem${j} && elem${j}.offset().top - jQuery(window).scrollTop() <= jQuery(window).innerHeight()) {
 			elem${j}.addClass('animated ${animate}');
 		}`
 						if (duration) {
@@ -79,7 +79,7 @@ const vdanimationActions = {
 						}
 
 					}
-					scriptText += `\n	});`;
+					//scriptText += `\n	});`;
 				}
 
 			}
