@@ -479,7 +479,6 @@ export default {
 
 				window.location.hash = 'project/' + result.data.fields.id;
 				initData(params.ctx, result.data.fields.id);
-				debugger;
 				yield request('vdsite/static?creator=' + localStorage.user + '&template=' + selectId.application +'&folder=' + result.data.fields.docker.replace('gospel_project_', '') + '&host=' + localStorage.host ,{
 					method: 'GET'
 				});

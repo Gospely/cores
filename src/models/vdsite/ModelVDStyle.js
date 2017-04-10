@@ -752,9 +752,9 @@ export default {
 	      			type: 'appendStyleIntoOfficialStyle'
 	      		});
 
-				//    		dispatch({
-	      // 			type: 'getInitialData'
-				//    		});
+			   		dispatch({
+      					type: 'getInitialData'
+			   		});
 	      	});
 		}
 	},
@@ -1021,7 +1021,7 @@ export default {
 			state.transitionSetting = params.UIState.transitionSetting || state.transitionSetting;
 			state.transformSetting = params.UIState.transformSetting || state.transformSetting;
 			state.unitList = params.UIState.unitList || state.unitList;
-			state.mediaQuery = params.UIState.mediaQuery;
+			state.mediaQuery = params.UIState.mediaQuery || { queryList: []};
 			return {...state};
 		},
 		handleCSSStateChange(state, { payload: params }) {
