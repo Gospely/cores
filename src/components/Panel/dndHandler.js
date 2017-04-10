@@ -40,6 +40,14 @@ export default {
 		});
 	//	监听关闭页面，保存ui状态
 		window.addEventListener("popstate", (evt) => {
+
+			props.dispatch({
+				type: 'dashboard/hideDash'
+			})
+			props.dispatch({
+				type: 'templateStore/changeTemplateStoreVisible',
+				payload: false
+			})
 			if(window.applicationId == localStorage.applicationId) {
 				props.dispatch({
 					type: 'UIState/writeConfig'
