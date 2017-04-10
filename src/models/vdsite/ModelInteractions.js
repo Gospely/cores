@@ -210,9 +210,11 @@ export default {
 	subscriptions: {
 		setup({ dispatch, history }) {
 	      	history.listen(({ pathname }) => {
-	      		dispatch({
-	      			type: 'getInitialData'
-	      		});
+				if(!localStorage.canSetup || localStorage.canSetup == 'true'){
+					dispatch({
+	                    type: 'getInitialData'
+	                })
+				}
 	      	});
 		}
 	},
