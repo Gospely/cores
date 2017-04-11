@@ -935,6 +935,11 @@ export default {
 			return {...state}
 		},
 
+		changeNewTransformPane(state, { payload: params }) {
+			state.popover.newTransform.visible = !state.popover.newTransform.visible
+			return {...state}
+		},
+
 		changeTextShadowPaneVisible(state, { payload: params }) {
 			state.textShadowPane.visible = !state.textShadowPane.visible;
 			return {...state}
