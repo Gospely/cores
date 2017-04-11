@@ -71,11 +71,12 @@ const vdanimationActions = {
 						scriptText += `\n		var elem${j} = jQuery('[vdid="${currentVdid[j]}"]');
 		if (elem${j} && elem${j}.offset().top - jQuery(window).scrollTop() <= jQuery(window).innerHeight()) {
 			elem${j}.addClass('animated ${animate}');
-		}`
+			}
+		})`
 						if (duration) {
 							scriptText += `\n		elem${j}.css({
 			animationDuration: '${duration}ms'
-		});`
+		});}`
 						}
 
 					}
@@ -101,7 +102,7 @@ const vdanimationActions = {
 			handlers.scrollSpecialHandler(scrollAnimations);
 		}
 
-		scriptText += `\n})()`;
+		scriptText += `\n})();`;
 
 		return scriptText;
 	},
