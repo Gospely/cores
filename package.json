@@ -49,7 +49,7 @@
   },
   "scripts": {
     "start": "dora --plugins \"proxy?watchDirs=./mock,webpack,webpack-hmr\"",
-    "build": "atool-build && rm -rf ./dist/static && cp -r static ./dist",
+    "build": "atool-build --hash && rm -rf ./dist/static && cp -r static ./dist",
     "test": "atool-test-mocha ./src/**/*-test.js"
   }
 }
