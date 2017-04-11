@@ -197,7 +197,9 @@ export default {
 	            },
 	            body: JSON.stringify(struct)
 	        });
-			window.open(localStorage.baseURL + 'vdsite/download?token=' + localStorage.token + '&folder=' + localStorage.dir + '&project=' + localStorage.currentProject)
+			if(packResult.packResult.data.code){
+				window.open(localStorage.baseURL + 'vdsite/download?token=' + localStorage.token + '&folder=' + localStorage.dir + '&project=' + localStorage.currentProject)				
+			}
 		},
 		*deploy({ payload: params }, { call, put, select }){
 

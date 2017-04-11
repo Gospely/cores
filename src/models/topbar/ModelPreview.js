@@ -92,7 +92,7 @@ effects:{
         message.success('请稍等，正在准备预览……');
         struct.folder = localStorage.dir;
 
-        var packResult = yield request('vdsite/pack', {
+        var packResult = yield request('vdsite/preview', {
           method: 'POST',
           headers: {
               "Content-Type": "application/json;charset=UTF-8",
