@@ -654,6 +654,7 @@ const LeftSidebar = (props) => {
 
 					if(window.frames["vdsite-designer"]){
 						window.frames["vdsite-designer"].location.reload();
+						window.frames["vdsite-designer"].document.domain = 'gospely.com'
 					}
 				}
     			window.reload = true
