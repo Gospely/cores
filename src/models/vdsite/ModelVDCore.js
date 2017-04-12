@@ -293,7 +293,6 @@ export default {
 		        }
 			}
 
-		
 			var struct = checkJson(localStorage.UIState);
 			if(struct == false){
 
