@@ -27,6 +27,7 @@ export default {
 	state: {
 
 		modalNewAppVisible: false,
+        ideShow: false,
 		modalSwitchAppVisible: false,
 		modalModifyGitOriginVisible: false,
 		createFromModal: false,
@@ -1202,6 +1203,10 @@ export default {
 
         hideVDSiteDownloader(state) {
             state.vdSiteDownloader.visible = false;
+            return {...state};
+        },
+        handleBuyIdeShow(state, {payload: value}){
+            state.ideShow = value;
             return {...state};
         }
 
