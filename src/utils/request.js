@@ -52,7 +52,7 @@ function checkResData(data) {
         return false;
     }
 
-    if(data.code == -101){
+    if(data.code == -101 && window.resquestProps){
         window.resquestProps.dispatch({
             type: 'sidebar/handleBuyIdeShow',
             payload: true,
