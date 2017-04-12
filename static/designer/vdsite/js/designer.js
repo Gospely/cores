@@ -363,7 +363,7 @@ $(function() {
 
         containerSpecialHandle: function (e, target) {
 
-			let firAndLas = [];
+			var firAndLas = [];
 			target.children().each(function () {
 
 				if (e.pageY >= jq(this).offset().top && e.pageY <= jq(this).offset().top + jq(this).outerHeight()) {
@@ -372,17 +372,17 @@ $(function() {
 
 			})
 
-			let first = firAndLas[0],
+			var first = firAndLas[0],
 				last = firAndLas[firAndLas.length - 1];
 
 			if (first && last && first[0].id !== "vdInsertGuideHidden") {
-				let heigher = first.outerHeight();
+				var heigher = first.outerHeight();
 
 				if (heigher < last.outerHeight()) {
 					heigher = last.outerHeight()
 				}
 
-				let ref = (e.pageY - first.offset().top) / heigher;
+				var ref = (e.pageY - first.offset().top) / heigher;
 
 				parentGuide.css({
 					left: target.offset().left,
@@ -462,8 +462,8 @@ $(function() {
 				parentWindow.postMessage({ 'pastCtrl' : c }, "*");
 			},
 
-			deleteCtrl: function (c) {
-				parentWindow.postMessage({ 'deleteCtrl' : c }, "*");
+			devareCtrl: function (c) {
+				parentWindow.postMessage({ 'devareCtrl' : c }, "*");
 			},
 
 			ctrlDomPasted: function (c) {
@@ -518,8 +518,8 @@ $(function() {
                     	pageOperations.applyScript(data);
                     },
 
-					VDChildrenDelete: function(){
-						controllerOperations.deleteChildren(data.activeCtrl, data.attrType);
+					VDChildrenDevare: function(){
+						controllerOperations.devareChildren(data.activeCtrl, data.attrType);
 					},
 
 					VDChildrenAdd: function(){
@@ -575,7 +575,7 @@ $(function() {
                         controllerOperations.select(data, true);
                     },
 
-                    deleteCtrl: function () {
+                    devareCtrl: function () {
                     	jq('[vdid=' + data + ']').remove();
                     	controllerOperations.changeContainerHeight();
                     },
@@ -719,10 +719,10 @@ $(function() {
 		    	jq("#vdRightClickMenu").hide();
 		    })
 
-		    jq("#vdDelete").click(function (e) {
+		    jq("#vdDevare").click(function (e) {
 		    	e.stopPropagation();
 		    	e.preventDefault();
-		    	postMessageToFather.deleteCtrl({});
+		    	postMessageToFather.devareCtrl({});
 		    	jq("#vdRightClickMenu").hide();
 		    })
 
@@ -775,7 +775,7 @@ $(function() {
 
 			'update': function(activeCtrl, attr){
 
-				let vdid  = activeCtrl.vdid;
+				var vdid  = activeCtrl.vdid;
 				var elem = jq('[vdid='+ activeCtrl.vdid + ']');
 				activeCtrl.vdid = activeCtrl.vdid + 'c';
 				var elemGen = new ElemGenerator(activeCtrl);
@@ -844,7 +844,7 @@ $(function() {
 
 			},
 
-			delete: function (activeCtrl, column, parent, count, colClass) {
+			devare: function (activeCtrl, column, parent, count, colClass) {
 				var elem = jq('[vdid='+ parent + ']');
 				for(var i = 0; i < count; i ++){
 					elem.children().eq(-1).remove();
@@ -1024,8 +1024,8 @@ $(function() {
 					new ElemGenerator(activeCtrl).setAttributeByAttr(attr, attrType);
 				}
             },
-			deleteChildren: function(activeCtrl,attrType) {
-				let vdid  = activeCtrl.vdid;
+			devareChildren: function(activeCtrl,attrType) {
+				var vdid  = activeCtrl.vdid;
 				var elem = jq('[vdid='+ activeCtrl.vdid + ']');
 				elem.remove();
             },
@@ -1265,7 +1265,7 @@ $(function() {
 
         		var dragElem = dndData.dragElem;
 
-        		let handler = function () {
+        		var handler = function () {
 
         			dndData.isMouseDown = false;
         			controllerOperations.showDesignerDraggerBorder(dragElem);
@@ -1448,7 +1448,7 @@ $(function() {
 				if(attr.isToggleAttr){
 					if(attr.isSetVal){
 						if(attr.attrName == 'aria-expanded'){
-							let className = attr.value? 'dropdown open' : 'dropdown';
+							var className = attr.value? 'dropdown open' : 'dropdown';
 							this.elem.parent().removeClass("open");
 							this.elem.parent().addClass(className);
 						}
