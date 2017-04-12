@@ -2687,6 +2687,7 @@ const VDStylePanel = (props) => {
 							        	placement="left"
 							        	visible={props.vdstyles.backgroundStyleSettingPane.visible}
 							        	onVisibleChange={handleVisibleChange}
+							        	overlayClassName="bg-img-popover"
 							      	>
 					  		              	<Button>
 												<i className="fa fa-picture-o"></i>
@@ -2902,9 +2903,8 @@ const VDStylePanel = (props) => {
 				    	<Form className="form-no-margin-bottom">
 							<FormItem {...formItemLayout} label={
 								activeCSSStyleState['border-radius'][borderRadiusPosition + '-radius'] == '' ? <span>弧度</span> : (
-								  	<Popconfirm onCancel={() => { setThisPropertyImportant(borderRadiusPosition + '-radius') }} onConfirm={() => { setThisPropertyNull(borderRadiusPosition + '-radius') }} title="属性操作" okText="删除属性" cancelText={
-								  					!activeCSSUnitList[borderPosition + '-radius'].important ? <span>置!important</span> : <span>取消!important</span>
-								  				}>
+								  	<Popconfirm onCancel={() => { setThisPropertyImportant(borderRadiusPosition + '-radius') }} onConfirm={() => { setThisPropertyNull(borderRadiusPosition + '-radius') }} title="属性操作" okText="删除属性" 
+								  	cancelText={!activeCSSUnitList[borderRadiusPosition + '-radius'].important ? <span>置!important</span> : <span>取消!important</span>}>
 											<a href="#">弧度</a>
 										</Popconfirm>
 								)
