@@ -498,6 +498,10 @@ export default {
 					method: 'GET'
 				});
 				data.data.fields.content = data.data.fields.content.replace(new RegExp(selectId.url, 'gm'), 'http://' + localStorage.domain);
+				yield put({
+					type: 'vdcore/handleLoading',
+					payload: true
+				});
 				var UIState = JSON.parse(data.data.fields.content);
 				UIState.applicationId = result.data.fields.id;
 				initUIState(params.ctx, result.data.fields.id, UIState);
