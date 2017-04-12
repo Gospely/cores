@@ -19,6 +19,17 @@ export default function({ history, app }) {
           			cb(null, require('./routes/IndexPage'));
         		});
       		},
+    	},{
+      		path: '*',
+      		name: 'main',
+      		getComponent(nextState, cb) {
+                console.log('main');
+                if(window.location.href.indexOf('localhost')){
+                    window.location.href = 'http://localhost:8989';
+                }else {
+                    window.location.href = 'http://ide.gospely.com';
+                }
+      		},
     	}];
 
   	return (
