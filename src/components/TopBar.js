@@ -50,7 +50,8 @@ const LeftSidebar = (props) => {
 	if(!window.socket && window.applicationId){
 		gitTerminal(props);
 	}
-
+	//设置控制无权限支付弹窗props
+	window.resquestProps = props;
 	var styles = {
 		sidebar: {
 			height: '100%'
@@ -649,12 +650,13 @@ const LeftSidebar = (props) => {
     			// 	type: 'devpanel/stopDocker',
     			// 	payload: { id: localStorage.applicationId, image: localStorage.image }
     			// });
-				if(application.image == "vd:site" && localStorage.image == "vd:site") {
-
-					if(window.frames["vdsite-designer"]){
-						window.frames["vdsite-designer"].location.reload();
-					}
-				}
+				// if(application.image == "vd:site" && localStorage.image == "vd:site") {
+				//
+				// 	if(window.frames["vdsite-designer"]){
+				// 		window.frames["vdsite-designer"].location.reload();
+				// 		window.frames["vdsite-designer"].document.domain = 'gospely.com'
+				// 	}
+				// }
     			window.reload = true
     			window.applicationId = application.id;
     			initApplication(application, props);
@@ -817,6 +819,15 @@ const LeftSidebar = (props) => {
 			props.dispatch({
 				type: 'sidebar/showNewAppAndHideSwitch',
 			})
+		},
+		cancelBuyIde(){
+			props.dispatch({
+				type: 'sidebar/handleBuyIdeShow',
+				payload: false
+			})
+		},
+		goToBuy(){
+			window.open('http://dash.gospely.com/#!/ide/renew')
 		}
 	};
 
@@ -1904,7 +1915,16 @@ const LeftSidebar = (props) => {
 	            </Spin>
 
 	        </Modal>
-
+			<Modal
+				title="Gospel | 版本升级"
+				wrapClassName="vertical-center-modal"
+				visible={props.sidebar.ideShow}
+				onCancel={leftSidebarProps.cancelBuyIde}
+				footer={null}
+			>
+				<span>您的版本无法使用该功能，为保证您的开发需求，请升级版本</span><br/>
+				<a onClick={leftSidebarProps.goToBuy}>去升级版本</a>
+			</Modal>
 	    	<Modal title="切换应用" visible={props.sidebar.modalSwitchAppVisible}
 	          	onOk={leftSidebarProps.switchApp} onCancel={leftSidebarProps.cancelSwitchApp}
 	          	footer={[(<Button key='cancel' onClick={leftSidebarProps.cancelSwitchApp}>取消</Button>)]}

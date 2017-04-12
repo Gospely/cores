@@ -1,8 +1,16 @@
 const webpack = require('atool-build/lib/webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = function(webpackConfig, env) {
   webpackConfig.babel.plugins.push('transform-runtime');
+  // webpackConfig.plugins.push(
+  //     new HtmlWebpackPlugin({
+  //       filename: 'index.html',
+  //       template: 'src/index.html',
+  //       inject: true
+  //     })
+  // )
 
   // Support hmr
   if (env === 'development') {
@@ -77,6 +85,7 @@ module.exports = function(webpackConfig, env) {
   // webpackConfig.externals = {
   //   'react': 'window.React'
   // }
+
 
   return webpackConfig;
 };

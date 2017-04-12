@@ -51,6 +51,13 @@ function checkResData(data) {
         }, 2000);
         return false;
     }
+
+    if(data.code == -101 && window.resquestProps){
+        window.resquestProps.dispatch({
+            type: 'sidebar/handleBuyIdeShow',
+            payload: true,
+        })
+    }
   }
   return data;
 }
