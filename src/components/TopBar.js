@@ -650,13 +650,13 @@ const LeftSidebar = (props) => {
     			// 	type: 'devpanel/stopDocker',
     			// 	payload: { id: localStorage.applicationId, image: localStorage.image }
     			// });
-				if(application.image == "vd:site" && localStorage.image == "vd:site") {
-
-					if(window.frames["vdsite-designer"]){
-						window.frames["vdsite-designer"].location.reload();
-						window.frames["vdsite-designer"].document.domain = 'gospely.com'
-					}
-				}
+				// if(application.image == "vd:site" && localStorage.image == "vd:site") {
+				//
+				// 	if(window.frames["vdsite-designer"]){
+				// 		window.frames["vdsite-designer"].location.reload();
+				// 		window.frames["vdsite-designer"].document.domain = 'gospely.com'
+				// 	}
+				// }
     			window.reload = true
     			window.applicationId = application.id;
     			initApplication(application, props);
@@ -1915,7 +1915,6 @@ const LeftSidebar = (props) => {
 	            </Spin>
 
 	        </Modal>
-			//升级版本
 			<Modal
 				title="Gospel | 版本升级"
 				wrapClassName="vertical-center-modal"
