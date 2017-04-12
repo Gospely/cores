@@ -84,8 +84,10 @@ const leftSidebar = (props) => {
 		},
 
 		span: {
-		 	writingMode: 'tb-rl',
+		 	//writingMode: 'tb-rl',
 		 	// WebkitWritingMode: 'vertical-rl'
+		 	dispaly: 'block',
+		 	width: '35%'
 		}
 	}
 
@@ -100,7 +102,7 @@ const leftSidebar = (props) => {
 			if(localStorage.image != 'vd:site') {
 				return (
 		    		<TabPane style={styles.tab} tab={<span style={styles.span}>
-			    		<Icon style={styles.icon} type="file-text" />文件</span>}
+			    		<Icon style={styles.icon} type="file-text" /><br/>文<br/>件</span>}
 			    		key="file"
 			    		disabled={window.disabled}
 			    	>
@@ -117,7 +119,7 @@ const leftSidebar = (props) => {
 		return window.isWeapp ? (
 		    	<TabPane style={styles.tab}
 		    		tab={<span style={styles.span}>
-		    			<Icon style={styles.icon} type="bars" />结构
+		    			<Icon style={styles.icon} type="bars" /><br/>结<br/>构
 		    			</span>}
 		    		key="controllers"
 		    		disabled={window.disabled}
@@ -144,7 +146,7 @@ const leftSidebar = (props) => {
 			if(localStorage.image != 'vd:site') {
 				return (
 					<TabPane style={styles.tab} tab={<span style={styles.span}>
-			    		<Icon style={styles.icon} type="eye-o" />布局</span>}
+			    		<Icon style={styles.icon} type="eye-o" /><br/>布<br/>局</span>}
 			    		key="4"
 			    		disabled={window.disabled}
 			    	>
@@ -163,7 +165,7 @@ const leftSidebar = (props) => {
 			return (
 		    	<TabPane style={styles.tab}
 		    		tab={<span style={styles.span}>
-		    			<Icon style={styles.icon} type="setting" />设置
+		    			<Icon style={styles.icon} type="setting" /><br/>设<br/>置
 		    		</span>} key="setting"
 		    		disabled={window.disabled}
 		    	>
@@ -184,7 +186,7 @@ const leftSidebar = (props) => {
 	    	sidebarMenu = (
 	    		<TabPane style={styles.tab}
 	    			tab={<span id="vdsiteCtrlBtn" style={styles.span}>
-	    				<Icon style={styles.icon} type="inbox" />控件
+	    				<Icon style={styles.icon} type="inbox" /><br/>控<br/>件
 	    			</span>} key="vdsite-controllers"
 	    			disabled={window.disabled}
 	    		>
@@ -204,7 +206,7 @@ const leftSidebar = (props) => {
 	    	sidebarMenu = (
 				<TabPane style={styles.tab}
 	    			tab={<span id="vdsitePagesBtn" style={styles.span}>
-	    				<Icon style={styles.icon} type="copy" />页面
+	    				<Icon style={styles.icon} type="copy" /><br/>页<br/>面
 	    			</span>} key="vdsite-pages"
 	    			disabled={window.disabled}
 	    		>
@@ -223,7 +225,7 @@ const leftSidebar = (props) => {
 	    	sidebarMenu = (
 				<TabPane style={styles.tab}
 	    			tab={<span id="vdsiteCollectionsBtn" style={styles.span}>
-	    				<Icon style={styles.icon} type="hdd" />数据集
+	    				<Icon style={styles.icon} type="hdd" /><br/>数<br/>据<br/>集
 	    			</span>} key="vdsite-collections"
 	    			disabled={window.disabled}
 	    		>
