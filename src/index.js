@@ -67,11 +67,17 @@ app.use({
 			var escape = false
 			if(localStorage.image == 'wechat:latest' ||  localStorage.image == 'vd:site'){
 
-				localStorage.UIState = JSON.stringify(state);
+				localStorage.UIState = JSON.stringify(state, function(key, value) {
+					if(key == undefined || key == null){
+						return undefined
+					}else{
+						return value;
+					}
+				});
 			}else{
 				localStorage.UIState = JSON.stringify(state,function(key,value){
 
-					if(key == 'content' || key == 'value'|| key == 'designer'){
+					if(key == 'content' || key == 'value'|| key == 'designer' && key == undefined || key == null){
 						return undefined
 					}else{
 						return value;

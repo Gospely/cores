@@ -249,18 +249,13 @@ export default {
 		},
 		*TemplateSaving( { payload: params },  { call, put, select }) {
 
-			var layout = yield select(state => state.vdCtrlTree.layout),
-				pages = yield select(state => state.vdpm.pageList),
-				css = yield select(state => state.vdstyles.cssStyleLayout),
-				currPage = yield select(state => state.vdpm.currentActivePageListItem),
-				name = yield select(state => state.vdcore.TemplateSavingModal.name),
+			var name = yield select(state => state.vdcore.TemplateSavingModal.name),
 				src = yield select(state => state.vdcore.TemplateSavingModal.previewUrl),
 				description = yield select(state => state.vdcore.TemplateSavingModal.description),
 				type = yield select(state => state.vdcore.TemplateSavingModal.type),
 				types = yield select(state => state.vdcore.TemplateType),
 				isFree = yield select(state => !state.vdcore.TemplateSavingModal.isFree),
-				price = yield select(state => state.vdcore.TemplateSavingModal.price),
-				interaction = yield select(state => state.vdanimations);
+				price = yield select(state => state.vdcore.TemplateSavingModal.price);
 			if(isFree){
 				price = 0;
 			}else {
@@ -289,7 +284,22 @@ export default {
 				});
 				return;
 			}
-			var struct = JSON.parse(localStorage.UIState);
+			function checkJson(value){
+				try{
+		            var con = JSON.parse(value);
+		            return con;
+		        }catch(e){
+		            return false;
+		        }
+			}
+
+		
+			var struct = checkJson(localStorage.UIState);
+			if(struct == false){
+
+				message.error('数据异常,请重刷页面在发布');
+				return;
+			}
 			struct.creator = localStorage.user;
 			struct.name = name;
 			struct.description = description;
