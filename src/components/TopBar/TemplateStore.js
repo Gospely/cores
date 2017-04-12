@@ -328,7 +328,7 @@ const TemplateStore = (props) => {
 										<Input onChange={templateStoreProps.valueChange} value={props.templateStore.createForm.name} onPressEnter={templateStoreProps.createApp}/>
 									</Col>
 								</Row>
-								 <Button disabled={!props.templateStore.available}  type="primary" onClick={templateStoreProps.createApp} style={{ marginTop: 32, marginLeft: 200 }}>立即创建</Button>
+								 <Button disabled={!props.templateStore.available}  type="primary" onClick={templateStoreProps.createApp} style={{ marginTop: 32, marginLeft: 370 }}>立即创建</Button>
 							</div>
 					</Modal>
 					<Spin spinning={props.templateStore.createForm.loading} tip={props.templateStore.tips} style={{marginBottom: '20px'}}>
