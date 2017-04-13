@@ -3017,7 +3017,6 @@ const VDStylePanel = (props) => {
 						{
 							activeCSSStyleState['text-shadow'].childrenProps.map((cssProperty, cssPropertyIndex) => {
 									const tagColor = cssProperty.color+ "!important"
-									console.log(tagColor)
 								return (
 							      	<Popover onVisibleChange={onVisibleChange.bind(this, cssPropertyIndex, 'text-shadow')} key={cssPropertyIndex} placement="left" title="编辑文字阴影" content={textShadowProps.modifyPopover()} trigger="click">
 
