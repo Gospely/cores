@@ -464,20 +464,66 @@ const LeftSidebar = (props) => {
 
     			props.dispatch({
 					type: 'vdcore/initAddTemplatesFrom'
-				})
-	        	html2canvas($("#VDDesignerContainer",window.VDDesignerFrame.document),{
-	        		onrendered: function(canvas) {
-	        			var templatePreviewUrl = canvas.toDataURL();
-						props.dispatch({
-				          type: 'vdcore/getTemplate',
-				        });
-				        props.dispatch({
-				        	type: 'vdcore/TemplateSavingPreviewUrl',
-				        	payload: templatePreviewUrl
-				        })
-	        		}
+				});
 
-	        	});
+    			var src2base64 = function(over) {
+
+		        	var imgElems = $('img', window.VDDesignerFrame.document);
+
+		        	var imgStack = {};
+
+		        	imgElems.each(function(index, image) {
+
+				        var newCanvas = document.createElement("canvas"),
+				        	ctx = newCanvas.getContext("2d");
+
+				        newCanvas.id = "tmpLayer";
+
+				        document.body.appendChild(newCanvas);//创建新的canvas
+
+		        		image = $(image);
+		        		var img = new Image();
+				        img.crossOrigin = 'anonymous';
+						img.src = image.attr('src');
+
+				        img.onload = function() {
+				            newCanvas.width = image.width();
+				            newCanvas.height = image.height();
+				            ctx.drawImage(img, 0, 0, image.width(), image.height());
+				            var base64 = newCanvas.toDataURL('images/png');
+		                    newCanvas.parentNode.removeChild(newCanvas);//删除新创建的canvas
+		                    imgStack[base64] = image.attr('src');
+				            image.attr('src', base64);
+				            if(over) {
+				            	over();
+				            	imgElems.each(function(i, img) {
+				            		img = $(img);
+				            		img.attr('src', imgStack[img.attr('src')]);
+				            	});
+				            }
+				        }
+
+		        	});
+
+    			}
+
+    			src2base64(function() {
+
+		        	html2canvas($("#VDDesignerContainer", window.VDDesignerFrame.document),{
+		        		onrendered: function(canvas) {
+		        			var templatePreviewUrl = canvas.toDataURL();
+							props.dispatch({
+					          type: 'vdcore/getTemplate',
+					        });
+					        props.dispatch({
+					        	type: 'vdcore/TemplateSavingPreviewUrl',
+					        	payload: templatePreviewUrl
+					        })
+		        		}
+
+		        	});
+
+    			});
 
 	        },
 
