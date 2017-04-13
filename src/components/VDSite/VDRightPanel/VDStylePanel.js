@@ -321,8 +321,8 @@ const VDStylePanel = (props) => {
 							<Input placeholder="请输入类名" onPressEnter={onClick} onChange={handleNewStyleNameChange} value={newStyleName} size="small" />
 						</Col>
 						<Col span={12}>
-							      <Tooltip placement="bottom" title="尽量避免使用关键字,详情可参照官方文档">
-							        <Icon type="question-circle-o" style={{position: 'relative', left: '34px', top: '2px'}}/>
+							      <Tooltip placement="bottom" title='只能输入英文大小写字母、数字和“-”,名称尽量语义化'>
+							        <Icon type="question-circle-o" style={{position: 'relative', left: '30px', top: '2px'}}/>
 							      </Tooltip>
 							<Button onClick={onClick.bind(this)} style={{float: 'right', marginLeft: '10px'}} size="small">添加并应用</Button>
 						</Col>

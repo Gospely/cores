@@ -936,6 +936,8 @@ $(function() {
 	                if(!notPostMessage) {
 	                    postMessageToFather.ctrlSelected(data);
 	                }
+
+	                console.log(data)
 				}
             },
 
