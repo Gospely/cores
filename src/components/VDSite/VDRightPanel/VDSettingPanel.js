@@ -1658,7 +1658,7 @@ const Component = (props) => {
                                             选择 图标
                                         </Col>
                                         <Col span={2}>
-                                            <Button size="small" onClick={iconOperate.closeIconPanel} ><Icon type="shrink" />退出选择</Button>
+                                            <Button size="small" type="primary" onClick={iconOperate.closeIconPanel} ><Icon type="shrink" />返回</Button>
                                         </Col>
                                     </Row>
                                 ),
