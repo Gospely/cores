@@ -31,7 +31,7 @@ export default {
 		isShow: false,
 		reviewUrl: '',
 		templateAttr:[],
-		tips: '请耐心等待...',
+		tips: '正在创建，请耐心等待...',
 		createForm: {
 			name: '',
 			layout: '',
@@ -116,7 +116,7 @@ export default {
 		},
 		hideCreateTemplate(state,{payload: params}){
 
-			state.create = !state.create;
+			state.create = false;
 			return {...state}
 		},
 		handleCreateTemplate(state,{payload: params}){
@@ -493,26 +493,26 @@ export default {
 					type: 'handleTips',
 					payload: '正在初始化应用'
 				})
+
 				var data = yield request('templates/' + selectId.id,{
 					method: 'GET'
 				});
-
+				data.data.fields.content = data.data.fields.content.replace(new RegExp(selectId.url, 'gm'), 'http://' + localStorage.domain);
+				yield put({
+					type: 'vdcore/handleLoading',
+					payload: true
+				});
+				var UIState = JSON.parse(data.data.fields.content);
+				UIState.applicationId = result.data.fields.id;
+				initUIState(params.ctx, result.data.fields.id, UIState);
 				yield put({
 					type: 'handleCreatLoading',
 					payload: false,
 				})
 				yield put({
-					type: 'hideCreateTemplate',
-				})
-
-				yield put({
 					type: 'changeTemplateStoreVisible',
 					payload: false
 				});
-				data.data.fields.content = data.data.fields.content.replace(new RegExp(selectId.url, 'gm'), 'http://' + localStorage.domain);
-				var UIState = JSON.parse(data.data.fields.content);
-				UIState.applicationId = result.data.fields.id;
-				initUIState(params.ctx, result.data.fields.id, UIState);
 
 			}else {
 

@@ -147,6 +147,9 @@ const TemplateStore = (props) => {
 		},
 		createApp(){
 			props.dispatch({
+				type: 'templateStore/hideCreateTemplate',
+			})
+			props.dispatch({
 				type: 'templateStore/createApp',
 				payload: {
 					ctx: props
@@ -315,25 +318,26 @@ const TemplateStore = (props) => {
 						footer={null}
 						 wrapClassName="vertical-center-modal"
 					>
-						<Spin spinning={props.templateStore.createForm.loading} tip={props.templateStore.tips} style={{marginBottom: '20px'}}>
+
 							<div style={{ marginTop: 32 }}>
 								<Row>
 									<Col span={4} style={{textAlign: 'right'}}>
 										<span>项目名称：</span>
 									</Col>
 									<Col span={18} style={{textAlign: 'left'}}>
-										<Input onChange={templateStoreProps.valueChange} value={props.templateStore.createForm.name}/>
+										<Input onChange={templateStoreProps.valueChange} value={props.templateStore.createForm.name} onPressEnter={templateStoreProps.createApp}/>
 									</Col>
 								</Row>
-								 <Button disabled={!props.templateStore.available}  type="primary" onClick={templateStoreProps.createApp} style={{ marginTop: 32, marginLeft: 200 }}>立即创建</Button>
+								 <Button disabled={!props.templateStore.available}  type="primary" onClick={templateStoreProps.createApp} style={{ marginTop: 32, marginLeft: 370 }}>立即创建</Button>
 							</div>
-							</Spin>
 					</Modal>
+					<Spin spinning={props.templateStore.createForm.loading} tip={props.templateStore.tips} style={{marginBottom: '20px'}}>
 					<Spin spinning={props.templateStore.isLoading}>
 						<div className="template-store-content">
 
 							{ props.templateStore.templateAttr.length > 0 ? templateList : <Button className="load-more">暂无数据</Button>}
 						</div>
+					</Spin>
 					</Spin>
 					{props.templateStore.isShow || props.templateStore.templateAttr.length == 0 || props.templateStore.templateAttr.length%props.templateStore.pageSize != 0 ? <div></div> :<Button onClick={templateStoreProps.loadMore} className="load-more">加载更多</Button>}
 
