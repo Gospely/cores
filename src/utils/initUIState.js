@@ -68,9 +68,9 @@ const initState = function (props, applicationId, layout) {
                 }
             });
 
-            if(window.frames["vdsite-designer"]){
-                window.frames["vdsite-designer"].location.reload();
-            }
+            // if(window.frames["vdsite-designer"]){
+            //     window.frames["vdsite-designer"].location.reload();
+            // }
             setTimeout(function(){
                 props.dispatch({
                     type: 'vdcore/handleLoading',
