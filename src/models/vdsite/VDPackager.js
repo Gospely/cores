@@ -190,7 +190,7 @@ var VDPackager = {
            	resultTpl += elemToAdd[0].outerHTML;
         };
 
-        return '<body class="'+layout[0].activeStyle+'"><div class="vd-full-container">' + resultTpl + '</div></body>';
+        return '<body class="'+layout[0].customClassName.join(" ")+'"><div class="vd-full-container">' + resultTpl + '</div></body>';
 	}
 
 }
