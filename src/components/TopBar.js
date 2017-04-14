@@ -464,20 +464,138 @@ const LeftSidebar = (props) => {
 
     			props.dispatch({
 					type: 'vdcore/initAddTemplatesFrom'
-				})
-	        	html2canvas($("#VDDesignerContainer",window.VDDesignerFrame.document),{
-	        		onrendered: function(canvas) {
-	        			var templatePreviewUrl = canvas.toDataURL();
-						props.dispatch({
-				          type: 'vdcore/getTemplate',
-				        });
-				        props.dispatch({
-				        	type: 'vdcore/TemplateSavingPreviewUrl',
-				        	payload: templatePreviewUrl
-				        })
-	        		}
+				});
 
-	        	});
+    			var src2base64 = function(over) {
+
+		        	var imgElems = $('img', window.VDDesignerFrame.document);
+
+		        	var imgStack = {};
+
+		        	//var styleElems = props.vdstyles.cssStyleLayout;
+
+		    //     	var img2Base64 = (src,width,height) => {
+		    //     		 var newCanvas = document.createElement("canvas"),
+				  //       	ctx = newCanvas.getContext("2d");
+
+				  //       newCanvas.id = "tmpLayer";
+
+				  //       document.body.appendChild(newCanvas);//创建新的canvas
+
+		    //     		//image = $(image);
+		    //     		var img = new Image();
+				  //       img.crossOrigin = 'anonymous';
+						// img.src = src;
+
+				  //       img.onload = function() {
+				  //           newCanvas.width = width
+				  //           newCanvas.height = height
+				  //           ctx.drawImage(img, 0, 0, width, height);
+				  //           var base64 = newCanvas.toDataURL('images/png');
+		    //                 imgOnload();
+		    //                 bgImgOnload();
+		    //                 imgStack[base64] = src;
+				  //       }
+
+		    //     	};
+						
+					// for( var ele in styleElems) {
+					// 	console.log(ele);
+					// 	console.log(styleElems[ele]);
+					// 	var styleElem = styleElems[ele];
+					// 	var bgImgUrl = styleElem.background['background-image'];
+					// 	var bgImgWidth = styleElem.width;
+					// 	var bgImgHeight = styleElem.height;
+						
+					// 	img2Base64(bgImgUrl,bgImgWidth,bgImgHeight);
+						
+					// 	const bgImgOnload = () => {
+					// 		newCanvas.parentNode.removeChild(newCanvas);//删除新创建的canvas
+					// 		bgImgUrl = base64;
+							
+				 //            if(over) {
+				 //            	over();
+				 //            	for( var el in styleElems) {
+				 //            		styleElem = styleElems[el];
+				 //            		styleElem.background['background-image'] = imgStack[styleElem.background['background-image']]
+				 //            	};
+				 //            }
+					// 	};
+						
+					// };
+				
+		        	imgElems.each(function(index, image) {
+							// image = $(image);
+							// var imgWidth = image.width();
+							// var imgHEight = image.height();
+							// var imgsrc = image.attr('src');
+
+							// img2Base64(imgsrc,imgWidth,imgsrc);
+							
+							// const imgOnload = () => {
+							// 	newCanvas.parentNode.removeChild(newCanvas);//删除新创建的canvas
+							// 	image.attr('src', base64);
+					  //           if(over) {
+					  //           	over();
+					  //           	imgElems.each(function(i, img) {
+					  //           		img = $(img);
+					  //           		img.attr('src', imgStack[img.attr('src')]);
+					  //           	});
+					  //           }
+							// };
+							
+
+
+				        var newCanvas = document.createElement("canvas"),
+				        	ctx = newCanvas.getContext("2d");
+
+				        newCanvas.id = "tmpLayer";
+
+				        document.body.appendChild(newCanvas);//创建新的canvas
+
+		        		image = $(image);
+		        		var img = new Image();
+				        img.crossOrigin = 'anonymous';
+						img.src = image.attr('src');
+
+				        img.onload = function() {
+				            newCanvas.width = image.width();
+				            newCanvas.height = image.height();
+				            ctx.drawImage(img, 0, 0, image.width(), image.height());
+				            var base64 = newCanvas.toDataURL('images/png');
+		                    newCanvas.parentNode.removeChild(newCanvas);//删除新创建的canvas
+		                    imgStack[base64] = image.attr('src');
+				            image.attr('src', base64);
+				            if(over) {
+				            	over();
+				            	imgElems.each(function(i, img) {
+				            		img = $(img);
+				            		img.attr('src', imgStack[img.attr('src')]);
+				            	});
+				            }
+				        }
+
+		        	});
+
+    			};
+
+    			src2base64(function() {
+
+		        	html2canvas($("#VDDesignerContainer", window.VDDesignerFrame.document),{
+		        		onrendered: function(canvas) {
+		        			var templatePreviewUrl = canvas.toDataURL();
+							props.dispatch({
+					          type: 'vdcore/getTemplate',
+					        });
+					        props.dispatch({
+					        	type: 'vdcore/TemplateSavingPreviewUrl',
+					        	payload: templatePreviewUrl
+					        })
+		        		}
+
+		        	});
+
+    			});
 
 	        },
 
@@ -2140,8 +2258,8 @@ const LeftSidebar = (props) => {
 
 }
 
-function mapStateToProps({ sidebar, editor, editorTop, rightbar, designer, attr ,devpanel, layout, cpre, vdpm, vdcore, vdCtrlTree, vdassets, vdanimations, templateStore, dashboard}) {
-  return { sidebar, editor, editorTop, rightbar, designer, attr ,devpanel, layout, cpre, vdpm, vdcore, vdCtrlTree, vdassets, vdanimations, templateStore, dashboard};
+function mapStateToProps({ sidebar, editor, editorTop, rightbar, designer, attr ,devpanel, layout, cpre, vdpm, vdcore, vdCtrlTree, vdassets, vdanimations, templateStore, dashboard, vdstyles}) {
+  return { sidebar, editor, editorTop, rightbar, designer, attr ,devpanel, layout, cpre, vdpm, vdcore, vdCtrlTree, vdassets, vdanimations, templateStore, dashboard, vdstyles};
 }
 
 export default connect(mapStateToProps)(LeftSidebar);

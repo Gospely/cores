@@ -321,8 +321,8 @@ const VDStylePanel = (props) => {
 							<Input placeholder="请输入类名" onPressEnter={onClick} onChange={handleNewStyleNameChange} value={newStyleName} size="small" />
 						</Col>
 						<Col span={12}>
-							      <Tooltip placement="bottom" title="尽量避免使用关键字,详情可参照官方文档">
-							        <Icon type="question-circle-o" style={{position: 'relative', left: '34px', top: '2px'}}/>
+							      <Tooltip placement="bottom" title='只能输入英文大小写字母、数字和“-”,名称尽量语义化'>
+							        <Icon type="question-circle-o" style={{position: 'relative', left: '30px', top: '2px'}}/>
 							      </Tooltip>
 							<Button onClick={onClick.bind(this)} style={{float: 'right', marginLeft: '10px'}} size="small">添加并应用</Button>
 						</Col>
@@ -2959,7 +2959,7 @@ const VDStylePanel = (props) => {
 					<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right'}} label="盒子阴影">
 
 		      			<Tooltip placement="top" title="添加盒子阴影">
-		      				<Popover title='添加盒子阴影' placement="leftTop" visible={props.vdstyles.boxShadowPane.visible} onVisibleChange={changeBoxShadowPaneVisible} content={shadowProps.settingPopover(this)}>
+		      				<Popover title='添加盒子阴影' trigger="click" placement="leftTop" visible={props.vdstyles.boxShadowPane.visible} onVisibleChange={changeBoxShadowPaneVisible} content={shadowProps.settingPopover(this)}>
 								<Button size="small"><Icon type="plus" /></Button>
 				      		</Popover>
 			      		</Tooltip>
@@ -2973,7 +2973,7 @@ const VDStylePanel = (props) => {
 										<div key={cssPropertyIndex}  style={{border: '1px solid #d9d9d9', minHeight: 10, marginTop: '10px'}}>
 											<Row>
 												<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
-													<Tag color={cssProperty['color']}></Tag>
+													<div className="color-preview-tag-style" style={{background:cssProperty.color}}></div>
 												</Col>
 												<Col span={12} style={{textAlign: 'center', cursor: 'pointer'}}>
 													<span>{cssProperty['inset']}</span>
@@ -3006,7 +3006,7 @@ const VDStylePanel = (props) => {
 					<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right'}} label="文字阴影">
 
 		      			<Tooltip placement="top" title="添加文字阴影">
-		      				<Popover title='添加文字阴影' placement="leftTop" visible={props.vdstyles.textShadowPane.visible} onVisibleChange={changeTextShadowPaneVisible} content={textShadowProps.settingPopover()}>
+		      				<Popover title='添加文字阴影' placement="leftTop" visible={props.vdstyles.textShadowPane.visible} onVisibleChange={changeTextShadowPaneVisible} content={textShadowProps.settingPopover()} trigger="click">
 								<Button size="small"><Icon type="plus" /></Button>
 				      		</Popover>
 			      		</Tooltip>
@@ -3015,13 +3015,14 @@ const VDStylePanel = (props) => {
 					<FormItem wrapperCol={{ span: 24 }} style={{position: 'relative', top: -5}}>
 						{
 							activeCSSStyleState['text-shadow'].childrenProps.map((cssProperty, cssPropertyIndex) => {
+
 								return (
 							      	<Popover onVisibleChange={onVisibleChange.bind(this, cssPropertyIndex, 'text-shadow')} key={cssPropertyIndex} placement="left" title="编辑文字阴影" content={textShadowProps.modifyPopover()} trigger="click">
 
 										<div key={cssPropertyIndex} style={{border: '1px solid #d9d9d9', minHeight: 10, marginTop: '10px'}}>
 											<Row>
 												<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
-													<Tag color={cssProperty['color']}></Tag>
+													<div className="color-preview-tag-style" style={{background:cssProperty.color}}></div>
 												</Col>
 												<Col span={16} style={{textAlign: 'center', cursor: 'pointer'}}>
 													<span>{cssProperty['h-shadow']}px,{cssProperty['v-shadow']}px</span>
@@ -3095,7 +3096,7 @@ const VDStylePanel = (props) => {
 			      	<Form className="form-no-margin-bottom">
 			      		<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right', marginTop: 5, marginBottom: 6}} label="过渡">
 			      			<Tooltip placement="top" title="添加过渡">
-			      				<Popover title='添加过渡' placement="leftTop" onVisibleChange={changeNewTranstionPane} visible={props.vdstyles.popover.newTransition.visible} content={transformAndTransitionProps.transformSettingPopover()}>
+			      				<Popover title='添加过渡' trigger="click" placement="leftTop" onVisibleChange={changeNewTranstionPane} visible={props.vdstyles.popover.newTransition.visible} content={transformAndTransitionProps.transformSettingPopover()}>
 					      			<Button size="small">
 					      				<i className="fa fa-plus"></i>
 					      			</Button>
@@ -3127,7 +3128,7 @@ const VDStylePanel = (props) => {
 						<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right', marginTop: 5}} label="变换">
 							<ButtonGroup size="small" style={{marginBottom: '6px'}}>
 				      			<Tooltip placement="top" title="添加变换">
-				      				<Popover visible={props.vdstyles.popover.newTransform.visible} title='添加变换' placement="left" onVisibleChange={changeNewTransformPane} content={transformAndTransitionProps.transitionAddPopover()}>
+				      				<Popover trigger="click" visible={props.vdstyles.popover.newTransform.visible} title='添加变换' placement="left" onVisibleChange={changeNewTransformPane} content={transformAndTransitionProps.transitionAddPopover()}>
 						      			<Button onClick={() => { props.dispatch({type: 'vdstyles/togglePopover', payload: { popoverName: 'newTransform' }}) }} size="small" style={{textAlign: 'center'}}>
 						      				<i className="fa fa-plus"></i>
 						      			</Button>
@@ -3421,7 +3422,7 @@ const VDStylePanel = (props) => {
 
   					<FormItem labelCol={{span: 8}} wrapperCol={{span: 16}} style={{textAlign: 'right', marginTop: 5}} label="滤镜">
 		      			<Tooltip placement="top" title="添加滤镜">
-		      				<Popover onVisibleChange={newFilterPopoverTrigger} title='添加滤镜' placement="leftTop"  visible={props.vdstyles.popover.newFilter.visible} content={effectsProps.newfilterEditor()}>
+		      				<Popover trigger="click" onVisibleChange={newFilterPopoverTrigger} title='添加滤镜' placement="leftTop"  visible={props.vdstyles.popover.newFilter.visible} content={effectsProps.newfilterEditor()}>
 				      			<Button size="small">
 				      				<i className="fa fa-plus"></i>
 				      			</Button>

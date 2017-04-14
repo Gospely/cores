@@ -1652,20 +1652,40 @@ const Component = (props) => {
                             }
                         }
                         const iconSettingProps = {
+                            title: (
+                                    <Row>
+                                        <Col span={22}>
+                                            选择 图标
+                                        </Col>
+                                        <Col span={2}>
+                                            <Button size="small" type="primary" onClick={iconOperate.closeIconPanel} ><Icon type="shrink" />返回</Button>
+                                        </Col>
+                                    </Row>
+                                ),
 
-                            iconList: (<Row>
-                                        <Button size="small" onClick={iconOperate.closeIconPanel} style={{position: 'absolute',right: '42px',top: '-36px'}} ><Icon type="shrink" />退出选择</Button>
-                                 {
-                                     props.vdCtrlTree.icons.map((item)=>{
-
+                            iconList: (<Tabs defaultActiveKey="0">
+                                        
+                                 { //<i className={item} onClick={iconOperate.chooseIcon.bind(this, item)} />
+                                     props.vdCtrlTree.icons.map((item,index)=>{
                                          return (
-                                             <Col span={1} key={item} style={{'cursor': 'pointer'}}>
-                                                <i className={item} onClick={iconOperate.chooseIcon.bind(this, item)} />
-                                            </Col>
+                                             <TabPane style={{padding: '80px'}} tab={item.name} key={index}>
+                                                <Row>
+                                                    {
+                                                        item.list.map((listItem,listIndex)=>{
+                                                            return (
+                                                                    <Col className="icon-page-list" onClick={iconOperate.chooseIcon.bind(this, listItem.icon)} span={6} key={listIndex}>
+                                                                        <i className={listItem.icon} />
+                                                                        <span className="icon-name">{listItem.icon.substring(6)}</span>
+                                                                    </Col>
+                                                                )
+                                                         })
+                                                    }
+                                                </Row>
+                                             </TabPane>
                                          );
                                      })
                                  }
-                            </Row>)
+                            </Tabs>)
                         }
                         return (
                             <Panel header={item.title} key={item.key}>
@@ -1681,7 +1701,8 @@ const Component = (props) => {
 	                                <Col span={12}>
                                     <Popover
                                         content={iconSettingProps.iconList}
-                                        title="修改 图标"
+                                        overlayClassName="icon-popover"
+                                        title={iconSettingProps.title}
                                         visible={props.vdCtrlTree.keyValeUpdateVisible}
                                         onVisibleChange={iconOperate.updateVisibleChange}
                                         trigger="click">

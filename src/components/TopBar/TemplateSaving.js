@@ -5,11 +5,12 @@ import { Spin, Button, Modal, Input, Select, Switch } from 'antd';
 
 const TemplateSaving = (props) => {
 
-      const TemplateTypeList = props.vdcore.TemplateType.map(function(item,index){
-                              return (
-                                        <Select.Option value={item.id} key={index}>{item.name}</Select.Option>
-                                    )
-                                })
+  const TemplateTypeList = props.vdcore.TemplateType.map(function(item,index){
+    return (
+      <Select.Option value={item.id} key={index}>{item.name}</Select.Option>
+    )
+  });
+  
   const TemplateSavingProps = {
 
     hide () {

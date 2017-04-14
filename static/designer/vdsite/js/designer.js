@@ -462,8 +462,8 @@ $(function() {
 				parentWindow.postMessage({ 'pastCtrl' : c }, "*");
 			},
 
-			devareCtrl: function (c) {
-				parentWindow.postMessage({ 'devareCtrl' : c }, "*");
+			deleteCtrl: function (c) {
+				parentWindow.postMessage({ 'deleteCtrl' : c }, "*");
 			},
 
 			ctrlDomPasted: function (c) {
@@ -518,8 +518,8 @@ $(function() {
                     	pageOperations.applyScript(data);
                     },
 
-					VDChildrenDevare: function(){
-						controllerOperations.devareChildren(data.activeCtrl, data.attrType);
+					VDChildrenDelete: function(){
+						controllerOperations.deleteChildren(data.activeCtrl, data.attrType);
 					},
 
 					VDChildrenAdd: function(){
@@ -575,7 +575,7 @@ $(function() {
                         controllerOperations.select(data, true);
                     },
 
-                    devareCtrl: function () {
+                    deleteCtrl: function () {
                     	jq('[vdid=' + data + ']').remove();
                     	controllerOperations.changeContainerHeight();
                     },
@@ -719,10 +719,10 @@ $(function() {
 		    	jq("#vdRightClickMenu").hide();
 		    })
 
-		    jq("#vdDevare").click(function (e) {
+		    jq("#vdDelete").click(function (e) {
 		    	e.stopPropagation();
 		    	e.preventDefault();
-		    	postMessageToFather.devareCtrl({});
+		    	postMessageToFather.deleteCtrl({});
 		    	jq("#vdRightClickMenu").hide();
 		    })
 
@@ -844,7 +844,7 @@ $(function() {
 
 			},
 
-			devare: function (activeCtrl, column, parent, count, colClass) {
+			delete: function (activeCtrl, column, parent, count, colClass) {
 				var elem = jq('[vdid='+ parent + ']');
 				for(var i = 0; i < count; i ++){
 					elem.children().eq(-1).remove();
@@ -936,6 +936,7 @@ $(function() {
 	                if(!notPostMessage) {
 	                    postMessageToFather.ctrlSelected(data);
 	                }
+
 				}
             },
 
@@ -1024,7 +1025,7 @@ $(function() {
 					new ElemGenerator(activeCtrl).setAttributeByAttr(attr, attrType);
 				}
             },
-			devareChildren: function(activeCtrl,attrType) {
+			deleteChildren: function(activeCtrl,attrType) {
 				var vdid  = activeCtrl.vdid;
 				var elem = jq('[vdid='+ activeCtrl.vdid + ']');
 				elem.remove();

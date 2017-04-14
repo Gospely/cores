@@ -164,794 +164,2799 @@ export default {
 		expandedKeys: ["body-main"],
 		symbols: [],
 		showLabel: '打开菜单',
-		icons: [
-			'fa fa-external-link',
-			'fa fa-font-awesome',
-			'fa fa-caret-down',
-			'fa fa-universal-access',
-			'fa fa-flag',
-			'fa fa-envelope',
-			'fa fa-search',
-			'fa fa-address-book',
-			'fa fa-address-book-o',
-			'fa fa-address-card',
-			'fa fa-address-card-o',
-			'fa fa-bandcamp',
-			'fa fa-bath',
-			'fa fa-bathtub',
-			'fa fa-drivers-license',
-			'fa fa-drivers-license-o',
-			'fa fa-eercast',
-			'fa fa-envelope-open',
-			'fa fa-envelope-open-o',
-			'fa fa-etsy',
-			'fa fa-free-code-camp',
-			'fa fa-grav',
-			'fa fa-handshake-o',
-			'fa fa-id-badge',
-			'fa fa-id-card',
-			'fa fa-id-card-o',
-			'fa fa-imdb',
-			'fa fa-linode',
-			'fa fa-meetup',
-			'fa fa-microchip',
-			'fa fa-podcast',
-			'fa fa-quora',
-			'fa fa-ravelry',
-			'fa fa-s15',
-			'fa fa-shower',
-			'fa fa-snowflake-o',
-			'fa fa-superpowers',
-			'fa fa-telegram',
-			'fa fa-thermometer',
-			'fa fa-thermometer-0',
-			'fa fa-thermometer-1',
-			'fa fa-thermometer-2',
-			'fa fa-thermometer-3',
-			'fa fa-thermometer-4',
-			'fa fa-thermometer-empty',
-			'fa fa-thermometer-full',
-			'fa fa-thermometer-half',
-			'fa fa-thermometer-quarter',
-			'fa fa-thermometer-three-quarters',
-			'fa fa-times-rectangle',
-			'fa fa-times-rectangle-o',
-			'fa fa-user-circle',
-			'fa fa-user-circle-o',
-			'fa fa-user-o',
-			'fa fa-vcard',
-			'fa fa-vcard-o',
-			'fa fa-window-close',
-			'fa fa-window-close-o',
-			'fa fa-window-maximize',
-			'fa fa-window-minimize',
-			'fa fa-window-restore',
-			'fa fa-wpexplorer',
-			'fa fa-adjust',
-			'fa fa-american-sign-language-interpreting',
-			'fa fa-anchor',
-			'fa fa-archive',
-			'fa fa-area-chart',
-			'fa fa-arrows',
-			'fa fa-arrows-h',
-			'fa fa-arrows-v',
-			'fa fa-asl-interpreting',
-			'fa fa-assistive-listening-systems',
-			'fa fa-asterisk',
-			'fa fa-at',
-			'fa fa-audio-description',
-			'fa fa-automobile',
-			'fa fa-balance-scale',
-			'fa fa-ban',
-			'fa fa-bank',
-			'fa fa-bar-chart',
-			'fa fa-bar-chart-o',
-			'fa fa-barcode',
-			'fa fa-bars',
-			'fa fa-battery',
-			'fa fa-battery-0',
-			'fa fa-battery-1',
-			'fa fa-battery-2',
-			'fa fa-battery-3',
-			'fa fa-battery-4',
-			'fa fa-battery-empty',
-			'fa fa-battery-full',
-			'fa fa-battery-half',
-			'fa fa-battery-quarter',
-			'fa fa-battery-three-quarters',
-			'fa fa-bed',
-			'fa fa-beer',
-			'fa fa-bell',
-			'fa fa-bell-o',
-			'fa fa-bell-slash',
-			'fa fa-bell-slash-o',
-			'fa fa-bicycle',
-			'fa fa-binoculars',
-			'fa fa-birthday-cake',
-			'fa fa-blind',
-			'fa fa-bluetooth',
-			'fa fa-bluetooth-b',
-			'fa fa-bolt',
-			'fa fa-bomb',
-			'fa fa-book',
-			'fa fa-bookmark',
-			'fa fa-bookmark-o',
-			'fa fa-braille',
-			'fa fa-briefcase',
-			'fa fa-bug',
-			'fa fa-building',
-			'fa fa-building-o',
-			'fa fa-bullhorn',
-			'fa fa-bullseye',
-			'fa fa-bus',
-			'fa fa-cab',
-			'fa fa-calculator',
-			'fa fa-calendar',
-			'fa fa-calendar-check-o',
-			'fa fa-calendar-minus-o',
-			'fa fa-calendar-o',
-			'fa fa-calendar-plus-o',
-			'fa fa-calendar-times-o',
-			'fa fa-camera',
-			'fa fa-camera-retro',
-			'fa fa-car',
-			'fa fa-caret-square-o-down',
-			'fa fa-caret-square-o-left',
-			'fa fa-caret-square-o-right',
-			'fa fa-caret-square-o-up',
-			'fa fa-cart-arrow-down',
-			'fa fa-cart-plus',
-			'fa fa-cc',
-			'fa fa-certificate',
-			'fa fa-check',
-			'fa fa-check-circle',
-			'fa fa-check-circle-o',
-			'fa fa-check-square',
-			'fa fa-check-square-o',
-			'fa fa-child',
-			'fa fa-circle',
-			'fa fa-circle-o',
-			'fa fa-circle-o-notch',
-			'fa fa-circle-thin',
-			'fa fa-clock-o',
-			'fa fa-clone',
-			'fa fa-close',
-			'fa fa-cloud',
-			'fa fa-cloud-download',
-			'fa fa-cloud-upload',
-			'fa fa-code',
-			'fa fa-code-fork',
-			'fa fa-coffee',
-			'fa fa-cog',
-			'fa fa-cogs',
-			'fa fa-comment',
-			'fa fa-comment-o',
-			'fa fa-commenting',
-			'fa fa-commenting-o',
-			'fa fa-comments',
-			'fa fa-comments-o',
-			'fa fa-compass',
-			'fa fa-copyright',
-			'fa fa-creative-commons',
-			'fa fa-credit-card',
-			'fa fa-credit-card-alt',
-			'fa fa-crop',
-			'fa fa-crosshairs',
-			'fa fa-cube',
-			'fa fa-cubes',
-			'fa fa-cutlery',
-			'fa fa-dashboard',
-			'fa fa-database',
-			'fa fa-deaf',
-			'fa fa-deafness',
-			'fa fa-desktop',
-			'fa fa-diamond',
-			'fa fa-dot-circle-o',
-			'fa fa-download',
-			'fa fa-edit',
-			'fa fa-ellipsis-h',
-			'fa fa-ellipsis-v',
-			'fa fa-envelope-o',
-			'fa fa-envelope-square',
-			'fa fa-eraser',
-			'fa fa-exchange',
-			'fa fa-exclamation',
-			'fa fa-exclamation-circle',
-			'fa fa-exclamation-triangle',
-			'fa fa-external-link-square',
-			'fa fa-eye',
-			'fa fa-eye-slash',
-			'fa fa-eyedropper',
-			'fa fa-fax',
-			'fa fa-feed',
-			'fa fa-female',
-			'fa fa-fighter-jet',
-			'fa fa-file-archive-o',
-			'fa fa-file-audio-o',
-			'fa fa-file-code-o',
-			'fa fa-file-excel-o',
-			'fa fa-file-image-o',
-			'fa fa-file-movie-o',
-			'fa fa-file-pdf-o',
-			'fa fa-file-photo-o',
-			'fa fa-file-picture-o',
-			'fa fa-file-powerpoint-o',
-			'fa fa-file-sound-o',
-			'fa fa-file-video-o',
-			'fa fa-file-word-o',
-			'fa fa-file-zip-o',
-			'fa fa-film',
-			'fa fa-filter',
-			'fa fa-fire',
-			'fa fa-fire-extinguisher',
-			'fa fa-flag-checkered',
-			'fa fa-flag-o',
-			'fa fa-flash',
-			'fa fa-flask',
-			'fa fa-folder',
-			'fa fa-folder-o',
-			'fa fa-folder-open',
-			'fa fa-folder-open-o',
-			'fa fa-frown-o',
-			'fa fa-futbol-o',
-			'fa fa-gamepad',
-			'fa fa-gavel',
-			'fa fa-gear',
-			'fa fa-gears',
-			'fa fa-gift',
-			'fa fa-glass',
-			'fa fa-globe',
-			'fa fa-graduation-cap',
-			'fa fa-group',
-			'fa fa-hand-grab-o',
-			'fa fa-hand-lizard-o',
-			'fa fa-hand-paper-o',
-			'fa fa-hand-peace-o',
-			'fa fa-hand-pointer-o',
-			'fa fa-hand-rock-o',
-			'fa fa-hand-scissors-o',
-			'fa fa-hand-spock-o',
-			'fa fa-hand-stop-o',
-			'fa fa-hard-of-hearing',
-			'fa fa-hashtag',
-			'fa fa-hdd-o',
-			'fa fa-headphones',
-			'fa fa-heart',
-			'fa fa-heart-o',
-			'fa fa-heartbeat',
-			'fa fa-history',
-			'fa fa-home',
-			'fa fa-hotel',
-			'fa fa-hourglass',
-			'fa fa-hourglass-1',
-			'fa fa-hourglass-2',
-			'fa fa-hourglass-3',
-			'fa fa-hourglass-end',
-			'fa fa-hourglass-half',
-			'fa fa-hourglass-o',
-			'fa fa-hourglass-start',
-			'fa fa-i-cursor',
-			'fa fa-image',
-			'fa fa-inbox',
-			'fa fa-industry',
-			'fa fa-info',
-			'fa fa-info-circle',
-			'fa fa-institution',
-			'fa fa-key',
-			'fa fa-keyboard-o',
-			'fa fa-language',
-			'fa fa-laptop',
-			'fa fa-leaf',
-			'fa fa-legal',
-			'fa fa-lemon-o',
-			'fa fa-level-down',
-			'fa fa-level-up',
-			'fa fa-life-bouy',
-			'fa fa-life-buoy',
-			'fa fa-life-ring',
-			'fa fa-life-saver',
-			'fa fa-lightbulb-o',
-			'fa fa-line-chart',
-			'fa fa-location-arrow',
-			'fa fa-lock',
-			'fa fa-low-vision',
-			'fa fa-magic',
-			'fa fa-magnet',
-			'fa fa-mail-forward',
-			'fa fa-mail-reply',
-			'fa fa-mail-reply-all',
-			'fa fa-male',
-			'fa fa-map',
-			'fa fa-map-marker',
-			'fa fa-map-o',
-			'fa fa-map-pin',
-			'fa fa-map-signs',
-			'fa fa-meh-o',
-			'fa fa-microphone',
-			'fa fa-microphone-slash',
-			'fa fa-minus',
-			'fa fa-minus-circle',
-			'fa fa-minus-square',
-			'fa fa-minus-square-o',
-			'fa fa-mobile',
-			'fa fa-mobile-phone',
-			'fa fa-money',
-			'fa fa-moon-o',
-			'fa fa-mortar-board',
-			'fa fa-motorcycle',
-			'fa fa-mouse-pointer',
-			'fa fa-music',
-			'fa fa-navicon',
-			'fa fa-newspaper-o',
-			'fa fa-object-group',
-			'fa fa-object-ungroup',
-			'fa fa-paint-brush',
-			'fa fa-paper-plane',
-			'fa fa-paper-plane-o',
-			'fa fa-paw',
-			'fa fa-pencil',
-			'fa fa-pencil-square',
-			'fa fa-pencil-square-o',
-			'fa fa-percent',
-			'fa fa-phone',
-			'fa fa-phone-square',
-			'fa fa-photo',
-			'fa fa-picture-o',
-			'fa fa-pie-chart',
-			'fa fa-plane',
-			'fa fa-plug',
-			'fa fa-plus',
-			'fa fa-plus-circle',
-			'fa fa-plus-square',
-			'fa fa-plus-square-o',
-			'fa fa-power-off',
-			'fa fa-print',
-			'fa fa-puzzle-piece',
-			'fa fa-qrcode',
-			'fa fa-question',
-			'fa fa-question-circle',
-			'fa fa-question-circle-o',
-			'fa fa-quote-left',
-			'fa fa-quote-right',
-			'fa fa-random',
-			'fa fa-recycle',
-			'fa fa-refresh',
-			'fa fa-registered',
-			'fa fa-remove',
-			'fa fa-reorder',
-			'fa fa-reply',
-			'fa fa-reply-all',
-			'fa fa-retweet',
-			'fa fa-road',
-			'fa fa-rocket',
-			'fa fa-rss',
-			'fa fa-rss-square',
-			'fa fa-search-minus',
-			'fa fa-search-plus',
-			'fa fa-send',
-			'fa fa-send-o',
-			'fa fa-server',
-			'fa fa-share',
-			'fa fa-share-alt',
-			'fa fa-share-alt-square',
-			'fa fa-share-square',
-			'fa fa-share-square-o',
-			'fa fa-shield',
-			'fa fa-ship',
-			'fa fa-shopping-bag',
-			'fa fa-shopping-basket',
-			'fa fa-shopping-cart',
-			'fa fa-sign-in',
-			'fa fa-sign-language',
-			'fa fa-sign-out',
-			'fa fa-signal',
-			'fa fa-signing',
-			'fa fa-sitemap',
-			'fa fa-sliders',
-			'fa fa-smile-o',
-			'fa fa-soccer-ball-o',
-			'fa fa-sort',
-			'fa fa-sort-alpha-asc',
-			'fa fa-sort-alpha-desc',
-			'fa fa-sort-amount-asc',
-			'fa fa-sort-amount-desc',
-			'fa fa-sort-asc',
-			'fa fa-sort-desc',
-			'fa fa-sort-down',
-			'fa fa-sort-numeric-asc',
-			'fa fa-sort-numeric-desc',
-			'fa fa-sort-up',
-			'fa fa-space-shuttle',
-			'fa fa-spinner',
-			'fa fa-spoon',
-			'fa fa-square',
-			'fa fa-square-o',
-			'fa fa-star',
-			'fa fa-star-half',
-			'fa fa-star-half-empty',
-			'fa fa-star-half-full',
-			'fa fa-star-half-o',
-			'fa fa-star-o',
-			'fa fa-sticky-note',
-			'fa fa-sticky-note-o',
-			'fa fa-street-view',
-			'fa fa-suitcase',
-			'fa fa-sun-o',
-			'fa fa-support',
-			'fa fa-tablet',
-			'fa fa-tachometer',
-			'fa fa-tag',
-			'fa fa-tags',
-			'fa fa-tasks',
-			'fa fa-taxi',
-			'fa fa-television',
-			'fa fa-terminal',
-			'fa fa-thumb-tack',
-			'fa fa-thumbs-down',
-			'fa fa-thumbs-o-down',
-			'fa fa-thumbs-o-up',
-			'fa fa-thumbs-up',
-			'fa fa-ticket',
-			'fa fa-times',
-			'fa fa-times-circle',
-			'fa fa-times-circle-o',
-			'fa fa-tint',
-			'fa fa-toggle-down',
-			'fa fa-toggle-left',
-			'fa fa-toggle-off',
-			'fa fa-toggle-on',
-			'fa fa-toggle-right',
-			'fa fa-toggle-up',
-			'fa fa-trademark',
-			'fa fa-trash',
-			'fa fa-trash-o',
-			'fa fa-tree',
-			'fa fa-trophy',
-			'fa fa-truck',
-			'fa fa-tty',
-			'fa fa-tv',
-			'fa fa-umbrella',
-			'fa fa-university',
-			'fa fa-unlock',
-			'fa fa-unlock-alt',
-			'fa fa-unsorted',
-			'fa fa-upload',
-			'fa fa-user',
-			'fa fa-user-plus',
-			'fa fa-user-secret',
-			'fa fa-user-times',
-			'fa fa-users',
-			'fa fa-video-camera',
-			'fa fa-volume-control-phone',
-			'fa fa-volume-down',
-			'fa fa-volume-off',
-			'fa fa-volume-up',
-			'fa fa-warning',
-			'fa fa-wheelchair',
-			'fa fa-wheelchair-alt',
-			'fa fa-wifi',
-			'fa fa-wrench',
-			'fa fa-hand-o-down',
-			'fa fa-hand-o-left',
-			'fa fa-hand-o-right',
-			'fa fa-hand-o-up',
-			'fa fa-ambulance',
-			'fa fa-subway',
-			'fa fa-train',
-			'fa fa-genderless',
-			'fa fa-intersex',
-			'fa fa-mars',
-			'fa fa-mars-double',
-			'fa fa-mars-stroke',
-			'fa fa-mars-stroke-h',
-			'fa fa-mars-stroke-v',
-			'fa fa-mercury',
-			'fa fa-neuter',
-			'fa fa-transgender',
-			'fa fa-transgender-alt',
-			'fa fa-venus',
-			'fa fa-venus-double',
-			'fa fa-venus-mars',
-			'fa fa-file',
-			'fa fa-file-o',
-			'fa fa-file-text',
-			'fa fa-file-text-o',
-			'fa fa-cc-amex',
-			'fa fa-cc-diners-club',
-			'fa fa-cc-discover',
-			'fa fa-cc-jcb',
-			'fa fa-cc-mastercard',
-			'fa fa-cc-paypal',
-			'fa fa-cc-stripe',
-			'fa fa-cc-visa',
-			'fa fa-google-wallet',
-			'fa fa-paypal',
-			'fa fa-bitcoin',
-			'fa fa-btc',
-			'fa fa-cny',
-			'fa fa-dollar',
-			'fa fa-eur',
-			'fa fa-euro',
-			'fa fa-gbp',
-			'fa fa-gg',
-			'fa fa-gg-circle',
-			'fa fa-ils',
-			'fa fa-inr',
-			'fa fa-jpy',
-			'fa fa-krw',
-			'fa fa-rmb',
-			'fa fa-rouble',
-			'fa fa-rub',
-			'fa fa-ruble',
-			'fa fa-rupee',
-			'fa fa-shekel',
-			'fa fa-sheqel',
-			'fa fa-try',
-			'fa fa-turkish-lira',
-			'fa fa-usd',
-			'fa fa-won',
-			'fa fa-yen',
-			'fa fa-align-center',
-			'fa fa-align-justify',
-			'fa fa-align-left',
-			'fa fa-align-right',
-			'fa fa-bold',
-			'fa fa-chain',
-			'fa fa-chain-broken',
-			'fa fa-clipboard',
-			'fa fa-columns',
-			'fa fa-copy',
-			'fa fa-cut',
-			'fa fa-dedent',
-			'fa fa-files-o',
-			'fa fa-floppy-o',
-			'fa fa-font',
-			'fa fa-header',
-			'fa fa-indent',
-			'fa fa-italic',
-			'fa fa-link',
-			'fa fa-list',
-			'fa fa-list-alt',
-			'fa fa-list-ol',
-			'fa fa-list-ul',
-			'fa fa-outdent',
-			'fa fa-paperclip',
-			'fa fa-paragraph',
-			'fa fa-paste',
-			'fa fa-repeat',
-			'fa fa-rotate-left',
-			'fa fa-rotate-right',
-			'fa fa-save',
-			'fa fa-scissors',
-			'fa fa-strikethrough',
-			'fa fa-subscript',
-			'fa fa-superscript',
-			'fa fa-table',
-			'fa fa-text-height',
-			'fa fa-text-width',
-			'fa fa-th',
-			'fa fa-th-large',
-			'fa fa-th-list',
-			'fa fa-underline',
-			'fa fa-undo',
-			'fa fa-unlink',
-			'fa fa-angle-double-down',
-			'fa fa-angle-double-left',
-			'fa fa-angle-double-right',
-			'fa fa-angle-double-up',
-			'fa fa-angle-down',
-			'fa fa-angle-left',
-			'fa fa-angle-right',
-			'fa fa-angle-up',
-			'fa fa-arrow-circle-down',
-			'fa fa-arrow-circle-left',
-			'fa fa-arrow-circle-o-down',
-			'fa fa-arrow-circle-o-left',
-			'fa fa-arrow-circle-o-right',
-			'fa fa-arrow-circle-o-up',
-			'fa fa-arrow-circle-right',
-			'fa fa-arrow-circle-up',
-			'fa fa-arrow-down',
-			'fa fa-arrow-left',
-			'fa fa-arrow-right',
-			'fa fa-arrow-up',
-			'fa fa-arrows-alt',
-			'fa fa-caret-left',
-			'fa fa-caret-right',
-			'fa fa-caret-up',
-			'fa fa-chevron-circle-down',
-			'fa fa-chevron-circle-left',
-			'fa fa-chevron-circle-right',
-			'fa fa-chevron-circle-up',
-			'fa fa-chevron-down',
-			'fa fa-chevron-left',
-			'fa fa-chevron-right',
-			'fa fa-chevron-up',
-			'fa fa-long-arrow-down',
-			'fa fa-long-arrow-left',
-			'fa fa-long-arrow-right',
-			'fa fa-long-arrow-up',
-			'fa fa-backward',
-			'fa fa-compress',
-			'fa fa-eject',
-			'fa fa-expand',
-			'fa fa-fast-backward',
-			'fa fa-fast-forward',
-			'fa fa-forward',
-			'fa fa-pause',
-			'fa fa-pause-circle',
-			'fa fa-pause-circle-o',
-			'fa fa-play',
-			'fa fa-play-circle',
-			'fa fa-play-circle-o',
-			'fa fa-step-backward',
-			'fa fa-step-forward',
-			'fa fa-stop',
-			'fa fa-stop-circle',
-			'fa fa-stop-circle-o',
-			'fa fa-youtube-play',
-			'fa fa-500px',
-			'fa fa-adn',
-			'fa fa-amazon',
-			'fa fa-android',
-			'fa fa-angellist',
-			'fa fa-apple',
-			'fa fa-behance',
-			'fa fa-behance-square',
-			'fa fa-bitbucket',
-			'fa fa-bitbucket-square',
-			'fa fa-black-tie',
-			'fa fa-buysellads',
-			'fa fa-chrome',
-			'fa fa-codepen',
-			'fa fa-codiepie',
-			'fa fa-connectdevelop',
-			'fa fa-contao',
-			'fa fa-css3',
-			'fa fa-dashcube',
-			'fa fa-delicious',
-			'fa fa-deviantart',
-			'fa fa-digg',
-			'fa fa-dribbble',
-			'fa fa-dropbox',
-			'fa fa-drupal',
-			'fa fa-edge',
-			'fa fa-empire',
-			'fa fa-envira',
-			'fa fa-expeditedssl',
-			'fa fa-fa',
-			'fa fa-facebook',
-			'fa fa-facebook-f',
-			'fa fa-facebook-official',
-			'fa fa-facebook-square',
-			'fa fa-firefox',
-			'fa fa-first-order',
-			'fa fa-flickr',
-			'fa fa-fonticons',
-			'fa fa-fort-awesome',
-			'fa fa-forumbee',
-			'fa fa-foursquare',
-			'fa fa-ge',
-			'fa fa-get-pocket',
-			'fa fa-git',
-			'fa fa-git-square',
-			'fa fa-github',
-			'fa fa-github-alt',
-			'fa fa-github-square',
-			'fa fa-gitlab',
-			'fa fa-gittip',
-			'fa fa-glide',
-			'fa fa-glide-g',
-			'fa fa-google',
-			'fa fa-google-plus',
-			'fa fa-google-plus-circle',
-			'fa fa-google-plus-official',
-			'fa fa-google-plus-square',
-			'fa fa-gratipay',
-			'fa fa-hacker-news',
-			'fa fa-houzz',
-			'fa fa-html5',
-			'fa fa-instagram',
-			'fa fa-internet-explorer',
-			'fa fa-ioxhost',
-			'fa fa-joomla',
-			'fa fa-jsfiddle',
-			'fa fa-lastfm',
-			'fa fa-lastfm-square',
-			'fa fa-leanpub',
-			'fa fa-linkedin',
-			'fa fa-linkedin-square',
-			'fa fa-linux',
-			'fa fa-maxcdn',
-			'fa fa-meanpath',
-			'fa fa-medium',
-			'fa fa-mixcloud',
-			'fa fa-modx',
-			'fa fa-odnoklassniki',
-			'fa fa-odnoklassniki-square',
-			'fa fa-opencart',
-			'fa fa-openid',
-			'fa fa-opera',
-			'fa fa-optin-monster',
-			'fa fa-pagelines',
-			'fa fa-pied-piper',
-			'fa fa-pied-piper-alt',
-			'fa fa-pied-piper-pp',
-			'fa fa-pinterest',
-			'fa fa-pinterest-p',
-			'fa fa-pinterest-square',
-			'fa fa-product-hunt',
-			'fa fa-qq',
-			'fa fa-ra',
-			'fa fa-rebel',
-			'fa fa-reddit',
-			'fa fa-reddit-alien',
-			'fa fa-reddit-square',
-			'fa fa-renren',
-			'fa fa-resistance',
-			'fa fa-safari',
-			'fa fa-scribd',
-			'fa fa-sellsy',
-			'fa fa-shirtsinbulk',
-			'fa fa-simplybuilt',
-			'fa fa-skyatlas',
-			'fa fa-skype',
-			'fa fa-slack',
-			'fa fa-slideshare',
-			'fa fa-snapchat',
-			'fa fa-snapchat-ghost',
-			'fa fa-snapchat-square',
-			'fa fa-soundcloud',
-			'fa fa-spotify',
-			'fa fa-stack-exchange',
-			'fa fa-stack-overflow',
-			'fa fa-steam',
-			'fa fa-steam-square',
-			'fa fa-stumbleupon',
-			'fa fa-stumbleupon-circle',
-			'fa fa-tencent-weibo',
-			'fa fa-themeisle',
-			'fa fa-trello',
-			'fa fa-tripadvisor',
-			'fa fa-tumblr',
-			'fa fa-tumblr-square',
-			'fa fa-twitch',
-			'fa fa-twitter',
-			'fa fa-twitter-square',
-			'fa fa-usb',
-			'fa fa-viacoin',
-			'fa fa-viadeo',
-			'fa fa-viadeo-square',
-			'fa fa-vimeo',
-			'fa fa-vimeo-square',
-			'fa fa-vine',
-			'fa fa-vk',
-			'fa fa-wechat',
-			'fa fa-weibo',
-			'fa fa-weixin',
-			'fa fa-whatsapp',
-			'fa fa-wikipedia-w',
-			'fa fa-windows',
-			'fa fa-wordpress',
-			'fa fa-wpbeginner',
-			'fa fa-wpforms',
-			'fa fa-xing',
-			'fa fa-xing-square',
-			'fa fa-y-combinator',
-			'fa fa-y-combinator-square',
-			'fa fa-yahoo',
-			'fa fa-yc',
-			'fa fa-yc-square',
-			'fa fa-yelp',
-			'fa fa-yoast',
-			'fa fa-youtube',
-			'fa fa-youtube-square',
-			'fa fa-h-square',
-			'fa fa-hospital-o',
-			'fa fa-medkit',
-			'fa fa-stethoscope',
-			'fa fa-user-md'
-		],
+		icons: [{
+				name:"Web应用程序图标",
+				list:[
+					{
+					icon: "fa fa-address-book"
+					},
+					{
+					icon: "fa fa-address-book-o"
+					},
+					{
+					icon: "fa fa-address-card"
+					},
+					{
+					icon: "fa fa-address-card-o"
+					},
+					{
+					icon: "fa fa-adjust"
+					},
+					{
+					icon: "fa fa-american-sign-language-interpreting"
+					},
+					{
+					icon: "fa fa-anchor"
+					},
+					{
+					icon: "fa fa-archive"
+					},
+					{
+					icon: "fa fa-area-chart"
+					},
+					{
+					icon: "fa fa-arrows"
+					},
+					{
+					icon: "fa fa-arrows-h"
+					},
+					{
+					icon: "fa fa-arrows-v"
+					},
+					{
+					icon: "fa fa-asl-interpreting"
+					},
+					{
+					icon: "fa fa-assistive-listening-systems"
+					},
+					{
+					icon: "fa fa-asterisk"
+					},
+					{
+					icon: "fa fa-at"
+					},
+					{
+					icon: "fa fa-audio-description"
+					},
+					{
+					icon: "fa fa-automobile"
+					},
+					{
+					icon: "fa fa-balance-scale"
+					},
+					{
+					icon: "fa fa-ban"
+					},
+					{
+					icon: "fa fa-bank"
+					},
+					{
+					icon: "fa fa-bar-chart"
+					},
+					{
+					icon: "fa fa-bar-chart-o"
+					},
+					{
+					icon: "fa fa-barcode"
+					},
+					{
+					icon: "fa fa-bars"
+					},
+					{
+					icon: "fa fa-bath"
+					},
+					{
+					icon: "fa fa-bathtub"
+					},
+					{
+					icon: "fa fa-battery"
+					},
+					{
+					icon: "fa fa-battery-0"
+					},
+					{
+					icon: "fa fa-battery-1"
+					},
+					{
+					icon: "fa fa-battery-2"
+					},
+					{
+					icon: "fa fa-battery-3"
+					},
+					{
+					icon: "fa fa-battery-4"
+					},
+					{
+					icon: "fa fa-battery-empty"
+					},
+					{
+					icon: "fa fa-battery-full"
+					},
+					{
+					icon: "fa fa-battery-half"
+					},
+					{
+					icon: "fa fa-battery-quarter"
+					},
+					{
+					icon: "fa fa-battery-three-quarters"
+					},
+					{
+					icon: "fa fa-bed"
+					},
+					{
+					icon: "fa fa-beer"
+					},
+					{
+					icon: "fa fa-bell"
+					},
+					{
+					icon: "fa fa-bell-o"
+					},
+					{
+					icon: "fa fa-bell-slash"
+					},
+					{
+					icon: "fa fa-bell-slash-o"
+					},
+					{
+					icon: "fa fa-bicycle"
+					},
+					{
+					icon: "fa fa-binoculars"
+					},
+					{
+					icon: "fa fa-birthday-cake"
+					},
+					{
+					icon: "fa fa-blind"
+					},
+					{
+					icon: "fa fa-bluetooth"
+					},
+					{
+					icon: "fa fa-bluetooth-b"
+					},
+					{
+					icon: "fa fa-bolt"
+					},
+					{
+					icon: "fa fa-bomb"
+					},
+					{
+					icon: "fa fa-book"
+					},
+					{
+					icon: "fa fa-bookmark"
+					},
+					{
+					icon: "fa fa-bookmark-o"
+					},
+					{
+					icon: "fa fa-braille"
+					},
+					{
+					icon: "fa fa-briefcase"
+					},
+					{
+					icon: "fa fa-bug"
+					},
+					{
+					icon: "fa fa-building"
+					},
+					{
+					icon: "fa fa-building-o"
+					},
+					{
+					icon: "fa fa-bullhorn"
+					},
+					{
+					icon: "fa fa-bullseye"
+					},
+					{
+					icon: "fa fa-bus"
+					},
+					{
+					icon: "fa fa-cab"
+					},
+					{
+					icon: "fa fa-calculator"
+					},
+					{
+					icon: "fa fa-calendar"
+					},
+					{
+					icon: "fa fa-calendar-check-o"
+					},
+					{
+					icon: "fa fa-calendar-minus-o"
+					},
+					{
+					icon: "fa fa-calendar-o"
+					},
+					{
+					icon: "fa fa-calendar-plus-o"
+					},
+					{
+					icon: "fa fa-calendar-times-o"
+					},
+					{
+					icon: "fa fa-camera"
+					},
+					{
+					icon: "fa fa-camera-retro"
+					},
+					{
+					icon: "fa fa-car"
+					},
+					{
+					icon: "fa fa-caret-square-o-down"
+					},
+					{
+					icon: "fa fa-caret-square-o-left"
+					},
+					{
+					icon: "fa fa-caret-square-o-right"
+					},
+					{
+					icon: "fa fa-caret-square-o-up"
+					},
+					{
+					icon: "fa fa-cart-arrow-down"
+					},
+					{
+					icon: "fa fa-cart-plus"
+					},
+					{
+					icon: "fa fa-cc"
+					},
+					{
+					icon: "fa fa-certificate"
+					},
+					{
+					icon: "fa fa-check"
+					},
+					{
+					icon: "fa fa-check-circle"
+					},
+					{
+					icon: "fa fa-check-circle-o"
+					},
+					{
+					icon: "fa fa-check-square"
+					},
+					{
+					icon: "fa fa-check-square-o"
+					},
+					{
+					icon: "fa fa-child"
+					},
+					{
+					icon: "fa fa-circle"
+					},
+					{
+					icon: "fa fa-circle-o"
+					},
+					{
+					icon: "fa fa-circle-o-notch"
+					},
+					{
+					icon: "fa fa-circle-thin"
+					},
+					{
+					icon: "fa fa-clock-o"
+					},
+					{
+					icon: "fa fa-clone"
+					},
+					{
+					icon: "fa fa-close"
+					},
+					{
+					icon: "fa fa-cloud"
+					},
+					{
+					icon: "fa fa-cloud-download"
+					},
+					{
+					icon: "fa fa-cloud-upload"
+					},
+					{
+					icon: "fa fa-code"
+					},
+					{
+					icon: "fa fa-code-fork"
+					},
+					{
+					icon: "fa fa-coffee"
+					},
+					{
+					icon: "fa fa-cog"
+					},
+					{
+					icon: "fa fa-cogs"
+					},
+					{
+					icon: "fa fa-comment"
+					},
+					{
+					icon: "fa fa-comment-o"
+					},
+					{
+					icon: "fa fa-commenting"
+					},
+					{
+					icon: "fa fa-commenting-o"
+					},
+					{
+					icon: "fa fa-comments"
+					},
+					{
+					icon: "fa fa-comments-o"
+					},
+					{
+					icon: "fa fa-compass"
+					},
+					{
+					icon: "fa fa-copyright"
+					},
+					{
+					icon: "fa fa-creative-commons"
+					},
+					{
+					icon: "fa fa-credit-card"
+					},
+					{
+					icon: "fa fa-credit-card-alt"
+					},
+					{
+					icon: "fa fa-crop"
+					},
+					{
+					icon: "fa fa-crosshairs"
+					},
+					{
+					icon: "fa fa-cube"
+					},
+					{
+					icon: "fa fa-cubes"
+					},
+					{
+					icon: "fa fa-cutlery"
+					},
+					{
+					icon: "fa fa-dashboard"
+					},
+					{
+					icon: "fa fa-database"
+					},
+					{
+					icon: "fa fa-deaf"
+					},
+					{
+					icon: "fa fa-deafness"
+					},
+					{
+					icon: "fa fa-desktop"
+					},
+					{
+					icon: "fa fa-diamond"
+					},
+					{
+					icon: "fa fa-dot-circle-o"
+					},
+					{
+					icon: "fa fa-download"
+					},
+					{
+					icon: "fa fa-drivers-license"
+					},
+					{
+					icon: "fa fa-drivers-license-o"
+					},
+					{
+					icon: "fa fa-edit"
+					},
+					{
+					icon: "fa fa-ellipsis-h"
+					},
+					{
+					icon: "fa fa-ellipsis-v"
+					},
+					{
+					icon: "fa fa-envelope"
+					},
+					{
+					icon: "fa fa-envelope-o"
+					},
+					{
+					icon: "fa fa-envelope-open"
+					},
+					{
+					icon: "fa fa-envelope-open-o"
+					},
+					{
+					icon: "fa fa-envelope-square"
+					},
+					{
+					icon: "fa fa-eraser"
+					},
+					{
+					icon: "fa fa-exchange"
+					},
+					{
+					icon: "fa fa-exclamation"
+					},
+					{
+					icon: "fa fa-exclamation-circle"
+					},
+					{
+					icon: "fa fa-exclamation-triangle"
+					},
+					{
+					icon: "fa fa-external-link"
+					},
+					{
+					icon: "fa fa-external-link-square"
+					},
+					{
+					icon: "fa fa-eye"
+					},
+					{
+					icon: "fa fa-eye-slash"
+					},
+					{
+					icon: "fa fa-eyedropper"
+					},
+					{
+					icon: "fa fa-fax"
+					},
+					{
+					icon: "fa fa-feed"
+					},
+					{
+					icon: "fa fa-female"
+					},
+					{
+					icon: "fa fa-fighter-jet"
+					},
+					{
+					icon: "fa fa-file-archive-o"
+					},
+					{
+					icon: "fa fa-file-audio-o"
+					},
+					{
+					icon: "fa fa-file-code-o"
+					},
+					{
+					icon: "fa fa-file-excel-o"
+					},
+					{
+					icon: "fa fa-file-image-o"
+					},
+					{
+					icon: "fa fa-file-movie-o"
+					},
+					{
+					icon: "fa fa-file-pdf-o"
+					},
+					{
+					icon: "fa fa-file-photo-o"
+					},
+					{
+					icon: "fa fa-file-picture-o"
+					},
+					{
+					icon: "fa fa-file-powerpoint-o"
+					},
+					{
+					icon: "fa fa-file-sound-o"
+					},
+					{
+					icon: "fa fa-file-video-o"
+					},
+					{
+					icon: "fa fa-file-word-o"
+					},
+					{
+					icon: "fa fa-file-zip-o"
+					},
+					{
+					icon: "fa fa-film"
+					},
+					{
+					icon: "fa fa-filter"
+					},
+					{
+					icon: "fa fa-fire"
+					},
+					{
+					icon: "fa fa-fire-extinguisher"
+					},
+					{
+					icon: "fa fa-flag"
+					},
+					{
+					icon: "fa fa-flag-checkered"
+					},
+					{
+					icon: "fa fa-flag-o"
+					},
+					{
+					icon: "fa fa-flash"
+					},
+					{
+					icon: "fa fa-flask"
+					},
+					{
+					icon: "fa fa-folder"
+					},
+					{
+					icon: "fa fa-folder-o"
+					},
+					{
+					icon: "fa fa-folder-open"
+					},
+					{
+					icon: "fa fa-folder-open-o"
+					},
+					{
+					icon: "fa fa-frown-o"
+					},
+					{
+					icon: "fa fa-futbol-o"
+					},
+					{
+					icon: "fa fa-gamepad"
+					},
+					{
+					icon: "fa fa-gavel"
+					},
+					{
+					icon: "fa fa-gear"
+					},
+					{
+					icon: "fa fa-gears"
+					},
+					{
+					icon: "fa fa-gift"
+					},
+					{
+					icon: "fa fa-glass"
+					},
+					{
+					icon: "fa fa-globe"
+					},
+					{
+					icon: "fa fa-graduation-cap"
+					},
+					{
+					icon: "fa fa-group"
+					},
+					{
+					icon: "fa fa-hand-grab-o"
+					},
+					{
+					icon: "fa fa-hand-lizard-o"
+					},
+					{
+					icon: "fa fa-hand-paper-o"
+					},
+					{
+					icon: "fa fa-hand-peace-o"
+					},
+					{
+					icon: "fa fa-hand-pointer-o"
+					},
+					{
+					icon: "fa fa-hand-rock-o"
+					},
+					{
+					icon: "fa fa-hand-scissors-o"
+					},
+					{
+					icon: "fa fa-hand-spock-o"
+					},
+					{
+					icon: "fa fa-hand-stop-o"
+					},
+					{
+					icon: "fa fa-handshake-o"
+					},
+					{
+					icon: "fa fa-hard-of-hearing"
+					},
+					{
+					icon: "fa fa-hashtag"
+					},
+					{
+					icon: "fa fa-hdd-o"
+					},
+					{
+					icon: "fa fa-headphones"
+					},
+					{
+					icon: "fa fa-heart"
+					},
+					{
+					icon: "fa fa-heart-o"
+					},
+					{
+					icon: "fa fa-heartbeat"
+					},
+					{
+					icon: "fa fa-history"
+					},
+					{
+					icon: "fa fa-home"
+					},
+					{
+					icon: "fa fa-hotel"
+					},
+					{
+					icon: "fa fa-hourglass"
+					},
+					{
+					icon: "fa fa-hourglass-1"
+					},
+					{
+					icon: "fa fa-hourglass-2"
+					},
+					{
+					icon: "fa fa-hourglass-3"
+					},
+					{
+					icon: "fa fa-hourglass-end"
+					},
+					{
+					icon: "fa fa-hourglass-half"
+					},
+					{
+					icon: "fa fa-hourglass-o"
+					},
+					{
+					icon: "fa fa-hourglass-start"
+					},
+					{
+					icon: "fa fa-i-cursor"
+					},
+					{
+					icon: "fa fa-id-badge"
+					},
+					{
+					icon: "fa fa-id-card"
+					},
+					{
+					icon: "fa fa-id-card-o"
+					},
+					{
+					icon: "fa fa-image"
+					},
+					{
+					icon: "fa fa-inbox"
+					},
+					{
+					icon: "fa fa-industry"
+					},
+					{
+					icon: "fa fa-info"
+					},
+					{
+					icon: "fa fa-info-circle"
+					},
+					{
+					icon: "fa fa-institution"
+					},
+					{
+					icon: "fa fa-key"
+					},
+					{
+					icon: "fa fa-keyboard-o"
+					},
+					{
+					icon: "fa fa-language"
+					},
+					{
+					icon: "fa fa-laptop"
+					},
+					{
+					icon: "fa fa-leaf"
+					},
+					{
+					icon: "fa fa-legal"
+					},
+					{
+					icon: "fa fa-lemon-o"
+					},
+					{
+					icon: "fa fa-level-down"
+					},
+					{
+					icon: "fa fa-level-up"
+					},
+					{
+					icon: "fa fa-life-bouy"
+					},
+					{
+					icon: "fa fa-life-buoy"
+					},
+					{
+					icon: "fa fa-life-ring"
+					},
+					{
+					icon: "fa fa-life-saver"
+					},
+					{
+					icon: "fa fa-lightbulb-o"
+					},
+					{
+					icon: "fa fa-line-chart"
+					},
+					{
+					icon: "fa fa-location-arrow"
+					},
+					{
+					icon: "fa fa-lock"
+					},
+					{
+					icon: "fa fa-low-vision"
+					},
+					{
+					icon: "fa fa-magic"
+					},
+					{
+					icon: "fa fa-magnet"
+					},
+					{
+					icon: "fa fa-mail-forward"
+					},
+					{
+					icon: "fa fa-mail-reply"
+					},
+					{
+					icon: "fa fa-mail-reply-all"
+					},
+					{
+					icon: "fa fa-male"
+					},
+					{
+					icon: "fa fa-map"
+					},
+					{
+					icon: "fa fa-map-marker"
+					},
+					{
+					icon: "fa fa-map-o"
+					},
+					{
+					icon: "fa fa-map-pin"
+					},
+					{
+					icon: "fa fa-map-signs"
+					},
+					{
+					icon: "fa fa-meh-o"
+					},
+					{
+					icon: "fa fa-microchip"
+					},
+					{
+					icon: "fa fa-microphone"
+					},
+					{
+					icon: "fa fa-microphone-slash"
+					},
+					{
+					icon: "fa fa-minus"
+					},
+					{
+					icon: "fa fa-minus-circle"
+					},
+					{
+					icon: "fa fa-minus-square"
+					},
+					{
+					icon: "fa fa-minus-square-o"
+					},
+					{
+					icon: "fa fa-mobile"
+					},
+					{
+					icon: "fa fa-mobile-phone"
+					},
+					{
+					icon: "fa fa-money"
+					},
+					{
+					icon: "fa fa-moon-o"
+					},
+					{
+					icon: "fa fa-mortar-board"
+					},
+					{
+					icon: "fa fa-motorcycle"
+					},
+					{
+					icon: "fa fa-mouse-pointer"
+					},
+					{
+					icon: "fa fa-music"
+					},
+					{
+					icon: "fa fa-navicon"
+					},
+					{
+					icon: "fa fa-newspaper-o"
+					},
+					{
+					icon: "fa fa-object-group"
+					},
+					{
+					icon: "fa fa-object-ungroup"
+					},
+					{
+					icon: "fa fa-paint-brush"
+					},
+					{
+					icon: "fa fa-paper-plane"
+					},
+					{
+					icon: "fa fa-paper-plane-o"
+					},
+					{
+					icon: "fa fa-paw"
+					},
+					{
+					icon: "fa fa-pencil"
+					},
+					{
+					icon: "fa fa-pencil-square"
+					},
+					{
+					icon: "fa fa-pencil-square-o"
+					},
+					{
+					icon: "fa fa-percent"
+					},
+					{
+					icon: "fa fa-phone"
+					},
+					{
+					icon: "fa fa-phone-square"
+					},
+					{
+					icon: "fa fa-photo"
+					},
+					{
+					icon: "fa fa-picture-o"
+					},
+					{
+					icon: "fa fa-pie-chart"
+					},
+					{
+					icon: "fa fa-plane"
+					},
+					{
+					icon: "fa fa-plug"
+					},
+					{
+					icon: "fa fa-plus"
+					},
+					{
+					icon: "fa fa-plus-circle"
+					},
+					{
+					icon: "fa fa-plus-square"
+					},
+					{
+					icon: "fa fa-plus-square-o"
+					},
+					{
+					icon: "fa fa-podcast"
+					},
+					{
+					icon: "fa fa-power-off"
+					},
+					{
+					icon: "fa fa-print"
+					},
+					{
+					icon: "fa fa-puzzle-piece"
+					},
+					{
+					icon: "fa fa-qrcode"
+					},
+					{
+					icon: "fa fa-question"
+					},
+					{
+					icon: "fa fa-question-circle"
+					},
+					{
+					icon: "fa fa-question-circle-o"
+					},
+					{
+					icon: "fa fa-quote-left"
+					},
+					{
+					icon: "fa fa-quote-right"
+					},
+					{
+					icon: "fa fa-random"
+					},
+					{
+					icon: "fa fa-recycle"
+					},
+					{
+					icon: "fa fa-refresh"
+					},
+					{
+					icon: "fa fa-registered"
+					},
+					{
+					icon: "fa fa-remove"
+					},
+					{
+					icon: "fa fa-reorder"
+					},
+					{
+					icon: "fa fa-reply"
+					},
+					{
+					icon: "fa fa-reply-all"
+					},
+					{
+					icon: "fa fa-retweet"
+					},
+					{
+					icon: "fa fa-road"
+					},
+					{
+					icon: "fa fa-rocket"
+					},
+					{
+					icon: "fa fa-rss"
+					},
+					{
+					icon: "fa fa-rss-square"
+					},
+					{
+					icon: "fa fa-s15"
+					},
+					{
+					icon: "fa fa-search"
+					},
+					{
+					icon: "fa fa-search-minus"
+					},
+					{
+					icon: "fa fa-search-plus"
+					},
+					{
+					icon: "fa fa-send"
+					},
+					{
+					icon: "fa fa-send-o"
+					},
+					{
+					icon: "fa fa-server"
+					},
+					{
+					icon: "fa fa-share"
+					},
+					{
+					icon: "fa fa-share-alt"
+					},
+					{
+					icon: "fa fa-share-alt-square"
+					},
+					{
+					icon: "fa fa-share-square"
+					},
+					{
+					icon: "fa fa-share-square-o"
+					},
+					{
+					icon: "fa fa-shield"
+					},
+					{
+					icon: "fa fa-ship"
+					},
+					{
+					icon: "fa fa-shopping-bag"
+					},
+					{
+					icon: "fa fa-shopping-basket"
+					},
+					{
+					icon: "fa fa-shopping-cart"
+					},
+					{
+					icon: "fa fa-shower"
+					},
+					{
+					icon: "fa fa-sign-in"
+					},
+					{
+					icon: "fa fa-sign-language"
+					},
+					{
+					icon: "fa fa-sign-out"
+					},
+					{
+					icon: "fa fa-signal"
+					},
+					{
+					icon: "fa fa-signing"
+					},
+					{
+					icon: "fa fa-sitemap"
+					},
+					{
+					icon: "fa fa-sliders"
+					},
+					{
+					icon: "fa fa-smile-o"
+					},
+					{
+					icon: "fa fa-snowflake-o"
+					},
+					{
+					icon: "fa fa-soccer-ball-o"
+					},
+					{
+					icon: "fa fa-sort"
+					},
+					{
+					icon: "fa fa-sort-alpha-asc"
+					},
+					{
+					icon: "fa fa-sort-alpha-desc"
+					},
+					{
+					icon: "fa fa-sort-amount-asc"
+					},
+					{
+					icon: "fa fa-sort-amount-desc"
+					},
+					{
+					icon: "fa fa-sort-asc"
+					},
+					{
+					icon: "fa fa-sort-desc"
+					},
+					{
+					icon: "fa fa-sort-down"
+					},
+					{
+					icon: "fa fa-sort-numeric-asc"
+					},
+					{
+					icon: "fa fa-sort-numeric-desc"
+					},
+					{
+					icon: "fa fa-sort-up"
+					},
+					{
+					icon: "fa fa-space-shuttle"
+					},
+					{
+					icon: "fa fa-spinner"
+					},
+					{
+					icon: "fa fa-spoon"
+					},
+					{
+					icon: "fa fa-square"
+					},
+					{
+					icon: "fa fa-square-o"
+					},
+					{
+					icon: "fa fa-star"
+					},
+					{
+					icon: "fa fa-star-half"
+					},
+					{
+					icon: "fa fa-star-half-empty"
+					},
+					{
+					icon: "fa fa-star-half-full"
+					},
+					{
+					icon: "fa fa-star-half-o"
+					},
+					{
+					icon: "fa fa-star-o"
+					},
+					{
+					icon: "fa fa-sticky-note"
+					},
+					{
+					icon: "fa fa-sticky-note-o"
+					},
+					{
+					icon: "fa fa-street-view"
+					},
+					{
+					icon: "fa fa-suitcase"
+					},
+					{
+					icon: "fa fa-sun-o"
+					},
+					{
+					icon: "fa fa-support"
+					},
+					{
+					icon: "fa fa-tablet"
+					},
+					{
+					icon: "fa fa-tachometer"
+					},
+					{
+					icon: "fa fa-tag"
+					},
+					{
+					icon: "fa fa-tags"
+					},
+					{
+					icon: "fa fa-tasks"
+					},
+					{
+					icon: "fa fa-taxi"
+					},
+					{
+					icon: "fa fa-television"
+					},
+					{
+					icon: "fa fa-terminal"
+					},
+					{
+					icon: "fa fa-thermometer"
+					},
+					{
+					icon: "fa fa-thermometer-0"
+					},
+					{
+					icon: "fa fa-thermometer-1"
+					},
+					{
+					icon: "fa fa-thermometer-2"
+					},
+					{
+					icon: "fa fa-thermometer-3"
+					},
+					{
+					icon: "fa fa-thermometer-4"
+					},
+					{
+					icon: "fa fa-thermometer-empty"
+					},
+					{
+					icon: "fa fa-thermometer-full"
+					},
+					{
+					icon: "fa fa-thermometer-half"
+					},
+					{
+					icon: "fa fa-thermometer-quarter"
+					},
+					{
+					icon: "fa fa-thermometer-three-quarters"
+					},
+					{
+					icon: "fa fa-thumb-tack"
+					},
+					{
+					icon: "fa fa-thumbs-down"
+					},
+					{
+					icon: "fa fa-thumbs-o-down"
+					},
+					{
+					icon: "fa fa-thumbs-o-up"
+					},
+					{
+					icon: "fa fa-thumbs-up"
+					},
+					{
+					icon: "fa fa-ticket"
+					},
+					{
+					icon: "fa fa-times"
+					},
+					{
+					icon: "fa fa-times-circle"
+					},
+					{
+					icon: "fa fa-times-circle-o"
+					},
+					{
+					icon: "fa fa-times-rectangle"
+					},
+					{
+					icon: "fa fa-times-rectangle-o"
+					},
+					{
+					icon: "fa fa-tint"
+					},
+					{
+					icon: "fa fa-toggle-down"
+					},
+					{
+					icon: "fa fa-toggle-left"
+					},
+					{
+					icon: "fa fa-toggle-off"
+					},
+					{
+					icon: "fa fa-toggle-on"
+					},
+					{
+					icon: "fa fa-toggle-right"
+					},
+					{
+					icon: "fa fa-toggle-up"
+					},
+					{
+					icon: "fa fa-trademark"
+					},
+					{
+					icon: "fa fa-trash"
+					},
+					{
+					icon: "fa fa-trash-o"
+					},
+					{
+					icon: "fa fa-tree"
+					},
+					{
+					icon: "fa fa-trophy"
+					},
+					{
+					icon: "fa fa-truck"
+					},
+					{
+					icon: "fa fa-tty"
+					},
+					{
+					icon: "fa fa-tv"
+					},
+					{
+					icon: "fa fa-umbrella"
+					},
+					{
+					icon: "fa fa-universal-access"
+					},
+					{
+					icon: "fa fa-university"
+					},
+					{
+					icon: "fa fa-unlock"
+					},
+					{
+					icon: "fa fa-unlock-alt"
+					},
+					{
+					icon: "fa fa-unsorted"
+					},
+					{
+					icon: "fa fa-upload"
+					},
+					{
+					icon: "fa fa-user"
+					},
+					{
+					icon: "fa fa-user-circle"
+					},
+					{
+					icon: "fa fa-user-circle-o"
+					},
+					{
+					icon: "fa fa-user-o"
+					},
+					{
+					icon: "fa fa-user-plus"
+					},
+					{
+					icon: "fa fa-user-secret"
+					},
+					{
+					icon: "fa fa-user-times"
+					},
+					{
+					icon: "fa fa-users"
+					},
+					{
+					icon: "fa fa-vcard"
+					},
+					{
+					icon: "fa fa-vcard-o"
+					},
+					{
+					icon: "fa fa-video-camera"
+					},
+					{
+					icon: "fa fa-volume-control-phone"
+					},
+					{
+					icon: "fa fa-volume-down"
+					},
+					{
+					icon: "fa fa-volume-off"
+					},
+					{
+					icon: "fa fa-volume-up"
+					},
+					{
+					icon: "fa fa-warning"
+					},
+					{
+					icon: "fa fa-wheelchair"
+					},
+					{
+					icon: "fa fa-wheelchair-alt"
+					},
+					{
+					icon: "fa fa-wifi"
+					},
+					{
+					icon: "fa fa-window-close"
+					},
+					{
+					icon: "fa fa-window-close-o"
+					},
+					{
+					icon: "fa fa-window-maximize"
+					},
+					{
+					icon: "fa fa-window-minimize"
+					},
+					{
+					icon: "fa fa-window-restore"
+					},
+					{
+					icon: "fa fa-wrench"
+					}
+				],
+				},{
+					name:"功能性图标",
+					list:[
+					{
+	                    icon: "fa fa-american-sign-language-interpreting"
+	                },
+	                {
+	                    icon: "fa fa-asl-interpreting"
+	                },
+	                {
+	                    icon: "fa fa-assistive-listening-systems"
+	                },
+	                {
+	                    icon: "fa fa-audio-description"
+	                },
+	                {
+	                    icon: "fa fa-blind"
+	                },
+	                {
+	                    icon: "fa fa-braille"
+	                },
+	                {
+	                    icon: "fa fa-cc"
+	                },
+	                {
+	                    icon: "fa fa-deaf"
+	                },
+	                {
+	                    icon: "fa fa-deafness"
+	                },
+	                {
+	                    icon: "fa fa-hard-of-hearing"
+	                },
+	                {
+	                    icon: "fa fa-low-vision"
+	                },
+	                {
+	                    icon: "fa fa-question-circle-o"
+	                },
+	                {
+	                    icon: "fa fa-sign-language"
+	                },
+	                {
+	                    icon: "fa fa-signing"
+	                },
+	                {
+	                    icon: "fa fa-tty"
+	                },
+	                {
+	                    icon: "fa fa-universal-access"
+	                },
+	                {
+	                    icon: "fa fa-volume-control-phone"
+	                },
+	                {
+	                    icon: "fa fa-wheelchair"
+	                },
+	                {
+	                    icon: "fa fa-wheelchair-alt"
+	                }]
+	            },{
+	            	name:"手型图标",
+					list:[{
+					    icon: "fa fa-hand-grab-o"
+					},
+					{
+					    icon: "fa fa-hand-lizard-o"
+					},
+					{
+					    icon: "fa fa-hand-o-down"
+					},
+					{
+					    icon: "fa fa-hand-o-left"
+					},
+					{
+					    icon: "fa fa-hand-o-right"
+					},
+					{
+					    icon: "fa fa-hand-o-up"
+					},
+					{
+					    icon: "fa fa-hand-paper-o"
+					},
+					{
+					    icon: "fa fa-hand-peace-o"
+					},
+					{
+					    icon: "fa fa-hand-pointer-o"
+					},
+					{
+					    icon: "fa fa-hand-rock-o"
+					},
+					{
+					    icon: "fa fa-hand-scissors-o"
+					},
+					{
+					    icon: "fa fa-hand-spock-o"
+					},
+					{
+					    icon: "fa fa-hand-stop-o"
+					},
+					{
+					    icon: "fa fa-thumbs-down"
+					},
+					{
+					    icon: "fa fa-thumbs-o-down"
+					},
+					{
+					    icon: "fa fa-thumbs-o-up"
+					},
+					{
+					    icon: "fa fa-thumbs-up"
+					}]
+				},{
+					name:"交通工具类图标",
+					list:[{
+					icon: "fa fa-ambulance"
+					},
+					{
+					icon: "fa fa-automobile"
+					},
+					{
+					icon: "fa fa-bicycle"
+					},
+					{
+					icon: "fa fa-bus"
+					},
+					{
+					icon: "fa fa-cab"
+					},
+					{
+					icon: "fa fa-car"
+					},
+					{
+					icon: "fa fa-fighter-jet"
+					},
+					{
+					icon: "fa fa-motorcycle"
+					},
+					{
+					icon: "fa fa-plane"
+					},
+					{
+					icon: "fa fa-rocket"
+					},
+					{
+					icon: "fa fa-ship"
+					},
+					{
+					icon: "fa fa-space-shuttle"
+					},
+					{
+					icon: "fa fa-subway"
+					},
+					{
+					icon: "fa fa-taxi"
+					},
+					{
+					icon: "fa fa-train"
+					},
+					{
+					icon: "fa fa-truck"
+					},
+					{
+					icon: "fa fa-wheelchair"
+					},
+					{
+					icon: "fa fa-wheelchair-alt"
+					}],
+				},{
+					name:"性别图标",
+					list:[{
+					    icon: "fa fa-genderless"
+					},
+					{
+					    icon: "fa fa-intersex"
+					},
+					{
+					    icon: "fa fa-mars"
+					},
+					{
+					    icon: "fa fa-mars-double"
+					},
+					{
+					    icon: "fa fa-mars-stroke"
+					},
+					{
+					    icon: "fa fa-mars-stroke-h"
+					},
+					{
+					    icon: "fa fa-mars-stroke-v"
+					},
+					{
+					    icon: "fa fa-mercury"
+					},
+					{
+					    icon: "fa fa-neuter"
+					},
+					{
+					    icon: "fa fa-transgender"
+					},
+					{
+					    icon: "fa fa-transgender-alt"
+					},
+					{
+					    icon: "fa fa-venus"
+					},
+					{
+					    icon: "fa fa-venus-double"
+					},
+					{
+					    icon: "fa fa-venus-mars"
+					}],
+				},{
+					name:"文件类别图标",
+					list:[{
+					    icon: "fa fa-file"
+					},
+					{
+					    icon: "fa fa-file-archive-o"
+					},
+					{
+					    icon: "fa fa-file-audio-o"
+					},
+					{
+					    icon: "fa fa-file-code-o"
+					},
+					{
+					    icon: "fa fa-file-excel-o"
+					},
+					{
+					    icon: "fa fa-file-image-o"
+					},
+					{
+					    icon: "fa fa-file-movie-o"
+					},
+					{
+					    icon: "fa fa-file-o"
+					},
+					{
+					    icon: "fa fa-file-pdf-o"
+					},
+					{
+					    icon: "fa fa-file-photo-o"
+					},
+					{
+					    icon: "fa fa-file-picture-o"
+					},
+					{
+					    icon: "fa fa-file-powerpoint-o"
+					},
+					{
+					    icon: "fa fa-file-sound-o"
+					},
+					{
+					    icon: "fa fa-file-text"
+					},
+					{
+					    icon: "fa fa-file-text-o"
+					},
+					{
+					    icon: "fa fa-file-video-o"
+					},
+					{
+					    icon: "fa fa-file-word-o"
+					},
+					{
+					    icon: "fa fa-file-zip-o"
+					}],
+				},{
+					name:"加载类型图标",
+					list:[{
+					    icon: "fa fa-circle-o-notch"
+					},
+					{
+					    icon: "fa fa-cog"
+					},
+					{
+					    icon: "fa fa-gear"
+					},
+					{
+					    icon: "fa fa-refresh"
+					},
+					{
+					    icon: "fa fa-spinner"
+					}],
+				},{
+					name:"表单控件图标",
+					list:[{
+					    icon: "fa fa-check-square"
+					},
+					{
+					    icon: "fa fa-check-square-o"
+					},
+					{
+					    icon: "fa fa-circle"
+					},
+					{
+					    icon: "fa fa-circle-o"
+					},
+					{
+					    icon: "fa fa-dot-circle-o"
+					},
+					{
+					    icon: "fa fa-minus-square"
+					},
+					{
+					    icon: "fa fa-minus-square-o"
+					},
+					{
+					    icon: "fa fa-plus-square"
+					},
+					{
+					    icon: "fa fa-plus-square-o"
+					},
+					{
+					    icon: "fa fa-square"
+					},
+					{
+					    icon: "fa fa-square-o"
+					}],
+				},{
+					name:"支付类型图标",
+					list:[{
+					    icon: "fa fa-cc-amex"
+					},
+					{
+					    icon: "fa fa-cc-diners-club"
+					},
+					{
+					    icon: "fa fa-cc-discover"
+					},
+					{
+					    icon: "fa fa-cc-jcb"
+					},
+					{
+					    icon: "fa fa-cc-mastercard"
+					},
+					{
+					    icon: "fa fa-cc-paypal"
+					},
+					{
+					    icon: "fa fa-cc-stripe"
+					},
+					{
+					    icon: "fa fa-cc-visa"
+					},
+					{
+					    icon: "fa fa-credit-card"
+					},
+					{
+					    icon: "fa fa-credit-card-alt"
+					},
+					{
+					    icon: "fa fa-google-wallet"
+					},
+					{
+					    icon: "fa fa-paypal"
+					}],
+				},{
+					name:"数据分析类图标",
+					list:[{
+					    icon: "fa fa-area-chart"
+					},
+					{
+					    icon: "fa fa-bar-chart"
+					},
+					{
+					    icon: "fa fa-bar-chart-o"
+					},
+					{
+					    icon: "fa fa-line-chart"
+					},
+					{
+					    icon: "fa fa-pie-chart"
+					}],
+				},{
+					name:"货币类图标",
+					list:[{
+					    icon: "fa fa-bitcoin"
+					},
+					{
+					    icon: "fa fa-btc"
+					},
+					{
+					    icon: "fa fa-cny"
+					},
+					{
+					    icon: "fa fa-dollar"
+					},
+					{
+					    icon: "fa fa-eur"
+					},
+					{
+					    icon: "fa fa-euro"
+					},
+					{
+					    icon: "fa fa-gbp"
+					},
+					{
+					    icon: "fa fa-gg"
+					},
+					{
+					    icon: "fa fa-gg-circle"
+					},
+					{
+					    icon: "fa fa-ils"
+					},
+					{
+					    icon: "fa fa-inr"
+					},
+					{
+					    icon: "fa fa-jpy"
+					},
+					{
+					    icon: "fa fa-krw"
+					},
+					{
+					    icon: "fa fa-money"
+					},
+					{
+					    icon: "fa fa-rmb"
+					},
+					{
+					    icon: "fa fa-rouble"
+					},
+					{
+					    icon: "fa fa-rub"
+					},
+					{
+					    icon: "fa fa-ruble"
+					},
+					{
+					    icon: "fa fa-rupee"
+					},
+					{
+					    icon: "fa fa-shekel"
+					},
+					{
+					    icon: "fa fa-sheqel"
+					},
+					{
+					    icon: "fa fa-try"
+					},
+					{
+					    icon: "fa fa-turkish-lira"
+					},
+					{
+					    icon: "fa fa-usd"
+					},
+					{
+					    icon: "fa fa-won"
+					},
+					{
+					    icon: "fa fa-yen"
+					}],
+				},{
+					name:"文字编辑类图标",
+					list:[{
+					    icon: "fa fa-align-center"
+					},
+					{
+					    icon: "fa fa-align-justify"
+					},
+					{
+					    icon: "fa fa-align-left"
+					},
+					{
+					    icon: "fa fa-align-right"
+					},
+					{
+					    icon: "fa fa-bold"
+					},
+					{
+					    icon: "fa fa-chain"
+					},
+					{
+					    icon: "fa fa-chain-broken"
+					},
+					{
+					    icon: "fa fa-clipboard"
+					},
+					{
+					    icon: "fa fa-columns"
+					},
+					{
+					    icon: "fa fa-copy"
+					},
+					{
+					    icon: "fa fa-cut"
+					},
+					{
+					    icon: "fa fa-dedent"
+					},
+					{
+					    icon: "fa fa-eraser"
+					},
+					{
+					    icon: "fa fa-file"
+					},
+					{
+					    icon: "fa fa-file-o"
+					},
+					{
+					    icon: "fa fa-file-text"
+					},
+					{
+					    icon: "fa fa-file-text-o"
+					},
+					{
+					    icon: "fa fa-files-o"
+					},
+					{
+					    icon: "fa fa-floppy-o"
+					},
+					{
+					    icon: "fa fa-font"
+					},
+					{
+					    icon: "fa fa-header"
+					},
+					{
+					    icon: "fa fa-indent"
+					},
+					{
+					    icon: "fa fa-italic"
+					},
+					{
+					    icon: "fa fa-link"
+					},
+					{
+					    icon: "fa fa-list"
+					},
+					{
+					    icon: "fa fa-list-alt"
+					},
+					{
+					    icon: "fa fa-list-ol"
+					},
+					{
+					    icon: "fa fa-list-ul"
+					},
+					{
+					    icon: "fa fa-outdent"
+					},
+					{
+					    icon: "fa fa-paperclip"
+					},
+					{
+					    icon: "fa fa-paragraph"
+					},
+					{
+					    icon: "fa fa-paste"
+					},
+					{
+					    icon: "fa fa-repeat"
+					},
+					{
+					    icon: "fa fa-rotate-left"
+					},
+					{
+					    icon: "fa fa-rotate-right"
+					},
+					{
+					    icon: "fa fa-save"
+					},
+					{
+					    icon: "fa fa-scissors"
+					},
+					{
+					    icon: "fa fa-strikethrough"
+					},
+					{
+					    icon: "fa fa-subscript"
+					},
+					{
+					    icon: "fa fa-superscript"
+					},
+					{
+					    icon: "fa fa-table"
+					},
+					{
+					    icon: "fa fa-text-height"
+					},
+					{
+					    icon: "fa fa-text-width"
+					},
+					{
+					    icon: "fa fa-th"
+					},
+					{
+					    icon: "fa fa-th-large"
+					},
+					{
+					    icon: "fa fa-th-list"
+					},
+					{
+					    icon: "fa fa-underline"
+					},
+					{
+					    icon: "fa fa-undo"
+					},
+					{
+					    icon: "fa fa-unlink"
+					}],
+				},{
+					name:"箭头类图标",
+					list:[{
+					    icon: "fa fa-angle-double-down"
+					},
+					{
+					    icon: "fa fa-angle-double-left"
+					},
+					{
+					    icon: "fa fa-angle-double-right"
+					},
+					{
+					    icon: "fa fa-angle-double-up"
+					},
+					{
+					    icon: "fa fa-angle-down"
+					},
+					{
+					    icon: "fa fa-angle-left"
+					},
+					{
+					    icon: "fa fa-angle-right"
+					},
+					{
+					    icon: "fa fa-angle-up"
+					},
+					{
+					    icon: "fa fa-arrow-circle-down"
+					},
+					{
+					    icon: "fa fa-arrow-circle-left"
+					},
+					{
+					    icon: "fa fa-arrow-circle-o-down"
+					},
+					{
+					    icon: "fa fa-arrow-circle-o-left"
+					},
+					{
+					    icon: "fa fa-arrow-circle-o-right"
+					},
+					{
+					    icon: "fa fa-arrow-circle-o-up"
+					},
+					{
+					    icon: "fa fa-arrow-circle-right"
+					},
+					{
+					    icon: "fa fa-arrow-circle-up"
+					},
+					{
+					    icon: "fa fa-arrow-down"
+					},
+					{
+					    icon: "fa fa-arrow-left"
+					},
+					{
+					    icon: "fa fa-arrow-right"
+					},
+					{
+					    icon: "fa fa-arrow-up"
+					},
+					{
+					    icon: "fa fa-arrows"
+					},
+					{
+					    icon: "fa fa-arrows-alt"
+					},
+					{
+					    icon: "fa fa-arrows-h"
+					},
+					{
+					    icon: "fa fa-arrows-v"
+					},
+					{
+					    icon: "fa fa-caret-down"
+					},
+					{
+					    icon: "fa fa-caret-left"
+					},
+					{
+					    icon: "fa fa-caret-right"
+					},
+					{
+					    icon: "fa fa-caret-square-o-down"
+					},
+					{
+					    icon: "fa fa-caret-square-o-left"
+					},
+					{
+					    icon: "fa fa-caret-square-o-right"
+					},
+					{
+					    icon: "fa fa-caret-square-o-up"
+					},
+					{
+					    icon: "fa fa-caret-up"
+					},
+					{
+					    icon: "fa fa-chevron-circle-down"
+					},
+					{
+					    icon: "fa fa-chevron-circle-left"
+					},
+					{
+					    icon: "fa fa-chevron-circle-right"
+					},
+					{
+					    icon: "fa fa-chevron-circle-up"
+					},
+					{
+					    icon: "fa fa-chevron-down"
+					},
+					{
+					    icon: "fa fa-chevron-left"
+					},
+					{
+					    icon: "fa fa-chevron-right"
+					},
+					{
+					    icon: "fa fa-chevron-up"
+					},
+					{
+					    icon: "fa fa-exchange"
+					},
+					{
+					    icon: "fa fa-hand-o-down"
+					},
+					{
+					    icon: "fa fa-hand-o-left"
+					},
+					{
+					    icon: "fa fa-hand-o-right"
+					},
+					{
+					    icon: "fa fa-hand-o-up"
+					},
+					{
+					    icon: "fa fa-long-arrow-down"
+					},
+					{
+					    icon: "fa fa-long-arrow-left"
+					},
+					{
+					    icon: "fa fa-long-arrow-right"
+					},
+					{
+					    icon: "fa fa-long-arrow-up"
+					},
+					{
+					    icon: "fa fa-toggle-down"
+					},
+					{
+					    icon: "fa fa-toggle-left"
+					},
+					{
+					    icon: "fa fa-toggle-right"
+					},
+					{
+					    icon: "fa fa-toggle-up"
+					}],
+				},{
+					name:"播放器类图标",
+					list:[{
+					    icon: "fa fa-arrows-alt"
+					},
+					{
+					    icon: "fa fa-backward"
+					},
+					{
+					    icon: "fa fa-compress"
+					},
+					{
+					    icon: "fa fa-eject"
+					},
+					{
+					    icon: "fa fa-expand"
+					},
+					{
+					    icon: "fa fa-fast-backward"
+					},
+					{
+					    icon: "fa fa-fast-forward"
+					},
+					{
+					    icon: "fa fa-forward"
+					},
+					{
+					    icon: "fa fa-pause"
+					},
+					{
+					    icon: "fa fa-pause-circle"
+					},
+					{
+					    icon: "fa fa-pause-circle-o"
+					},
+					{
+					    icon: "fa fa-play"
+					},
+					{
+					    icon: "fa fa-play-circle"
+					},
+					{
+					    icon: "fa fa-play-circle-o"
+					},
+					{
+					    icon: "fa fa-random"
+					},
+					{
+					    icon: "fa fa-step-backward"
+					},
+					{
+					    icon: "fa fa-step-forward"
+					},
+					{
+					    icon: "fa fa-stop"
+					},
+					{
+					    icon: "fa fa-stop-circle"
+					},
+					{
+					    icon: "fa fa-stop-circle-o"
+					},
+					{
+					    icon: "fa fa-youtube-play"
+					}],
+				},{
+					name:"商标图标",
+					list:[{
+					    icon: "fa fa-500px"
+					},
+					{
+					    icon: "fa fa-adn"
+					},
+					{
+					    icon: "fa fa-amazon"
+					},
+					{
+					    icon: "fa fa-android"
+					},
+					{
+					    icon: "fa fa-angellist"
+					},
+					{
+					    icon: "fa fa-apple"
+					},
+					{
+					    icon: "fa fa-bandcamp"
+					},
+					{
+					    icon: "fa fa-behance"
+					},
+					{
+					    icon: "fa fa-behance-square"
+					},
+					{
+					    icon: "fa fa-bitbucket"
+					},
+					{
+					    icon: "fa fa-bitbucket-square"
+					},
+					{
+					    icon: "fa fa-bitcoin"
+					},
+					{
+					    icon: "fa fa-black-tie"
+					},
+					{
+					    icon: "fa fa-bluetooth"
+					},
+					{
+					    icon: "fa fa-bluetooth-b"
+					},
+					{
+					    icon: "fa fa-btc"
+					},
+					{
+					    icon: "fa fa-buysellads"
+					},
+					{
+					    icon: "fa fa-cc-amex"
+					},
+					{
+					    icon: "fa fa-cc-diners-club"
+					},
+					{
+					    icon: "fa fa-cc-discover"
+					},
+					{
+					    icon: "fa fa-cc-jcb"
+					},
+					{
+					    icon: "fa fa-cc-mastercard"
+					},
+					{
+					    icon: "fa fa-cc-paypal"
+					},
+					{
+					    icon: "fa fa-cc-stripe"
+					},
+					{
+					    icon: "fa fa-cc-visa"
+					},
+					{
+					    icon: "fa fa-chrome"
+					},
+					{
+					    icon: "fa fa-codepen"
+					},
+					{
+					    icon: "fa fa-codiepie"
+					},
+					{
+					    icon: "fa fa-connectdevelop"
+					},
+					{
+					    icon: "fa fa-contao"
+					},
+					{
+					    icon: "fa fa-css3"
+					},
+					{
+					    icon: "fa fa-dashcube"
+					},
+					{
+					    icon: "fa fa-delicious"
+					},
+					{
+					    icon: "fa fa-deviantart"
+					},
+					{
+					    icon: "fa fa-digg"
+					},
+					{
+					    icon: "fa fa-dribbble"
+					},
+					{
+					    icon: "fa fa-dropbox"
+					},
+					{
+					    icon: "fa fa-drupal"
+					},
+					{
+					    icon: "fa fa-edge"
+					},
+					{
+					    icon: "fa fa-eercast"
+					},
+					{
+					    icon: "fa fa-empire"
+					},
+					{
+					    icon: "fa fa-envira"
+					},
+					{
+					    icon: "fa fa-etsy"
+					},
+					{
+					    icon: "fa fa-expeditedssl"
+					},
+					{
+					    icon: "fa fa-fa"
+					},
+					{
+					    icon: "fa fa-facebook"
+					},
+					{
+					    icon: "fa fa-facebook-f"
+					},
+					{
+					    icon: "fa fa-facebook-official"
+					},
+					{
+					    icon: "fa fa-facebook-square"
+					},
+					{
+					    icon: "fa fa-firefox"
+					},
+					{
+					    icon: "fa fa-first-order"
+					},
+					{
+					    icon: "fa fa-flickr"
+					},
+					{
+					    icon: "fa fa-font-awesome"
+					},
+					{
+					    icon: "fa fa-fonticons"
+					},
+					{
+					    icon: "fa fa-fort-awesome"
+					},
+					{
+					    icon: "fa fa-forumbee"
+					},
+					{
+					    icon: "fa fa-foursquare"
+					},
+					{
+					    icon: "fa fa-free-code-camp"
+					},
+					{
+					    icon: "fa fa-ge"
+					},
+					{
+					    icon: "fa fa-get-pocket"
+					},
+					{
+					    icon: "fa fa-gg"
+					},
+					{
+					    icon: "fa fa-gg-circle"
+					},
+					{
+					    icon: "fa fa-git"
+					},
+					{
+					    icon: "fa fa-git-square"
+					},
+					{
+					    icon: "fa fa-github"
+					},
+					{
+					    icon: "fa fa-github-alt"
+					},
+					{
+					    icon: "fa fa-github-square"
+					},
+					{
+					    icon: "fa fa-gitlab"
+					},
+					{
+					    icon: "fa fa-gittip"
+					},
+					{
+					    icon: "fa fa-glide"
+					},
+					{
+					    icon: "fa fa-glide-g"
+					},
+					{
+					    icon: "fa fa-google"
+					},
+					{
+					    icon: "fa fa-google-plus"
+					},
+					{
+					    icon: "fa fa-google-plus-circle"
+					},
+					{
+					    icon: "fa fa-google-plus-official"
+					},
+					{
+					    icon: "fa fa-google-plus-square"
+					},
+					{
+					    icon: "fa fa-google-wallet"
+					},
+					{
+					    icon: "fa fa-gratipay"
+					},
+					{
+					    icon: "fa fa-grav"
+					},
+					{
+					    icon: "fa fa-hacker-news"
+					},
+					{
+					    icon: "fa fa-houzz"
+					},
+					{
+					    icon: "fa fa-html5"
+					},
+					{
+					    icon: "fa fa-imdb"
+					},
+					{
+					    icon: "fa fa-instagram"
+					},
+					{
+					    icon: "fa fa-internet-explorer"
+					},
+					{
+					    icon: "fa fa-ioxhost"
+					},
+					{
+					    icon: "fa fa-joomla"
+					},
+					{
+					    icon: "fa fa-jsfiddle"
+					},
+					{
+					    icon: "fa fa-lastfm"
+					},
+					{
+					    icon: "fa fa-lastfm-square"
+					},
+					{
+					    icon: "fa fa-leanpub"
+					},
+					{
+					    icon: "fa fa-linkedin"
+					},
+					{
+					    icon: "fa fa-linkedin-square"
+					},
+					{
+					    icon: "fa fa-linode"
+					},
+					{
+					    icon: "fa fa-linux"
+					},
+					{
+					    icon: "fa fa-maxcdn"
+					},
+					{
+					    icon: "fa fa-meanpath"
+					},
+					{
+					    icon: "fa fa-medium"
+					},
+					{
+					    icon: "fa fa-meetup"
+					},
+					{
+					    icon: "fa fa-mixcloud"
+					},
+					{
+					    icon: "fa fa-modx"
+					},
+					{
+					    icon: "fa fa-odnoklassniki"
+					},
+					{
+					    icon: "fa fa-odnoklassniki-square"
+					},
+					{
+					    icon: "fa fa-opencart"
+					},
+					{
+					    icon: "fa fa-openid"
+					},
+					{
+					    icon: "fa fa-opera"
+					},
+					{
+					    icon: "fa fa-optin-monster"
+					},
+					{
+					    icon: "fa fa-pagelines"
+					},
+					{
+					    icon: "fa fa-paypal"
+					},
+					{
+					    icon: "fa fa-pied-piper"
+					},
+					{
+					    icon: "fa fa-pied-piper-alt"
+					},
+					{
+					    icon: "fa fa-pied-piper-pp"
+					},
+					{
+					    icon: "fa fa-pinterest"
+					},
+					{
+					    icon: "fa fa-pinterest-p"
+					},
+					{
+					    icon: "fa fa-pinterest-square"
+					},
+					{
+					    icon: "fa fa-product-hunt"
+					},
+					{
+					    icon: "fa fa-qq"
+					},
+					{
+					    icon: "fa fa-quora"
+					},
+					{
+					    icon: "fa fa-ra"
+					},
+					{
+					    icon: "fa fa-ravelry"
+					},
+					{
+					    icon: "fa fa-rebel"
+					},
+					{
+					    icon: "fa fa-reddit"
+					},
+					{
+					    icon: "fa fa-reddit-alien"
+					},
+					{
+					    icon: "fa fa-reddit-square"
+					},
+					{
+					    icon: "fa fa-renren"
+					},
+					{
+					    icon: "fa fa-resistance"
+					},
+					{
+					    icon: "fa fa-safari"
+					},
+					{
+					    icon: "fa fa-scribd"
+					},
+					{
+					    icon: "fa fa-sellsy"
+					},
+					{
+					    icon: "fa fa-share-alt"
+					},
+					{
+					    icon: "fa fa-share-alt-square"
+					},
+					{
+					    icon: "fa fa-shirtsinbulk"
+					},
+					{
+					    icon: "fa fa-simplybuilt"
+					},
+					{
+					    icon: "fa fa-skyatlas"
+					},
+					{
+					    icon: "fa fa-skype"
+					},
+					{
+					    icon: "fa fa-slack"
+					},
+					{
+					    icon: "fa fa-slideshare"
+					},
+					{
+					    icon: "fa fa-snapchat"
+					},
+					{
+					    icon: "fa fa-snapchat-ghost"
+					},
+					{
+					    icon: "fa fa-snapchat-square"
+					},
+					{
+					    icon: "fa fa-soundcloud"
+					},
+					{
+					    icon: "fa fa-spotify"
+					},
+					{
+					    icon: "fa fa-stack-exchange"
+					},
+					{
+					    icon: "fa fa-stack-overflow"
+					},
+					{
+					    icon: "fa fa-steam"
+					},
+					{
+					    icon: "fa fa-steam-square"
+					},
+					{
+					    icon: "fa fa-stumbleupon"
+					},
+					{
+					    icon: "fa fa-stumbleupon-circle"
+					},
+					{
+					    icon: "fa fa-superpowers"
+					},
+					{
+					    icon: "fa fa-telegram"
+					},
+					{
+					    icon: "fa fa-tencent-weibo"
+					},
+					{
+					    icon: "fa fa-themeisle"
+					},
+					{
+					    icon: "fa fa-trello"
+					},
+					{
+					    icon: "fa fa-tripadvisor"
+					},
+					{
+					    icon: "fa fa-tumblr"
+					},
+					{
+					    icon: "fa fa-tumblr-square"
+					},
+					{
+					    icon: "fa fa-twitch"
+					},
+					{
+					    icon: "fa fa-twitter"
+					},
+					{
+					    icon: "fa fa-twitter-square"
+					},
+					{
+					    icon: "fa fa-usb"
+					},
+					{
+					    icon: "fa fa-viacoin"
+					},
+					{
+					    icon: "fa fa-viadeo"
+					},
+					{
+					    icon: "fa fa-viadeo-square"
+					},
+					{
+					    icon: "fa fa-vimeo"
+					},
+					{
+					    icon: "fa fa-vimeo-square"
+					},
+					{
+					    icon: "fa fa-vine"
+					},
+					{
+					    icon: "fa fa-vk"
+					},
+					{
+					    icon: "fa fa-wechat"
+					},
+					{
+					    icon: "fa fa-weibo"
+					},
+					{
+					    icon: "fa fa-weixin"
+					},
+					{
+					    icon: "fa fa-whatsapp"
+					},
+					{
+					    icon: "fa fa-wikipedia-w"
+					},
+					{
+					    icon: "fa fa-windows"
+					},
+					{
+					    icon: "fa fa-wordpress"
+					},
+					{
+					    icon: "fa fa-wpbeginner"
+					},
+					{
+					    icon: "fa fa-wpexplorer"
+					},
+					{
+					    icon: "fa fa-wpforms"
+					},
+					{
+					    icon: "fa fa-xing"
+					},
+					{
+					    icon: "fa fa-xing-square"
+					},
+					{
+					    icon: "fa fa-y-combinator"
+					},
+					{
+					    icon: "fa fa-y-combinator-square"
+					},
+					{
+					    icon: "fa fa-yahoo"
+					},
+					{
+					    icon: "fa fa-yc"
+					},
+					{
+					    icon: "fa fa-yc-square"
+					},
+					{
+					    icon: "fa fa-yelp"
+					},
+					{
+					    icon: "fa fa-yoast"
+					},
+					{
+					    icon: "fa fa-youtube"
+					},
+					{
+					    icon: "fa fa-youtube-play"
+					},]
+				},{
+					name:"医疗类图标",
+					list:[{
+					    icon: "fa fa-ambulance"
+					},
+					{
+					    icon: "fa fa-h-square"
+					},
+					{
+					    icon: "fa fa-heart"
+					},
+					{
+					    icon: "fa fa-heart-o"
+					},
+					{
+					    icon: "fa fa-heartbeat"
+					},
+					{
+					    icon: "fa fa-hospital-o"
+					},
+					{
+					    icon: "fa fa-medkit"
+					},
+					{
+					    icon: "fa fa-plus-square"
+					},
+					{
+					    icon: "fa fa-stethoscope"
+					},
+					{
+					    icon: "fa fa-user-md"
+					},
+					{
+					    icon: "fa fa-wheelchair"
+					},
+					{
+					    icon: "fa fa-wheelchair-alt"
+					}]
+				}],
 		currentSymbolKey: '',
 		symbolName: '',
 		popoverVisible: false,

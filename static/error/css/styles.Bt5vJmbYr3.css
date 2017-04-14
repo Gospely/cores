@@ -1,0 +1,63 @@
+.vd-container {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 940px;
+}
+
+html,
+body,
+.vd-full-container {
+}
+
+html {
+    overflow: auto;
+}
+
+.bg {
+    background-color: #000000;
+}
+
+.content {
+    margin-top: 5%;
+}
+
+.text-1 {
+    color: #ffffff;
+    font-size: 60px;
+    letter-spacing: 2px;
+    margin-top: 20%;
+}
+
+.bg-log {
+    width: 300px;
+    height: 150px;
+    margin-top: 20%;
+    margin-left: 50px;
+    background-size: contain;
+    background-position: center center;
+    background-image: url("http://login-summergn.gospel.design/images/5dcad91cf435717b16d2593e447e9f3f.png");
+    background-repeat: no-repeat;
+}
+
+.text-2 {
+    color: #ffffff;
+    font-size: 16px;
+    letter-spacing: 2px;
+}
+
+.close-btn {
+    width: 75px;
+    height: 75px;
+    position: fixed;
+    right: 80px;
+    bottom: 50px;
+    background-color: #ffffff;
+    border-radius: 50%;
+}
+
+.close-btn-text {
+    color: #000000;
+    font-size: 13px;
+    line-height: 75px;
+    text-align: center;
+}

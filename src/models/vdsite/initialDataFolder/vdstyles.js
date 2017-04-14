@@ -13,7 +13,7 @@ export default {
 		clear: '',
 		position: '',
 		'font-family': '',
-		color: '#000000',
+		color: '',
 		'font-weight': '',
 		'font-style': '',
 		'text-indent': '',
