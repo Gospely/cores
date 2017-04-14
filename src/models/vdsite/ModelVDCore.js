@@ -197,7 +197,7 @@ export default {
 	            },
 	            body: JSON.stringify(struct)
 	        });
-			if(packResult.data.code == 1){
+			if(packResult.data.code == 200){
 				window.open(localStorage.baseURL + 'vdsite/download?token=' + localStorage.token + '&folder=' + localStorage.dir + '&project=' + localStorage.currentProject)
 			}
 		},
