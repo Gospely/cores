@@ -355,9 +355,10 @@ function() {
 
 })();
 
-(function() {
-    jQuery('[vdid="72Raqo5QbX"]').animateCss('fadeInLeft')
-    jQuery('[vdid="72Raqo5QbX"]').css({
-        animationDuration: '2000ms'
+$(function() {
+
+    $('[vdid="49X2fvOjEQ"]').click(function() {
+        location.href = 'http://gospely.com';
     });
-})();
+
+});
