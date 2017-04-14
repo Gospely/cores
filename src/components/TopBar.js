@@ -498,7 +498,7 @@ const LeftSidebar = (props) => {
 				  //       }
 
 		    //     	};
-						
+
 					// for( var ele in styleElems) {
 					// 	console.log(ele);
 					// 	console.log(styleElems[ele]);
@@ -506,13 +506,13 @@ const LeftSidebar = (props) => {
 					// 	var bgImgUrl = styleElem.background['background-image'];
 					// 	var bgImgWidth = styleElem.width;
 					// 	var bgImgHeight = styleElem.height;
-						
+
 					// 	img2Base64(bgImgUrl,bgImgWidth,bgImgHeight);
-						
+
 					// 	const bgImgOnload = () => {
 					// 		newCanvas.parentNode.removeChild(newCanvas);//删除新创建的canvas
 					// 		bgImgUrl = base64;
-							
+
 				 //            if(over) {
 				 //            	over();
 				 //            	for( var el in styleElems) {
@@ -521,9 +521,9 @@ const LeftSidebar = (props) => {
 				 //            	};
 				 //            }
 					// 	};
-						
+
 					// };
-				
+
 		        	imgElems.each(function(index, image) {
 							// image = $(image);
 							// var imgWidth = image.width();
@@ -531,7 +531,7 @@ const LeftSidebar = (props) => {
 							// var imgsrc = image.attr('src');
 
 							// img2Base64(imgsrc,imgWidth,imgsrc);
-							
+
 							// const imgOnload = () => {
 							// 	newCanvas.parentNode.removeChild(newCanvas);//删除新创建的canvas
 							// 	image.attr('src', base64);
@@ -543,7 +543,7 @@ const LeftSidebar = (props) => {
 					  //           	});
 					  //           }
 							// };
-							
+
 
 
 				        var newCanvas = document.createElement("canvas"),
