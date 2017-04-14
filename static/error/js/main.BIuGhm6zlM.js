@@ -356,8 +356,12 @@ function() {
 })();
 
 (function() {
-    jQuery('[vdid="72Raqo5QbX"]').animateCss('fadeInLeft')
-    jQuery('[vdid="72Raqo5QbX"]').css({
-        animationDuration: '2000ms'
+    jQuery('[vdid="49X2fvOjEQ"]').animateCss('bounceInUp')
+    jQuery('[vdid="49X2fvOjEQ"]').css({
+        animationDuration: '1500ms'
+    });
+    jQuery('[vdid="VWnKupn5Nh"]').animateCss('bounceInUp')
+    jQuery('[vdid="VWnKupn5Nh"]').css({
+        animationDuration: '1500ms'
     });
 })();
