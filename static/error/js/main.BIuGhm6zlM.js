@@ -355,13 +355,10 @@ function() {
 
 })();
 
-(function() {
-    jQuery('[vdid="49X2fvOjEQ"]').animateCss('bounceInUp')
-    jQuery('[vdid="49X2fvOjEQ"]').css({
-        animationDuration: '1500ms'
+$(function() {
+
+    $('[vdid="49X2fvOjEQ"]').click(function() {
+        location.href = 'http://gospely.com';
     });
-    jQuery('[vdid="VWnKupn5Nh"]').animateCss('bounceInUp')
-    jQuery('[vdid="VWnKupn5Nh"]').css({
-        animationDuration: '1500ms'
-    });
-})();
+
+});
