@@ -3015,15 +3015,14 @@ const VDStylePanel = (props) => {
 					<FormItem wrapperCol={{ span: 24 }} style={{position: 'relative', top: -5}}>
 						{
 							activeCSSStyleState['text-shadow'].childrenProps.map((cssProperty, cssPropertyIndex) => {
-									const tagColor = cssProperty.color+ "!important"
-									console.log(tagColor);
+
 								return (
 							      	<Popover onVisibleChange={onVisibleChange.bind(this, cssPropertyIndex, 'text-shadow')} key={cssPropertyIndex} placement="left" title="编辑文字阴影" content={textShadowProps.modifyPopover()} trigger="click">
 
 										<div key={cssPropertyIndex} style={{border: '1px solid #d9d9d9', minHeight: 10, marginTop: '10px'}}>
 											<Row>
 												<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
-													<Tag style={{backgroundColor:tagColor}} ></Tag>
+													<div className="color-preview-tag-style" style={{background:cssProperty.color}}></div>
 												</Col>
 												<Col span={16} style={{textAlign: 'center', cursor: 'pointer'}}>
 													<span>{cssProperty['h-shadow']}px,{cssProperty['v-shadow']}px</span>
