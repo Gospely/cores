@@ -47,9 +47,7 @@ const LeftSidebar = (props) => {
 
 	dndHandler.init(props);
 	keyRegister.init(props);
-	if(!window.socket && window.applicationId){
-		gitTerminal(props);
-	}
+
 	//设置控制无权限支付弹窗props
 	window.resquestProps = props;
 	var styles = {
@@ -324,19 +322,24 @@ const LeftSidebar = (props) => {
 
 	        pause() {
 
+				if(!window.socket && window.applicationId){
+					gitTerminal(props);
+				}
 				notification.open({
 		            message: '正在停止...'
 		        });
-				if(localStorage.debugType == 'shell') {
-					var kill = "kill -9 $(netstat -tlnp | grep "+ localStorage.exposePort +" |awk '{print $7}' | awk -F '/' '{print $1}')\n"
-					window.socket.send(kill);
-				}
+				setTimeout(function(){
+					if(localStorage.debugType == 'shell') {
+						var kill = "kill -9 $(netstat -tlnp | grep "+ localStorage.exposePort +" |awk '{print $7}' | awk -F '/' '{print $1}')\n"
+						window.socket.send(kill);
+					}
+
+				}, 1500)
 				setTimeout(function(){
 					notification.open({
-			            message: '停止成功'
-			        });
-				}, 500)
-
+						message: '停止成功'
+					});
+				}, 2000)
 	        },
 
 
