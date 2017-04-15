@@ -146,6 +146,10 @@ const TemplateStore = (props) => {
 			})
 		},
 		createApp(){
+			
+			props.dispatch({
+				type: 'UIState/writeConfig'
+			});
 			props.dispatch({
 				type: 'templateStore/hideCreateTemplate',
 			})

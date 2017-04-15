@@ -3039,7 +3039,12 @@ export default {
 			state.activeCtrlIndex = params.UIState.activeCtrlIndex || 1;
 			state.defaultExpandedKeys = params.UIState.defaultExpandedKeys || [];
 			state.defaultSelectedKeys = params.UIState.defaultSelectedKeys || [''];
-
+			setTimeout(function(){
+				console.log('reload');
+				window.VDDesignerFrame.postMessage({
+					pageSelected: state.layout[state.activePage.key]
+				}, '*');
+			}, 2500);
 			return {...state};
 		},
 		initLayout(state, {payload: params}){
