@@ -2942,20 +2942,18 @@ const VDStylePanel = (props) => {
 		const shadowsPanel = () => {
 
 			const onVisibleChange = (cssPropertyIndex, shadowType, visible) => {
-
-				if (props.vdstyles.colorPickerPanel.visible && !visible) {
-					return;
+				if (shadowType == 'text-shadow') {
+					// if (props.vdstyles.colorPickerPanel.visible && !visible) {
+					// 	return;
+					// }
+					if (!props.vdstyles.colorPickerPanel.visible || visible) {
+						props.dispatch({
+							type: 'vdstyles/editTextShadowPropsOnVisibleChange',
+							payload: visible
+						})
+					}
 				}
-
-				// editTextShadowPropsOnVisibleChange(e) {
-
-				// }
-
-				props.dispatch({
-					type: 'vdstyles/editTextShadowPropsOnVisibleChange',
-					payload: visible
-				})
-
+				
 				if(visible) {
 					props.dispatch({
 						type: 'vdstyles/setActiveBoxShadow',
