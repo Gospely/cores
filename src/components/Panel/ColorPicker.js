@@ -3,19 +3,22 @@ import { connect } from 'dva';
 import { SketchPicker } from 'react-color';
 import { Popover } from 'antd';
 
-//使用方法
-// let colorTest = {
-//       r: '241',
-//       g: '112',
-//       b: '19',
-//       a: '1',
-//     };
+/*
+使用方法
+let colorTest = {
+      r: '241',
+      g: '112',
+      b: '19',
+      a: '1',
+    };
 
-// const handleChangeComplete = function (color) {
-// 	colorTest = color.rgb;
-// 	console.log(colorTest)
-// }
-//<ColorPicker onChangeComplete={handleChangeComplete} color={colorTest} placement='left' style={{height: '20px'}} onVisibleChange={onVisibleChange}/>
+const handleChangeComplete = function (color) {
+	colorTest = color.rgb;
+	console.log(colorTest)
+}
+<ColorPicker onChangeComplete={handleChangeComplete} color={colorTest} placement='left' style={{height: '20px'}} onVisibleChange={onVisibleChange}/>
+前两个参数为必选
+*/
 
 class ColorPicker extends React.Component {
 

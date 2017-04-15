@@ -2942,17 +2942,7 @@ const VDStylePanel = (props) => {
 		const shadowsPanel = () => {
 
 			const onVisibleChange = (cssPropertyIndex, shadowType, visible) => {
-				if (shadowType == 'text-shadow') {
-					// if (props.vdstyles.colorPickerPanel.visible && !visible) {
-					// 	return;
-					// }
-					if (!props.vdstyles.colorPickerPanel.visible || visible) {
-						props.dispatch({
-							type: 'vdstyles/editTextShadowPropsOnVisibleChange',
-							payload: visible
-						})
-					}
-				}
+
 				
 				if(visible) {
 					props.dispatch({
@@ -2963,6 +2953,27 @@ const VDStylePanel = (props) => {
 							activeStyle: props.vdCtrlTree.activeCtrl.activeStyle
 						}
 					});
+				}
+
+				if (shadowType == 'text-shadow') {
+
+					if(!visible) {
+						setTimeout(() => {
+							if (props.vdstyles.colorPickerPanel.visible) {
+								return;
+							}
+							props.dispatch({
+								type: 'vdstyles/editTextShadowPropsOnVisibleChange',
+								payload: visible
+							})
+						}, 500)
+					}else {
+						props.dispatch({
+							type: 'vdstyles/editTextShadowPropsOnVisibleChange',
+							payload: visible
+						})
+					}
+					
 				}
 			}
 
@@ -2985,13 +2996,23 @@ const VDStylePanel = (props) => {
 			}
 
 			const editShadowPropsOnVisibleChange = (visible) => {
-				if (props.vdstyles.colorPickerPanel.visible && !visible) {
-					return;
+				if(!visible) {
+					setTimeout(() => {
+						if (props.vdstyles.colorPickerPanel.visible) {
+							return;
+						}
+						props.dispatch({
+							type: 'vdstyles/editShadowPropsOnVisibleChange',
+							payload: visible
+						})
+					}, 500)
+				}else {
+					props.dispatch({
+						type: 'vdstyles/editShadowPropsOnVisibleChange',
+						payload: visible
+					})
 				}
-				props.dispatch({
-					type: 'vdstyles/editShadowPropsOnVisibleChange',
-					payload: visible
-				})
+				
 			}
 
 
