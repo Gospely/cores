@@ -787,6 +787,31 @@ const LeftSidebar = (props) => {
 	    			    title: '即将切换应用',
 	    			    content: '您确定要切换吗（点击确定将保存您的工作内容并进行切换）',
 	    			    onOk() {
+							props.dispatch({
+								type: 'UIState/writeConfig'
+							});
+
+							//关闭终端
+							props.dispatch({
+								type: 'devpanel/killPID',
+								payload: {
+									pid: '3000'
+								}
+							})
+							var applicationStop = {
+								id: localStorage.applicationId,
+								image: localStorage.image
+							}
+							setTimeout(function(){
+								props.dispatch({
+									type: 'devpanel/stopDocker',
+									payload: applicationStop
+								});
+								props.dispatch({
+									type: 'devpanel/startDocker',
+									payload: { id: application.id}
+								}, 5000);
+							});
 	    					wechatSave.save();
 	    					swApp(application);
 	    			    },
