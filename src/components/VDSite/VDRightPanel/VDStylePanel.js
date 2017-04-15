@@ -38,7 +38,16 @@ import ColorPicker from '../../Panel/ColorPicker.js';
 
 // <SketchPicker style={{display: 'block'}} defaultValue="#345678" />
 
+
+
 const VDStylePanel = (props) => {
+
+	const colorPickerPanelOnVisibleChange = (visible) => {
+		props.dispatch({
+			type: 'vdstyles/colorPickerPanelOnVisibleChange',
+			payload: visible
+		})
+	}
 
 	if (!props.vdCtrlTree.activeCtrl.tag) {
 		return (
@@ -135,12 +144,14 @@ const VDStylePanel = (props) => {
 		}
 
 		var stylePropertyValue = '';
-
+		console.log(proxy)
 		if(typeof proxy == 'string') {
 			stylePropertyValue = proxy;
 		}else {
 			stylePropertyValue = proxy.target.value;
 		}
+
+		console.log(stylePropertyValue, stylePropertyName, parent)
 
 		if(!props.vdCtrlTree.activeCtrl.activeStyle) {
 			message.error('执行错误，当前无活跃类名');
@@ -700,14 +711,21 @@ const VDStylePanel = (props) => {
 		)
     }
 
-    const changeBoxShadowPaneVisible = () =>{
-
+    const changeBoxShadowPaneVisible = (visible) =>{
+    	if (props.vdstyles.colorPickerPanel.visible && !visible) {
+			return;
+		}
+		
 		props.dispatch({
 			type: 'vdstyles/changeBoxShadowPaneVisible'
 		})
 	}
 
-    const changeTextShadowPaneVisible =() =>{
+    const changeTextShadowPaneVisible =(visible) =>{
+
+    	if (props.vdstyles.colorPickerPanel.visible && !visible) {
+			return;
+		}
 
     	props.dispatch({
     		type:'vdstyles/changeTextShadowPaneVisible'
@@ -814,7 +832,7 @@ const VDStylePanel = (props) => {
 					</FormItem>
 
 					<FormItem {...formItemLayout} label="颜色">
-						<Input onPressEnter={saveBoxShadow} onChange={handleBoxShadowInputChange.bind(this, 'color')} value={props.vdstyles.boxShadow.color.value} type="color" size="small" />
+						<ColorPicker onVisibleChange={colorPickerPanelOnVisibleChange} onChangeComplete={handleBoxShadowInputChange.bind(this, 'color')} color={props.vdstyles.boxShadow.color.value}/>
 					</FormItem>
 
 					<FormItem {...formItemLayout} label="类型">
@@ -913,7 +931,7 @@ const VDStylePanel = (props) => {
 						</FormItem>
 
 						<FormItem {...formItemLayout} label="颜色">
-							<Input onPressEnter={saveBoxShadow} onChange={handleBoxShadowEditorChange.bind(this, 'color')} value={activeCSSStyleState['box-shadow'].childrenProps[activeProp]['color']} type="color" size="small" />
+							<ColorPicker onVisibleChange={colorPickerPanelOnVisibleChange} onChangeComplete={handleBoxShadowEditorChange.bind(this, 'color')} color={activeCSSStyleState['box-shadow'].childrenProps[activeProp]['color']}/>
 						</FormItem>
 
 						<FormItem {...formItemLayout} label="类型">
@@ -934,6 +952,7 @@ const VDStylePanel = (props) => {
 	    	);
 
 		}
+
     }
 
     const textShadowProps = {
@@ -1010,7 +1029,7 @@ const VDStylePanel = (props) => {
 					</FormItem>
 
 					<FormItem {...formItemLayout} label="颜色">
-						<Input onChange={handleBoxShadowInputChange.bind(this, 'color')} value={props.vdstyles.textShadow.color.value} type="color" size="small" />
+						<ColorPicker onVisibleChange={colorPickerPanelOnVisibleChange} onChangeComplete={handleBoxShadowInputChange.bind(this, 'color')} color={props.vdstyles.textShadow.color.value}/>
 					</FormItem>
 
 					<Button onClick={saveBoxShadow} size="small">保存</Button>
@@ -1086,7 +1105,7 @@ const VDStylePanel = (props) => {
 						</FormItem>
 
 						<FormItem {...formItemLayout} label="颜色">
-							<Input onChange={handleBoxShadowEditorChange.bind(this, 'color')} value={activeCSSStyleState['text-shadow'].childrenProps[activeProp]['color']} type="color" size="small" />
+							<ColorPicker onVisibleChange={colorPickerPanelOnVisibleChange} onChangeComplete={handleBoxShadowEditorChange.bind(this, 'color')} color={activeCSSStyleState['text-shadow'].childrenProps[activeProp]['color']}/>
 						</FormItem>
 
 						<Button onClick={saveBoxShadow} size="small">保存</Button>
@@ -2381,7 +2400,7 @@ const VDStylePanel = (props) => {
 										</Popconfirm>
 								)
 							}>
-								<Input type="color" value={activeCSSStyleState['color']} size="small" onChange={handleStylesChange.bind(this, 'color')}/>
+								<ColorPicker onChangeComplete={handleStylesChange.bind(this, 'color')} color={activeCSSStyleState['color']} placement='left'/>
 							</FormItem>
 						</Form>
 				  	</Col>
@@ -2709,7 +2728,7 @@ const VDStylePanel = (props) => {
 							}>
 							<Row>
 								<Col span={12} style={{paddingRight: '10px', marginBottom:'5px'}}>
-									<Input type="color" size="small" value={activeCSSStyleState['background']['background-color']} onChange={handleStylesChange.bind(this, 'background-color', 'background')}/>
+								<ColorPicker onChangeComplete={handleStylesChange.bind(this, 'background-color', 'background')} color={activeCSSStyleState['background']['background-color']} placement='left'/>
 								</Col>
 								<Col span={12}>
 									<Button onClick={setBGAlpha} size="small" style={{paddingLeft: '10px', paddingRight: '10px', marginTop: '4px'}}>透明背景</Button>
@@ -2827,7 +2846,7 @@ const VDStylePanel = (props) => {
 										</Popconfirm>
 								)
 							}>
-								<Input size="small" value={activeCSSStyleState['border'][borderPosition + '-color']} onChange={handleBorderInputChange.bind(this, 'color')} type="color"/>
+								<ColorPicker onChangeComplete={handleBorderInputChange.bind(this, 'color')} color={activeCSSStyleState['border'][borderPosition + '-color']} placement='left'/>
 							</FormItem>
 				    	</Form>
 					</Col>
@@ -2922,8 +2941,22 @@ const VDStylePanel = (props) => {
 
 		const shadowsPanel = () => {
 
-			const onVisibleChange = (cssPropertyIndex, shadowType, e) => {
-				if(e) {
+			const onVisibleChange = (cssPropertyIndex, shadowType, visible) => {
+
+				if (props.vdstyles.colorPickerPanel.visible && !visible) {
+					return;
+				}
+
+				// editTextShadowPropsOnVisibleChange(e) {
+
+				// }
+
+				props.dispatch({
+					type: 'vdstyles/editTextShadowPropsOnVisibleChange',
+					payload: visible
+				})
+
+				if(visible) {
 					props.dispatch({
 						type: 'vdstyles/setActiveBoxShadow',
 						payload: {
@@ -2951,6 +2984,16 @@ const VDStylePanel = (props) => {
 						activeCtrl: props.vdCtrlTree.activeCtrl
 					}
 				});
+			}
+
+			const editShadowPropsOnVisibleChange = (visible) => {
+				if (props.vdstyles.colorPickerPanel.visible && !visible) {
+					return;
+				}
+				props.dispatch({
+					type: 'vdstyles/editShadowPropsOnVisibleChange',
+					payload: visible
+				})
 			}
 
 
@@ -2981,6 +3024,8 @@ const VDStylePanel = (props) => {
 												<Popover key={cssPropertyIndex} placement="left" title="编辑盒子阴影"
 														content={shadowProps.modifyPopover()}
 														trigger="click"
+														onVisibleChange={editShadowPropsOnVisibleChange}
+														visible={props.vdstyles.boxShadowEditorPane.visible}
 														>
 													<Col span={4} style={{textAlign: 'center', cursor: 'pointer'}}>
 														<i onClick={onVisibleChange.bind(this, cssPropertyIndex, 'box-shadow')} className="fa fa-edit"></i>
@@ -3017,7 +3062,7 @@ const VDStylePanel = (props) => {
 							activeCSSStyleState['text-shadow'].childrenProps.map((cssProperty, cssPropertyIndex) => {
 
 								return (
-							      	<Popover onVisibleChange={onVisibleChange.bind(this, cssPropertyIndex, 'text-shadow')} key={cssPropertyIndex} placement="left" title="编辑文字阴影" content={textShadowProps.modifyPopover()} trigger="click">
+							      	<Popover visible={props.vdstyles.textShadowEditorPane.visible} onVisibleChange={onVisibleChange.bind(this, cssPropertyIndex, 'text-shadow')} key={cssPropertyIndex} placement="left" title="编辑文字阴影" content={textShadowProps.modifyPopover()} trigger="click">
 
 										<div key={cssPropertyIndex} style={{border: '1px solid #d9d9d9', minHeight: 10, marginTop: '10px'}}>
 											<Row>
