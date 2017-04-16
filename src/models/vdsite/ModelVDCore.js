@@ -186,7 +186,13 @@ export default {
 
 	        var struct = VDPackager.pack({layout, pages, css, interaction});
 
-	        message.success('正在打包.....');
+	        // message.success('正在打包.....');
+	        yield put({ 
+                type: 'devpanel/showLoading', 
+                payload: {
+                    tips: '正在打包......'
+                } 
+            })
 	        struct.folder = localStorage.dir;
 			struct.isBeautify = true;
 
@@ -199,6 +205,11 @@ export default {
 	        });
 			if(packResult.data.code == 200){
 				window.open(localStorage.baseURL + 'vdsite/download?token=' + localStorage.token + '&folder=' + localStorage.dir + '&project=' + localStorage.currentProject)
+				yield put({ 
+	                type: 'devpanel/hideLoading'
+	            })
+			}else {
+				message.error('打包失败，请重试');
 			}
 		},
 		*deploy({ payload: params }, { call, put, select }){

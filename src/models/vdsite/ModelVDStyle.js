@@ -134,7 +134,19 @@ export default {
 			visible: false,
 		},
 
+		boxShadowEditorPane: {
+			visible: false,
+		},
+
+		colorPickerPanel: {
+			visible: false,
+		},
+
 		textShadowPane: {
+			visible: false,
+		},
+
+		textShadowEditorPane: {
 			visible: false,
 		},
 
@@ -1853,7 +1865,22 @@ export default {
 			}
 
 			return {...state};
+		},
+		editShadowPropsOnVisibleChange(state, {payload: visible}){
+			state.boxShadowEditorPane.visible = visible;
+			return {...state};
+		},
+
+		editTextShadowPropsOnVisibleChange(state, {payload: visible}){
+			state.textShadowEditorPane.visible = visible;
+			return {...state};
+		},
+
+		colorPickerPanelOnVisibleChange(state, {payload: visible}) {
+			state.colorPickerPanel.visible = visible;
+			return {...state};
 		}
+		
 	}
 
 }
