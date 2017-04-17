@@ -40,7 +40,19 @@ const Component = (props) => {
 				payload: key
 			});
 		},
-		visibleChange(e){
+		visibleChange(item, e){
+			if(props.vdpm.currentActivePageListItem != item.key){
+				props.dispatch({
+					type: 'vdpm/savePage',
+					payload: props.vdpm.currentActivePageListItem
+				});
+			}
+			if(!item.children){
+				props.dispatch({
+					type: 'vdpm/setCurrentActivePageListItem',
+					payload: item.key
+				});
+			}
 			// setTimeout(function(){
 			// 	if(localStorage.popoverKay == props.vdpm.currentActivePageListItem && !props.vdpm.pageManager.updatePopoverVisible){
 			// 		props.dispatch({
@@ -145,11 +157,13 @@ const Component = (props) => {
 		},
 
 		deletePopoverVisibleChange(item, e){
+
+
 			if(props.vdpm.currentActivePageListItem != item.key){
-				// props.dispatch({
-				// 	type: 'vdpm/savePage',
-				// 	payload: props.vdpm.currentActivePageListItem
-				// });
+				props.dispatch({
+					type: 'vdpm/savePage',
+					payload: props.vdpm.currentActivePageListItem
+				});
 			}
 			if(!item.children){
 				props.dispatch({
@@ -290,7 +304,7 @@ const Component = (props) => {
     					  </Col>
     					  <Col span={2}>
     						<Tooltip placement="top" title="设置页面的详细信息">
-    							<Icon type="setting" onClick={allPagesProps.visibleChange}/>
+    							<Icon type="setting" onClick={allPagesProps.visibleChange.bind(this, item)}/>
     						</Tooltip>
     					  </Col>
     					</Row>
@@ -307,6 +321,7 @@ const Component = (props) => {
         pageTreeTpl = pageTreeGenerator(props.vdpm.pageList);
 
     const onPageSelect = (val, option) => {
+    	console.log(val,option);
     	props.dispatch({
     		type: 'vdCtrlTree/setActivePage',
     		payload: {
@@ -318,7 +333,7 @@ const Component = (props) => {
 
 	return (
     <div className="vd-allpages-list">
-		<Popover placement="right" title="设置页面的详细信息" content={generatePageDetailSettings()} onClick={allPagesProps.handlePageListItemClick} visibleChange={allPagesProps.visibleChange}  visible={props.vdpm.pageManager.updatePopoverVisible}>
+		<Popover placement="right" trigger="click" title="设置页面的详细信息" content={generatePageDetailSettings()} onClick={allPagesProps.handlePageListItemClick} onVisibleChange={allPagesProps.visibleChange}  visible={props.vdpm.pageManager.updatePopoverVisible}>
 			<Menu
 				style={{ width: '100%' }}
 				defaultOpenKeys={['index.html']}

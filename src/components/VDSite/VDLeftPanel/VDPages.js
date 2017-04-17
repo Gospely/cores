@@ -14,21 +14,11 @@ const TabPane = Tabs.TabPane;
 const Component = (props) => {
 
     const vdpagesProps = {
-        setUnVisible (){
-            props.dispatch({
-    			type: 'vdpm/handleNewPageVisible',
-    			payload: { value: false}
-    		});
-    		props.dispatch({
-    			type: 'vdpm/handleNewFolderVisible',
-    			payload: { value: false}
-    		});
-        }
     }
 
   	return (
 		<div className="vdctrl-pane-wrapper vdpage-pane-wrapper">
-			<Collapse bordered={false} defaultActiveKey={['page-manager', 'page-list']} onChange={vdpagesProps.setUnVisible}>
+			<Collapse bordered={false} defaultActiveKey={['page-manager', 'page-list']} >
 		    	<Panel header="页面管理" key="page-manager">
 		      		<VDPageManager></VDPageManager>
 		    	</Panel>
