@@ -465,6 +465,8 @@ const LeftSidebar = (props) => {
 		        	})
 
 	        	},"2000");
+
+	        	//
 	        },
 
 	        TemplateSaving() {
