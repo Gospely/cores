@@ -303,7 +303,7 @@ const FileTree = (props) => {
             payload: {
                 val,
                 node,
-                extra
+                extraF
             }
         })
       },

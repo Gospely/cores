@@ -160,6 +160,7 @@ export default {
 			var folder = yield select(state => state.file.uploadModal.folderValue);
 			var isOverSameFile = yield select(state => state.file.uploadModal.isOverSameFile);
       		var formdata = new FormData();
+			console.log(info.file);
       		formdata.append('username', localStorage.userName);
       		formdata.append('folder',folder);
       		formdata.append('fileUp',info.file);
@@ -174,9 +175,12 @@ export default {
 				message.success('文件上传成功')
 			}
 			function upload(formdata){
-				return fetch('http://' + localStorage.host + ':9999/fs/upload',{
+				return fetch(localStorage.baseURL + 'fs/upload',{
 	      			method:'POST',
 	      			//mode: "no-cors",
+					headers: {
+						'Authorization': localStorage.token
+					},
 	      			body:formdata,
 	      		})
 			}

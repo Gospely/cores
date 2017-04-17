@@ -78,7 +78,10 @@ const setMode = {
 			return 'ruby'
 		},
 		cs: function() {
-			re
+			return 'csharp'
+		},
+		jade: function() {
+			return 'jade'
 		}
 
 	}
