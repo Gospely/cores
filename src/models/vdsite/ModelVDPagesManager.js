@@ -110,7 +110,7 @@ export default {
 		},
 		handleNewPageVisible(state, { payload: params }){
 
-			state.pageManager.newPageVisible = params.value;
+			state.pageManager.newPageVisible = !state.pageManager.newPageVisible;
             state.pageManager.treeSelect.value = 'root'
             state.newPageFrom = {
                 key: '',
@@ -128,7 +128,7 @@ export default {
 		},
 		handleNewFolderVisible(state, { payload: params }){
 
-			state.pageManager.newFolderVisible = params.value;
+			state.pageManager.newFolderVisible = !state.pageManager.newFolderVisible;			
             state.pageManager.treeSelect.value = 'root'
             state.newFolderForm = {
                 key: '',

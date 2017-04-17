@@ -134,6 +134,10 @@ export default {
 			visible: false,
 		},
 
+		boxShadowChangePane: {
+			visible: false,
+		},
+
 		textShadowPane: {
 			visible: false,
 		},
