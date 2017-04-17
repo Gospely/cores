@@ -67,7 +67,11 @@ const LeftSidebar = (props) => {
 	};
 	const initApplications = () => {
 		if(props.sidebar.applications.length < 1) {
-			return;
+			return (
+					<Col span={18} style={{marginTop: '12%',textAlign:'center'}}>
+						您还没创建过项目，请点击左侧加号创建项目:)
+					</Col>
+				);
 		}
 		return props.sidebar.applications.map(application => {
 			return  ( <Col className="gutter-row" span={6} style={{marginTop: 20}} key={application.id}>
@@ -475,108 +479,108 @@ const LeftSidebar = (props) => {
 
 		        	var imgStack = {};
 
-		        	//var styleElems = props.vdstyles.cssStyleLayout;
+		        	var styleElems = props.vdstyles.cssStyleLayout;
 
-		    //     	var img2Base64 = (src,width,height) => {
-		    //     		 var newCanvas = document.createElement("canvas"),
-				  //       	ctx = newCanvas.getContext("2d");
-
-				  //       newCanvas.id = "tmpLayer";
-
-				  //       document.body.appendChild(newCanvas);//创建新的canvas
-
-		    //     		//image = $(image);
-		    //     		var img = new Image();
-				  //       img.crossOrigin = 'anonymous';
-						// img.src = src;
-
-				  //       img.onload = function() {
-				  //           newCanvas.width = width
-				  //           newCanvas.height = height
-				  //           ctx.drawImage(img, 0, 0, width, height);
-				  //           var base64 = newCanvas.toDataURL('images/png');
-		    //                 imgOnload();
-		    //                 bgImgOnload();
-		    //                 imgStack[base64] = src;
-				  //       }
-
-		    //     	};
-
-					// for( var ele in styleElems) {
-					// 	console.log(ele);
-					// 	console.log(styleElems[ele]);
-					// 	var styleElem = styleElems[ele];
-					// 	var bgImgUrl = styleElem.background['background-image'];
-					// 	var bgImgWidth = styleElem.width;
-					// 	var bgImgHeight = styleElem.height;
-
-					// 	img2Base64(bgImgUrl,bgImgWidth,bgImgHeight);
-
-					// 	const bgImgOnload = () => {
-					// 		newCanvas.parentNode.removeChild(newCanvas);//删除新创建的canvas
-					// 		bgImgUrl = base64;
-
-				 //            if(over) {
-				 //            	over();
-				 //            	for( var el in styleElems) {
-				 //            		styleElem = styleElems[el];
-				 //            		styleElem.background['background-image'] = imgStack[styleElem.background['background-image']]
-				 //            	};
-				 //            }
-					// 	};
-
-					// };
-
-		        	imgElems.each(function(index, image) {
-							// image = $(image);
-							// var imgWidth = image.width();
-							// var imgHEight = image.height();
-							// var imgsrc = image.attr('src');
-
-							// img2Base64(imgsrc,imgWidth,imgsrc);
-
-							// const imgOnload = () => {
-							// 	newCanvas.parentNode.removeChild(newCanvas);//删除新创建的canvas
-							// 	image.attr('src', base64);
-					  //           if(over) {
-					  //           	over();
-					  //           	imgElems.each(function(i, img) {
-					  //           		img = $(img);
-					  //           		img.attr('src', imgStack[img.attr('src')]);
-					  //           	});
-					  //           }
-							// };
-
-
-
-				        var newCanvas = document.createElement("canvas"),
+		        	var img2Base64 = (src,width,height) => {
+		        		 var newCanvas = document.createElement("canvas"),
 				        	ctx = newCanvas.getContext("2d");
 
 				        newCanvas.id = "tmpLayer";
 
 				        document.body.appendChild(newCanvas);//创建新的canvas
 
-		        		image = $(image);
+		        		//image = $(image);
 		        		var img = new Image();
 				        img.crossOrigin = 'anonymous';
-						img.src = image.attr('src');
+						img.src = src;
 
 				        img.onload = function() {
-				            newCanvas.width = image.width();
-				            newCanvas.height = image.height();
-				            ctx.drawImage(img, 0, 0, image.width(), image.height());
+				            newCanvas.width = width
+				            newCanvas.height = height
+				            ctx.drawImage(img, 0, 0, width, height);
 				            var base64 = newCanvas.toDataURL('images/png');
-		                    newCanvas.parentNode.removeChild(newCanvas);//删除新创建的canvas
-		                    imgStack[base64] = image.attr('src');
-				            image.attr('src', base64);
+		                    imgOnload();
+		                    bgImgOnload();
+		                    imgStack[base64] = src;
+				        }
+
+		        	};
+
+					for( var ele in styleElems) {
+						console.log(ele);
+						console.log(styleElems[ele]);
+						var styleElem = styleElems[ele];
+						var bgImgUrl = styleElem.background['background-image'];
+						var bgImgWidth = styleElem.width;
+						var bgImgHeight = styleElem.height;
+
+						img2Base64(bgImgUrl,bgImgWidth,bgImgHeight);
+
+						const bgImgOnload = () => {
+							newCanvas.parentNode.removeChild(newCanvas);//删除新创建的canvas
+							bgImgUrl = base64;
+
 				            if(over) {
 				            	over();
-				            	imgElems.each(function(i, img) {
-				            		img = $(img);
-				            		img.attr('src', imgStack[img.attr('src')]);
-				            	});
+				            	for( var el in styleElems) {
+				            		styleElem = styleElems[el];
+				            		styleElem.background['background-image'] = imgStack[styleElem.background['background-image']]
+				            	};
 				            }
-				        }
+						};
+
+					};
+
+		        	imgElems.each(function(index, image) {
+							image = $(image);
+							var imgWidth = image.width();
+							var imgHEight = image.height();
+							var imgsrc = image.attr('src');
+
+							img2Base64(imgsrc,imgWidth,imgsrc);
+
+							const imgOnload = () => {
+								newCanvas.parentNode.removeChild(newCanvas);//删除新创建的canvas
+								image.attr('src', base64);
+					            if(over) {
+					            	over();
+					            	imgElems.each(function(i, img) {
+					            		img = $(img);
+					            		img.attr('src', imgStack[img.attr('src')]);
+					            	});
+					            }
+							};
+
+
+
+				  //       var newCanvas = document.createElement("canvas"),
+				  //       	ctx = newCanvas.getContext("2d");
+
+				  //       newCanvas.id = "tmpLayer";
+
+				  //       document.body.appendChild(newCanvas);//创建新的canvas
+
+		    //     		image = $(image);
+		    //     		var img = new Image();
+				  //       img.crossOrigin = 'anonymous';
+						// img.src = image.attr('src');
+
+				  //       img.onload = function() {
+				  //           newCanvas.width = image.width();
+				  //           newCanvas.height = image.height();
+				  //           ctx.drawImage(img, 0, 0, image.width(), image.height());
+				  //           var base64 = newCanvas.toDataURL('images/png');
+		    //                 newCanvas.parentNode.removeChild(newCanvas);//删除新创建的canvas
+		    //                 imgStack[base64] = image.attr('src');
+				  //           image.attr('src', base64);
+				  //           if(over) {
+				  //           	over();
+				  //           	imgElems.each(function(i, img) {
+				  //           		img = $(img);
+				  //           		img.attr('src', imgStack[img.attr('src')]);
+				  //           	});
+				  //           }
+				  //       }
 
 		        	});
 
@@ -1660,6 +1664,10 @@ const LeftSidebar = (props) => {
 						<Icon type="laptop" />
 		        		控制台
 			        </Menu.Item>
+			        <Menu.Item key="templateStore">
+			        	<Icon type="shopping-cart" />
+						VD商城
+			        </Menu.Item>
 					<Menu.Item key="feedback">
 						<Icon type="smile-o" />
 						反馈建议
@@ -1697,6 +1705,10 @@ const LeftSidebar = (props) => {
 				    	<Icon type="cloud-o" />
 				    	打包小程序
 				    </Menu.Item>
+				    <Menu.Item key="templateStore">
+			        	<Icon type="shopping-cart" />
+						VD商城
+			        </Menu.Item>
     		        <Menu.Item key="dashboard">
 						<Icon type="laptop" />
 		        		控制台
@@ -1892,6 +1904,10 @@ const LeftSidebar = (props) => {
 							<Icon type="file-text" />
 						</Tooltip>
 				    </Menu.Item>
+			        <Menu.Item key="templateStore">
+			        	<Icon type="shopping-cart" />
+						VD商城
+			        </Menu.Item>
 				    <Menu.Item key="packApp">
 				      	<Tooltip title="源码下载">
 				      		<Badge dot>
