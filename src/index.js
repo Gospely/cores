@@ -7,6 +7,41 @@ import packUIStage from './utils/packUIState.js';
 import auth from './utils/auth';
 
 import dragging from './utils/dragging.js';
+import fetch from 'dva/fetch';
+import configs from './configs.js';
+
+// var types = request('schedules?token=gospelytokenaasss&operation=checkDocker', {
+// 	method: 'get',
+// });
+
+var url = (localStorage.baseURL || configs.baseURL) + "schedules?token=gospelytokenaasss&operation=checkDocker";
+fetch(url, {
+	method: 'GET'
+}).then(function(response){
+
+	console.log('response')
+	console.log(response)
+	if (response.status >= 200 && response.status < 300) {
+    return response;
+  }
+  const error = new Error(response.statusText);
+  error.response = response;
+  openNotificationWithIcon('error', '出错了: ' + response.status, response.statusText);
+  throw error;
+})
+.then(function(response){
+	return response.json();
+})
+.then(function(data){
+	if(data.code == -1000) {
+    	if(data.message != null) {
+      		message.success(data.message);
+    	}
+  	}
+  	
+
+});
+
 
 dragging();//
 

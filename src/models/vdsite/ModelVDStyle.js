@@ -133,12 +133,12 @@ export default {
 		boxShadowPane: {
 			visible: false,
 		},
-
 		boxShadowEditorPane: {
 			visible: false,
 		},
 
 		colorPickerPanel: {
+			
 			visible: false,
 		},
 

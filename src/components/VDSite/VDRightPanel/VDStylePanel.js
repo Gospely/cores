@@ -3193,7 +3193,7 @@ const VDStylePanel = (props) => {
 							<ButtonGroup size="small" style={{marginBottom: '6px'}}>
 				      			<Tooltip placement="top" title="添加变换">
 				      				<Popover trigger="click" visible={props.vdstyles.popover.newTransform.visible} title='添加变换' placement="left" onVisibleChange={changeNewTransformPane} content={transformAndTransitionProps.transitionAddPopover()}>
-						      			<Button onClick={() => { props.dispatch({type: 'vdstyles/togglePopover', payload: { popoverName: 'newTransform' }}) }} size="small" style={{textAlign: 'center'}}>
+						      			<Button size="small" style={{textAlign: 'center'}}>
 						      				<i className="fa fa-plus"></i>
 						      			</Button>
 						      		</Popover>

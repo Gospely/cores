@@ -75,10 +75,8 @@ const Component = (props) => {
 	      	scrollbar: "width:0"
 		},
 		newFolderVisibleChange(value){
-
 			props.dispatch({
 				type: 'vdpm/handleNewFolderVisible',
-				payload: { value: true}
 			});
 		},
 		handleFolderNameChange(value){
@@ -101,20 +99,6 @@ const Component = (props) => {
 				type: 'vdpm/handleCreateFolder',
 			});
 		},
-		createFolder(){
-
-			var value = props.vdpm.pageManager.newFolderVisible
-			setTimeout(function(){
-				props.dispatch({
-					type: 'vdpm/handleNewFolderVisible',
-					payload: { value: !value}
-				});
-				props.dispatch({
-					type: 'vdpm/handleNewPageVisible',
-					payload: { value: false}
-				});
-			}, 200);
-		},
 	}
 	const newPagePopoverProps = {
 		newPageTreeSelectOnChange (value) {
@@ -127,7 +111,6 @@ const Component = (props) => {
 
 			props.dispatch({
 				type: 'vdpm/handleNewPageVisible',
-				payload: { value: true}
 			});
 		},
 		handlePageNameChange(value){
@@ -143,23 +126,6 @@ const Component = (props) => {
 					payload: { target: 'seo.title', value: value.target.value}
 				});
 			}
-
-		},
-		createPage(){
-
-
-			var value = props.vdpm.pageManager.newPageVisible;
-
-			setTimeout(function(){
-				props.dispatch({
-					type: 'vdpm/handleNewPageVisible',
-					payload: { value: !value}
-				});
-				props.dispatch({
-					type: 'vdpm/handleNewFolderVisible',
-					payload: { value:false}
-				});
-			}, 200);
 
 		},
 		handleCreatePage(){
@@ -411,14 +377,14 @@ const Component = (props) => {
   	return (
 
 	    <ul className="ant-dropdown-menu ant-dropdown-menu-vertical ant-dropdown-menu-light ant-dropdown-menu-root symbol-list" role="menu">
-         	<Popover placement="right" title="新建文件夹" content={newFolderPopover.content} trigger="click" onClick={newFolderPopoverProps.createFolder}  visible={props.vdpm.pageManager.newFolderVisible}  onVisibleChange={newFolderPopoverProps.newFolderVisibleChange}>
+         	<Popover placement="right" title="新建文件夹" content={newFolderPopover.content} trigger="click" visible={props.vdpm.pageManager.newFolderVisible}  onVisibleChange={newFolderPopoverProps.newFolderVisibleChange}>
 	      		<li className="ant-dropdown-menu-item" role="menuitem">
 					<Icon type="folder-open" />&nbsp;新建文件夹
 	      		</li>
 			</Popover>
 	      	<li className=" ant-dropdown-menu-item-divider"></li>
 
-         	<Popover placement="right" title="新建页面" content={newPagePopover.content} trigger="click" onClick={newPagePopoverProps.createPage}  visible={props.vdpm.pageManager.newPageVisible}  onVisibleChange={newPagePopoverProps.newPageVisibleChange}>
+         	<Popover placement="right" title="新建页面" content={newPagePopover.content} trigger="click" visible={props.vdpm.pageManager.newPageVisible}  onVisibleChange={newPagePopoverProps.newPageVisibleChange}>
 			    <li className="ant-dropdown-menu-item" role="menuitem">
 					<Icon type="file" />&nbsp;新建页面
 			    </li>

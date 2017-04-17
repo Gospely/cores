@@ -31,14 +31,6 @@ const leftSidebar = (props) => {
 
 	var closePage = () => {
 		props.dispatch({
-			type: 'vdpm/handleNewPageVisible',
-			payload: { value: false}
-		});
-		props.dispatch({
-			type: 'vdpm/handleNewFolderVisible',
-			payload: { value: false}
-		});
-		props.dispatch({
 			type: 'vdpm/visibleChange',
 			payload: false
 		});
