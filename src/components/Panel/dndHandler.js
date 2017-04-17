@@ -15,7 +15,7 @@ export default {
 		//监听页面刷新，保存最新的UI状态
 		window.addEventListener("beforeunload", (e) => {
 
-			if(localStorage.image == 'wechat:latest' || window.debug) {
+			if(localStorage.image == 'wechat:latest' || window.debug || localStorage.image != 'vd:site') {
 
 			}else{
 				// props.dispatch({
@@ -25,13 +25,20 @@ export default {
 				props.dispatch({
 					type: 'UIState/writeConfig'
 				});
-				// setTimeout(function(){
-				//
-				// 	props.dispatch({
-				// 		type: 'devpanel/startDocker',
-				// 		payload: { id: localStorage.applicationId}
-				// 	}, 3000);
-				// });
+				//关闭终端
+				props.dispatch({
+					type: 'devpanel/killPID',
+					payload: {
+						pid: '3000'
+					}
+				})
+				setTimeout(function(){
+
+					props.dispatch({
+						type: 'devpanel/startDocker',
+						payload: { id: localStorage.applicationId}
+					}, 5000);
+				});
 				var confirmationMessage = '确定离开此页吗？本页不需要刷新或后退';
 
 				(e || window.event).returnValue = confirmationMessage;     // Gecko and Trident

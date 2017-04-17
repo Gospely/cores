@@ -55,7 +55,32 @@ const setMode = {
 		},
 		ts: function(){
 			return "typescript";
+		},
+		sql: function(){
+			return 'sql'
+		},
+		py: function(){
+			return 'python'
+		},
+		less: function(){
+			return 'less'
+		},
+		coffee: function() {
+			return 'coffee'
+		},
+		c: function(){
+			return 'c'
+		},
+		cpp: function() {
+			return 'cpp'
+		},
+		rb: function() {
+			return 'ruby'
+		},
+		cs: function() {
+			re
 		}
+
 	}
 
 const DevPanel = ({

@@ -51,6 +51,7 @@ const fileListen = function (props, namespace) {
 
 	})
 	socket.on('connections', function(data) {
+		console.log(data);
 	})
 	socket.on('connect', function(data) {
 

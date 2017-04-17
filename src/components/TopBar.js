@@ -47,9 +47,7 @@ const LeftSidebar = (props) => {
 
 	dndHandler.init(props);
 	keyRegister.init(props);
-	if(!window.socket && window.applicationId){
-		gitTerminal(props);
-	}
+
 	//设置控制无权限支付弹窗props
 	window.resquestProps = props;
 	var styles = {
@@ -324,19 +322,24 @@ const LeftSidebar = (props) => {
 
 	        pause() {
 
+				if(!window.socket && window.applicationId){
+					gitTerminal(props);
+				}
 				notification.open({
 		            message: '正在停止...'
 		        });
-				if(localStorage.debugType == 'shell') {
-					var kill = "kill -9 $(netstat -tlnp | grep "+ localStorage.exposePort +" |awk '{print $7}' | awk -F '/' '{print $1}')\n"
-					window.socket.send(kill);
-				}
+				setTimeout(function(){
+					if(localStorage.debugType == 'shell') {
+						var kill = "kill -9 $(netstat -tlnp | grep "+ localStorage.exposePort +" |awk '{print $7}' | awk -F '/' '{print $1}')\n"
+						window.socket.send(kill);
+					}
+
+				}, 1500)
 				setTimeout(function(){
 					notification.open({
-			            message: '停止成功'
-			        });
-				}, 500)
-
+						message: '停止成功'
+					});
+				}, 2000)
 	        },
 
 
@@ -498,7 +501,7 @@ const LeftSidebar = (props) => {
 				  //       }
 
 		    //     	};
-						
+
 					// for( var ele in styleElems) {
 					// 	console.log(ele);
 					// 	console.log(styleElems[ele]);
@@ -506,13 +509,13 @@ const LeftSidebar = (props) => {
 					// 	var bgImgUrl = styleElem.background['background-image'];
 					// 	var bgImgWidth = styleElem.width;
 					// 	var bgImgHeight = styleElem.height;
-						
+
 					// 	img2Base64(bgImgUrl,bgImgWidth,bgImgHeight);
-						
+
 					// 	const bgImgOnload = () => {
 					// 		newCanvas.parentNode.removeChild(newCanvas);//删除新创建的canvas
 					// 		bgImgUrl = base64;
-							
+
 				 //            if(over) {
 				 //            	over();
 				 //            	for( var el in styleElems) {
@@ -521,9 +524,9 @@ const LeftSidebar = (props) => {
 				 //            	};
 				 //            }
 					// 	};
-						
+
 					// };
-				
+
 		        	imgElems.each(function(index, image) {
 							// image = $(image);
 							// var imgWidth = image.width();
@@ -531,7 +534,7 @@ const LeftSidebar = (props) => {
 							// var imgsrc = image.attr('src');
 
 							// img2Base64(imgsrc,imgWidth,imgsrc);
-							
+
 							// const imgOnload = () => {
 							// 	newCanvas.parentNode.removeChild(newCanvas);//删除新创建的canvas
 							// 	image.attr('src', base64);
@@ -543,7 +546,7 @@ const LeftSidebar = (props) => {
 					  //           	});
 					  //           }
 							// };
-							
+
 
 
 				        var newCanvas = document.createElement("canvas"),
@@ -787,6 +790,31 @@ const LeftSidebar = (props) => {
 	    			    title: '即将切换应用',
 	    			    content: '您确定要切换吗（点击确定将保存您的工作内容并进行切换）',
 	    			    onOk() {
+							props.dispatch({
+								type: 'UIState/writeConfig'
+							});
+
+							//关闭终端
+							props.dispatch({
+								type: 'devpanel/killPID',
+								payload: {
+									pid: '3000'
+								}
+							})
+							var applicationStop = {
+								id: localStorage.applicationId,
+								image: localStorage.image
+							}
+							setTimeout(function(){
+								props.dispatch({
+									type: 'devpanel/stopDocker',
+									payload: applicationStop
+								});
+								props.dispatch({
+									type: 'devpanel/startDocker',
+									payload: { id: application.id}
+								}, 5000);
+							});
 	    					wechatSave.save();
 	    					swApp(application);
 	    			    },

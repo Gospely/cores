@@ -213,7 +213,7 @@ const initApplication = function (application, props, flag){
         document.title = localStorage.currentProject + ' - Gospel:先进的在线Web可视化集成开发环境';
 
         var namespace = localStorage.user + localStorage.currentProject + '_' + localStorage.userName;
-        fileListen(props, namespace);
+        // fileListen(props, namespace);
         if((application.domain != null && application.domain != '') && !config.dev){
             props.dispatch({
                 type: 'sidebar/getDomains'
