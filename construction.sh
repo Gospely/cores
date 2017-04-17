@@ -1,4 +1,5 @@
 npm run build
+cp favicon.icon dist
 zip dist.zip -r dist
 rm -rf /var/www/apache/gospel/construction/dist.ide/*
 mv dist.zip /var/www/apache/gospel/construction/dist.ide
