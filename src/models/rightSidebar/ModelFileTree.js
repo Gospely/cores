@@ -702,7 +702,7 @@ export default {
 			if(params.type == 'editor') {
 				return {...state, newFileNameModal: {
 					visible: true,
-					value: localStorage.currentProject + '/',
+					value: '',
 					title: '您正在关闭一个文件，请确定是否保存？不保存请点击取消'
 				}};
 			}

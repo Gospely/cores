@@ -1,5 +1,5 @@
 import React , { PropTypes } from 'react';
-import { Tree, Switch, Button, Icon, Tooltip, TreeSelect,
+import { notification, Tree, Switch, Button, Icon, Tooltip, TreeSelect,
          Row, Col, Popover, Input, Dropdown, Menu, Popconfirm, message,
          Modal, AutoComplete, Upload, Spin } from 'antd';
 import TreeStyle from './styles.css';
@@ -198,6 +198,7 @@ const FileTree = (props) => {
       },
 
       onChange: function(e) {
+          console.log(e.target.value);
         props.dispatch({
           type: 'file/handleRenameInputChange',
           payload: e.target.value
@@ -218,7 +219,7 @@ const FileTree = (props) => {
 
         if(fileName == localStorage.currentFolder) {
           message.error('请输入文件名');
-          return false;
+          return false;saveModal
         }
 
         props.dispatch({
@@ -261,7 +262,7 @@ const FileTree = (props) => {
         visible: props.file.uploadModal.visible,
         title: props.file.uploadModal.title,
         onOk: function() {
-            
+
           let value = props.file.uploadInput.value;
           // props.dispatch({
           //   type: 'file/',
@@ -370,7 +371,8 @@ const FileTree = (props) => {
         tabKey = activePane.activeTab.key,
         paneKey = props.devpanel.panels.activePane.key,
         fileName = props.file.newFileNameModal.value;
-        fileName = fileName.replace(localStorage.currentProject + '/',localStorage.currentFolder);
+        fileName = localStorage.currentFolder + '/' + fileName;
+
         var content = props.devpanel.panels.panes[props.devpanel.panels.activePane.key].editors[editorId].value;
 
         if(fileName == localStorage.currentFolder) {
@@ -443,6 +445,17 @@ const FileTree = (props) => {
       },
 
       onChange: function(e) {
+
+          const illegalLetter = ['!',' ', '@', '#', '$', '%', '^', '&', '*', '(', ')', '+', '=', '[', ']',
+                              '{', '}', '\\', '|', ':', ';', '\'', '"', '<', '>', ',', '.', '/', '?'];
+          let theCurrentLetter = e.target.value.replace(props.file.newFileNameModal.value, '');
+          if(illegalLetter.indexOf(theCurrentLetter) !== -1) {
+              notification['warning']({
+                  message: '请勿输入非法字符: \' ' + theCurrentLetter + ' \'',
+                  description: '请重新输入'
+              });
+              return false;
+          }
         props.dispatch({
           type: 'file/handleNewFileModelInputChange',
           payload: e.target.value
@@ -861,7 +874,7 @@ const FileTree = (props) => {
           </div>
         </InputGroup>
       </Modal>
-      
+
       <Modal {...FileTreeProps.uploadModal.params} style={{maxWidth: 400}}>
           <Spin spinning={props.file.uploadModal.isUploading}>
             上传到：
@@ -896,12 +909,12 @@ const FileTree = (props) => {
                             onChange={FileTreeProps.uploadModal.switchIsOver}
                     />
 
-                 </div>) : 
+                 </div>) :
                  (<div style={{marginTop: 10, paddingLeft: 48}}>同目录下若有同名文件将被覆盖</div>)
             }
         </Spin>
     </Modal>
-      
+
       <Spin spinning={props.file.treeLoading} tip={props.file.treeLoadingInfo} style={{height: 'calc(100vh - 38px)'}}>
           <div className={TreeStyle.header}>
 
@@ -934,7 +947,7 @@ const FileTree = (props) => {
                 <Tooltip placement="bottom" title="刷新文件列表">
                     <Button onClick={FileTreeProps.reloadFile} className={EditorStyle.topbarBtnColumn}><Icon type="reload" /></Button>
                 </Tooltip>
-              </Col>          
+              </Col>
             </Row>
           </div>
 
