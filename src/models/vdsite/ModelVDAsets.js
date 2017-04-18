@@ -62,7 +62,7 @@ export default {
 	},
 	effects: {
 		*fetchFileList(payload, {put, select}){
-
+			console.log('fetchFileList');
 			var fileList = yield request('fs/list/file?id=' + localStorage.dir + '/images');
 			localStorage.currentFolder = localStorage.dir;
 
