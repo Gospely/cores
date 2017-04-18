@@ -375,7 +375,7 @@ export default {
         },
         *checkDomain({payload: params}, {call, put}) {
 
-            var url = 'domains?subDomain=' + params.domain
+            var url = 'domains?subDomain=' + params.domain.toLocaleLowerCase();
             var result = yield request(url, {
 				method: 'GET'
 			});
@@ -447,7 +447,7 @@ export default {
                 dbUser: app.databaseAccount,
                 framework: app.framework,
                 creator: localStorage.user,
-                domain: app.domain
+                domain: app.domain.toLocaleLowerCase()
             };
 
 			yield put({
