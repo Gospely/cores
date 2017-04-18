@@ -27,9 +27,9 @@ const VDRightPanel = (props) => {
   flag = true;
 
   const onTabClick = () => {
-    
+
     // spinning = false;
-    
+
   }
 
   const onChange = (key) => {
@@ -38,6 +38,13 @@ const VDRightPanel = (props) => {
       type: 'vdstyles/changeVDStylePaneSpinActive',
       payload: true
     })
+    console.log(key);
+    console.log(props.vdassets.fileList.length);
+    if((key == 'assets' && props.vdassets.fileList.length ==0) || (key == 'settings' && props.vdassets.fileList.length ==0)){
+        props.dispatch({
+            type: 'vdassets/fetchFileList'
+        })
+    }
     // setTimeout(function () {
       props.dispatch({
         type: 'vdcore/changeTabsPane',
@@ -67,7 +74,7 @@ const VDRightPanel = (props) => {
         })
       }
     // }, 1)
-    
+
 
     // setTimeout(function () {
       props.dispatch({
@@ -133,8 +140,8 @@ const VDRightPanel = (props) => {
 
 };
 
-function mapSateToProps({vdCtrlTree,elemAdded,vdcore,vdstyles}) {
-  return { vdCtrlTree,elemAdded, vdcore,vdstyles };
+function mapSateToProps({vdCtrlTree, elemAdded, vdcore, vdstyles, vdassets}) {
+  return { vdCtrlTree,elemAdded, vdcore, vdstyles, vdassets };
 }
 
 export default connect(mapSateToProps)(VDRightPanel);

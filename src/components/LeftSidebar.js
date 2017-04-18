@@ -23,6 +23,7 @@ const Panel = Collapse.Panel;
 const leftSidebar = (props) => {
 
 	var handleTabChanged = function(key) {
+
 		props.dispatch({
 			type: 'sidebar/handleTabChanged',
 			payload: key
@@ -48,7 +49,7 @@ const leftSidebar = (props) => {
 						collectionsItemList: [],
 						list: [],
 					},
-				index:-1 
+				index:-1
 			}
 		});
 		props.dispatch({
@@ -226,7 +227,7 @@ const leftSidebar = (props) => {
 	    	);
 		}
 
-		return sidebarMenu;		
+		return sidebarMenu;
 	}
 
 	const tabContent = () => {
@@ -252,9 +253,9 @@ const leftSidebar = (props) => {
 	}
 
 	return (
-	  	<Tabs tabPosition="left" 
-	  		  defaultActiveKey={props.devpanel.devType.defaultActiveKey} 
-	  		  activeKey={props.sidebar.activeMenu} 
+	  	<Tabs tabPosition="left"
+	  		  defaultActiveKey={props.devpanel.devType.defaultActiveKey}
+	  		  activeKey={props.sidebar.activeMenu}
 	  		  onChange={handleTabChanged}
 	  		  onTabClick={closePage}
 	  		  >
