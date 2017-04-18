@@ -38,8 +38,6 @@ const VDRightPanel = (props) => {
       type: 'vdstyles/changeVDStylePaneSpinActive',
       payload: true
     })
-    console.log(key);
-    console.log(props.vdassets.fileList.length);
     if((key == 'assets' && props.vdassets.fileList.length ==0) || (key == 'settings' && props.vdassets.fileList.length ==0)){
         props.dispatch({
             type: 'vdassets/fetchFileList'
