@@ -371,10 +371,9 @@ const VDStylePanel = (props) => {
     	imageSetter () {
 
     		var backgroundSizeParams = props.vdstyles.backgroundSetting.backgroundSize;
-
     		const handleBackgroundSizePositionChange = (cssProperty, parent, e) => {
     			var val = e.target ? e.target.value : e;
-
+				
     			handleStylesChange(cssProperty, parent, {
     				target: {
     					value: val
@@ -388,6 +387,23 @@ const VDStylePanel = (props) => {
     			} ,{
     				target: {
     					value: pos
+    				}
+    			});
+    		}
+			
+    		const saveBgImgLink = (e) => {
+    			props.dispatch({
+	        		type:'vdstyles/saveBgImgLink',
+        			payload: e.target.value
+    			})	
+    		}
+
+    		const handleBGImgChange = () => {
+    			handleStylesChange('background-image', {
+    				parent: 'background'
+    			} ,{
+    				target: {
+    					value: props.vdstyles.BgImgLink
     				}
     			});
     		}
@@ -415,7 +431,7 @@ const VDStylePanel = (props) => {
                 }
 
             }
-
+			
     		return (
 			<div className="guidance-panel-wrapper">
 				<div className="guidance-panel-child">
@@ -443,6 +459,27 @@ const VDStylePanel = (props) => {
 										<img style={{width: '100px', height: '65px'}} src={activeCSSStyleState['background']['background-image'].split("(")[1].split(")")[0].replace(/"/g,'')}/>
 									}
 
+							</div>
+							<div>
+						      	<Form className="form-no-margin-bottom">
+										<FormItem {...formItemLayout} label="图片引用地址">
+											{props.vdstyles.BgImgLink == "" ? 
+												<Input 
+													size="small" value={activeCSSStyleState['background']['background-image'].split("(")[1].split(")")[0].replace(/"/g,'')}  
+													onBlur={handleBGImgChange}
+													onPressEnter={handleBGImgChange}
+													onChange={saveBgImgLink.bind(this)}
+												/> : 
+												<Input 
+													size="small" value={props.vdstyles.BgImgLink}
+													onBlur={handleBGImgChange}
+													onPressEnter={handleBGImgChange}
+													onChange={saveBgImgLink.bind(this)}
+												/>
+											}
+
+										</FormItem>
+							      	</Form>
 							</div>
 						</div>
 					</div>

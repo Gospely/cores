@@ -112,7 +112,7 @@ export default {
 
 		specialStyleProperty: ['border-advance', 'shadows-advance', 'effects-advance', 'tt-advance', 'border-radius-advance'],
 		propertiesNeedRec: ['border-advance', 'shadows-advance', 'effects-advance', 'tt-advance', 'border-radius-advance', 'width-height', 'font-more'],
-
+		BgImgLink: '',
 		backgroundSetting: {
 			backgroundSize: {
 				width: '',
@@ -865,6 +865,11 @@ export default {
 	},
 
 	reducers: {
+
+		saveBgImgLink(state, {payload: params}) {
+			state.BgImgLink = params;
+			return {...state}
+		},
 
 		getInitialData(state) {
 			state.cssStyleList = initialData.vdstyles.cssStyleList;

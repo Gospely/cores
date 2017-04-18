@@ -481,108 +481,114 @@ const LeftSidebar = (props) => {
 
 		        	var imgStack = {};
 
-		        	var styleElems = props.vdstyles.cssStyleLayout;
+		   //      	var styleElems = props.vdstyles.cssStyleLayout;
 
-		        	var img2Base64 = (src,width,height) => {
-		        		 var newCanvas = document.createElement("canvas"),
+		   //      	var img = new Image();
+
+					// var base64;
+
+		   //      	var img2Base64 = (src,width,height,type) => {
+		   //      		 var newCanvas = document.createElement("canvas"),
+				 //        	ctx = newCanvas.getContext("2d");
+
+				 //        newCanvas.id = "tmpLayer";
+
+				 //        document.body.appendChild(newCanvas);//创建新的canvas
+
+		   //      		//image = $(image);
+				 //        img.crossOrigin = 'anonymous';
+					// 	img.src = src;
+
+				 //        img.onload = function() {
+				 //            newCanvas.width = width
+				 //            newCanvas.height = height
+				 //            ctx.drawImage(img, 0, 0, width, height);
+				 //            base64 = newCanvas.toDataURL('images/png');
+				 //            if(type == "img"){
+				 //            	imgOnload();
+				 //            }else{
+				 //            	bgImgOnload();
+				 //            }
+		   //                  imgStack[base64] = src;
+				 //        }
+
+		   //      	};
+
+					// for( var ele in styleElems) {
+					// 	console.log(ele);
+					// 	console.log(styleElems[ele]);
+					// 	var styleElem = styleElems[ele];
+					// 	var bgImgUrl = styleElem.background['background-image'];
+					// 	var bgImgWidth = styleElem.width;
+					// 	var bgImgHeight = styleElem.height;
+
+					// 	img2Base64(bgImgUrl,bgImgWidth,bgImgHeight,'bgImg');
+
+					// 	var bgImgOnload = () => {
+					// 		newCanvas.parentNode.removeChild(newCanvas);//删除新创建的canvas
+					// 		bgImgUrl = base64;
+
+				 //            if(over) {
+				 //            	over();
+				 //            	for( var el in styleElems) {
+				 //            		styleElem = styleElems[el];
+				 //            		styleElem.background['background-image'] = imgStack[styleElem.background['background-image']]
+				 //            	};
+				 //            }
+					// 	};
+
+					// };
+
+		        	imgElems.each(function(index, image) {
+							// image = $(image);
+							// var imgWidth = image.width();
+							// var imgHEight = image.height();
+							// var imgsrc = image.attr('src');
+
+							// img2Base64(imgsrc,imgWidth,imgsrc,'img');
+
+							// var imgOnload = () => {
+							// 	newCanvas.parentNode.removeChild(newCanvas);//删除新创建的canvas
+							// 	image.attr('src', base64);
+					  //           if(over) {
+					  //           	over();
+					  //           	imgElems.each(function(i, img) {
+					  //           		img = $(img);
+					  //           		img.attr('src', imgStack[img.attr('src')]);
+					  //           	});
+					  //           }
+							// };
+
+
+
+				        var newCanvas = document.createElement("canvas"),
 				        	ctx = newCanvas.getContext("2d");
 
 				        newCanvas.id = "tmpLayer";
 
 				        document.body.appendChild(newCanvas);//创建新的canvas
 
-		        		//image = $(image);
+		        		image = $(image);
 		        		var img = new Image();
 				        img.crossOrigin = 'anonymous';
-						img.src = src;
+						img.src = image.attr('src');
 
 				        img.onload = function() {
-				            newCanvas.width = width
-				            newCanvas.height = height
-				            ctx.drawImage(img, 0, 0, width, height);
+				            newCanvas.width = image.width();
+				            newCanvas.height = image.height();
+				            ctx.drawImage(img, 0, 0, image.width(), image.height());
 				            var base64 = newCanvas.toDataURL('images/png');
-		                    imgOnload();
-		                    bgImgOnload();
-		                    imgStack[base64] = src;
-				        }
-
-		        	};
-
-					for( var ele in styleElems) {
-						console.log(ele);
-						console.log(styleElems[ele]);
-						var styleElem = styleElems[ele];
-						var bgImgUrl = styleElem.background['background-image'];
-						var bgImgWidth = styleElem.width;
-						var bgImgHeight = styleElem.height;
-
-						img2Base64(bgImgUrl,bgImgWidth,bgImgHeight);
-
-						const bgImgOnload = () => {
-							newCanvas.parentNode.removeChild(newCanvas);//删除新创建的canvas
-							bgImgUrl = base64;
-
+		                    newCanvas.parentNode.removeChild(newCanvas);//删除新创建的canvas
+		                    imgStack[base64] = image.attr('src');
+				            image.attr('src', base64);
 				            if(over) {
 				            	over();
-				            	for( var el in styleElems) {
-				            		styleElem = styleElems[el];
-				            		styleElem.background['background-image'] = imgStack[styleElem.background['background-image']]
-				            	};
+				            	imgElems.each(function(i, img) {
+				            		img = $(img);
+				            		img.attr('src', imgStack[img.attr('src')]);
+				            	});
 				            }
-						};
-
-					};
-
-		        	imgElems.each(function(index, image) {
-							image = $(image);
-							var imgWidth = image.width();
-							var imgHEight = image.height();
-							var imgsrc = image.attr('src');
-
-							img2Base64(imgsrc,imgWidth,imgsrc);
-
-							const imgOnload = () => {
-								newCanvas.parentNode.removeChild(newCanvas);//删除新创建的canvas
-								image.attr('src', base64);
-					            if(over) {
-					            	over();
-					            	imgElems.each(function(i, img) {
-					            		img = $(img);
-					            		img.attr('src', imgStack[img.attr('src')]);
-					            	});
-					            }
-							};
-
-
-
-				  //       var newCanvas = document.createElement("canvas"),
-				  //       	ctx = newCanvas.getContext("2d");
-
-				  //       newCanvas.id = "tmpLayer";
-
-				  //       document.body.appendChild(newCanvas);//创建新的canvas
-
-		    //     		image = $(image);
-		    //     		var img = new Image();
-				  //       img.crossOrigin = 'anonymous';
-						// img.src = image.attr('src');
-
-				  //       img.onload = function() {
-				  //           newCanvas.width = image.width();
-				  //           newCanvas.height = image.height();
-				  //           ctx.drawImage(img, 0, 0, image.width(), image.height());
-				  //           var base64 = newCanvas.toDataURL('images/png');
-		    //                 newCanvas.parentNode.removeChild(newCanvas);//删除新创建的canvas
-		    //                 imgStack[base64] = image.attr('src');
-				  //           image.attr('src', base64);
-				  //           if(over) {
-				  //           	over();
-				  //           	imgElems.each(function(i, img) {
-				  //           		img = $(img);
-				  //           		img.attr('src', imgStack[img.attr('src')]);
-				  //           	});
-				  //           }
-				  //       }
+				        }
 
 		        	});
 
