@@ -872,11 +872,13 @@ const Component = (props) => {
                                 }
                             });
                             
+                            const file = {
+                                url : props.vdcore.ImgLink
+                            }
+                            
                             props.dispatch({
                                 type: 'vdCtrlTree/uploadPreviewImg',
-                                payload: {file :{
-                                            url : props.vdcore.ImgLink
-                                        }}
+                                payload: file
                             })
                                                              
                         }

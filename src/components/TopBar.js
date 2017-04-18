@@ -481,85 +481,42 @@ const LeftSidebar = (props) => {
 
 		        	var imgStack = {};
 
-		   //      	var styleElems = props.vdstyles.cssStyleLayout;
+		        	var styleElems = props.vdstyles.cssStyleLayout;
 
-		   //      	var img = new Image();
+					for( var ele in styleElems) {
+						var styleElem = styleElems[ele];
+						var bgImgUrl = styleElem.background['background-image'].split("(")[1].split(")")[0].replace(/"/g,'');
+						var bgImgWidth = styleElem.width;
+						var bgImgHeight = styleElem.height;
+				        var newBgCanvas = document.createElement("canvas"),
+				        	bgCtx = newBgCanvas.getContext("2d");
 
-					// var base64;
+				        newBgCanvas.id = "bgTmpLayer";
 
-		   //      	var img2Base64 = (src,width,height,type) => {
-		   //      		 var newCanvas = document.createElement("canvas"),
-				 //        	ctx = newCanvas.getContext("2d");
+				        document.body.appendChild(newBgCanvas);
+		        		var bgImg = new Image();
+				        bgImg.crossOrigin = 'anonymous';
+						bgImg.src = bgImgUrl;
 
-				 //        newCanvas.id = "tmpLayer";
-
-				 //        document.body.appendChild(newCanvas);//创建新的canvas
-
-		   //      		//image = $(image);
-				 //        img.crossOrigin = 'anonymous';
-					// 	img.src = src;
-
-				 //        img.onload = function() {
-				 //            newCanvas.width = width
-				 //            newCanvas.height = height
-				 //            ctx.drawImage(img, 0, 0, width, height);
-				 //            base64 = newCanvas.toDataURL('images/png');
-				 //            if(type == "img"){
-				 //            	imgOnload();
-				 //            }else{
-				 //            	bgImgOnload();
-				 //            }
-		   //                  imgStack[base64] = src;
-				 //        }
-
-		   //      	};
-
-					// for( var ele in styleElems) {
-					// 	console.log(ele);
-					// 	console.log(styleElems[ele]);
-					// 	var styleElem = styleElems[ele];
-					// 	var bgImgUrl = styleElem.background['background-image'];
-					// 	var bgImgWidth = styleElem.width;
-					// 	var bgImgHeight = styleElem.height;
-
-					// 	img2Base64(bgImgUrl,bgImgWidth,bgImgHeight,'bgImg');
-
-					// 	var bgImgOnload = () => {
-					// 		newCanvas.parentNode.removeChild(newCanvas);//删除新创建的canvas
-					// 		bgImgUrl = base64;
-
-				 //            if(over) {
-				 //            	over();
-				 //            	for( var el in styleElems) {
-				 //            		styleElem = styleElems[el];
-				 //            		styleElem.background['background-image'] = imgStack[styleElem.background['background-image']]
-				 //            	};
-				 //            }
-					// 	};
-
-					// };
+				        bgImg.onload = function() {
+				            newBgCanvas.width = bgImgWidth;
+				            newBgCanvas.height = bgImgHeight;
+				            bgCtx.drawImage(bgImg, 0, 0, bgImgWidth, bgImgHeight);
+				            var bgBase64 = newBgCanvas.toDataURL('images/png');
+		                    newBgCanvas.parentNode.removeChild(newBgCanvas);//删除新创建的canvas
+		                    imgStack[bgBase64] = bgImgUrl;
+				            styleElem.background['background-image'] = "url(\""+bgBase64+"\")";
+				            if(over) {
+				            	over();
+								for(var e in styleElems) {
+									const urlKey = styleElems[e].background['background-image'].split("(")[1].split(")")[0].replace(/"/g,'')
+									styleElems[e].background['background-image'] = "url(\""+imgStack[urlKey]+"\")";
+								}
+				            }
+				        }
+					};
 
 		        	imgElems.each(function(index, image) {
-							// image = $(image);
-							// var imgWidth = image.width();
-							// var imgHEight = image.height();
-							// var imgsrc = image.attr('src');
-
-							// img2Base64(imgsrc,imgWidth,imgsrc,'img');
-
-							// var imgOnload = () => {
-							// 	newCanvas.parentNode.removeChild(newCanvas);//删除新创建的canvas
-							// 	image.attr('src', base64);
-					  //           if(over) {
-					  //           	over();
-					  //           	imgElems.each(function(i, img) {
-					  //           		img = $(img);
-					  //           		img.attr('src', imgStack[img.attr('src')]);
-					  //           	});
-					  //           }
-							// };
-
-
 
 				        var newCanvas = document.createElement("canvas"),
 				        	ctx = newCanvas.getContext("2d");
@@ -581,13 +538,16 @@ const LeftSidebar = (props) => {
 		                    newCanvas.parentNode.removeChild(newCanvas);//删除新创建的canvas
 		                    imgStack[base64] = image.attr('src');
 				            image.attr('src', base64);
-				            if(over) {
-				            	over();
-				            	imgElems.each(function(i, img) {
-				            		img = $(img);
-				            		img.attr('src', imgStack[img.attr('src')]);
-				            	});
+				            if(index == imgElems.length-1) {
+					            if(over) {
+					            	over();
+					            	imgElems.each(function(i, img) {
+					            		img = $(img);
+					            		img.attr('src', imgStack[img.attr('src')]);
+					            	});
+					            }
 				            }
+
 				        }
 
 		        	});

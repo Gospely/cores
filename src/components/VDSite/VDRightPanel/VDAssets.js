@@ -30,6 +30,10 @@ const Component = (props) => {
 					type: 'vdCtrlTree/uploadPreviewImg',
 					payload: file
 				})
+				props.dispatch({
+                    type: 'vdcore/saveImgLink',
+                    payload: file.url
+                })
 
 			}else if(linkToWhere == 'style'){
 
@@ -50,6 +54,10 @@ const Component = (props) => {
 					type: 'vdCtrlTree/uploadBgImg',
 					payload: file
 				});
+    			props.dispatch({
+	        		type:'vdstyles/saveBgImgLink',
+        			payload: file.url
+    			})
 
 				props.dispatch({
 					type: 'vdstyles/changeVDStylePaneSpinActive',
