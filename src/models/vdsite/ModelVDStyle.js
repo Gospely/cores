@@ -112,7 +112,7 @@ export default {
 
 		specialStyleProperty: ['border-advance', 'shadows-advance', 'effects-advance', 'tt-advance', 'border-radius-advance'],
 		propertiesNeedRec: ['border-advance', 'shadows-advance', 'effects-advance', 'tt-advance', 'border-radius-advance', 'width-height', 'font-more'],
-
+		BgImgLink: '',
 		backgroundSetting: {
 			backgroundSize: {
 				width: '',
@@ -138,7 +138,7 @@ export default {
 		},
 
 		colorPickerPanel: {
-			
+
 			visible: false,
 		},
 
@@ -866,6 +866,11 @@ export default {
 
 	reducers: {
 
+		saveBgImgLink(state, {payload: params}) {
+			state.BgImgLink = params;
+			return {...state}
+		},
+
 		getInitialData(state) {
 			state.cssStyleList = initialData.vdstyles.cssStyleList;
 			state.cssPropertyUnits = initialData.vdstyles.cssPropertyUnits;
@@ -1187,7 +1192,7 @@ export default {
 
 		applyCSSStyleIntoPage(state, { payload: params }) {
 			var currentActiveRecStyleName = '';
-
+			var compatible = ['-ms-','-moz-','-webkit-','-o-',''];
 			var specialStyle = {
 				background(currentStyleParent, unit) {
 					unit = unit || '';
@@ -1301,7 +1306,6 @@ export default {
 				'box-shadow'(currentStyleParent, unit) {
 					unit = unit || 'px';
 					let styleText = 'box-shadow';
-					let compatible = ['-ms-','-moz-','-webkit-','-o-'];
 					let childrenProps = currentStyleParent.childrenProps;
 					let valueText = '';
 					for(let i = 0; i < childrenProps.length; i ++) {
@@ -1332,7 +1336,6 @@ export default {
 				'text-shadow'(currentStyleParent, unit) {
 					unit = unit || 'px';
 					let styleText = 'text-shadow';
-					let compatible = ['-ms-','-moz-','-webkit-','-o-'];
 					let childrenProps = currentStyleParent.childrenProps;
 					let valueText = '';
 					for(let i = 0; i < childrenProps.length; i ++) {
@@ -1362,7 +1365,6 @@ export default {
 
 				transition(currentStyleParent, unit) {
 					unit = unit || 's';
-					let compatible = ['-ms-','-moz-','-webkit-','-o-'];
 					let styleText = 'transition';
 					let childrenProps = currentStyleParent.childrenProps;
 					let valueText = '';
@@ -1395,7 +1397,6 @@ export default {
 				transform(currentStyleParent, unit) {
 					unit = unit || '';
 					let styleText = 'transform';
-					let compatible = ['-ms-','-moz-','-webkit-','-o-'];
 					let childrenProps = currentStyleParent.childrenProps;
 					let valueText = '';
 					for(let i = 0; i < childrenProps.length; i ++) {
@@ -1452,7 +1453,6 @@ export default {
 					unit = unit || '';
 					let childrenProps = currentStyleParent.childrenProps;
 					let styleText = 'filter';
-					let compatible = ['-ms-','-moz-','-webkit-','-o-'];
 					let valueText = '';
 					for(let i = 0, len = childrenProps.length; i < len; i ++) {
 						let currentStyle = childrenProps[i];
