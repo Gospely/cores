@@ -484,36 +484,39 @@ const LeftSidebar = (props) => {
 		        	var styleElems = props.vdstyles.cssStyleLayout;
 
 					for( var ele in styleElems) {
-						var styleElem = styleElems[ele];
-						var bgImgUrl = styleElem.background['background-image'].split("(")[1].split(")")[0].replace(/"/g,'');
-						var bgImgWidth = styleElem.width;
-						var bgImgHeight = styleElem.height;
-				        var newBgCanvas = document.createElement("canvas"),
-				        	bgCtx = newBgCanvas.getContext("2d");
+						if(styleElems[ele].background['background-image'] != "") {
+							var styleElem = styleElems[ele];
+							var bgImgUrl = styleElem.background['background-image'].split("(")[1].split(")")[0].replace(/"/g,'');
+							var bgImgWidth = styleElem.width;
+							var bgImgHeight = styleElem.height;
+					        var newBgCanvas = document.createElement("canvas"),
+					        	bgCtx = newBgCanvas.getContext("2d");
 
-				        newBgCanvas.id = "bgTmpLayer";
+					        newBgCanvas.id = "bgTmpLayer";
 
-				        document.body.appendChild(newBgCanvas);
-		        		var bgImg = new Image();
-				        bgImg.crossOrigin = 'anonymous';
-						bgImg.src = bgImgUrl;
+					        document.body.appendChild(newBgCanvas);
+			        		var bgImg = new Image();
+					        bgImg.crossOrigin = 'anonymous';
+							bgImg.src = bgImgUrl;
 
-				        bgImg.onload = function() {
-				            newBgCanvas.width = bgImgWidth;
-				            newBgCanvas.height = bgImgHeight;
-				            bgCtx.drawImage(bgImg, 0, 0, bgImgWidth, bgImgHeight);
-				            var bgBase64 = newBgCanvas.toDataURL('images/png');
-		                    newBgCanvas.parentNode.removeChild(newBgCanvas);//删除新创建的canvas
-		                    imgStack[bgBase64] = bgImgUrl;
-				            styleElem.background['background-image'] = "url(\""+bgBase64+"\")";
-				            if(over) {
-				            	over();
-								for(var e in styleElems) {
-									const urlKey = styleElems[e].background['background-image'].split("(")[1].split(")")[0].replace(/"/g,'')
-									styleElems[e].background['background-image'] = "url(\""+imgStack[urlKey]+"\")";
-								}
-				            }
-				        }
+					        bgImg.onload = function() {
+					            newBgCanvas.width = bgImgWidth;
+					            newBgCanvas.height = bgImgHeight;
+					            bgCtx.drawImage(bgImg, 0, 0, bgImgWidth, bgImgHeight);
+					            var bgBase64 = newBgCanvas.toDataURL('images/png');
+			                    newBgCanvas.parentNode.removeChild(newBgCanvas);//删除新创建的canvas
+			                    imgStack[bgBase64] = bgImgUrl;
+					            styleElem.background['background-image'] = "url(\""+bgBase64+"\")";
+					            if(over) {
+					            	over();
+									for(var e in styleElems) {
+										const urlKey = styleElems[e].background['background-image'].split("(")[1].split(")")[0].replace(/"/g,'')
+										styleElems[e].background['background-image'] = "url(\""+imgStack[urlKey]+"\")";
+									}
+					            }
+					        }
+						}
+						
 					};
 
 		        	imgElems.each(function(index, image) {
