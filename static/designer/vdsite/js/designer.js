@@ -504,6 +504,11 @@ $(function() {
                     VDAttrRefreshed: function() {
                         controllerOperations.refreshCtrl(data.activeCtrl, data.attr, data.attrType);
                         controllerOperations.select(data.activeCtrl, true);
+                        if(data.attrType.key == "image-setting") {
+                        	jq('#imgPreview').attr('src', data.attr.value);
+                        }
+                        
+                        console.log(data);
                     },
 
                     applyCSSIntoPage: function() {
