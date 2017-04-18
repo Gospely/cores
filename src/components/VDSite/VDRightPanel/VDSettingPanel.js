@@ -866,21 +866,22 @@ const Component = (props) => {
 
                         const handleImgChange = () =>{
 
-                            formProps.handleAttrFormInputChange(item.children[0], attrType, {
-                                target: {
-                                    value: props.vdcore.ImgLink
-                                }
-                            });
-                            
-                            const file = {
-                                url : props.vdcore.ImgLink
-                            }
-                            
-                            props.dispatch({
-                                type: 'vdCtrlTree/uploadPreviewImg',
-                                payload: file
-                            })
-                                                             
+                            if(props.vdcore.ImgLink != "") {
+                                formProps.handleAttrFormInputChange(item.children[0], attrType, {
+                                        target: {
+                                            value: props.vdcore.ImgLink
+                                        }
+                                    });
+                                    
+                                    const file = {
+                                        url : props.vdcore.ImgLink
+                                    }
+                                    
+                                    props.dispatch({
+                                        type: 'vdCtrlTree/uploadPreviewImg',
+                                        payload: file
+                                    })
+                            }                                                             
                         }
 
                         const saveImgLink = (e) =>{
