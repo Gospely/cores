@@ -102,6 +102,8 @@ export default {
             mongodb: false,
             isProjectNameAvailabel: true,
             useGit: true,
+            domain: '',
+            isDomainAva: true
 		},
 
         images: [],
@@ -371,6 +373,29 @@ export default {
                 });
             }
         },
+        *checkDomain({payload: params}, {call, put}) {
+
+            var url = 'domains?subDomain=' + params.domain
+            var result = yield request(url, {
+				method: 'GET'
+			});
+
+            if(result.data.fields.length > 0) {
+                notification.open({
+                    message: '该域名已被占用'
+                });
+                yield put({
+                    type: 'handleDomainAva',
+                    payload: false
+                })
+            }else {
+                yield put({
+                    type: 'handleDomainAva',
+                    payload: true
+                })
+            }
+
+        },
 		*deleteApp({payload: params}, {call, put}) {
 
 			yield put({
@@ -393,6 +418,8 @@ export default {
 		*handleCreateApp({payload: params}, {call, put, select}) {
 
             var app = yield select(state => state.sidebar.appCreatingForm);
+
+
             if(!app.fromGit){
                 app.git = '';
             }else {
@@ -419,7 +446,8 @@ export default {
                 password: app.databasePassword,
                 dbUser: app.databaseAccount,
                 framework: app.framework,
-                creator: localStorage.user
+                creator: localStorage.user,
+                domain: app.domain
             };
 
 			yield put({
@@ -1030,6 +1058,10 @@ export default {
 		},
         handleAvailable(state, { payload: params}){
             state.appCreator.available = params.available;
+            return {...state};
+        },
+        handleDomainAva(state, { payload: params}){
+            state.appCreatingForm.isDomainAva = params;
             return {...state};
         },
 		initApplications(state, {payload: params}) {

@@ -1298,6 +1298,27 @@ const LeftSidebar = (props) => {
 				});
 			}
 
+			if(s == 'domain') {
+
+				const illegalLetter = ['!',' ', '@', '#', '$', '%', '^', '&', '*', '(', ')', '+', '=', '[', ']',
+									'{', '}', '\\', '|', ':', ';', '\'', '"', '<', '>', ',', '.', '/', '?'];
+				let theCurrentLetter = dom.target.value.replace(props.sidebar.appCreatingForm.domain, '');
+				if(illegalLetter.indexOf(theCurrentLetter) !== -1) {
+					notification['warning']({
+						message: '请勿输入非法字符: \' ' + theCurrentLetter + ' \'',
+						description: '请重新输入'
+					});
+					return false;
+				}
+
+				props.dispatch({
+					type: 'sidebar/checkDomain',
+					payload: {
+						domain:  dom.target.value
+					}
+				});
+			}
+
 			props.dispatch({
 				type: 'sidebar/handleInputChanged',
 				payload: {
@@ -1441,6 +1462,18 @@ const LeftSidebar = (props) => {
 				              	<Input onPressEnter={() => modalAppCreatorProps.next()} onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'appName')} value={props.sidebar.appCreatingForm.appName} />
 					      	</Col>
 					    </Row>
+
+					</div>
+
+					<div style={{ marginTop: 32 }}>
+						<Row>
+							<Col span={4} style={{textAlign: 'right'}}>
+								<span>自定义域名：</span>
+							</Col>
+							<Col span={8} style={{textAlign: 'left'}}>
+								<Input onPressEnter={() => modalAppCreatorProps.next()} onChange={modalAppCreatorFromHandler.onFormInputChange.bind(this, 'domain')} value={props.sidebar.appCreatingForm.domain} addonAfter=".gospel.design" />
+							</Col>
+						</Row>
 					</div>
 
 			  		<div style={{ marginTop: 32 }} hidden={!props.sidebar.appCreatingForm.useGit}>
@@ -1535,7 +1568,10 @@ const LeftSidebar = (props) => {
 					message.error('请填写应用名!');
 					return false;
 				}
-
+				if(props.sidebar.appCreatingForm.domain == '') {
+					message.error('请填写域名!');
+					return false;
+				}
 				if(props.sidebar.appCreatingForm.fromGit) {
 					if(props.sidebar.appCreatingForm.git == '') {
 						message.error('请填写git地址');
@@ -1547,8 +1583,11 @@ const LeftSidebar = (props) => {
 					message.error('您的项目名与已有项目重复，请重新填写');
 					return false;
 				}
-
-
+				console.log(props.sidebar.appCreatingForm.isDomainAva);
+				if(!props.sidebar.appCreatingForm.isDomainAva) {
+					message.error('该域名已被占用，请重新填写');
+					return false;
+				}
 			}
 
 			if(props.sidebar.currentAppCreatingStep === 0) {
