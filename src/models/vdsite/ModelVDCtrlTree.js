@@ -4074,7 +4074,7 @@ export default {
 				}
 			}
 			state.activeCtrl = currentActiveCtrl.controller;
-			return {...state};
+			return {...state}; 
 		},
 		handleAttrFormChangeNotRefreshActiveCtrl(state, {payload: params}) {
 

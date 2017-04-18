@@ -864,6 +864,30 @@ const Component = (props) => {
 						  	}
 					    }
 
+                        const handleImgChange = () =>{
+
+                            formProps.handleAttrFormInputChange(item.children[0], attrType, {
+                                target: {
+                                    value: props.vdcore.ImgLink
+                                }
+                            });
+                            
+                            props.dispatch({
+                                type: 'vdCtrlTree/uploadPreviewImg',
+                                payload: {file :{
+                                            url : props.vdcore.ImgLink
+                                        }}
+                            })
+                                                             
+                        }
+
+                        const saveImgLink = (e) =>{
+                            props.dispatch({
+                                type: 'vdcore/saveImgLink',
+                                payload: e.target.value
+                            })
+                        }
+
 	    				return (
 						    <Panel header={item.title} key={item.key}>
 
@@ -880,7 +904,35 @@ const Component = (props) => {
 											<div className="bem-Frame_Body">
 												<Button onClick={skipToImggallery.handleClick} style={{ left: '0' ,top: '24px' ,bottom: '102px'}}><i className="fa fa-picture-o"></i>&nbsp;图片资源</Button>
 										        <div className="background-setting-pane-img-preview">
-                                                     <img style={{width: '80px', height: '65px'}} src={item.children[0].fileInfo[0].url}/>
+                                                     <img id="imgPreview" style={{width: '80px', height: '65px'}} src={item.children[0].fileInfo[0].url}/>
+                                                </div>
+                                                <div>
+                                                    <Form className="form-no-margin-bottom">
+                                                        <Row>
+                                                            <Col span={20}>
+                                                                <FormItem {...formItemLayout} label="图片地址:">
+                                                                    {props.vdcore.ImgLink == "" || props.vdcore.ImgLink == undefined? 
+                                                                        <Input 
+                                                                            size="small" value={item.children[0].fileInfo[0].url}  
+                                                                            onPressEnter={handleImgChange}
+                                                                            onChange={saveImgLink.bind(this)}
+                                                                        /> : 
+                                                                        <Input 
+                                                                            size="small" defaultValue={props.vdcore.ImgLink}
+                                                                            onBlur={saveImgLink.bind(this)}
+                                                                            onPressEnter={handleImgChange}
+                                                                        />
+                                                                    }
+                                                                    
+                                                                </FormItem>
+                                                            </Col>
+                                                            <Col span={4}>
+                                                                <FormItem>
+                                                                    <Button onClick={handleImgChange} style={{marginLeft: '5px'}} size="small">应用</Button>
+                                                                </FormItem>
+                                                            </Col>  
+                                                        </Row>
+                                                    </Form>
                                                 </div>
                                             </div>
 										</div>

@@ -399,13 +399,15 @@ const VDStylePanel = (props) => {
     		}
 
     		const handleBGImgChange = () => {
-    			handleStylesChange('background-image', {
-    				parent: 'background'
-    			} ,{
-    				target: {
-    					value: props.vdstyles.BgImgLink
-    				}
-    			});
+    			if(props.vdstyles.BgImgLink != "") {
+	    			handleStylesChange('background-image', {
+	    				parent: 'background'
+	    			} ,{
+	    				target: {
+	    					value: props.vdstyles.BgImgLink
+	    				}
+	    			});
+    			}
     		}
 
     		const skipToImggallery = {
@@ -461,24 +463,31 @@ const VDStylePanel = (props) => {
 
 							</div>
 							<div>
-						      	<Form className="form-no-margin-bottom">
-										<FormItem {...formItemLayout} label="图片引用地址">
-											{props.vdstyles.BgImgLink == "" ? 
-												<Input 
-													size="small" value={activeCSSStyleState['background']['background-image'].split("(")[1].split(")")[0].replace(/"/g,'')}  
-													onBlur={handleBGImgChange}
-													onPressEnter={handleBGImgChange}
-													onChange={saveBgImgLink.bind(this)}
-												/> : 
-												<Input 
-													size="small" value={props.vdstyles.BgImgLink}
-													onBlur={handleBGImgChange}
-													onPressEnter={handleBGImgChange}
-													onChange={saveBgImgLink.bind(this)}
-												/>
-											}
-
-										</FormItem>
+						      	<Form className="form-no-margin-bottom" >
+						      		<Row>
+						      			<Col span={20}>
+											<FormItem {...formItemLayout} label="图片地址:">
+												{props.vdstyles.BgImgLink == "" || props.vdstyles.BgImgLink == undefined? 
+													<Input 
+														size="small" value={activeCSSStyleState['background']['background-image'] ? activeCSSStyleState['background']['background-image'].split("(")[1].split(")")[0].replace(/"/g,'') : ""}  
+														onPressEnter={handleBGImgChange}
+														onChange={saveBgImgLink.bind(this)}
+													/> : 
+													<Input 
+														size="small" defaultValue={props.vdstyles.BgImgLink}
+														onBlur={saveBgImgLink.bind(this)}
+														onPressEnter={handleBGImgChange}
+													/>
+												}
+												
+											</FormItem>
+										</Col>
+										<Col span={4}>
+											<FormItem>
+												<Button onClick={handleBGImgChange} style={{marginLeft: '5px'}} size="small">应用</Button>
+											</FormItem>
+										</Col>	
+									</Row>
 							      	</Form>
 							</div>
 						</div>

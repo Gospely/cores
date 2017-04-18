@@ -28,6 +28,7 @@ export default {
 			price: 0
 		},
 		loading: false,
+		ImgLink: '',
 		linkSetting: {
 			list: [{
 				tip: '跳转到一个链接',
@@ -511,6 +512,11 @@ export default {
 	},
 
 	reducers: {
+
+		saveImgLink(state, { payload: params}){
+			state.ImgLink = params;
+			return {...state}
+		},
 		changeTemplateIsFree(state){
 			state.TemplateSavingModal.isFree = !state.TemplateSavingModal.isFree;
 			return {...state}
