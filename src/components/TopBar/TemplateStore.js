@@ -140,19 +140,33 @@ const TemplateStore = (props) => {
 				}
 			})
 		},
+		domainValueChange(e){
+			const illegalLetter = ['!',' ', '@', '#', '$', '%', '^', '&', '*', '(', ')', '+', '=', '[', ']',
+								'{', '}', '\\', '|', ':', ';', '\'', '"', '<', '>', ',', '.', '/', '?'];
+			let theCurrentLetter = e.target.value.replace(props.templateStore.createForm.domain, '');
+			if(illegalLetter.indexOf(theCurrentLetter) !== -1) {
+				notification['warning']({
+					message: '请勿输入非法字符: \' ' + theCurrentLetter + ' \'',
+					description: '请重新输入'
+				});
+				return false;
+			}
+			props.dispatch({
+				type: 'templateStore/domainValueChange',
+				payload: e.target.value
+			})
+		},
 		hanleCreate(){
 			props.dispatch({
 				type: 'templateStore/handleCreate',
 			})
 		},
 		createApp(){
-			
+
 			props.dispatch({
 				type: 'UIState/writeConfig'
 			});
-			props.dispatch({
-				type: 'templateStore/hideCreateTemplate',
-			})
+
 			props.dispatch({
 				type: 'templateStore/createApp',
 				payload: {
@@ -330,6 +344,16 @@ const TemplateStore = (props) => {
 									</Col>
 									<Col span={18} style={{textAlign: 'left'}}>
 										<Input onChange={templateStoreProps.valueChange} value={props.templateStore.createForm.name} onPressEnter={templateStoreProps.createApp}/>
+									</Col>
+								</Row>
+							</div>
+							<div style={{ marginTop: 32 }}>
+								<Row>
+									<Col span={4} style={{textAlign: 'right'}}>
+										<span>自定义域名：</span>
+									</Col>
+									<Col span={18} style={{textAlign: 'left'}}>
+										<Input onChange={templateStoreProps.domainValueChange} value={props.templateStore.createForm.domain} onPressEnter={templateStoreProps.createApp}/>
 									</Col>
 								</Row>
 								 <Button disabled={!props.templateStore.available}  type="primary" onClick={templateStoreProps.createApp} style={{ marginTop: 32, marginLeft: 370 }}>立即创建</Button>

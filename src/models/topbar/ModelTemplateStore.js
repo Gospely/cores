@@ -35,7 +35,8 @@ export default {
 		createForm: {
 			name: '',
 			layout: '',
-			loading: false
+			loading: false,
+			domain: ''
 		},
 		available: false,
 		selectId: ''
@@ -151,6 +152,11 @@ export default {
 		handleShow(state, { payload: value}){
 
 			state.isShow = value;
+			return {...state};
+		},
+		domainValueChange(state, { payload: value}) {
+
+			state.createForm.domain = value;
 			return {...state};
 		}
 	},
@@ -386,12 +392,33 @@ export default {
 
 		},
 		*createApp({payload: params}, {call, select, put}){
+
+			var createForm = yield select(state=> state.templateStore.createForm);
+
+			if(createForm.name == '' || createForm.domain == '') {
+				message.error("请完善表单");
+				return;
+			}
+			var url = 'domains?subDomain=' + createForm.domain.toLocaleLowerCase();
+            var result = yield request(url, {
+				method: 'GET'
+			});
+
+            if(result.data.fields.length > 0) {
+                notification.open({
+                    message: '该域名已被占用'
+                });
+				yield put({
+					type: 'domainValueChange',
+					payload: ''
+				})
+                return false;
+            }
 			yield put({
 				type: 'handleCreatLoading',
 				payload: true,
 			})
 
-			var createForm = yield select(state=> state.templateStore.createForm);
 			var selectId = yield select(state=> state.templateStore.selectId);
 			var form ={
 				name: createForm.name,
@@ -403,8 +430,12 @@ export default {
 				password: '',
 				dbUser: '',
 				framework: "vd:site",
-				creator: localStorage.user
+				creator: localStorage.user,
+				domain: createForm.domain
 			};
+			yield put({
+				type: 'hideCreateTemplate',
+			})
 			const showConfirm = (data) => {
 				Modal.error({
 					title: '服务器提了一个问题',
