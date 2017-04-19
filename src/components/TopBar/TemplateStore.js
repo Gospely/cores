@@ -151,6 +151,13 @@ const TemplateStore = (props) => {
 				});
 				return false;
 			}
+			var reg = /[\u4E00-\u9FA5\uF900-\uFA2D]/;
+			if(reg.test(e.target.value)){
+			  notification['warning']({
+				  message: "域名不能包含中文",
+				  description: '请重新输入'
+			  });
+			}
 			props.dispatch({
 				type: 'templateStore/domainValueChange',
 				payload: e.target.value
@@ -378,8 +385,8 @@ const TemplateStore = (props) => {
 
 };
 
-function mapSateToProps({ templateStore, vdstyles, vdCtrlTree, vdpm, vdcore, vdanimations, sidebar, UIState, vdassets}) {
-	return {  templateStore, vdstyles, vdCtrlTree, vdpm, vdcore, vdanimations, sidebar, UIState, vdassets };
+function mapSateToProps({ sidebar, editor, editorTop, rightbar, designer, attr ,devpanel, layout, cpre, vdpm, vdcore, vdCtrlTree, vdassets, vdanimations, templateStore, dashboard, vdstyles}) {
+	return { sidebar, editor, editorTop, rightbar, designer, attr ,devpanel, layout, cpre, vdpm, vdcore, vdCtrlTree, vdassets, vdanimations, templateStore, dashboard, vdstyles};
 }
 
 export default connect(mapSateToProps)(TemplateStore);

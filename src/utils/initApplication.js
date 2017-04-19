@@ -7,7 +7,7 @@ import initState from './initUIState'
 import initData from './initData'
 
 
-const initApplication = function (application, props, flag){
+const initApplication = function (application, props, flag, layout){
 
     //清除定时器
     console.log('initApplication');
@@ -136,6 +136,7 @@ const initApplication = function (application, props, flag){
         }
         localStorage.flashState = 'true'
     }else{
+
         props.dispatch({
             type: 'devpanel/showLoading',
             payload: {
@@ -200,9 +201,14 @@ const initApplication = function (application, props, flag){
                 });
             }
         }else {
-            localStorage.image = application.image;
-            initData(props, application.id)
+            if(layout){
+                initState(props, application.id, layout);
+            }else {
+                localStorage.image = application.image;
+                initData(props, application.id)
+            }
         }
+
 
         window.isWeapp = false;
 

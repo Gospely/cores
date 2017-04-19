@@ -22,12 +22,14 @@ const initData = function (props, application, layout) {
             props.dispatch({
                 type: 'vdanimations/getInitialData',
             });
-            props.dispatch({
-                type: 'UIState/initConfig',
-                payload: {
-                    id: application
-                }
-            })
+            if(!layout){
+                props.dispatch({
+                    type: 'UIState/initConfig',
+                    payload: {
+                        id: application
+                    }
+                })
+            }
         }
     };
 

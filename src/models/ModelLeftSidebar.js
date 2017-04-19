@@ -419,6 +419,14 @@ export default {
 
             var app = yield select(state => state.sidebar.appCreatingForm);
 
+            var reg = /[\u4E00-\u9FA5\uF900-\uFA2D]/;
+			if(reg.test(app.domain)){
+				notification['warning']({
+				  message: "域名不能包含中文",
+				  description: '请重新输入'
+				});
+				return false;
+			}
 
             if(!app.fromGit){
                 app.git = '';

@@ -516,7 +516,7 @@ const LeftSidebar = (props) => {
 					            }
 					        }
 						}
-						
+
 					};
 
 		        	imgElems.each(function(index, image) {
@@ -1273,6 +1273,14 @@ const LeftSidebar = (props) => {
 					});
 					return false;
 				}
+				var reg = /[\u4E00-\u9FA5\uF900-\uFA2D]/;
+				if(reg.test(dom.target.value)){
+					notification['warning']({
+					  message: "域名不能包含中文",
+					  description: '请重新输入'
+					});
+					return false;
+				}
 
 				props.dispatch({
 					type: 'sidebar/checkDomain',
@@ -1549,6 +1557,14 @@ const LeftSidebar = (props) => {
 				console.log(props.sidebar.appCreatingForm.isDomainAva);
 				if(!props.sidebar.appCreatingForm.isDomainAva) {
 					message.error('该域名已被占用，请重新填写');
+					return false;
+				}
+				var reg = /[\u4E00-\u9FA5\uF900-\uFA2D]/;
+				if(reg.test(props.sidebar.appCreatingForm.domain)){
+					notification['warning']({
+					  message: "域名不能包含中文",
+					  description: '请重新输入'
+					});
 					return false;
 				}
 			}

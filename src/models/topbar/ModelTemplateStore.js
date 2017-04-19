@@ -2,7 +2,7 @@ import dva from 'dva';
 import VDPackager from '../vdsite/VDPackager.js';
 import { message , notification} from 'antd';
 import request from '../../utils/request.js';
-import initUIState from '../../utils/initUIState'
+import initApplication from '../../utils/initApplication'
 import initData from '../../utils/initData'
 
 import uuid from 'node-uuid';
@@ -399,6 +399,19 @@ export default {
 				message.error("请完善表单");
 				return;
 			}
+
+			var reg = /[\u4E00-\u9FA5\uF900-\uFA2D]/;
+			if(reg.test(createForm.domain)){
+				notification['warning']({
+				  message: "域名不能包含中文",
+				  description: '请重新输入'
+				});
+				yield put({
+					type: 'domainValueChange',
+					payload: ''
+				})
+				return false;
+			}
 			var url = 'domains?subDomain=' + createForm.domain.toLocaleLowerCase();
             var result = yield request(url, {
 				method: 'GET'
@@ -509,6 +522,7 @@ export default {
 				});
 
 				window.location.hash = 'project/' + result.data.fields.id;
+				localStorage.image = result.data.fields.image;
 				initData(params.ctx, result.data.fields.id);
 				yield request('vdsite/static?creator=' + localStorage.user + '&template=' + selectId.application +'&folder=' + result.data.fields.docker.replace('gospel_project_', '') + '&host=' + localStorage.host ,{
 					method: 'GET'
@@ -533,9 +547,10 @@ export default {
 					type: 'vdcore/handleLoading',
 					payload: true
 				});
+
 				var UIState = JSON.parse(data.data.fields.content);
 				UIState.applicationId = result.data.fields.id;
-				initUIState(params.ctx, result.data.fields.id, UIState);
+				initApplication(result.data.fields, params.ctx, true, UIState);
 				yield put({
 					type: 'handleCreatLoading',
 					payload: false,
