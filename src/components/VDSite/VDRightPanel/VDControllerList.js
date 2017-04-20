@@ -194,7 +194,6 @@ const Component = (props) => {
 	        );
 
 	    });
-        console.log(props.vdCtrlTree.defaultSelectedKeys);
   	return (
   		<div>
       		<Tree showLine
