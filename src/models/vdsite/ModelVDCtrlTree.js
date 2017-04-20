@@ -3037,8 +3037,11 @@ export default {
 			state.symbols = params.UIState.symbols || [];
 			state.activeCtrlLvl = params.UIState.activeCtrlLvl || 0;
 			state.activeCtrlIndex = params.UIState.activeCtrlIndex || 1;
+			console.log(params.UIState.defaultExpandedKeys);
 			state.defaultExpandedKeys = params.UIState.defaultExpandedKeys || [];
-			state.defaultSelectedKeys = params.UIState.defaultSelectedKeys || [''];
+			console.log(params.UIState.defaultSelectedKeys);
+			state.expandedKeys = params.UIState.defaultSelectedKeys;
+			state.defaultSelectedKeys = params.UIState.defaultSelectedKeys || [];
 			setTimeout(function(){
 				console.log('reload');
 				window.VDDesignerFrame.postMessage({
@@ -4074,7 +4077,7 @@ export default {
 				}
 			}
 			state.activeCtrl = currentActiveCtrl.controller;
-			return {...state}; 
+			return {...state};
 		},
 		handleAttrFormChangeNotRefreshActiveCtrl(state, {payload: params}) {
 
