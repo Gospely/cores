@@ -22,6 +22,19 @@ const TabPane = Tabs.TabPane;
 const Option = Select.Option;
 const confirm = Modal.confirm;
 const children = [];
+
+ var Regex = "^((https|http|ftp|rtsp|mms)?://)"
+  + "?(([0-9a-z_!~*'().&=+$%-]+: )?[0-9a-z_!~*'().&=+$%-]+@)?" //ftp的user@ 
+  + "(([0-9]{1,3}\.){3}[0-9]{1,3}" // IP形式的URL- 199.194.52.184 
+  + "|" // 允许IP和DOMAIN（域名）
+  + "([0-9a-z_!~*'()-]+\.)*" // 域名- www. 
+  + "([0-9a-z][0-9a-z-]{0,61})?[0-9a-z]\." // 二级域名 
+  + "[a-z]{2,6})" // first level domain- .com or .museum 
+  + "(:[0-9]{1,4})?" // 端口- :80 
+  + "((/?)|" // a slash isn't required if there is no file name 
+  + "(/[0-9a-z_!~*'().;?:@&=+$,%#-]+)+/?)$";
+var urlRegex = new RegExp(Regex);
+
 for (let i = 10; i < 36; i++) {
   children.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>);
 }
@@ -170,7 +183,7 @@ const Component = (props) => {
                         if(attrType.key == 'link-setting'){
                             if(attrType.activeLinkType == 'link'){
                                 if(newVal != ""){
-                                    if(/\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/.test(newVal)){
+                                    if(urlRegex.test(newVal)){
                                         newVal = newVal;
                                         sessionStorage.clear();
                                     }else{
@@ -646,7 +659,7 @@ const Component = (props) => {
                             let inputPhoneValue = item.children[2].value;
 
                             if(item.activeLinkType == 'link' && inputLinkValue != ""){
-                                if(!/\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/.test(inputLinkValue)){
+                                if(!urlRegex.test(inputLinkValue)){
                                     message.error('请输入正确的链接地址');
                                     inputLinkValue = '';
                                     return false;
