@@ -194,7 +194,6 @@ const Component = (props) => {
 	        );
 
 	    });
-
   	return (
   		<div>
       		<Tree showLine
