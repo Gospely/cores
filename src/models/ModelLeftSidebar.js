@@ -374,7 +374,7 @@ export default {
             }
         },
         *checkDomain({payload: params}, {call, put}) {
-
+            console.log(params);
             var url = 'domains?subDomain=' + params.domain.toLocaleLowerCase();
             var result = yield request(url, {
 				method: 'GET'
@@ -463,9 +463,9 @@ export default {
 			});
 
         	const showConfirm = (data) => {
-			  	Modal.error({
-			    	title: '服务器提了一个问题',
-			    	content: '创建失败，请重试,' + data.message
+			  	Modal.info({
+			    	title: '创建失败',
+			    	content: data.message + ',请重试'
 			  	});
         	}
 
@@ -475,7 +475,7 @@ export default {
 				}
 				return {
 					data: {
-						message: '服务器提了一个问题',
+						message: '出了一个错误: ',
 						code: 500
 					}
 				};
@@ -499,7 +499,7 @@ export default {
 			    	}
 					return {
 						data: {
-							message: '服务器提了一个问题' + data.message,
+							message: data.message,
 							code: 500
 						}
 					};

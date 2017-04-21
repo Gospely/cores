@@ -128,7 +128,7 @@ const TemplateStore = (props) => {
 					description: '请重新输入'
 				});
 				return false;
-			}
+			} 
 			props.dispatch({
 				type: 'templateStore/valueChange',
 				payload: e.target.value
@@ -161,6 +161,12 @@ const TemplateStore = (props) => {
 			props.dispatch({
 				type: 'templateStore/domainValueChange',
 				payload: e.target.value
+			})
+			props.dispatch({
+				type: 'sidebar/checkDomain',
+				payload: {
+					domain:e.target.value
+				}
 			})
 		},
 		hanleCreate(){
@@ -360,7 +366,7 @@ const TemplateStore = (props) => {
 										<span>自定义域名：</span>
 									</Col>
 									<Col span={18} style={{textAlign: 'left'}}>
-										<Input onChange={templateStoreProps.domainValueChange} value={props.templateStore.createForm.domain} onPressEnter={templateStoreProps.createApp}/>
+										<Input onChange={templateStoreProps.domainValueChange} value={props.templateStore.createForm.domain} onPressEnter={templateStoreProps.createApp} addonAfter=".gospel.design"/>
 									</Col>
 								</Row>
 								 <Button disabled={!props.templateStore.available}  type="primary" onClick={templateStoreProps.createApp} style={{ marginTop: 32, marginLeft: 370 }}>立即创建</Button>

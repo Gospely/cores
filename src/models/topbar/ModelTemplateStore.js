@@ -395,8 +395,13 @@ export default {
 
 			var createForm = yield select(state=> state.templateStore.createForm);
 
-			if(createForm.name == '' || createForm.domain == '') {
-				message.error("请完善表单");
+			if(createForm.name == '') {
+				message.error("请输入项目名称");
+				return;
+			} 
+
+			if(createForm.domain == '') {
+				message.error("请输入自定义域名");
 				return;
 			}
 
@@ -450,9 +455,9 @@ export default {
 				type: 'hideCreateTemplate',
 			})
 			const showConfirm = (data) => {
-				Modal.error({
-					title: '服务器提了一个问题',
-					content: '创建失败，请重试,' + data.message
+				Modal.info({
+					title: '创建失败',
+					content: data.message + ',请重试'
 				});
 			}
 
@@ -462,7 +467,7 @@ export default {
 				}
 				return {
 					data: {
-						message: '服务器提了一个问题',
+						message: '出了一个错误: ',
 						code: 500
 					}
 				};
@@ -486,7 +491,7 @@ export default {
 					}
 					return {
 						data: {
-							message: '服务器提了一个问题' + data.message,
+							message: '出了一个错误: ' + data.message,
 							code: 500
 						}
 					};
