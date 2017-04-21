@@ -181,8 +181,22 @@ const Component = (props) => {
                     if(sessionStorage.newTime-sessionStorage.oldTime > 1500){
                         sessionStorage.oldTime = sessionStorage.newTime;
                         if(attrType.key == 'link-setting'){
+
                             if(attrType.activeLinkType == 'link'){
                                 if(newVal != ""){
+
+                                    if(newVal.substr(0,7)=="http://"){
+                                        console.log(newVal);
+                                        newVal = newVal;
+                                        sessionStorage.clear();
+                                    }else{
+                                        console.log('error',newVal);
+                                        message.error('请输入http://开头的链接地址');
+                                        sessionStorage.clear();
+                                        item.value = "";
+                                        newVal = "";
+                                    }
+
                                     if(urlRegex.test(newVal)){
                                         newVal = newVal;
                                         sessionStorage.clear();
@@ -659,6 +673,12 @@ const Component = (props) => {
                             let inputPhoneValue = item.children[2].value;
 
                             if(item.activeLinkType == 'link' && inputLinkValue != ""){
+                                if(inputLinkValue.substr(0,7) != "http://"){
+                                    console.log(inputLinkValue);
+                                    message.error('请输入http://开头的链接地址');
+                                    inputLinkValue = '';
+                                    return false;
+                                }
                                 if(!urlRegex.test(inputLinkValue)){
                                     message.error('请输入正确的链接地址');
                                     inputLinkValue = '';
@@ -683,6 +703,15 @@ const Component = (props) => {
                             }
                         }
 
+                        const linkRemind = (
+                                    <span>
+                                   <span>链接地址</span>
+                                        <Tooltip placement="bottom" title='只能输入http://开头的链接地址'>
+                                            <Icon type="question-circle-o" style={{position: 'absolute', left: '65px', top: '4px'}}/>
+                                          </Tooltip>
+                                   </span> 
+                            )
+
 					    const linkSettingProps = {
 
 					    	linkSettingTemplate: props.vdcore.linkSetting.list.map( (item, index) => {
@@ -696,7 +725,8 @@ const Component = (props) => {
 							}),
 					    	tpl: [(
 						      	<Form className="form-no-margin-bottom">
-									<FormItem {...formItemLayout} label="链接地址">
+									<FormItem {...formItemLayout} label={linkRemind}>
+                                          
 										<Input size="small" value={item.children[0].value} type="url" onChange={formProps.handleAttrFormInputChange.bind(this, item.children[0], attrType)} onBlur={validateFromData}/>
 									</FormItem>
 

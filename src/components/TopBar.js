@@ -1419,7 +1419,7 @@ const LeftSidebar = (props) => {
 
 				</div>
 
-			)
+			) 
 		}, {
 		  	title: '基本信息',
 		  	content: (

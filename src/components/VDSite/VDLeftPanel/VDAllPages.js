@@ -25,6 +25,7 @@ const Component = (props) => {
 	const allPagesProps = {
 
 		handlePageListItemClick (e) {
+			console.log(e)
 			var key = e.key;
 			localStorage.popoverKey = key;
 
@@ -39,6 +40,7 @@ const Component = (props) => {
 				type: 'vdpm/setCurrentActivePageListItem',
 				payload: key
 			});
+
 		},
 		visibleChange(item, e){
 			if(props.vdpm.currentActivePageListItem != item.key){
@@ -328,12 +330,11 @@ const Component = (props) => {
     			activePage: val
     		}
     	});
-      $("#vdsitePagesBtn").click();
     }
 
 	return (
     <div className="vd-allpages-list">
-		<Popover placement="right" trigger="click" title="设置页面的详细信息" content={generatePageDetailSettings()} onClick={allPagesProps.handlePageListItemClick} onVisibleChange={allPagesProps.visibleChange}  visible={props.vdpm.pageManager.updatePopoverVisible}>
+		<Popover placement="right" title="设置页面的详细信息" content={generatePageDetailSettings()} onClick={allPagesProps.handlePageListItemClick} onVisibleChange={allPagesProps.visibleChange}  visible={props.vdpm.pageManager.updatePopoverVisible}>
 			<Menu
 				style={{ width: '100%' }}
 				defaultOpenKeys={['index.html']}
