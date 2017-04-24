@@ -29,6 +29,10 @@ export default {
 			state.fileList = [];
 			return {...state};
 		},
+		getInitialData(state, {payload: params}){
+			state.fileList = [];
+			return {...state};
+		},
 		handlePreview(state, { payload: params }) {
 			state.previewImage = params.previewImage;
 			state.previewVisible = params.previewVisible;

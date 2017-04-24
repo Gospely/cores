@@ -20,6 +20,9 @@ const initData = function (props, application, layout) {
                 type: 'vdcore/getInitialData',
             });
             props.dispatch({
+                type: 'vdassets/getInitialData',
+            });
+            props.dispatch({
                 type: 'vdanimations/getInitialData',
             });
             if(!layout){
