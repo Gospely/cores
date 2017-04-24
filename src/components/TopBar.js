@@ -754,7 +754,7 @@ const LeftSidebar = (props) => {
 			});
 			console.log(localStorage.applicationId);
 			console.log(application);
-			initData(props, application);
+			// initData(props, application);
 			if(localStorage.applicationId == application){
 				localStorage.clear;
 				window.location.hash = '#/'
