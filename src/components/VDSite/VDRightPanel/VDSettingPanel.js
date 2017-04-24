@@ -1159,7 +1159,7 @@ const Component = (props) => {
                                         <Icon type="edit" onClick={selectSettingProps.editKeyValue.bind(this, index)}/>
                                   </Col>
                                   <Col span={3}>
-                                    <Popconfirm title="确认删除吗？" onConfirm={formProps.childrenDelete.bind(this, item.attrs[0].children[0].value + '=' + item.attrs[0].children[0].html, item, index, 0, attrType)} okText="确定" cancelText="取消">
+                                    <Popconfirm title="确认删除吗？" placement="left" onConfirm={formProps.childrenDelete.bind(this, item.attrs[0].children[0].value + '=' + item.attrs[0].children[0].html, item, index, 0, attrType)} okText="确定" cancelText="取消">
                                         <Icon type="delete" onClick={selectSettingProps.hidePopover}/>
                                         </Popconfirm>
                                   </Col>
@@ -1348,7 +1348,7 @@ const Component = (props) => {
                                         <Icon type="edit" onClick={tabSettingProps.editKeyValue.bind(this, index)}/>
                                   </Col>
                                   <Col span={3}>
-                                    <Popconfirm title="确认删除吗？" onConfirm={formProps.childrenDelete.bind(this, item.children[0].attrs[0].children[0].value , item, index, 2, attrType)} okText="确定" cancelText="取消">
+                                    <Popconfirm placement="topRight" title="确认删除吗？" onConfirm={formProps.childrenDelete.bind(this, item.children[0].attrs[0].children[0].value , item, index, 2, attrType)} okText="确定" cancelText="取消">
                                         <Icon type="delete" onClick={tabSettingProps.hidePopover}/>
                                         </Popconfirm>
                                   </Col>
@@ -1374,8 +1374,9 @@ const Component = (props) => {
                                         trigger="click"
                                         visible={props.vdCtrlTree.keyValeUpdateVisible}
                                         onVisibleChange = {tabSettingProps.updateVisibleChange}
+                                        placement="topRight"
                                     >
-        							    <ul  className="ant-dropdown-menu ant-dropdown-menu-vertical ant-dropdown-menu-light ant-dropdown-menu-root symbol-list" role="menu">
+        							    <ul style={{background: '#f7f7f7'}}  className="ant-dropdown-menu ant-dropdown-menu-vertical ant-dropdown-menu-light ant-dropdown-menu-root symbol-list" role="menu">
                                             {keyValues}
         							    </ul>
                                     </Popover>
@@ -1672,7 +1673,7 @@ const Component = (props) => {
 						    			</Col>
 						    		</Col>
 						    	</Row>
-                                <ul  className="ant-dropdown-menu ant-dropdown-menu-vertical ant-dropdown-menu-light ant-dropdown-menu-root symbol-list" role="menu">
+                                <ul style={{background: '#f7f7f7'}}  className="ant-dropdown-menu ant-dropdown-menu-vertical ant-dropdown-menu-light ant-dropdown-menu-root symbol-list" role="menu">
                                     {images}
                                 </ul>
 						    </Panel>
