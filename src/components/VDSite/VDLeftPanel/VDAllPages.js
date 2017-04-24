@@ -43,6 +43,10 @@ const Component = (props) => {
 
 		},
 		visibleChange(item, e){
+
+			console.log(item)
+			if(e){
+
 			if(props.vdpm.currentActivePageListItem != item.key){
 				props.dispatch({
 					type: 'vdpm/savePage',
@@ -62,11 +66,13 @@ const Component = (props) => {
 			// 		});
 			// 	}
 			// }, 200)
+				e.stopPropagation();
+			}
+
 			props.dispatch({
 				type: 'vdpm/handleUpdatePopoverVisible',
 			});
-
-			e.stopPropagation();
+			
 		}
 	}
 	const formItemProps = {

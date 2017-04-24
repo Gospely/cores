@@ -483,12 +483,48 @@ const LeftSidebar = (props) => {
 
 		        	var styleElems = props.vdstyles.cssStyleLayout;
 
+		   //      	var activePage = props.vdCtrlTree.activePage;
+
+	    //     		function getCtrlByKey() {
+					// 	let obj = {
+					// 			index: 0,
+					// 			level: 1,
+					// 			controller: undefined
+					// 		},
+
+					// 		controllers = props.vdCtrlTree.layout[activePage.key];
+
+					// 	const loopControllers = function(controllers, level) {
+					// 		level = level || 1;
+					// 		for (let i = 0; i < controllers.length; i++) {
+					// 			let currentControl = controllers[i];
+					// 			if (currentControl.children) {
+					// 				loopControllers(currentControl.children, level++);
+					// 			}
+					// 			if (!currentControl.vdid) {
+					// 				obj.index = i;
+					// 				obj.level = level;
+					// 				obj.controller = currentControl;
+					// 				break;
+					// 			}
+					// 			const bgasdas = $('[vdid="'+ currentControl.vdid + '"]').css('background-image');
+					// 			const bgasdas1 = $('[vdid="'+ currentControl.vdid + '"]').width();
+					// 			const bgasdas2 = $('[vdid="'+ currentControl.vdid + '"]');
+					// 		}
+					// 		return obj;
+					// 	}
+
+					// 	return loopControllers(controllers, 1);
+					// }
+
+					// getCtrlByKey();
+
 					for( var ele in styleElems) {
 						if(styleElems[ele].background['background-image'] != "") {
 							var styleElem = styleElems[ele];
 							var bgImgUrl = styleElem.background['background-image'].split("(")[1].split(")")[0].replace(/"/g,'');
-							var bgImgWidth = styleElem.width;
-							var bgImgHeight = styleElem.height;
+							var bgImgWidth = styleElems[ele].width;
+							var bgImgHeight = styleElems[ele].height;
 					        var newBgCanvas = document.createElement("canvas"),
 					        	bgCtx = newBgCanvas.getContext("2d");
 
@@ -510,8 +546,10 @@ const LeftSidebar = (props) => {
 					            if(over) {
 					            	over();
 									for(var e in styleElems) {
-										const urlKey = styleElems[e].background['background-image'].split("(")[1].split(")")[0].replace(/"/g,'')
-										styleElems[e].background['background-image'] = "url(\""+imgStack[urlKey]+"\")";
+										if(styleElems[e].background['background-image'] != "") {
+											const urlKey = styleElems[e].background['background-image'].split("(")[1].split(")")[0].replace(/"/g,'')
+											styleElems[e].background['background-image'] = "url(\""+imgStack[urlKey]+"\")";
+										}
 									}
 					            }
 					        }
