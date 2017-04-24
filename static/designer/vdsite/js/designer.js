@@ -507,8 +507,7 @@ $(function() {
                         if(data.attrType && data.attrType.key == "image-setting") {
                         	jq('#imgPreview').attr('src', data.attr.value);
                         }
-                        
-                        console.log(data);
+
                     },
 
                     applyCSSIntoPage: function() {
@@ -788,13 +787,14 @@ $(function() {
 				tempElem.attr('vdid', vdid);
 				var clone = tempElem.clone(true);
 				elem.replaceWith(clone);
-				elem.children().remove();
+				// elem.children().remove();
 				elem = jq('[vdid='+ activeCtrl.vdid + ']');
 				if(activeCtrl.chidren){
 	 				for (var i = 0; i < activeCtrl.children.length; i++) {
 	 					elem.append(new ElemGenerator(activeCtrl.children[i]).createElement());
 	 				}
 	 			}
+				activeCtrl.vdid = vdid;
 				elem.data('controller', activeCtrl);
 			},
 			'add': function(activeCtrl, attr){
@@ -1704,6 +1704,7 @@ $(function() {
 
                 }
 				if(!this.elem.data('isRegister')){
+					debugger;
 					this.listenHover();
 	                this.listenClick();
 	                this.listenContextmenu();

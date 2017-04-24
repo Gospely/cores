@@ -96,7 +96,6 @@ export default {
                             'main',
                             'section',
                             'article',
-                            'a',
                             'address',
                             'figure'
                         ],
@@ -136,7 +135,6 @@ export default {
                             'main',
                             'section',
                             'article',
-                            'a',
                             'address',
                             'figure'
                         ],
@@ -284,7 +282,6 @@ export default {
                             'main',
                             'section',
                             'article',
-                            'a',
                             'address',
                             'figure'
                         ],

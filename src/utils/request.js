@@ -18,7 +18,13 @@ function parseJSON(response) {
 function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
     return response;
-  }
+}else {
+    if(document.domain == 'localhost') {
+        window.location.href = 'http://localhost:8989/static/error/index.html'
+    }else {
+        window.location.href = 'http://ide.gospely.com/static/error/index.html'
+    }
+}
 
   const error = new Error(response.statusText);
   error.response = response;

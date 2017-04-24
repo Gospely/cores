@@ -793,7 +793,9 @@ const LeftSidebar = (props) => {
 				// }
     			window.reload = true
     			window.applicationId = application.id;
-    			initApplication(application, props);
+				setTimeout(function(){
+					initApplication(application, props);
+				}, 1000)
 	    	}
 
         	if(location.hash.indexOf('project') != -1) {
@@ -808,26 +810,24 @@ const LeftSidebar = (props) => {
 							});
 
 							//关闭终端
-							props.dispatch({
-								type: 'devpanel/killPID',
-								payload: {
-									pid: '3000'
-								}
-							})
+							// props.dispatch({
+							// 	type: 'devpanel/killPID',
+							// 	payload: {
+							// 		pid: '3000'
+							// 	}
+							// })
 							var applicationStop = {
 								id: localStorage.applicationId,
 								image: localStorage.image
 							}
-							setTimeout(function(){
-								props.dispatch({
-									type: 'devpanel/stopDocker',
-									payload: applicationStop
-								});
-								props.dispatch({
-									type: 'devpanel/startDocker',
-									payload: { id: application.id}
-								}, 5000);
+							props.dispatch({
+								type: 'devpanel/stopDocker',
+								payload: applicationStop
 							});
+							props.dispatch({
+								type: 'devpanel/startDocker',
+								payload: { id: application.id}
+							}, 2000);
 	    					wechatSave.save();
 	    					swApp(application);
 	    			    },
@@ -1457,7 +1457,7 @@ const LeftSidebar = (props) => {
 
 				</div>
 
-			) 
+			)
 		}, {
 		  	title: '基本信息',
 		  	content: (
