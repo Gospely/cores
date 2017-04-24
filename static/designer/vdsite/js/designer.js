@@ -1704,7 +1704,6 @@ $(function() {
 
                 }
 				if(!this.elem.data('isRegister')){
-					debugger;
 					this.listenHover();
 	                this.listenClick();
 	                this.listenContextmenu();

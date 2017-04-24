@@ -413,6 +413,8 @@ export default {
 			yield put({
 				type: 'setAppCreatorCompleted'
 			});
+
+            localStorage.image = undefined;
 		},
 
 		*handleCreateApp({payload: params}, {call, put, select}) {
