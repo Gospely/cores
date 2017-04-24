@@ -14,6 +14,8 @@ import randomWord from '../utils/randomString';
 import dndHandler from './Panel/dndHandler';
 import keyRegister from './keybinding/register';
 import initApplication from '../utils/initApplication';
+import iniData from '../utils/iniData';
+
 import gitTerminal from '../utils/gitTerminal';
 import fileListen from '../utils/fileListen';
 
@@ -714,6 +716,7 @@ const LeftSidebar = (props) => {
 			});
 			console.log(localStorage.applicationId);
 			console.log(application);
+			initData(props, application);
 			if(localStorage.applicationId == application){
 				localStorage.clear;
 				window.location.hash = '#/'
