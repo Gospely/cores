@@ -15,7 +15,7 @@ const RightSidebar = (props) => {
 
 	var handleTabChanged = function(key) {
 		props.dispatch({
-			type: 'rightbar/handleTabChanged',
+			type: 'rightbar/handleTabChanged', 
 			payload: key
 		});
 	}
