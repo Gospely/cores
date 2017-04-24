@@ -14,7 +14,7 @@ import randomWord from '../utils/randomString';
 import dndHandler from './Panel/dndHandler';
 import keyRegister from './keybinding/register';
 import initApplication from '../utils/initApplication';
-import iniData from '../utils/iniData';
+import initData from '../utils/initData';
 
 import gitTerminal from '../utils/gitTerminal';
 import fileListen from '../utils/fileListen';
