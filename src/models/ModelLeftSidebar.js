@@ -382,7 +382,7 @@ export default {
 
             if(result.data.fields.length > 0) {
                 notification.open({
-                    message: '该域名已被占用'
+                    message: '域名 '+ params.domain +' 已被占用'
                 });
                 yield put({
                     type: 'handleDomainAva',

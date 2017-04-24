@@ -398,7 +398,7 @@ export default {
 			if(createForm.name == '') {
 				message.error("请输入项目名称");
 				return;
-			} 
+			}
 
 			if(createForm.domain == '') {
 				message.error("请输入自定义域名");
@@ -424,7 +424,7 @@ export default {
 
             if(result.data.fields.length > 0) {
                 notification.open({
-                    message: '该域名已被占用'
+                    message: '该域名 ' + createForm.domain + ' 已被占用'
                 });
 				yield put({
 					type: 'domainValueChange',
