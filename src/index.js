@@ -43,7 +43,7 @@ fetch(url, {
 });
 
 
-dragging();//
+dragging();
 
 localStorage.itemToCut = localStorage.itemToCut || undefined;
 localStorage.itemToCopy = localStorage.itemToCopy || undefined;
