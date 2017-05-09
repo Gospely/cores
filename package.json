@@ -31,6 +31,7 @@
     "react-draft-wysiwyg": "^1.9.1",
     "react-monaco-editor": "^0.6.1",
     "react-split-pane": "^0.1.52",
+    "vue-toasted": "^1.0.27",
     "xterm": "^2.1.0"
   },
   "devDependencies": {
