@@ -37,10 +37,6 @@ const VDDesignerPanel = (props) => {
                     }
                 });
 
-
-                // window.VDDesignerFrame.postMessage({
-    	    	// 	pageSelected: props.vdCtrlTre.layout[props.vdCtrlTre.activePage.key]
-    	    	// }, '*');
                 //加载动画js
                 setTimeout(function(){
                     props.dispatch({
