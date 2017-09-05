@@ -375,7 +375,8 @@ const LeftSidebar = (props) => {
 	        dashboard () {
 	        	props.dispatch({
 	        		type: 'dashboard/showDash'
-	        	})
+	        	});
+	        	sessionStorage.openDashboard = true;
 	        },
 
 	        packApp() {
@@ -396,6 +397,42 @@ const LeftSidebar = (props) => {
 				props.dispatch({
 					type: 'templateStore/initTemplates',
 				})
+	        },
+
+	        renewide() {
+	        	props.dispatch({
+	        		type: 'dashboard/showDash'
+	        	});
+
+	        	var src = '';
+
+		      	if(document.domain == 'localhost') {
+		        	src = 'http://localhost:8088/#!/ide/renew';
+		      	}else {
+		        	src = 'http://dash.gospely.com/#!/ide/renew';
+		      	}
+
+	        	props.dispatch({
+	        		type: 'dashboard/setSrc',
+	        		payload: src
+	        	});
+
+	        	sessionStorage.openDashboard = false;
+	        },
+
+	        teach() {
+	        	props.dispatch({
+	        		type: 'dashboard/showDash'
+	        	});
+
+	        	var src = 'http://v.youku.com/v_show/id_XMjY0MzYyMjQyMA==.html?f=49473896&spm=a2hzp.8253876.0.0&from=y1.7-3';
+
+	        	props.dispatch({
+	        		type: 'dashboard/setSrc',
+	        		payload: src
+	        	});
+
+	        	sessionStorage.openDashboard = false;
 	        },
 
 	        feedback () {
@@ -1576,6 +1613,11 @@ const LeftSidebar = (props) => {
 					}
 				}
 
+				if (/[\u4e00-\u9fa5]/g.test(props.sidebar.appCreatingForm.appName)) {
+					message.error('项目名中不能含有中文字符');
+					return false;
+				}
+
 				if(props.sidebar.appCreatingForm.appName == '') {
 					message.error('请填写应用名!');
 					return false;
@@ -1735,6 +1777,14 @@ const LeftSidebar = (props) => {
 			        	<Icon type="shopping-cart" />
 						VD商城
 			        </Menu.Item>
+			        <Menu.Item key="renewide">
+						<Icon type="rocket" />
+						升级IDE
+			        </Menu.Item>			        
+			        <Menu.Item key="teach">
+						<Icon type="like-o" />
+						视频教程
+			        </Menu.Item>			        
 					<Menu.Item key="feedback">
 						<Icon type="smile-o" />
 						反馈建议
@@ -1776,6 +1826,14 @@ const LeftSidebar = (props) => {
 			        	<Icon type="shopping-cart" />
 						VD商城
 			        </Menu.Item>
+			        <Menu.Item key="renewide">
+						<Icon type="rocket" />
+						升级IDE
+			        </Menu.Item>			        			        
+			        <Menu.Item key="teach">
+						<Icon type="like-o" />
+						视频教程
+			        </Menu.Item>			        
     		        <Menu.Item key="dashboard">
 						<Icon type="laptop" />
 		        		控制台
@@ -1891,6 +1949,14 @@ const LeftSidebar = (props) => {
 			        	<Icon type="shopping-cart" />
 						VD商城
 			        </Menu.Item>
+			        <Menu.Item key="renewide">
+						<Icon type="rocket" />
+						升级IDE
+			        </Menu.Item>			        			        
+			        <Menu.Item key="teach">
+						<Icon type="like-o" />
+						视频教程
+			        </Menu.Item>			        			        
 					<Menu.Item key="feedback">
 						<Icon type="smile-o" />
 						反馈建议
@@ -1975,6 +2041,14 @@ const LeftSidebar = (props) => {
 			        	<Icon type="shopping-cart" />
 						VD商城
 			        </Menu.Item>
+			        <Menu.Item key="renewide">
+						<Icon type="rocket" />
+						升级IDE
+			        </Menu.Item>			        			        
+			        <Menu.Item key="teach">
+						<Icon type="like-o" />
+						视频教程
+			        </Menu.Item>			        			        
 				    <Menu.Item key="packApp">
 				      	<Tooltip title="源码下载">
 				      		<Badge dot>

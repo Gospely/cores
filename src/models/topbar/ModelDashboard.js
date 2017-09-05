@@ -22,7 +22,9 @@ export default {
 		        	src = 'http://dash.gospely.com';
 		      	}
 
-		      	let visible = !!sessionStorage.dashVisibe;
+		      	var openDashboard = sessionStorage.openDashboard == undefined ? false : (sessionStorage.openDashboard == 'true' ? true : false);
+
+		      	let visible = !!sessionStorage.dashVisibe && openDashboard;
 
 		      	dispatch({
 		      		type: 'setVible',
