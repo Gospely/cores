@@ -3027,8 +3027,8 @@
 	.delete-app{
 		color: #555;
 		position: absolute;
-		top: -5px;
-		left: 1px;
+		top: 5px;
+		left: 8px;
 	}
 
 	.delete-app-btn {
@@ -3320,8 +3320,9 @@
 	}
 
 	.change-vd-icon{
-		display: block;
+		display: inline-block;
 		margin-top: 9px;
+		margin-right: 10px;
 		width: 26px;
 		height: 24px;
 		background-image: url("../src/assets/device_ico.png");
@@ -4206,4 +4207,16 @@
 	    background-color: #f7f7f7!important;
 	    border-color: #d9d9d9!important;
 	}
+	
+	@media (max-width: 1800px) {
+		.change-icon {
+			bottom: 10px!important;
+			// top: auto;
+		}
+	}
+	// @media (min-width: 1801px) {
+	// 	.change-icon {
+	// 		top: 10px!important;
+	// 	}
+	// }
 }

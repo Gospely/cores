@@ -78,18 +78,20 @@ const LeftSidebar = (props) => {
 		return props.sidebar.applications.map(application => {
 			return  ( <Col className="gutter-row" span={6} style={{marginTop: 20}} key={application.id}>
 						 <div className="gutter-box">
-								<Card onClick={leftSidebarProps.openApp.bind(this,application)} extra={
-									<Popconfirm onClick={(e) => e.stopPropagation()} title="确认删除此项目?"
-									onConfirm={leftSidebarProps.confirmDeleteApp.bind(this,application.id)}
-									onCancel={leftSidebarProps.cancelDeleteApp} okText="Yes" cancelText="No">
-										<a className="delete-app">
-											<Icon type="close" />
-										</a>
-									</Popconfirm>
-								} style={{ width: 110, height: 110 }}
-								bodyStyle={{height: '100%', background: 'whitesmoke', display:'flex',
+								<Card onClick={leftSidebarProps.openApp.bind(this,application)}
+									style={{ width: 110, height: 110 }}
+									bodyStyle={{height: '100%', background: 'whitesmoke', display:'flex',
 											color: '#555', cursor: 'pointer', wordWrap: 'break-word',
-											overflow: 'auto'}}>
+											overflow: 'auto'}}
+								>
+										<Popconfirm onClick={(e) => e.stopPropagation()} title="确认删除此项目?"
+											onConfirm={leftSidebarProps.confirmDeleteApp.bind(this,application.id)}
+											onCancel={leftSidebarProps.cancelDeleteApp} okText="Yes" cancelText="No"
+										>
+											<a className="delete-app">
+												<Icon type="close" />
+											</a>
+										</Popconfirm>
 										<div style={{margin: 'auto', width: '100%', display: 'flex',
 													wordBreak: 'break-all', justifyContent: 'center'}}
 											className="app-name-hover"
@@ -1932,23 +1934,25 @@ const LeftSidebar = (props) => {
 			          		<Icon type="plus" />
 			          	</Tooltip>
 			        </Menu.Item>
-			        <Menu.Item key="switch">
-				      	<Tooltip title="切换项目">
-			          		<Icon type="appstore-o" />
-			          	</Tooltip>
-			        </Menu.Item>
-			        <Menu.Item key="vdsite-downloader">
-						<Icon type="cloud-download-o" />
-		        		打包下载
-			        </Menu.Item>
-			        <Menu.Item key="dashboard">
-						<Icon type="laptop" />
-		        		控制台
-			        </Menu.Item>
-			        <Menu.Item key="templateStore">
-			        	<Icon type="shopping-cart" />
-						VD商城
-			        </Menu.Item>
+					<SubMenu title={<span><Icon type="bars" />功能</span>}>
+						<Menu.Item key="switch">
+								<Icon type="appstore-o" />
+								切换项目
+						</Menu.Item>
+						<Menu.Item key="vdsite-downloader">
+							<Icon type="cloud-download-o" />
+							打包下载
+						</Menu.Item>
+						<Menu.Item key="dashboard">
+							<Icon type="laptop" />
+							控制台
+						</Menu.Item>
+						<Menu.Item key="templateStore">
+							<Icon type="shopping-cart" />
+							VD商城
+						</Menu.Item>
+					</SubMenu>
+			        
 			        <Menu.Item key="renewide">
 						<Icon type="rocket" />
 						升级IDE
@@ -1961,21 +1965,29 @@ const LeftSidebar = (props) => {
 						<Icon type="smile-o" />
 						反馈建议
 			        </Menu.Item>
-			        <Menu.Item key="PC" className='change-icon' style={{position: 'fixed', left: '37%'}}>
-			        	<i className='change-vd-icon icon-bg-0'></i>
-			        </Menu.Item>
-			        <Menu.Item key="verticalTablet" className='change-icon' style={{position: 'fixed', left: '39.5%'}}>
-			        	<i className='change-vd-icon icon-bg-36'></i>
-			        </Menu.Item>
-			        <Menu.Item key="alignTablet" className='change-icon' style={{position: 'fixed', left: '42%'}}>
-			        	<i className='change-vd-icon icon-bg-75'></i>
-			        </Menu.Item>
-			        <Menu.Item key="verticalPhone" className='change-icon' style={{position: 'fixed', left: '44.5%'}}>
-			        	<i className='change-vd-icon icon-bg-113'></i>
-			        </Menu.Item>
-			        <Menu.Item key="alignPhone" className='change-icon' style={{position: 'fixed', left: '47%'}}>
-			        	<i className='change-vd-icon icon-bg-150'></i>
-			        </Menu.Item>
+					<SubMenu title={<span><Icon type="mobile" />选择屏幕</span>}>
+						<Menu.Item key="PC" className='change-icon'>
+							<i className='change-vd-icon icon-bg-0'></i>
+							<span style={{display: 'inline-block', marginTop: '-16px', verticalAlign: 'middle'}}>电脑</span>
+						</Menu.Item>
+						<Menu.Item key="verticalTablet" className='change-icon'>
+							<i className='change-vd-icon icon-bg-36'></i>
+							<span style={{display: 'inline-block', marginTop: '-16px', verticalAlign: 'middle'}}>平板</span>
+						</Menu.Item>
+						<Menu.Item key="alignTablet" className='change-icon'>
+							<i className='change-vd-icon icon-bg-75'></i>
+							<span style={{display: 'inline-block', marginTop: '-16px', verticalAlign: 'middle'}}>横屏平板</span>
+						</Menu.Item>
+						<Menu.Item key="verticalPhone" className='change-icon'>
+							<i className='change-vd-icon icon-bg-113'></i>
+							<span style={{display: 'inline-block', marginTop: '-16px', verticalAlign: 'middle'}}>手机</span>
+						</Menu.Item>
+						<Menu.Item key="alignPhone" className='change-icon'>
+							<i className='change-vd-icon icon-bg-150'></i>
+							<span style={{display: 'inline-block', marginTop: '-16px', verticalAlign: 'middle'}}>横屏手机</span>
+						</Menu.Item>
+					</SubMenu>
+			        
 			        <Menu.Item key="delete" placement="left" className='delete-app-btn'>
 				      	<Tooltip title="删除此应用">
 			          		<Icon type="delete" />
